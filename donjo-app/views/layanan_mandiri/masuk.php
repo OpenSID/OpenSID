@@ -171,7 +171,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<input type="password" class="form-control required number" name="pin" placeholder="Masukan PIN" id="pin" autocomplete="off">
 											</div>
 										<?php endif; ?>
-										<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0, FALSE, 'width: 0; overflow: hidden;'); ?>" >
+										<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', FALSE, 'width: 0; overflow: hidden;'); ?>" >
 											<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
 										</div>
 										<div class="form-group">
