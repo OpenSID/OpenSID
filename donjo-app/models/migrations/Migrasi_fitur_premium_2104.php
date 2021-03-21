@@ -63,6 +63,8 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->buat_tabel_url_statistik($hasil);
 		// Tambah field qr_code pada tabel tweb_surat_format
 		$hasil =& $this->field_qr_code($hasil);
+		// Ubah field tag_id_card menjadi index dan unique
+		$hasil =& $this->ubah_tag_id_card_unique_index($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -116,6 +118,10 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			$hasil =& $this->dbforge->add_column('tweb_surat_format', $fields);
 		}
 
+	// Indeksasi field tag_id_card
+	protected function ubah_tag_id_card_unique_index($hasil)
+	{
+		$hasil =& $this->tambah_indeks('tweb_penduduk', 'tag_id_card');
 		return $hasil;
 	}
 

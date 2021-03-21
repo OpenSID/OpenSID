@@ -54,9 +54,9 @@ class Masuk_ektp extends Web_Controller
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['config_model', 'anjungan_model', 'Mandiri_ektp_model', 'theme_model']);
+		$this->session->login_ektp = TRUE;
+		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
 		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 	}
 
@@ -72,6 +72,7 @@ class Masuk_ektp extends Web_Controller
 			$this->session->mandiri = 0;
 			$this->session->mandiri_try = 4;
 			$this->session->mandiri_wait = 0;
+			$this->session->login_ektp = TRUE;
 		}
 
 		$data = [
@@ -81,12 +82,12 @@ class Masuk_ektp extends Web_Controller
 			'form_action' => site_url('layanan-mandiri/cek_ektp')
 		];
 
-		$this->load->view('layanan_mandiri/masuk_ektp', $data);
+		$this->load->view('layanan_mandiri/masuk', $data);
 	}
 
 	public function cek_ektp()
 	{
-		$this->Mandiri_ektp_model->siteman();
+		$this->mandiri_model->siteman_ektp();
 		redirect('layanan-mandiri');
 	}
 
