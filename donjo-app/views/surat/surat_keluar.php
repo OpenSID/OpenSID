@@ -100,7 +100,7 @@
 																			<a href="<?= base_url($data['file_pdf'])?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 																		<?php	endif; ?>
 																		<?php if (is_file($data['file_php'])): ?>
-																			<a href="<?= base_url($data['file_php'])?>" class="btn btn-flat bg-yellow btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
+																			<a href="<?= base_url($data['file_php'])?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
 																		<?php	endif; ?>
 																		<?php if (is_file($data['file_qr'])): ?>
 																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QRCode" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
@@ -183,25 +183,21 @@
 		</div>
 	</section>
 </div>
+
 <?php $this->load->view('global/confirm_delete');?>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
-			<div class='modal-header'>
-				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-				<h4 class='modal-title' id='myModalLabel'><center>QRCode</center></h4>
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel"><center>QRCode</center></h4>
 			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="box box-danger">
-						<div class="box-body">
-							<div class="form-group">
-								<center>
-										<img id='qr_image' class="img-thumbnail" src="">
-								</center>
-							</div>
-						</div>
+				<div class="box-body">
+					<div class="form-group">
+						<center>
+								<img id="qr_image" class="img-thumbnail" src="">
+						</center>
 					</div>
 				</div>
 			</div>

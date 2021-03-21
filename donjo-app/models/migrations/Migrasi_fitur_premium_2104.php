@@ -61,6 +61,8 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->buat_tabel_url_shortener($hasil);
 		// Buat tabel url statistik
 		$hasil =& $this->buat_tabel_url_statistik($hasil);
+		// Tambah field qr_code pada tabel tweb_surat_format
+		$hasil =& $this->field_qr_code($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -94,6 +96,26 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('url_id');
 		$hasil =& $this->dbforge->create_table('statistics', true);
+		return $hasil;
+	}
+
+	// Tambah field qr_code pada tabel tweb_surat_format
+	protected function field_qr_code($hasil)
+	{
+		if ( ! $this->db->field_exists('qr_code', 'tweb_surat_format'))
+		{
+			$fields = [
+				'qr_code' => [
+					'type' => 'TINYINT',
+					'constraint' => 1,
+					'null' => FALSE,
+					'default' => 0,
+				],
+			];
+
+			$hasil =& $this->dbforge->add_column('tweb_surat_format', $fields);
+		}
+
 		return $hasil;
 	}
 
