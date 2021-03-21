@@ -50,7 +50,7 @@ $(document).ready(function() {
 					<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 				</span>
 			</div>
-			<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran Maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
+			<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
 		</div>
 		<div class="form-group" id="dok_warga">
 			<div class="input-group input-group-sm">

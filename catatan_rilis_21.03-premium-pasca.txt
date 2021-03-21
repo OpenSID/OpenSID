@@ -17,3 +17,4 @@ Fitur Premium:
 8. #4058: Sediakan fitur untuk membaca QR Code dari file atau dari kamera perangkat.
 9. #4057: Gunakan scan e-KTP untuk login layanan mandiri, cari penduduk dan pilih penduduk di form surat.
 10. Tutup celah SQL injection di tampilan analisis di Web. [security-fix]
+11. #4029: Tampilkan batas ukuran unggahan dokumen kelengkapan penduduk di Layanan Mandiri dan menu Penduduk.
