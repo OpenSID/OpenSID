@@ -10,5 +10,6 @@ Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
 4. #4036: Tampilkan notifikasi masa berlangganan layanan OpenDesa di header Admin.
 5. #4060: Sekarang Layanan Mandiri > Kotak Pesan > Balas Pesan normal kembali. [bug-fix]
 6. Tutup celah SQL injection di tampilan analisis di Web. [security-fix]
+7. #4078: Sekarang pilihan layanan mandiri di form pengaturan surat baru tersimpan benar. [bug-fix]
 
 
