@@ -20,3 +20,4 @@ Fitur Premium:
 11. #4029: Tampilkan batas ukuran unggahan dokumen kelengkapan penduduk di Layanan Mandiri dan menu Penduduk.
 12. #4078: Sekarang pilihan layanan mandiri di form pengaturan surat baru tersimpan benar. [bug-fix]
 13. #4069: Perbaiki tampilkan data wilayah di laporan cetak Data Kependudukan Wilayah. [bug-fix]
+14. Pilih pamong penandatangan secara otomatis di form cetak Wilayah Administratif dan Data Suplemen.
