@@ -123,6 +123,11 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 	// Indeksasi field tag_id_card
 	protected function ubah_tag_id_card_unique_index($hasil)
 	{
+		$hasil =& $this->db
+			->set('tag_id_card', NULL)
+			->where('tag_id_card', '')
+			->update('tweb_penduduk');
+
 		$hasil =& $this->tambah_indeks('tweb_penduduk', 'tag_id_card');
 		return $hasil;
 	}
