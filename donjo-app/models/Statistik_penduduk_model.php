@@ -232,15 +232,15 @@ class Bantuan_keluarga extends Statistik_penduduk_model {
 		// Ambil data sasaran keluarga
 		$data = $this->db
 			->select('COUNT(pp.id) AS jumlah')
-		  ->select('COUNT(CASE WHEN p.sex = 1 THEN pp.id END) AS laki')
-		  ->select('COUNT(CASE WHEN p.sex = 2 THEN pp.id END) AS perempuan')
+			->select('COUNT(CASE WHEN p.sex = 1 THEN pp.id END) AS laki')
+			->select('COUNT(CASE WHEN p.sex = 2 THEN pp.id END) AS perempuan')
 			->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 THEN pp.id END))as jumlah_nonaktif')
 			->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 1 THEN pp.id END)) AS jumlah_nonaktif_laki')
 			->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 2 THEN pp.id END)) AS jumlah_nonaktif_perempuan')
 			->from('program_peserta pp')
 			->join('tweb_keluarga k', 'k.no_kk = pp.peserta', 'left')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
-			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id')
+			// ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id')
 			->where('pp.program_id', $this->program_id)
 			->get()->row_array();
 		return $data;
