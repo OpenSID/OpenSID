@@ -11,5 +11,5 @@ Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
 5. #4060: Sekarang Layanan Mandiri > Kotak Pesan > Balas Pesan normal kembali. [bug-fix]
 6. Tutup celah SQL injection di tampilan analisis di Web. [security-fix]
 7. #4078: Sekarang pilihan layanan mandiri di form pengaturan surat baru tersimpan benar. [bug-fix]
-
+8. $4047: Sekarang unduh dokumen dan fitur layanan mandiri lainnya tidak bisa diakses jika tidak pendaftar layanan mandiri yg login. [security-fix]
 
