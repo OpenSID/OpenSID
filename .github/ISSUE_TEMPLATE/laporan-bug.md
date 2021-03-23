@@ -43,6 +43,11 @@ Error ini terjadi di rilis/versi berapa: Rilis umum (mis. v21.03) atau premium (
 -->
 
 
+**Tema Yg Digunakan**
+<!-- Sebutkan tema dan versinya yg digunakan -->
+
+
+
 **Informasi tambahan**
 <!--
 Penjelasan lain yg dapat membantu.
