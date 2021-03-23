@@ -112,9 +112,9 @@ class Mandiri_web extends Mandiri_Controller
 		redirect('mandiri_web');
 	}
 
-	public function update_pin($nik = '')
+	public function update_pin()
 	{
-		$this->mandiri_model->update_pin($nik);
+		$this->mandiri_model->update_pin($this->session->nik);
 		if ($this->session->success == -1)
 		{
 			redirect($_SERVER['HTTP_REFERER']);
@@ -124,9 +124,9 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function ganti_pin()
 	{
-		if ($this->session->nik)
+		$nik = $this->session->nik;
+		if ($nik)
 		{
-			$nik = $this->session->nik;
 			$data['main'] = $this->mandiri_model->get_penduduk($nik, TRUE);
 			$data['header'] = $this->header;
 			$data['cek_anjungan'] = $this->cek_anjungan;
@@ -142,7 +142,7 @@ class Mandiri_web extends Mandiri_Controller
 		redirect('first');
 	}
 
-	public function mandiri($p=1, $m=0, $kat=1)
+	public function mandiri($p = 1, $m = 0, $kat = 1)
 	{
 		$data = $this->includes;
 		$data['p'] = $p;
@@ -160,47 +160,47 @@ class Mandiri_web extends Mandiri_Controller
 		switch ($m)
 		{
 			case 1:
-				$data['list_kelompok'] = $this->penduduk_model->list_kelompok($_SESSION['id']);
-				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+				$data['list_kelompok'] = $this->penduduk_model->list_kelompok($this->session->id);
+				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($this->session->id);
 				break;
 			case 21:
 				$data['tab'] = 2;
 				$data['m'] = 2;
 			case 2:
-				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($_SESSION['id']);
-				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($_SESSION['id']);
+				$data['surat_keluar'] = $this->keluar_model->list_data_perorangan($this->session->id);
+				$data['permohonan'] = $this->permohonan_surat_model->list_permohonan_perorangan($this->session->id);
 				break;
 			case 3:
-				$inbox = $this->mailbox_model->get_inbox_user($_SESSION['nik']);
-				$outbox = $this->mailbox_model->get_outbox_user($_SESSION['nik']);
+				$inbox = $this->mailbox_model->get_inbox_user($this->session->nik);
+				$outbox = $this->mailbox_model->get_outbox_user($this->session->nik);
 				$data['main_list'] = $kat == 1 ? $inbox : $outbox;
 				$data['submenu'] = $this->mailbox_model->list_menu();
 				$_SESSION['mailbox'] = $kat;
 				break;
 			case 4:
-				$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($_SESSION['nik']);
+				$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->session->nik);
 				break;
 			case 5:
-				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+				$data['list_dokumen'] = $this->penduduk_model->list_dokumen($this->session->id);
 				break;
 			default:
 				break;
 		}
 
 		$data['desa'] = $this->header;
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id);
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
-	public function mandiri_surat($id_permohonan='')
+	public function mandiri_surat($id_permohonan = '')
 	{
 		$data = $this->includes;
 		$data['menu_surat_mandiri'] = $this->surat_model->list_surat_mandiri();
 		$data['menu_dokumen_mandiri'] = $this->lapor_model->get_surat_ref_all();
 		$data['m'] = 5;
 		$data['permohonan'] = $this->permohonan_surat_model->get_permohonan($id_permohonan);
-		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($_SESSION['id']);
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($this->session->id);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id);
 
 		// Ambil data anggota KK
 		if ($data['penduduk']['kk_level'] === '1') // Jika Kepala Keluarga
@@ -214,7 +214,7 @@ class Mandiri_web extends Mandiri_Controller
 		$this->load->view('web/mandiri/layout.mandiri.php', $data);
 	}
 
-	public function cetak_biodata($id = '')
+	public function cetak_biodata()
 	{
 		$data['desa'] = $this->header;
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->session->id);
@@ -222,7 +222,7 @@ class Mandiri_web extends Mandiri_Controller
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
 	}
 
-	public function cetak_kk($id='')
+	public function cetak_kk()
 	{
 		$id_kk = $this->penduduk_model->get_id_kk($this->session->id);
 		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
@@ -236,7 +236,7 @@ class Mandiri_web extends Mandiri_Controller
 		// Hanya boleh menampilkan data pengguna yang login
 		// ** Bagi program sasaran pendududk **
 		// TO DO : Ganti parameter nik menjadi id
-		if ($data['peserta'] == $_SESSION['nik'])
+		if ($data['peserta'] == $this->session->nik)
 		{
 			if ($aksi == 'tampil')
 			{
@@ -244,7 +244,6 @@ class Mandiri_web extends Mandiri_Controller
 			}
 			else
 			{
-				$this->load->helper('download');
 				if ($data['kartu_peserta']) force_download(LOKASI_DOKUMEN . $data['kartu_peserta'], NULL);
 
 				redirect('mandiri_web/mandiri/1/4');
@@ -259,7 +258,7 @@ class Mandiri_web extends Mandiri_Controller
 			->get('permohonan_surat')
 			->row_array();
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
-		$dokumen = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		$dokumen = $this->penduduk_model->list_dokumen($this->session->id);
 		$id = $this->input->post('id_surat');
 		$syarat_surat = $this->surat_master_model->get_syarat_surat($id);
 		$data = array();
@@ -287,7 +286,7 @@ class Mandiri_web extends Mandiri_Controller
 
 	public function ajax_table_surat_permohonan()
 	{
-		$data = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		$data = $this->penduduk_model->list_dokumen($this->session->id);
 		$jenis_syarat_surat = $this->referensi_model->list_by_id('ref_syarat_surat', 'ref_syarat_id');
 		for ($i=0; $i < count($data); $i++)
 		{
@@ -322,15 +321,17 @@ class Mandiri_web extends Mandiri_Controller
 		$this->session->unset_userdata('error_msg');
 		$success_msg = 'Berhasil menyimpan data';
 
-		if ($_SESSION['id'])
+		$id = $this->session->id;
+
+		if ($id)
 		{
-			$_POST['id_pend'] = $this->session->id;
+			$_POST['id_pend'] = $id;
 			$id_dokumen = $this->input->post('id');
 			unset($_POST['id']);
 
 			if ($id_dokumen)
 			{
-				$hasil = $this->web_dokumen_model->update($id_dokumen, $this->session->id, $mandiri = true);
+				$hasil = $this->web_dokumen_model->update($id_dokumen, $id, $mandiri = true);
 				if (!$hasil)
 				{
 					$data['success'] = -1;
@@ -382,7 +383,7 @@ class Mandiri_web extends Mandiri_Controller
 			$data['success'] = -1;
 			$data['message'] = 'Tidak ditemukan';
 		}
-		elseif ($_SESSION['id'] != $data['id_pend'])
+		elseif ($this->session->id != $data['id_pend'])
 		{
 			$data['success'] = -1;
 			$data['message'] = 'Anda tidak mempunyai hak akses itu';
@@ -395,16 +396,17 @@ class Mandiri_web extends Mandiri_Controller
 		echo json_encode($data);
 	}
 
-  /**
+	/**
 	 * Unduh berkas berdasarkan kolom dokumen.id
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-	public function unduh_berkas($id_dokumen, $id_pend)
+	public function unduh_berkas($id_dokumen)
 	{
 		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
-		if ($berkas)
+		$id = $this->session->id;
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id);
+		if ($berkas && $id)
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else
 			$this->output->set_status_header('404');
