@@ -23,7 +23,7 @@
                         <div class="col-sm-9">
                             <select name="penandatangan" id="penandatangan" class="form-control input-sm">
                                 <?php foreach ($pamong as $data) : ?>
-                                    <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= strtolower($data['jabatan'] === 'kepala desa') ? 'selected' : '' ?>>
+                                    <option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['pamong_id'], $desa['pamong_id']) ?>>
                                         <?= $data['nama'] ?> (<?= $data['jabatan'] ?>)
                                     </option>
                                 <?php endforeach; ?>
