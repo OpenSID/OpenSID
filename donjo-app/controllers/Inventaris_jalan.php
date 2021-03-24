@@ -48,7 +48,6 @@ class Inventaris_jalan extends Admin_Controller {
 
 		$this->load->model('inventaris_jalan_model');
 		$this->load->model('referensi_model');
-		$this->load->model('surat_model');
 		$this->load->model('pamong_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
@@ -67,7 +66,7 @@ class Inventaris_jalan extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_jalan_model->list_inventaris();
 		$data['total'] = $this->inventaris_jalan_model->sum_inventaris();
-		$data['pamong'] = $this->surat_model->list_pamong();
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tip'] = 1;
 		$this->set_minsidebar(1);
 		$this->render('inventaris/jalan/table', $data);
