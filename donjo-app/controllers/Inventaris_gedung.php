@@ -49,6 +49,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$this->load->model('inventaris_gedung_model');
 		$this->load->model('referensi_model');
 		$this->load->model('surat_model');
+		$this->load->model('pamong_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 3;
@@ -141,7 +142,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_gedung_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_gedung_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_gedung_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/gedung/inventaris_print', $data);
 	}
 
@@ -150,7 +151,7 @@ class Inventaris_gedung extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_gedung_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_gedung_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_gedung_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/gedung/inventaris_excel', $data);
 	}
 }

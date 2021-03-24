@@ -49,6 +49,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$this->load->model('inventaris_kontruksi_model');
 		$this->load->model('referensi_model');
 		$this->load->model('surat_model');
+		$this->load->model('pamong_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 6;
@@ -132,7 +133,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_kontruksi_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_kontruksi_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_kontruksi_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/kontruksi/inventaris_print', $data);
 	}
 
@@ -141,7 +142,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_kontruksi_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_kontruksi_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_kontruksi_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/kontruksi/inventaris_excel', $data);
 	}
 }
