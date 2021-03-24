@@ -22,3 +22,4 @@ Fitur Premium:
 13. #4069: Perbaiki tampilkan data wilayah di laporan cetak Data Kependudukan Wilayah. [bug-fix]
 14. Pilih pamong penandatangan secara otomatis di form cetak Wilayah Administratif dan Data Suplemen.
 15. #3524: Sekarang kepala desa di Identitas Desa diambil dari pamong di Pemerintahan Desa.
+16. #4081: Sekarang penandatangan laporan cetak inventaris sesuai dengan yang dipilih. [bug-fix]
