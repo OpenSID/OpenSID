@@ -24,3 +24,4 @@ Fitur Premium:
 15. #3524: Sekarang kepala desa di Identitas Desa diambil dari pamong di Pemerintahan Desa.
 16. Tutup celah pengguna layanan mandiri bisa lihat dokumen penduduk lain. [security-fix]
 17. #4062: Sekarang jumlah peserta di statistik program bantuan tampil benar untuk kasus di mana ada penduduk yang kolom lokasi tempat tinggal kosong. [bug-fix]
+18. #4087: Sekarang di laporan cetak statistik kependudukan, penandatangan tampil benar untuk kasus di mana perangkat desa yg dipilih sebelumnya diubah di Pemerintahan Desa dari Tidak Terdata menjadi Dari Database Penduduk. [bug-fix]
