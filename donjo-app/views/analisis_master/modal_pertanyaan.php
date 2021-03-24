@@ -93,6 +93,150 @@
 																<td><input type="text" class="form-control input-sm"></td>
 																<td><input type="number" class="form-control input-sm"></td>
 															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td><input type="checkbox"/></td>
+																<td class="padat"><input type="radio"/></td>
+																<td>Pertanyaan</td>
+																<td>
+																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1">Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																</td>
+																<td><input type="text" class="form-control input-sm"></td>
+																<td><input type="number" class="form-control input-sm"></td>
+															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -101,7 +245,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="btn-next-pertanyaan"><i class='fa fa-arrow-right'></i> Lanjutkan</button>
+									<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="btn-next-pertanyaan"><i class='fa fa-arrow-right'></i> Lanjutkan</button>
 								</div>
 							</div>
 						</div>

@@ -169,10 +169,38 @@
 </div>
 <?php $this->load->view('global/confirm_delete');?>
 <?php $this->load->view('analisis_master/modal_pertanyaan', $data);?>
+<?php $this->load->view('analisis_master/modal_jawaban_pilihan', $data);?>
 <script>
 	$(document).ready(function(){
+		var isDataPertanyaanExist = false;
 		if($('#mode-form').val() == 5)
 			$('#modalPertanyaan').modal('show');
+		
+		$('#btn-next-pertanyaan').click(function() {
+			$('#modalPertanyaan').modal('hide');
+			isDataPertanyaanExist = true;
+		});
+
+		$('#modalPertanyaan').on('hidden.bs.modal', function () {
+			if(isDataPertanyaanExist)
+			{
+				$('#modalJawaban').modal('show');
+				isDataPertanyaanExist = false;
+			}
+		})
+
+		$('#btn-prev-jawaban').click(function() {
+			$('#modalJawaban').modal('hide');
+			isDataPertanyaanExist = true;
+		});
+
+		$('#modalJawaban').on('hidden.bs.modal', function () {
+			if(isDataPertanyaanExist)
+			{
+				$('#modalPertanyaan').modal('show');
+				isDataPertanyaanExist = false;
+			}
+		})
 	})
 </script>
 
