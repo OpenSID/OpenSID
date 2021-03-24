@@ -23,3 +23,4 @@ Fitur Premium:
 14. Pilih pamong penandatangan secara otomatis di form cetak Wilayah Administratif dan Data Suplemen.
 15. #3524: Sekarang kepala desa di Identitas Desa diambil dari pamong di Pemerintahan Desa.
 16. Tutup celah pengguna layanan mandiri bisa lihat dokumen penduduk lain. [security-fix]
+17. #4062: Sekarang jumlah peserta di statistik program bantuan tampil benar untuk kasus di mana ada penduduk yang kolom lokasi tempat tinggal kosong. [bug-fix]
