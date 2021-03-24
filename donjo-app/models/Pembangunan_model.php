@@ -54,14 +54,13 @@ class Pembangunan_model extends CI_Model
 	const ORDER_ABLE = [
 		2  => 'p.judul',
 		3  => 'p.sumber_dana',
-		5  => 'p.volume',
-		6  => 'p.tahun_anggaran',
-		7  => 'p.pelaksana_kegiatan',
-		8  => 'p.lokasi',
-		9  => 'p.keterangan',
-		10 => 'p.created_at',
-		11 => 'p.foto',
-		12 => 'p.anggaran'
+		4  => 'p.anggaran',
+		5  => 'max_persentase',
+		6  => 'p.volume',
+		7  => 'p.tahun_anggaran',
+		8  => 'p.pelaksana_kegiatan',
+		9  => 'alamat',
+		10 => 'p.keterangan',
 	];
 
 	public function get_data(string $search = '', $tahun = '')
@@ -256,15 +255,6 @@ class Pembangunan_model extends CI_Model
 			->order_by('tahun_anggaran', 'desc')
 			->get($this->table)
 			->result();
-	}
-
-	public function list_dusun_rt_rw()
-	{
-		return $this->db->select(['id', 'rt', 'rw', 'dusun'])
-			->where('rt >', 0)
-			->order_by('dusun')
-			->get('tweb_wil_clusterdesa')
-			->result_array();
 	}
 
 	public function unlock($id)
