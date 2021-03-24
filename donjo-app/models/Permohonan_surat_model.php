@@ -148,10 +148,12 @@
 		return $data;
 	}
 
-	public function get_permohonan($id_permohonan)
+	public function get_permohonan($id, $id_pemohon)
 	{
 		$data = $this->db
-			->where('id', $id_permohonan)
+			->where('id', $id)
+			->where('id_pemohon', $id_pemohon)
+			->where('status', 1)
 			->get('permohonan_surat')
 			->row_array();
 		return $data;
