@@ -238,8 +238,10 @@ class Surat extends Mandiri_Controller
 		}
 		elseif ($this->is_login->id_pend != $data['id_pend'])
 		{
-			$data['success'] = -1;
-			$data['message'] = 'Anda tidak mempunyai hak akses itu';
+			$data = [
+				'success' => -1,
+				'message' => 'Anda tidak mempunyai hak akses itu'
+			];
 		}
 		else
 		{
