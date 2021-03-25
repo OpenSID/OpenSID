@@ -324,13 +324,6 @@ class Data_persil_model extends MY_Model {
 		status_sukses($hasil);
 	}
 
-	public function list_dusunrwrt()
-	{
-		$strSQL = "SELECT `id`,`rt`,`rw`,`dusun` FROM `tweb_wil_clusterdesa` WHERE (`rt`>0) ORDER BY `dusun`";
-		$query = $this->db->query($strSQL);
-		return $query->result_array();
-	}
-
 	public function list_persil_kelas($table='')
 	{
 		if ($table)

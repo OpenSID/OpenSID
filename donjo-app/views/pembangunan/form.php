@@ -83,7 +83,7 @@
 												<select class="form-control input-sm select2 required" id="id_lokasi" name="id_lokasi" style="width:100%">
 													<option value=''>-- Pilih Lokasi Pembangunan --</option>
 													<?php foreach ($list_lokasi as $key => $item) : ?>
-														<option value="<?= $item["id"] ?>" <?php selected($item["id"], $main->id_lokasi) ?>><?= strtoupper($item["dusun"]) . " - RW " . $item["rw"] . " / RT " . $item["rt"] ?></option>
+														<option value="<?= $item["id"] ?>" <?php selected($item["id"], $main->id_lokasi) ?>><?= strtoupper($item["dusun"]) ?> <?= empty($item['rw']) ? "" : " - RW  {$item["rw"]}" ?> <?= empty($item['rt']) ? "" : " / RT  {$item["rt"]}" ?></option>
 													<?php endforeach; ?>
 												</select>
 											</div>
