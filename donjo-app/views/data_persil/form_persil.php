@@ -81,7 +81,7 @@
 													<select class="form-control input-sm select2 required" id="id_wilayah" name="id_wilayah" style="width:100%">
 														<option value='' >-- Pilih Lokasi Tanah--</option>
 														<?php foreach ($persil_lokasi as $key=>$item): ?>
-															<option value="<?= $item["id"] ?>" <?php selected($item["id"], $persil["id_wilayah"]) ?>><?= strtoupper($item["dusun"])." - RW ".$item["rw"]." / RT ".$item["rt"] ?></option>
+															<option value="<?= $item["id"] ?>" <?php selected($item["id"], $persil["id_wilayah"]) ?>><?= strtoupper($item["dusun"]) ?> <?= empty($item['rw']) ? "" : " - RW  {$item["rw"]}" ?> <?= empty($item['rt']) ? "" : " / RT  {$item["rt"]}" ?></option>
 														<?php endforeach;?>
 													</select>
 												</div>
