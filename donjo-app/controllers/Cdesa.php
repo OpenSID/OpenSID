@@ -58,6 +58,7 @@ class Cdesa extends Admin_Controller {
 		$this->load->model('cdesa_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('referensi_model');
+		$this->load->model('wilayah_model');
 		$this->modul_ini = 7;
 		$this->set_page = ['20', '50', '100'];
 		$this->list_session = ['cari'];
@@ -256,7 +257,7 @@ class Cdesa extends Admin_Controller {
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id_cdesa);
 
 		$data['list_persil'] = $this->data_persil_model->list_persil();
-		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
+		$data["persil_lokasi"] = $this->wilayah_model->list_semua_wilayah();
 		$data["persil_kelas"] = $this->referensi_model->list_by_id('ref_persil_kelas');
 		$data["persil_sebab_mutasi"] = $this->referensi_model->list_by_id('ref_persil_mutasi');
 
