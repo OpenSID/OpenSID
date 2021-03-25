@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h4 class="box-title">Surat</h4>
 	</div>
 	<div class="box-body box-line">
-		<a href="<?= site_url("layanan-mandiri/surat/buat-surat"); ?>" class="btn btn-social btn-success visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pencil-square-o"></i>Buat Surat</a>
+		<a href="<?= site_url("layanan-mandiri/surat/buat"); ?>" class="btn btn-social btn-success visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pencil-square-o"></i>Buat Surat</a>
 		<a href="<?= site_url("layanan-mandiri/arsip-surat"); ?>" class="btn btn-social btn-primary visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-zip-o"></i>Arsip Surat</a>
 		<a href="<?= site_url("layanan-mandiri/permohonan-surat"); ?>" class="btn btn-social bg-purple visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-word-o"></i>Permohonan Surat</a>
 	</div>
@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td class="padat">
 										<?php if ($data['status_id'] == 1): ?>
-											<a href="<?= site_url("layanan-mandiri/surat/buat-surat/$data[id]"); ?>" title="Lengkapi Surat" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>
+											<a href="<?= site_url("layanan-mandiri/surat/buat/$data[id]"); ?>" title="Lengkapi Surat" class="btn bg-orange btn-sm"><i class="fa fa-edit"></i></a>
 										<?php endif; ?>
 										<?php if (in_array($data['status_id'], array('0', '1'))): ?>
 											<a href="<?= site_url("layanan_mandiri/surat/batalkan/$data[id]"); ?>" title="Batalkan" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>

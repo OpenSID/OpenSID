@@ -73,16 +73,16 @@ class Surat extends Mandiri_Controller
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 
-	public function buat_surat($id = '')
+	public function buat($id = '')
 	{
 		$id_pend = $this->is_login->id_pend;
 
-		// Cek apakah sudah proses, hanya status = 1 (belum lengkap) yg boleh di ubah
+		// Cek hanya status = 1 (belum lengkap) yg boleh di ubah
 		if ($id)
 		{
 			$permohonan = $this->permohonan_surat_model->get_permohonan($id, $id_pend);
 
-			if (! $permohonan) redirect('layanan-mandiri/surat/buat-surat');
+			if (! $permohonan) redirect('layanan-mandiri/surat/buat');
 		}
 
 		$data = [
@@ -270,26 +270,30 @@ class Surat extends Mandiri_Controller
 
 		// Simpan data dari buat surat
 		$post = $this->input->post();
-
 		$post = ($post) ? $post : $this->session->data_permohonan;
-
 		$this->session->data_permohonan = $post;
-
-		if (! $post) redirect('layanan-mandiri/surat/buat-surat');
 
 		// Cek hanya status = 1 (belum lengkap) yg boleh di ubah
 		if ($id)
 		{
 			$permohonan = $this->permohonan_surat_model->get_permohonan($id, $id_pend);
 
-			if (! $permohonan) redirect('layanan-mandiri/surat/buat-surat');
+			if (! $permohonan OR ! $post) redirect('layanan-mandiri/surat/buat');
 
 			$data['permohonan'] = $permohonan;
 			$data['isian_form'] = json_encode($this->permohonan_surat_model->ambil_isi_form($permohonan['isian_form']));
 			$data['id_surat'] = $permohonan['id_surat'];
 		}
+		else
+		{
+			if (! $post) redirect('layanan-mandiri/surat/buat');
 
-		$surat = $this->surat_model->cek_surat_mandiri($post['id_surat']);
+			$data['permohonan'] = NULL;
+			$data['isian_form'] = NULL;
+			$data['id_surat'] = $post['id_surat'];
+		}
+
+		$surat = $this->surat_model->cek_surat_mandiri($data['id_surat']);
 		$data['url'] = $surat['url_surat'];
 		$url = $data['url'];
 
@@ -306,6 +310,8 @@ class Surat extends Mandiri_Controller
 		$data['mandiri'] = 1; // Untuk tombol cetak/kirim surat
 		$data['konten'] = 'permohonan_surat';
 
+
+		//echo json_encode($data, true);
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 
@@ -323,7 +329,7 @@ class Surat extends Mandiri_Controller
 			'syarat' => json_encode($data_permohonan['syarat']),
 		];
 
-		if ($id_permohonan)
+		if ($id)
 		{
 			$this->permohonan_surat_model->update($id, $data);
 		}
