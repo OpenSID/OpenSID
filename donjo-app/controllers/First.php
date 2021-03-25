@@ -493,9 +493,10 @@ class First extends Web_Controller {
 
 	public function add_comment($id=0, $slug = NULL)
 	{
-		$query = $this->db->select("*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug")
-				 ->get_where("artikel a",["id" => $id ]);
-		$data = $query->row_array();
+		$data = $this->db
+			->select("*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug")
+			->get_where("artikel a",["id" => $id ])
+			->row_array();
 		// Periksa isian captcha
 		include FCPATH . 'securimage/securimage.php';
 		$securimage = new Securimage();
