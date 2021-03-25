@@ -76,7 +76,7 @@
 							Mengetahui
 							<br><?= $pamong_ketahui['jabatan'] . ' ' . $config['nama_desa']?>
 							<br><br><br><br>
-							<br><u>( <?= $pamong_ketahui['nama'] ?? $pamong_ttd['pamong_nama']?> )</u>
+							<br><u>( <?= $pamong_ketahui['nama'] ?? $pamong_ketahui['pamong_nama']?> )</u>
 							<br><?= $this->setting->sebutan_nip_desa  ?>/NIP : <?= $pamong_ketahui['pamong_nip']?>
 						</td>
 					<?php endif; ?>
