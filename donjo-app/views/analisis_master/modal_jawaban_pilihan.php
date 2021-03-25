@@ -28,10 +28,11 @@
 						<div class="col-sm-12">
 							<div class="box box-info">
 								<div class="box-body">
+									<?php foreach ($data_import['pertanyaan'] as $data){ ?>
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-12">
-												<label class="control-label">Jawaban untuk kategori 'Penghasilan'</label>
+												<label class="control-label">Jawaban untuk kategori <span><?= $data['pertanyaan'] ?></span></label>
 												<div class="table-responsive">
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
@@ -42,82 +43,20 @@
 															</tr>
 														</thead>
 														<tbody>
+															<?php foreach ($data['unique_value'] as $key => $unique_value){ ?>
 															<tr>
-																<td>1</td>
-																<td>&#60;500.000</td>
+																<td><?= $key+1 ?></td>
+																<td><?= $unique_value ?></td>
 																<td><input type="number" class="form-control input-sm"></td>
 															</tr>
-															<tr>
-																<td>2</td>
-																<td>&#60;500.000</td>
-																<td><input type="number" class="form-control input-sm"></td>
-															</tr>
+															<?php } ?>
 														</tbody>
 													</table>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-12">
-												<label class="control-label">Jawaban untuk kategori 'Pekerjaan'</label>
-												<div class="table-responsive">
-													<table class="table table-bordered table-striped dataTable table-hover">
-														<thead class="bg-gray disabled color-palette">
-															<tr>
-																<th>Kode</th>
-																<th>Jawaban</th>
-																<th>Nilai/Ukuran</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>1</td>
-																<td>&#60;500.000</td>
-																<td><input type="number" class="form-control input-sm"></td>
-															</tr>
-															<tr>
-																<td>2</td>
-																<td>&#60;500.000</td>
-																<td><input type="number" class="form-control input-sm"></td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-12">
-												<label class="control-label">Jawaban untuk kategori 'Penghasilan'</label>
-												<div class="table-responsive">
-													<table class="table table-bordered table-striped dataTable table-hover">
-														<thead class="bg-gray disabled color-palette">
-															<tr>
-																<th>Kode</th>
-																<th>Jawaban</th>
-																<th>Nilai/Ukuran</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>1</td>
-																<td>&#60;500.000</td>
-																<td><input type="number" class="form-control input-sm"></td>
-															</tr>
-															<tr>
-																<td>2</td>
-																<td>&#60;500.000</td>
-																<td><input type="number" class="form-control input-sm"></td>
-															</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
+									<?php } ?>
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-social btn-flat btn-danger btn-sm pull-left" id="btn-prev-jawaban"><i class='fa fa-arrow-left'></i> Kembali</button>

@@ -49,7 +49,7 @@
 															<tr>
 																<td><input type="checkbox"/></td>
 																<td class="padat"><input type="radio"/></td>
-																<td><?= $data ?></td>
+																<td><?= $data['pertanyaan'] ?></td>
 																<td>
 																	<select name="tipe_pertanyaan" class="form-control input-sm">
 																		<option value="0">Tipe Pertanyaan</option>

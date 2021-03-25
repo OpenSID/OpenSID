@@ -137,9 +137,28 @@ class Analisis_import_Model extends CI_Model {
 		while (($row = fgetcsv($handle, 10000, ",")) != FALSE) //get row vales
 		{
 			if($count_row == 1)
-				$list_pertanyaan = $row;
+			{
+				foreach ($row as $value)
+				{
+					$temp = [
+						'pertanyaan' 	=> $value,
+						'unique_value' 	=> array()
+					];
+					array_push($list_pertanyaan, $temp);
+				}
+			}
 			else
+			{
+				foreach ($row as $key => $value)
+				{
+					if(! in_array($value, $list_pertanyaan[$key]['unique_value']))
+					{
+						array_push($list_pertanyaan[$key]['unique_value'], $value);
+					}
+				}
 				array_push($list_data, $row);
+			}
+				
 			$count_row += 1;
 		}
 
