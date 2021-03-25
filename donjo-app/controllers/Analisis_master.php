@@ -85,10 +85,15 @@ class Analisis_master extends Admin_Controller {
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->analisis_master_model->paging($p,$o);
-		$data['main']    = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->analisis_master_model->autocomplete();
-		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
+		$data['paging']	= $this->analisis_master_model->paging($p,$o);
+		$data = [
+			'main' 			=> $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page),
+			'data_import' 	=> $this->session->data_import,
+			'keyword' 		=> $this->analisis_master_model->autocomplete(),
+			'list_subjek' 	=> $this->analisis_master_model->list_subjek()
+		];
+		
+		unset($_SESSION['data_import']);
 		$this->set_minsidebar(1);
 		$this->render('analisis_master/table', $data);
 	}
