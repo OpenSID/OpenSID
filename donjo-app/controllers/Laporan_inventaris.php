@@ -49,7 +49,7 @@ class Laporan_inventaris extends Admin_Controller {
 		$this->load->model('inventaris_laporan_model');
 		$this->load->model('referensi_model');
 		$this->load->model('config_model');
-		$this->load->model('surat_model');
+		$this->load->model('pamong_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 7;
@@ -57,7 +57,7 @@ class Laporan_inventaris extends Admin_Controller {
 
 	public function index()
 	{
-		$data['pamong'] = $this->surat_model->list_pamong();
+		$data['pamong'] = $this->pamong_model->list_data();
 
 		$data = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
 		$data['tip'] = 1;
@@ -69,7 +69,7 @@ class Laporan_inventaris extends Admin_Controller {
 	{
 		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
-		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
 		$this->load->view('inventaris/laporan/inventaris_print', $data);
 	}
@@ -78,7 +78,7 @@ class Laporan_inventaris extends Admin_Controller {
 	{
 		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
-		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->cetak_inventaris($tahun));
 		$this->load->view('inventaris/laporan/inventaris_excel', $data);
 	}
@@ -98,7 +98,7 @@ class Laporan_inventaris extends Admin_Controller {
 	{
 		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
-		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
 		$this->load->view('inventaris/laporan/inventaris_print_mutasi', $data);
 	}
@@ -107,7 +107,7 @@ class Laporan_inventaris extends Admin_Controller {
 	{
 		$data['header'] = $this->config_model->get_data();
 		$data['tahun'] = $tahun;
-		$data['pamong'] = $this->inventaris_laporan_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_cetak_inventaris($tahun));
 		$this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
 	}

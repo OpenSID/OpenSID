@@ -48,7 +48,7 @@ class Inventaris_asset extends Admin_Controller {
 
 		$this->load->model('inventaris_asset_model');
 		$this->load->model('referensi_model');
-		$this->load->model('surat_model');
+		$this->load->model('pamong_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 5;
@@ -66,7 +66,7 @@ class Inventaris_asset extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_asset_model->list_inventaris();
 		$data['total'] = $this->inventaris_asset_model->sum_inventaris();
-		$data['pamong'] = $this->surat_model->list_pamong();
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tip'] = 1;
 		$this->set_minsidebar(1);
 		$this->render('inventaris/asset/table', $data);
@@ -141,7 +141,7 @@ class Inventaris_asset extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_asset_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_asset_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_asset_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/asset/inventaris_print', $data);
 	}
 
@@ -150,7 +150,7 @@ class Inventaris_asset extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_asset_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_asset_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_asset_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/asset/inventaris_excel', $data);
 	}
 }

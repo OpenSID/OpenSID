@@ -411,6 +411,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$thn = $this->db
 			->select('min(date_format(tgl_lapor, "%Y")) as thn')
 			->from('log_penduduk')
+			->where("DAYNAME(tgl_lapor) IS NOT NULL")
 			->get()->row()->thn;
 		return $thn;
 	}

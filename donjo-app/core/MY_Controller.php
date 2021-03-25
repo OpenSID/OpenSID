@@ -68,9 +68,9 @@ class MY_Controller extends CI_Controller {
 		// Tampilkan profiler untuk development
 		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
 
-		$this->load->model(['setting_model']);			
+		$this->load->model(['setting_model']);
         $this->setting_model->init();
-	}	
+	}
 
 	/*
 	 * Bersihkan session cluster wilayah
@@ -93,7 +93,7 @@ class Web_Controller extends MY_Controller {
 	 */
 	public function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();
 		$this->controller = strtolower($this->router->fetch_class());
 		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
 		// if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
@@ -130,8 +130,8 @@ class Web_Controller extends MY_Controller {
 		}
 
 		return $theme_view;
-	}	
-	
+	}
+
 	/*
 	 * Set Template
 	 * sometime, we want to use different template for different page
@@ -175,7 +175,17 @@ class Mandiri_Controller extends MY_Controller {
 
 		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 
-		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
+		if ($this->session->mandiri != 1)
+		{
+			if (! $this->session->login_ektp)
+			{
+				redirect('layanan-mandiri/masuk');
+			}
+			else
+			{
+				redirect('layanan-mandiri/masuk_ektp');
+			}
+		}
 	}
 
 }
@@ -216,7 +226,7 @@ class Admin_Controller extends MY_Controller {
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model(['header_model', 'user_model', 'notif_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-        
+
 		$this->load->model('modul_model');
 		if (!$this->modul_model->modul_aktif($this->controller))
 		{
@@ -242,6 +252,7 @@ class Admin_Controller extends MY_Controller {
 		$this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
 		$this->header['notif_inbox']            = $this->notif_model->inbox_baru();
 		$this->header['notif_komentar']         = $this->notif_model->komentar_baru();
+		$this->header['notif_langganan']        = $this->notif_model->status_langganan();
 	}
 
 	private function cek_pengumuman()

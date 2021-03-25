@@ -49,7 +49,10 @@ class Import_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		ini_set('memory_limit', '512M');
+		// Sediakan memory paling sedikit 512M
+		preg_match('/^(\d+)(M)$/', ini_get('memory_limit'), $matches);
+		$memory_limit = $matches[1] ?: 0;
+		if ($memory_limit < 512) ini_set('memory_limit', '512M');
 		set_time_limit(3600);
 		$this->load->library('Spreadsheet_Excel_Reader');
 		$this->kode_sex = array_change_key_case(unserialize(KODE_SEX));
@@ -391,7 +394,7 @@ class Import_model extends CI_Model {
 				if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 				$id = $this->db->insert_id();
 				$penduduk_baru = $id;
-				
+
 				// Insert ke log_penduduk pada penduduk baru
 				$log['tgl_peristiwa'] = $data['created_at'];
 				$log['kode_peristiwa'] = 5;
