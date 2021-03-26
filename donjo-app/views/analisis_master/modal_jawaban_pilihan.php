@@ -32,6 +32,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="control-label">Informasi Umum Form Analisis</label>
+												<input type="hidden" id="id-row-nik-kk" name="id-row-nik-kk">
 												<div class="table-responsive">
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<tbody>

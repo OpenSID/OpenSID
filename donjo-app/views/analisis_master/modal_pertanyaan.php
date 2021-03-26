@@ -32,7 +32,6 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="control-label">Pilih pertanyaan yang akan disimpan pada tabel berikut</label>
-												<input type="hidden" id="id-row-nik-kk">
 												<div class="table-responsive">
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">

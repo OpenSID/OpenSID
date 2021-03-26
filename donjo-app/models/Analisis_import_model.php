@@ -4,6 +4,7 @@ class Analisis_import_Model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('penduduk_model');
 		$this->load->library('Spreadsheet_Excel_Reader');
 	}
 
@@ -220,10 +221,15 @@ class Analisis_import_Model extends CI_Model {
 		}
 
 		// SIMPAN PERTANYAAN/INDIKATOR ANALISIS
+		$id_column_nik_kk = $this->input->post('id-row-nik-kk');
 		$count_indikator = 1;
+		$db_idx_parameter = array();
+		$db_idx_indikator = array();
 		foreach ($this->input->post('pertanyaan') as $key => $val)
 		{
-			if($this->input->post('is_selected')[$key] == 'true')
+			$temp_idx_parameter = array();
+			$id_indikator = 0;
+			if($this->input->post('is_selected')[$key] == 'true' && $key != $id_column_nik_kk)
 			{
 				$data_indikator = [
 					'id_master'		=> $id_master,
@@ -246,25 +252,26 @@ class Analisis_import_Model extends CI_Model {
 				$outp = $this->db->insert('analisis_indikator', $data_indikator);
 				$id_indikator = $this->db->insert_id();
 
-				// Simpan Parameter untuk Tipe Pilihan Tunggal
-				if($data_indikator['id_tipe'] == 1)
+				// Simpan Parameter untuk setiap unique value pada masing-masing indikator
+				foreach ($this->input->post('unique-param-value-' . $key) as $param_key => $param_val)
 				{
-					foreach ($this->input->post('unique-param-value-' . $key) as $param_key => $param_val)
-					{
-						$data_parameter = [
-							'id_indikator'	=> $id_indikator,
-							'jawaban'		=> $this->input->post('unique-param-value-' . $key)[$param_key],
-							'nilai' 		=> $this->input->post('unique-param-nilai-' . $key)[$param_key],
-							'kode_jawaban' 	=> ($param_key+1),
-							'asign' 		=> 0
-						];
+					$data_parameter = [
+						'id_indikator'	=> $id_indikator,
+						'jawaban'		=> $this->input->post('unique-param-value-' . $key)[$param_key],
+						'nilai' 		=> $this->input->post('unique-param-nilai-' . $key)[$param_key],
+						'kode_jawaban' 	=> ($param_key+1),
+						'asign' 		=> 0
+					];
 
-						$outp = $this->db->insert('analisis_parameter', $data_parameter);
-					}
+					$outp = $this->db->insert('analisis_parameter', $data_parameter);
+					$id_parameter = $this->db->insert_id();
+					$temp_idx_parameter[$id_parameter] = $param_val;
 				}
 				
 				$count_indikator += 1;
 			}
+			$db_idx_indikator[$id_indikator] = $key;
+			array_push($db_idx_parameter, $temp_idx_parameter);
 		}
 
 		// SIMPAN PERIODE ANALISIS
@@ -279,6 +286,30 @@ class Analisis_import_Model extends CI_Model {
 
 		$outp = $this->db->insert('analisis_periode', $data_periode);
 		$id_periode = $this->db->insert_id();
+
+		// SIMPAN RESPON ANALISIS
+		$data_import = $this->session->data_import;
+		// Iterasi untuk setiap subjek
+		foreach ($data_import['jawaban'] as $key_jawaban => $val_jawaban)
+		{
+			$nik_subject = $val_jawaban[$id_column_nik_kk];
+			$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_subject)['id'];
+			// Iterasi untuk setiap indikator / jawaban dari subjek
+			foreach ($this->input->post('pertanyaan') as $key_pertanyaan => $val_pertanyaan)
+			{
+				if($this->input->post('is_selected')[$key_pertanyaan] == 'true' && $key_pertanyaan != $id_column_nik_kk)
+				{
+					$data_respon = [
+						'id_indikator'	=> array_search($key_pertanyaan, $db_idx_indikator),
+						'id_parameter'	=> array_search($val_jawaban[$key_pertanyaan], $db_idx_parameter[$key_pertanyaan]),
+						'id_subjek' 	=> $id_subject,
+						'id_periode' 	=> $id_periode
+					];
+
+					$outp = $this->db->insert('analisis_respon', $data_respon);
+				}
+			}
+		}
 		
 		status_sukses($outp);
 	}

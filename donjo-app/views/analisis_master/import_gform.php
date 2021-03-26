@@ -22,7 +22,7 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="file"  class="control-label">File Google Form :</label>
+							<label for="file"  class="control-label">File Response Google Form (dalam format .csv):</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2" name="userfile">
 								<input type="file" class="hidden" id="file2" name="userfile">
