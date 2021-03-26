@@ -54,8 +54,8 @@
 																		<option value="0">Subjek Analisis</option>
 																		<option value="1">Penduduk</option>
 																		<option value="2">Keluarga/KK</option>
-																		<option value="3">Rumah Tangga</option>
-																		<option value="4">Kelompok</option>
+																		<!-- <option value="3">Rumah Tangga</option>
+																		<option value="4">Kelompok</option> -->
 																	</select>
 																</td>
 															</tr>

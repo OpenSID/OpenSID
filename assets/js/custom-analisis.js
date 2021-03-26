@@ -114,6 +114,31 @@ function checkAllCheckbox()
     }
 }
 
+function validasiModalPertanyaan() 
+{   
+    // Cek Required NIK/KK
+    if($('#id-row-nik-kk').val() == "")
+        return 'Kolom NIK/No. KK Belum Ditentukan';
+    
+    // Cek Isian Kategori
+    var error = "";
+    $('.row-pertanyaan').each(function(i, obj) 
+    {
+        if($(obj).find('.input-is-selected').prop("checked"))
+        {
+            // console.log($(obj).find('.input-kategori').val());
+            if($(obj).find('.input-kategori').val() == "" || $(obj).find('.input-kategori').val() == undefined)
+            {
+                console.log($(obj).find('.input-kategori').val());
+                var pertanyaan = $(obj).find('.input-pertanyaan').html();
+                error = 'Kategori untuk Pertanyaan \"' + pertanyaan + '\" belum diisi';
+            }
+        }
+    });
+
+    return error;     
+}
+
 $(document).ready(function()
 {
     var isDataPertanyaanExist = false;
@@ -122,9 +147,14 @@ $(document).ready(function()
     
     $('#btn-next-pertanyaan').click(function() 
     {
-        assignValue();
-        $('#modalPertanyaan').modal('hide');
-        isDataPertanyaanExist = true;
+        if(validasiModalPertanyaan() != "")
+            toastr.error(validasiModalPertanyaan());
+        else
+        {
+            assignValue();
+            $('#modalPertanyaan').modal('hide');
+            isDataPertanyaanExist = true;
+        }
     });
 
     $('#modalPertanyaan').on('hidden.bs.modal', function () 
