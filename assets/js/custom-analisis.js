@@ -126,17 +126,33 @@ function validasiModalPertanyaan()
     {
         if($(obj).find('.input-is-selected').prop("checked"))
         {
-            // console.log($(obj).find('.input-kategori').val());
+            var pertanyaan = $(obj).find('.input-pertanyaan').html();
             if($(obj).find('.input-kategori').val() == "" || $(obj).find('.input-kategori').val() == undefined)
-            {
-                console.log($(obj).find('.input-kategori').val());
-                var pertanyaan = $(obj).find('.input-pertanyaan').html();
                 error = 'Kategori untuk Pertanyaan \"' + pertanyaan + '\" belum diisi';
-            }
+
+            if($(obj).find('.input-tipe').val() == 0)
+                error = 'Tipe Pertanyaan untuk Pertanyaan \"' + pertanyaan + '\" belum diisi';
         }
     });
 
     return error;     
+}
+
+function validasiModalJawaban() 
+{
+    // Cek Required Nama Form Analisis
+    if($('#nama_form').val() == "")
+        return 'Nama Form Analisis Belum Ditentukan';
+    
+    // Cek Required Tahun Pendataan
+    if($('#tahun_pendataan').val() == "")
+        return 'Tahun Pendataan Belum Ditentukan';
+    
+    // Cek Required Tipe Subjek Analisis
+    if($('#subjek_analisis').val() == 0)
+        return 'Subjek Analisis Belum Ditentukan';
+    
+    return "";
 }
 
 $(document).ready(function()
@@ -164,7 +180,7 @@ $(document).ready(function()
             $('#modalJawaban').modal('show');
             isDataPertanyaanExist = false;
         }
-    })
+    });
 
     $('#btn-prev-jawaban').click(function() 
     {
@@ -179,7 +195,17 @@ $(document).ready(function()
             $('#modalPertanyaan').modal('show');
             isDataPertanyaanExist = false;
         }
-    })
+    });
+
+    $('#btn-next-jawaban').click(function() 
+    {
+        if(validasiModalJawaban() != "")
+            toastr.error(validasiModalJawaban());
+        else
+        {
+            $('#form-jawaban').submit();
+        }
+    });
 
     $('.input-is-nik-kk').click(function() 
     {

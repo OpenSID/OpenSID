@@ -38,19 +38,19 @@
 														<tbody>
 															<tr>
 																<td>1</td>
-																<td>Nama Analisis</td>
-																<td><input type="text" name="nama_form" class="form-control input-sm"></td>
+																<td>Nama Form Analisis</td>
+																<td><input type="text" name="nama_form" id="nama_form" class="form-control input-sm"></td>
 															</tr>
 															<tr>
 																<td>2</td>
 																<td>Tahun Pendataan</td>
-																<td><input type="text" name="tahun_pendataan" class="form-control input-sm"></td>
+																<td><input type="text" name="tahun_pendataan" id="tahun_pendataan" class="form-control input-sm"></td>
 															</tr>
 															<tr>
 																<td>3</td>
 																<td>Subjek/Unit Analisis</td>
 																<td>
-																	<select name="subjek_analisis" class="form-control input-sm">
+																	<select name="subjek_analisis" id="subjek_analisis" class="form-control input-sm">
 																		<option value="0">Subjek Analisis</option>
 																		<option value="1">Penduduk</option>
 																		<option value="2">Keluarga/KK</option>
@@ -106,7 +106,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-social btn-flat btn-danger btn-sm pull-left" id="btn-prev-jawaban"><i class='fa fa-arrow-left'></i> Kembali</button>
-									<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="btn-next-jawaban"><i class='fa fa-arrow-right'></i> Lanjutkan</button>
+									<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="btn-next-jawaban"><i class='fa fa-arrow-right'></i> Lanjutkan</button>
 								</div>
 							</div>
 						</div>
