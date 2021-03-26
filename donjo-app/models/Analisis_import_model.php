@@ -174,8 +174,8 @@ class Analisis_import_Model extends CI_Model {
 	public function save_import_gform(){
 		// SIMPAN ANALISIS MASTER
 		$data_analisis_master = [
-			'nama' 			=> "Response Google Form " . date('dmY_His'), // TODO
-			'subjek_tipe' 	=> 1, // TODO
+			'nama' 			=> $this->input->post('nama_form') == "" ? "Response Google Form " . date('dmY_His') : $this->input->post('nama_form'),
+			'subjek_tipe' 	=> $this->input->post('subjek_analisis') == 0 ? 1 : $this->input->post('subjek_analisis'),
 			'id_kelompok' 	=> 0,
 			'lock' 			=> 1,
 			'format_impor' 	=> 0,
@@ -274,7 +274,7 @@ class Analisis_import_Model extends CI_Model {
 			'id_state' 			=> 1,
 			'aktif' 			=> 1,
 			'keterangan' 		=> 0,
-			'tahun_pelaksanaan'	=> date('Y')
+			'tahun_pelaksanaan'	=> $this->input->post('tahun_pendataan') == "" ? date('Y') : $this->input->post('tahun_pendataan')
 		];
 
 		$outp = $this->db->insert('analisis_periode', $data_periode);

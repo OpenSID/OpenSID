@@ -28,6 +28,42 @@
 						<div class="col-sm-12">
 							<div class="box box-info">
 								<div class="box-body">
+								<div class="form-group">
+										<div class="row">
+											<div class="col-sm-12">
+												<label class="control-label">Informasi Umum Form Analisis</label>
+												<div class="table-responsive">
+													<table class="table table-bordered table-striped dataTable table-hover">
+														<tbody>
+															<tr>
+																<td>1</td>
+																<td>Nama Analisis</td>
+																<td><input type="text" name="nama_form" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td>2</td>
+																<td>Tahun Pendataan</td>
+																<td><input type="text" name="tahun_pendataan" class="form-control input-sm"></td>
+															</tr>
+															<tr>
+																<td>3</td>
+																<td>Subjek/Unit Analisis</td>
+																<td>
+																	<select name="subjek_analisis" class="form-control input-sm">
+																		<option value="0">Subjek Analisis</option>
+																		<option value="1">Penduduk</option>
+																		<option value="2">Keluarga/KK</option>
+																		<option value="3">Rumah Tangga</option>
+																		<option value="4">Kelompok</option>
+																	</select>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
 									<label class="control-label" id="caption-jawaban">Tidak Ada Pilhan Jawaban Tunggal yang harus diatur. Silahkan melanjutkan ke tahap selanjutnya</label>
 									<?php foreach ($data_import['pertanyaan'] as $key => $data){ ?>
 									<div class="form-group" id=<?= "row-jawaban-" . $key ?>>
