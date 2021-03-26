@@ -77,10 +77,10 @@ class Surat extends Mandiri_Controller
 	{
 		$id_pend = $this->is_login->id_pend;
 
-		// Cek hanya status = 1 (belum lengkap) yg boleh di ubah
+		// Cek hanya status = 0 (belum lengkap) yg boleh di ubah
 		if ($id)
 		{
-			$permohonan = $this->permohonan_surat_model->get_permohonan($id, $id_pend);
+			$permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
 
 			if (! $permohonan) redirect('layanan-mandiri/surat/buat');
 		}
@@ -273,10 +273,10 @@ class Surat extends Mandiri_Controller
 		$post = ($post) ? $post : $this->session->data_permohonan;
 		$this->session->data_permohonan = $post;
 
-		// Cek hanya status = 1 (belum lengkap) yg boleh di ubah
+		// Cek hanya status = 0 (belum lengkap) yg boleh di ubah
 		if ($id)
 		{
-			$permohonan = $this->permohonan_surat_model->get_permohonan($id, $id_pend);
+			$permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
 
 			if (! $permohonan OR ! $post) redirect('layanan-mandiri/surat/buat');
 
@@ -294,9 +294,9 @@ class Surat extends Mandiri_Controller
 		}
 
 		$surat = $this->surat_model->cek_surat_mandiri($data['id_surat']);
-		$data['url'] = $surat['url_surat'];
-		$url = $data['url'];
+		$url = $surat['url_surat'];
 
+		$data['url'] = $url;
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id_pend);
 		$data['individu'] = $this->surat_model->get_penduduk($id_pend);
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
@@ -310,8 +310,6 @@ class Surat extends Mandiri_Controller
 		$data['mandiri'] = 1; // Untuk tombol cetak/kirim surat
 		$data['konten'] = 'permohonan_surat';
 
-
-		//echo json_encode($data, true);
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 
@@ -323,7 +321,7 @@ class Surat extends Mandiri_Controller
 			'id_pemohon' => $post['nik'],
 			'id_surat' => $post['id_surat'],
 			'isian_form' => json_encode($post),
-			'status' => 0, // Selalu 0 bagi penggun layanan mandiri
+			'status' => 1, // Selalu 1 bagi penggun layanan mandiri
 			'keterangan' => $data_permohonan['keterangan'],
 			'no_hp_aktif' => $data_permohonan['no_hp_aktif'],
 			'syarat' => json_encode($data_permohonan['syarat']),
@@ -361,9 +359,9 @@ class Surat extends Mandiri_Controller
 			include($data_form);
 	}
 
-	public function batalkan($id)
+	public function batalkan($id = '')
 	{
-		$this->permohonan_surat_model->update_status($id, array('status' => 9));
+		$this->permohonan_surat_model->proses($id, $this->is_login->id_pend, TRUE);
 
 		redirect('layanan-mandiri/permohonan-surat');
 	}

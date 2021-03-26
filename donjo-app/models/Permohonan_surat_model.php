@@ -148,14 +148,12 @@
 		return $data;
 	}
 
-	public function get_permohonan($id, $id_pemohon)
+	public function get_permohonan($where = [])
 	{
 		$data = $this->db
-			->where('id', $id)
-			->where('id_pemohon', $id_pemohon)
-			->where('status', 1)
-			->get('permohonan_surat')
+			->get_where('permohonan_surat', $where)
 			->row_array();
+
 		return $data;
 	}
 
@@ -168,13 +166,26 @@
 		return $this->db->get()->row_array();
 	}
 
-	public function update_status($id, $data)
+	public function proses($id, $status, $mandiri = FALSE)
 	{
-		$this->db->where('id', $id);
-		$outp = $this->db->update('permohonan_surat', $data);
+		if ($mandiri === TRUE)
+		{
+			// Batalkan hanya jika status = 0 (belum lengkap) atau 1 (sedang diproses)
+			// Hanya untuk pengguna layanan mandiri, tidak untuk admin
+			$this->db->where_in('status', ['0', '1']);
+			$this->db->where('id_pemohon', $id_pemohon);
+		} else {
+			// Status = 0 => harus dari status = 1
+			$status = ($status === 0) ? $status : 1;
+			// Cek status sebelumnya
+			$this->db->where('status', ($status - 1));
+		}
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		$outp = $this->db
+			->where('id', $id)
+			->update('permohonan_surat', ['status' => $status]);
+
+		status_sukses($outp);
 	}
 
 	public function ambil_isi_form($isian_form)

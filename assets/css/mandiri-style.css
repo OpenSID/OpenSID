@@ -114,6 +114,16 @@ th.padat, td.padat {
 	text-align: center;
 }
 
+th.aksi, td.aksi {
+	width: 1%;
+	white-space: nowrap;
+	text-align: left;
+}
+
+.btn-proses {
+	cursor: not-allowed;
+}
+
 .content, .content-header {
 	position: relative;
 	padding: 5px;
