@@ -48,7 +48,7 @@
 															<?php foreach ($data_import['pertanyaan'] as $key => $data): ?>
 															<tr class="row-pertanyaan">
 																<input type="hidden" class="input-id" value=<?= $key ?>>
-																<td><input type="checkbox" class="input-is-selected" checked></td>
+																<td><input type="checkbox" class="input-is-selected" checked data-waschecked="true"></td>
 																<td class="padat"><input type="radio" class="input-is-nik-kk"></td>
 																<td><?= $data['pertanyaan'] ?></td>
 																<td>

@@ -211,6 +211,8 @@
 		objRow.find('.input-bobot').val("0");
 		if(setEnable)
 		{
+			objRow.find('.input-is-selected').prop("disabled", true);
+			objRow.find('.input-is-selected').prop("title", "NIK/No. KK harus disimpan");
 			objRow.find('.input-tipe').val(1);
 			objRow.find('.input-tipe').prop("disabled", true);
 			objRow.find('.input-kategori').val("NIK/No. KK");
@@ -219,11 +221,35 @@
 		}
 		else
 		{
+			objRow.find('.input-is-selected').prop("disabled", false);
+			objRow.find('.input-is-selected').prop("title", "");
 			objRow.find('.input-tipe').val(0);
 			objRow.find('.input-tipe').prop("disabled", false);
 			objRow.find('.input-kategori').val("");
 			objRow.find('.input-kategori').prop("disabled", false);
 			objRow.find('.input-bobot').prop("disabled", false);
+		}
+	}
+
+	function setSelectedQuestion(objRow, setSelected=true) {
+		setAsNikKK(objRow, false);
+		objRow.find('.input-tipe').val(0);
+		objRow.find('.input-kategori').val("");
+		objRow.find('.input-bobot').val("0");
+		
+		if(setSelected)
+		{
+			objRow.find('.input-is-nik-kk').prop("disabled", false);
+			objRow.find('.input-tipe').prop("disabled", false);
+			objRow.find('.input-kategori').prop("disabled", false);
+			objRow.find('.input-bobot').prop("disabled", false);
+		}
+		else
+		{
+			objRow.find('.input-is-nik-kk').prop("disabled", true);
+			objRow.find('.input-tipe').prop("disabled", true);
+			objRow.find('.input-kategori').prop("disabled", true);
+			objRow.find('.input-bobot').prop("disabled", true);
 		}
 	}
 
@@ -279,6 +305,23 @@
 				$(this).data('waschecked', true);
 
 				setAsNikKK($(this).closest('.row-pertanyaan'), true);
+			}
+		});
+
+		$('.input-is-selected').click(function() {
+			if($(this).data('waschecked') == true)
+			{
+				$(this).prop("checked", false);
+				$(this).data('waschecked', false);
+
+				setSelectedQuestion($(this).closest('.row-pertanyaan'), false);
+			}
+			else
+			{
+				$(this).prop("checked", true);
+				$(this).data('waschecked', true);
+
+				setSelectedQuestion($(this).closest('.row-pertanyaan'), true);
 			}
 		});
 	})
