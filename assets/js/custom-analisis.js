@@ -160,6 +160,8 @@ $(document).ready(function()
     var isDataPertanyaanExist = false;
     if($('#mode-form').val() == 5)
         $('#modalPertanyaan').modal('show');
+    else if($('#jml_error').val() != "0")
+        $('#modalHasilImport').modal('show');
     
     $('#btn-next-pertanyaan').click(function() 
     {

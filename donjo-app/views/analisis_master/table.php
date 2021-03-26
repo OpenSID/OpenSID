@@ -170,5 +170,6 @@
 <?php $this->load->view('global/confirm_delete');?>
 <?php $this->load->view('analisis_master/modal_pertanyaan', $data);?>
 <?php $this->load->view('analisis_master/modal_jawaban_pilihan', $data);?>
+<?php $this->load->view('analisis_master/modal_hasil_import', $data);?>
 <script type="text/javascript" src="<?= base_url()?>assets/js/custom-analisis.js"></script>
 

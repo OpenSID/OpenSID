@@ -88,10 +88,13 @@ class Analisis_master extends Admin_Controller {
 		$data = [
 			'paging' 		=> $this->analisis_master_model->paging($p,$o),
 			'data_import' 	=> $this->session->data_import,
+			'list_error' 	=> $this->session->list_error,
 			'keyword' 		=> $this->analisis_master_model->autocomplete(),
 			'list_subjek' 	=> $this->analisis_master_model->list_subjek()
 		];
 		$data['main']	= $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		
+		unset($_SESSION['list_error']);
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_master/table', $data);

@@ -28,7 +28,7 @@
 						<div class="col-sm-12">
 							<div class="box box-info">
 								<div class="box-body">
-								<div class="form-group">
+									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="control-label">Informasi Umum Form Analisis</label>

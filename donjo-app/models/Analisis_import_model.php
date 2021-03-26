@@ -174,6 +174,8 @@ class Analisis_import_Model extends CI_Model {
 	}
 
 	public function save_import_gform(){
+		$list_error = array();
+
 		// SIMPAN ANALISIS MASTER
 		$data_analisis_master = [
 			'nama' 			=> $this->input->post('nama_form') == "" ? "Response Google Form " . date('dmY_His') : $this->input->post('nama_form'),
@@ -300,23 +302,31 @@ class Analisis_import_Model extends CI_Model {
 			else
 				$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_kk_subject)['id'];
 			
-			// Iterasi untuk setiap indikator / jawaban dari subjek
-			foreach ($this->input->post('pertanyaan') as $key_pertanyaan => $val_pertanyaan)
+			if($id_subject != NULL && $id_subject != "")
 			{
-				if($this->input->post('is_selected')[$key_pertanyaan] == 'true' && $key_pertanyaan != $id_column_nik_kk)
+				// Iterasi untuk setiap indikator / jawaban dari subjek
+				foreach ($this->input->post('pertanyaan') as $key_pertanyaan => $val_pertanyaan)
 				{
-					$data_respon = [
-						'id_indikator'	=> array_search($key_pertanyaan, $db_idx_indikator),
-						'id_parameter'	=> array_search($val_jawaban[$key_pertanyaan], $db_idx_parameter[$key_pertanyaan]),
-						'id_subjek' 	=> $id_subject,
-						'id_periode' 	=> $id_periode
-					];
+					if($this->input->post('is_selected')[$key_pertanyaan] == 'true' && $key_pertanyaan != $id_column_nik_kk)
+					{
+						$data_respon = [
+							'id_indikator'	=> array_search($key_pertanyaan, $db_idx_indikator),
+							'id_parameter'	=> array_search($val_jawaban[$key_pertanyaan], $db_idx_parameter[$key_pertanyaan]),
+							'id_subjek' 	=> $id_subject,
+							'id_periode' 	=> $id_periode
+						];
 
-					$outp = $this->db->insert('analisis_respon', $data_respon);
+						$outp = $this->db->insert('analisis_respon', $data_respon);
+					}
 				}
 			}
+			else
+			{
+				array_push($list_error, 'NIK / No. KK data ke-' . ($key_jawaban+1) . " (" . $nik_kk_subject . ") " . $id_subject . " tidak valid");
+			}
 		}
-		
+
+		$this->session->list_error = $list_error;
 		status_sukses($outp);
 	}
 }
