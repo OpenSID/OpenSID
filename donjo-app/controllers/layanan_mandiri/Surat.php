@@ -359,9 +359,9 @@ class Surat extends Mandiri_Controller
 			include($data_form);
 	}
 
-	public function batalkan($id = '')
+	public function proses($id = '')
 	{
-		$this->permohonan_surat_model->proses($id, $this->is_login->id_pend, TRUE);
+		$this->permohonan_surat_model->proses($id, 5, $this->is_login->id_pend);
 
 		redirect('layanan-mandiri/permohonan-surat');
 	}

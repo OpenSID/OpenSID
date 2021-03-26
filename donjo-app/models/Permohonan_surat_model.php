@@ -166,18 +166,21 @@
 		return $this->db->get()->row_array();
 	}
 
-	public function proses($id, $status, $mandiri = FALSE)
+	public function proses($id, $status, $id_pemohon = '')
 	{
-		if ($mandiri === TRUE)
+		if ($status == 0)
+		{
+			// Belum Lengkap
+			$this->db->where('status', 1);
+		}
+		elseif ($status == 5)
 		{
 			// Batalkan hanya jika status = 0 (belum lengkap) atau 1 (sedang diproses)
-			// Hanya untuk pengguna layanan mandiri, tidak untuk admin
-			$this->db->where_in('status', ['0', '1']);
-			$this->db->where('id_pemohon', $id_pemohon);
-		} else {
-			// Status = 0 => harus dari status = 1
-			$status = ($status === 0) ? $status : 1;
-			// Cek status sebelumnya
+			$this->db->where_in('status', ['0', '1'])->where('id_pemohon', $id_pemohon);
+		}
+		else
+		{
+			// Lainnya
 			$this->db->where('status', ($status - 1));
 		}
 

@@ -108,7 +108,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 	public function periksa($id = '')
 	{
 		// Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
-		$periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'status' => 0]);
+		$periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'status' => 1]);
 
 		if (! $id OR ! $periksa) redirect('permohonan_surat_admin');
 
@@ -133,7 +133,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 
 	public function proses($id = '', $status = '')
 	{
-		if ($id && $status) $this->permohonan_surat_model->proses($id, $status);
+		$this->permohonan_surat_model->proses($id, $status);
 
 		redirect('permohonan_surat_admin');
 	}

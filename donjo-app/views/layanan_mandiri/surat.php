@@ -73,24 +73,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 						<?php if ($main):
 							foreach ($main as $key => $data): ?>
-								<tr>
+								<tr class="<?= jecho($data['status_id'], 0, 'bg-orange'); ?>">
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td class="aksi">
 										<?php if ($data['status_id'] == 0): ?>
-											<a href="<?= site_url("layanan-mandiri/surat/buat/$data[id]"); ?>" class="btn btn-social bg-navy btn-sm" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-info-circle"></i><?= $data['status']; ?></a>
+											<a href="<?= site_url("layanan-mandiri/surat/buat/$data[id]"); ?>" class="btn btn-social bg-navy btn-sm" title="Lengkapi Surat" style="width: 170px"><i class="fa fa-info-circle"></i>Lengkapi Surat</a>
 										<?php elseif ($data['status_id'] == 1): ?>
-											<a class="btn btn-social btn-info btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-spinner"></i><?= $data['status']; ?></a>
+											<a class="btn btn-social btn-info btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-spinner"></i><?= $data['status']; ?></a>
 										<?php elseif ($data['status_id'] == 2): ?>
-											<a class="btn btn-social bg-purple btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-edit"></i><?= $data['status']; ?></a>
+											<a class="btn btn-social bg-purple btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-edit"></i><?= $data['status']; ?></a>
 										<?php elseif ($data['status_id'] == 3): ?>
-											<a class="btn btn-social bg-orange btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><?= $data['status']; ?></a>
+											<a class="btn btn-social bg-orange btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><?= $data['status']; ?></a>
 										<?php elseif ($data['status_id'] == 4): ?>
-											<a class="btn btn-social btn-success btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
+											<a class="btn btn-social btn-success btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
 										<?php else: ?>
-											<a class="btn btn-social btn-danger btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
+											<a class="btn btn-social btn-danger btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
 										<?php endif; ?>
 										<?php if (in_array($data['status_id'], ['0', '1'])): ?>
-											<a href="<?= site_url("layanan_mandiri/surat/batalkan/$data[id]/0"); ?>" title="Batalkan Permohonan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
+											<a href="<?= site_url("layanan_mandiri/surat/proses/$data[id]"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 									</td>
 									<td><?=$data['jenis_surat']; ?></td>

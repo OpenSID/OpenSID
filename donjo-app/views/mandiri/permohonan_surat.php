@@ -24,9 +24,9 @@
 					<div class="row">
 						<div class="col-sm-3">
 							<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url("{$this->controller}/filter")?>')">
-								<option value="">Status</option>
-								<?php foreach ($list_status_permohonan AS $id => $nama): ?>
-									<option value="<?= $id?>" <?php if ($filter != '' and $filter == $id): ?>selected<?php endif ?>><?= $nama?></option>
+								<option value="">Pilih Status</option>
+								<?php foreach ($list_status_permohonan AS $id => $data): ?>
+									<option value="<?= $id; ?>" <?= selected($filter, $id); ?>><?= $data; ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
@@ -62,17 +62,17 @@
 														<td class="padat"><?=$data['no']?></td>
 														<td class="aksi">
 															<?php if ($data['status_id'] == 0): ?>
-																<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-info-circle"></i><?= $data['status']; ?></a>
+																<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-info-circle"></i><?= $data['status']; ?></a>
 															<?php elseif ($data['status_id'] == 1): ?>
-																<a href="<?=site_url("{$this->controller}/periksa/$data[id]")?>" class="btn btn-social btn-info btn-flat btn-sm" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-spinner"></i><?= $data['status']; ?></a>
+																<a href="<?=site_url("{$this->controller}/periksa/$data[id]")?>" class="btn btn-social btn-info btn-flat btn-sm" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-spinner"></i><?= $data['status']; ?></a>
 															<?php elseif ($data['status_id'] == 2): ?>
-																<a href="<?=site_url("{$this->controller}/proses/$data[id]/3")?>" class="btn btn-social bg-purple btn-flat btn-sm" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-edit"></i><?= $data['status']; ?></a>
+																<a href="<?=site_url("{$this->controller}/proses/$data[id]/3")?>" class="btn btn-social bg-purple btn-flat btn-sm" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-edit"></i><?= $data['status']; ?></a>
 															<?php elseif ($data['status_id'] == 3): ?>
-																<a href="<?=site_url("{$this->controller}/proses/$data[id]/4")?>" class="btn btn-social bg-orange btn-flat btn-sm" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><?= $data['status']; ?></a>
+																<a href="<?=site_url("{$this->controller}/proses/$data[id]/4")?>" class="btn btn-social bg-orange btn-flat btn-sm" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><?= $data['status']; ?></a>
 															<?php elseif ($data['status_id'] == 4): ?>
-																<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
+																<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
 															<?php else: ?>
-																<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Permohonan Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
+																<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
 															<?php endif; ?>
 															<?php if (in_array($data['status_id'], [0, 1])): ?>
 																<a href="#" data-href="<?=site_url("{$this->controller}/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
