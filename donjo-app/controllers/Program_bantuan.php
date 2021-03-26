@@ -83,6 +83,8 @@ class Program_bantuan extends Admin_Controller {
 
 	public function index($p = 1)
 	{
+		$this->session->unset_userdata('cari');
+
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
