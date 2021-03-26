@@ -426,6 +426,7 @@
 			from('log_surat u')->
 			join('tweb_surat_format k', 'u.id_format_surat = k.id', 'left')->
 			order_by('nama_surat')->
+			where('k.nama is not null')->
 			get()->result_array();
 		return $query;
 	}

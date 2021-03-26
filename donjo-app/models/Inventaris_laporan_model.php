@@ -10,15 +10,6 @@ class Inventaris_laporan_model extends CI_Model
 		parent::__construct();
 	}
 
-	public function pamong($pamong)
-	{
-		$this->db->select('*');
-		$this->db->from($this->table_pamong);
-		$this->db->where($this->table_pamong.'.pamong_id', $pamong);
-		$data = $this->db->get()->row();
-		return $data;
-	}
-
 	public function laporan_inventaris()
 	{
 		$laporan_inventaris = array(

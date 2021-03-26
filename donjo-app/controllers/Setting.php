@@ -60,10 +60,10 @@ class Setting extends Admin_Controller {
 			'atur_latar' => TRUE,
 			'latar_website' => $this->theme_model->latar_website(),
 			'latar_login' => $this->theme_model->latar_login(),
+			'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
 			'list_tema' => $this->theme_model->list_all(),
 		];
 		$this->setting_model->load_options();
-
 		$this->render('setting/setting_form', $data);
 	}
 

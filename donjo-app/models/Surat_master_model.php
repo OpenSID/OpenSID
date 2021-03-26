@@ -106,7 +106,6 @@
 			$_SESSION['success'] = -2;
 			return;
 		}
-		$data['mandiri'] = isset($data['mandiri']) ? 1 : 0;
 		$outp = $this->db->insert('tweb_surat_format', $data);
 		$raw_path = "template-surat/raw/";
 
@@ -172,7 +171,6 @@
 	public function update($id=0)
 	{
 		$data = $_POST;
-		$data['mandiri'] = empty($data['mandiri']) ? 0 : 1;
 		$this->validasi_surat($data);
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_surat_format', $data);

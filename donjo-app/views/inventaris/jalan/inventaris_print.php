@@ -157,7 +157,7 @@
 					<tr>
 						<td colspan="2" width="10%">&nbsp;</td>
 						<td colspan="3" width="30%">KEPALA SKPD</td>
-						<td colspan="5" width="55%"><?= strtoupper($pamong->jabatan)?></td>
+						<td colspan="5" width="55%"><?= strtoupper($pamong['jabatan'])?></td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 					<tr>
@@ -172,13 +172,13 @@
 					<tr>
 						<td colspan="2" width="10%">&nbsp;</td>
 						<td colspan="3" width="30%">(...................................)</td>
-						<td colspan="5" width="55%">( <?= strtoupper($pamong->pamong_nama)?>) </td>
+						<td colspan="5" width="55%">( <?= strtoupper($pamong['nama'])?>) </td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 					<tr>
 						<td colspan="2" width="10%">&nbsp;</td>
 						<td colspan="3" width="30%">NIP ...................................</td>
-						<td colspan="5" width="55%"> <?= strtoupper($pamong->pamong_nip)?> </td>
+						<td colspan="5" width="55%"> <?= strtoupper($pamong['pamong_nip'])?> </td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 				</table>
