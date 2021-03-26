@@ -5,6 +5,7 @@ class Analisis_import_Model extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->model('penduduk_model');
+		$this->load->model('keluarga_model');
 		$this->load->library('Spreadsheet_Excel_Reader');
 	}
 
@@ -292,8 +293,13 @@ class Analisis_import_Model extends CI_Model {
 		// Iterasi untuk setiap subjek
 		foreach ($data_import['jawaban'] as $key_jawaban => $val_jawaban)
 		{
-			$nik_subject = $val_jawaban[$id_column_nik_kk];
-			$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_subject)['id'];
+			// Get Id Subjek berdasarkan Tipe Subjek (Penduduk / Keluarga / Rumah Tangga / Kelompok)
+			$nik_kk_subject = $val_jawaban[$id_column_nik_kk];
+			if($data_analisis_master['subjek_tipe'] == 2)
+				$id_subject = $this->keluarga_model->get_keluarga_by_no_kk($nik_kk_subject)['id'];
+			else
+				$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_kk_subject)['id'];
+			
 			// Iterasi untuk setiap indikator / jawaban dari subjek
 			foreach ($this->input->post('pertanyaan') as $key_pertanyaan => $val_pertanyaan)
 			{
