@@ -61,7 +61,7 @@
 																	</select>
 																</td>
 																<td><input type="text" class="form-control input-sm input-kategori"></td>
-																<td><input type="number" class="form-control input-sm input-bobot"></td>
+																<td><input type="number" class="form-control input-sm input-bobot" value="0"></td>
 															</tr>
 															<?php endforeach; ?>
 														</tbody>

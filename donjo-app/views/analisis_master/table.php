@@ -172,6 +172,7 @@
 <?php $this->load->view('analisis_master/modal_jawaban_pilihan', $data);?>
 <script>
 	function assignValue() {
+		var isSettingApplicable = true;
 		$('.row-pertanyaan').each(function(i, obj) {
 			var idObj = $(obj).find('.input-id').val();
 			objRowJawaban = $("#row-jawaban-" + idObj);
@@ -185,7 +186,22 @@
 			objRowJawaban.find('.kategori').val($(obj).find('.input-kategori').val());
 			// Isi nilai input bobot
 			objRowJawaban.find('.bobot').val($(obj).find('.input-bobot').val());
+
+			// Tampilkan Form Pilihan Jawaban untuk Tipe Pertanyaan Jawaban Tunggal DAN pertanyaan dipilih untuk disimpan
+			if($(obj).find('.input-tipe').val() == "1" && $(obj).find('.input-is-selected').prop("checked"))
+			{
+				objRowJawaban.show();
+				isSettingApplicable = false;
+			}
+			else
+				objRowJawaban.hide();
 		});
+
+		// Tampilkan/Sembunyikan Empty State
+		if(isSettingApplicable)
+			$('#caption-jawaban').show();
+		else
+			$('#caption-jawaban').hide();
 	}
 
 	$(document).ready(function(){

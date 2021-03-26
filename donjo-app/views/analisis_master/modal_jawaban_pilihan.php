@@ -28,9 +28,10 @@
 						<div class="col-sm-12">
 							<div class="box box-info">
 								<div class="box-body">
+									<label class="control-label" id="caption-jawaban">Tidak Ada Pilhan Jawaban Tunggal yang harus diatur. Silahkan melanjutkan ke tahap selanjutnya</label>
 									<?php foreach ($data_import['pertanyaan'] as $key => $data){ ?>
-									<div class="form-group">
-										<div class="row" id=<?= "row-jawaban-" . $key ?>>
+									<div class="form-group" id=<?= "row-jawaban-" . $key ?>>
+										<div class="row">
 											<div class="col-sm-12">
 												<label class="control-label">Jawaban untuk kategori <span><?= $data['pertanyaan'] ?></span></label>
 												<input type="hidden" class="is-selected" name="is_selected[]"></input>
