@@ -22,17 +22,23 @@
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 				<h4 class='modal-title' id='myModalLabel'> Modal Jawaban Pilihan</h4>
 			</div>
-			<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data">
+			<form id="form-jawaban" action="<?= site_url("analisis_master/save_import_gform") ?>" method="POST" enctype="multipart/form-data">
 				<div class='modal-body'>
 					<div class="row">
 						<div class="col-sm-12">
 							<div class="box box-info">
 								<div class="box-body">
-									<?php foreach ($data_import['pertanyaan'] as $data){ ?>
+									<?php foreach ($data_import['pertanyaan'] as $key => $data){ ?>
 									<div class="form-group">
-										<div class="row">
+										<div class="row" id=<?= "row-jawaban-" . $key ?>>
 											<div class="col-sm-12">
 												<label class="control-label">Jawaban untuk kategori <span><?= $data['pertanyaan'] ?></span></label>
+												<input type="hidden" class="is-selected" name="is_selected[]"></input>
+												<input type="hidden" class="is-nik-kk" name="is_nik_kk[]"></input>
+												<input type="hidden" name="pertanyaan[]" value="<?= $data['pertanyaan'] ?>"></input>
+												<input type="hidden" class="tipe" name="tipe[]"></input>
+												<input type="hidden" class="kategori" name="kategori[]"></input>
+												<input type="hidden" class="bobot" name="bobot[]"></input>
 												<div class="table-responsive">
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
@@ -43,11 +49,11 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($data['unique_value'] as $key => $unique_value){ ?>
+															<?php foreach ($data['unique_value'] as $unique_key => $unique_value){ ?>
 															<tr>
-																<td><?= $key+1 ?></td>
+																<td><?= $unique_key+1 ?></td>
 																<td><?= $unique_value ?></td>
-																<td><input type="number" class="form-control input-sm"></td>
+																<td><input type="number" name=<?= "unique-val[". $unique_key ."][]" ?> class="form-control input-sm"></td>
 															</tr>
 															<?php } ?>
 														</tbody>

@@ -170,4 +170,9 @@ class Analisis_import_Model extends CI_Model {
 		$this->session->success = 5;
 		return '0';
 	}
+
+	public function save_import_gform(){
+		$this->session->success = 1;
+		return '0';
+	}
 }

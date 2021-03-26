@@ -245,4 +245,10 @@ class Analisis_master extends Admin_Controller {
 		$this->analisis_master_model->delete_all();
 		redirect("analisis_master/index/$p/$o");
 	}
+
+	public function save_import_gform()
+	{
+		$this->analisis_import_model->save_import_gform();
+		redirect('analisis_master');
+	}
 }

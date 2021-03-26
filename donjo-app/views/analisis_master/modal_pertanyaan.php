@@ -22,7 +22,7 @@
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 				<h4 class='modal-title' id='myModalLabel'> Modal Pertanyaan</h4>
 			</div>
-			<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data">
+			<form id="form-pertanyaan" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data">
 				<div class='modal-body'>
 					<div class="row">
 						<div class="col-sm-12">
@@ -36,7 +36,7 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th><input type="checkbox" id="checkall"/></th>
+																<th><input type="checkbox" id="checkall" checked/></th>
 																<th>NIK/KK</th>
 																<th>Pertanyaan</th>
 																<th>Tipe Pertanyaan</th>
@@ -45,13 +45,14 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($data_import['pertanyaan'] as $data): ?>
-															<tr>
-																<td><input type="checkbox"/></td>
-																<td class="padat"><input type="radio"/></td>
+															<?php foreach ($data_import['pertanyaan'] as $key => $data): ?>
+															<tr class="row-pertanyaan">
+																<input type="hidden" class="input-id" value=<?= $key ?>>
+																<td><input type="checkbox" class="input-is-selected" checked></td>
+																<td class="padat"><input type="radio" class="input-is-nik-kk"></td>
 																<td><?= $data['pertanyaan'] ?></td>
 																<td>
-																	<select name="tipe_pertanyaan" class="form-control input-sm">
+																	<select name="tipe_pertanyaan" class="form-control input-sm input-tipe">
 																		<option value="0">Tipe Pertanyaan</option>
 																		<option value="1">Pilihan (Tunggal)</option>
 																		<option value="2">Pilihan (Ganda)</option>
@@ -59,8 +60,8 @@
 																		<option value="4">Isian Teks (Kualitatif)</option>
 																	</select>
 																</td>
-																<td><input type="text" class="form-control input-sm"></td>
-																<td><input type="number" class="form-control input-sm"></td>
+																<td><input type="text" class="form-control input-sm input-kategori"></td>
+																<td><input type="number" class="form-control input-sm input-bobot"></td>
 															</tr>
 															<?php endforeach; ?>
 														</tbody>

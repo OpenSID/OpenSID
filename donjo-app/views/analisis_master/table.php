@@ -171,12 +171,30 @@
 <?php $this->load->view('analisis_master/modal_pertanyaan', $data);?>
 <?php $this->load->view('analisis_master/modal_jawaban_pilihan', $data);?>
 <script>
+	function assignValue() {
+		$('.row-pertanyaan').each(function(i, obj) {
+			var idObj = $(obj).find('.input-id').val();
+			objRowJawaban = $("#row-jawaban-" + idObj);
+			// Isi nilai checkbox is-selected
+			objRowJawaban.find('.is-selected').val($(obj).find('.input-is-selected').prop("checked"));
+			// Isi nilai radio button is-nik-kk
+			objRowJawaban.find('.is-nik-kk').val($(obj).find('.input-is-nik-kk').prop("checked"));
+			// Isi nilai input tipe
+			objRowJawaban.find('.tipe').val($(obj).find('.input-tipe').val());
+			// Isi nilai input kategori
+			objRowJawaban.find('.kategori').val($(obj).find('.input-kategori').val());
+			// Isi nilai input bobot
+			objRowJawaban.find('.bobot').val($(obj).find('.input-bobot').val());
+		});
+	}
+
 	$(document).ready(function(){
 		var isDataPertanyaanExist = false;
 		if($('#mode-form').val() == 5)
 			$('#modalPertanyaan').modal('show');
 		
 		$('#btn-next-pertanyaan').click(function() {
+			assignValue();
 			$('#modalPertanyaan').modal('hide');
 			isDataPertanyaanExist = true;
 		});
