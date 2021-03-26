@@ -28,3 +28,4 @@ Fitur Premium:
 19. #4020: Sekarang di form Pembangunan lokasi menampilkan semua wilayah, termasuk dusun yg tidak ada RW atau RT. [bug-fix]
 20. #4081: Sekarang penandatangan laporan cetak inventaris sesuai dengan yang dipilih. [bug-fix]
 21. #4092: Sekarang di form Persil lokasi menampilkan semua wilayah, termasuk dusun yg tidak ada RW atau RT. [bug-fix]
+22. #4088: Perbaiki alur permohonan surat layanan mandiri supaya membatasi akses menu sesuai status permohonan. [security-fix]
