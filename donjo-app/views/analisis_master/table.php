@@ -187,8 +187,11 @@
 			// Isi nilai input bobot
 			objRowJawaban.find('.bobot').val($(obj).find('.input-bobot').val());
 
-			// Tampilkan Form Pilihan Jawaban untuk Tipe Pertanyaan Jawaban Tunggal DAN pertanyaan dipilih untuk disimpan
-			if($(obj).find('.input-tipe').val() == "1" && $(obj).find('.input-is-selected').prop("checked"))
+			// Tampilkan Form Pilihan Jawaban untuk pertanyaan dengan syarat-syarat berikut:
+			// 1. Tipe Pertanyaan Jawaban Tunggal
+			// 2. Pertanyaan dipilih untuk disimpan
+			// 3. Pertanyaan bukan berupa NIK/ No.KK
+			if($(obj).find('.input-tipe').val() == "1" && $(obj).find('.input-is-selected').prop("checked") && !($(obj).find('.input-is-nik-kk').prop("checked")))
 			{
 				objRowJawaban.show();
 				isSettingApplicable = false;
@@ -202,6 +205,26 @@
 			$('#caption-jawaban').show();
 		else
 			$('#caption-jawaban').hide();
+	}
+
+	function setAsNikKK(objRow, setEnable=true) {
+		objRow.find('.input-bobot').val("0");
+		if(setEnable)
+		{
+			objRow.find('.input-tipe').val(1);
+			objRow.find('.input-tipe').prop("disabled", true);
+			objRow.find('.input-kategori').val("NIK/No. KK");
+			objRow.find('.input-kategori').prop("disabled", true);
+			objRow.find('.input-bobot').prop("disabled", true);
+		}
+		else
+		{
+			objRow.find('.input-tipe').val(0);
+			objRow.find('.input-tipe').prop("disabled", false);
+			objRow.find('.input-kategori').val("");
+			objRow.find('.input-kategori').prop("disabled", false);
+			objRow.find('.input-bobot').prop("disabled", false);
+		}
 	}
 
 	$(document).ready(function(){
@@ -235,6 +258,29 @@
 				isDataPertanyaanExist = false;
 			}
 		})
+
+		$('.input-is-nik-kk').click(function() {
+			if($(this).data('waschecked') == true)
+			{
+				$(this).prop("checked", false);
+				$(this).data('waschecked', false);
+
+				setAsNikKK($(this).closest('.row-pertanyaan'), false);
+			}
+			else
+			{
+				$('.input-is-nik-kk').each(function(i, obj) {
+					$(obj).prop("checked", false);
+					$(obj).data('waschecked', false);
+					setAsNikKK($(this).closest('.row-pertanyaan'), false);
+				});
+				
+				$(this).prop("checked", true);
+				$(this).data('waschecked', true);
+
+				setAsNikKK($(this).closest('.row-pertanyaan'), true);
+			}
+		});
 	})
 </script>
 
