@@ -266,6 +266,19 @@ class Analisis_import_Model extends CI_Model {
 				$count_indikator += 1;
 			}
 		}
+
+		// SIMPAN PERIODE ANALISIS
+		$data_periode = [
+			'id_master' 		=> $id_master,
+			'nama' 				=> "Pendataan " . date('dmY_His'),
+			'id_state' 			=> 1,
+			'aktif' 			=> 1,
+			'keterangan' 		=> 0,
+			'tahun_pelaksanaan'	=> date('Y')
+		];
+
+		$outp = $this->db->insert('analisis_periode', $data_periode);
+		$id_periode = $this->db->insert_id();
 		
 		status_sukses($outp);
 	}
