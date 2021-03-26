@@ -171,9 +171,11 @@
 <?php $this->load->view('analisis_master/modal_pertanyaan', $data);?>
 <?php $this->load->view('analisis_master/modal_jawaban_pilihan', $data);?>
 <script>
-	function assignValue() {
+	function assignValue() 
+	{
 		var isSettingApplicable = true;
-		$('.row-pertanyaan').each(function(i, obj) {
+		$('.row-pertanyaan').each(function(i, obj) 
+		{
 			var idObj = $(obj).find('.input-id').val();
 			objRowJawaban = $("#row-jawaban-" + idObj);
 			// Isi nilai checkbox is-selected
@@ -207,7 +209,8 @@
 			$('#caption-jawaban').hide();
 	}
 
-	function setAsNikKK(objRow, setEnable=true) {
+	function setAsNikKK(objRow, setEnable=true) 
+	{
 		objRow.find('.input-bobot').val("0");
 		if(setEnable)
 		{
@@ -231,7 +234,10 @@
 		}
 	}
 
-	function setSelectedQuestion(objRow, setSelected=true) {
+	function setSelectedQuestion(objRow, setSelected=true) 
+	{
+		objRow.find('.input-is-selected').prop("checked", setSelected);
+		objRow.find('.input-is-selected').data('waschecked', setSelected);
 		setAsNikKK(objRow, false);
 		objRow.find('.input-tipe').val(0);
 		objRow.find('.input-kategori').val("");
@@ -253,18 +259,49 @@
 		}
 	}
 
-	$(document).ready(function(){
+	function checkAllCheckbox() 
+	{
+		countCheckedCheckbox = 0;
+		$('.input-is-selected').each(function(i, obj) 
+		{
+			if($(obj).prop('checked'))
+				countCheckedCheckbox += 1;
+		});
+
+		if(countCheckedCheckbox == $('.input-is-selected').length)
+		{
+			$('#select-all-question').prop('checkbox', true);
+			$('#select-all-question').prop('indeterminate', false);
+			$('#select-all-question').data('waschecked', true);
+		}
+		else if(countCheckedCheckbox == 0)
+		{
+			$('#select-all-question').prop('checkbox', false);
+			$('#select-all-question').prop('indeterminate', false);
+			$('#select-all-question').data('waschecked', false);
+		}
+		else
+		{
+			$('#select-all-question').prop('indeterminate', true);
+			$('#select-all-question').data('waschecked', true);
+		}
+	}
+
+	$(document).ready(function()
+	{
 		var isDataPertanyaanExist = false;
 		if($('#mode-form').val() == 5)
 			$('#modalPertanyaan').modal('show');
 		
-		$('#btn-next-pertanyaan').click(function() {
+		$('#btn-next-pertanyaan').click(function() 
+		{
 			assignValue();
 			$('#modalPertanyaan').modal('hide');
 			isDataPertanyaanExist = true;
 		});
 
-		$('#modalPertanyaan').on('hidden.bs.modal', function () {
+		$('#modalPertanyaan').on('hidden.bs.modal', function () 
+		{
 			if(isDataPertanyaanExist)
 			{
 				$('#modalJawaban').modal('show');
@@ -272,12 +309,14 @@
 			}
 		})
 
-		$('#btn-prev-jawaban').click(function() {
+		$('#btn-prev-jawaban').click(function() 
+		{
 			$('#modalJawaban').modal('hide');
 			isDataPertanyaanExist = true;
 		});
 
-		$('#modalJawaban').on('hidden.bs.modal', function () {
+		$('#modalJawaban').on('hidden.bs.modal', function () 
+		{
 			if(isDataPertanyaanExist)
 			{
 				$('#modalPertanyaan').modal('show');
@@ -285,17 +324,20 @@
 			}
 		})
 
-		$('.input-is-nik-kk').click(function() {
+		$('.input-is-nik-kk').click(function() 
+		{
 			if($(this).data('waschecked') == true)
 			{
 				$(this).prop("checked", false);
 				$(this).data('waschecked', false);
+				$('#id-row-nik-kk').val("");
 
 				setAsNikKK($(this).closest('.row-pertanyaan'), false);
 			}
 			else
 			{
-				$('.input-is-nik-kk').each(function(i, obj) {
+				$('.input-is-nik-kk').each(function(i, obj) 
+				{
 					$(obj).prop("checked", false);
 					$(obj).data('waschecked', false);
 					setAsNikKK($(this).closest('.row-pertanyaan'), false);
@@ -303,25 +345,49 @@
 				
 				$(this).prop("checked", true);
 				$(this).data('waschecked', true);
+				$('#id-row-nik-kk').val($(this).closest('.row-pertanyaan').find('.input-id').val());
 
 				setAsNikKK($(this).closest('.row-pertanyaan'), true);
 			}
 		});
 
-		$('.input-is-selected').click(function() {
+		$('.input-is-selected').click(function() 
+		{
 			if($(this).data('waschecked') == true)
-			{
-				$(this).prop("checked", false);
-				$(this).data('waschecked', false);
-
 				setSelectedQuestion($(this).closest('.row-pertanyaan'), false);
+			else
+				setSelectedQuestion($(this).closest('.row-pertanyaan'), true);
+
+			checkAllCheckbox();
+		});
+
+		$('#select-all-question').click(function() 
+		{
+			var waschecked = $(this).data('waschecked');
+			$('.row-pertanyaan').each(function(i, obj) 
+			{
+				var idObj = $(obj).find('.input-id').val();
+				if(waschecked)
+				{
+					if(idObj != $('#id-row-nik-kk').val())
+						setSelectedQuestion($(obj), false);
+				}
+				else
+				{
+					if(idObj != $('#id-row-nik-kk').val())
+						setSelectedQuestion($(obj), true);
+				}
+			});
+			if(waschecked)
+			{
+				$(this).data('waschecked', false);
+				if($('#id-row-nik-kk').val() != "")
+					$(this).prop('indeterminate', true);
 			}
 			else
 			{
-				$(this).prop("checked", true);
 				$(this).data('waschecked', true);
-
-				setSelectedQuestion($(this).closest('.row-pertanyaan'), true);
+				$(this).prop('indeterminate', false);
 			}
 		});
 	})
