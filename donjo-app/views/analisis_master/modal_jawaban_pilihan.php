@@ -52,9 +52,11 @@
 														<tbody>
 															<?php foreach ($data['unique_value'] as $unique_key => $unique_value){ ?>
 															<tr>
+																<input type="hidden" name=<?= "unique-param-key-". $key ."[]" ?> value="<?= $unique_key ?>"></input>
+																<input type="hidden" name=<?= "unique-param-value-". $key ."[]" ?> value="<?= $unique_value ?>"></input>
 																<td><?= $unique_key+1 ?></td>
 																<td><?= $unique_value ?></td>
-																<td><input type="number" name=<?= "unique-val[". $unique_key ."][]" ?> class="form-control input-sm"></td>
+																<td><input type="number" name=<?= "unique-param-nilai-". $key ."[]" ?> class="form-control input-sm"></td>
 															</tr>
 															<?php } ?>
 														</tbody>

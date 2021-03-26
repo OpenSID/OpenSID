@@ -193,7 +193,6 @@ $(document).ready(function()
     $('#select-all-question').click(function() 
     {
         var waschecked = $(this).data('waschecked');
-        var wasIndeterminate = $(this).prop('indeterminate');
         $('.row-pertanyaan').each(function(i, obj) 
         {
             var idObj = $(obj).find('.input-id').val();

@@ -172,7 +172,101 @@ class Analisis_import_Model extends CI_Model {
 	}
 
 	public function save_import_gform(){
-		$this->session->success = 1;
-		return '0';
+		// SIMPAN ANALISIS MASTER
+		$data_analisis_master = [
+			'nama' 			=> "Response Google Form " . date('dmY_His'), // TODO
+			'subjek_tipe' 	=> 1, // TODO
+			'id_kelompok' 	=> 0,
+			'lock' 			=> 1,
+			'format_impor' 	=> 0,
+			'pembagi' 		=> 1,
+			'id_child' 		=> 0,
+			'deskripsi' 	=> ""
+		];
+
+		$outp = $this->db->insert('analisis_master', $data_analisis_master);
+		$id_master = $this->db->insert_id();
+
+		// SIMPAN KATEGORI ANALISIS
+		$list_kategori = $this->input->post('kategori');
+		$temp_unique_kategori = array();
+		$list_unique_kategori = array();
+
+		// Get Unique Value dari Kategori
+		foreach ($list_kategori as $key => $val)
+		{
+			if($this->input->post('is_selected')[$key] == 'true')
+			{
+				if(! in_array($val, $temp_unique_kategori))
+				{
+					array_push($temp_unique_kategori, $val);
+				}
+			}
+		}
+		
+		// Simpan Unique Value dari Kategori
+		foreach ($temp_unique_kategori as $key => $val)
+		{
+			$data_kategori = [
+				'id_master'		=> $id_master,
+				'kategori' 		=> $val,
+				'kategori_kode'	=> ""
+			];
+
+			$outp = $this->db->insert('analisis_kategori_indikator', $data_kategori);
+			$id_kategori = $this->db->insert_id();
+
+			$list_unique_kategori[$id_kategori] = $val;
+		}
+
+		// SIMPAN PERTANYAAN/INDIKATOR ANALISIS
+		$count_indikator = 1;
+		foreach ($this->input->post('pertanyaan') as $key => $val)
+		{
+			if($this->input->post('is_selected')[$key] == 'true')
+			{
+				$data_indikator = [
+					'id_master'		=> $id_master,
+					'nomor'			=> $count_indikator,
+					'pertanyaan' 	=> $val,
+					'id_tipe' 		=> $this->input->post('tipe')[$key],
+					'bobot' 		=> $this->input->post('bobot')[$key],
+					'act_analisis' 	=> 0,
+					'id_kategori' 	=> array_search($this->input->post('kategori')[$key], $list_unique_kategori),
+					'is_publik' 	=> 0,
+					'is_teks' 		=> 0
+				];
+
+				if($data_indikator['id_tipe'] != 1)
+				{
+					$data_indikator['act_analisis']	= 2;
+					$data_indikator['bobot'] 		= 0;
+				}
+	
+				$outp = $this->db->insert('analisis_indikator', $data_indikator);
+				$id_indikator = $this->db->insert_id();
+
+				// Simpan Parameter untuk Tipe Pilihan Tunggal
+				if($data_indikator['id_tipe'] == 1)
+				{
+					foreach ($this->input->post('unique-param-value-' . $key) as $param_key => $param_val)
+					{
+						$data_parameter = [
+							'id_indikator'	=> $id_indikator,
+							'jawaban'		=> $this->input->post('unique-param-value-' . $key)[$param_key],
+							'nilai' 		=> $this->input->post('unique-param-nilai-' . $key)[$param_key],
+							'kode_jawaban' 	=> ($param_key+1),
+							'asign' 		=> 0
+						];
+
+						$outp = $this->db->insert('analisis_parameter', $data_parameter);
+					}
+				}
+				
+				$count_indikator += 1;
+			}
+		}
+		
+		status_sukses($outp);
 	}
 }
