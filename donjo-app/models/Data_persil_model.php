@@ -258,7 +258,7 @@ class Data_persil_model extends MY_Model {
 					w.dusun
 				) ELSE p.lokasi END) AS lokasi")
 			->from('persil p')
-			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
 			->order_by('nomor, nomor_urut_bidang')
 			->get()->result_array();
 		return $data;
