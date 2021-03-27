@@ -22,6 +22,7 @@ Premium - perbaikan bug:
 13. #4092: Sekarang di form Persil lokasi menampilkan semua wilayah, termasuk dusun yg tidak ada RW atau RT. [bug-fix]
 14. #4088: Perbaiki alur permohonan surat layanan mandiri supaya membatasi akses menu sesuai status permohonan. [security-fix]
 15. #4096: Perbaiki dan perjelas alur pengelolaan permohonan surat layanan mandiri di modul Admin supaya membatasi akses menu sesuai status permohonan. [bug-fix]
+16. #4084: Perbaiki urutan Rumah Tangga. [bug-fix]
 
 
 Premium - penambahan fitur:
