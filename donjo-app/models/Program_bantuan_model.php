@@ -697,11 +697,7 @@ class Program_bantuan_model extends MY_Model {
 			$slug = preg_replace("/^50/", "", $slug);
 			$hasil0 = $this->get_program_data($p, $slug);
 			$hasil1 = $this->get_data_peserta($hasil0, $slug);
-			$filter = array();
-			foreach ($hasil1 as $data)
-			{
-				$filter[] = $data['peserta'];
-			}
+			$filter = array_column($hasil1, 'peserta');
 
 			switch ($hasil0["sasaran"])
 			{

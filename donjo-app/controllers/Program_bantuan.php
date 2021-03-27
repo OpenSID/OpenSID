@@ -101,6 +101,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function form($program_id = 0)
 	{
+		$this->session->unset_userdata('cari');
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
 		$nik = $this->input->post('nik');
