@@ -67,6 +67,8 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->ubah_tag_id_card_unique_index($hasil);
 		// Sesuaikan struktur dan isi tabel config
 		$hasil =& $this->config($hasil);
+		// Sesuaikan sulang STATUS_PERMOHONAN
+		$hasil =& $this->ubah_status($hasil);
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -171,6 +173,24 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			{
 				$hasil =& $this->dbforge->drop_column('config', 'nip_kepala_desa');
 			}
+		}
+
+		return $hasil;
+	}
+
+	// Tabel Config
+	protected function ubah_status($hasil)
+	{
+		// Jika masih ditemakan status = 9, lakukan migrasi
+		if ($this->db->get_where('permohonan_surat', ['status' => 9])->row())
+		{
+			// Ubah sementara
+			$hasil =& $this->db->where('status', 0)->update('permohonan_surat', ['status' => 100]);
+
+			// Sesuaikan ulang
+			$hasil =& $this->db->where('status', 1)->update('permohonan_surat', ['status' => 0]);
+			$hasil =& $this->db->where('status', 100)->update('permohonan_surat', ['status' => 1]);
+			$hasil =& $this->db->where('status', 9)->update('permohonan_surat', ['status' => 5]);
 		}
 
 		return $hasil;

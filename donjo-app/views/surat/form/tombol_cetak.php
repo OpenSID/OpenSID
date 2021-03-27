@@ -4,7 +4,7 @@
 			<?php if ($mandiri): ?>
 				<button type="reset" onclick="window.history.back();" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 			<?php elseif ($periksa): ?>
-				<a href="<?= site_url('permohonan_surat_admin/belum_lengkap/'.$periksa['id'])?>" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Belum Lengkap</a>
+				<a href="<?= site_url("permohonan_surat_admin/proses/$periksa[id]/0" )?>" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Belum Lengkap</a>
 				</form>
 			<?php else: ?>
 				<button type="reset" onclick="$('#validasi').trigger('reset');" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
