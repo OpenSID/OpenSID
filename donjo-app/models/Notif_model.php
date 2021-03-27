@@ -44,7 +44,7 @@ class Notif_model extends CI_Model {
 
 	public function permohonan_surat_baru()
 	{
-		$num_rows = $this->db->where('status', 0)
+		$num_rows = $this->db->where('status', 1)
 			->get('permohonan_surat')->num_rows();
 		return $num_rows;
 	}

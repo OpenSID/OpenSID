@@ -26,7 +26,7 @@
 							<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url("{$this->controller}/filter")?>')">
 								<option value="">Pilih Status</option>
 								<?php foreach ($list_status_permohonan AS $id => $data): ?>
-									<option value="<?= $id; ?>" <?= selected($filter, $id); ?>><?= $data; ?></option>
+									<option value="<?= $id; ?>" <?= selected($filter != NULL && $filter == $id, true); ?>><?= $data; ?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>
@@ -64,11 +64,11 @@
 															<?php if ($data['status_id'] == 0): ?>
 																<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-info-circle"></i><?= $data['status']; ?></a>
 															<?php elseif ($data['status_id'] == 1): ?>
-																<a href="<?=site_url("{$this->controller}/periksa/$data[id]")?>" class="btn btn-social btn-info btn-flat btn-sm" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-spinner"></i><?= $data['status']; ?></a>
+																<a href="<?=site_url("{$this->controller}/periksa/$data[id]")?>" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i><span><?= $data['status']; ?></span></a>
 															<?php elseif ($data['status_id'] == 2): ?>
-																<a href="<?=site_url("{$this->controller}/proses/$data[id]/3")?>" class="btn btn-social bg-purple btn-flat btn-sm" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-edit"></i><?= $data['status']; ?></a>
+																<a href="<?=site_url("{$this->controller}/proses/$data[id]/3")?>" class="btn btn-social bg-purple btn-flat btn-sm pesan-hover" title="Klik jika telah ditandatangani" style="width: 170px"><i class="fa fa-edit"></i><span><?= $data['status']; ?></span></a>
 															<?php elseif ($data['status_id'] == 3): ?>
-																<a href="<?=site_url("{$this->controller}/proses/$data[id]/4")?>" class="btn btn-social bg-orange btn-flat btn-sm" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><?= $data['status']; ?></a>
+																<a href="<?=site_url("{$this->controller}/proses/$data[id]/4")?>" class="btn btn-social bg-orange btn-flat btn-sm pesan-hover" title="Klik jika telah diambil" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><span><?= $data['status']; ?></span></a>
 															<?php elseif ($data['status_id'] == 4): ?>
 																<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
 															<?php else: ?>
@@ -138,3 +138,16 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
+<script type="text/javascript">
+	$('document').ready(function()
+	{
+		$( "a.pesan-hover" )
+		  .mouseover(function() {
+				text = $( this ).find( "span" ).text();
+		    $( this ).find( "span" ).text( $(this).attr('title') );
+		  })
+		  .mouseout(function() {
+		    $( this ).find( "span" ).text( text );
+		  });
+	});
+</script>
