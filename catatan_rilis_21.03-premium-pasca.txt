@@ -36,4 +36,5 @@ Premium - penambahan fitur:
 6. #4029: Tampilkan batas ukuran unggahan dokumen kelengkapan penduduk di Layanan Mandiri dan menu Penduduk.
 7. Pilih pamong penandatangan secara otomatis di form cetak Wilayah Administratif, Pembangunan dan Data Suplemen.
 8. #3524: Sekarang kepala desa di Identitas Desa diambil dari pamong di Pemerintahan Desa.
+9. #4077: Kode indikator & pertanyaan analisis sekarang bisa berisi huruf.
 

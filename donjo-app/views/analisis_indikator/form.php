@@ -1,54 +1,3 @@
-<script>
-	function tampil_delik(tipe) {
-		(tipe == '1' || tipe == null) ? $('.delik').show() : $('.delik').hide();
-	}
-
-	$(function() {
-		tampil_delik($('input[name=id_tipe]:checked').val());
-		$('input[name="id_tipe"]').change(function() {
-			tampil_delik($(this).val());
-		});
-	});
-
-	function reset_form() {
-		<?php if ($analisis_indikator['is_publik'] == '1'): ?>
-			$("#ss2").removeClass("active");
-			$("#ss1").addClass('active');
-		<?php else: ?>
-			$("#ss2").addClass('active');
-			$("#ss1").removeClass("active");
-		<?php endif ?>
-
-		<?php if ($analisis_indikator['act_analisis'] == '1'): ?>
-			$("#aksi2").removeClass("active");
-			$("#aksi1").addClass('active');
-		<?php else: ?>
-			$("#aksi2").addClass('active');
-			$("#aksi1").removeClass("active");
-		<?php endif ?>
-
-		$(".tipe").removeClass("active");
-		$("input[name=id_tipe").prop( "checked", false );
-		<?php if ($analisis_indikator['id_tipe'] == '1' OR $analisis_indikator['id_tipe'] == NULL): ?>
-			$("#sx3").addClass('active');
-			$("#group3").prop( "checked", true );
-		<?php endif ?>
-		<?php if ($analisis_indikator['id_tipe'] == '2'): ?>
-			$("#sx2").addClass('active');
-			$("#group2").prop( "checked", true );
-		<?php endif ?>
-		<?php if ($analisis_indikator['id_tipe'] == '3'): ?>
-			$("#sx1").addClass('active');
-			$("#group1").prop( "checked", true );
-		<?php endif ?>
-		<?php if ($analisis_indikator['id_tipe'] == '4'): ?>
-			$("#sx4").addClass('active');
-			$("#group4").prop( "checked", true );
-		<?php endif ?>
-		tampil_delik($('input[name=id_tipe]:checked').val());
-	};
-</script>
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Indikator Analisis [ <?= $analisis_master['nama']?> ]</h1>
@@ -154,7 +103,7 @@
 											</label>
 										</div>
 										<label class="col-sm-3 control-label"></label>
-										<div class="col-sm-7"><p class="help-block small">*) Tampilkan data indikator di halaman depan website desa (Menu Data Desa -> Data Analisis).</p></div>
+										<div class="col-sm-7"><p class="help-block small">*) Tampilkan data indikator di halaman depan website desa melalui menu statis/menu atas).</p></div>
 									</div>
 								</div>
 							</div>
@@ -169,4 +118,55 @@
 		</form>
 	</section>
 </div>
+<script>
+	function tampil_delik(tipe) {
+		(tipe == '1' || tipe == null) ? $('.delik').show() : $('.delik').hide();
+	}
+
+	$(function() {
+		tampil_delik($('input[name=id_tipe]:checked').val());
+		$('input[name="id_tipe"]').change(function() {
+			tampil_delik($(this).val());
+		});
+	});
+
+	function reset_form() {
+		<?php if ($analisis_indikator['is_publik'] == '1'): ?>
+			$("#ss2").removeClass("active");
+			$("#ss1").addClass('active');
+		<?php else: ?>
+			$("#ss2").addClass('active');
+			$("#ss1").removeClass("active");
+		<?php endif ?>
+
+		<?php if ($analisis_indikator['act_analisis'] == '1'): ?>
+			$("#aksi2").removeClass("active");
+			$("#aksi1").addClass('active');
+		<?php else: ?>
+			$("#aksi2").addClass('active');
+			$("#aksi1").removeClass("active");
+		<?php endif ?>
+
+		$(".tipe").removeClass("active");
+		$("input[name=id_tipe").prop( "checked", false );
+		<?php if ($analisis_indikator['id_tipe'] == '1' OR $analisis_indikator['id_tipe'] == NULL): ?>
+			$("#sx3").addClass('active');
+			$("#group3").prop( "checked", true );
+		<?php endif ?>
+		<?php if ($analisis_indikator['id_tipe'] == '2'): ?>
+			$("#sx2").addClass('active');
+			$("#group2").prop( "checked", true );
+		<?php endif ?>
+		<?php if ($analisis_indikator['id_tipe'] == '3'): ?>
+			$("#sx1").addClass('active');
+			$("#group1").prop( "checked", true );
+		<?php endif ?>
+		<?php if ($analisis_indikator['id_tipe'] == '4'): ?>
+			$("#sx4").addClass('active');
+			$("#group4").prop( "checked", true );
+		<?php endif ?>
+		tampil_delik($('input[name=id_tipe]:checked').val());
+	};
+</script>
+
 
