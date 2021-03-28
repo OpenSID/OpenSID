@@ -69,6 +69,8 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->config($hasil);
 		// Sesuaikan sulang STATUS_PERMOHONAN
 		$hasil =& $this->ubah_status($hasil);
+		// Sesuaikan struktur tabel analisis_indikator
+		$hasil =& $this->analisis_indikator($hasil);
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -196,4 +198,17 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		return $hasil;
 	}
 
+	protected function analisis_indikator($hasil)
+	{
+		$fields = [
+			'nomor' => [
+				'type' => 'VARCHAR',
+				'constraint' => 10,
+			],
+		];
+
+		$hasil =& $this->dbforge->modify_column('analisis_indikator', $fields);
+
+		return $hasil;
+	}
 }
