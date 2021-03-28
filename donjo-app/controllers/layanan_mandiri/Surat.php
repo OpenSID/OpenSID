@@ -329,6 +329,7 @@ class Surat extends Mandiri_Controller
 
 		if ($id)
 		{
+			$data['updated_at'] = date('Y-m-d H:i:s');
 			$this->permohonan_surat_model->update($id, $data);
 		}
 		else

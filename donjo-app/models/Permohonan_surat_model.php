@@ -186,7 +186,7 @@
 
 		$outp = $this->db
 			->where('id', $id)
-			->update('permohonan_surat', ['status' => $status]);
+			->update('permohonan_surat', ['status' => $status, 'updated_at' => date('Y-m-d H:i:s')]);
 
 		status_sukses($outp);
 	}
