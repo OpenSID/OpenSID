@@ -103,7 +103,7 @@
 											</label>
 										</div>
 										<label class="col-sm-3 control-label"></label>
-										<div class="col-sm-7"><p class="help-block small">*) Tampilkan data indikator di halaman depan website desa melalui menu statis/menu atas).</p></div>
+										<div class="col-sm-7"><p class="help-block small">*) Tampilkan data indikator di halaman depan website desa melalui menu statis/menu atas.</p></div>
 									</div>
 								</div>
 							</div>
