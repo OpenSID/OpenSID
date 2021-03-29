@@ -24,6 +24,7 @@ Premium - perbaikan bug:
 15. #4096: Perbaiki dan perjelas alur pengelolaan permohonan surat layanan mandiri di modul Admin supaya membatasi akses menu sesuai status permohonan. [bug-fix]
 16. #4084: Perbaiki urutan Rumah Tangga. [bug-fix]
 17. #3356: Sekarang tidak bisa lagi memasukkan peserta duplikat ke program bantuan. [bug-fix]
+18. #3629: Tampilkan semua persil di pilihan persil di form tambah persil C-Desa, termasuk persil yang lokasinya diisi manual atau wilayahnya telah dihapus. [bug-fix]
 
 
 Premium - penambahan fitur:
