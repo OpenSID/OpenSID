@@ -1084,27 +1084,22 @@ class Program_bantuan_model extends MY_Model {
 	private function get_all_peserta_bantuan_query()
 	{
 		$this->db
-			->select("p.nama as program, pend.nama as peserta, concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
+			->select("p.nama as program, pp.kartu_nama as peserta, pp.kartu_alamat AS alamat")
 			->from('program p')
 			->join('program_peserta pp', 'p.id = pp.program_id', 'left');
+
+		// keluarga
 		if ($this->input->post('stat') == 'bantuan_keluarga')
 		{
-			$this->db
-				->join('tweb_keluarga k', 'pp.peserta = k.no_kk')
-				->join('tweb_penduduk pend', 'k.nik_kepala = pend.id')
-				->join('tweb_wil_clusterdesa w', 'k.id_cluster = w.id')
-				->where('p.sasaran', '2')
-				->where('p.status', '1');
+			$this->db->where('p.sasaran', '2');
 		}
-		else // bantuan_penduduk
+		// penduduk
+		else
 		{
-			$this->db
-				->join('tweb_penduduk pend', 'pp.peserta = pend.nik')
-				->join('tweb_keluarga k', 'pend.id_kk = k.id')
-				->join('tweb_wil_clusterdesa w', 'pend.id_cluster = w.id')
-				->where('p.sasaran', '1')
-				->where('p.status', '1');
+			$this->db->where('p.sasaran', '1');
 		}
+
+		$this->db->where('p.status', '1');
 	}
 
 	private function get_peserta_bantuan_query()
