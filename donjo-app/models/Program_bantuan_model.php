@@ -48,7 +48,7 @@ class Program_bantuan_model extends MY_Model {
 
 	// Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
 	var $column_order = array(null, 'program', 'peserta', null); //set column field database for datatable orderable
-	var $column_search = array('p.nama', 'pend.nama'); //set column field database for datatable searchable
+	var $column_search = []; // Daftar kolom yg bisa dicari
 	var $order = array('peserta' => 'asc'); // default order
 
 	public function __construct()
@@ -1102,37 +1102,35 @@ class Program_bantuan_model extends MY_Model {
 		$this->db->where('p.status', '1');
 	}
 
+	private function cari_query()
+	{
+		$cari = $this->input->post('search')['value'];
+		if (! $cari || empty($this->column_search)) return;
+
+		foreach ($this->column_search as $key => $item)
+		{
+	    reset($this->column_search);
+	    if ($key === key($this->column_search))
+	    {
+				$this->db->group_start()
+					->like($item, $cari);
+				continue;
+	    }
+			$this->db->or_like($item, $cari);
+	    end($this->column_search);
+	    if ($key === key($this->column_search))
+	    {
+				$this->db->group_end();
+				break;
+	    }
+		}
+	}
+
 	private function get_peserta_bantuan_query()
 	{
+		$this->column_search = ['p.nama', 'pp.kartu_nama', 'pp.kartu_alamat']; // Kolom yg dapat dicari
 		$this->get_all_peserta_bantuan_query();
-
-		$i = 0;
-
-		foreach ($this->column_search as $item) // loop column
-		{
-			if ($cari = $_POST['search']['value']) // if datatable send POST for search
-			{
-				if ($i===0) // first loop
-				{
-					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-					// $this->db->like($item, $_POST['search']['value']);
-
-					$this->db->like($item, $cari);
-				}
-				else
-				{
-					$this->db->or_like($item, $cari);
-				}
-				if (count($this->column_search) - 1 == $i) //last loop
-				{
-					/* Kolom pencarian tambahan */
-					$this->db->or_where('pend.nik', $cari) // harus persis sama
-						->or_where('k.no_kk', $cari);
-					$this->db->group_end(); //close bracket
-				}
-			}
-			$i++;
-		}
+		$this->cari_query();
 
 		if (isset($_POST['order'])) // here order processing
 		{
