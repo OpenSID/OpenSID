@@ -1,6 +1,6 @@
 <?php
 
-class Administrasi_tanah_desa_model extends CI_Model
+class Tanah_desa_model extends CI_Model
 {
 
 	protected $table = 'administrasi_tanah_desa';

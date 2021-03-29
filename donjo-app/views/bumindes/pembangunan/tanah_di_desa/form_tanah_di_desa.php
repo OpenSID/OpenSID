@@ -1,16 +1,16 @@
-<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= site_url("bumindes_pembangunan/update_tanah_desa"); ?>">
+<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= $form_action ?>">
     <div class="row">
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
                     <a href="<?= site_url() ?>bumindes_pembangunan/tables/tanah"
                         class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                            class="fa fa-arrow-circle-left"></i> Kembali Ke Buku Tanah di Desa</a>
-                </div>
+                            class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Buku Tanah di Desa</a>
+                </div>                
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">
+                        <div class="col-md-12">        
+                            <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">                   
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Pemilik</label>
                                 <div class="col-sm-8">
@@ -63,7 +63,9 @@
                                 <div class="col-sm-4">
                                     <select name="hak_tanah" id="hak_tanah" class="form-control input-sm required"
                                         placeholder="Hak Tanah" value="<?= $main->hak_tanah; ?>">
-                                        <option value="<?= $main->hak_tanah; ?>"><?= $main->hak_tanah; ?></option>
+                                        <?php if($main->hak_tanah!=NULL){ ?>
+                                            <option value="<?= $main->hak_tanah; ?>"><?= $main->hak_tanah; ?></option>
+                                        <?php } ?>                  
                                         <option disabled value="">-------------Sertifikat-------------</option>
                                         <option value="Hak Milik">Hak Milik</option>
                                         <option value="Hak Guna Bangunan">Hak Guna Bangunan</option>
@@ -81,9 +83,11 @@
                                 <label class="col-sm-3 control-label required" style="text-align:left;"
                                     for="hak_tanah">Penggunaan Tanah </label>
                                 <div class="col-sm-4">
-                                    <select name="penggunaan_tanah" id="penggunaan_barang"
+                                    <select name="penggunaan_tanah" id="penggunaan_tanah"
                                         class="form-control input-sm required" placeholder="Penggunaan Tanah" value="<?= $main->penggunaan_tanah; ?>">
-                                        <option value="<?= $main->penggunaan_tanah; ?>"><?= $main->penggunaan_tanah; ?></option>
+                                        <?php if($main->penggunaan_tanah!=NULL){ ?>
+                                            <option value="<?= $main->penggunaan_tanah; ?>"><?= $main->penggunaan_tanah; ?></option>
+                                        <?php } ?>                                         
                                         <option disabled value="">----------Non Pertanian----------</option>
                                         <option value="Perumahan">Perumahan</option>
                                         <option value="Perdagangan dan Jasa">Perdagangan dan Jasa</option>
@@ -121,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="box-footer">
+                <div id="form_footer" class="box-footer">
                     <div class="col-xs-12">
                         <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i
                                 class="fa fa-times"></i> Batal</button>
@@ -133,3 +137,22 @@
         </div>
     </div>
 </form>
+
+<script>
+    $(document).ready(function () {
+        var view = <?= $view_mark?>;
+        if(1==view){
+            $("#pemilik_asal").attr("disabled",true);
+            $("#letter_c").attr("disabled",true);
+            $("#persil").attr("disabled",true);
+            $("#no_sertif").attr("disabled",true);                       
+            $("#luas").attr("disabled",true);
+            $("#tanggal_sertifikat").attr("disabled",true);
+            $("#hak_tanah").attr("disabled",true);
+            $("#penggunaan_tanah").attr("disabled",true);
+            $("#lain").attr("disabled",true);
+            $("#keterangan").attr("disabled",true);
+            document.getElementById("form_footer").style.display = "none";            
+        }
+    });   
+</script>

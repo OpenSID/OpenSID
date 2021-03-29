@@ -1,11 +1,11 @@
 <div class="box box-info">
     <div class="box-header with-border">
-        <a href="<?= site_url('bumindes_pembangunan/form_tanah_desa')?>"
+        <a href="<?= site_url('bumindes_pembangunan/form')?>"
             class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
             title="Tambah Data Baru">
             <i class="fa fa-plus"></i>Tambah Data
         </a>
-        <a href="#"
+        <!-- <a href="#"
             class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
             title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox"
             data-title="Cetak Inventaris">
@@ -16,7 +16,9 @@
             title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox"
             data-title="Unduh Inventaris">
             <i class="fa fa-download"></i>Unduh
-        </a>
+        </a> -->
+        <a href="<?= site_url($this->controller."/ajax_cetak/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Tanah di Desa"><i class="fa fa-print "></i> Cetak</a>
+		<a href="<?= site_url($this->controller."/ajax_cetak/unduh"); ?>?>" title="Unduh Buku Tanah di Desa" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Tanah di Desa"><i class="fa fa-download"></i> Unduh</a>
     </div>
     <div class="box-body">
         <div class="row">
@@ -50,7 +52,7 @@
                                             <a href="<?= site_url('bumindes_pembangunan/view_tanah_desa/'.$data->id); ?>"
                                                 title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i
                                                     class="fa fa-eye"></i></a>
-                                            <a href="<?= site_url('bumindes_pembangunan/edit_tanah_desa/'.$data->id); ?>"
+                                            <a href="<?= site_url('bumindes_pembangunan/form/'.$data->id); ?>"
                                                 title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i
                                                     class="fa fa-edit"></i> </a>
                                             <a href="#"
@@ -64,8 +66,7 @@
                                         <td><?= $data->penggunaan_tanah;?></td>
                                         <td><?= $data->luas;?></td>
                                         <td><?= $data->tanggal_sertif;?></td>
-                                        <td><?= $data->keterangan;?></td>
-                                        <!-- <td><?= number_format($data->harga,0,".",".");?></td> -->
+                                        <td><?= $data->keterangan;?></td>                                        
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>                               
