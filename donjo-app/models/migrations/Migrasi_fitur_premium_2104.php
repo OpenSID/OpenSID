@@ -71,6 +71,9 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->ubah_status($hasil);
 		// Sesuaikan struktur tabel analisis_indikator
 		$hasil =& $this->analisis_indikator($hasil);
+		// Sesuaikan data kartu peserta bantuan
+		$hasil =& $this->kartu_bantuan($hasil);
+
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -209,6 +212,44 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		$hasil =& $this->dbforge->modify_column('analisis_indikator', $fields);
 
+		return $hasil;
+	}
+
+	protected function kartu_bantuan($hasil)
+	{
+		// Pastikan data kartu peserta tidak kosong
+		$kartu_kosong = $this->db
+			->select('k.*, p.nik, p.nama, p.tempatlahir, p.tanggallahir')
+			->select("concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
+			->from('program_peserta k')
+			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+			->where("kartu_nik is NULL or kartu_nik = ''")
+			->or_where("kartu_nama is NULL or kartu_nama = ''")
+			->or_where("kartu_tempat_lahir is NULL or kartu_tempat_lahir = ''")
+			->or_where("kartu_tanggal_lahir is NULL or kartu_tanggal_lahir = ''")
+			->or_where("kartu_alamat is NULL or kartu_alamat = ''")
+			->get()->result_array();
+		foreach ($kartu_kosong as $kartu)
+		{
+			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik']);
+			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama']);
+			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir']);
+			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir']);
+			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat']);
+			$hasil =& $this->db
+				->where('id', $kartu['id'])
+				->update('program_peserta');
+		}
+		// Ubah kolom supaya tidak boleh kosong
+		$fields = [
+			'kartu_nik' => ['type' => 'VARCHAR', 'constraint' => 30, 'null' => false],
+			'kartu_nama' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false],
+			'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false],
+			'kartu_tanggal_lahir' => ['type' => 'DATE', 'null' => false],
+			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false],
+		];
+		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
 		return $hasil;
 	}
 }
