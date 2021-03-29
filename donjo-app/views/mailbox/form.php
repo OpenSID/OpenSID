@@ -16,7 +16,7 @@
 						</a>
 					</div>
 					<div class="box-body">
-						<formid="main" method="POST" class="form-horizontal" name="main">
+						<form id="main" method="POST" class="form-horizontal" name="main">
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="owner">Penerima</label>
 								<div class="col-sm-9">
@@ -49,7 +49,7 @@
 									</div>
 								</div>
 							<?php endif ?>
-						
+
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="subjek">Subjek</label>
 								<div class="col-sm-9">
@@ -62,7 +62,7 @@
 									<textarea class="form-control input-sm required" name="komentar" id="komentar"></textarea>
 								</div>
 							</div>
-							
+
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>

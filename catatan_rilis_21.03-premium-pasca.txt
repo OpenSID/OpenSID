@@ -23,6 +23,7 @@ Premium - perbaikan bug:
 14. #4088: Perbaiki alur permohonan surat layanan mandiri supaya membatasi akses menu sesuai status permohonan. [security-fix]
 15. #4096: Perbaiki dan perjelas alur pengelolaan permohonan surat layanan mandiri di modul Admin supaya membatasi akses menu sesuai status permohonan. [bug-fix]
 16. #4084: Perbaiki urutan Rumah Tangga. [bug-fix]
+17. #3356: Sekarang tidak bisa lagi memasukkan peserta duplikat ke program bantuan. [bug-fix]
 
 
 Premium - penambahan fitur:
@@ -35,4 +36,6 @@ Premium - penambahan fitur:
 6. #4029: Tampilkan batas ukuran unggahan dokumen kelengkapan penduduk di Layanan Mandiri dan menu Penduduk.
 7. Pilih pamong penandatangan secara otomatis di form cetak Wilayah Administratif, Pembangunan dan Data Suplemen.
 8. #3524: Sekarang kepala desa di Identitas Desa diambil dari pamong di Pemerintahan Desa.
+9. #4077: Kode indikator & pertanyaan analisis sekarang bisa berisi huruf.
+10. #3999: Di Web desa, tampilkan data peserta program bantuan sesuai kartu peserta.
 
