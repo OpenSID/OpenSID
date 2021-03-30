@@ -166,15 +166,4 @@ class Inventaris_jalan_model extends CI_Model
 		$data = $this->db->get()->result();
 		return $data;
 	}
-
-	public function pamong($pamong)
-	{
-		$this->db->select('*');
-		$this->db->from($this->table_pamong);
-		// $this->db->where($this->table.'.tanggal_dokument',$tahun);
-		$this->db->where($this->table_pamong.'.pamong_id', $pamong);
-		$data = $this->db->get()->row();
-		return $data;
-	}
-
 }

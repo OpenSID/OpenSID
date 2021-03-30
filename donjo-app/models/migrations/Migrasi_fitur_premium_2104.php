@@ -61,7 +61,12 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->buat_tabel_url_shortener($hasil);
 		// Buat tabel url statistik
 		$hasil =& $this->buat_tabel_url_statistik($hasil);
-
+		// Tambah field qr_code pada tabel tweb_surat_format
+		$hasil =& $this->field_qr_code($hasil);
+		// Ubah field tag_id_card menjadi index dan unique
+		$hasil =& $this->ubah_tag_id_card_unique_index($hasil);
+		// Sesuaikan struktur dan isi tabel config
+		$hasil =& $this->config($hasil);
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -94,6 +99,80 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('url_id');
 		$hasil =& $this->dbforge->create_table('statistics', true);
+		return $hasil;
+	}
+
+	// Tambah field qr_code pada tabel tweb_surat_format
+	protected function field_qr_code($hasil)
+	{
+		if ( ! $this->db->field_exists('qr_code', 'tweb_surat_format'))
+		{
+			$fields = [
+				'qr_code' => [
+					'type' => 'TINYINT',
+					'constraint' => 1,
+					'null' => FALSE,
+					'default' => 0,
+				],
+			];
+
+			$hasil =& $this->dbforge->add_column('tweb_surat_format', $fields);
+		}
+		return $hasil;
+	}
+
+	// Indeksasi field tag_id_card
+	protected function ubah_tag_id_card_unique_index($hasil)
+	{
+		$hasil =& $this->db
+			->set('tag_id_card', NULL)
+			->where('tag_id_card', '')
+			->update('tweb_penduduk');
+
+		$hasil =& $this->tambah_indeks('tweb_penduduk', 'tag_id_card');
+		return $hasil;
+	}
+
+	// Tabel Config
+	protected function config($hasil)
+	{
+		// Buat fild pamong_id
+		if ( ! $this->db->field_exists('pamong_id', 'config'))
+		{
+			$fields = [
+				'pamong_id' => [
+					'type' => 'INT',
+					'constraint' => 11,
+					'null' => TRUE,
+				],
+			];
+
+			$hasil =& $this->dbforge->add_column('config', $fields);
+
+			// Sesuaikan data kepala desa dengan data pamong, ubah menjadi pamong_id
+			$config = $this->db->select('*')->limit(1)->get('config')->row_array();
+
+			$pamong_id = $this->db
+				->select('pamong_id')
+				->where(['pamong_nama' => $config['nama_kepala_desa'], 'pamong_nip' => $config['nip_kepala_desa']])
+				->get_where('tweb_desa_pamong')
+				->row()
+				->pamong_id;
+
+			$this->db->where('id', $config['id'])->update('config', ['pamong_id' => $pamong_id]);
+
+			// Hapus field nama_kepala_desa dan nip_kepala_desa
+			if ($this->db->field_exists('nama_kepala_desa','config'))
+			{
+				$hasil =& $this->dbforge->drop_column('config', 'nama_kepala_desa');
+			}
+
+			if ($this->db->field_exists('nip_kepala_desa','config'))
+			{
+				$hasil =& $this->dbforge->drop_column('config', 'nip_kepala_desa');
+			}
+		}
+
 		return $hasil;
 	}
 
