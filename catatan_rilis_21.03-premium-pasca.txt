@@ -26,6 +26,7 @@ Premium - perbaikan bug:
 17. #3356: Sekarang tidak bisa lagi memasukkan peserta duplikat ke program bantuan. [bug-fix]
 18. #3629: Tampilkan semua persil di pilihan persil di form tambah persil C-Desa, termasuk persil yang lokasinya diisi manual atau wilayahnya telah dihapus. [bug-fix]
 19. #4102: Sekarang nomor telepon tampil di halaman Offline Mode (web sementara tidak dapat diakses). [bug-fix]
+20. #4104: Pengaturan offline mode sekarang normal kembali. [bug-fix]
 
 
 Premium - penambahan fitur:
