@@ -206,6 +206,12 @@ define("STATUS_PEMBANGUNAN", serialize([
 	4 => '100%'
 ]));
 
+define("ISI_QR", serialize([
+ 1 => 'Konfirmasi Validitasi Surat',
+ 2 => 'Pilih Isi Data',
+ 3 => 'Ketik Isi Manual',
+]));
+
 class Referensi_model extends CI_Model {
 
 	public function __construct()

@@ -1,14 +1,3 @@
-<script>
-	$(function()
-	{
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-		{
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Arsip Layanan Surat</h1>
@@ -110,8 +99,14 @@
 																		<?php if (is_file($data['file_pdf'])): ?>
 																			<a href="<?= base_url($data['file_pdf'])?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 																		<?php	endif; ?>
-																		<?php if (is_file($data['lampiran'])): ?>
-																			<a href="<?= base_url($data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
+																		<?php if (is_file($data['file_php'])): ?>
+																			<a href="<?= base_url($data['file_php'])?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_qr'])): ?>
+																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_lampiran'])): ?>
+																			<a href="<?= base_url($data['file_lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
 																		<?php	endif; ?>
 																		<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
@@ -188,4 +183,43 @@
 		</div>
 	</section>
 </div>
+
 <?php $this->load->view('global/confirm_delete');?>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel"><center>QR Code</center></h4>
+			</div>
+				<div class="box-body">
+					<div class="form-group">
+						<center>
+								<img id="qr_image" class="img-thumbnail" src="">
+						</center>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function() {
+		var keyword = <?= $keyword?> ;
+		$( "#cari" ).autocomplete({
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+
+	$(document).on("click", ".viewQR", function (e) {
+		e.preventDefault();
+		var _self = $(this);
+		var fileqr = _self.data('fileqr');
+		var image = document.getElementById("qr_image");
+		image.src = fileqr;
+		$(_self.attr('href')).modal('show');
+	});
+</script>

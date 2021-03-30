@@ -70,9 +70,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
+				<p class="hidden" id="data-id"><?= $suplemen['id']; ?></p>
 				<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
+				<a href="<?= site_url("suplemen/impor")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-import visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#impor" data-title="Impor Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-upload "></i> Impor Data</a>
+				<a href="<?= site_url("suplemen/ekspor/$suplemen[id]")?>" class="btn btn-social btn-flat bg-teal btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-excel-o "></i> Ekspor Data</a>
 				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-print "></i> Cetak</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
 				<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 				</a>
@@ -145,3 +148,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('suplemen/impor');?>
+<script type="text/javascript">
+	$(".btn-import").click(function() {
+		$("#id_suplemen").val($("#data-id").html());
+		console.log($("#data-id").html());
+	});
+</script>
