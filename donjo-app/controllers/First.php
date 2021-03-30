@@ -53,11 +53,11 @@ class First extends Web_Controller {
 
 		// Jika offline_mode dalam level yang menyembunyikan website,
 		// tidak perlu menampilkan halaman website
-		if ($this->setting->offline_mode == 1)
+		if ($this->setting->offline_mode == 2)
 		{
 			redirect('main');
 		}
-		elseif ($this->setting->offline_mode == 2)
+		elseif ($this->setting->offline_mode == 1)
 		{
 			// Hanya tampilkan website jika user mempunyai akses ke menu admin/web
 			// Tampilkan 'maintenance mode' bagi pengunjung website
