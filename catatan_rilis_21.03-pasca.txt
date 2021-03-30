@@ -14,3 +14,4 @@ Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
 8. $4047: Sekarang unduh dokumen dan fitur layanan mandiri lainnya tidak bisa diakses jika tidak pendaftar layanan mandiri yg login. [security-fix]
 9. Tutup celah pengguna layanan mandiri bisa lihat dokumen penduduk lain. [security-fix]
 10. Tutup celah SQL injection di form komentar artikel web. [security-fix]
+11. #4102: Sekarang nomor telepon tampil di halaman Offline Mode (web sementara tidak dapat diakses). [bug-fix]
