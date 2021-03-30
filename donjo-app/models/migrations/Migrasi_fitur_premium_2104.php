@@ -73,6 +73,8 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->analisis_indikator($hasil);
 		// Sesuaikan data kartu peserta bantuan
 		$hasil =& $this->kartu_bantuan($hasil);
+		// Sesuaikan key offline mode
+		$hasil =& $this->ubah_setting_offline_mode($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -250,6 +252,16 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false],
 		];
 		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
+		return $hasil;
+	}
+
+	protected function ubah_setting_offline_mode($hasil)
+	{
+		$hasil =& $this->db->where('value', 'Web bisa diakses publik')->update('setting_aplikasi', ['value' => 0]);
+		$hasil =& $this->db->where('value', 'Web hanya bisa diakses petugas web')->update('setting_aplikasi', ['value' => 1]);
+		$hasil =& $this->db->where('value', 'Web non-aktif sama sekali')->update('setting_aplikasi', ['value' => 2]);
+		$hasil =& $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-kode']);
+
 		return $hasil;
 	}
 }
