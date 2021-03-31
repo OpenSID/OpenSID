@@ -1,8 +1,8 @@
-Di rilis ini, versi 21.03-pasca tersedia [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.04 berisi perbaikan yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Mochamad Arifin yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 21.03-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.04 adalah sebagai berikut:
 
 1. #4039: Hapus tombol cetak peta duplikat di peta wilayah desa. [bug-fix]
 2. Di biodata penduduk admin, kembali tampilkan nama petugas yg pertama membuat data penduduk. [bug-fix]
