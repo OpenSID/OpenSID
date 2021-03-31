@@ -43,6 +43,16 @@
 														<?php endforeach; ?>
 													</select>
 												</div>
+
+												<div class="form-group">
+													<select class="form-control input-sm " name="bulan" onchange="formAction('mainform','<?= site_url($this->controller.'/bulan')?>')">
+														<option value="">Bulan</option>
+														<?php foreach ($bulan_surat as $bln): ?>
+															<option value="<?= $bln['bulan']?>" <?php selected($bulan, $bln['bulan']) ?>><?= getBulan($bln['bulan'])?></option>
+														<?php endforeach; ?>
+													</select>
+												</div>
+
 												<div class="form-group">
 													<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')" style="width: 100%;">
 														<option value="">Pilih Jenis Surat</option>

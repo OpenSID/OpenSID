@@ -59,6 +59,7 @@ class Keluar extends Admin_Controller {
 	{
 		unset($_SESSION['cari']);
 		unset($_SESSION['filter']);
+		unset($_SESSION['bulan']);
 		unset($_SESSION['jenis']);
 		$_SESSION['per_page'] = 20;
 		redirect('keluar');
@@ -77,18 +78,25 @@ class Keluar extends Admin_Controller {
 			$data['filter'] = $_SESSION['filter'];
 		else $data['filter'] = '';
 
+		if (isset($_SESSION['bulan']))
+			$data['bulan'] = $_SESSION['bulan'];
+		else $data['bulan'] = '';
+
 		if (isset($_SESSION['jenis']))
 			$data['jenis'] = $_SESSION['jenis'];
 		else $data['jenis'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page'] = $_POST['per_page'];
+	 	
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->keluar_model->paging($p,$o);
 		$data['main'] = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+
 		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
-		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
+		$data['bulan_surat'] = $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
+ 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
 		$this->render('surat/surat_keluar', $data);
@@ -179,6 +187,15 @@ class Keluar extends Admin_Controller {
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
+		redirect('keluar');
+	}
+
+	public function bulan()
+	{
+		$bulan = $this->input->post('bulan');
+		if (!empty($bulan))
+			$_SESSION['bulan'] = $bulan;
+		else unset($_SESSION['bulan']);
 		redirect('keluar');
 	}
 

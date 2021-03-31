@@ -57,6 +57,19 @@
 		}
 	}
 
+	private function bulan_sql()
+	{
+		if (isset($_SESSION['bulan']))
+		{
+			$kf = $_SESSION['bulan'];
+			if ($kf == "0")
+				$filter_sql = "";
+			else
+				$filter_sql = " AND MONTH(u.tanggal) = '".$kf."'";
+			return $filter_sql;
+		}
+	}
+
 	private function jenis_sql()
 	{
 		if (isset($_SESSION['jenis']))
@@ -105,6 +118,7 @@
 			WHERE 1 ";
 		$sql .= $this->search_sql();
 		$sql .= $this->filter_sql();
+		$sql .= $this->bulan_sql();
 		$sql .= $this->jenis_sql();
 		return $sql;
 	}
@@ -121,7 +135,6 @@
 			case 4: $order_sql = ' ORDER BY nama DESC'; break;
 			case 5: $order_sql = ' ORDER BY u.tanggal'; break;
 			case 6: $order_sql = ' ORDER BY u.tanggal DESC'; break;
-
 			default:$order_sql = ' ORDER BY u.tanggal DESC';
 		}
 
@@ -387,6 +400,15 @@
 		$query = $this->db->distinct()->
 			select('YEAR(tanggal) AS tahun')->
 			order_by('YEAR(tanggal)','DESC')->
+			get('log_surat')->result_array();
+		return $query;
+	}
+
+	public function list_bulan_surat()
+	{
+		$query = $this->db->distinct()->
+			select('MONTH(tanggal) AS bulan')->
+			order_by('MONTH(tanggal)','ASC')->
 			get('log_surat')->result_array();
 		return $query;
 	}
