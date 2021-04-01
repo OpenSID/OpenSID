@@ -53,7 +53,6 @@ class MY_Model extends CI_Model {
 	{
 		if ($cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db->like($kolom, $cari);
 		}
 		$data = $this->db->distinct()->
