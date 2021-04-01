@@ -180,8 +180,7 @@
 		if (!empty($nik))
 		{
 			$this->db->select('count(*) as jml');  
-			$query  =  $this->list_data_perorangan_sql($nik);
-			$row 	=  $query->row_array();
+			$row 	= $this->list_data_perorangan_sql($nik)->row_array();
 			$jml_data = $row['jml'];
 		}
 		else
