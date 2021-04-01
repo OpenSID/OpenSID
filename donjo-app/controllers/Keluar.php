@@ -42,6 +42,8 @@
 
 class Keluar extends Admin_Controller {
 
+	private $list_session = ['cari','tahun', 'bulan', 'jenis', 'nik' ];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -57,11 +59,8 @@ class Keluar extends Admin_Controller {
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['bulan']);
-		unset($_SESSION['jenis']);
-		$_SESSION['per_page'] = 20;
+		$this->session->unset_userdata($this->list_session);
+		$this->session->set_userdata('per_page', 20);
 		redirect('keluar');
 	}
 
@@ -70,32 +69,23 @@ class Keluar extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		foreach ($this->list_session as $value) { // filter
+			if (isset($this->session->$value))
+				$data[$value] = $this->session->$value;
+			else $data[$value] = '';
+		}
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_SESSION['bulan']))
-			$data['bulan'] = $_SESSION['bulan'];
-		else $data['bulan'] = '';
-
-		if (isset($_SESSION['jenis']))
-			$data['jenis'] = $_SESSION['jenis'];
-		else $data['jenis'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-	 	
-		$data['per_page'] = $_SESSION['per_page'];
+		if ($this->input->post('per_page') !== NULL)
+			$this->session->per_page = $this->input->post('per_page');
+		 
+		if(!isset($this->session->tahun)) $this->session->unset_userdata('bulan');
+	
+		$data['per_page'] = $this->session->per_pages;
 
 		$data['paging'] = $this->keluar_model->paging($p,$o);
 		$data['main'] = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-
-		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
-		$data['bulan_surat'] = $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
+ 		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
+		$data['bulan_surat'] = ($this->session->tahun == NULL) ? [] :  $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
  		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
@@ -130,25 +120,26 @@ class Keluar extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect('keluar');
+			$this->session->cari = $cari;
+		else $this->session->session_unset('cari') ;
+		
 	}
+
+	
 
 	public function perorangan_clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['nik']);
-		$_SESSION['per_page'] = 20;
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = 20;
 		redirect('keluar/perorangan');
 	}
 
 	public function perorangan($nik='', $p=1, $o=0)
 	{
-		if (isset($_POST['nik']))
+		if ($this->input->post('nik') !== null)
 		{
-			$nik = $_POST['nik'];
+			$nik = $this->input->post('nik');
+
 		}
 		if (!empty($nik))
 		{
@@ -163,8 +154,8 @@ class Keluar extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+			$_SESSION['per_page'] = $this->input->post('per_page');
+		$data['per_page'] = $this->session->per_page;
 
 		$data['paging'] = $this->keluar_model->paging_perorangan($nik, $p, $o);
 		$data['main'] = $this->keluar_model->list_data_perorangan($nik, $o, $data['paging']->offset, $data['paging']->per_page);
@@ -181,30 +172,12 @@ class Keluar extends Admin_Controller {
 		$this->render('surat/surat_keluar_graph', $data);
 	}
 
-	public function filter()
+	public function filter($filter)
 	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
-		redirect('keluar');
-	}
-
-	public function bulan()
-	{
-		$bulan = $this->input->post('bulan');
-		if (!empty($bulan))
-			$_SESSION['bulan'] = $bulan;
-		else unset($_SESSION['bulan']);
-		redirect('keluar');
-	}
-
-	public function jenis()
-	{
-		$jenis = $this->input->post('jenis');
-		if (!empty($jenis))
-			$_SESSION['jenis'] = $jenis;
-		else unset($_SESSION['jenis']);
+		$value = $this->input->post($filter);
+		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
 		redirect('keluar');
 	}
 
