@@ -95,7 +95,8 @@ class Database_model extends CI_Model {
 		'20.12' => array('migrate' => 'migrasi_2012_ke_2101', 'nextVersion' => '21.01'),
 		'21.01' => array('migrate' => 'migrasi_2101_ke_2102', 'nextVersion' => '21.02'),
 		'21.02' => array('migrate' => 'migrasi_2102_ke_2103', 'nextVersion' => '21.03'),
-		'21.03' => array('migrate' => 'migrasi_2103_ke_2104', 'nextVersion' => NULL),
+		'21.03' => array('migrate' => 'migrasi_2103_ke_2104', 'nextVersion' => '21.04'),
+		'21.04' => array('migrate' => null, 'nextVersion' => null),
 	);
 
 	public function __construct()
@@ -154,6 +155,7 @@ class Database_model extends CI_Model {
 
 	public function migrasi_db_cri()
 	{
+
 		// Tunggu restore selesai sebelum migrasi
 		if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) return;
 
@@ -240,6 +242,7 @@ class Database_model extends CI_Model {
 			$terakhir = key(array_slice($this->versionMigrate, -1, 1, true));
 			$sebelumnya = key(array_slice($this->versionMigrate, -2, 1, true));
 			$this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
+
 			$this->migrasi_db_cri();
 		}
 	}
