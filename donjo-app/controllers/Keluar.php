@@ -69,10 +69,8 @@ class Keluar extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		foreach ($this->list_session as $value) { // filter
-			if (isset($this->session->$value))
-				$data[$value] = $this->session->$value;
-			else $data[$value] = '';
+		foreach ($this->list_session as $list) {
+			$data[$list] = $this->session->$list ?: '';
 		}
 
 		if ($this->input->post('per_page') !== NULL)
