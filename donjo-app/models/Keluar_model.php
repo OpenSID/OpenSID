@@ -38,7 +38,7 @@
 			$cari = $this->session->cari;
 			$kw = $this->db->escape_like_str($cari);
  			$this->db->group_start()
-					->or_like('u.surat', $kw, 'BOTH')
+					->or_like('u.no_surat', $kw, 'BOTH')
 					->or_like('n.nama', $kw, 'BOTH')
 					->or_like('s.pamong_nama', $kw, 'BOTH')
 					->or_like('p.nama', $kw, 'BOTH')
@@ -121,8 +121,8 @@
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $this->db->order_by('u.no_surat * 1'); break;
-			case 2: $this->db->order_by('u.no_surat * 1', 'DESC'); break;
+			case 1: $this->db->order_by('u.no_surat'); break;
+			case 2: $this->db->order_by('u.no_surat', 'DESC'); break;
 			case 3: $this->db->order_by('nama'); break;
 			case 4: $this->db->order_by('nama', 'DESC'); break;
 			case 5: $this->db->order_by('u.tanggal') ; break;
@@ -137,7 +137,7 @@
 
 
 		$data = $this->list_data_sql()->result_array();
-	 	
+		
 		//Formating Output
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -213,8 +213,8 @@
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $this->db->order_by('u.no_surat * 1');  break;
-			case 2: $this->db->order_by('ORDER BY u.no_surat * 1', 'DESC'); break;
+			case 1: $this->db->order_by('u.no_surat');  break;
+			case 2: $this->db->order_by('ORDER BY u.no_surat', 'DESC'); break;
 			case 3: $this->db->order_by('nama'); break;
 			case 4: $this->db->order_by('nama', 'DESC'); break;
 			case 5: $this->db->order_by('u.tanggal'); break;
