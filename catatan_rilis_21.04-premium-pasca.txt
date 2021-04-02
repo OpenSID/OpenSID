@@ -1,0 +1,16 @@
+Di rilis ini, versi 21.04-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
+
+
+Premium - perbaikan bug:
+
+1. Perketat pemeriksaan file pada Database > Restore. [security-fix]
+
+
+Premium - penambahan fitur:
+
+1. [untuk diisi].
+
