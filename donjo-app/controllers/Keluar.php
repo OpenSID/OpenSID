@@ -173,6 +173,7 @@ class Keluar extends Admin_Controller {
 	public function filter($filter)
 	{
 		$value = $this->input->post($filter);
+		if ($value == 'tahun') $this->session->unset_userdata('bulan'); //hapus filter bulan
 		if ($value != '')
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
