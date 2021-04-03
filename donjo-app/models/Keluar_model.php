@@ -106,8 +106,7 @@
 			->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
 			->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
 			->join('tweb_penduduk AS p', 's.id_pend = p.id', 'left')
-			->join('user AS w', 'u.id_user = w.id', 'left')
-			->where('1', 1);
+			->join('user AS w', 'u.id_user = w.id', 'left');
 		$this->search_sql();
 		$this->tahun_sql();
 		$this->bulan_sql();
@@ -121,8 +120,8 @@
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $this->db->order_by('u.no_surat'); break;
-			case 2: $this->db->order_by('u.no_surat', 'DESC'); break;
+			case 1: $this->db->order_by('(u.no_surat) * 1'); break;
+			case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
 			case 3: $this->db->order_by('nama'); break;
 			case 4: $this->db->order_by('nama', 'DESC'); break;
 			case 5: $this->db->order_by('u.tanggal') ; break;
@@ -238,8 +237,8 @@
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $this->db->order_by('u.no_surat * 1');  break;
-			case 2: $this->db->order_by('u.no_surat * 1', 'DESC'); break;
+			case 1: $this->db->order_by('(u.no_surat) * 1');  break;
+			case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
 			case 3: $this->db->order_by('nama'); break;
 			case 4: $this->db->order_by('nama', 'DESC'); break;
 			case 5: $this->db->order_by('u.tanggal'); break;
