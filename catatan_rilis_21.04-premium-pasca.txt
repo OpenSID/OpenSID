@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.04-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada Afila yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
 
@@ -12,5 +12,4 @@ Premium - perbaikan bug:
 
 Premium - penambahan fitur:
 
-1. [untuk diisi].
-
+1. #4108: Filter arsip surat menurut bulan.
