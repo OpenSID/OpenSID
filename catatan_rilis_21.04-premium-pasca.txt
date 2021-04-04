@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
 Premium - perbaikan bug:
 
 1. Perketat pemeriksaan file pada Database > Restore. [security-fix]
+2. Daftar penduduk tampil normal pada sql_mode = ONLY_FULL_GROUP_BY. [bug-fix]
 
 
 Premium - penambahan fitur:
