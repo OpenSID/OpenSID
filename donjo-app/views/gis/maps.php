@@ -241,18 +241,6 @@
 
 		}; //EOF window.onload
 
-		// Show hide button controll ketika hover menu
-		$('.main-sidebar')
-			.mouseover(function () {
-				$('#qrcode').hide();
-				$('.leaflet-top').hide();
-				$('.leaflet-control-scale-line').hide();
-			})
-			.mouseout(function () {
-				$('#qrcode').show();
-				$('.leaflet-top').show();
-				$('.leaflet-control-scale-line').show();
-			});
 	})();
 </script>
 <!-- TODO: Pindahkan ke external css -->
