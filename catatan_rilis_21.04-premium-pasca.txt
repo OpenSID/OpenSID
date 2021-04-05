@@ -12,6 +12,7 @@ Premium - perbaikan bug:
 3. Modul Pertanahan sekarang menampilkan penjelasan kalau lokasi persil tidak ditemukan. [bug-fix]
 4. #4091: Sekarang menu navigasi tampil di atas tombol peta pada waktu hover mouse. [bug-fix]
 5. #4123: Sekarang penandatangan lampiran Surat Biodata Penduduk, Surat Permohonan Kartu Keluarga dan Surat Permohonan Perubahan Kartu Keluarga tampil benar. [bug-fix]
+6. #4118: Sekarang urut pertanyaan/indikator analisis berdasarkan kode lebih konsisten. [bug-fix]
 
 
 Premium - penambahan fitur:

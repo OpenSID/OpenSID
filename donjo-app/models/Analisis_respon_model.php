@@ -517,9 +517,14 @@
 	{
 		$per = $this->get_aktif_periode();
 
-		$sql = "SELECT u.id,u.id_kategori,u.nomor,u.id_tipe,u.pertanyaan,k.kategori FROM analisis_indikator u LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE u.id_master = ? ORDER BY u.id_kategori,u.nomor ASC";
-		$query = $this->db->query($sql,$_SESSION['analisis_master']);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('u.id, u.id_kategori, u.nomor, u.id_tipe, u.pertanyaan, k.kategori')
+			->from('analisis_indikator u')
+			->join('analisis_kategori_indikator k', 'u.id_kategori = k.id', 'left')
+			->where('u.id_master', $this->session->analisis_master)
+			->order_by("LPAD(u.nomor, 10, ' ') ASC")
+			->get()
+			->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
