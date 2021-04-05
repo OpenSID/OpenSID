@@ -9,6 +9,7 @@ Premium - perbaikan bug:
 
 1. Perketat pemeriksaan file pada Database > Restore. [security-fix]
 2. Daftar penduduk tampil normal pada sql_mode = ONLY_FULL_GROUP_BY. [bug-fix]
+3. Modul Pertanahan sekarang menampilkan penjelasan kalau lokasi persil tidak ditemukan. [bug-fix]
 
 
 Premium - penambahan fitur:
