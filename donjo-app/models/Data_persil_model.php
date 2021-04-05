@@ -222,15 +222,20 @@ class Data_persil_model extends MY_Model {
 		$this->search_sql();
 	}
 
-	public function list_data($offset = 0, $per_page = 0)
+	private function lokasi_persil_query()
 	{
-		$this->main_sql();
-		$this->db->select('p.*, k.kode, count(m.id_persil) as jml_bidang, c.nomor as nomor_cdesa_awal')
-			->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
+		$this->db->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
 					(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
 					(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
 					w.dusun
-				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat")
+				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat");
+	}
+
+	public function list_data($offset = 0, $per_page = 0)
+	{
+		$this->main_sql();
+		$this->lokasi_persil_query();
+		$this->db->select('p.*, k.kode, count(m.id_persil) as jml_bidang, c.nomor as nomor_cdesa_awal')
 			->order_by('nomor, nomor_urut_bidang');
 
 		if ($per_page > 0 ) $this->db->limit($per_page, $offset);
@@ -250,28 +255,20 @@ class Data_persil_model extends MY_Model {
 
 	public function list_persil()
 	{
-		$data = $this->db
+		$this->lokasi_persil_query();
+		$this->db
 			->select('p.id, nomor, nomor_urut_bidang')
-			->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
-					(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-					(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-					w.dusun
-				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS lokasi")
 			->from('persil p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')
-			->order_by('nomor, nomor_urut_bidang')
-			->get()->result_array();
+			->order_by('nomor, nomor_urut_bidang');
+		$data = $this->db->get()->result_array();
 		return $data;
 	}
 
 	public function get_persil($id)
 	{
+		$this->lokasi_persil_query();
 		$data = $this->db->select('p.*, k.kode, k.tipe, k.ndesc, c.nomor as nomor_cdesa_awal')
-			->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
-					(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-					(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-					w.dusun
-				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat")
 			->from('persil p')
 			->join('ref_persil_kelas k', 'k.id = p.kelas', 'left')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_wilayah', 'left')

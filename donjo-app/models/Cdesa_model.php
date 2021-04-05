@@ -318,13 +318,9 @@ class Cdesa_model extends CI_Model {
 			->where('id', $id_cdesa)
 			->get('cdesa')
 			->row()->nomor;
+		$this->lokasi_persil_query();
 		$this->db
 			->select('m.*, p.nomor, rk.kode as kelas_tanah')
-			->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
-					(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-					(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-					w.dusun
-				) ELSE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat")
 			->select("IF (m.id_cdesa_masuk = {$id_cdesa}, m.luas, '') AS luas_masuk")
 			->select("IF (m.cdesa_keluar = {$id_cdesa}, m.luas, '') AS luas_keluar")
 			->select("IF (m.jenis_mutasi = '9', 0, 1) AS awal")
@@ -344,16 +340,21 @@ class Cdesa_model extends CI_Model {
 		return $data;
 	}
 
-	public function get_list_persil($id_cdesa)
+	private function lokasi_persil_query()
 	{
-		$this->db
-			->select('p.*, rk.kode as kelas_tanah')
-			->select('COUNT(m.id) as jml_mutasi')
-			->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
+		$this->db->select("(CASE WHEN p.id_wilayah = w.id THEN CONCAT(
 					(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
 					(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
 					w.dusun
-				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat")
+				) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat");
+	}
+
+	public function get_list_persil($id_cdesa)
+	{
+		$this->lokasi_persil_query();
+		$this->db
+			->select('p.*, rk.kode as kelas_tanah')
+			->select('COUNT(m.id) as jml_mutasi')
 			->from('persil p')
 			->join('mutasi_cdesa m', 'p.id = m.id_persil', 'left')
 			->join('ref_persil_kelas rk', 'p.kelas = rk.id', 'left')
