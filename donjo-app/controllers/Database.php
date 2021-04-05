@@ -182,6 +182,7 @@ class Database extends Admin_Controller {
 			['Hamil', 'hamil'],
 			['KTP-el', 'ktp_el'],
 			['Status Rekam', 'status_rekam'],
+			['Status Dasar', 'status_dasar'],
 			['Alamat Sekarang', 'alamat_sekarang']
 		];
 		if ($opendk)
@@ -309,6 +310,7 @@ class Database extends Admin_Controller {
 					$row->hamil,
 					$row->ktp_el,
 					$row->status_rekam,
+					$row->status_dasar,
 					$row->alamat_sekarang
 				);
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
