@@ -71,6 +71,7 @@
 .main-sidebar
 {
 	width: 270px;
+	z-index: 9999;
 }
 .main-header .navbar
 {
