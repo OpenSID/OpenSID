@@ -11,6 +11,7 @@ Premium - perbaikan bug:
 2. Daftar penduduk tampil normal pada sql_mode = ONLY_FULL_GROUP_BY. [bug-fix]
 3. Modul Pertanahan sekarang menampilkan penjelasan kalau lokasi persil tidak ditemukan. [bug-fix]
 4. #4091: Sekarang menu navigasi tampil di atas tombol peta pada waktu hover mouse. [bug-fix]
+5. #4123: Sekarang penandatangan lampiran Surat Biodata Penduduk, Surat Permohonan Kartu Keluarga dan Surat Permohonan Perubahan Kartu Keluarga tampil benar. [bug-fix]
 
 
 Premium - penambahan fitur:
