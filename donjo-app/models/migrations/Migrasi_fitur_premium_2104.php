@@ -67,6 +67,11 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->ubah_tag_id_card_unique_index($hasil);
 		// Sesuaikan struktur dan isi tabel config
 		$hasil =& $this->config($hasil);
+
+		// $hasil =& $this->create_table_tanah_di_desa($hasil);
+        // $hasil =& $this->create_table_tanah_kas_desa($hasil);
+        // $hasil =& $this->add_modul_tanah_desa($hasil);
+
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -175,5 +180,82 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		return $hasil;
 	}
+
+	// protected function create_table_tanah_di_desa($hasil){
+    //     $this->dbforge->add_field([
+    //         'id'                 => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],            
+    //         'nama_pemilik_asal'  => ['type' => 'VARCHAR', 'null' => false],
+    //         'letter_c'           => ['type' => 'TEXT', 'null' => false],
+    //         'persil'             => ['type' => 'TEXT', 'null' => false],
+    //         'nomor_sertif'       => ['type' => 'TEXT', 'null' => false],
+    //         'tanggal_sertif'     => ['type' => 'DATE', 'default' => 'current_timestamp'],
+    //         'hak_tanah'          => ['type' => 'TEXT', 'null' => false],
+    //         'pengguanaan_tanah'  => ['type' => 'TEXT', 'null' => false],
+    //         'luas'               => ['type' => 'INT', 'constraint' => 11, 'null' => false],
+    //         'lain'               => ['type' => 'TEXT', 'null' => false],
+    //         'keterangan'         => ['type' => 'TEXT', 'null' => false],
+    //         'created_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
+    //         'created_by'         => ['type' => 'INT', 'null' => false],
+    //         'updated_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
+    //         'updated_by'         => ['type' => 'INT', 'null' => false],
+    //         'visible'            => ['type' => 'INT', 'constraint' => 1, 'null' => false],
+    //     ]);
+
+    //     $this->dbforge->add_key('id', true);
+    //     $hasil =& $this->dbforge->create_table('tanah_desa', true);
+    //     return $hasil;
+    // }
+
+    // protected function create_table_tanah_kas_desa($hasil){
+    //     $this->dbforge->add_field([
+    //         'id'                 => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],            
+    //         'nama_pemilik_asal'  => ['type' => 'VARCHAR', 'null' => false],
+    //         'letter_c'           => ['type' => 'TEXT', 'null' => false],
+    //         'persil'             => ['type' => 'TEXT', 'null' => false],
+    //         'kelas'              => ['type' => 'TEXT', 'null' => false],
+    //         'luas'               => ['type' => 'INT', 'constraint' => 11, 'null' => false],
+    //         'perolehan_tkd'      => ['type' => 'TEXT', 'null' => false],
+    //         'jenis_tkd'          => ['type' => 'TEXT', 'null' => false],
+    //         'patok'              => ['type' => 'TEXT', 'null' => false],
+    //         'papan_nama'         => ['type' => 'TEXT', 'null' => false],
+    //         'tanggal_perolehan'  => ['type' => 'DATE', 'default' => 'current_timestamp'],
+    //         'lokasi'             => ['type' => 'TEXT', 'null' => false],
+    //         'peruntukan'         => ['type' => 'TEXT', 'null' => false],
+    //         'keterangan'         => ['type' => 'TEXT', 'null' => false],
+    //         'created_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
+    //         'created_by'         => ['type' => 'INT', 'null' => false],
+    //         'updated_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
+    //         'updated_by'         => ['type' => 'INT', 'null' => false],
+    //         'status'             => ['type' => 'INT', 'constraint' => 1, 'null' => false],
+    //         'visible'            => ['type' => 'INT', 'constraint' => 1, 'null' => false],
+    //     ]);
+
+    //     $this->dbforge->add_key('id', true);
+    //     $hasil =& $this->dbforge->create_table('tanah_kas_desa', true);
+    //     return $hasil;
+    // }
+
+    // protected function add_modul_tanah_desa($hasil)
+    // {
+    //     $hasil =& $this->tambah_modul([
+    //         'id'         => 319,
+    //         'modul'      => 'Buku Tanah Kas Desa',
+    //         'url'        => 'buku_tanah_kas_desa',
+    //         'aktif'      => 1,
+    //         'ikon'       => 'fa-files-o',
+    //         'urut'       => 0,
+    //         'level'      => 0,
+    //         'hidden'     => 0,
+    //         'ikon_kecil' => '',
+    //         'parent'     => 305
+    //     ]);
+
+    //     // Hapus cache menu navigasi
+    //     $this->load->driver('cache');
+    //     $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+    //     return $hasil;
+    // }
+
 
 }

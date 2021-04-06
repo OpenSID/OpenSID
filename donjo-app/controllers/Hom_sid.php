@@ -64,11 +64,11 @@ class Hom_sid extends Admin_Controller {
 				->set_interval(7)
 				->set_cache_folder(FCPATH.'desa');
 
-			$data['update_available'] = $this->release->is_available();
+			// $data['update_available'] = $this->release->is_available();
 			$data['current_version'] = $this->release->get_current_version();
-			$data['latest_version'] = $this->release->get_latest_version();
-			$data['release_name'] = $this->release->get_release_name();
-			$data['release_body'] = $this->release->get_release_body();
+			// $data['latest_version'] = $this->release->get_latest_version();
+			// $data['release_name'] = $this->release->get_release_name();
+			// $data['release_body'] = $this->release->get_release_body();
 		}
 
 		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
