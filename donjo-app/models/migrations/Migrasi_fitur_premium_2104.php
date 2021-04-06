@@ -67,10 +67,14 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil =& $this->ubah_tag_id_card_unique_index($hasil);
 		// Sesuaikan struktur dan isi tabel config
 		$hasil =& $this->config($hasil);
-
-		// $hasil =& $this->create_table_tanah_di_desa($hasil);
-        // $hasil =& $this->create_table_tanah_kas_desa($hasil);
-        // $hasil =& $this->add_modul_tanah_desa($hasil);
+		// Sesuaikan sulang STATUS_PERMOHONAN
+		$hasil =& $this->ubah_status($hasil);
+		// Sesuaikan struktur tabel analisis_indikator
+		$hasil =& $this->analisis_indikator($hasil);
+		// Sesuaikan data kartu peserta bantuan
+		$hasil =& $this->kartu_bantuan($hasil);
+		// Sesuaikan key offline mode
+		$hasil =& $this->ubah_setting_offline_mode($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -181,81 +185,83 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		return $hasil;
 	}
 
-	// protected function create_table_tanah_di_desa($hasil){
-    //     $this->dbforge->add_field([
-    //         'id'                 => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],            
-    //         'nama_pemilik_asal'  => ['type' => 'VARCHAR', 'null' => false],
-    //         'letter_c'           => ['type' => 'TEXT', 'null' => false],
-    //         'persil'             => ['type' => 'TEXT', 'null' => false],
-    //         'nomor_sertif'       => ['type' => 'TEXT', 'null' => false],
-    //         'tanggal_sertif'     => ['type' => 'DATE', 'default' => 'current_timestamp'],
-    //         'hak_tanah'          => ['type' => 'TEXT', 'null' => false],
-    //         'pengguanaan_tanah'  => ['type' => 'TEXT', 'null' => false],
-    //         'luas'               => ['type' => 'INT', 'constraint' => 11, 'null' => false],
-    //         'lain'               => ['type' => 'TEXT', 'null' => false],
-    //         'keterangan'         => ['type' => 'TEXT', 'null' => false],
-    //         'created_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
-    //         'created_by'         => ['type' => 'INT', 'null' => false],
-    //         'updated_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
-    //         'updated_by'         => ['type' => 'INT', 'null' => false],
-    //         'visible'            => ['type' => 'INT', 'constraint' => 1, 'null' => false],
-    //     ]);
+	// Tabel Config
+	protected function ubah_status($hasil)
+	{
+		// Jika masih ditemakan status = 9, lakukan migrasi
+		if ($this->db->get_where('permohonan_surat', ['status' => 9])->row())
+		{
+			// Ubah sementara
+			$hasil =& $this->db->where('status', 0)->update('permohonan_surat', ['status' => 100]);
 
-    //     $this->dbforge->add_key('id', true);
-    //     $hasil =& $this->dbforge->create_table('tanah_desa', true);
-    //     return $hasil;
-    // }
+			// Sesuaikan ulang
+			$hasil =& $this->db->where('status', 1)->update('permohonan_surat', ['status' => 0]);
+			$hasil =& $this->db->where('status', 100)->update('permohonan_surat', ['status' => 1]);
+			$hasil =& $this->db->where('status', 9)->update('permohonan_surat', ['status' => 5]);
+		}
 
-    // protected function create_table_tanah_kas_desa($hasil){
-    //     $this->dbforge->add_field([
-    //         'id'                 => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],            
-    //         'nama_pemilik_asal'  => ['type' => 'VARCHAR', 'null' => false],
-    //         'letter_c'           => ['type' => 'TEXT', 'null' => false],
-    //         'persil'             => ['type' => 'TEXT', 'null' => false],
-    //         'kelas'              => ['type' => 'TEXT', 'null' => false],
-    //         'luas'               => ['type' => 'INT', 'constraint' => 11, 'null' => false],
-    //         'perolehan_tkd'      => ['type' => 'TEXT', 'null' => false],
-    //         'jenis_tkd'          => ['type' => 'TEXT', 'null' => false],
-    //         'patok'              => ['type' => 'TEXT', 'null' => false],
-    //         'papan_nama'         => ['type' => 'TEXT', 'null' => false],
-    //         'tanggal_perolehan'  => ['type' => 'DATE', 'default' => 'current_timestamp'],
-    //         'lokasi'             => ['type' => 'TEXT', 'null' => false],
-    //         'peruntukan'         => ['type' => 'TEXT', 'null' => false],
-    //         'keterangan'         => ['type' => 'TEXT', 'null' => false],
-    //         'created_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
-    //         'created_by'         => ['type' => 'INT', 'null' => false],
-    //         'updated_at'         => ['type' => 'timestamp', 'null' => false, 'default' => 'current_timestamp'],
-    //         'updated_by'         => ['type' => 'INT', 'null' => false],
-    //         'status'             => ['type' => 'INT', 'constraint' => 1, 'null' => false],
-    //         'visible'            => ['type' => 'INT', 'constraint' => 1, 'null' => false],
-    //     ]);
+		return $hasil;
+	}
 
-    //     $this->dbforge->add_key('id', true);
-    //     $hasil =& $this->dbforge->create_table('tanah_kas_desa', true);
-    //     return $hasil;
-    // }
+	protected function analisis_indikator($hasil)
+	{
+		$fields = [
+			'nomor' => [
+				'type' => 'VARCHAR',
+				'constraint' => 10,
+			],
+		];
 
-    // protected function add_modul_tanah_desa($hasil)
-    // {
-    //     $hasil =& $this->tambah_modul([
-    //         'id'         => 319,
-    //         'modul'      => 'Buku Tanah Kas Desa',
-    //         'url'        => 'buku_tanah_kas_desa',
-    //         'aktif'      => 1,
-    //         'ikon'       => 'fa-files-o',
-    //         'urut'       => 0,
-    //         'level'      => 0,
-    //         'hidden'     => 0,
-    //         'ikon_kecil' => '',
-    //         'parent'     => 305
-    //     ]);
+		$hasil =& $this->dbforge->modify_column('analisis_indikator', $fields);
 
-    //     // Hapus cache menu navigasi
-    //     $this->load->driver('cache');
-    //     $this->cache->hapus_cache_untuk_semua('_cache_modul');
+		return $hasil;
+	}
 
-    //     return $hasil;
-    // }
+	protected function kartu_bantuan($hasil)
+	{
+		// Pastikan data kartu peserta tidak kosong
+		$kartu_kosong = $this->db
+			->select('k.*, p.nik, p.nama, p.tempatlahir, p.tanggallahir')
+			->select("concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
+			->from('program_peserta k')
+			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend')
+			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
+			->where("kartu_nik is NULL or kartu_nik = ''")
+			->or_where("kartu_nama is NULL or kartu_nama = ''")
+			->or_where("kartu_tempat_lahir is NULL or kartu_tempat_lahir = ''")
+			->or_where("kartu_tanggal_lahir is NULL or kartu_tanggal_lahir = ''")
+			->or_where("kartu_alamat is NULL or kartu_alamat = ''")
+			->get()->result_array();
+		foreach ($kartu_kosong as $kartu)
+		{
+			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik']);
+			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama']);
+			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir']);
+			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir']);
+			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat']);
+			$hasil =& $this->db
+				->where('id', $kartu['id'])
+				->update('program_peserta');
+		}
+		// Ubah kolom supaya tidak boleh kosong
+		$fields = [
+			'kartu_nik' => ['type' => 'VARCHAR', 'constraint' => 30, 'null' => false],
+			'kartu_nama' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false],
+			'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false],
+			'kartu_tanggal_lahir' => ['type' => 'DATE', 'null' => false],
+			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false],
+		];
+		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
+		return $hasil;
+	}
 
+	protected function ubah_setting_offline_mode($hasil)
+	{
+		$hasil =& $this->db->where('value', 'Web bisa diakses publik')->update('setting_aplikasi', ['value' => 0]);
+		$hasil =& $this->db->where('value', 'Web hanya bisa diakses petugas web')->update('setting_aplikasi', ['value' => 1]);
+		$hasil =& $this->db->where('value', 'Web non-aktif sama sekali')->update('setting_aplikasi', ['value' => 2]);
+		$hasil =& $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-kode']);
 
+		return $hasil;
+	}
 }

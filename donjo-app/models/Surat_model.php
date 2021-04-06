@@ -1334,4 +1334,12 @@ class Surat_model extends CI_Model {
 		return $ada;
 	}
 
+	public function cek_surat_mandiri($id)
+	{
+		$data = $this->db
+			->get_where('tweb_surat_format', ['id' => $id])
+			->row_array();
+		return $data;
+	}
+
 }

@@ -67,7 +67,11 @@ class Pembangunan_model extends CI_Model
 	{
 		$builder = $this->db->select([
 			'p.*',
-			'(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+			"(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT(
+				(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
+				(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
+				w.dusun
+			) ELSE p.lokasi END) AS alamat",
 			'(CASE WHEN MAX(CAST(d.persentase as UNSIGNED INTEGER)) IS NOT NULL THEN CONCAT(MAX(CAST(d.persentase as UNSIGNED INTEGER)), "%") ELSE CONCAT("belum ada progres") END) AS max_persentase',
 		])
 		->from("{$this->table} p")
@@ -104,12 +108,17 @@ class Pembangunan_model extends CI_Model
 	{
 		$data = $this->db->select([
 			'p.*',
-			'(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+			"(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT(
+				(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
+				(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
+				w.dusun
+			) ELSE p.lokasi END) AS alamat",
 		])
-			->from('pembangunan p')
-			->where('p.status = 1')
-			->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
-			->get()->result();
+		->from('pembangunan p')
+		->where('p.status = 1')
+		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+		->get()
+		->result();
 
 		return $data;
 	}
@@ -239,7 +248,11 @@ class Pembangunan_model extends CI_Model
 	{
 		return $this->db->select([
 			'p.*',
-			'(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT("RT ", w.rt, " / RW ", w.rw, " - ", w.dusun) ELSE p.lokasi END) AS alamat',
+			"(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT(
+				(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
+				(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
+				w.dusun
+			) ELSE p.lokasi END) AS alamat",
 		])
 		->from("{$this->table} p")
 		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
