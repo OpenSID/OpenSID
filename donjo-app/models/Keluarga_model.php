@@ -53,7 +53,6 @@
 	{
 		if ($cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db->like('t.nama', $cari);
 		}
 		$this->db->select('t.nama')

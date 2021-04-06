@@ -72,8 +72,8 @@ class Analisis_laporan_model extends CI_Model {
 	{
 		if (isset($this->session->cari))
 		{
-		$cari = $this->session->cari;
-			//$kw = $this->db->escape_like_str($cari);
+			$cari = $this->session->cari;
+			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$cari. '%';
 
 			$subjek = $this->session->subjek_tipe;

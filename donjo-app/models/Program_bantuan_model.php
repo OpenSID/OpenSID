@@ -58,8 +58,6 @@ class Program_bantuan_model extends MY_Model {
 
 	public function autocomplete($id, $cari)
 	{
-		$cari = $this->db->escape_like_str($cari);
-
 		// Jika parameter yg digunakan sama
 		$tabel = "program_peserta";
 		$where = "program_id = $id";

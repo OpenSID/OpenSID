@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.04-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Mochamad Arifin yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
 
@@ -13,6 +13,7 @@ Premium - perbaikan bug:
 4. #4091: Sekarang menu navigasi tampil di atas tombol peta pada waktu hover mouse. [bug-fix]
 5. #4123: Sekarang penandatangan lampiran Surat Biodata Penduduk, Surat Permohonan Kartu Keluarga dan Surat Permohonan Perubahan Kartu Keluarga tampil benar. [bug-fix]
 6. #4118: Sekarang urut pertanyaan/indikator analisis berdasarkan kode lebih konsisten. [bug-fix]
+7. #4113: Perbaiki bisa cari nama penduduk atau nama lain yg berisi tanda kutip ('). [bug-fix]
 
 
 Premium - penambahan fitur:
