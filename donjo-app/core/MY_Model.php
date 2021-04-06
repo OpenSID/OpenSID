@@ -54,7 +54,6 @@ class MY_Model extends CI_Model {
 	{
 		if ($cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db->like($kolom, $cari);
 		}
 		$data = $this->db->distinct()->
@@ -79,7 +78,7 @@ class MY_Model extends CI_Model {
 				->select($kolom)
 				->from($tabel)
 				->where($where)
-				->like($kolom, $cara)
+				->like($kolom, $cari)
 				->order_by($kolom, DESC)
 				->get_compiled_select()
 				.')';
