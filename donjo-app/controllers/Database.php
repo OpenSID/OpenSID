@@ -182,8 +182,8 @@ class Database extends Admin_Controller {
 			['Hamil', 'hamil'],
 			['KTP-el', 'ktp_el'],
 			['Status Rekam', 'status_rekam'],
+			['Alamat Sekarang', 'alamat_sekarang'],
 			['Status Dasar', 'status_dasar'],
-			['Alamat Sekarang', 'alamat_sekarang']
 		];
 		if ($opendk)
 		{

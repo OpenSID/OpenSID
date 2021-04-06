@@ -36,7 +36,8 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "hamil" => "32",
   "ktp_el" => "33",
   "status_rekam" => "34",
-  "alamat_sekarang" => "35")));
+  "alamat_sekarang" => "35",
+  "status_dasar" => "36")));
 
   require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
   use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
@@ -144,6 +145,7 @@ class Import_model extends CI_Model {
 		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
 		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
 		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
+		if ($isi_baris['status_dasar'] != "" AND !(in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9]))) return 'kode status_dasar tidak dikenal';
 
 		// Validasi data lain
 		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
@@ -246,7 +248,7 @@ class Import_model extends CI_Model {
 		$isi_baris['ayah_nik'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ayah_nik']]));
 		$isi_baris['ibu_nik'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ibu_nik']]));
 		$isi_baris['akta_perkawinan'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_perkawinan']]));
-	  $isi_baris['tanggalperkawinan'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperkawinan']]));
+		$isi_baris['tanggalperkawinan'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperkawinan']]));
 		$isi_baris['akta_perceraian'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_perceraian']]));
 		$isi_baris['tanggalperceraian'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperceraian']]));
 		// TODO: belum ada kode_cacat
@@ -256,7 +258,8 @@ class Import_model extends CI_Model {
 		$isi_baris['hamil'] = trim($rowData[$kolom_impor_keluarga['hamil']]);
 		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($rowData[$kolom_impor_keluarga['ktp_el']]));
 		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($rowData[$kolom_impor_keluarga['status_rekam']]));
-    $isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
+		$isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
+		$isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($rowData[$kolom_impor_keluarga['status_dasar']]));
 		return $isi_baris;
 	}
 

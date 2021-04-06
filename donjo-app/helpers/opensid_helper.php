@@ -97,9 +97,9 @@ define("STATUS_DASAR", serialize(array(
 	strtolower("HIDUP") => "1",
 	strtolower("MATI") => "2",
 	strtolower("PINDAH") => "3",
-	strtolower("PINDAH DALAM NEGERI") => "3",
-	strtolower("PINDAH LUAR NEGERI") => "3",
-	strtolower("HILANG") => "4"
+	strtolower("HILANG") => "4",
+	strtolower("PERGI") => "6",
+	strtolower("TIDAK VALID") => "9"
 )));
 define("KODE_SEX", serialize(array(
 	"L" => "1",
