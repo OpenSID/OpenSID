@@ -1,0 +1,7 @@
+Di rilis ini, versi 21.04-pasca berisi perbaikan yang diminta Komunitas SID.
+
+Terima kasih pada Mochamad Arifin yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 21.04-pasca adalah sebagai berikut:
+
+1. #4113: Perbaiki bisa autocomplete nama penduduk yg berisi tanda kutip ('). [bug-fix]
