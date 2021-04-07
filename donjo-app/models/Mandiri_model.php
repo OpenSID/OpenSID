@@ -395,7 +395,7 @@ class Mandiri_model extends CI_Model {
 
 		if (isset($data['id_pend'])) $this->update_login($data);
 
-		$this->session->unset_userdata(['mandiri', 'is_login']);
+		$this->session->unset_userdata(['mandiri', 'is_login', 'data_permohonan']);
 		$this->session->login_ektp = FALSE;
 	}
 

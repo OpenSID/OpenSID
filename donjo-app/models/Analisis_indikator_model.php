@@ -88,8 +88,8 @@
 	{
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.nomor'; break;
-			case 2: $order_sql = ' ORDER BY u.nomor DESC'; break;
+			case 1: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")'; break;
+			case 2: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ") DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.pertanyaan'; break;
 			case 4: $order_sql = ' ORDER BY u.pertanyaan DESC'; break;
 			case 5: $order_sql = ' ORDER BY u.id_kategori'; break;
@@ -128,7 +128,7 @@
 	{
 		$data = array();
 		$data['id_tipe'] = $post['id_tipe'] ?: null;
-		$data['nomor'] = bilangan($post['nomor']);
+		$data['nomor'] = nomor_surat_keputusan($post['nomor']);
 		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
 		$data['id_kategori'] = $post['id_kategori'] ?: null;
 		$data['bobot'] = bilangan($post['bobot']);

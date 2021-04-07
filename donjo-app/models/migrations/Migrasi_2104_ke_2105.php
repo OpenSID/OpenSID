@@ -1,14 +1,17 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
+<?php
+
+/**
+ * File ini:
  *
- * Controller untuk modul Notifikasi Layanan Mandiri
+ * Model untuk migrasi database
  *
- * donjo-app/controllers/Notif_web.php
+ * donjo-app/models/migrations/Migrasi_2104_ke_2105.php
  *
  */
-/*
- *  File ini bagian dari:
+
+/**
+ *
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -23,11 +26,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
- *
+
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
+
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -40,29 +43,23 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Notif_web extends Mandiri_Controller {
+class Migrasi_2104_ke_2105 extends MY_model {
 
-	public function __construct()
+	public function up()
 	{
-		parent::__construct();
-		$this->load->model('notif_model');
-	}
+		$hasil = true;
 
-	public function inbox()
-	{
-		$j = $this->notif_model->inbox_baru($tipe=2, $this->is_login->nik);
-		if ($j > 0)
+		// Migrasi fitur premium
+		$daftar_migrasi_premium = ['2012', '2101', '2102', '2103', '2104', '2104', '2105'];
+		foreach ($daftar_migrasi_premium as $migrasi)
 		{
-			echo $j;
+			$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+			$file_migrasi = 'migrations/'.$migrasi_premium;
+				$this->load->model($file_migrasi);
+				$hasil =& $this->$migrasi_premium->up();
 		}
-	}
 
-	public function surat_perlu_perhatian()
-	{
-		$j = $this->notif_model->surat_perlu_perhatian($this->is_login->id_pend);
-		if ($j > 0)
-		{
-			echo $j;
-		}
+		status_sukses($hasil);
+		return $hasil;
 	}
 }
