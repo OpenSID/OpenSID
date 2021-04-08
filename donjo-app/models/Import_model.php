@@ -81,24 +81,9 @@ class Import_model extends CI_Model {
 	protected function merge_kode_status_dasar()
 	{
 		$tweb_status_dasar = $this->referensi_model->list_data('tweb_status_dasar');
-
-		$merge = array_merge($tweb_status_dasar, [
-			[
-				'id' => 3,
-				'nama' => 'PINDAH DALAM NEGERI',
-			],
-			[
-				'id' => 3,
-				'nama' => 'PINDAH LUAR NEGERI',
-			]
-		]);
-
-		$data = [];
-		foreach ($merge as $kode)
-		{
-			$data[$kode['nama']] = (int) $kode['id'];
-		}
-
+		$data = array_combine(array_column($tweb_status_dasar, 'nama'), array_column($tweb_status_dasar, 'id'));
+		$data['PINDAH DALAM NEGERI'] = 3;
+		$data['PINDAH LUAR NEGERI'] = 3;
 		return $data;
 	}
 	

@@ -310,8 +310,8 @@ class Database extends Admin_Controller {
 					$row->hamil,
 					$row->ktp_el,
 					$row->status_rekam,
+					$row->alamat_sekarang,
 					$row->status_dasar,
-					$row->alamat_sekarang
 				);
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
