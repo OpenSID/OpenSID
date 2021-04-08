@@ -224,6 +224,7 @@ class Analisis_master extends Admin_Controller {
 
 	public function exec_import_gform()
 	{
+		$this->session->google_form_id = $this->input->post('input-form-id');
 		$this->analisis_import_model->import_gform();
 	}
 

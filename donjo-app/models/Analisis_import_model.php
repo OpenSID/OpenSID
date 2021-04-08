@@ -330,14 +330,17 @@ class Analisis_import_Model extends CI_Model {
 		// Create an execution request object.
 		$request = new Google_Service_Script_ExecutionRequest();
 		$request->setFunction('getFormItems');
-		$form_id = $this->input->post('input-form-id');
+		$form_id = $this->session->google_form_id;
+		if ($form_id == "")
+			$form_id = $this->session->gform_id;
 		$request->setParameters($form_id);
 
 		try 
 		{
 			if (isset($authUrl))
-			{
+			{	
 				// If no authentication before
+				$this->session->gform_id = $form_id;
 				header('Location: ' . $authUrl);
 			} 
 			else 
