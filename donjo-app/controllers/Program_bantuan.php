@@ -83,6 +83,8 @@ class Program_bantuan extends Admin_Controller {
 
 	public function index($p = 1)
 	{
+		$this->session->unset_userdata('cari');
+
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
@@ -99,6 +101,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function form($program_id = 0)
 	{
+		$this->session->unset_userdata('cari');
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
 		$nik = $this->input->post('nik');

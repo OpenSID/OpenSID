@@ -1,4 +1,6 @@
 <?php
+require_once 'vendor/google-api-php-client/vendor/autoload.php';
+
 class Analisis_import_Model extends CI_Model {
 
 	public function __construct()
@@ -108,69 +110,6 @@ class Analisis_import_Model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 
 		return $id_master;
-	}
-
-	public function import_gform(){
-		// Pengaturan Library Upload
-		$this->load->library('upload');
-
-		$config['upload_path']		= LOKASI_DOKUMEN;
-		$config['allowed_types']	= 'xls|xlsx|xlsm|csv';
-		$config['file_name']		= namafile('Import Response Google Form');
-
-		$this->upload->initialize($config);
-
-		if ( ! $this->upload->do_upload('userfile'))
-		{
-			$this->session->error_msg = $this->upload->display_errors();
-			$this->session->success = -1;
-			return;
-		}
-
-		$upload = $this->upload->data();
-		$file = LOKASI_DOKUMEN . $upload['file_name'];
-
-		// Open File CSV
-		$handle = fopen($file, "r");
-		$list_data = array();
-		$list_pertanyaan = array();
-		$count_row = 1;
-
-		while (($row = fgetcsv($handle, 10000, ",")) != FALSE) //get row vales
-		{
-			if($count_row == 1)
-			{
-				foreach ($row as $value)
-				{
-					$temp = [
-						'pertanyaan' 	=> $value,
-						'unique_value' 	=> array()
-					];
-					array_push($list_pertanyaan, $temp);
-				}
-			}
-			else
-			{
-				foreach ($row as $key => $value)
-				{
-					if(! in_array($value, $list_pertanyaan[$key]['unique_value']))
-					{
-						array_push($list_pertanyaan[$key]['unique_value'], $value);
-					}
-				}
-				array_push($list_data, $row);
-			}
-				
-			$count_row += 1;
-		}
-
-		$this->session->data_import = array(
-			'pertanyaan' 	=> $list_pertanyaan,
-			'jawaban'		=> $list_data
-		);
-
-		$this->session->success = 5;
-		return '0';
 	}
 
 	public function save_import_gform(){
@@ -328,5 +267,123 @@ class Analisis_import_Model extends CI_Model {
 
 		$this->session->list_error = $list_error;
 		status_sukses($outp);
+	}
+
+	function getOAuthCredentialsFile()
+	{
+		// Location of Oauth2 Credential
+		$oauth_creds = APPPATH . '../vendor/google-api-php-client/oauth-credentials.json';
+
+		if (file_exists($oauth_creds)) 
+		{
+			return $oauth_creds;
+		}
+
+		return false;
+	}
+
+	public function import_gform(){
+		// Check Credential File
+		if (!$oauth_credentials = $this->getOAuthCredentialsFile()) 
+		{
+			echo 'ERROR - File Credential Not Found';
+			return;
+		}
+
+		$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+
+		// Get the API client and construct the service object.
+		$client = new Google\Client();
+		$client->setAuthConfig($oauth_credentials);
+		$client->setRedirectUri($redirect_uri);
+		$client->addScope("https://www.googleapis.com/auth/forms");
+		$client->addScope("https://www.googleapis.com/auth/spreadsheets");
+		$service = new Google_Service_Script($client);
+
+		// API script id
+		$scriptId = 'AKfycbzSUDkftOqJZTVM0dSgScCu0RX19T1Lh5ZxLjwjxbpQYGqiT2l2O4cSSr9WlWkJyJo';
+
+		// add "?logout" to the URL to remove a token from the session
+		if (isset($_REQUEST['logout'])) 
+			unset($_SESSION['upload_token']);
+
+		if (isset($_GET['code'])) {
+			$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+			$client->setAccessToken($token);
+			
+			// store in the session also
+			$_SESSION['upload_token'] = $token;
+
+			// redirect back to the example
+			header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+		}
+
+		// set the access token as part of the client
+		if (!empty($_SESSION['upload_token'])) 
+		{
+			$client->setAccessToken($_SESSION['upload_token']);
+			if ($client->isAccessTokenExpired())
+				unset($_SESSION['upload_token']);
+		} else 
+			$authUrl = $client->createAuthUrl();
+
+		// Create an execution request object.
+		$request = new Google_Service_Script_ExecutionRequest();
+		$request->setFunction('getFormItems');
+		$form_id = $this->session->google_form_id;
+		if ($form_id == "")
+			$form_id = $this->session->gform_id;
+		$request->setParameters($form_id);
+
+		try 
+		{
+			if (isset($authUrl))
+			{	
+				// If no authentication before
+				$this->session->gform_id = $form_id;
+				header('Location: ' . $authUrl);
+			} 
+			else 
+			{
+				// If it has authenticated
+				// Make the API request.
+				$response = $service->scripts->run($scriptId, $request);
+
+				if ($response->getError()) 
+				{
+					echo 'Error';
+					// The API executed, but the script returned an error.
+
+					// Extract the first (and only) set of error details. The values of this
+					// object are the script's 'errorMessage' and 'errorType', and an array of
+					// stack trace elements.
+					$error = $response->getError()['details'][0];
+					printf("Script error message: %s\n", $error['errorMessage']);
+
+					if (array_key_exists('scriptStackTraceElements', $error)) 
+					{
+						// There may not be a stacktrace if the script didn't start executing.
+						print "Script error stacktrace:\n";
+						foreach($error['scriptStackTraceElements'] as $trace) 
+							printf("\t%s: %d\n", $trace['function'], $trace['lineNumber']);
+					}
+				} 
+				else 
+				{
+					// Get Response
+					$resp = $response->getResponse();
+					$this->session->data_import = $resp['result'];
+					$this->session->success = 5;
+					redirect('analisis_master');
+				}
+			}
+			
+		} catch (Exception $e) 
+		{
+			// The API encountered a problem before the script started executing.
+			echo 'Caught exception: ', $e->getMessage(), "\n";
+		}
+
+		return '0';
 	}
 }

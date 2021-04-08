@@ -68,6 +68,10 @@
 }
 
 /* Modifikasi Sidabar menu */
+.main-sidebar:hover
+{
+	z-index: 1029;
+}
 .main-sidebar
 {
 	width: 270px;
@@ -539,4 +543,9 @@ div.form-surat .content-header {
 /* Profiler */
 #codeigniter_profiler {
 	margin-left: 100px;
+}
+
+/* Button Tanpa Aksi */
+.btn-proses {
+	cursor: not-allowed;
 }

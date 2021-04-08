@@ -1,14 +1,18 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
  *
  * Controller untuk admin Layanan Mandiri
  *
  * donjo-app/controllers/Permohonan_surat_admin.php
  *
  */
-/*
- *  File ini bagian dari:
+
+/**
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,15 +49,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('permohonan_surat_model');
-		$this->load->model('penduduk_model');
-		$this->load->model('surat_model');
-		$this->load->model('keluarga_model');
-		$this->load->model('config_model');
-		$this->load->model('pamong_model');
-		$this->load->model('referensi_model');
-
-		$this->load->model('lapor_model');
+		$this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'pamong_model', 'referensi_model']);
 		$this->modul_ini = 14;
 		$this->sub_modul_ini = 98;
 	}
@@ -109,58 +105,47 @@ class Permohonan_surat_admin extends Admin_Controller {
 		redirect($this->controller);
 	}
 
-	public function periksa($id)
+	public function periksa($id = '')
 	{
-		$periksa = $this->db->where('id', $id)
-			->get('permohonan_surat')
-			->row_array();
-		$surat = $this->db->where('id', $periksa['id_surat'])
-			->get('tweb_surat_format')
-			->row_array();
-		$data['url'] = $surat['url_surat'];
-		$url = $data['url'];
+		// Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
+		$periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'status' => 1]);
 
-		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($_SESSION['id']);
+		if (! $id OR ! $periksa) redirect('permohonan_surat_admin');
+
+		$surat = $this->surat_model->cek_surat_mandiri($periksa['id_surat']);
+		$url = $surat['url_surat'];
+
+		$data['periksa'] = $periksa;
+		$data['url'] = $url;
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($periksa['id_pemohon']);
 		$data['individu'] = $this->surat_model->get_penduduk($periksa['id_pemohon']);
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
 		$this->get_data_untuk_form($url, $data);
 		$data['isian_form'] = json_encode($this->ambil_isi_form($periksa['isian_form']));
-		$data['periksa'] = $periksa;
-
 		$data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
 		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/periksa_doc/$id/$url");
 		$data['form_surat'] = "surat/form_surat.php";
-		$data['data'] = $data;
 
 		$this->render('mandiri/periksa_surat', $data);
 	}
 
-	public function belum_lengkap($id)
+	public function proses($id = '', $status = '')
 	{
-		$this->permohonan_surat_model->update_status($id, array('status' => 1));
-		redirect('permohonan_surat_admin/index');
-	}
+		$this->permohonan_surat_model->proses($id, $status);
 
-	public function update_status($id, $status='')
-	{
-		if ($status)
-		{
-			$this->permohonan_surat_model->update_status($id, array('status' => $status));
-		}
-		redirect('permohonan_surat_admin/index');
+		redirect('permohonan_surat_admin');
 	}
 
 	private function get_data_untuk_form($url, &$data)
 	{
-		$this->load->model('pamong_model');
 		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['surat'] = $this->surat_model->get_surat($url);
 		$data['input'] = $this->input->post();
 		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-		$data['lokasi'] = $this->config_model->get_data();
+		$data['lokasi'] = $this->header['desa'];
 		$data['pamong'] = $this->surat_model->list_pamong();
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();
@@ -182,10 +167,10 @@ class Permohonan_surat_admin extends Admin_Controller {
 
 	public function delete($id_permohonan)
 	{
-		$this->session->unset_userdata('success');
-		$this->session->unset_userdata('error_msg');
-		$this->permohonan_surat_model->delete($id_permohonan);
-		redirect($_SERVER['HTTP_REFERER']);
+		// Hanya status 0 dan 1 yang boleh dihapus
+		if (in_array($id_permohonan, [0, 1])) $this->permohonan_surat_model->delete($id_permohonan);
+
+		redirect('permohonan_surat_admin');
 	}
 
 }

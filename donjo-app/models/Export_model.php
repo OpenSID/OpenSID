@@ -215,28 +215,35 @@
 
 	public function restore()
 	{
-		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename =='')
+		$this->load->library('upload');
+		$this->uploadConfig = array(
+			'upload_path' => sys_get_temp_dir(),
+			'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+			'file_ext' => 'sql',
+			'max_size' => max_upload() * 1024,
+		);
+		$this->upload->initialize($this->uploadConfig);
+		// Upload sukses
+		if (! $this->upload->do_upload('userfile'))
 		{
-			$this->session->success = -1;
-			switch ($_FILES['userfile']['error'])
-			{
-				case UPLOAD_ERR_INI_SIZE:
-					$this->session->error_msg = " --> File melebihi batas unggah. Ubah setting php.ini";
-					break;
-
-				default:
-					$this->session->error_msg = " --> Ada error sewaktu unggah file";
-					break;
-			}
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL) . ': ' . $this->upload->file_type;
+			return;
+		}
+		$uploadData = $this->upload->data();
+		$filename = $this->uploadConfig['upload_path'] . '/'. $uploadData['file_name'];
+		$lines = file($filename);
+		if (count($lines) < 20)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'Sepertinya bukan file backup';
 			return;
 		}
 
+		$_SESSION['success'] = 1;
 		$this->drop_views();
 		$this->drop_tables();
 
-		$_SESSION['success'] = 1;
-		$lines = file($filename);
 		$query = "";
 		foreach ($lines as $key => $sql_line)
 		{

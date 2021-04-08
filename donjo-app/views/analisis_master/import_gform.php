@@ -22,19 +22,13 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="file"  class="control-label">File Response Google Form (dalam format .csv):</label>
-							<div class="input-group input-group-sm">
-								<input type="text" class="form-control" id="file_path2" name="userfile">
-								<input type="file" class="hidden" id="file2" name="userfile">
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
-								</span>
-							</div>
+							<label for="file"  class="control-label">ID Google Form (Panduan mendapatkan ID Google Form dapat Anda akses <span><a href="https://docs.google.com/document/d/1SRnQ8t2igaXC3HoTrBL37SXPlYPqXmiWB2WRwERXkYo/edit?usp=sharing" style="color: blue;">[disini]</a></span>).</label>
+							<input type="text" class="form-control input-sm" id="input-form-id" name="input-form-id">
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Impor</button>
 					</div>
 				</div>
 			</div>

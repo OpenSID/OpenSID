@@ -119,7 +119,7 @@ class Surat extends Admin_Controller {
 	public function periksa_doc($id, $url)
 	{
 		// Ganti status menjadi 'Menunggu Tandatangan'
-		$this->permohonan_surat_model->update_status($id, array('status' => 2));
+		$this->permohonan_surat_model->proses($id, 2);
 		$this->cetak_doc($url);
 	}
 

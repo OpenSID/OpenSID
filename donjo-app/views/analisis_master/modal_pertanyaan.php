@@ -45,25 +45,41 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($data_import['pertanyaan'] as $key => $data): ?>
+															<?php foreach ($data_import['pertanyaan'] as $key => $data){ ?>
 															<tr class="row-pertanyaan">
 																<input type="hidden" class="input-id" value=<?= $key ?>>
 																<td><input type="checkbox" class="input-is-selected" checked data-waschecked="true"></td>
 																<td class="padat"><input type="radio" class="input-is-nik-kk"></td>
-																<td class="input-pertanyaan"><?= $data['pertanyaan'] ?></td>
+																<td class="input-pertanyaan"><?= $data['title'] ?></td>
 																<td>
+																	<?php 
+																		if ($data['type'] == 'MULTIPLE_CHOICE'){
+																	?>
+																	<select name="tipe_pertanyaan" class="form-control input-sm input-tipe">
+																		<option value="0">Tipe Pertanyaan</option>
+																		<option value="1" selected>Pilihan (Tunggal)</option>
+																		<option value="2">Pilihan (Ganda)</option>
+																		<option value="3">Isian Jumlah (Kuantitatif)</option>
+																		<option value="4">Isian Teks (Kualitatif)</option>
+																	</select>
+																	<?php 
+																		} else {
+																	?>
 																	<select name="tipe_pertanyaan" class="form-control input-sm input-tipe">
 																		<option value="0">Tipe Pertanyaan</option>
 																		<option value="1">Pilihan (Tunggal)</option>
 																		<option value="2">Pilihan (Ganda)</option>
 																		<option value="3">Isian Jumlah (Kuantitatif)</option>
-																		<option value="4">Isian Teks (Kualitatif)</option>
+																		<option value="4" selected>Isian Teks (Kualitatif)</option>
 																	</select>
+																	<?php 	
+																		}
+																	?>
 																</td>
 																<td><input type="text" class="form-control input-sm input-kategori"></td>
 																<td><input type="number" class="form-control input-sm input-bobot" value="0"></td>
 															</tr>
-															<?php endforeach; ?>
+															<?php } ?>
 														</tbody>
 													</table>
 												</div>

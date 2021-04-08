@@ -278,9 +278,9 @@ class Penduduk_model extends MY_Model {
 
 	public function paging($page_number = 1)
 	{
-		$list_data_sql = $this->list_data_sql($paging = true);
-		$row_data = $this->db->get()->result_array();
-		$jml_data = count($row_data);
+		$this->db->select('COUNT(u.id) as jml');
+		$this->list_data_sql();
+		$jml_data = $this->db->get()->row()->jml;
 
 		return $this->paginasi($page_number, $jml_data);
 	}
@@ -293,8 +293,7 @@ class Penduduk_model extends MY_Model {
 			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
 			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
-			->join('log_penduduk log', 'u.id = log.id_pend', 'left')
-			->group_by('u.id');
+			->join('log_penduduk log', 'u.id = log.id_pend', 'left');
 
 		// Yg berikut hanya untuk menampilkan peserta bantuan
 		if ($this->session->penerima_bantuan)
@@ -507,8 +506,7 @@ class Penduduk_model extends MY_Model {
 			->join('ref_peristiwa ra', 'ra.id = log.kode_peristiwa', 'left')
 			->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
 			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left')
-			->join('program_peserta pp', 'u.nik = pp.peserta', 'left')
-			->group_by('u.id');
+			->join('program_peserta pp', 'u.nik = pp.peserta', 'left');
 	}
 
 	public function list_data_map()
@@ -750,6 +748,7 @@ class Penduduk_model extends MY_Model {
 
 		$data['created_at'] = date('Y-m-d H:i:s');
 		$data['created_by'] = $this->session->user;
+		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
 		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
@@ -894,6 +893,7 @@ class Penduduk_model extends MY_Model {
 
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
+		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 
