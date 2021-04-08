@@ -274,7 +274,8 @@ class Analisis_import_Model extends CI_Model {
 		// Location of Oauth2 Credential
 		$oauth_creds = APPPATH . '../vendor/google-api-php-client/oauth-credentials.json';
 
-		if (file_exists($oauth_creds)) {
+		if (file_exists($oauth_creds)) 
+		{
 			return $oauth_creds;
 		}
 
@@ -283,16 +284,15 @@ class Analisis_import_Model extends CI_Model {
 
 	public function import_gform(){
 		// Check Credential File
-		if (!$oauth_credentials = $this->getOAuthCredentialsFile()) {
-			// echo missingOAuth2CredentialsWarning();
-			echo 'ERROR';
+		if (!$oauth_credentials = $this->getOAuthCredentialsFile()) 
+		{
+			echo 'ERROR - File Credential Not Found';
 			return;
 		}
 
 		$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
 		// Get the API client and construct the service object.
-		// $client = getClient();
 		$client = new Google\Client();
 		$client->setAuthConfig($oauth_credentials);
 		$client->setRedirectUri($redirect_uri);
@@ -304,9 +304,8 @@ class Analisis_import_Model extends CI_Model {
 		$scriptId = 'AKfycbzSUDkftOqJZTVM0dSgScCu0RX19T1Lh5ZxLjwjxbpQYGqiT2l2O4cSSr9WlWkJyJo';
 
 		// add "?logout" to the URL to remove a token from the session
-		if (isset($_REQUEST['logout'])) {
+		if (isset($_REQUEST['logout'])) 
 			unset($_SESSION['upload_token']);
-		}
 
 		if (isset($_GET['code'])) {
 			$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
@@ -320,32 +319,35 @@ class Analisis_import_Model extends CI_Model {
 		}
 
 		// set the access token as part of the client
-		if (!empty($_SESSION['upload_token'])) {
+		if (!empty($_SESSION['upload_token'])) 
+		{
 			$client->setAccessToken($_SESSION['upload_token']);
-			if ($client->isAccessTokenExpired()) {
+			if ($client->isAccessTokenExpired())
 				unset($_SESSION['upload_token']);
-			}
-		} else {
+		} else 
 			$authUrl = $client->createAuthUrl();
-		}
 
 		// Create an execution request object.
 		$request = new Google_Service_Script_ExecutionRequest();
 		$request->setFunction('getFormItems');
-		$form_id = '10LS50kT95xj_L4NxJaiIdFWCu-pUzAummP1OlhBlA48';
-		// $form_id = '1Int69G1sSkfBrQmgFxAFhh-V6Y6cItm9qMzfO6arA-8';
+		$form_id = $this->input->post('input-form-id');
 		$request->setParameters($form_id);
 
-		try {
-			if (isset($authUrl)){
+		try 
+		{
+			if (isset($authUrl))
+			{
 				// If no authentication before
 				header('Location: ' . $authUrl);
-			} else {
+			} 
+			else 
+			{
 				// If it has authenticated
 				// Make the API request.
 				$response = $service->scripts->run($scriptId, $request);
 
-				if ($response->getError()) {
+				if ($response->getError()) 
+				{
 					echo 'Error';
 					// The API executed, but the script returned an error.
 
@@ -355,14 +357,16 @@ class Analisis_import_Model extends CI_Model {
 					$error = $response->getError()['details'][0];
 					printf("Script error message: %s\n", $error['errorMessage']);
 
-					if (array_key_exists('scriptStackTraceElements', $error)) {
+					if (array_key_exists('scriptStackTraceElements', $error)) 
+					{
 						// There may not be a stacktrace if the script didn't start executing.
 						print "Script error stacktrace:\n";
-						foreach($error['scriptStackTraceElements'] as $trace) {
+						foreach($error['scriptStackTraceElements'] as $trace) 
 							printf("\t%s: %d\n", $trace['function'], $trace['lineNumber']);
-						}
 					}
-				} else {
+				} 
+				else 
+				{
 					// Get Response
 					$resp = $response->getResponse();
 					$this->session->data_import = $resp['result'];
@@ -371,7 +375,8 @@ class Analisis_import_Model extends CI_Model {
 				}
 			}
 			
-		} catch (Exception $e) {
+		} catch (Exception $e) 
+		{
 			// The API encountered a problem before the script started executing.
 			echo 'Caught exception: ', $e->getMessage(), "\n";
 		}
