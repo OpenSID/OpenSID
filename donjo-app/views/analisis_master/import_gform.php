@@ -21,7 +21,7 @@
 			<div class="col-sm-12">
 				<div class="box box-danger">
 					<div class="box-body">
-						<div class="form-group">
+						<!-- <div class="form-group">
 							<label for="file"  class="control-label">File Response Google Form (dalam format .csv):</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2" name="userfile">
@@ -30,11 +30,15 @@
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 								</span>
 							</div>
+						</div> -->
+						<div class="form-group">
+							<label for="file"  class="control-label">ID Google Form (bisa anda dapatkan pada URL Google Form Anda)</label>
+							<input type="text" class="form-control input-sm" id="input-form-id" name="input-form-id">
 						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+						<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Impor</button>
 					</div>
 				</div>
 			</div>

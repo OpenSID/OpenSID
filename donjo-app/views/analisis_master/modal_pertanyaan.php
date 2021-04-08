@@ -50,7 +50,7 @@
 																<input type="hidden" class="input-id" value=<?= $key ?>>
 																<td><input type="checkbox" class="input-is-selected" checked data-waschecked="true"></td>
 																<td class="padat"><input type="radio" class="input-is-nik-kk"></td>
-																<td class="input-pertanyaan"><?= $data['pertanyaan'] ?></td>
+																<td class="input-pertanyaan"><?= $data['title'] ?></td>
 																<td>
 																	<select name="tipe_pertanyaan" class="form-control input-sm input-tipe">
 																		<option value="0">Tipe Pertanyaan</option>
