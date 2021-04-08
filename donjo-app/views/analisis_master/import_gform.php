@@ -22,7 +22,7 @@
 				<div class="box box-danger">
 					<div class="box-body">
 						<div class="form-group">
-							<label for="file"  class="control-label">ID Google Form (bisa anda dapatkan pada URL Google Form Anda)</label>
+							<label for="file"  class="control-label">ID Google Form (Panduan mendapatkan ID Google Form dapat Anda akses <span><a href="https://docs.google.com/document/d/1SRnQ8t2igaXC3HoTrBL37SXPlYPqXmiWB2WRwERXkYo/edit?usp=sharing" style="color: blue;">[disini]</a></span>).</label>
 							<input type="text" class="form-control input-sm" id="input-form-id" name="input-form-id">
 						</div>
 					</div>
