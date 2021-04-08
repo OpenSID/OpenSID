@@ -55,6 +55,7 @@ class Import_model extends CI_Model {
 		$memory_limit = $matches[1] ?: 0;
 		if ($memory_limit < 512) ini_set('memory_limit', '512M');
 		set_time_limit(3600);
+		$this->load->model('referensi_model');
 		$this->load->library('Spreadsheet_Excel_Reader');
 		$this->kode_sex = array_change_key_case(unserialize(KODE_SEX));
 		$this->kode_hubungan = array_change_key_case(unserialize(KODE_HUBUNGAN));
@@ -66,16 +67,46 @@ class Import_model extends CI_Model {
 		$this->kode_wajib_ktp = array_change_key_case(unserialize(WAJIB_KTP));
 		$this->kode_ktp_el = array_change_key_case(unserialize(KTP_EL));
 		$this->kode_status_rekam = array_change_key_case(unserialize(STATUS_REKAM));
-		$this->kode_status_dasar = array_change_key_case(unserialize(STATUS_DASAR));
+		$this->kode_status_dasar = $this->merge_kode_status_dasar();
 		$this->kode_cacat = array_change_key_case(unserialize(KODE_CACAT));
 		// Load model
 		$this->load->model('penduduk_model');
 	}
 
-/* 	========================================================
-		IMPORT EXCEL
-		========================================================
-*/
+	/**
+	 * Gabungkan kode status dasar untuk Siak dan OpenSID.
+	 * 
+	 * @return array
+	 */
+	protected function merge_kode_status_dasar()
+	{
+		$tweb_status_dasar = $this->referensi_model->list_data('tweb_status_dasar');
+
+		$merge = array_merge($tweb_status_dasar, [
+			[
+				'id' => 3,
+				'nama' => 'PINDAH DALAM NEGERI',
+			],
+			[
+				'id' => 3,
+				'nama' => 'PINDAH LUAR NEGERI',
+			]
+		]);
+
+		$data = [];
+		foreach ($merge as $kode)
+		{
+			$data[$kode['nama']] = (int) $kode['id'];
+		}
+
+		return $data;
+	}
+	
+	/**
+	 * ========================================================
+	 * IMPORT EXCEL
+	 * ========================================================
+	 */
 	private function file_import_valid()
 	{
 		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
@@ -123,8 +154,8 @@ class Import_model extends CI_Model {
 		else
 			return $this->get_kode($daftar_kode, $nilai);
 	}
-
-  protected function data_import_valid($isi_baris)
+	
+	protected function data_import_valid($isi_baris)
 	{
 		// Kolom yang harus diisi
 		if ($isi_baris['nama'] == "" OR $isi_baris['nik'] == "" OR $isi_baris['dusun'] == "" OR $isi_baris['rt'] == "" OR $isi_baris['rw'] == "")
@@ -145,7 +176,7 @@ class Import_model extends CI_Model {
 		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
 		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
 		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
-		if ($isi_baris['status_dasar'] != "" AND !(in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9]))) return 'kode status_dasar tidak dikenal';
+		if ($isi_baris['status_dasar'] != "" AND ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) return 'kode status_dasar tidak dikenal';
 
 		// Validasi data lain
 		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
@@ -181,7 +212,7 @@ class Import_model extends CI_Model {
 
 	private function get_isi_baris($rowData)
 	{
-    $kolom_impor_keluarga = unserialize(KOLOM_IMPOR_KELUARGA);
+		$kolom_impor_keluarga = unserialize(KOLOM_IMPOR_KELUARGA);
 		$isi_baris['alamat'] = trim($rowData[$kolom_impor_keluarga['alamat']]);
 		$dusun = ltrim(trim($rowData[$kolom_impor_keluarga['dusun']]), "'");
 		$dusun = str_replace('_', ' ', $dusun);
@@ -260,6 +291,7 @@ class Import_model extends CI_Model {
 		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($rowData[$kolom_impor_keluarga['status_rekam']]));
 		$isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
 		$isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($rowData[$kolom_impor_keluarga['status_dasar']]));
+
 		return $isi_baris;
 	}
 
