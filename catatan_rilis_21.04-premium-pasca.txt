@@ -19,3 +19,5 @@ Premium - perbaikan bug:
 Premium - penambahan fitur:
 
 1. #4108: Filter arsip surat menurut bulan.
+2. #3986: Samarkan data penduduk di server yang khusus digunakan untuk data publik saja, tidak untuk pengelolaan data penduduk.
+3. #3986: Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
