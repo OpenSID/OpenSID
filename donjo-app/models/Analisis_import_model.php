@@ -112,69 +112,6 @@ class Analisis_import_Model extends CI_Model {
 		return $id_master;
 	}
 
-	// public function import_gform(){
-	// 	// Pengaturan Library Upload
-	// 	$this->load->library('upload');
-
-	// 	$config['upload_path']		= LOKASI_DOKUMEN;
-	// 	$config['allowed_types']	= 'xls|xlsx|xlsm|csv';
-	// 	$config['file_name']		= namafile('Import Response Google Form');
-
-	// 	$this->upload->initialize($config);
-
-	// 	if ( ! $this->upload->do_upload('userfile'))
-	// 	{
-	// 		$this->session->error_msg = $this->upload->display_errors();
-	// 		$this->session->success = -1;
-	// 		return;
-	// 	}
-
-	// 	$upload = $this->upload->data();
-	// 	$file = LOKASI_DOKUMEN . $upload['file_name'];
-
-	// 	// Open File CSV
-	// 	$handle = fopen($file, "r");
-	// 	$list_data = array();
-	// 	$list_pertanyaan = array();
-	// 	$count_row = 1;
-
-	// 	while (($row = fgetcsv($handle, 10000, ",")) != FALSE) //get row vales
-	// 	{
-	// 		if($count_row == 1)
-	// 		{
-	// 			foreach ($row as $value)
-	// 			{
-	// 				$temp = [
-	// 					'pertanyaan' 	=> $value,
-	// 					'unique_value' 	=> array()
-	// 				];
-	// 				array_push($list_pertanyaan, $temp);
-	// 			}
-	// 		}
-	// 		else
-	// 		{
-	// 			foreach ($row as $key => $value)
-	// 			{
-	// 				if(! in_array($value, $list_pertanyaan[$key]['unique_value']))
-	// 				{
-	// 					array_push($list_pertanyaan[$key]['unique_value'], $value);
-	// 				}
-	// 			}
-	// 			array_push($list_data, $row);
-	// 		}
-				
-	// 		$count_row += 1;
-	// 	}
-
-	// 	$this->session->data_import = array(
-	// 		'pertanyaan' 	=> $list_pertanyaan,
-	// 		'jawaban'		=> $list_data
-	// 	);
-
-	// 	$this->session->success = 5;
-	// 	return '0';
-	// }
-
 	public function save_import_gform(){
 		$list_error = array();
 

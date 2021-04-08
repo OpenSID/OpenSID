@@ -21,16 +21,6 @@
 			<div class="col-sm-12">
 				<div class="box box-danger">
 					<div class="box-body">
-						<!-- <div class="form-group">
-							<label for="file"  class="control-label">File Response Google Form (dalam format .csv):</label>
-							<div class="input-group input-group-sm">
-								<input type="text" class="form-control" id="file_path2" name="userfile">
-								<input type="file" class="hidden" id="file2" name="userfile">
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
-								</span>
-							</div>
-						</div> -->
 						<div class="form-group">
 							<label for="file"  class="control-label">ID Google Form (bisa anda dapatkan pada URL Google Form Anda)</label>
 							<input type="text" class="form-control input-sm" id="input-form-id" name="input-form-id">

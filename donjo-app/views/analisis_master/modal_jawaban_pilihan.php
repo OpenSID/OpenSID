@@ -70,10 +70,10 @@
 									<div class="form-group" id=<?= "row-jawaban-" . $key ?>>
 										<div class="row">
 											<div class="col-sm-12">
-												<label class="control-label">Jawaban untuk kategori <span><?= $data['pertanyaan'] ?></span></label>
+												<label class="control-label">Jawaban untuk kategori <span><?= $data['title'] ?></span></label>
 												<input type="hidden" class="is-selected" name="is_selected[]"></input>
 												<input type="hidden" class="is-nik-kk" name="is_nik_kk[]"></input>
-												<input type="hidden" name="pertanyaan[]" value="<?= $data['pertanyaan'] ?>"></input>
+												<input type="hidden" name="pertanyaan[]" value="<?= $data['title'] ?>"></input>
 												<input type="hidden" class="tipe" name="tipe[]"></input>
 												<input type="hidden" class="kategori" name="kategori[]"></input>
 												<input type="hidden" class="bobot" name="bobot[]"></input>
@@ -87,7 +87,7 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($data['unique_value'] as $unique_key => $unique_value){ ?>
+															<?php foreach ($data['choices'] as $unique_key => $unique_value){ ?>
 															<tr>
 																<input type="hidden" name=<?= "unique-param-key-". $key ."[]" ?> value="<?= $unique_key ?>"></input>
 																<input type="hidden" name=<?= "unique-param-value-". $key ."[]" ?> value="<?= $unique_value ?>"></input>
