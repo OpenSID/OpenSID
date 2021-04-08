@@ -174,9 +174,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	private function search_sql()
 	{
-		if ($cari = $this->session->cari)
+		if ($kw = $this->session->cari)
 		{
-			$kw = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->or_like('u.nama', $kw, 'both', FALSE)

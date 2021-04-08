@@ -149,7 +149,7 @@ class Pamong_model extends CI_Model {
 	{
 		if ($this->session->has_userdata('cari'))
 		{
-			$cari = $this->db->escape_like_str($this->session->cari);
+			$cari = $this->session->cari;
 			$this->db
 				->group_start()
 					->like('p.nama', $cari)
