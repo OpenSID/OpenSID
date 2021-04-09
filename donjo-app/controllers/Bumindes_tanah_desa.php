@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Bumindes_pembangunan extends Admin_Controller {
+class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function __construct()
 	{
@@ -54,7 +54,7 @@ class Bumindes_pembangunan extends Admin_Controller {
 		$data = [
 			'main' 		   => $this->tanah_desa_model->view_tanah_desa_by_id($id),
 			'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
-			'subtitle'	   => ["bumindes_pembangunan/tables/tanah","Buku Tanah di Desa","Rincian Data"],
+			'subtitle'	   => ["bumindes_tanah_desa/tables/tanah","Buku Tanah di Desa","Rincian Data"],
 			'selected_nav' => 'tanah',
 			'view_mark'	   => TRUE,
 		];
@@ -68,9 +68,9 @@ class Bumindes_pembangunan extends Admin_Controller {
 			$data = [
 				'main' 		   => $this->tanah_desa_model->view_tanah_desa_by_id($id),
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",				
-				'subtitle' 	   => ["bumindes_pembangunan/tables/tanah","Buku Tanah di Desa","Ubah Data"],
+				'subtitle' 	   => ["bumindes_tanah_desa/tables/tanah","Buku Tanah di Desa","Ubah Data"],
 				'selected_nav' => 'tanah',
-				'form_action'  => site_url("bumindes_pembangunan/update_tanah_desa"), 
+				'form_action'  => site_url("bumindes_tanah_desa/update_tanah_desa"), 
 			];
 		}
 		else
@@ -78,9 +78,9 @@ class Bumindes_pembangunan extends Admin_Controller {
 			$data = [
 				'main' 		   => NULL,
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
-				'subtitle'	   => ["bumindes_pembangunan/tables/tanah","Buku Tanah di Desa","Isi Data"],
+				'subtitle'	   => ["bumindes_tanah_desa/tables/tanah","Buku Tanah di Desa","Isi Data"],
 				'selected_nav' => 'tanah',
-				'form_action'  => site_url("bumindes_pembangunan/add_tanah_desa"),
+				'form_action'  => site_url("bumindes_tanah_desa/add_tanah_desa"),
 			];
 
 		}
@@ -95,7 +95,7 @@ class Bumindes_pembangunan extends Admin_Controller {
 
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("bumindes_pembangunan/tables/tanah");
+		redirect("bumindes_tanah_desa/tables/tanah");
 	}
 
 	public function update_tanah_desa()
@@ -103,16 +103,16 @@ class Bumindes_pembangunan extends Admin_Controller {
 		$data = $this->tanah_desa_model->update_tanah_desa();
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("bumindes_pembangunan/tables/tanah");
+		redirect("bumindes_tanah_desa/tables/tanah");
 	}
 
 	public function delete_tanah_desa($id)
 	{
-		$this->redirect_hak_akses('h', 'bumindes_pembangunan/tables/tanah');
+		$this->redirect_hak_akses('h', 'bumindes_tanah_desa/tables/tanah');
 		$data = $this->tanah_desa_model->delete_tanah_desa($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect('bumindes_pembangunan/tables/tanah');
+		redirect('bumindes_tanah_desa/tables/tanah');
 	}
 
 	public function ajax_cetak($aksi = '')
@@ -120,7 +120,7 @@ class Bumindes_pembangunan extends Admin_Controller {
 		// pengaturan data untuk dialog cetak/unduh
 		$data = [			
 			'aksi' => $aksi,
-			'form_action' => site_url("bumindes_pembangunan/cetak_tanah_desa/$aksi"),			
+			'form_action' => site_url("bumindes_tanah_desa/cetak_tanah_desa/$aksi"),			
 			'isi' => "bumindes/pembangunan/tanah_di_desa/ajax_dialog_tanah_di_desa",
 		];
 
