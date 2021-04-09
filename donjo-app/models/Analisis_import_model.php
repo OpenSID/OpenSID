@@ -301,7 +301,7 @@ class Analisis_import_Model extends CI_Model {
 		$service = new Google_Service_Script($client);
 
 		// API script id
-		$scriptId = 'AKfycbzSUDkftOqJZTVM0dSgScCu0RX19T1Lh5ZxLjwjxbpQYGqiT2l2O4cSSr9WlWkJyJo';
+		$scriptId = 'AKfycbx3KRsQ_OsDpq4r2bWmW-BaOUaQzktkavrCBjpKHpw-KNN4GHho6_g6leY43ueKwpc6OQ';
 
 		// add "?logout" to the URL to remove a token from the session
 		if (isset($_REQUEST['logout'])) 
