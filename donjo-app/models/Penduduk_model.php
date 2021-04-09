@@ -609,6 +609,7 @@ class Penduduk_model extends MY_Model {
 		$data['hamil'] = $data['hamil'] ?: NULL;
 
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
+		$data['tag_id_card'] = $data['tag_id_card'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
 		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
 		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ?: NULL;
@@ -747,7 +748,6 @@ class Penduduk_model extends MY_Model {
 
 		$data['created_at'] = date('Y-m-d H:i:s');
 		$data['created_by'] = $this->session->user;
-		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
 		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
@@ -892,7 +892,6 @@ class Penduduk_model extends MY_Model {
 
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
-		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 
