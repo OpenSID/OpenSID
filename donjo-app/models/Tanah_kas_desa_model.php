@@ -3,7 +3,7 @@
 class Tanah_kas_desa_model extends CI_Model
 {
 
-	protected $table = 'administrasi_tanah_kas_desa';
+	protected $table = 'tanah_kas_desa';
 
 	public function __construct()
 	{

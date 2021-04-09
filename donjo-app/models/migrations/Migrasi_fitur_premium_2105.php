@@ -56,8 +56,66 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false, 'default' => ''],
 		];
 		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
+		$hasil =& $this->create_table_tanah_desa($hasil);
+		$hasil =& $this->create_table_tanah_kas_desa($hasil);
 
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function create_table_tanah_desa($hasil)
+	{
+		$this->dbforge->add_field([
+			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],			
+			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false],
+			'letter_c'          => ['type' => 'TEXT', 'null' => false],
+			'persil'         	=> ['type' => 'TEXT', 'null' => false],
+			'nomor_sertif'      => ['type' => 'TEXT', 'null' => false],
+			'tanggal_sertif'   	=> ['type' => 'DATE', 'null' => false, 'default'=> 'curent_timestamp'],
+			'hak_tanah'         => ['type' => 'TEXT', 'null' => false],
+			'penggunaan_tanah'	=> ['type' => 'TEXT', 'null' => false],
+			'luas'     			=> ['type' => 'INT', 'constraint' => 10, 'null' => false],
+			'lain' 				=> ['type' => 'TEXT', 'null' => false],
+			'keterangan' 		=> ['type' => 'TEXT', 'null' => false],
+			'created_at'        => ['type' => 'TIMESTAMP', 'null' => false, 'default'=> 'curent_timestamp'],
+			'created_by'        => ['type' => 'INT', 'constraint' => 10, 'null' => false],
+			'updated_at'        => ['type' => 'TIMESTAMP', 'null' => false, 'default'=> 'curent_timestamp'],
+			'updated_by'        => ['type' => 'INT', 'constraint' => 10, 'null' => false],
+			'visible'           => ['type' => 'TINYINT', 'constraint' => 3, 'default' => 1],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('tanah_desa', true);
+		return $hasil;
+	}
+
+	protected function create_table_tanah_kas_desa($hasil)
+	{
+		$this->dbforge->add_field([
+			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],			
+			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false],
+			'letter_c'          => ['type' => 'TEXT', 'null' => false],
+			'persil'         	=> ['type' => 'TEXT', 'null' => false],
+			'kelas' 		    => ['type' => 'TEXT', 'null' => false],
+			'luas'     			=> ['type' => 'INT', 'constraint' => 10, 'null' => false],
+			'perolehan_tkd'     => ['type' => 'TEXT', 'null' => false],
+			'jenis_tkd'         => ['type' => 'TEXT', 'null' => false],
+			'patok'		        => ['type' => 'TEXT', 'null' => false],
+			'papan_nama'		=> ['type' => 'TEXT', 'null' => false],
+			'tanggal_perolehan' => ['type' => 'DATE', 'null' => false, 'default'=> 'curent_timestamp'],
+			'lokasi'			=> ['type' => 'TEXT', 'null' => false],
+			'peruntukan' 		=> ['type' => 'TEXT', 'null' => false],
+			'keterangan' 		=> ['type' => 'TEXT', 'null' => false],
+			'created_at'        => ['type' => 'TIMESTAMP', 'null' => false, 'default'=> 'curent_timestamp'],
+			'created_by'        => ['type' => 'INT', 'constraint' => 10, 'null' => false],
+			'updated_at'        => ['type' => 'TIMESTAMP', 'null' => false, 'default'=> 'curent_timestamp'],
+			'updated_by'        => ['type' => 'INT', 'constraint' => 10, 'null' => false],
+			'status'           	=> ['type' => 'TINYINT', 'constraint' => 2, 'default' => 0],
+			'visible'           => ['type' => 'TINYINT', 'constraint' => 2, 'default' => 1],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('tanah_kas_desa', true);
 		return $hasil;
 	}
 
