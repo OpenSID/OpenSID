@@ -130,7 +130,7 @@
                                     for="nomor_register">Peruntukan</label>
                                 <div class="col-sm-8">
                                     <input maxlength="50" class="form-control input-sm required" name="peruntukan"
-                                        id="peruntukan" type="text" placeholder="No. Sertifikat" value="<?= $main->peruntukan; ?>"/>
+                                        id="peruntukan" type="text" placeholder="Peruntukan" value="<?= $main->peruntukan; ?>"/>
                                 </div>
                             </div>                                                                                                                                 
                             <div class="form-group">
@@ -138,7 +138,7 @@
                                     for="keterangan">Lokasi</label>
                                 <div class="col-sm-8">
                                     <textarea rows="5" class="form-control input-sm required" name="lokasi"
-                                        id="lokasi" placeholder="Lain - lain" ><?= $main->lokasi; ?></textarea>
+                                        id="lokasi" placeholder="Lokasi" ><?= $main->lokasi; ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
