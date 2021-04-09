@@ -227,7 +227,7 @@ class Analisis_master extends Admin_Controller {
 	{
 		$this->session->google_form_id = $this->input->post('input-form-id');
 		
-		$BASE_URL_API = 'http://localhost/opensid/index.php/'; //TO DO
+		$BASE_URL_API = 'https://bumindes.opensid.or.id/index.php/';
 		$self_link = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 		if ($this->input->get('outsideRetry') == "true"){
 			$url = $BASE_URL_API . 'first/getFormInfo?formId=' . $_GET['formId'] . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $_GET['code'];
