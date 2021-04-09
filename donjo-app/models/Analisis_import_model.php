@@ -282,7 +282,7 @@ class Analisis_import_Model extends CI_Model {
 		return false;
 	}
 
-	public function import_gform(){
+	public function import_gform($redirect_link = ""){
 		// Check Credential File
 		if (!$oauth_credentials = $this->getOAuthCredentialsFile()) 
 		{
@@ -314,8 +314,8 @@ class Analisis_import_Model extends CI_Model {
 			// store in the session also
 			$_SESSION['upload_token'] = $token;
 
-			// redirect back to the example
-			header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+			// // redirect back to the example
+			// header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 		}
 
 		// set the access token as part of the client
@@ -337,10 +337,12 @@ class Analisis_import_Model extends CI_Model {
 
 		try 
 		{
-			if (isset($authUrl))
+			if (isset($authUrl) && $_SESSION['inside_retry'] != true)
 			{	
 				// If no authentication before
 				$this->session->gform_id = $form_id;
+				$this->session->inside_retry = true;
+				$this->session->inside_redirect_link = $redirect_link;
 				header('Location: ' . $authUrl);
 			} 
 			else 
@@ -372,9 +374,7 @@ class Analisis_import_Model extends CI_Model {
 				{
 					// Get Response
 					$resp = $response->getResponse();
-					$this->session->data_import = $resp['result'];
-					$this->session->success = 5;
-					redirect('analisis_master');
+					return $resp['result'];
 				}
 			}
 			

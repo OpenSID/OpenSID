@@ -1,4 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+require_once 'vendor/google-api-php-client/vendor/autoload.php';
 /*
  *  File ini:
  *
@@ -225,7 +226,24 @@ class Analisis_master extends Admin_Controller {
 	public function exec_import_gform()
 	{
 		$this->session->google_form_id = $this->input->post('input-form-id');
-		$this->analisis_import_model->import_gform();
+		
+		$BASE_URL_API = 'http://localhost/opensid/index.php/'; //TO DO
+		$self_link = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+		if ($this->input->get('outsideRetry') == "true"){
+			$url = $BASE_URL_API . 'first/getFormInfo?formId=' . $_GET['formId'] . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $_GET['code'];
+
+			$client = new Google\Client();
+			$httpClient = $client->authorize();
+			$response = $httpClient->get($url);
+
+			$variabel = json_decode($response->getBody(), true);
+			$this->session->data_import = $variabel;
+			$this->session->success = 5;
+			redirect('analisis_master');
+		} else {
+			$url = $BASE_URL_API . 'first/getFormInfo?formId=' . $this->input->post('input-form-id') . '&redirectLink=' . $self_link ;
+			header('Location: ' . $url);
+		}
 	}
 
 	public function update($p=1, $o=0, $id='')
