@@ -58,6 +58,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
 		$hasil =& $this->create_table_tanah_desa($hasil);
 		$hasil =& $this->create_table_tanah_kas_desa($hasil);
+		$hasil =& $this->bumindes_updates($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -116,6 +117,33 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 
 		$this->dbforge->add_key('id', true);
 		$hasil =& $this->dbforge->create_table('tanah_kas_desa', true);
+		return $hasil;
+	}
+
+	protected function bumindes_updates($hasil){
+
+		// Menambahkan data pada setting_modul untuk controller bumindes_penduduk
+		$data = array(			
+			['id'=> 319, 'modul' => 'Buku Tanah Kas Desa', 'url' => 'bumindes_tanah_kas_desa', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 305],
+		);
+
+		foreach ($data as $modul)
+		{
+			$sql = $this->db->insert_string('setting_modul', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					modul = VALUES(modul),
+					url = VALUES(url),
+					aktif = VALUES(aktif),
+					ikon = VALUES(ikon),
+					urut = VALUES(urut),
+					level = VALUES(level),
+					hidden = VALUES(hidden),
+					ikon_kecil = VALUES(ikon_kecil),
+					parent = VALUES(parent)";
+			$hasil =& $this->db->query($sql);
+		}
+
 		return $hasil;
 	}
 

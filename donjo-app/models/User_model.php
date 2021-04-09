@@ -805,6 +805,7 @@ class User_model extends CI_Model {
 				'bumindes_penduduk' => array('b','u'),
 				'bumindes_keuangan' => array('b','u'),
 				'bumindes_pembangunan' => array('b','u'),
+				'bumindes_tanah_kas_desa' => array('b','u'),
 				'bumindes_lain' => array('b','u'),
 				'ekspedisi' => array('b','u'),
 
