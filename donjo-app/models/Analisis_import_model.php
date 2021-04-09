@@ -290,7 +290,7 @@ class Analisis_import_Model extends CI_Model {
 			return;
 		}
 
-		$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+		$redirect_uri = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
 		// Get the API client and construct the service object.
 		$client = new Google\Client();
