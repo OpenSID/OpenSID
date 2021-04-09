@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?= base_url()?>assets/css/alert-bootstrap.css">
+
 <?php if(!$sub_modul): ?>
 	<script type="text/javascript">
 		function ubah_jenis_server(jenis_server)
@@ -55,15 +57,15 @@
 <?php endif; ?>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Manajemen <?= $sub_modul ? 'Submodul' : 'Modul';?></h1>
+		<h1>Pengaturan <?= $sub_modul ? 'Submodul' : 'Modul';?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 
 			<?php if(!$sub_modul): ?>
-				<li class="active">Manajemen Modul</li>
+				<li class="active">Pengaturan Modul</li>
 			<?php else: ?>
 				<li><a href="<?= site_url('modul/clear')?>"> Daftar Modul</a></li>
-				<li class="active">Manajemen Submodul</li>
+				<li class="active">Pengaturan Submodul</li>
 			<?php endif; ?>
 		</ol>
 	</section>
@@ -74,7 +76,7 @@
 					<div class="box box-info">
 						<form id="validasi" action="<?= site_url("modul/ubah_server")?>" method="POST" class="form-horizontal">
 							<div class="box-body">
-								<h4>Penggunaan Server</h4>
+								<h4>Pengaturan Server</h4>
 								<div class="form-group" >
 									<label class="col-sm-3 control-label">Penggunaan OpenSID di <?= ucwords($this->setting->sebutan_desa)?></label>
 									<div class="col-sm-9 col-lg-4">
@@ -148,6 +150,16 @@
 								</div>
 							</div>
 						</form>
+						<?php if ($this->setting->penggunaan_server == 6): ?>
+							<div class="box-body">
+								<div class="alert alert-info">
+									<p>Server ini hanya digunakan untuk menampilkan data bagi publik. Secara default, semua modul dinon-aktifkan kecuali menu Pengaturan dan Admin Web. Pengelolaan data penduduk dan lain-lain dilakukan di server terpisah, secara offline di Kantor Desa. Untuk memutakhirkan data di server ini, unggah data secara berkala dari server yang digunakan untuk pengelolaan data.</p>
+									<p>Sebaiknya data di server ini diacak atau disensor untuk menjaga privasi data penduduk dan data lain.</p>
+								</div>
+								<a href="#" data-title="Acak Data" class="btn btn-social btn-flat btn-danger btn-sm" data-toggle="modal" data-target="#confirm-acak"><i class='fa fa-trash-o'></i>Acak Data</a>
+								<a href="<?= site_url("database/mutakhirkan_data_server")?>" title="Sinkronkan Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Sinkronkan Data" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-refresh"></i>Impor Data Mutakhir</a>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -245,4 +257,26 @@
 			</div>
 		</div>
 	</section>
+</div>
+
+<div class='modal fade' id='confirm-acak' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+			</div>
+			<div class='modal-body btn-info'>
+				Apakah Anda yakin ingin mengacak data di server ini?
+				<br><br>
+				Data yang telah diacak tidak bisa dikembalikan. Pastikan data sudah dibackup.
+			</div>
+			<div class='modal-footer'>
+				<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				<a class='btn-ok' href="<?= site_url('database/acak'); ?>" \>
+					<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Acak</button>
+				</a>
+			</div>
+		</div>
+	</div>
 </div>

@@ -66,7 +66,6 @@ class Mandiri_model extends CI_Model {
 		$cari = $this->session->cari;
 		if ($cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->like('p.nik', $cari)

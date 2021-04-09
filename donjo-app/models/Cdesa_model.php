@@ -9,7 +9,6 @@ class Cdesa_model extends CI_Model {
 
 	public function autocomplete($cari='')
 	{
-		$cari = $this->db->escape_like_str($cari);
 		$sql_kolom = [];
 		$list_kolom = [
 			'nomor' => 'cdesa',
