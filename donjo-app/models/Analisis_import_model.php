@@ -197,10 +197,12 @@ class Analisis_import_Model extends CI_Model {
 				// Simpan Parameter untuk setiap unique value pada masing-masing indikator
 				foreach ($this->input->post('unique-param-value-' . $key) as $param_key => $param_val)
 				{
+					$param_nilai = ($this->input->post('unique-param-nilai-' . $key)[$param_key] == "") ? 0 : $this->input->post('unique-param-nilai-' . $key)[$param_key];
+
 					$data_parameter = [
 						'id_indikator'	=> $id_indikator,
 						'jawaban'		=> $this->input->post('unique-param-value-' . $key)[$param_key],
-						'nilai' 		=> $this->input->post('unique-param-nilai-' . $key)[$param_key],
+						'nilai' 		=> $param_nilai,
 						'kode_jawaban' 	=> ($param_key+1),
 						'asign' 		=> 0
 					];
