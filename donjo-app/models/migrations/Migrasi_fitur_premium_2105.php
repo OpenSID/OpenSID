@@ -57,8 +57,36 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		];
 		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
 
+		$hasil =& $this->convert_ip_address($hasil);
+
 		status_sukses($hasil);
 		return $hasil;
 	}
 
+	/**
+	 * Convert ip address.
+	 */
+	protected function convert_ip_address($hasil)
+	{
+		$data = $this->db
+			->not_like('ipAddress', 'ip_address')
+			->get('sys_traffic')
+			->result();
+
+		$batch = [];
+
+		foreach ($data as $sys_traffic)
+		{
+			$remove_character = str_replace('{}', '', $sys_traffic->ipAddress);
+
+			$batch[] = [
+				'ipAddress' => json_encode(['ip_address' => [$remove_character]]),
+				'Tanggal'   => $sys_traffic->Tanggal,
+			];
+		}
+
+		$hasil =& $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
+
+		return $hasil >= 0;
+	}
 }
