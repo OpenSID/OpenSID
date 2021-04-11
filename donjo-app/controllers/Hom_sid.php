@@ -62,7 +62,7 @@ class Hom_sid extends Admin_Controller {
 
 			$this->release->set_api_url('https://api.github.com/repos/opensid/opensid/releases/latest')
 				->set_interval(7)
-				->set_cache_folder(FCPATH.'desa');
+				->set_cache_folder(FCPATH.'cache');
 
 			$data['update_available'] = $this->release->is_available();
 			$data['current_version'] = $this->release->get_current_version();
