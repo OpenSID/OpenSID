@@ -363,11 +363,11 @@
 		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
 		unset($data['maksud_tujuan_kedatangan']);
 
-		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
+		$tgl_lapor = rev_tgl($_POST['tgl_lapor'], NULL);
 		if ($_POST['tgl_peristiwa'])
-			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
+			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa'], NULL);
 		else
-			$tgl_peristiwa = rev_tgl($_POST['tanggallahir']);
+			$tgl_peristiwa = rev_tgl($_POST['tanggallahir'], NULL);
 		unset($data['tgl_lapor']);
 		unset($data['tgl_peristiwa']);
 

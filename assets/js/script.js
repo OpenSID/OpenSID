@@ -242,24 +242,26 @@ $(document).ready(function()
 	});
 
 	// Penggunaan datatable di inventaris
-	var t = $('#tabel4').DataTable({
-		'paging'      : true,
-    'lengthChange': true,
-    'searching'   : true,
-    'ordering'    : true,
-    'info'        : true,
-    'autoWidth'   : false,
-		'language' 		: {
-				'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
-		}
-	});
-	t.on('order.dt search.dt', function()
-	{
-		t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
-		{
-			cell.innerHTML = i+1;
+	if ( ! $.fn.DataTable.isDataTable( '#tabel4' ) ) {
+		var t = $('#tabel4').DataTable({
+			'paging'      : true,
+	    'lengthChange': true,
+	    'searching'   : true,
+	    'ordering'    : true,
+	    'info'        : true,
+	    'autoWidth'   : false,
+			'language' 		: {
+					'url': base_url + '/assets/bootstrap/js/dataTables.indonesian.lang'
+			}
 		});
-	}).draw();
+		t.on('order.dt search.dt', function()
+		{
+			t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i)
+			{
+				cell.innerHTML = i+1;
+			});
+		}).draw();
+	}
 
 });
 
