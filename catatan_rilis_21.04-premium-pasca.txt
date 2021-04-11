@@ -16,6 +16,7 @@ Premium - perbaikan bug:
 7. #4113: Perbaiki bisa cari nama penduduk atau nama lain yg berisi tanda kutip ('). [bug-fix]
 8. #4129: Sekarang menambah anggota keluarga sudah normal kembali. [bug-fix]
 9. #1486: Hapus isian yg tidak digunakan di form Surat Pernyataan Belum Memiliki Akta Lahir. [bug-fix]
+10. #3352: Perbaiki pencatatan data pengunjung web. [bug-fix]
 
 
 Premium - penambahan fitur:
