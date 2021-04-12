@@ -58,6 +58,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
 		$hasil =& $this->server_publik();
 		$hasil =& $this->convert_ip_address($hasil);
+		$hasil =& $this->tambah_kolom_log_keluarga($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -141,4 +142,45 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 
 		return $hasil >= 0;
 	}
+
+	protected function tambah_kolom_log_keluarga($hasil)
+	{
+		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
+			$hasil =& $this->dbforge->add_column('log_keluarga', [
+				'id_pend' => ['type' => 'INT', 'constraint' => 11, 'null' => TRUE],
+				'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => FALSE]
+			]);
+		// Pindahkan log_penduduk lama ke log_keluarga
+		// Perhatikan pemindahan ini tidak akan dilakukan jika semua log id_peristiwa = 7
+		// terhapus pada Migrasi_fitur_premium_2102.php
+		$log_keluar = $this->db
+			->select('l.id as id, l.id_pend, k.id as id_kk, p2.sex as kk_sex')
+			->where('l.kode_peristiwa', 7)
+			->from('log_penduduk l')
+			->join('tweb_penduduk p1', 'p1.id = l.id_pend')
+			->join('tweb_keluarga k', 'k.no_kk = p1.no_kk_sebelumnya', 'left')
+			->join('tweb_penduduk p2', 'p2.id = k.nik_kepala', 'left')
+			->get()
+			->result_array();
+		if (count($log_keluar) == 0) return $hasil;
+		$data = [];
+		foreach ($log_keluar as $log)
+		{
+			if ( ! $log['id_kk']) continue; // Abaikan kasus keluar dari keluarga
+			$data[] = [
+				'id_peristiwa' => 12,
+				'tgl_peristiwa' => $log['tgl_peristiwa'],
+				'updated_by' => $log['updated_by'] ?: $this->session->user,
+				'id_kk' => $log['id_kk'],
+				'kk_sex' => $log['kk_sex'],
+				'id_pend' => $log['id_pend']
+			];
+		}
+		$hasil =& $this->db->insert_batch('log_keluarga', $data);
+		$hasil =& $this->db
+			->where_in('id', array_column($log_keluar, 'id'))
+			->delete('log_penduduk');
+		return $hasil;
+	}
+
 }
