@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.04-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Mochamad Arifin yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
 
@@ -19,6 +19,7 @@ Premium - perbaikan bug:
 10. #3352: Perbaiki pencatatan data pengunjung web. [bug-fix]
 11. #4131: Sekarang tidak tampil penduduk duplikat setelah pecah atau keluarkan anggota keluarga. [bug-fix]
 12. #4130: Sekarang pilihan huruf yg dapat dibaca penduduk tampil pada waktu menambah KK dan anggota keluarga. [bug-fix]
+13. Tampilkan status IDM untuk tahun 2021. [bug-fix]
 
 
 Premium - penambahan fitur:
