@@ -545,12 +545,6 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
-		// Counter statistik pengunjung
-		$this->statistik_pengunjung->counter_visitor();
-
-		// Data statistik pengunjung
-		$data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
-
 		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
@@ -580,6 +574,12 @@ class First extends Web_Controller {
 		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
 		}
+
+		// Counter statistik pengunjung
+		$this->statistik_pengunjung->counter_visitor();
+
+		// Data statistik pengunjung
+		$data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
 	}
 
 	public function peta()
