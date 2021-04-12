@@ -130,7 +130,6 @@ class Area extends Admin_Controller
 			$data['area'] = null;
 
 		$data['desa'] = $this->config_model->get_data();
-		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw();

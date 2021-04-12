@@ -189,7 +189,7 @@ class Plan_area_model extends MY_Model {
 		$tipe_file = $_FILES['foto']['type'];
 		$nama_file = $_FILES['foto']['name'];
 		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		if (!empty($area_file))
+		if ( ! empty($area_file))
 		{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
@@ -210,7 +210,7 @@ class Plan_area_model extends MY_Model {
 
 	public function delete($id='', $semua=false)
 	{
-		if (!$semua) $this->session->success = 1;
+		if ( ! $semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('area');
 

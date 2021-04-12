@@ -1,13 +1,3 @@
-<script type="text/javascript">
-	var baseURL = "<?= base_url(); ?>";
-	$(function() {
-		var keyword = <?= $keyword ?>;
-		$("#cari").autocomplete({
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Area</h1>
@@ -135,3 +125,13 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
+<script type="text/javascript">
+	var baseURL = "<?= base_url(); ?>";
+	$(function() {
+		var keyword = <?= $keyword ?>;
+		$("#cari").autocomplete({
+			source: keyword,
+			maxShowItems: 10,
+		});
+	});
+</script>
