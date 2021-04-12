@@ -495,14 +495,14 @@ class Keluarga extends Admin_Controller {
 	// Pecah keluarga
 	public function delete_anggota($p = 1, $o = 0, $kk=0, $id = 0)
 	{
-		$this->keluarga_model->rem_anggota($kk,$id);
+		$this->keluarga_model->rem_anggota($kk, $id);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
 
 	// Keluarkan karena salah mengisi
 	public function keluarkan_anggota($kk, $id = 0)
 	{
-		$this->keluarga_model->rem_anggota($no_kk_sebelumnya = 0, $id);
+		$this->keluarga_model->rem_anggota($no_kk_sebelumnya = 0, $id); // Tidak simpan no KK
 		redirect("keluarga/anggota/1/0/$kk");
 	}
 
