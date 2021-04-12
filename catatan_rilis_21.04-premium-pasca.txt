@@ -17,6 +17,7 @@ Premium - perbaikan bug:
 8. #4129: Sekarang menambah anggota keluarga sudah normal kembali. [bug-fix]
 9. #1486: Hapus isian yg tidak digunakan di form Surat Pernyataan Belum Memiliki Akta Lahir. [bug-fix]
 10. #3352: Perbaiki pencatatan data pengunjung web. [bug-fix]
+11. #4131: Sekarang tidak tampil penduduk duplikat setelah pecah atau keluarkan anggota keluarga. [bug-fix]
 
 
 Premium - penambahan fitur:
