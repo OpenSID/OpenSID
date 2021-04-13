@@ -363,11 +363,11 @@
 		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
 		unset($data['maksud_tujuan_kedatangan']);
 
-		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
+		$tgl_lapor = rev_tgl($_POST['tgl_lapor'], NULL);
 		if ($_POST['tgl_peristiwa'])
-			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
+			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa'], NULL);
 		else
-			$tgl_peristiwa = rev_tgl($_POST['tanggallahir']);
+			$tgl_peristiwa = rev_tgl($_POST['tanggallahir'], NULL);
 		unset($data['tgl_lapor']);
 		unset($data['tgl_peristiwa']);
 
@@ -457,18 +457,28 @@
 				 4 - kepala keluarga status dasar 'mati'
 				 5 - kepala keluarga status dasar 'pindah'
 				 6 - kepala keluarga status dasar 'hilang'
+				 8 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
+				 11- kepala keluarga status dasar 'tidak valid' (seharusnya tidak ada)
+				 12- anggota keluarga keluar atau pecah dari keluarga
 	*/
-	public function log_keluarga($id, $kk, $id_peristiwa)
+	public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null)
 	{
-		$this->db->select('sex');
-		$this->db->where('id', $kk);
-		$q = $this->db->get('tweb_penduduk');
-		$penduduk = $q->row_array();
-		$log_keluarga['id_kk'] = $id;
-		$log_keluarga['kk_sex'] = $penduduk['sex'];
-		$log_keluarga['id_peristiwa'] = $id_peristiwa;
-		$log_keluarga['tgl_peristiwa'] = date('Y-m-d H:i:s');
+		$penduduk = $this->db
+			->select('sex')
+			->where('id', $kk)
+			->get('tweb_penduduk')
+			->row_array();
+		$log_keluarga = [
+			'id_kk' => $id,
+			'kk_sex' => $penduduk['sex'],
+			'id_peristiwa' => $id_peristiwa,
+			'tgl_peristiwa' => date('Y-m-d H:i:s'),
+			'id_pend' => $id_pend,
+			'updated_by' => $this->session->user
+		];
+
 		$outp = $this->db->insert('log_keluarga', $log_keluarga);
+		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function add_anggota($id = 0)
@@ -537,7 +547,12 @@
 	public function rem_anggota($kk = 0, $id = 0)
 	{
 		$pend = $this->keluarga_model->get_anggota($id);
-		$temp['no_kk_sebelumnya'] = $this->db->select('no_kk')->where('id', $kk)->get('tweb_keluarga')->row()->no_kk;
+		$kel = $this->db
+			->select('id, no_kk, nik_kepala')
+			->where('id', $pend['id_kk'])
+			->from('tweb_keluarga k')
+			->get()->row();
+		$temp['no_kk_sebelumnya'] = $kk ? $kel->no_kk : null; // Tidak simpan no kk kalau keluar dari keluarga
 		$temp['id_kk'] = 0;
 		$temp['kk_level'] = 0;
 		$temp['updated_at'] = date('Y-m-d H:i:s');
@@ -553,8 +568,8 @@
 
 		// hapus dokumen bersama dengan kepala KK sebelumnya
 		$this->web_dokumen_model->hard_delete_dokumen_bersama($id);
-
-		$this->penduduk_model->tulis_log_penduduk($id, '7', date('m'), date('Y'));
+		// catat peristiwa keluar/pecah di log_keluarga
+		$this->log_keluarga($kel->id, $kel->nik_kepala, 12, $id);
 	}
 
 	public function rem_all_anggota($kk)

@@ -69,6 +69,9 @@ class First extends Web_Controller {
 			}
 		}
 
+		// Load library statistik pengunjung
+		$this->load->library('statistik_pengunjung');
+
 		$this->load->model('config_model');
 		$this->load->model('first_artikel_m');
 		$this->load->model('teks_berjalan_model');
@@ -542,6 +545,12 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
+		// Counter statistik pengunjung
+		$this->statistik_pengunjung->counter_visitor();
+
+		// Data statistik pengunjung
+		$data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
+
 		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
@@ -656,7 +665,7 @@ class First extends Web_Controller {
 		$kode_desa = $data['desa']['kode_desa'];
 		if ($this->data_publik->has_internet_connection())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2020", "idm_$kode_desa")
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2021", "idm_2021_$kode_desa")
 				->set_interval(7)
 				->set_cache_folder(FCPATH.'desa');
 
