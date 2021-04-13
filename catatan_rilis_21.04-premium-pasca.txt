@@ -22,6 +22,7 @@ Premium - perbaikan bug:
 13. Tampilkan status IDM untuk tahun 2021. [bug-fix]
 14. #3593: Tambahkan kolom status_dasar di file impor/ekspor data penduduk. [bug-fix]
 15. #4135: Sekarang halaman statis Daftar Calon Pemilih tampil normal kembali di web. [bug-fix]
+16. #4133: Sekarang peta tidak membatasi jumlah area yg dapat ditampilkan. [bug-fix]
 
 
 Premium - penambahan fitur:
