@@ -21,6 +21,7 @@ Premium - perbaikan bug:
 12. #4130: Sekarang pilihan huruf yg dapat dibaca penduduk tampil pada waktu menambah KK dan anggota keluarga. [bug-fix]
 13. Tampilkan status IDM untuk tahun 2021. [bug-fix]
 14. #3593: Tambahkan kolom status_dasar di file impor/ekspor data penduduk. [bug-fix]
+15. #4135: Sekarang halaman statis Daftar Calon Pemilih tampil normal kembali di web. [bug-fix]
 
 
 Premium - penambahan fitur:
