@@ -20,6 +20,7 @@ Premium - perbaikan bug:
 11. #4131: Sekarang tidak tampil penduduk duplikat setelah pecah atau keluarkan anggota keluarga. [bug-fix]
 12. #4130: Sekarang pilihan huruf yg dapat dibaca penduduk tampil pada waktu menambah KK dan anggota keluarga. [bug-fix]
 13. Tampilkan status IDM untuk tahun 2021. [bug-fix]
+14. #3593: Tambahkan kolom status_dasar di file impor/ekspor data penduduk. [bug-fix]
 
 
 Premium - penambahan fitur:

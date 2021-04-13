@@ -93,15 +93,7 @@ define('AGENDA', 1000);
 define("MAX_PINDAH", 7);
 define("MAX_ANGGOTA", 7);
 
-// Konversi tulisan kode Buku Induk Penduduk ke kode SID
-define("STATUS_DASAR", serialize(array(
-	strtolower("HIDUP") => "1",
-	strtolower("MATI") => "2",
-	strtolower("PINDAH") => "3",
-	strtolower("PINDAH DALAM NEGERI") => "3",
-	strtolower("PINDAH LUAR NEGERI") => "3",
-	strtolower("HILANG") => "4"
-)));
+
 define("KODE_SEX", serialize(array(
 	"L" => "1",
 	"Lk" => "1",
