@@ -43,6 +43,7 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
 class First extends Web_Controller {
 
@@ -106,6 +107,7 @@ class First extends Web_Controller {
 		$this->load->model('pembangunan_dokumentasi_model');
 		$this->load->model('url_shortener_model');
 		$this->load->model('stat_shortener_model');
+		$this->load->model('analisis_import_model');
 	}
 
 	public function index($p=1)
@@ -709,6 +711,33 @@ class First extends Web_Controller {
 			$this->stat_shortener_model->add_log($url_data->id);
 			header('Location: ' . $url_data->url, true, 302);
 			exit();
+		}
+	}
+
+	public function getFormInfo(){
+		$form_id = $this->input->get('formId');
+		$redirect_link = $this->input->get('redirectLink');
+
+		if($this->session->inside_retry == false){
+			// Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
+			if($this->input->get('outsideRetry') == 'true'){
+				$this->session->inside_retry = true;
+			}
+			$this->session->google_form_id = $this->input->get('formId');
+			// $this->session->google_form_id = '10LS50kT95xj_L4NxJaiIdFWCu-pUzAummP1OlhBlA48';
+			$result = $this->analisis_import_model->import_gform($redirect_link);
+
+			// print_r($result);
+			echo json_encode($result);
+
+		} else {
+			// Untuk kondisi SESAAT setelah Autentikasi
+			$redirect_link = $this->session->inside_redirect_link;
+
+			unset($_SESSION['inside_retry']);
+			unset($_SESSION['inside_redirect_link']);
+			
+			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $_GET['code'] . '&formId=' . $this->session->google_form_id);
 		}
 	}
 }

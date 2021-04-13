@@ -1,4 +1,5 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+require_once 'vendor/google-api-php-client/vendor/autoload.php';
 /*
  *  File ini:
  *
@@ -63,8 +64,9 @@ class Analisis_master extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-    unset($_SESSION['analisis_master']);
-    unset($_SESSION['analisis_nama']);
+		unset($_SESSION['analisis_master']);
+		unset($_SESSION['analisis_nama']);
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -84,10 +86,17 @@ class Analisis_master extends Admin_Controller {
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->analisis_master_model->paging($p,$o);
-		$data['main']    = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->analisis_master_model->autocomplete();
-		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
+		$data = [
+			'paging' 		=> $this->analisis_master_model->paging($p,$o),
+			'data_import' 	=> $this->session->data_import,
+			'list_error' 	=> $this->session->list_error,
+			'keyword' 		=> $this->analisis_master_model->autocomplete(),
+			'list_subjek' 	=> $this->analisis_master_model->list_subjek()
+		];
+		$data['main']	= $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		
+		unset($_SESSION['list_error']);
+
 		$this->set_minsidebar(1);
 		$this->render('analisis_master/table', $data);
 	}
@@ -126,6 +135,13 @@ class Analisis_master extends Admin_Controller {
 		$this->set_minsidebar(1);
 		$data['form_action'] = site_url("analisis_master/import");
 		$this->load->view('analisis_master/import', $data);
+	}
+
+	public function import_gform()
+	{
+		$this->set_minsidebar(1);
+		$data['form_action'] = site_url("analisis_master/exec_import_gform");
+		$this->load->view('analisis_master/import_gform', $data);
 	}
 
 	public function menu($id='')
@@ -207,6 +223,29 @@ class Analisis_master extends Admin_Controller {
 		redirect('analisis_master');
 	}
 
+	public function exec_import_gform()
+	{
+		$this->session->google_form_id = $this->input->post('input-form-id');
+		
+		$BASE_URL_API = 'https://bumindes.opensid.or.id/index.php/';
+		$self_link = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+		if ($this->input->get('outsideRetry') == "true"){
+			$url = $BASE_URL_API . 'first/getFormInfo?formId=' . $_GET['formId'] . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $_GET['code'];
+
+			$client = new Google\Client();
+			$httpClient = $client->authorize();
+			$response = $httpClient->get($url);
+
+			$variabel = json_decode($response->getBody(), true);
+			$this->session->data_import = $variabel;
+			$this->session->success = 5;
+			redirect('analisis_master');
+		} else {
+			$url = $BASE_URL_API . 'first/getFormInfo?formId=' . $this->input->post('input-form-id') . '&redirectLink=' . $self_link ;
+			header('Location: ' . $url);
+		}
+	}
+
 	public function update($p=1, $o=0, $id='')
 	{
 		$this->analisis_master_model->update($id);
@@ -225,5 +264,12 @@ class Analisis_master extends Admin_Controller {
 		$this->redirect_hak_akses('h', "analisis_master/index/$p/$o");
 		$this->analisis_master_model->delete_all();
 		redirect("analisis_master/index/$p/$o");
+	}
+
+	public function save_import_gform()
+	{
+		$this->analisis_import_model->save_import_gform();
+		unset($_SESSION['data_import']);
+		redirect('analisis_master');
 	}
 }

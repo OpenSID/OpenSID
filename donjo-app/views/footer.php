@@ -81,6 +81,11 @@
 					notify = 'error';
 					notify_msg = 'Data gagal dihapus';
 				}
+				else if ($('#success-code').val() == 5)
+				{
+					notify = 'success';
+					notify_msg = 'Data berhasil diunggah';
+				}
 				else
 				{
 					notify = '';

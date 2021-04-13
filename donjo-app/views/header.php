@@ -98,6 +98,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Shapefile.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/toastr.min.css">
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
@@ -128,6 +129,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet.browser.print.utils.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.browser.print.sizes.js"></script>
 		<script src="<?= base_url()?>assets/js/dom-to-image.min.js"></script>
+		<script src="<?= base_url()?>assets/js/toastr.min.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
