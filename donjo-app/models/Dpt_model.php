@@ -82,7 +82,7 @@ class Dpt_model extends Penduduk_model
 
 	/**
 	 * Syarat calon pemilih:
-	 * 
+	 *
 	 * 1. Status dasar = HIDUP
 	 * 2. Status penduduk = TETAP
 	 * 3. Warganegara = WNI
@@ -205,7 +205,7 @@ class Dpt_model extends Penduduk_model
 		for ($i=0; $i<count($data); $i++)
 		{
 			// Ubah alamat penduduk lepas
-			if (!$data[$i]['id_kk'] OR $data[$i]['id_kk'] == 0)
+			if ( ! $data[$i]['id_kk'] OR $data[$i]['id_kk'] == 0)
 			{
 				$penduduk = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
 					->from('tweb_penduduk p')
@@ -219,7 +219,7 @@ class Dpt_model extends Penduduk_model
 				$data[$i]['rw'] = $penduduk['rw'];
 				$data[$i]['rt'] = $penduduk['rt'];
 			}
-			$data[$i]['no']=$j+1;
+			$data[$i]['no'] = $j + 1;
 			$j++;
 		}
 		return $data;

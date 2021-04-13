@@ -20,6 +20,7 @@ Premium - perbaikan bug:
 11. #4131: Sekarang tidak tampil penduduk duplikat setelah pecah atau keluarkan anggota keluarga. [bug-fix]
 12. #4130: Sekarang pilihan huruf yg dapat dibaca penduduk tampil pada waktu menambah KK dan anggota keluarga. [bug-fix]
 13. Tampilkan status IDM untuk tahun 2021. [bug-fix]
+14. #4135: Sekarang halaman statis Daftar Calon Pemilih tampil normal kembali di web. [bug-fix]
 
 
 Premium - penambahan fitur:
