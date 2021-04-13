@@ -292,7 +292,13 @@ class Penduduk_model extends MY_Model {
 			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
 			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
-			->join('log_penduduk log', 'u.id = log.id_pend', 'left');
+			// Ambil log yg terakhir saja
+			->join('(
+              SELECT    MAX(id) max_id, id_pend
+              FROM      log_penduduk
+              GROUP BY  id_pend
+          ) log_max', 'log_max.id_pend = u.id')
+			->join('log_penduduk log', 'log_max.max_id = log.id');
 
 		// Yg berikut hanya untuk menampilkan peserta bantuan
 		if ($this->session->penerima_bantuan)
@@ -384,7 +390,6 @@ class Penduduk_model extends MY_Model {
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
-		$this->db->distinct();
 		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
 			(CASE
 				when u.status_kawin IS NULL then ''
@@ -501,7 +506,13 @@ class Penduduk_model extends MY_Model {
 			->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
 			->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
 			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
-			->join('log_penduduk log', 'u.id = log.id_pend', 'left')
+			// Ambil log yg terakhir saja
+			->join('(
+              SELECT    MAX(id) max_id, id_pend
+              FROM      log_penduduk
+              GROUP BY  id_pend
+          ) log_max', 'log_max.id_pend = u.id')
+			->join('log_penduduk log', 'log_max.max_id = log.id')
 			->join('ref_peristiwa ra', 'ra.id = log.kode_peristiwa', 'left')
 			->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
 			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left')
