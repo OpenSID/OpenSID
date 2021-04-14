@@ -278,6 +278,7 @@ class First extends Web_Controller {
 	{
 		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
 
+		$this->session->per_page = null;
 		$data = $this->includes;
 
 		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
