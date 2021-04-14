@@ -135,6 +135,7 @@ class Suplemen extends Admin_Controller {
 
 	public function clear($id = 0)
 	{
+		$this->session->per_page = $this->_set_page[0];
 		## untuk filter pada data rincian suplemen
 		if ($id)
 		{
@@ -146,7 +147,6 @@ class Suplemen extends Admin_Controller {
 		else
 		{
 			$this->session->unset_userdata($this->_list_session);
-			$this->session->per_page = $this->_set_page[0];
 
 			redirect('suplemen');
 		}
