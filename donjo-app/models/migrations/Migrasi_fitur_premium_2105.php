@@ -122,31 +122,25 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		return $hasil;
 	}
 
-	protected function bumindes_updates($hasil){
+	protected function bumindes_updates($hasil)
+	{
 
 		$hasil =& $this->db->where('id', 305)->update('setting_modul', ['url' => 'bumindes_tanah_desa']);
 
 		// Menambahkan data pada setting_modul untuk controller bumindes_penduduk
-		$data = array(			
-			['id'=> 319, 'modul' => 'Buku Tanah Kas Desa', 'url' => 'bumindes_tanah_kas_desa', 'aktif' => '1', 'ikon' => 'fa-files-o', 'urut' => 0, 'level' => 0, 'hidden' => 0, 'ikon_kecil' => '', 'parent' => 305],
-		);
-
-		foreach ($data as $modul)
-		{
-			$sql = $this->db->insert_string('setting_modul', $modul);
-			$sql .= " ON DUPLICATE KEY UPDATE
-					id = VALUES(id),
-					modul = VALUES(modul),
-					url = VALUES(url),
-					aktif = VALUES(aktif),
-					ikon = VALUES(ikon),
-					urut = VALUES(urut),
-					level = VALUES(level),
-					hidden = VALUES(hidden),
-					ikon_kecil = VALUES(ikon_kecil),
-					parent = VALUES(parent)";
-			$hasil =& $this->db->query($sql);
-		}
+		$hasil =& $this->tambah_modul([
+			'id'         => 319,
+			'modul'      => 'Buku Tanah Kas Desa',
+			'url'        => 'bumindes_tanah_kas_desa',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 305
+		]);
+		
 		return $hasil;
 	}
 

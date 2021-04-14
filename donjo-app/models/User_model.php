@@ -152,7 +152,6 @@ class User_model extends CI_Model {
 				$this->last_login($this->session->user);
 			}
 		}
-		// var_dump($authLolos);
 	}
 
 	//mengupdate waktu login

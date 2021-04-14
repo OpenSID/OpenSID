@@ -12,20 +12,27 @@ class Tanah_kas_desa_model extends CI_Model
 
 	public function list_tanah_kas_desa()
 	{
-		$this->db->select('*');
-		$this->db->from($this->table);
-		$this->db->where($this->table.'.visible', 1);
-		$data = $this->db->get()->result();
+		$this->db
+				->select('*')
+				->from($this->table)
+				->where($this->table.'.visible', 1);
+		$data = $this->db
+				->get()
+				->result();
 		
 		return $data;
 	}
 
 	public function view_tanah_kas_desa_by_id($id)
 	{
-		$this->db->select('*');
-		$this->db->from($this->table);
-        $this->db->where($this->table.'.id', $id);
-		$data = $this->db->get()->row();
+		$this->db
+				->select('*')
+				->from($this->table)
+        		->where($this->table.'.id', $id);
+		$data = $this->db
+				->get()
+				->row();
+
 		return $data;
 	}
 
@@ -92,10 +99,14 @@ class Tanah_kas_desa_model extends CI_Model
 
 	public function cetak_tanah_kas_desa()
 	{
-		$this->db->select('*');
-		$this->db->from($this->table);	
-		$this->db->where($this->table.'.visible', 1);		
-		$data = $this->db->get()->result_array();
+		$this->db
+				->select('*')
+				->from($this->table)	
+				->where($this->table.'.visible', 1);		
+		$data = $this->db
+				->get()
+				->result_array();
+				
 		return $data;
 	}
 

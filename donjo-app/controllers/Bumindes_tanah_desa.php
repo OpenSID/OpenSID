@@ -1,5 +1,48 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+/*
+ * File ini:
+ *
+ * Controller untuk Modul Bumindes Tanah Desa
+ *
+ * donjo-app/controllers/Bumindes_tanah_desa.php
+ *
+ */
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+
 class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function __construct()
@@ -7,14 +50,11 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		parent::__construct();
 
 		$this->load->library('session');
-		$this->load->model('header_model');
-		$this->load->model('tanah_desa_model');
-		$this->load->model('tanah_kas_desa_model');
-		$this->load->model('pamong_model');
-		$this->load->model('cdesa_model');
-
+		$this->load->model(['header_model', 'tanah_desa_model', 'pamong_model', 'cdesa_model']);
+		$this->controller = 'bumindes_tanah_desa';
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 305;
+		$this->set_page = ['20', '50', '100'];
 	}
 
 	public function index()
@@ -24,20 +64,6 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function tables($page="tanah")
 	{
-		// set session
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
-
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-		// set session END
-
 		$data = [
 			'selected_nav' => $page,
 			'main' => $this->tanah_desa_model->list_tanah_desa(),	
@@ -91,18 +117,30 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function add_tanah_desa()
 	{
-		$data = $this->tanah_desa_model->add_tanah_desa();
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('no_sertif','No. Sertifikat','required|trim|numeric');
 
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if ($this->form_validation->run() != false)
+		{
+			$data = $this->tanah_desa_model->add_tanah_desa();
+			if ($data) $this->session->success = 1;
+			else $this->session->success = -1;
+		}
+		else
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = trim(strip_tags(validation_errors()));
+		}
+
 		redirect("bumindes_tanah_desa/tables/tanah");
 	}
 
 	public function update_tanah_desa()
 	{		
 		$data = $this->tanah_desa_model->update_tanah_desa();
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if ($data) $this->session->success = 1;
+		else $this->session->success = -1;
 		redirect("bumindes_tanah_desa/tables/tanah");
 	}
 
@@ -110,8 +148,8 @@ class Bumindes_tanah_desa extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('h', 'bumindes_tanah_desa/tables/tanah');
 		$data = $this->tanah_desa_model->delete_tanah_desa($id);
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if ($data) $this->session->success = 1;
+		else $this->session->success = -1;
 		redirect('bumindes_tanah_desa/tables/tanah');
 	}
 
