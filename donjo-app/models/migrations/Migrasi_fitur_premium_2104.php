@@ -52,29 +52,29 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		// Hapus id_peristiwa = 1 lama di log_keluarga karena pengertiannya sudah tidak konsisten dengan penggunaan yg baru. Sekarang hanya terbatas pada keluarga baru yg dibentuk dari penduduk yg sudah ada.
 
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('id_peristiwa', 1)
 			->where("date(tgl_peristiwa) < '2021-03-04'")
 			->delete('log_keluarga');
 
 		// Buat tabel url shortener
-		$hasil =& $this->buat_tabel_url_shortener($hasil);
+		$hasil = $hasil && $this->buat_tabel_url_shortener($hasil);
 		// Buat tabel url statistik
-		$hasil =& $this->buat_tabel_url_statistik($hasil);
+		$hasil = $hasil && $this->buat_tabel_url_statistik($hasil);
 		// Tambah field qr_code pada tabel tweb_surat_format
-		$hasil =& $this->field_qr_code($hasil);
+		$hasil = $hasil && $this->field_qr_code($hasil);
 		// Ubah field tag_id_card menjadi index dan unique
-		$hasil =& $this->ubah_tag_id_card_unique_index($hasil);
+		$hasil = $hasil && $this->ubah_tag_id_card_unique_index($hasil);
 		// Sesuaikan struktur dan isi tabel config
-		$hasil =& $this->config($hasil);
+		$hasil = $hasil && $this->config($hasil);
 		// Sesuaikan sulang STATUS_PERMOHONAN
-		$hasil =& $this->ubah_status($hasil);
+		$hasil = $hasil && $this->ubah_status($hasil);
 		// Sesuaikan struktur tabel analisis_indikator
-		$hasil =& $this->analisis_indikator($hasil);
+		$hasil = $hasil && $this->analisis_indikator($hasil);
 		// Sesuaikan data kartu peserta bantuan
-		$hasil =& $this->kartu_bantuan($hasil);
+		$hasil = $hasil && $this->kartu_bantuan($hasil);
 		// Sesuaikan key offline mode
-		$hasil =& $this->ubah_setting_offline_mode($hasil);
+		$hasil = $hasil && $this->ubah_setting_offline_mode($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -92,7 +92,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('alias');
-		$hasil =& $this->dbforge->create_table('urls', true);
+		$hasil = $hasil && $this->dbforge->create_table('urls', true);
 		return $hasil;
 	}
 
@@ -107,7 +107,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('url_id');
-		$hasil =& $this->dbforge->create_table('statistics', true);
+		$hasil = $hasil && $this->dbforge->create_table('statistics', true);
 		return $hasil;
 	}
 
@@ -125,7 +125,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 				],
 			];
 
-			$hasil =& $this->dbforge->add_column('tweb_surat_format', $fields);
+			$hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
 		}
 		return $hasil;
 	}
@@ -133,12 +133,12 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 	// Indeksasi field tag_id_card
 	protected function ubah_tag_id_card_unique_index($hasil)
 	{
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->set('tag_id_card', NULL)
 			->where('tag_id_card', '')
 			->update('tweb_penduduk');
 
-		$hasil =& $this->tambah_indeks('tweb_penduduk', 'tag_id_card');
+		$hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'tag_id_card');
 		return $hasil;
 	}
 
@@ -156,7 +156,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 				],
 			];
 
-			$hasil =& $this->dbforge->add_column('config', $fields);
+			$hasil = $hasil && $this->dbforge->add_column('config', $fields);
 
 			// Sesuaikan data kepala desa dengan data pamong, ubah menjadi pamong_id
 			$config = $this->db->select('*')->limit(1)->get('config')->row_array();
@@ -173,12 +173,12 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			// Hapus field nama_kepala_desa dan nip_kepala_desa
 			if ($this->db->field_exists('nama_kepala_desa','config'))
 			{
-				$hasil =& $this->dbforge->drop_column('config', 'nama_kepala_desa');
+				$hasil = $hasil && $this->dbforge->drop_column('config', 'nama_kepala_desa');
 			}
 
 			if ($this->db->field_exists('nip_kepala_desa','config'))
 			{
-				$hasil =& $this->dbforge->drop_column('config', 'nip_kepala_desa');
+				$hasil = $hasil && $this->dbforge->drop_column('config', 'nip_kepala_desa');
 			}
 		}
 
@@ -192,12 +192,12 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		if ($this->db->get_where('permohonan_surat', ['status' => 9])->row())
 		{
 			// Ubah sementara
-			$hasil =& $this->db->where('status', 0)->update('permohonan_surat', ['status' => 100]);
+			$hasil = $hasil && $this->db->where('status', 0)->update('permohonan_surat', ['status' => 100]);
 
 			// Sesuaikan ulang
-			$hasil =& $this->db->where('status', 1)->update('permohonan_surat', ['status' => 0]);
-			$hasil =& $this->db->where('status', 100)->update('permohonan_surat', ['status' => 1]);
-			$hasil =& $this->db->where('status', 9)->update('permohonan_surat', ['status' => 5]);
+			$hasil = $hasil && $this->db->where('status', 1)->update('permohonan_surat', ['status' => 0]);
+			$hasil = $hasil && $this->db->where('status', 100)->update('permohonan_surat', ['status' => 1]);
+			$hasil = $hasil && $this->db->where('status', 9)->update('permohonan_surat', ['status' => 5]);
 		}
 
 		return $hasil;
@@ -212,7 +212,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			],
 		];
 
-		$hasil =& $this->dbforge->modify_column('analisis_indikator', $fields);
+		$hasil = $hasil && $this->dbforge->modify_column('analisis_indikator', $fields);
 
 		return $hasil;
 	}
@@ -239,7 +239,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir']);
 			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir']);
 			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat']);
-			$hasil =& $this->db
+			$hasil = $hasil && $this->db
 				->where('id', $kartu['id'])
 				->update('program_peserta');
 		}
@@ -251,16 +251,16 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			'kartu_tanggal_lahir' => ['type' => 'DATE', 'null' => false],
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false],
 		];
-		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
+		$hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
 		return $hasil;
 	}
 
 	protected function ubah_setting_offline_mode($hasil)
 	{
-		$hasil =& $this->db->where('value', 'Web bisa diakses publik')->update('setting_aplikasi', ['value' => 0]);
-		$hasil =& $this->db->where('value', 'Web hanya bisa diakses petugas web')->update('setting_aplikasi', ['value' => 1]);
-		$hasil =& $this->db->where('value', 'Web non-aktif sama sekali')->update('setting_aplikasi', ['value' => 2]);
-		$hasil =& $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-kode']);
+		$hasil = $hasil && $this->db->where('value', 'Web bisa diakses publik')->update('setting_aplikasi', ['value' => 0]);
+		$hasil = $hasil && $this->db->where('value', 'Web hanya bisa diakses petugas web')->update('setting_aplikasi', ['value' => 1]);
+		$hasil = $hasil && $this->db->where('value', 'Web non-aktif sama sekali')->update('setting_aplikasi', ['value' => 2]);
+		$hasil = $hasil && $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-kode']);
 
 		return $hasil;
 	}

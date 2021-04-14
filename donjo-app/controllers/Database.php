@@ -623,7 +623,7 @@ class Database extends Admin_Controller {
 		$this->load->model('acak_model');
 		echo $this->load->view('database/hasil_acak', '', true);
 		$hasil = $this->acak_model->acak_penduduk();
-		$hasil =& $this->acak_model->acak_keluarga();
+		$hasil = $hasil && $this->acak_model->acak_keluarga();
 		echo $this->load->view('database/hasil_acak', '', true);
 	}
 

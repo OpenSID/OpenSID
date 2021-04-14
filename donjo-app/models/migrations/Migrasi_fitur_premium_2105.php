@@ -55,10 +55,10 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false, 'default' => ''],
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false, 'default' => ''],
 		];
-		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
-		$hasil =& $this->server_publik();
-		$hasil =& $this->convert_ip_address($hasil);
-		$hasil =& $this->tambah_kolom_log_keluarga($hasil);
+		$hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
+		$hasil = $hasil && $this->server_publik();
+		$hasil = $hasil && $this->convert_ip_address($hasil);
+		$hasil = $hasil && $this->tambah_kolom_log_keluarga($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -72,8 +72,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			->set('hidden', 0)
 			->set('parent', 0)
 			->update('setting_modul');
-		$hasil =& $this->tambah_kolom_updated_at();
-		$hasil =& $this->buat_tabel_ref_sinkronisasi();
+		$hasil = $hasil && $this->tambah_kolom_updated_at();
+		$hasil = $hasil && $this->buat_tabel_ref_sinkronisasi();
 		return $hasil;
 	}
 
@@ -83,8 +83,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = true;
 		if ( ! $this->db->field_exists('updated_at', 'tweb_keluarga'))
 		{
-			$hasil =& $this->dbforge->add_column('tweb_keluarga', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
-			$hasil =& $this->dbforge->add_column('tweb_keluarga', 'updated_by int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tweb_keluarga', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$hasil = $hasil && $this->dbforge->add_column('tweb_keluarga', 'updated_by int(11) NOT NULL');
 		}
 		return $hasil;
 	}
@@ -105,8 +105,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'tabel_hapus' 	=> ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true, 'default' => null],
 		]);
 		$this->dbforge->add_key('tabel', true);
-		$hasil =& $this->dbforge->create_table($tabel, true);
-		$hasil =& $this->db->insert_batch(
+		$hasil = $hasil && $this->dbforge->create_table($tabel, true);
+		$hasil = $hasil && $this->db->insert_batch(
 			$tabel,
 			[
 				['tabel'=>'tweb_penduduk', 'server' => '6', 'jenis_update' => 1, 'tabel_hapus' => 'log_hapus_penduduk'],
@@ -138,7 +138,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			];
 		}
 
-		$hasil =& $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
+		$hasil = $hasil && $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
 
 		return $hasil >= 0;
 	}
@@ -146,7 +146,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function tambah_kolom_log_keluarga($hasil)
 	{
 		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
-			$hasil =& $this->dbforge->add_column('log_keluarga', [
+			$hasil = $hasil && $this->dbforge->add_column('log_keluarga', [
 				'id_pend' => ['type' => 'INT', 'constraint' => 11, 'null' => TRUE],
 				'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => FALSE]
 			]);
@@ -176,8 +176,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 				'id_pend' => $log['id_pend']
 			];
 		}
-		$hasil =& $this->db->insert_batch('log_keluarga', $data);
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db->insert_batch('log_keluarga', $data);
+		$hasil = $hasil && $this->db
 			->where_in('id', array_column($log_keluar, 'id'))
 			->delete('log_penduduk');
 		return $hasil;

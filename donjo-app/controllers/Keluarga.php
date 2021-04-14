@@ -277,6 +277,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view('sid/kependudukan/ajax_edit_nokk', $data);
 	}
 
+	// Tambah KK dari penduduk yg ada
 	public function form_old($p = 1, $o = 0, $id = 0)
 	{
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();

@@ -75,7 +75,7 @@ class Import_model extends CI_Model {
 
 	/**
 	 * Gabungkan kode status dasar untuk Siak dan OpenSID.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function merge_kode_status_dasar()
@@ -86,7 +86,7 @@ class Import_model extends CI_Model {
 		$data['PINDAH LUAR NEGERI'] = 3;
 		return $data;
 	}
-	
+
 	/**
 	 * ========================================================
 	 * IMPORT EXCEL
@@ -139,7 +139,7 @@ class Import_model extends CI_Model {
 		else
 			return $this->get_kode($daftar_kode, $nilai);
 	}
-	
+
 	protected function data_import_valid($isi_baris)
 	{
 		// Kolom yang harus diisi
@@ -643,7 +643,7 @@ class Import_model extends CI_Model {
   				$upd['updated_by'] = $this->session->user;
 
   				$this->db->where('nik', $nik);
-  				$outp =& $this->db->update('tweb_penduduk', $upd);
+  				$outp = $outp && $this->db->update('tweb_penduduk', $upd);
   				$nama = $pdd['nama'];
 
   				echo "<a>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
@@ -659,7 +659,7 @@ class Import_model extends CI_Model {
   				$penduduk['rtm_level'] = $rtm_level;
   				$penduduk['created_by'] = $this->session->user;
 
-  				$outp =& $this->db->insert('tweb_penduduk', $penduduk);
+  				$outp = $outp && $this->db->insert('tweb_penduduk', $penduduk);
 
   				echo "<a style='color:#f00;'>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
 
@@ -678,7 +678,7 @@ class Import_model extends CI_Model {
  			$hasil_insert = $this->db
  				->insert_batch('tweb_rtm', $ketua_rtm);
 
-  		$outp =& $hasil_insert;
+  		$outp = $outp && $hasil_insert;
 
   		if (! $hasil_insert)
   		{
