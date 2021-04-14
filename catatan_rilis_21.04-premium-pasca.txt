@@ -25,6 +25,7 @@ Premium - perbaikan bug:
 16. #4133: Sekarang peta tidak membatasi jumlah area yg dapat ditampilkan. [bug-fix]
 17. #4136: Sekarang penduduk dengan status dasar selain hidup tidak lagi tampil duplikat. [bug-fix]
 18. #4140: Sekarang jumlah rincian data suplemen yang tampil melalui menu statis web tidak dibatasi. [bug-fix]
+19. #4143: Kurangi jumlah link halaman pada paginasi halaman di modul admin supaya terlihat lebih rapi. [bug-fix]
 
 
 Premium - penambahan fitur:
