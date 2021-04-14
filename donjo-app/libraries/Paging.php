@@ -46,17 +46,20 @@ class Paging {
 		//Create Paging Link
 		if($this->page < $this->num_links){
 			$start=1;
-			if($this->num_page > (int) $this->num_links * 1.5) // 30
+			$end = min($this->num_links, $this->num_page);
+			/** Aslinya sbb:
+			if($this->num_page > (int)($this->num_links * 1.5)) // 30
 				$end=$this->num_links;
 			else $end=$this->num_page;
+			**/
 		}
 		else if($this->page > $this->num_page-$this->num_links){
 			$start=$this->num_page-$this->num_links;
 			$end=$this->num_page;
 		}
 		else{
-			$start=$this->page-((int) $this->num_links / 2 - 1); // 9
-			$end=$this->page+(int) $this->num_links / 2; // 10
+			$start=$this->page-((int)($this->num_links / 2) - 1); // 9
+			$end=$this->page+(int)($this->num_links / 2); // 10
 		}
 		$this->start=1;
 		$this->end=$this->num_page;
