@@ -7,19 +7,10 @@
     array (
     ),
     'reference' => NULL,
-    'name' => '__root__',
+    'name' => 'google/apiclient',
   ),
   'versions' => 
   array (
-    '__root__' => 
-    array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => NULL,
-    ),
     'firebase/php-jwt' => 
     array (
       'pretty_version' => 'v5.2.1',
@@ -31,12 +22,12 @@
     ),
     'google/apiclient' => 
     array (
-      'pretty_version' => 'v2.9.1',
-      'version' => '2.9.1.0',
+      'pretty_version' => '1.0.0+no-version-set',
+      'version' => '1.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '2fb6e702aca5d68203fa737f89f6f774022494c6',
+      'reference' => NULL,
     ),
     'google/apiclient-services' => 
     array (
