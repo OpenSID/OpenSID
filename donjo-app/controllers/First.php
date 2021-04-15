@@ -717,28 +717,28 @@ class First extends Web_Controller {
 
 	public function get_form_info()
 	{
-		$form_id = $this->input->get('formId');
 		$redirect_link = $this->input->get('redirectLink');
 
-		if($this->session->inside_retry == false){
+		if ($this->session->inside_retry == false)
+		{
 			// Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
 			if($this->input->get('outsideRetry') == 'true'){
 				$this->session->inside_retry = true;
 			}
 			$this->session->google_form_id = $this->input->get('formId');
-			// $this->session->google_form_id = '10LS50kT95xj_L4NxJaiIdFWCu-pUzAummP1OlhBlA48';
 			$result = $this->analisis_import_model->import_gform($redirect_link);
 
-			// print_r($result);
 			echo json_encode($result);
 
-		} else {
+		}
+		else
+		{
 			// Untuk kondisi SESAAT setelah Autentikasi
 			$redirect_link = $this->session->inside_redirect_link;
 
 			$this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
 			
-			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $_GET['code'] . '&formId=' . $this->session->google_form_id);
+			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code') . '&formId=' . $this->session->google_form_id);
 		}
 	}
 }

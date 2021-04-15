@@ -1,18 +1,15 @@
 <script>
-	$('#file_browser2').click(function(e)
-	{
-			e.preventDefault();
-			$('#file2').click();
+	$('#file_browser2').click(function(e) {
+		e.preventDefault();
+		$('#file2').click();
 	});
 
-	$('#file2').change(function()
-	{
-			$('#file_path2').val($(this).val());
+	$('#file2').change(function() {
+		$('#file_path2').val($(this).val());
 	});
 
-	$('#file_path2').click(function()
-	{
-			$('#file_browser2').click();
+	$('#file_path2').click(function() {
+		$('#file_browser2').click();
 	});
 </script>
 <div class="modal fade" id="modalHasilImport" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -42,11 +39,11 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($list_error as $key => $data): ?>
-															<tr class="row-pertanyaan">
-																<td><?= $key+1 ?></td>
-																<td><?= $data ?></td>
-															</tr>
+															<?php foreach ($list_error as $key => $data) : ?>
+																<tr class="row-pertanyaan">
+																	<td><?= $key + 1 ?></td>
+																	<td><?= $data ?></td>
+																</tr>
 															<?php endforeach; ?>
 														</tbody>
 													</table>
@@ -65,4 +62,3 @@
 		</div>
 	</div>
 </div>
-

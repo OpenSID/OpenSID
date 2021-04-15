@@ -149,16 +149,12 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	{
 		// Menambahkan data Script ID Google API pada Setting Aplikasi
 		$data_setting = [
-			'key'			=> 'script_id_gform', 
-			'value'			=> 'AKfycbx3KRsQ_OsDpq4r2bWmW-BaOUaQzktkavrCBjpKHpw-KNN4GHho6_g6leY43ueKwpc6OQ', 
-			'keterangan'	=> 'Script ID untuk Google API'
+			'key' => 'script_id_gform', 
+			'value' => 'AKfycbx3KRsQ_OsDpq4r2bWmW-BaOUaQzktkavrCBjpKHpw-KNN4GHho6_g6leY43ueKwpc6OQ', 
+			'keterangan' => 'Script ID untuk Google API'
 		];
 
-		$sql = $this->db->insert_string('setting_aplikasi', $data_setting);
-		$sql .= " ON DUPLICATE KEY UPDATE
-				keterangan = VALUES(keterangan),
-				jenis = VALUES(jenis)";
-		$hasil =& $this->db->query($sql);
+		$hasil = $hasil && $this->tambah_setting($data_setting);
 		
 		return $hasil;
 	}

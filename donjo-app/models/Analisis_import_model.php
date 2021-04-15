@@ -118,14 +118,14 @@ class Analisis_import_Model extends CI_Model {
 
 		// SIMPAN ANALISIS MASTER
 		$data_analisis_master = [
-			'nama'			=> $this->input->post('nama_form') == "" ? "Response Google Form " . date('dmY_His') : $this->input->post('nama_form'),
-			'subjek_tipe'	=> $this->input->post('subjek_analisis') == 0 ? 1 : $this->input->post('subjek_analisis'),
-			'id_kelompok'	=> 0,
-			'lock'			=> 1,
-			'format_impor'	=> 0,
-			'pembagi'		=> 1,
-			'id_child'		=> 0,
-			'deskripsi'		=> ""
+			'nama' => $this->input->post('nama_form') == "" ? "Response Google Form " . date('dmY_His') : $this->input->post('nama_form'),
+			'subjek_tipe' => $this->input->post('subjek_analisis') == 0 ? 1 : $this->input->post('subjek_analisis'),
+			'id_kelompok' => 0,
+			'lock' => 1,
+			'format_impor' => 0,
+			'pembagi' => 1,
+			'id_child' => 0,
+			'deskripsi' => ""
 		];
 
 		$outp = $this->db->insert('analisis_master', $data_analisis_master);
@@ -139,9 +139,9 @@ class Analisis_import_Model extends CI_Model {
 		// Get Unique Value dari Kategori
 		foreach ($list_kategori as $key => $val)
 		{
-			if($this->input->post('is_selected')[$key] == 'true')
+			if ($this->input->post('is_selected')[$key] == 'true')
 			{
-				if(! in_array($val, $temp_unique_kategori))
+				if (! in_array($val, $temp_unique_kategori))
 				{
 					array_push($temp_unique_kategori, $val);
 				}
@@ -168,28 +168,29 @@ class Analisis_import_Model extends CI_Model {
 		$count_indikator = 1;
 		$db_idx_parameter = array();
 		$db_idx_indikator = array();
+
 		foreach ($this->input->post('pertanyaan') as $key => $val)
 		{
 			$temp_idx_parameter = array();
 			$id_indikator = 0;
-			if($this->input->post('is_selected')[$key] == 'true' && $key != $id_column_nik_kk)
+			if ($this->input->post('is_selected')[$key] == 'true' && $key != $id_column_nik_kk)
 			{
 				$data_indikator = [
-					'id_master'		=> $id_master,
-					'nomor'			=> $count_indikator,
-					'pertanyaan' 	=> $val,
-					'id_tipe' 		=> $this->input->post('tipe')[$key],
-					'bobot' 		=> $this->input->post('bobot')[$key],
-					'act_analisis' 	=> 0,
-					'id_kategori' 	=> array_search($this->input->post('kategori')[$key], $list_unique_kategori),
-					'is_publik' 	=> 0,
-					'is_teks' 		=> 0
+					'id_master' => $id_master,
+					'nomor' => $count_indikator,
+					'pertanyaan' => $val,
+					'id_tipe' => $this->input->post('tipe')[$key],
+					'bobot' => $this->input->post('bobot')[$key],
+					'act_analisis' => 0,
+					'id_kategori' => array_search($this->input->post('kategori')[$key], $list_unique_kategori),
+					'is_publik' => 0,
+					'is_teks' => 0
 				];
 
-				if($data_indikator['id_tipe'] != 1)
+				if ($data_indikator['id_tipe'] != 1)
 				{
 					$data_indikator['act_analisis']	= 2;
-					$data_indikator['bobot'] 		= 0;
+					$data_indikator['bobot'] = 0;
 				}
 	
 				$outp = $this->db->insert('analisis_indikator', $data_indikator);
@@ -239,17 +240,21 @@ class Analisis_import_Model extends CI_Model {
 		{
 			// Get Id Subjek berdasarkan Tipe Subjek (Penduduk / Keluarga / Rumah Tangga / Kelompok)
 			$nik_kk_subject = $val_jawaban[$id_column_nik_kk];
-			if($data_analisis_master['subjek_tipe'] == 2)
+			if ($data_analisis_master['subjek_tipe'] == 2)
+			{
 				$id_subject = $this->keluarga_model->get_keluarga_by_no_kk($nik_kk_subject)['id'];
+			} 
 			else
+			{
 				$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_kk_subject)['id'];
+			}
 			
-			if($id_subject != NULL && $id_subject != "")
+			if ($id_subject != NULL && $id_subject != "")
 			{
 				// Iterasi untuk setiap indikator / jawaban dari subjek
 				foreach ($this->input->post('pertanyaan') as $key_pertanyaan => $val_pertanyaan)
 				{
-					if($this->input->post('is_selected')[$key_pertanyaan] == 'true' && $key_pertanyaan != $id_column_nik_kk)
+					if ($this->input->post('is_selected')[$key_pertanyaan] == 'true' && $key_pertanyaan != $id_column_nik_kk)
 					{
 						$data_respon = [
 							'id_indikator'	=> array_search($key_pertanyaan, $db_idx_indikator),
@@ -317,9 +322,6 @@ class Analisis_import_Model extends CI_Model {
 			
 			// store in the session also
 			$_SESSION['upload_token'] = $token;
-
-			// // redirect back to the example
-			// header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 		}
 
 		// set the access token as part of the client
@@ -328,8 +330,11 @@ class Analisis_import_Model extends CI_Model {
 			$client->setAccessToken($_SESSION['upload_token']);
 			if ($client->isAccessTokenExpired())
 				unset($_SESSION['upload_token']);
-		} else 
+		} 
+		else
+		{ 
 			$authUrl = $client->createAuthUrl();
+		}
 
 		// Create an execution request object.
 		$request = new Google_Service_Script_ExecutionRequest();
