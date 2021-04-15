@@ -280,6 +280,7 @@ class First extends Web_Controller {
 	{
 		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
 
+		$this->session->per_page = null;
 		$data = $this->includes;
 
 		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
@@ -667,7 +668,7 @@ class First extends Web_Controller {
 		$kode_desa = $data['desa']['kode_desa'];
 		if ($this->data_publik->has_internet_connection())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2020", "idm_$kode_desa")
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2021", "idm_2021_$kode_desa")
 				->set_interval(7)
 				->set_cache_folder(FCPATH.'cache');
 

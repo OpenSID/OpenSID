@@ -84,6 +84,7 @@ class Siak_model extends Import_model {
 		$nama = preg_replace("/[^a-zA-Z,\.'-]/", ' ', $nama);
 		$isi_baris['nama'] = $nama;
 
+		// Konversi status dasar dari string / integer.
 		$isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($data->val($i, $kolom_impor['status_dasar'])));
 
 		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
