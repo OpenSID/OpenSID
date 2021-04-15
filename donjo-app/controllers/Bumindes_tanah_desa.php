@@ -54,33 +54,54 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		$this->controller = 'bumindes_tanah_desa';
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 305;
-		$this->set_page = ['20', '50', '100'];
 	}
 
 	public function index()
 	{
-		$this->tables("tanah");
-	}
+		if ($this->input->is_ajax_request())
+		{
+			$start = $this->input->post('start');
+			$length = $this->input->post('length');
+			$search = $this->input->post('search[value]');
+			$order = $this->tanah_desa_model::ORDER_ABLE[$this->input->post('order[0][column]')];
+			$dir = $this->input->post('order[0][dir]');
 
-	public function tables($page="tanah")
-	{
+			return $this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'draw'            => $this->input->post('draw'),
+					'recordsTotal'    => $this->tanah_desa_model->get_data()->count_all_results(),
+					'recordsFiltered' => $this->tanah_desa_model->get_data($search)->count_all_results(),
+					'data'            => $this->tanah_desa_model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),					
+				]));
+		}
+
+		$sub = "<li class=\"active\">Buku Tanah di Desa";
 		$data = [
-			'selected_nav' => $page,
-			'main' => $this->tanah_desa_model->list_tanah_desa(),	
+			'selected_nav' => 'tanah',
 			'main_content' => "bumindes/pembangunan/tanah_di_desa/content_tanah_di_desa",
-			'subtitle' => ["Buku Tanah di Desa",0],
+			'subtitle' => $sub,
 		];
-
+	
 		$this->set_minsidebar(1);
 		$this->render('bumindes/pembangunan/main', $data);
 	}
 
+	public function clear(){
+		$this->session->filter_tahun = date('Y');
+		$this->session->filter_bulan = date('m');
+
+		redirect("bumindes_tanah_desa");
+	}
+
 	public function view_tanah_desa($id)
 	{		
+		$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_desa'). ">Buku Tanah di Desa</a>
+				<li class=\"active\"></li>Rincian Data</li>";
 		$data = [
 			'main' 		   => $this->tanah_desa_model->view_tanah_desa_by_id($id),
 			'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
-			'subtitle'	   => ["bumindes_tanah_desa/tables/tanah","Buku Tanah di Desa","Rincian Data"],
+			'subtitle'	   => $sub,
 			'selected_nav' => 'tanah',
 			'view_mark'	   => TRUE,
 		];
@@ -91,20 +112,24 @@ class Bumindes_tanah_desa extends Admin_Controller {
 	public function form($id = ''){
 		if ($id)
 		{
+			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_desa'). ">Buku Tanah di Desa</a>
+				<li class=\"active\"></li>Ubah Data</li>";
 			$data = [
 				'main' 		   => $this->tanah_desa_model->view_tanah_desa_by_id($id),
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",				
-				'subtitle' 	   => ["bumindes_tanah_desa/tables/tanah","Buku Tanah di Desa","Ubah Data"],
+				'subtitle' 	   => $sub,
 				'selected_nav' => 'tanah',
 				'form_action'  => site_url("bumindes_tanah_desa/update_tanah_desa"), 
 			];
 		}
 		else
 		{
+			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_desa'). ">Buku Tanah di Desa</a>
+				<li class=\"active\"></li>Isi Data</li>";
 			$data = [
 				'main' 		   => NULL,
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
-				'subtitle'	   => ["bumindes_tanah_desa/tables/tanah","Buku Tanah di Desa","Isi Data"],
+				'subtitle'	   => $sub,
 				'selected_nav' => 'tanah',
 				'form_action'  => site_url("bumindes_tanah_desa/add_tanah_desa"),
 			];
@@ -120,12 +145,11 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('no_sertif','No. Sertifikat','required|trim|numeric');
+		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
 
 		if ($this->form_validation->run() != false)
 		{
-			$data = $this->tanah_desa_model->add_tanah_desa();
-			if ($data) $this->session->success = 1;
-			else $this->session->success = -1;
+			$this->tanah_desa_model->add_tanah_desa();
 		}
 		else
 		{
@@ -133,24 +157,34 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			$this->session->error_msg = trim(strip_tags(validation_errors()));
 		}
 
-		redirect("bumindes_tanah_desa/tables/tanah");
+		redirect("bumindes_tanah_desa");
 	}
 
 	public function update_tanah_desa()
-	{		
-		$data = $this->tanah_desa_model->update_tanah_desa();
-		if ($data) $this->session->success = 1;
-		else $this->session->success = -1;
-		redirect("bumindes_tanah_desa/tables/tanah");
+	{	
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('no_sertif','No. Sertifikat','required|trim|numeric');
+		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
+
+		if ($this->form_validation->run() != false)
+		{
+			$this->tanah_desa_model->update_tanah_desa();
+		}
+		else
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = trim(strip_tags(validation_errors()));
+		}
+		
+		redirect("bumindes_tanah_desa");
 	}
 
 	public function delete_tanah_desa($id)
 	{
-		$this->redirect_hak_akses('h', 'bumindes_tanah_desa/tables/tanah');
-		$data = $this->tanah_desa_model->delete_tanah_desa($id);
-		if ($data) $this->session->success = 1;
-		else $this->session->success = -1;
-		redirect('bumindes_tanah_desa/tables/tanah');
+		$this->redirect_hak_akses('h', 'bumindes_tanah_desa');
+		$this->tanah_desa_model->delete_tanah_desa($id);
+		redirect('bumindes_tanah_desa');
 	}
 
 	public function ajax_cetak($aksi = '')

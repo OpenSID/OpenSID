@@ -14,11 +14,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="table-responsive">
-                            <table id="tabel4" class="table table-bordered dataTable table-hover">
+                            <table id="tabel-tanahdesa" class="table table-bordered dataTable table-hover">
                                 <thead class="bg-gray">
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Aksi</th>
+                                        <th width="120" class="text-center">Aksi</th>
                                         <th class="text-center">Pemilik / Asal</th>
                                         <th class="text-center">No. Letter C / Sertifikat</th>
                                         <th class="text-center">Jenis Hak</th>
@@ -29,34 +29,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($main as $data): ?>
-                                    <?php if ($data->status == "1"): ?>
-                                    <tr style='background-color:#cacaca'>
-                                        <?php else: ?>
-                                    <tr>
-                                        <?php endif; ?>
-                                        <td></td>
-                                        <td nowrap>
-                                            <a href="<?= site_url('bumindes_tanah_desa/view_tanah_desa/'.$data->id); ?>"
-                                                title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i
-                                                    class="fa fa-eye"></i></a>
-                                            <a href="<?= site_url('bumindes_tanah_desa/form/'.$data->id); ?>"
-                                                title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i
-                                                    class="fa fa-edit"></i> </a>
-                                            <a href="#"
-                                                data-href="<?= site_url("bumindes_tanah_desa/delete_tanah_desa/$data->id")?>"
-                                                class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal"
-                                                data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                        </td>
-                                        <td><?= $data->nama_pemilik_asal;?></td>
-                                        <td><?= $data->letter_c;?><br><?= $data->nomor_sertif;?></td>
-                                        <td><?= $data->hak_tanah;?></td>
-                                        <td><?= $data->penggunaan_tanah;?></td>
-                                        <td><?= $data->luas;?></td>
-                                        <td><?= $data->tanggal_sertif;?></td>
-                                        <td><?= $data->keterangan;?></td>                                        
-                                    </tr>
-                                    <?php endforeach; ?>
                                 </tbody>                               
                             </table>
                         </div>
@@ -130,6 +102,81 @@
 </div>
 <?php $this->load->view('global/confirm_delete');?>
 <script>
+    $(document).ready(function() {
+		let tabelTanahDesa = $('#tabel-tanahdesa').DataTable({
+			'processing': true,
+			'serverSide': true,
+			'autoWidth': false,
+			'pageLength': 10,
+			'order': [
+				[2, 'asc'],
+			],
+			'columnDefs': [{
+				'orderable': false,
+				'targets': [0, 1, 3, 4, 5, 6, 8],
+			}],
+			'ajax': {
+				'url': "<?= site_url('bumindes_tanah_desa') ?>",
+				'method': 'POST',
+				'data': function(d) {
+				}
+			},
+			'columns': [
+				{
+					'data': null,
+				},
+				{
+					'data': function(data) {
+						return `
+                            <a href="<?= site_url('bumindes_tanah_desa/view_tanah_desa/') ?>${data.id}" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+                            <a href="<?= site_url('bumindes_tanah_desa/form/') ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+                            <a href="#" data-href="<?= site_url('bumindes_tanah_desa/delete_tanah_desa/') ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                        	`
+					}
+				},
+				{
+					'data': function(data) {
+                       return data.nama_pemilik_asal;
+                    }
+				},
+				{                   
+                    'data': function(data)
+                    {
+                        var result =  `${data.letter_c} | ${data.nomor_sertif}`;
+                        return result;
+                    }
+				},
+				{
+					'data': 'hak_tanah',
+				},
+				{
+					'data': 'penggunaan_tanah'
+				},
+				{
+					'data': 'luas'
+				},
+				{
+					'data': 'tanggal_sertif'
+				},
+				{
+					'data': 'keterangan'
+				},
+			],
+			'language': {
+				'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"
+			}
+		});
+
+		tabelTanahDesa.on('draw.dt', function() {
+			let PageInfo = $('#tabel-tanahdesa').DataTable().page.info();
+			tabelTanahDesa.column(0, {
+				page: 'current'
+			}).nodes().each(function(cell, i) {
+				cell.innerHTML = i + 1 + PageInfo.start;
+			});
+		});
+    });
+    
     $("#form_cetak").click(function (event) {
         var link = '<?= site_url("bumindes_pembangunan/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/cetak';
         window.open(link, '_blank');

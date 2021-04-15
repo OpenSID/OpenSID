@@ -5,22 +5,53 @@ class Tanah_kas_desa_model extends CI_Model
 
 	protected $table = 'tanah_kas_desa';
 
+	const ORDER_ABLE = [
+		2	=> 'nama_pemilik_asal',
+		3	=> 'letter_c',
+		3	=> 'persil',
+		10  => 'tanggal_perolehan',
+	];
+
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
-	public function list_tanah_kas_desa()
+	public function get_data(string $search = '')
 	{
-		$this->db
-				->select('*')
-				->from($this->table)
-				->where($this->table.'.visible', 1);
-		$data = $this->db
-				->get()
-				->result();
+		$builder = $this->db
+					->select('tkd.id, 
+							tkd.nama_pemilik_asal, 
+							tkd.letter_c,
+							tkd.persil, 
+							tkd.kelas, 
+							tkd.perolehan_tkd,
+							tkd.jenis_tkd,
+							tkd.lokasi, 
+							tkd.luas,
+							tkd.patok,
+							tkd.papan_nama, 
+							tkd.tanggal_perolehan, 
+							tkd.keterangan')
+					->from("{$this->table} tkd")
+					->where('tkd.visible', 1);
+
+		if (empty($search))
+		{
+			$search = $builder;
+		}
+		else
+		{
+			$search = $builder->group_start()
+				->like('tkd.nama_pemilik_asal', $search)
+				->or_like('tkd.letter_c', $search)
+				->or_like('tkd.persil', $search)
+				->group_end();
+		}
 		
-		return $data;
+		$condition = $search;
+
+		return $condition;
 	}
 
 	public function view_tanah_kas_desa_by_id($id)
@@ -57,18 +88,15 @@ class Tanah_kas_desa_model extends CI_Model
 			'status' => 0,
 			'visible' => 1,	
 		);		
-
 		
-		$this->db->insert($this->table, $data);	
-		$id = $this->db->insert_id();
-		$inserted = $this->db->get_where($this->table, array('id' => $id))->row();
-		return $inserted;
+		$hasil = $this->db->insert($this->table, $data);	
+		status_sukses($hasil);
 	}
 
 	public function delete_tanah_kas_desa($id)
 	{
 		$hasil = $this->db->update($this->table, array('visible' => 0), array('id' => $id));
-		return $hasil;
+		status_sukses($hasil);
 	}
 
 	public function update_tanah_kas_desa()
@@ -94,7 +122,7 @@ class Tanah_kas_desa_model extends CI_Model
 		$id = $this->input->post('id');
 
 		$hasil = $this->db->update($this->table, $data, array('id' => $id));
-		return $hasil;
+		status_sukses($hasil);
 	}
 
 	public function cetak_tanah_kas_desa()

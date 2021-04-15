@@ -14,11 +14,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="table-responsive">
-                            <table id="tabel4" class="table table-bordered dataTable table-hover">
+                            <table id="tabel-tanahkasdesa" class="table table-bordered dataTable table-hover">
                                 <thead class="bg-gray">
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th class="text-center">Aksi</th>
+                                        <th width="120" class="text-center">Aksi</th>
                                         <th class="text-center">Asal</th>
                                         <th class="text-center">No. Letter C / Persil</th>
                                         <th class="text-center">Kelas</th>
@@ -32,37 +32,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($main as $data): ?>
-                                    <?php if ($data->status == "1"): ?>
-                                    <tr style='background-color:#cacaca'>
-                                        <?php else: ?>
-                                    <tr>
-                                        <?php endif; ?>
-                                        <td></td>
-                                        <td nowrap>                                           
-                                            <a href="<?= site_url('bumindes_tanah_kas_desa/view_tanah_kas_desa/'.$data->id); ?>"
-                                                title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i
-                                                    class="fa fa-eye"></i></a>                                        
-                                            <a href="<?= site_url('bumindes_tanah_kas_desa/form/'.$data->id); ?>"
-                                                title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i
-                                                    class="fa fa-edit"></i> </a>
-                                            <a href="#"
-                                                data-href="<?= site_url("bumindes_tanah_kas_desa/delete_tanah_kas_desa/$data->id")?>"
-                                                class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal"
-                                                data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                        </td>
-                                        <td><?= $data->nama_pemilik_asal;?></td>
-                                        <td><?= $data->letter_c;?><br><?= $data->persil;?></td>
-                                        <td><?= $data->kelas;?></td>
-                                        <td><?= $data->perolehan_tkd;?><br><?= $data->jenis_tkd;?></td>
-                                        <td><?= $data->lokasi;?></td>
-                                        <td><?= $data->luas;?></td>
-                                        <td><?php if($data->patok==1){echo "Ada";}else{echo "Tidak Ada";}?></td>                                      
-                                        <td><?php if($data->papan_nama==1){echo "Ada";}else{echo "Tidak Ada";}?></td>                                                                                                             
-                                        <td><?= $data->tanggal_perolehan;?></td>                                      
-                                        <td><?= $data->keterangan;?></td>                                      
-                                    </tr>
-                                    <?php endforeach; ?>
                                 </tbody>                                
                             </table>
                         </div>
@@ -73,3 +42,110 @@
     </div>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
+
+<script>
+    $(document).ready(function() {
+		let tabelTanahKasDesa = $('#tabel-tanahkasdesa').DataTable({
+			'processing': true,
+			'serverSide': true,
+			'autoWidth': false,
+			'pageLength': 10,
+			'order': [
+				[2, 'asc'],
+			],
+			'columnDefs': [{
+				'orderable': false,
+				'targets': [0, 1, 3, 4, 5, 6, 7, 8, 9, 11],
+			}],
+			'ajax': {
+				'url': "<?= site_url('bumindes_tanah_kas_desa') ?>",
+				'method': 'POST',
+				'data': function(d) {
+				}
+			},
+			'columns': [
+				{
+					'data': null,
+				},
+				{
+					'data': function(data) {
+						return `
+                            <a href="<?= site_url('bumindes_tanah_kas_desa/view_tanah_kas_desa/') ?>${data.id}" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+                            <a href="<?= site_url('bumindes_tanah_kas_desa/form/') ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+                            <a href="#" data-href="<?= site_url('bumindes_tanah_kas_desa/delete_tanah_desa/') ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+                        	`
+					}
+				},
+				{
+                    'data': function(data) 
+                    {
+                       return data.nama_pemilik_asal;
+                    }
+				},
+				{
+                    'data': function(data)
+                    {
+                        var result =  `${data.letter_c} | ${data.persil}`;
+                        return result;
+                    }
+				},
+				{
+					'data': 'kelas',
+				},
+				{                    
+                    'data': function(data)
+                    {
+                        var result =  `${data.perolehan_tkd} | ${data.jenis_tkd}`;
+                        return result;
+                    }
+				},
+				{
+					'data': 'lokasi'
+                },
+                {
+					'data': 'luas'
+                },
+                {
+                    'data': function(data) 
+                    {
+                        if(data.patok==1)
+                        {
+                            return 'Ada'
+                        }else{
+                            return 'Tidak Ada'
+                        }
+                    }
+                },
+                {
+					'data': function(data) 
+                    {
+                        if(data.papan_nama==1)
+                        {
+                            return 'Ada'
+                        }else{
+                            return 'Tidak Ada'
+                        }
+                    }
+				},
+				{
+					'data': 'tanggal_perolehan'
+				},
+				{
+					'data': 'keterangan'
+				},
+			],
+			'language': {
+				'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"
+			}
+		});
+
+		tabelTanahKasDesa.on('draw.dt', function() {
+			let PageInfo = $('#tabel-tanahkasdesa').DataTable().page.info();
+			tabelTanahKasDesa.column(0, {
+				page: 'current'
+			}).nodes().each(function(cell, i) {
+				cell.innerHTML = i + 1 + PageInfo.start;
+			});
+		});
+    });
+</script>

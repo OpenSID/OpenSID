@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <a href="<?= site_url() ?>bumindes_tanah_desa/tables/tanah"
+                    <a href="<?= site_url() ?>bumindes_tanah_desa"
                         class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                             class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Buku Tanah di Desa</a>
                 </div>                

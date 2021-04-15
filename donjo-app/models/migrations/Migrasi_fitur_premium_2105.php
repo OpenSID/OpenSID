@@ -125,13 +125,13 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function bumindes_updates($hasil)
 	{
 
-		$hasil =& $this->db->where('id', 305)->update('setting_modul', ['url' => 'bumindes_tanah_desa']);
+		$hasil =& $this->db->where('id', 305)->update('setting_modul', ['url' => 'bumindes_tanah_desa/clear']);
 
 		// Menambahkan data pada setting_modul untuk controller bumindes_penduduk
 		$hasil =& $this->tambah_modul([
 			'id'         => 319,
 			'modul'      => 'Buku Tanah Kas Desa',
-			'url'        => 'bumindes_tanah_kas_desa',
+			'url'        => 'bumindes_tanah_kas_desa/clear',
 			'aktif'      => 1,
 			'ikon'       => 'fa-files-o',
 			'urut'       => 0,
