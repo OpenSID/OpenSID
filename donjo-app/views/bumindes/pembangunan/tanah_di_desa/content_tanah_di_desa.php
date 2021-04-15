@@ -142,7 +142,7 @@
 				{                   
                     'data': function(data)
                     {
-                        var result =  `${data.letter_c} | ${data.nomor_sertif}`;
+                        var result =  `${data.letter_c} <br> ${data.nomor_sertif}`;
                         return result;
                     }
 				},

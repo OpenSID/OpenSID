@@ -103,10 +103,10 @@
                                     <div class="container">
                                         <?php if($main->patok==1) { ?>
                                             <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas" value="1" checked> Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas" value="0" > Tidak Ada </label>
+                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas2" value="0" > Tidak Ada </label>
                                         <?php } else{ ?>
                                             <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas" value="1" > Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas" value="0" checked> Tidak Ada </label>  
+                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas2" value="0" checked> Tidak Ada </label>  
                                         <?php }?>                                       
                                     </div>
                                 </div>
@@ -117,10 +117,10 @@
                                     <div class="container">
                                         <?php if($main->papan_nama==1) { ?>
                                             <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama" value="1" checked > Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama" value="0" > Tidak Ada </label>
+                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama2" value="0" > Tidak Ada </label>
                                         <?php } else{ ?>                                            
                                             <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama" value="1" > Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama" value="0" checked > Tidak Ada </label>                                    
+                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama2" value="0" checked > Tidak Ada </label>                                    
                                         <?php }?>        
                                     </div>
                                 </div>
@@ -187,7 +187,9 @@
             $("#luas").attr("disabled",true);
             $("#tanggal_perolehan").attr("disabled",true);
             $("#patok_batas").attr("disabled",true);
+            $("#patok_batas2").attr("disabled",true);
             $("#papan_nama").attr("disabled",true);
+            $("#papan_nama2").attr("disabled",true);
             $("#peruntukan").attr("disabled",true);
             $("#lokasi").attr("disabled",true);
             $("#mutasi").attr("disabled",true);

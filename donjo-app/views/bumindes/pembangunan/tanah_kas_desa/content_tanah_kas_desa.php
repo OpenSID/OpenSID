@@ -147,7 +147,7 @@
 				{
                     'data': function(data)
                     {
-                        var result =  `${data.letter_c} | ${data.persil}`;
+                        var result =  `${data.letter_c} <br> ${data.persil}`;
                         return result;
                     }
 				},
@@ -157,7 +157,7 @@
 				{                    
                     'data': function(data)
                     {
-                        var result =  `${data.perolehan_tkd} | ${data.jenis_tkd}`;
+                        var result =  `${data.perolehan_tkd} <br> ${data.jenis_tkd}`;
                         return result;
                     }
 				},
