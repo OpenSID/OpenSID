@@ -224,7 +224,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->select('k.*, p.nik, p.nama, p.tempatlahir, p.tanggallahir')
 			->select("concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
 			->from('program_peserta k')
-			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend')
+			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend', 'left')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->where("kartu_nik is NULL or kartu_nik = ''")
 			->or_where("kartu_nama is NULL or kartu_nama = ''")
@@ -234,11 +234,11 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->get()->result_array();
 		foreach ($kartu_kosong as $kartu)
 		{
-			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik']);
-			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama']);
-			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir']);
-			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir']);
-			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat']);
+			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik'] ?: 0);
+			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama'] ?: '');
+			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir'] ?: '');
+			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir'] ?: date('Y-m-d H:i:s'));
+			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat'] ?: '');
 			$hasil = $hasil && $this->db
 				->where('id', $kartu['id'])
 				->update('program_peserta');
