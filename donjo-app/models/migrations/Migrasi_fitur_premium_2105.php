@@ -58,6 +58,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
 		$hasil =& $this->server_publik();
 		$hasil =& $this->convert_ip_address($hasil);
+		$hasil =& $this->setting_script_id_gform($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -140,5 +141,23 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil =& $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
 
 		return $hasil >= 0;
+	}
+
+	protected function setting_script_id_gform($hasil)
+	{
+		// Menambahkan data Script ID Google API pada Setting Aplikasi
+		$data_setting = [
+			'key'			=> 'script_id_gform', 
+			'value'			=> 'AKfycbx3KRsQ_OsDpq4r2bWmW-BaOUaQzktkavrCBjpKHpw-KNN4GHho6_g6leY43ueKwpc6OQ', 
+			'keterangan'	=> 'Script ID untuk Google API'
+		];
+
+		$sql = $this->db->insert_string('setting_aplikasi', $data_setting);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				keterangan = VALUES(keterangan),
+				jenis = VALUES(jenis)";
+		$hasil =& $this->db->query($sql);
+		
+		return $hasil;
 	}
 }
