@@ -712,4 +712,15 @@ class First extends Web_Controller {
 			exit();
 		}
 	}
+	
+	public function status_sdgs()
+	{
+		$this->load->model('data_eksternal_model');
+		$data = $this->includes;
+		$this->_get_common_data($data);
+		$kode_desa = $data['desa']['kode_desa'];
+ 		$data ['evaluasi'] = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
+		$this->set_template('layouts/status_sdgs.tpl.php');
+		$this->load->view($this->template, $data);
+	}
 }
