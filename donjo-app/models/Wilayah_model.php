@@ -63,8 +63,7 @@ class Wilayah_model extends MY_Model {
 	{
 		if (isset($_SESSION['cari']))
 		{
-			$cari = $this->db->escape_like_str($_SESSION['cari']);
-			$kw = $this->db->escape_like_str($cari);
+			$kw = $this->db->escape_like_str($_SESSION['cari']);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND u.dusun LIKE '$kw'";
 			return $search_sql;
@@ -308,7 +307,7 @@ class Wilayah_model extends MY_Model {
 			->row_array();
 
 		$jml_data = $row['jml'];
-		
+
 		return $this->paginasi($p, $jml_data);
 	}
 
@@ -399,7 +398,7 @@ class Wilayah_model extends MY_Model {
 			->get()
 			->row()->jml;
 
-		
+
 		return $this->paginasi($p, $jml_data);
 	}
 

@@ -11,7 +11,7 @@
  * @param	string	nama tabel yang akan diekspor
  * @return  string
  */
-function get_csv($table)
+function tulis_csv($table)
 {
 	$CI =& get_instance();
 	$CI->load->database();
@@ -29,6 +29,43 @@ function get_csv($table)
 	}
 	fclose($df);
 	return ob_get_clean();
+}
+
+/**
+  https://stackoverflow.com/questions/7391969/in-memory-download-and-extract-zip-archive
+  https://www.php.net/manual/en/function.str-getcsv.php
+  https://bugs.php.net/bug.php?id=55763
+
+  Contoh yg dihasilkan:
+
+  Array
+  (
+      [0] => Array
+          (
+              [Kd_Bid] => 01
+              [Nama_Bidang] => Bidang Penyelenggaraan Pemerintah Desa
+          )
+
+      [1] => Array
+          (
+              [Kd_Bid] => 02
+              [Nama_Bidang] => Bidang Pelaksanaan Pembangunan Desa
+          )
+  )
+*/
+function get_csv($zip_file, $file_in_zip)
+{
+  # read the file's data:
+  $path = sprintf('zip://%s#%s', $zip_file, $file_in_zip);
+  $file_data = file_get_contents($path);
+  //$file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
+  $file_data = preg_split('/\r*\n+|\r+/', $file_data);
+  $csv = array_map('str_getcsv', $file_data);
+  array_walk($csv, function(&$a) use ($csv) {
+    $a = array_combine($csv[0], $a);
+  });
+  array_shift($csv); # remove column header
+  return($csv);
 }
 
 /**
