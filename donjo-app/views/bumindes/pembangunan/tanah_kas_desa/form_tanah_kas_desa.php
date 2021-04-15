@@ -135,10 +135,18 @@
                             </div>                                                                                                                                 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;"
-                                    for="keterangan">Lokasi</label>
+                                    for="lokasi">Lokasi</label>
                                 <div class="col-sm-8">
                                     <textarea rows="5" class="form-control input-sm required" name="lokasi"
                                         id="lokasi" placeholder="Lokasi" ><?= $main->lokasi; ?></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;"
+                                    for="mutasi">Mutasi</label>
+                                <div class="col-sm-8">
+                                    <textarea rows="5" class="form-control input-sm required" name="mutasi"
+                                        id="mutasi" placeholder="Mutasi" ><?= $main->mutasi; ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -182,6 +190,7 @@
             $("#papan_nama").attr("disabled",true);
             $("#peruntukan").attr("disabled",true);
             $("#lokasi").attr("disabled",true);
+            $("#mutasi").attr("disabled",true);
             $("#keterangan").attr("disabled",true);
             document.getElementById("form_footer").style.display = "none";            
         }

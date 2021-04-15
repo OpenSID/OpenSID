@@ -89,6 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th rowspan="2">STATUS HAK TANAH</th>							
 							<th rowspan="2">PENGGUNAAN TANAH</th>
 							<th rowspan="2">LAIN - LAIN</th>
+							<th rowspan="2">MUTASI</th>
 							<th rowspan="2">KETERANGAN</th>										 
 						</tr>					
 						<tr class="border thick">							
@@ -105,6 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>9</th>
 							<th>10</th>
 							<th>11</th>
+							<th>12</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -123,6 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?= strtoupper($data['hak_tanah']) ?></td>
 								<td><?= strtoupper($data['penggunaan_tanah']) ?></td>
 								<td><?= strtoupper($data['lain']) ?></td>
+								<td><?= strtoupper($data['mutasi']) ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>								
 							</tr>
 						<?php

@@ -12,20 +12,20 @@
                         <div class="col-md-12">        
                             <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">                   
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Pemilik</label>
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Nama Perorangan / Badan Hukum</label>
                                 <div class="col-sm-8">
-                                    <input maxlength="50" class="form-control input-sm required" name="pemilik_asal"
+                                    <input class="form-control input-sm required" name="pemilik_asal"
                                         id="pemilik_asal" type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal; ?>"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">No. Letter C / Persil</label>
                                 <div class="col-sm-4">                    
-                                    <input maxlength="50" class="form-control input-sm required" name="letter_c"
+                                    <input class="form-control input-sm required" name="letter_c"
                                         id="letter_c" type="text" placeholder="No. Letter C" value="<?= $main->letter_c; ?>"/>
                                 </div>
                                 <div class="col-sm-4">                    
-                                    <input maxlength="50" class="form-control input-sm required" name="persil"
+                                    <input class="form-control input-sm required" name="persil"
                                         id="persil" type="text" placeholder="Persil" value="<?= $main->persil; ?>"/>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                             </div>                                                       
                             <div class="form-group">
                                 <label class="col-sm-3 control-label required" style="text-align:left;"
-                                    for="hak_tanah">Hak Tanah </label>
+                                    for="hak_tanah">Status Hak Tanah </label>
                                 <div class="col-sm-4">
                                     <select name="hak_tanah" id="hak_tanah" class="form-control input-sm required"
                                         placeholder="Hak Tanah" value="<?= $main->hak_tanah; ?>">
@@ -105,13 +105,21 @@
                                         <option value="Tanah Kosong">Tanah Kosong</option>
                                     </select>
                                 </div>
-                            </div>                                                                                                                                        
+                            </div> 
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;" 
+                                    for="pemilik_asal">Lain - lain</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control input-sm required" name="lain"
+                                        id="lain" type="text" placeholder="Lain - lain" value="<?= $main->lain; ?>"/>
+                                </div>
+                            </div>                                                                                                                                       
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;"
-                                    for="keterangan">Lain - lain</label>
+                                    for="mutasi">Mutasi</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm required" name="lain"
-                                        id="lain" placeholder="Lain - lain" ><?= $main->lain; ?></textarea>
+                                    <textarea rows="5" class="form-control input-sm required" name="mutasi"
+                                        id="mutasi" placeholder="Mutasi" ><?= $main->mutasi; ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -151,6 +159,7 @@
             $("#hak_tanah").attr("disabled",true);
             $("#penggunaan_tanah").attr("disabled",true);
             $("#lain").attr("disabled",true);
+            $("#mutasi").attr("disabled",true);
             $("#keterangan").attr("disabled",true);
             document.getElementById("form_footer").style.display = "none";            
         }

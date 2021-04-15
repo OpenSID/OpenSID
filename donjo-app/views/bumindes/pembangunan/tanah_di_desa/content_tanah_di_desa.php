@@ -19,8 +19,8 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th width="120" class="text-center">Aksi</th>
-                                        <th class="text-center">Pemilik / Asal</th>
-                                        <th class="text-center">No. Letter C / Sertifikat</th>
+                                        <th class="text-center">Nama Perorangan &nbsp/ <br> Badan Hukum</th>
+                                        <th class="text-center">No. Letter C  &nbsp/ <br> Sertifikat</th>
                                         <th class="text-center">Jenis Hak</th>
                                         <th class="text-center">Jenis Pengunaan</th>                                        
                                         <th class="text-center">Luas (M<sup>2</sup>)</th>
@@ -94,7 +94,7 @@
                             <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_cetak"
                                 name="form_cetak" data-dismiss="modal"><i class='fa fa-check'></i> Cetak</button>
                         </div>
-                        </form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -153,7 +153,10 @@
 					'data': 'penggunaan_tanah'
 				},
 				{
-					'data': 'luas'
+                    // 'data': 'luas'
+                    'data': function(data) {
+                       return data.luas + ' M<sup>2</sup>';
+                    }
 				},
 				{
 					'data': 'tanggal_sertif'
@@ -178,11 +181,11 @@
     });
     
     $("#form_cetak").click(function (event) {
-        var link = '<?= site_url("bumindes_pembangunan/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/cetak';
+        var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/cetak';
         window.open(link, '_blank');
     });
     $("#form_download").click(function (event) {
-        var link = '<?= site_url("bumindes_pembangunan/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/unduh';
+        var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/unduh';
         window.open(link, '_blank');
     });
 </script>

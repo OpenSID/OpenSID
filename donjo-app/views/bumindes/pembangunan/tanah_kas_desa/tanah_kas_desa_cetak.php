@@ -92,6 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th rowspan="2">PAPAN NAMA</th>							
 							<th rowspan="2">LOKASI</th>
 							<th rowspan="2">PERUNTUKAN</th>
+							<th rowspan="2">MUTASI</th>
 							<th rowspan="2">KETERANGAN</th>										 
 						</tr>					
 						<tr class="border thick">							
@@ -111,6 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>12</th>
 							<th>13</th>
 							<th>14</th>
+							<th>15</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -132,6 +134,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?= $data['papan_nama']==1? "ADA":"TIDAK ADA";?></td>
 								<td><?= strtoupper($data['lokasi']) ?></td>
 								<td><?= strtoupper($data['peruntukan']) ?></td>
+								<td><?= strtoupper($data['mutasi']) ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>								
 							</tr>
 						<?php
