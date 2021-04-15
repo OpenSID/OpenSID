@@ -59,9 +59,7 @@ class Data_persil_model extends MY_Model {
 		if ($this->session->cari)
 		{
 			$cari = $this->session->cari;
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$this->db->where("p.nomor like '$kw'");
+			$this->db->like('p.nomor', $cari);
 		}
 	}
 

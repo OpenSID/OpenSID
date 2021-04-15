@@ -75,9 +75,9 @@ class Keluar extends Admin_Controller {
 
 		if ($this->input->post('per_page') !== NULL)
 			$this->session->per_page = $this->input->post('per_page');
-		 
+
 		if(!isset($this->session->tahun)) $this->session->unset_userdata('bulan');
-	
+
 		$data['per_page'] = $this->session->per_pages;
 
 		$data['paging'] = $this->keluar_model->paging($p,$o);
@@ -120,10 +120,8 @@ class Keluar extends Admin_Controller {
 		if ($cari != '')
 			$this->session->cari = $cari;
 		else $this->session->session_unset('cari') ;
-		
-	}
 
-	
+	}
 
 	public function perorangan_clear()
 	{
