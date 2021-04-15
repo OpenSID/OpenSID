@@ -36,13 +36,13 @@
 		if (isset($this->session->cari))
 		{
 			$cari = $this->session->cari;
-			$kw = $this->db->escape_like_str($cari);
- 			$this->db->group_start()
-					->or_like('u.no_surat', $kw, 'BOTH')
-					->or_like('n.nama', $kw, 'BOTH')
-					->or_like('s.pamong_nama', $kw, 'BOTH')
-					->or_like('p.nama', $kw, 'BOTH')
-					->group_end();
+ 			$this->db
+ 				->group_start()
+					->or_like('u.no_surat', $cari, 'BOTH')
+					->or_like('n.nama', $cari, 'BOTH')
+					->or_like('s.pamong_nama', $cari, 'BOTH')
+					->or_like('p.nama', $cari, 'BOTH')
+				->group_end();
 		}
 	}
 
