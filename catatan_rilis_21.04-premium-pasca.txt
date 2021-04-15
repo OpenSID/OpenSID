@@ -24,8 +24,13 @@ Premium - perbaikan bug:
 15. #4135: Sekarang halaman statis Daftar Calon Pemilih tampil normal kembali di web. [bug-fix]
 16. #4133: Sekarang peta tidak membatasi jumlah area yg dapat ditampilkan. [bug-fix]
 17. #4136: Sekarang penduduk dengan status dasar selain hidup tidak lagi tampil duplikat. [bug-fix]
+18. #4140: Sekarang jumlah rincian data suplemen yang tampil melalui menu statis web tidak dibatasi. [bug-fix]
+19. #4143: Kurangi jumlah link halaman pada paginasi Pengaturan Peta > Area supaya terlihat lebih rapi. [bug-fix]
 
 
 Premium - penambahan fitur:
 
 1. #4108: Filter arsip surat menurut bulan.
+2. #3986: Samarkan data penduduk di server yang khusus digunakan untuk data publik saja, tidak untuk pengelolaan data penduduk.
+3. #3986: Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
+4. Pindahkan folder cache ambil status release dan status IDM ke folder 'cache'. [teknis]

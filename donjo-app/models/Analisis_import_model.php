@@ -112,19 +112,20 @@ class Analisis_import_Model extends CI_Model {
 		return $id_master;
 	}
 
-	public function save_import_gform(){
+	public function save_import_gform()
+	{
 		$list_error = array();
 
 		// SIMPAN ANALISIS MASTER
 		$data_analisis_master = [
-			'nama' 			=> $this->input->post('nama_form') == "" ? "Response Google Form " . date('dmY_His') : $this->input->post('nama_form'),
-			'subjek_tipe' 	=> $this->input->post('subjek_analisis') == 0 ? 1 : $this->input->post('subjek_analisis'),
-			'id_kelompok' 	=> 0,
-			'lock' 			=> 1,
-			'format_impor' 	=> 0,
-			'pembagi' 		=> 1,
-			'id_child' 		=> 0,
-			'deskripsi' 	=> ""
+			'nama'			=> $this->input->post('nama_form') == "" ? "Response Google Form " . date('dmY_His') : $this->input->post('nama_form'),
+			'subjek_tipe'	=> $this->input->post('subjek_analisis') == 0 ? 1 : $this->input->post('subjek_analisis'),
+			'id_kelompok'	=> 0,
+			'lock'			=> 1,
+			'format_impor'	=> 0,
+			'pembagi'		=> 1,
+			'id_child'		=> 0,
+			'deskripsi'		=> ""
 		];
 
 		$outp = $this->db->insert('analisis_master', $data_analisis_master);
@@ -271,7 +272,7 @@ class Analisis_import_Model extends CI_Model {
 		status_sukses($outp);
 	}
 
-	function getOAuthCredentialsFile()
+	protected function getOAuthCredentialsFile()
 	{
 		// Location of Oauth2 Credential
 		$oauth_creds = APPPATH . '../vendor/google-api-php-client/oauth-credentials.json';
@@ -284,7 +285,8 @@ class Analisis_import_Model extends CI_Model {
 		return false;
 	}
 
-	public function import_gform($redirect_link = ""){
+	public function import_gform($redirect_link = "")
+	{
 		// Check Credential File
 		if (!$oauth_credentials = $this->getOAuthCredentialsFile()) 
 		{
@@ -303,7 +305,7 @@ class Analisis_import_Model extends CI_Model {
 		$service = new Google_Service_Script($client);
 
 		// API script id
-		$scriptId = 'AKfycbx3KRsQ_OsDpq4r2bWmW-BaOUaQzktkavrCBjpKHpw-KNN4GHho6_g6leY43ueKwpc6OQ';
+		$scriptId = $this->setting->script_id_gform;
 
 		// add "?logout" to the URL to remove a token from the session
 		if (isset($_REQUEST['logout'])) 

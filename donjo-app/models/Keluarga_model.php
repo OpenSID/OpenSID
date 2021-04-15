@@ -234,10 +234,10 @@
 	// Tambah keluarga baru dari penduduk lepas (status tetap atau pendatang)
 	public function insert()
 	{
-		unset($_SESSION['error_msg']);
+		$this->session->unset_userdata('error_msg');
 		$data = $_POST;
 
-		if (!$this->validasi_data_keluarga($data)) return;
+		if ( ! $this->validasi_data_keluarga($data)) return;
 
 		$pend = $this->db->select('alamat_sekarang, id_cluster')->
 			where('id', $data['nik_kepala'])->
@@ -245,6 +245,7 @@
 		// Gunakan alamat penduduk sebagai alamat keluarga
 		$data['alamat'] = $pend['alamat_sekarang'];
 		$data['id_cluster'] = $pend['id_cluster'];
+		$data['updated_by'] = $this->session->user;
 
 		$outp = $this->db->insert('tweb_keluarga', $data);
 		$kk_id = $this->db->insert_id();
@@ -255,14 +256,14 @@
 		$default['updated_at'] = date('Y-m-d H:i:s');
 		$default['updated_by'] = $this->session->user;
 		$this->db->where('id', $data['nik_kepala']);
-		$this->db->update('tweb_penduduk', $default);
+		$outp = $outp && $this->db->update('tweb_penduduk', $default);
 
 		$this->penduduk_model->tulis_log_penduduk($kk_id, '9', date('m'), date('Y'));
 
 		$log['id_pend'] = 1;
 		$log['id_cluster'] = 1;
 		$log['tanggal'] = date('Y-m-d H:i:s');
-		$outp = $this->db->insert('log_perubahan_penduduk', $log);
+		$outp = $outp && $this->db->insert('log_perubahan_penduduk', $log);
 
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($kk_id, $data['nik_kepala'], 1);
@@ -386,6 +387,7 @@
 		$data2['nik_kepala'] = $id_pend;
 		$data2['no_kk'] = $_POST['no_kk'];
 		$data2['id_cluster'] = $data['id_cluster'];
+		$data2['updated_by'] = $this->session->user;
 		$outp = $this->db->insert('tweb_keluarga', $data2);
 		$kk_id = $this->db->insert_id();
 
@@ -500,6 +502,7 @@
 	public function update_kk_level($id, $id_kk, $kk_level, $kk_level_lama)
 	{
 		$outp = true;
+		$nik['updated_by'] = $this->session->user;
 		if ($kk_level == 1 and $kk_level_lama != 1)
 		{
 			// Kalau ada penduduk lain yg juga Kepala Keluarga, ubah menjadi hubungan Lainnya
@@ -561,6 +564,7 @@
 		$outp = $this->db->update('tweb_penduduk', $temp);
 		if ($pend['kk_level'] == '1')
 		{
+			$temp2['updated_by'] = $this->session->user;
 			$temp2['nik_kepala'] = 0;
 			$this->db->where('id', $pend['id_kk']);
 			$outp = $this->db->update('tweb_keluarga', $temp2);
@@ -860,7 +864,8 @@
 		else $data['tgl_cetak_kk'] = NULL;
 		if (empty($data['kelas_sosial'])) $data['kelas_sosial'] = NULL;
 		$this->db->where("id", $id);
-		$outp=$this->db->update("tweb_keluarga", $data);
+		$data['updated_by'] = $this->session->user;
+		$outp = $this->db->update("tweb_keluarga", $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -868,7 +873,7 @@
 	public function pindah_keluarga($id_kk, $id_cluster)
 	{
 		$this->db->where('id', $id_kk)->
-			update('tweb_keluarga', array('id_cluster' => $id_cluster));
+			update('tweb_keluarga', array('id_cluster' => $id_cluster, 'updated_by' => $this->session->user));
 		$this->pindah_anggota_keluarga($id_kk, $id_cluster);
 	}
 
@@ -1076,10 +1081,8 @@
 
 	public function get_keluarga_by_no_kk($no_kk)
 	{
-		$this->db->where('no_kk', $no_kk);
-		$q = $this->db->get('tweb_keluarga');
-		$kk = $q->row_array();
-
-		return $kk;
+		return $this->db->where('no_kk', $no_kk)
+				->get('tweb_keluarga')
+				->row_array();
 	}
 }

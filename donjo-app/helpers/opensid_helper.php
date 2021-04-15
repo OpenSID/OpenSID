@@ -73,6 +73,7 @@ define("LOKASI_MEDIA", 'desa/upload/media/');
 define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
 define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
 define("LOKASI_SISIPAN_DOKUMEN", 'assets/files/sisipan/');
+define("LOKASI_SINKRONISASI_ZIP", 'desa/upload/sinkronisasi/');
 
 // Pengaturan Latar
 define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');

@@ -86,7 +86,8 @@ class Area extends Admin_Controller
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->set_page;
-		$data['paging'] = $this->plan_area_model->paging($p,$o);
+		$data['per_page'] = $this->session->per_page;
+		$data['paging'] = $this->plan_area_model->paging($p, $o);
 		$data['main'] = $this->plan_area_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_area_model->autocomplete();
 		$data['list_polygon'] = $this->plan_area_model->list_polygon();

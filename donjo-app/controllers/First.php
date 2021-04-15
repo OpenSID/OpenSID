@@ -280,6 +280,7 @@ class First extends Web_Controller {
 	{
 		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
 
+		$this->session->per_page = null;
 		$data = $this->includes;
 
 		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
@@ -669,7 +670,7 @@ class First extends Web_Controller {
 		{
 			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2021", "idm_2021_$kode_desa")
 				->set_interval(7)
-				->set_cache_folder(FCPATH.'desa');
+				->set_cache_folder(FCPATH.'cache');
 
 			$idm = $this->data_publik->get_url_content();
 			if ($idm->body->error)
@@ -714,7 +715,8 @@ class First extends Web_Controller {
 		}
 	}
 
-	public function getFormInfo(){
+	public function get_form_info()
+	{
 		$form_id = $this->input->get('formId');
 		$redirect_link = $this->input->get('redirectLink');
 
@@ -734,8 +736,7 @@ class First extends Web_Controller {
 			// Untuk kondisi SESAAT setelah Autentikasi
 			$redirect_link = $this->session->inside_redirect_link;
 
-			unset($_SESSION['inside_retry']);
-			unset($_SESSION['inside_redirect_link']);
+			$this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
 			
 			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $_GET['code'] . '&formId=' . $this->session->google_form_id);
 		}

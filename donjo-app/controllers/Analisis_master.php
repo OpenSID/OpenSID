@@ -64,8 +64,7 @@ class Analisis_master extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-		unset($_SESSION['analisis_master']);
-		unset($_SESSION['analisis_nama']);
+		$this->session->unset_userdata(['analisis_master', 'analisis_nama']);
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -87,15 +86,15 @@ class Analisis_master extends Admin_Controller {
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data = [
-			'paging' 		=> $this->analisis_master_model->paging($p,$o),
-			'data_import' 	=> $this->session->data_import,
-			'list_error' 	=> $this->session->list_error,
-			'keyword' 		=> $this->analisis_master_model->autocomplete(),
-			'list_subjek' 	=> $this->analisis_master_model->list_subjek()
+			'paging'		=> $this->analisis_master_model->paging($p,$o),
+			'data_import'	=> $this->session->data_import,
+			'list_error'	=> $this->session->list_error,
+			'keyword'		=> $this->analisis_master_model->autocomplete(),
+			'list_subjek'	=> $this->analisis_master_model->list_subjek()
 		];
 		$data['main']	= $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		
-		unset($_SESSION['list_error']);
+		$this->session->unset_userdata('list_error');
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_master/table', $data);
@@ -228,9 +227,10 @@ class Analisis_master extends Admin_Controller {
 		$this->session->google_form_id = $this->input->post('input-form-id');
 		
 		$BASE_URL_API = 'https://bumindes.opensid.or.id/index.php/';
-		$self_link = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 		if ($this->input->get('outsideRetry') == "true"){
-			$url = $BASE_URL_API . 'first/getFormInfo?formId=' . $_GET['formId'] . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $_GET['code'];
+			$url = $BASE_URL_API . 'first/get_form_info?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
 
 			$client = new Google\Client();
 			$httpClient = $client->authorize();
@@ -241,7 +241,7 @@ class Analisis_master extends Admin_Controller {
 			$this->session->success = 5;
 			redirect('analisis_master');
 		} else {
-			$url = $BASE_URL_API . 'first/getFormInfo?formId=' . $this->input->post('input-form-id') . '&redirectLink=' . $self_link ;
+			$url = $BASE_URL_API . 'first/get_form_info?formId=' . $this->input->post('input-form-id') . '&redirectLink=' . $self_link ;
 			header('Location: ' . $url);
 		}
 	}
