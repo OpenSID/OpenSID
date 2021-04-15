@@ -56,7 +56,6 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<!-- <button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="btn-next-pertanyaan"><i class='fa fa-arrow-right'></i> Lanjutkan</button> -->
 								</div>
 							</div>
 						</div>

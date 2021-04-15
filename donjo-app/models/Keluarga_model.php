@@ -1062,10 +1062,8 @@
 
 	public function get_keluarga_by_no_kk($no_kk)
 	{
-		$this->db->where('no_kk', $no_kk);
-		$q = $this->db->get('tweb_keluarga');
-		$kk = $q->row_array();
-
-		return $kk;
+		return $this->db->where('no_kk', $no_kk)
+				->get('tweb_keluarga')
+				->row_array();
 	}
 }

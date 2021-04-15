@@ -705,7 +705,8 @@ class First extends Web_Controller {
 		}
 	}
 
-	public function getFormInfo(){
+	public function get_form_info()
+	{
 		$form_id = $this->input->get('formId');
 		$redirect_link = $this->input->get('redirectLink');
 
@@ -725,8 +726,7 @@ class First extends Web_Controller {
 			// Untuk kondisi SESAAT setelah Autentikasi
 			$redirect_link = $this->session->inside_redirect_link;
 
-			unset($_SESSION['inside_retry']);
-			unset($_SESSION['inside_redirect_link']);
+			$this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
 			
 			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $_GET['code'] . '&formId=' . $this->session->google_form_id);
 		}
