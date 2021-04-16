@@ -93,10 +93,10 @@ class Data_eksternal_model extends CI_Model {
 			];
 		}
 		$kanan 	= $html->find($selector,1);
-		foreach ($kanan->find('.panel') as $panel) 
+		foreach ($kanan->find('.panel') as $panel)
 		{ 
 			$sub = [];
-			foreach ($panel->find('tr') as $tr) 
+			foreach ($panel->find('tr') as $tr)
 			{
 				$sub  [] = [
 					'uraian'	=> $tr->children(0)->innertext,
