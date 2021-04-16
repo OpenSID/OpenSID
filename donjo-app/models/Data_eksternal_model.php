@@ -2,7 +2,7 @@
 /**
  * File ini:
  *
- * Model untuk modul data eksternal (Garis)
+ * Model untuk modul data eksternal
  *
  * /donjo-app/models/Data_eksternal_model.php
  *
@@ -50,6 +50,21 @@ class Data_eksternal_model extends CI_Model {
 		parent::__construct();
 	}
 
+	/**
+	 * menscraping data dari website kemendes yang ada pada halaman
+	 * https://sid.kemendesa.go.id/home/sdgs/{$kode_desa}
+	 * 
+	 * @param string $kode_desa
+	 * @return array $data = [
+	 * 	'uraian'	=> 'Desa Tanpa Kemiskinan #1', // mendefinisikan header 
+	 * 	'sub			=> [
+	 * 					$sub 	=> [
+	 * 						'uraian'	=>	'Jumlah surat miskin/SKTM yang dikeluarkan desa selama tahun 2017', // menjelaskan rincian data
+	 * 						'value'		=> 	'124'	// isian dari uraian 
+	 * 					]
+	 * 	]
+	 * ]
+	 */
 	public function sdgs_kemendes($kode_desa)
 	{		
 		include FCPATH . '/vendor/simple_html_dom.php';
@@ -57,12 +72,14 @@ class Data_eksternal_model extends CI_Model {
 		$data 		= [];
 		$selector 	= '.accordion-stn';
 		$html 		= file_get_html($url);
-		if ($html == false) {
+		if ($html == false) 
+		{
 			show_error('Reload Kembali Halaman', 408,'Gagal Memuat Halaman');
 			return;
 		}
 		$kiri 		= $html->find($selector,0); //pertama
-		foreach ($kiri->find('.panel') as $panel) { //ambil dari panel
+		foreach ($kiri->find('.panel') as $panel) 
+		{
 			$sub = [];
 			foreach ($panel->find('tr') as $tr) {
 				$sub  [] = [
@@ -72,14 +89,15 @@ class Data_eksternal_model extends CI_Model {
 			}
 			$data [] = [
 				'uraian'	=> trim(preg_replace('/\t+/', '', $panel->find('a',0)->innertext)),
-				'sub'		=> $sub
+				'sub'			=> $sub
 			];
 		}
-
-		$kanan 	= $html->find($selector,1); //kedua
-		foreach ($kanan->find('.panel') as $panel) { //ambil dari panel
+		$kanan 	= $html->find($selector,1);
+		foreach ($kanan->find('.panel') as $panel) 
+		{ 
 			$sub = [];
-			foreach ($panel->find('tr') as $tr) {
+			foreach ($panel->find('tr') as $tr) 
+			{
 				$sub  [] = [
 					'uraian'	=> $tr->children(0)->innertext,
 					'value'		=> $tr->children(1)->innertext
@@ -87,7 +105,7 @@ class Data_eksternal_model extends CI_Model {
 			}
 			$data [] = [
 				'uraian'	=> trim(preg_replace('/\t+/', '', $panel->find('a',0)->innertext)),
-				'sub'		=> $sub
+				'sub'			=> $sub
 			];
 		}
 		return $data;
