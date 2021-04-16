@@ -12,10 +12,10 @@
                         <div class="col-md-12">
                             <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Asal</label>
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Asal Tanah Kas Desa</label>
                                 <div class="col-sm-8">
                                     <input maxlength="50" class="form-control input-sm required" name="pemilik_asal"
-                                        id="pemilik_asal" type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal; ?>"/>
+                                        id="pemilik_asal" type="text" placeholder="Asal Tanah" value="<?= $main->nama_pemilik_asal; ?>"/>
                                 </div>
                             </div>
                             <div class="form-group">

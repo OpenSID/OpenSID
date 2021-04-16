@@ -146,6 +146,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
+		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
 
 		if ($this->form_validation->run() != false)
 		{
@@ -165,6 +166,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
+		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
 
 		if ($this->form_validation->run() != false)
 		{

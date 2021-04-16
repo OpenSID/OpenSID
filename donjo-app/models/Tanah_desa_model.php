@@ -7,9 +7,6 @@ class Tanah_desa_model extends CI_Model
 
 	const ORDER_ABLE = [
 		2	=> 'nama_pemilik_asal',
-		3	=> 'letter_c',
-		3	=> 'nomor_sertif',
-		7  	=> 'tanggal_sertif',
 	];
 
 	public function __construct()
@@ -21,13 +18,11 @@ class Tanah_desa_model extends CI_Model
 	{
 		$builder = $this->db
 					->select('td.id, 
-							td.nama_pemilik_asal, 
-							td.letter_c,
-							td.nomor_sertif, 
+							td.nama_pemilik_asal, 						
 							td.hak_tanah, 
 							td.penggunaan_tanah, 
-							td.luas, 
-							td.tanggal_sertif, 
+							td.luas,
+							td.mutasi, 					
 							td.keterangan')
 					->from("{$this->table} td")
 					->where('td.visible', 1);
@@ -39,9 +34,7 @@ class Tanah_desa_model extends CI_Model
 		else
 		{
 			$search = $builder->group_start()
-				->like('td.nama_pemilik_asal', $search)
-				->or_like('td.letter_c', $search)
-				->or_like('td.nomor_sertif', $search)
+				->like('td.nama_pemilik_asal', $search)				
 				->group_end();
 		}
 		
@@ -66,11 +59,7 @@ class Tanah_desa_model extends CI_Model
 	public function add_tanah_desa()
 	{
 		$data = array(
-			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),
-			'letter_c' 			=> $this->input->post('letter_c'),
-			'persil' 			=> $this->input->post('persil'),
-			'nomor_sertif' 		=> $this->input->post('no_sertif'),			
-			'tanggal_sertif' 	=> $this->input->post('tanggal_sertif'),
+			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),		
 			'hak_tanah' 		=> $this->input->post('hak_tanah'),
 			'penggunaan_tanah' 	=> $this->input->post('penggunaan_tanah'),
 			'luas' 				=> $this->input->post('luas'),
@@ -82,7 +71,7 @@ class Tanah_desa_model extends CI_Model
 			'visible' 			=> 1
 		);
 
-		$hasil = $this->db->insert($this->table, array_filter($data));
+		$hasil = $this->db->insert($this->table, $data);
 		status_sukses($hasil);
 	}
 
@@ -95,11 +84,7 @@ class Tanah_desa_model extends CI_Model
 	public function update_tanah_desa()
 	{
 		$data = array(
-			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),
-			'letter_c' 			=> $this->input->post('letter_c'),
-			'persil' 			=> $this->input->post('persil'),
-			'nomor_sertif' 		=> $this->input->post('no_sertif'),			
-			'tanggal_sertif' 	=> $this->input->post('tanggal_sertif'),
+			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),			
 			'hak_tanah' 		=> $this->input->post('hak_tanah'),
 			'penggunaan_tanah' 	=> $this->input->post('penggunaan_tanah'),
 			'luas' 				=> $this->input->post('luas'),
@@ -121,7 +106,8 @@ class Tanah_desa_model extends CI_Model
 		$this->db
 				->select('*')
 				->from($this->table)	
-				->where($this->table.'.visible', 1);
+				->where($this->table.'.visible', 1)
+				->order_by('nama_pemilik_asal', 'ASC');
 		$data = $this->db
 				->get()
 				->result_array();

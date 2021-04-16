@@ -20,11 +20,10 @@
                                         <th class="text-center">No</th>
                                         <th width="120" class="text-center">Aksi</th>
                                         <th class="text-center">Nama Perorangan &nbsp/ <br> Badan Hukum</th>
-                                        <th class="text-center">No. Letter C  &nbsp/ <br> Sertifikat</th>
-                                        <th class="text-center">Jenis Hak</th>
+                                        <th class="text-center">Status Hak Tanah</th>
                                         <th class="text-center">Jenis Pengunaan</th>                                        
                                         <th class="text-center">Luas (M<sup>2</sup>)</th>
-                                        <th class="text-center">Tanggal</th>
+                                        <th class="text-center">Mutasi</th>
                                         <th class="text-center">Keterangan</th>
                                     </tr>
                                 </thead>
@@ -113,7 +112,7 @@
 			],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 3, 4, 5, 6, 8],
+				'targets': [0, 1, 3, 4, 5, 6, 7],
 			}],
 			'ajax': {
 				'url': "<?= site_url('bumindes_tanah_desa') ?>",
@@ -139,13 +138,6 @@
                        return data.nama_pemilik_asal;
                     }
 				},
-				{                   
-                    'data': function(data)
-                    {
-                        var result =  `${data.letter_c} <br> ${data.nomor_sertif}`;
-                        return result;
-                    }
-				},
 				{
 					'data': 'hak_tanah',
 				},
@@ -153,14 +145,11 @@
 					'data': 'penggunaan_tanah'
 				},
 				{
-                    // 'data': 'luas'
-                    'data': function(data) {
-                       return data.luas + ' M<sup>2</sup>';
-                    }
+                    'data': 'luas'                   
 				},
-				{
-					'data': 'tanggal_sertif'
-				},
+                {
+					'data': 'mutasi'
+				},				
 				{
 					'data': 'keterangan'
 				},

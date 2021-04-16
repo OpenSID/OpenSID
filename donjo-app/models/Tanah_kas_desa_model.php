@@ -31,7 +31,8 @@ class Tanah_kas_desa_model extends CI_Model
 							tkd.luas,
 							tkd.patok,
 							tkd.papan_nama, 
-							tkd.tanggal_perolehan, 
+							tkd.tanggal_perolehan,
+							tkd.mutasi, 
 							tkd.keterangan')
 					->from("{$this->table} tkd")
 					->where('tkd.visible', 1);
@@ -86,7 +87,6 @@ class Tanah_kas_desa_model extends CI_Model
 			'keterangan' 		=> $this->input->post('keterangan'),
 			'created_by' 		=> $this->session->user,
 			'updated_by' 		=> $this->session->user,
-			'status' 			=> 0,
 			'visible' 			=> 1,	
 		);		
 		

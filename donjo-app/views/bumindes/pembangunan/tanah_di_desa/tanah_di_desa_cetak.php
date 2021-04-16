@@ -80,11 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr class="border thick">
 							<th rowspan="2">NOMOR URUT</th>
-							<th rowspan="2">NAMA PERORANGAN / BADAN HUKUM</th>
-							<th rowspan="2">NOMOR LETTER C</th>
-							<th rowspan="2">PERSIL</th>
-							<th rowspan="2">NOMOR SERTIFIKAT</th>
-							<th rowspan="2">TANGGAL SERTIFIKAT</th>
+							<th rowspan="2">NAMA PERORANGAN / BADAN HUKUM</th>		
 							<th rowspan="2">LUAS (M<sup>2</sup>)</th>
 							<th rowspan="2">STATUS HAK TANAH</th>							
 							<th rowspan="2">PENGGUNAAN TANAH</th>
@@ -102,11 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>5</th>
 							<th>6</th>
 							<th>7</th>
-							<th>8</th>
-							<th>9</th>
-							<th>10</th>
-							<th>11</th>
-							<th>12</th>
+							<th>8</th>							
 						</tr>
 					</thead>
 					<tbody>
@@ -116,11 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						?>
 							<tr>
 								<td><?= $count ?></td>
-								<td><?= strtoupper($data['nama_pemilik_asal'])?></td>
-								<td><?= strtoupper($data['letter_c']) ?></td>
-								<td><?= strtoupper($data['persil']) ?></td>
-								<td><?= strtoupper($data['nomor_sertif']) ?></td>
-								<td><?= tgl_indo_out($data['tanggal_sertif']) ?></td>
+								<td><?= strtoupper($data['nama_pemilik_asal'])?></td>														
 								<td><?= strtoupper($data['luas']) ?></td>
 								<td><?= strtoupper($data['hak_tanah']) ?></td>
 								<td><?= strtoupper($data['penggunaan_tanah']) ?></td>

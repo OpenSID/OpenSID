@@ -17,26 +17,7 @@
                                     <input class="form-control input-sm required" name="pemilik_asal"
                                         id="pemilik_asal" type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal; ?>"/>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">No. Letter C / Persil</label>
-                                <div class="col-sm-4">                    
-                                    <input class="form-control input-sm required" name="letter_c"
-                                        id="letter_c" type="text" placeholder="No. Letter C" value="<?= $main->letter_c; ?>"/>
-                                </div>
-                                <div class="col-sm-4">                    
-                                    <input class="form-control input-sm required" name="persil"
-                                        id="persil" type="text" placeholder="Persil" value="<?= $main->persil; ?>"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;"
-                                    for="nomor_register">No. Sertifikat</label>
-                                <div class="col-sm-8">
-                                    <input maxlength="50" class="form-control input-sm required" name="no_sertif"
-                                        id="no_sertif" type="text" placeholder="No. Sertifikat" value="<?= $main->nomor_sertif; ?>"/>
-                                </div>
-                            </div>
+                            </div>                                                      
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah</label>
                                 <div class="col-sm-4">
@@ -47,16 +28,7 @@
                                             id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required" style="text-align:left;"
-                                    for="tanggal_sertifikat">Tanggal Sertifikat</label>
-                                <div class="col-sm-4">
-                                    <input maxlength="50" class="form-control input-sm required"
-                                        name="tanggal_sertif" id="tanggal_sertifikat" type="date"
-                                        placeholder="Tanggal Sertifikat" value="<?= $main->tanggal_sertif; ?>"/>
-                                </div>
-                            </div>                                                       
+                            </div>                                                                        
                             <div class="form-group">
                                 <label class="col-sm-3 control-label required" style="text-align:left;"
                                     for="hak_tanah">Status Hak Tanah </label>
@@ -150,12 +122,8 @@
     $(document).ready(function () {
         var view = <?= $view_mark?>;
         if(1==view){
-            $("#pemilik_asal").attr("disabled",true);
-            $("#letter_c").attr("disabled",true);
-            $("#persil").attr("disabled",true);
-            $("#no_sertif").attr("disabled",true);                       
-            $("#luas").attr("disabled",true);
-            $("#tanggal_sertifikat").attr("disabled",true);
+            $("#pemilik_asal").attr("disabled",true);                          
+            $("#luas").attr("disabled",true);          
             $("#hak_tanah").attr("disabled",true);
             $("#penggunaan_tanah").attr("disabled",true);
             $("#lain").attr("disabled",true);

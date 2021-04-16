@@ -28,6 +28,7 @@
                                         <th class="text-center">Patok Batas</th>
                                         <th class="text-center">Papan Nama</th>
                                         <th class="text-center">Tanggal Perolehan</th>
+                                        <th class="text-center">Mutasi</th>
                                         <th class="text-center">Keterangan</th>
                                     </tr>
                                 </thead>
@@ -117,7 +118,7 @@
 			],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 3, 4, 5, 6, 7, 8, 9, 11],
+				'targets': [0, 1, 3, 4, 5, 6, 7, 8, 9, 11, 12],
 			}],
 			'ajax': {
 				'url': "<?= site_url('bumindes_tanah_kas_desa') ?>",
@@ -191,6 +192,9 @@
 				},
 				{
 					'data': 'tanggal_perolehan'
+				},
+                {
+					'data': 'mutasi'
 				},
 				{
 					'data': 'keterangan'

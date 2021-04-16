@@ -142,41 +142,13 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function add_tanah_desa()
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('no_sertif','No. Sertifikat','required|trim|numeric');
-		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
-
-		if ($this->form_validation->run() != false)
-		{
-			$this->tanah_desa_model->add_tanah_desa();
-		}
-		else
-		{
-			$this->session->success = -1;
-			$this->session->error_msg = trim(strip_tags(validation_errors()));
-		}
-
+		$this->tanah_desa_model->add_tanah_desa();
 		redirect("bumindes_tanah_desa");
 	}
 
 	public function update_tanah_desa()
-	{	
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('no_sertif','No. Sertifikat','required|trim|numeric');
-		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
-
-		if ($this->form_validation->run() != false)
-		{
-			$this->tanah_desa_model->update_tanah_desa();
-		}
-		else
-		{
-			$this->session->success = -1;
-			$this->session->error_msg = trim(strip_tags(validation_errors()));
-		}
-		
+	{		
+		$this->tanah_desa_model->update_tanah_desa();		
 		redirect("bumindes_tanah_desa");
 	}
 

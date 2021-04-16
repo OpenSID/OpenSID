@@ -71,10 +71,6 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$this->dbforge->add_field([
 			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],			
 			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200],
-			'letter_c'          => ['type' => 'TEXT'],
-			'persil'         	=> ['type' => 'TEXT'],
-			'nomor_sertif'      => ['type' => 'TEXT'],
-			'tanggal_sertif date default current_timestamp',
 			'hak_tanah'         => ['type' => 'TEXT'],
 			'penggunaan_tanah'	=> ['type' => 'TEXT'],
 			'luas'     			=> ['type' => 'INT', 'constraint' => 10],
@@ -115,7 +111,6 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'created_by'        => ['type' => 'INT', 'constraint' => 10],
 			'updated_at timestamp default current_timestamp',
 			'updated_by'        => ['type' => 'INT', 'constraint' => 10],
-			'status'           	=> ['type' => 'TINYINT', 'constraint' => 2, 'default' => 0],
 			'visible'           => ['type' => 'TINYINT', 'constraint' => 2, 'default' => 1],
 		]);
 
