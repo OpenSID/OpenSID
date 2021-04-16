@@ -72,8 +72,7 @@
                                         <option value="Perkebunan">Perkebunan</option>
                                         <option value="Peternakan / Perikanan">Peternakan / Perikanan</option>
                                         <option value="Hutan Belukar">Hutan Belukar</option>
-                                        <option value="Hutan Lebat / Lindung">Hutan Lebat / Lindung</option>
-                                        <option value="Mutasi Tanah di Desa">Mutasi Tanah di Desa</option>
+                                        <option value="Hutan Lebat / Lindung">Hutan Lebat / Lindung</option>                 
                                         <option value="Tanah Kosong">Tanah Kosong</option>
                                     </select>
                                 </div>
