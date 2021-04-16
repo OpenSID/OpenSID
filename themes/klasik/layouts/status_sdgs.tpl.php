@@ -7,7 +7,7 @@
  *
  * View untuk tampilan status SDGS Website Tema Klasik
  *
- * themes/klasik/layouts/slider.php,
+ * themes/klasik/layouts/status_sdgs.tpl.php,
  *
  */
 
