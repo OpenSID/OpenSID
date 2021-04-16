@@ -14,19 +14,31 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Asal Tanah Kas Desa</label>
                                 <div class="col-sm-8">
-                                    <input maxlength="50" class="form-control input-sm required" name="pemilik_asal"
+                                    <input class="form-control input-sm required" name="pemilik_asal"
                                         id="pemilik_asal" type="text" placeholder="Asal Tanah" value="<?= $main->nama_pemilik_asal; ?>"/>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">No. Letter C / Persil</label>
-                                <div class="col-sm-4">                    
-                                    <input maxlength="50" class="form-control input-sm required" name="letter_c"
-                                        id="letter_c" type="text" placeholder="No. Letter C" value="<?= $main->letter_c; ?>"/>
+                                <div class="col-sm-4">                                                    
+                                    <select class="form-control input-sm select2 required" style="width: 100%;" id="letter_c" name="letter_c">                                        
+                                        <?php if($main->letter_c!=NULL){ ?>
+                                            <option value="<?= $main->letter_c; ?>"><?= $main->letter_c; ?></option>
+                                        <?php } ?>
+                                        <?php foreach ($letterc as $item): ?>
+                                        <option value="<?= $item['nomor']?>"><?= $item['nomor']?></option>
+                                        <?php endforeach;?>
+                                    </select>
                                 </div>
-                                <div class="col-sm-4">                    
-                                    <input maxlength="50" class="form-control input-sm required" name="persil"
-                                        id="persil" type="text" placeholder="Persil" value="<?= $main->persil; ?>"/>
+                                <div class="col-sm-4">                                                                                            
+                                    <select class="form-control input-sm select2 required" style="width: 100%;" id="persil" name="persil">                                       
+                                        <?php if($main->persil!=NULL){ ?>
+                                            <option value="<?= $main->persil; ?>"><?= $main->persil; ?></option>
+                                        <?php } ?>
+                                        <?php foreach ($persil as $per): ?>
+                                        <option value="<?= $per['nomor']?>"><?= $per['nomor']?></option>
+                                        <?php endforeach;?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">

@@ -69,7 +69,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function create_table_tanah_desa($hasil)
 	{
 		$this->dbforge->add_field([
-			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],			
+			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],		
+			'id_penduduk'       => ['type' => 'INT', 'constraint' => 10],	
 			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200],
 			'hak_tanah'         => ['type' => 'TEXT'],
 			'penggunaan_tanah'	=> ['type' => 'TEXT'],
@@ -85,7 +86,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		]);
 
 		$this->dbforge->add_key('id', true);
-		$hasil =& $this->dbforge->create_table('tanah_desa', true);
+		$this->dbforge->add_key('id_penduduk');
+		$hasil =& $this->dbforge->create_table('tanah_desa', true);	
 		return $hasil;
 	}
 
@@ -102,7 +104,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'jenis_tkd'         => ['type' => 'TEXT'],
 			'patok'		        => ['type' => 'TEXT'],
 			'papan_nama'		=> ['type' => 'TEXT'],
-			'tanggal_perolehan date default current_timestamp',
+			'tanggal_perolehan date',
 			'lokasi'			=> ['type' => 'TEXT'],
 			'peruntukan' 		=> ['type' => 'TEXT'],
 			'mutasi' 			=> ['type' => 'TEXT'],

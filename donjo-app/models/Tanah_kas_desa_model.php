@@ -140,4 +140,16 @@ class Tanah_kas_desa_model extends CI_Model
 		return $data;
 	}
 
+	public function list_letter_c()
+	{
+		$this->db
+				->select('c.id, c.nomor, c.nama_kepemilikan')
+				->from("cdesa c");
+		$data = $this->db
+				->get()
+				->result_array();
+				
+		return $data;
+	}
+
 }

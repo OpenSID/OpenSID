@@ -50,7 +50,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		parent::__construct();
 
 		$this->load->library('session');
-		$this->load->model(['header_model', 'tanah_desa_model', 'pamong_model', 'cdesa_model']);
+		$this->load->model(['header_model', 'tanah_desa_model', 'pamong_model']);
 		$this->controller = 'bumindes_tanah_desa';
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 305;
@@ -103,7 +103,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
 			'subtitle'	   => $sub,
 			'selected_nav' => 'tanah',
-			'view_mark'	   => TRUE,
+			'view_mark'	   => 1,
 		];
 		$this->set_minsidebar(1);
 		$this->render('bumindes/pembangunan/main', $data);
@@ -116,10 +116,13 @@ class Bumindes_tanah_desa extends Admin_Controller {
 				<li class=\"active\"></li>Ubah Data</li>";
 			$data = [
 				'main' 		   => $this->tanah_desa_model->view_tanah_desa_by_id($id),
-				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",				
+				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
+				'penduduk' 	   => $this->tanah_desa_model->list_penduduk(),				
 				'subtitle' 	   => $sub,
 				'selected_nav' => 'tanah',
-				'form_action'  => site_url("bumindes_tanah_desa/update_tanah_desa"), 
+				'view_mark'	   => 0, 
+				'form_action'  => site_url("bumindes_tanah_desa/update_tanah_desa"),
+				
 			];
 		}
 		else
@@ -129,8 +132,10 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			$data = [
 				'main' 		   => NULL,
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
+				'penduduk' 	   => $this->tanah_desa_model->list_penduduk(),
 				'subtitle'	   => $sub,
 				'selected_nav' => 'tanah',
+				'view_mark'	   => 0,
 				'form_action'  => site_url("bumindes_tanah_desa/add_tanah_desa"),
 			];
 
@@ -142,13 +147,45 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function add_tanah_desa()
 	{
-		$this->tanah_desa_model->add_tanah_desa();
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		// $this->form_validation->set_rules('pemilik_asal','Nama Perseorangan / Badan Hukum','required|trim|alpha_numeric');
+		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
+		// $this->form_validation->set_rules('lain','Lain-lain','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('mutasi','Mutasi','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('keterangan','Keterangan','required|trim|alpha_numeric');
+
+		if ($this->form_validation->run() != false)
+		{
+			$this->tanah_desa_model->add_tanah_desa();			
+		}
+		else
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = trim(strip_tags(validation_errors()));
+		}
 		redirect("bumindes_tanah_desa");
 	}
 
 	public function update_tanah_desa()
-	{		
-		$this->tanah_desa_model->update_tanah_desa();		
+	{	
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		// $this->form_validation->set_rules('pemilik_asal','Nama Perseorangan / Badan Hukum','required|trim|alpha_numeric');
+		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
+		// $this->form_validation->set_rules('lain','Lain-lain','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('mutasi','Mutasi','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('keterangan','Keterangan','required|trim|alpha_numeric');
+
+		if ($this->form_validation->run() != false)
+		{			
+			$this->tanah_desa_model->update_tanah_desa();		
+		}
+		else
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = trim(strip_tags(validation_errors()));
+		}	
 		redirect("bumindes_tanah_desa");
 	}
 
@@ -184,7 +221,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			'tgl_cetak' => $_POST['tgl_cetak'],	
 			'file' => "Buku Tanah di Desa",
 			'isi' => "bumindes/pembangunan/tanah_di_desa/tanah_di_desa_cetak",
-			'letak_ttd' => ['1', '1', '7'],
+			'letak_ttd' => ['1', '1', '5'],
 		];					
 		$this->load->view('global/format_cetak', $data);		
 	}

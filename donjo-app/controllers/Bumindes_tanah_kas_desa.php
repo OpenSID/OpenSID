@@ -50,7 +50,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		parent::__construct();
 
 		$this->load->library('session');
-		$this->load->model(['header_model', 'tanah_kas_desa_model', 'pamong_model', 'cdesa_model']);
+		$this->load->model(['header_model', 'tanah_kas_desa_model', 'pamong_model', 'data_persil_model']);
 		$this->controller = 'bumindes_tanah_kas_desa';
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 305;
@@ -103,7 +103,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
 			'subtitle'	   => $sub,
 			'selected_nav' => 'tanah_kas',
-			'view_mark'	   => TRUE,
+			'view_mark'	   => 1,
 		];
 
 		$this->set_minsidebar(1);
@@ -118,8 +118,11 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			$data = [
 				'main' 		   => $this->tanah_kas_desa_model->view_tanah_kas_desa_by_id($id),
 				'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
+				'letterc'	   => $this->tanah_kas_desa_model->list_letter_c(),
+				'persil'	   => $this->data_persil_model->list_persil(),
 				'subtitle'	   => $sub,
 				'selected_nav' => 'tanah_kas',
+				'view_mark'	   => 0,
 				'form_action'  => site_url("bumindes_tanah_kas_desa/update_tanah_kas_desa"), 
 			];
 		}
@@ -130,8 +133,11 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			$data = [
 				'main' 		   => NULL,
 				'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
+				'letterc'	   => $this->tanah_kas_desa_model->list_letter_c(),
+				'persil'	   => $this->data_persil_model->list_persil(),
 				'subtitle'	   => $sub,
 				'selected_nav' => 'tanah_kas',
+				'view_mark'	   => 0,
 				'form_action'  => site_url("bumindes_tanah_kas_desa/add_tanah_kas_desa"),
 			];
 
@@ -145,8 +151,13 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 	{
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		// $this->form_validation->set_rules('pemilik_asal','Asal Tanah Kas Desa','required|trim|alpha');
 		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
 		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
+		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
+		// $this->form_validation->set_rules('peruntukan','Peruntukan','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('lokasi','Lokasi','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('keterangan','keterangan','required|trim|alpha');
 
 		if ($this->form_validation->run() != false)
 		{
@@ -165,8 +176,13 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 	{		
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		// $this->form_validation->set_rules('pemilik_asal','Asal Tanah Kas Desa','required|trim|alpha');
 		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
 		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
+		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
+		// $this->form_validation->set_rules('peruntukan','Peruntukan','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('lokasi','Lokasi','required|trim|alpha_numeric');
+		// $this->form_validation->set_rules('keterangan','keterangan','required|trim|alpha');
 
 		if ($this->form_validation->run() != false)
 		{
@@ -213,7 +229,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			'tgl_cetak' => $_POST['tgl_cetak'],	
 			'file' => "Buku Tanah Kas Desa",
 			'isi' => "bumindes/pembangunan/tanah_kas_desa/tanah_kas_desa_cetak",
-			'letak_ttd' => ['1', '1', '8'],
+			'letak_ttd' => ['1', '1', '11'],
 		];		
 		$this->load->view('global/format_cetak', $data);		
 	}

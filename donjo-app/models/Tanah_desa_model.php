@@ -56,10 +56,20 @@ class Tanah_desa_model extends CI_Model
 		return $data;
 	}
 
+	public function null_id_check($data){
+		if($data)
+		{
+			return $data;
+		}
+		return $data = 0;
+	}
+
 	public function add_tanah_desa()
 	{
+		$id_penduduk = $this->null_id_check($this->input->post('penduduk'));
 		$data = array(
-			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),		
+			'id_penduduk' 		=> $id_penduduk,		
+			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),
 			'hak_tanah' 		=> $this->input->post('hak_tanah'),
 			'penggunaan_tanah' 	=> $this->input->post('penggunaan_tanah'),
 			'luas' 				=> $this->input->post('luas'),
@@ -83,7 +93,9 @@ class Tanah_desa_model extends CI_Model
 
 	public function update_tanah_desa()
 	{
+		$id_penduduk = $this->null_id_check($this->input->post('penduduk'));
 		$data = array(
+			'id_penduduk' 		=> $id_penduduk,
 			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),			
 			'hak_tanah' 		=> $this->input->post('hak_tanah'),
 			'penggunaan_tanah' 	=> $this->input->post('penggunaan_tanah'),
@@ -108,6 +120,18 @@ class Tanah_desa_model extends CI_Model
 				->from($this->table)	
 				->where($this->table.'.visible', 1)
 				->order_by('nama_pemilik_asal', 'ASC');
+		$data = $this->db
+				->get()
+				->result_array();
+				
+		return $data;
+	}
+
+	public function list_penduduk(){
+		$this->db
+				->select('p.id, p.nama, p.nik')
+				->from("tweb_penduduk p")	
+				->order_by('p.nama', 'ASC');
 		$data = $this->db
 				->get()
 				->result_array();

@@ -6,29 +6,63 @@
                     <a href="<?= site_url() ?>bumindes_tanah_desa"
                         class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
                             class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Buku Tanah di Desa</a>
-                </div>                
+                </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-12">        
-                            <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">                   
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Nama Perorangan / Badan Hukum</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control input-sm required" name="pemilik_asal"
-                                        id="pemilik_asal" type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal; ?>"/>
+                        <div class="col-md-12">
+                            <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">                        
+                            <div class="form-group" id='pilihan_pemilik'>
+                                <label for="jenis_pemilik" class="col-sm-3 control-label">Jenis Pemilik</label>
+                                <div class="btn-group col-sm-8 kiri" data-toggle="buttons">
+                                    <label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
+                                        <input type="radio" name="jenis_pemilik" class="form-check-input" value="1"
+                                            autocomplete="off"
+                                            <?php selected((empty($cdesa) or $cdesa["jenis_pemilik"] == 1), true, true)?>
+                                            onchange="pilih_pemilik(this.value);">Warga Desa
+                                    </label>
+                                    <label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
+                                        <input type="radio" name="jenis_pemilik" class="form-check-input" value="2"
+                                            autocomplete="off"
+                                            <?php selected(($cdesa["jenis_pemilik"] == 2), true, true)?>
+                                            onchange="pilih_pemilik(this.value);">Warga Luar Desa
+                                    </label>
                                 </div>
-                            </div>                                                      
+                            </div>
+                            <div class="form-group" id="pilihan_penduduk">
+                                <label class="col-sm-3 control-label">Cari Nama Pemilik</label>
+                                <div class="col-sm-8">
+                                    <select class="form-control input-sm select2" style="width: 100%;" id="penduduk"
+                                        name="penduduk" onchange="pemilik();">                                   
+                                        <?php if($main->id_penduduk!=0){ ?>
+                                            <option value="<?= $main->id_penduduk; ?>"><?= $main->nama_pemilik_asal; ?></option>
+                                        <?php } ?>
+                                        <?php foreach ($penduduk as $item): ?>
+                                        <option value="<?= $item['id']?>"><?= $item['nama']?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah</label>
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Nama
+                                    Perorangan / Badan Hukum</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control input-sm required" name="pemilik_asal" id="pemilik_asal"
+                                        type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal; ?>" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas
+                                    Tanah</label>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <input type="number" min="0" class="form-control input-sm number required" id="luas"
-                                            name="luas" type="text" placeholder="Luas Tanah" value="<?= $main->luas; ?>"/>
+                                        <input type="number" min="0" class="form-control input-sm number required"
+                                            id="luas" name="luas" type="text" placeholder="Luas Tanah"
+                                            value="<?= $main->luas; ?>" />
                                         <span class="input-group-addon input-sm "
                                             id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
                                 </div>
-                            </div>                                                                        
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label required" style="text-align:left;"
                                     for="hak_tanah">Status Hak Tanah </label>
@@ -36,8 +70,8 @@
                                     <select name="hak_tanah" id="hak_tanah" class="form-control input-sm required"
                                         placeholder="Hak Tanah" value="<?= $main->hak_tanah; ?>">
                                         <?php if($main->hak_tanah!=NULL){ ?>
-                                            <option value="<?= $main->hak_tanah; ?>"><?= $main->hak_tanah; ?></option>
-                                        <?php } ?>                  
+                                        <option value="<?= $main->hak_tanah; ?>"><?= $main->hak_tanah; ?></option>
+                                        <?php } ?>
                                         <option disabled value="">-------------Sertifikat-------------</option>
                                         <option value="Hak Milik">Hak Milik</option>
                                         <option value="Hak Guna Bangunan">Hak Guna Bangunan</option>
@@ -46,7 +80,8 @@
                                         <option value="Hak Pengelolaan">Hak Pengelolaan</option>
                                         <option disabled value="">----------Belum Sertifikat----------</option>
                                         <option value="Hak Milik Adat">Hak Milik Adat</option>
-                                        <option value="Hak Verponding Indonesia">Hak Verponding Indonesia (Milik Pribumi)</option>
+                                        <option value="Hak Verponding Indonesia">Hak Verponding Indonesia (Milik
+                                            Pribumi)</option>
                                         <option value="Tanah Negara">Tanah Negara</option>
                                     </select>
                                 </div>
@@ -56,10 +91,12 @@
                                     for="hak_tanah">Penggunaan Tanah </label>
                                 <div class="col-sm-4">
                                     <select name="penggunaan_tanah" id="penggunaan_tanah"
-                                        class="form-control input-sm required" placeholder="Penggunaan Tanah" value="<?= $main->penggunaan_tanah; ?>">
+                                        class="form-control input-sm required" placeholder="Penggunaan Tanah"
+                                        value="<?= $main->penggunaan_tanah; ?>">
                                         <?php if($main->penggunaan_tanah!=NULL){ ?>
-                                            <option value="<?= $main->penggunaan_tanah; ?>"><?= $main->penggunaan_tanah; ?></option>
-                                        <?php } ?>                                         
+                                        <option value="<?= $main->penggunaan_tanah; ?>"><?= $main->penggunaan_tanah; ?>
+                                        </option>
+                                        <?php } ?>
                                         <option disabled value="">----------Non Pertanian----------</option>
                                         <option value="Perumahan">Perumahan</option>
                                         <option value="Perdagangan dan Jasa">Perdagangan dan Jasa</option>
@@ -72,25 +109,25 @@
                                         <option value="Perkebunan">Perkebunan</option>
                                         <option value="Peternakan / Perikanan">Peternakan / Perikanan</option>
                                         <option value="Hutan Belukar">Hutan Belukar</option>
-                                        <option value="Hutan Lebat / Lindung">Hutan Lebat / Lindung</option>                 
+                                        <option value="Hutan Lebat / Lindung">Hutan Lebat / Lindung</option>
                                         <option value="Tanah Kosong">Tanah Kosong</option>
                                     </select>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" 
-                                    for="pemilik_asal">Lain - lain</label>
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Lain -
+                                    lain</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm required" name="lain"
-                                        id="lain" type="text" placeholder="Lain - lain" value="<?= $main->lain; ?>"/>
+                                    <input class="form-control input-sm required" name="lain" id="lain" type="text"
+                                        placeholder="Lain - lain" value="<?= $main->lain; ?>" />
                                 </div>
-                            </div>                                                                                                                                       
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="mutasi">Mutasi</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm required" name="mutasi"
-                                        id="mutasi" placeholder="Mutasi" ><?= $main->mutasi; ?></textarea>
+                                    <textarea rows="5" class="form-control input-sm required" name="mutasi" id="mutasi"
+                                        placeholder="Mutasi"><?= $main->mutasi; ?></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -119,16 +156,36 @@
 
 <script>
     $(document).ready(function () {
-        var view = <?= $view_mark?>;
-        if(1==view){
-            $("#pemilik_asal").attr("disabled",true);                          
-            $("#luas").attr("disabled",true);          
-            $("#hak_tanah").attr("disabled",true);
-            $("#penggunaan_tanah").attr("disabled",true);
-            $("#lain").attr("disabled",true);
-            $("#mutasi").attr("disabled",true);
-            $("#keterangan").attr("disabled",true);
-            document.getElementById("form_footer").style.display = "none";            
+        var view = <?=$view_mark?>;
+        if (1 == view) {
+            $("#pemilik_asal").attr("disabled", true);
+            $("#luas").attr("disabled", true);
+            $("#hak_tanah").attr("disabled", true);
+            $("#penggunaan_tanah").attr("disabled", true);
+            $("#lain").attr("disabled", true);
+            $("#mutasi").attr("disabled", true);
+            $("#keterangan").attr("disabled", true);
+            document.getElementById("pilihan_penduduk").style.display = "none";
+            document.getElementById("pilihan_pemilik").style.display = "none";
+            document.getElementById("form_footer").style.display = "none";
         }
-    });   
+        pilih_pemilik((<?=$cdesa['jenis_pemilik']? : 1?> ))
+    });
+
+    function pilih_pemilik(pilih) {
+        $('#jenis_pemilik').val(pilih);
+        if (pilih == 1) {
+            $('#penduduk').attr("disabled", false);
+            $('#pemilik_asal').attr("readonly", true);
+        } else {
+            $('#penduduk').attr("disabled", true);
+            $('#pemilik_asal').attr("readonly", false);
+            $('#pemilik_asal').val('');
+        }
+    }
+
+    function pemilik() {
+        var temp = $('#penduduk option:selected').text();
+        $('#pemilik_asal').val(temp);
+    }
 </script>
