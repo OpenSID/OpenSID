@@ -156,9 +156,6 @@ class Penduduk extends Admin_Controller {
 				{
 					$data['penduduk'] = $_POST;
 				}
-				// penduduk_model->get_penduduk mengambil sebagai 'id_sex',
-				// tapi di penduduk_form memakai 'sex' sesuai dengan nama kolom
-				$data['penduduk']['id_sex'] = $data['penduduk']['sex'];
 			}
 			else
 			{
@@ -215,7 +212,7 @@ class Penduduk extends Admin_Controller {
 		else
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
-		
+
 		$this->session->unset_userdata(['dari_internal']);
 
 		$this->set_minsidebar(1);
@@ -538,7 +535,7 @@ class Penduduk extends Admin_Controller {
 		$data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
 
 		//Pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
-		$excluded_status = $data['nik']['id_status'] == 1 ? '9, 1, 6' : '9, 1'; 
+		$excluded_status = $data['nik']['id_status'] == 1 ? '9, 1, 6' : '9, 1';
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', $excluded_status);
 		$this->load->view('sid/kependudukan/ajax_edit_status_dasar', $data);
 	}
