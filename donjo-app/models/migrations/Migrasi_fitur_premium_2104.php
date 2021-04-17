@@ -229,7 +229,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->where("kartu_nik is NULL or kartu_nik = ''")
 			->or_where("kartu_nama is NULL or kartu_nama = ''")
 			->or_where("kartu_tempat_lahir is NULL or kartu_tempat_lahir = ''")
-			->or_where("kartu_tanggal_lahir is NULL or kartu_tanggal_lahir = ''")
+			->or_where("kartu_tanggal_lahir is NULL")
 			->or_where("kartu_alamat is NULL or kartu_alamat = ''")
 			->get()->result_array();
 		foreach ($kartu_kosong as $kartu)
