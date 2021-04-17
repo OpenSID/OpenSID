@@ -152,6 +152,7 @@ class MY_Model extends CI_Model {
 		$this->load->library('paging');
 		$cfg['page'] = $page;
 		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_links'] = 10;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 

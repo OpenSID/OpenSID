@@ -182,7 +182,8 @@ class Database extends Admin_Controller {
 			['Hamil', 'hamil'],
 			['KTP-el', 'ktp_el'],
 			['Status Rekam', 'status_rekam'],
-			['Alamat Sekarang', 'alamat_sekarang']
+			['Alamat Sekarang', 'alamat_sekarang'],
+			['Status Dasar', 'status_dasar'],
 		];
 		if ($opendk)
 		{
@@ -309,7 +310,8 @@ class Database extends Admin_Controller {
 					$row->hamil,
 					$row->ktp_el,
 					$row->status_rekam,
-					$row->alamat_sekarang
+					$row->alamat_sekarang,
+					$row->status_dasar,
 				);
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
@@ -621,7 +623,7 @@ class Database extends Admin_Controller {
 		$this->load->model('acak_model');
 		echo $this->load->view('database/hasil_acak', '', true);
 		$hasil = $this->acak_model->acak_penduduk();
-		$hasil =& $this->acak_model->acak_keluarga();
+		$hasil = $hasil && $this->acak_model->acak_keluarga();
 		echo $this->load->view('database/hasil_acak', '', true);
 	}
 

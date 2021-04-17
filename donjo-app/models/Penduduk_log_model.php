@@ -92,7 +92,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$this->db->where('id', $get_pendudukId)->update('tweb_penduduk', $penduduk);
 		}
 		$data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
-		$data['tgl_lapor'] = rev_tgl($this->input->post('tgl_lapor'));
+		$data['tgl_lapor'] = rev_tgl($this->input->post('tgl_lapor'), null);
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
 		if (! $this->db->where('id', $id_log)->update('log_penduduk', $data))
@@ -145,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$log = [
 				'tgl_peristiwa' => rev_tgl($this->input->post('tgl_peristiwa')),
 				'kode_peristiwa' => 5,
-				'tgl_lapor' => rev_tgl($this->input->post('tgl_lapor')),
+				'tgl_lapor' => rev_tgl($this->input->post('tgl_lapor'), null),
 				'id_pend' => $log->id_pend,
 				'created_by' => $this->session->user,
 				'maksud_tujuan_kedatangan' => $this->input->post('maksud_tujuan'),
