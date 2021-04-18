@@ -50,7 +50,7 @@ define("VERSION", '21.04-premium-pasca');
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
-define('VERSI_DATABASE', '2021040801');
+define('VERSI_DATABASE', '2021041201');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -93,15 +93,7 @@ define('AGENDA', 1000);
 define("MAX_PINDAH", 7);
 define("MAX_ANGGOTA", 7);
 
-// Konversi tulisan kode Buku Induk Penduduk ke kode SID
-define("STATUS_DASAR", serialize(array(
-	strtolower("HIDUP") => "1",
-	strtolower("MATI") => "2",
-	strtolower("PINDAH") => "3",
-	strtolower("PINDAH DALAM NEGERI") => "3",
-	strtolower("PINDAH LUAR NEGERI") => "3",
-	strtolower("HILANG") => "4"
-)));
+
 define("KODE_SEX", serialize(array(
 	"L" => "1",
 	"Lk" => "1",

@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.04-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Mochamad Arifin yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
 
@@ -17,6 +17,17 @@ Premium - perbaikan bug:
 8. #4129: Sekarang menambah anggota keluarga sudah normal kembali. [bug-fix]
 9. #1486: Hapus isian yg tidak digunakan di form Surat Pernyataan Belum Memiliki Akta Lahir. [bug-fix]
 10. #3352: Perbaiki pencatatan data pengunjung web. [bug-fix]
+11. #4131: Sekarang tidak tampil penduduk duplikat setelah pecah atau keluarkan anggota keluarga. [bug-fix]
+12. #4130: Sekarang pilihan huruf yg dapat dibaca penduduk tampil pada waktu menambah KK dan anggota keluarga. [bug-fix]
+13. Tampilkan status IDM untuk tahun 2021. [bug-fix]
+14. #3593: Tambahkan kolom status_dasar di file impor/ekspor data penduduk. [bug-fix]
+15. #4135: Sekarang halaman statis Daftar Calon Pemilih tampil normal kembali di web. [bug-fix]
+16. #4133: Sekarang peta tidak membatasi jumlah area yg dapat ditampilkan. [bug-fix]
+17. #4136: Sekarang penduduk dengan status dasar selain hidup tidak lagi tampil duplikat. [bug-fix]
+18. #4140: Sekarang jumlah rincian data suplemen yang tampil melalui menu statis web tidak dibatasi. [bug-fix]
+19. #4143: Kurangi jumlah link halaman pada paginasi Pengaturan Peta > Area supaya terlihat lebih rapi. [bug-fix]
+20. #4148: Sekarang bisa cari arsip layanan surat menggunakan nama penduduk berisi tanda petik ('). [bug-fix]
+21. #4150: Sekarang NIK ganda tidak bisa dimasukkan lagi. [bug-fix]
 
 
 Premium - penambahan fitur:

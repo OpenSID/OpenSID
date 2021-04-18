@@ -56,94 +56,75 @@ class Plan_area_model extends MY_Model {
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($cari = $this->session->cari)
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND l.nama LIKE '$kw'";
-			return $search_sql;
+			$this->db->group_start()->like('l.nama', $cari)->group_end();
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if ($filter = $this->session->filter)
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND l.enabled = $kf";
-			return $filter_sql;
+			$this->db->where('l.enabled', $filter);
 		}
 	}
 
 	private function polygon_sql()
 	{
-		if (isset($_SESSION['polygon']))
+		if ($polygon = $this->session->polygon)
 		{
-			$kf = $_SESSION['polygon'];
-			$polygon_sql = " AND p.id = $kf";
-			return $polygon_sql;
+			$this->db->where('p.id', $polygon);
 		}
 	}
 
 	private function subpolygon_sql()
 	{
-		if (isset($_SESSION['subpolygon']))
+		if ($subpolygon = $this->session->subpolygon)
 		{
-			$kf = $_SESSION['subpolygon'];
-			$subpolygon_sql = " AND m.id = $kf";
-			return $subpolygon_sql;
+			$this->db->where('m.id', $subpolygon);
 		}
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(l.id) AS id FROM area l LEFT JOIN polygon p ON l.ref_polygon = p.id LEFT JOIN polygon m ON p.parrent = m.id WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->polygon_sql();
-		$sql .= $this->subpolygon_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select("count('l.id') as id");
+
+		$row = $this->list_data_sql()->row_array();
 		$jml_data = $row['id'];
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $this->paginasi($p, $jml_data);
 	}
 
-	public function list_data($o=0,$offset=0, $limit=1000)
+	private function list_data_sql()
+	{
+		$this->db
+			->join('polygon p', 'l.ref_polygon = p.id', 'left')
+			->join('polygon m', 'p.parrent = m.id', 'left');
+
+		$this->search_sql();
+		$this->filter_sql();
+		$this->polygon_sql();
+		$this->subpolygon_sql();
+
+		return $this->db->get('area l');
+	}
+
+	public function list_data($o = 0, $offset = 0, $limit = null)
 	{
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY nama'; break;
-			case 2: $order_sql = ' ORDER BY nama DESC'; break;
-			case 3: $order_sql = ' ORDER BY enabled'; break;
-			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
-			default:$order_sql = ' ORDER BY id';
+			case 1: $this->db->order_by('nama'); break;
+			case 2: $this->db->order_by('nama', 'DESC'); break;
+			case 3: $this->db->order_by('enabled'); break;
+			case 4: $this->db->order_by('enabled', 'DESC'); break;
+			default: $this->db->order_by('id');
 		}
 
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$this->db->select('l.*, p.nama as kategori, m.nama as jenis, p.simbol as simbol, p.color as color')
+			->limit($limit, $offset);
 
-		$sql = "SELECT l.*,p.nama AS kategori,m.nama AS jenis,p.simbol AS simbol,p.color AS color
-			FROM area l
-			LEFT JOIN polygon p ON l.ref_polygon = p.id
-			LEFT JOIN polygon m ON p.parrent = m.id
-			WHERE 1";
-
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->polygon_sql();
-		$sql .= $this->subpolygon_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->list_data_sql()->result_array();
 
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -202,7 +183,7 @@ class Plan_area_model extends MY_Model {
 		$tipe_file = $_FILES['foto']['type'];
 		$nama_file = $_FILES['foto']['name'];
 		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		if (!empty($area_file))
+		if ( ! empty($area_file))
 		{
 			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
 			{
@@ -223,7 +204,7 @@ class Plan_area_model extends MY_Model {
 
 	public function delete($id='', $semua=false)
 	{
-		if (!$semua) $this->session->success = 1;
+		if ( ! $semua) $this->session->success = 1;
 
 		$outp = $this->db->where('id', $id)->delete('area');
 
@@ -234,7 +215,7 @@ class Plan_area_model extends MY_Model {
 	{
 		$this->session->success = 1;
 
-		$id_cb = $_POST['id_cb'];
+		$id_cb = $this->input->post('id_cb');
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
@@ -243,55 +224,40 @@ class Plan_area_model extends MY_Model {
 
 	public function list_polygon()
 	{
-		$sql = "SELECT * FROM polygon WHERE tipe = 2 ";
-
-		if (isset($_SESSION['subpolygon']))
-		{
-			$kf = $_SESSION['subpolygon'];
-			$sql .= " AND parrent = $kf";
+		if ($subpolygon = $this->session->subpolygon) {
+			$this->db->where('parrent', $subpolygon);
 		}
 
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
+		return $this->db->where('tipe', 2)
+			->get('polygon')
+			->result_array();
 	}
 
 	public function list_subpolygon()
 	{
-		$sql = "SELECT * FROM polygon WHERE tipe = 0 ";
-
-		if (isset($_SESSION['polygon']))
-		{
-			$sqlx = "SELECT * FROM polygon WHERE id = ?";
-			$query = $this->db->query($sqlx,$_SESSION['polygon']);
-			$temp = $query->row_array();
-			$kf = $temp['parrent'];
-		}
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
+		return $this->db->where('tipe', 0)
+			->get('polygon')
+			->result_array();
 	}
 
 	public function area_lock($id='', $val=0)
 	{
-		$sql = "UPDATE area SET enabled=? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
+		$outp = $this->db->where('id', $id)
+			->update('area', ['enabled' => $val]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function get_area($id=0)
 	{
-		$sql = "SELECT * FROM area WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
+		return $this->db->where('id', $id)
+			->get('area')
+			->row_array();
 	}
 
 	public function update_position($id=0)
 	{
-		$data = $_POST;
+		$data = $this->input->post();
 		$this->db->where('id', $id);
 		$outp = $this->db->update('area', $data);
 
@@ -311,6 +277,4 @@ class Plan_area_model extends MY_Model {
 			->get()->result_array();
 		return $data;
 	}
-
 }
-?>

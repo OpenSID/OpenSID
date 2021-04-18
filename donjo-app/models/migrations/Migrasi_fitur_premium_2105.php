@@ -55,17 +55,19 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false, 'default' => ''],
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false, 'default' => ''],
 		];
-		$hasil =& $this->dbforge->modify_column('program_peserta', $fields);
-		$hasil =& $this->create_table_tanah_desa($hasil);
-		$hasil =& $this->create_table_tanah_kas_desa($hasil);
-		$hasil =& $this->bumindes_updates($hasil);
-		$hasil =& $this->server_publik();
-		$hasil =& $this->convert_ip_address($hasil);
-		$hasil =& $this->hapus_kolom_tanah_di_desa();
-		$hasil =& $this->hapus_kolom_tanah_kas_desa();
-		$hasil =& $this->ubah_kolom_tanah_di_desa();
-		$hasil =& $this->tambah_kolom_tanah_di_desa();
-		$hasil =& $this->tambah_kolom_tanah_kas_desa();
+
+		$hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
+		$hasil = $hasil && $this->server_publik();
+		$hasil = $hasil && $this->convert_ip_address($hasil);
+		$hasil = $hasil && $this->tambah_kolom_log_keluarga($hasil);
+		$hasil = $hasil && $this->create_table_tanah_desa($hasil);
+		$hasil = $hasil && $this->create_table_tanah_kas_desa($hasil);
+		$hasil = $hasil && $this->bumindes_updates($hasil);
+		$hasil = $hasil && $this->hapus_kolom_tanah_di_desa();
+		$hasil = $hasil && $this->hapus_kolom_tanah_kas_desa();
+		$hasil = $hasil && $this->ubah_kolom_tanah_di_desa();
+		$hasil = $hasil && $this->tambah_kolom_tanah_di_desa();
+		$hasil = $hasil && $this->tambah_kolom_tanah_kas_desa();
 
 		status_sukses($hasil);
 		return $hasil;
@@ -156,8 +158,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			->set('hidden', 0)
 			->set('parent', 0)
 			->update('setting_modul');
-		$hasil =& $this->tambah_kolom_updated_at();
-		$hasil =& $this->buat_tabel_ref_sinkronisasi();
+		$hasil = $hasil && $this->tambah_kolom_updated_at();
+		$hasil = $hasil && $this->buat_tabel_ref_sinkronisasi();
 		return $hasil;
 	}
 
@@ -167,8 +169,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = true;
 		if ( ! $this->db->field_exists('updated_at', 'tweb_keluarga'))
 		{
-			$hasil =& $this->dbforge->add_column('tweb_keluarga', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
-			$hasil =& $this->dbforge->add_column('tweb_keluarga', 'updated_by int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tweb_keluarga', 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$hasil = $hasil && $this->dbforge->add_column('tweb_keluarga', 'updated_by int(11) NOT NULL');
 		}
 		return $hasil;
 	}
@@ -189,8 +191,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'tabel_hapus' 	=> ['type' => 'VARCHAR', 'constraint' => 100, 'null' => true, 'default' => null],
 		]);
 		$this->dbforge->add_key('tabel', true);
-		$hasil =& $this->dbforge->create_table($tabel, true);
-		$hasil =& $this->db->insert_batch(
+		$hasil = $hasil && $this->dbforge->create_table($tabel, true);
+		$hasil = $hasil && $this->db->insert_batch(
 			$tabel,
 			[
 				['tabel'=>'tweb_penduduk', 'server' => '6', 'jenis_update' => 1, 'tabel_hapus' => 'log_hapus_penduduk'],
@@ -222,18 +224,60 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			];
 		}
 
-		$hasil =& $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
+		$hasil = $hasil && $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
 
 		return $hasil >= 0;
+	}
+
+	protected function tambah_kolom_log_keluarga($hasil)
+	{
+		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
+			$hasil = $hasil && $this->dbforge->add_column('log_keluarga', [
+				'id_pend' => ['type' => 'INT', 'constraint' => 11, 'null' => TRUE],
+				'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => FALSE]
+			]);
+		// Pindahkan log_penduduk lama ke log_keluarga
+		// Perhatikan pemindahan ini tidak akan dilakukan jika semua log id_peristiwa = 7
+		// terhapus pada Migrasi_fitur_premium_2102.php
+		$log_keluar = $this->db
+			->select('l.id as id, l.id_pend, k.id as id_kk, p2.sex as kk_sex')
+			->where('l.kode_peristiwa', 7)
+			->from('log_penduduk l')
+			->join('tweb_penduduk p1', 'p1.id = l.id_pend')
+			->join('tweb_keluarga k', 'k.no_kk = p1.no_kk_sebelumnya', 'left')
+			->join('tweb_penduduk p2', 'p2.id = k.nik_kepala', 'left')
+			->get()
+			->result_array();
+		if (count($log_keluar) == 0) return $hasil;
+		$data = [];
+		foreach ($log_keluar as $log)
+		{
+			if ( ! $log['id_kk']) continue; // Abaikan kasus keluar dari keluarga
+			$data[] = [
+				'id_peristiwa' => 12,
+				'tgl_peristiwa' => $log['tgl_peristiwa'],
+				'updated_by' => $log['updated_by'] ?: $this->session->user,
+				'id_kk' => $log['id_kk'],
+				'kk_sex' => $log['kk_sex'],
+				'id_pend' => $log['id_pend']
+			];
+		}
+		$hasil = $hasil && $this->db->insert_batch('log_keluarga', $data);
+		$hasil = $hasil && $this->db
+			->where_in('id', array_column($log_keluar, 'id'))
+			->delete('log_penduduk');
+		return $hasil;
 	}
 
 	// Hapus kolom tanah di desa
 	protected function hapus_kolom_tanah_di_desa()
 	{
 		$hasil = true;
-		$hasil =& $this->dbforge->drop_column('tanah_desa', 'hak_tanah');
-		$hasil =& $this->dbforge->drop_column('tanah_desa', 'penggunaan_tanah');
-
+		if ($this->db->field_exists('hak_tanah', 'tanah_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_desa', 'hak_tanah');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_desa', 'penggunaan_tanah');
+		}
 		return $hasil;
 	}
 
@@ -241,10 +285,14 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function hapus_kolom_tanah_kas_desa()
 	{
 		$hasil = true;
-		$hasil =& $this->dbforge->drop_column('tanah_kas_desa', 'perolehan_tkd');
-		$hasil =& $this->dbforge->drop_column('tanah_kas_desa', 'jenis_tkd');
-		$hasil =& $this->dbforge->drop_column('tanah_kas_desa', 'patok');
-		$hasil =& $this->dbforge->drop_column('tanah_kas_desa', 'papan_nama');
+
+		if ($this->db->field_exists('perolehan_tkd', 'tanah_kas_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'perolehan_tkd');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'jenis_tkd');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'patok');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'papan_nama');
+		}
 
 		return $hasil;
 	}
@@ -256,7 +304,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$fields = [
 			'lain' => ['type' => 'int', 'constraint' => 11],			
 		];
-		$hasil =& $this->dbforge->modify_column('tanah_desa', $fields);
+		$hasil = $hasil && $this->dbforge->modify_column('tanah_desa', $fields);
 		return $hasil;
 	}
 
@@ -264,26 +312,29 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function tambah_kolom_tanah_di_desa()
 	{
 		$hasil = true;
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hak_milik int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hak_guna_bangunan int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hak_pakai int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hak_guna_usaha int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hak_pengelolaan int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hak_milik_adat int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hak_verponding int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'tanah_negara int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'perumahan int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'perdagangan_jasa int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'perkantoran int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'industri int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'fasilitas_umum int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'sawah int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'tegalan int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'perkebunan int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'peternakan_perikanan int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hutan_belukar int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'hutan_lebat_lindung int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_desa', 'tanah_kosong int(11) NOT NULL');
+		if ( ! $this->db->field_exists('hak_milik', 'tanah_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hak_milik int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hak_guna_bangunan int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hak_pakai int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hak_guna_usaha int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hak_pengelolaan int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hak_milik_adat int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hak_verponding int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'tanah_negara int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'perumahan int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'perdagangan_jasa int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'perkantoran int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'industri int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'fasilitas_umum int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'sawah int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'tegalan int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'perkebunan int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'peternakan_perikanan int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hutan_belukar int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'hutan_lebat_lindung int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', 'tanah_kosong int(11) NOT NULL');
+		}
 
 		return $hasil;
 	}
@@ -292,21 +343,25 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function tambah_kolom_tanah_kas_desa()
 	{
 		$hasil = true;
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'asli_milik_desa int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'pemerintah int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'provinsi int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'kabupaten_kota int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'lain_lain int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'sawah int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'tegal int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'kebun int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'tambak_kolam int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'tanah_kering_darat int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'ada_patok int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'tidak_ada_patok int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'ada_papan_nama int(11) NOT NULL');
-		$hasil =& $this->dbforge->add_column('tanah_kas_desa', 'tidak_ada_papan_nama int(11) NOT NULL');
+		if ( ! $this->db->field_exists('hak_milik', 'tanah_kas_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'asli_milik_desa int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'pemerintah int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'provinsi int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'kabupaten_kota int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'lain_lain int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'sawah int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'tegal int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'kebun int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'tambak_kolam int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'tanah_kering_darat int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'ada_patok int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'tidak_ada_patok int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'ada_papan_nama int(11) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', 'tidak_ada_papan_nama int(11) NOT NULL');
+		}
 
 		return $hasil;
 	}
+
 }
