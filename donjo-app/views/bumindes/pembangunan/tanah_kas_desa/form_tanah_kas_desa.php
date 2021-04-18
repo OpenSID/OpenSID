@@ -356,70 +356,7 @@
                                 <div class="form-group subtitle_head">
                                     <label class="text-right"><strong>Catatan :</strong></label>
                                 </div>
-                            </div> 
-                            <!-- <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;"
-                                    for="perolehan_tkd">Perolehan TKD</label>
-                                <div class="col-sm-4">
-                                    <select name="perolehan_tkd" id="perolehan_tkd"
-                                        class="form-control input-sm required" placeholder="Perolehan TKD" value="<?= $main->perolehan_tkd; ?>">                                        
-                                        <?php if($main->perolehan_tkd!=NULL){ ?>
-                                            <option value="<?= $main->perolehan_tkd; ?>"><?= $main->perolehan_tkd; ?></option>
-                                        <?php } ?>                                          
-                                        <option value="Asli Milik Desa">Asli Milik Desa</option>
-                                        <option value="Pemerintah">Pemerintah</option>                                        
-                                        <option value="Provinsi">Provinsi</option>                                        
-                                        <option value="Kabupaten / Kota">Kabupaten / Kota</option>                                        
-                                        <option value="Lain - lain">Lain - lain</option>                                        
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;"
-                                    for="jenis_tkd">Jenis TKD</label>
-                                <div class="col-sm-4">
-                                    <select name="jenis_tkd" id="jenis_tkd"
-                                        class="form-control input-sm required" placeholder="Jenis TKD">
-                                        <?php if($main->jenis_tkd!=NULL){ ?>
-                                            <option value="<?= $main->jenis_tkd; ?>"><?= $main->jenis_tkd; ?></option>
-                                        <?php } ?>                        
-                                        <option value="Sawah">Sawah</option>
-                                        <option value="Tegal">Tegal</option>                                        
-                                        <option value="Kebun">Kebun</option>                                        
-                                        <option value="Tambak / Kolam">Tambak / Kolam</option>                                        
-                                        <option value="Tanah Kering / Darat">Tanah Kering / Darat</option>                                        
-                                    </select>
-                                </div>
-                            </div>
-                                                                                                                                                                                       
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Petok Batas</label>
-                                <div class="col-sm-8">
-                                    <div class="container">
-                                        <?php if($main->patok==1) { ?>
-                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas" value="1" checked> Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas2" value="0" > Tidak Ada </label>
-                                        <?php } else{ ?>
-                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas" value="1" > Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="patok_batas" id="patok_batas2" value="0" checked> Tidak Ada </label>  
-                                        <?php }?>                                       
-                                    </div>
-                                </div>
-                            </div>                                                                                                            
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Papan Nama</label>
-                                <div class="col-sm-8">
-                                    <div class="container">
-                                        <?php if($main->papan_nama==1) { ?>
-                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama" value="1" checked > Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama2" value="0" > Tidak Ada </label>
-                                        <?php } else{ ?>                                            
-                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama" value="1" > Ada </label>
-                                            <label class="radio-inline"> <input type="radio" name="papan_nama" id="papan_nama2" value="0" checked > Tidak Ada </label>                                    
-                                        <?php }?>        
-                                    </div>
-                                </div>
-                            </div>         -->
+                            </div>                            
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="nomor_register">Peruntukan</label>
@@ -432,7 +369,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="lokasi">Lokasi</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm required" name="lokasi"
+                                    <textarea rows="5" class="form-control input-sm" name="lokasi"
                                         id="lokasi" placeholder="Lokasi" ><?= $main->lokasi; ?></textarea>
                                 </div>
                             </div>

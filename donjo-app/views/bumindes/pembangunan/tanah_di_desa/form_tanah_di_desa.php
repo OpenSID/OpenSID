@@ -33,11 +33,11 @@
                                 <label class="col-sm-3 control-label">Cari Penduduk</label>
                                 <div class="col-sm-8">
                                     <select class="form-control input-sm select2" style="width: 100%;" id="penduduk"
-                                        name="penduduk" onchange="pemilik();">                                   
+                                        name="penduduk">                                   
                                         <?php if($main->id_penduduk!=0){ ?>
-                                            <option value="<?= $main->id_penduduk; ?>"><?= $main->nama_pemilik_asal; ?></option>
+                                            <option value="<?= $main->id_penduduk; ?>"><?= $main->nama." [ NIK ".$main->nik." ]"; ?></option>
                                         <?php } else { ?>
-                                            <option value="">-- Silakan Masukan NIK / Nama --</option>
+                                            <option value="">-- Silakan Masukan Nama / NIK --</option>
                                         <?php } ?>
                                         <?php foreach ($penduduk as $item): ?>
                                         <option value="<?= $item['id']?>"><?= $item['nama']." [ NIK ".$item['nik']." ]"?></option>
@@ -49,8 +49,13 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Nama
                                     Perorangan / Badan Hukum</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm nama required" name="pemilik_asal" id="pemilik_asal"
-                                        type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal; ?>" />
+                                    <input class="form-control input-sm nama required" type="text" placeholder="Pemilik"                            
+                                        <?php if($main->nama_pemilik_asal){ ?>   
+                                            value="<?= $main->nama_pemilik_asal; ?>"                                           
+                                        <?php } else { ?>                                                
+                                            value="<?= $main->nama; ?>" 
+                                        <?php } ?>
+                                        name="pemilik_asal" id="pemilik_asal" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -566,18 +571,12 @@
             $('#nama_penduduk').hide();
             $('#pilihan_penduduk').show();
         } else {
-            $('#penduduk').val('');
+            $('#penduduk').val('');            
             $('#pemilik_asal').addClass('required'); 
             $('#penduduk').removeClass('required');           
             $('#nama_penduduk').show();
             $('#pilihan_penduduk').hide();                     
         }
-    }
-
-    function pemilik() 
-    {
-        var temp = $('#penduduk option:selected').text();
-        $('#pemilik_asal').val(temp);
     }
 
     function dinamicLuas()

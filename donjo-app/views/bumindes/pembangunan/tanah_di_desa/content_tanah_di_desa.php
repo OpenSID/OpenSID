@@ -20,7 +20,7 @@
                                         <th class="text-center">No</th>
                                         <th width="120" class="text-center">Aksi</th>
                                         <th class="text-center">Nama Perorangan &nbsp/ <br> Badan Hukum</th>                                                                         
-                                        <th class="text-center">Luas (M<sup>2</sup>)</th>
+                                        <th class="text-center">Luas Total (M<sup>2</sup>)</th>
                                         <th class="text-center">Mutasi</th>
                                         <th class="text-center">Keterangan</th>
                                     </tr>
@@ -133,7 +133,12 @@
 				},
 				{
 					'data': function(data) {
-                       return data.nama_pemilik_asal;
+                        if(data.nama_pemilik_asal)
+                        {
+                            return data.nama_pemilik_asal;
+                        }
+                        return data.nama;
+                      
                     }
 				},			
 				{

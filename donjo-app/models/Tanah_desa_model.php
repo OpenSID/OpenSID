@@ -18,11 +18,13 @@ class Tanah_desa_model extends CI_Model
 	{
 		$builder = $this->db
 					->select('td.id, 
-							td.nama_pemilik_asal, 													
+							td.nama_pemilik_asal,		
+							p.nama,										
 							td.luas,
 							td.mutasi, 					
 							td.keterangan')
 					->from("{$this->table} td")
+					->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
 					->where('td.visible', 1);
 
 		if (empty($search))
@@ -44,9 +46,10 @@ class Tanah_desa_model extends CI_Model
 	public function view_tanah_desa_by_id($id)
 	{
 		$this->db
-				->select('*')
-				->from($this->table)
-        		->where($this->table.'.id', $id);
+				->select('td.*, p.nama, p.nik')
+				->from("{$this->table} td")
+				->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
+        		->where('td.id', $id);
 		$data = $this->db
 				->get()
 				->row();
@@ -101,7 +104,6 @@ class Tanah_desa_model extends CI_Model
 
 	public function update_tanah_desa()
 	{
-		$id_penduduk = $this->null_id_check($this->input->post('penduduk'));
 		$data = array(
 			'id_penduduk' 			=> is_null($this->input->post('penduduk'))? 0 : $this->input->post('penduduk'),		
 			'jenis_pemilik' 		=> $this->input->post('jenis_pemilik'),
