@@ -145,9 +145,10 @@ class Tanah_desa_model extends CI_Model
 	public function cetak_tanah_desa()
 	{
 		$this->db
-				->select('*')
-				->from($this->table)	
-				->where($this->table.'.visible', 1)
+				->select('td.*, p.nama')
+				->from("{$this->table} td")	
+				->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
+				->where('td.visible', 1)
 				->order_by('nama_pemilik_asal', 'ASC');
 		$data = $this->db
 				->get()

@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<tr>
 								<td class="text-left"><?= $count ?></td>
 								<td><?= strtoupper($data['nama_pemilik_asal'])?></td>
-								<td class="text-left"><?= $data['letter_c']?></td>							
+								<td class="text-left"><?= $data['letter_c']."<br>".$data['persil']?></td>							
 								<td><?= strtoupper($data['luas']) ?></td>
 								<td><?= strtoupper($data['kelas']) ?></td>					
 								<td class="text-center"><?= $data['asli_milik_desa']?></td>							

@@ -23,7 +23,7 @@
                                         <th width="100"  class="text-center">No. Letter C / <br> Persil</th>
                                         <th class="text-center">Kelas</th>                                       
                                         <th class="text-center">Lokasi</th>
-                                        <th class="text-center">Luas (M<sup>2</sup>)</th>                              
+                                        <th class="text-center">Luas Total (M<sup>2</sup>)</th>                              
                                         <th class="text-center">Tanggal Perolehan</th>
                                         <th class="text-center">Mutasi</th>
                                         <th class="text-center">Keterangan</th>
