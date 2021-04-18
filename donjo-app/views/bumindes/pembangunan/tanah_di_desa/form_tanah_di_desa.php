@@ -567,11 +567,12 @@
         if (pilih == 1) {       
             $('#penduduk').val($('#id_penduduk').val());
             $('#penduduk').addClass('required');
-            $('#pemilik_asal').removeClass('required'); 
+            $('#pemilik_asal').val(''); 
+            $('#pemilik_asal').removeClass('required');
             $('#nama_penduduk').hide();
             $('#pilihan_penduduk').show();
         } else {
-            $('#penduduk').val('');            
+            $('#penduduk').val('');
             $('#pemilik_asal').addClass('required'); 
             $('#penduduk').removeClass('required');           
             $('#nama_penduduk').show();

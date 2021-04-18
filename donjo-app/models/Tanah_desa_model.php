@@ -60,7 +60,7 @@ class Tanah_desa_model extends CI_Model
 	public function add_tanah_desa()
 	{
 		$data = array(
-			'id_penduduk' 			=> is_null($this->input->post('penduduk'))? 0 : $this->input->post('penduduk'),		
+			'id_penduduk' 			=> empty($this->input->post('penduduk'))? 0 : $this->input->post('penduduk'),		
 			'jenis_pemilik' 		=> $this->input->post('jenis_pemilik'),
 			'nama_pemilik_asal' 	=> nama(strtoupper($this->input->post('pemilik_asal'))),
 			'luas' 					=> bilangan($this->input->post('luas')),
@@ -91,7 +91,7 @@ class Tanah_desa_model extends CI_Model
 			'updated_by' 			=> $this->session->user,
 			'visible' 				=> 1
 		);
-
+	
 		$hasil = $this->db->insert($this->table, $data);
 		status_sukses($hasil);
 	}
@@ -105,7 +105,7 @@ class Tanah_desa_model extends CI_Model
 	public function update_tanah_desa()
 	{
 		$data = array(
-			'id_penduduk' 			=> is_null($this->input->post('penduduk'))? 0 : $this->input->post('penduduk'),		
+			'id_penduduk' 			=> empty($this->input->post('penduduk'))? 0 : $this->input->post('penduduk'),		
 			'jenis_pemilik' 		=> $this->input->post('jenis_pemilik'),
 			'nama_pemilik_asal' 	=> nama(strtoupper($this->input->post('pemilik_asal'))),
 			'luas' 					=> bilangan($this->input->post('luas')),
