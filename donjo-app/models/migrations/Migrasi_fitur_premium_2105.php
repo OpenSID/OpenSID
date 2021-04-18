@@ -150,7 +150,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		// Menambahkan data Script ID Google API pada Setting Aplikasi
 		$data_setting = [
 			'key' => 'script_id_gform', 
-			'value' => 'AKfycbx3KRsQ_OsDpq4r2bWmW-BaOUaQzktkavrCBjpKHpw-KNN4GHho6_g6leY43ueKwpc6OQ', 
+			'value' => 'AKfycbx0dou6j6oAjHoRfZvOb9t8q4GIT_6riWHj8RHzmv1T4TcG3cjxmVYpOttEHMnINugS', 
 			'keterangan' => 'Script ID untuk Google API'
 		];
 
@@ -159,7 +159,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		// Menambahkan data Redirect URI Google API pada Setting Aplikasi
 		$data_setting = [
 			'key' => 'redirect_uri_gform', 
-			'value' => 'https://bumindes.opensid.or.id/index.php/first/get_form_info', 
+			'value' => 'https://berputar.opensid.or.id/index.php/first/get_form_info', 
 			'keterangan' => 'Redirect URI Aktif untuk Google API'
 		];
 
