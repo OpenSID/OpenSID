@@ -228,13 +228,13 @@ class Analisis_master extends Admin_Controller
 	{
 		$this->session->google_form_id = $this->input->post('input-form-id');
 		
-		$BASE_URL_API = 'https://bumindes.opensid.or.id/index.php/';
+		$REDIRECT_URI = $this->setting->redirect_uri_gform;
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
 		if ($this->input->get('outsideRetry') == "true")
 		{
-			$url = $BASE_URL_API . 'first/get_form_info?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+			$url = $REDIRECT_URI . '?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
 
 			$client = new Google\Client();
 			$httpClient = $client->authorize();
@@ -247,7 +247,7 @@ class Analisis_master extends Admin_Controller
 		}
 		else
 		{
-			$url = $BASE_URL_API . 'first/get_form_info?formId=' . $this->input->post('input-form-id') . '&redirectLink=' . $self_link ;
+			$url = $REDIRECT_URI . '?formId=' . $this->input->post('input-form-id') . '&redirectLink=' . $self_link ;
 			header('Location: ' . $url);
 		}
 	}

@@ -155,6 +155,15 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		];
 
 		$hasil = $hasil && $this->tambah_setting($data_setting);
+
+		// Menambahkan data Redirect URI Google API pada Setting Aplikasi
+		$data_setting = [
+			'key' => 'redirect_uri_gform', 
+			'value' => 'https://bumindes.opensid.or.id/index.php/first/get_form_info', 
+			'keterangan' => 'Redirect URI Aktif untuk Google API'
+		];
+
+		$hasil = $hasil && $this->tambah_setting($data_setting);
 		
 		return $hasil;
 	}
