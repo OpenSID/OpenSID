@@ -19,9 +19,7 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th width="120" class="text-center">Aksi</th>
-                                        <th class="text-center">Nama Perorangan &nbsp/ <br> Badan Hukum</th>
-                                        <th class="text-center">Status Hak Tanah</th>
-                                        <th class="text-center">Jenis Pengunaan</th>                                        
+                                        <th class="text-center">Nama Perorangan &nbsp/ <br> Badan Hukum</th>                                                                         
                                         <th class="text-center">Luas (M<sup>2</sup>)</th>
                                         <th class="text-center">Mutasi</th>
                                         <th class="text-center">Keterangan</th>
@@ -112,7 +110,7 @@
 			],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 3, 4, 5, 6, 7],
+				'targets': [0, 1, 3, 4, 5],
 			}],
 			'ajax': {
 				'url': "<?= site_url('bumindes_tanah_desa') ?>",
@@ -137,13 +135,7 @@
 					'data': function(data) {
                        return data.nama_pemilik_asal;
                     }
-				},
-				{
-					'data': 'hak_tanah',
-				},
-				{
-					'data': 'penggunaan_tanah'
-				},
+				},			
 				{
                     'data': 'luas'                   
 				},

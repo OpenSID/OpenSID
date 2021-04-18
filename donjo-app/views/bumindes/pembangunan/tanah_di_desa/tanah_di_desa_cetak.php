@@ -47,20 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <table>
-	<tbody>
-		<tr>
-			<td>
-				<?php if ($aksi != 'unduh'): ?>
-					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
-				<?php endif; ?>
-				<h1 class="judul">
-					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
-				</h1>
-			</td>
-		</tr>
-		<tr>
-			<td><hr class="garis"></td>
-		</tr>
+	<tbody>	
 		<tr>
 			<td class="text-center">
 				<h4>BUKU TANAH DI DESA</h4>
@@ -81,15 +68,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr class="border thick">
 							<th rowspan="2">NOMOR URUT</th>
 							<th rowspan="2">NAMA PERORANGAN / BADAN HUKUM</th>		
-							<th rowspan="2">LUAS (M<sup>2</sup>)</th>
-							<th rowspan="2">STATUS HAK TANAH</th>							
-							<th rowspan="2">PENGGUNAAN TANAH</th>
-							<th rowspan="2">LAIN - LAIN</th>
-							<th rowspan="2">MUTASI</th>
-							<th rowspan="2">KETERANGAN</th>										 
+							<th rowspan="2">JML (M<sup>2</sup>)</th>
+							<th colspan="8">STATUS HAK TANAH (M<sup>2</sup>)</th>													
+							<th colspan="14">PENGGUNAAN TANAH (M<sup>2</sup>)</th>							
+							<th rowspan="2">KET</th>										 
 						</tr>					
-						<tr class="border thick">							
-						</tr>
+						<tr class="border thick">	
+							<th colspan="4">SUDAH BERSERTIFIKAT</th>						
+							<th colspan="4">BELUM BERSERTIFIKAT</th>						
+							<th colspan="7">NON PERTANIAN</th>						
+							<th colspan="7">PERTANIAN</th>													
+						</tr>	
+						<tr class="border thick">	
+							<th></th>						
+							<th></th>						
+							<th></th>						
+							<th>HM</th>						
+							<th>HGB</th>						
+							<th>HP</th>						
+							<th>HGU</th>						
+							<th>HPL</th>						
+							<th>MA</th>						
+							<th>VI</th>						
+							<th>TN</th>	
+							<th>PERUMAHAN</th>						
+							<th>PERDAGANGAN DAN JASA</th>					
+							<th>PERKANTORAN</th>					
+							<th>INDUSTRI</th>					
+							<th>FASILITAS UMUM</th>					
+							<th>SAWAH</th>					
+							<th>TEGALAN</th>					
+							<th>PERKEBUNAN</th>					
+							<th>PETERNAKAN / PERIKANAN</th>					
+							<th>HUTAN BELUKAR</th>					
+							<th>HUTAN LEBAT / LINDUNG</th>					
+							<th>MUTASI TANAH DI DESA</th>					
+							<th>TANAH KOSONG</th>					
+							<th>LAIN - LAIN</th>	
+							<th></th>				
+						</tr>										
 						<tr class="border thick">
 							<th>1</th>
 							<th>2</th>
@@ -99,6 +116,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>6</th>
 							<th>7</th>
 							<th>8</th>							
+							<th>9</th>							
+							<th>10</th>							
+							<th>11</th>							
+							<th>12</th>							
+							<th>13</th>							
+							<th>14</th>							
+							<th>15</th>							
+							<th>16</th>							
+							<th>17</th>							
+							<th>18</th>							
+							<th>19</th>							
+							<th>20</th>							
+							<th>21</th>							
+							<th>22</th>							
+							<th>23</th>							
+							<th>24</th>							
+							<th>25</th>							
+							<th>26</th>							
 						</tr>
 					</thead>
 					<tbody>
@@ -107,13 +142,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							foreach ($main as $data): 						
 						?>
 							<tr>
-								<td><?= $count ?></td>
+								<td class="text-left"><?= $count ?></td>
 								<td><?= strtoupper($data['nama_pemilik_asal'])?></td>														
-								<td><?= strtoupper($data['luas']) ?></td>
-								<td><?= strtoupper($data['hak_tanah']) ?></td>
-								<td><?= strtoupper($data['penggunaan_tanah']) ?></td>
-								<td><?= strtoupper($data['lain']) ?></td>
+								<td><?= $data['luas'] ?></td>
+								<td class="text-center"><?= $data['hak_milik'] ?></td>
+								<td class="text-center"><?= $data['hak_guna_bangunan'] ?></td>
+								<td class="text-center"><?= $data['hak_pakai'] ?></td>
+								<td class="text-center"><?= $data['hak_guna_usaha'] ?></td>
+								<td class="text-center"><?= $data['hak_pengelolaan'] ?></td>
+								<td class="text-center"><?= $data['hak_milik_adat'] ?></td>
+								<td class="text-center"><?= $data['hak_verponding'] ?></td>
+								<td class="text-center"><?= $data['tanah_negara'] ?></td>
+								<td class="text-center"><?= $data['perumahan'] ?></td>
+								<td class="text-center"><?= $data['perdagangan_jasa'] ?></td>
+								<td class="text-center"><?= $data['perkantoran'] ?></td>
+								<td class="text-center"><?= $data['industri'] ?></td>
+								<td class="text-center"><?= $data['fasilitas_umum'] ?></td>
+								<td class="text-center"><?= $data['sawah'] ?></td>
+								<td class="text-center"><?= $data['tegalan'] ?></td>
+								<td class="text-center"><?= $data['perkebunan'] ?></td>
+								<td class="text-center"><?= $data['peternakan_perikanan'] ?></td>
+								<td class="text-center"><?= $data['hutan_belukar'] ?></td>
+								<td class="text-center"><?= $data['hutan_lebat_lindung'] ?></td>
 								<td><?= strtoupper($data['mutasi']) ?></td>
+								<td class="text-center"><?= $data['tanah_kosong'] ?></td>
+								<td class="text-center"><?= $data['lain'] ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>								
 							</tr>
 						<?php

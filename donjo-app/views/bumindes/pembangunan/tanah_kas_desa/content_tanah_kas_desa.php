@@ -21,12 +21,9 @@
                                         <th width="120" class="text-center">Aksi</th>
                                         <th class="text-center">Asal Tanah</th>
                                         <th width="100"  class="text-center">No. Letter C / <br> Persil</th>
-                                        <th class="text-center">Kelas</th>
-                                        <th class="text-center">Perolehan  &nbsp/ <br> Jenis TKD</th>
+                                        <th class="text-center">Kelas</th>                                       
                                         <th class="text-center">Lokasi</th>
-                                        <th class="text-center">Luas (M<sup>2</sup>)</th>
-                                        <th class="text-center">Patok Batas</th>
-                                        <th class="text-center">Papan Nama</th>
+                                        <th class="text-center">Luas (M<sup>2</sup>)</th>                              
                                         <th class="text-center">Tanggal Perolehan</th>
                                         <th class="text-center">Mutasi</th>
                                         <th class="text-center">Keterangan</th>
@@ -118,7 +115,7 @@
 			],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 3, 4, 5, 6, 7, 8, 9, 11, 12],
+				'targets': [0, 1, 3, 4, 5, 6, 8, 9],
 			}],
 			'ajax': {
 				'url': "<?= site_url('bumindes_tanah_kas_desa') ?>",
@@ -154,42 +151,13 @@
 				},
 				{
 					'data': 'kelas',
-				},
-				{                    
-                    'data': function(data)
-                    {
-                        var result =  `${data.perolehan_tkd} <br> ${data.jenis_tkd}`;
-                        return result;
-                    }
-				},
+				},				
 				{
 					'data': 'lokasi'
                 },
                 {
 					'data': 'luas'
-                },
-                {
-                    'data': function(data) 
-                    {
-                        if(data.patok==1)
-                        {
-                            return 'Ada'
-                        }else{
-                            return 'Tidak Ada'
-                        }
-                    }
-                },
-                {
-					'data': function(data) 
-                    {
-                        if(data.papan_nama==1)
-                        {
-                            return 'Ada'
-                        }else{
-                            return 'Tidak Ada'
-                        }
-                    }
-				},
+                },                              
 				{
 					'data': 'tanggal_perolehan'
 				},

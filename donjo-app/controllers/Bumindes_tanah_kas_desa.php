@@ -150,14 +150,10 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 	public function add_tanah_kas_desa()
 	{
 		$this->load->helper('form');
-		$this->load->library('form_validation');
-		// $this->form_validation->set_rules('pemilik_asal','Asal Tanah Kas Desa','required|trim|alpha');
+		$this->load->library('form_validation');		
 		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
 		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
 		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-		// $this->form_validation->set_rules('peruntukan','Peruntukan','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('lokasi','Lokasi','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('keterangan','keterangan','required|trim|alpha');
 
 		if ($this->form_validation->run() != false)
 		{
@@ -176,13 +172,9 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 	{		
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		// $this->form_validation->set_rules('pemilik_asal','Asal Tanah Kas Desa','required|trim|alpha');
 		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
 		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
 		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-		// $this->form_validation->set_rules('peruntukan','Peruntukan','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('lokasi','Lokasi','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('keterangan','keterangan','required|trim|alpha');
 
 		if ($this->form_validation->run() != false)
 		{
@@ -229,7 +221,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			'tgl_cetak' => $_POST['tgl_cetak'],	
 			'file' => "Buku Tanah Kas Desa",
 			'isi' => "bumindes/pembangunan/tanah_kas_desa/tanah_kas_desa_cetak",
-			'letak_ttd' => ['1', '1', '11'],
+			'letak_ttd' => ['1', '1', '20'],
 		];		
 		$this->load->view('global/format_cetak', $data);		
 	}

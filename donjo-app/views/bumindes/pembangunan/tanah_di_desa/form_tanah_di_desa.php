@@ -10,123 +10,484 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">                        
+                            <input type="hidden" id="id" name="id" value="<?= $main->id; ?>">   
+                            <input type="hidden" id="id_penduduk" name="id_penduduk" value="<?= $main->id_penduduk; ?>">                                                                            
                             <div class="form-group" id='pilihan_pemilik'>
                                 <label for="jenis_pemilik" class="col-sm-3 control-label">Jenis Pemilik</label>
                                 <div class="btn-group col-sm-8 kiri" data-toggle="buttons">
                                     <label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
                                         <input type="radio" name="jenis_pemilik" class="form-check-input" value="1"
                                             autocomplete="off"
-                                            <?php selected((empty($cdesa) or $cdesa["jenis_pemilik"] == 1), true, true)?>
+                                            <?php selected((empty($main) or $main->jenis_pemilik == 1), true, true)?>
                                             onchange="pilih_pemilik(this.value);">Warga Desa
                                     </label>
                                     <label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
                                         <input type="radio" name="jenis_pemilik" class="form-check-input" value="2"
                                             autocomplete="off"
-                                            <?php selected(($cdesa["jenis_pemilik"] == 2), true, true)?>
+                                            <?php selected(($main->jenis_pemilik == 2), true, true)?>
                                             onchange="pilih_pemilik(this.value);">Warga Luar Desa
                                     </label>
                                 </div>
                             </div>
                             <div class="form-group" id="pilihan_penduduk">
-                                <label class="col-sm-3 control-label">Cari Nama Pemilik</label>
+                                <label class="col-sm-3 control-label">Cari Penduduk</label>
                                 <div class="col-sm-8">
                                     <select class="form-control input-sm select2" style="width: 100%;" id="penduduk"
                                         name="penduduk" onchange="pemilik();">                                   
                                         <?php if($main->id_penduduk!=0){ ?>
                                             <option value="<?= $main->id_penduduk; ?>"><?= $main->nama_pemilik_asal; ?></option>
+                                        <?php } else { ?>
+                                            <option value="">-- Silakan Masukan NIK / Nama --</option>
                                         <?php } ?>
                                         <?php foreach ($penduduk as $item): ?>
-                                        <option value="<?= $item['id']?>"><?= $item['nama']?></option>
+                                        <option value="<?= $item['id']?>"><?= $item['nama']." [ NIK ".$item['nik']." ]"?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="nama_penduduk">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Nama
                                     Perorangan / Badan Hukum</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm required" name="pemilik_asal" id="pemilik_asal"
+                                    <input class="form-control input-sm nama required" name="pemilik_asal" id="pemilik_asal"
                                         type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal; ?>" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas
-                                    Tanah</label>
+                                    Tanah Total</label>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <input type="number" min="0" class="form-control input-sm number required"
-                                            id="luas" name="luas" type="text" placeholder="Luas Tanah"
-                                            value="<?= $main->luas; ?>" />
+                                        <input type="number" min="0" class="form-control input-sm number disabled required"                                                                                     
+                                            <?php if($main->luas!=0){ ?>   
+                                                value="<?= $main->luas; ?>"                                           
+                                            <?php } else { ?>                                                
+                                                value=0 
+                                            <?php } ?>
+                                            id="luas" name="luas" />
                                         <span class="input-group-addon input-sm "
                                             id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required" style="text-align:left;"
-                                    for="hak_tanah">Status Hak Tanah </label>
-                                <div class="col-sm-4">
-                                    <select name="hak_tanah" id="hak_tanah" class="form-control input-sm required"
-                                        placeholder="Hak Tanah" value="<?= $main->hak_tanah; ?>">
-                                        <?php if($main->hak_tanah!=NULL){ ?>
-                                        <option value="<?= $main->hak_tanah; ?>"><?= $main->hak_tanah; ?></option>
-                                        <?php } ?>
-                                        <option disabled value="">-------------Sertifikat-------------</option>
-                                        <option value="Hak Milik">Hak Milik</option>
-                                        <option value="Hak Guna Bangunan">Hak Guna Bangunan</option>
-                                        <option value="Hak Pakai">Hak Pakai</option>
-                                        <option value="Hak Guna Usaha">Hak Guna Usaha</option>
-                                        <option value="Hak Pengelolaan">Hak Pengelolaan</option>
-                                        <option disabled value="">----------Belum Sertifikat----------</option>
-                                        <option value="Hak Milik Adat">Hak Milik Adat</option>
-                                        <option value="Hak Verponding Indonesia">Hak Verponding Indonesia (Milik
-                                            Pribumi)</option>
-                                        <option value="Tanah Negara">Tanah Negara</option>
-                                    </select>
+                            <div class='col-sm-12'>
+                                <div class="form-group subtitle_head">
+                                    <label class="text-right"><strong>Status Hak Tanah :</strong></label>
+                                </div>
+                            </div>                          
+                            <div class='col-sm-12'>                                                             
+                                <div class="form-group">
+                                    <label class="control-label" style="text-align:right;" for="hak_milik">Sertifikat</label>                               
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label required" style="text-align:left;"
-                                    for="hak_tanah">Penggunaan Tanah </label>
-                                <div class="col-sm-4">
-                                    <select name="penggunaan_tanah" id="penggunaan_tanah"
-                                        class="form-control input-sm required" placeholder="Penggunaan Tanah"
-                                        value="<?= $main->penggunaan_tanah; ?>">
-                                        <?php if($main->penggunaan_tanah!=NULL){ ?>
-                                        <option value="<?= $main->penggunaan_tanah; ?>"><?= $main->penggunaan_tanah; ?>
-                                        </option>
-                                        <?php } ?>
-                                        <option disabled value="">----------Non Pertanian----------</option>
-                                        <option value="Perumahan">Perumahan</option>
-                                        <option value="Perdagangan dan Jasa">Perdagangan dan Jasa</option>
-                                        <option value="Perkantoran">Perkantoran</option>
-                                        <option value="Industri">Industri</option>
-                                        <option value="Fasilitas Umum">Fasilitas Umum</option>
-                                        <option disabled value="">------------Pertanian-------------</option>
-                                        <option value="Sawah">Sawah</option>
-                                        <option value="Tegalan">Tegalan</option>
-                                        <option value="Perkebunan">Perkebunan</option>
-                                        <option value="Peternakan / Perikanan">Peternakan / Perikanan</option>
-                                        <option value="Hutan Belukar">Hutan Belukar</option>
-                                        <option value="Hutan Lebat / Lindung">Hutan Lebat / Lindung</option>
-                                        <option value="Tanah Kosong">Tanah Kosong</option>
-                                    </select>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hak_milik">Hak Milik</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hak_milik!=0){ ?>   
+                                                    value="<?= $main->hak_milik; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hak_milik" name="hak_milik" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Lain -
-                                    lain</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control input-sm required" name="lain" id="lain" type="text"
-                                        placeholder="Lain - lain" value="<?= $main->lain; ?>" />
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hak_guna_bangunan">Hak Guna Bangunan</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hak_guna_bangunan!=0){ ?>   
+                                                    value="<?= $main->hak_guna_bangunan; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hak_guna_bangunan" name="hak_guna_bangunan" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hak_pakai">Hak Pakai</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hak_pakai!=0){ ?>   
+                                                    value="<?= $main->hak_pakai; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hak_pakai" name="hak_pakai" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hak_guna_usaha">Hak Guna Usaha</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hak_guna_usaha!=0){ ?>   
+                                                    value="<?= $main->hak_guna_usaha; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hak_guna_usaha" name="hak_guna_usaha" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hak_pengelolaan">Hak Pengelolaan</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hak_pengelolaan!=0){ ?>   
+                                                    value="<?= $main->hak_pengelolaan; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hak_pengelolaan" name="hak_pengelolaan" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                  
+                            <div class='col-sm-12'>                                                             
+                                <div class="form-group">
+                                    <label class="control-label" style="text-align:right;" for="hak_milik">Belum Sertifikat</label>                               
+                                </div>
+                            </div>                           
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_negara">Hak Milik Adat</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hak_milik_adat!=0){ ?>   
+                                                    value="<?= $main->hak_milik_adat; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hak_milik_adat" name="hak_milik_adat" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>          
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_negara">Tanah Negara</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->tanah_negara!=0){ ?>   
+                                                    value="<?= $main->tanah_negara; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="tanah_negara" name="tanah_negara" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class='col-sm-4'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hak_verponding">Hak Verponding Indonesia (Milik Pribumi)</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hak_verponding!=0){ ?>   
+                                                    value="<?= $main->hak_verponding; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hak_verponding" name="hak_verponding" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                              
+                            <div class='col-sm-12'>
+                                <div class="form-group subtitle_head">
+                                    <label class="text-right"><strong>Penggunaan Tanah :</strong></label>
+                                </div>
+                            </div>                                          
+                            <div class='col-sm-12'>                                                             
+                                <div class="form-group">
+                                    <label class="control-label" style="text-align:right;" for="hak_milik">Non Pertanian</label>                               
+                                </div>
+                            </div>             
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="perumahan">Perumahan</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->perumahan!=0){ ?>   
+                                                    value="<?= $main->perumahan; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="perumahan" name="perumahan" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                             
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="perdagangan_jasa">Perdagangan dan Jasa</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->perdagangan_jasa!=0){ ?>   
+                                                    value="<?= $main->perdagangan_jasa; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="perdagangan_jasa" name="perdagangan_jasa" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="perkantoran">Perkantoran</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->perkantoran!=0){ ?>   
+                                                    value="<?= $main->perkantoran; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="perkantoran" name="perkantoran" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>      
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="industri">Industri</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->industri!=0){ ?>   
+                                                    value="<?= $main->industri; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="industri" name="industri" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>      
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="fasilitas_umum">Fasilitas Umum</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->fasilitas_umum!=0){ ?>   
+                                                    value="<?= $main->fasilitas_umum; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="fasilitas_umum" name="fasilitas_umum" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-sm-12'>                                                             
+                                <div class="form-group">
+                                    <label class="control-label" style="text-align:right;" for="hak_milik">Pertanian</label>                               
+                                </div>
+                            </div> 
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="sawah">Sawah</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->sawah!=0){ ?>   
+                                                    value="<?= $main->sawah; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="sawah" name="sawah" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="tegalan">Tegalan</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->tegalan!=0){ ?>   
+                                                    value="<?= $main->tegalan; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="tegalan" name="tegalan" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="perkebunan">Perkebunan</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->perkebunan!=0){ ?>   
+                                                    value="<?= $main->perkebunan; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="perkebunan" name="perkebunan" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="peternakan_perikanan">Perternakan / Perikanan</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->peternakan_perikanan!=0){ ?>   
+                                                    value="<?= $main->peternakan_perikanan; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="peternakan_perikanan" name="peternakan_perikanan" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hutan_belukar">Hutan Belukar</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hutan_belukar!=0){ ?>   
+                                                    value="<?= $main->hutan_belukar; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hutan_belukar" name="hutan_belukar" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="hutan_lebat_lindung">Hutan Lebat / Lindung</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->hutan_lebat_lindung!=0){ ?>   
+                                                    value="<?= $main->hutan_lebat_lindung; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="hutan_lebat_lindung" name="hutan_lebat_lindung" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_kosong">Tanah Kosong</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->tanah_kosong!=0){ ?>   
+                                                    value="<?= $main->tanah_kosong; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="tanah_kosong" name="tanah_kosong" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-sm-3'>
+                                <div class="form-group">
+                                    <label class="col-sm-12 control-label" style="text-align:left;" for="lain_lain">Lain - lain</label>
+                                    <div class="col-sm-12">
+                                        <div class="input-group">
+                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                                <?php if($main->lain!=0){ ?>   
+                                                    value="<?= $main->lain; ?>"                                           
+                                                <?php } else { ?>                                                
+                                                    value=0 
+                                                <?php } ?>
+                                                id="lain_lain" name="lain_lain" />
+                                            <span class="input-group-addon input-sm "
+                                                id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='col-sm-12'>
+                                <div class="form-group subtitle_head">
+                                    <label class="text-right"><strong>Catatan :</strong></label>
+                                </div>
+                            </div>                                                                                     
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="mutasi">Mutasi</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm required" name="mutasi" id="mutasi"
+                                    <textarea rows="5" class="form-control input-sm" name="mutasi" id="mutasi"
                                         placeholder="Mutasi"><?= $main->mutasi; ?></textarea>
                                 </div>
                             </div>
@@ -134,7 +495,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="keterangan">Keterangan</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm required" name="keterangan"
+                                    <textarea rows="5" class="form-control input-sm" name="keterangan"
                                         id="keterangan" placeholder="Keterangan"><?= $main->keterangan; ?></textarea>
                                 </div>
                             </div>
@@ -158,34 +519,91 @@
     $(document).ready(function () {
         var view = <?=$view_mark?>;
         if (1 == view) {
+            $("#penduduk").attr("disabled", true);
             $("#pemilik_asal").attr("disabled", true);
             $("#luas").attr("disabled", true);
+            $('#hak_milik').attr("disabled", true);
+            $('#hak_guna_bangunan').attr("disabled", true);
+            $('#hak_pakai').attr("disabled", true);
+            $('#hak_guna_usaha').attr("disabled", true);
+            $('#hak_pengelolaan').attr("disabled", true);
+            $('#hak_milik_adat').attr("disabled", true);
+            $('#hak_verponding').attr("disabled", true);
+            $('#tanah_negara').attr("disabled", true);
+            $('#perumahan').attr("disabled", true);
+            $('#perdagangan_jasa').attr("disabled", true);
+            $('#perkantoran').attr("disabled", true);
+            $('#industri').attr("disabled", true);
+            $('#fasilitas_umum').attr("disabled", true);
+            $('#sawah').attr("disabled", true);
+            $('#tegalan').attr("disabled", true);
+            $('#perkebunan').attr("disabled", true);
+            $('#peternakan_perikanan').attr("disabled", true);
+            $('#hutan_belukar').attr("disabled", true);
+            $('#hutan_lebat_lindung').attr("disabled", true);
+            $('#tanah_kosong').attr("disabled", true);
             $("#hak_tanah").attr("disabled", true);
             $("#penggunaan_tanah").attr("disabled", true);
-            $("#lain").attr("disabled", true);
+            $("#lain_lain").attr("disabled", true);
             $("#mutasi").attr("disabled", true);
             $("#keterangan").attr("disabled", true);
-            document.getElementById("pilihan_penduduk").style.display = "none";
-            document.getElementById("pilihan_pemilik").style.display = "none";
-            document.getElementById("form_footer").style.display = "none";
+            $('#pilihan_penduduk').hide();
+            $('#pilihan_pemilik').hide();
+            $('#form_footer').hide();
+        }else
+        {
+            pilih_pemilik((<?=$main->jenis_pemilik? : 1?> ))
         }
-        pilih_pemilik((<?=$cdesa['jenis_pemilik']? : 1?> ))
     });
 
-    function pilih_pemilik(pilih) {
+    function pilih_pemilik(pilih) 
+    {
         $('#jenis_pemilik').val(pilih);
-        if (pilih == 1) {
-            $('#penduduk').attr("disabled", false);
-            $('#pemilik_asal').attr("readonly", true);
+        if (pilih == 1) {       
+            $('#penduduk').val($('#id_penduduk').val());
+            $('#penduduk').addClass('required');
+            $('#pemilik_asal').removeClass('required'); 
+            $('#nama_penduduk').hide();
+            $('#pilihan_penduduk').show();
         } else {
-            $('#penduduk').attr("disabled", true);
-            $('#pemilik_asal').attr("readonly", false);
-            $('#pemilik_asal').val('');
+            $('#penduduk').val('');
+            $('#pemilik_asal').addClass('required'); 
+            $('#penduduk').removeClass('required');           
+            $('#nama_penduduk').show();
+            $('#pilihan_penduduk').hide();                     
         }
     }
 
-    function pemilik() {
+    function pemilik() 
+    {
         var temp = $('#penduduk option:selected').text();
         $('#pemilik_asal').val(temp);
+    }
+
+    function dinamicLuas()
+    {
+        var res = 0;
+        res = parseInt($('#hak_milik').val())
+            +parseInt($('#hak_guna_bangunan').val())
+            +parseInt($('#hak_pakai').val())
+            +parseInt($('#hak_guna_usaha').val())
+            +parseInt($('#hak_pengelolaan').val())
+            +parseInt($('#hak_milik_adat').val())
+            +parseInt($('#hak_verponding').val())
+            +parseInt($('#tanah_negara').val())
+            +parseInt($('#perumahan').val())
+            +parseInt($('#perdagangan_jasa').val())
+            +parseInt($('#perkantoran').val())
+            +parseInt($('#industri').val())
+            +parseInt($('#fasilitas_umum').val())
+            +parseInt($('#sawah').val())
+            +parseInt($('#tegalan').val())
+            +parseInt($('#perkebunan').val())
+            +parseInt($('#peternakan_perikanan').val())
+            +parseInt($('#hutan_belukar').val())
+            +parseInt($('#hutan_lebat_lindung').val())
+            +parseInt($('#tanah_kosong').val())
+            +parseInt($('#lain_lain').val());
+        $('#luas').val(res);
     }
 </script>

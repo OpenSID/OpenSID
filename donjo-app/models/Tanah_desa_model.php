@@ -18,9 +18,7 @@ class Tanah_desa_model extends CI_Model
 	{
 		$builder = $this->db
 					->select('td.id, 
-							td.nama_pemilik_asal, 						
-							td.hak_tanah, 
-							td.penggunaan_tanah, 
+							td.nama_pemilik_asal, 													
 							td.luas,
 							td.mutasi, 					
 							td.keterangan')
@@ -56,29 +54,39 @@ class Tanah_desa_model extends CI_Model
 		return $data;
 	}
 
-	public function null_id_check($data){
-		if($data)
-		{
-			return $data;
-		}
-		return $data = 0;
-	}
-
 	public function add_tanah_desa()
 	{
-		$id_penduduk = $this->null_id_check($this->input->post('penduduk'));
 		$data = array(
-			'id_penduduk' 		=> $id_penduduk,		
-			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),
-			'hak_tanah' 		=> $this->input->post('hak_tanah'),
-			'penggunaan_tanah' 	=> $this->input->post('penggunaan_tanah'),
-			'luas' 				=> $this->input->post('luas'),
-			'lain' 				=> $this->input->post('lain'),		
-			'mutasi' 			=> $this->input->post('mutasi'),				
-			'keterangan' 		=> $this->input->post('keterangan'),
-			'created_by' 		=> $this->session->user,
-			'updated_by' 		=> $this->session->user,
-			'visible' 			=> 1
+			'id_penduduk' 			=> is_null($this->input->post('penduduk'))? 0 : $this->input->post('penduduk'),		
+			'jenis_pemilik' 		=> $this->input->post('jenis_pemilik'),
+			'nama_pemilik_asal' 	=> nama(strtoupper($this->input->post('pemilik_asal'))),
+			'luas' 					=> bilangan($this->input->post('luas')),
+			'hak_milik' 			=> bilangan($this->input->post('hak_milik')),
+			'hak_guna_bangunan' 	=> bilangan($this->input->post('hak_guna_bangunan')),
+			'hak_pakai' 			=> bilangan($this->input->post('hak_pakai')),
+			'hak_guna_usaha' 		=> bilangan($this->input->post('hak_guna_usaha')),
+			'hak_pengelolaan' 		=> bilangan($this->input->post('hak_pengelolaan')),
+			'hak_milik_adat' 		=> bilangan($this->input->post('hak_milik_adat')),
+			'hak_verponding' 		=> bilangan($this->input->post('hak_verponding')),
+			'tanah_negara' 			=> bilangan($this->input->post('tanah_negara')),
+			'perumahan' 			=> bilangan($this->input->post('perumahan')),
+			'perdagangan_jasa' 		=> bilangan($this->input->post('perdagangan_jasa')),
+			'perkantoran' 			=> bilangan($this->input->post('perkantoran')),
+			'industri' 				=> bilangan($this->input->post('industri')),
+			'fasilitas_umum' 		=> bilangan($this->input->post('fasilitas_umum')),
+			'sawah' 				=> bilangan($this->input->post('sawah')),
+			'tegalan' 				=> bilangan($this->input->post('tegalan')),
+			'perkebunan' 			=> bilangan($this->input->post('perkebunan')),
+			'peternakan_perikanan'	=> bilangan($this->input->post('peternakan_perikanan')),
+			'hutan_belukar'			=> bilangan($this->input->post('hutan_belukar')),
+			'hutan_lebat_lindung'	=> bilangan($this->input->post('hutan_lebat_lindung')),
+			'tanah_kosong'			=> bilangan($this->input->post('tanah_kosong')),
+			'lain' 					=> bilangan($this->input->post('lain_lain')),		
+			'mutasi' 				=> strip_tags($this->input->post('mutasi')),				
+			'keterangan' 			=> strip_tags($this->input->post('keterangan')),
+			'created_by' 			=> $this->session->user,
+			'updated_by' 			=> $this->session->user,
+			'visible' 				=> 1
 		);
 
 		$hasil = $this->db->insert($this->table, $data);
@@ -95,17 +103,36 @@ class Tanah_desa_model extends CI_Model
 	{
 		$id_penduduk = $this->null_id_check($this->input->post('penduduk'));
 		$data = array(
-			'id_penduduk' 		=> $id_penduduk,
-			'nama_pemilik_asal' => $this->input->post('pemilik_asal'),			
-			'hak_tanah' 		=> $this->input->post('hak_tanah'),
-			'penggunaan_tanah' 	=> $this->input->post('penggunaan_tanah'),
-			'luas' 				=> $this->input->post('luas'),
-			'lain' 				=> $this->input->post('lain'),
-			'mutasi' 			=> $this->input->post('mutasi'),						
-			'keterangan' 		=> $this->input->post('keterangan'),
-			'updated_at' 		=> date('Y-m-d H:i:s'),			
-			'updated_by' 		=> $this->session->user,
-			'visible' => 1
+			'id_penduduk' 			=> is_null($this->input->post('penduduk'))? 0 : $this->input->post('penduduk'),		
+			'jenis_pemilik' 		=> $this->input->post('jenis_pemilik'),
+			'nama_pemilik_asal' 	=> nama(strtoupper($this->input->post('pemilik_asal'))),
+			'luas' 					=> bilangan($this->input->post('luas')),
+			'hak_milik' 			=> bilangan($this->input->post('hak_milik')),
+			'hak_guna_bangunan' 	=> bilangan($this->input->post('hak_guna_bangunan')),
+			'hak_pakai' 			=> bilangan($this->input->post('hak_pakai')),
+			'hak_guna_usaha' 		=> bilangan($this->input->post('hak_guna_usaha')),
+			'hak_pengelolaan' 		=> bilangan($this->input->post('hak_pengelolaan')),
+			'hak_milik_adat' 		=> bilangan($this->input->post('hak_milik_adat')),
+			'hak_verponding' 		=> bilangan($this->input->post('hak_verponding')),
+			'tanah_negara' 			=> bilangan($this->input->post('tanah_negara')),
+			'perumahan' 			=> bilangan($this->input->post('perumahan')),
+			'perdagangan_jasa' 		=> bilangan($this->input->post('perdagangan_jasa')),
+			'perkantoran' 			=> bilangan($this->input->post('perkantoran')),
+			'industri' 				=> bilangan($this->input->post('industri')),
+			'fasilitas_umum' 		=> bilangan($this->input->post('fasilitas_umum')),
+			'sawah' 				=> bilangan($this->input->post('sawah')),
+			'tegalan' 				=> bilangan($this->input->post('tegalan')),
+			'perkebunan' 			=> bilangan($this->input->post('perkebunan')),
+			'peternakan_perikanan'	=> bilangan($this->input->post('peternakan_perikanan')),
+			'hutan_belukar'			=> bilangan($this->input->post('hutan_belukar')),
+			'hutan_lebat_lindung'	=> bilangan($this->input->post('hutan_lebat_lindung')),
+			'tanah_kosong'			=> bilangan($this->input->post('tanah_kosong')),
+			'lain' 					=> bilangan($this->input->post('lain_lain')),		
+			'mutasi' 				=> strip_tags($this->input->post('mutasi')),				
+			'keterangan' 			=> strip_tags($this->input->post('keterangan')),
+			'updated_at' 			=> date('Y-m-d H:i:s'),			
+			'updated_by' 			=> $this->session->user,
+			'visible'				=> 1
 		);
 		$id = $this->input->post('id');
 

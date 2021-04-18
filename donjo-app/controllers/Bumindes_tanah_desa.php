@@ -149,11 +149,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 	{
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		// $this->form_validation->set_rules('pemilik_asal','Nama Perseorangan / Badan Hukum','required|trim|alpha_numeric');
 		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-		// $this->form_validation->set_rules('lain','Lain-lain','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('mutasi','Mutasi','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('keterangan','Keterangan','required|trim|alpha_numeric');
 
 		if ($this->form_validation->run() != false)
 		{
@@ -171,11 +167,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 	{	
 		$this->load->helper('form');
 		$this->load->library('form_validation');
-		// $this->form_validation->set_rules('pemilik_asal','Nama Perseorangan / Badan Hukum','required|trim|alpha_numeric');
 		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-		// $this->form_validation->set_rules('lain','Lain-lain','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('mutasi','Mutasi','required|trim|alpha_numeric');
-		// $this->form_validation->set_rules('keterangan','Keterangan','required|trim|alpha_numeric');
 
 		if ($this->form_validation->run() != false)
 		{			
@@ -221,7 +213,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			'tgl_cetak' => $_POST['tgl_cetak'],	
 			'file' => "Buku Tanah di Desa",
 			'isi' => "bumindes/pembangunan/tanah_di_desa/tanah_di_desa_cetak",
-			'letak_ttd' => ['1', '1', '5'],
+			'letak_ttd' => ['1', '1', '23'],
 		];					
 		$this->load->view('global/format_cetak', $data);		
 	}

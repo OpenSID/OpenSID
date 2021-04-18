@@ -47,20 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <table>
-	<tbody>
-		<tr>
-			<td>
-				<?php if ($aksi != 'unduh'): ?>
-					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
-				<?php endif; ?>
-				<h1 class="judul">
-					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
-				</h1>
-			</td>
-		</tr>
-		<tr>
-			<td><hr class="garis"></td>
-		</tr>
+	<tbody>		
 		<tr>
 			<td class="text-center">
 				<h4>BUKU TANAH KAS DESA</h4>
@@ -81,22 +68,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr class="border thick">
 							<th rowspan="2">NOMOR URUT</th>
 							<th rowspan="2">ASAL TANAH KAS DESA</th>
-							<th rowspan="2">NOMOR LETTER C</th>
-							<th rowspan="2">PERSIL</th>
+							<th rowspan="2">NOMOR SERTIFIKAT BUKU LETTER C / PERSIL</th>
+							<th rowspan="2">LUAS (m)</th>
 							<th rowspan="2">KELAS</th>
-							<th rowspan="2">PEROLEHAN TKD</th>
-							<th rowspan="2">JENIS TKD</th>
-							<th rowspan="2">TANGGAL PEROLEHAN</th>
-							<th rowspan="2">LUAS (M<sup>2</sup>)</th>
-							<th rowspan="2">PATOK TANDA BATAS</th>							
-							<th rowspan="2">PAPAN NAMA</th>							
+							<th colspan="6">PEROLEHAN TKD</th>
+							<th colspan="5">JENIS TKD</th>
+							<th colspan="2">PATOK TANDA BATAS</th>							
+							<th colspan="2">PAPAN NAMA</th>														
 							<th rowspan="2">LOKASI</th>
 							<th rowspan="2">PERUNTUKAN</th>
 							<th rowspan="2">MUTASI</th>
-							<th rowspan="2">KETERANGAN</th>										 
+							<th rowspan="2">KET</th>										 
 						</tr>					
-						<tr class="border thick">							
+						<tr class="border thick">	
+							<th>ASLI MILIK DESA</th>						
+							<th colspan="3">BANTUAN</th>						
+							<th >LAIN - LAIN</th>						
+							<th width="75">TGL PEROLEHAN</th>						
+							<th>SAWAH</th>						
+							<th>TEGAL</th>						
+							<th>KEBUN</th>						
+							<th>TAMBAK / KOLAM</th>						
+							<th>TANAH KERING / DARAT</th>						
+							<th>ADA</th>						
+							<th>TIDAK</th>						
+							<th>ADA</th>						
+							<th>TIDAK</th>						
 						</tr>
+						<tr class="border thick">	
+							<th></th>						
+							<th></th>						
+							<th></th>						
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th>PEMERINTAH</th>				
+							<th>PROV</th>				
+							<th>KAB/KOTA</th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+							<th></th>				
+						</tr>			
 						<tr class="border thick">
 							<th>1</th>
 							<th>2</th>
@@ -113,6 +137,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>13</th>
 							<th>14</th>
 							<th>15</th>
+							<th>16</th>
+							<th>17</th>
+							<th>18</th>
+							<th>19</th>
+							<th>20</th>
+							<th>21</th>
+							<th>22</th>
+							<th>23</th>
+							<th>24</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -121,18 +154,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							foreach ($main as $data): 						
 						?>
 							<tr>
-								<td><?= $count ?></td>
+								<td class="text-left"><?= $count ?></td>
 								<td><?= strtoupper($data['nama_pemilik_asal'])?></td>
-								<td><?= strtoupper($data['letter_c']) ?></td>
-								<td><?= strtoupper($data['persil']) ?></td>
-								<td><?= strtoupper($data['kelas']) ?></td>
-								<td><?= strtoupper($data['perolehan_tkd']) ?></td>
-								<td><?= strtoupper($data['jenis_tkd']) ?></td>
-								<td><?= tgl_indo_out($data['tanggal_perolehan']) ?></td>
+								<td class="text-left"><?= $data['letter_c']?></td>							
 								<td><?= strtoupper($data['luas']) ?></td>
-								<td><?= $data['patok']==1? "ADA":"TIDAK ADA"; ?></td>
-								<td><?= $data['papan_nama']==1? "ADA":"TIDAK ADA";?></td>
-								<td><?= strtoupper($data['lokasi']) ?></td>
+								<td><?= strtoupper($data['kelas']) ?></td>					
+								<td class="text-center"><?= $data['asli_milik_desa']?></td>							
+								<td class="text-center"><?= $data['pemerintah']?></td>							
+								<td class="text-center"><?= $data['provinsi']?></td>							
+								<td class="text-center"><?= $data['kabupaten_kota']?></td>							
+								<td class="text-center"><?= $data['lain_lain']?></td>							
+								<td><?= tgl_indo_out($data['tanggal_perolehan']) ?></td>
+								<td class="text-center"><?= $data['sawah']?></td>							
+								<td class="text-center"><?= $data['tegal']?></td>							
+								<td class="text-center"><?= $data['kebun']?></td>							
+								<td class="text-center"><?= $data['tambak_kolam']?></td>							
+								<td class="text-center"><?= $data['tanah_kering_darat']?></td>							
+								<td class="text-center"><?= $data['ada_patok']?></td>							
+								<td class="text-center"><?= $data['tidak_ada_patok']?></td>							
+								<td class="text-center"><?= $data['ada_papan_nama']?></td>							
+								<td class="text-center"><?= $data['tidak_ada_papan_nama']?></td>							
+								<td ><?= strtoupper($data['lokasi']) ?></td>
 								<td><?= strtoupper($data['peruntukan']) ?></td>
 								<td><?= strtoupper($data['mutasi']) ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>								
