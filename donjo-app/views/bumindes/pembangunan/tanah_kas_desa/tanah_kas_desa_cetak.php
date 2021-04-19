@@ -163,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text-center"><?php if(0!=$data['pemerintah']){echo $data['pemerintah'];}?></td>							
 								<td class="text-center"><?php if(0!=$data['provinsi']){echo $data['provinsi'];}?></td>							
 								<td class="text-center"><?php if(0!=$data['kabupaten_kota']){echo $data['kabupaten_kota'];}?></td>							
-								<td class="text-center"<?php if(0!=$data['lain_lain']){echo $data['lain_lain'];}?>></td>							
+								<td class="text-center"><?php if(0!=$data['lain_lain']){echo $data['lain_lain'];}?></td>							
 								<td><?= tgl_indo_out($data['tanggal_perolehan']) ?></td>
 								<td class="text-center"><?php if(0!=$data['sawah']){echo $data['sawah'];}?></td>							
 								<td class="text-center"><?php if(0!=$data['tegal']){echo $data['tegal'];}?></td>							
