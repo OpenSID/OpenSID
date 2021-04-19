@@ -157,8 +157,10 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			->join('log_penduduk lp', 'lp.id_pend = p.id and lp.kode_peristiwa = p.status_dasar')
 			->where('p.status_dasar <>', 1)
 			->get()->result_array();
-		$hasil = $hasil && $this->db->insert_batch('log_keluarga', $mutasi);
-
+		if ( ! empty($mutasi))
+		{
+			$hasil = $hasil && $this->db->insert_batch('log_keluarga', $mutasi);
+		}
 		return $hasil;
 	}
 
