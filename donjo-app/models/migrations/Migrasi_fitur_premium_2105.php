@@ -146,10 +146,13 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function tambah_kolom_log_keluarga($hasil)
 	{
 		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
+		{
 			$hasil = $hasil && $this->dbforge->add_column('log_keluarga', [
 				'id_pend' => ['type' => 'INT', 'constraint' => 11, 'null' => TRUE],
 				'updated_by' => ['type' => 'INT', 'constraint' => 11, 'null' => FALSE]
 			]);
+			$hasil = $hasil && $this->isi_ulang_log_keluarga($hasil);
+		}
 		// Pindahkan log_penduduk lama ke log_keluarga
 		// Perhatikan pemindahan ini tidak akan dilakukan jika semua log id_peristiwa = 7
 		// terhapus pada Migrasi_fitur_premium_2102.php
@@ -180,6 +183,34 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = $hasil && $this->db
 			->where_in('id', array_column($log_keluar, 'id'))
 			->delete('log_penduduk');
+		return $hasil;
+	}
+
+	// Catat ulang semua keluarga di log_keluarga untuk laporan bulanan
+	private function isi_ulang_log_keluarga($hasil)
+	{
+		// Kosongkan
+		$this->db->truncate('log_keluarga');
+		// Tambah keluarga yg ada sebagai keluarga baru
+		$keluarga = $this->db
+			->select('k.id as id_kk, p.sex as kk_sex, "1" as id_peristiwa, tgl_daftar as tgl_peristiwa, "1" as updated_by')
+			->from('tweb_keluarga k')
+			->join('tweb_penduduk p', 'p.id = k.nik_kepala')
+			->get()->result_array();
+		$hasil = $hasil && $this->db->insert_batch('log_keluarga', $keluarga);
+
+		// Tambah mutasi keluarga
+		$mutasi = $this->db
+			->select('k.id as id_kk, p.sex as kk_sex, lp.tgl_lapor as tgl_peristiwa')
+			->select('(case when lp.kode_peristiwa in (2, 3, 4) then lp.kode_peristiwa end) as id_peristiwa')
+			->select('"1" as updated_by')
+			->from('tweb_keluarga k')
+			->join('tweb_penduduk p', 'p.id = k.nik_kepala')
+			->join('log_penduduk lp', 'lp.id_pend = p.id and lp.kode_peristiwa = p.status_dasar')
+			->where('p.status_dasar <>', 1)
+			->get()->result_array();
+		$hasil = $hasil && $this->db->insert_batch('log_keluarga', $mutasi);
+
 		return $hasil;
 	}
 

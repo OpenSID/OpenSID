@@ -30,6 +30,7 @@ Premium - perbaikan bug:
 21. #4150: Sekarang NIK ganda tidak bisa dimasukkan lagi. [bug-fix]
 22. #4152: Sekarang penduduk mati/pindah/hilang yg belum kawin tidak lagi muncul di daftar penduduk lepas pada waktu menambah anggota keluarga dari penduduk yg ada. [bug-fix]
 23. Sekarang penduduk mati/pindah/hilang tidak lagi muncul di daftar pilihan terdata data suplemen. [bug-fix]
+24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan. [bug-fix]
 
 
 Premium - penambahan fitur:
