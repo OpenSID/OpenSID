@@ -162,7 +162,7 @@ class Suplemen_model extends MY_Model {
 		if ($terdata) $this->db->where("p.id NOT IN ($terdata)");
 
 		$data = $this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
-			->from('tweb_penduduk p')
+			->from('penduduk_hidup p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->get()
 			->result_array();
