@@ -361,7 +361,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="nomor_register">Peruntukan</label>
                                 <div class="col-sm-8">
-                                    <input maxlength="50" class="form-control input-sm required" name="peruntukan"
+                                    <input maxlength="50" class="form-control input-sm nomor_sk required" name="peruntukan"
                                         id="peruntukan" type="text" placeholder="Peruntukan" value="<?= $main->peruntukan; ?>"/>
                                 </div>
                             </div>                                                                                                                                 
@@ -369,7 +369,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="lokasi">Lokasi</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm" name="lokasi"
+                                    <textarea rows="5" class="form-control input-sm nomor_sk" name="lokasi"
                                         id="lokasi" placeholder="Lokasi" ><?= $main->lokasi; ?></textarea>
                                 </div>
                             </div>
@@ -377,7 +377,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="mutasi">Mutasi</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm" name="mutasi"
+                                    <textarea rows="5" class="form-control input-sm nomor_sk" name="mutasi"
                                         id="mutasi" placeholder="Mutasi" ><?= $main->mutasi; ?></textarea>
                                 </div>
                             </div>
@@ -385,7 +385,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="keterangan">Keterangan</label>
                                 <div class="col-sm-8">
-                                    <textarea rows="5" class="form-control input-sm" name="keterangan"
+                                    <textarea rows="5" class="form-control input-sm nomor_sk" name="keterangan"
                                         id="keterangan" placeholder="Keterangan"><?= $main->keterangan; ?></textarea>
                                 </div>
                             </div>

@@ -159,22 +159,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text-left"><?= $data['letter_c']."<br>".$data['persil']?></td>							
 								<td><?= strtoupper($data['luas']) ?></td>
 								<td><?= strtoupper($data['kelas']) ?></td>					
-								<td class="text-center"><?= $data['asli_milik_desa']?></td>							
-								<td class="text-center"><?= $data['pemerintah']?></td>							
-								<td class="text-center"><?= $data['provinsi']?></td>							
-								<td class="text-center"><?= $data['kabupaten_kota']?></td>							
-								<td class="text-center"><?= $data['lain_lain']?></td>							
+								<td class="text-center"><?php if(0!=$data['asli_milik_desa']){echo $data['asli_milik_desa'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['pemerintah']){echo $data['pemerintah'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['provinsi']){echo $data['provinsi'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['kabupaten_kota']){echo $data['kabupaten_kota'];}?></td>							
+								<td class="text-center"<?php if(0!=$data['lain_lain']){echo $data['lain_lain'];}?>></td>							
 								<td><?= tgl_indo_out($data['tanggal_perolehan']) ?></td>
-								<td class="text-center"><?= $data['sawah']?></td>							
-								<td class="text-center"><?= $data['tegal']?></td>							
-								<td class="text-center"><?= $data['kebun']?></td>							
-								<td class="text-center"><?= $data['tambak_kolam']?></td>							
-								<td class="text-center"><?= $data['tanah_kering_darat']?></td>							
-								<td class="text-center"><?= $data['ada_patok']?></td>							
-								<td class="text-center"><?= $data['tidak_ada_patok']?></td>							
-								<td class="text-center"><?= $data['ada_papan_nama']?></td>							
-								<td class="text-center"><?= $data['tidak_ada_papan_nama']?></td>							
-								<td ><?= strtoupper($data['lokasi']) ?></td>
+								<td class="text-center"><?php if(0!=$data['sawah']){echo $data['sawah'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['tegal']){echo $data['tegal'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['kebun']){echo $data['kebun'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['tambak_kolam']){echo $data['tambak_kolam'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['tanah_kering_darat']){echo $data['tanah_kering_darat'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['ada_patok']){echo $data['ada_patok'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['tidak_ada_patok']){echo $data['tidak_ada_patok'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['ada_papan_nama']){echo $data['ada_papan_nama'];}?></td>							
+								<td class="text-center"><?php if(0!=$data['tidak_ada_papan_nama']){echo $data['tidak_ada_papan_nama'];}?></td>							
+								<td><?= strtoupper($data['lokasi']) ?></td>
 								<td><?= strtoupper($data['peruntukan']) ?></td>
 								<td><?= strtoupper($data['mutasi']) ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>								

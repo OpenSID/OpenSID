@@ -22,9 +22,9 @@
                                         <th class="text-center">Asal Tanah</th>
                                         <th width="100"  class="text-center">No. Letter C / <br> Persil</th>
                                         <th class="text-center">Kelas</th>                                       
-                                        <th class="text-center">Lokasi</th>
                                         <th class="text-center">Luas Total (M<sup>2</sup>)</th>                              
                                         <th class="text-center">Tanggal Perolehan</th>
+                                        <th class="text-center">Lokasi</th>
                                         <th class="text-center">Mutasi</th>
                                         <th class="text-center">Keterangan</th>
                                     </tr>
@@ -115,7 +115,7 @@
 			],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 3, 4, 5, 6, 8, 9],
+				'targets': [0, 1, 3, 4, 5, 7, 8, 9],
 			}],
 			'ajax': {
 				'url': "<?= site_url('bumindes_tanah_kas_desa') ?>",
@@ -152,15 +152,15 @@
 				{
 					'data': 'kelas',
 				},				
-				{
-					'data': 'lokasi'
-                },
                 {
 					'data': 'luas'
                 },                              
 				{
 					'data': 'tanggal_perolehan'
 				},
+				{
+					'data': 'lokasi'
+                },
                 {
 					'data': 'mutasi'
 				},
