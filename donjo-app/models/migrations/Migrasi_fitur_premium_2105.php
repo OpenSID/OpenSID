@@ -101,6 +101,15 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			]);
 			$hasil = $hasil && $this->isi_ulang_log_keluarga($hasil);
 		}
+		if (! $this->db->field_exists('id_log_penduduk', 'log_keluarga'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('log_keluarga', [
+				'id_log_penduduk' => ['type' => 'INT', 'constraint' => 10, 'null' => TRUE],
+			]);
+			$hasil = $hasil && $this->dbforge->add_column('log_keluarga', [
+				'CONSTRAINT `log_penduduk_fk` FOREIGN KEY (`id_log_penduduk`) REFERENCES `log_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+			]);
+		}
 		// Pindahkan log_penduduk lama ke log_keluarga
 		// Perhatikan pemindahan ini tidak akan dilakukan jika semua log id_peristiwa = 7
 		// terhapus pada Migrasi_fitur_premium_2102.php
