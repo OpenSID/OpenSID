@@ -433,7 +433,7 @@
 		}
 		$outp = $this->db->where('id',$id)->delete('tweb_keluarga');
 		// Untuk statistik perkembangan keluarga
-		$this->log_keluarga($id, $nik_kepala, 2);
+		$this->log_keluarga($id, $nik_kepala, 13);
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
@@ -452,14 +452,14 @@
 	/* 	Untuk statistik perkembangan keluarga
 			id_peristiwa:
 				 1 - keluarga baru
-				 2 - keluarga dihapus
-				 3 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
-				 4 - kepala keluarga status dasar 'mati'
-				 5 - kepala keluarga status dasar 'pindah'
-				 6 - kepala keluarga status dasar 'hilang'
-				 8 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
+				 2 - kepala keluarga status dasar 'mati'
+				 3 - kepala keluarga status dasar 'pindah'
+				 4 - kepala keluarga status dasar 'hilang'
+				 6 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
 				 11- kepala keluarga status dasar 'tidak valid' (seharusnya tidak ada)
 				 12- anggota keluarga keluar atau pecah dari keluarga
+				 13 - keluarga dihapus
+				 14 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
 	*/
 	public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null)
 	{
