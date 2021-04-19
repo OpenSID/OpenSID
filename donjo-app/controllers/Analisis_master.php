@@ -228,7 +228,9 @@ class Analisis_master extends Admin_Controller
 	{
 		$this->session->google_form_id = $this->input->post('input-form-id');
 		
-		$REDIRECT_URI = $this->setting->redirect_uri_gform;
+		$credential_data = json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
+		$REDIRECT_URI = $credential_data['web']['redirect_uris'][0];
+
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 

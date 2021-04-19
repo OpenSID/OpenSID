@@ -279,15 +279,7 @@ class Analisis_import_Model extends CI_Model {
 
 	protected function getOAuthCredentialsFile()
 	{
-		// Location of Oauth2 Credential
-		$oauth_creds = APPPATH . '../vendor/google-api-php-client/oauth-credentials.json';
-
-		if (file_exists($oauth_creds)) 
-		{
-			return $oauth_creds;
-		}
-
-		return false;
+		return json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
 	}
 
 	public function import_gform($redirect_link = "")
@@ -310,7 +302,7 @@ class Analisis_import_Model extends CI_Model {
 		$service = new Google_Service_Script($client);
 
 		// API script id
-		$scriptId = $this->setting->script_id_gform;
+		$scriptId = $this->setting->api_gform_id_script;
 
 		// add "?logout" to the URL to remove a token from the session
 		if (isset($_REQUEST['logout'])) 
