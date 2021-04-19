@@ -463,7 +463,7 @@
 				 13 - keluarga dihapus
 				 14 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
 	*/
-	public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null)
+	public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null, $id_log_penduduk = null)
 	{
 		$penduduk = $this->db
 			->select('sex')
@@ -476,6 +476,7 @@
 			'id_peristiwa' => $id_peristiwa,
 			'tgl_peristiwa' => date('Y-m-d H:i:s'),
 			'id_pend' => $id_pend,
+			'id_log_penduduk' => $id_log_penduduk,
 			'updated_by' => $this->session->user
 		];
 

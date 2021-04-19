@@ -52,10 +52,15 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		// Hapus id_peristiwa = 1 lama di log_keluarga karena pengertiannya sudah tidak konsisten dengan penggunaan yg baru. Sekarang hanya terbatas pada keluarga baru yg dibentuk dari penduduk yg sudah ada.
 
-		$hasil = $hasil && $this->db
-			->where('id_peristiwa', 1)
-			->where("date(tgl_peristiwa) < '2021-03-04'")
-			->delete('log_keluarga');
+		// Jangan jalankan jika log_keluarga telah diisi ulang (di Migrasi_fitur_premium_2105.php)
+
+		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
+		{
+			$hasil =& $this->db
+				->where('id_peristiwa', 1)
+				->where("date(tgl_peristiwa) < '2021-03-04'")
+				->delete('log_keluarga');
+		}
 
 		// Buat tabel url shortener
 		$hasil = $hasil && $this->buat_tabel_url_shortener($hasil);
