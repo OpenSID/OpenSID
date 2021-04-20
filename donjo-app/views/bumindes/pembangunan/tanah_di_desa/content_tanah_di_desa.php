@@ -5,8 +5,8 @@
             title="Tambah Data Baru">
             <i class="fa fa-plus"></i>Tambah Data
         </a> 
-        <a href="<?= site_url($this->controller."/ajax_cetak/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Tanah di Desa"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url($this->controller."/ajax_cetak/unduh"); ?>" title="Unduh Buku Tanah di Desa" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Tanah di Desa"><i class="fa fa-download"></i> Unduh</a>
+        <a href="#" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Buku Tanah di Desa"><i class="fa fa-print "></i> Cetak</a>
+		<a href="#" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Buku Tanah di Desa"><i class="fa fa-download"></i> Unduh</a>
     </div>
     <div class="box-body">
         <div class="row">
@@ -171,7 +171,7 @@
         window.open(link, '_blank');
     });
     $("#form_download").click(function (event) {
-        var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/unduh';
+        var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_2').val()+ '/unduh';
         window.open(link, '_blank');
     });
 </script>

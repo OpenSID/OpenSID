@@ -65,24 +65,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<td>
 				<table class="border thick">
 					<thead>
-						<tr class="border thick">
-							<th rowspan="2">NOMOR URUT</th>
-							<th rowspan="2">NAMA PERORANGAN / BADAN HUKUM</th>		
-							<th rowspan="2">JML (M<sup>2</sup>)</th>
-							<th colspan="8">STATUS HAK TANAH (M<sup>2</sup>)</th>													
-							<th colspan="14">PENGGUNAAN TANAH (M<sup>2</sup>)</th>							
-							<th rowspan="2">KET</th>										 
+						<tr class="border thick">				
+							<th rowspan="3">NNOMOR URUT</th>
+							<th rowspan="3">NAMA PERORANGAN / BADAN HUKUM</th>
+							<th rowspan="3">JML (M<sup>2</sup>)</th>
+							<th colspan="8">STATUS HAK TANAH (M<sup>2</sup>)</th>
+							<th colspan="14">PENGGUNAAN TANAH (M<sup>2</sup>)</th>
+							<th rowspan="3">KET</th>
 						</tr>					
-						<tr class="border thick">	
-							<th colspan="4">SUDAH BERSERTIFIKAT</th>						
-							<th colspan="4">BELUM BERSERTIFIKAT</th>						
-							<th colspan="7">NON PERTANIAN</th>						
-							<th colspan="7">PERTANIAN</th>													
+						<tr class="border thick">					
+							<th colspan="5">SUDAH <br> BERSERTIFIKAT</th>
+							<th colspan="3">BELUM <br> BERSERTIFIKAT</th>
+							<th colspan="5">NON PERTANIAN</th>						
+							<th colspan="9">PERTANIAN</th>
+
 						</tr>	
-						<tr class="border thick">	
-							<th></th>						
-							<th></th>						
-							<th></th>						
+						<tr class="border thick">						
 							<th>HM</th>						
 							<th>HGB</th>						
 							<th>HP</th>						
@@ -104,8 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>HUTAN LEBAT / LINDUNG</th>					
 							<th>MUTASI TANAH DI DESA</th>					
 							<th>TANAH KOSONG</th>					
-							<th>LAIN - LAIN</th>	
-							<th></th>				
+							<th>LAIN - LAIN</th>							
 						</tr>										
 						<tr class="border thick">
 							<th>1</th>

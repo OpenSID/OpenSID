@@ -5,8 +5,8 @@
             title="Tambah Data Baru">
             <i class="fa fa-plus"></i>Tambah Data
         </a>       
-        <a href="<?= site_url($this->controller."/ajax_cetak_tanah_kas_desa/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah Kas Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Tanah Kas Desa"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url($this->controller."/ajax_cetak_tanah_kas_desa/unduh"); ?>" title="Unduh Buku Tanah Kas Desa" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah Kas Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Tanah Kas Desa"><i class="fa fa-download"></i> Unduh</a>
+        <a href="#" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah Kas Desa" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Buku Tanah Kas Desa"><i class="fa fa-print "></i> Cetak</a>
+		<a href="#" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah Kas Desa" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Buku Tanah Kas Desa"><i class="fa fa-download"></i> Unduh</a>
     </div>
     <div class="box-body">
         <div class="row">
@@ -37,37 +37,6 @@
                 </div>
             </div>
         </div>
-        <div id="unduhBox" class="modal fade" role="dialog" style="padding-top:30px;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Unduh Buku Tanah di Desa</h4>
-                    </div>
-                    <formtarget="_blank" class="form-horizontal" method="get">
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <div class="container-fluid">
-                                    <label class="control-label required" for="tgl_cetak">Tanggal Unduh</label>                                    
-                                    <div class="input-group input-group-sm date">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <input class="form-control input-sm required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
-                                    </div>
-                                </div>
-                            </div>      
-                        </div>
-                        <div class="modal-footer">
-                            <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"
-                                data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-                            <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_download"
-                                name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Unduh</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
         <div id="cetakBox" class="modal fade" role="dialog" style="padding-top:30px;">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -84,7 +53,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-                                        <input class="form-control input-sm required" id="tgl_2" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
+                                        <input class="form-control input-sm required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
                                     </div>
                                 </div>
                             </div>                            
@@ -98,7 +67,38 @@
                     </form>
                 </div>
             </div>
-        </div>        
+        </div>  
+        <div id="unduhBox" class="modal fade" role="dialog" style="padding-top:30px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Unduh Buku Tanah di Desa</h4>
+                    </div>
+                    <formtarget="_blank" class="form-horizontal" method="get">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="container-fluid">
+                                    <label class="control-label required" for="tgl_cetak">Tanggal Unduh</label>                                    
+                                    <div class="input-group input-group-sm date">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input class="form-control input-sm required" id="tgl_2" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
+                                    </div>
+                                </div>
+                            </div>      
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"
+                                data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                            <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_download"
+                                name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Unduh</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>      
     </div>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
@@ -188,7 +188,7 @@
         window.open(link, '_blank');
     });
     $("#form_download").click(function (event) {
-        var link = '<?= site_url("bumindes_tanah_kas_desa/cetak_tanah_kas_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/unduh';
+        var link = '<?= site_url("bumindes_tanah_kas_desa/cetak_tanah_kas_desa"); ?>'+ '/' + $('#tgl_2').val()+ '/unduh';
         window.open(link, '_blank');
     });
 </script>

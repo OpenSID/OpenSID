@@ -66,60 +66,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th rowspan="2">NOMOR URUT</th>
-							<th rowspan="2">ASAL TANAH KAS DESA</th>
-							<th rowspan="2">NOMOR SERTIFIKAT BUKU LETTER C / PERSIL</th>
-							<th rowspan="2">LUAS (m)</th>
-							<th rowspan="2">KELAS</th>
+							<th rowspan="3">NOMOR URUT</th>
+							<th rowspan="3">ASAL TANAH KAS DESA</th>
+							<th rowspan="3">NOMOR SERTIFIKAT BUKU LETTER C / PERSIL</th>
+							<th rowspan="3">LUAS (m)</th>
+							<th rowspan="3">KELAS</th>
 							<th colspan="6">PEROLEHAN TKD</th>
 							<th colspan="5">JENIS TKD</th>
 							<th colspan="2">PATOK TANDA BATAS</th>							
 							<th colspan="2">PAPAN NAMA</th>														
-							<th rowspan="2">LOKASI</th>
-							<th rowspan="2">PERUNTUKAN</th>
-							<th rowspan="2">MUTASI</th>
-							<th rowspan="2">KET</th>										 
+							<th rowspan="3">LOKASI</th>
+							<th rowspan="3">PERUNTUKAN</th>
+							<th rowspan="3">MUTASI</th>
+							<th rowspan="3">KET</th>										 
 						</tr>					
 						<tr class="border thick">	
-							<th>ASLI MILIK DESA</th>						
+							<th rowspan="2">ASLI MILIK DESA</th>						
 							<th colspan="3">BANTUAN</th>						
-							<th >LAIN - LAIN</th>						
-							<th width="75">TGL PEROLEHAN</th>						
-							<th>SAWAH</th>						
-							<th>TEGAL</th>						
-							<th>KEBUN</th>						
-							<th>TAMBAK / KOLAM</th>						
-							<th>TANAH KERING / DARAT</th>						
-							<th>ADA</th>						
-							<th>TIDAK</th>						
-							<th>ADA</th>						
-							<th>TIDAK</th>						
+							<th rowspan="2">LAIN - LAIN</th>						
+							<th width="100" rowspan="2">TGL PEROLEHAN</th>						
+							<th rowspan="2">SAWAH</th>						
+							<th rowspan="2">TEGAL</th>						
+							<th rowspan="2">KEBUN</th>						
+							<th rowspan="2">TAMBAK / KOLAM</th>						
+							<th rowspan="2">TANAH KERING / DARAT</th>						
+							<th rowspan="2">ADA</th>						
+							<th rowspan="2">TIDAK</th>						
+							<th rowspan="2">ADA</th>						
+							<th rowspan="2">TIDAK</th>						
 						</tr>
-						<tr class="border thick">	
-							<th></th>						
-							<th></th>						
-							<th></th>						
-							<th></th>				
-							<th></th>				
-							<th></th>				
+						<tr class="border thick">				
 							<th>PEMERINTAH</th>				
 							<th>PROV</th>				
-							<th>KAB/KOTA</th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
-							<th></th>				
+							<th>KAB/KOTA</th>												
 						</tr>			
 						<tr class="border thick">
 							<th>1</th>

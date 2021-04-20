@@ -188,19 +188,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		redirect('bumindes_tanah_desa');
 	}
 
-	public function ajax_cetak($aksi = '')
-	{
-		// pengaturan data untuk dialog cetak/unduh
-		$data = [			
-			'aksi' => $aksi,
-			'form_action' => site_url("bumindes_tanah_desa/cetak_tanah_desa/$aksi"),			
-			'isi' => "bumindes/pembangunan/tanah_di_desa/ajax_dialog_tanah_di_desa",
-		];
-
-		$this->load->view('global/dialog_cetak', $data);
-	}
-
-	public function cetak_tanah_desa($aksi = '')
+	public function cetak_tanah_desa($tgl= '', $aksi = '')
 	{
 		$data = [	
 			'aksi' => $aksi,		
@@ -210,7 +198,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			'main' => $this->tanah_desa_model->cetak_tanah_desa(),
 			'bulan' => $this->session->filter_bulan,
 			'tahun' => $this->session->filter_tahun,
-			'tgl_cetak' => $_POST['tgl_cetak'],	
+			'tgl_cetak' =>$tgl,	
 			'file' => "Buku Tanah di Desa",
 			'isi' => "bumindes/pembangunan/tanah_di_desa/tanah_di_desa_cetak",
 			'letak_ttd' => ['1', '1', '23'],

@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">No. Letter C / Persil</label>
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">No. Letter C</label>
                                 <div class="col-sm-4">                                                    
                                     <select class="form-control input-sm select2 required" style="width: 100%;" id="letter_c" name="letter_c">                                        
                                         <?php if($main->letter_c!=NULL){ ?>
@@ -30,6 +30,9 @@
                                         <?php endforeach;?>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Persil</label>                               
                                 <div class="col-sm-4">                                                                                            
                                     <select class="form-control input-sm select2 required" style="width: 100%;" id="persil" name="persil">                                       
                                         <?php if($main->persil!=NULL){ ?>
@@ -361,7 +364,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;"
                                     for="nomor_register">Peruntukan</label>
                                 <div class="col-sm-8">
-                                    <input maxlength="50" class="form-control input-sm nomor_sk required" name="peruntukan"
+                                    <input maxlength="50" class="form-control input-sm nomor_sk" name="peruntukan"
                                         id="peruntukan" type="text" placeholder="Peruntukan" value="<?= $main->peruntukan; ?>"/>
                                 </div>
                             </div>                                                                                                                                 
