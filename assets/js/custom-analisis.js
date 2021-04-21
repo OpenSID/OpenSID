@@ -213,6 +213,7 @@ $(document).ready(function()
             $(this).prop("checked", false);
             $(this).data('waschecked', false);
             $('#id-row-nik-kk').val("");
+            $('#gform-id-nik-kk').val("");
 
             setAsNikKK($(this).closest('.row-pertanyaan'), false);
         }
@@ -228,6 +229,7 @@ $(document).ready(function()
             $(this).prop("checked", true);
             $(this).data('waschecked', true);
             $('#id-row-nik-kk').val($(this).closest('.row-pertanyaan').find('.input-id').val());
+            $('#gform-id-nik-kk').val($(this).closest('.row-pertanyaan').find('.input-item-id').val());
 
             setAsNikKK($(this).closest('.row-pertanyaan'), true);
         }

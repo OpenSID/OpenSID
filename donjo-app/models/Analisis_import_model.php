@@ -126,7 +126,10 @@ class Analisis_import_Model extends CI_Model {
 			'format_impor' => 0,
 			'pembagi' => 1,
 			'id_child' => 0,
-			'deskripsi' => ""
+			'deskripsi' => "",
+			'gform_id' => $this->input->post('gform-form-id'),
+			'gform_nik_item_id' => $this->input->post('gform-id-nik-kk'),
+			'gform_last_sync' => date('Y-m-d H:i:s')
 		];
 
 		$outp = $this->db->insert('analisis_master', $data_analisis_master);

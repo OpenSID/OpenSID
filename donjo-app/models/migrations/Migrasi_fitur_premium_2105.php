@@ -251,21 +251,47 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		return $hasil;
 	}
 
-	// Tambah field gfrom_id pada tabel analisis_master
 	private function field_gform_id_master_analisis($hasil)
 	{
+		// Tambah field gfrom_id pada tabel analisis_master
 		if ( ! $this->db->field_exists('gform_id', 'analisis_master'))
 		{
 			$fields = [
 				'gform_id' => [
 					'type' => 'TEXT',
-					'null' => TRUE,
-					'default' => "",
+					'null' => TRUE
 				],
 			];
 
 			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
 		}
+
+		// Tambah field gform_nik_item_id pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_nik_item_id', 'analisis_master'))
+		{
+			$fields = [
+				'gform_nik_item_id' => [
+					'type' => 'TEXT',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
+		// Tambah field gform_last_sync pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_last_sync', 'analisis_master'))
+		{
+			$fields = [
+				'gform_last_sync' => [
+					'type' => 'DATETIME',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
 		return $hasil;
 	}
 

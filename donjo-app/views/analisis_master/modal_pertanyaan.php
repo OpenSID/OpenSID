@@ -45,6 +45,7 @@
 															<?php foreach ($data_import['pertanyaan'] as $key => $data) : ?>
 																<tr class="row-pertanyaan">
 																	<input type="hidden" class="input-id" value=<?= $key ?>>
+																	<input type="hidden" class="input-item-id" value=<?= $data['itemId'] ?>>
 																	<td><input type="checkbox" class="input-is-selected" checked data-waschecked="true"></td>
 																	<td class="padat"><input type="radio" class="input-is-nik-kk"></td>
 																	<td class="input-pertanyaan"><?= $data['title'] ?></td>

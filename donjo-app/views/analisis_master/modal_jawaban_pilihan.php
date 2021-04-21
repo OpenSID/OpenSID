@@ -30,6 +30,8 @@
 											<div class="col-sm-12">
 												<label class="control-label">Informasi Umum Form Analisis</label>
 												<input type="hidden" id="id-row-nik-kk" name="id-row-nik-kk">
+												<input type="hidden" id="gform-id-nik-kk" name="gform-id-nik-kk">
+												<input type="hidden" id="gform-form-id" name="gform-form-id" value="<?= $gform_id ?>">
 												<div class="table-responsive">
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<tbody>
