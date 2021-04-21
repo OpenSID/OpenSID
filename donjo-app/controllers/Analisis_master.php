@@ -96,7 +96,7 @@ class Analisis_master extends Admin_Controller
 			'list_subjek' => $this->analisis_master_model->list_subjek()
 		];
 		$data['main']	= $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		
+
 		$this->session->unset_userdata('list_error');
 
 		$this->set_minsidebar(1);
@@ -304,8 +304,8 @@ class Analisis_master extends Admin_Controller
 			$variabel = json_decode($response->getBody(), true);
 			$this->session->data_import = $variabel;
 			$this->analisis_import_model->update_import_gform($id, $variabel);
-			// $this->session->success = 5;
-			// redirect('analisis_master');
+
+			redirect('analisis_master');
 		}
 		else
 		{

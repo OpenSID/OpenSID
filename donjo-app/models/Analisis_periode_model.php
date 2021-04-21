@@ -217,4 +217,13 @@
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_id_periode_aktif($id = 0)
+	{
+		$sql = "SELECT * FROM analisis_periode WHERE aktif = 1 AND id_master = ?";
+		$query = $this->db->query($sql, $id);
+		$data = $query->row_array();
+
+		return $data['id'];
+	}
 }

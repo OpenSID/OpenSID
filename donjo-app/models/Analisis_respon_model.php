@@ -1121,4 +1121,29 @@
 		return $data['nama'];
 	}
 
+	public function get_respon_by_id_periode($id_periode = 0, $subjek = 1)
+	{
+		$result = array();
+		if ($subjek == 1) // Untuk Subjek Penduduk
+		{
+			$sql = "SELECT r.*, p.nik FROM analisis_respon r JOIN tweb_penduduk p ON r.id_subjek = p.id WHERE r.id_periode = ?";
+			$query = $this->db->query($sql, $id_periode);
+
+			$list_penduduk = $query->result_array();
+			foreach ($list_penduduk as $penduduk)
+				$result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
+		}	
+		else // Untuk Subjek Keluarga
+		{
+			$sql = "SELECT r.*, k.no_kk FROM analisis_respon r JOIN tweb_keluarga k ON r.id_subjek = k.id WHERE r.id_periode = ?";
+			$query = $this->db->query($sql, $id_periode);
+
+			$list_keluarga = $query->result_array();
+			foreach ($list_keluarga as $keluarga)
+				$result[$keluarga['no_kk']][$keluarga['id_indikator']] = $keluarga;
+		}
+		
+		return $result;
+	}
+
 }

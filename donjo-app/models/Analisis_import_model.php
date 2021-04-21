@@ -9,6 +9,9 @@ class Analisis_import_Model extends CI_Model {
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('analisis_indikator_model');
+		$this->load->model('analisis_master_model');
+		$this->load->model('analisis_periode_model');
+		$this->load->model('analisis_respon_model');
 		$this->load->library('Spreadsheet_Excel_Reader');
 	}
 
@@ -394,16 +397,152 @@ class Analisis_import_Model extends CI_Model {
 
 	public function update_import_gform($id=0, $variabel)
 	{
+		// Get data analisis master
+		$master_data = $this->analisis_master_model->get_analisis_master($id);
+
 		// Get existing data indikator (pertanyaan) dan parameter (jawaban)
 		$existing_data = $this->analisis_indikator_model->get_analisis_indikator_by_id_master($id);
+
+		// Get existing respon
+		$id_periode_aktif = $this->analisis_periode_model->get_id_periode_aktif($id);
+		$existing_respon = $this->analisis_respon_model->get_respon_by_id_periode($id_periode_aktif, $master_data['subjek_tipe']);
+
 		$id_column_nik_kk = 0;
+		$list_error = array();
+		$list_pertanyaan = array();
+		
+		$deleted_responden = array();
+		$deleted_jawaban = array();
 		
 		foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan)
 		{
-			if($val_pertanyaan['title'] == $existing_data['indikator']['pertanyaan'])
+			// Mencari kolom NIK/No. KK pada form
+			if ($val_pertanyaan['itemId'] == $master_data['gform_nik_item_id'])
 				$id_column_nik_kk = $key_pertanyaan;
 		}
 
-		print_r($variabel);
+		// Mencari nilai untuk pertanyaan-pertanyaan yang dimasukkan sebelumnya
+		foreach ($existing_data['indikator'] as $key_indikator => $val_indikator)
+		{
+			foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan)
+			{
+				if ($val_indikator == $val_pertanyaan['title'])
+				{
+					// Mengisi nilai
+					$list_pertanyaan[$key_indikator] = $val_pertanyaan;
+
+					// Cek jawaban yang tidak terpakai
+					$deleted_jawaban[$key_indikator] = $existing_data['parameter'][$key_indikator];
+					foreach ($existing_data['parameter'][$key_indikator] as $key_param => $val_param)
+					{
+						if (array_search($val_param, $val_pertanyaan['choices']))
+							unset($deleted_jawaban[$key_indikator][$key_param]);
+					}
+
+					$new_parameter = array();
+					// Insert jawaban baru
+					foreach ($val_pertanyaan['choices'] as $key_choice => $val_choice)
+					{
+						// Jika nilai belum ada di database, maka tambahkan data parameter baru
+						if (! (array_search($val_choice, $existing_data['parameter'][$key_indikator])))
+						{
+							$data_parameter = [
+								'id_indikator'	=> $key_indikator,
+								'jawaban'		=> $val_choice,
+								'nilai' 		=> 0,
+								'kode_jawaban' 	=> 0,
+								'asign' 		=> 0
+							];
+		
+							$outp = $this->db->insert('analisis_parameter', $data_parameter);
+							$id_parameter = $this->db->insert_id();
+							$data_parameter['id'] = $id_parameter;
+							$new_parameter[$id_parameter] = $val_choice;
+						}
+					}
+
+					// Update list parameter dengan operasi Union antara parameter yang sudah ada dengan parameter yang baru ditambahkan
+					$existing_data['parameter'][$key_indikator] = $existing_data['parameter'][$key_indikator] + $new_parameter;
+
+					break;
+				}
+			}
+		}
+
+		foreach ($existing_respon as $key_respon => $val_respon)
+		{
+			$deleted_responden[$key_respon] = $val_respon;
+
+			if (array_search($key_respon, array_column($variabel['jawaban'], $id_column_nik_kk)))
+				unset($deleted_jawaban[$key_respon]);
+		}
+
+		foreach ($variabel['jawaban'] as $key_responden => $val_responden)
+		{
+			$nik_kk = $val_responden[$id_column_nik_kk];
+			if ($master_data['subjek_tipe'] == 2)
+			{
+				$id_subject = $this->keluarga_model->get_keluarga_by_no_kk($nik_kk)['id'];
+			} 
+			else
+			{
+				$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_kk)['id'];
+			}
+
+			if ($id_subject != NULL && $id_subject != "") // Jika NIK valid
+			{
+				foreach ($val_responden as $key_jawaban => $val_jawaban)
+				{
+					$id_indikator = array_search($variabel['pertanyaan'][$key_jawaban], $list_pertanyaan); // Cek apakah kolom yang telah ada
+	
+					if ($id_indikator){
+						$id_parameter = array_search($val_jawaban, $existing_data['parameter'][$id_indikator]); // Jawaban terkini
+	
+						if (isset($existing_respon[$val_responden[$id_column_nik_kk]]))
+						{
+							// Jika Responden sudah pernah disimpan
+							$obj_respon = $existing_respon[$nik_kk][$id_indikator];
+	
+							if ($obj_respon['id_parameter'] != $id_parameter)
+							{
+								$sql = "DELETE FROM analisis_respon WHERE id_indikator=? AND id_subjek=? AND id_periode=?";
+								$this->db->query($sql, array($id_indikator, $obj_respon['id_subjek'], $obj_respon['id_periode']));
+	
+								$data_respon = [
+									'id_indikator'	=> $id_indikator,
+									'id_parameter'	=> $id_parameter,
+									'id_subjek' 	=> $obj_respon['id_subjek'],
+									'id_periode' 	=> $obj_respon['id_periode']
+								];
+	
+								$outp = $this->db->insert('analisis_respon', $data_respon);
+							}
+						}
+						else
+						{
+							// Jika Responden belum pernah disimpan (Responden Baru)
+							$data_respon = [
+								'id_indikator'	=> $id_indikator,
+								'id_parameter'	=> $id_parameter,
+								'id_subjek' 	=> $id_subject,
+								'id_periode' 	=> $id_periode_aktif
+							];
+	
+							$outp = $this->db->insert('analisis_respon', $data_respon);
+						}
+					}
+				}
+			} 
+			else 
+			{
+				array_push($list_error, 'NIK / No. KK data ke-' . ($key_responden+1) . " (" . $nik_kk . ") tidak valid");
+			}
+		}
+
+		$this->session->list_error = $list_error;
+		if (!empty($list_error))
+			status_sukses(-1, $msg="Beberapa data gagal disimpan");
+		else
+			status_sukses(1);
 	}
 }
