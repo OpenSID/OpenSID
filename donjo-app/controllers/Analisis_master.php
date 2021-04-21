@@ -283,6 +283,33 @@ class Analisis_master extends Admin_Controller
 
 	public function update_gform($id=0)
 	{
+		$this->session->google_form_id = $this->analisis_master_model->get_analisis_master($id)['gform_id'];
+		
+		$credential_data = json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
+		$REDIRECT_URI = $credential_data['web']['redirect_uris'][0];
+
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+
+		if ($this->input->get('outsideRetry') == "true")
+		{
+			$url = $REDIRECT_URI . '?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+
+			$client = new Google\Client();
+			$httpClient = $client->authorize();
+			$response = $httpClient->get($url);
+
+			$variabel = json_decode($response->getBody(), true);
+			$this->session->data_import = $variabel;
+			$this->analisis_import_model->update_import_gform($id, $variabel);
+			// $this->session->success = 5;
+			// redirect('analisis_master');
+		}
+		else
+		{
+			$url = $REDIRECT_URI . '?formId=' . $this->session->google_form_id . '&redirectLink=' . $self_link ;
+			header('Location: ' . $url);
+		}
 		
 	}
 }

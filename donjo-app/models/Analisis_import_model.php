@@ -8,6 +8,7 @@ class Analisis_import_Model extends CI_Model {
 		parent::__construct();
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
+		$this->load->model('analisis_indikator_model');
 		$this->load->library('Spreadsheet_Excel_Reader');
 	}
 
@@ -386,5 +387,20 @@ class Analisis_import_Model extends CI_Model {
 		}
 
 		return '0';
+	}
+
+	public function update_import_gform($id=0, $variabel)
+	{
+		// Get existing data indikator (pertanyaan) dan parameter (jawaban)
+		$existing_data = $this->analisis_indikator_model->get_analisis_indikator_by_id_master($id);
+		$id_column_nik_kk = 0;
+		
+		foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan)
+		{
+			if($val_pertanyaan['title'] == $existing_data['indikator']['pertanyaan'])
+				$id_column_nik_kk = $key_pertanyaan;
+		}
+
+		print_r($variabel);
 	}
 }
