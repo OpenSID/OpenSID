@@ -280,4 +280,9 @@ class Analisis_master extends Admin_Controller
 		$this->session->unset_userdata('data_import');
 		redirect('analisis_master');
 	}
+
+	public function update_gform($id=0)
+	{
+		
+	}
 }

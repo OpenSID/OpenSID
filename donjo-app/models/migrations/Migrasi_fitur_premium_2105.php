@@ -61,6 +61,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = $hasil && $this->convert_ip_address($hasil);
 		$hasil = $hasil && $this->tambah_kolom_log_keluarga($hasil);
 		$hasil = $hasil && $this->setting_script_id_gform($hasil);
+		$hasil = $hasil && $this->field_gform_id_master_analisis($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -246,6 +247,24 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		if ( ! empty($mutasi))
 		{
 			$hasil = $hasil && $this->db->insert_batch('log_keluarga', $mutasi);
+		}
+		return $hasil;
+	}
+
+	// Tambah field gfrom_id pada tabel analisis_master
+	private function field_gform_id_master_analisis($hasil)
+	{
+		if ( ! $this->db->field_exists('gform_id', 'analisis_master'))
+		{
+			$fields = [
+				'gform_id' => [
+					'type' => 'TEXT',
+					'null' => TRUE,
+					'default' => "",
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
 		}
 		return $hasil;
 	}

@@ -113,6 +113,9 @@
 																		<?php if ($data['jenis'] != 1) : ?>
 																			<a href="#" data-href="<?= site_url("analisis_master/delete/$p/$o/$data[id]") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
+																		<?php if ($data['gform_id'] != null && $data['gform_id'] != "") : ?>
+																			<a href="<?= site_url("analisis_master/update_gform/$data[id]") ?>" class="btn bg-navy btn-flat btn-sm" title="Update Data Google Form"><i class='fa fa-refresh'></i></a>
+																		<?php endif; ?>
 																	</td>
 																	<td width="60%"><?= $data['nama'] ?></td>
 																	<td nowrap><?= $data['subjek'] ?></td>
