@@ -45,7 +45,6 @@ class Cdesa_model extends CI_Model {
 		if ($this->session->cari)
 		{
 			$cari = $this->session->cari;
-			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->like('u.nama', $cari)

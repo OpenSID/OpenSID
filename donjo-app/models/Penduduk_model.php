@@ -683,15 +683,19 @@ class Penduduk_model extends MY_Model {
 			if ($error_nik = $this->nik_error($data['nik'], 'NIK'))
 			{
 				array_push($valid, $error_nik);
-
+			}
+			else
+			{
 				$existing_data = $this->db->select('nik, status_dasar')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row();
 
-				if ($existing_data->status_dasar != 6)
-					array_push($valid, "NIK {$data['nik']} sudah digunakan");
-				else
-					array_push($valid, "NIK {$data['nik']} terdaftar Penduduk PERGI. Ubah Status di Menu Log Penduduk");
+				if ($existing_data)
+				{
+					if ($existing_data->status_dasar != 6)
+						array_push($valid, "NIK {$data['nik']} sudah digunakan");
+					else
+						array_push($valid, "NIK {$data['nik']} terdaftar Penduduk PERGI. Ubah Status di Menu Log Penduduk");
+				}
 			}
-
 
 		}
 		if ($error_nik = $this->nik_error($data['ayah_nik'], 'NIK Ayah'))
@@ -729,8 +733,9 @@ class Penduduk_model extends MY_Model {
 			{
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
-			// Form menggunakan kolom id_sex = sex
+			// Form menggunakan kolom id_sex = sex dan id_status = status
 			$_POST['id_sex'] = $_POST['sex'];
+			$_POST['id_status'] = $_POST['status'];
 			// Tampilkan tanda kutip dalam nama
 			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
 			$_SESSION['post'] = $_POST;
@@ -813,8 +818,9 @@ class Penduduk_model extends MY_Model {
 			{
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
-			// Form menggunakan kolom id_sex = sex
+			// Form menggunakan kolom id_sex = sex dan id_status = status
 			$_POST['id_sex'] = $_POST['sex'];
+			$_POST['id_status'] = $_POST['status'];
 			// Tampilkan tanda kutip dalam nama
 			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
 			$_SESSION['post'] = $_POST;
@@ -990,16 +996,10 @@ class Penduduk_model extends MY_Model {
 		$data['status_dasar'] = $_POST['status_dasar'];
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
-		$this->db->where('id',$id);
-		$this->db->update('tweb_penduduk', $data);
+		$this->db
+			->where('id',$id)
+			->update('tweb_penduduk', $data);
 		$penduduk = $this->get_penduduk($id);
-
-		// Tulis log_keluarga jika penduduk adalah kepala keluarga
-		if ($penduduk['kk_level'] == 1)
-		{
-			$id_peristiwa = $penduduk['status_dasar_id'] + 2; // lihat kode di keluarga_model
-			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa);
-		}
 
 		// Tulis log_penduduk
 		$log = [
@@ -1014,11 +1014,17 @@ class Penduduk_model extends MY_Model {
 		];
 		if ($log['kode_peristiwa'] == 3)
 		{
-			$log['ref_pindah'] = !empty($_POST['ref_pindah']) ? $_POST['ref_pindah'] : 1;
+			$log['ref_pindah'] = ! empty($_POST['ref_pindah']) ? $_POST['ref_pindah'] : 1;
 			$log['alamat_tujuan'] = $_POST['alamat_tujuan'];
 		}
+		$id_log_penduduk = $this->tulis_log_penduduk_data($log);
 
-		$this->tulis_log_penduduk_data($log);
+		// Tulis log_keluarga jika penduduk adalah kepala keluarga
+		if ($penduduk['kk_level'] == 1)
+		{
+			$id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
+			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa, null, $id_log_penduduk);
+		}
 	}
 
 	/**
@@ -1404,9 +1410,10 @@ class Penduduk_model extends MY_Model {
 
 	public function tulis_log_penduduk_data($log)
 	{
-		unset($_SESSION['jenis_peristiwa']);
+		$this->session->unset_userdata('jenis_peristiwa');
 		$sql = $this->db->insert_string('log_penduduk', $log) . duplicate_key_update_str($log);
 		$this->db->query($sql);
+		return $this->db->insert_id();
 	}
 
 	public function tulis_log_penduduk($id_pend, $kode_peristiwa, $bulan, $tahun)

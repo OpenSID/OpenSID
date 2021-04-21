@@ -435,7 +435,7 @@
 		}
 		$outp = $this->db->where('id',$id)->delete('tweb_keluarga');
 		// Untuk statistik perkembangan keluarga
-		$this->log_keluarga($id, $nik_kepala, 2);
+		$this->log_keluarga($id, $nik_kepala, 13);
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
@@ -454,16 +454,16 @@
 	/* 	Untuk statistik perkembangan keluarga
 			id_peristiwa:
 				 1 - keluarga baru
-				 2 - keluarga dihapus
-				 3 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
-				 4 - kepala keluarga status dasar 'mati'
-				 5 - kepala keluarga status dasar 'pindah'
-				 6 - kepala keluarga status dasar 'hilang'
-				 8 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
+				 2 - kepala keluarga status dasar 'mati'
+				 3 - kepala keluarga status dasar 'pindah'
+				 4 - kepala keluarga status dasar 'hilang'
+				 6 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
 				 11- kepala keluarga status dasar 'tidak valid' (seharusnya tidak ada)
 				 12- anggota keluarga keluar atau pecah dari keluarga
+				 13 - keluarga dihapus
+				 14 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
 	*/
-	public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null)
+	public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null, $id_log_penduduk = null)
 	{
 		$penduduk = $this->db
 			->select('sex')
@@ -476,6 +476,7 @@
 			'id_peristiwa' => $id_peristiwa,
 			'tgl_peristiwa' => date('Y-m-d H:i:s'),
 			'id_pend' => $id_pend,
+			'id_log_penduduk' => $id_log_penduduk,
 			'updated_by' => $this->session->user
 		];
 
@@ -640,12 +641,12 @@
 
 	public function list_penduduk_lepas()
 	{
-		$sql = "SELECT u.id, u.nik, u.nama, u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun
-			FROM tweb_penduduk u
-			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
-			WHERE (status = 1 ) AND id_kk = 0";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('u.id, u.nik, u.nama, u.alamat_sekarang as alamat, w.rt, w.rw, w.dusun')
+			->from('penduduk_hidup u')
+			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+			->where('id_kk', 0)
+			->get()->result_array();
 
 		return $data;
 	}

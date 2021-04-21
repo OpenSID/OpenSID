@@ -52,10 +52,15 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		// Hapus id_peristiwa = 1 lama di log_keluarga karena pengertiannya sudah tidak konsisten dengan penggunaan yg baru. Sekarang hanya terbatas pada keluarga baru yg dibentuk dari penduduk yg sudah ada.
 
-		$hasil = $hasil && $this->db
-			->where('id_peristiwa', 1)
-			->where("date(tgl_peristiwa) < '2021-03-04'")
-			->delete('log_keluarga');
+		// Jangan jalankan jika log_keluarga telah diisi ulang (di Migrasi_fitur_premium_2105.php)
+
+		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
+		{
+			$hasil =& $this->db
+				->where('id_peristiwa', 1)
+				->where("date(tgl_peristiwa) < '2021-03-04'")
+				->delete('log_keluarga');
+		}
 
 		// Buat tabel url shortener
 		$hasil = $hasil && $this->buat_tabel_url_shortener($hasil);
@@ -229,7 +234,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->where("kartu_nik is NULL or kartu_nik = ''")
 			->or_where("kartu_nama is NULL or kartu_nama = ''")
 			->or_where("kartu_tempat_lahir is NULL or kartu_tempat_lahir = ''")
-			->or_where("kartu_tanggal_lahir is NULL or kartu_tanggal_lahir = ''")
+			->or_where("kartu_tanggal_lahir is NULL")
 			->or_where("kartu_alamat is NULL or kartu_alamat = ''")
 			->get()->result_array();
 		foreach ($kartu_kosong as $kartu)
