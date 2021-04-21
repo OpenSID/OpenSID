@@ -43,7 +43,6 @@ function setAsNikKK(objRow, setEnable=true)
     {
         objRow.find('.input-is-selected').prop("disabled", true);
         objRow.find('.input-is-selected').prop("title", "NIK/No. KK harus disimpan");
-        objRow.find('.input-tipe').val(1);
         objRow.find('.input-tipe').prop("disabled", true);
         objRow.find('.input-kategori').val("NIK/No. KK");
         objRow.find('.input-kategori').prop("disabled", true);
@@ -53,7 +52,6 @@ function setAsNikKK(objRow, setEnable=true)
     {
         objRow.find('.input-is-selected').prop("disabled", false);
         objRow.find('.input-is-selected').prop("title", "");
-        objRow.find('.input-tipe').val(0);
         objRow.find('.input-tipe').prop("disabled", false);
         objRow.find('.input-kategori').val("");
         objRow.find('.input-kategori').prop("disabled", false);
@@ -66,7 +64,6 @@ function setSelectedQuestion(objRow, setSelected=true)
     objRow.find('.input-is-selected').prop("checked", setSelected);
     objRow.find('.input-is-selected').data('waschecked', setSelected);
     setAsNikKK(objRow, false);
-    objRow.find('.input-tipe').val(0);
     objRow.find('.input-kategori').val("");
     objRow.find('.input-bobot').val("0");
     
