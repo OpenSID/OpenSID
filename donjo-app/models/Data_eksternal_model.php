@@ -68,15 +68,20 @@ class Data_eksternal_model extends CI_Model {
 	public function sdgs_kemendes($kode_desa)
 	{		
 		include FCPATH . '/vendor/simple_html_dom.php';
+		$this->load->library('data_publik');
 		$url = "https://sid.kemendesa.go.id/home/sdgs/{$kode_desa}";
-		$data 		= [];
-		$selector 	= '.accordion-stn';
-		$html 		= file_get_html($url);
-		if ($html == false) 
+		if (!$this->data_publik->has_internet_connection())
 		{
-			show_error('Reload Kembali Halaman', 408,'Gagal Memuat Halaman');
+			show_error('koneksi Gagal', 408,'Harap periksa koneksi server anda');
 			return;
 		}
+
+		$this->data_publik->set_api_url("$url", "sdgs_desa_$kode_desa")
+			->set_interval(7)
+			->set_cache_folder(FCPATH.'cache');
+		$sdgs = $this->data_publik->get_url_content();
+		$selector 	= '.accordion-stn';
+		$html 		= str_get_html($sdgs->body);
 		$kiri 		= $html->find($selector,0); //pertama
 		foreach ($kiri->find('.panel') as $panel) 
 		{
