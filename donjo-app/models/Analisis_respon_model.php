@@ -817,7 +817,7 @@
 	{
 		$master = $this->get_analisis_master();
 
-		$order_sql = ' ORDER BY u.nomor';
+		$order_sql = " ORDER BY LPAD(u.nomor, 10, ' ')";
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
 		$sql .= $order_sql;
