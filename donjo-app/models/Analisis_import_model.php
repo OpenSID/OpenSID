@@ -569,7 +569,7 @@ class Analisis_import_Model extends CI_Model {
 		}
 		
 		// Update gform_last_sync
-		$query = "UPDATE analisis_master SET gform_last_sync=" . date('Y-m-d H:i:s') . " WHERE id=?;";
+		$query = "UPDATE analisis_master SET gform_last_sync='" . date('Y-m-d H:i:s') . "' WHERE id=?;";
 		$this->db->query($query, $id);
 
 		$this->session->list_error = $list_error;
