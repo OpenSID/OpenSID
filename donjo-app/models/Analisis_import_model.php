@@ -421,6 +421,21 @@ class Analisis_import_Model extends CI_Model {
 				$id_column_nik_kk = $key_pertanyaan;
 		}
 
+		// Cek keberadaan existing indikator pada data terkini, jika SALAH SATU SAJA hilang maka proses tidak dapat dilanjutkan
+		foreach ($existing_data['indikator'] as $key_indikator => $val_indikator)
+		{
+			if(! array_search($val_indikator, array_column($variabel['pertanyaan'], 'title')))
+				array_push($list_error, 'Terdapat kolom yang hilang pada hasil response Google Form terkini (' . $val_indikator . ')');
+		}
+
+		if (! empty($list_error))
+		{
+			$this->session->list_error = $list_error;
+			status_sukses(-1, true, "Beberapa data gagal disimpan");
+			return 0;
+		}
+
+
 		// Mencari nilai untuk pertanyaan-pertanyaan yang dimasukkan sebelumnya
 		foreach ($existing_data['indikator'] as $key_indikator => $val_indikator)
 		{
@@ -541,7 +556,7 @@ class Analisis_import_Model extends CI_Model {
 
 		$this->session->list_error = $list_error;
 		if (!empty($list_error))
-			status_sukses(-1, $msg="Beberapa data gagal disimpan");
+			status_sukses(-1, false, "Beberapa data gagal disimpan");
 		else
 			status_sukses(1);
 	}
