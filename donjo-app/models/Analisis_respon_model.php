@@ -1126,7 +1126,7 @@
 		$result = array();
 		if ($subjek == 1) // Untuk Subjek Penduduk
 		{
-			$list_penduduk = $this->db->select('r.*','p.nik')
+			$list_penduduk = $this->db->select('r.*, p.nik')
 				->from('analisis_respon r')
 				->join('tweb_penduduk p', 'r.id_subjek = p.id')
 				->where('r.id_periode', $id_periode)
@@ -1140,7 +1140,7 @@
 		}	
 		else // Untuk Subjek Keluarga
 		{
-			$list_keluarga = $this->db->select('r.*', 'k.no_kk')
+			$list_keluarga = $this->db->select('r.*, k.no_kk')
 				->from('analisis_respon r')
 				->join('tweb_keluarga k', 'r.id_subjek = k.id')
 				->where('r.id_periode', $id_periode)

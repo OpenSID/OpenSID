@@ -567,6 +567,10 @@ class Analisis_import_Model extends CI_Model {
 			$sql = "DELETE FROM analisis_respon WHERE id_subjek=? AND id_periode=?";
 			$this->db->query($sql, array($id_subject, $id_periode_aktif));
 		}
+		
+		// Update gform_last_sync
+		$query = "UPDATE analisis_master SET gform_last_sync=" . date('Y-m-d H:i:s') . " WHERE id=?;";
+		$this->db->query($query, $id);
 
 		$this->session->list_error = $list_error;
 		if (!empty($list_error))
