@@ -322,9 +322,7 @@
 		$list_indikator = array();
 		$list_parameter = array();
 
-		$sql = "SELECT * FROM analisis_indikator WHERE id_master = ?";
-		$query = $this->db->query($sql, $id);
-		$raw_indikator = $query->result_array();
+		$raw_indikator = $this->db->where('id_master', $id)->get('analisis_idikator')->result_array();
 
 		// Setting key array sesuai id
 		foreach ($raw_indikator as $val_indikator)
@@ -333,9 +331,7 @@
 
 			$temp_parameter = array();
 
-			$sql = "SELECT * FROM analisis_parameter WHERE id_indikator = ?";
-			$query = $this->db->query($sql, $val_indikator['id']);
-			$raw_parameter = $query->result_array();
+			$raw_parameter = $this->db->where('id_indikator', $val_indikator['id'])->get('analisis_parameter')->result_array();
 
 			foreach ($raw_parameter as $val_parameter)
 			{

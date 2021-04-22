@@ -722,14 +722,14 @@ class First extends Web_Controller {
 		if ($this->session->inside_retry == false)
 		{
 			// Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
-			if($this->input->get('outsideRetry') == 'true'){
+			if ($this->input->get('outsideRetry') == 'true')
+			{
 				$this->session->inside_retry = true;
 			}
 			$this->session->google_form_id = $this->input->get('formId');
 			$result = $this->analisis_import_model->import_gform($redirect_link);
 
 			echo json_encode($result);
-
 		}
 		else
 		{

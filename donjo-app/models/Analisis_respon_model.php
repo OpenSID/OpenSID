@@ -1126,21 +1126,31 @@
 		$result = array();
 		if ($subjek == 1) // Untuk Subjek Penduduk
 		{
-			$sql = "SELECT r.*, p.nik FROM analisis_respon r JOIN tweb_penduduk p ON r.id_subjek = p.id WHERE r.id_periode = ?";
-			$query = $this->db->query($sql, $id_periode);
+			$list_penduduk = $this->db->select('r.*','p.nik')
+				->from('analisis_respon r')
+				->join('tweb_penduduk p', 'r.id_subjek = p.id')
+				->where('r.id_periode', $id_periode)
+				->get()
+				->result_array();
 
-			$list_penduduk = $query->result_array();
 			foreach ($list_penduduk as $penduduk)
+			{
 				$result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
+			}
 		}	
 		else // Untuk Subjek Keluarga
 		{
-			$sql = "SELECT r.*, k.no_kk FROM analisis_respon r JOIN tweb_keluarga k ON r.id_subjek = k.id WHERE r.id_periode = ?";
-			$query = $this->db->query($sql, $id_periode);
+			$list_keluarga = $this->db->select('r.*', 'k.no_kk')
+				->from('analisis_respon r')
+				->join('tweb_keluarga k', 'r.id_subjek = k.id')
+				->where('r.id_periode', $id_periode)
+				->get()
+				->result_array();
 
-			$list_keluarga = $query->result_array();
 			foreach ($list_keluarga as $keluarga)
+			{
 				$result[$keluarga['no_kk']][$keluarga['id_indikator']] = $keluarga;
+			}
 		}
 		
 		return $result;
