@@ -715,6 +715,8 @@ class First extends Web_Controller {
 	
 	public function status_sdgs()
 	{
+		if (!$this->web_menu_model->menu_aktif('status_sdgs')) show_404();
+		
 		$this->load->model('data_eksternal_model');
 		$data = $this->includes;
 		$this->_get_common_data($data);
