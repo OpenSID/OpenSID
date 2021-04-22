@@ -322,7 +322,7 @@
 		$list_indikator = array();
 		$list_parameter = array();
 
-		$raw_indikator = $this->db->where('id_master', $id)->get('analisis_idikator')->result_array();
+		$raw_indikator = $this->db->where('id_master', $id)->get('analisis_indikator')->result_array();
 
 		// Setting key array sesuai id
 		foreach ($raw_indikator as $val_indikator)

@@ -90,7 +90,6 @@ class Analisis_master extends Admin_Controller
 		$data = [
 			'paging' => $this->analisis_master_model->paging($p,$o),
 			'data_import' => $this->session->data_import,
-			'gform_id' => $this->session->gform_id,
 			'list_error' => $this->session->list_error,
 			'keyword' => $this->analisis_master_model->autocomplete(),
 			'list_subjek' => $this->analisis_master_model->list_subjek()
