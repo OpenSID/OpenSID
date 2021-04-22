@@ -486,10 +486,8 @@ class Analisis_import_Model extends CI_Model {
 
 		foreach ($existing_respon as $key_respon => $val_respon)
 		{
-			$deleted_responden[$key_respon] = $val_respon;
-
-			if (array_search($key_respon, array_column($variabel['jawaban'], $id_column_nik_kk)))
-				unset($deleted_jawaban[$key_respon]);
+			if (array_search($key_respon, array_column($variabel['jawaban'], $id_column_nik_kk)) === false)
+				$deleted_responden[$key_respon] = $val_respon;
 		}
 
 		foreach ($variabel['jawaban'] as $key_responden => $val_responden)
@@ -552,6 +550,22 @@ class Analisis_import_Model extends CI_Model {
 			{
 				array_push($list_error, 'NIK / No. KK data ke-' . ($key_responden+1) . " (" . $nik_kk . ") tidak valid");
 			}
+		}
+
+		// Hapus data responden yang tidak ada di response terkini
+		foreach ($deleted_responden as $key_responden => $val_responden)
+		{
+			if ($master_data['subjek_tipe'] == 2)
+			{
+				$id_subject = $this->keluarga_model->get_keluarga_by_no_kk($key_responden)['id'];
+			} 
+			else
+			{
+				$id_subject = $this->penduduk_model->get_penduduk_by_nik($key_responden)['id'];
+			}
+
+			$sql = "DELETE FROM analisis_respon WHERE id_subjek=? AND id_periode=?";
+			$this->db->query($sql, array($id_subject, $id_periode_aktif));
 		}
 
 		$this->session->list_error = $list_error;
