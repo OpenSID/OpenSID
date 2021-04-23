@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.04-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Mokhamad Afila yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
 
@@ -40,3 +40,4 @@ Premium - penambahan fitur:
 2. #3986: Samarkan data penduduk di server yang khusus digunakan untuk data publik saja, tidak untuk pengelolaan data penduduk.
 3. #3986: Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
 4. Pindahkan folder cache ambil status release dan status IDM ke folder 'cache'. [teknis]
+5. #4121: Tampilkan evaluasi SDGs Kemendesa di web.
