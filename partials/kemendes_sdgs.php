@@ -1,3 +1,9 @@
+<style type="text/css">
+	img.icon {
+		width: 50px;
+		margin-right: 15px;
+	}
+</style>
 <div class="single_page_area">
 	<h2 class="post_titile">SDGs Desa</h2>
 	<div class="box-body">
@@ -7,7 +13,7 @@
 				<div class="panel-heading" role="tab">
 					<h4 class="panel-title">
 						<a role="button" data-toggle="collapse" href="#<?= 'col'.$index ?>" aria-expanded="true">
-							<?= $heading['uraian'] ?>
+							<img class="icon" src="<?= $heading['icon'] ?>" alt="Icon SDG"/><?= $heading['uraian'] ?>
 						</a>
 					</h4>
 				</div>
