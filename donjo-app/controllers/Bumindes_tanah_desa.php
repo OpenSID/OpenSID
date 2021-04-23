@@ -117,11 +117,11 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			$data = [
 				'main' 		   => $this->tanah_desa_model->view_tanah_desa_by_id($id),
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
-				'penduduk' 	   => $this->tanah_desa_model->list_penduduk(),				
+				'penduduk' 	   => $this->tanah_desa_model->list_penduduk($id),				
 				'subtitle' 	   => $sub,
 				'selected_nav' => 'tanah',
 				'view_mark'	   => 0, 
-				'form_action'  => site_url("bumindes_tanah_desa/update_tanah_desa"),
+				'form_action'  => site_url("bumindes_tanah_desa/update_tanah_desa/$id"),
 				
 			];
 		}
@@ -147,38 +147,30 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function add_tanah_desa()
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-
-		if ($this->form_validation->run() != false)
+		$this->tanah_desa_model->add_tanah_desa();
+		if ($_SESSION['success'] == -1)
 		{
-			$this->tanah_desa_model->add_tanah_desa();			
+			$_SESSION['dari_internal'] = true;
+			redirect("bumindes_tanah_desa/form");
 		}
 		else
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = trim(strip_tags(validation_errors()));
+			redirect("bumindes_tanah_desa/clear");	
 		}
-		redirect("bumindes_tanah_desa");
 	}
 
-	public function update_tanah_desa()
+	public function update_tanah_desa($id)
 	{	
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-
-		if ($this->form_validation->run() != false)
-		{			
-			$this->tanah_desa_model->update_tanah_desa();		
+		$this->tanah_desa_model->update_tanah_desa();
+		if ($_SESSION['success'] == -1)
+		{
+			$_SESSION['dari_internal'] = true;
+			redirect("bumindes_tanah_desa/form/$id");
 		}
 		else
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = trim(strip_tags(validation_errors()));
-		}	
-		redirect("bumindes_tanah_desa");
+			redirect("bumindes_tanah_desa/clear");	
+		}
 	}
 
 	public function delete_tanah_desa($id)

@@ -98,12 +98,14 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 	{
 		$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_kas_desa'). ">Buku Tanah Kas Desa</a>
 				<li class=\"active\"></li>Rincian Data</li>";
+		$view_data = $this->tanah_kas_desa_model->view_tanah_kas_desa_by_id($id);
 		$data = [
-			'main' 		   => $this->tanah_kas_desa_model->view_tanah_kas_desa_by_id($id),
+			'main' 		   => $view_data,
 			'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
 			'subtitle'	   => $sub,
 			'selected_nav' => 'tanah_kas',
 			'view_mark'	   => 1,
+			'asal_tanah'   => $view_data->nama_pemilik_asal
 		];
 
 		$this->set_minsidebar(1);
@@ -115,15 +117,17 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		{
 			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_kas_desa'). ">Buku Tanah Kas Desa</a>
 				<li class=\"active\"></li>Ubah Data</li>";
+			$view_data = $this->tanah_kas_desa_model->view_tanah_kas_desa_by_id($id);
 			$data = [
-				'main' 		   => $this->tanah_kas_desa_model->view_tanah_kas_desa_by_id($id),
+				'main' 		   => $view_data,
 				'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
 				'letterc'	   => $this->tanah_kas_desa_model->list_letter_c(),
 				'persil'	   => $this->data_persil_model->list_persil(),
 				'subtitle'	   => $sub,
 				'selected_nav' => 'tanah_kas',
-				'view_mark'	   => 0,
-				'form_action'  => site_url("bumindes_tanah_kas_desa/update_tanah_kas_desa"), 
+				'view_mark'	   => 2,
+				'asal_tanah'   => $view_data->nama_pemilik_asal,
+				'form_action'  => site_url("bumindes_tanah_kas_desa/update_tanah_kas_desa/$id"), 
 			];
 		}
 		else
@@ -149,44 +153,30 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 
 	public function add_tanah_kas_desa()
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');		
-		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
-		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
-		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-
-		if ($this->form_validation->run() != false)
+		$this->tanah_kas_desa_model->add_tanah_kas_desa();
+		if ($_SESSION['success'] == -1)
 		{
-			$this->tanah_kas_desa_model->add_tanah_kas_desa();
+			$_SESSION['dari_internal'] = true;
+			redirect("bumindes_tanah_kas_desa/form");
 		}
 		else
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = trim(strip_tags(validation_errors()));
+			redirect("bumindes_tanah_kas_desa/clear");	
 		}
-
-		redirect("bumindes_tanah_kas_desa");
 	}
 
-	public function update_tanah_kas_desa()
+	public function update_tanah_kas_desa($id)
 	{		
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('letter_c','No. Letter C','required|trim|numeric');
-		$this->form_validation->set_rules('persil','No. Persil','required|trim|numeric');
-		$this->form_validation->set_rules('luas','Luas','required|trim|numeric');
-
-		if ($this->form_validation->run() != false)
+		$this->tanah_kas_desa_model->update_tanah_kas_desa();
+		if ($_SESSION['success'] == -1)
 		{
-			$this->tanah_kas_desa_model->update_tanah_kas_desa();
+			$_SESSION['dari_internal'] = true;
+			redirect("bumindes_tanah_kas_desa/form/$id");
 		}
 		else
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = trim(strip_tags(validation_errors()));
+			redirect("bumindes_tanah_kas_desa/clear");	
 		}
-
-		redirect("bumindes_tanah_kas_desa");
 	}
 
 	public function delete_tanah_kas_desa($id)

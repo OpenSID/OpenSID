@@ -33,14 +33,10 @@
                                 <label class="col-sm-3 control-label">Cari Penduduk</label>
                                 <div class="col-sm-8">
                                     <select class="form-control input-sm select2" style="width: 100%;" id="penduduk"
-                                        name="penduduk">                                   
-                                        <?php if($main->id_penduduk!=0){ ?>
-                                            <option value="<?= $main->id_penduduk; ?>"><?= $main->nama." [ NIK ".$main->nik." ]"; ?></option>
-                                        <?php } else { ?>
-                                            <option value="">-- Silakan Masukan Nama / NIK --</option>
-                                        <?php } ?>
+                                        name="penduduk">                                                                         
+                                        <option value="">-- Silakan Masukan Nama / NIK --</option>                           
                                         <?php foreach ($penduduk as $item): ?>
-                                        <option value="<?= $item['id']?>"><?= $item['nama']." [ NIK ".$item['nik']." ]"?></option>
+                                        <option value="<?= $item['id']?>" <?php selected($item['id'], $item['nama']) ?>><?= $item['nama']." [ NIK ".$item['nik']." ]"?></option>
                                         <?php endforeach;?>
                                     </select>
                                 </div>
@@ -56,6 +52,18 @@
                                             value="<?= $main->nama; ?>" 
                                         <?php } ?>
                                         name="pemilik_asal" id="pemilik_asal" />
+                                </div>
+                            </div>
+                            <div class="form-group" id="nik_penduduk">
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="nik">NIK Penduduk</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control input-sm nik required" maxlength="16"  min="0" type="text" placeholder="0"                            
+                                        <?php if($main->nik_penduduk){ ?>   
+                                            value="<?= $main->nik_penduduk; ?>"                                           
+                                        <?php } else { ?>                                                
+                                            value="<?= $main->nik; ?>" 
+                                        <?php } ?>
+                                        name="nik" id="nik" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -90,7 +98,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hak_milik">Hak Milik</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hak_milik!=0){ ?>   
                                                     value="<?= $main->hak_milik; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -108,7 +116,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hak_guna_bangunan">Hak Guna Bangunan</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hak_guna_bangunan!=0){ ?>   
                                                     value="<?= $main->hak_guna_bangunan; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -126,7 +134,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hak_pakai">Hak Pakai</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hak_pakai!=0){ ?>   
                                                     value="<?= $main->hak_pakai; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -144,7 +152,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hak_guna_usaha">Hak Guna Usaha</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hak_guna_usaha!=0){ ?>   
                                                     value="<?= $main->hak_guna_usaha; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -162,7 +170,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hak_pengelolaan">Hak Pengelolaan</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hak_pengelolaan!=0){ ?>   
                                                     value="<?= $main->hak_pengelolaan; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -185,7 +193,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_negara">Hak Milik Adat</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hak_milik_adat!=0){ ?>   
                                                     value="<?= $main->hak_milik_adat; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -203,7 +211,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_negara">Tanah Negara</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->tanah_negara!=0){ ?>   
                                                     value="<?= $main->tanah_negara; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -221,7 +229,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hak_verponding">Hak Verponding Indonesia (Milik Pribumi)</label>
                                     <div class="col-sm-9">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hak_verponding!=0){ ?>   
                                                     value="<?= $main->hak_verponding; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -249,7 +257,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="perumahan">Perumahan</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->perumahan!=0){ ?>   
                                                     value="<?= $main->perumahan; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -267,7 +275,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="perdagangan_jasa">Perdagangan dan Jasa</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->perdagangan_jasa!=0){ ?>   
                                                     value="<?= $main->perdagangan_jasa; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -285,7 +293,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="perkantoran">Perkantoran</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->perkantoran!=0){ ?>   
                                                     value="<?= $main->perkantoran; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -303,7 +311,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="industri">Industri</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->industri!=0){ ?>   
                                                     value="<?= $main->industri; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -321,7 +329,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="fasilitas_umum">Fasilitas Umum</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->fasilitas_umum!=0){ ?>   
                                                     value="<?= $main->fasilitas_umum; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -344,7 +352,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="sawah">Sawah</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->sawah!=0){ ?>   
                                                     value="<?= $main->sawah; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -362,7 +370,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tegalan">Tegalan</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->tegalan!=0){ ?>   
                                                     value="<?= $main->tegalan; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -380,7 +388,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="perkebunan">Perkebunan</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->perkebunan!=0){ ?>   
                                                     value="<?= $main->perkebunan; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -398,7 +406,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="peternakan_perikanan">Perternakan / Perikanan</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->peternakan_perikanan!=0){ ?>   
                                                     value="<?= $main->peternakan_perikanan; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -416,7 +424,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hutan_belukar">Hutan Belukar</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hutan_belukar!=0){ ?>   
                                                     value="<?= $main->hutan_belukar; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -434,7 +442,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="hutan_lebat_lindung">Hutan Lebat / Lindung</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->hutan_lebat_lindung!=0){ ?>   
                                                     value="<?= $main->hutan_lebat_lindung; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -452,7 +460,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_kosong">Tanah Kosong</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->tanah_kosong!=0){ ?>   
                                                     value="<?= $main->tanah_kosong; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -470,7 +478,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="lain_lain">Lain - lain</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicLuas()" type="number" min="0" class="form-control input-sm number required"                                               
+                                            <input onchange="dinamicLuas()" type="text" min="0" class="form-control input-sm number required"                                               
                                                 <?php if($main->lain!=0){ ?>   
                                                     value="<?= $main->lain; ?>"                                           
                                                 <?php } else { ?>                                                
@@ -525,6 +533,7 @@
         var view = <?=$view_mark?>;
         if (1 == view) {
             $("#penduduk").attr("disabled", true);
+            $("#nik").attr("disabled", true);
             $("#pemilik_asal").attr("disabled", true);
             $("#luas").attr("disabled", true);
             $('#hak_milik').attr("disabled", true);
@@ -552,6 +561,7 @@
             $("#lain_lain").attr("disabled", true);
             $("#mutasi").attr("disabled", true);
             $("#keterangan").attr("disabled", true);
+            $('#nik_penduduk').hide();
             $('#pilihan_penduduk').hide();
             $('#pilihan_pemilik').hide();
             $('#form_footer').hide();
@@ -568,14 +578,17 @@
             $('#penduduk').val($('#id_penduduk').val());
             $('#penduduk').addClass('required');
             $('#pemilik_asal').val(''); 
+            $('#nik').val('0');           
             $('#pemilik_asal').removeClass('required');
             $('#nama_penduduk').hide();
+            $('#nik_penduduk').hide();
             $('#pilihan_penduduk').show();
         } else {
             $('#penduduk').val('');
             $('#pemilik_asal').addClass('required'); 
             $('#penduduk').removeClass('required');           
             $('#nama_penduduk').show();
+            $('#nik_penduduk').show();
             $('#pilihan_penduduk').hide();                     
         }
     }
@@ -583,27 +596,27 @@
     function dinamicLuas()
     {
         var res = 0;
-        res = parseInt($('#hak_milik').val())
-            +parseInt($('#hak_guna_bangunan').val())
-            +parseInt($('#hak_pakai').val())
-            +parseInt($('#hak_guna_usaha').val())
-            +parseInt($('#hak_pengelolaan').val())
-            +parseInt($('#hak_milik_adat').val())
-            +parseInt($('#hak_verponding').val())
-            +parseInt($('#tanah_negara').val())
-            +parseInt($('#perumahan').val())
-            +parseInt($('#perdagangan_jasa').val())
-            +parseInt($('#perkantoran').val())
-            +parseInt($('#industri').val())
-            +parseInt($('#fasilitas_umum').val())
-            +parseInt($('#sawah').val())
-            +parseInt($('#tegalan').val())
-            +parseInt($('#perkebunan').val())
-            +parseInt($('#peternakan_perikanan').val())
-            +parseInt($('#hutan_belukar').val())
-            +parseInt($('#hutan_lebat_lindung').val())
-            +parseInt($('#tanah_kosong').val())
-            +parseInt($('#lain_lain').val());
+        res = parseFloat($('#hak_milik').val())
+            +parseFloat($('#hak_guna_bangunan').val())
+            +parseFloat($('#hak_pakai').val())
+            +parseFloat($('#hak_guna_usaha').val())
+            +parseFloat($('#hak_pengelolaan').val())
+            +parseFloat($('#hak_milik_adat').val())
+            +parseFloat($('#hak_verponding').val())
+            +parseFloat($('#tanah_negara').val())
+            +parseFloat($('#perumahan').val())
+            +parseFloat($('#perdagangan_jasa').val())
+            +parseFloat($('#perkantoran').val())
+            +parseFloat($('#industri').val())
+            +parseFloat($('#fasilitas_umum').val())
+            +parseFloat($('#sawah').val())
+            +parseFloat($('#tegalan').val())
+            +parseFloat($('#perkebunan').val())
+            +parseFloat($('#peternakan_perikanan').val())
+            +parseFloat($('#hutan_belukar').val())
+            +parseFloat($('#hutan_lebat_lindung').val())
+            +parseFloat($('#tanah_kosong').val())
+            +parseFloat($('#lain_lain').val());
         $('#luas').val(res);
     }
 </script>

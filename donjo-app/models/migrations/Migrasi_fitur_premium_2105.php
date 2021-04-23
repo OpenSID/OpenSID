@@ -65,8 +65,10 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = $hasil && $this->bumindes_updates($hasil);
 		$hasil = $hasil && $this->hapus_kolom_tanah_di_desa();
 		$hasil = $hasil && $this->hapus_kolom_tanah_kas_desa();
+		$hasil = $hasil && $this->hapus_kolom_persil_tanah_kas_desa();
 		$hasil = $hasil && $this->ubah_kolom_tanah_di_desa();
 		$hasil = $hasil && $this->tambah_kolom_tanah_di_desa();
+		$hasil = $hasil && $this->tambah_kolom_nik_tanah_di_desa();
 		$hasil = $hasil && $this->tambah_kolom_tanah_kas_desa();
 
 		status_sukses($hasil);
@@ -297,6 +299,19 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		return $hasil;
 	}
 
+	// Hapus kolom persil tanah kas desa
+	protected function hapus_kolom_persil_tanah_kas_desa()
+	{
+		$hasil = true;
+
+		if ($this->db->field_exists('persil', 'tanah_kas_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'persil');
+		}
+
+		return $hasil;
+	}
+
 	// Ubah kolom tanah desa
 	protected function ubah_kolom_tanah_di_desa()
 	{
@@ -336,6 +351,19 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 				'hutan_belukar' => ['type' => 'INT','constraint' => 11,'after' => 'peternakan_perikanan'],
 				'hutan_lebat_lindung' => ['type' => 'INT','constraint' => 11,'after' => 'hutan_belukar'],
 				'tanah_kosong' => ['type' => 'INT','constraint' => 11,'after' => 'hutan_lebat_lindung'],
+			]);			
+		}
+
+		return $hasil;
+	}
+
+	protected function tambah_kolom_nik_tanah_di_desa()
+	{
+		$hasil = true;
+		if ( ! $this->db->field_exists('nik', 'tanah_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
+				'nik' => ['type' => 'DECIMAL', 'constraint' => 16.0,'after' => 'id_penduduk'],
 			]);			
 		}
 

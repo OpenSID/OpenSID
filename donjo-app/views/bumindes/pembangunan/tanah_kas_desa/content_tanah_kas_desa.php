@@ -143,11 +143,8 @@
                     }
 				},
 				{
-                    'data': function(data)
-                    {
-                        var result =  `${data.letter_c} <br> ${data.persil}`;
-                        return result;
-                    }
+                    'data': 'letter_c',
+                    
 				},
 				{
 					'data': 'kelas',

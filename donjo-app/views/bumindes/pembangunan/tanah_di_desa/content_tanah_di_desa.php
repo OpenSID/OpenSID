@@ -105,12 +105,10 @@
 			'serverSide': true,
 			'autoWidth': false,
 			'pageLength': 10,
-			'order': [
-				[2, 'asc'],
-			],
+            'order': [],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 3, 4, 5],
+				'targets': [0, 1,2, 3, 4, 5],
 			}],
 			'ajax': {
 				'url': "<?= site_url('bumindes_tanah_desa') ?>",
