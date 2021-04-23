@@ -518,8 +518,12 @@ class Analisis_import_Model extends CI_Model {
 	
 							if ($obj_respon['id_parameter'] != $id_parameter)
 							{
-								$sql = "DELETE FROM analisis_respon WHERE id_indikator=? AND id_subjek=? AND id_periode=?";
-								$this->db->query($sql, array($id_indikator, $obj_respon['id_subjek'], $obj_respon['id_periode']));
+								$where = [
+									'id_indikator' => $id_indikator,
+									'id_subjek' => $obj_respon['id_subjek'],
+									'id_periode' => $obj_respon['id_periode']
+								];
+								$this->db->delete('analisis_respon', $where);
 	
 								$data_respon = [
 									'id_indikator'	=> $id_indikator,
@@ -564,13 +568,20 @@ class Analisis_import_Model extends CI_Model {
 				$id_subject = $this->penduduk_model->get_penduduk_by_nik($key_responden)['id'];
 			}
 
-			$sql = "DELETE FROM analisis_respon WHERE id_subjek=? AND id_periode=?";
-			$this->db->query($sql, array($id_subject, $id_periode_aktif));
+			$where = [
+				'id_subjek' => $id_subject,
+				'id_periode' => $id_periode_aktif
+			];
+			$this->db->delete('analisis_respon', $where);
 		}
 		
 		// Update gform_last_sync
-		$query = "UPDATE analisis_master SET gform_last_sync='" . date('Y-m-d H:i:s') . "' WHERE id=?;";
-		$this->db->query($query, $id);
+		$update_data = [
+			'gform_last_sync' => date('Y-m-d H:i:s')
+		];
+
+		$this->db->where('id', $id);
+		$outp = $this->db->update('analisis_master', $update_data);
 
 		$this->session->list_error = $list_error;
 		if (!empty($list_error))
