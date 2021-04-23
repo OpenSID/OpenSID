@@ -139,7 +139,16 @@
 				{
                     'data': function(data) 
                     {
-                       return data.nama_pemilik_asal;
+                        if(data.nama_pemilik_asal=='JUALBELI')
+                        {
+                            return "JUAL BELI";
+                        }else if(data.nama_pemilik_asal=='HIBAH')
+                        {
+                            return "HIBAH";
+                        }else
+                        {
+                            return "LAIN-LAIN";
+                        }                        
                     }
 				},
 				{
