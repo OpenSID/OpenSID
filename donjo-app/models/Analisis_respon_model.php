@@ -817,12 +817,12 @@
 	{
 		$master = $this->get_analisis_master();
 
-		$order_sql = " ORDER BY LPAD(u.nomor, 10, ' ')";
-
-		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
-		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
-		$data	= $query->result_array();
+		$data = $this->db
+			->select('u.*')
+			->where('u.id_master', $this->session->analisis_master)
+			->order_by('LPAD(u.nomor, 10, " ")')
+			->get('analisis_indikator u')
+			->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
@@ -831,9 +831,16 @@
 
 			if ($p == 2)
 			{
-				$sql2 = "SELECT * FROM analisis_parameter WHERE id_indikator = ? AND asign = 1 ";
-				$query2 = $this->db->query($sql2, $data[$i]['id']);
-				$par = $query2->result_array();
+				$par = $this->db
+					->select('*')
+					->where('id_indikator', $data[$i]['id'])
+					->where('asign', 1)
+					->get('analisis_parameter')
+					->result_array();
+
+				// $sql2 = "SELECT * FROM analisis_parameter WHERE id_indikator = ? AND asign = 1 ";
+				// $query2 = $this->db->query($sql2, $data[$i]['id']);
+				// $par = $query2->result_array();
 				$data[$i]['par'] = $par;
 			}
 		}

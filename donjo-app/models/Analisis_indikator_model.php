@@ -94,7 +94,7 @@
 			case 4: $order_sql = ' ORDER BY u.pertanyaan DESC'; break;
 			case 5: $order_sql = ' ORDER BY u.id_kategori'; break;
 			case 6: $order_sql = ' ORDER BY u.id_kategori DESC'; break;
-			default:$order_sql = ' ORDER BY u.nomor';
+			default:$order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
