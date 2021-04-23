@@ -96,6 +96,8 @@
 																<?php else : ?>
 																	<th nowrap><a href="<?= site_url("analisis_master/index/$p/1") ?>">Status <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
+																<th>ID Google Form</th>
+																<th>Sinkronasi Google Form</th>
 															</tr>
 														</thead>
 														<tbody>
@@ -117,9 +119,11 @@
 																			<a href="<?= site_url("analisis_master/update_gform/$data[id]") ?>" class="btn bg-navy btn-flat btn-sm" title="Update Data Google Form"><i class='fa fa-refresh'></i></a>
 																		<?php endif; ?>
 																	</td>
-																	<td width="60%"><?= $data['nama'] ?></td>
+																	<td width="30%"><?= $data['nama'] ?></td>
 																	<td nowrap><?= $data['subjek'] ?></td>
 																	<td><?= $data['lock'] ?></td>
+																	<td><?= $data['gform_id'] ?? '-' ?></td>
+																	<td><?= tgl_indo($data['gform_last_sync']) ?></td>
 																</tr>
 															<?php endforeach; ?>
 														</tbody>
