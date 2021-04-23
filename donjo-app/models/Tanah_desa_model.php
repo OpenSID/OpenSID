@@ -257,7 +257,7 @@ class Tanah_desa_model extends CI_Model
 		$data['hutan_belukar'] 			= bilangan($data['hutan_belukar']);
 		$data['hutan_lebat_lindung'] 	= bilangan($data['hutan_lebat_lindung']);
 		$data['tanah_kosong'] 			= bilangan($data['tanah_kosong']);
-		$data['lain'] 					= bilangan($data['lain']);
+		$data['lain'] 					= bilangan($data['lain_lain']);
 		$data['mutasi'] 				= strip_tags($data['mutasi']);
 		$data['keterangan'] 			= strip_tags($data['keterangan']);
 		$data['visible'] 				= 1;
