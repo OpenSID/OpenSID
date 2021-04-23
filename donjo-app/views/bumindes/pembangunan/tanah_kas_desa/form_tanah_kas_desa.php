@@ -122,8 +122,8 @@
                                     <div class="col-sm-12">
                                         <div class="input-group">
                                             <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->pemerintah!=0){ ?>   
-                                                    value="<?= $main->pemerintah; ?>"                                           
+                                                <?php if($main->provinsi!=0){ ?>   
+                                                    value="<?= $main->provinsi; ?>"                                           
                                                 <?php } else { ?>                                                
                                                     value=0 
                                                 <?php } ?>
