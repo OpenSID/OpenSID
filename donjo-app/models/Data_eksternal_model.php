@@ -53,20 +53,20 @@ class Data_eksternal_model extends CI_Model {
 	/**
 	 * menscraping data dari website kemendes yang ada pada halaman
 	 * https://sid.kemendesa.go.id/home/sdgs/{$kode_desa}
-	 * 
+	 *
 	 * @param string $kode_desa
 	 * @return array $data = [
-	 * 	'uraian'	=> 'Desa Tanpa Kemiskinan #1', // mendefinisikan header 
+	 * 	'uraian'	=> 'Desa Tanpa Kemiskinan #1', // mendefinisikan header
 	 * 	'sub			=> [
 	 * 					$sub 	=> [
 	 * 						'uraian'	=>	'Jumlah surat miskin/SKTM yang dikeluarkan desa selama tahun 2017', // menjelaskan rincian data
-	 * 						'value'		=> 	'124'	// isian dari uraian 
+	 * 						'value'		=> 	'124'	// isian dari uraian
 	 * 					]
 	 * 	]
 	 * ]
 	 */
 	public function sdgs_kemendes($kode_desa)
-	{		
+	{
 		include FCPATH . '/vendor/simple_html_dom.php';
 		$this->load->library('data_publik');
 		$url = "https://sid.kemendesa.go.id/home/sdgs/{$kode_desa}";
@@ -83,7 +83,7 @@ class Data_eksternal_model extends CI_Model {
 		$selector 	= '.accordion-stn';
 		$html 		= str_get_html($sdgs->body);
 		$kiri 		= $html->find($selector,0); //pertama
-		foreach ($kiri->find('.panel') as $panel) 
+		foreach ($kiri->find('.panel') as $panel)
 		{
 			$sub = [];
 			foreach ($panel->find('tr') as $tr) {
@@ -99,7 +99,7 @@ class Data_eksternal_model extends CI_Model {
 		}
 		$kanan 	= $html->find($selector,1);
 		foreach ($kanan->find('.panel') as $panel)
-		{ 
+		{
 			$sub = [];
 			foreach ($panel->find('tr') as $tr)
 			{
@@ -113,7 +113,21 @@ class Data_eksternal_model extends CI_Model {
 				'sub'			=> $sub
 			];
 		}
+		$this->ambil_icon($data);
 		return $data;
+	}
+
+	/**
+	  Icon untuk SDG 18 format .png bukan .jpg
+	*/
+	private function ambil_icon(&$data)
+	{
+		$sumber = 'https://sdgsdesa.kemendesa.go.id/wp-content/uploads/2020/12/Picture';
+		for ($i=0; $i < count($data); $i++)
+		{
+			$data[$i]['icon'] = $sumber . ($i + 1) . '.jpg';
+		}
+		$data[17]['icon'] = $sumber . '18.png';
 	}
 
 }
