@@ -154,7 +154,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text-center"><?php if(0!=$data['ada_papan_nama']){echo $data['ada_papan_nama'];}?></td>							
 								<td class="text-center"><?php if(0!=$data['tidak_ada_papan_nama']){echo $data['tidak_ada_papan_nama'];}?></td>							
 								<td><?= strtoupper($data['lokasi']) ?></td>
-								<td><?= strtoupper($data['peruntukan']) ?></td>
+								<td><?php if($data['peruntukan']=='SEWA')
+									{
+										echo "SEWA";
+									}else if($data['peruntukan']=='PINJAMPAKAI')
+									{
+										echo "PINJAM PAKAI";
+									}else if($data['peruntukan']=='KERJASAMAPEMANFAATAN')
+									{
+										echo "KERJASAMA PEMANFAATAN";
+									}else
+									{
+										echo "BANGUN GUNA SERAH ATAU BANGUN SERAH GUNA";
+									} ?></td>
 								<td><?= strtoupper($data['mutasi']) ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>								
 							</tr>
