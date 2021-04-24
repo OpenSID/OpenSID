@@ -45,9 +45,7 @@ class Main extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('config_model');
-		$this->load->model('pamong_model');
-		$this->load->model('track_model');
+		$this->load->model(['config_model', 'pamong_model', 'track_model', 'grup_model']);
 	}
 
 	public function maintenance_mode()
@@ -69,14 +67,17 @@ class Main extends CI_Controller {
 			$this->track_model->track_desa('main');
 			$this->load->model('user_model');
 			$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
+
 			switch ($grup)
 			{
 				case 1 : redirect('hom_sid'); break;
 				case 2 : redirect('hom_sid'); break;
-				case 3 : redirect('web'); break;
-				case 4 : redirect('web'); break;
-				case 5 : redirect('covid19'); break;
-				default : redirect('siteman');
+				case 3 : redirect('web/clear'); break;
+				case 4 : redirect('web/clear'); break;
+				default :
+					$modul_awal = $this->grup_model->modul_awal($grup);
+					redirect($modul_awal);
+					break;
 			}
 		}
 		else if ($this->setting->offline_mode > 0)

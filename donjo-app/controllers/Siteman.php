@@ -83,7 +83,7 @@ class Siteman extends MY_Controller
 	{
 		$method = $this->input->method(TRUE);
 				$allow_method = ['POST'];
-		if(!in_array($method,$allow_method))
+		if ( ! in_array($method,$allow_method))
 		{
 			redirect('siteman/login');
 		}
@@ -95,7 +95,7 @@ class Siteman extends MY_Controller
 			redirect('siteman');
 		}
 
-		if (!$this->user_model->syarat_sandi() and !($this->session->user == 1 && $this->setting->demo_mode))
+		if ( ! $this->user_model->syarat_sandi() and !($this->session->user == 1 && $this->setting->demo_mode))
 		{
 			// Password tidak memenuhi syarat kecuali di website demo
 			redirect('user_setting/change_pwd');

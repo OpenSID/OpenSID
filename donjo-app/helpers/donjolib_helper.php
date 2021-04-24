@@ -658,4 +658,10 @@ function url_order($o = 1, $url = '', $asc = 1, $text = 'Field')
 	return $link;
 }
 
+// https://stackoverflow.com/questions/16564650/best-way-to-delete-column-from-multidimensional-array
+function delete_col(&$array, $offset) {
+    return array_walk($array, function (&$v) use ($offset) {
+        array_splice($v, $offset, 1);
+    });
+}
 // =======================================

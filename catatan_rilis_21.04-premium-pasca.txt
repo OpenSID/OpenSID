@@ -1,6 +1,6 @@
 Di rilis ini, versi 21.04-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Mokhamad Afila yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.04-premium-pasca adalah sebagai berikut:
 
@@ -28,6 +28,10 @@ Premium - perbaikan bug:
 19. #4143: Kurangi jumlah link halaman pada paginasi Pengaturan Peta > Area supaya terlihat lebih rapi. [bug-fix]
 20. #4148: Sekarang bisa cari arsip layanan surat menggunakan nama penduduk berisi tanda petik ('). [bug-fix]
 21. #4150: Sekarang NIK ganda tidak bisa dimasukkan lagi. [bug-fix]
+22. #4152: Sekarang penduduk mati/pindah/hilang yg belum kawin tidak lagi muncul di daftar penduduk lepas pada waktu menambah anggota keluarga dari penduduk yg ada. [bug-fix]
+23. Sekarang penduduk mati/pindah/hilang tidak lagi muncul di daftar pilihan terdata data suplemen. [bug-fix]
+24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan. [bug-fix]
+25. #4154: Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten. [bug-fix]
 
 
 Premium - penambahan fitur:
@@ -36,3 +40,5 @@ Premium - penambahan fitur:
 2. #3986: Samarkan data penduduk di server yang khusus digunakan untuk data publik saja, tidak untuk pengelolaan data penduduk.
 3. #3986: Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
 4. Pindahkan folder cache ambil status release dan status IDM ke folder 'cache'. [teknis]
+5. #4121: Tampilkan evaluasi SDGs Kemendesa di web.
+6. #1994: Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
