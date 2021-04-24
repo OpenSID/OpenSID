@@ -20,7 +20,7 @@
                                         <th class="text-center">No</th>
                                         <th width="120" class="text-center">Aksi</th>
                                         <th class="text-center">Asal Tanah</th>
-                                        <th width="100"  class="text-center">No. Letter C / <br> Persil</th>
+                                        <th width="100"  class="text-center">Nomor Sertifikat Buku Letter C / <br> Persil</th>
                                         <th class="text-center">Kelas</th>                                       
                                         <th class="text-center">Luas Total (M<sup>2</sup>)</th>                              
                                         <th class="text-center">Tanggal Perolehan</th>

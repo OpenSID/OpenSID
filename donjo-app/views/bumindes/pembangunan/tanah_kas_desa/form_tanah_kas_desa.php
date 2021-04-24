@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">No. Letter C / Persil</label>
+                                <label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Nomor Sertifikat Buku Letter C / Persil</label>
                                 <div class="col-sm-4">  
                                     <input type="text" min="0" class="form-control input-sm number required" 
                                     id="letter_c_persil" name="letter_c_persil" value="<?= $main->letter_c; ?>"/>                                   
@@ -175,7 +175,7 @@
                                     <label class="text-right"><strong>Jenis TKD :</strong></label>
                                 </div>
                             </div> 
-                            <div class='col-sm-3'>
+                            <div class='col-sm-2'>
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="sawah">Sawah</label>
                                     <div class="col-sm-12">
@@ -193,7 +193,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-sm-3'>
+                            <div class='col-sm-2'>
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tegal">Tegal</label>
                                     <div class="col-sm-12">
@@ -211,7 +211,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-sm-3'>
+                            <div class='col-sm-2'>
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="kebun">Kebun</label>
                                     <div class="col-sm-12">
@@ -229,7 +229,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-sm-3'>
+                            <div class='col-sm-2'>
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tambak_kolam">Tambak / Kolam</label>
                                     <div class="col-sm-12">
@@ -247,7 +247,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class='col-sm-3'>
+                            <div class='col-sm-2'>
                                 <div class="form-group">
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_kering_darat">Tanah Kering / Darat</label>
                                     <div class="col-sm-12">
