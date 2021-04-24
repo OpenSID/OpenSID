@@ -462,7 +462,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	{
 		// Semua modul utama
 		$this->db
-			->select('id')
+			->select('id, modul')
 			->from('setting_modul')
 			->where('parent', 0);
 		$modul = $this->db->get_compiled_select();
@@ -470,14 +470,13 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		// Modul utama yg mempunyai sub
 		$ada_sub = $this->db
 			->distinct()
-			->select('m.id')
+			->select('m.id, m.modul')
 			->from('('.$modul.') as m')
-			->join('setting_modul sub', 'sub.parent = m.id', )
+			->join('setting_modul sub', 'sub.parent = m.id and sub.hidden <> 2' )
 			->where('sub.id is not null')
 			->order_by('m.id')
 			->get()->result_array();
 		$ada_sub = array_column($ada_sub, 'id');
-
 		// Kosongkan url modul utama yg mempunyai sub
 		$hasil = $hasil && $this->db
 			->set('url', '')
