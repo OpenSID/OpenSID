@@ -41,3 +41,4 @@ Premium - penambahan fitur:
 3. #3986: Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
 4. Pindahkan folder cache ambil status release dan status IDM ke folder 'cache'. [teknis]
 5. #4121: Tampilkan evaluasi SDGs Kemendesa di web.
+6. #1994: Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
