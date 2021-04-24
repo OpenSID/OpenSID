@@ -52,7 +52,6 @@
 				}
 			}
 		}
-
 		return $aktif;
 	}
 
@@ -75,7 +74,7 @@
 		foreach ($data as $sub_modul)
 		{
 			// Modul yang tidak boleh diakses tidak dimasukkan
-			if ($this->user_model->hak_akses($_SESSION['grup'], $sub_modul['url'], 'b'))
+			if ($this->user_model->hak_akses($this->session->grup, $sub_modul['url'], 'b', $pakai_url = true))
 				$aktif[] = $sub_modul;
 		}
 

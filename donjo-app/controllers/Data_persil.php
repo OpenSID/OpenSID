@@ -128,6 +128,7 @@ class Data_persil extends Admin_Controller {
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->set_page;
+		$data['per_page'] = $this->session->per_page;
 		$data["desa"] = $this->config_model->get_data();
 		$data['paging']  = $this->data_persil_model->paging($page);
 		$data["persil"] = $this->data_persil_model->list_data($data['paging']->offset, $data['paging']->per_page);
