@@ -1,20 +1,20 @@
-## [Belum rilis](https://github.com/OpenSID/premium/compare/v21.04-premium...rilis-dev) 
+#### [Belum rilis](https://github.com/OpenSID/premium/compare/v21.04-premium...rilis-dev) 
 
-## [v21.05-premium - 2021-05-01](https://github.com/OpenSID/premium/compare/v21.04-premium...v21.05-premium)
+#### [v21.05-premium - 2021-05-01](https://github.com/OpenSID/premium/compare/v21.04-premium...v21.05-premium)
 
 Di rilis ini, versi 21.05-premium, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 Lengkapnya, isi rilis versi 21.05-premium adalah sebagai berikut:
 
-### Penambahan Fitur
+#### Penambahan Fitur
 1. [#4108](https://github.com/OpenSID/OpenSID/issues/4108) - Filter arsip surat menurut bulan.
 2. [#3986](https://github.com/OpenSID/OpenSID/issues/3986) - Samarkan data penduduk di server yang khusus digunakan untuk data publik saja, tidak untuk pengelolaan data penduduk.
 3. [#3986](https://github.com/OpenSID/OpenSID/issues/3986) - Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
 4. [#4121](https://github.com/OpenSID/OpenSID/issues/4121) - Tampilkan evaluasi SDGs Kemendesa di web.
 5. [#1994](https://github.com/OpenSID/OpenSID/issues/1994) - Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
 
-### Perbaikan BUG
+#### Perbaikan BUG
 1. Perketat pemeriksaan file pada Database > Restore.
 2. Daftar penduduk tampil normal pada sql_mode = ONLY_FULL_GROUP_BY.
 3. Modul Pertanahan sekarang menampilkan penjelasan kalau lokasi persil tidak ditemukan.
@@ -41,5 +41,5 @@ Lengkapnya, isi rilis versi 21.05-premium adalah sebagai berikut:
 24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan.
 25. [#4154](https://github.com/OpenSID/OpenSID/issues/4154) - Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten.
 
-### Perubahan Teknis
+#### Perubahan Teknis
 1. Pindahkan folder cache ambil status release dan status IDM ke folder 'cache'.

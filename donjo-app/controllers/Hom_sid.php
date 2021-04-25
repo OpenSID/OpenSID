@@ -54,6 +54,7 @@ class Hom_sid extends Admin_Controller {
 
 	public function index()
 	{
+		$this->load->library('parsedown');
 		$this->load->model('surat_model');
 
 		if (cek_koneksi_internet())
@@ -70,6 +71,10 @@ class Hom_sid extends Admin_Controller {
 			$data['release_name'] = $this->release->get_release_name();
 			$data['release_body'] = $this->release->get_release_body();
 		}
+
+		// Catatan rilis
+		$konten = file_get_contents('catatan_rilis.md');
+		$data['catatan_rilis'] = $this->parsedown->text($konten);
 
 		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
 		$data['penduduk'] = $this->header_model->penduduk_total();
