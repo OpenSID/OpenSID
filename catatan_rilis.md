@@ -11,6 +11,8 @@ Lengkapnya, isi rilis versi 21.05-premium adalah sebagai berikut:
 1. [#4108](https://github.com/OpenSID/OpenSID/issues/4108) - Filter arsip surat menurut bulan.
 2. [#3986](https://github.com/OpenSID/OpenSID/issues/3986) - Samarkan data penduduk di server yang khusus digunakan untuk data publik saja, tidak untuk pengelolaan data penduduk.
 3. [#3986](https://github.com/OpenSID/OpenSID/issues/3986) - Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
+4. [#4121](https://github.com/OpenSID/OpenSID/issues/4121) - Tampilkan evaluasi SDGs Kemendesa di web.
+5. [#1994](https://github.com/OpenSID/OpenSID/issues/1994) - Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
 
 ### Perbaikan BUG
 1. Perketat pemeriksaan file pada Database > Restore.
@@ -32,6 +34,12 @@ Lengkapnya, isi rilis versi 21.05-premium adalah sebagai berikut:
 17. [#4136](https://github.com/OpenSID/OpenSID/issues/4136) - Sekarang penduduk dengan status dasar selain hidup tidak lagi tampil duplikat.
 18. [#4140](https://github.com/OpenSID/OpenSID/issues/4140) - Sekarang jumlah rincian data suplemen yang tampil melalui menu statis web tidak dibatasi.
 19. [#4143](https://github.com/OpenSID/OpenSID/issues/4143) - Kurangi jumlah link halaman pada paginasi Pengaturan Peta > Area supaya terlihat lebih rapi.
+20. [#4148](https://github.com/OpenSID/OpenSID/issues/4148) - Sekarang bisa cari arsip layanan surat menggunakan nama penduduk berisi tanda petik (').
+21. [#4150](https://github.com/OpenSID/OpenSID/issues/4150) - Sekarang NIK ganda tidak bisa dimasukkan lagi. [bug-fix]
+22. [#4152](https://github.com/OpenSID/OpenSID/issues/4152) - Sekarang penduduk mati/pindah/hilang yg belum kawin tidak lagi muncul di daftar penduduk lepas pada waktu menambah anggota keluarga dari penduduk yg ada.
+23. Sekarang penduduk mati/pindah/hilang tidak lagi muncul di daftar pilihan terdata data suplemen.
+24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan.
+25. [#4154](https://github.com/OpenSID/OpenSID/issues/4154) - Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten.
 
 ### Perubahan Teknis
 1. Pindahkan folder cache ambil status release dan status IDM ke folder 'cache'.

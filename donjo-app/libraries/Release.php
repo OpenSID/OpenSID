@@ -210,7 +210,9 @@ class Release
 	 * Convert markdown link ke html.
 	 * 
 	 * @see https://stackoverflow.com/questions/24985530/parsing-a-markdown-style-link-safely
-	 * @return string.
+	 * 
+	 * @param string $body
+	 * @return string
 	 */
 	protected function convert_markdown_link(string $body)
 	{

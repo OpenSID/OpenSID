@@ -16,6 +16,20 @@
 				</div>
 			</div>
 		</div>
+		<?php if (isset($update_available) && $update_available) : ?>
+			<div class="panel box box-default">
+				<div class="box-header with-border">
+					<h4 class="box-title">
+						<a data-toggle="collapse" data-parent="#accordion" href="#catatan-rilis">Catatan Rilis <?=$latest_version ?></a>
+					</h4>
+				</div>
+				<div id="catatan-rilis" class="panel-collapse collapse">
+					<div class="box-body">
+						<?= nl2br($release_body) ?>
+					</div>
+				</div>
+			</div>
+		<?php endif ?>
 		<div class="panel box box-default">
 			<div class="box-header with-border">
 				<h4 class="box-title">
