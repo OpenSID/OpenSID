@@ -1,4 +1,10 @@
 <!-- Perubahan script coding untuk bisa menampilkan about dalam bentuk tampilan bootstrap (AdminLTE)  -->
+<style>
+	.catatan-scroll {
+		height: 400px;
+		overflow-y: scroll;
+	}
+</style>
 <div class="box-header with-border">
 	<h3 class="box-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?= AmbilVersi()?></strong></h3>
 </div>
@@ -24,7 +30,9 @@
 			</div>
 			<div id="catatan-rilis" class="panel-collapse collapse">
 				<div class="box-body">
-					<?= $catatan_rilis ?>
+					<div class="catatan-scroll">
+						<?= $catatan_rilis ?>
+					</div>
 				</div>
 			</div>
 		</div>
