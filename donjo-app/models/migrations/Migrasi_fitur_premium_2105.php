@@ -229,30 +229,17 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function pengaturan_grup($hasil)
 	{
 		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+		$hasil = $hasil && $this->modul_tambahan($hasil);
 		$hasil = $hasil && $this->ubah_grup($hasil);
 		$hasil = $hasil && $this->tambah_grup_akses($hasil);
 		$hasil = $hasil && $this->urut_modul($hasil);
 		$hasil = $hasil && $this->bersihkan_modul($hasil);
-		$hasil = $hasil && $this->modul_tambahan($hasil);
 		$hasil = $hasil && $this->akses_grup_bawaan($hasil);
 		return $hasil;
 	}
 
 	private function ubah_grup($hasil)
 	{
-	  $this->db->like('url', 'man_user')->update('setting_modul', ['url' => 'man_user/clear']);
-		$hasil = $hasil && $this->tambah_modul([
-			'id'         => 102,
-			'modul'      => 'Pengaturan Grup',
-			'url'        => 'grup/clear',
-			'aktif'      => 1,
-			'ikon'       => '',
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'ikon_kecil' => '',
-			'parent'     => 44
-		]);
 		$fields = [
 			'id' => ['type' => 'INT', 'constraint' => 5, 'auto_increment' => TRUE],
 		];
@@ -422,12 +409,12 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,312,3),
 			(2,313,3),
 			(2,314,3),
-			(2,319,3),
-			(2,320,3),
-			(2,321,3),
-			(2,322,3),
-			(2,323,3),
-			(2,324,3),
+			(2,310,3),
+			(2,311,3),
+			(2,315,3),
+			(2,316,3),
+			(2,317,3),
+			(2,318,3),
 			-- Redaksi --
 			(3,13,0),
 			(3,47,7),
@@ -486,75 +473,26 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		return $hasil;
 	}
 
-	// Tambah modul yg belum terdaftar untuk operator
+	// Beri nilai default setting_modul utk memudahkan menambah modul
 	private function modul_tambahan($hasil)
 	{
+	  $this->db->like('url', 'man_user')->update('setting_modul', ['url' => 'man_user/clear']);
 		$fields = [
 			'ikon' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true, 'default' => ''],
 			'ikon_kecil' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => true, 'default' => ''],
 		];
 		$hasil = $hasil && $this->dbforge->modify_column('setting_modul', $fields);
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 102,
+			'modul'      => 'Pengaturan Grup',
+			'url'        => 'grup/clear',
+			'aktif'      => 1,
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 2,
+			'parent'     => 44
+		]);
 
-		$hasil = $hasil && $this->tambah_modul([
-			'id'				 => 319,
-			'modul'      => 'Ekspedisi',
-			'url'        => 'ekspedisi/clear',
-			'aktif'      => 1,
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'parent'     => 301
-		]);
-		$hasil = $hasil && $this->tambah_modul([
-			'id'				 => 320,
-			'modul'      => 'Lembaran Desa',
-			'url'        => 'lembaran_desa/clear',
-			'aktif'      => 1,
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'parent'     => 301
-		]);
-		$hasil = $hasil && $this->tambah_modul([
-			'id'				 => 321,
-			'modul'      => 'Buku Mutasi Penduduk Desa',
-			'url'        => 'bumindes_penduduk_mutasi/clear',
-			'aktif'      => 1,
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'parent'     => 301
-		]);
-		$hasil = $hasil && $this->tambah_modul([
-			'id'				 => 322,
-			'modul'      => 'Buku Rekapitulasi Jumlah Penduduk',
-			'url'        => 'bumindes_penduduk_rekapitulasi/clear',
-			'aktif'      => 1,
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'parent'     => 301
-		]);
-		$hasil = $hasil && $this->tambah_modul([
-			'id'				 => 323,
-			'modul'      => 'Buku Penduduk Sementara',
-			'url'        => 'bumindes_penduduk_sementara/clear',
-			'aktif'      => 1,
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'parent'     => 301
-		]);
-		$hasil = $hasil && $this->tambah_modul([
-			'id'				 => 324,
-			'modul'      => 'Buku KTP dan KK',
-			'url'        => 'bumindes_penduduk_ktpkk/clear',
-			'aktif'      => 1,
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 2,
-			'parent'     => 301
-		]);
 		return $hasil;
 	}
 }
