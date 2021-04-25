@@ -1,11 +1,12 @@
-#### [Belum rilis](https://github.com/OpenSID/premium/compare/v21.04-premium...rilis-dev) 
+#### [v21.04-premium-pasca - beta 2021-04-26](https://github.com/OpenSID/premium/compare/v21.04-premium...rilis-dev)
 
-#### [v21.05-premium - 2021-05-01](https://github.com/OpenSID/premium/compare/v21.04-premium...v21.05-premium)
 
-Di rilis ini, versi 21.05-premium, menyediakan [untuk diisi]. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
-Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Rilis ini merupakan rilis beta, untuk diujicoba sebelum dirilis resmi pada tanggal 1 bulan yang akan datang.
+Rilis ini berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Lengkapnya, isi rilis versi 21.05-premium adalah sebagai berikut:
+Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Mokhamad Afila yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai berikut:
 
 #### Penambahan Fitur
 1. [#4108](https://github.com/OpenSID/OpenSID/issues/4108) - Filter arsip surat menurut bulan.
@@ -13,6 +14,7 @@ Lengkapnya, isi rilis versi 21.05-premium adalah sebagai berikut:
 3. [#3986](https://github.com/OpenSID/OpenSID/issues/3986) - Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
 4. [#4121](https://github.com/OpenSID/OpenSID/issues/4121) - Tampilkan evaluasi SDGs Kemendesa di web.
 5. [#1994](https://github.com/OpenSID/OpenSID/issues/1994) - Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
+6. Tampilkan catatan rilis di Dashboard Admin.
 
 #### Perbaikan BUG
 1. Perketat pemeriksaan file pada Database > Restore.
