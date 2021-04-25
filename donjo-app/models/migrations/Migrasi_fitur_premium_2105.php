@@ -55,6 +55,9 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false, 'default' => ''],
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false, 'default' => ''],
 		];
+		// Ubah keterangan setting aplikasi
+		$hasil = $hasil && $this->db->where('key', 'google_key')->update('setting_aplikasi', ['key' => 'mapbox_key', 'keterangan' => 'Mapbox API Key untuk peta']);
+
 		$hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
 		$hasil = $hasil && $this->server_publik();
 		$hasil = $hasil && $this->convert_ip_address($hasil);

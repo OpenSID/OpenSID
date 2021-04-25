@@ -32,6 +32,7 @@ Premium - perbaikan bug:
 23. Sekarang penduduk mati/pindah/hilang tidak lagi muncul di daftar pilihan terdata data suplemen. [bug-fix]
 24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan. [bug-fix]
 25. #4154: Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten. [bug-fix]
+26. Ubah keterangan Google Key menjadi Mapbox Key di pengaturan aplikasi. [bug-fix]
 
 
 Premium - penambahan fitur:
