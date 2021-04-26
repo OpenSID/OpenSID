@@ -205,6 +205,23 @@
 		return $data;
 	}
 
+	private function get_submodul($grup, $modul)
+	{
+		$data	= $this->db
+			->select('sub.id, sub.modul, sub.url')
+			->select('if(a.akses & 1 = 1, 1, 0) as akses_baca')
+			->select('if(a.akses & 2 = 2, 1, 0) as akses_ubah')
+			->select('if(a.akses & 4 = 4, 1, 0) as akses_hapus')
+			->select('if(a.akses > 0, 1, 0) as ada_akses')
+			->from('setting_modul p')
+			->join('setting_modul sub', 'sub.parent = p.id')
+			->join('grup_akses a', "sub.id = a.id_modul and a.id_grup = $grup", 'left')
+			->where('p.id', $modul)
+			->order_by('sub.urut')
+			->get()->result_array();
+		return $data;
+	}
+
 	public function akses_submodul($grup)
 	{
 		$parent = $this->db
@@ -216,18 +233,17 @@
 		$data = [];
 		foreach ($parent as $modul)
 		{
-			$data[$modul]	= $this->db
-				->select('sub.id, sub.modul, sub.url')
-				->select('if(a.akses & 1 = 1, 1, 0) as akses_baca')
-				->select('if(a.akses & 2 = 2, 1, 0) as akses_ubah')
-				->select('if(a.akses & 4 = 4, 1, 0) as akses_hapus')
-				->select('if(a.akses > 0, 1, 0) as ada_akses')
-				->from('setting_modul p')
-				->join('setting_modul sub', 'sub.parent = p.id')
-				->join('grup_akses a', "sub.id = a.id_modul and a.id_grup = $grup", 'left')
-				->where('p.id', $modul)
-				->order_by('sub.urut')
-				->get()->result_array();
+			$data[$modul]	= $this->get_submodul($grup, $modul);
+			// Juga ambil sub-submodul. Asumsi hanya ada sampai dua tingkat submodul saja
+			$subparent = array_column($data[$modul], 'id');
+			foreach ($subparent as $submodul)
+			{
+				$sub_sub = $this->get_submodul($grup, $submodul);
+				if ( ! empty($sub_sub))
+				{
+					$data[$modul] = array_merge($data[$modul], $sub_sub);
+				}
+			}
 		}
 		$data = array_filter($data);
 		return $data;

@@ -232,6 +232,9 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function pengaturan_grup($hasil)
 	{
 		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+		// Hapus controller 'wilayah' yang boleh diakses oleh semua pengguna yg telah login
+		$hasil = $hasil && $this->db->where('url', 'wilayah')->delete('setting_modul');
+
 		$hasil = $hasil && $this->modul_tambahan($hasil);
 		$hasil = $hasil && $this->ubah_grup($hasil);
 		$hasil = $hasil && $this->tambah_grup_akses($hasil);
@@ -377,6 +380,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,62,3),
 			(2,63,3),
 			(2,64,3),
+			(2,65,3),
+			(2,66,3),
 			(2,67,3),
 			(2,68,3),
 			(2,69,3),
@@ -384,7 +389,28 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,71,3),
 			(2,72,3),
 			(2,73,3),
+			(2,75,3),
+			(2,76,3),
+			(2,77,3),
+			(2,78,3),
+			(2,79,3),
+			(2,80,3),
+			(2,81,3),
+			(2,82,3),
+			(2,83,3),
+			(2,84,3),
+			(2,85,3),
+			(2,86,3),
+			(2,87,3),
+			(2,88,3),
+			(2,89,3),
+			(2,90,3),
+			(2,91,3),
+			(2,92,3),
+			(2,93,3),
+			(2,94,3),
 			(2,95,3),
+			(2,96,3),
 			(2,97,3),
 			(2,98,3),
 			(2,101,3),
@@ -409,11 +435,11 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,304,3),
 			(2,305,3),
 			(2,306,3),
+			(2,310,3),
+			(2,311,3),
 			(2,312,3),
 			(2,313,3),
 			(2,314,3),
-			(2,310,3),
-			(2,311,3),
 			(2,315,3),
 			(2,316,3),
 			(2,317,3),
