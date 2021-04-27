@@ -6,6 +6,7 @@
 			<li class="active"><?= $judul ?></li>
 		</ol>
 	</section>
+	
 	<section class="content" id="maincontent">
 		<div class="row">
 			<form id="validasi" action="<?=site_url('setting/update'); ?>" method="POST" class="form-horizontal" enctype="multipart/form-data">
@@ -78,7 +79,7 @@
 						</div>
 					</div>
 				</div>
-			</form>
+			</form> 
 		</div>
 	</section>
 </div>

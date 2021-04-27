@@ -1,6 +1,7 @@
 <?php foreach ($this->list_setting as $setting): ?>
 	<?php $key = ucwords(str_replace('_', ' ', $setting->key)); ?>
 	<?php if ($setting->key != 'penggunaan_server' && $setting->jenis != 'upload' && in_array($setting->kategori, $kategori)): ?>
+		<?php $setting->kategori = ($kategori[0] == "setting_analisis" && $demo_mode) ? "readonly" : ""; ?>
 		<div class="form-group">
 			<label class="col-sm-12 col-md-3" for="nama"><?= $key; ?></label>
 			<?php if ($setting->jenis == 'option'): ?>
@@ -69,7 +70,7 @@
 				</div>
 			<?php elseif ($setting->jenis == 'textarea'): ?>
 				<div class="col-sm-12 col-md-4">
-					<textarea class="form-control input-sm" name="<?= $setting->key?>" placeholder="<?= $setting->keterangan?>" rows="5"><?= $setting->value; ?></textarea>
+					<textarea <?php ($setting->kategori != 'readonly') or print 'disabled'?> class="form-control input-sm" name="<?= $setting->key?>" placeholder="<?= $setting->keterangan?>" rows="5"><?= $setting->value; ?> </textarea>
 				</div>
 			<?php else : ?>
 				<div class="col-sm-12 col-md-4">
