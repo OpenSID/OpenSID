@@ -54,6 +54,7 @@ class Analisis_master extends Admin_Controller
 		unset($_SESSION['submenu']);
 		unset($_SESSION['asubmenu']);
 		$this->modul_ini = 5;
+		$this->sub_modul_ini = 110;
 	}
 
 	public function clear()
@@ -225,7 +226,7 @@ class Analisis_master extends Admin_Controller
 	public function exec_import_gform()
 	{
 		$this->session->google_form_id = $this->input->post('input-form-id');
-		
+
 		$credential_data = json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
 		$REDIRECT_URI = $credential_data['web']['redirect_uris'][0];
 
@@ -283,7 +284,7 @@ class Analisis_master extends Admin_Controller
 	public function update_gform($id=0)
 	{
 		$this->session->google_form_id = $this->analisis_master_model->get_analisis_master($id)['gform_id'];
-		
+
 		$credential_data = json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
 		$REDIRECT_URI = $credential_data['web']['redirect_uris'][0];
 
@@ -309,6 +310,6 @@ class Analisis_master extends Admin_Controller
 			$url = $REDIRECT_URI . '?formId=' . $this->session->google_form_id . '&redirectLink=' . $self_link ;
 			header('Location: ' . $url);
 		}
-		
+
 	}
 }
