@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai ber
 4. [#4121](https://github.com/OpenSID/OpenSID/issues/4121) - Tampilkan evaluasi SDGs Kemendesa di web.
 5. [#1994](https://github.com/OpenSID/OpenSID/issues/1994) - Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
 6. Tampilkan catatan rilis di Dashboard Admin.
+7. [#4054](https://github.com/OpenSID/OpenSID/issues/4054) - Bisa impor survei Google Form ke master Analisis.
 
 
 #### Perbaikan BUG
