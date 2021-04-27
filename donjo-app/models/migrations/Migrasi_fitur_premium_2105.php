@@ -55,6 +55,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false, 'default' => ''],
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false, 'default' => ''],
 		];
+		// Ubah keterangan setting aplikasi
+		$hasil = $hasil && $this->db->where('key', 'google_key')->update('setting_aplikasi', ['key' => 'mapbox_key', 'keterangan' => 'Mapbox API Key untuk peta']);
 
 		$hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
 		$hasil = $hasil && $this->server_publik();
@@ -151,8 +153,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	{
 		// Menambahkan data Script ID Google API pada Setting Aplikasi
 		$data_setting = [
-			'key' => 'api_gform_id_script', 
-			'value' => 'AKfycbx0dou6j6oAjHoRfZvOb9t8q4GIT_6riWHj8RHzmv1T4TcG3cjxmVYpOttEHMnINugS', 
+			'key' => 'api_gform_id_script',
+			'value' => 'AKfycbx0dou6j6oAjHoRfZvOb9t8q4GIT_6riWHj8RHzmv1T4TcG3cjxmVYpOttEHMnINugS',
 			'keterangan' => 'Script ID untuk Google API'
 		];
 
@@ -160,13 +162,13 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 
 		// Menambahkan data Credential Google API pada Setting Aplikasi
 		$data_setting = [
-			'key' => 'api_gform_credential', 
-			'value' => '{"web":{"client_id":"262463142222-rn8685tva754t8ub4eqhb4tttkulfs1v.apps.googleusercontent.com","project_id":"gformimport-analisis","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"Z6Y7yJ5SDemSM5XGfhpmeReq","redirect_uris":["https://berputar.opensid.or.id/index.php/first/get_form_info","https://bumindes.opensid.or.id/index.php/first/get_form_info"]}}', 
+			'key' => 'api_gform_credential',
+			'value' => '{"web":{"client_id":"262463142222-rn8685tva754t8ub4eqhb4tttkulfs1v.apps.googleusercontent.com","project_id":"gformimport-analisis","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"Z6Y7yJ5SDemSM5XGfhpmeReq","redirect_uris":["https://berputar.opensid.or.id/index.php/first/get_form_info","https://bumindes.opensid.or.id/index.php/first/get_form_info"]}}',
 			'keterangan' => 'Credential untuk Google API'
 		];
 
 		$hasil = $hasil && $this->tambah_setting($data_setting);
-		
+
 		return $hasil;
 	}
 
@@ -299,6 +301,9 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function pengaturan_grup($hasil)
 	{
 		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+		// Hapus controller 'wilayah' yang boleh diakses oleh semua pengguna yg telah login
+		$hasil = $hasil && $this->db->where('url', 'wilayah')->delete('setting_modul');
+
 		$hasil = $hasil && $this->modul_tambahan($hasil);
 		$hasil = $hasil && $this->ubah_grup($hasil);
 		$hasil = $hasil && $this->tambah_grup_akses($hasil);
@@ -444,6 +449,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,62,3),
 			(2,63,3),
 			(2,64,3),
+			(2,65,3),
+			(2,66,3),
 			(2,67,3),
 			(2,68,3),
 			(2,69,3),
@@ -451,7 +458,28 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,71,3),
 			(2,72,3),
 			(2,73,3),
+			(2,75,3),
+			(2,76,3),
+			(2,77,3),
+			(2,78,3),
+			(2,79,3),
+			(2,80,3),
+			(2,81,3),
+			(2,82,3),
+			(2,83,3),
+			(2,84,3),
+			(2,85,3),
+			(2,86,3),
+			(2,87,3),
+			(2,88,3),
+			(2,89,3),
+			(2,90,3),
+			(2,91,3),
+			(2,92,3),
+			(2,93,3),
+			(2,94,3),
 			(2,95,3),
+			(2,96,3),
 			(2,97,3),
 			(2,98,3),
 			(2,101,3),
@@ -476,11 +504,11 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,304,3),
 			(2,305,3),
 			(2,306,3),
+			(2,310,3),
+			(2,311,3),
 			(2,312,3),
 			(2,313,3),
 			(2,314,3),
-			(2,310,3),
-			(2,311,3),
 			(2,315,3),
 			(2,316,3),
 			(2,317,3),

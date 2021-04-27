@@ -236,7 +236,7 @@
 
 	public function modul_aktif($controller)
 	{
-		$selalu_aktif = array('hom_sid', 'user_setting', 'notif');
+		$selalu_aktif = array('hom_sid', 'user_setting', 'notif', 'wilayah');
 		if (in_array($controller, $selalu_aktif)) return true;
 
 		// Periksa apakah modulnya aktif atau tidak
