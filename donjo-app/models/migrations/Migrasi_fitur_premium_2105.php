@@ -164,7 +164,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$data_setting = [
 			'key' => 'api_gform_credential',
 			'value' => '{"web":{"client_id":"262463142222-rn8685tva754t8ub4eqhb4tttkulfs1v.apps.googleusercontent.com","project_id":"gformimport-analisis","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"Z6Y7yJ5SDemSM5XGfhpmeReq","redirect_uris":["https://berputar.opensid.or.id/index.php/first/get_form_info","https://bumindes.opensid.or.id/index.php/first/get_form_info"]}}',
-			'keterangan' => 'Credential untuk Google API'
+			'keterangan' => 'Credential untuk Google API',
+			'jenis' => 'textarea'
 		];
 
 		$hasil = $hasil && $this->tambah_setting($data_setting);
