@@ -98,6 +98,7 @@ class Analisis_master extends Admin_Controller
 		$this->session->unset_userdata('list_error');
 
 		$this->set_minsidebar(1);
+
 		$this->render('analisis_master/table', $data);
 	}
 
@@ -227,8 +228,20 @@ class Analisis_master extends Admin_Controller
 	{
 		$this->session->google_form_id = $this->input->post('input-form-id');
 
-		$credential_data = json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
-		$REDIRECT_URI = $credential_data['web']['redirect_uris'][0];
+		if (empty($this->setting->api_gform_redirect_uri)) 
+		{
+			$credential_file = APPPATH . '../desa/config/oauth-credentials.json';
+			$myfile = fopen($credential_file, "r") or die("Unable to open file!");
+			$api_gform_credential = fread($myfile, filesize($credential_file));
+			fclose($myfile);
+		}
+		else
+		{
+			$api_gform_credential = $this->setting->api_gform_credential;
+		}
+
+		$credential_data = json_decode(str_replace('\"' , '"', $api_gform_credential), true);
+		$REDIRECT_URI = empty($this->setting->api_gform_redirect_uri) ? $credential_data['web']['redirect_uris'][0] : $this->setting->api_gform_redirect_uri; 
 
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
@@ -285,8 +298,20 @@ class Analisis_master extends Admin_Controller
 	{
 		$this->session->google_form_id = $this->analisis_master_model->get_analisis_master($id)['gform_id'];
 
-		$credential_data = json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
-		$REDIRECT_URI = $credential_data['web']['redirect_uris'][0];
+		if (empty($this->setting->api_gform_redirect_uri)) 
+		{
+			$credential_file = APPPATH . '../desa/config/oauth-credentials.json';
+			$myfile = fopen($credential_file, "r") or die("Unable to open file!");
+			$api_gform_credential = fread($myfile, filesize($credential_file));
+			fclose($myfile);
+		}
+		else
+		{
+			$api_gform_credential = $this->setting->api_gform_credential;
+		}
+
+		$credential_data = json_decode(str_replace('\"' , '"', $api_gform_credential), true);
+		$REDIRECT_URI = empty($this->setting->api_gform_redirect_uri) ? $credential_data['web']['redirect_uris'][0] : $this->setting->api_gform_redirect_uri; 
 
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];

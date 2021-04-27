@@ -286,7 +286,10 @@ class Analisis_import_Model extends CI_Model {
 
 	protected function getOAuthCredentialsFile()
 	{
-		return json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
+		if (empty($this->setting->api_gform_credential))
+			return APPPATH . '../desa/config/oauth-credentials.json';
+		else
+			return json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
 	}
 
 	public function import_gform($redirect_link = "")
@@ -309,8 +312,19 @@ class Analisis_import_Model extends CI_Model {
 		$service = new Google_Service_Script($client);
 
 		// API script id
-		$scriptId = $this->setting->api_gform_id_script;
-
+		if (empty($this->setting->api_gform_id_script))
+		{
+			$script_id_file = APPPATH . '../desa/config/gform_idscript.txt';
+			$myfile = fopen($script_id_file, "r") or die("Unable to open file!");
+			$scriptId = fread($myfile, filesize($script_id_file));
+			fclose($myfile);
+		}
+		else 
+		{
+			$scriptId = $this->setting->api_gform_id_script;
+		}
+		
+		
 		// add "?logout" to the URL to remove a token from the session
 		if (isset($_REQUEST['logout'])) 
 			unset($_SESSION['upload_token']);
