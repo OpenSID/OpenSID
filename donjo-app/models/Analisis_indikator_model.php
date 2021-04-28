@@ -315,5 +315,38 @@
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_analisis_indikator_by_id_master($id='')
+	{
+		$result = array();
+		$list_indikator = array();
+		$list_parameter = array();
+
+		$raw_indikator = $this->db->where('id_master', $id)->get('analisis_indikator')->result_array();
+
+		// Setting key array sesuai id
+		foreach ($raw_indikator as $val_indikator)
+		{
+			$list_indikator[$val_indikator['id']] = $val_indikator['pertanyaan'];
+
+			$temp_parameter = array();
+
+			$raw_parameter = $this->db->where('id_indikator', $val_indikator['id'])->get('analisis_parameter')->result_array();
+
+			foreach ($raw_parameter as $val_parameter)
+			{
+				$temp_parameter[$val_parameter['id']] = $val_parameter['jawaban'];
+			}
+
+			$list_parameter[$val_indikator['id']] = $temp_parameter;
+		}
+
+		$result = [
+			'indikator' => $list_indikator,
+			'parameter' => $list_parameter
+		];
+
+		return $result;
+	}
 }
 ?>

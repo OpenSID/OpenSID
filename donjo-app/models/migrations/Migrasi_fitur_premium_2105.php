@@ -56,6 +56,9 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false, 'default' => ''],
 		];
 
+		// Ubah keterangan setting aplikasi
+		$hasil = $hasil && $this->db->where('key', 'google_key')->update('setting_aplikasi', ['key' => 'mapbox_key', 'keterangan' => 'Mapbox API Key untuk peta']);
+
 		$hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
 		$hasil = $hasil && $this->server_publik();
 		$hasil = $hasil && $this->convert_ip_address($hasil);
@@ -71,7 +74,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = $hasil && $this->tambah_kolom_tanah_kas_desa();
 		$hasil = $hasil && $this->pengaturan_grup($hasil);
 		$hasil = $hasil && $this->bumindes_updates($hasil);		//harus setelah fungsi pengaturan grup
-		
+		$hasil = $hasil && $this->impor_google_form($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -154,6 +157,42 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = $hasil && $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
 
 		return $hasil >= 0;
+	}
+
+	protected function setting_script_id_gform($hasil)
+	{
+		// Menambahkan data Script ID Google API pada Setting Aplikasi
+		$data_setting = [
+			'key' => 'api_gform_id_script',
+			'value' => '',
+			'keterangan' => 'Script ID untuk Google API',
+			'kategori' => 'setting_analisis'
+		];
+
+		$hasil = $hasil && $this->tambah_setting($data_setting);
+
+		// Menambahkan data Credential Google API pada Setting Aplikasi
+		$data_setting = [
+			'key' => 'api_gform_credential',
+			'value' => '',
+			'keterangan' => 'Credential untuk Google API',
+			'jenis' => 'textarea',
+			'kategori' => 'setting_analisis'
+		];
+
+		$hasil = $hasil && $this->tambah_setting($data_setting);
+
+		// Menambahkan data Redirect URI Google API pada Setting Aplikasi
+		$data_setting = [
+			'key' => 'api_gform_redirect_uri',
+			'value' => 'https://berputar.opensid.or.id/index.php/first/get_form_info',
+			'keterangan' => 'Redirecet URI untuk Google API',
+			'kategori' => 'setting_analisis'
+		];
+
+		$hasil = $hasil && $this->tambah_setting($data_setting);
+
+		return $hasil;
 	}
 
 	protected function tambah_kolom_log_keluarga($hasil)
@@ -328,6 +367,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		if ($this->db->field_exists('persil', 'tanah_kas_desa'))
 		{
 			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'persil');
+
 		}
 
 		return $hasil;
@@ -421,6 +461,9 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function pengaturan_grup($hasil)
 	{
 		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+		// Hapus controller 'wilayah' yang boleh diakses oleh semua pengguna yg telah login
+		$hasil = $hasil && $this->db->where('url', 'wilayah')->delete('setting_modul');
+
 		$hasil = $hasil && $this->modul_tambahan($hasil);
 		$hasil = $hasil && $this->ubah_grup($hasil);
 		$hasil = $hasil && $this->tambah_grup_akses($hasil);
@@ -566,6 +609,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,62,3),
 			(2,63,3),
 			(2,64,3),
+			(2,65,3),
+			(2,66,3),
 			(2,67,3),
 			(2,68,3),
 			(2,69,3),
@@ -573,7 +618,28 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,71,3),
 			(2,72,3),
 			(2,73,3),
+			(2,75,3),
+			(2,76,3),
+			(2,77,3),
+			(2,78,3),
+			(2,79,3),
+			(2,80,3),
+			(2,81,3),
+			(2,82,3),
+			(2,83,3),
+			(2,84,3),
+			(2,85,3),
+			(2,86,3),
+			(2,87,3),
+			(2,88,3),
+			(2,89,3),
+			(2,90,3),
+			(2,91,3),
+			(2,92,3),
+			(2,93,3),
+			(2,94,3),
 			(2,95,3),
+			(2,96,3),
 			(2,97,3),
 			(2,98,3),
 			(2,101,3),
@@ -598,11 +664,11 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(2,304,3),
 			(2,305,3),
 			(2,306,3),
+			(2,310,3),
+			(2,311,3),
 			(2,312,3),
 			(2,313,3),
 			(2,314,3),
-			(2,310,3),
-			(2,311,3),
 			(2,315,3),
 			(2,316,3),
 			(2,317,3),
@@ -710,6 +776,99 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		//menambahkan hak akses operator untuk modul 'bumindes tanah kas desa' 321
 		$hasil = $hasil && $this->db->insert('grup_akses', array('id_grup' => '2', 'id_modul' => '319', 'akses' => '3'));
 		
+		return $hasil;
+	}
+
+	private function tambah_pengaturan_analisis($hasil)
+	{
+		// Kosongkan url modul analisis yg sekarang ditambahkan submodul
+		$hasil = $hasil && $this->db
+			->set('url', '')
+			->where('id', 5)
+			->update('setting_modul');
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 110,
+			'modul'      => 'Master Analisis',
+			'url'        => 'analisis_master/clear',
+			'aktif'      => 1,
+			'ikon'			 => 'fa-check-square-o',
+			'ikon_kecil' => 'fa-check-square-o',
+			'urut'       => 1,
+			'level'      => 1,
+			'hidden'     => 0,
+			'parent'     => 5
+		]);
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 111,
+			'modul'      => 'Pengaturan',
+			'url'        => 'setting/analisis',
+			'aktif'      => 1,
+			'ikon'			 => 'fa-gear',
+			'ikon_kecil' => 'fa-gear',
+			'urut'       => 2,
+			'level'      => 1,
+			'hidden'     => 0,
+			'parent'     => 5
+		]);
+		// Tambahkan ke hak akses operator
+		$modul_tambahan = [
+			['id_grup' => 2, 'id_modul' => 110, 'akses' => 3],
+			['id_grup' => 2, 'id_modul' => 111, 'akses' => 3]
+		];
+		$hasil = $hasil && $this->db->insert_batch('grup_akses', $modul_tambahan);
+
+		return $hasil;
+	}
+
+	private function impor_google_form($hasil)
+	{
+		$hasil = $hasil && $this->setting_script_id_gform($hasil);
+		$hasil = $hasil && $this->field_gform_id_master_analisis($hasil);
+		$hasil = $hasil && $this->tambah_pengaturan_analisis($hasil);
+		return $hasil;
+	}
+
+	private function field_gform_id_master_analisis($hasil)
+	{
+		// Tambah field gfrom_id pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_id', 'analisis_master'))
+		{
+			$fields = [
+				'gform_id' => [
+					'type' => 'TEXT',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
+		// Tambah field gform_nik_item_id pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_nik_item_id', 'analisis_master'))
+		{
+			$fields = [
+				'gform_nik_item_id' => [
+					'type' => 'TEXT',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
+		// Tambah field gform_last_sync pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_last_sync', 'analisis_master'))
+		{
+			$fields = [
+				'gform_last_sync' => [
+					'type' => 'DATETIME',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
 		return $hasil;
 	}
 	

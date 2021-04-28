@@ -92,7 +92,7 @@ window.onload = function()
   <?php endif; ?>
 
 	//Menampilkan BaseLayers Peta
-  var baseLayers = getBaseLayers(peta_lokasi, '<?=$this->setting->google_key?>');
+  var baseLayers = getBaseLayers(peta_lokasi, '<?=$this->setting->mapbox_key?>');
 
 	//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
 	L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';

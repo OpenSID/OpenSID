@@ -40,9 +40,12 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_master extends Admin_Controller {
+require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
-	function __construct()
+class Analisis_master extends Admin_Controller
+{
+
+	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('analisis_master_model');
@@ -51,6 +54,7 @@ class Analisis_master extends Admin_Controller {
 		unset($_SESSION['submenu']);
 		unset($_SESSION['asubmenu']);
 		$this->modul_ini = 5;
+		$this->sub_modul_ini = 110;
 	}
 
 	public function clear()
@@ -63,8 +67,8 @@ class Analisis_master extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-    unset($_SESSION['analisis_master']);
-    unset($_SESSION['analisis_nama']);
+		$this->session->unset_userdata(['analisis_master', 'analisis_nama']);
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -84,11 +88,17 @@ class Analisis_master extends Admin_Controller {
 			$_SESSION['per_page']=$_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['paging']  = $this->analisis_master_model->paging($p,$o);
-		$data['main']    = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['paging'] = $this->analisis_master_model->paging($p,$o);
+		$data['data_import'] = $this->session->data_import;
+		$data['list_error'] = $this->session->list_error;
 		$data['keyword'] = $this->analisis_master_model->autocomplete();
 		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
+		$data['main'] = $this->analisis_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+
+		$this->session->unset_userdata('list_error');
+
 		$this->set_minsidebar(1);
+
 		$this->render('analisis_master/table', $data);
 	}
 
@@ -126,6 +136,13 @@ class Analisis_master extends Admin_Controller {
 		$this->set_minsidebar(1);
 		$data['form_action'] = site_url("analisis_master/import");
 		$this->load->view('analisis_master/import', $data);
+	}
+
+	public function import_gform()
+	{
+		$this->set_minsidebar(1);
+		$data['form_action'] = site_url("analisis_master/exec_import_gform");
+		$this->load->view('analisis_master/import_gform', $data);
 	}
 
 	public function menu($id='')
@@ -207,6 +224,64 @@ class Analisis_master extends Admin_Controller {
 		redirect('analisis_master');
 	}
 
+	/**
+		1. Credential
+		2. Id script
+		3. Redirect URI
+
+		- Jika 1 dan 2 diisi (asumsi user pakai akun google sendiri) eksekusi dari nilai yg diisi user. Abaikan isisan 3. Redirect ambil dari isian 1
+		- Jika 1 dan 2 kosong. 3 diisi. Import gform langsung menuju redirect field 3
+		- Jika semua tidak terisi (asumsi opensid ini yang jalan di server OpenDesa) ambil credential setting di file config
+	*/
+	private function get_redirect_uri()
+	{
+		if ($this->setting->api_gform_credential)
+		{
+			$api_gform_credential = $this->setting->api_gform_credential;
+		}
+		elseif (empty($this->setting->api_gform_redirect_uri))
+		{
+			$api_gform_credential = config_item('api_gform_credential');
+		}
+		if ($api_gform_credential)
+		{
+			$credential_data = json_decode(str_replace('\"' , '"', $api_gform_credential), true);
+			$redirect_uri = $credential_data['web']['redirect_uris'][0];
+		}
+		if (empty($redirect_uri)) $redirect_uri = $this->setting->api_gform_redirect_uri;
+
+		return $redirect_uri;
+	}
+
+	public function exec_import_gform()
+	{
+		$this->session->google_form_id = $this->input->post('input-form-id');
+
+		$REDIRECT_URI = $this->get_redirect_uri();
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+
+		if ($this->input->get('outsideRetry') == "true")
+		{
+			$url = $REDIRECT_URI . '?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+
+			$client = new Google\Client();
+			$httpClient = $client->authorize();
+			$response = $httpClient->get($url);
+
+			$variabel = json_decode($response->getBody(), true);
+			$this->session->data_import = $variabel;
+			$this->session->gform_id = $this->input->get('formId');
+			$this->session->success = 5;
+			redirect('analisis_master');
+		}
+		else
+		{
+			$url = $REDIRECT_URI . '?formId=' . $this->input->post('input-form-id') . '&redirectLink=' . $self_link ;
+			header('Location: ' . $url);
+		}
+	}
+
 	public function update($p=1, $o=0, $id='')
 	{
 		$this->analisis_master_model->update($id);
@@ -225,5 +300,42 @@ class Analisis_master extends Admin_Controller {
 		$this->redirect_hak_akses('h', "analisis_master/index/$p/$o");
 		$this->analisis_master_model->delete_all();
 		redirect("analisis_master/index/$p/$o");
+	}
+
+	public function save_import_gform()
+	{
+		$this->analisis_import_model->save_import_gform();
+		$this->session->unset_userdata('data_import');
+		redirect('analisis_master');
+	}
+
+	public function update_gform($id=0)
+	{
+		$this->session->google_form_id = $this->analisis_master_model->get_analisis_master($id)['gform_id'];
+
+		$REDIRECT_URI = $this->get_redirect_uri();
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+
+		if ($this->input->get('outsideRetry') == "true")
+		{
+			$url = $REDIRECT_URI . '?formId=' . $this->input->get('formId') . '&redirectLink=' . $self_link . '&outsideRetry=true&code=' . $this->input->get('code');
+
+			$client = new Google\Client();
+			$httpClient = $client->authorize();
+			$response = $httpClient->get($url);
+
+			$variabel = json_decode($response->getBody(), true);
+			$this->session->data_import = $variabel;
+			$this->analisis_import_model->update_import_gform($id, $variabel);
+
+			redirect('analisis_master');
+		}
+		else
+		{
+			$url = $REDIRECT_URI . '?formId=' . $this->session->google_form_id . '&redirectLink=' . $self_link ;
+			header('Location: ' . $url);
+		}
+
 	}
 }

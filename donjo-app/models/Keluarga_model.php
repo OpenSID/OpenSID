@@ -1079,4 +1079,11 @@
 
 		return $berkas_arsip;
 	}
+
+	public function get_keluarga_by_no_kk($no_kk)
+	{
+		return $this->db->where('no_kk', $no_kk)
+				->get('tweb_keluarga')
+				->row_array();
+	}
 }

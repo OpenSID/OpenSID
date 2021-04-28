@@ -33,7 +33,7 @@
   var wilayah_desa = L.map('map_wilayah').setView(posisi, zoom);
 
   //Menampilkan BaseLayers Peta
-  var baseLayers = getBaseLayers(wilayah_desa, '<?=$this->setting->google_key?>');
+  var baseLayers = getBaseLayers(wilayah_desa, '<?=$this->setting->mapbox_key?>');
 
   L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(wilayah_desa);
 
