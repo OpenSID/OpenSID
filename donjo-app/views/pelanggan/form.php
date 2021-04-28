@@ -16,6 +16,7 @@
 				<div class="col-sm-12">
 					<input type="hidden" id="id_desa" name="id_desa"/>
 					<div id="error_msg" class="alert alert-danger" style="display: none;">
+						<h5>Fitur ini khusus untuk pelanggan layanan OpenDesa (hosting, Fitur Premium, dll), untuk menampilkan status langganan.</h5><br>
 						<h5>Data gagal dimuat, Harap diperiksa di bawah ini : <br></h5>
 						<h5>* API Key tidak terotentifikasi. Periksa API Key di Pengaturan Aplikasi. <br></h5>
 						<h5>* Nama / Kode Desa tidak terdaftar / salah. Periksa Nama Desa yang didaftarkan pada Halaman Pelanggan di pantau.opensid.my.id. <br></h5>

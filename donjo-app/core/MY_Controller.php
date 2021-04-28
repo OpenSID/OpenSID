@@ -66,7 +66,7 @@ class MY_Controller extends CI_Controller {
 		parent::__construct();
 
 		// Tampilkan profiler untuk development
-		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
+		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->load->library('profiler');
 
 		$this->load->model(['setting_model']);
         $this->setting_model->init();

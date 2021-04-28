@@ -6,6 +6,8 @@ class Notif_model extends CI_Model {
 	{
 		$cache_id = 'status_langganan';
 
+		if (empty($this->setting->api_key_opensid)) return null;
+
 		$this->load->library('data_publik');
 		$tracker_host = (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker;
 		if ( ! $this->data_publik->has_internet_connection()) return;
