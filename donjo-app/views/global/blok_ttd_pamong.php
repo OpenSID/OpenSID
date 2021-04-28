@@ -24,9 +24,9 @@
 					<tr><td colspan="13">&nbsp;</td>
 					<tr>
 						<td colspan="3">&nbsp;</td>
-						<td class="underline nowrap"><?= $pamong_ketahui['pamong_nama']?></td>
+						<td class="underline nowrap"><?= $pamong_ketahui['nama']?></td>
 						<td colspan="6">&nbsp;</td>
-						<td colspan="2" class="underline nowrap"><?= $pamong_ttd['pamong_nama']?></td>
+						<td colspan="2" class="underline nowrap"><?= $pamong_ttd['nama']?></td>
 						<td>&nbsp;</td>
 					</tr>
 					<tr>

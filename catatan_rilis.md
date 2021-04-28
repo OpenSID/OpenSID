@@ -46,6 +46,7 @@ Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai ber
 25. [#4154](https://github.com/OpenSID/OpenSID/issues/4154) - Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten.
 26. Ubah keterangan Google Key menjadi Mapbox Key di pengaturan aplikasi.
 27. Sekarang bisa kembali tambah penduduk dengan NIK 0. [bug-fix]
+28. Tampilkan penandatangan yg benar di Laporan Penduduk per Wilayah dan Buku Data Aparat Pemerintahan Desa. [big-fix]
 
 
 #### Perubahan Teknis
