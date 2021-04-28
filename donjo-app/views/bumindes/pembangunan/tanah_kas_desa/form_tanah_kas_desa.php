@@ -60,13 +60,7 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah Total</label>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <input min="0" class="form-control input-sm number required" 
-                                        <?php if($main->luas!=0){ ?>   
-                                                value="<?= $main->luas; ?>"                                           
-                                            <?php } else { ?>                                                
-                                                value=0 
-                                            <?php } ?>
-                                            id="luas" name="luas" />                                     
+                                        <input min="0" class="form-control input-sm number required" value="<?= ($main->luas!=0) ? $main->luas : 0 ?>" id="luas" name="luas" />                                     
                                         <span class="input-group-addon input-sm "
                                             id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
@@ -85,13 +79,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="asli_milik_desa">Asli Milik Desa</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->asli_milik_desa!=0){ ?>   
-                                                    value="<?= $main->asli_milik_desa; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="asli_milik_desa" name="asli_milik_desa" />
+                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->asli_milik_desa!=0) ? $main->asli_milik_desa : 0 ?>" id="asli_milik_desa" name="asli_milik_desa" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -103,13 +91,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="pemerintah">Bantuan Pemerintah</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->pemerintah!=0){ ?>   
-                                                    value="<?= $main->pemerintah; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="pemerintah" name="pemerintah" />
+                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->pemerintah!=0) ? $main->pemerintah : 0 ?>" id="pemerintah" name="pemerintah" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -121,13 +103,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="provinsi">Bantuan Provinsi</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->provinsi!=0){ ?>   
-                                                    value="<?= $main->provinsi; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="provinsi" name="provinsi" />
+                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->provinsi!=0) ? $main->provinsi : 0 ?>" id="provinsi" name="provinsi" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -139,13 +115,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="kabupaten_kota">Bantuan Kabupatan / Kota</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->kabupaten_kota!=0){ ?>   
-                                                    value="<?= $main->kabupaten_kota; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="kabupaten_kota" name="kabupaten_kota" />
+                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->kabupaten_kota!=0) ? $main->kabupaten_kota : 0 ?>" id="kabupaten_kota" name="kabupaten_kota" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -157,13 +127,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="lain_lain">Lain - lain</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->lain_lain!=0){ ?>   
-                                                    value="<?= $main->lain_lain; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="lain_lain" name="lain_lain" />
+                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->lain_lain!=0) ? $main->lain_lain : 0 ?>" id="lain_lain" name="lain_lain" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -180,13 +144,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="sawah">Sawah</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->sawah!=0){ ?>   
-                                                    value="<?= $main->sawah; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="sawah" name="sawah" />
+                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->sawah!=0) ? $main->sawah : 0 ?>" id="sawah" name="sawah" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -198,13 +156,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tegal">Tegal</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->tegal!=0){ ?>   
-                                                    value="<?= $main->tegal; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="tegal" name="tegal" />
+                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tegal!=0) ? $main->tegal : 0 ?>" id="tegal" name="tegal" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -216,13 +168,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="kebun">Kebun</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->kebun!=0){ ?>   
-                                                    value="<?= $main->kebun; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="kebun" name="kebun" />
+                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->kebun!=0) ? $main->kebun : 0 ?>" id="kebun" name="kebun" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -234,13 +180,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tambak_kolam">Tambak / Kolam</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->tambak_kolam!=0){ ?>   
-                                                    value="<?= $main->tambak_kolam; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="tambak_kolam" name="tambak_kolam" />
+                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tambak_kolam!=0) ? $main->tambak_kolam : 0 ?>" id="tambak_kolam" name="tambak_kolam" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -252,13 +192,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_kering_darat">Tanah Kering / Darat</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->tanah_kering_darat!=0){ ?>   
-                                                    value="<?= $main->tanah_kering_darat; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="tanah_kering_darat" name="tanah_kering_darat" />
+                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tanah_kering_darat!=0) ? $main->tanah_kering_darat : 0 ?>" id="tanah_kering_darat" name="tanah_kering_darat" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -275,13 +209,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="ada_patok">Ada Patok Tanda Batas</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPatok()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->ada_patok!=0){ ?>   
-                                                    value="<?= $main->ada_patok; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="ada_patok" name="ada_patok" />
+                                            <input onchange="dinamicPatok()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->ada_patok!=0) ? $main->ada_patok : 0 ?>" id="ada_patok" name="ada_patok" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -293,13 +221,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tidak_ada_patok">Tidak Ada Patok Tanda Batas</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPatok()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->tidak_ada_patok!=0){ ?>   
-                                                    value="<?= $main->tidak_ada_patok; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="tidak_ada_patok" name="tidak_ada_patok" />
+                                            <input onchange="dinamicPatok()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tidak_ada_patok!=0) ? $main->tidak_ada_patok : 0 ?>" id="tidak_ada_patok" name="tidak_ada_patok" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -316,13 +238,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="ada_papan_nama">Ada Papan Nama</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPapan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->ada_papan_nama!=0){ ?>   
-                                                    value="<?= $main->ada_papan_nama; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="ada_papan_nama" name="ada_papan_nama" />
+                                            <input onchange="dinamicPapan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->ada_papan_nama!=0) ? $main->ada_papan_nama : 0 ?>" id="ada_papan_nama" name="ada_papan_nama" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -334,13 +250,7 @@
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tidak_ada_papan_nama">Tidak Ada Papan Nama</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPapan()" type="text" min="0" class="form-control input-sm number required"                                               
-                                                <?php if($main->tidak_ada_papan_nama!=0){ ?>   
-                                                    value="<?= $main->tidak_ada_papan_nama; ?>"                                           
-                                                <?php } else { ?>                                                
-                                                    value=0 
-                                                <?php } ?>
-                                                id="tidak_ada_papan_nama" name="tidak_ada_papan_nama" />
+                                            <input onchange="dinamicPapan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tidak_ada_papan_nama!=0) ? $main->tidak_ada_papan_nama : 0 ?>" id="tidak_ada_papan_nama" name="tidak_ada_papan_nama" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
