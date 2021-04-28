@@ -280,8 +280,8 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	protected function create_table_tanah_desa($hasil)
 	{
 		$this->dbforge->add_field([
-			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],		
-			'id_penduduk'       => ['type' => 'INT', 'constraint' => 10],	
+			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'id_penduduk'       => ['type' => 'INT', 'constraint' => 10],
 			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200],
 			'hak_tanah'         => ['type' => 'TEXT'],
 			'penggunaan_tanah'	=> ['type' => 'TEXT'],
@@ -298,14 +298,14 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('id_penduduk');
-		$hasil =& $this->dbforge->create_table('tanah_desa', true);	
+		$hasil =& $this->dbforge->create_table('tanah_desa', true);
 		return $hasil;
 	}
 
 	protected function create_table_tanah_kas_desa($hasil)
 	{
 		$this->dbforge->add_field([
-			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],			
+			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
 			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200],
 			'letter_c'          => ['type' => 'TEXT'],
 			'persil'         	=> ['type' => 'TEXT'],
@@ -331,6 +331,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil =& $this->dbforge->create_table('tanah_kas_desa', true);
 		return $hasil;
 	}
+
 	// Hapus kolom tanah di desa
 	protected function hapus_kolom_tanah_di_desa()
 	{
@@ -378,7 +379,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	{
 		$hasil = true;
 		$fields = [
-			'lain' => ['type' => 'int', 'constraint' => 11],			
+			'lain' => ['type' => 'int', 'constraint' => 11],
 		];
 		$hasil = $hasil && $this->dbforge->modify_column('tanah_desa', $fields);
 		return $hasil;
@@ -412,7 +413,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 				'hutan_belukar' => ['type' => 'INT','constraint' => 11,'after' => 'peternakan_perikanan'],
 				'hutan_lebat_lindung' => ['type' => 'INT','constraint' => 11,'after' => 'hutan_belukar'],
 				'tanah_kosong' => ['type' => 'INT','constraint' => 11,'after' => 'hutan_lebat_lindung'],
-			]);			
+			]);
 		}
 
 		return $hasil;
@@ -425,7 +426,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		{
 			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
 				'nik' => ['type' => 'DECIMAL', 'constraint' => 16.0,'after' => 'id_penduduk'],
-			]);			
+			]);
 		}
 
 		return $hasil;
@@ -437,7 +438,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = true;
 		if ( ! $this->db->field_exists('asli_milik_desa', 'tanah_kas_desa'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', [				
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', [
 				'asli_milik_desa' => ['type' => 'INT','constraint' => 11, 'after' => 'luas'],
 				'pemerintah' => ['type' => 'INT','constraint' => 11,'after' => 'asli_milik_desa'],
 				'provinsi' => ['type' => 'INT','constraint' => 11,'after' => 'pemerintah'],
@@ -451,7 +452,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 				'ada_patok' => ['type' => 'INT','constraint' => 11,'after' => 'tanah_kering_darat'],
 				'tidak_ada_patok' => ['type' => 'INT','constraint' => 11,'after' => 'ada_patok'],
 				'ada_papan_nama' => ['type' => 'INT','constraint' => 11,'after' => 'tidak_ada_patok'],
-				'tidak_ada_papan_nama' => ['type' => 'INT','constraint' => 11,'after' => 'ada_papan_nama'],				
+				'tidak_ada_papan_nama' => ['type' => 'INT','constraint' => 11,'after' => 'ada_papan_nama'],
 			]);
 		}
 
@@ -775,7 +776,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 
 		//menambahkan hak akses operator untuk modul 'bumindes tanah kas desa' 321
 		$hasil = $hasil && $this->db->insert('grup_akses', array('id_grup' => '2', 'id_modul' => '319', 'akses' => '3'));
-		
+
 		return $hasil;
 	}
 
@@ -871,5 +872,5 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 
 		return $hasil;
 	}
-	
+
 }

@@ -72,17 +72,17 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 					'draw'            => $this->input->post('draw'),
 					'recordsTotal'    => $this->tanah_kas_desa_model->get_data()->count_all_results(),
 					'recordsFiltered' => $this->tanah_kas_desa_model->get_data($search)->count_all_results(),
-					'data'            => $this->tanah_kas_desa_model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),					
+					'data'            => $this->tanah_kas_desa_model->get_data($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
 				]));
 		}
-		
+
 		$sub = "<li class=\"active\">Buku Tanah Kas Desa";
 		$data = [
 			'selected_nav' => 'tanah_kas',
 			'main_content' => "bumindes/pembangunan/tanah_kas_desa/content_tanah_kas_desa",
 			'subtitle' => $sub,
 		];
-	
+
 		$this->set_minsidebar(1);
 		$this->render('bumindes/pembangunan/main', $data);
 	}
@@ -91,7 +91,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 	{
 		$this->session->filter_tahun = date('Y');
 		$this->session->filter_bulan = date('m');
-		
+
 		redirect("bumindes_tanah_kas_desa");
 	}
 
@@ -129,7 +129,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 				'selected_nav' => 'tanah_kas',
 				'view_mark'	   => 2,
 				'asal_tanah'   => $view_data->nama_pemilik_asal,
-				'form_action'  => site_url("bumindes_tanah_kas_desa/update_tanah_kas_desa/$id"), 
+				'form_action'  => site_url("bumindes_tanah_kas_desa/update_tanah_kas_desa/$id"),
 			];
 		}
 		else
@@ -150,34 +150,34 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		}
 
 		$this->set_minsidebar(1);
-		$this->render('bumindes/pembangunan/main', $data);		
+		$this->render('bumindes/pembangunan/main', $data);
 	}
 
 	public function add_tanah_kas_desa()
 	{
 		$this->tanah_kas_desa_model->add_tanah_kas_desa();
-		if ($_SESSION['success'] == -1)
+		if ($this->session->success == -1)
 		{
-			$_SESSION['dari_internal'] = true;
+			$this->session->dari_internal = true;
 			redirect("bumindes_tanah_kas_desa/form");
 		}
 		else
 		{
-			redirect("bumindes_tanah_kas_desa/clear");	
+			redirect("bumindes_tanah_kas_desa/clear");
 		}
 	}
 
 	public function update_tanah_kas_desa($id)
-	{		
+	{
 		$this->tanah_kas_desa_model->update_tanah_kas_desa();
-		if ($_SESSION['success'] == -1)
+		if ($this->session->success == -1)
 		{
-			$_SESSION['dari_internal'] = true;
+			$this->session->dari_internal = true;
 			redirect("bumindes_tanah_kas_desa/form/$id");
 		}
 		else
 		{
-			redirect("bumindes_tanah_kas_desa/clear");	
+			redirect("bumindes_tanah_kas_desa/clear");
 		}
 	}
 
@@ -190,19 +190,19 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 
 	public function cetak_tanah_kas_desa($tgl= '', $aksi = '')
 	{
-		$data = [	
-			'aksi' => $aksi,		
+		$data = [
+			'aksi' => $aksi,
 			'config' => $this->header['desa'],
 			'pamong_ketahui' => $this->pamong_model->get_ttd(),
 			'pamong_ttd' => $this->pamong_model->get_ub(),
 			'main' => $this->tanah_kas_desa_model->cetak_tanah_kas_desa(),
 			'bulan' => $this->session->filter_bulan,
 			'tahun' => $this->session->filter_tahun,
-			'tgl_cetak' => $tgl,	
+			'tgl_cetak' => $tgl,
 			'file' => "Buku Tanah Kas Desa",
 			'isi' => "bumindes/pembangunan/tanah_kas_desa/tanah_kas_desa_cetak",
 			'letak_ttd' => ['1', '1', '20'],
-		];		
-		$this->load->view('global/format_cetak', $data);		
+		];
+		$this->load->view('global/format_cetak', $data);
 	}
 }

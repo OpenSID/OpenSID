@@ -16,6 +16,8 @@ Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai ber
 5. [#1994](https://github.com/OpenSID/OpenSID/issues/1994) - Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
 6. Tampilkan catatan rilis di Dashboard Admin.
 7. [#4054](https://github.com/OpenSID/OpenSID/issues/4054) - Bisa impor survei Google Form ke master Analisis.
+8. [#2836](https://github.com/OpenSID/OpenSID/issues/2836) - Sediakan Buku Tanah Desa sesuai Permendagri 47/2016.
+9. [#2837]((https://github.com/OpenSID/OpenSID/issues/2837)) - Sediakan Buku Tanah Kas Desa sesuai Permendagri 47/2016.
 
 
 #### Perbaikan BUG
