@@ -286,11 +286,12 @@ class Analisis_import_Model extends CI_Model {
 
 	protected function getOAuthCredentialsFile()
 	{
-		if ((trim($this->setting->api_gform_credential)))
+		// Hanya ambil dari config jika tidak ada setting aplikasi utk redirect_uri
+		if ($this->setting->api_gform_credential)
 		{
 			$api_gform_credential = $this->setting->api_gform_credential;
 		}
-		else
+		elseif (empty($this->setting->api_gform_redirect_uri))
 		{
 			$api_gform_credential = config_item('api_gform_credential');
 		}
@@ -317,7 +318,8 @@ class Analisis_import_Model extends CI_Model {
 		$service = new Google_Service_Script($client);
 
 		// API script id
-		if (empty(trim($this->setting->api_gform_id_script)))
+		// Hanya ambil dari config jika tidak ada setting aplikasi unrtuk redirect_uri
+		if (empty($this->setting->api_gform_id_script) && empty($this->setting->api_gform_redirect_uri))
 		{
 			$script_id = config_item('api_gform_script_id');
 		}
@@ -325,7 +327,6 @@ class Analisis_import_Model extends CI_Model {
 		{
 			$script_id = $this->setting->api_gform_id_script;
 		}
-
 		// add "?logout" to the URL to remove a token from the session
 		if (isset($_REQUEST['logout']))
 			unset($_SESSION['upload_token']);

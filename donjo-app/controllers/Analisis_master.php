@@ -235,11 +235,11 @@ class Analisis_master extends Admin_Controller
 	*/
 	private function get_redirect_uri()
 	{
-		if ((trim($this->setting->api_gform_credential)))
+		if ($this->setting->api_gform_credential)
 		{
 			$api_gform_credential = $this->setting->api_gform_credential;
 		}
-		elseif (empty(trim($this->setting->api_gform_redirect_uri)))
+		elseif (empty($this->setting->api_gform_redirect_uri))
 		{
 			$api_gform_credential = config_item('api_gform_credential');
 		}

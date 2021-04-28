@@ -41,7 +41,7 @@ class Setting_model extends CI_Model {
 
 			foreach ($pr as $p)
 			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
+				$pre[addslashes($p->key)] = trim(addslashes($p->value));
 			}
 		}
 		else
