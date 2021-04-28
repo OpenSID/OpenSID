@@ -154,7 +154,7 @@ class Analisis_import_Model extends CI_Model {
 				}
 			}
 		}
-		
+
 		// Simpan Unique Value dari Kategori
 		foreach ($temp_unique_kategori as $key => $val)
 		{
@@ -199,7 +199,7 @@ class Analisis_import_Model extends CI_Model {
 					$data_indikator['act_analisis']	= 2;
 					$data_indikator['bobot'] = 0;
 				}
-	
+
 				$outp = $this->db->insert('analisis_indikator', $data_indikator);
 				$id_indikator = $this->db->insert_id();
 
@@ -220,7 +220,7 @@ class Analisis_import_Model extends CI_Model {
 					$id_parameter = $this->db->insert_id();
 					$temp_idx_parameter[$id_parameter] = $param_val;
 				}
-				
+
 				$count_indikator += 1;
 			}
 			$db_idx_indikator[$id_indikator] = $key;
@@ -250,12 +250,12 @@ class Analisis_import_Model extends CI_Model {
 			if ($data_analisis_master['subjek_tipe'] == 2)
 			{
 				$id_subject = $this->keluarga_model->get_keluarga_by_no_kk($nik_kk_subject)['id'];
-			} 
+			}
 			else
 			{
 				$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_kk_subject)['id'];
 			}
-			
+
 			if ($id_subject != NULL && $id_subject != "")
 			{
 				// Iterasi untuk setiap indikator / jawaban dari subjek
@@ -286,16 +286,21 @@ class Analisis_import_Model extends CI_Model {
 
 	protected function getOAuthCredentialsFile()
 	{
-		if (empty($this->setting->api_gform_credential))
-			return APPPATH . '../desa/config/oauth-credentials.json';
+		if ((trim($this->setting->api_gform_credential)))
+		{
+			$api_gform_credential = $this->setting->api_gform_credential;
+		}
 		else
-			return json_decode(str_replace('\"' , '"', $this->setting->api_gform_credential), true);
+		{
+			$api_gform_credential = config_item('api_gform_credential');
+		}
+		return json_decode(str_replace('\"' , '"', $api_gform_credential), true);
 	}
 
 	public function import_gform($redirect_link = "")
 	{
 		// Check Credential File
-		if (!$oauth_credentials = $this->getOAuthCredentialsFile()) 
+		if ( ! $oauth_credentials = $this->getOAuthCredentialsFile())
 		{
 			echo 'ERROR - File Credential Not Found';
 			return;
@@ -312,40 +317,36 @@ class Analisis_import_Model extends CI_Model {
 		$service = new Google_Service_Script($client);
 
 		// API script id
-		if (empty($this->setting->api_gform_id_script))
+		if (empty(trim($this->setting->api_gform_id_script)))
 		{
-			$script_id_file = APPPATH . '../desa/config/gform_idscript.txt';
-			$myfile = fopen($script_id_file, "r") or die("Unable to open file!");
-			$scriptId = fread($myfile, filesize($script_id_file));
-			fclose($myfile);
+			$script_id = config_item('api_gform_script_id');
 		}
-		else 
+		else
 		{
-			$scriptId = $this->setting->api_gform_id_script;
+			$script_id = $this->setting->api_gform_id_script;
 		}
-		
-		
+
 		// add "?logout" to the URL to remove a token from the session
-		if (isset($_REQUEST['logout'])) 
+		if (isset($_REQUEST['logout']))
 			unset($_SESSION['upload_token']);
 
 		if (isset($_GET['code'])) {
 			$token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
 			$client->setAccessToken($token);
-			
+
 			// store in the session also
 			$_SESSION['upload_token'] = $token;
 		}
 
 		// set the access token as part of the client
-		if (!empty($_SESSION['upload_token'])) 
+		if (!empty($_SESSION['upload_token']))
 		{
 			$client->setAccessToken($_SESSION['upload_token']);
 			if ($client->isAccessTokenExpired())
 				unset($_SESSION['upload_token']);
-		} 
+		}
 		else
-		{ 
+		{
 			$authUrl = $client->createAuthUrl();
 		}
 
@@ -357,23 +358,23 @@ class Analisis_import_Model extends CI_Model {
 			$form_id = $this->session->gform_id;
 		$request->setParameters($form_id);
 
-		try 
+		try
 		{
 			if (isset($authUrl) && $_SESSION['inside_retry'] != true)
-			{	
+			{
 				// If no authentication before
 				$this->session->gform_id = $form_id;
 				$this->session->inside_retry = true;
 				$this->session->inside_redirect_link = $redirect_link;
 				header('Location: ' . $authUrl);
-			} 
-			else 
+			}
+			else
 			{
 				// If it has authenticated
 				// Make the API request.
-				$response = $service->scripts->run($scriptId, $request);
+				$response = $service->scripts->run($script_id, $request);
 
-				if ($response->getError()) 
+				if ($response->getError())
 				{
 					echo 'Error';
 					// The API executed, but the script returned an error.
@@ -384,23 +385,23 @@ class Analisis_import_Model extends CI_Model {
 					$error = $response->getError()['details'][0];
 					printf("Script error message: %s\n", $error['errorMessage']);
 
-					if (array_key_exists('scriptStackTraceElements', $error)) 
+					if (array_key_exists('scriptStackTraceElements', $error))
 					{
 						// There may not be a stacktrace if the script didn't start executing.
 						print "Script error stacktrace:\n";
-						foreach($error['scriptStackTraceElements'] as $trace) 
+						foreach($error['scriptStackTraceElements'] as $trace)
 							printf("\t%s: %d\n", $trace['function'], $trace['lineNumber']);
 					}
-				} 
-				else 
+				}
+				else
 				{
 					// Get Response
 					$resp = $response->getResponse();
 					return $resp['result'];
 				}
 			}
-			
-		} catch (Exception $e) 
+
+		} catch (Exception $e)
 		{
 			// The API encountered a problem before the script started executing.
 			echo 'Caught exception: ', $e->getMessage(), "\n";
@@ -424,10 +425,10 @@ class Analisis_import_Model extends CI_Model {
 		$id_column_nik_kk = 0;
 		$list_error = array();
 		$list_pertanyaan = array();
-		
+
 		$deleted_responden = array();
 		$deleted_jawaban = array();
-		
+
 		foreach ($variabel['pertanyaan'] as $key_pertanyaan => $val_pertanyaan)
 		{
 			// Mencari kolom NIK/No. KK pada form
@@ -482,7 +483,7 @@ class Analisis_import_Model extends CI_Model {
 								'kode_jawaban' 	=> 0,
 								'asign' 		=> 0
 							];
-		
+
 							$outp = $this->db->insert('analisis_parameter', $data_parameter);
 							$id_parameter = $this->db->insert_id();
 							$data_parameter['id'] = $id_parameter;
@@ -510,7 +511,7 @@ class Analisis_import_Model extends CI_Model {
 			if ($master_data['subjek_tipe'] == 2)
 			{
 				$id_subject = $this->keluarga_model->get_keluarga_by_no_kk($nik_kk)['id'];
-			} 
+			}
 			else
 			{
 				$id_subject = $this->penduduk_model->get_penduduk_by_nik($nik_kk)['id'];
@@ -521,15 +522,15 @@ class Analisis_import_Model extends CI_Model {
 				foreach ($val_responden as $key_jawaban => $val_jawaban)
 				{
 					$id_indikator = array_search($variabel['pertanyaan'][$key_jawaban], $list_pertanyaan); // Cek apakah kolom yang telah ada
-	
+
 					if ($id_indikator){
 						$id_parameter = array_search($val_jawaban, $existing_data['parameter'][$id_indikator]); // Jawaban terkini
-	
+
 						if (isset($existing_respon[$val_responden[$id_column_nik_kk]]))
 						{
 							// Jika Responden sudah pernah disimpan
 							$obj_respon = $existing_respon[$nik_kk][$id_indikator];
-	
+
 							if ($obj_respon['id_parameter'] != $id_parameter)
 							{
 								$where = [
@@ -538,14 +539,14 @@ class Analisis_import_Model extends CI_Model {
 									'id_periode' => $obj_respon['id_periode']
 								];
 								$this->db->delete('analisis_respon', $where);
-	
+
 								$data_respon = [
 									'id_indikator'	=> $id_indikator,
 									'id_parameter'	=> $id_parameter,
 									'id_subjek' 	=> $obj_respon['id_subjek'],
 									'id_periode' 	=> $obj_respon['id_periode']
 								];
-	
+
 								$outp = $this->db->insert('analisis_respon', $data_respon);
 							}
 						}
@@ -558,13 +559,13 @@ class Analisis_import_Model extends CI_Model {
 								'id_subjek' 	=> $id_subject,
 								'id_periode' 	=> $id_periode_aktif
 							];
-	
+
 							$outp = $this->db->insert('analisis_respon', $data_respon);
 						}
 					}
 				}
-			} 
-			else 
+			}
+			else
 			{
 				array_push($list_error, 'NIK / No. KK data ke-' . ($key_responden+1) . " (" . $nik_kk . ") tidak valid");
 			}
@@ -576,7 +577,7 @@ class Analisis_import_Model extends CI_Model {
 			if ($master_data['subjek_tipe'] == 2)
 			{
 				$id_subject = $this->keluarga_model->get_keluarga_by_no_kk($key_responden)['id'];
-			} 
+			}
 			else
 			{
 				$id_subject = $this->penduduk_model->get_penduduk_by_nik($key_responden)['id'];
@@ -588,7 +589,7 @@ class Analisis_import_Model extends CI_Model {
 			];
 			$this->db->delete('analisis_respon', $where);
 		}
-		
+
 		// Update gform_last_sync
 		$update_data = [
 			'gform_last_sync' => date('Y-m-d H:i:s')

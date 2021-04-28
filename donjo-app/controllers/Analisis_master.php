@@ -224,25 +224,40 @@ class Analisis_master extends Admin_Controller
 		redirect('analisis_master');
 	}
 
+	/**
+		1. Credential
+		2. Id script
+		3. Redirect URI
+
+		- Jika 1 dan 2 diisi (asumsi user pakai akun google sendiri) eksekusi dari nilai yg diisi user. Abaikan isisan 3. Redirect ambil dari isian 1
+		- Jika 1 dan 2 kosong. 3 diisi. Import gform langsung menuju redirect field 3
+		- Jika semua tidak terisi (asumsi opensid ini yang jalan di server OpenDesa) ambil credential setting di file config
+	*/
+	private function get_redirect_uri()
+	{
+		if ((trim($this->setting->api_gform_credential)))
+		{
+			$api_gform_credential = $this->setting->api_gform_credential;
+		}
+		elseif (empty(trim($this->setting->api_gform_redirect_uri)))
+		{
+			$api_gform_credential = config_item('api_gform_credential');
+		}
+		if ($api_gform_credential)
+		{
+			$credential_data = json_decode(str_replace('\"' , '"', $api_gform_credential), true);
+			$redirect_uri = $credential_data['web']['redirect_uris'][0];
+		}
+		if (empty($redirect_uri)) $redirect_uri = $this->setting->api_gform_redirect_uri;
+
+		return $redirect_uri;
+	}
+
 	public function exec_import_gform()
 	{
 		$this->session->google_form_id = $this->input->post('input-form-id');
 
-		if (empty($this->setting->api_gform_redirect_uri)) 
-		{
-			$credential_file = APPPATH . '../desa/config/oauth-credentials.json';
-			$myfile = fopen($credential_file, "r") or die("Unable to open file!");
-			$api_gform_credential = fread($myfile, filesize($credential_file));
-			fclose($myfile);
-		}
-		else
-		{
-			$api_gform_credential = $this->setting->api_gform_credential;
-		}
-
-		$credential_data = json_decode(str_replace('\"' , '"', $api_gform_credential), true);
-		$REDIRECT_URI = empty($this->setting->api_gform_redirect_uri) ? $credential_data['web']['redirect_uris'][0] : $this->setting->api_gform_redirect_uri; 
-
+		$REDIRECT_URI = $this->get_redirect_uri();
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
@@ -298,21 +313,7 @@ class Analisis_master extends Admin_Controller
 	{
 		$this->session->google_form_id = $this->analisis_master_model->get_analisis_master($id)['gform_id'];
 
-		if (empty($this->setting->api_gform_redirect_uri)) 
-		{
-			$credential_file = APPPATH . '../desa/config/oauth-credentials.json';
-			$myfile = fopen($credential_file, "r") or die("Unable to open file!");
-			$api_gform_credential = fread($myfile, filesize($credential_file));
-			fclose($myfile);
-		}
-		else
-		{
-			$api_gform_credential = $this->setting->api_gform_credential;
-		}
-
-		$credential_data = json_decode(str_replace('\"' , '"', $api_gform_credential), true);
-		$REDIRECT_URI = empty($this->setting->api_gform_redirect_uri) ? $credential_data['web']['redirect_uris'][0] : $this->setting->api_gform_redirect_uri; 
-
+		$REDIRECT_URI = $this->get_redirect_uri();
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 		$self_link = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
