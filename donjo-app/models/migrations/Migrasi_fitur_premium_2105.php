@@ -55,6 +55,7 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false, 'default' => ''],
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false, 'default' => ''],
 		];
+
 		// Ubah keterangan setting aplikasi
 		$hasil = $hasil && $this->db->where('key', 'google_key')->update('setting_aplikasi', ['key' => 'mapbox_key', 'keterangan' => 'Mapbox API Key untuk peta']);
 
@@ -62,7 +63,17 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		$hasil = $hasil && $this->server_publik();
 		$hasil = $hasil && $this->convert_ip_address($hasil);
 		$hasil = $hasil && $this->tambah_kolom_log_keluarga($hasil);
+		$hasil = $hasil && $this->create_table_tanah_desa($hasil);
+		$hasil = $hasil && $this->create_table_tanah_kas_desa($hasil);
+		$hasil = $hasil && $this->hapus_kolom_tanah_di_desa();
+		$hasil = $hasil && $this->hapus_kolom_tanah_kas_desa();
+		$hasil = $hasil && $this->hapus_kolom_persil_tanah_kas_desa();
+		$hasil = $hasil && $this->ubah_kolom_tanah_di_desa();
+		$hasil = $hasil && $this->tambah_kolom_tanah_di_desa();
+		$hasil = $hasil && $this->tambah_kolom_nik_tanah_di_desa();
+		$hasil = $hasil && $this->tambah_kolom_tanah_kas_desa();
 		$hasil = $hasil && $this->pengaturan_grup($hasil);
+		$hasil = $hasil && $this->bumindes_updates($hasil);		//harus setelah fungsi pengaturan grup
 		$hasil = $hasil && $this->impor_google_form($hasil);
 
 		status_sukses($hasil);
@@ -266,95 +277,184 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 		return $hasil;
 	}
 
-	private function impor_google_form($hasil)
+	protected function create_table_tanah_desa($hasil)
 	{
-		$hasil = $hasil && $this->setting_script_id_gform($hasil);
-		$hasil = $hasil && $this->field_gform_id_master_analisis($hasil);
-		$hasil = $hasil && $this->tambah_pengaturan_analisis($hasil);
+		$this->dbforge->add_field([
+			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],		
+			'id_penduduk'       => ['type' => 'INT', 'constraint' => 10],	
+			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200],
+			'hak_tanah'         => ['type' => 'TEXT'],
+			'penggunaan_tanah'	=> ['type' => 'TEXT'],
+			'luas'     			=> ['type' => 'INT', 'constraint' => 10],
+			'lain' 				=> ['type' => 'TEXT'],
+			'mutasi' 			=> ['type' => 'TEXT'],
+			'keterangan' 		=> ['type' => 'TEXT'],
+			'created_at timestamp default current_timestamp',
+			'created_by'        => ['type' => 'INT', 'constraint' => 10],
+			'updated_at timestamp default current_timestamp',
+			'updated_by'        => ['type' => 'INT', 'constraint' => 10],
+			'visible'           => ['type' => 'TINYINT', 'constraint' => 3, 'default' => 1],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$this->dbforge->add_key('id_penduduk');
+		$hasil =& $this->dbforge->create_table('tanah_desa', true);	
 		return $hasil;
 	}
 
-	private function field_gform_id_master_analisis($hasil)
+	protected function create_table_tanah_kas_desa($hasil)
 	{
-		// Tambah field gfrom_id pada tabel analisis_master
-		if ( ! $this->db->field_exists('gform_id', 'analisis_master'))
-		{
-			$fields = [
-				'gform_id' => [
-					'type' => 'TEXT',
-					'null' => TRUE
-				],
-			];
+		$this->dbforge->add_field([
+			'id'                => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],			
+			'nama_pemilik_asal'	=> ['type' => 'VARCHAR', 'constraint' => 200],
+			'letter_c'          => ['type' => 'TEXT'],
+			'persil'         	=> ['type' => 'TEXT'],
+			'kelas' 		    => ['type' => 'TEXT'],
+			'luas'     			=> ['type' => 'INT', 'constraint' => 10],
+			'perolehan_tkd'     => ['type' => 'TEXT'],
+			'jenis_tkd'         => ['type' => 'TEXT'],
+			'patok'		        => ['type' => 'TEXT'],
+			'papan_nama'		=> ['type' => 'TEXT'],
+			'tanggal_perolehan date',
+			'lokasi'			=> ['type' => 'TEXT'],
+			'peruntukan' 		=> ['type' => 'TEXT'],
+			'mutasi' 			=> ['type' => 'TEXT'],
+			'keterangan' 		=> ['type' => 'TEXT'],
+			'created_at timestamp default current_timestamp',
+			'created_by'        => ['type' => 'INT', 'constraint' => 10],
+			'updated_at timestamp default current_timestamp',
+			'updated_by'        => ['type' => 'INT', 'constraint' => 10],
+			'visible'           => ['type' => 'TINYINT', 'constraint' => 2, 'default' => 1],
+		]);
 
-			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('tanah_kas_desa', true);
+		return $hasil;
+	}
+	// Hapus kolom tanah di desa
+	protected function hapus_kolom_tanah_di_desa()
+	{
+		$hasil = true;
+		if ($this->db->field_exists('hak_tanah', 'tanah_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_desa', 'hak_tanah');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_desa', 'penggunaan_tanah');
 		}
+		return $hasil;
+	}
 
-		// Tambah field gform_nik_item_id pada tabel analisis_master
-		if ( ! $this->db->field_exists('gform_nik_item_id', 'analisis_master'))
+	// Hapus kolom tanah kas desa
+	protected function hapus_kolom_tanah_kas_desa()
+	{
+		$hasil = true;
+
+		if ($this->db->field_exists('perolehan_tkd', 'tanah_kas_desa'))
 		{
-			$fields = [
-				'gform_nik_item_id' => [
-					'type' => 'TEXT',
-					'null' => TRUE
-				],
-			];
-
-			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
-		}
-
-		// Tambah field gform_last_sync pada tabel analisis_master
-		if ( ! $this->db->field_exists('gform_last_sync', 'analisis_master'))
-		{
-			$fields = [
-				'gform_last_sync' => [
-					'type' => 'DATETIME',
-					'null' => TRUE
-				],
-			];
-
-			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'perolehan_tkd');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'jenis_tkd');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'patok');
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'papan_nama');
 		}
 
 		return $hasil;
 	}
 
-	private function tambah_pengaturan_analisis($hasil)
+	// Hapus kolom persil tanah kas desa
+	protected function hapus_kolom_persil_tanah_kas_desa()
 	{
-		// Kosongkan url modul analisis yg sekarang ditambahkan submodul
-		$hasil = $hasil && $this->db
-			->set('url', '')
-			->where('id', 5)
-			->update('setting_modul');
-		$hasil = $hasil && $this->tambah_modul([
-			'id'         => 110,
-			'modul'      => 'Master Analisis',
-			'url'        => 'analisis_master/clear',
-			'aktif'      => 1,
-			'ikon'			 => 'fa-check-square-o',
-			'ikon_kecil' => 'fa-check-square-o',
-			'urut'       => 1,
-			'level'      => 1,
-			'hidden'     => 0,
-			'parent'     => 5
-		]);
-		$hasil = $hasil && $this->tambah_modul([
-			'id'         => 111,
-			'modul'      => 'Pengaturan',
-			'url'        => 'setting/analisis',
-			'aktif'      => 1,
-			'ikon'			 => 'fa-gear',
-			'ikon_kecil' => 'fa-gear',
-			'urut'       => 2,
-			'level'      => 1,
-			'hidden'     => 0,
-			'parent'     => 5
-		]);
-		// Tambahkan ke hak akses operator
-		$modul_tambahan = [
-			['id_grup' => 2, 'id_modul' => 110, 'akses' => 3],
-			['id_grup' => 2, 'id_modul' => 111, 'akses' => 3]
+		$hasil = true;
+
+		if ($this->db->field_exists('persil', 'tanah_kas_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->drop_column('tanah_kas_desa', 'persil');
+
+		}
+
+		return $hasil;
+	}
+
+	// Ubah kolom tanah desa
+	protected function ubah_kolom_tanah_di_desa()
+	{
+		$hasil = true;
+		$fields = [
+			'lain' => ['type' => 'int', 'constraint' => 11],			
 		];
-		$hasil = $hasil && $this->db->insert_batch('grup_akses', $modul_tambahan);
+		$hasil = $hasil && $this->dbforge->modify_column('tanah_desa', $fields);
+		return $hasil;
+	}
+
+	// Tambah kolom tanah di desa
+	protected function tambah_kolom_tanah_di_desa()
+	{
+		$hasil = true;
+		if ( ! $this->db->field_exists('hak_milik', 'tanah_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
+				'jenis_pemilik' => ['type' => 'TEXT','after' => 'id_penduduk'],
+				'hak_milik' => ['type' => 'INT','constraint' => 11, 'after' => 'luas'],
+				'hak_guna_bangunan' => ['type' => 'INT','constraint' => 11,'after' => 'hak_milik'],
+				'hak_pakai' => ['type' => 'INT','constraint' => 11,'after' => 'hak_guna_bangunan'],
+				'hak_guna_usaha' => ['type' => 'INT','constraint' => 11,'after' => 'hak_pakai'],
+				'hak_pengelolaan' => ['type' => 'INT','constraint' => 11,'after' => 'hak_guna_usaha'],
+				'hak_milik_adat' => ['type' => 'INT','constraint' => 11,'after' => 'hak_pengelolaan'],
+				'hak_verponding' => ['type' => 'INT','constraint' => 11,'after' => 'hak_milik_adat'],
+				'tanah_negara' => ['type' => 'INT','constraint' => 11,'after' => 'hak_verponding'],
+				'perumahan' => ['type' => 'INT','constraint' => 11,'after' => 'tanah_negara'],
+				'perdagangan_jasa' => ['type' => 'INT','constraint' => 11,'after' => 'perumahan'],
+				'perkantoran' => ['type' => 'INT','constraint' => 11,'after' => 'perdagangan_jasa'],
+				'industri' => ['type' => 'INT','constraint' => 11,'after' => 'perkantoran'],
+				'fasilitas_umum' => ['type' => 'INT','constraint' => 11,'after' => 'industri'],
+				'sawah' => ['type' => 'INT','constraint' => 11,'after' => 'fasilitas_umum'],
+				'tegalan' => ['type' => 'INT','constraint' => 11,'after' => 'sawah'],
+				'perkebunan' => ['type' => 'INT','constraint' => 11,'after' => 'tegalan'],
+				'peternakan_perikanan' => ['type' => 'INT','constraint' => 11,'after' => 'perkebunan'],
+				'hutan_belukar' => ['type' => 'INT','constraint' => 11,'after' => 'peternakan_perikanan'],
+				'hutan_lebat_lindung' => ['type' => 'INT','constraint' => 11,'after' => 'hutan_belukar'],
+				'tanah_kosong' => ['type' => 'INT','constraint' => 11,'after' => 'hutan_lebat_lindung'],
+			]);			
+		}
+
+		return $hasil;
+	}
+
+	protected function tambah_kolom_nik_tanah_di_desa()
+	{
+		$hasil = true;
+		if ( ! $this->db->field_exists('nik', 'tanah_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tanah_desa', [
+				'nik' => ['type' => 'DECIMAL', 'constraint' => 16.0,'after' => 'id_penduduk'],
+			]);			
+		}
+
+		return $hasil;
+	}
+
+	// Tambah kolom tanah kas desa
+	protected function tambah_kolom_tanah_kas_desa()
+	{
+		$hasil = true;
+		if ( ! $this->db->field_exists('asli_milik_desa', 'tanah_kas_desa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tanah_kas_desa', [				
+				'asli_milik_desa' => ['type' => 'INT','constraint' => 11, 'after' => 'luas'],
+				'pemerintah' => ['type' => 'INT','constraint' => 11,'after' => 'asli_milik_desa'],
+				'provinsi' => ['type' => 'INT','constraint' => 11,'after' => 'pemerintah'],
+				'kabupaten_kota' => ['type' => 'INT','constraint' => 11,'after' => 'provinsi'],
+				'lain_lain' => ['type' => 'INT','constraint' => 11,'after' => 'kabupaten_kota'],
+				'sawah' => ['type' => 'INT','constraint' => 11,'after' => 'lain_lain'],
+				'tegal' => ['type' => 'INT','constraint' => 11,'after' => 'sawah'],
+				'kebun' => ['type' => 'INT','constraint' => 11,'after' => 'tegal'],
+				'tambak_kolam' => ['type' => 'INT','constraint' => 11,'after' => 'kebun'],
+				'tanah_kering_darat' => ['type' => 'INT','constraint' => 11,'after' => 'tambak_kolam'],
+				'ada_patok' => ['type' => 'INT','constraint' => 11,'after' => 'tanah_kering_darat'],
+				'tidak_ada_patok' => ['type' => 'INT','constraint' => 11,'after' => 'ada_patok'],
+				'ada_papan_nama' => ['type' => 'INT','constraint' => 11,'after' => 'tidak_ada_patok'],
+				'tidak_ada_papan_nama' => ['type' => 'INT','constraint' => 11,'after' => 'ada_papan_nama'],				
+			]);
+		}
+
 		return $hasil;
 	}
 
@@ -653,4 +753,123 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 
 		return $hasil;
 	}
+
+	protected function bumindes_updates($hasil)
+	{
+		//update nama modul Bumindes Tanah Desa
+		$hasil =& $this->db->where('id', 305)->update('setting_modul', ['url' => 'bumindes_tanah_desa/clear']);
+
+		//menambahkan data pada setting_modul untuk controller 'bumindes_tanah_kas_desa'
+		$hasil =& $this->tambah_modul([
+			'id'         => 319,
+			'modul'      => 'Buku Tanah Kas Desa',
+			'url'        => 'bumindes_tanah_kas_desa/clear',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 305
+		]);
+
+		//menambahkan hak akses operator untuk modul 'bumindes tanah kas desa' 321
+		$hasil = $hasil && $this->db->insert('grup_akses', array('id_grup' => '2', 'id_modul' => '319', 'akses' => '3'));
+		
+		return $hasil;
+	}
+
+	private function tambah_pengaturan_analisis($hasil)
+	{
+		// Kosongkan url modul analisis yg sekarang ditambahkan submodul
+		$hasil = $hasil && $this->db
+			->set('url', '')
+			->where('id', 5)
+			->update('setting_modul');
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 110,
+			'modul'      => 'Master Analisis',
+			'url'        => 'analisis_master/clear',
+			'aktif'      => 1,
+			'ikon'			 => 'fa-check-square-o',
+			'ikon_kecil' => 'fa-check-square-o',
+			'urut'       => 1,
+			'level'      => 1,
+			'hidden'     => 0,
+			'parent'     => 5
+		]);
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 111,
+			'modul'      => 'Pengaturan',
+			'url'        => 'setting/analisis',
+			'aktif'      => 1,
+			'ikon'			 => 'fa-gear',
+			'ikon_kecil' => 'fa-gear',
+			'urut'       => 2,
+			'level'      => 1,
+			'hidden'     => 0,
+			'parent'     => 5
+		]);
+		// Tambahkan ke hak akses operator
+		$modul_tambahan = [
+			['id_grup' => 2, 'id_modul' => 110, 'akses' => 3],
+			['id_grup' => 2, 'id_modul' => 111, 'akses' => 3]
+		];
+		$hasil = $hasil && $this->db->insert_batch('grup_akses', $modul_tambahan);
+
+		return $hasil;
+	}
+
+	private function impor_google_form($hasil)
+	{
+		$hasil = $hasil && $this->setting_script_id_gform($hasil);
+		$hasil = $hasil && $this->field_gform_id_master_analisis($hasil);
+		$hasil = $hasil && $this->tambah_pengaturan_analisis($hasil);
+		return $hasil;
+	}
+
+	private function field_gform_id_master_analisis($hasil)
+	{
+		// Tambah field gfrom_id pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_id', 'analisis_master'))
+		{
+			$fields = [
+				'gform_id' => [
+					'type' => 'TEXT',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
+		// Tambah field gform_nik_item_id pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_nik_item_id', 'analisis_master'))
+		{
+			$fields = [
+				'gform_nik_item_id' => [
+					'type' => 'TEXT',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
+		// Tambah field gform_last_sync pada tabel analisis_master
+		if ( ! $this->db->field_exists('gform_last_sync', 'analisis_master'))
+		{
+			$fields = [
+				'gform_last_sync' => [
+					'type' => 'DATETIME',
+					'null' => TRUE
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->add_column('analisis_master', $fields);
+		}
+
+		return $hasil;
+	}
+	
 }
