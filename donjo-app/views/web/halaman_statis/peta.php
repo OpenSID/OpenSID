@@ -244,7 +244,7 @@ td {
     var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
 
     //Menampilkan BaseLayers Peta
-    var baseLayers = getBaseLayers(mymap, '<?=$this->setting->google_key?>');
+    var baseLayers = getBaseLayers(mymap, '<?=$this->setting->mapbox_key?>');
 
     //Geolocation IP Route/GPS
   	geoLocation(mymap);

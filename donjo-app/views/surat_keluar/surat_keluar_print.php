@@ -70,9 +70,9 @@
 					<tr><td colspan="6">&nbsp;</td>
 					<tr>
 						<td colspan="1">&nbsp;</td>
-						<td colspan="2">( <?= $pamong_ketahui['pamong_nama']?> )</td>
+						<td colspan="2">( <?= $pamong_ketahui['nama']?> )</td>
 						<td colspan="2">&nbsp;</td>
-						<td>( <?= $pamong_ttd['pamong_nama']?> )</td>
+						<td>( <?= $pamong_ttd['nama']?> )</td>
 					</tr>
 				</table>
 			</div>

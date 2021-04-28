@@ -52,7 +52,6 @@
 				}
 			}
 		}
-
 		return $aktif;
 	}
 
@@ -75,7 +74,7 @@
 		foreach ($data as $sub_modul)
 		{
 			// Modul yang tidak boleh diakses tidak dimasukkan
-			if ($this->user_model->hak_akses($_SESSION['grup'], $sub_modul['url'], 'b'))
+			if ($this->user_model->hak_akses($this->session->grup, $sub_modul['url'], 'b', $pakai_url = true))
 				$aktif[] = $sub_modul;
 		}
 
@@ -237,7 +236,7 @@
 
 	public function modul_aktif($controller)
 	{
-		$selalu_aktif = array('hom_sid', 'user_setting', 'notif');
+		$selalu_aktif = array('hom_sid', 'user_setting', 'notif', 'wilayah');
 		if (in_array($controller, $selalu_aktif)) return true;
 
 		// Periksa apakah modulnya aktif atau tidak

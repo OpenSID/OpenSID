@@ -9,8 +9,8 @@
 	<section class="content-header">
 		<h1>Buku Administrasi Pembangunan</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active"><?= $subtitle ?></li>
+			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>			
+			<?=$subtitle?>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">

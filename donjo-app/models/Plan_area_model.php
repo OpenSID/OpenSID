@@ -93,13 +93,7 @@ class Plan_area_model extends MY_Model {
 		$row = $this->list_data_sql()->row_array();
 		$jml_data = $row['id'];
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $this->paginasi($p, $jml_data);
 	}
 
 	private function list_data_sql()
