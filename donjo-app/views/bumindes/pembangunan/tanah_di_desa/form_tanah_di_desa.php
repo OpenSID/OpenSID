@@ -45,13 +45,13 @@
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Nama
                                     Perorangan / Badan Hukum</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm nama required" type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal ? $main->nama_pemilik_asal : $main->nama ?>" name="pemilik_asal" id="pemilik_asal" />
+                                    <input class="form-control input-sm nama required" type="text" placeholder="Pemilik" value="<?= $main->nama_pemilik_asal ?: $main->nama ?>" name="pemilik_asal" id="pemilik_asal" />
                                 </div>
                             </div>
                             <div class="form-group" id="nik_penduduk">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="nik">NIK Penduduk</label>
                                 <div class="col-sm-8">
-                                    <input class="form-control input-sm nik required" maxlength="16"  min="0" type="text" placeholder="0" value="<?= $main->nik_penduduk ? $main->nik_penduduk : $main->nik ?>" name="nik" id="nik" />
+                                    <input class="form-control input-sm nik required" maxlength="16"  min="0" type="text" placeholder="0" value="<?= $main->nik_penduduk ?: $main->nik ?>" name="nik" id="nik" />
                                 </div>
                             </div>
                             <div class="form-group">
