@@ -515,8 +515,7 @@ class Penduduk_model extends MY_Model {
 			->join('log_penduduk log', 'log_max.max_id = log.id')
 			->join('ref_peristiwa ra', 'ra.id = log.kode_peristiwa', 'left')
 			->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
-			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left')
-			->join('program_peserta pp', 'u.nik = pp.peserta', 'left');
+			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left');
 	}
 
 	public function list_data_map()

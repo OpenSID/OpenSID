@@ -34,6 +34,7 @@ Premium - perbaikan bug:
 25. #4154: Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten. [bug-fix]
 26. Sekarang bisa kembali tambah penduduk dengan NIK 0. [bug-fix]
 27. Tampilkan penandatangan yg benar di Laporan Penduduk per Wilayah, Surat Keluar dan Buku Data Aparat Pemerintahan Desa. [bug-fix]
+28. Sekarang penduduk tidak tampil ganda di Kependudukan > Penduduk jika menjadi peserta di lebih dari satu program bantuan. [bug-fix]
 
 
 Premium - penambahan fitur:
