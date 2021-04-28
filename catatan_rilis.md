@@ -49,6 +49,7 @@ Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai ber
 26. Ubah keterangan Google Key menjadi Mapbox Key di pengaturan aplikasi.
 27. Sekarang bisa kembali tambah penduduk dengan NIK 0. [bug-fix]
 28. Tampilkan penandatangan yg benar di Laporan Penduduk per Wilayah, Surat Keluar dan Buku Data Aparat Pemerintahan Desa. [bug-fix]
+29. Sekarang penduduk tidak tampil ganda di Kependudukan > Penduduk jika menjadi peserta di lebih dari satu program bantuan. [bug-fix]
 
 
 #### Perubahan Teknis
