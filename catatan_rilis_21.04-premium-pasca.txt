@@ -33,7 +33,7 @@ Premium - perbaikan bug:
 24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan. [bug-fix]
 25. #4154: Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten. [bug-fix]
 26. Sekarang bisa kembali tambah penduduk dengan NIK 0. [bug-fix]
-27. Tampilkan penandatangan yg benar di Laporan Penduduk per Wilayah, Surat Keluar dan Buku Data Aparat Pemerintahan Desa. [big-fix]
+27. Tampilkan penandatangan yg benar di Laporan Penduduk per Wilayah, Surat Keluar dan Buku Data Aparat Pemerintahan Desa. [bug-fix]
 
 
 Premium - penambahan fitur:
