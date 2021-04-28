@@ -87,7 +87,8 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		$this->render('bumindes/pembangunan/main', $data);
 	}
 
-	public function clear(){
+	public function clear()
+	{
 		$this->session->filter_tahun = date('Y');
 		$this->session->filter_bulan = date('m');
 
@@ -109,7 +110,8 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		$this->render('bumindes/pembangunan/main', $data);
 	}
 
-	public function form($id = ''){
+	public function form($id = '')
+	{
 		if ($id)
 		{
 			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_desa'). ">Buku Tanah di Desa</a>
