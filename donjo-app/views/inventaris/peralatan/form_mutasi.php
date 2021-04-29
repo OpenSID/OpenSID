@@ -43,18 +43,19 @@
 
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Peralatan</label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="status" class="form-control input-sm required">
+											<select name="status_mutasi" id="status" class="form-control input-sm required">
 												<option value="Baik">Baik</option>
 												<option value="Rusak">Rusak</option>
-												<option value="Baik">Penghapusan</option>
+												<option value="Diperbaiki">Diperbaiki</option>
+												<option value="Hapus">Dihapus</option>
 											</select>
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Penghapusan</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Jenis Mutasi</label>
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm ">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
