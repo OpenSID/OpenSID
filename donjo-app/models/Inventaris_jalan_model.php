@@ -92,7 +92,8 @@ class Inventaris_jalan_model extends CI_Model
 	{
 		$this->db->insert($this->table_mutasi, array_filter($data));
 		$id = $this->db->insert_id();
-		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_jalan']));
+		$status_ivntrs= ($data['status_mutasi'] === 'Hapus') ? 1 : 0 ;  // status 1 adalah untuk barang yang sudah terhapus
+		$this->db->update($this->table, array('status' => $status_ivntrs), array('id' => $data['id_inventaris_jalan']));
 		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
 		return $inserted;
 	}

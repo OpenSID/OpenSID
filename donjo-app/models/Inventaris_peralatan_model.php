@@ -89,9 +89,11 @@ class Inventaris_peralatan_model extends CI_Model
 
 	public function add_mutasi($data)
 	{
+
 		$this->db->insert($this->table_mutasi, array_filter($data));
+ 		$status_ivntrs= ($data['status_mutasi'] === 'Hapus') ? 1 : 0 ;  // status 1 adalah untuk barang yang sudah terhapus
 		$id = $this->db->insert_id();
-		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_peralatan']));
+		$this->db->update($this->table, array('status' => $status_ivntrs), array('id' => $data['id_inventaris_peralatan'])); // set status
 		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
 		return $inserted;
 	}
