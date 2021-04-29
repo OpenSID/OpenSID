@@ -58,6 +58,7 @@
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm required">
 												<optgroup label="Penghapusan">
+													<option value="Baik">Status Baik</option>
 													<option value="Rusak">Status Rusak</option>
 													<option value="Diperbaiki">Status Diperbaiki</option>
 												</optgroup>
