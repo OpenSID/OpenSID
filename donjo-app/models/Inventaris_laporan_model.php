@@ -246,10 +246,23 @@ class Inventaris_laporan_model extends CI_Model
 		$this->db->group_by('asset');
 		$this->db->group_by('id_inventaris_asset');
 		$this->db->order_by('tahun_mutasi', 'desc');
-		foreach ($this->db->get('rekap_mutasi_iventaris')->result() as $key => $asset) {
-			$mutasi [$asset->asset] [$asset->id_inventaris_asset] = $asset;
-		  	 
+		foreach ($this->db->get('rekap_mutasi_inventaris')->result() as $asset) {
+			$akhir_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset;
 		}
+
+		// mutasi asset yang tidak rusak saat tahun n-1 data dianggal sebagai data akhir tahun n dan awal tahun
+		$this->db->select('concat(b.asset,b.id_inventaris_asset)');
+		$this->db->where('b.status_mutasi', 'Rusak');
+		$this->db->where('year(tahun_mutasi) <', $tahun);
+		$sub_q = $this->db->from('rekap_mutasi_inventaris as b')->get_compiled_select();
+		
+		 
+		$this->db->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})"); 
+		$this->db->group_by('a.asset');
+		$this->db->group_by('a.id_inventaris_asset');
+		$this->db->order_by('a.tahun_mutasi', 'desc');
+		$this->db->get('rekap_mutasi_inventaris as a');
+		 
 	}
 
 }
