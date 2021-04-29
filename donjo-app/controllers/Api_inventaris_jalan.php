@@ -46,6 +46,7 @@ class Api_inventaris_jalan extends Admin_Controller
 	{
 		$data = $this->inventaris_jalan_model->add_mutasi(array(
 			'id_inventaris_jalan' => $this->input->post('id_inventaris_jalan'),
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual'),
