@@ -30,6 +30,7 @@
 																<th class="text-center">Kode Barang / Nomor Registrasi</th>
 																<th class="text-center">Tahun Pengadaan</th>
 																<th class="text-center">Tanggal Mutasi</th>
+																<th class="text-center">Status Peralatan</th>
 																<th class="text-center">Jenis Mutasi</th>
 																<th class="text-center" width="300px">Keterangan</th>
 															</tr>
@@ -50,6 +51,7 @@
 																	<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																	<td><?= $data->tahun_pengadaan;?></td>
 																	<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
+																	<td><?= $data->status_mutasi;?></td>
 																	<td><?= $data->jenis_mutasi;?></td>
 																	<td><?= $data->keterangan;?></td>
 																</tr>
