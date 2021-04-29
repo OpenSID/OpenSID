@@ -40,20 +40,36 @@
 											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm required" name="register" id="register" type="text" disabled/>
 										</div>
 									</div>
+
+
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm required">
+											<select name="mutasi" id="status" class="form-control input-sm required">
+												<option value="Baik">Baik</option>
+												<option value="Rusak">Rusak</option>
+												<option value="Baik">Penghapusan</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Penghapusan</label>
+										<div class="col-sm-4">
+											<select name="mutasi" id="mutasi" class="form-control input-sm ">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
-												<option value="Rusak">Status Rusak</option>
-												<option value="Diperbaiki">Status Diperbaiki</option>
-												<optgroup label="Barang Masih Baik">
-													<option value="Masih Baik Disumbangkan">Sumbangakan</option>
-													<option value="Masih Baik Dijual">Jual</option>
+												<optgroup label="Penghapusan">
+													<option value="Rusak">Status Rusak</option>
+													<option value="Diperbaiki">Status Diperbaiki</option>
 												</optgroup>
-												<optgroup label="Barang Sudah Rusak">
-													<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
-													<option value="Barang Rusak Dijual">Jual</option>
+												<optgroup label="Disumbangkan">
+													<option value="Masih Baik Disumbangkan">Masih Baik</option>
+													<option value="Barang Rusak Disumbangkan">Rusak</option>
+												</optgroup>
+												<optgroup label="Jual">
+													<option value="Masih Baik Dijual">Masih Baik</option>
+													<option value="Barang Rusak Dijual">Rusak</option>
+												</optgroup>
 												</optgroup>
 											</select>
 										</div>
@@ -127,6 +143,16 @@
 				$(".harga_jual").hide();
 			}
 		});
+
+		$("#status").change(function() {
+			var status = $(this).value();
+			if (status = "Baik") {
+				$("#mutasi").hide();
+			}else{
+				$("#mutasi").show();
+			}
+		});
+		
 	});
 </script>
 
