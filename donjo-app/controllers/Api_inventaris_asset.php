@@ -49,6 +49,7 @@ class Api_inventaris_asset extends Admin_Controller {
 		$data = $this->inventaris_asset_model->add_mutasi(array(
 			'id_inventaris_asset' => $this->input->post('id_inventaris_asset'),
 			'jenis_mutasi' => $this->input->post('mutasi'),
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),

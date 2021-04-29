@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+           			 <div class="box-header with-border">
 						<a href="<?= site_url() ?>inventaris_asset" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Asset Lainnya</a>
 						</div>
 						<div class="box-body">
@@ -44,10 +44,10 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Asset</label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="status" class="form-control input-sm required">
+											<select name="status_mutasi" id="status" class="form-control input-sm required">
 												<option value="Baik">Baik</option>
 												<option value="Rusak">Rusak</option>
-												<option value="Baik">Penghapusan</option>
+												<option value="Hapus">Penghapusan</option>
 											</select>
 										</div>
 									</div>

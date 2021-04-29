@@ -238,6 +238,20 @@ class Inventaris_laporan_model extends CI_Model
 		return $result;
 	}
 
+	public function permen_47($tahun)
+	{
+		$mutasi = [];
+		// mutasi tahun akhir rusak
+		$this->db->where('year(tahun_mutasi)', $tahun);
+		$this->db->group_by('asset');
+		$this->db->group_by('id_inventaris_asset');
+		$this->db->order_by('tahun_mutasi', 'desc');
+		foreach ($this->db->get('rekap_mutasi_iventaris')->result() as $key => $asset) {
+			$mutasi [$asset->asset] [$asset->id_inventaris_asset] = $asset;
+		  	 
+		}
+	}
+
 }
 
 
