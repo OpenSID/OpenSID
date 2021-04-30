@@ -7,7 +7,7 @@
     </ol>
   </section>
   <section class="content" id="maincontent">
-    <form id="mainformexcel" name="mainformexcel" method="post" class="form-horizontal">
+    <form id="mainformexcel" name="mainformexcel" method="post" class="">
       <div class="row">
         <div class="col-md-3">
           <?php $this->load->view('inventaris/menu_kiri.php')?>
@@ -15,11 +15,7 @@
         <div class="col-md-9">
           <div class="box box-info">
             <div class="box-header with-border">
-              <a href="<?= site_url('inventaris_jalan/form')?>"
-                class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-                title="Tambah Data Baru">
-                <i class="fa fa-plus"></i>Tambah Data
-              </a>
+              
               <a href="#"
                 class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                 title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox"
@@ -38,12 +34,18 @@
                 <div class="col-sm-12">
                   <div class="row">
                     <div class="col-sm-9">
-                      <div class="form-group">
+                      <div class="dataTables_wrapper form-inline dt-bootstrap"> 
+                        <div class="form-group">
                         <select class="form-control input-sm " name="tahun"
                           onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
                           <option value="">Tahun</option>
+                          <?php for ($i=date("Y"); $i>=1900; $i--): ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                          <?php endfor; ?>
                         </select>
                       </div>
+                      </div>
+                      
                     </div>
                     <div class="col-sm-12">
 
@@ -101,19 +103,19 @@
                             <tr>
                               <td></td>
                               <td><?= $uraian ?></td>
-                              <td><?= count($asset['Pembelian Sendiri']) ?></td>
-                              <td><?= count($asset['Bantuan Pemerintah']) ?></td>
-                              <td><?= count($asset['Bantuan Provinsi']) ?></td>
-                              <td><?= count($asset['Bantuan Kabupaten']) ?></td>
-                              <td><?= count($asset['Sumbangan']) ?></td>
-                              <td><?= count($asset['awal_baik']) ?></td>
-                              <td><?= count($asset['awal_rusak']) ?></td>
-                              <td><?= count($asset['hapus_rusak']) ?></td>
-                              <td><?= count($asset['hapus_jual']) ?></td>
-                              <td><?= count($asset['hapus_sumbang']) ?></td>
-                              <td><?= $asset['tgl_hapus'] ?></td>
-                              <td><?= count($asset['akhir_baik']) ?></td>
-                              <td><?= count($asset['akhir_rusak']) ?></td>
+                              <td class="text-center"><?= count($asset['Pembelian Sendiri']) ?></td>
+                              <td class="text-center"><?= count($asset['Bantuan Pemerintah']) ?></td>
+                              <td class="text-center"><?= count($asset['Bantuan Provinsi']) ?></td>
+                              <td class="text-center"><?= count($asset['Bantuan Kabupaten']) ?></td>
+                              <td class="text-center"><?= count($asset['Sumbangan']) ?></td>
+                              <td class="text-center"><?= count($asset['awal_baik']) ?></td>
+                              <td class="text-center"><?= count($asset['awal_rusak']) ?></td>
+                              <td class="text-center"><?= count($asset['hapus_rusak']) ?></td>
+                              <td class="text-center"><?= count($asset['hapus_jual']) ?></td>
+                              <td class="text-center"><?= count($asset['hapus_sumbang']) ?></td>
+                              <td class="text-center"><?= $asset['tgl_hapus'] ?></td>
+                              <td class="text-center"><?= count($asset['akhir_baik']) ?></td>
+                              <td class="text-center"><?= count($asset['akhir_rusak']) ?></td>
                               <td>
                                 <ul>
                                   <?php foreach ($$asset->keterangan as $ket): ?>
@@ -137,8 +139,7 @@
                   </div>
                 </div>
               </div>
-              <?php $this->load->view('inventaris/inventaris_global_dialog_unduh') ?>
-              <?php $this->load->view('inventaris/inventaris_global_dialog_cetak') ?>
+             
             </div>
           </div>
         </div>
@@ -146,17 +147,19 @@
     </form>
   </section>
 </div>
+<?php $this->load->view('inventaris/inventaris_permen47_cetak') ?>
+<?php $this->load->view('inventaris/inventaris_permen47_unduh') ?>
 <?php $this->load->view('global/confirm_delete');?>
 <script>
 $("#form_cetak").click(function(event) {
-  var link = '<?= site_url("inventaris_jalan/cetak"); ?>' + '/' + $('#tahun_pdf').val() + '/' + $(
-    '#penandatangan_pdf').val();
+  var link = '<?= site_url("laporan_inventaris/permendagri_47_cetak"); ?>' +  '/' + $('#kades').val() + '/' + $('#sekdes').val();
   window.open(link, '_blank');
 });
 $("#form_download").click(function(event) {
-  var link = '<?= site_url("inventaris_jalan/download"); ?>' + '/' + $('#tahun').val() + '/' + $('#penandatangan')
-    .val();
+  var link = '<?= site_url("laporan_inventaris/permendagri_47_excel"); ?>' +  '/' + $('#kades_unduh').val() + '/' + $('#sekdes_unduh').val();
   window.open(link, '_blank');
+
+   
 });
 
 $(document).ready(function() {
@@ -165,24 +168,11 @@ $(document).ready(function() {
     $('#tabelpermendagri').DataTable({
       lengthChange: false,
       searching: false,
-      info: false
+      info: false,
+      ordering : false
     });
 
   });
-
-
-  $("#form_cetak").click(function(event) {
-    var link = 'http://localhost/afila/premium/index.php/laporan_inventaris/cetak' + '/' + $('#tahun_pdf')
-      .val() + '/' + $('#penandatangan_pdf').val();
-    window.open(link, '_blank');
-    // alert('fell');
-  });
-
-  $("#form_download").click(function(event) {
-    var link = 'http://localhost/afila/premium/index.php/laporan_inventaris/download' + '/' + $('#tahun')
-      .val() + '/' + $('#penandatangan').val();
-    window.open(link, '_blank');
-    // alert('fell');
-  });
+ 
 });
 </script>
