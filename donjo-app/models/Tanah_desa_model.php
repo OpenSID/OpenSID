@@ -1,5 +1,50 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model untuk modul Bumindes Tanah Desa
+ *
+ * donjo-app/models/Tanah_desa_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
 class Tanah_desa_model extends CI_Model
 {
 
@@ -59,21 +104,21 @@ class Tanah_desa_model extends CI_Model
 
 	public function add_tanah_desa()
 	{
-		unset($_SESSION['validation_error']);
-		unset($_SESSION['success']);
-		$_SESSION['error_msg'] = '';
+		unset($this->session->validation_error);
+		unset($this->session->success);
+		$this->session->error_msg = '';
 
-		$data = $_POST;
+		$data = $this->input->post();
 		$error_validasi = $this->validasi_data($data);
 
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
 			{
-				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+				$this->session->error_msg .= ': ' . $error . '\n';
 			}
-			$_SESSION['post'] = $_POST;
-			$_SESSION['success']=-1;
+			$this->session->post =  $this->input->post();
+			$this->session->success = -1;
 			return;
 		}
 
@@ -123,21 +168,21 @@ class Tanah_desa_model extends CI_Model
 
 	public function update_tanah_desa()
 	{
-		unset($_SESSION['validation_error']);
-		unset($_SESSION['success']);
-		$_SESSION['error_msg'] = '';
+		unset($this->session->validation_error);
+		unset($this->session->success);
+		$this->session->error_msg = '';
 
-		$data = $_POST;
+		$data = $this->input->post();
 		$error_validasi = $this->validasi_data($data, $data['id']);
 
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
 			{
-				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+				$this->session->error_msg .= ': ' . $error . '\n';
 			}
-			$_SESSION['post'] = $_POST;
-			$_SESSION['success']=-1;
+			$this->session->post =  $this->input->post();
+			$this->session->success = -1;
 			return;
 		}
 
@@ -191,18 +236,18 @@ class Tanah_desa_model extends CI_Model
 			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 		}
 
-		if(empty($data['penduduk']))
+		if (empty($data['penduduk']))
 		{
-			if(isset($data['nik']))
+			if (isset($data['nik']))
 			{
-				if($error_nik = $this->nik_error($data['nik'], 'NIK'))
+				if ($error_nik = $this->nik_error($data['nik'], 'NIK'))
 				{
 					array_push($valid, $error_nik);
 				}
 				else
 				{
 					// add
-					if($id==0)
+					if ($id==0)
 					{
 						$nik_check = $this->nik_warga_luar_checking($data['nik']);
 						if($nik_check)
@@ -212,10 +257,10 @@ class Tanah_desa_model extends CI_Model
 					}else{
 					// update
 						$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
-						if(!$nik_old_check)
+						if (!$nik_old_check)
 						{
 							$nik_check = $this->nik_warga_luar_checking($data['nik']);
-							if($nik_check)
+							if ($nik_check)
 							{
 								array_push($valid, "NIK {$data['nik']} sudah digunakan");
 							}
@@ -263,7 +308,7 @@ class Tanah_desa_model extends CI_Model
 		$data['visible'] 				= 1;
 
 		if (!empty($valid))
-			$_SESSION['validation_error'] = true;
+			$this->session->validation_error = true;
 
 		return $valid;
 	}
@@ -277,9 +322,9 @@ class Tanah_desa_model extends CI_Model
 				->limit(1);
 		$data = $this->db
 				->get()
-				->result_array();
+				->row();
 
-		if($nik==$data[0]['nik'])
+		if ($nik==$data->nik)
 		{
 			return true;
 		}else
@@ -297,7 +342,7 @@ class Tanah_desa_model extends CI_Model
 				->limit(1);
 		$data = $this->db
 				->get()
-				->result_array();
+				->row();
 				
 		return $data;
 	}
@@ -309,6 +354,7 @@ class Tanah_desa_model extends CI_Model
 			return $judul . " hanya berisi angka";
 		if (strlen($nilai) != 16 AND $nilai != '0')
 			return $judul .  " panjangnya harus 16 atau bernilai 0";
+			
 		return false;
 	}
 
@@ -354,8 +400,9 @@ class Tanah_desa_model extends CI_Model
 				->limit(1);
 		$data = $this->db
 				->get()
-				->result_array();
-		$result = array_diff($filter, [$data[0]['id_penduduk']]);
+				->row();
+		$result = array_diff($filter, [$data->id_penduduk]);
+
 		return $result;
 	}
 
@@ -369,17 +416,17 @@ class Tanah_desa_model extends CI_Model
 				->result_array();
 
 		$filter = $this->get_penduduk_terdaftar();
-		if($id!='')
+		if ($id!='')
 		{	
 			$filter = $this->with_current_penduduk($filter,$id);
 		}
 
-		if(count($data)>0)
+		if (count($data)>0)
 		{
 			$j=0;
 			for ($i=0; $i < count($data); $i++) 
 			{ 
-				if(!in_array($data[$i]['id'], $filter))
+				if (!in_array($data[$i]['id'], $filter))
 				{
 					$result[$j]['id'] = $data[$i]['id'];
 					$result[$j]['nama'] = $data[$i]['nama'];

@@ -1,3 +1,51 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Kas Desa
+ *
+ * donjo-app/views/bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <form class="form-horizontal" id="validasi" name="form_tanah_kas" method="post" action="<?= $form_action ?>">
     <div class="row">
         <div class="col-md-12">
@@ -319,7 +367,8 @@
 	{
 		var view = <?= $view_mark?>;       
 		var asal = "<?= $asal_tanah ?>";       
-        if(1==view){
+        if (1==view)
+        {
             $("#pemilik_asal").attr("disabled",true);
             $("#letter_c_persil").attr("disabled",true);
             $("#kelas").attr("disabled",true);                        
@@ -345,11 +394,12 @@
             $("#keterangan").attr("disabled",true);
             $('#form_footer').hide();
             showHide(asal);
-    
-        }else if(view==2)
+        }
+        else if (view==2)
         {        
             showHide(asal);
-        }else
+        }
+        else
         {
             $("#view_asli_milik_desa").hide();   
             $("#view_pemerintah").hide();   
@@ -361,21 +411,23 @@
 
     function showHide(param)
     {
-        if(param=='JUALBELI')
+        if (param=='JUALBELI')
         {
             $("#view_asli_milik_desa").show();   
             $("#view_pemerintah").hide();   
             $("#view_provinsi").hide();   
             $("#view_kabupaten_kota").hide();   
             $("#view_lain_lain").hide();   
-        }else if(param=='HIBAH')
+        }
+        else if (param=='HIBAH')
         {
             $("#view_asli_milik_desa").hide();   
             $("#view_pemerintah").show();   
             $("#view_provinsi").show();   
             $("#view_kabupaten_kota").show();   
             $("#view_lain_lain").hide();   
-        }else
+        }
+        else
         {
             $("#view_asli_milik_desa").hide();   
             $("#view_pemerintah").hide();   
@@ -392,8 +444,7 @@
             +parseFloat($('#pemerintah').val())
             +parseFloat($('#provinsi').val())
             +parseFloat($('#kabupaten_kota').val())
-            +parseFloat($('#lain_lain').val())            
-        // $('#luas').val(res);
+            +parseFloat($('#lain_lain').val());            
         return res;
     }
 
@@ -439,7 +490,8 @@
         $("#"+param).show();
     }
 
-    function resetField(){
+    function resetField()
+    {
         $('#sawah').val(0)
         $('#tegal').val(0)
         $('#kebun').val(0)
@@ -453,7 +505,7 @@
 
     function pilihAsalTanah(param)
     {   
-        if("JUALBELI"==param)
+        if ("JUALBELI"==param)
         {
             $("#view_label_asal_tanah").hide();
             var hideView = ["view_pemerintah","view_provinsi","view_kabupaten_kota","view_lain_lain"];
@@ -461,8 +513,8 @@
             var showView = ["view_asli_milik_desa"];
             showView.forEach(resetShowSection); 
             resetField();
-
-        }else if("HIBAH"==param)
+        }
+        else if ("HIBAH"==param)
         {
             $("#view_label_asal_tanah").hide();
             var hideView = ["view_asli_milik_desa","view_lain_lain"];
@@ -470,8 +522,8 @@
             var showView = ["view_pemerintah","view_provinsi","view_kabupaten_kota"];
             showView.forEach(resetShowSection);
             resetField();
-
-        }else if("LAIN"==param)
+        }
+        else if ("LAIN"==param)
         {
             $("#view_label_asal_tanah").hide();
             var hideView = ["view_asli_milik_desa","view_pemerintah","view_provinsi","view_kabupaten_kota"];
@@ -479,7 +531,8 @@
             var showView = ["view_lain_lain"];
             showView.forEach(resetShowSection);
             resetField();
-        }else
+        }
+        else
         {
             $("#view_label_asal_tanah").show();
             var hideView = ["view_asli_milik_desa","view_pemerintah","view_provinsi","view_kabupaten_kota","view_lain_lain"];
@@ -496,14 +549,15 @@
         var dinTKD = dinamicJenisTKD();
         var dinPatok = dinamicPatok();
         var dinPapan = dinamicPapan();
-        if(luas==dinLuas
+        if (luas==dinLuas
             &&luas==dinTKD
             &&luas==dinPatok
             &&luas==dinPapan
         )
         {
             $("#validasi").submit();
-        }else
+        }
+        else
         {
             notify = 'error';
 			notify_msg = 'Luas Tanah Tidak Sesuai';

@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Buku Administrasi Desa >  Administrasi Pembangunan > Buku Tanah Desa
+ * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Desa
  *
  * donjo-app/views/bumindes/pembangunan/tanah_di_desa/tanah_di_desa_cetak.php
  *

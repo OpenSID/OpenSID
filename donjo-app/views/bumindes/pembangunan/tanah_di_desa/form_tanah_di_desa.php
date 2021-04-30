@@ -1,3 +1,51 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Desa
+ *
+ * donjo-app/views/bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= $form_action ?>">
 	<div class="row">
 		<div class="col-md-12">
@@ -387,7 +435,8 @@
 <script>
 	$(document).ready(function () {
 		var view = <?=$view_mark?>;
-		if (1 == view) {
+		if (1 == view) 
+		{
 			$("#penduduk").attr("disabled", true);
 			$("#nik").attr("disabled", true);
 			$("#pemilik_asal").attr("disabled", true);
@@ -421,7 +470,8 @@
 			$('#pilihan_penduduk').hide();
 			$('#pilihan_pemilik').hide();
 			$('#form_footer').hide();
-		}else
+		}
+		else
 		{
 			pilih_pemilik((<?=$main->jenis_pemilik? : 1?> ))
 		}
@@ -430,7 +480,8 @@
 	function pilih_pemilik(pilih)
 	{
 		$('#jenis_pemilik').val(pilih);
-		if (pilih == 1) {
+		if (pilih == 1) 
+		{
 			$('#penduduk').val($('#id_penduduk').val());
 			$('#penduduk').addClass('required');
 			$('#pemilik_asal').val('');
@@ -439,7 +490,9 @@
 			$('#nama_penduduk').hide();
 			$('#nik_penduduk').hide();
 			$('#pilihan_penduduk').show();
-		} else {
+		} 
+		else 
+		{
 			$('#penduduk').val('');
 			$('#pemilik_asal').addClass('required');
 			$('#penduduk').removeClass('required');
