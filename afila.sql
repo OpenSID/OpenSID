@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : local
-Source Server Version : 100417
+Source Server Version : 100113
 Source Host           : localhost:3306
 Source Database       : opensid
 
 Target Server Type    : MYSQL
-Target Server Version : 100417
+Target Server Version : 100113
 File Encoding         : 65001
 
-Date: 2021-04-30 06:53:50
+Date: 2021-04-30 16:04:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `agenda`;
 CREATE TABLE `agenda` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_artikel` int(11) NOT NULL,
-  `tgl_agenda` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tgl_agenda` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `koordinator_kegiatan` varchar(50) NOT NULL,
   `lokasi_kegiatan` varchar(100) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -45,12 +45,12 @@ CREATE TABLE `analisis_indikator` (
   `id_master` int(11) NOT NULL,
   `nomor` varchar(10) DEFAULT NULL,
   `pertanyaan` varchar(400) NOT NULL,
-  `id_tipe` tinyint(4) NOT NULL DEFAULT 1,
-  `bobot` tinyint(4) NOT NULL DEFAULT 0,
-  `act_analisis` tinyint(1) NOT NULL DEFAULT 2,
+  `id_tipe` tinyint(4) NOT NULL DEFAULT '1',
+  `bobot` tinyint(4) NOT NULL DEFAULT '0',
+  `act_analisis` tinyint(1) NOT NULL DEFAULT '2',
   `id_kategori` int(4) NOT NULL,
-  `is_publik` tinyint(1) NOT NULL DEFAULT 0,
-  `is_teks` tinyint(1) NOT NULL DEFAULT 0,
+  `is_publik` tinyint(1) NOT NULL DEFAULT '0',
+  `is_teks` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `id_master` (`id_master`,`id_tipe`) USING BTREE,
   KEY `id_tipe` (`id_tipe`) USING BTREE,
@@ -234,16 +234,16 @@ CREATE TABLE `analisis_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(40) NOT NULL,
   `subjek_tipe` tinyint(4) NOT NULL,
-  `lock` tinyint(1) NOT NULL DEFAULT 1,
+  `lock` tinyint(1) NOT NULL DEFAULT '1',
   `deskripsi` text NOT NULL,
   `kode_analisis` varchar(5) NOT NULL DEFAULT '00000',
   `id_kelompok` int(11) DEFAULT NULL,
   `pembagi` varchar(10) NOT NULL DEFAULT '100',
   `id_child` smallint(4) DEFAULT NULL,
   `format_impor` tinyint(2) DEFAULT NULL,
-  `jenis` tinyint(2) NOT NULL DEFAULT 2,
-  `gform_id` text DEFAULT NULL,
-  `gform_nik_item_id` text DEFAULT NULL,
+  `jenis` tinyint(2) NOT NULL DEFAULT '2',
+  `gform_id` text,
+  `gform_nik_item_id` text,
   `gform_last_sync` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -264,9 +264,9 @@ CREATE TABLE `analisis_parameter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_indikator` int(11) NOT NULL,
   `jawaban` varchar(200) NOT NULL,
-  `nilai` int(3) NOT NULL DEFAULT 0,
-  `kode_jawaban` int(3) DEFAULT 0,
-  `asign` tinyint(1) NOT NULL DEFAULT 0,
+  `nilai` int(3) NOT NULL DEFAULT '0',
+  `kode_jawaban` int(3) DEFAULT '0',
+  `asign` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `id_indikator` (`id_indikator`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1052 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -1335,7 +1335,7 @@ CREATE TABLE `analisis_partisipasi` (
   `id_subjek` int(11) NOT NULL,
   `id_master` int(11) NOT NULL,
   `id_periode` int(11) NOT NULL,
-  `id_klassifikasi` int(11) NOT NULL DEFAULT 1,
+  `id_klassifikasi` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `id_subjek` (`id_subjek`,`id_master`,`id_periode`,`id_klassifikasi`) USING BTREE,
   KEY `id_master` (`id_master`) USING BTREE,
@@ -1355,8 +1355,8 @@ CREATE TABLE `analisis_periode` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `id_state` tinyint(4) NOT NULL DEFAULT 1,
-  `aktif` tinyint(1) NOT NULL DEFAULT 0,
+  `id_state` tinyint(4) NOT NULL DEFAULT '1',
+  `aktif` tinyint(1) NOT NULL DEFAULT '0',
   `keterangan` varchar(100) NOT NULL,
   `tahun_pelaksanaan` year(4) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -1442,7 +1442,7 @@ CREATE TABLE `analisis_respon_bukti` (
   `id_periode` tinyint(4) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `pengesahan` varchar(100) NOT NULL,
-  `tgl_update` timestamp NOT NULL DEFAULT current_timestamp()
+  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
@@ -1458,7 +1458,7 @@ CREATE TABLE `analisis_respon_hasil` (
   `id_periode` tinyint(4) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `akumulasi` double(8,3) NOT NULL,
-  `tgl_update` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -1527,12 +1527,12 @@ CREATE TABLE `anjungan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(100) NOT NULL,
   `keterangan` varchar(300) DEFAULT NULL,
-  `keyboard` tinyint(1) DEFAULT 1,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `keyboard` tinyint(1) DEFAULT '1',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -1547,8 +1547,8 @@ DROP TABLE IF EXISTS `area`;
 CREATE TABLE `area` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `path` text DEFAULT NULL,
-  `enabled` int(11) NOT NULL DEFAULT 1,
+  `path` text,
+  `enabled` int(11) NOT NULL DEFAULT '1',
   `ref_polygon` int(9) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `id_cluster` int(11) DEFAULT NULL,
@@ -1571,20 +1571,20 @@ CREATE TABLE `artikel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` varchar(200) DEFAULT NULL,
   `isi` text NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT 1,
-  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+  `enabled` int(2) NOT NULL DEFAULT '1',
+  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_kategori` int(4) NOT NULL,
   `id_user` int(4) NOT NULL,
   `judul` varchar(100) NOT NULL,
-  `headline` int(1) NOT NULL DEFAULT 0,
+  `headline` int(1) NOT NULL DEFAULT '0',
   `gambar1` varchar(200) DEFAULT NULL,
   `gambar2` varchar(200) DEFAULT NULL,
   `gambar3` varchar(200) DEFAULT NULL,
   `dokumen` varchar(400) DEFAULT NULL,
   `link_dokumen` varchar(200) DEFAULT NULL,
-  `boleh_komentar` tinyint(1) NOT NULL DEFAULT 1,
+  `boleh_komentar` tinyint(1) NOT NULL DEFAULT '1',
   `slug` varchar(200) DEFAULT NULL,
-  `hit` int(11) DEFAULT 0,
+  `hit` int(11) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -1638,7 +1638,7 @@ CREATE TABLE `captcha_codes` (
   `code` varchar(32) NOT NULL,
   `code_display` varchar(32) NOT NULL,
   `created` int(11) NOT NULL,
-  `audio_data` mediumblob DEFAULT NULL,
+  `audio_data` mediumblob,
   PRIMARY KEY (`id`,`namespace`) USING BTREE,
   KEY `created` (`created`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -1658,12 +1658,12 @@ CREATE TABLE `cdesa` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
   `nomor` varchar(20) NOT NULL,
   `nama_kepemilikan` varchar(100) NOT NULL,
-  `jenis_pemilik` tinyint(1) NOT NULL DEFAULT 0,
+  `jenis_pemilik` tinyint(1) NOT NULL DEFAULT '0',
   `nama_pemilik_luar` varchar(100) DEFAULT NULL,
   `alamat_pemilik_luar` varchar(200) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `nomor` (`nomor`) USING BTREE
@@ -1712,7 +1712,7 @@ CREATE TABLE `config` (
   `lng` varchar(20) DEFAULT NULL,
   `zoom` tinyint(4) DEFAULT NULL,
   `map_tipe` varchar(20) DEFAULT NULL,
-  `path` text DEFAULT NULL,
+  `path` text,
   `alamat_kantor` varchar(200) DEFAULT NULL,
   `email_desa` varchar(50) DEFAULT NULL,
   `telepon` varchar(50) DEFAULT NULL,
@@ -1818,21 +1818,21 @@ CREATE TABLE `dokumen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `satuan` varchar(200) DEFAULT NULL,
   `nama` varchar(200) NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT 1,
-  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
-  `id_pend` int(11) NOT NULL DEFAULT 0,
-  `kategori` tinyint(3) NOT NULL DEFAULT 1,
+  `enabled` int(2) NOT NULL DEFAULT '1',
+  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_pend` int(11) NOT NULL DEFAULT '0',
+  `kategori` tinyint(3) NOT NULL DEFAULT '1',
   `attr` text NOT NULL,
   `tahun` int(4) DEFAULT NULL,
   `kategori_info_publik` tinyint(4) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `deleted` tinyint(1) NOT NULL DEFAULT 0,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `id_syarat` int(11) DEFAULT NULL,
   `id_parent` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` varchar(16) DEFAULT NULL,
   `updated_by` varchar(16) DEFAULT NULL,
-  `dok_warga` tinyint(1) DEFAULT 0,
+  `dok_warga` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -1851,12 +1851,12 @@ INSERT INTO `dokumen` VALUES ('6', 'formulir-pengajuan-keberatan-informasi-od5ry
 DROP TABLE IF EXISTS `gambar_gallery`;
 CREATE TABLE `gambar_gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parrent` int(4) DEFAULT 0,
+  `parrent` int(4) DEFAULT '0',
   `gambar` varchar(200) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT 1,
-  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
-  `tipe` int(4) DEFAULT 0,
+  `enabled` int(2) NOT NULL DEFAULT '1',
+  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tipe` int(4) DEFAULT '0',
   `slider` tinyint(1) DEFAULT NULL,
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -1882,11 +1882,11 @@ DROP TABLE IF EXISTS `garis`;
 CREATE TABLE `garis` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `path` text DEFAULT NULL,
-  `enabled` int(11) NOT NULL DEFAULT 1,
+  `path` text,
+  `enabled` int(11) NOT NULL DEFAULT '1',
   `ref_line` int(9) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
-  `desk` text DEFAULT NULL,
+  `desk` text,
   `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -2717,14 +2717,14 @@ INSERT INTO `grup_akses` VALUES ('138', '2', '111', '3');
 -- ----------------------------
 DROP TABLE IF EXISTS `inbox`;
 CREATE TABLE `inbox` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `ReceivingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ReceivingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Text` text NOT NULL,
   `SenderNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
   `UDH` text NOT NULL,
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
-  `Class` int(11) NOT NULL DEFAULT -1,
+  `Class` int(11) NOT NULL DEFAULT '-1',
   `TextDecoded` text NOT NULL,
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `RecipientID` text NOT NULL,
@@ -2760,12 +2760,12 @@ CREATE TABLE `inventaris_asset` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -2796,12 +2796,12 @@ CREATE TABLE `inventaris_gedung` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -2823,7 +2823,7 @@ CREATE TABLE `inventaris_jalan` (
   `panjang` int(64) NOT NULL,
   `lebar` int(64) NOT NULL,
   `luas` int(64) NOT NULL,
-  `letak` text DEFAULT NULL,
+  `letak` text,
   `tanggal_dokument` date NOT NULL,
   `no_dokument` varchar(255) DEFAULT NULL,
   `status_tanah` varchar(255) DEFAULT NULL,
@@ -2832,12 +2832,12 @@ CREATE TABLE `inventaris_jalan` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -2855,7 +2855,7 @@ CREATE TABLE `inventaris_kontruksi` (
   `nama_barang` varchar(255) NOT NULL,
   `kondisi_bangunan` varchar(255) NOT NULL,
   `kontruksi_bertingkat` varchar(255) NOT NULL,
-  `kontruksi_beton` tinyint(1) DEFAULT 0,
+  `kontruksi_beton` tinyint(1) DEFAULT '0',
   `luas_bangunan` int(64) NOT NULL,
   `letak` varchar(255) NOT NULL,
   `tanggal_dokument` date DEFAULT NULL,
@@ -2866,12 +2866,12 @@ CREATE TABLE `inventaris_kontruksi` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -2901,12 +2901,12 @@ CREATE TABLE `inventaris_peralatan` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -2934,12 +2934,12 @@ CREATE TABLE `inventaris_tanah` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -2955,10 +2955,10 @@ DROP TABLE IF EXISTS `kategori`;
 CREATE TABLE `kategori` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `kategori` varchar(100) NOT NULL,
-  `tipe` int(4) NOT NULL DEFAULT 1,
+  `tipe` int(4) NOT NULL DEFAULT '1',
   `urut` tinyint(4) NOT NULL,
   `enabled` tinyint(4) NOT NULL,
-  `parrent` tinyint(4) NOT NULL DEFAULT 0,
+  `parrent` tinyint(4) NOT NULL DEFAULT '0',
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -3006,7 +3006,7 @@ CREATE TABLE `kelompok_anggota` (
   `id_kelompok` int(11) NOT NULL,
   `id_penduduk` int(11) NOT NULL,
   `no_anggota` varchar(20) DEFAULT NULL,
-  `keterangan` text DEFAULT NULL,
+  `keterangan` text,
   `jabatan` varchar(50) DEFAULT '90',
   `no_sk_jabatan` varchar(50) DEFAULT NULL,
   `foto` varchar(100) DEFAULT NULL,
@@ -3527,7 +3527,7 @@ CREATE TABLE `keuangan_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(50) NOT NULL,
   `tahun_anggaran` varchar(250) NOT NULL,
-  `aktif` int(2) NOT NULL DEFAULT 1,
+  `aktif` int(2) NOT NULL DEFAULT '1',
   `tanggal_impor` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -4202,7 +4202,7 @@ CREATE TABLE `keuangan_ta_pemda` (
   `Alamat` varchar(100) NOT NULL,
   `Nm_Bupati` varchar(100) NOT NULL,
   `Jbt_Bupati` varchar(100) NOT NULL,
-  `Logo` mediumblob DEFAULT NULL,
+  `Logo` mediumblob,
   `C_Kode` varchar(100) NOT NULL,
   `C_Pemda` varchar(100) NOT NULL,
   `C_Data` varchar(100) NOT NULL,
@@ -5014,7 +5014,7 @@ DROP TABLE IF EXISTS `klasifikasi_analisis_keluarga`;
 CREATE TABLE `klasifikasi_analisis_keluarga` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `jenis` int(11) NOT NULL DEFAULT 1,
+  `jenis` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -5031,7 +5031,7 @@ CREATE TABLE `klasifikasi_surat` (
   `kode` varchar(50) NOT NULL,
   `nama` varchar(250) NOT NULL,
   `uraian` mediumtext NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT 1,
+  `enabled` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2335 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -7382,14 +7382,14 @@ CREATE TABLE `komentar` (
   `id_artikel` int(7) NOT NULL,
   `owner` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `subjek` tinytext DEFAULT NULL,
+  `subjek` tinytext,
   `komentar` text NOT NULL,
-  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) DEFAULT NULL,
   `tipe` tinyint(1) DEFAULT NULL,
   `no_hp` varchar(15) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `is_archived` tinyint(1) DEFAULT 0,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_archived` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -7441,9 +7441,9 @@ CREATE TABLE `line` (
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(10) NOT NULL DEFAULT 'ff0000',
-  `tipe` int(4) DEFAULT 0,
-  `parrent` int(4) DEFAULT 1,
-  `enabled` int(11) NOT NULL DEFAULT 1,
+  `tipe` int(4) DEFAULT '0',
+  `parrent` int(4) DEFAULT '1',
+  `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `parrent` (`parrent`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -7470,7 +7470,7 @@ CREATE TABLE `log_bulanan` (
   `wni_lk` int(11) DEFAULT NULL,
   `wni_pr` int(11) DEFAULT NULL,
   `kk` int(11) NOT NULL,
-  `tgl` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   `wna_lk` int(11) DEFAULT NULL,
@@ -8121,11 +8121,11 @@ INSERT INTO `log_bulanan` VALUES ('1615', '97', '46', '51', '37', '2021-04-23 12
 DROP TABLE IF EXISTS `log_ekspor`;
 CREATE TABLE `log_ekspor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tgl_ekspor` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_ekspor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `kode_ekspor` varchar(100) NOT NULL,
-  `semua` int(1) NOT NULL DEFAULT 1,
+  `semua` int(1) NOT NULL DEFAULT '1',
   `dari_tgl` date DEFAULT NULL,
-  `total` int(11) NOT NULL DEFAULT 0,
+  `total` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -8143,7 +8143,7 @@ CREATE TABLE `log_hapus_penduduk` (
   `nik` decimal(16,0) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `deleted_by` varchar(100) DEFAULT NULL,
-  `deleted_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -8160,7 +8160,7 @@ CREATE TABLE `log_keluarga` (
   `id_kk` int(11) NOT NULL,
   `kk_sex` tinyint(2) DEFAULT NULL,
   `id_peristiwa` int(4) NOT NULL,
-  `tgl_peristiwa` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `id_pend` int(11) DEFAULT NULL,
   `updated_by` int(11) NOT NULL,
   `id_log_penduduk` int(10) DEFAULT NULL,
@@ -8183,16 +8183,16 @@ CREATE TABLE `log_penduduk` (
   `id_pend` int(11) NOT NULL,
   `kode_peristiwa` int(11) DEFAULT NULL,
   `meninggal_di` varchar(50) DEFAULT NULL,
-  `alamat_tujuan` tinytext DEFAULT NULL,
-  `tgl_lapor` timestamp NOT NULL DEFAULT current_timestamp(),
-  `tgl_peristiwa` datetime DEFAULT current_timestamp(),
-  `catatan` text DEFAULT NULL,
+  `alamat_tujuan` tinytext,
+  `tgl_lapor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_peristiwa` datetime DEFAULT CURRENT_TIMESTAMP,
+  `catatan` text,
   `no_kk` decimal(16,0) DEFAULT NULL,
   `nama_kk` varchar(100) DEFAULT NULL,
-  `ref_pindah` tinyint(4) DEFAULT 1,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `ref_pindah` tinyint(4) DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL,
   `maksud_tujuan_kedatangan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
@@ -8310,7 +8310,7 @@ CREATE TABLE `log_perubahan_penduduk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_pend` int(11) NOT NULL,
   `id_cluster` varchar(200) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -8328,7 +8328,7 @@ CREATE TABLE `log_surat` (
   `id_pend` int(11) DEFAULT NULL,
   `id_pamong` int(4) NOT NULL,
   `id_user` int(4) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `bulan` varchar(2) DEFAULT NULL,
   `tahun` varchar(4) DEFAULT NULL,
   `no_surat` varchar(20) DEFAULT NULL,
@@ -8353,7 +8353,7 @@ CREATE TABLE `lokasi` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `desk` text NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `enabled` int(11) NOT NULL DEFAULT 1,
+  `enabled` int(11) NOT NULL DEFAULT '1',
   `lat` varchar(30) DEFAULT NULL,
   `lng` varchar(30) DEFAULT NULL,
   `ref_point` int(9) NOT NULL,
@@ -8377,9 +8377,9 @@ DROP TABLE IF EXISTS `media_sosial`;
 CREATE TABLE `media_sosial` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` text NOT NULL,
-  `link` text DEFAULT NULL,
+  `link` text,
   `nama` varchar(100) NOT NULL,
-  `tipe` tinyint(1) DEFAULT 1,
+  `tipe` tinyint(1) DEFAULT '1',
   `enabled` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -8403,9 +8403,9 @@ CREATE TABLE `menu` (
   `nama` varchar(50) NOT NULL,
   `link` varchar(500) NOT NULL,
   `tipe` int(4) NOT NULL,
-  `parrent` int(4) NOT NULL DEFAULT 1,
-  `link_tipe` tinyint(1) NOT NULL DEFAULT 0,
-  `enabled` int(11) NOT NULL DEFAULT 1,
+  `parrent` int(4) NOT NULL DEFAULT '1',
+  `link_tipe` tinyint(1) NOT NULL DEFAULT '0',
+  `enabled` int(11) NOT NULL DEFAULT '1',
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -8520,12 +8520,12 @@ CREATE TABLE `mutasi_cdesa` (
   `cdesa_keluar` int(5) unsigned DEFAULT NULL,
   `jenis_mutasi` tinyint(2) DEFAULT NULL,
   `tanggal_mutasi` date DEFAULT NULL,
-  `keterangan` text DEFAULT NULL,
+  `keterangan` text,
   `id_persil` int(11) NOT NULL,
   `no_bidang_persil` tinyint(3) DEFAULT NULL,
   `luas` decimal(7,0) DEFAULT NULL,
   `no_objek_pajak` varchar(30) DEFAULT NULL,
-  `path` text DEFAULT NULL,
+  `path` text,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `cdesa_mutasi_fk` (`id_cdesa_masuk`) USING BTREE,
   CONSTRAINT `cdesa_mutasi_fk` FOREIGN KEY (`id_cdesa_masuk`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -8548,11 +8548,11 @@ CREATE TABLE `mutasi_inventaris_asset` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_mutasi_inventaris_asset` (`id_inventaris_asset`) USING BTREE,
   CONSTRAINT `FK_mutasi_inventaris_asset` FOREIGN KEY (`id_inventaris_asset`) REFERENCES `inventaris_asset` (`id`)
@@ -8587,11 +8587,11 @@ CREATE TABLE `mutasi_inventaris_gedung` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_mutasi_inventaris_gedung` (`id_inventaris_gedung`) USING BTREE,
   CONSTRAINT `FK_mutasi_inventaris_gedung` FOREIGN KEY (`id_inventaris_gedung`) REFERENCES `inventaris_gedung` (`id`)
@@ -8617,11 +8617,11 @@ CREATE TABLE `mutasi_inventaris_jalan` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_mutasi_inventaris_jalan` (`id_inventaris_jalan`) USING BTREE,
   CONSTRAINT `FK_mutasi_inventaris_jalan` FOREIGN KEY (`id_inventaris_jalan`) REFERENCES `inventaris_jalan` (`id`)
@@ -8648,11 +8648,11 @@ CREATE TABLE `mutasi_inventaris_peralatan` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_mutasi_inventaris_peralatan` (`id_inventaris_peralatan`) USING BTREE,
   CONSTRAINT `FK_mutasi_inventaris_peralatan` FOREIGN KEY (`id_inventaris_peralatan`) REFERENCES `inventaris_peralatan` (`id`)
@@ -8682,11 +8682,11 @@ CREATE TABLE `mutasi_inventaris_tanah` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT 1,
+  `visible` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `FK_mutasi_inventaris_tanah` (`id_inventaris_tanah`) USING BTREE,
   CONSTRAINT `FK_mutasi_inventaris_tanah` FOREIGN KEY (`id_inventaris_tanah`) REFERENCES `inventaris_tanah` (`id`)
@@ -8710,12 +8710,12 @@ CREATE TABLE `notifikasi` (
   `jenis` varchar(50) NOT NULL,
   `isi` text NOT NULL,
   `server` varchar(20) NOT NULL,
-  `tgl_berikutnya` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_berikutnya` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   `frekuensi` smallint(6) NOT NULL,
   `aksi` varchar(100) NOT NULL,
-  `aktif` tinyint(2) NOT NULL DEFAULT 1,
+  `aktif` tinyint(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `kode` (`kode`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -8731,24 +8731,24 @@ INSERT INTO `notifikasi` VALUES ('2', 'tracking_off', '<i class=\"fa fa-exclamat
 -- ----------------------------
 DROP TABLE IF EXISTS `outbox`;
 CREATE TABLE `outbox` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
-  `SendingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `SendBefore` time NOT NULL DEFAULT '23:59:59',
   `SendAfter` time NOT NULL DEFAULT '00:00:00',
-  `Text` text DEFAULT NULL,
+  `Text` text,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
-  `UDH` text DEFAULT NULL,
-  `Class` int(11) DEFAULT -1,
+  `UDH` text,
+  `Class` int(11) DEFAULT '-1',
   `TextDecoded` text NOT NULL,
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `MultiPart` enum('false','true') DEFAULT 'false',
-  `RelativeValidity` int(11) DEFAULT -1,
+  `RelativeValidity` int(11) DEFAULT '-1',
   `SenderID` varchar(255) DEFAULT NULL,
   `SendingTimeOut` timestamp NULL DEFAULT NULL,
   `DeliveryReport` enum('default','yes','no') DEFAULT 'default',
-  `CreatorID` text DEFAULT NULL,
+  `CreatorID` text,
   PRIMARY KEY (`ID`) USING BTREE,
   KEY `outbox_date` (`SendingDateTime`,`SendingTimeOut`) USING BTREE,
   KEY `outbox_sender` (`SenderID`) USING BTREE
@@ -8774,11 +8774,11 @@ CREATE TABLE `pembangunan` (
   `volume` varchar(100) DEFAULT NULL,
   `tahun_anggaran` year(4) DEFAULT NULL,
   `pelaksana_kegiatan` varchar(255) DEFAULT NULL,
-  `status` tinyint(3) NOT NULL DEFAULT 1,
+  `status` tinyint(3) NOT NULL DEFAULT '1',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
-  `anggaran` int(11) NOT NULL DEFAULT 0,
+  `anggaran` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `id_lokasi` (`id_lokasi`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -8816,12 +8816,12 @@ CREATE TABLE `permohonan_surat` (
   `id_pemohon` int(11) NOT NULL,
   `id_surat` int(11) NOT NULL,
   `isian_form` text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0,
-  `keterangan` text DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `keterangan` text,
   `no_hp_aktif` varchar(50) NOT NULL,
   `syarat` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -8836,12 +8836,12 @@ DROP TABLE IF EXISTS `persil`;
 CREATE TABLE `persil` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nomor` varchar(20) NOT NULL,
-  `nomor_urut_bidang` tinyint(3) NOT NULL DEFAULT 1,
+  `nomor_urut_bidang` tinyint(3) NOT NULL DEFAULT '1',
   `kelas` int(5) NOT NULL,
   `luas_persil` decimal(7,0) DEFAULT NULL,
   `id_wilayah` int(11) DEFAULT NULL,
-  `lokasi` text DEFAULT NULL,
-  `path` text DEFAULT NULL,
+  `lokasi` text,
+  `path` text,
   `cdesa_awal` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `nomor_nomor_urut_bidang` (`nomor`,`nomor_urut_bidang`) USING BTREE
@@ -8878,9 +8878,9 @@ CREATE TABLE `point` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
-  `tipe` int(4) DEFAULT 0,
-  `parrent` int(4) NOT NULL DEFAULT 1,
-  `enabled` int(11) NOT NULL DEFAULT 1,
+  `tipe` int(4) DEFAULT '0',
+  `parrent` int(4) NOT NULL DEFAULT '1',
+  `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `parrent` (`parrent`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -8907,9 +8907,9 @@ CREATE TABLE `polygon` (
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(10) NOT NULL DEFAULT 'ff0000',
-  `tipe` int(4) DEFAULT 0,
-  `parrent` int(4) DEFAULT 1,
-  `enabled` int(11) NOT NULL DEFAULT 1,
+  `tipe` int(4) DEFAULT '0',
+  `parrent` int(4) DEFAULT '1',
+  `enabled` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `parrent` (`parrent`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -8933,7 +8933,7 @@ CREATE TABLE `program` (
   `sdate` date NOT NULL,
   `edate` date NOT NULL,
   `userid` mediumint(9) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `asaldana` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -8985,7 +8985,7 @@ INSERT INTO `program_peserta` VALUES ('10', '5201140706966997', '5', '2', '52011
 -- ----------------------------
 DROP TABLE IF EXISTS `provinsi`;
 CREATE TABLE `provinsi` (
-  `kode` tinyint(2) NOT NULL DEFAULT 0,
+  `kode` tinyint(2) NOT NULL DEFAULT '0',
   `nama` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`kode`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -9094,7 +9094,7 @@ CREATE TABLE `ref_persil_kelas` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
   `tipe` varchar(20) NOT NULL,
   `kode` varchar(20) NOT NULL,
-  `ndesc` text DEFAULT NULL,
+  `ndesc` text,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -9117,7 +9117,7 @@ DROP TABLE IF EXISTS `ref_persil_mutasi`;
 CREATE TABLE `ref_persil_mutasi` (
   `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `ndesc` text DEFAULT NULL,
+  `ndesc` text,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -9215,24 +9215,24 @@ INSERT INTO `ref_syarat_surat` VALUES ('12', 'Surat imigrasi / STMD (Surat Tanda
 -- ----------------------------
 DROP TABLE IF EXISTS `sentitems`;
 CREATE TABLE `sentitems` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
-  `SendingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `DeliveryDateTime` timestamp NULL DEFAULT NULL,
   `Text` text NOT NULL,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
   `UDH` text NOT NULL,
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
-  `Class` int(11) NOT NULL DEFAULT -1,
+  `Class` int(11) NOT NULL DEFAULT '-1',
   `TextDecoded` text NOT NULL,
-  `ID` int(10) unsigned NOT NULL DEFAULT 0,
+  `ID` int(10) unsigned NOT NULL DEFAULT '0',
   `SenderID` varchar(255) NOT NULL,
-  `SequencePosition` int(11) NOT NULL DEFAULT 1,
+  `SequencePosition` int(11) NOT NULL DEFAULT '1',
   `Status` enum('SendingOK','SendingOKNoReport','SendingError','DeliveryOK','DeliveryFailed','DeliveryPending','DeliveryUnknown','Error') NOT NULL DEFAULT 'SendingOK',
-  `StatusError` int(11) NOT NULL DEFAULT -1,
-  `TPMR` int(11) NOT NULL DEFAULT -1,
-  `RelativeValidity` int(11) NOT NULL DEFAULT -1,
+  `StatusError` int(11) NOT NULL DEFAULT '-1',
+  `TPMR` int(11) NOT NULL DEFAULT '-1',
+  `RelativeValidity` int(11) NOT NULL DEFAULT '-1',
   `CreatorID` text NOT NULL,
   PRIMARY KEY (`ID`,`SequencePosition`) USING BTREE,
   KEY `sentitems_date` (`DeliveryDateTime`) USING BTREE,
@@ -9359,13 +9359,13 @@ CREATE TABLE `setting_modul` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `modul` varchar(50) NOT NULL,
   `url` varchar(50) NOT NULL,
-  `aktif` tinyint(1) NOT NULL DEFAULT 0,
+  `aktif` tinyint(1) NOT NULL DEFAULT '0',
   `ikon` varchar(50) DEFAULT '',
   `urut` int(4) DEFAULT NULL,
-  `level` tinyint(1) NOT NULL DEFAULT 2,
-  `hidden` tinyint(1) NOT NULL DEFAULT 0,
+  `level` tinyint(1) NOT NULL DEFAULT '2',
+  `hidden` tinyint(1) NOT NULL DEFAULT '0',
   `ikon_kecil` varchar(50) DEFAULT '',
-  `parent` int(2) NOT NULL DEFAULT 0,
+  `parent` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -9569,17 +9569,17 @@ CREATE TABLE `surat_keluar` (
   `nomor_surat` varchar(35) DEFAULT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `tanggal_surat` date NOT NULL,
-  `tanggal_catat` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tanggal_catat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `tujuan` varchar(100) DEFAULT NULL,
   `isi_singkat` varchar(200) DEFAULT NULL,
   `berkas_scan` varchar(100) DEFAULT NULL,
-  `ekspedisi` tinyint(1) DEFAULT 0,
+  `ekspedisi` tinyint(1) DEFAULT '0',
   `tanggal_pengiriman` date DEFAULT NULL,
   `tanda_terima` varchar(200) DEFAULT NULL,
   `keterangan` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -9766,6 +9766,7 @@ INSERT INTO `sys_traffic` VALUES ('2021-04-23', '{\"ip_address\":[\"\"]}', '2');
 INSERT INTO `sys_traffic` VALUES ('2021-04-24', '{\"ip_address\":[\"\"]}', '2');
 INSERT INTO `sys_traffic` VALUES ('2021-04-26', '{\"ip_address\":[\"\"]}', '2');
 INSERT INTO `sys_traffic` VALUES ('2021-04-29', '{\"ip_address\":[\"\"]}', '2');
+INSERT INTO `sys_traffic` VALUES ('2021-04-30', '{\"ip_address\":[\"::1\"]}', '1');
 
 -- ----------------------------
 -- Table structure for tanah_desa
@@ -9775,7 +9776,7 @@ CREATE TABLE `tanah_desa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_penduduk` int(10) NOT NULL,
   `nik` decimal(16,0) DEFAULT NULL,
-  `jenis_pemilik` text DEFAULT NULL,
+  `jenis_pemilik` text,
   `nama_pemilik_asal` varchar(200) NOT NULL,
   `luas` int(10) NOT NULL,
   `hak_milik` int(11) DEFAULT NULL,
@@ -9801,11 +9802,11 @@ CREATE TABLE `tanah_desa` (
   `lain` int(11) DEFAULT NULL,
   `mutasi` text NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(10) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(10) NOT NULL,
-  `visible` tinyint(3) NOT NULL DEFAULT 1,
+  `visible` tinyint(3) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `id_penduduk` (`id_penduduk`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -9843,11 +9844,11 @@ CREATE TABLE `tanah_kas_desa` (
   `peruntukan` text NOT NULL,
   `mutasi` text NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(10) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(10) NOT NULL,
-  `visible` tinyint(2) NOT NULL DEFAULT 1,
+  `visible` tinyint(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
@@ -9861,13 +9862,13 @@ CREATE TABLE `tanah_kas_desa` (
 DROP TABLE IF EXISTS `teks_berjalan`;
 CREATE TABLE `teks_berjalan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `teks` text DEFAULT NULL,
+  `teks` text,
   `urut` int(5) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL DEFAULT 0,
+  `status` int(1) NOT NULL DEFAULT '0',
   `tautan` varchar(150) DEFAULT NULL,
   `judul_tautan` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
@@ -14219,7 +14220,7 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_pangkat` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nohenti` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_tglhenti` date DEFAULT NULL,
-  `pamong_ub` tinyint(1) NOT NULL DEFAULT 0,
+  `pamong_ub` tinyint(1) NOT NULL DEFAULT '0',
   `atasan` int(11) DEFAULT NULL,
   `bagan_tingkat` tinyint(2) DEFAULT NULL,
   `bagan_offset` int(3) DEFAULT NULL,
@@ -14274,12 +14275,12 @@ CREATE TABLE `tweb_keluarga` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `no_kk` varchar(160) DEFAULT NULL,
   `nik_kepala` varchar(200) DEFAULT NULL,
-  `tgl_daftar` timestamp NULL DEFAULT current_timestamp(),
+  `tgl_daftar` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `kelas_sosial` int(4) DEFAULT NULL,
   `tgl_cetak_kk` datetime DEFAULT NULL,
   `alamat` varchar(200) DEFAULT NULL,
   `id_cluster` int(11) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `nik_kepala` (`nik_kepala`) USING BTREE
@@ -14331,7 +14332,7 @@ INSERT INTO `tweb_keluarga` VALUES ('37', '5201140211117003', '95', '2016-09-14 
 -- ----------------------------
 DROP TABLE IF EXISTS `tweb_keluarga_sejahtera`;
 CREATE TABLE `tweb_keluarga_sejahtera` (
-  `id` int(10) NOT NULL DEFAULT 0,
+  `id` int(10) NOT NULL DEFAULT '0',
   `nama` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -14353,8 +14354,8 @@ CREATE TABLE `tweb_penduduk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
   `nik` decimal(16,0) NOT NULL,
-  `id_kk` int(11) DEFAULT 0,
-  `kk_level` tinyint(2) NOT NULL DEFAULT 0,
+  `id_kk` int(11) DEFAULT '0',
+  `kk_level` tinyint(2) NOT NULL DEFAULT '0',
   `id_rtm` varchar(30) DEFAULT NULL,
   `rtm_level` int(11) DEFAULT NULL,
   `sex` tinyint(4) unsigned DEFAULT NULL,
@@ -14365,7 +14366,7 @@ CREATE TABLE `tweb_penduduk` (
   `pendidikan_sedang_id` int(1) DEFAULT NULL,
   `pekerjaan_id` int(1) DEFAULT NULL,
   `status_kawin` tinyint(4) DEFAULT NULL,
-  `warganegara_id` tinyint(4) NOT NULL DEFAULT 1,
+  `warganegara_id` tinyint(4) NOT NULL DEFAULT '1',
   `dokumen_pasport` varchar(45) DEFAULT NULL,
   `dokumen_kitas` varchar(45) DEFAULT NULL,
   `ayah_nik` varchar(16) DEFAULT NULL,
@@ -14378,7 +14379,7 @@ CREATE TABLE `tweb_penduduk` (
   `status` int(10) unsigned DEFAULT NULL,
   `alamat_sebelumnya` varchar(200) DEFAULT NULL,
   `alamat_sekarang` varchar(200) DEFAULT NULL,
-  `status_dasar` tinyint(4) NOT NULL DEFAULT 1,
+  `status_dasar` tinyint(4) NOT NULL DEFAULT '1',
   `hamil` int(1) DEFAULT NULL,
   `cacat_id` int(11) DEFAULT NULL,
   `sakit_menahun_id` int(11) DEFAULT NULL,
@@ -14401,15 +14402,15 @@ CREATE TABLE `tweb_penduduk` (
   `berat_lahir` smallint(6) DEFAULT NULL,
   `panjang_lahir` varchar(10) DEFAULT NULL,
   `tag_id_card` varchar(15) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) DEFAULT NULL,
   `id_asuransi` tinyint(5) DEFAULT NULL,
   `no_asuransi` char(100) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `bahasa_id` int(11) DEFAULT NULL,
-  `ket` tinytext DEFAULT NULL,
+  `ket` tinytext,
   `negara_asal` varchar(50) DEFAULT NULL,
   `tempat_cetak_ktp` varchar(50) DEFAULT NULL,
   `tanggal_cetak_ktp` date DEFAULT NULL,
@@ -14610,7 +14611,7 @@ CREATE TABLE `tweb_penduduk_mandiri` (
   `last_login` datetime DEFAULT NULL,
   `tanggal_buat` datetime DEFAULT NULL,
   `id_pend` int(9) NOT NULL,
-  `ganti_pin` tinyint(1) NOT NULL DEFAULT 1,
+  `ganti_pin` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_pend`) USING BTREE,
   CONSTRAINT `id_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
@@ -14891,7 +14892,7 @@ CREATE TABLE `tweb_rtm` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nik_kepala` int(11) NOT NULL,
   `no_kk` varchar(30) NOT NULL,
-  `tgl_daftar` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tgl_daftar` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `kelas_sosial` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `no_kk` (`no_kk`) USING BTREE,
@@ -15018,13 +15019,13 @@ CREATE TABLE `tweb_surat_format` (
   `url_surat` varchar(100) NOT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `lampiran` varchar(100) DEFAULT NULL,
-  `kunci` tinyint(1) NOT NULL DEFAULT 0,
-  `favorit` tinyint(1) NOT NULL DEFAULT 0,
-  `jenis` tinyint(2) NOT NULL DEFAULT 2,
-  `mandiri` tinyint(1) DEFAULT 0,
-  `masa_berlaku` int(3) DEFAULT 1,
+  `kunci` tinyint(1) NOT NULL DEFAULT '0',
+  `favorit` tinyint(1) NOT NULL DEFAULT '0',
+  `jenis` tinyint(2) NOT NULL DEFAULT '2',
+  `mandiri` tinyint(1) DEFAULT '0',
+  `masa_berlaku` int(3) DEFAULT '1',
   `satuan_masa_berlaku` varchar(15) DEFAULT 'M',
-  `qr_code` tinyint(1) NOT NULL DEFAULT 0,
+  `qr_code` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `url_surat` (`url_surat`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -15091,7 +15092,7 @@ CREATE TABLE `tweb_wil_clusterdesa` (
   `lat` varchar(20) DEFAULT NULL,
   `lng` varchar(20) DEFAULT NULL,
   `zoom` int(11) DEFAULT NULL,
-  `path` text DEFAULT NULL,
+  `path` text,
   `map_tipe` varchar(20) DEFAULT NULL,
   `warna` varchar(10) DEFAULT NULL,
   `urut` int(11) DEFAULT NULL,
@@ -15164,7 +15165,7 @@ CREATE TABLE `user` (
   `id_grup` int(5) NOT NULL,
   `email` varchar(100) NOT NULL,
   `last_login` datetime DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT 0,
+  `active` tinyint(1) unsigned DEFAULT '0',
   `nama` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
@@ -15176,7 +15177,7 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'admin', '$2y$10$mbfgk62tDLKV/sm8vNFReenoOjzJ3KZb/LoRjN0U/E9.oglZTzy3a', '1', 'info@opendesa.id', '2021-04-30 03:55:14', '1', 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
+INSERT INTO `user` VALUES ('1', 'admin', '$2y$10$mbfgk62tDLKV/sm8vNFReenoOjzJ3KZb/LoRjN0U/E9.oglZTzy3a', '1', 'info@opendesa.id', '2021-04-30 13:19:00', '1', 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
 
 -- ----------------------------
 -- Table structure for user_grup
@@ -15185,10 +15186,10 @@ DROP TABLE IF EXISTS `user_grup`;
 CREATE TABLE `user_grup` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `jenis` tinyint(2) NOT NULL DEFAULT 1,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `jenis` tinyint(2) NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
@@ -15208,13 +15209,13 @@ INSERT INTO `user_grup` VALUES ('5', 'Satgas Covid-19', '2', '2021-04-29 10:06:2
 DROP TABLE IF EXISTS `widget`;
 CREATE TABLE `widget` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `isi` text DEFAULT NULL,
+  `isi` text,
   `enabled` int(2) DEFAULT NULL,
   `judul` varchar(100) DEFAULT NULL,
-  `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
+  `jenis_widget` tinyint(2) NOT NULL DEFAULT '3',
   `urut` int(5) DEFAULT NULL,
   `form_admin` varchar(100) DEFAULT NULL,
-  `setting` text DEFAULT NULL,
+  `setting` text,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
@@ -15259,6 +15260,65 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW
 -- ----------------------------
 DROP VIEW IF EXISTS `keluarga_aktif`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`k`.`nik_kepala` AS `nik_kepala`,`k`.`tgl_daftar` AS `tgl_daftar`,`k`.`kelas_sosial` AS `kelas_sosial`,`k`.`tgl_cetak_kk` AS `tgl_cetak_kk`,`k`.`alamat` AS `alamat`,`k`.`id_cluster` AS `id_cluster` from (`tweb_keluarga` `k` left join `tweb_penduduk` `p` on((`k`.`nik_kepala` = `p`.`id`))) where (`p`.`status_dasar` = 1) ;
+
+-- ----------------------------
+-- View structure for master_inventaris
+-- ----------------------------
+DROP VIEW IF EXISTS `master_inventaris`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER  VIEW `master_inventaris` AS SELECT
+	'asset' AS asset,
+	inventaris_asset.id,
+	inventaris_asset.nama_barang,
+	inventaris_asset.kode_barang,
+	'Baik' AS kondisi,
+	inventaris_asset.keterangan,
+	inventaris_asset.asal
+FROM
+	inventaris_asset
+UNION ALL
+	SELECT
+		'gedung' AS asset,
+		inventaris_gedung.id,
+		inventaris_gedung.nama_barang,
+		inventaris_gedung.kode_barang,
+		inventaris_gedung.kondisi_bangunan,
+		inventaris_gedung.keterangan,
+		inventaris_gedung.asal
+	FROM
+		inventaris_gedung
+	UNION ALL
+		SELECT
+			'jalan' AS asset,
+			inventaris_jalan.id,
+			inventaris_jalan.nama_barang,
+			inventaris_jalan.kode_barang,
+			inventaris_jalan.kondisi,
+			inventaris_jalan.keterangan,
+			inventaris_jalan.asal
+		FROM
+			inventaris_jalan
+		UNION ALL
+			SELECT
+				'jalan' AS asset,
+				inventaris_peralatan.id,
+				inventaris_peralatan.nama_barang,
+				inventaris_peralatan.kode_barang,
+				'Baik',
+				inventaris_peralatan.keterangan,
+				inventaris_peralatan.asal
+			FROM
+				inventaris_peralatan
+			UNION ALL
+				SELECT
+					'jalan' AS asset,
+					inventaris_tanah.id,
+					inventaris_tanah.nama_barang,
+					inventaris_tanah.kode_barang,
+					'Baik',
+					inventaris_tanah.keterangan,
+					inventaris_tanah.asal
+				FROM
+					inventaris_tanah ;
 
 -- ----------------------------
 -- View structure for penduduk_hidup
