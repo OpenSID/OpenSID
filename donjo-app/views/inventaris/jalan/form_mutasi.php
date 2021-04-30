@@ -61,8 +61,7 @@
 											<select name="mutasi" id="mutasi" class="form-control input-sm ">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
 												<optgroup label="Penghapusan">
-													<option value="Baik">Status Baik</option>
-													<option value="Rusak">Status Rusak</option>
+ 													<option value="Rusak">Status Rusak</option>
 												</optgroup>
 												<optgroup label="Disumbangkan">
 													<option value="Masih Baik Disumbangkan">Masih Baik</option>
