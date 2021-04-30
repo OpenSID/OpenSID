@@ -115,6 +115,11 @@ class Laporan_inventaris extends Admin_Controller {
 	public function permendagri_47()
 	{
 		$tahun = 2021;
-		$this->inventaris_laporan_model->permen_47($tahun);
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['tip'] = 3;
+ 		$data['data'] 	= $this->inventaris_laporan_model->permen_47($tahun);
+ 		$data['tahun'] 	= $tahun;
+
+ 		$this->render('inventaris/laporan/table_permen47', $data);
 	}
 }
