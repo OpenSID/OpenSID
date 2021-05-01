@@ -7650,7 +7650,7 @@ INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1612, 97, 46, 51, 37, '2021-01-31 17:52:29', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1613, 97, 46, 51, 37, '2021-03-01 04:01:48', 28, 9, 0, 0);
 INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1614, 97, 46, 51, 37, '2021-04-01 02:07:16', 28, 9, 0, 0);
-INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1615, 97, 46, 51, 37, '2021-05-01 07:31:35', 28, 9, 0, 0);
+INSERT INTO `log_bulanan` (`id`, `pend`, `wni_lk`, `wni_pr`, `kk`, `tgl`, `kk_lk`, `kk_pr`, `wna_lk`, `wna_pr`) VALUES (1615, 97, 46, 51, 37, '2021-05-01 08:04:13', 28, 9, 0, 0);
 
 
 #
@@ -8302,7 +8302,7 @@ INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (6, '
 INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (7, 'Surat Keterangan Kematian dari Rumah Sakit, Rumah Bersalin Puskesmas, atau visum Dokter');
 INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (8, 'Surat Keterangan Cerai');
 INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (9, 'Fotokopi Ijasah Terakhir');
-INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (10, 'SK. PNS/KARIP/SK. TNI ÔÇô POLRI');
+INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (10, 'SK. PNS/KARIP/SK. TNI - POLRI');
 INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (11, 'Surat Keterangan Kematian dari Kepala Desa/Kelurahan');
 INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (12, 'Surat imigrasi / STMD (Surat Tanda Melapor Diri)');
 
@@ -8705,7 +8705,6 @@ INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-29
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-11-29', '::1{}', 1);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-12-31', '', 2);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2021-01-31', '127.0.0.1', 1);
-INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2021-05-01', '127.0.0.1', 1);
 
 
 #
@@ -13977,7 +13976,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, 'info@opendesa.id', '2021-05-01 07:31:45', 1, 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
+INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, 'info@opendesa.id', '2021-01-31 17:54:22', 1, 'Administrator', 'ADMIN', '321', 'favicon.png', 'a8d4080245664ed2049c1b2ded7cac30');
 
 
 #
