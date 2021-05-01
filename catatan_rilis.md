@@ -1,12 +1,10 @@
-#### [v21.04-premium-pasca - beta 2021-04-26](https://github.com/OpenSID/premium/compare/v21.04-premium...rilis-dev)
+#### [v21.05-premium - 2021-05-01](https://github.com/OpenSID/premium/compare/v21.04-premium...v21.05-premium)
 
-
-Rilis ini merupakan rilis beta, untuk diujicoba sebelum dirilis resmi pada tanggal 1 bulan yang akan datang.
-Rilis ini berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.05-premium, menyediakan Impor Survei Google Form ke Master Analisis. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Mokhamad Afila yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium - 2021-05-01 adalah sebagai berikut:
 
 #### Penambahan Fitur
 1. [#4108](https://github.com/OpenSID/OpenSID/issues/4108) - Filter arsip surat menurut bulan.
@@ -17,8 +15,7 @@ Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai ber
 6. Tampilkan catatan rilis di Dashboard Admin.
 7. [#4054](https://github.com/OpenSID/OpenSID/issues/4054) - Bisa impor survei Google Form ke master Analisis.
 8. [#2836](https://github.com/OpenSID/OpenSID/issues/2836) - Sediakan Buku Tanah Desa sesuai Permendagri 47/2016.
-9. [#2837]((https://github.com/OpenSID/OpenSID/issues/2837)) - Sediakan Buku Tanah Kas Desa sesuai Permendagri 47/2016.
-
+9. [#2837](https://github.com/OpenSID/OpenSID/issues/2837) - Sediakan Buku Tanah Kas Desa sesuai Permendagri 47/2016.
 
 #### Perbaikan BUG
 1. Perketat pemeriksaan file pada Database > Restore.
@@ -41,7 +38,7 @@ Lengkapnya, isi rilis versi v21.04-premium-pasca - 2021-04-28 adalah sebagai ber
 18. [#4140](https://github.com/OpenSID/OpenSID/issues/4140) - Sekarang jumlah rincian data suplemen yang tampil melalui menu statis web tidak dibatasi.
 19. [#4143](https://github.com/OpenSID/OpenSID/issues/4143) - Kurangi jumlah link halaman pada paginasi Pengaturan Peta > Area supaya terlihat lebih rapi.
 20. [#4148](https://github.com/OpenSID/OpenSID/issues/4148) - Sekarang bisa cari arsip layanan surat menggunakan nama penduduk berisi tanda petik (').
-21. [#4150](https://github.com/OpenSID/OpenSID/issues/4150) - Sekarang NIK ganda tidak bisa dimasukkan lagi. [bug-fix]
+21. [#4150](https://github.com/OpenSID/OpenSID/issues/4150) - Sekarang NIK ganda tidak bisa dimasukkan lagi.
 22. [#4152](https://github.com/OpenSID/OpenSID/issues/4152) - Sekarang penduduk mati/pindah/hilang yg belum kawin tidak lagi muncul di daftar penduduk lepas pada waktu menambah anggota keluarga dari penduduk yg ada.
 23. Sekarang penduduk mati/pindah/hilang tidak lagi muncul di daftar pilihan terdata data suplemen.
 24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan.
