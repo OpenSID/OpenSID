@@ -81,10 +81,11 @@ class Tanah_kas_desa_model extends CI_Model
 		}
 		else
 		{
-			$search = $builder->group_start()
-				->like('tkd.nama_pemilik_asal', $search)
-				->or_like('tkd.letter_c', $search)				
-				->group_end();
+			$search = $builder
+						->group_start()
+							->like('tkd.nama_pemilik_asal', $search)
+							->or_like('tkd.letter_c', $search)				
+						->group_end();
 		}
 		
 		$condition = $search;
@@ -97,7 +98,7 @@ class Tanah_kas_desa_model extends CI_Model
 		$this->db
 				->select('*')
 				->from($this->table)
-        		->where($this->table.'.id', $id);
+        ->where($this->table.'.id', $id);
 		$data = $this->db
 				->get()
 				->row();
@@ -218,14 +219,15 @@ class Tanah_kas_desa_model extends CI_Model
 		status_sukses($hasil);
 	}
 
-	private function validasi_data(&$data, $id=0){
+	private function validasi_data(&$data, $id=0)
+	{
 		$valid = array();
 
 		// add
-		if ($id==0)
+		if ($id == 0)
 		{
 			$check_letterc_persil = $this->check_letterc_persil($data['letter_c_persil']);
-			if (count($check_letterc_persil)>0)
+			if (count($check_letterc_persil) > 0)
 			{
 				array_push($valid, "Letter C / Persil {$data['letter_c_persil']} sudah digunakan");
 			}
@@ -237,7 +239,7 @@ class Tanah_kas_desa_model extends CI_Model
 			if (!$check_old_letterc_persil)
 			{
 				$check_letterc_persil = $this->check_letterc_persil($data['letter_c_persil']);
-				if (count($check_letterc_persil)>0)
+				if (count($check_letterc_persil) > 0)
 				{
 					array_push($valid, "Letter C / Persil {$data['letter_c_persil']} sudah digunakan");
 				}
@@ -292,13 +294,8 @@ class Tanah_kas_desa_model extends CI_Model
 		$data = $this->db
 				->get()
 				->row();
-		if ($letterC_persil==$data->letter_c)
-		{
-			return true;
-		}else
-		{
-			return false;
-		}
+		
+		return ($letterC_persil == $data->letter_c);
 	}
 
 	private function check_letterc_persil($letterC_persil)

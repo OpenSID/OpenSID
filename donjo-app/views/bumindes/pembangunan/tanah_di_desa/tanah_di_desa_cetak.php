@@ -142,28 +142,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text-left"><?= $count ?></td>
 								<td><?= strtoupper(($data['nama_pemilik_asal'])? $data['nama_pemilik_asal'] : $data['nama'])?></td>														
 								<td><?= $data['luas'] ?></td>
-								<td class="text-center"><?php if(0!=$data['hak_milik']){echo $data['hak_milik'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hak_guna_bangunan']){echo $data['hak_guna_bangunan'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hak_pakai']){echo $data['hak_pakai'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hak_guna_usaha']){echo $data['hak_guna_usaha'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hak_pengelolaan']){echo $data['hak_pengelolaan'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hak_milik_adat']){echo $data['hak_milik_adat'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hak_verponding']){echo $data['hak_verponding'];}?></td>
-								<td class="text-center"><?php if(0!=$data['tanah_negara']){echo $data['tanah_negara'];}?></td>
-								<td class="text-center"><?php if(0!=$data['perumahan']){echo $data['perumahan'];}?></td>
-								<td class="text-center"><?php if(0!=$data['perdagangan_jasa']){echo $data['perdagangan_jasa'];}?></td>
-								<td class="text-center"><?php if(0!=$data['perkantoran']){echo $data['perkantoran'];}?></td>
-								<td class="text-center"><?php if(0!=$data['industri']){echo $data['industri'];}?></td>
-								<td class="text-center"><?php if(0!=$data['fasilitas_umum']){echo $data['fasilitas_umum'];}?></td>
-								<td class="text-center"><?php if(0!=$data['sawah']){echo $data['sawah'];}?></td>
-								<td class="text-center"><?php if(0!=$data['tegalan']){echo $data['tegalan'];}?></td>
-								<td class="text-center"><?php if(0!=$data['perkebunan']){echo $data['perkebunan'];}?></td>
-								<td class="text-center"><?php if(0!=$data['peternakan_perikanan']){echo $data['peternakan_perikanan'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hutan_belukar']){echo $data['hutan_belukar'];}?></td>
-								<td class="text-center"><?php if(0!=$data['hutan_lebat_lindung']){echo $data['hutan_lebat_lindung'];}?></td>
+								<td class="text-center"><?= ($data['hak_milik'] != 0) ? $data['hak_milik'] : '' ?></td>
+								<td class="text-center"><?= ($data['hak_guna_bangunan'] != 0) ? $data['hak_guna_bangunan'] : '' ?></td>
+								<td class="text-center"><?= ($data['hak_pakai'] != 0) ? $data['hak_pakai'] : '' ?></td>
+								<td class="text-center"><?= ($data['hak_guna_usaha'] != 0) ? $data['hak_guna_usaha'] : '' ?></td>
+								<td class="text-center"><?= ($data['hak_pengelolaan'] != 0) ? $data['hak_pengelolaan'] : '' ?></td>
+								<td class="text-center"><?= ($data['hak_milik_adat'] != 0) ? $data['hak_milik_adat'] : '' ?></td>
+								<td class="text-center"><?= ($data['hak_verponding'] != 0) ? $data['hak_verponding'] : '' ?></td>
+								<td class="text-center"><?= ($data['tanah_negara'] != 0) ? $data['tanah_negara'] : '' ?></td>
+								<td class="text-center"><?= ($data['perumahan'] != 0) ? $data['perumahan'] : '' ?></td>
+								<td class="text-center"><?= ($data['perdagangan_jasa'] != 0) ? $data['perdagangan_jasa'] : '' ?></td>
+								<td class="text-center"><?= ($data['perkantoran'] != 0) ? $data['perkantoran'] : '' ?></td>
+								<td class="text-center"><?= ($data['industri'] != 0) ? $data['industri'] : '' ?></td>
+								<td class="text-center"><?= ($data['fasilitas_umum'] != 0) ? $data['fasilitas_umum'] : '' ?></td>
+								<td class="text-center"><?= ($data['sawah'] != 0) ? $data['sawah'] : '' ?></td>
+								<td class="text-center"><?= ($data['tegalan'] != 0) ? $data['tegalan'] : '' ?></td>
+								<td class="text-center"><?= ($data['perkebunan'] != 0) ? $data['perkebunan'] : '' ?></td>
+								<td class="text-center"><?= ($data['peternakan_perikanan'] != 0) ? $data['peternakan_perikanan'] : '' ?></td>
+								<td class="text-center"><?= ($data['hutan_belukar'] != 0) ? $data['hutan_belukar'] : '' ?></td>
+								<td class="text-center"><?= ($data['hutan_lebat_lindung'] != 0) ? $data['hutan_lebat_lindung'] : '' ?></td>
 								<td><?= strtoupper($data['mutasi']) ?></td>
-								<td class="text-center"><?php if(0!=$data['tanah_kosong']){echo $data['tanah_kosong'];}?></td>
-								<td class="text-center"><?php if(0!=$data['lain']){echo $data['lain'];}?></td>
+								<td class="text-center"><?= ($data['tanah_kosong'] != 0) ? $data['tanah_kosong'] : '' ?></td>
+								<td class="text-center"><?= ($data['lain'] != 0) ? $data['lain'] : '' ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>								
 							</tr>
 						<?php

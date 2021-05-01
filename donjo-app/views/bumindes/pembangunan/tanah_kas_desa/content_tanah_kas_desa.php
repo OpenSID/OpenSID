@@ -152,7 +152,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('global/confirm_delete');?>
 
 <script>
-	$(document).ready(function() {
+	$(document).ready(function() 
+	{
 		let tabelTanahKasDesa = $('#tabel-tanahkasdesa').DataTable({
 			'processing': true,
 			'serverSide': true,
@@ -176,7 +177,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					'data': null,
 				},
 				{
-					'data': function(data) {
+					'data': function(data) 
+					{
 						return `
 							<a href="<?= site_url('bumindes_tanah_kas_desa/view_tanah_kas_desa/') ?>${data.id}" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 							<a href="<?= site_url('bumindes_tanah_kas_desa/form/') ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
@@ -186,10 +188,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{
 					'data': function(data)
 					{
-						if (data.nama_pemilik_asal=='JUALBELI')
+						if (data.nama_pemilik_asal == 'JUALBELI')
 						{
 							return "JUAL BELI";
-						} else if(data.nama_pemilik_asal=='HIBAH')
+						} else if(data.nama_pemilik_asal == 'HIBAH')
 						{
 							return "HIBAH";
 						} else
@@ -225,7 +227,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 		});
 
-		tabelTanahKasDesa.on('draw.dt', function() {
+		tabelTanahKasDesa.on('draw.dt', function() 
+		{
 			let PageInfo = $('#tabel-tanahkasdesa').DataTable().page.info();
 			tabelTanahKasDesa.column(0, {
 				page: 'current'
@@ -235,11 +238,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		});
 	});
 
-	$("#form_cetak").click(function (event) {
+	$("#form_cetak").click(function (event) 
+	{
 		var link = '<?= site_url("bumindes_tanah_kas_desa/cetak_tanah_kas_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/cetak';
 		window.open(link, '_blank');
 	});
-	$("#form_download").click(function (event) {
+	$("#form_download").click(function (event) 
+	{
 		var link = '<?= site_url("bumindes_tanah_kas_desa/cetak_tanah_kas_desa"); ?>'+ '/' + $('#tgl_2').val()+ '/unduh';
 		window.open(link, '_blank');
 	});

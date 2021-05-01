@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="pemilik_asal">Asal Tanah Kas Desa</label>
                                 <div class="col-sm-4">                                   
-                                    <select name="pemilik_asal" id="pemilik_asal" class="form-control input-sm required" onchange="pilihAsalTanah(this.value)">
+                                    <select name="pemilik_asal" id="pemilik_asal" class="form-control input-sm required" onchange="pilih_asal_tanah(this.value)">
                                         <option value>-- Pilih Asal Tanah--</option>                                      
                                         <option value="JUALBELI" <?php selected("JUALBELI",$main->nama_pemilik_asal) ?>>Jual Beli</option>
                                         <option value="HIBAH" <?php selected("HIBAH",$main->nama_pemilik_asal) ?>>Hibah / Sumbangan</option>
@@ -108,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <label class="col-sm-3 control-label" style="text-align:left;" for="luas_tanah">Luas Tanah Total</label>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <input min="0" class="form-control input-sm number required" value="<?= ($main->luas!=0) ? $main->luas : 0 ?>" id="luas" name="luas" />                                     
+                                        <input min="0" class="form-control input-sm number required" value="<?= ($main->luas != 0) ? $main->luas : 0 ?>" id="luas" name="luas" />                                     
                                         <span class="input-group-addon input-sm "
                                             id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                     </div>
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="asli_milik_desa">Asli Milik Desa</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->asli_milik_desa!=0) ? $main->asli_milik_desa : 0 ?>" id="asli_milik_desa" name="asli_milik_desa" />
+                                            <input onchange="dinamic_perolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->asli_milik_desa != 0) ? $main->asli_milik_desa : 0 ?>" id="asli_milik_desa" name="asli_milik_desa" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="pemerintah">Bantuan Pemerintah</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->pemerintah!=0) ? $main->pemerintah : 0 ?>" id="pemerintah" name="pemerintah" />
+                                            <input onchange="dinamic_perolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->pemerintah != 0) ? $main->pemerintah : 0 ?>" id="pemerintah" name="pemerintah" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -151,7 +151,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="provinsi">Bantuan Provinsi</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->provinsi!=0) ? $main->provinsi : 0 ?>" id="provinsi" name="provinsi" />
+                                            <input onchange="dinamic_perolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->provinsi != 0) ? $main->provinsi : 0 ?>" id="provinsi" name="provinsi" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -163,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="kabupaten_kota">Bantuan Kabupatan / Kota</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->kabupaten_kota!=0) ? $main->kabupaten_kota : 0 ?>" id="kabupaten_kota" name="kabupaten_kota" />
+                                            <input onchange="dinamic_perolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->kabupaten_kota != 0) ? $main->kabupaten_kota : 0 ?>" id="kabupaten_kota" name="kabupaten_kota" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -175,7 +175,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="lain_lain">Lain - lain</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPerolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->lain_lain!=0) ? $main->lain_lain : 0 ?>" id="lain_lain" name="lain_lain" />
+                                            <input onchange="dinamic_perolehan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->lain_lain != 0) ? $main->lain_lain : 0 ?>" id="lain_lain" name="lain_lain" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -192,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="sawah">Sawah</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->sawah!=0) ? $main->sawah : 0 ?>" id="sawah" name="sawah" />
+                                            <input onchange="dinamic_jenis_TKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->sawah != 0) ? $main->sawah : 0 ?>" id="sawah" name="sawah" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -204,7 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tegal">Tegal</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tegal!=0) ? $main->tegal : 0 ?>" id="tegal" name="tegal" />
+                                            <input onchange="dinamic_jenis_TKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tegal != 0) ? $main->tegal : 0 ?>" id="tegal" name="tegal" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -216,7 +216,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="kebun">Kebun</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->kebun!=0) ? $main->kebun : 0 ?>" id="kebun" name="kebun" />
+                                            <input onchange="dinamic_jenis_TKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->kebun != 0) ? $main->kebun : 0 ?>" id="kebun" name="kebun" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -228,7 +228,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tambak_kolam">Tambak / Kolam</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tambak_kolam!=0) ? $main->tambak_kolam : 0 ?>" id="tambak_kolam" name="tambak_kolam" />
+                                            <input onchange="dinamic_jenis_TKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tambak_kolam != 0) ? $main->tambak_kolam : 0 ?>" id="tambak_kolam" name="tambak_kolam" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -240,7 +240,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tanah_kering_darat">Tanah Kering / Darat</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicJenisTKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tanah_kering_darat!=0) ? $main->tanah_kering_darat : 0 ?>" id="tanah_kering_darat" name="tanah_kering_darat" />
+                                            <input onchange="dinamic_jenis_TKD()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tanah_kering_darat != 0) ? $main->tanah_kering_darat : 0 ?>" id="tanah_kering_darat" name="tanah_kering_darat" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -257,7 +257,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="ada_patok">Ada Patok Tanda Batas</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPatok()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->ada_patok!=0) ? $main->ada_patok : 0 ?>" id="ada_patok" name="ada_patok" />
+                                            <input onchange="dinamic_patok()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->ada_patok != 0) ? $main->ada_patok : 0 ?>" id="ada_patok" name="ada_patok" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -269,7 +269,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tidak_ada_patok">Tidak Ada Patok Tanda Batas</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPatok()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tidak_ada_patok!=0) ? $main->tidak_ada_patok : 0 ?>" id="tidak_ada_patok" name="tidak_ada_patok" />
+                                            <input onchange="dinamic_patok()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tidak_ada_patok != 0) ? $main->tidak_ada_patok : 0 ?>" id="tidak_ada_patok" name="tidak_ada_patok" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -286,7 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="ada_papan_nama">Ada Papan Nama</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPapan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->ada_papan_nama!=0) ? $main->ada_papan_nama : 0 ?>" id="ada_papan_nama" name="ada_papan_nama" />
+                                            <input onchange="dinamic_papan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->ada_papan_nama != 0) ? $main->ada_papan_nama : 0 ?>" id="ada_papan_nama" name="ada_papan_nama" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -298,7 +298,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-sm-12 control-label" style="text-align:left;" for="tidak_ada_papan_nama">Tidak Ada Papan Nama</label>
                                     <div class="col-sm-12">
                                         <div class="input-group">
-                                            <input onchange="dinamicPapan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tidak_ada_papan_nama!=0) ? $main->tidak_ada_papan_nama : 0 ?>" id="tidak_ada_papan_nama" name="tidak_ada_papan_nama" />
+                                            <input onchange="dinamic_papan()" type="text" min="0" class="form-control input-sm number required" value="<?= ($main->tidak_ada_papan_nama != 0) ? $main->tidak_ada_papan_nama : 0 ?>" id="tidak_ada_papan_nama" name="tidak_ada_papan_nama" />
                                             <span class="input-group-addon input-sm "
                                                 id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
                                         </div>
@@ -353,7 +353,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-xs-12">
                         <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i
                                 class="fa fa-times"></i> Batal</button>
-                        <button type="button" onclick="submitForm()" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i
+                        <button type="button" onclick="submit_form()" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i
                                 class="fa fa-check"></i> Simpan</button>
                     </div>
                 </div>
@@ -367,7 +367,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		var view = <?= $view_mark?>;       
 		var asal = "<?= $asal_tanah ?>";       
-        if (1==view)
+        if (1 == view)
         {
             $("#pemilik_asal").attr("disabled",true);
             $("#letter_c_persil").attr("disabled",true);
@@ -393,11 +393,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#mutasi").attr("disabled",true);
             $("#keterangan").attr("disabled",true);
             $('#form_footer').hide();
-            showHide(asal);
+            show_hide(asal);
         }
-        else if (view==2)
+        else if (view == 2)
         {        
-            showHide(asal);
+            show_hide(asal);
         }
         else
         {
@@ -409,9 +409,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
 	});
 
-    function showHide(param)
+    function show_hide(param)
     {
-        if (param=='JUALBELI')
+        if (param == 'JUALBELI')
         {
             $("#view_asli_milik_desa").show();   
             $("#view_pemerintah").hide();   
@@ -419,7 +419,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#view_kabupaten_kota").hide();   
             $("#view_lain_lain").hide();   
         }
-        else if (param=='HIBAH')
+        else if (param == 'HIBAH')
         {
             $("#view_asli_milik_desa").hide();   
             $("#view_pemerintah").show();   
@@ -437,7 +437,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }             
     }
 
-    function dinamicPerolehan()
+    function dinamic_perolehan()
     {
         var res = 0;
         res = parseFloat($('#asli_milik_desa').val())
@@ -448,7 +448,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         return res;
     }
 
-    function dinamicJenisTKD()
+    function dinamic_jenis_TKD()
     {
         var res = 0;
         res = parseFloat($('#sawah').val())
@@ -459,7 +459,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        return res;            
     }
 
-    function dinamicPatok()
+    function dinamic_patok()
     {
         var res = 0;
         res = parseFloat($('#ada_patok').val())
@@ -467,7 +467,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         return res;            
     }
 
-    function dinamicPapan()
+    function dinamic_papan()
     {
         var res = 0;
         res = parseFloat($('#ada_papan_nama').val())
@@ -475,7 +475,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         return res;                     
     }
 
-    function resetHideSection(param)
+    function reset_hide_section(param)
     {
         $("#luas").val(0);  
         var field = param.substring(5,param.length);
@@ -483,14 +483,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#"+param).hide();
     }
 
-    function resetShowSection(param)
+    function reset_show_section(param)
     {
         var field = param.substring(5,param.length);
         $("#"+field).val(0);
         $("#"+param).show();
     }
 
-    function resetField()
+    function reset_field()
     {
         $('#sawah').val(0)
         $('#tegal').val(0)
@@ -503,57 +503,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $('#tidak_ada_papan_nama').val(0)
     }
 
-    function pilihAsalTanah(param)
+    function pilih_asal_tanah(param)
     {   
-        if ("JUALBELI"==param)
+        if ("JUALBELI" == param)
         {
             $("#view_label_asal_tanah").hide();
             var hideView = ["view_pemerintah","view_provinsi","view_kabupaten_kota","view_lain_lain"];
-            hideView.forEach(resetHideSection); 
+            hideView.forEach(reset_hide_section); 
             var showView = ["view_asli_milik_desa"];
-            showView.forEach(resetShowSection); 
-            resetField();
+            showView.forEach(reset_show_section); 
+            reset_field();
         }
-        else if ("HIBAH"==param)
+        else if ("HIBAH" == param)
         {
             $("#view_label_asal_tanah").hide();
             var hideView = ["view_asli_milik_desa","view_lain_lain"];
-            hideView.forEach(resetHideSection);
+            hideView.forEach(reset_hide_section);
             var showView = ["view_pemerintah","view_provinsi","view_kabupaten_kota"];
-            showView.forEach(resetShowSection);
-            resetField();
+            showView.forEach(reset_show_section);
+            reset_field();
         }
-        else if ("LAIN"==param)
+        else if ("LAIN" == param)
         {
             $("#view_label_asal_tanah").hide();
             var hideView = ["view_asli_milik_desa","view_pemerintah","view_provinsi","view_kabupaten_kota"];
-            hideView.forEach(resetHideSection);
+            hideView.forEach(reset_hide_section);
             var showView = ["view_lain_lain"];
-            showView.forEach(resetShowSection);
-            resetField();
+            showView.forEach(reset_show_section);
+            reset_field();
         }
         else
         {
             $("#view_label_asal_tanah").show();
             var hideView = ["view_asli_milik_desa","view_pemerintah","view_provinsi","view_kabupaten_kota","view_lain_lain"];
-            hideView.forEach(resetHideSection);
-            resetField();
+            hideView.forEach(reset_hide_section);
+            reset_field();
         }
 
     }
 
-    function submitForm()
+    function submit_form()
     {
         var luas = $('#luas').val();
-        var dinLuas = dinamicPerolehan();
-        var dinTKD = dinamicJenisTKD();
-        var dinPatok = dinamicPatok();
-        var dinPapan = dinamicPapan();
-        if (luas==dinLuas
-            &&luas==dinTKD
-            &&luas==dinPatok
-            &&luas==dinPapan
-        )
+        var dinLuas = dinamic_perolehan();
+        var dinTKD = dinamic_jenis_TKD();
+        var dinPatok = dinamic_patok();
+        var dinPapan = dinamic_papan();
+        if (luas == dinLuas
+            && luas == dinTKD
+            && luas == dinPatok
+            && luas == dinPapan)
         {
             $("#validasi").submit();
         }
