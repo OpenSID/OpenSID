@@ -62,15 +62,15 @@ class Tanah_desa_model extends CI_Model
 	public function get_data(string $search = '')
 	{
 		$builder = $this->db
-					->select('td.id, 
-							td.nama_pemilik_asal,		
-							p.nama,										
-							td.luas,
-							td.mutasi, 					
-							td.keterangan')
-					->from("{$this->table} td")
-					->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
-					->where('td.visible', 1);
+			->select('td.id,
+					td.nama_pemilik_asal,
+					p.nama,
+					td.luas,
+					td.mutasi,
+					td.keterangan')
+			->from("{$this->table} td")
+			->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
+			->where('td.visible', 1);
 
 		if (empty($search))
 		{
@@ -79,11 +79,11 @@ class Tanah_desa_model extends CI_Model
 		else
 		{
 			$search = $builder
-						->group_start()
-							->like('td.nama_pemilik_asal', $search)						
-						->group_end();
+				->group_start()
+					->like('td.nama_pemilik_asal', $search)
+				->group_end();
 		}
-		
+
 		$condition = $search;
 
 		return $condition;
@@ -92,13 +92,13 @@ class Tanah_desa_model extends CI_Model
 	public function view_tanah_desa_by_id($id)
 	{
 		$this->db
-				->select('td.*, p.nama, p.nik as nik_penduduk')
-				->from("{$this->table} td")
-				->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
-        ->where('td.id', $id);
+			->select('td.*, p.nama, p.nik as nik_penduduk')
+			->from("{$this->table} td")
+			->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
+      ->where('td.id', $id);
 		$data = $this->db
-				->get()
-				->row();
+			->get()
+			->row();
 
 		return $data;
 	}
@@ -112,20 +112,20 @@ class Tanah_desa_model extends CI_Model
 		$data = $this->input->post();
 		$error_validasi = $this->validasi_data($data);
 
-		if (!empty($error_validasi))
+		if ( ! empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
 			{
 				$this->session->error_msg .= ': ' . $error . '\n';
 			}
-			$this->session->post =  $this->input->post();
+			$this->session->post = $this->input->post();
 			$this->session->success = -1;
 			return;
 		}
 
 		$result = array(
-			'id_penduduk' => $data['id_penduduk'],		
-			'nik' => $data['nik'],		
+			'id_penduduk' => $data['id_penduduk'],
+			'nik' => $data['nik'],
 			'jenis_pemilik' => $data['jenis_pemilik'],
 			'nama_pemilik_asal' => $data['nama_pemilik_asal'],
 			'luas' => $data['luas'],
@@ -149,14 +149,14 @@ class Tanah_desa_model extends CI_Model
 			'hutan_belukar' => $data['hutan_belukar'],
 			'hutan_lebat_lindung' => $data['hutan_lebat_lindung'],
 			'tanah_kosong' => $data['tanah_kosong'],
-			'lain' => $data['lain'],		
-			'mutasi' => $data['mutasi'],				
+			'lain' => $data['lain'],
+			'mutasi' => $data['mutasi'],
 			'keterangan' => $data['keterangan'],
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user,
 			'visible' => $data['visible']
 		);
-				
+
 		$hasil = $this->db->insert($this->table, $result);
 		status_sukses($hasil);
 	}
@@ -188,8 +188,8 @@ class Tanah_desa_model extends CI_Model
 		}
 
 		$result = array(
-			'id_penduduk' => $data['id_penduduk'],		
-			'nik' => $data['nik'],		
+			'id_penduduk' => $data['id_penduduk'],
+			'nik' => $data['nik'],
 			'jenis_pemilik' => $data['jenis_pemilik'],
 			'nama_pemilik_asal' => $data['nama_pemilik_asal'],
 			'luas' => $data['luas'],
@@ -213,8 +213,8 @@ class Tanah_desa_model extends CI_Model
 			'hutan_belukar' => $data['hutan_belukar'],
 			'hutan_lebat_lindung' => $data['hutan_lebat_lindung'],
 			'tanah_kosong' => $data['tanah_kosong'],
-			'lain' => $data['lain'],		
-			'mutasi' => $data['mutasi'],				
+			'lain' => $data['lain'],
+			'mutasi' => $data['mutasi'],
 			'keterangan' => $data['keterangan'],
 			'updated_at' => date('Y-m-d H:i:s'),
 			'updated_by' => $this->session->user,
@@ -255,10 +255,12 @@ class Tanah_desa_model extends CI_Model
 						{
 							array_push($valid, "NIK {$data['nik']} sudah digunakan");
 						}
-					}else{
+					}
+					else
+					{
 					// update
 						$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
-						if (!$nik_old_check)
+						if ( ! $nik_old_check)
 						{
 							$nik_check = $this->nik_warga_luar_checking($data['nik']);
 							if ($nik_check)
@@ -266,11 +268,8 @@ class Tanah_desa_model extends CI_Model
 								array_push($valid, "NIK {$data['nik']} sudah digunakan");
 							}
 						}
-
 					}
-					
 				}
-	
 			}
 			else
 			{
@@ -308,7 +307,7 @@ class Tanah_desa_model extends CI_Model
 		$data['keterangan'] = strip_tags($data['keterangan']);
 		$data['visible'] = 1;
 
-		if (!empty($valid))
+		if ( ! empty($valid))
 			$this->session->validation_error = true;
 
 		return $valid;
@@ -318,38 +317,38 @@ class Tanah_desa_model extends CI_Model
 	{
 		$this->db
 				->select('td.nik')
-				->from("{$this->table} td")					
-				->where((['td.visible'=>1,'td.id'=>$id]))
+				->from("{$this->table} td")
+				->where((['td.visible' => 1,'td.id' => $id]))
 				->limit(1);
 		$data = $this->db
 				->get()
 				->row();
 
-		return ($nik==$data->nik);
+		return ($nik == $data->nik);
 	}
-	
+
 	private function nik_warga_luar_checking($nik)
 	{
 		$this->db
 				->select('td.nik')
-				->from("{$this->table} td")					
-				->where((['td.visible'=>1,'td.nik'=>$nik]))
+				->from("{$this->table} td")
+				->where((['td.visible' => 1,'td.nik' => $nik]))
 				->limit(1);
 		$data = $this->db
 				->get()
 				->row();
-				
+
 		return $data;
 	}
 
 	private function nik_error($nilai, $judul)
 	{
 		if (empty($nilai)) return false;
-		if (!ctype_digit($nilai))
+		if ( ! ctype_digit($nilai))
 			return $judul . " hanya berisi angka";
 		if (strlen($nilai) != 16 AND $nilai != '0')
-			return $judul .  " panjangnya harus 16 atau bernilai 0";
-			
+			return $judul . " panjangnya harus 16 atau bernilai 0";
+
 		return false;
 	}
 
@@ -357,13 +356,13 @@ class Tanah_desa_model extends CI_Model
 	{
 		$this->db
 				->select('td.*, p.nama')
-				->from("{$this->table} td")	
+				->from("{$this->table} td")
 				->join('tweb_penduduk p', 'td.id_penduduk = p.id', 'left')
 				->where('td.visible', 1);
 		$data = $this->db
 				->get()
 				->result_array();
-				
+
 		return $data;
 	}
 
@@ -371,18 +370,18 @@ class Tanah_desa_model extends CI_Model
 	{
 		$this->db
 				->select('p.id')
-				->from("{$this->table} td")	
+				->from("{$this->table} td")
 				->join('tweb_penduduk p', 'td.id_penduduk = p.id')
 				->where('td.visible', 1);
 		$data = $this->db
 				->get()
 				->result_array();
 
-		for ($i=0; $i < count($data) ; $i++) 
-		{ 
+		for ($i=0; $i < count($data) ; $i++)
+		{
 			$result[$i] = $data[$i]['id'];
 		}
-		
+
 		return $result;
 	}
 
@@ -390,8 +389,8 @@ class Tanah_desa_model extends CI_Model
 	{
 		$this->db
 				->select('td.id_penduduk')
-				->from("{$this->table} td")					
-				->where((['td.visible'=>1,'td.id'=>$id]))
+				->from("{$this->table} td")
+				->where((['td.visible' => 1, 'td.id' => $id]))
 				->limit(1);
 		$data = $this->db
 				->get()
@@ -405,7 +404,7 @@ class Tanah_desa_model extends CI_Model
 	{
 		$this->db
 				->select('p.id, p.nama, p.nik')
-				->from("tweb_penduduk p")	
+				->from("tweb_penduduk p")
 				->order_by('p.nama', 'ASC');
 		$data = $this->db
 				->get()
@@ -413,16 +412,16 @@ class Tanah_desa_model extends CI_Model
 
 		$filter = $this->get_penduduk_terdaftar();
 		if ($id != '')
-		{	
-			$filter = $this->with_current_penduduk($filter,$id);
+		{
+			$filter = $this->with_current_penduduk($filter, $id);
 		}
 
 		if (count($data) > 0)
 		{
-			$j=0;
-			for ($i=0; $i < count($data); $i++) 
-			{ 
-				if (!in_array($data[$i]['id'], $filter))
+			$j = 0;
+			for ($i=0; $i < count($data); $i++)
+			{
+				if ( ! in_array($data[$i]['id'], $filter))
 				{
 					$result[$j]['id'] = $data[$i]['id'];
 					$result[$j]['nama'] = $data[$i]['nama'];
@@ -431,7 +430,7 @@ class Tanah_desa_model extends CI_Model
 				}
 			}
 		}
-				
+
 		return $result;
 	}
 
