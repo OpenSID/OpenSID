@@ -1,5 +1,50 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model untuk modul Bumindes Tanah Kas Desa
+ *
+ * donjo-app/models/Tanah_kas_desa_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
 class Tanah_kas_desa_model extends CI_Model
 {
 
@@ -36,10 +81,11 @@ class Tanah_kas_desa_model extends CI_Model
 		}
 		else
 		{
-			$search = $builder->group_start()
-				->like('tkd.nama_pemilik_asal', $search)
-				->or_like('tkd.letter_c', $search)				
-				->group_end();
+			$search = $builder
+						->group_start()
+							->like('tkd.nama_pemilik_asal', $search)
+							->or_like('tkd.letter_c', $search)				
+						->group_end();
 		}
 		
 		$condition = $search;
@@ -52,7 +98,7 @@ class Tanah_kas_desa_model extends CI_Model
 		$this->db
 				->select('*')
 				->from($this->table)
-        		->where($this->table.'.id', $id);
+        ->where($this->table.'.id', $id);
 		$data = $this->db
 				->get()
 				->row();
@@ -62,21 +108,21 @@ class Tanah_kas_desa_model extends CI_Model
 
 	public function add_tanah_kas_desa()
 	{
-		unset($_SESSION['validation_error']);
-		unset($_SESSION['success']);
-		$_SESSION['error_msg'] = '';
+		unset($this->session->validation_error);
+		unset($this->session->success);
+		$this->session->error_msg = '';
 
-		$data = $_POST;
+		$data = $this->input->post();
 		$error_validasi = $this->validasi_data($data);
 
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
 			{
-				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+				$this->session->error_msg .= ': ' . $error . '\n';
 			}
-			$_SESSION['post'] = $_POST;
-			$_SESSION['success']=-1;
+			$this->session->post =  $this->input->post();
+			$this->session->success = -1;
 			return;
 		}
 
@@ -121,21 +167,21 @@ class Tanah_kas_desa_model extends CI_Model
 
 	public function update_tanah_kas_desa()
 	{
-		unset($_SESSION['validation_error']);
-		unset($_SESSION['success']);
-		$_SESSION['error_msg'] = '';
+		unset($this->session->validation_error);
+		unset($this->session->success);
+		$this->session->error_msg = '';
 
-		$data = $_POST;
-		$error_validasi = $this->validasi_data($data,$data['id']);
+		$data =  $this->input->post();
+		$error_validasi = $this->validasi_data($data, $data['id']);
 
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
 			{
-				$_SESSION['error_msg'] .= ': ' . $error . '\n';
+				$this->session->error_msg .= ': ' . $error . '\n';
 			}
-			$_SESSION['post'] = $_POST;
-			$_SESSION['success']=-1;
+			$this->session->post =  $this->input->post();
+			$this->session->success = -1;
 			return;
 		}
 
@@ -173,24 +219,27 @@ class Tanah_kas_desa_model extends CI_Model
 		status_sukses($hasil);
 	}
 
-	private function validasi_data(&$data, $id=0){
+	private function validasi_data(&$data, $id=0)
+	{
 		$valid = array();
 
 		// add
-		if($id==0)
+		if ($id == 0)
 		{
 			$check_letterc_persil = $this->check_letterc_persil($data['letter_c_persil']);
-			if(count($check_letterc_persil)>0)
+			if (count($check_letterc_persil) > 0)
 			{
 				array_push($valid, "Letter C / Persil {$data['letter_c_persil']} sudah digunakan");
 			}
-		}else{
+		}
+		else
+		{
 		// update
 			$check_old_letterc_persil = $this->check_old_letterc_persil($data['letter_c_persil'],$id);
-			if(!$check_old_letterc_persil)
+			if (!$check_old_letterc_persil)
 			{
 				$check_letterc_persil = $this->check_letterc_persil($data['letter_c_persil']);
-				if(count($check_letterc_persil)>0)
+				if (count($check_letterc_persil) > 0)
 				{
 					array_push($valid, "Letter C / Persil {$data['letter_c_persil']} sudah digunakan");
 				}
@@ -230,7 +279,7 @@ class Tanah_kas_desa_model extends CI_Model
 		$data['visible']				= 1;
 
 		if (!empty($valid))
-			$_SESSION['validation_error'] = true;
+			$this->session->validation_error = true;
 
 		return $valid;
 	}
@@ -244,14 +293,9 @@ class Tanah_kas_desa_model extends CI_Model
 				->limit(1);
 		$data = $this->db
 				->get()
-				->result_array();
-		if($letterC_persil==$data[0]['letter_c'])
-		{
-			return true;
-		}else
-		{
-			return false;
-		}
+				->row();
+		
+		return ($letterC_persil == $data->letter_c);
 	}
 
 	private function check_letterc_persil($letterC_persil)
@@ -263,7 +307,7 @@ class Tanah_kas_desa_model extends CI_Model
 				->limit(1);
 		$data = $this->db
 				->get()
-				->result_array();
+				->row();
 
 		return $data;
 	}

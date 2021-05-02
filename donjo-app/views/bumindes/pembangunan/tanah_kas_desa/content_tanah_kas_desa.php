@@ -1,3 +1,51 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Kas Desa
+ *
+ * donjo-app/views/bumindes/pembangunan/tanah_kas_desa/content_tanah_kas_desa.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <div class="box box-info">
 	<div class="box-header with-border">
 		<a href="<?= site_url('bumindes_tanah_kas_desa/form')?>"
@@ -104,7 +152,8 @@
 <?php $this->load->view('global/confirm_delete');?>
 
 <script>
-	$(document).ready(function() {
+	$(document).ready(function() 
+	{
 		let tabelTanahKasDesa = $('#tabel-tanahkasdesa').DataTable({
 			'processing': true,
 			'serverSide': true,
@@ -128,7 +177,8 @@
 					'data': null,
 				},
 				{
-					'data': function(data) {
+					'data': function(data) 
+					{
 						return `
 							<a href="<?= site_url('bumindes_tanah_kas_desa/view_tanah_kas_desa/') ?>${data.id}" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 							<a href="<?= site_url('bumindes_tanah_kas_desa/form/') ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
@@ -138,10 +188,10 @@
 				{
 					'data': function(data)
 					{
-						if (data.nama_pemilik_asal=='JUALBELI')
+						if (data.nama_pemilik_asal == 'JUALBELI')
 						{
 							return "JUAL BELI";
-						} else if(data.nama_pemilik_asal=='HIBAH')
+						} else if(data.nama_pemilik_asal == 'HIBAH')
 						{
 							return "HIBAH";
 						} else
@@ -177,7 +227,8 @@
 			}
 		});
 
-		tabelTanahKasDesa.on('draw.dt', function() {
+		tabelTanahKasDesa.on('draw.dt', function() 
+		{
 			let PageInfo = $('#tabel-tanahkasdesa').DataTable().page.info();
 			tabelTanahKasDesa.column(0, {
 				page: 'current'
@@ -187,11 +238,13 @@
 		});
 	});
 
-	$("#form_cetak").click(function (event) {
+	$("#form_cetak").click(function (event) 
+	{
 		var link = '<?= site_url("bumindes_tanah_kas_desa/cetak_tanah_kas_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/cetak';
 		window.open(link, '_blank');
 	});
-	$("#form_download").click(function (event) {
+	$("#form_download").click(function (event) 
+	{
 		var link = '<?= site_url("bumindes_tanah_kas_desa/cetak_tanah_kas_desa"); ?>'+ '/' + $('#tgl_2').val()+ '/unduh';
 		window.open(link, '_blank');
 	});
