@@ -63,6 +63,35 @@
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				<table>
+					<col span="5" style="width: 8%">
+					<col style="width: 28%">
+					<tr>
+						<td colspan="6">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2">Mengetahui</td>
+						<td colspan="2">&nbsp;</td>
+						<td><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date("Y m d"))?></td>
+					</tr>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2"><?= strtoupper($input['jabatan_ketahui'])?> <?= $desa['nama_desa']?></td>
+						<td colspan="2">&nbsp;</td>
+						<td><?= strtoupper($input['jabatan_ttd'])?> <?= $desa['nama_desa']?></td>
+					</tr>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr><td colspan="6">&nbsp;</td>
+					<tr>
+						<td colspan="1">&nbsp;</td>
+						<td colspan="2">( <?= strtoupper($input['pamong_ketahui'])?> )</td>
+						<td colspan="2">&nbsp;</td>
+						<td>( <?= strtoupper($input['pamong_ttd'])?> )</td>
+					</tr>
+				</table>
 			</div>
 			<br>
 			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
