@@ -135,7 +135,7 @@ class Penduduk extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 			unset($_SESSION['validation_error']);

@@ -136,6 +136,7 @@ class Keluarga extends Admin_Controller {
 
 	public function form_peristiwa($peristiwa='')
 	{
+		$this->redirect_hak_akses('u', 'keluarga');
 		// Acuan jenis peristiwa berada pada ref_peristiwa
 		// Yg valid hanya peristiwa datang masuk
 		if ($peristiwa <> 5) redirect('keluarga');
@@ -146,6 +147,7 @@ class Keluarga extends Admin_Controller {
 
 	public function form_peristiwa_a($peristiwa='', $p = 1, $o = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		// Acuan jenis peristiwa berada pada ref_peristiwa
 		$this->session->jenis_peristiwa = $peristiwa;
 		$this->form_a($p, $o, $id);
@@ -156,6 +158,7 @@ class Keluarga extends Admin_Controller {
 	 */
 	public function form($p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('u', 'keluarga');
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 				unset($_SESSION['validation_error']);
@@ -220,6 +223,7 @@ class Keluarga extends Admin_Controller {
 	// Tambah anggota keluarga dari penduduk baru
 	public function form_a($p = 1, $o = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND !$_SESSION['dari_internal'])
 				unset($_SESSION['validation_error']);
@@ -267,6 +271,7 @@ class Keluarga extends Admin_Controller {
 
 	public function edit_nokk($p = 1, $o = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u', 'keluarga');
 		$data['kk'] = $this->keluarga_model->get_keluarga($id);
 		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw($data['kk']['dusun']);
@@ -280,6 +285,7 @@ class Keluarga extends Admin_Controller {
 	// Tambah KK dari penduduk yg ada
 	public function form_old($p = 1, $o = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u', 'keluarga');
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/insert/$id");
 		$this->load->view('sid/kependudukan/ajax_add_keluarga', $data);
@@ -328,12 +334,14 @@ class Keluarga extends Admin_Controller {
 	 */
 	public function insert()
 	{
+		$this->redirect_hak_akses('u', 'keluarga');
 		$this->keluarga_model->insert();
 		redirect('keluarga');
 	}
 
 	public function insert_a()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$id_kk = $this->input->post('id_kk');
 		$this->keluarga_model->insert_a();
 		if ($_SESSION['validation_error'])
@@ -354,6 +362,7 @@ class Keluarga extends Admin_Controller {
 	 */
 	public function insert_new()
 	{
+		$this->redirect_hak_akses('u', 'keluarga');
 		$this->keluarga_model->insert_new();
 		if ($_SESSION['success'] == -1)
 		{
@@ -368,6 +377,7 @@ class Keluarga extends Admin_Controller {
 
 	public function update_nokk($id = 0)
 	{
+		$this->redirect_hak_akses('u', 'keluarga');
 		$this->keluarga_model->update_nokk($id);
 		redirect('keluarga');
 	}
@@ -388,6 +398,7 @@ class Keluarga extends Admin_Controller {
 
 	public function anggota($p = 1, $o = 0, $id = 0)
 	{
+		// $this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kk'] = $id;
@@ -402,6 +413,7 @@ class Keluarga extends Admin_Controller {
 
 	public function ajax_add_anggota($p = 1, $o = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -421,6 +433,7 @@ class Keluarga extends Admin_Controller {
 
 	public function edit_anggota($p = 1, $o = 0, $id_kk = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -485,12 +498,14 @@ class Keluarga extends Admin_Controller {
 
 	public function add_anggota($p = 1, $o = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->keluarga_model->add_anggota($id);
 		redirect("keluarga/anggota/$p/$o/$id");
 	}
 
 	public function update_anggota($p = 1, $o = 0, $id_kk=0, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->keluarga_model->update_anggota($id);
 		redirect("keluarga/anggota/$p/$o/$id_kk");
 	}
@@ -498,6 +513,7 @@ class Keluarga extends Admin_Controller {
 	// Pecah keluarga
 	public function delete_anggota($p = 1, $o = 0, $kk=0, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->keluarga_model->rem_anggota($kk, $id);
 		redirect("keluarga/anggota/$p/$o/$kk");
 	}
@@ -505,6 +521,7 @@ class Keluarga extends Admin_Controller {
 	// Keluarkan karena salah mengisi
 	public function keluarkan_anggota($kk, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->keluarga_model->rem_anggota($no_kk_sebelumnya = 0, $id); // Tidak simpan no KK
 		redirect("keluarga/anggota/1/0/$kk");
 	}

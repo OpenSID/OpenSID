@@ -11,7 +11,7 @@ Lengkapnya, isi rilis versi v21.05-premium - 2021-05-03 adalah sebagai berikut:
 
 
 #### Perbaikan BUG
-1. Batasi tidak bisa ubah data Penduduk kalau pengguna tidak mempunyai hak ubah. [bug-fix]
+1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk dan Keluarga kalau pengguna tidak mempunyai hak ubah. [bug-fix]
 
 
 #### Perubahan Teknis
