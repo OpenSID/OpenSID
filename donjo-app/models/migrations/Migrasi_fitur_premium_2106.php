@@ -49,7 +49,77 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
+		$hasil = $hasil && $this->create_table_ref_asal_tanah_kas($hasil);
+		$hasil = $hasil && $this->create_table_ref_peruntukan_tanah_kas($hasil);
+		$hasil = $hasil && $this->add_value_ref_asal_tanah_kas($hasil);
+		$hasil = $hasil && $this->add_value_ref_peruntukan_tanah_kas($hasil);
+
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function create_table_ref_asal_tanah_kas($hasil)
+	{
+		$this->dbforge->add_field([
+			'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'nama' => ['type' => 'TEXT'],			
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('ref_asal_tanah_kas', true);
+		return $hasil;
+	}
+
+	protected function create_table_ref_peruntukan_tanah_kas($hasil)
+	{
+		$this->dbforge->add_field([
+			'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'nama' => ['type' => 'TEXT'],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('ref_peruntukan_tanah_kas', true);
+		return $hasil;
+	}
+
+	protected function add_value_ref_asal_tanah_kas($hasil)
+	{
+		$data = array(
+			['id'=> 1, 'nama' => 'Jual Beli'],
+			['id'=> 2, 'nama' => 'Hibah / Sumbangan'],
+			['id'=> 3, 'nama' => 'Lain - lain'],			
+		);
+
+		foreach ($data as $modul)
+		{
+			$sql = $this->db->insert_string('ref_asal_tanah_kas', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					nama = VALUES(nama)";
+			$hasil = $hasil && $this->db->query($sql);
+		}
+
+		return $hasil;
+	}
+
+	protected function add_value_ref_peruntukan_tanah_kas($hasil)
+	{
+		$data = array(
+			['id'=> 1, 'nama' => 'Sewa'],
+			['id'=> 2, 'nama' => 'Pinjam Pakai'],
+			['id'=> 3, 'nama' => 'Kerjasama Pemanfaatan'],			
+			['id'=> 4, 'nama' => 'Bangun Guna Serah atau Bangun Serah Guna'],			
+		);
+
+		foreach ($data as $modul)
+		{
+			$sql = $this->db->insert_string('ref_peruntukan_tanah_kas', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					nama = VALUES(nama)";
+			$hasil = $hasil && $this->db->query($sql);
+		}
+
 		return $hasil;
 	}
 }

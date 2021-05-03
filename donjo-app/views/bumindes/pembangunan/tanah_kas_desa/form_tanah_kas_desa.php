@@ -66,9 +66,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<select name="pemilik_asal" id="pemilik_asal" class="form-control input-sm required"
 										onchange="pilih_asal_tanah(this.value)">
 										<option value>-- Pilih Asal Tanah--</option>
-										<option value="JUALBELI" <?php selected("JUALBELI",$main->nama_pemilik_asal) ?>>Jual Beli</option>
-										<option value="HIBAH" <?php selected("HIBAH",$main->nama_pemilik_asal) ?>>Hibah / Sumbangan</option>
-										<option value="LAIN" <?php selected("LAIN",$main->nama_pemilik_asal) ?>>Lain - lain</option>
+										<?php foreach ($list_asal_tanah as $item): ?>
+										<option value="<?= $item['id']?>" <?php selected($item['id'], $main->nama_pemilik_asal) ?>><?= $item['nama']?></option>
+										<?php endforeach ?>											
 									</select>
 								</div>
 							</div>
@@ -85,22 +85,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-sm-4">
 									<select name="kelas" id="kelas" class="form-control input-sm required" placeholder="Kelas">
 										<option value>-- Pilih Tipe Tanah--</option>
-										<option value="SI" <?php selected("SI",$main->kelas) ?>>S-I Persawahan Dekat dengan Pemukiman
-										</option>
-										<option value="SII" <?php selected("SII",$main->kelas) ?>>S-II Persawahan Agak Dekat dengan
-											Pemukiman</option>
-										<option value="SIII" <?php selected("SIII",$main->kelas) ?>>S-III Persawahan Jauh dengan Pemukiman
-										</option>
-										<option value="SIV" <?php selected("SIV",$main->kelas) ?>>S-IV Persawahan Sangat Jauh dengan
-											Pemukiman</option>
-										<option value="DI" <?php selected("DI",$main->kelas) ?>>D-I Lahan Kering Dekat dengan Pemukiman
-										</option>
-										<option value="DII" <?php selected("DII",$main->kelas) ?>>D-II Lahan Kering Agak Dekat dengan
-											Pemukiman</option>
-										<option value="DIII" <?php selected("DIII",$main->kelas) ?>>D-III Lahan Kering Jauh dengan Pemukiman
-										</option>
-										<option value="DIV" <?php selected("DIV",$main->kelas) ?>>D-IV Lahan Kering Sangat Jauh dengan
-											Pemukiman</option>
+										<?php foreach ($persil as $item): ?>
+										<option value="<?= $item['id']?>" <?php selected($item['id'], $main->kelas) ?>><?= $item['kode']." ".$item['ndesc']?></option>
+										<?php endforeach ?>										
 									</select>
 								</div>
 							</div>
@@ -356,12 +343,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-sm-4">
 									<select name="peruntukan" id="peruntukan" class="form-control input-sm required">
 										<option value>-- Peruntukan Tanah--</option>
-										<option value="SEWA" <?php selected("SEWA",$main->peruntukan) ?>>Sewa</option>
-										<option value="PINJAMPAKAI" <?php selected("PINJAMPAKAI",$main->peruntukan) ?>>Pinjam Pakai</option>
-										<option value="KERJASAMAPEMANFAATAN" <?php selected("KERJASAMAPEMANFAATAN",$main->peruntukan) ?>>
-											Kerjasama Pemanfaatan</option>
-										<option value="BANGUNGUNASERAH" <?php selected("BANGUNGUNASERAH",$main->peruntukan) ?>>Bangun Guna
-											Serah atau Bangun Serah Guna</option>
+										<?php foreach ($list_peruntukan as $item): ?>
+										<option value="<?= $item['id']?>" <?php selected($item['id'], $main->peruntukan) ?>><?= $item['nama']?></option>
+										<?php endforeach ?>										
 									</select>
 								</div>
 							</div>
@@ -407,7 +391,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		var view = <?= $view_mark ?> ;
 		var asal = "<?= $asal_tanah ?>";
-		if (1 == view) {
+		if (1 == view)
+		{
 			$("#pemilik_asal").attr("disabled", true);
 			$("#letter_c_persil").attr("disabled", true);
 			$("#kelas").attr("disabled", true);
@@ -434,11 +419,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#form_footer').hide();
 			show_hide(asal);
 		} 
-		else if (view == 2) 
+		else if (view == 2)
 		{
 			show_hide(asal);
-		} 
-		else 
+		}
+		else
 		{
 			$("#view_asli_milik_desa").hide();
 			$("#view_pemerintah").hide();
@@ -450,23 +435,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function show_hide(param)
 	{
-		if (param == 'JUALBELI') 
+		if (1 == param)
 		{
 			$("#view_asli_milik_desa").show();
 			$("#view_pemerintah").hide();
 			$("#view_provinsi").hide();
 			$("#view_kabupaten_kota").hide();
 			$("#view_lain_lain").hide();
-		} 
-		else if (param == 'HIBAH') 
+		}
+		else if (2 == param)
 		{
 			$("#view_asli_milik_desa").hide();
 			$("#view_pemerintah").show();
 			$("#view_provinsi").show();
 			$("#view_kabupaten_kota").show();
 			$("#view_lain_lain").hide();
-		} 
-		else 
+		}
+		else
 		{
 			$("#view_asli_milik_desa").hide();
 			$("#view_pemerintah").hide();
@@ -544,7 +529,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function pilih_asal_tanah(param)
 	{
-		if ("JUALBELI" == param)
+		if (1 == param)
 		{
 			$("#view_label_asal_tanah").hide();
 			var hideView = ["view_pemerintah", "view_provinsi", "view_kabupaten_kota", "view_lain_lain"];
@@ -553,7 +538,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			showView.forEach(reset_show_section);
 			reset_field();
 		}
-		else if ("HIBAH" == param)
+		else if (2 == param)
 		{
 			$("#view_label_asal_tanah").hide();
 			var hideView = ["view_asli_milik_desa", "view_lain_lain"];
@@ -562,7 +547,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			showView.forEach(reset_show_section);
 			reset_field();
 		}
-		else if ("LAIN" == param)
+		else if (3 == param)
 		{
 			$("#view_label_asal_tanah").hide();
 			var hideView = ["view_asli_milik_desa", "view_pemerintah", "view_provinsi", "view_kabupaten_kota"];
@@ -591,9 +576,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		if (luas == dinLuas &&
 			luas == dinTKD &&
 			luas == dinPatok &&
-			luas == dinPapan) {
+			luas == dinPapan)
+		{
 			$("#validasi").submit();
-		} else {
+		}
+		else
+		{
 			notify = 'error';
 			notify_msg = 'Luas Tanah Tidak Sesuai';
 			notification(notify, notify_msg);

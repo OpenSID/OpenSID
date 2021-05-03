@@ -481,7 +481,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	function pilih_pemilik(pilih)
 	{
 		$('#jenis_pemilik').val(pilih);
-		if (pilih == 1) 
+		if (pilih == 1)
 		{
 			$('#penduduk').val($('#id_penduduk').val());
 			$('#penduduk').addClass('required');
@@ -491,8 +491,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#nama_penduduk').hide();
 			$('#nik_penduduk').hide();
 			$('#pilihan_penduduk').show();
-		} 
-		else 
+		}
+		else
 		{
 			$('#penduduk').val('');
 			$('#pemilik_asal').addClass('required');

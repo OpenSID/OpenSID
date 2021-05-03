@@ -188,23 +188,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{
 					'data': function(data)
 					{
-						if (data.nama_pemilik_asal == 'JUALBELI')
-						{
-							return "JUAL BELI";
-						} else if (data.nama_pemilik_asal == 'HIBAH')
-						{
-							return "HIBAH";
-						} else
-						{
-							return "LAIN-LAIN";
-						}
+						return data.nama.toUpperCase();
 					}
 				},
 				{
 					'data': 'letter_c',
 				},
 				{
-					'data': 'kelas',
+					'data': 'kode',
 				},
 				{
 					'data': 'luas'

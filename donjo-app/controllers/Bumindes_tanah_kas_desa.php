@@ -103,6 +103,9 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		$data = [
 			'main' => $view_data,
 			'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
+			'persil' => $this->data_persil_model->list_persil_kelas(),
+			'list_asal_tanah' => $this->tanah_kas_desa_model->list_asal_tanah_kas(),
+			'list_peruntukan' => $this->tanah_kas_desa_model->list_peruntukan_tanah_kas(),
 			'subtitle' => $sub,
 			'selected_nav' => 'tanah_kas',
 			'view_mark' => 1,
@@ -123,8 +126,9 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			$data = [
 				'main' => $view_data,
 				'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
-				'letterc' => $this->tanah_kas_desa_model->list_letter_c(),
-				'persil' => $this->data_persil_model->list_persil(),
+				'persil' => $this->data_persil_model->list_persil_kelas(),
+				'list_asal_tanah' => $this->tanah_kas_desa_model->list_asal_tanah_kas(),
+				'list_peruntukan' => $this->tanah_kas_desa_model->list_peruntukan_tanah_kas(),
 				'subtitle' => $sub,
 				'selected_nav' => 'tanah_kas',
 				'view_mark' => 2,
@@ -139,8 +143,9 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			$data = [
 				'main' => NULL,
 				'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
-				'letterc' => $this->tanah_kas_desa_model->list_letter_c(),
-				'persil' => $this->data_persil_model->list_persil(),
+				'persil' => $this->data_persil_model->list_persil_kelas(),
+				'list_asal_tanah' => $this->tanah_kas_desa_model->list_asal_tanah_kas(),
+				'list_peruntukan' => $this->tanah_kas_desa_model->list_peruntukan_tanah_kas(),
 				'subtitle' => $sub,
 				'selected_nav' => 'tanah_kas',
 				'view_mark' => 0,

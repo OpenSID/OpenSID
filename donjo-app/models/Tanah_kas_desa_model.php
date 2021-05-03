@@ -64,15 +64,17 @@ class Tanah_kas_desa_model extends CI_Model
 	{
 		$builder = $this->db
 			->select('tkd.id,
-					tkd.nama_pemilik_asal,
+					atk.nama,
 					tkd.letter_c,
-					tkd.kelas,
+					p.kode,
 					tkd.lokasi,
 					tkd.luas,
 					tkd.tanggal_perolehan,
 					tkd.mutasi,
 					tkd.keterangan')
 			->from("{$this->table} tkd")
+			->join('ref_asal_tanah_kas atk', 'tkd.nama_pemilik_asal = atk.id')
+			->join('ref_persil_kelas p', 'tkd.kelas = p.id')
 			->where('tkd.visible', 1);
 
 		if (empty($search))
@@ -96,12 +98,12 @@ class Tanah_kas_desa_model extends CI_Model
 	public function view_tanah_kas_desa_by_id($id)
 	{
 		$this->db
-				->select('*')
-				->from($this->table)
-        ->where($this->table.'.id', $id);
+			->select('*')
+			->from("{$this->table} tkd")			
+			->where('tkd.id', $id);
 		$data = $this->db
-				->get()
-				->row();
+			->get()
+			->row();
 
 		return $data;
 	}
@@ -246,12 +248,7 @@ class Tanah_kas_desa_model extends CI_Model
 			}
 		}
 
-		if (preg_match("/[^a-zA-Z '\.,\-]/", $data['pemilik_asal']))
-		{
-			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
-		}
-
-		$data['nama_pemilik_asal'] = nama(strtoupper($data['pemilik_asal']));
+		$data['nama_pemilik_asal'] = strip_tags($data['pemilik_asal']);
 		$data['letter_c']	= bilangan($data['letter_c_persil']);
 		$data['kelas'] = strip_tags($data['kelas']);
 		$data['luas']	= bilangan($data['luas']);
@@ -315,9 +312,12 @@ class Tanah_kas_desa_model extends CI_Model
 	public function cetak_tanah_kas_desa()
 	{
 		$this->db
-				->select('*')
-				->from($this->table)
-				->where($this->table.'.visible', 1);
+				->select('tkd.*, atk.nama as asal, p.kode, ptk.nama as peruntukan_tanah')
+				->from("{$this->table} tkd")
+				->join('ref_asal_tanah_kas atk', 'tkd.nama_pemilik_asal = atk.id')
+				->join('ref_persil_kelas p', 'tkd.kelas = p.id')
+				->join('ref_peruntukan_tanah_kas ptk', 'tkd.peruntukan = ptk.id')
+				->where('tkd.visible', 1);
 		$data = $this->db
 				->get()
 				->result_array();
@@ -330,6 +330,30 @@ class Tanah_kas_desa_model extends CI_Model
 		$this->db
 				->select('c.id, c.nomor, c.nama_kepemilikan')
 				->from("cdesa c");
+		$data = $this->db
+				->get()
+				->result_array();
+
+		return $data;
+	}
+
+	public function list_asal_tanah_kas()
+	{
+		$this->db
+				->select('atk.*')
+				->from("ref_asal_tanah_kas atk");
+		$data = $this->db
+				->get()
+				->result_array();
+
+		return $data;
+	}
+
+	public function list_peruntukan_tanah_kas()
+	{
+		$this->db
+				->select('ptk.*')
+				->from("ref_peruntukan_tanah_kas ptk");
 		$data = $this->db
 				->get()
 				->result_array();

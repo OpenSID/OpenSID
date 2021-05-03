@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <?php $this->load->view('global/confirm_delete');?>
 <script>
-	$(document).ready(function() 
+	$(document).ready(function()
 	{
 		let tabelTanahDesa = $('#tabel-tanahdesa').DataTable({
 			'processing': true,
@@ -170,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					'data': null,
 				},
 				{
-					'data': function(data) 
+					'data': function(data)
 					{
 						return `
 							<a href="<?= site_url('bumindes_tanah_desa/view_tanah_desa/') ?>${data.id}" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
@@ -180,14 +180,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					}
 				},
 				{
-					'data': function(data) 
+					'data': function(data)
 					{
-						if(data.nama_pemilik_asal)
-						{
-							return data.nama_pemilik_asal;
-						}
-						return data.nama;
-
+						return data.nama_pemilik_asal ? data.nama_pemilik_asal : data.nama;
 					}
 				},
 				{
@@ -205,7 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 		});
 
-		tabelTanahDesa.on('draw.dt', function() 
+		tabelTanahDesa.on('draw.dt', function()
 		{
 			let PageInfo = $('#tabel-tanahdesa').DataTable().page.info();
 			tabelTanahDesa.column(0, {
@@ -216,12 +211,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		});
 	});
 
-	$("#form_cetak").click(function (event) 
+	$("#form_cetak").click(function (event)
 	{
 		var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/cetak';
 		window.open(link, '_blank');
 	});
-	$("#form_download").click(function (event) 
+	$("#form_download").click(function (event)
 	{
 		var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_2').val()+ '/unduh';
 		window.open(link, '_blank');
