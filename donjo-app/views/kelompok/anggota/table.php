@@ -152,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
 													<td><?= $data['no_sk_jabatan']?>
 													<td><?= $data['nik']; ?></td>
-													<td><?= $data['nama']; ?></td>
+													<td nowrap><?= $data['nama']; ?></td>
 													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
 													<td class="padat"><?= $data['umur']; ?></td>
 													<td><?= $data['sex']; ?></td>
