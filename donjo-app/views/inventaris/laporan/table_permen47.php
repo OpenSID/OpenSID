@@ -7,7 +7,7 @@
     </ol>
   </section>
   <section class="content" id="maincontent">
-    <form id="mainformexcel" name="mainformexcel" method="post" class="">
+    <form id="mainform" name="mainform" method="post" class="">
       <div class="row">
         <div class="col-md-3">
           <?php $this->load->view('inventaris/menu_kiri.php')?>
@@ -40,7 +40,7 @@
                           onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
                           <option value="">Tahun</option>
                           <?php for ($i=date("Y"); $i>=1900; $i--): ?>
-                            <option value="<?= $i ?>"><?= $i ?></option>
+                            <option value="<?= $i ?>" <?php selected($tahun, $i) ?> ><?= $i ?></option>
                           <?php endfor; ?>
                         </select>
                       </div>
