@@ -16,7 +16,6 @@
 				<li class="<?php ($tip==1) and print('active')?>"><a href="<?=site_url($this->tipe);?>"><i class="fa fa-list"></i> Daftar Inventaris</a></li>
 				<?php if($this->tab_ini != 6):?>
 	  		<li class="<?php ($tip==2) and print('active')?>"><a href="<?=site_url($this->tipe.'/mutasi')?>"><i class="fa fa-share"></i> Mutasi Inventaris</a></li>
-	  		<li class="<?php ($tip==3) and print('active')?>"><a href="<?=site_url($this->tipe.'/permendagri_47')?>"><i class="fa fa-share"></i> Laporan Permendagri 47</a></li>
 				<?php endif ?>
 			<?php endif ?>
 		</ul>
