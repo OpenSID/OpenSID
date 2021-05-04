@@ -91,7 +91,8 @@ class Api_inventaris_gedung extends Admin_Controller
 	public function update_mutasi($id)
 	{
 		$data = $this->inventaris_gedung_model->update_mutasi($id, array(
-			'jenis_mutasi' => $this->input->post('mutasi'),
+			'status_mutasi' => ($this->input->post('mutasi') == 'Hapus') ?  $this->input->post('status_mutasi') : null ,
+			'jenis_mutasi' 	=> $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual') || null,
 			'sumbangkan' => $this->input->post('sumbangkan') || null,
