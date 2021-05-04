@@ -56,11 +56,10 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_mutasi">Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm required">
+											<select name="mutasi" id="mutasi" class="form-control input-sm">
  												<optgroup label="Penghapusan">
 													<option value="Baik" <?php selected($main->jenis_mutasi, 'Baik')?>>Status Baik</option>
 													<option value="Rusak" <?php selected($main->jenis_mutasi, 'Rusak')?>>Status Rusak</option>
-													<option value="Diperbaiki" <?php selected($main->jenis_mutasi, 'Diperbaiki')?>>Status Diperbaiki</option>
 												</optgroup>
 												<optgroup label="Disumbangkan">
 													<option value="Masih Baik Disumbangkan" <?php selected($main->jenis_mutasi, 'Masih Baik Disumbangkan')?>>Masih Baik</option>

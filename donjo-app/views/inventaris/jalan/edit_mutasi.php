@@ -56,20 +56,18 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm required">
-												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
+											<select name="mutasi" id="mutasi" class="form-control input-sm">
 												<optgroup label="Penghapusan">
-													<option value="Baik">Status Baik</option>
-													<option value="Rusak">Status Rusak</option>
-													<option value="Diperbaiki">Status Diperbaiki</option>
+													<option value="Baik" <?php selected($main->jenis_mutasi, 'Baik')?>>Status Baik</option>
+													<option value="Rusak" <?php selected($main->jenis_mutasi, 'Rusak')?>>Status Rusak</option>
 												</optgroup>
 												<optgroup label="Disumbangkan">
-													<option value="Masih Baik Disumbangkan">Masih Baik</option>
-													<option value="Barang Rusak Disumbangkan">Rusak</option>
+													<option value="Masih Baik Disumbangkan" <?php selected($main->jenis_mutasi, 'Masih Baik Disumbangkan')?>>Masih Baik</option>
+													<option value="Barang Rusak Disumbangkan" <?php selected($main->jenis_mutasi, 'Barang Rusak Disumbangkan')?>>Rusak</option>
 												</optgroup>
 												<optgroup label="Jual">
-													<option value="Masih Baik Dijual">Masih Baik</option>
-													<option value="Barang Rusak Dijual">Rusak</option>
+													<option value="Masih Baik Dijual" <?php selected($main->jenis_mutasi, 'Masih Baik Dijual')?>>Masih Baik</option>
+													<option value="Barang Rusak Dijual" <?php selected($main->jenis_mutasi, 'Barang Rusak Dijual')?>>Rusak</option>
 												</optgroup>
 											</select>
 										</div>
