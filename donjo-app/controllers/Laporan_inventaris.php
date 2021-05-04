@@ -86,6 +86,7 @@ class Laporan_inventaris extends Admin_Controller {
 
 	public function mutasi()
 	{
+		$this->load->model('surat_model');
 		$data['pamong'] = $this->surat_model->list_pamong();
 
 		$data['tip'] = 2;
@@ -113,10 +114,13 @@ class Laporan_inventaris extends Admin_Controller {
 		$this->load->view('inventaris/laporan/inventaris_excel_mutasi', $data);
 	}
 
-	public function permendagri_47()
+	public function permendagri_47($asset = null)
 	{
-		$tahun = ($this->session->tahun == null ) ? date('Y') : $this->session->tahun;
-		$pamong = $this->pamong_model->list_data();
+		$tahun = (isset($this->session->tahun)) ? $this->session->tahun : date("Y") ;
+		foreach ($this->list_session as $list) {
+			$data[$list] = $this->session->$list ?: '';
+		}
+ 		$pamong = $this->pamong_model->list_data();
 		$data['kades'] = array_filter($pamong, function($x) {
 			if ($x['jabatan'] == 'Kepala Desa') return $x;
 		});
@@ -126,22 +130,21 @@ class Laporan_inventaris extends Admin_Controller {
 		});
 		 
 		
-		$data['tip'] = 3;
- 		$data['data'] 	= $this->inventaris_laporan_model->permen_47($tahun);
+		$data['tip'] 		= 3;
+ 		$data['data'] 	= $this->inventaris_laporan_model->permen_47($tahun, $asset);
  		$data['tahun'] 	= $tahun;
 
  		$this->render('inventaris/laporan/table_permen47', $data);
 	}
 
-	public function permendagri_47_cetak($kades, $sekdes)
+	public function permendagri_47_cetak($kades, $sekdes, $asset = null)
 	{
-
-		$tahun = 2021;
+		$tahun = (isset($this->session->tahun)) ? $this->session->tahun : date("Y") ;
 		$data['header'] = $this->config_model->get_data();
 		$pamong = $this->pamong_model->list_data();
 		$data['kades'] = $this->pamong_model->get_data($kades);
 		$data['sekdes'] = $this->pamong_model->get_data($sekdes);
- 		$data['data'] 	= $this->inventaris_laporan_model->permen_47($tahun);
+ 		$data['data'] 	= $this->inventaris_laporan_model->permen_47($tahun, $asset);
  		$data['tahun'] 	= $tahun;
  		$data['tanggal'] 	= date('d / M / y');
 
@@ -149,14 +152,14 @@ class Laporan_inventaris extends Admin_Controller {
  		$this->load->view('inventaris/laporan/permen47_print', $data);
 	}
 
-	public function permendagri_47_excel($kades, $sekdes)
+	public function permendagri_47_excel($kades, $sekdes, $asset = null)
 	{
-		$tahun = 2021;
-		$data['header'] = $this->config_model->get_data();
+		$tahun = (isset($this->session->tahun)) ? $this->session->tahun : date("Y") ;
+ 		$data['header'] = $this->config_model->get_data();
 		$pamong = $this->pamong_model->list_data();
 		$data['kades'] = $this->pamong_model->get_data($kades);
 		$data['sekdes'] = $this->pamong_model->get_data($sekdes);
- 		$data['data'] 	= $this->inventaris_laporan_model->permen_47($tahun);
+ 		$data['data'] 	= $this->inventaris_laporan_model->permen_47($tahun, $asset);
  		$data['tahun'] 	= $tahun;
  		$data['tanggal'] 	= date('d / M / y');
 
@@ -164,11 +167,12 @@ class Laporan_inventaris extends Admin_Controller {
  		$this->load->view('inventaris/laporan/permen47_excel', $data);
 	}
 
-	public function clear()
+	public function filter($filter)
 	{
-		$this->session->unset_userdata($this->list_session);
-		$this->session->set_userdata('per_page', 20);
-		redirect('keluar');
+		$value = $this->input->post($filter);
+ 		if ($value != '')
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
+		redirect('laporan_inventaris/permendagri_47');
 	}
-
 }
