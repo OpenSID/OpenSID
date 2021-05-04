@@ -169,7 +169,7 @@ class Kelompok_model extends MY_Model {
 	{
 		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
 		$data['no_anggota'] = bilangan($post['no_anggota']);
-		$data['jabatan'] = bilangan($post['jabatan']);
+		$data['jabatan'] = $post['jabatan'];
 		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		return $data;
@@ -177,42 +177,15 @@ class Kelompok_model extends MY_Model {
 
 	public function insert_a($id = 0)
 	{
-		$_SESSION['success'] = 1;
-		$nama_file = '';
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-
-		if (!empty($nama_file))
-		{
-		  $nama_file = urlencode(generator(6)."_".$_FILES['foto']['name']);
-			if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)))
-			{
-				UploadFoto($nama_file, $old_foto='', $tipe_file);
-			}
-			else
-			{
-				$nama_file = '';
-				$_SESSION['success'] = -1;
-				$_SESSION['error_msg'] = " -> Jenis file salah: " . $tipe_file;
-			}
-		}
-
 		$data = $this->validasi_anggota($this->input->post());
 		$data['id_kelompok'] = $id;
-		$data['foto'] = $nama_file;
 		$this->ubah_jabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], NULL);
 
-		$sdh_ada = $this->db
-			->select('id')
-			->from('kelompok_anggota')
-			->where('id_kelompok', $id)
-			->where('id_penduduk', $data['id_penduduk'])
-			->get()->row_array();
-		if ( ! $sdh_ada)
-		{
-			$outp = $this->db->insert('kelompok_anggota', $data);
-		}
+		$outp = $this->db->insert('kelompok_anggota', $data);
+		$idku = $data['id_penduduk'];
+
+		// Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
+		if ($foto = upload_foto_penduduk("kelompok_$idku", $this->input->post())) $this->db->where('id', $idku)->update('kelompok_anggota', ['foto' => $foto]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -230,33 +203,13 @@ class Kelompok_model extends MY_Model {
 	public function update_a($id = 0, $id_a = 0)
 	{
 		$data = $this->validasi_anggota($this->input->post());
-
-		$_SESSION['success'] = 1;;
-		unset($_SESSION['error_msg']);
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(" ", "_", trim($nama_file));
-		$old_foto = $this->input->post('old_foto') ?: '';
-		if (!empty($nama_file))
-		{
-			if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)))
-			{
-			  $data['foto'] = urlencode(generator(6)."_".$nama_file);
-				UploadFoto($data['foto'], $old_foto, $tipe_file);
-			}
-			else
-			{
-				$_SESSION['success'] = -1;
-				$_SESSION['error_msg'] = " -> Jenis file salah: " . $tipe_file;
-			}
-		}
-
 		$this->ubah_jabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
+		$data['foto'] = upload_foto_penduduk("kelompok_$id_a", $this->input->post());
+
 		$outp = $this->db
-			->where('id_kelompok', $id)
 			->where('id_penduduk', $id_a)
 			->update('kelompok_anggota', $data);
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -339,13 +292,15 @@ class Kelompok_model extends MY_Model {
 	public function get_anggota($id = 0, $id_a = 0)
 	{
 		$data = $this->db
-			->select('k.*, p.foto, p.sex as id_sex')
-			->from('kelompok_anggota k')
-			->join('tweb_penduduk p', 'k.id_penduduk = p.id')
+			->select('ka.*, tp.sex as id_sex')
+			->select('(CASE WHEN (ka.foto IS NULL OR "") THEN tp.foto ELSE ka.foto END) AS foto')
+			->from('kelompok_anggota ka')
+			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id')
 			->where('id_kelompok', $id)
 			->where('id_penduduk', $id_a)
 			->get()
 			->row_array();
+
 		return $data;
 	}
 
@@ -410,18 +365,20 @@ class Kelompok_model extends MY_Model {
 		$dusun = ucwords($this->setting->sebutan_dusun);
 		if ($sub == 'anggota') $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
 		$data = $this->db
-			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.foto, tp.sex as id_sex, tpx.nama AS sex')
+			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex')
+			->select('(CASE WHEN (ka.foto IS NULL OR "") THEN tp.foto ELSE ka.foto END) AS foto')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
 			->select('a.dusun,a.rw,a.rt')
-			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) as alamat")
+			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) AS alamat")
 			->from('kelompok_anggota ka')
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
-			->order_by('CAST(jabatan AS UNSIGNED), CAST(no_anggota AS UNSIGNED)')
+			->order_by("IF((jabatan = '' OR jabatan IS NULL), '999999', jabatan) ASC, CAST(no_anggota AS UNSIGNED)")
 			->get()
 			->result_array();
+
 		return $data;
 	}
 

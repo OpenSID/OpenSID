@@ -775,8 +775,7 @@ class Penduduk_model extends MY_Model {
 		$idku = $this->db->insert_id();
 
 		// Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
-		if ($foto = $this->upload_foto_penduduk($idku))
-			$this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
+		if ($foto = upload_foto_penduduk($idku, $this->input->post())) $this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
 
 		// Jenis peristiwa didapat dari form yang berbeda
 		// Jika peristiwa lahir akan mengambil data dari field tanggal lahir
@@ -858,7 +857,8 @@ class Penduduk_model extends MY_Model {
 			}
 			unset($data['alamat']);
 		}
-		if ($foto = $this->upload_foto_penduduk($id))
+
+		if ($foto = upload_foto_penduduk($id, $this->input->post()))
 			$data['foto'] = $foto;
 		else
 			unset($data['foto']);
@@ -917,41 +917,6 @@ class Penduduk_model extends MY_Model {
 		$outp = $this->db->update('tweb_penduduk', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	private function upload_foto_penduduk($id)
-	{
-		$post = $this->input->post();
-		$foto = $post['foto'];
-		$old_foto = $post['old_foto'];
-		$nama_file = ($post['nik'] ?: '0') . '-' . $id;
-
-		if ($_FILES['foto']['tmp_name'])
-		{
-			$nama_file = $nama_file . get_extension($_FILES['foto']['name']);
-			UploadFoto($nama_file, $old_foto);
-		}
-		elseif ($foto)
-		{
-			$nama_file = $nama_file . '.png';
-			$foto = str_replace('data:image/png;base64,', '', $foto);
-			$foto = base64_decode($foto, true);
-
-			if ($old_foto != '')
-			{
-				// Hapus old_foto
-				unlink(LOKASI_USER_PICT . $old_foto);
-				unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);
-			}
-
-			file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
-			file_put_contents(LOKASI_USER_PICT . 'kecil_' . $nama_file, $foto);
-		}
-		else {
-			$nama_file = null;
-		}
-
-		return $nama_file;
 	}
 
 

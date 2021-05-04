@@ -97,7 +97,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<?php if (!empty($pend)): ?>
+								<?php if (! empty($pend)): ?>
 									<input type="hidden" name="jabatan_lama" value="<?= $pend['jabatan']?>">
 								<?php endif; ?>
 								<label class="col-sm-3 control-label" for="jabatan">Jabatan</label>
@@ -107,6 +107,9 @@
 										<?php foreach ($list_jabatan as $key => $value): ?>
 											<option value="<?= $key?>"  <?= selected($key, $pend['jabatan']); ?> ><?= $value?></option>
 										<?php endforeach;?>
+										<?php if (! in_array($pend['jabatan'], [1, 2, 3, 4, 99])): ?>
+											<option value="<?= $pend['jabatan']; ?>" selected><?= $pend['jabatan']; ?></option>
+										<?php endif; ?>
 									</select>
 								</div>
 							</div>
