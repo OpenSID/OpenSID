@@ -238,7 +238,7 @@ class Inventaris_laporan_model extends CI_Model
 		return $result;
 	}
 
-	public function permen_47($tahun)
+	public function permen_47($tahun, $jns_asset)
 	{
 		$kondisi = array(
 			'Baik'											=> 1,
@@ -253,26 +253,35 @@ class Inventaris_laporan_model extends CI_Model
  
 		// sub query untuk mencari asset < tahun ke n
 		// barang rusak pada tahun n-1 tidak akan masuk
-		$this->db->select('concat(b.asset,b.id_inventaris_asset)');
-		$this->db->where('b.status_mutasi', 'Rusak');
-		$this->db->where('year(tahun_mutasi) <', $tahun);
-		$sub_q = $this->db->from('rekap_mutasi_inventaris as b')->get_compiled_select();
+		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
+	 
+		$sub_q = $this->db
+								->select('concat(b.asset,b.id_inventaris_asset)')
+				 				->where('b.status_mutasi', 'Rusak')
+								->where('year(tahun_mutasi) <', $tahun)
+				 				->from('rekap_mutasi_inventaris as b')->get_compiled_select();
 
  		// mutasi asset yang tidak rusak saat tahun n-1 data dianggal sebagai data akhir tahun n dan awal tahun
-		$this->db->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})"); 
-		$this->db->group_by('a.asset');
-		$this->db->group_by('a.id_inventaris_asset');
-		$this->db->order_by('a.tahun_mutasi', 'desc');
+	
+		$this->db
+				->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})")
+				->group_by('a.asset')
+				->group_by('a.id_inventaris_asset')
+				->order_by('a.tahun_mutasi', 'desc');
+		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
 		foreach ($this->db->get('rekap_mutasi_inventaris as a') as $asset) {
 			$akhir_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset;
 			$awal_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset;
 		}
 
  		// jika ada input pada tahun ke n. data akhir tahun akan digantikan dengan data ini
-		$this->db->where('year(tahun_mutasi)', $tahun);
-		$this->db->group_by('asset');
-		$this->db->group_by('id_inventaris_asset');
-		$this->db->order_by('tahun_mutasi', 'desc');
+		$this->db
+				->where('year(tahun_mutasi)', $tahun)
+		 		->group_by('asset')
+		 		->group_by('id_inventaris_asset')
+				->order_by('tahun_mutasi', 'desc');
+
+		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
 		foreach ($this->db->get('rekap_mutasi_inventaris')->result() as $asset) {
 			if ($asset->status_mutasi == null) {
 				$asset->kondisi = 2;
@@ -289,8 +298,11 @@ class Inventaris_laporan_model extends CI_Model
  
 		// ambil master data iventaris
 		$inventaris = [];
-		$this->db->where("concat(a.asset,a.id) NOT IN ({$sub_q})"); 
-		$master_data = $this->db->get('master_inventaris AS a');
+		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
+		$master_data = $this->db
+				->where("concat(a.asset,a.id) NOT IN ({$sub_q})")
+				->get('master_inventaris AS a');
+
  		foreach ($master_data->result() as $asset) {
  			// akhir tahun
 			if (isset($akhir_tahun [$asset->asset] [$asset->id])) {
@@ -308,9 +320,7 @@ class Inventaris_laporan_model extends CI_Model
 			}else{
 				$asset->awal_tahun = $kondisi[$asset->kondisi];
 			}
-			
  			$inventaris [] = $asset;
-
  		}
 
  		// rekapitulasi
@@ -338,7 +348,6 @@ class Inventaris_laporan_model extends CI_Model
  			$rekap [$value->nama_barang] [$value->asal] [] = 1;
 
  			if (isset($value->tahun_mutasi)) $rekap [$value->nama_barang]  ['tahun_mutasi'] = $value->tahun_mutasi; //tahun mutasi
-
  			// rekap awal tahun
  			if ($value->awal_tahun == 1) $rekap [$value->nama_barang]  ['awal_baik'] [] = 1;
 
