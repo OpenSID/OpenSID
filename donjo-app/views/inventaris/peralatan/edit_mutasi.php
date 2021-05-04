@@ -44,10 +44,11 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="status" class="form-control input-sm required">
-												<option value="Baik">Baik</option>
-												<option value="Rusak">Rusak</option>
-												<option value="Baik">Penghapusan</option>
+											<select name="status_mutasi" id="status" class="form-control input-sm required">
+												<option value="Baik" <?php selected($main->status_mutasi, 'Baik') ?>>Baik</option>
+												<option value="Rusak" <?php selected($main->status_mutasi, 'Rusak') ?> >Rusak</option>
+												<option value="Diperbaiki" <?php selected($main->status_mutasi, 'Diperbaiki') ?> >Diperbaiki</option>
+												<option value="Hapus" <?php selected($main->status_mutasi, 'Hapus') ?>>Penghapusan</option>
 											</select>
 										</div>
 									</div>
@@ -123,6 +124,8 @@
 <script>
 	$(document).ready(function()
 	{
+		var status = $("#status").val();
+		if (status == 'Hapus') {$("#mutasi").parent().parent().show();} else {$("#mutasi").parent().parent().hide();}
 		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
 		{
 			$(".disumbangkan").show();
@@ -155,6 +158,17 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
+			}
+		});
+
+		$("#status").change(function() {
+			var status = $(this).val();
+ 			if (status == "Hapus") {
+				$("#mutasi").parent().parent().show();
+				$("#mutasi").addClass('required');
+			}else{
+				$("#mutasi").parent().parent().hide();
+				$("#mutasi").removeClass('required');
 			}
 		});
 	});

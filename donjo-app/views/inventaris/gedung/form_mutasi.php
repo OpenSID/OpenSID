@@ -124,6 +124,7 @@
 <script>
 	$(document).ready(function()
 	{
+		$("#mutasi").parent().parent().hide();
 		$(".disumbangkan").hide();
 		$(".harga_jual").hide();
 		$("#mutasi").change(function()
@@ -144,11 +145,13 @@
 			}
 		});
 		$("#status").change(function() {
-			var status = $(this).value();
-			if (status = "Baik") {
-				$("#mutasi").hide();
+			var status = $(this).val();
+ 			if (status == "Hapus") {
+				$("#mutasi").parent().parent().show();
+				$("#mutasi").addClass('required');
 			}else{
-				$("#mutasi").show();
+				$("#mutasi").parent().parent().hide();
+				$("#mutasi").removeClass('required');
 			}
 		});
 	});

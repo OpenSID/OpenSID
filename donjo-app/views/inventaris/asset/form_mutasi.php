@@ -55,7 +55,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" >Status Mutasi</label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm ">
+											<select name="mutasi" id="mutasi" class="form-control input-sm">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
 												<optgroup label="Hapus">
 													<option value="Baik">Status Baik</option>
@@ -124,6 +124,7 @@
 	$(document).ready(function()
 	{
 		$(".disumbangkan").hide();
+		$("#mutasi").parent().parent().hide();
 		$(".harga_jual").hide();
 		$("#mutasi").change(function()
 		{
@@ -144,11 +145,13 @@
 		});
 
 		$("#status").change(function() {
-			var status = $(this).value();
-			if (status = "Baik") {
-				$("#mutasi").hide();
+			var status = $(this).val();
+ 			if (status == "Hapus") {
+				$("#mutasi").parent().parent().show();
+				$("#mutasi").addClass('required');
 			}else{
-				$("#mutasi").show();
+				$("#mutasi").parent().parent().hide();
+				$("#mutasi").removeClass('required');
 			}
 		});
 		

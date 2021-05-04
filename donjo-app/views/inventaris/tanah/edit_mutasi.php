@@ -42,12 +42,13 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi <?= $main->status_mutasi?></label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="status" class="form-control input-sm required">
-												<option value="Baik">Baik</option>
-												<option value="Rusak">Rusak</option>
-												<option value="Baik">Penghapusan</option>
+											<select name="status_mutasi" id="status" class="form-control input-sm required">
+ 												<option value="Baik" <?php selected($main->status_mutasi, 'Baik') ?>>Baik</option>
+												<option value="Rusak" <?php selected($main->status_mutasi, 'Rusak') ?> >Rusak</option>
+												<option value="Diperbaiki" <?php selected($main->status_mutasi, 'Diperbaiki') ?> >Diperbaiki</option>
+												<option value="Hapus" <?php selected($main->status_mutasi, 'Hapus') ?>>Penghapusan</option>
 											</select>
 										</div>
 									</div>
@@ -56,19 +57,18 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="jenis_mutasi">Jenis Mutasi </label>
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm required">
-												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
-												<optgroup label="Penghapusan">
-													<option value="Baik">Status Baik</option>
-													<option value="Rusak">Status Rusak</option>
-													<option value="Diperbaiki">Status Diperbaiki</option>
+ 												<optgroup label="Penghapusan">
+													<option value="Baik" <?php selected($main->jenis_mutasi, 'Baik')?>>Status Baik</option>
+													<option value="Rusak" <?php selected($main->jenis_mutasi, 'Rusak')?>>Status Rusak</option>
+													<option value="Diperbaiki" <?php selected($main->jenis_mutasi, 'Diperbaiki')?>>Status Diperbaiki</option>
 												</optgroup>
 												<optgroup label="Disumbangkan">
-													<option value="Masih Baik Disumbangkan">Masih Baik</option>
-													<option value="Barang Rusak Disumbangkan">Rusak</option>
+													<option value="Masih Baik Disumbangkan" <?php selected($main->jenis_mutasi, 'Masih Baik Disumbangkan')?>>Masih Baik</option>
+													<option value="Barang Rusak Disumbangkan" <?php selected($main->jenis_mutasi, 'Barang Rusak Disumbangkan')?>>Rusak</option>
 												</optgroup>
 												<optgroup label="Jual">
-													<option value="Masih Baik Dijual">Masih Baik</option>
-													<option value="Barang Rusak Dijual">Rusak</option>
+													<option value="Masih Baik Dijual" <?php selected($main->jenis_mutasi, 'Masih Baik Dijual')?>>Masih Baik</option>
+													<option value="Barang Rusak Dijual" <?php selected($main->jenis_mutasi, 'Barang Rusak Dijual')?>>Rusak</option>
 												</optgroup>
 											</select>
 										</div>
@@ -123,6 +123,9 @@
 <script>
 	$(document).ready(function()
 	{
+		// get value jenis
+		var status = $("#status").val();
+		if (status == 'Hapus') {$("#mutasi").parent().parent().show();} else {$("#mutasi").parent().parent().hide();}
 		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
 		{
 			$(".disumbangkan").show();
@@ -154,6 +157,17 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
+			}
+		});
+
+		$("#status").change(function() {
+			var status = $(this).val();
+ 			if (status == "Hapus") {
+				$("#mutasi").parent().parent().show();
+				$("#mutasi").addClass('required');
+			}else{
+				$("#mutasi").parent().parent().hide();
+				$("#mutasi").removeClass('required');
 			}
 		});
 	});
