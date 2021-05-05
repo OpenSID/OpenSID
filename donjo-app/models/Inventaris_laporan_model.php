@@ -260,10 +260,12 @@ class Inventaris_laporan_model extends CI_Model
 				 				->where('b.status_mutasi', 'Rusak')
 								->where('year(tahun_mutasi) <', $tahun)
 				 				->from('rekap_mutasi_inventaris as b')->get_compiled_select();
+
 		$tgl_thn_n = $this->db
 								->select('MAX(c.tahun_mutasi)')
 								->where('year(c.tahun_mutasi)', $tahun)
 				 				->from('rekap_mutasi_inventaris as c')->get_compiled_select();
+				 				
 		$tgl_thn_min_n =  $this->db
 								->select('MAX(c.tahun_mutasi)')
 								->where('year(c.tahun_mutasi) <', $tahun)
