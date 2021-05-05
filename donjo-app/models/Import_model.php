@@ -45,8 +45,7 @@ require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 
-class Import_model extends CI_Model
-{
+class Import_model extends CI_Model {
 
 	public $error_tulis_penduduk; // error pada pemanggilan terakhir tulis_tweb_penduduk()
 
@@ -109,7 +108,7 @@ class Import_model extends CI_Model
 		}
 
 		$mime_type_excel = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12');
-		if (!in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel))
+		if ( ! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel))
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $_FILES['userfile']['type'];
 			$_SESSION['success'] = -1;
@@ -132,7 +131,7 @@ class Import_model extends CI_Model
 	{
 		$nilai = strtolower($nilai);
 		$nilai = preg_replace("/\s*\/\s*/", '/', $nilai);
-		if (!empty($nilai) and $nilai != '-' and !array_key_exists($nilai, $daftar_kode))
+		if ( ! empty($nilai) and $nilai != '-' and !array_key_exists($nilai, $daftar_kode))
 			return -1; // kode salah
 		return $daftar_kode[$nilai];
 	}
@@ -169,7 +168,7 @@ class Import_model extends CI_Model
 		if ($isi_baris['status_dasar'] != "" and !in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) return 'kode status_dasar tidak dikenal';
 
 		// Validasi data lain
-		if (!ctype_digit($isi_baris['nik']) or (strlen($isi_baris['nik']) != 16 and $isi_baris['nik'] != '0')) return 'nik salah';
+		if ( ! ctype_digit($isi_baris['nik']) or (strlen($isi_baris['nik']) != 16 and $isi_baris['nik'] != '0')) return 'nik salah';
 
 		return '';
 	}
@@ -322,7 +321,7 @@ class Import_model extends CI_Model
 							dusun = '" . $isi_baris['dusun'] . "' AND rw='" . $isi_baris['rw'] . "' AND rt='" . $isi_baris['rt'] . "'";
 		$hasil = $this->db->query($query);
 		$res = $hasil->row_array();
-		if (!empty($res))
+		if ( ! empty($res))
 		{
 			$isi_baris['id_cluster'] = $res['id'];
 		}
@@ -349,7 +348,7 @@ class Import_model extends CI_Model
 		$res = $hasil->row_array();
 		$data['updated_by'] = $this->session->user;
 
-		if (!empty($res))
+		if ( ! empty($res))
 		{
 			// Update keluarga apabila sudah ada
 			$isi_baris['id_kk'] = $res['id'];
@@ -389,7 +388,7 @@ class Import_model extends CI_Model
 		{
 			if (empty($value))
 			{
-				if (!($key == 'nik' && $value == '0')) unset($data[$key]); // Kecuali untuk kolom NIk boleh 0
+				if ( ! ($key == 'nik' && $value == '0')) unset($data[$key]); // Kecuali untuk kolom NIk boleh 0
 			}
 		}
 		// Masukkan penduduk ke tabel tweb_penduduk apabila
@@ -402,7 +401,7 @@ class Import_model extends CI_Model
 			$query = "SELECT id from tweb_penduduk WHERE nik = ?";
 			$hasil = $this->db->query($query, $isi_baris['nik']);
 			$res = $hasil->row_array();
-			if (!empty($res))
+			if ( ! empty($res))
 			{
 				if ($data['status_dasar'] != -1)
 				{
@@ -411,7 +410,7 @@ class Import_model extends CI_Model
 					$data['updated_by'] = $this->session->user;
 					$id = $res['id'];
 					$this->db->where('id', $id);
-					if (!$this->db->update('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();
+					if ( ! $this->db->update('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();
 				}
 			}
 			else
@@ -419,7 +418,7 @@ class Import_model extends CI_Model
 				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->session->user;
-				if (!$this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
+				if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 				$id = $this->db->insert_id();
 				$penduduk_baru = $id;
 
@@ -436,7 +435,7 @@ class Import_model extends CI_Model
 		{
 			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 			$data['created_by'] = $this->session->user;
-			if (!$this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
+			if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 
 			$id = $this->db->insert_id();
 			$penduduk_baru = $id;
@@ -513,7 +512,7 @@ class Import_model extends CI_Model
 				if ($rowData[1] == '' and $rowData[2] == '' and $rowData[3] == '') continue;
 
 				// Baris pertama diabaikan, berisi nama kolom
-				if (!$baris_pertama)
+				if ( ! $baris_pertama)
 				{
 					$baris_pertama = true;
 					continue;
@@ -619,7 +618,7 @@ class Import_model extends CI_Model
 			foreach ($sheet->getRowIterator() as $row)
 			{
 				// Abaikan baris pertama yg berisi nama kolom
-				if (!$baris_pertama)
+				if ( ! $baris_pertama)
 				{
 					$baris_pertama = true;
 					continue;
@@ -692,7 +691,7 @@ class Import_model extends CI_Model
 
 			$outp = $outp && $hasil_insert;
 
-			if (!$hasil_insert)
+			if ( ! $hasil_insert)
 			{
 				$error = $this->db->error();
 				echo "<a style='color:#f00;'> Ada rumah tangga dengan kepala ganda. " . $error['code'] . ': ' . $error['message'] . "</a><br><br>";
