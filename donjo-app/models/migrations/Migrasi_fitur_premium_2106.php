@@ -57,29 +57,34 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	protected function tambah_jenis_mutasi_inventaris()
 	{
 		$hasil = true;
-		if ( ! $this->db->field_exists('jenis_mutasi', 'mutasi_inventaris_asset'))
-		{
-			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_asset', 'jenis_mutasi varchar(50) NOT NULL');
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_asset'))
+		
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_asset', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_asset', array('status_mutasi' => 'Hapus'));
 		}
 
-		if ( ! $this->db->field_exists('jenis_mutasi', 'mutasi_inventaris_gedung'))
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_gedung'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_gedung', 'jenis_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_gedung', 'status_mutasistatus_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_gedung', array('status_mutasi' => 'Hapus'));
 		}
 
-		if ( ! $this->db->field_exists('jenis_mutasi', 'mutasi_inventaris_jalan'))
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_jalan'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_jalan', 'jenis_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_jalan', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_gedung', array('status_mutasi' => 'Hapus'));
 		}
 
-		if ( ! $this->db->field_exists('jenis_mutasi', 'mutasi_inventaris_peralatan'))
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_peralatan'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_peralatan', 'jenis_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_peralatan', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_gedung', array('status_mutasi' => 'Hapus'));
 		}
 
-		if ( ! $this->db->field_exists('jenis_mutasi', 'mutasi_inventaris_asset'))
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_asset'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_asset', 'jenis_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_asset', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_gedung', array('status_mutasi' => 'Hapus'));
 		}
 
 		$this->db->query("DROP VIEW master_inventaris");
