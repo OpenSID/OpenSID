@@ -260,11 +260,20 @@ class Inventaris_laporan_model extends CI_Model
 				 				->where('b.status_mutasi', 'Rusak')
 								->where('year(tahun_mutasi) <', $tahun)
 				 				->from('rekap_mutasi_inventaris as b')->get_compiled_select();
-
+		$tgl_thn_n = $this->db
+								->select('MAX(c.tahun_mutasi)')
+								->where('year(c.tahun_mutasi)', $tahun)
+				 				->from('rekap_mutasi_inventaris as c')->get_compiled_select();
+		$tgl_thn_min_n =  $this->db
+								->select('MAX(c.tahun_mutasi)')
+								->where('year(c.tahun_mutasi) <', $tahun)
+				 				->from('rekap_mutasi_inventaris as c')->get_compiled_select();
+		 
  		// mutasi asset yang tidak rusak saat tahun n-1 data dianggal sebagai data akhir tahun n dan awal tahun
 	
 		$this->db
 				->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})")
+				->where("tahun_mutasi = ({$tgl_thn_min_n})")
 				->group_by('a.asset')
 				->group_by('a.id_inventaris_asset')
 				->order_by('a.tahun_mutasi', 'desc');
@@ -276,7 +285,7 @@ class Inventaris_laporan_model extends CI_Model
 
  		// jika ada input pada tahun ke n. data akhir tahun akan digantikan dengan data ini
 		$this->db
-				->where('year(tahun_mutasi)', $tahun)
+				->where("tahun_mutasi = ({$tgl_thn_n})")
 		 		->group_by('asset')
 		 		->group_by('id_inventaris_asset')
 				->order_by('tahun_mutasi', 'desc');
@@ -295,7 +304,7 @@ class Inventaris_laporan_model extends CI_Model
 			}
  			$akhir_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset; // memperbarui data akhir tahun
 		}
- 
+		 
 		// ambil master data iventaris
 		$inventaris = [];
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
@@ -338,7 +347,6 @@ class Inventaris_laporan_model extends CI_Model
  					'hapus_rusak'					=> [],
  					'hapus_jual'					=> [],
  					'hapus_sumbang'				=> [],
- 					'tgl_hapus'						=> '',
  					'akhir_baik'					=> [],
  					'akhir_rusak'					=> [],
  					'keterangan'					=> []
@@ -359,7 +367,7 @@ class Inventaris_laporan_model extends CI_Model
  			if ($value->akhir_tahun == 2) $rekap [$value->nama_barang]  ['akhir_rusak'] [] = 1;
 
  			// Penghapusan
- 			if ($value->status_mutasi == hapus) {
+ 			if ($value->status_mutasi == 'Hapus') {
  				if ($value->jenis_mutasi == 'Rusak') $rekap [$value->nama_barang]  ['hapus_rusak'] [] = 1;
 
  				if ($value->jenis_mutasi == 'Masih Baik Disumbangkan') $rekap [$value->nama_barang]  ['hapus_sumbang'] [] = 1;
@@ -369,8 +377,10 @@ class Inventaris_laporan_model extends CI_Model
  				if ($value->jenis_mutasi == 'Barang Rusak Dijual') $rekap [$value->nama_barang]  ['hapus_jual'] [] = 1;
 
  				if ($value->jenis_mutasi == 'Masih Baik Dijual') $rekap [$value->nama_barang]  ['hapus_jual'] [] = 1;
- 			}
 
+ 				$rekap [$value->nama_barang]  ['tgl_hapus'] = $value->tahun_mutasi;
+ 			}
+ 			
  			if ($value->keterangan != '' ) $rekap [$value->nama_barang]  ['keterangan'] [] = $value->keterangan;
  		}
 
