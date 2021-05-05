@@ -227,55 +227,53 @@ class Tanah_desa_model extends CI_Model
 		status_sukses($hasil);
 	}
 
+	private function periksa_nik(&$valid, $data, $id)
+	{
+		if (empty($data['penduduk']) && ! isset($data['nik']))
+		{
+			array_push($valid,"NIK Kosong");
+			return;
+		}
+
+		if ($error_nik = $this->nik_error($data['nik'], 'NIK'))
+		{
+			array_push($valid, $error_nik);
+			return;
+		}
+
+		// add
+		if ($id == 0)
+		{
+			if ($this->nik_warga_luar_checking($data['nik']))
+			{
+				array_push($valid, "NIK {$data['nik']} sudah digunakan");
+			}
+			return;
+		}
+
+		// update
+		$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
+		if ( ! $nik_old_check)
+		{
+			$nik_check = $this->nik_warga_luar_checking($data['nik']);
+			if ($nik_check)
+			{
+				array_push($valid, "NIK {$data['nik']} sudah digunakan");
+			}
+		}
+	}
+
 	private function validasi_data(&$data, $id=0)
 	{
-		$valid = array();
-		$nik_check = NULL;
+		$valid = [];
 
 		if (preg_match("/[^a-zA-Z '\.,\-]/", $data['pemilik_asal']))
 		{
 			array_push($valid, "Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 		}
 
-		if (empty($data['penduduk']))
-		{
-			if (isset($data['nik']))
-			{
-				if ($error_nik = $this->nik_error($data['nik'], 'NIK'))
-				{
-					array_push($valid, $error_nik);
-				}
-				else
-				{
-					// add
-					if ($id == 0)
-					{
-						$nik_check = $this->nik_warga_luar_checking($data['nik']);
-						if ($nik_check)
-						{
-							array_push($valid, "NIK {$data['nik']} sudah digunakan");
-						}
-					}
-					else
-					{
-					// update
-						$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
-						if ( ! $nik_old_check)
-						{
-							$nik_check = $this->nik_warga_luar_checking($data['nik']);
-							if ($nik_check)
-							{
-								array_push($valid, "NIK {$data['nik']} sudah digunakan");
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				array_push($valid,"NIK Kosong");
-			}
-		}
+		$this->periksa_nik($valid, $data, $id);
+
 		//  steril data
 		$data['id_penduduk'] = empty($data['penduduk'])? 0 : $data['penduduk'];
 		$data['nik'] = empty(bilangan($data['nik']))? 0 : bilangan($data['nik']);
