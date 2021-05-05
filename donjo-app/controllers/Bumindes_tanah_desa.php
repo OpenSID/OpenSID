@@ -53,7 +53,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		$this->load->model(['header_model', 'tanah_desa_model', 'pamong_model']);
 		$this->controller = 'bumindes_tanah_desa';
 		$this->modul_ini = 301;
-		$this->sub_modul_ini = 305;
+		$this->sub_modul_ini = 302;
 		$this->set_minsidebar(1);
 	}
 

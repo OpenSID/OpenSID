@@ -53,7 +53,8 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		$this->load->model(['header_model', 'tanah_kas_desa_model', 'pamong_model', 'data_persil_model']);
 		$this->controller = 'bumindes_tanah_kas_desa';
 		$this->modul_ini = 301;
-		$this->sub_modul_ini = 305;
+		$this->sub_modul_ini = 302;
+		$this->set_minsidebar(1);
 	}
 
 	public function index()
@@ -76,15 +77,11 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 				]));
 		}
 
-		$sub = "<li class=\"active\">Buku Tanah Kas Desa";
-		$data = [
+		$this->render('bumindes/umum/main', [
+			'subtitle' => 'Buku Tanah Kas Desa',
 			'selected_nav' => 'tanah_kas',
-			'main_content' => "bumindes/pembangunan/tanah_kas_desa/content_tanah_kas_desa",
-			'subtitle' => $sub,
-		];
-
-		$this->set_minsidebar(1);
-		$this->render('bumindes/pembangunan/main', $data);
+			'main_content' => 'bumindes/pembangunan/tanah_kas_desa/content_tanah_kas_desa',
+		]);
 	}
 
 	public function clear()
@@ -97,8 +94,6 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 
 	public function view_tanah_kas_desa($id)
 	{
-		$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_kas_desa'). ">Buku Tanah Kas Desa</a>
-				<li class=\"active\"></li>Rincian Data</li>";
 		$view_data = $this->tanah_kas_desa_model->view_tanah_kas_desa_by_id($id);
 		$data = [
 			'main' => $view_data,
@@ -106,22 +101,19 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 			'persil' => $this->data_persil_model->list_persil_kelas(),
 			'list_asal_tanah' => $this->tanah_kas_desa_model->list_asal_tanah_kas(),
 			'list_peruntukan' => $this->tanah_kas_desa_model->list_peruntukan_tanah_kas(),
-			'subtitle' => $sub,
+			'subtitle' => 'Buku Tanah Kas Desa',
 			'selected_nav' => 'tanah_kas',
 			'view_mark' => 1,
 			'asal_tanah' => $view_data->nama_pemilik_asal
 		];
 
-		$this->set_minsidebar(1);
-		$this->render('bumindes/pembangunan/main', $data);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($id = '')
 	{
 		if ($id)
 		{
-			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_kas_desa'). ">Buku Tanah Kas Desa</a>
-				<li class=\"active\"></li>Ubah Data</li>";
 			$view_data = $this->tanah_kas_desa_model->view_tanah_kas_desa_by_id($id);
 			$data = [
 				'main' => $view_data,
@@ -129,7 +121,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 				'persil' => $this->data_persil_model->list_persil_kelas(),
 				'list_asal_tanah' => $this->tanah_kas_desa_model->list_asal_tanah_kas(),
 				'list_peruntukan' => $this->tanah_kas_desa_model->list_peruntukan_tanah_kas(),
-				'subtitle' => $sub,
+				'subtitle' => 'Buku Tanah Kas Desa',
 				'selected_nav' => 'tanah_kas',
 				'view_mark' => 2,
 				'asal_tanah' => $view_data->nama_pemilik_asal,
@@ -138,23 +130,20 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 		}
 		else
 		{
-			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_kas_desa'). ">Buku Tanah Kas Desa</a>
-				<li class=\"active\"></li>Isi Data</li>";
 			$data = [
 				'main' => NULL,
 				'main_content' => "bumindes/pembangunan/tanah_kas_desa/form_tanah_kas_desa",
 				'persil' => $this->data_persil_model->list_persil_kelas(),
 				'list_asal_tanah' => $this->tanah_kas_desa_model->list_asal_tanah_kas(),
 				'list_peruntukan' => $this->tanah_kas_desa_model->list_peruntukan_tanah_kas(),
-				'subtitle' => $sub,
+				'subtitle' => 'Buku Tanah Kas Desa',
 				'selected_nav' => 'tanah_kas',
 				'view_mark' => 0,
 				'form_action' => site_url("bumindes_tanah_kas_desa/add_tanah_kas_desa"),
 			];
 		}
 
-		$this->set_minsidebar(1);
-		$this->render('bumindes/pembangunan/main', $data);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function add_tanah_kas_desa()

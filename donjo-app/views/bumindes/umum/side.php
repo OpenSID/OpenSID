@@ -33,6 +33,7 @@
       <li class="<?php compared_return($selected_nav, "ekspedisi", "active"); ?>"><a href="<?= site_url('ekspedisi/clear') ?>">Buku Ekspedisi</a></li>
       <li class="<?php compared_return($selected_nav, "lembaran", "active"); ?>"><a href="<?= site_url('buku_umum/lembaran_desa/clear') ?>">Buku Lembaran Desa dan Berita Desa</a></li>
       <li class="<?php compared_return($selected_nav, "tanah", "active"); ?>"><a href="<?= site_url('bumindes_tanah_desa/clear') ?>">Buku Tanah di Desa</a></li>
+      <li class="<?php compared_return($selected_nav, "tanah_kas", "active"); ?>"><a href="<?= site_url('bumindes_tanah_kas_desa/clear') ?>">Buku Tanah Kas Desa</a></li>
     </ul>
   </div>
   <button class="hide-menu col-sm-1" id="slide-submenu">

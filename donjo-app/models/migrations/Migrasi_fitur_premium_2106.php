@@ -61,7 +61,8 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->create_table_ref_peruntukan_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_asal_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_peruntukan_tanah_kas($hasil);
-		$hasil = $hasil && $this->pindah_modul_tanah_kas_desa($hasil);
+		$hasil = $hasil && $this->pindah_modul_tanah_desa($hasil);
+		$hasil = $hasil && $this->tambah_modul_tanah_kas_desa($hasil);
 
 		return $hasil;
 	}
@@ -131,10 +132,29 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		return $hasil;
 	}
 
-	protected function pindah_modul_tanah_kas_desa($hasil)
+	protected function pindah_modul_tanah_desa($hasil)
 	{
-		// Ubah parent buku tanah kas desa ke administrasi umum.
+		// Ubah parent buku tanah desa ke administrasi umum.
 		$hasil = $hasil && $this->ubah_modul(319, ['parent' => 302]);
+
+		return $hasil;
+	}
+
+	protected function tambah_modul_tanah_kas_desa($hasil)
+	{
+		//menambahkan data pada setting_modul untuk controller 'bumindes_tanah_desa'
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 320,
+			'modul'      => 'Buku Tanah di Desa',
+			'url'        => 'bumindes_tanah_desa/clear',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 302,
+		]);
 
 		return $hasil;
 	}
