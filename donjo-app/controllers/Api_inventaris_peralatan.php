@@ -88,13 +88,13 @@ class Api_inventaris_peralatan extends Admin_Controller
 	public function update_mutasi($id)
 	{
 		$data = $this->inventaris_peralatan_model->update_mutasi($id, array(
-			'status_mutasi' => ($this->input->post('mutasi') == 'Hapus') ?  $this->input->post('status_mutasi') : null ,
-			'jenis_mutasi' 	=> $this->input->post('mutasi'),
-			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
-			'harga_jual' => $this->input->post('harga_jual') || null,
-			'sumbangkan' => $this->input->post('sumbangkan') || null,
-			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date('Y-m-d H:i:s')
+			'jenis_mutasi' 		=> ($this->input->post('status_mutasi') == 'Hapus') ?  $this->input->post('mutasi') : null ,
+			'status_mutasi' 	=> $this->input->post('status_mutasi'),
+			'tahun_mutasi' 		=> $this->input->post('tahun_mutasi'),
+			'harga_jual' 			=> $this->input->post('harga_jual') || null,
+			'sumbangkan' 			=> $this->input->post('sumbangkan') || null,
+			'keterangan' 			=> $this->input->post('keterangan'),
+			'updated_at' 			=> date('Y-m-d H:i:s')
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
