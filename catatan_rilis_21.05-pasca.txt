@@ -1,0 +1,7 @@
+Di rilis ini, versi 21.05-pasca berisi perbaikan yang diminta Komunitas SID.
+
+Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Lengkapnya, isi rilis versi 21.05-pasca adalah sebagai berikut:
+
+1. #4172: Data rincian peserta bantuan sekarang tampil benar di Layanan Mandiri. [bug-fix]

@@ -1,8 +1,0 @@
-Di rilis ini, versi 21.05 berisi perbaikan yang diminta Komunitas SID.
-
-Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
-
-Lengkapnya, isi rilis versi 21.05 adalah sebagai berikut:
-
-1. #4113: Perbaiki bisa autocomplete nama penduduk yg berisi tanda kutip ('). [bug-fix]
-2. Tampilkan status IDM untuk tahun 2021. [bug-fix]
