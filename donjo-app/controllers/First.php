@@ -658,19 +658,20 @@ class First extends Web_Controller {
 		}
 	}
 
-	public function status_idm()
+	public function status_idm(int $tahun)
 	{
-		if (!$this->web_menu_model->menu_aktif('status_idm')) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('status-idm/' . $tahun)) show_404();
 
+		$tahun = 2020;
 		$data = $this->includes;
 		$this->load->library('data_publik');
 		$this->_get_common_data($data);
 		$kode_desa = $data['desa']['kode_desa'];
 		if ($this->data_publik->has_internet_connection())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2021", "idm_2021_$kode_desa")
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", 'idm_' . $tahun . '_' . $kode_desa)
 				->set_interval(7)
-				->set_cache_folder(FCPATH.'cache');
+				->set_cache_folder(FCPATH . 'cache');
 
 			$idm = $this->data_publik->get_url_content();
 			if ($idm->body->error)
@@ -751,7 +752,7 @@ class First extends Web_Controller {
 			$redirect_link = $this->session->inside_redirect_link;
 
 			$this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
-			
+
 			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code') . '&formId=' . $this->session->google_form_id);
 		}
 	}

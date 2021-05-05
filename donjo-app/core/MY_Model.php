@@ -40,10 +40,11 @@ class MY_Model extends CI_Model {
 			case 'load_aparatur_wilayah':
 			case 'peta':
 			case 'data-suplemen':
+			case 'status-idm':
 				break;
 
 			default:
-				$url = 'first/'.$url;
+				$url = 'first/' . $url;
 				break;
 		}
 

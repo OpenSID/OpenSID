@@ -127,6 +127,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<option value="<?= "data-suplemen/$sup[id]"; ?>" <?= selected($submenu['link'], "data-suplemen/$sup[id]") ?>><?= $sup['nama']; ?></option>
 				<?php endforeach; ?>
 			</select>
+			<select id="status_idm" class="form-control input-sm jenis_link required" name="<?= jecho($submenu['link_tipe'], 10, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 10) and print('display:none;'); ?>">
+				<option value="">Pilih Tahun</option>
+				<?php foreach (tahun() as $thn): ?>
+					<option value="<?= "status-idm/$thn"; ?>" <?= selected($submenu['link'], "status-idm/$thn") ?>><?= $thn; ?></option>
+				<?php endforeach; ?>
+			</select>
 			<span id="eksternal" class="jenis_link" style="<?php ($submenu['link_tipe'] != 99) and print('display:none;'); ?>">
 				<input name="<?= jecho($submenu['link_tipe'], 99, 'link'); ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>" ></input>
 				<span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
@@ -181,14 +187,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#kelompok').show();
 			$('#kelompok').attr('name', 'link');
 			$('#kelompok').addClass('required');
-		} else if (jenis == '9') {
-			$('#suplemen').show();
-			$('#suplemen').attr('name', 'link');
-			$('#suplemen').addClass('required');
 		} else if (jenis == '8') {
 			$('#kategori_artikel').show();
 			$('#kategori_artikel').attr('name', 'link');
 			$('#kategori_artikel').addClass('required');
+		} else if (jenis == '9') {
+			$('#suplemen').show();
+			$('#suplemen').attr('name', 'link');
+			$('#suplemen').addClass('required');
+		} else if (jenis == '10') {
+			$('#status_idm').show();
+			$('#status_idm').attr('name', 'link');
+			$('#status_idm').addClass('required');
 		} else if (jenis == '99') {
 			$('#eksternal').show();
 			$('#eksternal > input').show();

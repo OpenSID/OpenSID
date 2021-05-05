@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021050551($hasil);
 		$hasil = $hasil && $this->migrasi_2021050651($hasil);
+		$hasil = $hasil && $this->migrasi_2021050653($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -70,6 +71,13 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	{
 		$hasil = $hasil && $this->pindah_modul_tanah_desa($hasil);
 		$hasil = $hasil && $this->tambah_modul_tanah_kas_desa($hasil);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021050653($hasil)
+	{
+		$hasil = $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
 
 		return $hasil;
 	}
@@ -165,4 +173,5 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		return $hasil;
 	}
+
 }

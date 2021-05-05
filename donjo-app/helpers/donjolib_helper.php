@@ -225,6 +225,20 @@
 		return $bulan[(int)$bln];
 	}
 
+	function tahun(int $rentang = 5)
+	{
+		$akhir = date('Y');
+		$awal = $akhir - $rentang;
+
+		$tahun = [];
+		for ($i = $awal; $i <= $akhir; $i++)
+		{
+			$tahun[] = $i;
+		}
+
+		return $tahun;
+	}
+
 	function nama_bulan($tgl)
 	{
 		$ar = explode('-', $tgl);
