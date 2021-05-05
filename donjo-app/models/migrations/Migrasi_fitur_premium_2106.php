@@ -42,8 +42,10 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
+
 class Migrasi_fitur_premium_2106 extends MY_Model
 {
+
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
@@ -52,6 +54,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050551($hasil);
 		$hasil = $hasil && $this->migrasi_2021050651($hasil);
 		$hasil = $hasil && $this->migrasi_2021050653($hasil);
+		$hasil = $hasil && $this->migrasi_2021050654($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -79,6 +82,12 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	{
 		// Anggap link status_idm menuju statu idm tahun 2021
 		$hasil = $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
+		return $hasil;
+	}
+
+	protected function migrasi_2021050654($hasil)
+	{
+		$hasil = $hasil && $this->db->where('link', 'status_sdgs')->update('menu', ['link' => 'status-sdgs']);
 
 		return $hasil;
 	}
