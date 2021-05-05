@@ -141,15 +141,13 @@
 								<td class="text-center"><?= count($asset['hapus_rusak']) ?></td>
 								<td class="text-center"><?= count($asset['hapus_jual']) ?></td>
 								<td class="text-center"><?= count($asset['hapus_sumbang']) ?></td>
-								<td class="text-center"><?= $asset['tgl_hapus'] ?></td>
+								<td class="text-center"><?= tgl_indo($asset['tgl_hapus']) ?></td>
 								<td class="text-center"><?= count($asset['akhir_baik']) ?></td>
 								<td class="text-center"><?= count($asset['akhir_rusak']) ?></td>
 								<td>
-									<ul>
-										<?php foreach ($$asset->keterangan as $ket): ?>
-										<li><?= $ket ?></li>
-										<?php endforeach ?>
-									</ul>
+									<?php foreach ($asset['keterangan'] as $ket): ?>
+                  	<li><?= $ket ?></li>
+                  <?php endforeach ?>
 								</td>
 
 							</tr>
