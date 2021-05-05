@@ -49,12 +49,18 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
+		$hasil = $hasil && $this->migrasi_2021050551($hasil);
+
+		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function migrasi_2021050551($hasil)
+	{
 		$hasil = $hasil && $this->create_table_ref_asal_tanah_kas($hasil);
 		$hasil = $hasil && $this->create_table_ref_peruntukan_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_asal_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_peruntukan_tanah_kas($hasil);
-
-		status_sukses($hasil);
 		return $hasil;
 	}
 
@@ -62,7 +68,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	{
 		$this->dbforge->add_field([
 			'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
-			'nama' => ['type' => 'TEXT'],			
+			'nama' => ['type' => 'TEXT'],
 		]);
 
 		$this->dbforge->add_key('id', true);
@@ -87,7 +93,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$data = array(
 			['id'=> 1, 'nama' => 'Jual Beli'],
 			['id'=> 2, 'nama' => 'Hibah / Sumbangan'],
-			['id'=> 3, 'nama' => 'Lain - lain'],			
+			['id'=> 3, 'nama' => 'Lain - lain'],
 		);
 
 		foreach ($data as $modul)
@@ -107,8 +113,8 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$data = array(
 			['id'=> 1, 'nama' => 'Sewa'],
 			['id'=> 2, 'nama' => 'Pinjam Pakai'],
-			['id'=> 3, 'nama' => 'Kerjasama Pemanfaatan'],			
-			['id'=> 4, 'nama' => 'Bangun Guna Serah atau Bangun Serah Guna'],			
+			['id'=> 3, 'nama' => 'Kerjasama Pemanfaatan'],
+			['id'=> 4, 'nama' => 'Bangun Guna Serah atau Bangun Serah Guna'],
 		);
 
 		foreach ($data as $modul)

@@ -67,8 +67,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										onchange="pilih_asal_tanah(this.value)">
 										<option value>-- Pilih Asal Tanah--</option>
 										<?php foreach ($list_asal_tanah as $item): ?>
-										<option value="<?= $item['id']?>" <?php selected($item['id'], $main->nama_pemilik_asal) ?>><?= $item['nama']?></option>
-										<?php endforeach ?>											
+											<option value="<?= $item['id']?>" <?php selected($item['id'], $main->nama_pemilik_asal) ?>><?= $item['nama']?></option>
+										<?php endforeach ?>
 									</select>
 								</div>
 							</div>
@@ -86,8 +86,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<select name="kelas" id="kelas" class="form-control input-sm required" placeholder="Kelas">
 										<option value>-- Pilih Tipe Tanah--</option>
 										<?php foreach ($persil as $item): ?>
-										<option value="<?= $item['id']?>" <?php selected($item['id'], $main->kelas) ?>><?= $item['kode']." ".$item['ndesc']?></option>
-										<?php endforeach ?>										
+											<option value="<?= $item['id']?>" <?php selected($item['id'], $main->kelas) ?>><?= $item['kode']." ".$item['ndesc']?></option>
+										<?php endforeach ?>
 									</select>
 								</div>
 							</div>
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-sm-4">
 									<div class="input-group">
 										<input min="0" class="form-control input-sm number required"
-											value="<?= ($main->luas != 0) ? $main->luas : 0 ?>" id="luas" name="luas" />
+											value="<?= $main->luas ?: 0 ?>" id="luas" name="luas" />
 										<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 									</div>
 								</div>
@@ -126,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_perolehan()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->asli_milik_desa != 0) ? $main->asli_milik_desa : 0 ?>" id="asli_milik_desa"
+												value="<?= $main->asli_milik_desa ?: 0 ?>" id="asli_milik_desa"
 												name="asli_milik_desa" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_perolehan()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->pemerintah != 0) ? $main->pemerintah : 0 ?>" id="pemerintah"
+												value="<?= $main->pemerintah ?: 0 ?>" id="pemerintah"
 												name="pemerintah" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_perolehan()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->provinsi != 0) ? $main->provinsi : 0 ?>" id="provinsi" name="provinsi" />
+												value="<?= $main->provinsi ?: 0 ?>" id="provinsi" name="provinsi" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
 									</div>
@@ -170,7 +170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_perolehan()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->kabupaten_kota != 0) ? $main->kabupaten_kota : 0 ?>" id="kabupaten_kota"
+												value="<?= $main->kabupaten_kota ?: 0 ?>" id="kabupaten_kota"
 												name="kabupaten_kota" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -184,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_perolehan()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->lain_lain != 0) ? $main->lain_lain : 0 ?>" id="lain_lain" name="lain_lain" />
+												value="<?= $main->lain_lain ?: 0 ?>" id="lain_lain" name="lain_lain" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
 									</div>
@@ -202,7 +202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_jenis_TKD()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->sawah != 0) ? $main->sawah : 0 ?>" id="sawah" name="sawah" />
+												value="<?= $main->sawah ?: 0 ?>" id="sawah" name="sawah" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
 									</div>
@@ -215,7 +215,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_jenis_TKD()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->tegal != 0) ? $main->tegal : 0 ?>" id="tegal" name="tegal" />
+												value="<?= $main->tegal ?: 0 ?>" id="tegal" name="tegal" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
 									</div>
@@ -228,7 +228,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_jenis_TKD()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->kebun != 0) ? $main->kebun : 0 ?>" id="kebun" name="kebun" />
+												value="<?= $main->kebun ?: 0 ?>" id="kebun" name="kebun" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
 									</div>
@@ -242,7 +242,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_jenis_TKD()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->tambak_kolam != 0) ? $main->tambak_kolam : 0 ?>" id="tambak_kolam"
+												value="<?= $main->tambak_kolam ?: 0 ?>" id="tambak_kolam"
 												name="tambak_kolam" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -257,7 +257,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_jenis_TKD()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->tanah_kering_darat != 0) ? $main->tanah_kering_darat : 0 ?>"
+												value="<?= $main->tanah_kering_darat ?: 0 ?>"
 												id="tanah_kering_darat" name="tanah_kering_darat" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -277,7 +277,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_patok()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->ada_patok != 0) ? $main->ada_patok : 0 ?>" id="ada_patok" name="ada_patok" />
+												value="<?= $main->ada_patok ?: 0 ?>" id="ada_patok" name="ada_patok" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
 									</div>
@@ -291,7 +291,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_patok()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->tidak_ada_patok != 0) ? $main->tidak_ada_patok : 0 ?>" id="tidak_ada_patok"
+												value="<?= $main->tidak_ada_patok ?: 0 ?>" id="tidak_ada_patok"
 												name="tidak_ada_patok" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -311,7 +311,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_papan()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->ada_papan_nama != 0) ? $main->ada_papan_nama : 0 ?>" id="ada_papan_nama"
+												value="<?= $main->ada_papan_nama ?: 0 ?>" id="ada_papan_nama"
 												name="ada_papan_nama" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -326,7 +326,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="input-group">
 											<input onchange="dinamic_papan()" type="text" min="0"
 												class="form-control input-sm number required"
-												value="<?= ($main->tidak_ada_papan_nama != 0) ? $main->tidak_ada_papan_nama : 0 ?>"
+												value="<?= $main->tidak_ada_papan_nama ?: 0 ?>"
 												id="tidak_ada_papan_nama" name="tidak_ada_papan_nama" />
 											<span class="input-group-addon input-sm " id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 										</div>
@@ -345,7 +345,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<option value>-- Peruntukan Tanah--</option>
 										<?php foreach ($list_peruntukan as $item): ?>
 										<option value="<?= $item['id']?>" <?php selected($item['id'], $main->peruntukan) ?>><?= $item['nama']?></option>
-										<?php endforeach ?>										
+										<?php endforeach ?>
 									</select>
 								</div>
 							</div>
@@ -418,7 +418,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$("#keterangan").attr("disabled", true);
 			$('#form_footer').hide();
 			show_hide(asal);
-		} 
+		}
 		else if (view == 2)
 		{
 			show_hide(asal);

@@ -176,7 +176,7 @@ class Tanah_desa_model extends CI_Model
 		$data = $this->input->post();
 		$error_validasi = $this->validasi_data($data, $data['id']);
 
-		if (!empty($error_validasi))
+		if ( ! empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
 			{
