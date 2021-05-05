@@ -183,6 +183,8 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
@@ -200,6 +202,8 @@ class Dokumen extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
 		$data['input'] = $post;
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['kat'] = $kat;
 		$data['tahun'] = $post['tahun'];
 		if ($kat == 1)
@@ -222,6 +226,8 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
