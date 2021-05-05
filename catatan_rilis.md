@@ -11,8 +11,10 @@ Lengkapnya, isi rilis versi v21.05-premium - 2021-05-03 adalah sebagai berikut:
 
 
 #### Perbaikan BUG
-1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk dan Keluarga kalau pengguna tidak mempunyai hak ubah. [bug-fix]
+1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk dan Keluarga kalau pengguna tidak mempunyai hak ubah.
+2. [#4170](https://github.com/OpenSID/OpenSID/issues/4170) Sekarang data keluarga tersimpan normal pada impor data penduduk.
+3. [#4165](https://github.com/OpenSID/OpenSID/issues/4165) Sekarang penandatangan tampil benar di cetak/unduh Buku Agenda - Surat Masuk.
 
 
 #### Perubahan Teknis
-1. [untuk diisi]
+1. Perbaiki penulisan script Buku Tanah di Desa dan Buku Kas Tanah Desa.

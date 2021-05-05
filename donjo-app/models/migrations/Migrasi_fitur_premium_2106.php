@@ -48,13 +48,88 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
+		$hasil = $hasil && $this->migrasi_2021050551($hasil);
 
-		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris();
 		status_sukses($hasil);
 		return $hasil;
 	}
 
-	protected function tambah_jenis_mutasi_inventaris()
+	protected function migrasi_2021050551($hasil)
+	{
+		$hasil = $hasil && $this->create_table_ref_asal_tanah_kas($hasil);
+		$hasil = $hasil && $this->create_table_ref_peruntukan_tanah_kas($hasil);
+		$hasil = $hasil && $this->add_value_ref_asal_tanah_kas($hasil);
+		$hasil = $hasil && $this->add_value_ref_peruntukan_tanah_kas($hasil);
+    $hasil = $hasil && $this->tambah_jenis_mutasi_inventaris();
+		return $hasil;
+	}
+
+	protected function create_table_ref_asal_tanah_kas($hasil)
+	{
+		$this->dbforge->add_field([
+			'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'nama' => ['type' => 'TEXT'],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('ref_asal_tanah_kas', true);
+		return $hasil;
+	}
+
+	protected function create_table_ref_peruntukan_tanah_kas($hasil)
+	{
+		$this->dbforge->add_field([
+			'id' => ['type' => 'INT', 'constraint' => 11, 'auto_increment' => true],
+			'nama' => ['type' => 'TEXT'],
+		]);
+
+		$this->dbforge->add_key('id', true);
+		$hasil =& $this->dbforge->create_table('ref_peruntukan_tanah_kas', true);
+		return $hasil;
+	}
+
+	protected function add_value_ref_asal_tanah_kas($hasil)
+	{
+		$data = array(
+			['id'=> 1, 'nama' => 'Jual Beli'],
+			['id'=> 2, 'nama' => 'Hibah / Sumbangan'],
+			['id'=> 3, 'nama' => 'Lain - lain'],
+		);
+
+		foreach ($data as $modul)
+		{
+			$sql = $this->db->insert_string('ref_asal_tanah_kas', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					nama = VALUES(nama)";
+			$hasil = $hasil && $this->db->query($sql);
+		}
+
+		return $hasil;
+	}
+
+	protected function add_value_ref_peruntukan_tanah_kas($hasil)
+	{
+		$data = array(
+			['id'=> 1, 'nama' => 'Sewa'],
+			['id'=> 2, 'nama' => 'Pinjam Pakai'],
+			['id'=> 3, 'nama' => 'Kerjasama Pemanfaatan'],
+			['id'=> 4, 'nama' => 'Bangun Guna Serah atau Bangun Serah Guna'],
+		);
+
+		foreach ($data as $modul)
+		{
+			$sql = $this->db->insert_string('ref_peruntukan_tanah_kas', $modul);
+			$sql .= " ON DUPLICATE KEY UPDATE
+					id = VALUES(id),
+					nama = VALUES(nama)";
+			$hasil = $hasil && $this->db->query($sql);
+		}
+
+		return $hasil;
+	}
+  
+  protected function tambah_jenis_mutasi_inventaris()
 	{
 		$hasil = true;
 		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_asset'))
@@ -92,7 +167,5 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		$this->db->query("DROP VIEW rekap_mutasi_inventaris");
 		$this->db->query("CREATE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' as asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM     mutasi_inventaris_gedung UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM       mutasi_inventaris_jalan UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM         mutasi_inventaris_peralatan UNION ALL SELECT 'inventaris_tanah', id_inventaris_tanah, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_tanah");
-		
-		return $hasil;
-	}
+  }
 }
