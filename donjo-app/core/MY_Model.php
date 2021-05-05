@@ -140,6 +140,20 @@ class MY_Model extends CI_Model {
 		return $this->db->query($sql);
 	}
 
+	/**
+	 * Ubah modul setting menu.
+	 * 
+	 * @param int $id
+	 * @param array $modul
+	 * @return bool
+	 */
+	public function ubah_modul(int $id, array $modul)
+	{
+		return $this->db->where('id', $id)
+			->set($modul)
+			->update('setting_modul');
+	}
+
 	public function tambah_setting($setting)
 	{
 		$sql = $this->db->insert_string('setting_aplikasi', $setting) . " ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";

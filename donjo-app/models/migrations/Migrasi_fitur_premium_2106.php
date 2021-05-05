@@ -61,6 +61,8 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->create_table_ref_peruntukan_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_asal_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_peruntukan_tanah_kas($hasil);
+		$hasil = $hasil && $this->pindah_modul_tanah_kas_desa($hasil);
+
 		return $hasil;
 	}
 
@@ -125,6 +127,14 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 					nama = VALUES(nama)";
 			$hasil = $hasil && $this->db->query($sql);
 		}
+
+		return $hasil;
+	}
+
+	protected function pindah_modul_tanah_kas_desa($hasil)
+	{
+		// Ubah parent buku tanah kas desa ke administrasi umum.
+		$hasil = $hasil && $this->ubah_modul(319, ['parent' => 302]);
 
 		return $hasil;
 	}
