@@ -241,14 +241,14 @@ class Inventaris_laporan_model extends CI_Model
 	public function permen_47($tahun, $jns_asset)
 	{
 		$kondisi = array(
-			'Baik'											=> 1,
-			'Perbaiki'									=> 2,
-			'Rusak'											=> 2,
-			'Barang Rusak Dijual'				=> 2,
-			'Masih Baik Dijual'					=> 1,
-			'Masih Baik Disumbangkan'		=> 1,
-			'Barang Rusak Disumbangkan'	=> 2,
-			'null'											=> 1
+			'Baik' => 1,
+			'Perbaiki' => 2,
+			'Rusak'=> 2,
+			'Barang Rusak Dijual' => 2,
+			'Masih Baik Dijual' => 1,
+			'Masih Baik Disumbangkan' => 1,
+			'Barang Rusak Disumbangkan' => 2,
+			'null' => 1
 		);
  
 		// sub query untuk mencari asset < tahun ke n
@@ -397,7 +397,6 @@ class Inventaris_laporan_model extends CI_Model
 	}
 
 }
-
 
 
 
