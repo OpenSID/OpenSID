@@ -80,7 +80,7 @@ $(document).ready(function () {
 						<label for="tahun">Status IDM <?= ucwords($this->setting->sebutan_desa); ?> : </label>
 						<select class="form-control input-sm" name="tahun" onchange="formAction('mainform', '<?= site_url('status_desa'); ?>')">
 							<option value="">Pilih Tahun</option>
-							<?php foreach (tahun() as $thn): ?>
+							<?php foreach (tahun(2020) as $thn): ?>
 								<option value="<?= $thn ?>" <?= selected($tahun, $thn) ?>><?= $thn; ?></option>
 							<?php endforeach; ?>
 						</select>
@@ -223,7 +223,6 @@ $(document).ready(function () {
 						</div>
 					</div>
 				<?php endif; ?>
-				</div>
 			</div>
 		</div>
 	</section>

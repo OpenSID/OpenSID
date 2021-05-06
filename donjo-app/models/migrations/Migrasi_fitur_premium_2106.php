@@ -77,6 +77,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 	protected function migrasi_2021050653($hasil)
 	{
+		// Anggap link status_idm menuju statu idm tahun 2021
 		$hasil = $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
 
 		return $hasil;

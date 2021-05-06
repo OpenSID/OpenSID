@@ -155,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</select>
 									<select id="status_idm" class="form-control input-sm jenis_link required" name="<?= jecho($submenu['link_tipe'], 10, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 10) and print('display:none;'); ?>">
 										<option value="">Pilih Tahun</option>
-										<?php foreach (tahun() as $thn): ?>
+										<?php foreach (tahun(2020) as $thn): ?>
 											<option value="<?= "status-idm/$thn"; ?>" <?= selected($submenu['link'], "status-idm/$thn") ?>><?= $thn; ?></option>
 										<?php endforeach; ?>
 									</select>

@@ -7,7 +7,7 @@ Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk 
 Lengkapnya, isi rilis versi v21.05-premium - 2021-05-03 adalah sebagai berikut:
 
 #### Penambahan Fitur
-1. [untuk diisi]
+1. [#4137](https://github.com/OpenSID/OpenSID/issues/4137) Sekarang Status IDM Desa bisa ditampilkan untuk tahun pilihan.
 
 
 #### Perbaikan BUG
