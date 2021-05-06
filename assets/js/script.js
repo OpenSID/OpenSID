@@ -41,11 +41,10 @@ $(document).ready(function()
   });
 	enableHapusTerpilih();
 
-	//Display Modal Box
+	//Display dialog
 	modalBox();
-
-	//Display MAP Box
 	mapBox();
+	cetakBox();
 
 	//Confirm Delete Modal
 	$('#confirm-delete').on('show.bs.modal', function(e) {
@@ -359,6 +358,26 @@ function modalBox()
 		var modal = $(this)
 		modal.find('.modal-title').text(title)
 		$(this).find('.fetched-data').load(link.attr('href'));
+		setTimeout(function() {
+			// tambahkan csrf token
+			addCsrfField(modal.find("form")[0]);
+		}, 500);
+	});
+	return false;
+}
+
+function cetakBox()
+{
+	$('#cetakBox').on('show.bs.modal', function(e)
+	{
+		var link = $(e.relatedTarget);
+		var title = link.data('title');
+		var aksi = link.data('aksi');
+		var form_action = link.data('href');
+		var modal = $(this)
+		modal.find('.title').text(title);
+		modal.find('.aksi').text(aksi);
+		modal.find('form').attr('action', form_action);
 		setTimeout(function() {
 			// tambahkan csrf token
 			addCsrfField(modal.find("form")[0]);

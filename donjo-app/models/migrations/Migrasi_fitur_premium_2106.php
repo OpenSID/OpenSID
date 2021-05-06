@@ -50,6 +50,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021050551($hasil);
+		$hasil = $hasil && $this->migrasi_2021050651($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -61,6 +62,12 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->create_table_ref_peruntukan_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_asal_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_peruntukan_tanah_kas($hasil);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021050651($hasil)
+	{
 		$hasil = $hasil && $this->pindah_modul_tanah_desa($hasil);
 		$hasil = $hasil && $this->tambah_modul_tanah_kas_desa($hasil);
 

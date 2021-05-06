@@ -167,11 +167,11 @@ class Bumindes_tanah_desa extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('h', 'bumindes_tanah_desa');
 		$this->tanah_desa_model->delete_tanah_desa($id);
-		
+
 		redirect('bumindes_tanah_desa');
 	}
 
-	public function cetak_tanah_desa($tgl= '', $aksi = '')
+	public function cetak_tanah_desa($aksi = '')
 	{
 		$data = [
 			'aksi' => $aksi,
@@ -181,7 +181,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			'main' => $this->tanah_desa_model->cetak_tanah_desa(),
 			'bulan' => $this->session->filter_bulan,
 			'tahun' => $this->session->filter_tahun,
-			'tgl_cetak' => $tgl,
+			'tgl_cetak' => $this->input->post('tgl_cetak'),
 			'file' => "Buku Tanah di Desa",
 			'isi' => "bumindes/pembangunan/tanah_di_desa/tanah_di_desa_cetak",
 			'letak_ttd' => ['1', '1', '23'],
