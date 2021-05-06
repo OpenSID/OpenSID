@@ -15,11 +15,11 @@
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
-$db['default']['database'] = 'opensid';
+$db['default']['database'] = 'bug-fix';
 
 /*
 | Untuk setting koneksi database 'Strict Mode'
 | Sesuaikan dengan ketentuan hosting
-*/ 
+*/
 $db['default']['stricton'] = TRUE;
 ?>
