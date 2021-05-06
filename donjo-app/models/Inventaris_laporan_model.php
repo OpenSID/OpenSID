@@ -293,15 +293,22 @@ class Inventaris_laporan_model extends CI_Model
 				->order_by('tahun_mutasi', 'desc');
 
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
-		foreach ($this->db->get('rekap_mutasi_inventaris')->result() as $asset) {
-			if ($asset->status_mutasi == null) {
+		foreach ($this->db->get('rekap_mutasi_inventaris')->result() as $asset)
+		{
+			if ($asset->status_mutasi == null)
+			{
 				$asset->kondisi = 2;
-			}elseif ($asset->status_mutasi == 'Hapus') {
-				$asset->kondisi 			= $kondisi[$asset->jenis_mutasi];
- 			}else{
+			}
+			elseif ($asset->status_mutasi == 'Hapus')
+			{
+				$asset->kondisi = $kondisi[$asset->jenis_mutasi];
+ 			}
+ 			else
+ 			{
 				$asset->kondisi = $kondisi[$asset->status_mutasi];
 			}
-			if ($asset->status_mutasi == null) {
+			if ($asset->status_mutasi == null)
+			{
 				$asset->status_mutasi = 'Hapus';
 			}
  			$akhir_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset; // memperbarui data akhir tahun
@@ -397,7 +404,6 @@ class Inventaris_laporan_model extends CI_Model
 	}
 
 }
-
 
 
 
