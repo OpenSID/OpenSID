@@ -40,10 +40,11 @@ class MY_Model extends CI_Model {
 			case 'load_aparatur_wilayah':
 			case 'peta':
 			case 'data-suplemen':
+			case 'status-idm':
 				break;
 
 			default:
-				$url = 'first/'.$url;
+				$url = 'first/' . $url;
 				break;
 		}
 
@@ -138,6 +139,20 @@ class MY_Model extends CI_Model {
 	{
 		$sql = $this->db->insert_string('setting_modul', $modul) . " ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), parent = VALUES(parent)";
 		return $this->db->query($sql);
+	}
+
+	/**
+	 * Ubah modul setting menu.
+	 * 
+	 * @param int $id
+	 * @param array $modul
+	 * @return bool
+	 */
+	public function ubah_modul(int $id, array $modul)
+	{
+		return $this->db->where('id', $id)
+			->set($modul)
+			->update('setting_modul');
 	}
 
 	public function tambah_setting($setting)

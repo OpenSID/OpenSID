@@ -111,6 +111,7 @@ $route['data_analisis/(.+)'] = 'first/data_analisis/$1';
 $route['peta'] = 'first/peta';
 $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
+$route['status-idm/(:num)'] = 'first/status_idm/$1';
 
 // URL Shortener
 $route['v/(:any)'] = 'first/redirect/$1';

@@ -50,15 +50,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<tbody>
 		<tr>
 			<td>Nomor Kartu Peserta</td>
-			<td> : <?= $peserta; ?></td>
+			<td> : <?= $no_id_kartu; ?></td>
 		</tr>
 		<tr>
 			<td>NIK</td>
-			<td> : <?= $kartu_nama; ?></td>
+			<td> : <?= $kartu_nik; ?></td>
 		</tr>
 		<tr>
 			<td>Nama</td>
-			<td> : <?= $kartu_nik; ?></td>
+			<td> : <?= $kartu_nama; ?></td>
 		</tr>
 		<tr>
 			<td>Tempat Lahir</td>
