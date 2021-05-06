@@ -48,7 +48,10 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
+
 		$hasil = $hasil && $this->migrasi_2021050551($hasil);
+		$hasil = $hasil && $this->migrasi_2021050651($hasil);
+		$hasil = $hasil && $this->migrasi_2021050653($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -60,7 +63,24 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->create_table_ref_peruntukan_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_asal_tanah_kas($hasil);
 		$hasil = $hasil && $this->add_value_ref_peruntukan_tanah_kas($hasil);
-    $hasil = $hasil && $this->tambah_jenis_mutasi_inventaris();
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021050651($hasil)
+	{
+		$hasil = $hasil && $this->pindah_modul_tanah_desa($hasil);
+		$hasil = $hasil && $this->tambah_modul_tanah_kas_desa($hasil);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021050653($hasil)
+	{
+		// Anggap link status_idm menuju statu idm tahun 2021
+		$hasil = $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
+		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris();
+		
 		return $hasil;
 	}
 
@@ -128,11 +148,38 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		return $hasil;
 	}
-  
-  protected function tambah_jenis_mutasi_inventaris()
+
+	protected function pindah_modul_tanah_desa($hasil)
+	{
+		// Ubah parent buku tanah desa ke administrasi umum.
+		$hasil = $hasil && $this->ubah_modul(319, ['parent' => 302]);
+
+		return $hasil;
+	}
+
+	protected function tambah_modul_tanah_kas_desa($hasil)
+	{
+		//menambahkan data pada setting_modul untuk controller 'bumindes_tanah_desa'
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 320,
+			'modul'      => 'Buku Tanah di Desa',
+			'url'        => 'bumindes_tanah_desa/clear',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 302,
+		]);
+
+		return $hasil;
+	}
+	protected function tambah_jenis_mutasi_inventaris()
 	{
 		$hasil = true;
 		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_asset'))
+		{
 		
 			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_asset', 'status_mutasi varchar(50) NOT NULL');
 			$hasil = $hasil && $this->db->update('mutasi_inventaris_asset', array('status_mutasi' => 'Hapus'));
@@ -168,4 +215,6 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$this->db->query("DROP VIEW rekap_mutasi_inventaris");
 		$this->db->query("CREATE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' as asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM     mutasi_inventaris_gedung UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM       mutasi_inventaris_jalan UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM         mutasi_inventaris_peralatan UNION ALL SELECT 'inventaris_tanah', id_inventaris_tanah, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_tanah");
   }
+
 }
+ 
