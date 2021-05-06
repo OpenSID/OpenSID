@@ -15,9 +15,9 @@ class Inventaris_peralatan_model extends CI_Model
 	public function list_aset()
 	{
 		$this->db
-				->select('*')
-				->from('tweb_aset u')
-				->where('golongan',2);
+			->select('*')
+			->from('tweb_aset u')
+			->where('golongan',2);
 		$data = $this->db->get()->result_array();
 		return $data;
 	}
@@ -102,14 +102,14 @@ class Inventaris_peralatan_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from($this->table);
-        $this->db->where($this->table.'.id', $id);
+ 		$this->db->where($this->table.'.id', $id);
 		$data = $this->db->get()->row();
 		return $data;
 	}
 
 	public function view_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_peralatan.id as id,mutasi_inventaris_peralatan.*,  inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, inventaris_peralatan.tahun_pengadaan, inventaris_peralatan.register');
+		$this->db->select('mutasi_inventaris_peralatan.id as id,mutasi_inventaris_peralatan.*, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, inventaris_peralatan.tahun_pengadaan, inventaris_peralatan.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_peralatan', 'left');
@@ -119,7 +119,7 @@ class Inventaris_peralatan_model extends CI_Model
 
 	public function edit_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_peralatan.id as id,mutasi_inventaris_peralatan.*,  inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, inventaris_peralatan.tahun_pengadaan, inventaris_peralatan.register');
+		$this->db->select('mutasi_inventaris_peralatan.id as id,mutasi_inventaris_peralatan.*, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, inventaris_peralatan.tahun_pengadaan, inventaris_peralatan.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_peralatan', 'left');
