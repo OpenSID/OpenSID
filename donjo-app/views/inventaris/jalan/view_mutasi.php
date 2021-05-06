@@ -115,6 +115,13 @@
 	$(document).ready(function()
 	{
 		var status = $("#status").val();
-		if (status == 'Hapus') {$("#mutasi").parent().parent().show();} else {$("#mutasi").parent().parent().hide();}
+		if (status == 'Hapus') 
+		{
+			$("#mutasi").parent().parent().show();
+		} 
+		else 
+		{
+			$("#mutasi").parent().parent().hide();
+		}
 	})
 </script>

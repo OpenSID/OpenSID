@@ -40,7 +40,6 @@
 											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" disabled/>
 										</div>
 									</div>
-
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
 										<div class="col-sm-4">
@@ -123,16 +122,24 @@
 	$(document).ready(function()
 	{
 		var status = $("#status").val();
-		if (status == 'Hapus') {$("#mutasi").parent().parent().show();} else {$("#mutasi").parent().parent().hide();}
+		if (status == 'Hapus') {
+			$("#mutasi").parent().parent().show();
+		} 
+		else 
+		{
+			$("#mutasi").parent().parent().hide();
+		}
 
 		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" ){
 			$(".disumbangkan").show();
 			$(".harga_jual").hide();
-		} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+		} 
+		else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
 		{
 			$(".disumbangkan").hide();
 			$(".harga_jual").show();
-		} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+		} 
+		else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 		{
 			$(".disumbangkan").hide();
 			$(".harga_jual").hide();
@@ -144,22 +151,28 @@
 			{
 				$(".disumbangkan").show();
 				$(".harga_jual").hide();
-			} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+			} 
+			else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			} 
+			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
 			}
 		});
-		$("#status").change(function() {
+		$("#status").change(function() 
+		{
 			var status = $(this).val();
- 			if (status == "Hapus") {
+			if (status == "Hapus") 
+			{
 				$("#mutasi").parent().parent().show();
 				$("#mutasi").addClass('required');
-			}else{
+			}
+			else
+			{
 				$("#mutasi").parent().parent().hide();
 				$("#mutasi").removeClass('required');
 			}

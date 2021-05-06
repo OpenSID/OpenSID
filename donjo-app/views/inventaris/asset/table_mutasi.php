@@ -160,10 +160,10 @@
 	{
 		var link = '<?= site_url("inventaris_asset/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
-  });
+	});
 	$("#form_download").click(function(event)
 	{
 		var link = '<?= site_url("inventaris_asset/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
-  });
+	});
 </script>

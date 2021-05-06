@@ -136,7 +136,8 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			} 
+			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
@@ -147,7 +148,9 @@
  			if (status == "Hapus") {
 				$("#mutasi").parent().parent().show();
 				$("#mutasi").addClass('required');
-			}else{
+			}
+			else
+			{
 				$("#mutasi").parent().parent().hide();
 				$("#mutasi").removeClass('required');
 			}

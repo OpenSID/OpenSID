@@ -51,8 +51,7 @@
 												<option value="Hapus" <?php selected($main->status_mutasi, 'Hapus') ?>>Penghapusan</option>
 											</select>
 										</div>
-									</div>
-									
+									</div>									
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
 										<div class="col-sm-4">
@@ -144,23 +143,29 @@
 			{
 				$(".disumbangkan").show();
 				$(".harga_jual").hide();
-			} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+			} 
+			else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			} 
+			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
 			}
 		});
 
-		$("#status").change(function() {
+		$("#status").change(function() 
+		{
 			var status = $(this).val();
- 			if (status == "Hapus") {
+			if (status == "Hapus") 
+			{
 				$("#mutasi").parent().parent().show();
 				$("#mutasi").addClass('required');
-			}else{
+			}
+			else
+			{
 				$("#mutasi").parent().parent().hide();
 				$("#mutasi").removeClass('required');
 			}
