@@ -225,11 +225,9 @@
 		return $bulan[(int)$bln];
 	}
 
-	function tahun(int $rentang = 5)
+	function tahun(int $awal = 2018)
 	{
 		$akhir = date('Y');
-		$awal = $akhir - $rentang;
-
 		$tahun = [];
 		for ($i = $awal; $i <= $akhir; $i++)
 		{

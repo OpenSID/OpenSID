@@ -662,7 +662,6 @@ class First extends Web_Controller {
 	{
 		if ( ! $this->web_menu_model->menu_aktif('status-idm/' . $tahun)) show_404();
 
-		$tahun = 2020;
 		$data = $this->includes;
 		$this->load->library('data_publik');
 		$this->_get_common_data($data);
