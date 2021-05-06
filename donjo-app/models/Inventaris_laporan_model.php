@@ -314,24 +314,31 @@ class Inventaris_laporan_model extends CI_Model
 				->where("concat(a.asset,a.id) NOT IN ({$sub_q})")
 				->get('master_inventaris AS a');
 
- 		foreach ($master_data->result() as $asset) {
+ 		foreach ($master_data->result() as $asset)
+ 		{
  			// akhir tahun
-			if (isset($akhir_tahun [$asset->asset] [$asset->id])) {
-				$asset->akhir_tahun 			= $akhir_tahun [$asset->asset] [$asset->id] ->kondisi;
-				$asset->tahun_mutasi 			= $akhir_tahun [$asset->asset] [$asset->id] ->tahun_mutasi;
-				$asset->status_mutasi 		= $akhir_tahun [$asset->asset] [$asset->id] ->status_mutasi;
-				$asset->jenis_mutasi 		= $akhir_tahun [$asset->asset] [$asset->id] ->jenis_mutasi;
-			}else{
-				$asset->akhir_tahun 	= $kondisi[$asset->kondisi];
+			if (isset($akhir_tahun[$asset->asset][$asset->id]))
+			{
+				$asset->akhir_tahun = $akhir_tahun[$asset->asset][$asset->id]->kondisi;
+				$asset->tahun_mutasi = $akhir_tahun[$asset->asset][$asset->id]->tahun_mutasi;
+				$asset->status_mutasi = $akhir_tahun[$asset->asset][$asset->id]->status_mutasi;
+				$asset->jenis_mutasi = $akhir_tahun[$asset->asset][$asset->id]->jenis_mutasi;
+			}
+			else
+			{
+				$asset->akhir_tahun = $kondisi[$asset->kondisi];
 			}
 
  			// awal tahun
-			if (isset($awal_tahun [$asset->asset] [$asset->id])) {
-				$asset->awal_tahun = $akhir_tahun [$asset->asset] [$asset->id] ->kondisi;
-			}else{
+			if (isset($awal_tahun[$asset->asset][$asset->id]))
+			{
+				$asset->awal_tahun = $akhir_tahun[$asset->asset][$asset->id]->kondisi;
+			}
+			else
+			{
 				$asset->awal_tahun = $kondisi[$asset->kondisi];
 			}
- 			$inventaris [] = $asset;
+ 			$inventaris[] = $asset;
  		}
 
  		// rekapitulasi
@@ -390,7 +397,6 @@ class Inventaris_laporan_model extends CI_Model
 	}
 
 }
-
 
 
 
