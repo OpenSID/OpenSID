@@ -256,41 +256,42 @@ class Inventaris_laporan_model extends CI_Model
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
 	 
 		$sub_q = $this->db
-								->select('concat(b.asset,b.id_inventaris_asset)')
-				 				->where('b.status_mutasi', 'Rusak')
-								->where('year(tahun_mutasi) <', $tahun)
-				 				->from('rekap_mutasi_inventaris as b')->get_compiled_select();
+			->select('concat(b.asset,b.id_inventaris_asset)')
+			->where('b.status_mutasi', 'Rusak')
+			->where('year(tahun_mutasi) <', $tahun)
+			->from('rekap_mutasi_inventaris as b')->get_compiled_select();
 
 		$tgl_thn_n = $this->db
-								->select('MAX(c.tahun_mutasi)')
-								->where('year(c.tahun_mutasi)', $tahun)
-				 				->from('rekap_mutasi_inventaris as c')->get_compiled_select();
-				 				
+			->select('MAX(c.tahun_mutasi)')
+			->where('year(c.tahun_mutasi)', $tahun)
+			->from('rekap_mutasi_inventaris as c')->get_compiled_select();
+								 
 		$tgl_thn_min_n =  $this->db
-								->select('MAX(c.tahun_mutasi)')
-								->where('year(c.tahun_mutasi) <', $tahun)
-				 				->from('rekap_mutasi_inventaris as c')->get_compiled_select();
+			->select('MAX(c.tahun_mutasi)')
+			->where('year(c.tahun_mutasi) <', $tahun)
+			->from('rekap_mutasi_inventaris as c')->get_compiled_select();
 		 
- 		// mutasi asset yang tidak rusak saat tahun n-1 data dianggal sebagai data akhir tahun n dan awal tahun
-	
+		 // mutasi asset yang tidak rusak saat tahun n-1 data dianggal sebagai data akhir tahun n dan awal tahun
 		$this->db
-				->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})")
-				->where("tahun_mutasi = ({$tgl_thn_min_n})")
-				->group_by('a.asset')
-				->group_by('a.id_inventaris_asset')
-				->order_by('a.tahun_mutasi', 'desc');
+			->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})")
+			->where("tahun_mutasi = ({$tgl_thn_min_n})")
+			->group_by('a.asset')
+			->group_by('a.id_inventaris_asset')
+			->order_by('a.tahun_mutasi', 'desc');
+
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
-		foreach ($this->db->get('rekap_mutasi_inventaris as a') as $asset) {
+		foreach ($this->db->get('rekap_mutasi_inventaris as a') as $asset) 
+		{
 			$akhir_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset;
 			$awal_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset;
 		}
 
- 		// jika ada input pada tahun ke n. data akhir tahun akan digantikan dengan data ini
+		 // jika ada input pada tahun ke n. data akhir tahun akan digantikan dengan data ini
 		$this->db
-				->where("tahun_mutasi = ({$tgl_thn_n})")
-		 		->group_by('asset')
-		 		->group_by('id_inventaris_asset')
-				->order_by('tahun_mutasi', 'desc');
+			->where("tahun_mutasi = ({$tgl_thn_n})")
+			->group_by('asset')
+			->group_by('id_inventaris_asset')
+			->order_by('tahun_mutasi', 'desc');
 
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
 		foreach ($this->db->get('rekap_mutasi_inventaris')->result() as $asset)
@@ -302,28 +303,28 @@ class Inventaris_laporan_model extends CI_Model
 			elseif ($asset->status_mutasi == 'Hapus')
 			{
 				$asset->kondisi = $kondisi[$asset->jenis_mutasi];
- 			}
- 			else
- 			{
+			}
+			else
+			{
 				$asset->kondisi = $kondisi[$asset->status_mutasi];
 			}
 			if ($asset->status_mutasi == null)
 			{
 				$asset->status_mutasi = 'Hapus';
 			}
- 			$akhir_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset; // memperbarui data akhir tahun
+			$akhir_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset; // memperbarui data akhir tahun
 		}
 		 
 		// ambil master data iventaris
 		$inventaris = [];
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
 		$master_data = $this->db
-				->where("concat(a.asset,a.id) NOT IN ({$sub_q})")
-				->get('master_inventaris AS a');
+			->where("concat(a.asset,a.id) NOT IN ({$sub_q})")
+			->get('master_inventaris AS a');
 
- 		foreach ($master_data->result() as $asset)
- 		{
- 			// akhir tahun
+	 foreach ($master_data->result() as $asset)
+	 {
+			 // akhir tahun
 			if (isset($akhir_tahun[$asset->asset][$asset->id]))
 			{
 				$asset->akhir_tahun = $akhir_tahun[$asset->asset][$asset->id]->kondisi;
@@ -336,7 +337,7 @@ class Inventaris_laporan_model extends CI_Model
 				$asset->akhir_tahun = $kondisi[$asset->kondisi];
 			}
 
- 			// awal tahun
+			// awal tahun
 			if (isset($awal_tahun[$asset->asset][$asset->id]))
 			{
 				$asset->awal_tahun = $akhir_tahun[$asset->asset][$asset->id]->kondisi;
@@ -345,79 +346,64 @@ class Inventaris_laporan_model extends CI_Model
 			{
 				$asset->awal_tahun = $kondisi[$asset->kondisi];
 			}
- 			$inventaris[] = $asset;
- 		}
+			 $inventaris[] = $asset;
+		 }
 
- 		// rekapitulasi
-  	$rekap = [];
- 		foreach ($inventaris as $value) {
-  		if (!isset($rekap [$value->nama_barang] )) {
- 				$rekap [$value->nama_barang] = [
- 					'Bantuan Kabupaten' 	=> [],
- 					'Bantuan Pemerintah'	=> [],
- 					'Bantuan Provinsi'		=> [],
- 					'Pembelian Sendiri'		=> [],
- 					'Sumbangan'						=> [],
- 					'awal_baik'						=> [],
- 					'awal_rusak'					=> [],
- 					'hapus_rusak'					=> [],
- 					'hapus_jual'					=> [],
- 					'hapus_sumbang'				=> [],
- 					'akhir_baik'					=> [],
- 					'akhir_rusak'					=> [],
- 					'keterangan'					=> []
- 				];
- 			}
+		 // rekapitulasi
+		$rekap = [];
+		foreach ($inventaris as $value) 
+		{
+			if (!isset($rekap [$value->nama_barang] ))
+			{
+				$rekap [$value->nama_barang] = [
+					'Bantuan Kabupaten' => [],
+					'Bantuan Pemerintah' => [],
+					'Bantuan Provinsi' => [],
+					'Pembelian Sendiri' => [],
+					'Sumbangan' => [],
+					'awal_baik' => [],
+					'awal_rusak' => [],
+					'hapus_rusak' => [],
+					'hapus_jual' => [],
+					'hapus_sumbang' => [],
+					'akhir_baik' => [],
+					'akhir_rusak' => [],
+					'keterangan' => []
+				];
+			}
 
- 			$rekap [$value->nama_barang] [$value->asal] [] = 1;
+			$rekap [$value->nama_barang] [$value->asal] [] = 1;
+			if (isset($value->tahun_mutasi)) $rekap [$value->nama_barang]  ['tahun_mutasi'] = $value->tahun_mutasi; //tahun mutasi
+			// rekap awal tahun
+			if ($value->awal_tahun == 1) $rekap [$value->nama_barang]  ['awal_baik'] [] = 1;
 
- 			if (isset($value->tahun_mutasi)) $rekap [$value->nama_barang]  ['tahun_mutasi'] = $value->tahun_mutasi; //tahun mutasi
- 			// rekap awal tahun
- 			if ($value->awal_tahun == 1) $rekap [$value->nama_barang]  ['awal_baik'] [] = 1;
+			if ($value->awal_tahun == 2) $rekap [$value->nama_barang]  ['awal_rusak'] [] = 1;
 
- 			if ($value->awal_tahun == 2) $rekap [$value->nama_barang]  ['awal_rusak'] [] = 1;
+			// rekap akhir tahun
+			if ($value->akhir_tahun == 1) $rekap [$value->nama_barang]  ['akhir_baik'] [] = 1;
 
- 			// rekap akhir tahun
- 			if ($value->akhir_tahun == 1) $rekap [$value->nama_barang]  ['akhir_baik'] [] = 1;
+			if ($value->akhir_tahun == 2) $rekap [$value->nama_barang]  ['akhir_rusak'] [] = 1;
 
- 			if ($value->akhir_tahun == 2) $rekap [$value->nama_barang]  ['akhir_rusak'] [] = 1;
+			// Penghapusan
+			if ($value->status_mutasi == 'Hapus') 
+			{
+				if ($value->jenis_mutasi == 'Rusak') $rekap [$value->nama_barang] ['hapus_rusak'] [] = 1;
 
- 			// Penghapusan
- 			if ($value->status_mutasi == 'Hapus') {
- 				if ($value->jenis_mutasi == 'Rusak') $rekap [$value->nama_barang]  ['hapus_rusak'] [] = 1;
+				if ($value->jenis_mutasi == 'Masih Baik Disumbangkan') $rekap [$value->nama_barang] ['hapus_sumbang'] [] = 1;
 
- 				if ($value->jenis_mutasi == 'Masih Baik Disumbangkan') $rekap [$value->nama_barang]  ['hapus_sumbang'] [] = 1;
+				if ($value->jenis_mutasi == 'Barang Rusak Disumbangkan') $rekap [$value->nama_barang] ['hapus_sumbang'] [] = 1;
 
- 				if ($value->jenis_mutasi == 'Barang Rusak Disumbangkan') $rekap [$value->nama_barang]  ['hapus_sumbang'] [] = 1;
+				if ($value->jenis_mutasi == 'Barang Rusak Dijual') $rekap [$value->nama_barang] ['hapus_jual'] [] = 1;
 
- 				if ($value->jenis_mutasi == 'Barang Rusak Dijual') $rekap [$value->nama_barang]  ['hapus_jual'] [] = 1;
+				if ($value->jenis_mutasi == 'Masih Baik Dijual') $rekap [$value->nama_barang] ['hapus_jual'] [] = 1;
 
- 				if ($value->jenis_mutasi == 'Masih Baik Dijual') $rekap [$value->nama_barang]  ['hapus_jual'] [] = 1;
+				$rekap [$value->nama_barang] ['tgl_hapus'] = $value->tahun_mutasi;
+			 }
+			 
+			if ($value->keterangan != '' ) $rekap [$value->nama_barang]  ['keterangan'] [] = $value->keterangan;
+		 }
 
- 				$rekap [$value->nama_barang]  ['tgl_hapus'] = $value->tahun_mutasi;
- 			}
- 			
- 			if ($value->keterangan != '' ) $rekap [$value->nama_barang]  ['keterangan'] [] = $value->keterangan;
- 		}
-
- 		 return $rekap;
+		return $rekap;
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

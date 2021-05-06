@@ -71,7 +71,7 @@ class Inventaris_gedung_model extends CI_Model
 
 	public function list_mutasi_inventaris()
 	{
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
+		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung', 'left');
@@ -101,14 +101,14 @@ class Inventaris_gedung_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from($this->table);
-        $this->db->where($this->table.'.id', $id);
+		$this->db->where($this->table.'.id', $id);
 		$data = $this->db->get()->row();
 		return $data;
 	}
 
 	public function view_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
+		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung', 'left');
@@ -118,7 +118,7 @@ class Inventaris_gedung_model extends CI_Model
 
 	public function edit_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
+		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung', 'left');
