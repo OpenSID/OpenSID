@@ -15,7 +15,7 @@
         <div class="col-md-9">
           <div class="box box-info">
             <div class="box-header with-border">
-              
+
               <a href="#"
                 class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
                 title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox"
@@ -34,21 +34,20 @@
                 <div class="col-sm-12">
                   <div class="row">
                     <div class="col-sm-9">
-                      <div class="dataTables_wrapper form-inline dt-bootstrap"> 
+                      <div class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="form-group">
-                        <select class="form-control input-sm " name="tahun"
-                          onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
-                          <option value="">Tahun</option>
-                          <?php for ($i=date("Y"); $i>=1900; $i--): ?>
-                            <option value="<?= $i ?>" <?php selected($tahun, $i) ?> ><?= $i ?></option>
-                          <?php endfor; ?>
-                        </select>
+                          <select class="form-control input-sm " name="tahun"
+                            onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
+                            <option value="">Tahun</option>
+                            <?php for ($i=date("Y"); $i>=1900; $i--): ?>
+                            <option value="<?= $i ?>" <?php selected($tahun, $i) ?>><?= $i ?></option>
+                            <?php endfor; ?>
+                          </select>
+                        </div>
                       </div>
-                      </div>
-                      
+
                     </div>
                     <div class="col-sm-12">
-
                       <div class="table-responsive">
                         <table id="tabelpermendagri" class="table table-bordered table-hover">
                           <thead class="bg-gray">
@@ -99,9 +98,10 @@
                             </tr>
                           </thead>
                           <tbody>
+                            <?php $i = 1 ?>
                             <?php foreach ($data as $uraian => $asset): ?>
                             <tr>
-                              <td></td>
+                              <td><?= $i ?></td>
                               <td><?= $uraian ?></td>
                               <td class="text-center"><?= count($asset['Pembelian Sendiri']) ?></td>
                               <td class="text-center"><?= count($asset['Bantuan Pemerintah']) ?></td>
@@ -123,23 +123,16 @@
                                   <?php endforeach ?>
                                 </ul>
                               </td>
-
                             </tr>
+                            <?php $i++ ?>
                             <?php endforeach ?>
                           </tbody>
-                          <tbody>
-
-                          </tbody>
-
                         </table>
                       </div>
-
-
                     </div>
                   </div>
                 </div>
               </div>
-             
             </div>
           </div>
         </div>
@@ -150,29 +143,25 @@
 <?php $this->load->view('inventaris/inventaris_permen47_cetak') ?>
 <?php $this->load->view('inventaris/inventaris_permen47_unduh') ?>
 <?php $this->load->view('global/confirm_delete');?>
+
 <script>
 $("#form_cetak").click(function(event) {
-  var link = '<?= site_url("laporan_inventaris/permendagri_47_cetak"); ?>' +  '/' + $('#kades').val() + '/' + $('#sekdes').val();
+  var link = '<?= site_url("laporan_inventaris/permendagri_47_cetak"); ?>' + '/' + $('#kades').val() + '/' + $(
+    '#sekdes').val();
   window.open(link, '_blank');
 });
 $("#form_download").click(function(event) {
-  var link = '<?= site_url("laporan_inventaris/permendagri_47_excel"); ?>' +  '/' + $('#kades_unduh').val() + '/' + $('#sekdes_unduh').val();
+  var link = '<?= site_url("laporan_inventaris/permendagri_47_excel"); ?>' + '/' + $('#kades_unduh').val() + '/' +
+    $('#sekdes_unduh').val();
   window.open(link, '_blank');
-
-   
 });
 
 $(document).ready(function() {
-
-  $(document).ready(function() {
-    $('#tabelpermendagri').DataTable({
-      lengthChange: false,
-      searching: false,
-      info: false,
-      ordering : false
-    });
-
+  $('#tabelpermendagri').DataTable({
+    lengthChange: false,
+    searching: false,
+    info: false,
+    ordering: false
   });
- 
 });
 </script>
