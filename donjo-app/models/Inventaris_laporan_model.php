@@ -320,6 +320,7 @@ class Inventaris_laporan_model extends CI_Model
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
 		$master_data = $this->db
 			->where("concat(a.asset,a.id) NOT IN ({$sub_q})")
+			->where('a.tahun_pengadaan <=' , $tahun)
 			->get('master_inventaris AS a');
 
 	 foreach ($master_data->result() as $asset)
