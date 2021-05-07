@@ -244,21 +244,24 @@ class Tanah_desa_model extends CI_Model
 		// add
 		if ($id == 0)
 		{
-			if ($this->nik_warga_luar_checking($data['nik']))
+			if ($data['nik']==0)
+			{}
+			else if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
 			{
 				array_push($valid, "NIK {$data['nik']} sudah digunakan");
+				return;
 			}
-			return;
 		}
-
-		// update
-		$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
-		if ( ! $nik_old_check)
+		else
 		{
-			$nik_check = $this->nik_warga_luar_checking($data['nik']);
-			if ($nik_check)
+			// update
+			$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
+			if ( ! $nik_old_check)
 			{
-				array_push($valid, "NIK {$data['nik']} sudah digunakan");
+				if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
+				{
+					array_push($valid, "NIK {$data['nik']} sudah digunakan");
+				}
 			}
 		}
 	}
@@ -335,6 +338,20 @@ class Tanah_desa_model extends CI_Model
 		$data = $this->db
 				->get()
 				->row();
+
+		return $data;
+	}
+
+	public function nik_warga_luar_join_checking($nik)
+	{
+		$this->db
+				->select('p.nik')
+				->from("{$this->table} td")
+				->join('tweb_penduduk p', 'td.id_penduduk = p.id')
+				->where((['td.visible' => 1,'p.nik' => $nik]));
+		$data = $this->db
+				->get()
+				->result_array();
 
 		return $data;
 	}
