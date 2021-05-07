@@ -81,6 +81,7 @@ class Tanah_desa_model extends CI_Model
 			$search = $builder
 				->group_start()
 					->like('td.nama_pemilik_asal', $search)
+					->or_like('p.nama', $search)
 				->group_end();
 		}
 
