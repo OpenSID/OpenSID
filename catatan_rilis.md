@@ -25,3 +25,4 @@ Lengkapnya, isi rilis versi v21.05-premium - 2021-05-03 adalah sebagai berikut:
 2. Gunakan modal cetak global.
 3. Sesuaikan migrasi dengan versi database.
 4. Sederhanakan query modul Pembangunan.
+5. Sesuaikan link status SDGs Desa supaya menggunakan format slug menu lainnya dan tidak perlu diawali 'first'.
