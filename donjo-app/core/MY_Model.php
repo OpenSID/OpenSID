@@ -41,6 +41,7 @@ class MY_Model extends CI_Model {
 			case 'peta':
 			case 'data-suplemen':
 			case 'status-idm':
+			case 'status-sdgs':
 				break;
 
 			default:
@@ -143,7 +144,7 @@ class MY_Model extends CI_Model {
 
 	/**
 	 * Ubah modul setting menu.
-	 * 
+	 *
 	 * @param int $id
 	 * @param array $modul
 	 * @return bool

@@ -42,8 +42,10 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
+
 class Migrasi_fitur_premium_2106 extends MY_Model
 {
+
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
@@ -52,6 +54,8 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050551($hasil);
 		$hasil = $hasil && $this->migrasi_2021050651($hasil);
 		$hasil = $hasil && $this->migrasi_2021050653($hasil);
+		$hasil = $hasil && $this->migrasi_2021050654($hasil);
+    $hasil = $hasil && $this->migrasi_2021050655($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -79,10 +83,20 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	{
 		// Anggap link status_idm menuju statu idm tahun 2021
 		$hasil = $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
-		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris();
-		
 		return $hasil;
 	}
+
+	protected function migrasi_2021050654($hasil)
+	{
+		$hasil = $hasil && $this->db->where('link', 'status_sdgs')->update('menu', ['link' => 'status-sdgs']);
+
+		return $hasil;
+	}
+  
+  protected function migrasi_2021050655($hasil)
+	{
+    $hasil = $hasil && $this->tambah_jenis_mutasi_inventaris();
+  }
 
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
@@ -175,12 +189,12 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		return $hasil;
 	}
-	protected function tambah_jenis_mutasi_inventaris()
+  
+  protected function tambah_jenis_mutasi_inventaris()
 	{
 		$hasil = true;
 		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_asset'))
 		{
-		
 			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_asset', 'status_mutasi varchar(50) NOT NULL');
 			$hasil = $hasil && $this->db->update('mutasi_inventaris_asset', array('status_mutasi' => 'Hapus'));
 		}
@@ -214,6 +228,4 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$this->db->query("DROP VIEW rekap_mutasi_inventaris");
 		$this->db->query("CREATE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' as asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM     mutasi_inventaris_gedung UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM       mutasi_inventaris_jalan UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM  mutasi_inventaris_peralatan UNION ALL SELECT 'inventaris_tanah', id_inventaris_tanah, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_tanah");
   }
-
 }
- 

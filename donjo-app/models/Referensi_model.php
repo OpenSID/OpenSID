@@ -132,7 +132,7 @@ define("STAT_LAINNYA", serialize([
 	'informasi_publik' => 'Informasi Publik',
 	'peta' => 'Peta',
 	'data_analisis' => 'Data Analisis',
-	'status_sdgs'	=> 'SDGs Desa'
+	'status-sdgs'	=> 'SDGs Desa'
 ]));
 
 // Jabatan Kelompok
