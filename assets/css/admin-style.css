@@ -549,3 +549,7 @@ div.form-surat .content-header {
 .btn-proses {
 	cursor: not-allowed;
 }
+
+.table-striped > tbody >tr.judul {
+	background-color: lightgrey !important;
+}

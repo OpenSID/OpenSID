@@ -31,7 +31,7 @@
               <select class="form-control input-sm required" name="pamong_ttd" width="100%">
 								<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
 								<?php foreach ($pamong AS $data): ?>
-									<option value="<?= $data['pamong_id']?>"><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
+									<option value="<?= $data['pamong_id']?>" <?= selected($pamong_ttd['pamong_id'], $data['pamong_id'])?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 								<?php endforeach; ?>
               </select>
 						</div>
@@ -40,7 +40,7 @@
               <select class="form-control input-sm required" name="pamong_ketahui" width="100%">
 								<option value="">Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></option>
 								<?php foreach ($pamong AS $data): ?>
-									<option value="<?= $data['pamong_id']?>"><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
+									<option value="<?= $data['pamong_id']?>" <?= selected($pamong_ketahui['pamong_id'], $data['pamong_id'])?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 								<?php endforeach; ?>
               </select>
 						</div>

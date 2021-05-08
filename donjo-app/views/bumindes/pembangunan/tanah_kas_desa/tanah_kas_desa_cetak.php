@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Buku Administrasi Desa >  Administrasi Pembangunan > Buku Tanah Kas Desa
+ * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Kas Desa
  *
  * donjo-app/views/bumindes/pembangunan/tanah_kas_desa/tanah_kas_desa_cetak.php
  *
@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <table>
-	<tbody>		
+	<tbody>
 		<tr>
 			<td class="text-center">
 				<h4>BUKU TANAH KAS DESA</h4>
@@ -73,33 +73,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th rowspan="3">KELAS</th>
 							<th colspan="6">PEROLEHAN TKD</th>
 							<th colspan="5">JENIS TKD</th>
-							<th colspan="2">PATOK TANDA BATAS</th>							
-							<th colspan="2">PAPAN NAMA</th>														
+							<th colspan="2">PATOK TANDA BATAS</th>
+							<th colspan="2">PAPAN NAMA</th>										
 							<th rowspan="3">LOKASI</th>
 							<th rowspan="3">PERUNTUKAN</th>
 							<th rowspan="3">MUTASI</th>
-							<th rowspan="3">KET</th>										 
-						</tr>					
-						<tr class="border thick">	
-							<th rowspan="2">ASLI MILIK DESA</th>						
-							<th colspan="3">BANTUAN</th>						
-							<th rowspan="2">LAIN - LAIN</th>						
-							<th width="100" rowspan="2">TGL PEROLEHAN</th>						
-							<th rowspan="2">SAWAH</th>						
-							<th rowspan="2">TEGAL</th>						
-							<th rowspan="2">KEBUN</th>						
-							<th rowspan="2">TAMBAK / KOLAM</th>						
-							<th rowspan="2">TANAH KERING / DARAT</th>						
-							<th rowspan="2">ADA</th>						
-							<th rowspan="2">TIDAK</th>						
-							<th rowspan="2">ADA</th>						
-							<th rowspan="2">TIDAK</th>						
+							<th rowspan="3">KET</th>
 						</tr>
-						<tr class="border thick">				
-							<th>PEMERINTAH</th>				
-							<th>PROV</th>				
-							<th>KAB/KOTA</th>												
-						</tr>			
+						<tr class="border thick">
+							<th rowspan="2">ASLI MILIK DESA</th>
+							<th colspan="3">BANTUAN</th>		
+							<th rowspan="2">LAIN - LAIN</th>
+							<th width="100" rowspan="2">TGL PEROLEHAN</th>
+							<th rowspan="2">SAWAH</th>
+							<th rowspan="2">TEGAL</th>
+							<th rowspan="2">KEBUN</th>
+							<th rowspan="2">TAMBAK / KOLAM</th>
+							<th rowspan="2">TANAH KERING / DARAT</th>
+							<th rowspan="2">ADA</th>
+							<th rowspan="2">TIDAK</th>
+							<th rowspan="2">ADA</th>
+							<th rowspan="2">TIDAK</th>
+						</tr>
+						<tr class="border thick">
+							<th>PEMERINTAH</th>
+							<th>PROV</th>
+							<th>KAB/KOTA</th>
+						</tr>
 						<tr class="border thick">
 							<th>1</th>
 							<th>2</th>
@@ -130,49 +130,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tbody>
 						<?php 
 							$count = 1;
-							foreach ($main as $data): 						
+							foreach ($main as $data):
 						?>
 							<tr>
 								<td class="text-left"><?= $count ?></td>
-								<td><?= strtoupper($data['nama_pemilik_asal'])?></td>
-								<td class="text-left"><?= $data['letter_c']."<br>".$data['persil']?></td>							
+								<td><?= strtoupper($data['asal'])?></td>
+								<td class="text-left"><?= $data['letter_c']?></td>
 								<td><?= strtoupper($data['luas']) ?></td>
-								<td><?= strtoupper($data['kelas']) ?></td>					
-								<td class="text-center"><?php if(0!=$data['asli_milik_desa']){echo $data['asli_milik_desa'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['pemerintah']){echo $data['pemerintah'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['provinsi']){echo $data['provinsi'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['kabupaten_kota']){echo $data['kabupaten_kota'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['lain_lain']){echo $data['lain_lain'];}?></td>							
+								<td><?= strtoupper($data['kode']) ?></td>
+								<td class="text-center"><?= $data['asli_milik_desa'] ?: '' ?></td>
+								<td class="text-center"><?= $data['pemerintah'] ?: '' ?></td>
+								<td class="text-center"><?= $data['provinsi'] ?: '' ?></td>
+								<td class="text-center"><?= $data['kabupaten_kota'] ?: '' ?></td>
+								<td class="text-center"><?= $data['lain_lain'] ?: '' ?></td>
 								<td><?= tgl_indo_out($data['tanggal_perolehan']) ?></td>
-								<td class="text-center"><?php if(0!=$data['sawah']){echo $data['sawah'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['tegal']){echo $data['tegal'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['kebun']){echo $data['kebun'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['tambak_kolam']){echo $data['tambak_kolam'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['tanah_kering_darat']){echo $data['tanah_kering_darat'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['ada_patok']){echo $data['ada_patok'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['tidak_ada_patok']){echo $data['tidak_ada_patok'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['ada_papan_nama']){echo $data['ada_papan_nama'];}?></td>							
-								<td class="text-center"><?php if(0!=$data['tidak_ada_papan_nama']){echo $data['tidak_ada_papan_nama'];}?></td>							
+								<td class="text-center"><?= $data['sawah'] ?: '' ?></td>
+								<td class="text-center"><?= $data['tegal'] ?: '' ?></td>
+								<td class="text-center"><?= $data['kebun'] ?: '' ?></td>
+								<td class="text-center"><?= $data['tambak_kolam'] ?: '' ?></td>
+								<td class="text-center"><?= $data['tanah_kering_darat'] ?: '' ?></td>
+								<td class="text-center"><?= $data['ada_patok'] ?: '' ?></td>
+								<td class="text-center"><?= $data['tidak_ada_patok'] ?: '' ?></td>
+								<td class="text-center"><?= $data['ada_papan_nama'] ?: '' ?></td>
+								<td class="text-center"><?= $data['tidak_ada_papan_nama'] ?: '' ?></td>
 								<td><?= strtoupper($data['lokasi']) ?></td>
-								<td><?php if($data['peruntukan']=='SEWA')
-									{
-										echo "SEWA";
-									}else if($data['peruntukan']=='PINJAMPAKAI')
-									{
-										echo "PINJAM PAKAI";
-									}else if($data['peruntukan']=='KERJASAMAPEMANFAATAN')
-									{
-										echo "KERJASAMA PEMANFAATAN";
-									}else
-									{
-										echo "BANGUN GUNA SERAH ATAU BANGUN SERAH GUNA";
-									} ?></td>
+								<td class="text-center"><?= strtoupper($data['peruntukan_tanah'] ?: '') ?></td>								
 								<td><?= strtoupper($data['mutasi']) ?></td>
-								<td><?= strtoupper($data['keterangan']) ?></td>								
+								<td><?= strtoupper($data['keterangan']) ?></td>
 							</tr>
 						<?php
 							$count++;
-						 	endforeach; 
+						 	endforeach;
 						?>
 					</tbody>
 				</table>
