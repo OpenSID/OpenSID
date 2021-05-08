@@ -242,27 +242,26 @@ class Tanah_desa_model extends CI_Model
 			return;
 		}
 
+		// NIK 0 (yaitu NIK tidak diketahui) boleh duplikat
+		if ($data['nik'] == 0) return;
+
 		// add
 		if ($id == 0)
 		{
-			if ($data['nik']==0)
-			{}
-			else if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
+			if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
 			{
 				array_push($valid, "NIK {$data['nik']} sudah digunakan");
-				return;
 			}
+			return;
 		}
-		else
+
+		// update
+		$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
+		if ( ! $nik_old_check)
 		{
-			// update
-			$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
-			if ( ! $nik_old_check)
+			if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
 			{
-				if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
-				{
-					array_push($valid, "NIK {$data['nik']} sudah digunakan");
-				}
+				array_push($valid, "NIK {$data['nik']} sudah digunakan");
 			}
 		}
 	}

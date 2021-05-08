@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									Tanah Total</label>
 								<div class="col-sm-4">
 									<div class="input-group">
-										<input type="number" min="0" class="form-control input-sm number required" value="<?= $main->luas ?: 0 ?>" id="luas" name="luas" />
+										<input type="number" min="0" class="form-control input-sm number disabled required" value="<?= $main->luas ?: 0 ?>" id="luas" name="luas" />
 										<span class="input-group-addon input-sm "
 											id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 									</div>
@@ -514,6 +514,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			+parseFloat($('#hak_milik_adat').val())
 			+parseFloat($('#hak_verponding').val())
 			+parseFloat($('#tanah_negara').val());
+		$('#luas').val(res);
 		return res;
 	}
 
@@ -538,18 +539,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	function submit_form()
 	{
-		var luas = $('#luas').val();
-		if (luas == luas_status_hak_tanah() &&
-			luas == luas_penggunaan_tanah() &&
-			luas_status_hak_tanah() == luas_penggunaan_tanah()
-		)
-		{
+		var luas_status_hak = luas_status_hak_tanah();
+		var luas_penggunaan = luas_penggunaan_tanah();
+		if (luas_status_hak == luas_penggunaan) {
 			$("#validasi").submit();
 		}
-		else
-		{
+		else {
 			notify = 'error';
-			notify_msg = 'Luas Tanah Tidak Sesuai';
+			notify_msg = 'Luas Status Hak Tanah = ' + luas_status_hak + ' dan Luas Penggunanan Tanah = ' + luas_penggunaan + ' tidak sesuai';
 			notification(notify, notify_msg);
 		}
 	}
