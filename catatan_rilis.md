@@ -8,6 +8,7 @@ Lengkapnya, isi rilis versi v21.05-premium - 2021-05-03 adalah sebagai berikut:
 
 #### Penambahan Fitur
 1. [#4137](https://github.com/OpenSID/OpenSID/issues/4137) Sekarang Status IDM Desa bisa ditampilkan untuk tahun pilihan.
+2. [#](https://github.com/OpenSID/OpenSID/issues/4171) Di Pengaturan > QR Code scan tombol Kunjungi Website sekarang hanya tampil jika ada url valid di isi QR Code yg di-scan.
 
 
 #### Perbaikan BUG
@@ -17,7 +18,6 @@ Lengkapnya, isi rilis versi v21.05-premium - 2021-05-03 adalah sebagai berikut:
 4. [#4167](https://github.com/OpenSID/OpenSID/issues/4167) Sekarang laporan cetak/unduh Sekretariat > Informasi Publik ada blok penandatangan.
 5. [#4172](https://github.com/OpenSID/OpenSID/issues/4172) Data rincian peserta bantuan sekarang tampil benar di Layanan Mandiri.
 6. [#4168](https://github.com/OpenSID/OpenSID/issues/4168) Pindahkan Buku Tanah di Desa dan Buku Tanah Kas Desa ke Buku Administrasi Umum.
-7. [#](https://github.com/OpenSID/OpenSID/issues/4171) Di Pengaturan > QR Code scan sekarang tombol Kunjungi Website sekarang hanya tampil jika ada url valid di isi QR Code yg di-scan.
 
 
 #### Perubahan Teknis
