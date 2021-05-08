@@ -57,26 +57,21 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
 	public function get_data($id, string $search = '')
 	{
-		$builder = $this->db->select([
-			'd.*',
-		])
-		->from("{$this->table} d")
-		->join('pembangunan p', 'd.id_pembangunan = p.id')
-		->where('d.id_pembangunan', $id);
+		$this->db->select('d.*')
+			->from("{$this->table} d")
+			->join('pembangunan p', 'd.id_pembangunan = p.id')
+			->where('d.id_pembangunan', $id);
 
-		if (empty($search))
+		if ($search)
 		{
-			$condition = $builder;
-		}
-		else
-		{
-			$condition = $builder->group_start()
+			$this->db
+				->group_start()
 				->like('d.keterangan', $search)
 				->or_like('keterangan', $search)
 				->group_end();
 		}
 
-		return $condition;
+		return $this->db;
 	}
 
 	public function insert($id_pembangunan = 0)

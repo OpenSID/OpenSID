@@ -65,15 +65,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						<div class="form-group">
 							<label for="pin_lama">PIN Lama</label>
-							<input type="password" class="form-control input-md bilangan required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_lama" id="pin_lama" placeholder="Masukkan PIN Lama" minlength="6" maxlength="6">
+							<div class="input-group">
+								<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_lama" placeholder="Masukkan PIN Lama" minlength="6" maxlength="6">
+								<span class="input-group-addon"><i class="fa fa-eye-slash" id="lama" onclick="show(this);" aria-hidden="true"></i></span>
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="pin_baru1">PIN Baru</label>
-							<input type="password" class="form-control input-md bilangan required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_baru1" id="pin_baru1" placeholder="Masukkan PIN Baru" minlength="6" maxlength="6">
+							<div class="input-group">
+								<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_baru1" id="pin_baru1" placeholder="Masukkan PIN Baru" minlength="6" maxlength="6">
+								<span class="input-group-addon"><i class="fa fa-eye-slash" id="baru1" onclick="show(this);" aria-hidden="true"></i></span>
+							</div>
 						</div>
 						<div class="form-group">
-							<label for="pin_baru2">Ulangi PIN Baru</label>
-							<input type="password" class="form-control input-md bilangan required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_baru2" id="pin_baru2" placeholder="Masukkan PIN Baru" minlength="6" maxlength="6">
+							<label for="pin_baru2">Konfirmasi PIN Baru</label>
+							<div class="input-group">
+								<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_baru2" id="pin_baru2" placeholder="Masukkan Konfirmasi PIN Baru" minlength="6" maxlength="6">
+								<span class="input-group-addon"><i class="fa fa-eye-slash" id="baru2" onclick="show(this);" aria-hidden="true"></i></span>
+							</div>
 						</div>
 					</div>
 					<div class="box-footer">
@@ -100,4 +109,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 		}, 5000);
 	});
+
+	function show(elem) {
+		if ($(elem).hasClass('fa-eye')) {
+			$(".pin").attr('type', 'password');
+			$(".fa-eye").addClass('fa-eye-slash');
+			$(".fa-eye").removeClass('fa-eye');
+		} else {
+			$(".pin").attr('type', 'text');
+			$(".fa-eye-slash").addClass('fa-eye');
+			$(".fa-eye-slash").removeClass('fa-eye-slash');
+		}
+	}
 </script>
