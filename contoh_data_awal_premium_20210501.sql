@@ -14351,7 +14351,6 @@ CREATE TABLE `mutasi_inventaris_asset` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_inventaris_asset` int(11) DEFAULT NULL,
   `jenis_mutasi` varchar(255) NOT NULL,
-  `status_mutasi` varchar(50) NOT NULL,
   `tahun_mutasi` date NOT NULL,
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
@@ -14375,7 +14374,6 @@ DROP TABLE IF EXISTS `mutasi_inventaris_gedung`;
 CREATE TABLE `mutasi_inventaris_gedung` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_inventaris_gedung` int(11) DEFAULT NULL,
-  `status_mutasi` varchar(50) NOT NULL,
   `jenis_mutasi` varchar(255) NOT NULL,
   `tahun_mutasi` date NOT NULL,
   `harga_jual` double DEFAULT NULL,
@@ -14400,7 +14398,6 @@ DROP TABLE IF EXISTS `mutasi_inventaris_jalan`;
 CREATE TABLE `mutasi_inventaris_jalan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_inventaris_jalan` int(11) DEFAULT NULL,
-  `status_mutasi` varchar(50) NOT NULL,
   `jenis_mutasi` varchar(255) NOT NULL,
   `tahun_mutasi` date NOT NULL,
   `harga_jual` double DEFAULT NULL,
@@ -14425,7 +14422,6 @@ DROP TABLE IF EXISTS `mutasi_inventaris_peralatan`;
 CREATE TABLE `mutasi_inventaris_peralatan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_inventaris_peralatan` int(11) DEFAULT NULL,
-  `status_mutasi` varchar(50) NOT NULL,
   `jenis_mutasi` varchar(255) NOT NULL,
   `tahun_mutasi` date NOT NULL,
   `harga_jual` double DEFAULT NULL,
@@ -14450,7 +14446,6 @@ DROP TABLE IF EXISTS `mutasi_inventaris_tanah`;
 CREATE TABLE `mutasi_inventaris_tanah` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_inventaris_tanah` int(11) DEFAULT NULL,
-  `status_mutasi` varchar(50) NOT NULL,
   `jenis_mutasi` varchar(255) NOT NULL,
   `tahun_mutasi` date NOT NULL,
   `harga_jual` double DEFAULT NULL,
@@ -15072,15 +15067,4 @@ CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`
 CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi`,`tweb_penduduk`.`email` AS `email`,`tweb_penduduk`.`bahasa_id` AS `bahasa_id`,`tweb_penduduk`.`ket` AS `ket` from `tweb_penduduk` where (`tweb_penduduk`.`status_dasar` = 1);
 
 
-#
-# TABLE STRUCTURE FOR: master_inventaris
-#
 
-CREATE VIEW `master_inventaris` AS SELECT 'inventaris_asset' AS asset, inventaris_asset.id, inventaris_asset.nama_barang, inventaris_asset.kode_barang, 'Baik' AS kondisi, inventaris_asset.keterangan, inventaris_asset.asal FROM inventaris_asset UNION ALL SELECT 'inventaris_gedung' AS asset, inventaris_gedung.id, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.kondisi_bangunan, inventaris_gedung.keterangan, inventaris_gedung.asal FROM inventaris_gedung UNION ALL SELECT 'inventaris_jalan' AS asset, inventaris_jalan.id, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.kondisi, inventaris_jalan.keterangan, inventaris_jalan.asal FROM inventaris_jalan UNION ALL SELECT 'inventaris_peralatan' AS asset, inventaris_peralatan.id, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, 'Baik', inventaris_peralatan.keterangan, inventaris_peralatan.asal FROM inventaris_peralatan UNION ALL SELECT 'inventaris_tanah' AS asset, inventaris_tanah.id, inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, 'Baik', inventaris_tanah.keterangan, inventaris_tanah.asal FROM inventaris_tanah where inventaris_tanah.nama_barang not in(SELECT tweb_aset.nama FROM tweb_aset WHERE `bidang` = '01'  AND `kelompok` = '01' )
-
-
-#
-# TABLE STRUCTURE FOR: rekap_mutasi_inventaris
-#
-
-CREATE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' as asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM   mutasi_inventaris_asset UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM     mutasi_inventaris_gedung UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM       mutasi_inventaris_jalan UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM         mutasi_inventaris_peralatan UNION ALL SELECT 'inventaris_tanah', id_inventaris_tanah, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_tanah
