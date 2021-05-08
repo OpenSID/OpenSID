@@ -53,7 +53,8 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		$this->load->model(['header_model', 'tanah_desa_model', 'pamong_model']);
 		$this->controller = 'bumindes_tanah_desa';
 		$this->modul_ini = 301;
-		$this->sub_modul_ini = 305;
+		$this->sub_modul_ini = 302;
+		$this->set_minsidebar(1);
 	}
 
 	public function index()
@@ -76,15 +77,11 @@ class Bumindes_tanah_desa extends Admin_Controller {
 				]));
 		}
 
-		$sub = "<li class=\"active\">Buku Tanah di Desa";
-		$data = [
+		$this->render('bumindes/umum/main', [
+			'subtitle' => 'Buku Tanah di Desa',
 			'selected_nav' => 'tanah',
-			'main_content' => "bumindes/pembangunan/tanah_di_desa/content_tanah_di_desa",
-			'subtitle' => $sub,
-		];
-
-		$this->set_minsidebar(1);
-		$this->render('bumindes/pembangunan/main', $data);
+			'main_content' => 'bumindes/pembangunan/tanah_di_desa/content_tanah_di_desa',
+		]);
 	}
 
 	public function clear()
@@ -97,31 +94,26 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function view_tanah_desa($id)
 	{
-		$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_desa'). ">Buku Tanah di Desa</a>
-				<li class=\"active\"></li>Rincian Data</li>";
 		$data = [
 			'main' => $this->tanah_desa_model->view_tanah_desa_by_id($id),
 			'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
-			'subtitle' => $sub,
+			'subtitle' => 'Buku Tanah di Desa',
 			'selected_nav' => 'tanah',
 			'view_mark' => 1,
 		];
 
-		$this->set_minsidebar(1);
-		$this->render('bumindes/pembangunan/main', $data);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($id = '')
 	{
 		if ($id)
 		{
-			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_desa'). ">Buku Tanah di Desa</a>
-				<li class=\"active\"></li>Ubah Data</li>";
 			$data = [
 				'main' => $this->tanah_desa_model->view_tanah_desa_by_id($id),
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
 				'penduduk' => $this->tanah_desa_model->list_penduduk($id),
-				'subtitle' => $sub,
+				'subtitle' => 'Buku Tanah di Desa',
 				'selected_nav' => 'tanah',
 				'view_mark' => 0,
 				'form_action' => site_url("bumindes_tanah_desa/update_tanah_desa/$id"),
@@ -129,21 +121,18 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		}
 		else
 		{
-			$sub = "<li class=\"active\"> <a href=" .site_url('bumindes_tanah_desa'). ">Buku Tanah di Desa</a>
-				<li class=\"active\"></li>Isi Data</li>";
 			$data = [
 				'main' => NULL,
 				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
 				'penduduk' => $this->tanah_desa_model->list_penduduk(),
-				'subtitle' => $sub,
+				'subtitle' => 'Buku Tanah di Desa',
 				'selected_nav' => 'tanah',
 				'view_mark' => 0,
 				'form_action' => site_url("bumindes_tanah_desa/add_tanah_desa"),
 			];
 		}
 
-		$this->set_minsidebar(1);
-		$this->render('bumindes/pembangunan/main', $data);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function add_tanah_desa()
@@ -178,11 +167,11 @@ class Bumindes_tanah_desa extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('h', 'bumindes_tanah_desa');
 		$this->tanah_desa_model->delete_tanah_desa($id);
-		
+
 		redirect('bumindes_tanah_desa');
 	}
 
-	public function cetak_tanah_desa($tgl= '', $aksi = '')
+	public function cetak_tanah_desa($aksi = '')
 	{
 		$data = [
 			'aksi' => $aksi,
@@ -192,7 +181,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 			'main' => $this->tanah_desa_model->cetak_tanah_desa(),
 			'bulan' => $this->session->filter_bulan,
 			'tahun' => $this->session->filter_tahun,
-			'tgl_cetak' => $tgl,
+			'tgl_cetak' => $this->input->post('tgl_cetak'),
 			'file' => "Buku Tanah di Desa",
 			'isi' => "bumindes/pembangunan/tanah_di_desa/tanah_di_desa_cetak",
 			'letak_ttd' => ['1', '1', '23'],
