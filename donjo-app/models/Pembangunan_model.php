@@ -78,14 +78,14 @@ class Pembangunan_model extends CI_Model
 		{
 			$this->db
 				->group_start()
-				->like('p.sumber_dana', $search)
-				->or_like('p.judul', $search)
-				->or_like('p.keterangan', $search)
-				->or_like('p.volume', $search)
-				->or_like('p.tahun_anggaran', $search)
-				->or_like('p.pelaksana_kegiatan', $search)
-				->or_like('p.lokasi', $search)
-				->or_like('p.anggaran', $search)
+					->like('p.sumber_dana', $search)
+					->or_like('p.judul', $search)
+					->or_like('p.keterangan', $search)
+					->or_like('p.volume', $search)
+					->or_like('p.tahun_anggaran', $search)
+					->or_like('p.pelaksana_kegiatan', $search)
+					->or_like('p.lokasi', $search)
+					->or_like('p.anggaran', $search)
 				->group_end();
 		}
 
