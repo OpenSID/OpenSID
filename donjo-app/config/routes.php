@@ -104,6 +104,7 @@ $route['auth'] = 'first/auth';
 
 // Halaman statis
 $route['data-suplemen/(:num)'] = 'first/suplemen/$1';
+$route['data-kelompok/(:num)'] = 'first/kelompok/$1';
 $route['informasi_publik'] = 'first/informasi_publik';
 $route['peraturan_desa'] = 'first/peraturan_desa';
 $route['data_analisis'] = 'first/data_analisis';

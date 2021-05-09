@@ -259,7 +259,7 @@ class First extends Web_Controller {
 
 	public function kelompok($id)
 	{
-		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id)) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('data-kelompok/' . $id)) show_404();
 
 		$data = $this->includes;
 
