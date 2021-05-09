@@ -62,15 +62,12 @@ class Surat extends Mandiri_Controller
 		$permohonan = $this->permohonan_surat_model->list_permohonan_perorangan($this->is_login->id_pend);
 
 		$data = [
-			'desa' => $this->header,
-			'cek_anjungan' => $this->cek_anjungan,
 			'kat' => $kat,
 			'judul' => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
-			'main' => ($kat == 1) ? $permohonan : $arsip,
-			'konten' => 'surat'
+			'main' => ($kat == 1) ? $permohonan : $arsip
 		];
 
-		$this->load->view('layanan_mandiri/template', $data);
+		$this->render('surat', $data);
 	}
 
 	public function buat($id = '')
@@ -86,17 +83,14 @@ class Surat extends Mandiri_Controller
 		}
 
 		$data = [
-			'desa' => $this->header,
-			'cek_anjungan' => $this->cek_anjungan,
 			'menu_surat_mandiri' => $this->surat_model->list_surat_mandiri(),
 			'menu_dokumen_mandiri' => $this->lapor_model->get_surat_ref_all(),
 			'list_dokumen' => $this->penduduk_model->list_dokumen($id_pend),
 			'kk' => ($this->is_login->kk_level === '1') ? $this->keluarga_model->list_anggota($this->is_login->id_kk) : '', // Ambil data anggota KK, jika Kepala Keluarga
-			'permohonan' => $permohonan,
-			'konten' => 'buat_surat'
+			'permohonan' => $permohonan
 		];
 
-		$this->load->view('layanan_mandiri/template', $data);
+		$this->render('buat_surat', $data);
 	}
 
 	public function cek_syarat()
@@ -132,9 +126,7 @@ class Surat extends Mandiri_Controller
 			'data' => $data
 		);
 
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($output));
+		$this->json_output($output);
 	}
 
 	public function ajax_table_surat_permohonan()
@@ -156,9 +148,7 @@ class Surat extends Mandiri_Controller
 
 		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : array();
 
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($list));
+		$this->json_output($list);
 	}
 
 	public function ajax_upload_dokumen_pendukung()
@@ -172,9 +162,7 @@ class Surat extends Mandiri_Controller
 			$data['success'] = -1;
 			$data['message'] = validation_errors();
 
-			$this->output
-				->set_content_type('application/json')
-				->set_output(json_encode($data));
+			$this->json_output($data);
 			return;
 		}
 
@@ -210,9 +198,7 @@ class Surat extends Mandiri_Controller
 			$data['message'] = 'Anda tidak mempunyai hak akses itu';
 		}
 
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
+		$this->json_output($data);
 	}
 
 	public function ajax_get_dokumen_pendukung()
@@ -232,9 +218,7 @@ class Surat extends Mandiri_Controller
 			$data = ['message' => 'Anda tidak mempunyai hak akses itu'];
 		}
 
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
+		$this->json_output($data);
 	}
 
 	public function ajax_hapus_dokumen_pendukung()
@@ -258,9 +242,8 @@ class Surat extends Mandiri_Controller
 			$this->web_dokumen_model->delete($id_dokumen);
 			$data['success'] = $this->session->userdata('success') ? : '1';
 		}
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($data));
+
+		$this->json_output($data);
 	}
 
 	// Proses permohonan surat
@@ -308,9 +291,8 @@ class Surat extends Mandiri_Controller
 		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 		$data['cek_anjungan'] = $this->cek_anjungan;
 		$data['mandiri'] = 1; // Untuk tombol cetak/kirim surat
-		$data['konten'] = 'permohonan_surat';
 
-		$this->load->view('layanan_mandiri/template', $data);
+		$this->render('permohonan_surat', $data);
 	}
 
 	public function kirim($id = '')

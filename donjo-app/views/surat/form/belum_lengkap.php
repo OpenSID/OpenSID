@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Layanan Mandiri > Bantuan
+ * View untuk konfiramsi belum lengkap
  *
- * donjo-app/controllers/layanan_mandiri/Bantuan.php
+ * donjo-app/views/surat/belum_lengkap.php,
  *
  */
 
@@ -44,40 +44,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+?>
 
-class Bantuan extends Mandiri_Controller
-{
+<?php $this->load->view('global/validasi_form'); ?>
+<form id="validasi" action="<?= $form_action; ?>" method="post">
+	<div class="modal-body">
+		<div class="form-group">
+			<label class="control-label" for="pesan">Pesan Singkat</label>
+			<textarea name="pesan" class="form-control input-sm required" placeholder="Pesan singkat alasan permohonan surat dibatalkan" rows="5"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
+	</div>
+</form>
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model('program_bantuan_model');
-	}
-
-	public function index()
-	{
-		$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik);
-
-		$this->render('bantuan', $data);
-	}
-
-	public function kartu_peserta($aksi = 'tampil', $id_peserta = '')
-	{
-		$data = $this->program_bantuan_model->get_program_peserta_by_id($id_peserta);
-		// Hanya boleh menampilkan data pengguna yang login
-		// ** Bagi program sasaran pendududk **
-		// TO DO : Ganti parameter nik menjadi id
-		if ($aksi == 'tampil')
-		{
-			$this->load->view('layanan_mandiri/peserta_bantuan', $data);
-		}
-		else
-		{
-			$this->load->helper('download');
-			if ($data['kartu_peserta']) force_download(LOKASI_DOKUMEN . $data['kartu_peserta'], NULL);
-
-			redirect('layanan-mandiri/bantuan');
-		}
-	}
-
-}
