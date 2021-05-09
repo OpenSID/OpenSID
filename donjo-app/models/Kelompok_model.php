@@ -410,4 +410,18 @@ class Kelompok_model extends MY_Model {
 		}
 	}
 
+	public function list_jabatan($id_kelompok = 0)
+	{
+		$data = $this->db
+			->distinct()
+			->select('jabatan')
+			->where("jabatan REGEXP '[a-zA-Z]+'")
+			->where('id_kelompok', $id_kelompok)
+			->order_by('jabatan', ASC)
+			->get('kelompok_anggota')
+			->result_array();
+
+		return $data;
+	}
+
 }

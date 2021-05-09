@@ -104,12 +104,12 @@
 								<div class="col-sm-5">
 									<select class="form-control input-sm select2-tags required" id="jabatan" name="jabatan">
 										<option option value="">-- Silakan Pilih Jabatan --</option>
-										<?php foreach ($list_jabatan as $key => $value): ?>
-											<option value="<?= $key?>"  <?= selected($key, $pend['jabatan']); ?> ><?= $value?></option>
+										<?php foreach ($list_jabatan1 as $key => $value): ?>
+											<option value="<?= $key; ?>"  <?= selected($key, $pend['jabatan']); ?> ><?= $value; ?></option>
 										<?php endforeach;?>
-										<?php if (! in_array($pend['jabatan'], [1, 2, 3, 4, 99])): ?>
-											<option value="<?= $pend['jabatan']; ?>" selected><?= $pend['jabatan']; ?></option>
-										<?php endif; ?>
+										<?php foreach ($list_jabatan2 as $value): ?>
+											<option value="<?= $value['jabatan']; ?>"  <?= selected($value['jabatan'], $pend['jabatan']); ?> ><?= $value['jabatan']; ?></option>
+										<?php endforeach;?>
 									</select>
 								</div>
 							</div>
