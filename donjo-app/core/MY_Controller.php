@@ -26,11 +26,9 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -69,7 +67,7 @@ class MY_Controller extends CI_Controller {
 		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
 
 		$this->load->model(['setting_model']);
-		$this->setting_model->init();
+        $this->setting_model->init();
 	}
 
 	/*
@@ -82,16 +80,6 @@ class MY_Controller extends CI_Controller {
 		{
 			$this->session->unset_userdata($session);
 		}
-	}
-
-	public function json_output($parm, $header = 200)
-	{
-		$this->output
-			->set_status_header($header)
-			->set_content_type('application/json', 'utf-8')
-			->set_output(json_encode($parm))
-			->_display();
-		exit();
 	}
 
 }
@@ -196,14 +184,6 @@ class Mandiri_Controller extends MY_Controller {
 				redirect('layanan-mandiri/masuk_ektp');
 			}
 		}
-	}
-
-	public function render($view, Array $data = NULL)
-	{
-		$data['desa'] = $this->header;
-		$data['cek_anjungan'] = $this->cek_anjungan;
-		$data['konten'] = $view;
-		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 }

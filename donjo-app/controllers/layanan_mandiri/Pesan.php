@@ -56,13 +56,18 @@ class Pesan extends Mandiri_Controller
 
 	public function index($kat = 1)
 	{
+		$pesan = $this->mailbox_model->get_all_pesan($this->is_login->nik, $kat);
+
 		$data = [
+			'desa' => $this->header,
+			'cek_anjungan' => $this->cek_anjungan,
 			'kat' => $kat,
 			'judul' => ($kat == 1) ? 'Keluar' : 'Masuk',
-			'pesan' => $this->mailbox_model->get_all_pesan($this->is_login->nik, $kat)
+			'pesan' => $pesan,
+			'konten' => 'pesan'
 		];
 
-		$this->render('pesan', $data);
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 	// TODO: Pisahkan mailbox dari komentar
@@ -91,23 +96,28 @@ class Pesan extends Mandiri_Controller
 		}
 
 		$data = [
+			'desa' => $this->header,
 			'kat' => $kat,
 			'owner' => ($kat == 2) ? 'Penerima' : 'Pengirim',
 			'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
-			'pesan' => $this->mailbox_model->get_pesan($nik, $id)
+			'pesan' => $this->mailbox_model->get_pesan($nik, $id),
+			'konten' => 'baca_pesan'
 		];
 
-		$this->render('baca_pesan', $data);
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 	public function tulis($kat = 2)
 	{
 		$data = [
+			'desa' => $this->header,
+			'cek_anjungan' => $this->cek_anjungan,
 			'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
-			'subjek' => $this->input->post('subjek')
+			'subjek' => $this->input->post('subjek'),
+			'konten' => 'tulis_pesan'
 		];
 
-		$this->render('tulis_pesan', $data);
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 }

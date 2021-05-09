@@ -147,7 +147,5 @@ $route['layanan-mandiri/arsip-surat'] = 'layanan_mandiri/surat/index/2';
 $route['layanan-mandiri/permohonan-surat'] = 'layanan_mandiri/surat/index/1';
 $route['layanan-mandiri/surat/buat'] = 'layanan_mandiri/surat/buat';
 $route['layanan-mandiri/surat/buat/(:num)'] = 'layanan_mandiri/surat/buat/$1';
-$route['layanan-mandiri/surat/form'] = 'layanan_mandiri/surat/form';
-$route['layanan-mandiri/surat/form/(:num)'] = 'layanan_mandiri/surat/form/$1';
 // Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan';

@@ -57,18 +57,29 @@ class Beranda extends Mandiri_Controller
 
 	public function index()
 	{
+		/**
+		 * krn view index belum tersedia
+		$data = [
+			'desa' => $this->header,
+			'konten' => 'index'
+		];
+		$this->load->view('layanan_mandiri/template', $data);
+		*/
+
 		$this->profil();
 	}
 
 	public function profil()
 	{
 		$data = [
+			'desa' => $this->header,
 			'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
 			'kelompok' => $this->penduduk_model->list_kelompok($this->is_login->id_pend),
 			'dokumen' => $this->penduduk_model->list_dokumen($this->is_login->id_pend),
+			'konten' => 'profil'
 		];
 
-		$this->render('profil', $data);
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 	public function cetak_biodata()
@@ -91,11 +102,13 @@ class Beranda extends Mandiri_Controller
 	public function ganti_pin()
 	{
 		$data = [
+			'desa' => $this->header,
 			'cek_anjungan' => $this->cek_anjungan,
 			'form_action' => site_url('layanan-mandiri/proses-ganti-pin'),
+			'konten' => 'ganti_pin'
 		];
 
-		$this->render('ganti_pin', $data);
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 	public function proses_ganti_pin()
