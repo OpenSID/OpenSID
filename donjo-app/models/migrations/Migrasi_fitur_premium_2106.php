@@ -55,6 +55,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050651($hasil);
 		$hasil = $hasil && $this->migrasi_2021050653($hasil);
 		$hasil = $hasil && $this->migrasi_2021050654($hasil);
+		$hasil = $hasil && $this->migrasi_2021051002($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -88,6 +89,13 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	protected function migrasi_2021050654($hasil)
 	{
 		$hasil = $hasil && $this->db->where('link', 'status_sdgs')->update('menu', ['link' => 'status-sdgs']);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021051002($hasil)
+	{
+		$hasil = $hasil && $this->dbforge->add_column('komentar', ['permohonan' => ['type' => 'TEXT','null' => TRUE]]);
 
 		return $hasil;
 	}

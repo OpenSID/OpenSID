@@ -63,6 +63,7 @@ class Beranda extends Mandiri_Controller
 			'desa' => $this->header,
 			'konten' => 'index'
 		];
+
 		$this->load->view('layanan_mandiri/template', $data);
 		*/
 

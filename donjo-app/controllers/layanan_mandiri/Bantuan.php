@@ -61,6 +61,7 @@ class Bantuan extends Mandiri_Controller
 			'bantuan_penduduk' => $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik),
 			'konten' => 'bantuan'
 		];
+
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 

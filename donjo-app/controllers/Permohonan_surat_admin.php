@@ -191,7 +191,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 			'komentar' => $post['pesan'],
 			'owner' => $pemohon['nama'], // TODO : Gunakan id_pend
 			'email' => $pemohon['nik'], // TODO : Gunakan id_pend
-			'no_hp' => $id_permohonan, // Menyimpan id_permohonan untuk link
+			'permohonan' => $id_permohonan, // Menyimpan id_permohonan untuk link
 			'tipe' => 2,
 			'status' => 2
 		];
