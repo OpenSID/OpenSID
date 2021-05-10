@@ -182,10 +182,11 @@ class Kelompok_model extends MY_Model {
 		$this->ubah_jabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], NULL);
 
 		$outp = $this->db->insert('kelompok_anggota', $data);
-		$idku = $data['id_penduduk'];
+		$id_pend = $data['id_penduduk'];
+		$nik = $this->get_anggota($id, $id_pend);
 
-		// Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
-		if ($foto = upload_foto_penduduk("kelompok_$idku", $this->input->post())) $this->db->where('id', $idku)->update('kelompok_anggota', ['foto' => $foto]);
+		// Upload foto dilakukan setelah ada id, karena nama foto berisi nik
+		if ($foto = upload_foto_penduduk($nik, $this->input->post())) $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -204,11 +205,15 @@ class Kelompok_model extends MY_Model {
 	{
 		$data = $this->validasi_anggota($this->input->post());
 		$this->ubah_jabatan($id, $id_a, $data['jabatan'], $this->input->post('jabatan_lama'));
-		$data['foto'] = upload_foto_penduduk("kelompok_$id_a", $this->input->post());
 
 		$outp = $this->db
 			->where('id_penduduk', $id_a)
 			->update('kelompok_anggota', $data);
+
+		$nik = $this->get_anggota($id, $id_a);
+
+		// Upload foto dilakukan setelah ada id, karena nama foto berisi nik
+		if ($foto = upload_foto_penduduk($nik, $this->input->post())) $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -292,8 +297,7 @@ class Kelompok_model extends MY_Model {
 	public function get_anggota($id = 0, $id_a = 0)
 	{
 		$data = $this->db
-			->select('ka.*, tp.sex as id_sex')
-			->select('(CASE WHEN (ka.foto IS NULL OR "") THEN tp.foto ELSE ka.foto END) AS foto')
+			->select('ka.*, tp.sex as id_sex, tp.foto, tp.nik')
 			->from('kelompok_anggota ka')
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id')
 			->where('id_kelompok', $id)
@@ -365,8 +369,7 @@ class Kelompok_model extends MY_Model {
 		$dusun = ucwords($this->setting->sebutan_dusun);
 		if ($sub == 'anggota') $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
 		$data = $this->db
-			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex')
-			->select('(CASE WHEN (ka.foto IS NULL OR "") THEN tp.foto ELSE ka.foto END) AS foto')
+			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
 			->select('a.dusun,a.rw,a.rt')
 			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) AS alamat")
