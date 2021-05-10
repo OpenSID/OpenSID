@@ -70,7 +70,7 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3">Keterangan tambahan</label>
 								<div class="col-sm-9">
-									<textarea class="form-control input-sm " readonly="readonly" rows="3"><?= $periksa['keterangan'] ?></textarea>
+									<textarea class="form-control input-sm" readonly="readonly" rows="3"><?= $periksa['keterangan'] ?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -143,7 +143,7 @@
 						<center><b>Isian Form</b></center>
 						<p>Kalau isian sudah lengkap:</p>
 						<ul>
-							<li>Klik Ekspor Dok untuk mencetak surat. Lampiran dapat diunduh di Arsip Layanan.</li>
+							<li>Klik Unduh RTF/Cetak PDF untuk mencetak surat. Lampiran dapat diunduh di Arsip Layanan.</li>
 							<li>Berikan surat kepada petugas untuk ditandatangani</li>
 						</ul>
 						<p>Status permohonan akan secara otomatis diubah menjadi 'Menunggu Tandatangan'.</p>
