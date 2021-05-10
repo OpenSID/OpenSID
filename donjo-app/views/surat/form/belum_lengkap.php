@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View modul Layanan Mandiri > Pesan > Baca Pesan
+ * View untuk konfiramsi belum lengkap
  *
- * donjo-app/views/layanan_mandiri/baca_pesan.php
+ * donjo-app/views/surat/belum_lengkap.php,
  *
  */
 
@@ -46,42 +46,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<div class="box box-solid">
-	<div class="box-header with-border bg-yellow">
-		<h4 class="box-title">Pesan</h4>
-	</div>
-	<div class="box-body box-line">
+<?php $this->load->view('global/validasi_form'); ?>
+<form id="validasi" action="<?= $form_action; ?>" method="post">
+	<div class="modal-body">
 		<div class="form-group">
-			<a href="<?= site_url("layanan-mandiri/$tujuan"); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke <?= ucwords(spaceunpenetration($tujuan)); ?></a>
+			<label class="control-label" for="pesan">Pesan Singkat</label>
+			<textarea name="pesan" class="form-control input-sm required" placeholder="Pesan singkat alasan permohonan surat dibatalkan" rows="5"></textarea>
 		</div>
 	</div>
-	<div class="box-body box-line">
-		<h4><b>BACA PESAN</b></h4>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
 	</div>
-	<div class="box-body">
-		<form id="validasi" action="<?= site_url('layanan-mandiri/pesan/balas'); ?>" method="post">
-			<div class="form-group">
-				<label for="owner"><?= $owner; ?></label>
-				<input type="text" class="form-control" value="<?= $pesan['owner']; ?>" readonly>
-			</div>
-			<div class="form-group">
-				<label for="subjek">Subjek</label>
-				<input type="text" class="form-control" name= "subjek" value="<?= $pesan['subjek']; ?>" readonly>
-			</div>
-			<div class="form-group">
-				<label for="pesan">Isi Pesan</label>
-				<textarea class="form-control" readonly><?= $pesan['komentar']; ?></textarea>
-			</div>
-			<?php if($kat == 2): ?>
-				<!-- Tombol balas hanya untuk kotak masuk -->
-				<hr/>
-				<div class="form-group">
-					<button type="submit" class="btn bg-green btn-social"><i class="fa fa-reply"></i>Balas Pesan</button>
-					<?php if($pesan['permohonan']): ?>
-						<a href="<?= site_url("layanan-mandiri/surat/buat/$pesan[permohonan]"); ?>" class="btn btn-social bg-navy" title="Lengkapi Surat"><i class="fa fa-info-circle"></i>Lengkapi Surat</a>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-		</form>
-	</div>
-</div>
+</form>
+
