@@ -186,7 +186,7 @@ class Kelompok_model extends MY_Model {
 		$nik = $this->get_anggota($id, $id_pend);
 
 		// Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-		if ($foto = upload_foto_penduduk($nik, $this->input->post())) $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
+		if ($foto = upload_foto_penduduk($id_pend, $nik[nik])) $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -213,7 +213,7 @@ class Kelompok_model extends MY_Model {
 		$nik = $this->get_anggota($id, $id_a);
 
 		// Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-		if ($foto = upload_foto_penduduk($nik, $this->input->post())) $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
+		if ($foto = upload_foto_penduduk($id_a, $nik[nik])) $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}

@@ -840,11 +840,11 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
 	imagedestroy($QR);
 }
 
-function upload_foto_penduduk($id = 0, $post = '')
+function upload_foto_penduduk($id = 0, $nik)
 {
-	$foto = $post['foto'];
-	$old_foto = $post['old_foto'];
-	$nama_file = ($post['nik'] ?: '0') . '-' . $id;
+	$foto = $_POST['foto'];
+	$old_foto = $_POST['old_foto'];
+	$nama_file = ($nik ?: '0') . '-' . $id;
 
 	if ($_FILES['foto']['tmp_name'])
 	{
