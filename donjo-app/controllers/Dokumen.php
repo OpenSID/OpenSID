@@ -206,11 +206,11 @@ class Dokumen extends Admin_Controller {
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['kat'] = $kat;
 		$data['tahun'] = $post['tahun'];
+		$data['desa'] = $this->config_model->get_data();
 		if ($kat == 1)
 			$data['kategori'] = 'Informasi Publik';
 		else
 		{
-			$data['desa'] = $this->config_model->get_data();
 			$list_kategori = $this->web_dokumen_model->list_kategori();
 			$data['kategori'] = $list_kategori[$kat];
 		}
