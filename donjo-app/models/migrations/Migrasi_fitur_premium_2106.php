@@ -101,7 +101,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		return $hasil;
 	}
   
-  protected function migrasi_2021051003($hasil)
+  	protected function migrasi_2021051003($hasil)
 	{
 		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris($hasil);
 
