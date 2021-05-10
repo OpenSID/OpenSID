@@ -22,6 +22,7 @@ Lengkapnya, isi rilis versi v21.05-premium - 2021-05-10 adalah sebagai berikut:
 5. [#4172](https://github.com/OpenSID/OpenSID/issues/4172) Data rincian peserta bantuan sekarang tampil benar di Layanan Mandiri.
 6. [#4168](https://github.com/OpenSID/OpenSID/issues/4168) Pindahkan Buku Tanah di Desa dan Buku Tanah Kas Desa ke Buku Administrasi Umum.
 7. Perbaiki jumlah luas total dan pemeriksaan rincian luas di Buku Tanah di Desa.
+8. [#4184](https://github.com/OpenSID/OpenSID/issues/4184) Nama desa sekarang tampil di cetak laporan Sekretariat > Informasi Publik.
 
 
 #### Perubahan Teknis
