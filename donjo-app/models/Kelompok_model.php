@@ -169,7 +169,7 @@ class Kelompok_model extends MY_Model {
 	{
 		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
 		$data['no_anggota'] = bilangan($post['no_anggota']);
-		$data['jabatan'] = $post['jabatan'];
+		$data['jabatan'] = alfanumerik_spasi($post['jabatan']);
 		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		return $data;
@@ -375,9 +375,21 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
-			->order_by("IF((jabatan = '' OR jabatan IS NULL), '999999', jabatan) ASC, CAST(no_anggota AS UNSIGNED)")
+			->order_by("CAST(jabatan AS UNSIGNED) + 30, CAST(no_anggota AS UNSIGNED)")
 			->get()
 			->result_array();
+
+			foreach ($data as $key => $anggota)
+			{
+				if ($anggota['jabatan'] <> 90)
+				{
+					$data[$key]['jabatan'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$anggota['jabatan']] ?: strtoupper($anggota['jabatan']);
+				}
+				else
+				{
+					$data[$key]['jabatan'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$anggota['jabatan']];
+				}
+			}
 
 		return $data;
 	}
@@ -414,10 +426,10 @@ class Kelompok_model extends MY_Model {
 	{
 		$data = $this->db
 			->distinct()
-			->select('jabatan')
+			->select('UPPER(jabatan) as jabatan ')
 			->where("jabatan REGEXP '[a-zA-Z]+'")
 			->where('id_kelompok', $id_kelompok)
-			->order_by('jabatan', ASC)
+			->order_by("jabatan")
 			->get('kelompok_anggota')
 			->result_array();
 
