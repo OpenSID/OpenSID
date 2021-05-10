@@ -51,7 +51,7 @@ class Pesan extends Mandiri_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('mailbox_model');
+		$this->load->model(['mailbox_model', 'permohonan_surat_model']);
 	}
 
 	public function index($kat = 1)
@@ -95,12 +95,14 @@ class Pesan extends Mandiri_Controller
 			$this->mailbox_model->ubah_status_pesan($nik, $id, 1);
 		}
 
+		$pesan = $this->mailbox_model->get_pesan($nik, $id);
 		$data = [
 			'desa' => $this->header,
 			'kat' => $kat,
 			'owner' => ($kat == 2) ? 'Penerima' : 'Pengirim',
 			'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
-			'pesan' => $this->mailbox_model->get_pesan($nik, $id),
+			'pesan' => $pesan,
+			'permohonan' => $this->permohonan_surat_model->get_permohonan(['id' => $pesan['permohonan']]),
 			'konten' => 'baca_pesan'
 		];
 

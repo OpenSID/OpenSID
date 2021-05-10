@@ -55,7 +55,8 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050651($hasil);
 		$hasil = $hasil && $this->migrasi_2021050653($hasil);
 		$hasil = $hasil && $this->migrasi_2021050654($hasil);
-    $hasil = $hasil && $this->migrasi_2021050655($hasil);
+		$hasil = $hasil && $this->migrasi_2021051002($hasil);
+    $hasil = $hasil && $this->migrasi_2021051003($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -92,11 +93,20 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		return $hasil;
 	}
-  
-  protected function migrasi_2021050655($hasil)
+
+	protected function migrasi_2021051002($hasil)
 	{
-    $hasil = $hasil && $this->tambah_jenis_mutasi_inventaris();
-  }
+		$hasil = $hasil && $this->dbforge->add_column('komentar', ['permohonan' => ['type' => 'TEXT','null' => TRUE]]);
+
+		return $hasil;
+	}
+  
+  protected function migrasi_2021051003($hasil)
+	{
+		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris($hasil);
+
+		return $hasil;
+	}
 
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
@@ -234,4 +244,6 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$this->db->query("DROP VIEW rekap_mutasi_inventaris");
 		$hasil = $hasil && $this->db->query("CREATE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' as asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM     mutasi_inventaris_gedung UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM       mutasi_inventaris_jalan UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM  mutasi_inventaris_peralatan UNION ALL SELECT 'inventaris_tanah', id_inventaris_tanah, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_tanah");
   }
+
 }
+ 
