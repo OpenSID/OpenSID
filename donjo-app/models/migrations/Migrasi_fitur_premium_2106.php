@@ -96,16 +96,19 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 	protected function migrasi_2021051002($hasil)
 	{
-		$hasil = $hasil && $this->dbforge->add_column('komentar', ['permohonan' => ['type' => 'TEXT','null' => TRUE]]);
+		if ( ! $this->db->field_exists('permohonan', 'komentar'))
+			$hasil = $hasil && $this->dbforge->add_column('komentar', ['permohonan' => ['type' => 'TEXT','null' => TRUE]]);
 
 		return $hasil;
 	}
+
 	protected function migrasi_2021051003($hasil)
 	{
-		$hasil =& $this->db->query("UPDATE `menu` SET `link` = REPLACE(`link`, 'kelompok/', 'data-kelompok/') WHERE `link_tipe` = '7'");
+		$hasil =& $this->db->query("UPDATE `menu` SET `link` = REPLACE(`link`, 'kelompok/', 'data-kelompok/') WHERE `link_tipe` = '7' AND link NOT LIKE '%data-kelompok%'");
 
 		// Hapus kolem foto pada tabel kelompok_anggota yang tidak digunakan
-		$hasil =& $this->dbforge->drop_column('kelompok_anggota', 'foto');
+		if ( $this->db->field_exists('foto', 'kelompok_anggota'))
+			$hasil =& $this->dbforge->drop_column('kelompok_anggota', 'foto');
 
 		return $hasil;
 	}

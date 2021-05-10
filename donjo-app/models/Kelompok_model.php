@@ -378,7 +378,7 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
-			->order_by("CAST(jabatan AS UNSIGNED) + 30, CAST(no_anggota AS UNSIGNED)")
+			->order_by("CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)")
 			->get()
 			->result_array();
 

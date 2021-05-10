@@ -1,10 +1,10 @@
-#### [v21.05-premium-pasca - 2021-05-03](https://github.com/OpenSID/premium/compare/v21.04-premium...v21.05-premium)
+#### [v21.05-premium-pasca - 2021-05-10](https://github.com/OpenSID/premium/compare/v21.04-premium...v21.05-premium)
 
 Di rilis ini, versi 21.05-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium - 2021-05-03 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium - 2021-05-10 adalah sebagai berikut:
 
 #### Penambahan Fitur
 1. [#4137](https://github.com/OpenSID/OpenSID/issues/4137) Sekarang Status IDM Desa bisa ditampilkan untuk tahun pilihan.
