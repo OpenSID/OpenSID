@@ -66,8 +66,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
-					<a href="<?= site_url('kelompok_master/form'); ?>" title="Tambah Kategori Kelompok Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori Kelompok Baru</a>
-					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url('kelompok_master/delete_all'); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+					<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<a href="<?= site_url('kelompok_master/form'); ?>" title="Tambah Kategori Kelompok Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori Kelompok Baru</a>
+					<?php endif; ?>
+					<?php if ($this->CI->cek_hak_akses('h')): ?>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url('kelompok_master/delete_all'); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+					<?php endif; ?>
 					<a href="<?= site_url('kelompok'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Kelompok</a>
 				</div>
 				<div class="box-body">
@@ -101,8 +105,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" ></td>
 													<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 													<td class="aksi">
-														<a href="<?= site_url("kelompok_master/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Kategori kelompok"><i class="fa fa-edit"></i></a>
-														<a href="#" data-href="<?= site_url("kelompok_master/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<a href="<?= site_url("kelompok_master/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Kategori kelompok"><i class="fa fa-edit"></i></a>
+														<?php endif; ?>
+														<?php if ($this->CI->cek_hak_akses('h')): ?>
+															<a href="#" data-href="<?= site_url("kelompok_master/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<?php endif; ?>
 													</td>
 													<td nowrap><?= $data['kelompok']?></td>
 													<td><?= $data['deskripsi']?></td>
