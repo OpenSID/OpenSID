@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <div class="box box-solid">
-	<form id="validasi" action="<?= site_url("layanan_mandiri/surat/form/$permohonan[id]"); ?>" method="POST" enctype="multipart/form-data">
+	<form id="validasi" action="<?= site_url("layanan-mandiri/surat/form/$permohonan[id]"); ?>" method="POST" enctype="multipart/form-data">
 
 		<div class="box-header with-border bg-green">
 			<h4 class="box-title">Surat</h4>

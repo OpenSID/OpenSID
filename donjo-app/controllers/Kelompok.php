@@ -149,7 +149,8 @@ class Kelompok extends Admin_Controller {
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
 
-		$data['list_jabatan'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
+		$data['list_jabatan1'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
+		$data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
 
 		$this->set_minsidebar(1);
 		$this->render('kelompok/anggota/form', $data);
@@ -162,6 +163,8 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("kelompok/daftar_anggota/$aksi/$id");
 
 		$this->load->view('global/ttd_pamong', $data);
@@ -174,6 +177,8 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("kelompok/daftar/$aksi");
 
 		$this->load->view('global/ttd_pamong', $data);

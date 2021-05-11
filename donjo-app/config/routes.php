@@ -104,6 +104,7 @@ $route['auth'] = 'first/auth';
 
 // Halaman statis
 $route['data-suplemen/(:num)'] = 'first/suplemen/$1';
+$route['data-kelompok/(:num)'] = 'first/kelompok/$1';
 $route['informasi_publik'] = 'first/informasi_publik';
 $route['peraturan_desa'] = 'first/peraturan_desa';
 $route['data_analisis'] = 'first/data_analisis';
@@ -147,5 +148,7 @@ $route['layanan-mandiri/arsip-surat'] = 'layanan_mandiri/surat/index/2';
 $route['layanan-mandiri/permohonan-surat'] = 'layanan_mandiri/surat/index/1';
 $route['layanan-mandiri/surat/buat'] = 'layanan_mandiri/surat/buat';
 $route['layanan-mandiri/surat/buat/(:num)'] = 'layanan_mandiri/surat/buat/$1';
+$route['layanan-mandiri/surat/form'] = 'layanan_mandiri/surat/form';
+$route['layanan-mandiri/surat/form/(:num)'] = 'layanan_mandiri/surat/form/$1';
 // Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan';

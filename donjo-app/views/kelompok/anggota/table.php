@@ -149,14 +149,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														</div>
 													</td>
 													<td class="padat"><?= $data['no_anggota']?></td>
-													<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
+													<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']] ?? $data['jabatan']; ?></td>
 													<td><?= $data['no_sk_jabatan']?>
 													<td><?= $data['nik']; ?></td>
-													<td><?= $data['nama']; ?></td>
+													<td nowrap><?= $data['nama']; ?></td>
 													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
 													<td class="padat"><?= $data['umur']; ?></td>
 													<td><?= $data['sex']; ?></td>
-													<td><?= $data['alamat']; ?></td>
+													<td nowrap><?= $data['alamat']; ?></td>
 													<td><?= $data['keterangan']; ?></td>
 												</tr>
 											<?php endforeach; ?>
