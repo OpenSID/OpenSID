@@ -257,27 +257,28 @@ class Inventaris_laporan_model extends CI_Model
 	 
 		$sub_q = $this->db
 			->select('concat(b.asset,b.id_inventaris_asset)')
-			->where('b.status_mutasi', 'Rusak')
+			->where('b.status_mutasi', 'Hapus')
 			->where('year(tahun_mutasi) <', $tahun)
 			->from('rekap_mutasi_inventaris as b')->get_compiled_select();
 
 		$tgl_thn_n = $this->db
 			->select('MAX(c.tahun_mutasi)')
 			->where('year(c.tahun_mutasi)', $tahun)
+			->where('a.asset = c.asset')
+			->where('a.id_inventaris_asset = c.id_inventaris_asset')
 			->from('rekap_mutasi_inventaris as c')->get_compiled_select();
 								 
 		$tgl_thn_min_n =  $this->db
 			->select('MAX(c.tahun_mutasi)')
 			->where('year(c.tahun_mutasi) <', $tahun)
+			->where('a.asset = c.asset')
+			->where('a.id_inventaris_asset = c.id_inventaris_asset')
 			->from('rekap_mutasi_inventaris as c')->get_compiled_select();
 		 
-		 // mutasi asset yang tidak rusak saat tahun n-1 data dianggal sebagai data akhir tahun n dan awal tahun
+		 // mutasi asset yang tidak rusak saat tahun n-1 data dianggap sebagai data akhir tahun n dan awal tahun
 		$this->db
 			->where("concat(a.asset,a.id_inventaris_asset) NOT IN ({$sub_q})")
-			->where("tahun_mutasi = ({$tgl_thn_min_n})")
-			->group_by('a.asset')
-			->group_by('a.id_inventaris_asset')
-			->order_by('a.tahun_mutasi', 'desc');
+			->where("tahun_mutasi = ({$tgl_thn_min_n})");
 
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
 		foreach ($this->db->get('rekap_mutasi_inventaris as a') as $asset) 
@@ -286,15 +287,11 @@ class Inventaris_laporan_model extends CI_Model
 			$awal_tahun [$asset->asset] [$asset->id_inventaris_asset] = $asset;
 		}
 
-		 // jika ada input pada tahun ke n. data akhir tahun akan digantikan dengan data ini
-		$this->db
-			->where("tahun_mutasi = ({$tgl_thn_n})")
-			->group_by('asset')
-			->group_by('id_inventaris_asset')
-			->order_by('tahun_mutasi', 'desc');
-
+		// jika ada input pada tahun ke n. data akhir tahun akan digantikan dengan data ini
 		if ($jns_asset !== null) $this->db->where('asset', $jns_asset); // cek filter
-		foreach ($this->db->get('rekap_mutasi_inventaris')->result() as $asset)
+
+		$this->db->where("tahun_mutasi = ({$tgl_thn_n})");
+		foreach ($this->db->get('rekap_mutasi_inventaris As a')->result() as $asset)
 		{
 			if ($asset->status_mutasi == null)
 			{
