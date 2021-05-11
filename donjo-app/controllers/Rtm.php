@@ -124,6 +124,7 @@ class Rtm extends Admin_Controller {
 
 	public function edit_nokk($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['kk'] = $this->rtm_model->get_rtm($id);
 		$data['form_action'] = site_url("rtm/update_nokk/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_no_rtm', $data);
@@ -131,6 +132,7 @@ class Rtm extends Admin_Controller {
 
 	public function form_old($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/insert/$id");
 		$this->load->view('sid/kependudukan/ajax_add_rtm', $data);
@@ -176,6 +178,7 @@ class Rtm extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->insert();
 		$this->session->order_by = 6;
 
@@ -184,6 +187,7 @@ class Rtm extends Admin_Controller {
 
 	public function insert_by_kk()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->insert_by_kk();
 		$this->session->order_by = 6;
 
@@ -192,6 +196,7 @@ class Rtm extends Admin_Controller {
 
 	public function insert_a()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->insert_a();
 		$this->session->order_by = 6;
 
@@ -200,6 +205,7 @@ class Rtm extends Admin_Controller {
 
 	public function insert_new()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->insert_new();
 		$this->session->order_by = 6;
 
@@ -208,12 +214,14 @@ class Rtm extends Admin_Controller {
 
 	public function update($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->update($id);
 		redirect('rtm');
 	}
 
 	public function update_nokk($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->update_nokk($id);
 		redirect('rtm');
 	}
@@ -246,6 +254,7 @@ class Rtm extends Admin_Controller {
 
 	public function ajax_add_anggota($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$kk = $this->rtm_model->get_kepala_rtm($id);
 		if ($kk)
@@ -261,6 +270,7 @@ class Rtm extends Admin_Controller {
 
 	public function edit_anggota($id_rtm = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main'] = $this->rtm_model->get_anggota($id);
 		$data['form_action'] = site_url("rtm/update_anggota/$id_rtm/$id");
@@ -300,12 +310,14 @@ class Rtm extends Admin_Controller {
 
 	public function add_anggota($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->add_anggota($id);
 		redirect("rtm/anggota/$id");
 	}
 
 	public function update_anggota($id_rtm = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->rtm_model->update_anggota($id, $id_rtm);
 		redirect("rtm/anggota/$id_rtm");
 	}
