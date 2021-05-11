@@ -158,7 +158,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<a href="<?= site_url('layanan-mandiri/profil'); ?>" class="btn btn-default">Profil</a>
 										</div>
 										<div class="pull-right">
-											<a href="<?= site_url('layanan-mandiri/keluar'); ?>" class="btn btn-default">Keluar</a>
+											<a href="<?= site_url('layanan-mandiri/keluar'); ?>" class="btn btn-block btn-social bg-red">
+												<i class="fa fa-sign-out"></i> Keluar
+											</a>
 										</div>
 									</li>
 								</ul>
@@ -262,6 +264,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 				</section>
+				<?php
+					if ($pendapat = $this->session->flashdata('pendapat')):
+						$this->load->view('layanan_mandiri/pendapat', $pendapat);
+					endif;
+				?>
 			</div>
 		</div>
 
@@ -323,6 +330,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<script type="text/javascript">
 		$(window).on('load', function() {
 			$('#notif').modal('show');
+			$('#pendapat').modal('show');
 		});
 
 		$('document').ready(function() {

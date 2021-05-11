@@ -51,7 +51,7 @@ class Beranda extends Mandiri_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model']);
+		$this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model', 'pendapat_model']);
 		$this->load->helper('download');
 	}
 
@@ -106,11 +106,29 @@ class Beranda extends Mandiri_Controller
 
 	public function keluar()
 	{
-		$this->mandiri_model->logout();
+		$where = [
+			'pengguna' => $this->is_login->id_pend,
+			'DATE_FORMAT(tanggal, "%Y-%m-%d") = ' => date('Y-m-d')
+		];
+
+		// Cek apakah sudah memberikan pendapat (1 hari sekali)
+		if ($this->pendapat_model->find($where))
+		{
+			$this->mandiri_model->logout();
+		}
+		else
+		{
+			$respon = [
+				'judul' => 'BERIKAN PENILAIAN ANDA TERHADAP PELAYANAN KAMI',
+				'isi' => unserialize(NILAI_PENDAPAT)
+			];
+
+			$this->session->set_flashdata('pendapat', $respon);
+		}
+
 		redirect('layanan-mandiri');
 	}
 
-	// Belum dipakai
 	/**
 	 * Unduh berkas berdasarkan kolom dokumen.id
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
@@ -124,6 +142,19 @@ class Beranda extends Mandiri_Controller
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else
 			$this->output->set_status_header('404');
+	}
+
+	public function pendapat(int $pilihan = 1)
+	{
+		$data = [
+			'pengguna' => $this->is_login->id_pend,
+			'pilihan' => $pilihan
+		];
+
+		$this->pendapat_model->insert($data);
+		$this->mandiri_model->logout();
+
+		redirect('layanan-mandiri');
 	}
 
 }

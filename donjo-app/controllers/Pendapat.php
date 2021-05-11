@@ -1,19 +1,14 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+/*
+ *  File ini:
  *
- * View Notifikasi Layanan Mandiri Harus Ganti PIN
+ * Controller untuk modul pendapat Web
  *
- * donjo-app/views/layanan_mandiri/notif.php
+ * donjo-app/controllers/pendapat.php
  *
  */
-
-/**
- *
- * File ini bagian dari:
+/*
+ *  File ini bagian dari:
  *
  * OpenSID
  *
@@ -44,16 +39,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
 
-<div class="modal fade" id="notif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false" data-keyboard="false">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body text-center">
-				<h4><b>Informasi</b></h4>
-				<p><?= $pesan; ?></p>
-				<a href="<?= $aksi; ?>" class="btn bg-green">OK</a>
-			</div>
-		</div>
-	</div>
-</div>
+class Pendapat extends Admin_Controller {
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model(['pendapat_model']);
+		$this->modul_ini = 14;
+		$this->sub_modul_ini = 321;
+	}
+
+	public function index()
+	{
+		$tipe = $this->session->flashdata('tipe');
+		$data['list_pendapat'] = unserialize(NILAI_PENDAPAT);
+		foreach ($data['list_pendapat'] as $key => $value)
+		{
+			$data["pilihan_$key"] = $this->pendapat_model->get_pilihan($tipe, $key);
+		}
+
+		$data['main'] = $this->pendapat_model->get_pendapat($tipe);
+
+		$this->render('pendapat/index', $data);
+		//echo json_encode($data);
+	}
+
+	public function detail(int $tipe = 5)
+	{
+		$this->session->set_flashdata('tipe', $tipe);
+
+		redirect('pendapat');
+	}
+}
