@@ -56,13 +56,9 @@ class Bantuan extends Mandiri_Controller
 
 	public function index()
 	{
-		$data = [
-			'desa' => $this->header,
-			'bantuan_penduduk' => $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik),
-			'konten' => 'bantuan'
-		];
+		$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik);
 
-		$this->load->view('layanan_mandiri/template', $data);
+		$this->render('bantuan', $data);
 	}
 
 	public function kartu_peserta($aksi = 'tampil', $id_peserta = '')
