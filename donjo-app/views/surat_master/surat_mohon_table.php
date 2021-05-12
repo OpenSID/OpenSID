@@ -22,8 +22,12 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url('surat_mohon/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Dokumen Persyaratan</a>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("surat_mohon/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<a href="<?= site_url('surat_mohon/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Dokumen Persyaratan</a>
+						<?php endif; ?>
+						<?php if ($this->CI->cek_hak_akses('h')): ?>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("surat_mohon/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php endif; ?>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -66,10 +70,14 @@
 																	<td width=2>
 																		<input type="checkbox" name="id_cb[]" value="<?=$data['ref_syarat_id']?>" />
 																	</td>
-																	<td width=3><?=$data['no']?></td>
-																	<td width=100 nowrap>
-																		<a href="<?=site_url("surat_mohon/form/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?=site_url("surat_mohon/delete/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<td class="padat"><?=$data['no']?></td>
+																	<td class="padat">
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?=site_url("surat_mohon/form/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																		<?php endif; ?>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<a href="#" data-href="<?=site_url("surat_mohon/delete/$p/$o/$data[ref_syarat_id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif; ?>
 																	</td>
 																	<td><?=$data['ref_syarat_nama']?></td>
 																</tr>
