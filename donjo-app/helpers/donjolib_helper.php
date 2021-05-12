@@ -634,7 +634,9 @@ function set_ucwords($data)
 
 function persen($data)
 {
-	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
+	$str = is_nan($data) ? '0%' : number_format($data*100, 2, '.', '') . '%';
+
+	return str_replace(".",",", $str);
 }
 
 function sensor_nik_kk($data)

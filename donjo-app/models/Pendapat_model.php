@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Model untuk pendapat di modul admin Layanan Mandiri
+ * Model untuk pendapat di modul Layanan Mandiri
  *
  * donjo-app/models/Pendapat_model.php
  *
@@ -61,11 +61,6 @@ class Pendapat_model extends MY_Model {
 		return $this->db->affected_rows();
 	}
 
-	public function find(array $data)
-	{
-		return $this->db->limit(1)->get_where($this->table, $data)->result();
-	}
-
 	public function get_pilihan($tipe, $pilih)
 	{
 		$this->db->where('pilihan', $pilih);
@@ -74,50 +69,29 @@ class Pendapat_model extends MY_Model {
 		return $data['total'];
 	}
 
+	public function get_data($tipe)
+	{
+		$kondisi = $this->kondisi($tipe);
+		$pendapat = $this->db
+			->select('pilihan, DATE(tanggal) AS tanggal, COUNT(pilihan) AS jumlah')
+			->where($kondisi['where'])
+			->group_by('pilihan')
+			->order_by('tanggal', 'ASC')
+			->get($this->table)
+			->result_array();
+
+		return $pendapat;
+	}
+
 	public function get_pendapat($tipe)
 	{
-		$tgl = date('Y-m-d');
-		$bln = date('m');
-		$thn = date('Y');
-
-		$this->db->select('pilihan, COUNT(pilihan) AS jumlah');
-		$this->kondisi($tipe);
-		$this->db->group_by('pilihan');
-
-		switch ($tipe)
-		{
-			// Hari Ini
-			case 1:
-				$judul = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
-				break;
-
-			// Kemarin
-			case 2:
-				$judul = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
-				break;
-
-			// 7 Hari (Minggu Ini)
-			case 3:
-				$judul = 'Dari tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
-				break;
-
-			// 1 bulan(tgl 1 sampai akhir bulan)
-			case 4:
-				$judul = "Bulan ".ucwords(getBulan($bln)) . ' ' . $thn;
-				break;
-
-			// 1 tahun / 12 Bulan
-			case 5:
-				$judul = 'Tahun ' . $thn;
-				break;
-
-			// Semua Data
-			default:
-				$judul = "Setiap Tahun";
-				break;
-		}
-
+		$kondisi = $this->kondisi($tipe);
 		$pendapat = $this->db
+			->select('COUNT(pilihan) AS jumlah')
+			->select($kondisi['select'])
+			->select('pilihan')
+			->where($kondisi['where'])
+			->group_by('pilihan')
 			->order_by('pilihan', 'ASC')
 			->get($this->table)
 			->result_array();
@@ -129,7 +103,8 @@ class Pendapat_model extends MY_Model {
 		}
 
 		$data = [
-			'judul' => $judul,
+			'lblx' => $kondisi['lblx'],
+			'judul' => $kondisi['judul'],
 			'pendapat' => $pendapat,
 			'total' => $total
 		];
@@ -143,10 +118,13 @@ class Pendapat_model extends MY_Model {
 		$bln = date('m');
 		$thn = date('Y');
 
+		$lblx = 'TANGGAL';
 		switch ($tipe)
 		{
 			// Hari ini
 			case 1:
+				$judul = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
+				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'DATE(`tanggal`) = ' => $tgl
 				];
@@ -154,6 +132,8 @@ class Pendapat_model extends MY_Model {
 
 			// Kemarin
 			case 2:
+				$judul = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
+				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'DATE(`tanggal`) = ' => $this->op_tgl('-1 days', $tgl)
 				];
@@ -161,6 +141,8 @@ class Pendapat_model extends MY_Model {
 
 			// Minggu ini
 			case 3:
+				$judul = 'Dari tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
+				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'DATE(`tanggal`) >= ' => $this->op_tgl('-6 days', $tgl),
 					'DATE(`tanggal`) <= ' => $tgl,
@@ -169,6 +151,8 @@ class Pendapat_model extends MY_Model {
 
 			// Bulan ini
 			case 4:
+				$judul = "Bulan " . ucwords(getBulan($bln)) . ' ' . $thn;
+				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'MONTH(`tanggal`) = ' => $bln,
 					'YEAR(`tanggal`)  = ' => $thn,
@@ -177,6 +161,9 @@ class Pendapat_model extends MY_Model {
 
 			// Tahun ini
 			case 5:
+				$lblx = 'BULAN';
+				$judul = 'Tahun ' . $thn;
+				$select = 'MONTH(tanggal) AS tanggal';
 				$where = [
 					'YEAR(tanggal) = ' => $thn
 				];
@@ -184,19 +171,28 @@ class Pendapat_model extends MY_Model {
 
 			// Semua jumlah pendapat
 			default:
+				$lblx = 'TAHUN';
+				$judul = 'Setiap Tahun';
+				$select = 'YEAR(tanggal) AS tanggal';
 				$where = [
 					'tanggal != ' => 'NOT NULL'
 				];
 			break;
 		}
 
-		$this->db->where($where);
+		$data = [
+			'lblx' => $lblx,
+			'judul' => $judul,
+			'select' => $select,
+			'where' => $where
+		];
+
+		return $data;
 	}
 
 	protected function op_tgl(string $op, string $tgl)
 	{
 		return date('Y-m-d', strtotime($op, strtotime($tgl)));
 	}
-
 
 }

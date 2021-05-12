@@ -1,12 +1,16 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
- * Controller untuk modul pendapat Web
+ * Controller untuk modul pendapat
  *
- * donjo-app/controllers/pendapat.php
+ * donjo-app/controllers/Pendapat.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -60,12 +64,13 @@ class Pendapat extends Admin_Controller {
 		}
 
 		$data['main'] = $this->pendapat_model->get_pendapat($tipe);
+		$data['detail'] = $this->pendapat_model->get_data($tipe);
 
 		$this->render('pendapat/index', $data);
 		//echo json_encode($data);
 	}
 
-	public function detail(int $tipe = 5)
+	public function detail(int $tipe = 1)
 	{
 		$this->session->set_flashdata('tipe', $tipe);
 

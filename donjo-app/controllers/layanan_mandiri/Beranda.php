@@ -106,26 +106,7 @@ class Beranda extends Mandiri_Controller
 
 	public function keluar()
 	{
-		$where = [
-			'pengguna' => $this->is_login->id_pend,
-			'DATE_FORMAT(tanggal, "%Y-%m-%d") = ' => date('Y-m-d')
-		];
-
-		// Cek apakah sudah memberikan pendapat (1 hari sekali)
-		if ($this->pendapat_model->find($where))
-		{
-			$this->mandiri_model->logout();
-		}
-		else
-		{
-			$respon = [
-				'judul' => 'BERIKAN PENILAIAN ANDA TERHADAP PELAYANAN KAMI',
-				'isi' => unserialize(NILAI_PENDAPAT)
-			];
-
-			$this->session->set_flashdata('pendapat', $respon);
-		}
-
+		$this->mandiri_model->logout();
 		redirect('layanan-mandiri');
 	}
 
@@ -152,9 +133,7 @@ class Beranda extends Mandiri_Controller
 		];
 
 		$this->pendapat_model->insert($data);
-		$this->mandiri_model->logout();
-
-		redirect('layanan-mandiri');
+		redirect('layanan-mandiri/keluar');
 	}
 
 }

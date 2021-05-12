@@ -1,3 +1,51 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * View Modul Layanan Mandiri > Pendapat
+ *
+ * donjo-app/views/pendapat/index.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pendapat</h1>
@@ -27,78 +75,121 @@
 				</div>
 				<div class="box-body">
 					<div class="row">
-						<div class="col-md-10">
+						<div class="col-md-8">
+							<strong><center>GRAFIK</center></strong>
+							<hr/>
 							<div id="chart"></div>
-						</div>
-						<div class="col-md-2">
+							<hr/>
 							<div class="row">
 								<?php foreach ($list_pendapat as $key => $value) : ?>
 									<?php $key =  "pilihan_$key" ?>
-									<div class="col-sm-12 col-xs-6">
-										<div class="description-block border-bottom">
+									<div class="col-sm-3 col-xs-6">
+										<div class="description-block border-left">
 											<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
-											<h5 class="description-header"><?= $$key; ?>%</h5>
+											<h5 class="description-header"><?= persen($$key/$main['total']); ?></h5>
 											<span class="description-text"><?= $value; ?></span>
 										</div>
 									</div>
 								<?php endforeach; ?>
 							</div>
 						</div>
+						<div class="col-md-4">
+							<strong><center>TABEL</center></strong>
+							<hr/>
+							<div class="table-responsive">
+								<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+									<thead class="bg-gray disabled color-palette">
+										<tr>
+											<th>No</th>
+											<th>Tanggal</th>
+											<th>Pendapat</th>
+											<th>Jumlah</th>
+										</tr>
+									</thead>
+									<tbody>
+										<?php if($detail): ?>
+											<?php $total = 0; ?>
+											<?php foreach ($detail as $key => $item): ?>
+												<?php $total += $item['jumlah']; ?>
+												<tr>
+													<td class="padat"><?= ($key + 1); ?></td>
+													<td class="padat"><?= tgl_indo2($item['tanggal']); ?></td>
+													<td class="padat"><?= $item['pilihan']; ?></td>
+													<td class="padat"><?= $item['jumlah']; ?></td>
+												</tr>
+											<?php endforeach; ?>
+											<?php else: ?>
+												<tr>
+													<td class="text-center" colspan="10">Data Tidak Tersedia</td>
+												</tr>
+											<?php endif; ?>
+										</tbody>
+										<tfoot class="bg-gray disabled color-palette">
+											<tr>
+												<th class="text-center" colspan="3">TOTAL</th>
+												<th class="text-center"><?= $total; ?></th>
+											</tr>
+										</tfoot>
+									</table>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-</div>
-<script type="text/javascript">
-	var chart;
-	$(document).ready(function() {
-		chart = new Highcharts.Chart( {
-			chart: {
-				renderTo: 'chart',
-				defaultSeriesType: 'column'
-			},
-			title: {
-				text: ''
-			},
-			xAxis: {
-				title: {
-					text: '<b>Pilihan</b>'
+		</section>
+	</div>
+	<script type="text/javascript">
+		var chart;
+		$(document).ready(function() {
+			chart = new Highcharts.Chart( {
+				chart: {
+					renderTo: 'chart',
+					defaultSeriesType: 'column'
 				},
-				categories: [
-				<?php foreach ($list_pendapat AS $key => $value): ?>
-					['<?= $value; ?>', ],
-				<?php endforeach;?>
-				]
-			},
-			yAxis: {
 				title: {
-					text: 'Pengguna (Orang)'
-				}
-			},
-			legend: {
-				layout: 'vertical',
-				enabled:false
-			},
-			plotOptions: {
-				series: {
-					colorByPoint: true
+					text: ''
 				},
-				column: {
-					pointPadding: 0,
-					borderWidth: 0
-				}
-			},
-			series: [ {
-				shadow:1,
-				border:1,
-				data: [
-				<?php foreach ($main ['pendapat'] AS $data): ?>
-					['<?= $data['pilihan']; ?>', <?= $data['jumlah']?>],
-					<?php endforeach;?>]
+				xAxis: {
+					title: {
+						text: '<b>Pilihan</b>'
+					},
+					categories: [
+					<?php foreach ($list_pendapat AS $key => $value): ?>
+						['<?= $value; ?>', ],
+					<?php endforeach;?>
+					]
+				},
+				yAxis: {
+					title: {
+						text: 'Pengguna (Orang)'
+					}
+				},
+				legend: {
+					layout: 'vertical',
+					enabled:false
+				},
+				plotOptions: {
+					series: {
+						colorByPoint: true
+					},
+					column: {
+						pointPadding: 0,
+						borderWidth: 0
+					}
+				},
+				series: [ {
+					shadow:1,
+					border:1,
+					data: [
+					<?php foreach ($list_pendapat AS $key => $value): ?>
+						<?php $jml =  "pilihan_$key"; ?>
+						['<?= $key; ?>', <?= $$jml; ?>],
+					<?php endforeach; ?>
+					]
 				}]
 			});
-	});
-</script>
-<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
-<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>
+		});
+	</script>
+	<script src="<?= base_url()?>assets/js/highcharts/exporting.js"></script>
+	<script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>

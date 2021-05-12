@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View Notifikasi Layanan Mandiri Pendapat
+ * View Layanan Mandiri Pendapat
  *
  * donjo-app/views/layanan_mandiri/pendapat.php
  *
@@ -50,13 +50,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body text-center">
-				<h4><?= $judul; ?></h4>
-				<?php foreach ($isi as $key => $value) : ?>
-					<a href="<?= site_url("layanan-mandiri/pendapat/$key"); ?> " class="btn btn-app pendapat">
+				<h4>BERIKAN PENILAIAN ANDA TERHADAP PELAYANAN KAMI</h4>
+				<?php foreach (unserialize(NILAI_PENDAPAT) as $key => $value) : ?>
+					<a href="<?= site_url("layanan-mandiri/pendapat/$key"); ?>" class="btn btn-app pendapat">
 						<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
 						<p><?= $value; ?></p>
 					</a>
 				<?php endforeach; ?>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+				<a href="<?= site_url("layanan-mandiri/keluar"); ?> " class="btn btn-success">Lain Kali</a>
 			</div>
 		</div>
 	</div>
