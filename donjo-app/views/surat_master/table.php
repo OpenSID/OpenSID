@@ -22,8 +22,12 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url('surat_master/form')?>" title="Tambah Format Surat" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Format Surat</a>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("surat_master/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<a href="<?= site_url('surat_master/form')?>" title="Tambah Format Surat" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Format Surat</a>
+						<?php endif; ?>
+						<?php if ($this->CI->cek_hak_akses('h')): ?>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("surat_master/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php endif; ?>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -79,23 +83,27 @@
 														</thead>
 														<tbody>
 															<?php foreach ($main as $data): ?>
-																<tr <?php if ($data['jenis']!=1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
+																<tr <?php if ($data['jenis'] != 1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
-																		<a href="<?= site_url("surat_master/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
-																		<?php if ($data['kunci'] == '0'): ?>
-																			<a href="<?= site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="btn bg-navy btn-flat btn-sm" title="Non-Aktifkan Surat" ><i class="fa fa-unlock"></i></a>
-																			<?php if ($data['favorit']==1): ?>
-																				<a href="<?= site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm" title="Keluarkan dari Daftar Favorit" ><i class="fa fa-star"></i></a>
-																			<?php else: ?>
-																				<a href="<?= site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm"  title="Tambahkan ke Daftar Favorit" ><i class="fa fa-star-o"></i></a>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?= site_url("surat_master/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<?php if ($data['kunci'] == '0'): ?>
+																				<a href="<?= site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="btn bg-navy btn-flat btn-sm" title="Non-Aktifkan Surat" ><i class="fa fa-unlock"></i></a>
+																				<?php if ($data['favorit']==1): ?>
+																					<a href="<?= site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm" title="Keluarkan dari Daftar Favorit" ><i class="fa fa-star"></i></a>
+																				<?php else: ?>
+																					<a href="<?= site_url("surat_master/favorit/$data[id]/$data[favorit]")?>" class="btn bg-purple btn-flat btn-sm"  title="Tambahkan ke Daftar Favorit" ><i class="fa fa-star-o"></i></a>
+																				<?php endif; ?>
+																			<?php elseif ($data['kunci'] == '1'): ?>
+																				<a href="<?= site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a>
+																			<?php endif ?>
+																		<?php endif; ?>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<?php if ($data['jenis'] != 1): ?>
+																				<a href="#" data-href="<?= site_url("surat_master/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
-																		<?php elseif ($data['kunci'] == '1'): ?>
-																			<a href="<?= site_url("surat_master/lock/$data[id]/$data[kunci]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a>
-																		<?php endif ?>
-																		<?php if ($data['jenis']!=1): ?>
-																			<a href="#" data-href="<?= site_url("surat_master/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['nama']?></td>
@@ -104,7 +112,9 @@
 																	<td><?= $data['lampiran']?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("surat_master/kode_isian/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-info btn-sm"  title="Kode Isian"><i class="fa fa-code"></i>Kode Isian</a>
-																		<a href="<?= site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Unggah Template Format Surat" data-title="Unggah Template Format Surat" class="btn btn-social btn-flat bg-orange btn-sm"><i class='fa fa-upload'></i> Unggah</a>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?= site_url("surat_master/form_upload/$p/$o/$data[url_surat]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Unggah Template Format Surat" data-title="Unggah Template Format Surat" class="btn btn-social btn-flat bg-orange btn-sm"><i class='fa fa-upload'></i> Unggah</a>
+																		<?php endif; ?>
 																		<?php $surat = SuratExport($data[url_surat]); ?>
 																		<?php if ($surat != ""): ?>
 																			<a href="<?= base_url($surat)?>" class="btn btn-social btn-flat bg-purple btn-sm"  title="Unduh Template Format Surat"><i class="fa fa-download"></i>Unduh </a>

@@ -132,7 +132,7 @@
 		// query select dan limit
 		$this->db
 			->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa')
-			->limit($limit,$offset);
+			->limit($limit, $offset);
 
 
 		$data = $this->list_data_sql()->result_array();
@@ -141,7 +141,7 @@
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no'] = $j+1;
+			$data[$i]['no'] = $j + 1;
 			$data[$i]['t'] = $data[$i]['id_pend'];
 
 			if ($data[$i]['id_pend'] == -1)
@@ -149,30 +149,7 @@
 			else
 			{
 				$data[$i]['id_pend'] = "Keluar";
-				$nama_surat = pathinfo($data[$i]['nama_surat'], PATHINFO_FILENAME);
-
-				if ($nama_surat)
-				{
-					$berkas_rtf = $nama_surat . ".rtf";
-					$berkas_pdf = $nama_surat . ".pdf";
-					$berkas_php = $nama_surat . ".php";
-					$berkas_qr 	= $nama_surat . ".png";
-					$berkas_lampiran 	= $nama_surat . "_lampiran.pdf";
-				}
-				else
-				{
-					$berkas_rtf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".rtf";
-					$berkas_pdf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".pdf";
-					$berkas_php = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".php";
-					$berkas_qr 	= $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".png";
-					$berkas_lampiran 	= $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d")."._lampiran.pdf";
-				}
-
-				$data[$i]['file_rtf'] = LOKASI_ARSIP.$berkas_rtf;
-				$data[$i]['file_pdf'] = LOKASI_ARSIP.$berkas_pdf;
-				$data[$i]['file_php'] = LOKASI_ARSIP.$berkas_php;
-				$data[$i]['file_qr'] 	= LOKASI_MEDIA.$berkas_qr;
-				$data[$i]['file_lampiran'] = LOKASI_ARSIP.$berkas_lampiran;
+				$this->rincian_file($data, $i);
 			}
 			if (!empty($data[$i]['pamong_id_pend']))
 				// Pamong desa
@@ -181,6 +158,34 @@
 			$j++;
 		}
 		return $data;
+	}
+
+	private function rincian_file(&$data, $i)
+	{
+		$nama_surat = pathinfo($data[$i]['nama_surat'], PATHINFO_FILENAME);
+
+		if ($nama_surat)
+		{
+			$berkas_rtf = $nama_surat . ".rtf";
+			$berkas_pdf = $nama_surat . ".pdf";
+			$berkas_php = $nama_surat . ".php";
+			$berkas_qr 	= $nama_surat . ".png";
+			$berkas_lampiran 	= $nama_surat . "_lampiran.pdf";
+		}
+		else
+		{
+			$berkas_rtf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".rtf";
+			$berkas_pdf = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".pdf";
+			$berkas_php = $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".php";
+			$berkas_qr 	= $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d").".png";
+			$berkas_lampiran 	= $data[$i]["berkas"]."_".$data[$i]["nik"]."_".date("Y-m-d")."._lampiran.pdf";
+		}
+
+		$data[$i]['file_rtf'] = LOKASI_ARSIP.$berkas_rtf;
+		$data[$i]['file_pdf'] = LOKASI_ARSIP.$berkas_pdf;
+		$data[$i]['file_php'] = LOKASI_ARSIP.$berkas_php;
+		$data[$i]['file_qr'] 	= LOKASI_MEDIA.$berkas_qr;
+		$data[$i]['file_lampiran'] = LOKASI_ARSIP.$berkas_lampiran;
 	}
 
 	public function list_data_keterangan($id)
@@ -248,7 +253,7 @@
 
 		}
 
-		$this->db->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong')
+		$this->db->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.pamong_nama AS pamong')
 			->limit($limit, $offset);
 
 		$data = $this->list_data_perorangan_sql($nik)->result_array();
@@ -258,6 +263,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 3;
+			$this->rincian_file($data, $i);
 			$j++;
 		}
 		return $data;
