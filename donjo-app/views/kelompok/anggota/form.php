@@ -56,22 +56,7 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="box box-primary">
-						<div class="box-body box-profile">
-							<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($pend['foto'], '', $pend['id_sex']); ?>" alt="Foto">
-							<br/>
-							<p class="text-muted text-center"><code>(Kosongkan jika tidak ingin mengubah foto)</code></p>
-							<br/>
-							<div class="input-group input-group-sm">
-								<input type="text" class="form-control" id="file_path2" name="foto">
-								<input type="file" class="hidden" id="file2" name="foto">
-								<input type="hidden" name="old_foto" value="<?= $pend['foto']?>">
-								<span class="input-group-btn">
-									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
-								</span>
-							</div>
-						</div>
-					</div>
+					<?php $this->load->view('global/ambil_foto', ['id_sex' => $pend['id_sex'], 'foto' => $pend['foto'], ]); ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-primary">
@@ -137,4 +122,4 @@
 	</section>
 </div>
 
-
+<?php $this->load->view('global/capture'); ?>
