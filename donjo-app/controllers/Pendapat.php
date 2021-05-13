@@ -58,6 +58,7 @@ class Pendapat extends Admin_Controller {
 	{
 		$tipe = $this->session->flashdata('tipe');
 		$data['list_pendapat'] = unserialize(NILAI_PENDAPAT);
+
 		foreach ($data['list_pendapat'] as $key => $value)
 		{
 			$data["pilihan_$key"] = $this->pendapat_model->get_pilihan($tipe, $key);
@@ -67,7 +68,6 @@ class Pendapat extends Admin_Controller {
 		$data['detail'] = $this->pendapat_model->get_data($tipe);
 
 		$this->render('pendapat/index', $data);
-		//echo json_encode($data);
 	}
 
 	public function detail(int $tipe = 1)

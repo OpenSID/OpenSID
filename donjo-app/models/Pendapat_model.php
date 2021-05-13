@@ -86,9 +86,7 @@ class Pendapat_model extends MY_Model {
 	{
 		$kondisi = $this->kondisi($tipe);
 		$pendapat = $this->db
-			->select('COUNT(pilihan) AS jumlah')
-			->select($kondisi['select'])
-			->select('pilihan')
+			->select('COUNT(pilihan) AS jumlah, pilihan')
 			->where($kondisi['where'])
 			->group_by('pilihan')
 			->order_by('pilihan')
@@ -123,7 +121,6 @@ class Pendapat_model extends MY_Model {
 			// Hari ini
 			case 1:
 				$judul = 'Hari Ini ( ' . tgl_indo2($tgl) . ')';
-				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'DATE(`tanggal`) = ' => $tgl
 				];
@@ -132,7 +129,6 @@ class Pendapat_model extends MY_Model {
 			// Kemarin
 			case 2:
 				$judul = 'Kemarin ( ' . tgl_indo2($this->op_tgl('-1 days', $tgl)) . ')';
-				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'DATE(`tanggal`) = ' => $this->op_tgl('-1 days', $tgl)
 				];
@@ -141,7 +137,6 @@ class Pendapat_model extends MY_Model {
 			// Minggu ini
 			case 3:
 				$judul = 'Dari tanggal ' . tgl_indo2($this->op_tgl('-6 days', $tgl)) . ' - ' . tgl_indo2($tgl);
-				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'DATE(`tanggal`) >= ' => $this->op_tgl('-6 days', $tgl),
 					'DATE(`tanggal`) <= ' => $tgl,
@@ -151,7 +146,6 @@ class Pendapat_model extends MY_Model {
 			// Bulan ini
 			case 4:
 				$judul = "Bulan " . ucwords(getBulan($bln)) . ' ' . $thn;
-				$select = 'DATE(tanggal) AS tanggal';
 				$where = [
 					'MONTH(`tanggal`) = ' => $bln,
 					'YEAR(`tanggal`)  = ' => $thn,
@@ -162,7 +156,6 @@ class Pendapat_model extends MY_Model {
 			case 5:
 				$lblx = 'BULAN';
 				$judul = 'Tahun ' . $thn;
-				$select = 'MONTH(tanggal) AS tanggal';
 				$where = [
 					'YEAR(tanggal) = ' => $thn
 				];
@@ -172,7 +165,6 @@ class Pendapat_model extends MY_Model {
 			default:
 				$lblx = 'TAHUN';
 				$judul = 'Setiap Tahun';
-				$select = 'YEAR(tanggal) AS tanggal';
 				$where = [
 					'tanggal != ' => 'NOT NULL'
 				];
