@@ -73,10 +73,9 @@ class Pendapat_model extends MY_Model {
 	{
 		$kondisi = $this->kondisi($tipe);
 		$pendapat = $this->db
-			->select('pilihan, DATE(tanggal) AS tanggal, COUNT(pilihan) AS jumlah')
+			->select('DATE(tanggal) AS tanggal, pilihan')
 			->where($kondisi['where'])
-			->group_by('pilihan')
-			->order_by('tanggal', 'ASC')
+			->order_by('tanggal')
 			->get($this->table)
 			->result_array();
 
@@ -92,7 +91,7 @@ class Pendapat_model extends MY_Model {
 			->select('pilihan')
 			->where($kondisi['where'])
 			->group_by('pilihan')
-			->order_by('pilihan', 'ASC')
+			->order_by('pilihan')
 			->get($this->table)
 			->result_array();
 

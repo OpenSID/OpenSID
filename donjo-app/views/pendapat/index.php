@@ -75,61 +75,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div class="box-body">
 					<div class="row">
-						<div class="col-md-8">
-							<strong><center>GRAFIK</center></strong>
-							<hr/>
-							<div id="chart"></div>
-							<hr/>
-							<div class="row">
-								<?php foreach ($list_pendapat as $key => $value) : ?>
-									<?php $key =  "pilihan_$key" ?>
-									<div class="col-sm-3 col-xs-6">
-										<div class="description-block border-left">
-											<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
-											<h5 class="description-header"><?= persen($$key/$main['total']); ?></h5>
-											<span class="description-text"><?= $value; ?></span>
-										</div>
+						<div class="col-md-12">
+							<?php foreach ($list_pendapat as $key => $value) : ?>
+								<?php $key =  "pilihan_$key" ?>
+								<div class="col-sm-3 col-xs-6">
+									<div class="description-block border-left border-right">
+										<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
+										<h5 class="description-header"><?= persen($$key/$main['total']); ?></h5>
+										<span class="description-text"><?= $value; ?></span>
 									</div>
-								<?php endforeach; ?>
-							</div>
+								</div>
+							<?php endforeach; ?>
 						</div>
-						<div class="col-md-4">
-							<strong><center>TABEL</center></strong>
-							<hr/>
+					</div>
+					<hr/>
+					<strong><center>GRAFIK DAN TABEL</center></strong>
+					<hr/>
+					<div class="row">
+						<div class="col-md-6">
+							<div id="chart"></div>
+						</div>
+						<div class="col-md-6">
 							<div class="table-responsive">
-								<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+								<table class="table table-bordered dataTable table-striped table-hover tabel-daftar" id="tabel-data">
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th>No</th>
 											<th>Tanggal</th>
 											<th>Pendapat</th>
-											<th>Jumlah</th>
 										</tr>
 									</thead>
 									<tbody>
 										<?php if($detail): ?>
 											<?php $total = 0; ?>
 											<?php foreach ($detail as $key => $item): ?>
-												<?php $total += $item['jumlah']; ?>
 												<tr>
 													<td class="padat"><?= ($key + 1); ?></td>
 													<td class="padat"><?= tgl_indo2($item['tanggal']); ?></td>
-													<td class="padat"><?= $item['pilihan']; ?></td>
-													<td class="padat"><?= $item['jumlah']; ?></td>
+													<td class="padat"><?= $list_pendapat[$item['pilihan']]; ?></td>
 												</tr>
 											<?php endforeach; ?>
 											<?php else: ?>
 												<tr>
-													<td class="text-center" colspan="10">Data Tidak Tersedia</td>
+													<td class="text-center" colspan="3">Data Tidak Tersedia</td>
 												</tr>
 											<?php endif; ?>
 										</tbody>
-										<tfoot class="bg-gray disabled color-palette">
-											<tr>
-												<th class="text-center" colspan="3">TOTAL</th>
-												<th class="text-center"><?= $total; ?></th>
-											</tr>
-										</tfoot>
 									</table>
 								</div>
 							</div>
@@ -188,6 +179,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php endforeach; ?>
 					]
 				}]
+			});
+
+			$('#tabel-data').DataTable({
+				'processing': true,
+				'pageLength': 10,
+				'order': [],
+				'columnDefs': [
+					{
+						'searchable': false,
+						'targets': 0
+					},
+					{
+						'orderable': false,
+						'targets': 0
+					}
+				],
+				'language': {
+					'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+				},
 			});
 		});
 	</script>
