@@ -57,6 +57,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050654($hasil);
 		$hasil = $hasil && $this->migrasi_2021051002($hasil);
 		$hasil = $hasil && $this->migrasi_2021051003($hasil);
+		$hasil = $hasil && $this->migrasi_2021051301($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -109,6 +110,26 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		// Hapus kolem foto pada tabel kelompok_anggota yang tidak digunakan
 		if ( $this->db->field_exists('foto', 'kelompok_anggota'))
 			$hasil =& $this->dbforge->drop_column('kelompok_anggota', 'foto');
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021051301($hasil)
+	{
+		$fields = [
+			'foto' => [
+				'type' => 'TEXT',
+				'default' => NULL
+			],
+
+			'pamong_status' => [
+				'type' => 'TINYINT',
+				'constraint' => 1,
+				'default' => 1
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
 
 		return $hasil;
 	}
