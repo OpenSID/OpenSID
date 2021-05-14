@@ -101,16 +101,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th>No</th>
+											<th>Pengguna</th>
 											<th>Tanggal</th>
 											<th>Pendapat</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php if($detail): ?>
+										<?php if ($detail): ?>
 											<?php $total = 0; ?>
 											<?php foreach ($detail as $key => $item): ?>
 												<tr>
 													<td class="padat"><?= ($key + 1); ?></td>
+													<td class="padat">
+														<a href="penduduk/detail/1/0/<?=$item['pengguna']?>"><?= $item['nama']; ?></a>
+													</td>
 													<td class="padat"><?= tgl_indo2($item['tanggal']); ?></td>
 													<td class="padat"><?= $list_pendapat[$item['pilihan']]; ?></td>
 												</tr>

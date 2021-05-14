@@ -57,7 +57,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050654($hasil);
 		$hasil = $hasil && $this->migrasi_2021051002($hasil);
 		$hasil = $hasil && $this->migrasi_2021051003($hasil);
-		$hasil = $hasil && $this->migrasi_2021051102($hasil);
+		$hasil = $hasil && $this->migrasi_2021051402($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -114,7 +114,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		return $hasil;
 	}
 
-	protected function migrasi_2021051102($hasil)
+	protected function migrasi_2021051402($hasil)
 	{
 		$hasil = $hasil && $this->tambah_tabel_pendapat($hasil);
 		$hasil = $hasil && $this->tambah_modul_pendapat($hasil);

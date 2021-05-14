@@ -73,10 +73,12 @@ class Pendapat_model extends MY_Model {
 	{
 		$kondisi = $this->kondisi($tipe);
 		$pendapat = $this->db
-			->select('DATE(tanggal) AS tanggal, pilihan')
+			->select('p.nama, u.pengguna, DATE(tanggal) AS tanggal, pilihan')
+			->from('pendapat u')
+			->join('tweb_penduduk p', 'p.id = u.pengguna', 'left')
 			->where($kondisi['where'])
-			->order_by('tanggal')
-			->get($this->table)
+			->order_by('u.tanggal desc')
+			->get()
 			->result_array();
 
 		return $pendapat;
@@ -94,7 +96,7 @@ class Pendapat_model extends MY_Model {
 			->result_array();
 
 		$total = 0;
-		foreach($pendapat as $jumlah)
+		foreach ($pendapat as $jumlah)
 		{
 			$total += $jumlah['jumlah'];
 		}
