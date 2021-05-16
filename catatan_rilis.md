@@ -12,7 +12,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-14 adalah sebagai beri
 3. [#4183](https://github.com/OpenSID/OpenSID/issues/4183) Tampilkan / Sembunyikan PIN saat Ganti PIN Layanan Mandiri.
 4. [#3918](https://github.com/OpenSID/OpenSID/issues/3918) Sekarang bisa kirim pesan belum lengkap pada waktu memeriksa permohonan surat layanan mandiri.
 5. [#4124](https://github.com/OpenSID/OpenSID/issues/4124) Sekarang jabatan Kependudukan > Kelompok dapat diisi secara manual.
-6. [#4055](https://github.com/OpenSID/OpenSID/issues/4055) Sekarang bisa ambil foto penduduk anggota kelompok menggunakan kamera HP/webcam.
+6. [#4055](https://github.com/OpenSID/OpenSID/issues/4055) Sekarang bisa ambil foto penduduk anggota kelompok dan Pemerintahan Desa menggunakan kamera HP/webcam.
 7. [#4037](https://github.com/OpenSID/OpenSID/issues/4037) Pengguna Layanan Mandiri sekarang dapat memberi penilaian kepuasan pelayanan.
 
 
