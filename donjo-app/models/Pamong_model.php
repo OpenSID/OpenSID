@@ -186,7 +186,7 @@ class Pamong_model extends CI_Model {
 			->get()
 			->row_array();
 
-		$data['pamong_niap_nip'] = (! empty($data['pamong_nip']) and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
+		$data['pamong_niap_nip'] = ( ! empty($data['pamong_nip']) and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
 		return $data;
 	 }
 
@@ -249,10 +249,10 @@ class Pamong_model extends CI_Model {
 
 	public function delete($id='', $semua=false)
 	{
-		if (!$semua) $this->session->success = 1;
+		if ( ! $semua) $this->session->success = 1;
 
 		$foto = $this->db->select('foto')->where('pamong_id',$id)->get('tweb_desa_pamong')->row()->foto;
-		if (! empty($foto))
+		if ( ! empty($foto))
 		{
 			unlink(LOKASI_USER_PICT.$foto);
 			unlink(LOKASI_USER_PICT.'kecil_'.$foto);
