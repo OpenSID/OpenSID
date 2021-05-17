@@ -4,7 +4,7 @@ Di rilis ini, versi 21.05-premium-pasca, menyediakan [untuk diisi]. Rilis ini ju
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-14 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-17 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
