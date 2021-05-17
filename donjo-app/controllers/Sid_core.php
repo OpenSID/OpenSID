@@ -116,6 +116,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function form($id_dusun = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['penduduk'] = $this->wilayah_model->list_penduduk();
 
 		if ($id_dusun)
@@ -145,12 +146,14 @@ class Sid_Core extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->insert();
 		redirect('sid_core');
 	}
 
 	public function update($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->update($id);
 		redirect('sid_core');
 	}
@@ -210,6 +213,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function form_rw($id_dusun = '', $id_rw = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data_dusun = $this->wilayah_model->cluster_by_id($id_dusun);
 		$data['dusun'] = $data_dusun['dusun'];
 		$data['id_dusun'] = $id_dusun;
@@ -235,12 +239,14 @@ class Sid_Core extends Admin_Controller {
 
 	public function insert_rw($id_dusun = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->insert_rw($id_dusun);
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
 
 	public function update_rw($id_dusun = '', $id_rw = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->update_rw($id_rw);
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
@@ -301,6 +307,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function form_rt($id_dusun = '', $id_rw = '', $id_rt = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
 		$data['dusun'] = $data_rw['dusun'];
 		$data['id_dusun'] = $id_dusun;
@@ -326,12 +333,14 @@ class Sid_Core extends Admin_Controller {
 
 	public function insert_rt($id_dusun = '', $id_rw = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->insert_rt($id_dusun, $id_rw);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
 
 	public function update_rt($id_dusun = '', $id_rw = '', $id_rt = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->update_rt($id_rt);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
@@ -440,6 +449,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_kantor_dusun_map($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 		$namadusun =  $this->input->post('dusun');
 		$iddusun =  $this->input->post('id');
@@ -450,6 +460,7 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_wilayah_dusun_map($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 		$namadusun =  $this->input->post('dusun');
 		$iddusun =  $this->input->post('id');
@@ -518,12 +529,14 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_kantor_rw_map($id_dusun = '', $id_rw = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->update_kantor_rw_map($id_rw);
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
 
 	public function update_wilayah_rw_map($id_dusun = '', $rw = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->update_wilayah_rw_map($id_rw);
 		redirect("sid_core/sub_rw/$id_dusun");
 	}
@@ -590,12 +603,14 @@ class Sid_Core extends Admin_Controller {
 
 	public function update_kantor_rt_map($id_dusun = '', $id_rw ='', $id ='')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->update_kantor_rt_map($id);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
 
 	public function update_wilayah_rt_map($id_dusun = '', $id_rw ='', $id ='')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->wilayah_model->update_wilayah_rt_map($id);
 		redirect("sid_core/sub_rt/$id_dusun/$id_rw");
 	}
