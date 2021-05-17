@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Pengurus.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -105,7 +109,7 @@ class Pengurus extends Admin_Controller {
 			$data['form_action'] = site_url("pengurus/insert");
 		}
 		$data['atasan'] = $this->pamong_model->list_atasan($id);
-		$data['penduduk'] = $this->pamong_model->list_penduduk();
+		$data['penduduk'] = $this->pamong_model->list_penduduk($id_pend ?? 0);
 		$data['pendidikan_kk'] = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 

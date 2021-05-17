@@ -128,6 +128,7 @@ $route['layanan-mandiri/masuk_ektp'] = 'layanan_mandiri/masuk_ektp';
 $route['layanan-mandiri/cek_ektp'] = 'layanan_mandiri/masuk_ektp/cek_ektp';
 // Beranda
 $route['layanan-mandiri'] = 'layanan_mandiri/beranda';
+$route['layanan-mandiri/pendapat/(:num)'] = 'layanan_mandiri/beranda/pendapat/$1';
 // Profil
 $route['layanan-mandiri/profil'] = 'layanan_mandiri/beranda/profil';
 $route['layanan-mandiri/cetak-biodata'] = 'layanan_mandiri/beranda/cetak_biodata';

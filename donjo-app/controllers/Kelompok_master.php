@@ -91,6 +91,7 @@ class Kelompok_master extends Admin_Controller {
 
 	public function form($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		if ($id)
 		{
 			$data['kelompok_master'] = $this->kelompok_master_model->get_kelompok_master($id);
@@ -117,12 +118,14 @@ class Kelompok_master extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_master_model->insert();
 		redirect('kelompok_master');
 	}
 
 	public function update($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_master_model->update($id);
 		redirect('kelompok_master');
 	}

@@ -104,6 +104,7 @@ class Kelompok extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -134,6 +135,7 @@ class Kelompok extends Admin_Controller {
 
 	public function form_anggota($id = 0, $id_a = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		if ($id_a == 0)
 		{
 			$data['kelompok'] = $id;
@@ -230,12 +232,14 @@ class Kelompok extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_model->insert();
 		redirect('kelompok');
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_model->update($id);
 		redirect("kelompok/index/$p/$o");
 	}
@@ -266,6 +270,7 @@ class Kelompok extends Admin_Controller {
 
 	public function update_a($id = '', $id_a = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_model->update_a($id, $id_a);
 		redirect("kelompok/anggota/$id");
 	}
