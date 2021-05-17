@@ -1,13 +1,10 @@
-#### [v21.05-premium-pasca - 2021-05-12](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
+#### [v21.05-premium-bugfix - 2021-05-17](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
 
 Di rilis ini, versi 21.05-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium - 2021-05-12 adalah sebagai berikut:
-
-#### Penambahan Fitur
-1. [untuk diisi]
+Lengkapnya, isi rilis versi v21.05-premium-bugfix - 2021-05-17 adalah sebagai berikut:
 
 
 #### Perbaikan BUG
