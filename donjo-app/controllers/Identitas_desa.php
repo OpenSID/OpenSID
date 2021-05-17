@@ -67,6 +67,7 @@ class Identitas_desa extends Admin_Controller {
 
 	public function form()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['main'] = $this->config_model->get_data();
 		$data['desa'] = ucwords($this->setting->sebutan_desa);
 		$data['kecamatan'] = ucwords($this->setting->sebutan_kecamatan);
@@ -84,12 +85,14 @@ class Identitas_desa extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->config_model->insert();
 		redirect('identitas_desa');
 	}
 
 	public function update($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->config_model->update($id);
 		redirect('identitas_desa');
 	}
@@ -119,6 +122,7 @@ class Identitas_desa extends Admin_Controller {
 
 	public function update_maps($tipe = 'kantor')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		if ($tipe = 'kantor')
 			$this->config_model->update_kantor();
 		else

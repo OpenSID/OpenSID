@@ -95,6 +95,7 @@ class Pengurus extends Admin_Controller {
 
 	public function form($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$id_pend = $this->input->post('id_pend');
 
 		if ($id)
@@ -123,6 +124,7 @@ class Pengurus extends Admin_Controller {
 
 	public function filter($filter)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$value = $this->input->post($filter);
 		if ($value != '')
 			$this->session->$filter = $value;
@@ -132,12 +134,14 @@ class Pengurus extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->pamong_model->insert();
 		redirect('pengurus');
 	}
 
 	public function update($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->pamong_model->update($id);
 		redirect('pengurus');
 	}
@@ -158,24 +162,28 @@ class Pengurus extends Admin_Controller {
 
 	public function ttd($id = 0, $val = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->pamong_model->ttd('pamong_ttd', $id, $val);
 		redirect('pengurus');
 	}
 
 	public function ub($id = 0, $val = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->pamong_model->ttd('pamong_ub', $id, $val);
 		redirect('pengurus');
 	}
 
 	public function urut($p = 1, $id = 0, $arah = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->pamong_model->urut($id, $arah);
 		redirect("pengurus/index/$p");
 	}
 
 	public function lock($id = 0, $val = 1)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->pamong_model->lock($id, $val);
 		redirect("pengurus");
 	}
@@ -216,6 +224,7 @@ class Pengurus extends Admin_Controller {
 
 	public function atur_bagan()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['atasan'] = $this->pamong_model->list_atasan();
 		$data['form_action'] = site_url("pengurus/update_bagan");
 		$this->load->view('home/ajax_atur_bagan', $data);
@@ -223,6 +232,7 @@ class Pengurus extends Admin_Controller {
 
 	public function update_bagan()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$post = $this->input->post();
 		$this->pamong_model->update_bagan($post);
 		redirect('pengurus');
@@ -230,6 +240,7 @@ class Pengurus extends Admin_Controller {
 
 	public function atur_bagan_layout()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data = [
 			'judul' => 'Atur Ukuran Bagan',
 			'kategori' => ['conf_bagan']
