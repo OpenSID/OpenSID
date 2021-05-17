@@ -14,13 +14,15 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="row">
-			<div class="col-md-3">
-				<?php $this->load->view('bumindes/lain/side') ?>
+		<form id="mainform" name="mainform" method="post" class="">
+			<div class="row">
+				<div class="col-md-3">
+					<?php $this->load->view('bumindes/lain/side') ?>
+				</div>
+				<div class="col-md-9">
+					<?php $this->load->view('bumindes/lain/content_inventaris') ?>
+				</div>
 			</div>
-			<div class="col-md-9">
-				<?php $this->load->view($main_content) ?>
-			</div>
-		</div>
+		</form>
 	</section>
 </div>
