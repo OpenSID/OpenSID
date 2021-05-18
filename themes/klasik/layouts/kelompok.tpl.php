@@ -34,7 +34,7 @@
 									<?php foreach ($pengurus as $key => $data): ?>
 										<tr>
 											<td><?= $key + 1?></td>
-											<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']]?></td>
+											<td><?= $data['jabatan']?></td>
 											<td nowrap><?= $data['nama']?></td>
 											<td><?= $data['alamat']?></td>
 										</tr>

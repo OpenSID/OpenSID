@@ -553,3 +553,7 @@ div.form-surat .content-header {
 .table-striped > tbody >tr.judul {
 	background-color: lightgrey !important;
 }
+
+.box .border-bottom {
+	border-bottom: 1px solid #f4f4f4;
+}

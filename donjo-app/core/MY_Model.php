@@ -40,6 +40,7 @@ class MY_Model extends CI_Model {
 			case 'load_aparatur_wilayah':
 			case 'peta':
 			case 'data-suplemen':
+			case 'data-kelompok':
 			case 'status-idm':
 			case 'status-sdgs':
 				break;

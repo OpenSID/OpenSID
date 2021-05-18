@@ -256,6 +256,7 @@ class Surat extends Admin_Controller {
 
 	public function favorit($id = 0, $k = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->load->model('surat_master_model');
 		$this->surat_master_model->favorit($id, $k);
 		redirect("surat");

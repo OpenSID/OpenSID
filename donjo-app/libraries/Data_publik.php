@@ -160,14 +160,14 @@ class Data_publik
 	 * @param boolean $no_cache
 	 * @return string
 	 */
-	public function get_url_content($no_cache = false)
+	public function get_url_content($no_cache = false, $secure = true)
 	{
 		if (! $this->api)
 		{
 			throw new \Exception('Please specify the API endpoint URL.');
 		}
 		// Jika $no_cache paksa ambil baru
-		return $no_cache ? $this->get_content() : $this->resync();
+		return $no_cache ? $this->get_content($secure) : $this->resync($secure);
 	}
 
 	/**
@@ -179,16 +179,17 @@ class Data_publik
 	{
 		if ($this->cache_is_outdated())
 		{
-			$response = $this->get_content();
+			$response = $this->get_content($secure);
 			$this->write(json_encode($response));
 		}
 
 		return json_decode($this->read($this->cache));
 	}
 
-	private function get_content()
+	private function get_content($secure = true)
 	{
-		\Esyede\Curly::$certificate = FCPATH.'cacert.pem';
+		if ($secure) \Esyede\Curly::$certificate = FCPATH.'cacert.pem';
+		else \Esyede\Curly::$secure = false;
 
 		$options = [];
 		$response = \Esyede\Curly::get($this->api, [], $options);

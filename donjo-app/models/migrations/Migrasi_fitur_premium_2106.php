@@ -55,6 +55,10 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050651($hasil);
 		$hasil = $hasil && $this->migrasi_2021050653($hasil);
 		$hasil = $hasil && $this->migrasi_2021050654($hasil);
+		$hasil = $hasil && $this->migrasi_2021051002($hasil);
+		$hasil = $hasil && $this->migrasi_2021051003($hasil);
+		$hasil = $hasil && $this->migrasi_2021051402($hasil);
+		$hasil = $hasil && $this->migrasi_2021051701($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -81,13 +85,60 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	protected function migrasi_2021050653($hasil)
 	{
 		// Anggap link status_idm menuju statu idm tahun 2021
-		$hasil = $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
+		$hasil =& $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
 		return $hasil;
 	}
 
 	protected function migrasi_2021050654($hasil)
 	{
-		$hasil = $hasil && $this->db->where('link', 'status_sdgs')->update('menu', ['link' => 'status-sdgs']);
+		$hasil =& $hasil && $this->db->where('link', 'status_sdgs')->update('menu', ['link' => 'status-sdgs']);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021051002($hasil)
+	{
+		if ( ! $this->db->field_exists('permohonan', 'komentar'))
+			$hasil = $hasil && $this->dbforge->add_column('komentar', ['permohonan' => ['type' => 'TEXT','null' => TRUE]]);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021051003($hasil)
+	{
+		$hasil =& $this->db->query("UPDATE `menu` SET `link` = REPLACE(`link`, 'kelompok/', 'data-kelompok/') WHERE `link_tipe` = '7' AND link NOT LIKE '%data-kelompok%'");
+
+		// Hapus kolem foto pada tabel kelompok_anggota yang tidak digunakan
+		if ( $this->db->field_exists('foto', 'kelompok_anggota'))
+			$hasil =& $this->dbforge->drop_column('kelompok_anggota', 'foto');
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021051402($hasil)
+	{
+		$hasil = $hasil && $this->tambah_tabel_pendapat($hasil);
+		$hasil = $hasil && $this->tambah_modul_pendapat($hasil);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021051701($hasil)
+	{
+		$fields = [
+			'foto' => [
+				'type' => 'TEXT',
+				'default' => NULL
+			],
+
+			'pamong_status' => [
+				'type' => 'TINYINT',
+				'constraint' => 1,
+				'default' => 1
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
 
 		return $hasil;
 	}
@@ -179,6 +230,51 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 			'hidden'     => 0,
 			'ikon_kecil' => '',
 			'parent'     => 302,
+		]);
+
+		return $hasil;
+	}
+
+	protected function tambah_tabel_pendapat($hasil)
+	{
+		$fields = [
+			'id' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'auto_increment' => TRUE
+			],
+
+			'pengguna' => [
+				'type' => 'TEXT'
+			],
+
+			'tanggal TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+
+			'pilihan' => [
+				'type' => 'int',
+				'constraint' => 1
+			]
+		];
+
+		$this->dbforge->add_field($fields);
+		$this->dbforge->add_key('id', TRUE);
+		$hasil =& $this->dbforge->create_table('pendapat', TRUE);
+		return $hasil;
+	}
+
+	protected function tambah_modul_pendapat($hasil)
+	{
+		$hasil = $hasil && $this->tambah_modul([
+			'id' => 321,
+			'modul' => 'Pendapat',
+			'url' => 'pendapat',
+			'aktif' => 1,
+			'ikon' => 'fa-thumbs-o-up',
+			'urut' => 5,
+			'level' => 0,
+			'hidden' => 0,
+			'ikon_kecil' => 'fa-thumbs-o-up',
+			'parent' => 14,
 		]);
 
 		return $hasil;

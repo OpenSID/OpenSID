@@ -77,6 +77,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<hr/>
 				<div class="form-group">
 					<button type="submit" class="btn bg-green btn-social"><i class="fa fa-reply"></i>Balas Pesan</button>
+					<?php if($pesan['permohonan'] && $permohonan['status'] == 0): ?>
+						<a href="<?= site_url("layanan-mandiri/surat/buat/$pesan[permohonan]"); ?>" class="btn btn-social bg-navy" title="Lengkapi Surat"><i class="fa fa-info-circle"></i>Lengkapi Surat</a>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
 		</form>

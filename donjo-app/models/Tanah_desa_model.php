@@ -81,6 +81,7 @@ class Tanah_desa_model extends CI_Model
 			$search = $builder
 				->group_start()
 					->like('td.nama_pemilik_asal', $search)
+					->or_like('p.nama', $search)
 				->group_end();
 		}
 
@@ -241,10 +242,13 @@ class Tanah_desa_model extends CI_Model
 			return;
 		}
 
+		// NIK 0 (yaitu NIK tidak diketahui) boleh duplikat
+		if ($data['nik'] == 0) return;
+
 		// add
 		if ($id == 0)
 		{
-			if ($this->nik_warga_luar_checking($data['nik']))
+			if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
 			{
 				array_push($valid, "NIK {$data['nik']} sudah digunakan");
 			}
@@ -255,8 +259,7 @@ class Tanah_desa_model extends CI_Model
 		$nik_old_check = $this->nik_warga_luar_old_checking($data['nik'], $id);
 		if ( ! $nik_old_check)
 		{
-			$nik_check = $this->nik_warga_luar_checking($data['nik']);
-			if ($nik_check)
+			if ($this->nik_warga_luar_checking($data['nik']) || $this->nik_warga_luar_join_checking($data['nik']))
 			{
 				array_push($valid, "NIK {$data['nik']} sudah digunakan");
 			}
@@ -335,6 +338,20 @@ class Tanah_desa_model extends CI_Model
 		$data = $this->db
 				->get()
 				->row();
+
+		return $data;
+	}
+
+	public function nik_warga_luar_join_checking($nik)
+	{
+		$this->db
+				->select('p.nik')
+				->from("{$this->table} td")
+				->join('tweb_penduduk p', 'td.id_penduduk = p.id')
+				->where((['td.visible' => 1,'p.nik' => $nik]));
+		$data = $this->db
+				->get()
+				->result_array();
 
 		return $data;
 	}

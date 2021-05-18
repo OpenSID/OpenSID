@@ -104,6 +104,7 @@ class Kelompok extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -134,6 +135,7 @@ class Kelompok extends Admin_Controller {
 
 	public function form_anggota($id = 0, $id_a = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		if ($id_a == 0)
 		{
 			$data['kelompok'] = $id;
@@ -149,7 +151,8 @@ class Kelompok extends Admin_Controller {
 			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
 		}
 
-		$data['list_jabatan'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
+		$data['list_jabatan1'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
+		$data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
 
 		$this->set_minsidebar(1);
 		$this->render('kelompok/anggota/form', $data);
@@ -162,6 +165,8 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("kelompok/daftar_anggota/$aksi/$id");
 
 		$this->load->view('global/ttd_pamong', $data);
@@ -174,6 +179,8 @@ class Kelompok extends Admin_Controller {
 	{
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("kelompok/daftar/$aksi");
 
 		$this->load->view('global/ttd_pamong', $data);
@@ -225,12 +232,14 @@ class Kelompok extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_model->insert();
 		redirect('kelompok');
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_model->update($id);
 		redirect("kelompok/index/$p/$o");
 	}
@@ -261,6 +270,7 @@ class Kelompok extends Admin_Controller {
 
 	public function update_a($id = '', $id_a = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->kelompok_model->update_a($id, $id_a);
 		redirect("kelompok/anggota/$id");
 	}
