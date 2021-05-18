@@ -22,7 +22,7 @@
 
 .ui-keyboard {
     /* adjust overall keyboard size using "font-size" */
-    font-size: 28px; /* increase button size for small screen */
+    font-size: 15px; /* increase button size for small screen */
     text-align: center;
     background: #fefefe;
     border: 1px solid #aaa;
@@ -30,13 +30,7 @@
 
     /* include the following setting to place the
     keyboard at the bottom of the browser window */
-		width: 100%;
-		height: auto;
-		bottom: 0px;
-    left: 0px;
-    top: auto;
-    position: fixed;
-    /*position: absolute;*/
+		width: fit-content;
     white-space: nowrap;
     overflow-x: auto;
     /* see issue #484 */
