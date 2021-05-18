@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-18 adalah sebagai beri
 8. [#4184](https://github.com/OpenSID/OpenSID/issues/4184) Nama desa sekarang tampil di cetak laporan Sekretariat > Informasi Publik.
 9. [#4186](https://github.com/OpenSID/OpenSID/issues/4186) Munculkan keyboard virtual di anjungan bagi semua surat bawaan sistem yang tersedia di Layanan Mandiri.
 10. [#4191](https://github.com/OpenSID/OpenSID/issues/4191) Sesuaikan keyboard virtual di anjungan supaya tidak menutup keseluruhan form.
+11. [#4193](https://github.com/OpenSID/OpenSID/issues/4193) Sekarang Pamong di Pemerintahan Desa bisa diubah dari Database Penduduk menjadi Tidak Terdata.
 
 
 #### Perubahan Teknis

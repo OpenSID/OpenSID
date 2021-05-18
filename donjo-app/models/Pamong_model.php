@@ -296,7 +296,7 @@ class Pamong_model extends CI_Model {
 
 		if (empty($data['id_pend']))
 		{
-			unset($data['id_pend']);
+			$data['id_pend'] = null;
 			$data['pamong_nama'] = strip_tags($post['pamong_nama']) ?: NULL;
 			$data['pamong_nik'] = strip_tags($post['pamong_nik']) ?: NULL;
 			$data['pamong_tempatlahir'] = strip_tags($post['pamong_tempatlahir']) ?: NULL;
