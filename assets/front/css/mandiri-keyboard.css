@@ -28,11 +28,13 @@
     border: 1px solid #aaa;
     padding: 4px;
 
-    /* include the following setting to place the
-    keyboard at the bottom of the browser window */
-		width: fit-content;
-    white-space: nowrap;
+    /* Sematkan keyboard di bagian bawah layar */
+    top: auto !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    width: fit-content;
     overflow-x: auto;
+
     /* see issue #484 */
     -ms-touch-action: manipulation;
     touch-action: manipulation;

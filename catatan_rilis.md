@@ -1,10 +1,10 @@
-#### [v21.05-premium-bugfix - 2021-05-17](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
+#### [v21.05-premium-bugfix - 2021-05-18](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
 
 Di rilis ini, versi 21.05-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-bugfix - 2021-05-17 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-bugfix - 2021-05-18 adalah sebagai berikut:
 
 
 #### Perbaikan BUG
@@ -17,6 +17,7 @@ Lengkapnya, isi rilis versi v21.05-premium-bugfix - 2021-05-17 adalah sebagai be
 7. Perbaiki jumlah luas total dan pemeriksaan rincian luas di Buku Tanah di Desa.
 8. [#4184](https://github.com/OpenSID/OpenSID/issues/4184) Nama desa sekarang tampil di cetak laporan Sekretariat > Informasi Publik.
 9. [#4186](https://github.com/OpenSID/OpenSID/issues/4186) Munculkan keyboard virtual di anjungan bagi semua surat bawaan sistem yang tersedia di Layanan Mandiri.
+10. [#4191](https://github.com/OpenSID/OpenSID/issues/4191) Sesuaikan keyboard virtual di anjungan supaya tidak menutup keseluruhan form.
 
 
 #### Perubahan Teknis
