@@ -37,3 +37,4 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-17 adalah sebagai beri
 5. Sesuaikan link status SDGs Desa supaya menggunakan format slug menu lainnya dan tidak perlu diawali 'first'.
 6. Sederhanakan dan mengurangi duplikasi script pada Layanan Mandiri.
 7. Hapus script tidak digunakan di modul Layanan Surat.
+8. Sediakan opsi memanggil data eksternal tanpa menggunakan SSL. Ambil data SDGs tanpa menggunakan SSL, karena sertifikat portal Kemendesa yg bermasalah. Data SDGs tidak dirahasiakan, dan aman diambil tanpa SSL.
