@@ -13,7 +13,7 @@
 					<div class="box-body">
 						<div class="nav-tabs-custom">
 							<ul class="nav nav-tabs">
-								<li class="active"><a data-toggle="tab" href="#log_viewer">Logs Viewer</a></li>
+								<li class="active"><a data-toggle="tab" href="#log_viewer">Logs</a></li>
 								<li><a data-toggle="tab" href="#ekstensi">Kebutuhan Sistem</a></li>
 								<li><a data-toggle="tab" href="#info_sistem">Info Sistem</a></li>
 							</ul>
