@@ -48,6 +48,7 @@ class Inventaris_kontruksi_model extends CI_Model
 		$this->db->select('mutasi_inventaris_kontruksi.id as id,mutasi_inventaris_kontruksi.*, inventaris_kontruksi.nama_barang, inventaris_kontruksi.kode_barang, inventaris_kontruksi.tanggal_dokument');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
+		$this->db->where('status_mutasi', 'Hapus');
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_kontruksi', 'left');
 		$data = $this->db->get()->result();
 		return $data;
