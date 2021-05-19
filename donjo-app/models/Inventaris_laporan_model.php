@@ -377,10 +377,7 @@ class Inventaris_laporan_model extends CI_Model
 
 			if ($value->awal_tahun == 2) $rekap [$value->nama_barang]  ['awal_rusak'] [] = 1;
 
-			// rekap akhir tahun
-			if ($value->akhir_tahun == 1) $rekap [$value->nama_barang]  ['akhir_baik'] [] = 1;
-
-			if ($value->akhir_tahun == 2) $rekap [$value->nama_barang]  ['akhir_rusak'] [] = 1;
+			
 
 			// Penghapusan
 			if ($value->status_mutasi == 'Hapus') 
@@ -396,10 +393,18 @@ class Inventaris_laporan_model extends CI_Model
 				if ($value->jenis_mutasi == 'Masih Baik Dijual') $rekap [$value->nama_barang] ['hapus_jual'] [] = 1;
 
 				$rekap [$value->nama_barang] ['tgl_hapus'] = $value->tahun_mutasi;
-			 }
+			}
+			else
+			{
+				// rekap akhir tahun
+				if ($value->akhir_tahun == 1) $rekap [$value->nama_barang]  ['akhir_baik'] [] = 1;
+
+				if ($value->akhir_tahun == 2) $rekap [$value->nama_barang]  ['akhir_rusak'] [] = 1;
+			}
 			 
 			if ($value->keterangan != '' ) $rekap [$value->nama_barang]  ['keterangan'] [] = $value->keterangan;
 		 }
+			
 
 		return $rekap;
 	}
