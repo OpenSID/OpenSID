@@ -453,7 +453,10 @@ function httpPost($url, $params)
 		curl_setopt($ch, CURLOPT_POST, count($postData));
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
-		// Paksa tidak menunggu hasil tracker
+		// Batasi waktu koneksi dan ambil data, supaya tidak menggantung kalau ada error koneksi
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+
 		/*curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
 		curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
