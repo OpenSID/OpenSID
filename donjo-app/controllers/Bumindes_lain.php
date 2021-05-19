@@ -31,15 +31,9 @@ class Bumindes_lain extends Admin_Controller {
 		}
 		// set session END
  		$pamong = $this->pamong_model->list_data();
-		$data['kades'] = array_filter($pamong, function($x) 
-		{
-			if ($x['jabatan'] == 'Kepala Desa') return $x;
-		});
+		$data['kades'] = $pamong;
 
-		$data['sekdes'] = array_filter($pamong, function($x)
-		{
-			if ($x['jabatan'] == 'Sekretaris Desa') return $x;
-		});
+		$data['sekdes'] = $pamong;
 
 		$data['data'] = $this->inventaris_laporan_model->permen_47($tahun,null);
 		$header = $this->header_model->get_data();
