@@ -47,6 +47,7 @@
 											<select name="status_mutasi" id="status" class="form-control input-sm required">
 												<option value="Baik">Baik</option>
 												<option value="Rusak">Rusak</option>
+												<option value="Diperbaiki">Diperbaiki</option>
 												<option value="Hapus">Penghapusan</option>
 											</select>
 										</div>

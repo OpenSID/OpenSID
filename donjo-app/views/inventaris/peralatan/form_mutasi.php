@@ -128,6 +128,7 @@
 	{
 		$(".disumbangkan").hide();
 		$(".harga_jual").hide();
+		$("#mutasi").parent().parent().hide();
 		$("#mutasi").change(function()
 		{
 			if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )

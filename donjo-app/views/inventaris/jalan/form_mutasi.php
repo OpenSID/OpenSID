@@ -49,7 +49,7 @@
 												<option value="Baik">Baik</option>
 												<option value="Rusak">Rusak</option>
 												<option value="Diperbaiki">Diperbaiki</option>
-												<option value="Baik">Dihapus</option>
+												<option value="Hapus">Dihapus</option>
 											</select>
 										</div>
 									</div>
