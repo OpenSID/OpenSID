@@ -1,29 +1,23 @@
 <div class="box box-info">
 	<div class="box-header with-border">
-		<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-								title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox"
-								data-title="Cetak Inventaris">
-								<i class="fa fa-print"></i>Cetak
-							</a>
-		<a href="#"
-			class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-			title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox"
-			data-title="Unduh Inventaris">
+		<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
+			<i class="fa fa-print"></i>Cetak
+		</a>
+		<a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
 			<i class="fa fa-download"></i>Unduh
 		</a>
 	</div>
 	<div class="box-body">
-		 <div class="row">
+		<div class="row">
 			<div class="col-sm-12">
 				<div class="row">
 					<div class="col-sm-9">
 						<div class="dataTables_wrapper form-inline dt-bootstrap">
 							<div class="form-group">
-								<select class="form-control input-sm " name="tahun"
-									onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
+								<select class="form-control input-sm " name="tahun" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun') ?>')">
 									<option value="">Tahun</option>
-									<?php for ($i=date("Y"); $i>=1900; $i--): ?>
-									<option value="<?= $i ?>" <?php selected($tahun, $i) ?>><?= $i ?></option>
+									<?php for ($i = date("Y"); $i >= 1900; $i--) : ?>
+										<option value="<?= $i ?>" <?php selected($tahun, $i) ?>><?= $i ?></option>
 									<?php endfor; ?>
 								</select>
 							</div>
@@ -81,32 +75,32 @@
 								</thead>
 								<tbody>
 									<?php $i = 1 ?>
-									<?php foreach ($data as $uraian => $asset): ?>
-									<tr>
-										<td><?= $i ?></td>
-										<td><?= $uraian ?></td>
-										<td class="text-center"><?= count($asset['Pembelian Sendiri']) ?></td>
-										<td class="text-center"><?= count($asset['Bantuan Pemerintah']) ?></td>
-										<td class="text-center"><?= count($asset['Bantuan Provinsi']) ?></td>
-										<td class="text-center"><?= count($asset['Bantuan Kabupaten']) ?></td>
-										<td class="text-center"><?= count($asset['Sumbangan']) ?></td>
-										<td class="text-center"><?= count($asset['awal_baik']) ?></td>
-										<td class="text-center"><?= count($asset['awal_rusak']) ?></td>
-										<td class="text-center"><?= count($asset['hapus_rusak']) ?></td>
-										<td class="text-center"><?= count($asset['hapus_jual']) ?></td>
-										<td class="text-center"><?= count($asset['hapus_sumbang']) ?></td>
-										<td class="text-center"><?= tgl_indo($asset['tgl_hapus']) ?></td>
-										<td class="text-center"><?= count($asset['akhir_baik']) ?></td>
-										<td class="text-center"><?= count($asset['akhir_rusak']) ?></td>
-										<td>
-											<ul>
-												<?php foreach ($asset['keterangan'] as $ket): ?>
-												<li><?= $ket ?></li>
-												<?php endforeach ?>
-											</ul>
-										</td>
-									</tr>
-									<?php $i++ ?>
+									<?php foreach ($data as $uraian => $asset) : ?>
+										<tr>
+											<td><?= $i ?></td>
+											<td><?= $uraian ?></td>
+											<td class="text-center"><?= count($asset['Pembelian Sendiri']) ?></td>
+											<td class="text-center"><?= count($asset['Bantuan Pemerintah']) ?></td>
+											<td class="text-center"><?= count($asset['Bantuan Provinsi']) ?></td>
+											<td class="text-center"><?= count($asset['Bantuan Kabupaten']) ?></td>
+											<td class="text-center"><?= count($asset['Sumbangan']) ?></td>
+											<td class="text-center"><?= count($asset['awal_baik']) ?></td>
+											<td class="text-center"><?= count($asset['awal_rusak']) ?></td>
+											<td class="text-center"><?= count($asset['hapus_rusak']) ?></td>
+											<td class="text-center"><?= count($asset['hapus_jual']) ?></td>
+											<td class="text-center"><?= count($asset['hapus_sumbang']) ?></td>
+											<td class="text-center"><?= tgl_indo($asset['tgl_hapus']) ?></td>
+											<td class="text-center"><?= count($asset['akhir_baik']) ?></td>
+											<td class="text-center"><?= count($asset['akhir_rusak']) ?></td>
+											<td>
+												<ul>
+													<?php foreach ($asset['keterangan'] as $ket) : ?>
+														<li><?= $ket ?></li>
+													<?php endforeach ?>
+												</ul>
+											</td>
+										</tr>
+										<?php $i++ ?>
 									<?php endforeach ?>
 								</tbody>
 							</table>
@@ -115,7 +109,6 @@
 				</div>
 			</div>
 		</div>
-		 
 	</div>
 </div>
 
@@ -123,23 +116,21 @@
 <?php $this->load->view('inventaris/inventaris_permen47_unduh') ?>
 
 <script>
-$("#form_cetak").click(function(event) {
-	var link = '<?= site_url("laporan_inventaris/permendagri_47_cetak"); ?>' + '/' + $('#kades').val() + '/' + $(
-		'#sekdes').val();
-	window.open(link, '_blank');
-});
-$("#form_download").click(function(event) {
-	var link = '<?= site_url("laporan_inventaris/permendagri_47_excel"); ?>' + '/' + $('#kades_unduh').val() + '/' +
-		$('#sekdes_unduh').val();
-	window.open(link, '_blank');
-});
-
-$(document).ready(function() {
-	$('#tabelpermendagri').DataTable({
-		lengthChange: false,
-		searching: false,
-		info: false,
-		ordering: false
+	$("#form_cetak").click(function(event) {
+		var link = '<?= site_url("laporan_inventaris/permendagri_47_cetak"); ?>' + '/' + $('#kades').val() + '/' + $('#sekdes').val();
+		window.open(link, '_blank');
 	});
-});
+	$("#form_download").click(function(event) {
+		var link = '<?= site_url("laporan_inventaris/permendagri_47_excel"); ?>' + '/' + $('#kades_unduh').val() + '/' + $('#sekdes_unduh').val();
+		window.open(link, '_blank');
+	});
+
+	$(document).ready(function() {
+		$('#tabelpermendagri').DataTable({
+			lengthChange: false,
+			searching: false,
+			info: false,
+			ordering: false
+		});
+	});
 </script>
