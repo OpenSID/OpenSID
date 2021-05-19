@@ -86,7 +86,7 @@ class Setting extends Admin_Controller {
 		$this->sub_modul_ini = 46;
 
 		// Logs viewer
-		$this->load->library('log_viewer');
+		$this->load->library('Log_Viewer');
 		$data = $this->log_viewer->showLogs();
 
 		$data['ekstensi'] = $this->setting_model->cek_ekstensi();
