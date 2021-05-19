@@ -112,8 +112,8 @@
 	</div>
 </div>
 
-<?php $this->load->view('inventaris/inventaris_permen47_cetak') ?>
-<?php $this->load->view('inventaris/inventaris_permen47_unduh') ?>
+<?php $this->load->view('bumindes/lain/permen47_cetak') ?>
+<?php $this->load->view('bumindes/lain/permen47_unduh') ?>
 
 <script>
 	$("#form_cetak").click(function(event) {

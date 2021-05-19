@@ -9,7 +9,6 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-sm-12">
-							 
 							<div class="form-group">
 								<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Kepala Desa</label>
 								<div class="col-sm-9">

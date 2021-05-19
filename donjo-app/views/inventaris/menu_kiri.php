@@ -10,7 +10,6 @@
 			<?php if ($this->tab_ini == 7): ?>
 				<li <?php if ($tip==1): ?>class="active"<?php endif; ?>><a href="<?=site_url('laporan_inventaris')?>"><i class="fa fa-list"></i> Laporan Semua Asset</a></li>
 				<li <?php if ($tip==2): ?>class="active"<?php endif; ?>><a href="<?=site_url('laporan_inventaris/mutasi')?>"><i class="fa fa-list"></i> Laporan Asset Yang Dihapus</a></li>
-				<li <?php if ($tip==3): ?>class="active"<?php endif; ?>><a href="<?=site_url('laporan_inventaris/permendagri_47')?>"><i class="fa fa-list"></i> Laporan Permendagri 47</a></li>
  			<?php else: ?>
 				<li class="<?php ($tip==1) and print('active')?>"><a href="<?=site_url($this->tipe);?>"><i class="fa fa-list"></i> Daftar Inventaris</a></li>
 				<?php if($this->tab_ini != 6):?>
