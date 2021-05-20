@@ -63,7 +63,7 @@ class Anjungan extends Admin_Controller {
 
 	public function form($id = '')
 	{
-		$this->redirect_hak_akses('u', $this->controller);
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 
 		if ($id)
 		{
@@ -85,28 +85,28 @@ class Anjungan extends Admin_Controller {
 
 	public function insert()
 	{
-		$this->redirect_hak_akses('u', $this->controller);
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->anjungan_model->insert();
 		redirect('anjungan');
 	}
 
 	public function update($id)
 	{
-		$this->redirect_hak_akses('u', $this->controller);
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->anjungan_model->update($id);
 		redirect('anjungan');
 	}
 
 	public function delete($id = '')
 	{
-		$this->redirect_hak_akses('h', $this->controller);
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
 		$this->anjungan_model->delete($id);
 		redirect('anjungan');
 	}
 
 	public function lock($id = 0, $val = 1)
 	{
-		$this->redirect_hak_akses('u', $this->controller);
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->anjungan_model->lock($id, $val);
 		redirect('anjungan');
 	}

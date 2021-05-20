@@ -1,7 +1,7 @@
 <script>
 	$(function() {
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete( {
+		var keyword = <?= $keyword; ?> ;
+		$("#cari").autocomplete( {
 			source: keyword,
 			maxShowItems: 10,
 		});

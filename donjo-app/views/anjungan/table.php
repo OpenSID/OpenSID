@@ -40,13 +40,13 @@
 														<a href="<?= site_url("anjungan/lock/$data[id]/2"); ?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 													<?php else: ?>
 														<a href="<?= site_url("anjungan/lock/$data[id]/1"); ?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
-													<?php endif ?>
+													<?php endif; ?>
 												<?php endif; ?>
 												<?php if ($this->CI->cek_hak_akses('h')): ?>
 													<a href="#" data-href="<?=site_url('anjungan/delete/'.$data[id]); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 												<?php endif; ?>
 											</td>
-										<?php endif ?>
+										<?php endif; ?>
 										<td class="padat"><?= $data['ip_address']; ?></td>
 										<td class="padat"><?= ($data['keyboard'] == 1) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>'; ?></td>
 										<td><?= $data['keterangan']; ?></td>

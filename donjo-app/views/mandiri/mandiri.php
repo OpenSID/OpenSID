@@ -132,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</tr>
 									</thead>
 									<tbody>
-										<?php if($main): ?>
+										<?php if ($main): ?>
 											<?php foreach ($main as $key => $data): ?>
 												<tr <?= jecho($data['telepon'], FALSE, 'class="select-row"'); ?>>
 													<td class="padat"><?= ($key + 1); ?></td>
@@ -199,5 +199,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$(window).on('load', function() {
 			$('#pinBox').modal('show');
 		});
-	<?php endif ?>
+	<?php endif; ?>
 </script>

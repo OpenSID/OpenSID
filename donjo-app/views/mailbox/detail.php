@@ -44,7 +44,7 @@
 								</div>
 							</div>
 						</div>
-						<?php if($this->CI->cek_hak_akses('u')): ?>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
 							<div class="box-footer">
 								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right confirm"><i class="fa fa-reply"></i> Balas Pesan</button>
 							</div>

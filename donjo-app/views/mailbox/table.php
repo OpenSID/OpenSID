@@ -17,7 +17,7 @@
 								<a href="<?= site_url('mailbox/form') ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tulis Pesan"><i class="fa fa-plus"></i> Tulis Pesan</a>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
-								<a href="#confirm-delete" title="Arsipkan Data" <?php if(!$filter_archived) : ?>onclick="deleteAllBox('mainform','<?=site_url("mailbox/archive_all/$kat/$p/$o")?>')"<?php endif; ?> class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih" <?php $filter_archived and print('disabled') ?>><i class='fa fa-file-archive-o'></i> Arsipkan Data Terpilih</a>
+								<a href="#confirm-delete" title="Arsipkan Data" <?php if ( ! $filter_archived) : ?>onclick="deleteAllBox('mainform','<?=site_url("mailbox/archive_all/$kat/$p/$o")?>')"<?php endif; ?> class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih" <?php $filter_archived and print('disabled') ?>><i class='fa fa-file-archive-o'></i> Arsipkan Data Terpilih</a>
 							<?php endif; ?>
 							<a href="<?= site_url("mailbox/clear/$kat/$p/$o") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 						</div>
@@ -111,11 +111,11 @@
 																		<?php endif; ?>
 																		<td class="padat"><?=$data['no']?></td>
 																		<td class="aksi">
-																			<?php if($this->CI->cek_hak_akses('h') && $data['is_archived'] == 0) : ?>
+																			<?php if ($this->CI->cek_hak_akses('h') && $data['is_archived'] == 0) : ?>
 																				<a href="#" data-href="<?=site_url("mailbox/archive/$kat/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Arsipkan" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-file-archive-o"></i></a>
 																			<?php endif; ?>
 																			<a href="<?=site_url("mailbox/baca_pesan/{$kat}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Lihat detail pesan"><i class="fa fa-list">&nbsp;</i></a>
-																			<?php if($this->CI->cek_hak_akses('u') && $kat != 2 && $data['is_archived'] != 1) : ?>
+																			<?php if ($this->CI->cek_hak_akses('u') && $kat != 2 && $data['is_archived'] != 1) : ?>
 																				<?php if ($data['status'] == 1): ?>
 																					<a href="<?=site_url('mailbox/pesan_unread/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm" title="Tandai sebagai belum dibaca"><i class="fa fa-envelope-o"></i></a>
 																					<?php else : ?>

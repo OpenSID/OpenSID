@@ -100,7 +100,7 @@ class Mailbox extends Admin_Controller {
 
 	public function form()
 	{
-		$this->redirect_hak_akses('h', $this->controller);
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
 
 		if ( ! empty($nik = $this->input->post('nik'))) {
 			$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
@@ -117,7 +117,7 @@ class Mailbox extends Admin_Controller {
 
 	public function kirim_pesan()
 	{
-		$this->redirect_hak_akses('u', $this->controller);
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$post = $this->input->post();
 		$post['tipe'] = 2;
 		$post['status'] = 2;
@@ -187,28 +187,28 @@ class Mailbox extends Admin_Controller {
 
 	public function archive($kat = 1, $p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', $this->controller);
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->archive($id);
 		redirect("mailbox/index/$kat/$p/$o");
 	}
 
 	public function archive_all($kat = 1, $p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', $this->controller);
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->archive_all();
 		redirect("mailbox/index/$kat/$p/$o");
 	}
 
 	public function pesan_read($id = '')
 	{
-		$this->redirect_hak_akses('u', $this->controller);
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->komentar_lock($id, 1);
 		redirect("mailbox");
 	}
 
 	public function pesan_unread($id = '')
 	{
-		$this->redirect_hak_akses('u', $this->controller);
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->komentar_lock($id, 2);
 		redirect("mailbox");
 	}
