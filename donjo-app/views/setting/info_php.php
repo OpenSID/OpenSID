@@ -69,8 +69,8 @@
 																					<table id="tabel-logs" class="table table-bordered dataTable table-hover">
 																						<thead class="bg-gray">
 																							<tr>
-																								<th>Level</th>
-																								<th width="17%">Tanggal</th>
+																								<th width="5%">Level</th>
+																								<th width="15%">Tanggal</th>
 																								<th>Pesan</th>
 																							</tr>
 																						</thead>
@@ -216,8 +216,12 @@
 		$('#tabel-logs').DataTable({
 			"processing": true,
 			"autoWidth": false,
-			"ordering": false,
 			'pageLength': 10,
+			"order": [[1, "desc"]],
+			"columnDefs": [ {
+				"targets": [0, 2],
+				"orderable": false
+			}]
 		});
 	});
 </script>
