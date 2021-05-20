@@ -86,7 +86,8 @@ class Inventaris_gedung_model extends CI_Model
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
 		$this->db->where($this->table.'.id', $id_asset);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_asset', 'left');
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung', 'left');
+		$this->db->order_by('tahun_mutasi', 'desc');
 		$data = $this->db->get()->result();
 		return $data;
 	}

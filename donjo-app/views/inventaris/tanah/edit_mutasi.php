@@ -25,6 +25,7 @@
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="nama_barang">Nama Barang</label>
 										<div class="col-sm-8">
 											<input type="hidden" name="id" id="id" value="<?= $main->id; ?>">
+											<input type="hidden" name="id_asset" id="id_asset" value="<?= $main->id_inventaris_tanah; ?>">
 											<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" disabled/>
 										</div>
 									</div>

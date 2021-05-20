@@ -74,6 +74,7 @@ class Inventaris_peralatan_model extends CI_Model
 		$this->db->select('mutasi_inventaris_peralatan.id as id,mutasi_inventaris_peralatan.*,  inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, inventaris_peralatan.tahun_pengadaan, inventaris_peralatan.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
+		$this->db->where('status_mutasi', 'Hapus');
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_peralatan', 'left');
 		$data = $this->db->get()->result();
 		return $data;
@@ -85,7 +86,8 @@ class Inventaris_peralatan_model extends CI_Model
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
 		$this->db->where($this->table.'.id', $id_asset);
-		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_asset', 'left');
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_peralatan', 'left');
+		$this->db->order_by('tahun_mutasi', 'desc');
 		$data = $this->db->get()->result();
 		return $data;
 	}

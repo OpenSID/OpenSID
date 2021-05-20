@@ -44,8 +44,9 @@ class Api_inventaris_gedung extends Admin_Controller
 
 	public function add_mutasi()
 	{
+		$id_asset = $this->input->post('id_inventaris_gedung');
 		$data = $this->inventaris_gedung_model->add_mutasi(array(
-			'id_inventaris_gedung' => $this->input->post('id_inventaris_gedung'),
+			'id_inventaris_gedung' => $id_asset,
 			'status_mutasi' => $this->input->post('status_mutasi'),
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
@@ -59,7 +60,7 @@ class Api_inventaris_gedung extends Admin_Controller
 		
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_gedung/mutasi");
+		redirect("inventaris_gedung/history?id=".$id_asset);
 	}
 
 	public function update($id)
@@ -90,6 +91,7 @@ class Api_inventaris_gedung extends Admin_Controller
 
 	public function update_mutasi($id)
 	{
+		$id_asset = $this->input->post('id_asset');
 		$data = $this->inventaris_gedung_model->update_mutasi($id, array(
 			'jenis_mutasi' => ($this->input->post('status_mutasi') == 'Hapus') ?  $this->input->post('mutasi') : null ,
 			'status_mutasi' => $this->input->post('status_mutasi'),
@@ -101,7 +103,7 @@ class Api_inventaris_gedung extends Admin_Controller
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_gedung/mutasi");
+		redirect("inventaris_gedung/history?id=".$id_asset);
 	}
 
 	public function delete($id)
@@ -119,6 +121,6 @@ class Api_inventaris_gedung extends Admin_Controller
 		$data = $this->inventaris_gedung_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect('inventaris_gedung/mutasi');
+		redirect('inventaris_gedung');
 	}
 }

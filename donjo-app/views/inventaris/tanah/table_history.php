@@ -3,7 +3,7 @@
 		<h1>Rincian Jejak Inventaris</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url() ?>inventaris_tanah/"><i class="fa fa-dashboard"></i>Daftar Asset Lainnya</a></li>
+			<li><a href="<?= site_url() ?>inventaris_tanah/"><i class="fa fa-dashboard"></i>Daftar Mutasi Inventaris Peralatan Dan Mesin</a></li>
 			<li class="active">Rincian Jejak Data</li>
 		</ol>
 	</section>
@@ -13,6 +13,9 @@
 			 
 				<div class="col-md-12">
 					<div class="box box-info">
+						<div class="box-header with-border">
+							<a href="<?= site_url() ?>inventaris_tanah" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Tanah</a>
+						</div>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
@@ -38,11 +41,8 @@
 															<tr>
 																<td></td>
 																<td nowrap>
-																	<?php if ($data->status == "0"): ?>
-																		<a href="<?= site_url('inventaris_asset/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
-																	<?php endif; ?>
-																	<a href="<?= site_url('inventaris_asset/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																	<a href="#" data-href="<?= site_url("api_inventaris_asset/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<a href="<?= site_url('inventaris_tanah/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																	<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
 																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
@@ -67,7 +67,7 @@
 		</form>
 	</section>
 </div>
-
+<?php $this->load->view('global/confirm_delete');?>
 <script type="text/javascript">
 	$(document).ready(function()
 	{
