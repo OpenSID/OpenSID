@@ -69,6 +69,7 @@ class Setting extends Admin_Controller {
 
 	public function update()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->setting_model->update_setting($this->input->post());
 
 		redirect($_SERVER['HTTP_REFERER']);
