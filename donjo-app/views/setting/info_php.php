@@ -1,3 +1,9 @@
+<style>
+	.scroll {
+		height: 500px;
+		overflow-y: scroll;
+	}
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Info Sistem</h1>
@@ -26,7 +32,7 @@
 													<h3 class="box-title">File logs</h3>
 												</div>
 												<div class="box-body no-padding">
-													<ul class="nav nav-pills nav-stacked">
+													<ul class="nav nav-pills nav-stacked scroll">
 														<?php if (empty($files)) : ?>
 															<li><a href="#"><?= $file; ?>File log tidak ditemukan</a></li>
 														<?php else : ?>
@@ -43,8 +49,7 @@
 												<div class="box-header with-border">
 													<?php if ($currentFile) : ?>
 														<a href="?dl=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
-														<!-- <a href="?del=<?= base64_encode($currentFile) ?>" title="Hapus log file" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-trash-o"></i> Hapus log file</a> -->
-														<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btm-social btn-flat btn-danger btn-sm"  title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
+														<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btm-social btn-flat btn-danger btn-sm" title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
 													<?php endif ?>
 												</div>
 												<div class="box-body">
@@ -72,17 +77,17 @@
 																						<tbody>
 																							<?php foreach ($logs as $key => $log) : ?>
 																								<tr>
-																									<td><?= $log['level'] ?></td>
+																									<td><h6><span class="label label-<?= $log['class'] ?>"><?= $log['level'] ?></span></h6></td>
 																									<td><?= $log['date'] ?></td>
 																									<td class="text">
 																										<?php if (array_key_exists("extra", $log)) : ?>
-																											<a class="pull-right expand btn btn-default btn-xs" data-display="stack<?= $key; ?>">
+																											<a class="pull-right btn btn-primary btn-xs" data-toggle="collapse" href="#collapse<?= $key ?>" aria-expanded="false" aria-controls="collapse<?= $key ?>">
 																												<span class="glyphicon glyphicon-search"></span>
 																											</a>
 																										<?php endif; ?>
 																										<?= $log['content']; ?>
 																										<?php if (array_key_exists("extra", $log)) : ?>
-																											<div class="stack" id="stack<?= $key; ?>" style="display: none; white-space: pre-wrap;">
+																											<div class="collapse" id="collapse<?= $key ?>">
 																												<?= $log['extra'] ?>
 																											</div>
 																										<?php endif; ?>
@@ -212,6 +217,7 @@
 			"processing": true,
 			"autoWidth": false,
 			"ordering": false,
+			'pageLength': 10,
 		});
 	});
 </script>

@@ -84,6 +84,7 @@ class Setting extends Admin_Controller {
 
 	public function info_sistem()
 	{
+		$this->set_minsidebar(1);
 		$this->sub_modul_ini = 46;
 
 		// Logs viewer
