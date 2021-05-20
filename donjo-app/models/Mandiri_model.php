@@ -193,7 +193,6 @@ class Mandiri_model extends CI_Model {
 	private function list_data_ajax_sql($cari = '')
 	{
 		$this->db
-			->select('u.*, n.nama AS nama, n.nik AS nik')
 			->from('tweb_penduduk_mandiri u')
 			->join('penduduk_hidup n', 'u.id_pend = n.id', 'left')
 			->join('tweb_wil_clusterdesa w', 'n.id_cluster = w.id', 'left');
