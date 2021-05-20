@@ -135,6 +135,14 @@ class Inventaris_tanah extends Admin_Controller {
 		$this->render('inventaris/tanah/table_mutasi', $data);
 	}
 
+	public function history()
+	{
+		$id_asset = $this->input->get('id');
+		$data['main'] = $this->inventaris_tanah_model->list_history_inventaris($id_asset);
+		$this->set_minsidebar(1);
+		$this->render('inventaris/tanah/table_history', $data);
+	}
+
 	public function cetak($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header['desa'];

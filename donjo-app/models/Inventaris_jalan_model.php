@@ -81,6 +81,17 @@ class Inventaris_jalan_model extends CI_Model
 		return $data;
 	}
 
+	public function list_history_inventaris($id_asset)
+	{
+		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
+		$this->db->from($this->table_mutasi);
+		$this->db->where($this->table_mutasi.'.visible', 1);
+		$this->db->where($this->table.'.id', $id_asset);
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_asset', 'left');
+		$data = $this->db->get()->result();
+		return $data;
+	}
+
 	public function add($data)
 	{
 		$this->db->insert($this->table, array_filter($data));

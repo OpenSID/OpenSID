@@ -136,6 +136,14 @@ class Inventaris_gedung extends Admin_Controller {
 		$this->render('inventaris/gedung/table_mutasi', $data);
 	}
 
+	public function history()
+	{
+		$id_asset = $this->input->get('id');
+		$data['main'] = $this->inventaris_gedung_model->list_history_inventaris($id_asset);
+		$this->set_minsidebar(1);
+		$this->render('inventaris/gedung/table_history', $data);
+	}
+
 	public function cetak($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header['desa'];

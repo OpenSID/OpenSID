@@ -59,6 +59,17 @@ class Inventaris_tanah_Model extends CI_Model
 		return $data;
 	}
 
+	public function list_history_inventaris($id_asset)
+	{
+		$this->db->select('mutasi_inventaris_tanah.id as id,mutasi_inventaris_tanah.*,  inventaris_tanah.nama_barang, inventaris_tanah.kode_barang, inventaris_tanah.tahun_pengadaan, inventaris_tanah.register');
+		$this->db->from($this->table_mutasi);
+		$this->db->where($this->table_mutasi.'.visible', 1);
+		$this->db->where($this->table.'.id', $id_asset);
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_asset', 'left');
+		$data = $this->db->get()->result();
+		return $data;
+	}
+
 	public function sum_inventaris()
 	{
 		$this->db->select_sum('harga');
