@@ -380,7 +380,8 @@ class Pamong_model extends CI_Model {
 	 */
 	public function list_aparatur_desa()
 	{
-		$data_query = $this->db->select('dp.jabatan, dp.pamong_niap, dp.foto,
+		$data_query = $this->db->select('dp.jabatan, dp.pamong_niap,
+			CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
 			CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
 			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
 			ELSE p.nama END AS nama', FALSE)
@@ -434,7 +435,8 @@ class Pamong_model extends CI_Model {
 		}
 
     $data['nodes'] = $this->db
-    	->select('p.pamong_id, p.jabatan, p.foto, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
+    	->select('p.pamong_id, p.jabatan, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
+    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.foto ELSE p.foto END) as foto')
     	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
     	->from('tweb_desa_pamong p')
     	->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
