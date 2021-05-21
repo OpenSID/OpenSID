@@ -380,7 +380,7 @@ class Pamong_model extends CI_Model {
 	 */
 	public function list_aparatur_desa()
 	{
-		$data['daftar_perangkat'] = $this->db->select('dp.jabatan, dp.pamong_niap, dp.foto,
+		$data_query = $this->db->select('dp.jabatan, dp.pamong_niap, dp.foto,
 			CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
 			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
 			ELSE p.nama END AS nama', FALSE)
@@ -391,7 +391,7 @@ class Pamong_model extends CI_Model {
 			->get()
 			->result_array();
 
-		foreach ($data['daftar_perangkat'] as $key => $perangkat)
+		foreach ($data_query as $key => $perangkat)
 		{
 			$perangkat['foto'] = AmbilFoto($perangkat['foto'], "besar", $perangkat['id_sex']);
 			if ( ! $data['foto_pertama'] and $perangkat['foto'] != FOTO_DEFAULT_PRIA and $perangkat['foto'] != FOTO_DEFAULT_WANITA) $data['foto_pertama'] = $key;
@@ -461,9 +461,6 @@ class Pamong_model extends CI_Model {
 
 	public function update_bagan($post)
 	{
-
-// print("<pre>".print_r($post, true)."</pre>"); die();
-
 		$list_id = $post['list_id'];
 		if ($post['atasan'])
 			$data['atasan'] = ($post['atasan'] <= 0) ? NULL : $post['atasan'];
@@ -474,7 +471,6 @@ class Pamong_model extends CI_Model {
 		$this->db
 			->where("pamong_id in ($list_id)")
 			->update('tweb_desa_pamong', $data);
-// print("<pre>".print_r($this->db->last_query(), true)."</pre>"); die();
 	}
 }
 ?>
