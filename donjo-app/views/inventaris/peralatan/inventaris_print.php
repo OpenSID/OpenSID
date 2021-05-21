@@ -150,7 +150,7 @@
 						-->
 						<td colspan="2" width="10%">&nbsp;</td>
 						<td colspan="3" width="30%"></td>
-						<td colspan="5" width="55%"><span class="underline"><?= strtoupper($header['nama_desa'].','.$header['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$header['nama_desa'].','.$header['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 
