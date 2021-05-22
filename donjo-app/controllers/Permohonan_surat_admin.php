@@ -202,4 +202,18 @@ class Permohonan_surat_admin extends Admin_Controller {
 		redirect('permohonan_surat_admin');
 	}
 
+	public function tampilkan($id_dokumen, $id_pend = 0)
+	{
+		$this->load->model('Web_dokumen_model');
+
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
+
+		$data = [
+			'berkas' => base_url(LOKASI_DOKUMEN . $berkas),
+			'tipe' => get_extension($berkas),
+			'unduh' => site_url("dokumen/unduh_berkas/$id_dokumen/$id_pend")
+		];
+
+		$this->load->view('global/tampilkan', $data);
+	}
 }
