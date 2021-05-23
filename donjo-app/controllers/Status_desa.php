@@ -86,8 +86,7 @@ class Status_desa extends Admin_Controller {
 			$kode_desa = $this->header['desa']['kode_desa'];
 			$cache = 'idm_' . $tahun . '_' . $kode_desa . '.json';
 
-			unlink(FCPATH . 'cache/' . $cache);
-
+			$this->cache->file->delete($cache);
 			$this->session->set_flashdata('tahun', $tahun);
 			$this->session->success = 1;
 		}
