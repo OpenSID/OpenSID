@@ -1,10 +1,10 @@
-#### [v21.05-premium-beta - 2021-05-17](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.05-premium-beta - 2021-05-22](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.05-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-17 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-22 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -15,10 +15,11 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-17 adalah sebagai beri
 5. [#4124](https://github.com/OpenSID/OpenSID/issues/4124) Sekarang jabatan Kependudukan > Kelompok dapat diisi secara manual.
 6. [#4055](https://github.com/OpenSID/OpenSID/issues/4055) Sekarang bisa ambil foto penduduk anggota kelompok dan Pemerintahan Desa menggunakan kamera HP/webcam.
 7. [#4037](https://github.com/OpenSID/OpenSID/issues/4037) Pengguna Layanan Mandiri sekarang dapat memberi penilaian kepuasan pelayanan.
+8. Tampilkan isi logs di Pengaturan > Info Sistem, untuk memudahkan pengguna melaporkan masalah.
 
 
 #### Perbaikan BUG
-1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
+1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa, Admin Web, Layanan Mandiri dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
 2. [#4170](https://github.com/OpenSID/OpenSID/issues/4170) Sekarang data keluarga tersimpan normal pada impor data penduduk.
 3. [#4165](https://github.com/OpenSID/OpenSID/issues/4165) Sekarang penandatangan tampil benar di cetak/unduh Buku Agenda - Surat Masuk dan Buku Ekspedisi.
 4. [#4167](https://github.com/OpenSID/OpenSID/issues/4167) Sekarang laporan cetak/unduh Sekretariat > Informasi Publik ada blok penandatangan.
@@ -27,6 +28,11 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-17 adalah sebagai beri
 7. Perbaiki jumlah luas total dan pemeriksaan rincian luas di Buku Tanah di Desa.
 8. [#4184](https://github.com/OpenSID/OpenSID/issues/4184) Nama desa sekarang tampil di cetak laporan Sekretariat > Informasi Publik.
 9. [#4186](https://github.com/OpenSID/OpenSID/issues/4186) Munculkan keyboard virtual di anjungan bagi semua surat bawaan sistem yang tersedia di Layanan Mandiri.
+10. [#4191](https://github.com/OpenSID/OpenSID/issues/4191) Sesuaikan keyboard virtual di anjungan supaya tidak menutup keseluruhan form.
+11. [#4193](https://github.com/OpenSID/OpenSID/issues/4193) Sekarang Pamong di Pemerintahan Desa bisa diubah dari Database Penduduk menjadi Tidak Terdata.
+12. Sekarang tidak menggantung jika gagal koneksi ke website eksternal, seperti ke https://pantau.opensid.or.id.
+13. Sekarang pilihan pendaftar layanan mandiri tetap tampil di form tulis pesan jika setting database sql_mode termasuk only_full_group_by.
+14. Tampilkan foto perangkat desa di widget Aparatur Desa dan Bagan bagi perangkat dari penduduk desa.
 
 
 #### Perubahan Teknis

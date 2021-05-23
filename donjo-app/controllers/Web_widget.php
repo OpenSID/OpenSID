@@ -99,6 +99,7 @@ class Web_widget extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -138,6 +139,7 @@ class Web_widget extends Admin_Controller {
 
 	public function update_setting($widget)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$setting = $this->input->post('setting');
 		$this->web_widget_model->update_setting($widget, $setting);
 		redirect("web_widget/admin/$widget");
@@ -145,12 +147,14 @@ class Web_widget extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_widget_model->insert();
 		redirect("web_widget");
 	}
 
 	public function update($id = '', $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_widget_model->update($id);
 		redirect("web_widget");
 	}
@@ -171,6 +175,7 @@ class Web_widget extends Admin_Controller {
 
 	public function urut($id = 0, $arah = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$urut = $this->web_widget_model->urut($id, $arah);
 		$range = $this->session->urut_range;
 		$page = $this->session->page;
@@ -190,12 +195,14 @@ class Web_widget extends Admin_Controller {
 
 	public function lock($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_widget_model->lock($id, 1);
 		redirect("web_widget");
 	}
 
 	public function unlock($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_widget_model->lock($id, 2);
 		redirect("web_widget");
 	}

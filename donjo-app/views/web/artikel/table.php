@@ -77,7 +77,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<?php if ($cat > 0): ?>
+							<?php if ($this->CI->cek_hak_akses('u') && $cat > 0): ?>
 								<a href="<?= site_url("web/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 									<i class="fa fa-plus"></i>Tambah
 									<?php if ($kategori): ?>
@@ -93,9 +93,9 @@
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("web/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-							<?php endif; ?>
-							<?php if ($cat > 0 and $cat < 999): ?>
-								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?= site_url("web/hapus")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
+								<?php if ($cat > 0 and $cat < 999): ?>
+									<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?= site_url("web/hapus")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
+								<?php endif; ?>
 							<?php endif; ?>
 							<?php if ($cat == 999): ?>
 								<a href="<?= site_url("web/reset")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Reset Hit" data-toggle="modal" data-target="#reset-hit" data-remote="false"><i class="fa fa-spinner"></i> Reset Hit</a>
@@ -108,7 +108,7 @@
 										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-6">
-													<select class="form-control input-sm " name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status/$cat")?>')">
+													<select class="form-control input-sm" name="status" onchange="formAction('mainform', '<?= site_url("web/filter/status/$cat")?>')">
 														<option value="">Semua</option>
 														<option value="1" <?php selected($status, 1); ?>>Aktif</option>
 														<option value="2" <?php selected($status, 2); ?>>Tidak Aktif</option>
@@ -131,7 +131,9 @@
 														<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
+																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																		<th><input type="checkbox" id="checkall"/></th>
+																	<?php endif; ?>
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
@@ -160,10 +162,12 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td class="padat"><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" <?php $data['boleh_ubah'] or print('disabled')?> /></td>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<td class="padat"><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" <?php $data['boleh_ubah'] or print('disabled')?> /></td>
+																		<?php endif; ?>
 																		<td class="padat"><?=$data['no']?></td>
 																		<td class="aksi">
-																			<?php if ($data['boleh_ubah']): ?>
+																			<?php if ($data['boleh_ubah'] && $this->CI->cek_hak_akses('u')): ?>
 																				<a href="<?= site_url("web/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
 																					<a href="#" data-href="<?= site_url("web/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

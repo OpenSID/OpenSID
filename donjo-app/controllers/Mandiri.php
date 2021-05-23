@@ -1,4 +1,7 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Mandiri.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -95,6 +99,7 @@ class Mandiri extends Admin_Controller {
 
 	public function ajax_pin($id_pend = '')
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$data['penduduk'] = $this->mandiri_model->list_penduduk();
 		if ($id_pend)
 		{
@@ -111,6 +116,7 @@ class Mandiri extends Admin_Controller {
 
 	public function ajax_hp($id_pend)
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$data['form_action'] = site_url("mandiri/ubah_hp/$id_pend");
 		$data['penduduk'] = $this->mandiri_model->get_penduduk($id_pend);
 		$this->load->view('mandiri/ajax_hp', $data);
@@ -118,6 +124,7 @@ class Mandiri extends Admin_Controller {
 
 	public function ubah_hp($id_pend)
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$outp = $this->db->where('id', $id_pend)
 			->set('telepon', bilangan($this->input->post('telepon')))
 			->update('tweb_penduduk');
@@ -127,25 +134,28 @@ class Mandiri extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->mandiri_model->insert();
 		redirect('mandiri');
 	}
 
 	public function update($id_pend)
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->mandiri_model->update($id_pend);
 		redirect('mandiri');
 	}
 
 	public function delete($id = '')
 	{
-		$this->redirect_hak_akses('h');
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
 		$this->mandiri_model->delete($id);
 		redirect('mandiri');
 	}
 
 	public function kirim($id_pend = '')
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$pin = $this->input->post('pin');
 		$data = $this->mandiri_model->get_mandiri($id_pend);
 		$desa = $this->header['desa'];

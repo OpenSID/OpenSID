@@ -78,7 +78,9 @@
 						<div class='box-footer'>
 							<div class='col-xs-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm reset' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<?php if ($this->CI->cek_hak_akses('u')): ?>
+									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
