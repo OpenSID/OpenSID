@@ -36,9 +36,9 @@ $(document).ready(function()
 
 	//CheckBox All Selected
 	checkAll();
-  $("input[name='id_cb[]'").click(function(){
-  	enableHapusTerpilih();
-  });
+	$('table').on('click', "input[name='id_cb[]']", function() {
+		enableHapusTerpilih();
+	});
 	enableHapusTerpilih();
 
 	//Display dialog
@@ -289,21 +289,14 @@ function scrollTampil(elem)
 	elem.scrollIntoView({behavior: 'smooth'});
 }
 
-function checkAll(id = "#checkall")
-{
-	$(id).click(function ()
-	{
-		if ($(".table " + id).is(':checked'))
-		{
-			$(".table input[type=checkbox]").each(function ()
-			{
+function checkAll(id = "#checkall") {
+	$('table').on('click', id, function() {
+		if ($(this).is(':checked')) {
+			$(".table input[type=checkbox]").each(function () {
 				$(this).prop("checked", true);
 			});
-		}
-		else
-		{
-			$(".table input[type=checkbox]").each(function ()
-			{
+		} else {
+			$(".table input[type=checkbox]").each(function () {
 				$(this).prop("checked", false);
 			});
 		}
@@ -313,20 +306,16 @@ function checkAll(id = "#checkall")
 	$("[data-toggle=tooltip]").tooltip();
 }
 
-function enableHapusTerpilih()
-{
-  if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0)
-  {
-    $(".aksi-terpilih").addClass('disabled');
-    $(".hapus-terpilih").addClass('disabled');
-    $(".hapus-terpilih").attr('href','#');
-  }
-  else
-  {
-    $(".aksi-terpilih").removeClass('disabled');
-    $(".hapus-terpilih").removeClass('disabled');
-    $(".hapus-terpilih").attr('href','#confirm-delete');
-  }
+function enableHapusTerpilih() {
+	if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0) {
+		$(".aksi-terpilih").addClass('disabled');
+		$(".hapus-terpilih").addClass('disabled');
+		$(".hapus-terpilih").attr('href','#');
+	} else {
+		$(".aksi-terpilih").removeClass('disabled');
+		$(".hapus-terpilih").removeClass('disabled');
+		$(".hapus-terpilih").attr('href','#confirm-delete');
+	}
 }
 
 function deleteAllBox(idForm, action)

@@ -1,10 +1,10 @@
-#### [v21.05-premium-beta - 2021-05-22](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.05-premium-beta - 2021-05-23](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.05-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-22 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-23 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -34,6 +34,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-22 adalah sebagai beri
 12. Sekarang tidak menggantung jika gagal koneksi ke website eksternal, seperti ke https://pantau.opensid.or.id.
 13. Sekarang pilihan pendaftar layanan mandiri tetap tampil di form tulis pesan jika setting database sql_mode termasuk only_full_group_by.
 14. Tampilkan foto perangkat desa di widget Aparatur Desa dan Bagan bagi perangkat dari penduduk desa.
+15. [#4175](https://github.com/OpenSID/OpenSID/issues/4175) Perbaiki centang entri input manual data keuangan sesuai jenis anggaran.
 
 
 #### Perubahan Teknis
