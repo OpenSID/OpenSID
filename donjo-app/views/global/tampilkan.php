@@ -56,6 +56,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <div class="modal-footer">
 	<div class="text-center">
-		<a href="<?= $link ?>" class="btn btn-flat bg-navy btn-sm"><i class="fa fa-download"></i> Unduh Dokumen</a>
+		<a href="<?= $link; ?>" class="btn btn-flat bg-navy btn-sm"><i class="fa fa-download"></i> Unduh Dokumen</a>
 	</div>
 </div>

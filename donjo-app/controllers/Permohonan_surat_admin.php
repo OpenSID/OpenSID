@@ -211,7 +211,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 		$data = [
 			'berkas' => base_url(LOKASI_DOKUMEN . $berkas),
 			'tipe' => get_extension($berkas),
-			'unduh' => site_url("dokumen/unduh_berkas/$id_dokumen/$id_pend")
+			'link' => site_url("dokumen/unduh_berkas/$id_dokumen/$id_pend")
 		];
 
 		$this->load->view('global/tampilkan', $data);
