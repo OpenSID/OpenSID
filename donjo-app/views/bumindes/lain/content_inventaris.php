@@ -40,15 +40,15 @@
 										<tr>
 											<th class="text-center" rowspan="2">Dibeli Sendiri</th>
 											<th class="text-center" rowspan="1" colspan="3">Bantuan</th>
-											<th class="text-center" rowspan="2">Sumbangkan</th>
-											<th class="text-center" rowspan="2">Baik</th>
-											<th class="text-center" rowspan="2">Rusak</th>
+											<th class="text-center" rowspan="2">Sumbangan</th>
+											<th class="text-center" rowspan="2" width="70px">Baik</th>
+											<th class="text-center" rowspan="2" width="70px">Rusak</th>
 											<th class="text-center" rowspan="2">Rusak</th>
 											<th class="text-center" rowspan="2">Dijual</th>
 											<th class="text-center" rowspan="2">Disumbangkan</th>
 											<th class="text-center" rowspan="2">Tgl Penghapusan</th>
-											<th class="text-center" rowspan="2">Baik</th>
-											<th class="text-center" rowspan="2">Rusak</th>
+											<th class="text-center" rowspan="2" width="70px">Baik</th>
+											<th class="text-center" rowspan="2" width="70px">Rusak</th>
 										</tr>
 										<tr>
 											<th>Pemerintah</th>
