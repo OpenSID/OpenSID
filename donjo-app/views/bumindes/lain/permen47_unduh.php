@@ -8,14 +8,13 @@
 			<form target="_blank" class="form-horizontal" method="get">
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-sm-12">
-							 
+						<div class="col-sm-12">			 
 							<div class="form-group">
 								<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Kepala Desa</label>
 								<div class="col-sm-9">
 									<select name="kades" id="kades_unduh" class="form-control input-sm">
 										<?php foreach ($kades as $data) : ?>
-											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['pamong_id'], $desa['pamong_id']) ?>>
+											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['jabatan'], 'Kepala Desa') ?>>
 												<?= $data['nama'] ?> (<?= $data['jabatan'] ?>)
 											</option>
 										<?php endforeach; ?>
@@ -28,7 +27,7 @@
 								<div class="col-sm-9">
 									<select name="sekdes" id="sekdes_unduh" class="form-control input-sm">
 										<?php foreach ($sekdes as $data) : ?>
-											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['pamong_id'], $desa['pamong_id']) ?>>
+											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['jabatan'], 'Sekretaris Desa') ?>>
 												<?= $data['nama'] ?> (<?= $data['jabatan'] ?>)
 											</option>
 										<?php endforeach; ?>

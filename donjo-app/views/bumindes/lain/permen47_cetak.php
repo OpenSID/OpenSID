@@ -14,7 +14,7 @@
 								<div class="col-sm-9">
 									<select name="kades" id="kades" class="form-control input-sm">
 										<?php foreach ($kades as $data) : ?>
-											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['pamong_id'], $desa['pamong_id']) ?>>
+											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['jabatan'], 'Kepala Desa') ?>>
 												<?= $data['nama'] ?> (<?= $data['jabatan'] ?>)
 											</option>
 										<?php endforeach; ?>
@@ -27,7 +27,7 @@
 								<div class="col-sm-9">
 									<select name="sekdes" id="sekdes" class="form-control input-sm">
 										<?php foreach ($sekdes as $data) : ?>
-											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['pamong_id'], $desa['pamong_id']) ?>>
+											<option value="<?= $data['pamong_id'] ?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?= selected($data['jabatan'], 'Sekretaris Desa') ?>>
 												<?= $data['nama'] ?> (<?= $data['jabatan'] ?>)
 											</option>
 										<?php endforeach; ?>
