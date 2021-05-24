@@ -758,7 +758,7 @@ class Penduduk_model extends MY_Model {
 		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
 		unset($data['maksud_tujuan_kedatangan']);
 
-		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
+		$tgl_lapor = rev_tgl($_POST['tgl_lapor'], date('Y-m-d H:i:s'));
 		if ($_POST['tgl_peristiwa'])
 			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
 		else
