@@ -758,7 +758,7 @@ class Penduduk_model extends MY_Model {
 		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
 		unset($data['maksud_tujuan_kedatangan']);
 
-		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
+		$tgl_lapor = rev_tgl($_POST['tgl_lapor'], date('Y-m-d H:i:s'));
 		if ($_POST['tgl_peristiwa'])
 			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
 		else
@@ -969,13 +969,6 @@ class Penduduk_model extends MY_Model {
 			->where('id',$id)
 			->update('tweb_penduduk', $data);
 		$penduduk = $this->get_penduduk($id);
-
-		// Tulis log_keluarga jika penduduk adalah kepala keluarga
-		if ($penduduk['kk_level'] == 1)
-		{
-			$id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
-			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa);
-		}
 
 		// Tulis log_penduduk
 		$log = [
