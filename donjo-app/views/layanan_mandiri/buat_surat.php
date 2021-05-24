@@ -192,40 +192,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
 					</div>
-				</hr>
-				<?php if ( ! empty($kk)): ?>
-					<p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
-					<div class="table-responsive">
-						<table class="table table-bordered table-hover table-data">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>NIK</th>
-									<th>Nama</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($kk as $item): ?>
-									<?php if ($item['nik'] != $this->is_login->nik): ?>
-										<tr>
-											<td class="padat"><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
-											<td><?=$item['nik']?></td>
-											<td><?=$item['nama']?></td>
-										</tr>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							</tbody>
-						</table>
-					</div>
-				<?php endif ?>
-			</div>
-			<div class="modal-footer">
-				<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Tutup</button>
-				<button type="submit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
-			</div>
-		</form>
+					</hr>
+					<?php if ( ! empty($kk)): ?>
+						<p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover table-data">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>NIK</th>
+										<th>Nama</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php foreach ($kk as $item): ?>
+										<?php if ($item['nik'] != $this->is_login->nik): ?>
+											<tr>
+												<td class="padat"><input class='anggota_kk' id="anggota_<?=$item['id']?>" type='checkbox' name='anggota_kk[]' value="<?=$item['id']?>"></td>
+												<td><?=$item['nik']?></td>
+												<td><?=$item['nama']?></td>
+											</tr>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</tbody>
+							</table>
+						</div>
+					<?php endif ?>
+				</div>
+				<div class="modal-footer">
+					<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Tutup</button>
+					<button type="submit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
 </div>
 <script type='text/javascript'>
 	function cek_perhatian(elem) {
