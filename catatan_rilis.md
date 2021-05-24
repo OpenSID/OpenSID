@@ -39,6 +39,8 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-23 adalah sebagai beri
 17. [#4203](https://github.com/OpenSID/OpenSID/issues/4203) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Peraturan Desa.
 18. [#4204](https://github.com/OpenSID/OpenSID/issues/4204) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Keputusan Kepala Desa.
 19. [#4205](https://github.com/OpenSID/OpenSID/issues/4205) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Lembaran Desa Dan Berita Desa.
+19. [#4206](https://github.com/OpenSID/OpenSID/issues/4206) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Statistik Laporan Bulanan.
+
 
 #### Perubahan Teknis
 1. Perbaiki penulisan script Buku Tanah di Desa dan Buku Kas Tanah Desa.
