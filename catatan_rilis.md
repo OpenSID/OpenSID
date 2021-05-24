@@ -1,10 +1,10 @@
-#### [v21.05-premium-beta - 2021-05-23](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.05-premium-beta - 2021-05-24](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.05-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-23 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-24 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -41,6 +41,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-23 adalah sebagai beri
 19. [#4205](https://github.com/OpenSID/OpenSID/issues/4205) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Lembaran Desa Dan Berita Desa.
 20. [#4206](https://github.com/OpenSID/OpenSID/issues/4206) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Statistik Laporan Bulanan.
 21. [#4201](https://github.com/OpenSID/OpenSID/issues/4201) Sekarang penduduk tidak tetap yang ditambahkan melalui Satgas Covid-19 > Pendataan tersimpan dengan benar.
+22. [#4207](https://github.com/OpenSID/OpenSID/issues/4207) Sekarang kembalikan status dasar kepala keluarga mati/hilang/pindah terhitung benar di Statistik > Laporan Bulanan.
 
 
 #### Perubahan Teknis
