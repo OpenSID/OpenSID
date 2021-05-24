@@ -35,6 +35,11 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-23 adalah sebagai beri
 13. Sekarang pilihan pendaftar layanan mandiri tetap tampil di form tulis pesan jika setting database sql_mode termasuk only_full_group_by.
 14. Tampilkan foto perangkat desa di widget Aparatur Desa dan Bagan bagi perangkat dari penduduk desa.
 15. [#4175](https://github.com/OpenSID/OpenSID/issues/4175) Perbaiki centang entri input manual data keuangan sesuai jenis anggaran.
+16. Perbaiki migrasi kalau grup pengguna Satgas Covid dihapus.
+17. [#4203](https://github.com/OpenSID/OpenSID/issues/4203) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Peraturan Desa.
+18. [#4204](https://github.com/OpenSID/OpenSID/issues/4204) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Keputusan Kepala Desa.
+19. [#4205](https://github.com/OpenSID/OpenSID/issues/4205) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Lembaran Desa Dan Berita Desa.
+19. [#4206](https://github.com/OpenSID/OpenSID/issues/4206) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Statistik Laporan Bulanan.
 
 
 #### Perubahan Teknis
