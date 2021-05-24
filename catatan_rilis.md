@@ -36,6 +36,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-23 adalah sebagai beri
 14. Tampilkan foto perangkat desa di widget Aparatur Desa dan Bagan bagi perangkat dari penduduk desa.
 15. [#4175](https://github.com/OpenSID/OpenSID/issues/4175) Perbaiki centang entri input manual data keuangan sesuai jenis anggaran.
 16. Perbaiki migrasi kalau grup pengguna Satgas Covid dihapus.
+17. [#4203](https://github.com/OpenSID/OpenSID/issues/4203) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Peraturan Desa.
 
 
 #### Perubahan Teknis
