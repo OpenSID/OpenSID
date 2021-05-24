@@ -83,6 +83,7 @@
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				<br><br>
 				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 10, 'spasi_kiri' => 3, 'spasi_tengah' => 2]); ?>
 			</div>
 		</div>
