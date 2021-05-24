@@ -17,6 +17,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-24 adalah sebagai beri
 7. [#4037](https://github.com/OpenSID/OpenSID/issues/4037) Pengguna Layanan Mandiri sekarang dapat memberi penilaian kepuasan pelayanan.
 8. Tampilkan isi logs di Pengaturan > Info Sistem, untuk memudahkan pengguna melaporkan masalah.
 9. [#4200](https://github.com/OpenSID/OpenSID/issues/4200) Sediakan tombol untuk memperbaharui data status IDM, mengganti yg tersimpan di cache.
+10. [#3875](https://github.com/OpenSID/OpenSID/issues/3875) Sembunyikan Dokumen Persyaratan Surat pada permohonan surat Layanan Mandiri jika syarat surat tidak diperlukan.
 
 
 #### Perbaikan BUG
