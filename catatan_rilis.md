@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-24 adalah sebagai beri
 9. [#4200](https://github.com/OpenSID/OpenSID/issues/4200) Sediakan tombol untuk memperbaharui data status IDM, mengganti yg tersimpan di cache.
 10. [#3875](https://github.com/OpenSID/OpenSID/issues/3875) Sembunyikan Dokumen Persyaratan Surat pada permohonan surat Layanan Mandiri jika syarat surat tidak diperlukan.
 11. [#4202](https://github.com/OpenSID/OpenSID/issues/4202) Sediakan tombol untuk menampilkan dokumen kelengkapan pada waktu memeriksa permohonan surat Layanan Mandiri.
+12. [#4210](https://github.com/OpenSID/OpenSID/issues/4210) Di form ubah biodata penduduk, sediakan tombol kembali ke Daftar Anggota Keluarga jika dibuka dari situ.
 
 
 #### Perbaikan BUG
