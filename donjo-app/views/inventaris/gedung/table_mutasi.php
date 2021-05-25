@@ -30,6 +30,7 @@
 																<th class="text-center">Kode Barang / Nomor Registrasi</th>
 																<th class="text-center">Tanggal Dokumen</th>
 																<th class="text-center">Tanggal Mutasi</th>
+																<th class="text-center">Status Gedung dan Bangunan</th>
 																<th class="text-center">Jenis Mutasi</th>
 																<th class="text-center" width="300px">Keterangan</th>
 															</tr>
@@ -46,10 +47,11 @@
 																		<a href="<?= site_url('inventaris_gedung/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																		<a href="#" data-href="<?= site_url("api_inventaris_gedung/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
-																  <td><?= $data->nama_barang;?></td>
+																	<td><?= $data->nama_barang;?></td>
 																	<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																	<td><?= date('d M Y',strtotime($data->tanggal_dokument));?></td>
 																	<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
+																	<td><?= $data->status_mutasi ;?></td>
 																	<td><?= $data->jenis_mutasi;?></td>
 																	<td><?= $data->keterangan;?></td>
 																</tr>
@@ -160,10 +162,10 @@
 	{
 		var link = '<?= site_url("inventaris_gedung/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
-  });
+	});
 	$("#form_download").click(function(event)
 	{
 		var link = '<?= site_url("inventaris_gedung/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
-  });
+	});
 </script>

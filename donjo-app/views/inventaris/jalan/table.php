@@ -64,6 +64,7 @@
 																		<a href="<?= site_url('inventaris_jalan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
 																	<a href="<?= site_url('inventaris_jalan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= site_url('inventaris_jalan/history?id='.$data->id); ?>" title="Lihat Jejak" class="btn bg-primary btn-flat btn-sm"><i class="fa fa-history"></i></a>
 																	<a href="<?= site_url('inventaris_jalan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																	<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>

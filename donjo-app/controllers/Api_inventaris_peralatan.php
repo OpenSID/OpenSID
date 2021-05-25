@@ -43,8 +43,10 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function add_mutasi()
 	{
+		$id_asset = $this->input->post('id_inventaris_peralatan');
 		$data = $this->inventaris_peralatan_model->add_mutasi(array(
-			'id_inventaris_peralatan' => $this->input->post('id_inventaris_peralatan'),
+			'id_inventaris_peralatan' => $id_asset,
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual'),
@@ -56,7 +58,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_peralatan/mutasi");
+		redirect("inventaris_peralatan/history?id=".$id_asset);
 	}
 
 	public function update($id)
@@ -86,17 +88,19 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function update_mutasi($id)
 	{
+		$id_asset = $this->input->post('id_asset');
 		$data = $this->inventaris_peralatan_model->update_mutasi($id, array(
-			'jenis_mutasi' => $this->input->post('mutasi'),
+			'jenis_mutasi' => ($this->input->post('status_mutasi') == 'Hapus') ?  $this->input->post('mutasi') : null ,
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual') || null,
-			'sumbangkan' => $this->input->post('sumbangkan') || null,
+			'sumbangkan'  => $this->input->post('sumbangkan') || null,
 			'keterangan' => $this->input->post('keterangan'),
 			'updated_at' => date('Y-m-d H:i:s')
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_peralatan/mutasi");
+		redirect("inventaris_peralatan/history?id=".$id_asset);
 	}
 
 	public function delete($id)
@@ -114,6 +118,6 @@ class Api_inventaris_peralatan extends Admin_Controller
 		$data = $this->inventaris_peralatan_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect('inventaris_peralatan/mutasi');
+		redirect('inventaris_peralatan');
 	}
 }

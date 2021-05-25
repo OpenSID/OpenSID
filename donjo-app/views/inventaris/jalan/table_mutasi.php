@@ -29,6 +29,7 @@
 															<th class="text-center">Kode Barang / Nomor Registrasi</th>
 															<th class="text-center">Tahun Pengadaan</th>
 															<th class="text-center">Tanggal Mutasi</th>
+															<th class="text-center">Status Jalan</th>
 															<th class="text-center">Jenis Mutasi</th>
 															<th class="text-center" width="300px">Keterangan</th>
 														</tr>
@@ -49,6 +50,7 @@
 																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																<td nowrap><?= date('d M Y',strtotime($data->tanggal_dokument));?></td>
 																<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
+																<td><?= $data->status_mutasi;?></td>
 																<td><?= $data->jenis_mutasi;?></td>
 																<td><?= $data->keterangan;?></td>
 															</tr>
@@ -159,10 +161,10 @@
 	{
 		var link = '<?= site_url("inventaris_jalan/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
-  });
+	});
 	$("#form_download").click(function(event)
 	{
 		var link = '<?= site_url("inventaris_jalan/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
-  });
+	});
 </script>

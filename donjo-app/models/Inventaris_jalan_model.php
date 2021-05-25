@@ -72,10 +72,23 @@ class Inventaris_jalan_model extends CI_Model
 
 	public function list_mutasi_inventaris()
 	{
-		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*,  inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
+		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
+		$this->db->where('status_mutasi', 'Hapus');
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_jalan', 'left');
+		$data = $this->db->get()->result();
+		return $data;
+	}
+
+	public function list_history_inventaris($id_asset)
+	{
+		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
+		$this->db->from($this->table_mutasi);
+		$this->db->where($this->table_mutasi.'.visible', 1);
+		$this->db->where($this->table.'.id', $id_asset);
+		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_jalan', 'left');
+		$this->db->order_by('tahun_mutasi', 'desc');
 		$data = $this->db->get()->result();
 		return $data;
 	}
@@ -92,7 +105,8 @@ class Inventaris_jalan_model extends CI_Model
 	{
 		$this->db->insert($this->table_mutasi, array_filter($data));
 		$id = $this->db->insert_id();
-		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_jalan']));
+		$status_ivntrs= ($data['status_mutasi'] === 'Hapus') ? 1 : 0 ;  // status 1 adalah untuk barang yang sudah terhapus
+		$this->db->update($this->table, array('status' => $status_ivntrs), array('id' => $data['id_inventaris_jalan']));
 		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
 		return $inserted;
 	}
@@ -101,14 +115,14 @@ class Inventaris_jalan_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from($this->table);
-        $this->db->where($this->table.'.id', $id);
+		$this->db->where($this->table.'.id', $id);
 		$data = $this->db->get()->row();
 		return $data;
 	}
 
 	public function view_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*,  inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
+		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_jalan', 'left');
@@ -118,7 +132,7 @@ class Inventaris_jalan_model extends CI_Model
 
 	public function edit_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*,  inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
+		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_jalan', 'left');
