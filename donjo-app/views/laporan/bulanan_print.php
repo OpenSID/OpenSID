@@ -184,7 +184,7 @@
             <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_KK_P'],'-')?></td>
             <td class="bilangan"><?= show_zero_as(($rincian_pindah['PROV_KK_L']+$rincian_pindah['PROV_KK_P']),'-')?></td>
             <td rowspan="2" colspan="3" class="no-border" style="vertical-align: top;">
-              ( <?= $pamong_ttd['pamong_nama']?> )<br>
+              ( <?= $pamong_ttd['nama']?> )<br>
               NIP/<?= $this->setting->sebutan_nip_desa  ?> <?= $pamong_ttd['pamong_niap_nip']?>
             </td>
           </tr>

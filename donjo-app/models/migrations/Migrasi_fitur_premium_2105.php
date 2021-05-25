@@ -691,15 +691,28 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			(4,47,3),
 			(4,50,3),
 			(4,51,3),
-			(4,54,3),
-			-- Satgas Covid-19 --
-			(5,3,0),
-			(5,27,3),
-			(5,206,0),
-			(5,207,7),
-			(5,208,7)
+			(4,54,3)
 		";
 		$hasil = $hasil && $this->db->query($query);
+
+		// Hanya isi untuk Satgas Covid kalau masih ada
+		$satgas_ada = $this->db
+			->where('id', 5)
+			->get('user_grup')
+			->num_rows();
+		if ($satgas_ada)
+		{
+			$query = "
+				INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+				-- Satgas Covid-19 --
+				(5,3,0),
+				(5,27,3),
+				(5,206,0),
+				(5,207,7),
+				(5,208,7)
+			";
+			$hasil = $hasil && $this->db->query($query);
+		}
 		return $hasil;
 	}
 

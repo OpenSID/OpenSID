@@ -463,6 +463,10 @@
 				 13 - keluarga dihapus
 				 14 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
 	*/
+	/**
+	 * @param $id, id_kk = id dari tweb_keluarga
+	 * @param $kk, id dari kepala keluarga di tweb_penduduk
+	*/
 	public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null, $id_log_penduduk = null)
 	{
 		$penduduk = $this->db

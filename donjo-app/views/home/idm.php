@@ -11,56 +11,55 @@
 	<?php endif; ?>
 <?php endif; ?>
 
-<script type="text/javascript">
+<?php if ( ! $idm->error_msg): ?>
+	<script type="text/javascript">
+		$(document).ready(function () {
 
-$(document).ready(function () {
-
-	Highcharts.chart('container', {
-	chart: {
-		type: 'pie',
-		options3d: {
-			enabled: true,
-			alpha: 45
-		}
-	},
-	title: {
-		text: 'Indeks Desa Membangun (IDM) <?= $tahun; ?>'
-	},
-	subtitle: {
-		text: 'SKOR : IKS, IKE, IKL'
-	},
-
-	plotOptions: {
-			series: {
-				colorByPoint: true
+			Highcharts.chart('container', {
+			chart: {
+				type: 'pie',
+				options3d: {
+					enabled: true,
+					alpha: 45
+				}
 			},
-			pie: {
-				allowPointSelect: true,
-				cursor: 'pointer',
-				showInLegend: true,
-				depth: 45,
-				innerSize: 70,
-				dataLabels: {
-				enabled: true,
-				format: '<b>{point.name}</b>: {point.y:,.2f} / {point.percentage:.1f} %'
-			}
-			}
-	},
-	series: [{
-		name: 'SKOR',
-				shadow: 1,
-				border: 1,
-		data: [
-					['IKS', <?= $idm->ROW[35]->SKOR ?>],
-					['IKE', <?= $idm->ROW[48]->SKOR ?>],
-					['IKL', <?= $idm->ROW[52]->SKOR ?>]
-		]
-	}]
-});
+			title: {
+				text: 'Indeks Desa Membangun (IDM) <?= $tahun; ?>'
+			},
+			subtitle: {
+				text: 'SKOR : IKS, IKE, IKL'
+			},
 
-
-});
-</script>
+			plotOptions: {
+					series: {
+						colorByPoint: true
+					},
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						showInLegend: true,
+						depth: 45,
+						innerSize: 70,
+						dataLabels: {
+						enabled: true,
+						format: '<b>{point.name}</b>: {point.y:,.2f} / {point.percentage:.1f} %'
+					}
+					}
+			},
+			series: [{
+				name: 'SKOR',
+						shadow: 1,
+						border: 1,
+				data: [
+							['IKS', <?= $idm->ROW[35]->SKOR ?>],
+							['IKE', <?= $idm->ROW[48]->SKOR ?>],
+							['IKL', <?= $idm->ROW[52]->SKOR ?>]
+				]
+			}]
+			});
+		});
+	</script>
+<?php endif; ?>
 
 <div class="content-wrapper">
 	<?php if (empty($halaman_statis)): ?>
@@ -72,7 +71,7 @@ $(document).ready(function () {
 			</ol>
 		</section>
 	<?php endif; ?>
-	<section class="content">
+	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<?php if (empty($halaman_statis)): ?>
 				<div class="box-header with-border">
@@ -84,6 +83,7 @@ $(document).ready(function () {
 								<option value="<?= $thn ?>" <?= selected($tahun, $thn) ?>><?= $thn; ?></option>
 							<?php endforeach; ?>
 						</select>
+						<a class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" <?= cek_koneksi_internet() == FALSE ? 'disabled title="Perangkat tidak terhubung dengan jaringan"' : 'href="' . site_url("status_desa/perbaharui/$tahun") . '"'; ?> ><i class="fa fa-refresh"></i>Perbaharui</a>
 					</form>
 				</div>
 			<?php endif; ?>

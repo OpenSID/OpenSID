@@ -106,7 +106,7 @@
 													<?php if ($syarat['dok_id'] == '-1'): ?>
 														<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
 													<?php else: ?>
-														<a href="<?= site_url("dokumen/unduh_berkas/$syarat[dok_id]/$periksa[id_pemohon]"); ?>" class="btn btn-flat btn-info btn-sm"><i class="fa fa-eye"></i> Cek Dokumen</a>
+														<a href="<?= site_url("permohonan_surat_admin/tampilkan/$syarat[dok_id]/$periksa[id_pemohon]"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tampilkan" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Tampilkan Dokumen"><i class="fa fa-eye"></i> Cek Dokumen</a>
 													<?php endif; ?>
 												</td>
 											</tr>
