@@ -57,9 +57,9 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021050654($hasil);
 		$hasil = $hasil && $this->migrasi_2021051002($hasil);
 		$hasil = $hasil && $this->migrasi_2021051003($hasil);
-    		$hasil = $hasil && $this->migrasi_2021051101($hasil);
 		$hasil = $hasil && $this->migrasi_2021051402($hasil);
 		$hasil = $hasil && $this->migrasi_2021051701($hasil);
+		$hasil = $hasil && $this->migrasi_2021052501($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -115,13 +115,6 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		return $hasil;
 	}
-  
-  	protected function migrasi_2021051101($hasil)
-	{
-		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris($hasil);
-
-		return $hasil;
-	}
 
 	protected function migrasi_2021051402($hasil)
 	{
@@ -147,7 +140,14 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		];
 
 		$hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
-    
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021052501($hasil)
+	{
+		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris($hasil);
+
 		return $hasil;
 	}
 
@@ -243,7 +243,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		return $hasil;
 	}
 
-  
+
 	protected function tambah_jenis_mutasi_inventaris()
 	{
 		$hasil = true;
@@ -270,7 +270,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_peralatan', 'status_mutasi varchar(50) NOT NULL');
 			$hasil = $hasil && $this->db->update('mutasi_inventaris_peralatan', array('status_mutasi' => 'Hapus'));
 		}
- 
+
 		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_tanah'))
 		{
 			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_tanah', 'status_mutasi varchar(50) NOT NULL');
@@ -292,7 +292,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW `master_inventaris` AS SELECT 'inventaris_asset' AS asset, inventaris_asset.id, inventaris_asset.nama_barang, inventaris_asset.kode_barang, 'Baik' AS kondisi, inventaris_asset.keterangan, inventaris_asset.asal, inventaris_asset.tahun_pengadaan FROM inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung' AS asset, inventaris_gedung.id, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.kondisi_bangunan, inventaris_gedung.keterangan, inventaris_gedung.asal, YEAR( inventaris_gedung.tanggal_dokument) AS tahun_pengadaan FROM inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan' AS asset, inventaris_jalan.id, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.kondisi, inventaris_jalan.keterangan, inventaris_jalan.asal, YEAR ( inventaris_jalan.tanggal_dokument ) AS tahun_pengadaan FROM inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan' AS asset, inventaris_peralatan.id, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, 'Baik', inventaris_peralatan.keterangan, inventaris_peralatan.asal, inventaris_peralatan.tahun_pengadaan FROM inventaris_peralatan WHERE visible = 1");
 		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' AS asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_peralatan WHERE visible = 1");
-    
+
 		return $hasil;
 	}
 

@@ -1,10 +1,10 @@
-#### [v21.05-premium-beta - 2021-05-25](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.05-premium-beta - 2021-05-26](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.05-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-25 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-26 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -20,6 +20,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-25 adalah sebagai beri
 10. [#3875](https://github.com/OpenSID/OpenSID/issues/3875) Sembunyikan Dokumen Persyaratan Surat pada permohonan surat Layanan Mandiri jika syarat surat tidak diperlukan.
 11. [#4202](https://github.com/OpenSID/OpenSID/issues/4202) Sediakan tombol untuk menampilkan dokumen kelengkapan pada waktu memeriksa permohonan surat Layanan Mandiri.
 12. [#4210](https://github.com/OpenSID/OpenSID/issues/4210) Di form ubah biodata penduduk, sediakan tombol kembali ke Daftar Anggota Keluarga jika dibuka dari situ.
+13. [#2838](https://github.com/OpenSID/OpenSID/issues/2838) Sediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016.
 
 
 #### Perbaikan BUG
