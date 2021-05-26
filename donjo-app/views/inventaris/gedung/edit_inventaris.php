@@ -102,7 +102,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi Beton</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Konstruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="kontruksi" id="kontruksi" class="form-control input-sm required">
 												<option value="0" <?= ($main->kontruksi_beton==0?'selected':''); ?>>Tidak</option>

@@ -33,7 +33,7 @@
 			<li class="<?php ($this->tab_ini == 3) and print('active')?>"><a href="<?=site_url('inventaris_gedung')?>"><i class="fa fa-tags"></i> Gedung dan Bangunan</a></li>
 			<li class="<?php ($this->tab_ini == 4) and print('active')?>"><a href="<?=site_url('inventaris_jalan')?>"><i class="fa fa-tags"></i> Jalan, Irigasi, dan Jaringan</a></li>
 			<li class="<?php ($this->tab_ini == 5) and print('active')?>"><a href="<?=site_url('inventaris_asset')?>"><i class="fa fa-tags"></i> Asset Tetap Lainnya</a></li>
-			<li class="<?php ($this->tab_ini == 6) and print('active')?>"><a href="<?=site_url('inventaris_kontruksi')?>"><i class="fa fa-tags"></i> Kontruksi dalam pengerjaan</a></li>
+			<li class="<?php ($this->tab_ini == 6) and print('active')?>"><a href="<?=site_url('inventaris_kontruksi')?>"><i class="fa fa-tags"></i> Konstruksi dalam pengerjaan</a></li>
 			<li class="<?php ($this->tab_ini == 7) and print('active')?>"><a href="<?=site_url('laporan_inventaris')?>"><i class="fa fa-tags"></i> Laporan Semua Asset</a></li>
 
 		</ul>

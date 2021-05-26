@@ -16,6 +16,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function add()
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_peralatan_model->add(array(
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
@@ -43,6 +44,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function add_mutasi()
 	{
+		$this->redirect_hak_akses('u');
 		$id_asset = $this->input->post('id_inventaris_peralatan');
 		$data = $this->inventaris_peralatan_model->add_mutasi(array(
 			'id_inventaris_peralatan' => $id_asset,
@@ -63,6 +65,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function update($id)
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_peralatan_model->update($id, array(
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
@@ -88,6 +91,7 @@ class Api_inventaris_peralatan extends Admin_Controller
 
 	public function update_mutasi($id)
 	{
+		$this->redirect_hak_akses('u');
 		$id_asset = $this->input->post('id_asset');
 		$data = $this->inventaris_peralatan_model->update_mutasi($id, array(
 			'jenis_mutasi' => ($this->input->post('status_mutasi') == 'Hapus') ?  $this->input->post('mutasi') : null ,

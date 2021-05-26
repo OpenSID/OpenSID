@@ -316,6 +316,7 @@ class Surat_model extends CI_Model {
 		return $data;
 	}
 
+	// TODO: ganti menggunakan pamong_model->list_data()
 	public function list_pamong()
 	{
 		$sql = "SELECT u.*, p.nama as nama

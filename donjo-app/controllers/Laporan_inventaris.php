@@ -47,10 +47,7 @@ class Laporan_inventaris extends Admin_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model('inventaris_laporan_model');
-		$this->load->model('referensi_model');
-		$this->load->model('config_model');
-		$this->load->model('pamong_model');
+		$this->load->model(['inventaris_laporan_model', 'referensi_model', 'config_model', 'pamong_model', 'surat_model']);
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 7;

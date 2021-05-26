@@ -57,7 +57,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi Beton</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Konstruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="kontruksi" id="kontruksi" class="form-control input-sm"disabled>
 												<option value="<?= $main->kontruksi_beton; ?>"><?= $main->kontruksi_beton; ?></option>

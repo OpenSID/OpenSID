@@ -30,7 +30,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table id="tabel4-laporan" class="table table-bordered table-striped dataTable table-hover">
+														<table id="tabel-laporan" class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray">
 																<tr>
 																	<th class="text-center" rowspan="3">No</th>
@@ -178,7 +178,7 @@
 																</tr>
 																<tr>
 																	<td></td>
-																	<td nowrap>Kontruksi Dalam Pengerjaan</td>
+																	<td nowrap>Konstruksi Dalam Pengerjaan</td>
 																	<td>Informasi mengenai bangunan yang masih dalam pengerjaan.</td>
 																	<td>
 																		<?=$inventaris_kontruksi_pribadi->total?>

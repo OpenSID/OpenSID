@@ -90,7 +90,7 @@
 						<th class="text-center" rowspan="2">Nama Barang</th>
 						<th class="text-center" colspan="2">Nomor</th>
 						<th class="text-center" rowspan="2">Kondisi Bangunan (B, KB, RB)</th>
-						<th class="text-center" colspan="2">Kontruksi Bangunan</th>
+						<th class="text-center" colspan="2">Konstruksi Bangunan</th>
 						<th class="text-center" rowspan="2">Luas Lantai (M<sup>2</sup>)</th>
 						<th class="text-center" rowspan="2">Letak/Lokasi</th>
 						<th class="text-center" colspan="2">Dokumen Gedung</th>

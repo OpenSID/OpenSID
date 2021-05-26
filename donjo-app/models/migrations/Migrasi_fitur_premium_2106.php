@@ -60,6 +60,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021051402($hasil);
 		$hasil = $hasil && $this->migrasi_2021051701($hasil);
 		$hasil = $hasil && $this->migrasi_2021052501($hasil);
+		$hasil = $hasil && $this->migrasi_2021052651($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -147,6 +148,16 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	protected function migrasi_2021052501($hasil)
 	{
 		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris($hasil);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021052651($hasil)
+	{
+		$fields = [
+			'kontruksi_beton' => ['type' => 'TINYINT', 'constraint' => 1, 'null' => true, 'default' => 0]
+		];
+		$hasil = $hasil && $this->dbforge->modify_column('inventaris_gedung', $fields);
 
 		return $hasil;
 	}
@@ -242,7 +253,6 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		return $hasil;
 	}
-
 
 	protected function tambah_jenis_mutasi_inventaris()
 	{
