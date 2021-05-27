@@ -590,6 +590,7 @@ class First extends Web_Controller {
 		if (!$this->web_menu_model->menu_aktif('peta')) show_404();
 
 		$this->load->model('wilayah_model');
+		$this->load->model('data_persil_model');
 		$data = $this->includes;
 
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
@@ -605,6 +606,7 @@ class First extends Web_Controller {
 		$data['garis'] = $this->plan_garis_model->list_garis();
 		$data['area'] = $this->plan_area_model->list_area();
 		$data['lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
+		$data['persil'] = $this->data_persil_model->list_data();
 
 		$data['halaman_peta'] = 'web/halaman_statis/peta';
 		$this->_get_common_data($data);

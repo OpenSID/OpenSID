@@ -1,4 +1,3 @@
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengelolaan Data Persil <?=ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
@@ -63,6 +62,19 @@
 												<input name="luas_persil" class="form-control input-sm angka required" type="text" placeholder="Luas persil secara keseluruhan (M2)" value="<?= $persil["luas_persil"] ?>">
 											</div>
 										</div>
+
+										<div class="form-group">
+											<label for="kelas" class="col-sm-3 control-label">Pemilik Awal</label>
+											<div class="col-sm-4">
+												<select class="form-control input-sm required" id="kelas" name="cdesa_awal" type="text" <?php $persil and print('disabled')?> placeholder="C-Desa pemilik awal persil ini" >
+													<option value="">-- Pilih C-Desa Pemilik Awal --</option>
+													<?php foreach ($list_cdesa  as $cdesa): ?>
+														<option value="<?= $cdesa['id_cdesa'] ?>" <?php (($id_cdesa and $id_cdesa == $cdesa["id_cdesa"]) or ($cdesa['id_cdesa'] and $cdesa['id_cdesa'] == $persil["cdesa_awal"])) and print('selected'); ?>><?= $cdesa['nomor'].' - '.$cdesa['namapemilik']?></option>
+													<?php endforeach;?>
+												</select>
+											</div>
+										</div>
+
 										<div class="form-group ">
 											<label for="jenis_lokasi" class="col-sm-3 control-label">Lokasi Tanah</label>
 											<div class="btn-group col-sm-8 kiri" data-toggle="buttons">
@@ -74,6 +86,8 @@
 												</label>
 											</div>
 										</div>
+
+									
 										<div class="form-group">
 											<label class="col-sm-3 control-label"></label>
 											<div id="pilih">
@@ -92,17 +106,40 @@
 												</div>
 											</div>
 										</div>
+
 										<div class="form-group">
-											<label for="kelas" class="col-sm-3 control-label">Pemilik Awal</label>
-											<div class="col-sm-4">
-												<select class="form-control input-sm required" id="kelas" name="cdesa_awal" type="text" <?php $persil and print('disabled')?> placeholder="C-Desa pemilik awal persil ini" >
-													<option value="">-- Pilih C-Desa Pemilik Awal --</option>
-													<?php foreach ($list_cdesa  as $cdesa): ?>
-														<option value="<?= $cdesa['id_cdesa'] ?>" <?php (($id_cdesa and $id_cdesa == $cdesa["id_cdesa"]) or ($cdesa['id_cdesa'] and $cdesa['id_cdesa'] == $persil["cdesa_awal"])) and print('selected'); ?>><?= $cdesa['nomor'].' - '.$cdesa['namapemilik']?></option>
-													<?php endforeach;?>
+											<label for="area_tanah" class="col-sm-3 control-label">Peta</label>
+											<div class="btn-group col-sm-8 kiri" data-toggle="buttons">
+												<label  class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label active">
+													<input type="radio" name="area_tanah" class="form-check-input" value="1" autocomplete="off"> Pilih Area
+												</label>
+												<label  class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
+													<input type="radio" name="area_tanah" class="form-check-input" value="2" autocomplete="off"> Buat Area
+												</label>
+											</div>
+										</div>
+
+										<div class="form-group" id="pilih-area">
+											<label class="col-sm-3 control-label"></label>
+											<div class="col-sm-4" >
+												<select class="form-control input-sm select2" id="id_peta" name="id_peta" style="width:100%">
+													<option value='' >-- Pilih Area--</option>
+													<?php foreach ($peta as $key => $item): ?>
+														<option value="<?= $item["id"] ?>" <?php selected($item["id"], $persil["id_peta"]) ?>><?= $item["nama"] ?></option>
+													<?php endforeach ?>
 												</select>
 											</div>
 										</div>
+
+										<div class="row">
+											<div class="col-sm-12" >
+												<input type="hidden" id="path" name="path" value="<?= $persil["path"] ?>">
+												<input type="hidden" id="zoom" name="zoom" value="">
+												<div id="map"></div>
+											</div>
+										</div>
+
+										
 									</div>
 									<div class="box-footer">
 										<div class="col-xs-12">
@@ -119,6 +156,14 @@
 		</div>
 	</section>
 </div>
+
+<style type="text/css">
+	#map
+  {
+	width:100%;
+	height:50vh
+  }
+</style>
 <script>
 	function pilih_lokasi(pilih)
 	{
@@ -141,7 +186,47 @@
 		}
 	}
 
+
 	$(document).ready(function(){
+		// tampilkan map
+		<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
+			var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+			var zoom = <?=$desa['zoom'] ?: 18?>;
+		<?php else: ?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+			var zoom = 4;
+		<?php endif; ?>
+		var peta_area = L.map('map').setView(posisi, zoom);
+
+		//Menampilkan BaseLayers Peta
+		var baseLayers = getBaseLayers(peta_area, '');
+
+
+		if ($('input[name="path"]').val() !== '' )
+		{
+			var wilayah = JSON.parse($('input[name="path"]').val());
+			showCurrentArea(wilayah, peta_area);
+		}
+
+		//Import Peta dari file SHP
+		//eximShp(peta_area);
+
+		//Geolocation IP Route/GPS
+		geoLocation(peta_area);
+
+		//Menambahkan Peta wilayah
+		addPetaPoly(peta_area);
+
+		// end tampilkan map
+
+		if ($('select[name="id_peta"]').val() == '') 
+		{
+			$('input[name="area_tanah"][value="2"]').prop("checked",true).trigger('click').trigger('change')
+			$('#pilih-area').hide();
+			$('#pilih-area').val(null)
+			peta_area.pm.addControls(editToolbarPoly());
+		}
+
 		$('#tipe').change(function(){
 			var id=$(this).val();
 			$.ajax({
@@ -162,6 +247,40 @@
 			return false;
 		});
 		pilih_lokasi(<?= empty($persil['lokasi']) ? 1 : 2?>);
+
+		$('input[name="area_tanah"]').change(function() {
+			var pilih = $(this).val();
+			if (pilih == 1) 
+			{
+				$('#pilih-area').show();
+				// tambahkan toolbar edit polyline
+				peta_area.pm.removeControls(editToolbarPoly());
+			}
+			else
+			{
+				peta_area.pm.addControls(editToolbarPoly());
+				$('#pilih-area').hide();
+				$('#pilih-area').val(null)
+				
+			}			
+		});
+
+		$('select[name="id_peta"]').change(function() {
+			var id_peta = $(this).val();
+			$.ajax({
+				url: '<?=site_url('data_persil/area_map')?>',
+				type: 'GET',
+				data: {id: id_peta},
+			})
+			.done(function(result) {
+				if (result.status == true)
+				{
+					var wilayah = JSON.parse(result.data.path);
+					clearMap(peta_area);
+					showCurrentArea(wilayah, peta_area);
+				}
+			});
+		});
 	});
 
 </script>

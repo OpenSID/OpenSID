@@ -61,6 +61,12 @@ table {
 td {
   word-wrap: break-word;
 }
+.persil{
+  min-width: 350px;
+}
+.persil td{
+  padding-right: 1rem;
+}
 </style>
 
 <form id="mainform_map" name="mainform_map"method="post">
@@ -211,6 +217,7 @@ td {
     var marker_dusun = [];
     var marker_rw = [];
     var marker_rt = [];
+    var marker_persil = [];
     var marker_area = [];
     var marker_garis = [];
     var marker_lokasi = [];
@@ -240,8 +247,13 @@ td {
       set_marker_content(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa()?>');
     <?php endif; ?>
 
+     //OVERLAY Persil
+    <?php if (!empty($persil)): ?>
+      set_marker_persil_content(marker_persil, '<?=addslashes(json_encode($persil))?>', 'Persil', 'nomor', '#isi_popup_persil_', '<?= favico_desa()?>');
+    <?php endif; ?>
+
     //Menampilkan overlayLayers Peta Semua Wilayah
-    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
+    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_persil, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
 
     //Menampilkan BaseLayers Peta
     var baseLayers = getBaseLayers(mymap, '<?=$this->setting->mapbox_key?>');

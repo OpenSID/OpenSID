@@ -150,6 +150,7 @@ class Data_persil extends Admin_Controller {
 
 	public function form($id='', $id_cdesa='')
 	{
+		$this->load->model('plan_area_model');
 		$this->set_minsidebar(1);
 		$this->tab_ini = 13;
 
@@ -158,6 +159,9 @@ class Data_persil extends Admin_Controller {
 		$data['list_cdesa'] = $this->cdesa_model->list_c_desa();
 		$data["persil_lokasi"] = $this->wilayah_model->list_semua_wilayah();
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
+		$data['peta'] = $this->plan_area_model->list_data();
+		$data['desa'] = $this->config_model->get_data();
+
 		$this->render('data_persil/form_persil', $data);
 	}
 
@@ -168,7 +172,7 @@ class Data_persil extends Admin_Controller {
 		$this->form_validation->set_rules('no_persil','Nomor Surat Persil','required|trim|numeric');
 		$this->form_validation->set_rules('nomor_urut_bidang','Nomor Urut Bidang','required|trim|numeric');
 		$this->form_validation->set_rules('kelas','Kelas Tanah','required|trim|numeric');
-
+		 
 		if ($this->form_validation->run() != false)
 		{
 			$id_persil = $this->data_persil_model->simpan_persil($this->input->post());
@@ -256,6 +260,22 @@ class Data_persil extends Admin_Controller {
 		$data['letak_ttd'] = ['1', '2', '2'];
 
 		$this->load->view('global/format_cetak', $data);
+	}
+
+	public function area_map()
+	{
+		// if (!$this->input->is_ajax_request()) die('access restricted');
+		 
+		$this->load->model('plan_area_model');
+		$id = $this->input->get('id');
+
+		$data = $this->plan_area_model->get_area($id);
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode([
+				'data' => $data,
+				'status' => true
+			]));
 	}
 }
 

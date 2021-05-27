@@ -233,14 +233,13 @@ class Data_persil_model extends MY_Model {
 	{
 		$this->main_sql();
 		$this->lokasi_persil_query();
-		$this->db->select('p.*, k.kode, count(m.id_persil) as jml_bidang, c.nomor as nomor_cdesa_awal')
+		$this->db->select('p.*, k.kode, count(m.id_persil) as jml_bidang, c.nomor as nomor_cdesa_awal, c.nama_kepemilikan')
 			->order_by('nomor, nomor_urut_bidang');
 
 		if ($per_page > 0 ) $this->db->limit($per_page, $offset);
 		$data =  $this->db
 			->get()
 			->result_array();
-
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
@@ -307,11 +306,15 @@ class Data_persil_model extends MY_Model {
 		$data['id_wilayah'] = $post['id_wilayah'] ?: NULL;
 		$data['luas_persil'] = bilangan($post['luas_persil']) ?: NULL;
 		$data['lokasi'] = $post['lokasi'] ?: NULL;
+		$data['path'] = $post['path'];
+		$data['id_peta'] = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? $post['id_peta'] : NULL ; 
+	 
 		$id_persil = $post['id_persil'] ?: $this->get_persil_by_nomor($post['no_persil'], $post['nomor_urut_bidang']);
 		if ($id_persil)
 		{
 			$this->db->where('id', $id_persil)
 				->update('persil', $data);
+			
 		}
 		else
 		{
@@ -374,6 +377,8 @@ class Data_persil_model extends MY_Model {
  		$mutasi['id_persil'] = $id_persil;
  		$mutasi['luas'] = $data['luas_persil'];
  		$mutasi['keterangan'] = 'Pemilik awal persil ini';
+ 		$mutasi['path'] = $data['path'];
+		$mutasi['id_peta'] = ($data['area_tanah'] == 1 || $data['area_tanah'] == null) ? $data['id_peta'] : NULL ; 
  		$this->db->insert('mutasi_cdesa', $mutasi);
  	}
 

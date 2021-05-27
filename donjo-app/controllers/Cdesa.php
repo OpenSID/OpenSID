@@ -108,6 +108,7 @@ class Cdesa extends Admin_Controller {
 		$this->tab_ini = 13;
 		$data = array();
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id);
+		$data["desa"] = $this->config_model->get_data();
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id);
 		$data['persil'] = $this->cdesa_model->get_list_persil($id);
 		$this->render('data_persil/rincian', $data);
@@ -118,6 +119,7 @@ class Cdesa extends Admin_Controller {
 
 		$data = array();
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id_cdesa);
+		$data['desa'] = $this->config_model->get_data();
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id_cdesa);
 		$data['mutasi'] = $this->cdesa_model->get_list_mutasi($id_cdesa, $id_persil);
 		$data['persil'] = $this->data_persil_model->get_persil($id_persil);
@@ -233,6 +235,7 @@ class Cdesa extends Admin_Controller {
 	{
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		$this->load->model('plan_area_model');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
 		$this->set_minsidebar(1);
@@ -260,6 +263,7 @@ class Cdesa extends Admin_Controller {
 		$data["persil_lokasi"] = $this->wilayah_model->list_semua_wilayah();
 		$data["persil_kelas"] = $this->referensi_model->list_by_id('ref_persil_kelas');
 		$data["persil_sebab_mutasi"] = $this->referensi_model->list_by_id('ref_persil_mutasi');
+		$data['peta'] = $this->plan_area_model->list_data();
 
 		$this->render('data_persil/create_mutasi', $data);
 	}
