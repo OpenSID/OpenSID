@@ -16,6 +16,7 @@ class Api_inventaris_tanah extends Admin_Controller
 
 	public function add()
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_tanah_model->add(array(
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
@@ -41,9 +42,12 @@ class Api_inventaris_tanah extends Admin_Controller
 
 	public function add_mutasi()
 	{
+		$this->redirect_hak_akses('u');
+		$id_asset = $this->input->post('id_inventaris_tanah');
 		$data = $this->inventaris_tanah_model->add_mutasi(array(
-			'id_inventaris_tanah' => $this->input->post('id_inventaris_tanah'),
+			'id_inventaris_tanah' => $id_asset,
 			'jenis_mutasi' => $this->input->post('mutasi'),
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
@@ -54,11 +58,12 @@ class Api_inventaris_tanah extends Admin_Controller
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_tanah/mutasi");
+		redirect("inventaris_tanah/history?id=".$id_asset);
 	}
 
 	public function update($id)
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_tanah_model->update($id, array(
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
@@ -83,8 +88,11 @@ class Api_inventaris_tanah extends Admin_Controller
 
 	public function update_mutasi($id)
 	{
+		$this->redirect_hak_akses('u');
+		$id_asset = $this->input->post('id_asset');
 		$data = $this->inventaris_tanah_model->update_mutasi($id, array(
-			'jenis_mutasi' => $this->input->post('mutasi'),
+			'jenis_mutasi' => ($this->input->post('status_mutasi') == 'Hapus') ?  $this->input->post('mutasi') : null ,
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual') || null,
 			'sumbangkan' => $this->input->post('sumbangkan') || null,
@@ -94,7 +102,7 @@ class Api_inventaris_tanah extends Admin_Controller
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_tanah/mutasi");
+		redirect("inventaris_tanah/history?id=".$id_asset);
 	}
 
 	public function delete($id)
@@ -112,6 +120,6 @@ class Api_inventaris_tanah extends Admin_Controller
 		$data = $this->inventaris_tanah_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_tanah/mutasi");
+		redirect("inventaris_tanah");
 	}
 }

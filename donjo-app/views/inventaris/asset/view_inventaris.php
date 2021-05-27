@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 						<a href="<?= site_url() ?>inventaris_asset" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Asset Lainnya</a>
 						</div>
 						<div class="box-body">

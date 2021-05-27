@@ -94,6 +94,7 @@ class Dokumen extends Admin_Controller {
 
 	public function form($kat=1, $p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
@@ -136,6 +137,7 @@ class Dokumen extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$_SESSION['success'] = 1;
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
@@ -145,6 +147,7 @@ class Dokumen extends Admin_Controller {
 
 	public function update($kat, $id='', $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('u');
 		$_SESSION['success'] = 1;
 		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
@@ -167,12 +170,14 @@ class Dokumen extends Admin_Controller {
 
 	public function dokumen_lock($kat=1, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->web_dokumen_model->dokumen_lock($id, 1);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
 
 	public function dokumen_unlock($kat=1, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->web_dokumen_model->dokumen_lock($id, 2);
 		redirect("dokumen/index/$kat/$p/$o");
 	}

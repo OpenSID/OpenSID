@@ -41,6 +41,18 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Asset </label>
+										<div class="col-sm-4">
+											<select name="status_mutasi" id="status" class="form-control input-sm " disabled>
+												<option value="<?= $main->status_mutasi; ?>">   <?= $main->status_mutasi;?></option>
+												<option value="Baik">Baik</option>
+												<option value="Rusak">Rusak</option>
+												<option value="Hapus">Penghapusan</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm" disabled>
@@ -100,3 +112,16 @@
 	</section>
 </div>
 
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		var status = $("#status").val();
+		if (status == 'Hapus') {
+			$("#mutasi").parent().parent().show();
+		} 
+		else 
+		{
+			$("#mutasi").parent().parent().hide();
+		}
+	})
+</script>

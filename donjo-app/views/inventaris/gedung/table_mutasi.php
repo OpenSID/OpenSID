@@ -24,12 +24,13 @@
 													<table id="tabel4" class="table table-bordered dataTable table-hover">
 														<thead class="bg-gray">
 															<tr>
-																<th class="text-center" >No</th>
-																<th class="text-center" >Aksi</th>
+																<th class="text-center">No</th>
+																<th class="text-center">Aksi</th>
 																<th class="text-center">Nama Barang</th>
 																<th class="text-center">Kode Barang / Nomor Registrasi</th>
 																<th class="text-center">Tanggal Dokumen</th>
 																<th class="text-center">Tanggal Mutasi</th>
+																<th class="text-center">Status Gedung dan Bangunan</th>
 																<th class="text-center">Jenis Mutasi</th>
 																<th class="text-center" width="300px">Keterangan</th>
 															</tr>
@@ -39,17 +40,22 @@
 																<tr>
 																	<td></td>
 																	<td nowrap>
-																		<?php if ($data->status == "0"): ?>
+																		<?php if ($data->status == "0" && $this->CI->cek_hak_akses('u')): ?>
 																			<a href="<?= site_url('inventaris_gedung/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																		<?php endif; ?>
 																		<a href="<?= site_url('inventaris_gedung/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																		<a href="<?= site_url('inventaris_gedung/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																		<a href="#" data-href="<?= site_url("api_inventaris_gedung/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?= site_url('inventaris_gedung/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<?php endif; ?>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<a href="#" data-href="<?= site_url("api_inventaris_gedung/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif; ?>
 																	</td>
-																  <td><?= $data->nama_barang;?></td>
+																	<td><?= $data->nama_barang;?></td>
 																	<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																	<td><?= date('d M Y',strtotime($data->tanggal_dokument));?></td>
 																	<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
+																	<td><?= $data->status_mutasi ;?></td>
 																	<td><?= $data->jenis_mutasi;?></td>
 																	<td><?= $data->keterangan;?></td>
 																</tr>
@@ -160,10 +166,10 @@
 	{
 		var link = '<?= site_url("inventaris_gedung/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
-  });
+	});
 	$("#form_download").click(function(event)
 	{
 		var link = '<?= site_url("inventaris_gedung/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
-  });
+	});
 </script>
