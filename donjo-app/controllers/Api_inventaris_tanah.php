@@ -58,7 +58,7 @@ class Api_inventaris_tanah extends Admin_Controller
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_asset/mutasi");
+		redirect("inventaris_tanah/mutasi");
 	}
 
 	public function update($id)
@@ -102,7 +102,7 @@ class Api_inventaris_tanah extends Admin_Controller
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_asset/mutasi");
+		redirect("inventaris_tanah/mutasi");
 	}
 
 	public function delete($id)
@@ -120,6 +120,6 @@ class Api_inventaris_tanah extends Admin_Controller
 		$data = $this->inventaris_tanah_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_asset/mutasi");
+		redirect("inventaris_tanah/mutasi");
 	}
 }
