@@ -24,7 +24,7 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-26 adalah sebagai beri
 
 
 #### Perbaikan BUG
-1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa, Admin Web, Layanan Mandiri, Bantuan, Sekretariat dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
+1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa, Admin Web, Layanan Mandiri, Bantuan, Sekretariat, Pembangunan dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
 2. [#4170](https://github.com/OpenSID/OpenSID/issues/4170) Sekarang data keluarga tersimpan normal pada impor data penduduk.
 3. [#4165](https://github.com/OpenSID/OpenSID/issues/4165) Sekarang penandatangan tampil benar di cetak/unduh Buku Agenda - Surat Masuk dan Buku Ekspedisi.
 4. [#4167](https://github.com/OpenSID/OpenSID/issues/4167) Sekarang laporan cetak/unduh Sekretariat > Informasi Publik ada blok penandatangan.
