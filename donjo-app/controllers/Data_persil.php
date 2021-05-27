@@ -264,7 +264,7 @@ class Data_persil extends Admin_Controller {
 
 	public function area_map()
 	{
-		// if (!$this->input->is_ajax_request()) die('access restricted');
+		if (!$this->input->is_ajax_request()) die('access restricted');
 		 
 		$this->load->model('plan_area_model');
 		$id = $this->input->get('id');
