@@ -106,6 +106,7 @@ class Inventaris_laporan_model extends CI_Model
 		{
 			$this->db->select("count($inventaris[1].asal) as total");
 			$this->db->where("$inventaris[1].status", 1);
+			$this->db->where("$inventaris[1].visible", 1);
 			$this->db->where("$inventaris[1].asal", $inventaris[2]);
 			$hasil = $this->db->get($inventaris[1])->row();
 			$result[$inventaris[0]] = !empty($hasil) ? $hasil : 0;
@@ -220,6 +221,7 @@ class Inventaris_laporan_model extends CI_Model
 		{
 			$this->db->select("count($inventaris[1].asal) as total");
 			$this->db->where("$inventaris[1].status", 1);
+			$this->db->where("$inventaris[1].visible", 1);
 			if ($tahun != 1)
 			{
 				if ($inventaris[3] == 'tahun_pengadaan')

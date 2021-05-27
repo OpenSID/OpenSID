@@ -63,7 +63,7 @@ class Api_inventaris_asset extends Admin_Controller {
 			));
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_asset/history?id=".$id_asset);
+		redirect("inventaris_asset/mutasi");
 	}
 
 	public function update($id)
@@ -110,7 +110,7 @@ class Api_inventaris_asset extends Admin_Controller {
 			));
  		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect("inventaris_asset/history?id=".$id_asset);
+		redirect("inventaris_asset/mutasi");
 	}
 
 	public function delete($id)
@@ -128,6 +128,6 @@ class Api_inventaris_asset extends Admin_Controller {
 		$data = $this->inventaris_asset_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect('inventaris_asset');
+		redirect("inventaris_asset/mutasi");
 	}
 }

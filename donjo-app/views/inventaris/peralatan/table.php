@@ -64,7 +64,6 @@
 																		<a href="<?= site_url('inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
 																	<a href="<?= site_url('inventaris_peralatan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																	<a href="<?= site_url('inventaris_peralatan/history?id='.$data->id); ?>" title="Lihat Jejak" class="btn bg-primary btn-flat btn-sm"><i class="fa fa-history"></i></a>
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
 																		<a href="<?= site_url('inventaris_peralatan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>

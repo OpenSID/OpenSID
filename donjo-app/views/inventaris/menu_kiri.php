@@ -13,7 +13,7 @@
  			<?php else: ?>
 				<li class="<?php ($tip==1) and print('active')?>"><a href="<?=site_url($this->tipe);?>"><i class="fa fa-list"></i> Daftar Inventaris</a></li>
 				<?php if($this->tab_ini != 6):?>
-				<li class="<?php ($tip==2) and print('active')?>"><a href="<?=site_url($this->tipe.'/mutasi')?>"><i class="fa fa-share"></i> Mutasi Inventaris</a></li>
+				<li class="<?php ($tip==2) and print('active')?>"><a href="<?=site_url($this->tipe.'/mutasi')?>"><i class="fa fa-share"></i> Daftar Mutasi</a></li>
 				<?php endif ?>
 			<?php endif ?>
 		</ul>
