@@ -95,6 +95,7 @@ class Pembangunan extends Admin_Controller
 
 	public function form($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		if ($id)
 		{
 			$data['main'] = $this->model->find($id);
@@ -115,18 +116,21 @@ class Pembangunan extends Admin_Controller
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->model->insert();
 		redirect('pembangunan');
 	}
 
 	public function update($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->model->update($id);
 		redirect("pembangunan");
 	}
 
 	public function delete($id)
 	{
+		$this->redirect_hak_akses('h');
 		$this->model->delete($id);
 
 		if ($this->db->affected_rows())
@@ -152,6 +156,7 @@ class Pembangunan extends Admin_Controller
 		// Update lokasi maps
 		if ($request = $this->input->post())
 		{
+			$this->redirect_hak_akses('u');
 			$this->model->update_lokasi_maps($id, $request);
 
 			$this->session->success = 1;
@@ -226,6 +231,7 @@ class Pembangunan extends Admin_Controller
 
 	public function lock($id)
 	{
+		$this->redirect_hak_akses('u');
 		$this->model->lock($id);
 
 		$this->session->success = 1;
