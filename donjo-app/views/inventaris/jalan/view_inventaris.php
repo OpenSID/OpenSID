@@ -48,7 +48,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Kontruksi</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="kontruksi">Konstruksi</label>
 										<div class="col-sm-8">
 											<textarea class="form-control input-sm" name="kontruksi" id="kontruksi" disabled><?= $main->kontruksi; ?></textarea>
 										</div>

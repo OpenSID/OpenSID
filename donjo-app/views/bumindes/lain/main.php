@@ -1,15 +1,14 @@
 <style type="text/css">
-  .disabled
-	{
-     pointer-events: none;
-     cursor: default;
-  }
+	.disabled {
+		pointer-events: none;
+		cursor: default;
+	}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Buku Administrasi Lainnya</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active"><?= $subtitle ?></li>
 		</ol>
 	</section>
@@ -19,7 +18,7 @@
 				<?php $this->load->view('bumindes/lain/side') ?>
 			</div>
 			<div class="col-md-9">
-				<?php $this->load->view($main_content) ?>
+				<?php $this->load->view('bumindes/lain/content_inventaris') ?>
 			</div>
 		</div>
 	</section>

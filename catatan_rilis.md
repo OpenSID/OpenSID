@@ -1,10 +1,10 @@
-#### [v21.05-premium-beta - 2021-05-22](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.05-premium-beta - 2021-05-26](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.05-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-22 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-26 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -16,10 +16,15 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-22 adalah sebagai beri
 6. [#4055](https://github.com/OpenSID/OpenSID/issues/4055) Sekarang bisa ambil foto penduduk anggota kelompok dan Pemerintahan Desa menggunakan kamera HP/webcam.
 7. [#4037](https://github.com/OpenSID/OpenSID/issues/4037) Pengguna Layanan Mandiri sekarang dapat memberi penilaian kepuasan pelayanan.
 8. Tampilkan isi logs di Pengaturan > Info Sistem, untuk memudahkan pengguna melaporkan masalah.
+9. [#4200](https://github.com/OpenSID/OpenSID/issues/4200) Sediakan tombol untuk memperbaharui data status IDM, mengganti yg tersimpan di cache.
+10. [#3875](https://github.com/OpenSID/OpenSID/issues/3875) Sembunyikan Dokumen Persyaratan Surat pada permohonan surat Layanan Mandiri jika syarat surat tidak diperlukan.
+11. [#4202](https://github.com/OpenSID/OpenSID/issues/4202) Sediakan tombol untuk menampilkan dokumen kelengkapan pada waktu memeriksa permohonan surat Layanan Mandiri.
+12. [#4210](https://github.com/OpenSID/OpenSID/issues/4210) Di form ubah biodata penduduk, sediakan tombol kembali ke Daftar Anggota Keluarga jika dibuka dari situ.
+13. [#2838](https://github.com/OpenSID/OpenSID/issues/2838) Sediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016.
 
 
 #### Perbaikan BUG
-1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa, Admin Web, Layanan Mandiri dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
+1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa, Admin Web, Layanan Mandiri, Bantuan, Sekretariat, Pembangunan dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
 2. [#4170](https://github.com/OpenSID/OpenSID/issues/4170) Sekarang data keluarga tersimpan normal pada impor data penduduk.
 3. [#4165](https://github.com/OpenSID/OpenSID/issues/4165) Sekarang penandatangan tampil benar di cetak/unduh Buku Agenda - Surat Masuk dan Buku Ekspedisi.
 4. [#4167](https://github.com/OpenSID/OpenSID/issues/4167) Sekarang laporan cetak/unduh Sekretariat > Informasi Publik ada blok penandatangan.
@@ -33,6 +38,14 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-22 adalah sebagai beri
 12. Sekarang tidak menggantung jika gagal koneksi ke website eksternal, seperti ke https://pantau.opensid.or.id.
 13. Sekarang pilihan pendaftar layanan mandiri tetap tampil di form tulis pesan jika setting database sql_mode termasuk only_full_group_by.
 14. Tampilkan foto perangkat desa di widget Aparatur Desa dan Bagan bagi perangkat dari penduduk desa.
+15. [#4175](https://github.com/OpenSID/OpenSID/issues/4175) Perbaiki centang entri input manual data keuangan sesuai jenis anggaran.
+16. Perbaiki migrasi kalau grup pengguna Satgas Covid dihapus.
+17. [#4203](https://github.com/OpenSID/OpenSID/issues/4203) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Peraturan Desa.
+18. [#4204](https://github.com/OpenSID/OpenSID/issues/4204) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Keputusan Kepala Desa.
+19. [#4205](https://github.com/OpenSID/OpenSID/issues/4205) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Lembaran Desa Dan Berita Desa.
+20. [#4206](https://github.com/OpenSID/OpenSID/issues/4206) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Statistik Laporan Bulanan.
+21. [#4201](https://github.com/OpenSID/OpenSID/issues/4201) Sekarang penduduk tidak tetap yang ditambahkan melalui Satgas Covid-19 > Pendataan tersimpan dengan benar.
+22. [#4207](https://github.com/OpenSID/OpenSID/issues/4207) Sekarang kembalikan status dasar kepala keluarga mati/hilang/pindah terhitung benar di Statistik > Laporan Bulanan.
 
 
 #### Perubahan Teknis

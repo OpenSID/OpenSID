@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Isi Data Inventaris Kontruksi</h1>
+		<h1>Isi Data Inventaris Konstruksi</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url() ?>inventaris_kontruksi"><i class="fa fa-dashboard"></i>Daftar Inventaris Kontruksi</a></li>
+			<li><a href="<?= site_url() ?>inventaris_kontruksi"><i class="fa fa-dashboard"></i>Daftar Inventaris Konstruksi</a></li>
 			<li class="active">Isi Data</li>
 		</ol>
 	</section>
@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url() ?>inventaris_kontruksi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Kontruksi</a>
+							<a href="<?= site_url() ?>inventaris_kontruksi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Konstruksi</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -48,7 +48,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="bahan">Kontruksi Beton</label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="bahan">Konstruksi Beton</label>
 										<div class="col-sm-4">
 											<select name="bahan" id="bahan" class="form-control input-sm required">
 												<option value="0">Tidak</option>

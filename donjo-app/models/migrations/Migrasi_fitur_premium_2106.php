@@ -59,6 +59,10 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021051003($hasil);
 		$hasil = $hasil && $this->migrasi_2021051402($hasil);
 		$hasil = $hasil && $this->migrasi_2021051701($hasil);
+		$hasil = $hasil && $this->migrasi_2021052501($hasil);
+		$hasil = $hasil && $this->migrasi_2021052651($hasil);
+		$hasil = $hasil && $this->migrasi_2021052751($hasil);
+    $hasil = $hasil && $this->migrasi_2021052851($hasil); 
 
 		status_sukses($hasil);
 		return $hasil;
@@ -110,7 +114,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		// Hapus kolem foto pada tabel kelompok_anggota yang tidak digunakan
 		if ( $this->db->field_exists('foto', 'kelompok_anggota'))
-			$hasil =& $this->dbforge->drop_column('kelompok_anggota', 'foto');
+		$hasil =& $this->dbforge->drop_column('kelompok_anggota', 'foto');
 
 		return $hasil;
 	}
@@ -143,7 +147,61 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		return $hasil;
 	}
 
-	protected function migrasi_2021052001($hasil)
+	protected function migrasi_2021052501($hasil)
+	{
+		$hasil = $hasil && $this->tambah_jenis_mutasi_inventaris($hasil);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021052651($hasil)
+	{
+		$fields = [
+			'kontruksi_beton' => ['type' => 'TINYINT', 'constraint' => 1, 'null' => true, 'default' => 0]
+		];
+		$hasil = $hasil && $this->dbforge->modify_column('inventaris_gedung', $fields);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021052751($hasil)
+	{
+		$list_inventaris = [
+			['mutasi' => 'mutasi_inventaris_asset', 'inventaris' => 'inventaris_asset', 'key' => 'id_inventaris_asset'],
+			['mutasi' => 'mutasi_inventaris_gedung', 'inventaris' => 'inventaris_gedung', 'key' => 'id_inventaris_gedung'],
+			['mutasi' => 'mutasi_inventaris_jalan', 'inventaris' => 'inventaris_jalan', 'key' => 'id_inventaris_jalan'],
+			['mutasi' => 'mutasi_inventaris_peralatan', 'inventaris' => 'inventaris_peralatan', 'key' => 'id_inventaris_peralatan'],
+			['mutasi' => 'mutasi_inventaris_tanah', 'inventaris' => 'inventaris_tanah', 'key' => 'id_inventaris_tanah']
+		];
+
+		$jenis_mutasi = array('Rusak', 'Diperbaiki');
+
+		// Ubah status mutasi & inventaris bukan hapus
+		foreach ($list_inventaris as $inv)
+		{
+			$hasil = $hasil && $this->db
+				->where_in('jenis_mutasi', $jenis_mutasi)
+				->set('status_mutasi', 'jenis_mutasi', false)
+				->update($inv['mutasi']);
+
+			$bukan_hapus = $this->db
+				->select("{$inv['key']} as key_inv")
+				->where_in('jenis_mutasi', $jenis_mutasi)
+				->get($inv['mutasi'])
+				->result_array();
+			if (count($bukan_hapus))
+			{
+				$hasil = $hasil && $this->db
+					->where_in('id', array_column($bukan_hapus, 'key_inv'))
+					->set('status', 0)
+					->update($inv['inventaris']);
+			}
+		}
+
+		return $hasil;
+	}
+	 
+  protected function migrasi_2021052851($hasil)
 	{
 		if ( ! $this->db->field_exists('id_peta', 'persil'))
 		{
@@ -157,7 +215,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
  
 		return $hasil;
 	}
-
+  
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
 		$this->dbforge->add_field([
@@ -246,6 +304,58 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 			'ikon_kecil' => '',
 			'parent'     => 302,
 		]);
+
+		return $hasil;
+	}
+
+	protected function tambah_jenis_mutasi_inventaris()
+	{
+		$hasil = true;
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_asset'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_asset', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_asset', array('status_mutasi' => 'Hapus'));
+		}
+
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_gedung'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_gedung', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_gedung', array('status_mutasi' => 'Hapus'));
+		}
+
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_jalan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_jalan', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_jalan', array('status_mutasi' => 'Hapus'));
+		}
+
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_peralatan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_peralatan', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_peralatan', array('status_mutasi' => 'Hapus'));
+		}
+
+		if ( ! $this->db->field_exists('status_mutasi', 'mutasi_inventaris_tanah'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_inventaris_tanah', 'status_mutasi varchar(50) NOT NULL');
+			$hasil = $hasil && $this->db->update('mutasi_inventaris_tanah', array('status_mutasi' => 'Hapus'));
+		}
+
+		//hilangkan default value pada kolom jenis mutasi
+		$fields = array(
+			'jenis_mutasi' => array(
+				'type' => 'varchar(100)',
+				'null' => true
+			)
+		);
+		$this->dbforge->modify_column('mutasi_inventaris_asset', $fields);
+		$this->dbforge->modify_column('mutasi_inventaris_gedung', $fields);
+		$this->dbforge->modify_column('mutasi_inventaris_jalan', $fields);
+		$this->dbforge->modify_column('mutasi_inventaris_peralatan', $fields);
+		$this->dbforge->modify_column('mutasi_inventaris_tanah', $fields);
+
+		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW `master_inventaris` AS SELECT 'inventaris_asset' AS asset, inventaris_asset.id, inventaris_asset.nama_barang, inventaris_asset.kode_barang, 'Baik' AS kondisi, inventaris_asset.keterangan, inventaris_asset.asal, inventaris_asset.tahun_pengadaan FROM inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung' AS asset, inventaris_gedung.id, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.kondisi_bangunan, inventaris_gedung.keterangan, inventaris_gedung.asal, YEAR( inventaris_gedung.tanggal_dokument) AS tahun_pengadaan FROM inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan' AS asset, inventaris_jalan.id, inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.kondisi, inventaris_jalan.keterangan, inventaris_jalan.asal, YEAR ( inventaris_jalan.tanggal_dokument ) AS tahun_pengadaan FROM inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan' AS asset, inventaris_peralatan.id, inventaris_peralatan.nama_barang, inventaris_peralatan.kode_barang, 'Baik', inventaris_peralatan.keterangan, inventaris_peralatan.asal, inventaris_peralatan.tahun_pengadaan FROM inventaris_peralatan WHERE visible = 1");
+		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW `rekap_mutasi_inventaris` AS SELECT 'inventaris_asset' AS asset, id_inventaris_asset, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_asset WHERE visible = 1 UNION ALL SELECT 'inventaris_gedung', id_inventaris_gedung, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_gedung WHERE visible = 1 UNION ALL SELECT 'inventaris_jalan', id_inventaris_jalan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_jalan WHERE visible = 1 UNION ALL SELECT 'inventaris_peralatan', id_inventaris_peralatan, status_mutasi, jenis_mutasi, tahun_mutasi, keterangan FROM mutasi_inventaris_peralatan WHERE visible = 1");
 
 		return $hasil;
 	}
