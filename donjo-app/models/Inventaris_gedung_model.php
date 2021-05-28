@@ -5,6 +5,7 @@ class Inventaris_gedung_model extends CI_Model
 
 	protected $table = 'inventaris_gedung';
 	protected $table_mutasi = 'mutasi_inventaris_gedung';
+	protected $mutasi_key = 'id_inventaris_gedung';
 	protected $table_pamong = 'tweb_desa_pamong';
 
 	public function __construct()
@@ -40,9 +41,11 @@ class Inventaris_gedung_model extends CI_Model
 
 	public function list_inventaris()
 	{
-		$this->db->select('*');
-		$this->db->from($this->table);
-		$this->db->where($this->table.'.visible', 1);
+		$this->db
+			->select('u.*, m.id as mutasi')
+			->from("{$this->table} u")
+			->join("{$this->table_mutasi} m", "m.{$this->mutasi_key} = u.id", 'left')
+			->where('u.visible', 1);
 		$data = $this->db->get()->result();
 		return $data;
 	}

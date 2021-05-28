@@ -62,7 +62,7 @@
 															<?php endif; ?>
 																<td></td>
 																<td nowrap>
-																	<?php if ($data->status == "0" && $this->CI->cek_hak_akses('u')): ?>
+																	<?php if ($data->mutasi == null && $this->CI->cek_hak_akses('u')): ?>
 																		<a href="<?= site_url('inventaris_jalan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
 																	<a href="<?= site_url('inventaris_jalan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>

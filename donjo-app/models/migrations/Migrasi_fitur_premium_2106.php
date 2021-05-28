@@ -165,22 +165,40 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 	protected function migrasi_2021052751($hasil)
 	{
-		$jenis_mutasi = array('Rusak', 'Diperbaiki', 'Masih Baik Disumbangkan', 'Masih Baik Dijual', 'Barang Rusak Disumbangkan', 'Barang Rusak Dijual');
+		$list_inventaris = [
+			['mutasi' => 'mutasi_inventaris_asset', 'inventaris' => 'inventaris_asset', 'key' => 'id_inventaris_asset'],
+			['mutasi' => 'mutasi_inventaris_gedung', 'inventaris' => 'inventaris_gedung', 'key' => 'id_inventaris_gedung'],
+			['mutasi' => 'mutasi_inventaris_jalan', 'inventaris' => 'inventaris_jalan', 'key' => 'id_inventaris_jalan'],
+			['mutasi' => 'mutasi_inventaris_peralatan', 'inventaris' => 'inventaris_peralatan', 'key' => 'id_inventaris_peralatan'],
+			['mutasi' => 'mutasi_inventaris_tanah', 'inventaris' => 'inventaris_tanah', 'key' => 'id_inventaris_tanah']
+		];
 
-		$this->db->start_cache();
-		$this->db->where_in('jenis_mutasi', $jenis_mutasi);
-		$this->db->stop_cache();
+		$jenis_mutasi = array('Rusak', 'Diperbaiki');
 
-		$hasil = $hasil && $this->db->update('mutasi_inventaris_asset', array('status_mutasi' => 'Hapus'));
-		$hasil = $hasil && $this->db->update('mutasi_inventaris_gedung', array('status_mutasi' => 'Hapus'));
-		$hasil = $hasil && $this->db->update('mutasi_inventaris_jalan', array('status_mutasi' => 'Hapus'));
-		$hasil = $hasil && $this->db->update('mutasi_inventaris_tanah', array('status_mutasi' => 'Hapus'));
+		// Ubah status mutasi & inventaris bukan hapus
+		foreach ($list_inventaris as $inv)
+		{
+			$hasil = $hasil && $this->db
+				->where_in('jenis_mutasi', $jenis_mutasi)
+				->set('status_mutasi', 'jenis_mutasi', false)
+				->update($inv['mutasi']);
 
-		$this->db->flush_cache();
+			$bukan_hapus = $this->db
+				->select("{$inv['key']} as key_inv")
+				->where_in('jenis_mutasi', $jenis_mutasi)
+				->get($inv['mutasi'])
+				->result_array();
+			if (count($bukan_hapus))
+			{
+				$hasil = $hasil && $this->db
+					->where_in('id', array_column($bukan_hapus, 'key_inv'))
+					->set('status', 0)
+					->update($inv['inventaris']);
+			}
+		}
 
 		return $hasil;
 	}
-
 	 
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
