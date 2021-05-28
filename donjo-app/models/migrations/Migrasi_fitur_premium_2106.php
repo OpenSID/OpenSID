@@ -143,6 +143,21 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		return $hasil;
 	}
 
+	protected function migrasi_2021052001($hasil)
+	{
+		if ( ! $this->db->field_exists('id_peta', 'persil'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('persil', 'id_peta int(60)');
+		}
+
+		if ( ! $this->db->field_exists('id_peta', 'mutasi_cdesa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_cdesa', 'id_peta int(60)');
+		}
+ 
+		return $hasil;
+	}
+
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
 		$this->dbforge->add_field([
