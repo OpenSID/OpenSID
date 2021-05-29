@@ -63,6 +63,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021052651($hasil);
 		$hasil = $hasil && $this->migrasi_2021052751($hasil);
 		$hasil = $hasil && $this->migrasi_2021052851($hasil);
+		$hasil = $hasil && $this->migrasi_2021052951($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -230,6 +231,53 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 			],
 		];
 		$hasil = $hasil && $this->dbforge->modify_column('inventaris_tanah', $fields);
+		return $hasil;
+	}
+
+	protected function migrasi_2021052951($hasil)
+	{
+		// Pindah Buku Inventaris dan Kekayaan Desa
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 322,
+			'modul'      => 'Buku Inventaris dan Kekayaan Desa',
+			'url'        => 'bumindes_inventaris_kekayaan',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 302,
+		]);
+		// Hapus Administrasi Lainnya
+		$hasil = $hasil && $this->db->where('id', 306)->delete('setting_modul');
+		// Tambah Buku Rencana Kerja Pembangunan
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 323,
+			'modul'      => 'Buku Rencana Kerja Pembangunan',
+			'url'        => 'bumindes_rencana_pembangunan',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 305,
+		]);
+		// Ubah link Buku Administrasi Pembangunan
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 305,
+			'modul'      => 'Administrasi Pembangunan',
+			'url'        => 'bumindes_rencana_pembangunan',
+			'aktif'      => 1,
+			'ikon'       => 'fa-university',
+			'urut'       => 4,
+			'level'      => 2,
+			'hidden'     => 0,
+			'ikon_kecil' => 'fa-university',
+			'parent'     => 301,
+		]);
+
 		return $hasil;
 	}
 

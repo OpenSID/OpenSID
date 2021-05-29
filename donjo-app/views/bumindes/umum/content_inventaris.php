@@ -113,8 +113,8 @@
 		</div>
 	</div>
 </form>
-<?php $this->load->view('bumindes/lain/permen47_cetak') ?>
-<?php $this->load->view('bumindes/lain/permen47_unduh') ?>
+<?php $this->load->view('bumindes/umum/permen47_cetak') ?>
+<?php $this->load->view('bumindes/umum/permen47_unduh') ?>
 
 <script>
 	$("#form_cetak").click(function(event) {
