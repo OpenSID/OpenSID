@@ -63,9 +63,11 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021052651($hasil);
 		$hasil = $hasil && $this->migrasi_2021052751($hasil);
 		$hasil = $hasil && $this->migrasi_2021052851($hasil);
-    $hasil = $hasil && $this->migrasi_2021052951($hasil); 
-    
+		$hasil = $hasil && $this->migrasi_2021052951($hasil);
+		$hasil = $hasil && $this->migrasi_2021052952($hasil);
+    $hasil = $hasil && $this->migrasi_2021053053($hasil);
 		status_sukses($hasil);
+    
 		return $hasil;
 	}
 
@@ -234,22 +236,87 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		return $hasil;
 	}
   
-  protected function migrasi_2021052951($hasil)
+	protected function migrasi_2021052951($hasil)
+	{
+		// Pindah Buku Inventaris dan Kekayaan Desa
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 322,
+			'modul'      => 'Buku Inventaris dan Kekayaan Desa',
+			'url'        => 'bumindes_inventaris_kekayaan',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 302,
+		]);
+		// Hapus Administrasi Lainnya
+		$hasil = $hasil && $this->db->where('id', 306)->delete('setting_modul');
+		// Tambah Buku Rencana Kerja Pembangunan
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 323,
+			'modul'      => 'Buku Rencana Kerja Pembangunan',
+			'url'        => 'bumindes_rencana_pembangunan',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 0,
+			'ikon_kecil' => '',
+			'parent'     => 305,
+		]);
+		// Ubah link Buku Administrasi Pembangunan
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 305,
+			'modul'      => 'Administrasi Pembangunan',
+			'url'        => 'bumindes_rencana_pembangunan',
+			'aktif'      => 1,
+			'ikon'       => 'fa-university',
+			'urut'       => 4,
+			'level'      => 2,
+			'hidden'     => 0,
+			'ikon_kecil' => 'fa-university',
+			'parent'     => 301,
+		]);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021052952($hasil)
+	{
+		// Tambah cdesa supaya bisa ditentukan hak akses
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 214,
+			'modul'      => 'C-Desa',
+			'url'        => 'cdesa',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 2,
+			'ikon_kecil' => '',
+			'parent'     => 7,
+		]);
+		return $hasil;
+	}
+  
+  protected function migrasi_2021053053($hasil)
 	{
 		if ( ! $this->db->field_exists('id_peta', 'persil'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('persil', 'id_peta int(60)');
+			$hasil = $hasil && $this->dbforge->add_column('persil', 'id_peta int(60)'); // tambah id peta untuk menyimpan id area 
 		}
-
+    
 		if ( ! $this->db->field_exists('id_peta', 'mutasi_cdesa'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('mutasi_cdesa', 'id_peta int(60)');
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_cdesa', 'id_peta int(60)');// tambah id peta untuk menyimpan id area
 		}
  
 		return $hasil;
 	}
-  
-  
+
+
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
 		$this->dbforge->add_field([

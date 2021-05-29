@@ -116,7 +116,6 @@ class Cdesa extends Admin_Controller {
 
 	public function mutasi($id_cdesa, $id_persil)
 	{
-
 		$data = array();
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id_cdesa);
 		$data['desa'] = $this->config_model->get_data();
@@ -130,6 +129,7 @@ class Cdesa extends Admin_Controller {
 
 	public function create($mode=0, $id=0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
@@ -168,6 +168,7 @@ class Cdesa extends Admin_Controller {
 
 	private function ubah_pemilik($id, &$data, $post)
 	{
+		$this->redirect_hak_akses('u');
 		$jenis_pemilik_baru = $post['jenis_pemilik'] ?: 0;
 
 		switch ($jenis_pemilik_baru)
@@ -197,6 +198,7 @@ class Cdesa extends Admin_Controller {
 
 	public function simpan_cdesa($page=1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('c_desa','Nomor Surat C-DESA','required|trim|numeric');
@@ -233,6 +235,7 @@ class Cdesa extends Admin_Controller {
 
 	public function create_mutasi($id_cdesa, $id_persil='', $id_mutasi='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->load->model('plan_area_model');
@@ -270,6 +273,7 @@ class Cdesa extends Admin_Controller {
 
 	public function simpan_mutasi($id_cdesa, $id_mutasi='')
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->cdesa_model->simpan_mutasi($id_cdesa, $id_mutasi, $this->input->post());
 		if ($data['id_persil'])
 			redirect("cdesa/mutasi/$id_cdesa/$data[id_persil]");
@@ -279,6 +283,7 @@ class Cdesa extends Admin_Controller {
 
 	public function hapus_mutasi($cdesa, $id_mutasi)
 	{
+		$this->redirect_hak_akses('u');
 		$id_persil = $this->db->select('id_persil')
 			->where('id', $id_mutasi)
 			->get('mutasi_cdesa')
@@ -335,6 +340,7 @@ class Cdesa extends Admin_Controller {
 
 	public function import_proses()
 	{
+		$this->redirect_hak_akses('u');
 		$this->data_persil_model->impor_persil();
 		redirect("data_persil");
 	}
@@ -362,6 +368,7 @@ class Cdesa extends Admin_Controller {
 
 	public function awal_persil($id_cdesa, $id_persil, $hapus=false)
 	{
+		$this->redirect_hak_akses('u');
 		$this->data_persil_model->awal_persil($id_cdesa, $id_persil, $hapus);
 		redirect("cdesa/mutasi/$id_cdesa/$id_persil");
 	}
