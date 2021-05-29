@@ -150,6 +150,7 @@ class Data_persil extends Admin_Controller {
 
 	public function form($id='', $id_cdesa='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->set_minsidebar(1);
 		$this->tab_ini = 13;
 
@@ -163,6 +164,7 @@ class Data_persil extends Admin_Controller {
 
 	public function simpan_persil($page=1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('no_persil','Nomor Surat Persil','required|trim|numeric');
@@ -194,12 +196,14 @@ class Data_persil extends Admin_Controller {
 
 	public function import()
 	{
+		$this->redirect_hak_akses('u');
 		$data['form_action'] = site_url("data_persil/import_proses");
 		$this->load->view('data_persil/import', $data);
 	}
 
 	public function import_proses()
 	{
+		$this->redirect_hak_akses('u');
 		$this->data_persil_model->impor_persil();
 		redirect("data_persil");
 	}

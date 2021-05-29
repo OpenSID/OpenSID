@@ -64,6 +64,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021052751($hasil);
 		$hasil = $hasil && $this->migrasi_2021052851($hasil);
 		$hasil = $hasil && $this->migrasi_2021052951($hasil);
+		$hasil = $hasil && $this->migrasi_2021052952($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -278,6 +279,24 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 			'parent'     => 301,
 		]);
 
+		return $hasil;
+	}
+
+	protected function migrasi_2021052952($hasil)
+	{
+		// Tambah cdesa supaya bisa ditentukan hak akses
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 214,
+			'modul'      => 'C-Desa',
+			'url'        => 'cdesa',
+			'aktif'      => 1,
+			'ikon'       => 'fa-files-o',
+			'urut'       => 0,
+			'level'      => 0,
+			'hidden'     => 2,
+			'ikon_kecil' => '',
+			'parent'     => 7,
+		]);
 		return $hasil;
 	}
 

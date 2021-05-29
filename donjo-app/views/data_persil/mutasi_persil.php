@@ -34,9 +34,11 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?=site_url("cdesa/create_mutasi/".$cdesa['id'])."/".$persil['id']?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Persil">
-							<i class="fa fa-plus"></i>Tambah Mutasi Persil
-						</a>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<a href="<?=site_url("cdesa/create_mutasi/".$cdesa['id'])."/".$persil['id']?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Persil">
+								<i class="fa fa-plus"></i>Tambah Mutasi Persil
+							</a>
+						<?php endif; ?>
 						<a href="<?=site_url('cdesa')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar C-DESA</a>
 						</a>
 						<a href="<?=site_url('cdesa/rincian/'.$cdesa[id])?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar C-DESA"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian C-DESA</a>
@@ -124,7 +126,9 @@
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th class="padat">No</th>
-																<th class="padat">Aksi</th>
+																<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<th class="padat">Aksi</th>
+																<?php endif; ?>
 																<th>No. Bidang Mutasi</th>
 																<th>Luas Masuk (M2)</th>
 																<th>Luas Keluar (M2)</th>
@@ -138,14 +142,18 @@
 															<?php foreach ($mutasi as $key => $item): $nomer++;?>
 																<tr>
 																	<td class="text-center"><?= $nomer?></td>
-																	<td nowrap class="text-center">
-																		<a href="<?= site_url("cdesa/create_mutasi/$item[id_cdesa_masuk]/$item[id_persil]/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
-																		<?php if ($item['jenis_mutasi'] != '9'): ?>
-																			<a href="#" data-href="<?= site_url("cdesa/hapus_mutasi/$cdesa[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php else: ?>
-																			<a href="#" data-href="<?= site_url('cdesa/awal_persil/'.$cdesa['id'].'/' .$persil['id'].'/1')?>" class="btn bg-maroon btn-flat btn-sm"  title="Bukan pemilik awal" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																		<?php endif; ?>
-																	</td>
+																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<td nowrap class="text-center">
+																			<a href="<?= site_url("cdesa/create_mutasi/$item[id_cdesa_masuk]/$item[id_persil]/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php if ($item['jenis_mutasi'] != '9'): ?>
+																				<?php if ($this->CI->cek_hak_akses('h')): ?>
+																					<a href="#" data-href="<?= site_url("cdesa/hapus_mutasi/$cdesa[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																				<?php endif; ?>
+																			<?php else: ?>
+																				<a href="#" data-href="<?= site_url('cdesa/awal_persil/'.$cdesa['id'].'/' .$persil['id'].'/1')?>" class="btn bg-maroon btn-flat btn-sm"  title="Bukan pemilik awal" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php endif; ?>
+																		</td>
+																	<?php endif; ?>
 																	<td><?= $item['no_bidang_persil']?></td>
 																	<td><?= $item['luas_masuk']?>
 																		<?php if ($item['cdesa_keluar'] and $item['id_cdesa_masuk'] == $cdesa['id']): ?>
