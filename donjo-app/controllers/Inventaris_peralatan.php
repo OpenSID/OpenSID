@@ -140,14 +140,6 @@ class Inventaris_peralatan extends Admin_Controller {
 		$this->render('inventaris/peralatan/table_mutasi', $data);
 	}
 
-	public function history()
-	{
-		$id_asset = $this->input->get('id');
-		$data['main'] = $this->inventaris_peralatan_model->list_history_inventaris($id_asset);
-		$this->set_minsidebar(1);
-		$this->render('inventaris/peralatan/table_history', $data);
-	}
-
 	public function cetak($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header['desa'];
