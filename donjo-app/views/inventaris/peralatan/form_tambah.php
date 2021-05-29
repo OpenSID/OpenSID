@@ -53,19 +53,19 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="merk">Merk/Type</label>
 										<div class="col-sm-8">
-											<input type="text" class="form-control input-sm required" id="merk" name="merk" type="text"/>
+											<input type="text" class="form-control input-sm" id="merk" name="merk" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="ukuran">Ukuran/CC </label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="ukuran" id="ukuran" type="text"/>
+											<input maxlength="50" class="form-control input-sm" name="ukuran" id="ukuran" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="bahan">Bahan</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="bahan" id="bahan" type="text"/>
+											<input maxlength="50" class="form-control input-sm" name="bahan" id="bahan" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -81,31 +81,31 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="no_pabrik">Nomor Pabrik</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="no_pabrik" id="no_pabrik" type="text"/>
+											<input maxlength="50" class="form-control input-sm" name="no_pabrik" id="no_pabrik" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="no_rangka">Nomor Rangka </label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="no_rangka" id="no_rangka" type="text"/>
+											<input maxlength="50" class="form-control input-sm" name="no_rangka" id="no_rangka" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="no_mesin">Nomor Mesin</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="no_mesin" id="no_mesin" type="text"/>
+											<input maxlength="50" class="form-control input-sm" name="no_mesin" id="no_mesin" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="no_polisi">Nomor Polisi </label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="no_polisi" id="no_polisi" type="text"/>
+											<input maxlength="50" class="form-control input-sm" name="no_polisi" id="no_polisi" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="bpkb">BPKB</label>
 										<div class="col-sm-8">
-											<input maxlength="50" class="form-control input-sm required" name="no_bpkb" id="no_bpkb" type="text"/>
+											<input maxlength="50" class="form-control input-sm" name="no_bpkb" id="no_bpkb" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -125,7 +125,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="asal_usul">Asal Usul </label>
 										<div class="col-sm-4">
 											<select name="asal" id="asal" class="form-control input-sm required">
-												<option value="">-- Pilih Asal Usul Lahan --</option>
+												<option value="">-- Pilih Asal Usul --</option>
 												<option value="Bantuan Kabupaten">Bantuan Kabupaten</option>
 												<option value="Bantuan Pemerintah">Bantuan Pemerintah</option>
 												<option value="Bantuan Provinsi">Bantuan Provinsi</option>

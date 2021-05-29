@@ -140,14 +140,6 @@ class Inventaris_asset extends Admin_Controller {
 		$this->render('inventaris/asset/table_mutasi', $data);
 	}
 
-	public function history()
-	{
-		$id_asset = $this->input->get('id');
-		$data['main'] = $this->inventaris_asset_model->list_history_inventaris($id_asset);
-		$this->set_minsidebar(1);
-		$this->render('inventaris/asset/table_history', $data);
-	}
-
 	public function cetak($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header['desa'];
