@@ -62,6 +62,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021052501($hasil);
 		$hasil = $hasil && $this->migrasi_2021052651($hasil);
 		$hasil = $hasil && $this->migrasi_2021052751($hasil);
+		$hasil = $hasil && $this->migrasi_2021052851($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -199,7 +200,39 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		return $hasil;
 	}
-	 
+
+	protected function migrasi_2021052851($hasil)
+	{
+		// Kolom tidak harus diisi
+		$fields = [
+			'merk' => [
+				'type' => 'varchar(255)',
+				'null' => true
+			],
+			'ukuran' => [
+				'type' => 'text',
+				'null' => true
+			],
+			'bahan' => [
+				'type' => 'text',
+				'null' => true
+			]
+		];
+		$hasil = $hasil && $this->dbforge->modify_column('inventaris_peralatan', $fields);
+		$fields = [
+			'no_sertifikat' => [
+				'type' => 'varchar(255)',
+				'null' => true
+			],
+			'tanggal_sertifikat' => [
+				'type' => 'date',
+				'null' => true
+			],
+		];
+		$hasil = $hasil && $this->dbforge->modify_column('inventaris_tanah', $fields);
+		return $hasil;
+	}
+
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
 		$this->dbforge->add_field([
@@ -208,7 +241,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		]);
 
 		$this->dbforge->add_key('id', true);
-		$hasil =& $this->dbforge->create_table('ref_asal_tanah_kas', true);
+		$hasil = $hasil && $this->dbforge->create_table('ref_asal_tanah_kas', true);
 		return $hasil;
 	}
 
@@ -220,7 +253,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		]);
 
 		$this->dbforge->add_key('id', true);
-		$hasil =& $this->dbforge->create_table('ref_peruntukan_tanah_kas', true);
+		$hasil = $hasil && $this->dbforge->create_table('ref_peruntukan_tanah_kas', true);
 		return $hasil;
 	}
 
@@ -367,7 +400,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 		$this->dbforge->add_field($fields);
 		$this->dbforge->add_key('id', TRUE);
-		$hasil =& $this->dbforge->create_table('pendapat', TRUE);
+		$hasil = $hasil && $this->dbforge->create_table('pendapat', TRUE);
 		return $hasil;
 	}
 

@@ -101,15 +101,15 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label required" style="text-align:left;" for="tanggal_sertifikat">Tanggal Sertifikat</label>
+									<label class="col-sm-3 control-label" style="text-align:left;" for="tanggal_sertifikat">Tanggal Sertifikat</label>
 									<div class="col-sm-4">
-										<input maxlength="50" class="form-control input-sm required" name="tanggal_sertifikat" id="tanggal_sertifikat" type="date" placeholder="Tanggal Sertifikat"/>
+										<input maxlength="50" class="form-control input-sm" name="tanggal_sertifikat" id="tanggal_sertifikat" type="date" placeholder="Tanggal Sertifikat"/>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="no_sertifikat">Nomor Sertifikat </label>
 									<div class="col-sm-8">
-										<input maxlength="50" class="form-control input-sm required" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
+										<input maxlength="50" class="form-control input-sm" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
 									</div>
 								</div>
 								<div class="form-group">
