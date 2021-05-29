@@ -9,20 +9,14 @@ class Bumindes_rencana_pembangunan extends Admin_Controller {
 
 		$this->load->library('session');
 		$this->load->model('header_model');
-		$this->load->model('pamong_model');
 		$this->modul_ini = 301;
+		$this->sub_modul_ini = 305;
 	}
 
-	public function index()
+	public function index($submenu = 'rencana')
 	{
-		$this->sub_modul_ini = 305;
-		$tahun = (isset($this->session->tahun)) ? $this->session->tahun : date("Y") ;
-		$data['subtitle'] = "Buku Rencana Kerja Pembangunan";
- 		$pamong = $this->pamong_model->list_data();
-
 		$this->render('bumindes/pembangunan/main', [
-			'subtitle' => 'Buku Rencana Kerja Pembangunan',
-			'selected_nav' => 'rencana',
+			'selected_nav' => $submenu,
 			'main_content' => 'bumindes/pembangunan/content_rencana'
 		]);
 
