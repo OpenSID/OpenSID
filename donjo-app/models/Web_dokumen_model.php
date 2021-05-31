@@ -687,5 +687,9 @@ class Web_dokumen_model extends MY_Model {
 		return $data;
 	}
 
+	public function jml_dokumen()
+	{
+		return $this->db->get('dokumen_hidup')->num_rows();
+	}
 }
 ?>

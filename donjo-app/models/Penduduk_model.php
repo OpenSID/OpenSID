@@ -1524,7 +1524,7 @@ class Penduduk_model extends MY_Model {
 
 	public function jml_penduduk()
 	{
-		$jml = $this->db->select('count(*) as jml')->where('status', '1')->
+		$jml = $this->db->select('count(id) as jml')->where('status', '1')->
 				get('tweb_penduduk')->row()->jml;
 		return $jml;
 	}

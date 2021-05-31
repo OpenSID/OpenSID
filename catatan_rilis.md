@@ -1,10 +1,10 @@
-#### [v21.05-premium-beta - 2021-05-26](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.05-premium-beta - 2021-05-31](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.05-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-26 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-31 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -57,3 +57,4 @@ Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-26 adalah sebagai beri
 6. Sederhanakan dan mengurangi duplikasi script pada Layanan Mandiri.
 7. Hapus script tidak digunakan di modul Layanan Surat.
 8. Sediakan opsi memanggil data eksternal tanpa menggunakan SSL. Ambil data SDGs tanpa menggunakan SSL, karena sertifikat portal Kemendesa yg bermasalah. Data SDGs tidak dirahasiakan, dan aman diambil tanpa SSL.
+9. Kirim statistik tambahan ke TrackSID.
