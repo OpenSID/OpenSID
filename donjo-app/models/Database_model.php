@@ -97,7 +97,8 @@ class Database_model extends CI_Model {
 		'21.02' => array('migrate' => 'migrasi_2102_ke_2103', 'nextVersion' => '21.03'),
 		'21.03' => array('migrate' => 'migrasi_2103_ke_2104', 'nextVersion' => '21.04'),
 		'21.04' => array('migrate' => 'migrasi_2104_ke_2105', 'nextVersion' => '21.05'),
-		'21.05' => array('migrate' => 'migrasi_2105_ke_2106', 'nextVersion' => null)
+		'21.05' => array('migrate' => 'migrasi_2105_ke_2106', 'nextVersion' => '21.06'),
+		'21.06' => array('migrate' => 'migrasi_2106_ke_2107', 'nextVersion' => null),
 	);
 
 	public function __construct()

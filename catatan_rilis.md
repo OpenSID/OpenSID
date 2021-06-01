@@ -1,10 +1,10 @@
-#### [v21.05-premium-beta - 2021-05-31](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.06-premium - 2021-06-01](https://github.com/OpenSID/premium/compare/v21.05-premium...v21.06-premium)
 
-Di rilis ini, versi 21.05-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.06-premium, menyediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28 yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi v21.05-premium-beta - 2021-05-31 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium - 2021-06-01 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
