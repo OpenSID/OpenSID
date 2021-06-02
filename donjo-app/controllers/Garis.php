@@ -106,6 +106,7 @@ class Garis extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -153,6 +154,7 @@ class Garis extends Admin_Controller {
 
 	public function update_maps($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_garis_model->update_position($id);
 		redirect("garis/index/$p/$o");
 	}
@@ -196,12 +198,14 @@ class Garis extends Admin_Controller {
 
 	public function insert($tip=1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_garis_model->insert($tip);
 		redirect("garis/index/$tip");
 	}
 
 	public function update($id='', $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_garis_model->update($id);
 		redirect("garis/index/$p/$o");
 	}
@@ -222,12 +226,14 @@ class Garis extends Admin_Controller {
 
 	public function garis_lock($id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_garis_model->garis_lock($id, 1);
 		redirect("garis/index/$p/$o");
 	}
 
 	public function garis_unlock($id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_garis_model->garis_lock($id, 2);
 		redirect("garis/index/$p/$o");
 	}
