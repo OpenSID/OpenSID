@@ -9,5 +9,6 @@ Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-02 adalah sebagai be
 
 #### Perbaikan BUG
 1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Pemetaaan kalau pengguna tidak mempunyai hak ubah.
+2. Sekarang keluarga yang kepala keluarganya meninggal, hilang atau pindah dilaporkan di Laporan Bulanan pada bulan sesuai dengan Tanggal Lapor peristiwa yang bersangkutan.
 
 
