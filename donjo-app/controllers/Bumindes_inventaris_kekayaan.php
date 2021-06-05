@@ -18,13 +18,8 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller {
 	public function index()
 	{
 		$this->sub_modul_ini = 322;
-		$tahun = (isset($this->session->tahun)) ? $this->session->tahun : date("Y") ;
+		$tahun = $this->session->tahun ?: date("Y") ;
 		$data['subtitle'] = "Buku Inventaris dan Kekayaan Desa";
-		// set session
-		foreach ($this->list_session as $list) 
-		{
-			$data[$list] = $this->session->$list ?: '';
-		}
 		// set session END
  		$pamong = $this->pamong_model->list_data();
 
@@ -32,12 +27,21 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller {
 			'subtitle' => 'Buku Inventaris dan Kekayaan Desa',
 			'selected_nav' => 'inventaris',
 			'main_content' => 'bumindes/umum/content_inventaris',
-			'data' => $this->inventaris_laporan_model->permen_47($tahun,null),
+			'min_tahun' => $this->inventaris_laporan_model->min_tahun(),
+			'data' => $this->inventaris_laporan_model->permen_47($tahun, null),
 			'kades' => $data['sekdes'] = $pamong,
-			'sekdes' => $data['sekdes'] = $pamong
+			'sekdes' => $data['sekdes'] = $pamong,
+			'tahun' => $tahun
 		]);
+	}
 
-
+	public function filter($filter)
+	{
+		$value = $this->input->post($filter);
+		if ($value != "")
+			$this->session->$filter = $value;
+		else $this->session->unset_userdata($filter);
+		redirect('bumindes_inventaris_kekayaan');
 	}
 
 }

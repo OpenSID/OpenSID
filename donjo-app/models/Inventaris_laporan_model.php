@@ -411,4 +411,13 @@ class Inventaris_laporan_model extends CI_Model
 		return $rekap;
 	}
 
+	public function min_tahun()
+	{
+		$min_tahun = $this->db
+			->select('min(m.tahun_pengadaan) as tahun')
+			->from('master_inventaris m')
+			->get()->row()->tahun;
+		return $min_tahun;
+	}
+
 }
