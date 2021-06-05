@@ -100,6 +100,7 @@ class Area extends Admin_Controller
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -146,6 +147,7 @@ class Area extends Admin_Controller
 
 	public function update_maps($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_area_model->update_position($id);
 		redirect("area/index/$p/$o");
 	}
@@ -189,12 +191,14 @@ class Area extends Admin_Controller
 
 	public function insert($tip=1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_area_model->insert($tip);
 		redirect("area/index/$tip");
 	}
 
 	public function update($id='', $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_area_model->update($id);
 		redirect("area/index/$p/$o");
 	}
@@ -215,12 +219,14 @@ class Area extends Admin_Controller
 
 	public function area_lock($id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_area_model->area_lock($id, 1);
 		redirect("area/index/$p/$o");
 	}
 
 	public function area_unlock($id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_area_model->area_lock($id, 2);
 		redirect("area/index/$p/$o");
 	}

@@ -86,6 +86,7 @@ class Line extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -117,6 +118,7 @@ class Line extends Admin_Controller {
 
 	public function ajax_add_sub_line($line = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u');
 		if ($id)
 		{
 			$data['line'] = $this->plan_line_model->get_line($id);
@@ -151,12 +153,14 @@ class Line extends Admin_Controller {
 
 	public function insert($tip = 1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_line_model->insert($tip);
 		redirect("line/index/$tip");
 	}
 
 	public function update($id = '', $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_line_model->update($id);
 		redirect("line/index/$p/$o");
 	}
@@ -177,24 +181,28 @@ class Line extends Admin_Controller {
 
 	public function line_lock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_line_model->line_lock($id, 1);
 		redirect("line/index/$p/$o");
 	}
 
 	public function line_unlock($id = '')
 	{
-		$this->plan_line_model->line_lock($id, 2);
+	$this->redirect_hak_akses('u');
+	$this->plan_line_model->line_lock($id, 2);
 		redirect("line/index/$p/$o");
 	}
 
 	public function insert_sub_line($line = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_line_model->insert_sub_line($line);
 		redirect("line/sub_line/$line");
 	}
 
 	public function update_sub_line($line = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_line_model->update_sub_line($id);
 		redirect("line/sub_line/$line");
 	}
@@ -215,12 +223,14 @@ class Line extends Admin_Controller {
 
 	public function line_lock_sub_line($line = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_line_model->line_lock($id, 1);
 		redirect("line/sub_line/$line");
 	}
 
 	public function line_unlock_sub_line($line = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_line_model->line_lock($id, 2);
 		redirect("line/sub_line/$line");
 	}

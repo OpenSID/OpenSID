@@ -452,4 +452,8 @@ class Mandiri_model extends CI_Model {
 		$this->session->set_flashdata('notif', $respon);
 	}
 
+	public function jml_mandiri()
+	{
+		return $this->db->get('tweb_penduduk_mandiri')->num_rows();
+	}
 }

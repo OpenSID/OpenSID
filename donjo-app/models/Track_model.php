@@ -3,9 +3,7 @@
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('penduduk_model');
-    $this->load->model('web_artikel_model');
-    $this->load->model('keluar_model');
+    $this->load->model(['penduduk_model', 'web_artikel_model', 'keluar_model', 'data_persil_model', 'user_model', 'mandiri_model', 'program_bantuan_model', 'web_dokumen_model']);
   }
 
   public function track_desa($dari)
@@ -70,7 +68,13 @@
      "version" => AmbilVersi(),
      "jml_penduduk" => $this->penduduk_model->jml_penduduk(),
      "jml_artikel" => $this->web_artikel_model->jml_artikel(),
-     "jml_surat_keluar" => $this->keluar_model->jml_surat_keluar()
+     "jml_surat_keluar" => $this->keluar_model->jml_surat_keluar(),
+     "jml_peserta_bantuan" => $this->program_bantuan_model->jml_peserta_program(),
+     "jml_mandiri" => $this->mandiri_model->jml_mandiri(),
+     "jml_pengguna" => $this->user_model->jml_pengguna(),
+     "jml_unsur_peta" => $this->jml_unsur_peta(),
+     "jml_persil" => $this->data_persil_model->jml_persil(),
+     "jml_dokumen" => $this->web_dokumen_model->jml_dokumen()
     );
 
     if ($this->abaikan($desa)) return;
@@ -156,6 +160,14 @@
       $abaikan = true;
     }
     return $abaikan;
+  }
+
+  private function jml_unsur_peta()
+  {
+    $jml = $this->db->get('area')->num_rows() +
+      $this->db->get('garis')->num_rows() +
+      $this->db->get('lokasi')->num_rows();
+    return $jml;
   }
 
 }

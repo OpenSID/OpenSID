@@ -86,6 +86,7 @@ class Polygon extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -150,12 +151,14 @@ class Polygon extends Admin_Controller {
 
 	public function insert($tip = 1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->insert($tip);
 		redirect("polygon/index/$tip");
 	}
 
 	public function update($id = '', $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->update($id);
 		redirect("polygon/index/$p/$o");
 	}
@@ -176,24 +179,28 @@ class Polygon extends Admin_Controller {
 
 	public function polygon_lock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->polygon_lock($id, 1);
 		redirect("polygon/index/$p/$o");
 	}
 
 	public function polygon_unlock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->polygon_lock($id, 2);
 		redirect("polygon/index/$p/$o");
 	}
 
 	public function insert_sub_polygon($polygon = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->insert_sub_polygon($polygon);
 		redirect("polygon/sub_polygon/$polygon");
 	}
 
 	public function update_sub_polygon($polygon = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->update_sub_polygon($id);
 		redirect("polygon/sub_polygon/$polygon");
 	}
@@ -214,12 +221,14 @@ class Polygon extends Admin_Controller {
 
 	public function polygon_lock_sub_polygon($polygon = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->polygon_lock($id, 1);
 		redirect("polygon/sub_polygon/$polygon");
 	}
 
 	public function polygon_unlock_sub_polygon($polygon = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_polygon_model->polygon_lock($id, 2);
 		redirect("polygon/sub_polygon/$polygon");
 	}

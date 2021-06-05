@@ -382,5 +382,9 @@ class Data_persil_model extends MY_Model {
  		$this->db->insert('mutasi_cdesa', $mutasi);
  	}
 
+ 	public function jml_persil()
+ 	{
+ 		return $this->db->get('persil')->num_rows();
+ 	}
 }
 ?>
