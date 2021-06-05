@@ -75,6 +75,7 @@
 			var semua_marker = [];
 			var markers = new L.MarkerClusterGroup();
 			var markersList = [];
+			var marker_persil = [];
 
 			//OVERLAY WILAYAH DESA
 			<?php if (!empty($desa['path'])) : ?>
@@ -97,7 +98,7 @@
 			<?php endif; ?>
 
 			//Menampilkan overlayLayers Peta Semua Wilayah
-			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>");
+			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_persil, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>");
 
 			//Menampilkan BaseLayers Peta
 			var baseLayers = getBaseLayers(mymap, '<?= $this->setting->mapbox_key ?>');

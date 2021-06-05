@@ -145,6 +145,7 @@
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
 																		<td nowrap class="text-center">
 																			<a href="<?= site_url("cdesa/create_mutasi/$item[id_cdesa_masuk]/$item[id_persil]/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																			<a href="#" data-path="<?=  $item['path']?>" class="btn bg-olive btn-flat btn-sm area-map" title="Lihat Map" data-toggle="modal" data-target="#map-modal" ><i class="fa fa-map"></i></a>
 																			<?php if ($item['jenis_mutasi'] != '9'): ?>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
 																					<a href="#" data-href="<?= site_url("cdesa/hapus_mutasi/$cdesa[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

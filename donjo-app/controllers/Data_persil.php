@@ -53,7 +53,8 @@ class Data_persil extends Admin_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model(['config_model', 'data_persil_model', 'cdesa_model', 'penduduk_model', 'pamong_model', 'wilayah_model']);
+		$this->load->model(['data_persil_model', 'cdesa_model', 'pamong_model', 'wilayah_model']);
+		$this->set_minsidebar(1);
 		$this->controller = 'data_persil';
 		$this->modul_ini = 7;
 		$this->set_page = ['20', '50', '100'];
@@ -81,7 +82,6 @@ class Data_persil extends Admin_Controller {
 
 	public function index($page=1, $o=0)
 	{
-		$this->set_minsidebar(1);
 		$this->tab_ini = 13;
 
 		foreach ($this->list_session as $list)
@@ -129,7 +129,7 @@ class Data_persil extends Admin_Controller {
 		$data['func'] = 'index';
 		$data['set_page'] = $this->set_page;
 		$data['per_page'] = $this->session->per_page;
-		$data["desa"] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['paging']  = $this->data_persil_model->paging($page);
 		$data["persil"] = $this->data_persil_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
@@ -151,8 +151,7 @@ class Data_persil extends Admin_Controller {
 	public function form($id='', $id_cdesa='')
 	{
 		$this->redirect_hak_akses('u');
-    $this->load->model('plan_area_model');
-		$this->set_minsidebar(1);
+		$this->load->model('plan_area_model');
 		$this->tab_ini = 13;
 
 		if ($id) $data["persil"] = $this->data_persil_model->get_persil($id);
@@ -161,7 +160,7 @@ class Data_persil extends Admin_Controller {
 		$data["persil_lokasi"] = $this->wilayah_model->list_semua_wilayah();
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 		$data['peta'] = $this->plan_area_model->list_data();
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 
 		$this->render('data_persil/form_persil', $data);
 	}
@@ -253,9 +252,9 @@ class Data_persil extends Admin_Controller {
 		$data['config'] = $this->header['desa'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['persil'] = $this->data_persil_model->list_data();
-    $data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
+		$data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
 
 		//pengaturan data untuk format cetak/ unduh
 		$data['file'] = "Persil";
@@ -272,14 +271,11 @@ class Data_persil extends Admin_Controller {
 		 
 		$this->load->model('plan_area_model');
 		$id = $this->input->get('id');
-
 		$data = $this->plan_area_model->get_area($id);
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode([
-				'data' => $data,
-				'status' => true
-			]));
+		$this->json_output([
+			'data' => $data,
+			'status' => true
+		]);
 	}
 }
 
