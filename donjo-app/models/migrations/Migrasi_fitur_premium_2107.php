@@ -50,7 +50,24 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
+		$hasil = $hasil && $this->migrasi_2021060251($hasil);
+
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function migrasi_2021060251($hasil)
+	{
+		if ( ! $this->db->field_exists('id_peta', 'persil'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('persil', 'id_peta int(60)'); // tambah id peta untuk menyimpan id area 
+		}
+    
+		if ( ! $this->db->field_exists('id_peta', 'mutasi_cdesa'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('mutasi_cdesa', 'id_peta int(60)');// tambah id peta untuk menyimpan id area
+		}
+ 
 		return $hasil;
 	}
 }

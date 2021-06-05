@@ -65,9 +65,8 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021052851($hasil);
 		$hasil = $hasil && $this->migrasi_2021052951($hasil);
 		$hasil = $hasil && $this->migrasi_2021052952($hasil);
-    $hasil = $hasil && $this->migrasi_2021053053($hasil);
+
 		status_sukses($hasil);
-    
 		return $hasil;
 	}
 
@@ -235,7 +234,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		$hasil = $hasil && $this->dbforge->modify_column('inventaris_tanah', $fields);
 		return $hasil;
 	}
-  
+
 	protected function migrasi_2021052951($hasil)
 	{
 		// Pindah Buku Inventaris dan Kekayaan Desa
@@ -300,22 +299,6 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 		]);
 		return $hasil;
 	}
-  
-  protected function migrasi_2021053053($hasil)
-	{
-		if ( ! $this->db->field_exists('id_peta', 'persil'))
-		{
-			$hasil = $hasil && $this->dbforge->add_column('persil', 'id_peta int(60)'); // tambah id peta untuk menyimpan id area 
-		}
-    
-		if ( ! $this->db->field_exists('id_peta', 'mutasi_cdesa'))
-		{
-			$hasil = $hasil && $this->dbforge->add_column('mutasi_cdesa', 'id_peta int(60)');// tambah id peta untuk menyimpan id area
-		}
- 
-		return $hasil;
-	}
-
 
 	protected function create_table_ref_asal_tanah_kas($hasil)
 	{
