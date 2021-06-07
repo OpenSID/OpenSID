@@ -21,19 +21,25 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<div class="btn-group btn-group-vertical">
-							<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Analisis Baru</a>
-							<ul class="dropdown-menu" role="menu">
-								<li>
-									<a href="<?= site_url('analisis_master/form') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Analisis Baru"><i class="fa fa-plus"></i> Analisis Baru</a>
-								</li>
-								<li>
-									<a href="<?= site_url('analisis_master/import_gform') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor dari Google Form" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Google Form"><i class="fa fa-plus"></i> Impor dari Google Form</a>
-								</li>
-							</ul>
-						</div>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("analisis_master/delete_all/$p/$o") ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-						<a href="<?= site_url('analisis_master/import_analisis') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Analisis" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Analisis"><i class="fa fa-upload"></i> Impor Analisis</a>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<div class="btn-group btn-group-vertical">
+								<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Analisis Baru</a>
+								<ul class="dropdown-menu" role="menu">
+									<li>
+										<a href="<?= site_url('analisis_master/form') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Analisis Baru"><i class="fa fa-plus"></i> Analisis Baru</a>
+									</li>
+									<li>
+										<a href="<?= site_url('analisis_master/import_gform') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Impor dari Google Form" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Google Form"><i class="fa fa-plus"></i> Impor dari Google Form</a>
+									</li>
+								</ul>
+							</div>
+						<?php endif; ?>
+						<?php if ($this->CI->cek_hak_akses('h')): ?>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("analisis_master/delete_all/$p/$o") ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php endif; ?>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<a href="<?= site_url('analisis_master/import_analisis') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Analisis" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Analisis"><i class="fa fa-upload"></i> Impor Analisis</a>
+						<?php endif; ?>
 						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 					</div>
 					<div class="box-body">
@@ -72,7 +78,9 @@
 													<table class="table table-bordered table-striped dataTable table-hover">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
-																<th><input type="checkbox" id="checkall" /></th>
+																<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<th><input type="checkbox" id="checkall" /></th>
+																<?php endif; ?>
 																<th>No</th>
 																<th>Aksi</th>
 																<?php if ($o == 4) : ?>
@@ -103,19 +111,23 @@
 														<tbody>
 															<?php foreach ($main as $data) : ?>
 																<tr>
-																	<td>
-																		<?php if ($data['jenis'] != 1) : ?>
-																			<input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" />
-																		<?php endif; ?>
-																	</td>
+																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<td>
+																			<?php if ($data['jenis'] != 1) : ?>
+																				<input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" />
+																			<?php endif; ?>
+																		</td>
+																	<?php endif; ?>
 																	<td><?= $data['no'] ?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("analisis_master/menu/$data[id]") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a>
-																		<a href="<?= site_url("analisis_master/form/$p/$o/$data[id]") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
-																		<?php if ($data['jenis'] != 1) : ?>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?= site_url("analisis_master/form/$p/$o/$data[id]") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
+																		<?php endif; ?>
+																		<?php if ($data['jenis'] != 1 && $this->CI->cek_hak_akses('u')) : ?>
 																			<a href="#" data-href="<?= site_url("analisis_master/delete/$p/$o/$data[id]") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
-																		<?php if ($data['gform_id'] != null && $data['gform_id'] != "") : ?>
+																		<?php if ($data['gform_id'] != null && $data['gform_id'] != "" && $this->CI->cek_hak_akses('u')) : ?>
 																			<a href="<?= site_url("analisis_master/update_gform/$data[id]") ?>" class="btn bg-navy btn-flat btn-sm" title="Update Data Google Form"><i class='fa fa-refresh'></i></a>
 																		<?php endif; ?>
 																	</td>

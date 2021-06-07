@@ -207,6 +207,8 @@ class Analisis_laporan extends Admin_Controller {
 	{
 		$data['aksi'] = ucwords($aksi);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
 		$data['form_action'] = site_url("analisis_laporan/cetak/$o/$aksi");
 
 		$this->load->view('global/ttd_pamong', $data);
