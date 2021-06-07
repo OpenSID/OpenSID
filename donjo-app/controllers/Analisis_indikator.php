@@ -102,6 +102,7 @@ class Analisis_indikator extends Admin_Controller{
 
 	public function form($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -139,6 +140,7 @@ class Analisis_indikator extends Admin_Controller{
 
 	public function form_parameter($in='', $id='')
 	{
+		$this->redirect_hak_akses('u');
 		if ($id)
 		{
 			$data['analisis_parameter'] = $this->analisis_indikator_model->get_analisis_parameter($id);
@@ -193,11 +195,13 @@ class Analisis_indikator extends Admin_Controller{
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->insert();
 		redirect('analisis_indikator');
 	}
 
 	public function update($p=1, $o=0, $id=''){
+		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->update($id);
 		redirect("analisis_indikator/index/$p/$o");
 	}
@@ -216,12 +220,14 @@ class Analisis_indikator extends Admin_Controller{
 
 	public function p_insert($in='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->p_insert($in);
 		redirect("analisis_indikator/parameter/$in");
 	}
 
 	public function p_update($in='', $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->p_update($id);
 		redirect("analisis_indikator/parameter/$in");
 	}

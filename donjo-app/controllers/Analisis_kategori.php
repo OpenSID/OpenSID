@@ -45,6 +45,7 @@ class Analisis_kategori extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if (empty($_SESSION['analisis_master'])) redirect('analisis_master');
 		$this->load->model('analisis_kategori_model');
 
 		$_SESSION['submenu'] = "Data Kategori";
@@ -88,6 +89,7 @@ class Analisis_kategori extends Admin_Controller {
 	}
 
 	public function form($p=1, $o=0, $id=''){
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -116,12 +118,14 @@ class Analisis_kategori extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_kategori_model->insert();
 		redirect('analisis_kategori');
 	}
 
 	public function update($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_kategori_model->update($id);
 		redirect("analisis_kategori/index/$p/$o");
 	}

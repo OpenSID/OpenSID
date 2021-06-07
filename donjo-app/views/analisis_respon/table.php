@@ -38,10 +38,12 @@
 						<a href="<?= site_url("analisis_respon/data_ajax")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh data respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Respon">
 							<i class="fa fa-download"></i>Unduh
 						</a>
-						<a href="<?= site_url("analisis_respon/import")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Data Respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data Respon">
-							<i class="fa fa-upload"></i>Impor
-						</a>
-						<?php if ($analisis_master['format_impor'] == 1): ?>
+						<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<a href="<?= site_url("analisis_respon/import")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Data Respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data Respon">
+								<i class="fa fa-upload"></i>Impor
+							</a>
+						<?php endif; ?>
+						<?php if ($analisis_master['format_impor'] == 1 && $this->CI->cek_hak_akses('u')): ?>
 							<a href="<?= site_url("analisis_respon/form_impor_bdt")?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Data BDT 2015" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Data BDT 2015">
 								<i class="fa fa-upload"></i>Impor BDT 2015
 							</a>

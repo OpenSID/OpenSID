@@ -89,6 +89,7 @@ class Analisis_klasifikasi extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -118,12 +119,14 @@ class Analisis_klasifikasi extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_klasifikasi_model->insert();
 		redirect('analisis_klasifikasi');
 	}
 
 	public function update($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_klasifikasi_model->update($id);
 		redirect("analisis_klasifikasi/index/$p/$o");
 	}
