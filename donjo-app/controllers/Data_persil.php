@@ -161,6 +161,7 @@ class Data_persil extends Admin_Controller {
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 		$data['peta'] = $this->plan_area_model->list_data();
 		$data['desa'] = $this->header['desa'];
+		$data['wil_atas'] = $this->header['desa'];
 
 		$this->render('data_persil/form_persil', $data);
 	}

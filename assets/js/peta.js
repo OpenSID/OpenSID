@@ -158,7 +158,7 @@ function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents
 
 function set_marker_persil_content(marker, daftar_path, judul, nama_wil, contents, favico_desa)
 {
-	var daftar = JSON.parse(daftar_path);
+	var daftar = (daftar_path == 'null') ? new Array() :JSON.parse(daftar_path);
 	var jml = daftar.length;
 	var jml_path;
 
@@ -357,14 +357,14 @@ function poligonWil(marker)
 	return poligon_wil;
 }
 
-function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_persil, sebutan_desa, sebutan_dusun)
+function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_desa, sebutan_dusun)
 {
 	var poligon_wil_desa = poligonWil(marker_desa);
 	var poligon_wil_dusun = poligonWil(marker_dusun);
 	var poligon_wil_rw = poligonWil(marker_rw);
 	var poligon_wil_rt = poligonWil(marker_rt);
 	var poligon_wil_rt = poligonWil(marker_rt);
-	var poligon_persil = poligonWil(marker_persil);
+	// var poligon_persil = poligonWil(marker_persil);
 
 	var peta_desa = 'Peta Wilayah ' + sebutan_desa;
 	var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
@@ -374,7 +374,7 @@ function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_pers
 	overlayLayers[peta_dusun] = poligon_wil_dusun;
 	overlayLayers['Peta Wilayah RW'] = poligon_wil_rw;
 	overlayLayers['Peta Wilayah RT'] = poligon_wil_rt;
-	overlayLayers[peta_persil] = poligon_persil;
+	// overlayLayers[peta_persil] = poligon_persil;
 	return overlayLayers;
 }
 
@@ -1067,7 +1067,7 @@ function setMarkerClusterP(marker, markersListP, markersP)
 }
 
 function set_marker_area(marker, daftar_path, foto_area) {
-	var daftar = JSON.parse(daftar_path);
+	var daftar = (daftar_path == 'null') ? new Array() :JSON.parse(daftar_path);
 	var jml = daftar.length;
 	var jml_path;
 	var foto;
@@ -1117,7 +1117,7 @@ function set_marker_area(marker, daftar_path, foto_area) {
 }
 
 function set_marker_garis(marker, daftar_path, foto_garis) {
-	var daftar = JSON.parse(daftar_path);
+	var daftar = (daftar_path == 'null') ? new Array() :JSON.parse(daftar_path);
 	var jml = daftar.length;
 	var coords;
 	var lengthOfCoords;
@@ -1170,7 +1170,7 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
 
 function set_marker_lokasi(marker, daftar_path, path_icon, foto_lokasi)
 {
-	var daftar = JSON.parse(daftar_path);
+	var daftar = (daftar_path == 'null') ? new Array() :JSON.parse(daftar_path);
 	var jml = daftar.length;
 	var foto;
 	var content_lokasi;
@@ -1211,7 +1211,7 @@ function set_marker_lokasi(marker, daftar_path, path_icon, foto_lokasi)
 
 function set_marker_lokasi_pembangunan(marker, daftar_path, path_icon, foto_lokasi, link_progress)
 {
-	var daftar = JSON.parse(daftar_path);
+	var daftar = (daftar_path == 'null') ? new Array() :JSON.parse(daftar_path);
 	var jml = daftar.length;
 	var foto;
 	var content_lokasi;
@@ -1336,10 +1336,11 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 }
 
 //Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
-function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis, daftar_lokasi, daftar_lokasi_pembangunan, path_icon, path_icon_pembangunan, foto_area, foto_garis, foto_lokasi, foto_lokasi_pembangunan, link_progress) {
+function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis, daftar_lokasi, daftar_lokasi_pembangunan, path_icon, path_icon_pembangunan, foto_area, foto_garis, foto_lokasi, foto_lokasi_pembangunan, link_progress, daftar_persil) {
 	var marker_area = [];
 	var marker_garis = [];
 	var marker_lokasi = [];
+	var marker_persil = [];
 	var marker_lokasi_pembangunan = [];
 	var markers = new L.MarkerClusterGroup();
 	var markersList = [];
@@ -1350,13 +1351,14 @@ function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis,
 	var layer_garis = L.featureGroup();
 	var layer_lokasi = L.featureGroup();
 	var layer_lokasi_pembangunan = L.featureGroup();
+	
 
 	var layerCustom = {
 		"Infrastruktur Desa": {
 			"Infrastruktur (Area)": layer_area,
 			"Infrastruktur (Garis)": layer_garis,
 			"Infrastruktur (Lokasi)": layer_lokasi,
-			"Infrastruktur (Lokasi Pembangunan)": layer_lokasi_pembangunan
+			"Infrastruktur (Lokasi Pembangunan)": layer_lokasi_pembangunan,
 		}
 	};
 
@@ -1384,10 +1386,20 @@ function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis,
 		set_marker_lokasi_pembangunan(marker_lokasi_pembangunan, daftar_lokasi_pembangunan, path_icon_pembangunan, foto_lokasi_pembangunan, link_progress);
 	}
 
+	//OVERLAY C-desa 
+	if (daftar_persil)
+	{
+		var layer_persil = L.featureGroup();
+		layerCustom['Infrastruktur Desa']['Letter C-Desa'] = layer_persil;
+		set_marker_persil_content(marker_persil, daftar_persil, 'Persil', 'nomor', '#isi_popup_persil_', path_icon_pembangunan);
+		setMarkerCustom(marker_persil, layer_persil);
+	}
+
 	setMarkerCustom(marker_area, layer_area);
 	setMarkerCustom(marker_garis, layer_garis);
 	setMarkerCluster(marker_lokasi, markersList, markers);
 	setMarkerClusterP(marker_lokasi_pembangunan, markersListP, markersP);
+	
 
 	peta.on('layeradd layerremove', function () {
 		peta.eachLayer(function (layer) {
