@@ -72,7 +72,9 @@
 												<tr>
 													<td class="nostretch"><?= $indeks + 1?></td>
 													<td class="nostretch">
-														<a href="<?= site_url("{$this->controller}/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+														<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<a href="<?= site_url("{$this->controller}/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+														<?php endif; ?>
 														<?php if ($data['tanda_terima']): ?>
 															<a href='<?= site_url("{$this->controller}/unduh_tanda_terima/$data[id]")?>' class="btn bg-purple btn-flat btn-sm" title="Unduh Tanda Terima" target="_blank"><i class="fa fa-download"></i></a>
 														<?php endif; ?>

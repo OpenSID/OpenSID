@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * File ini:
@@ -107,6 +109,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function form($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		if ($id)
 		{
 			$data = [
@@ -137,6 +140,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function add_tanah_desa()
 	{
+		$this->redirect_hak_akses('u');
 		$this->tanah_desa_model->add_tanah_desa();
 		if ($this->session->success == -1)
 		{
@@ -151,6 +155,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function update_tanah_desa($id)
 	{
+		$this->redirect_hak_akses('u');
 		$this->tanah_desa_model->update_tanah_desa();
 		if ($this->session->success == -1)
 		{
@@ -165,7 +170,7 @@ class Bumindes_tanah_desa extends Admin_Controller {
 
 	public function delete_tanah_desa($id)
 	{
-		$this->redirect_hak_akses('h', 'bumindes_tanah_desa');
+		$this->redirect_hak_akses('h');
 		$this->tanah_desa_model->delete_tanah_desa($id);
 
 		redirect('bumindes_tanah_desa');

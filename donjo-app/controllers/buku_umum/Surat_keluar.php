@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Surat_keluar.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -95,6 +99,7 @@ class Surat_keluar extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['tujuan'] = $this->surat_keluar_model->autocomplete();
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
 		$data['p'] = $p;
@@ -148,32 +153,35 @@ class Surat_keluar extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->surat_keluar_model->insert();
 		redirect('surat_keluar');
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->surat_keluar_model->update($id);
 		redirect("surat_keluar/index/$p/$o");
 	}
 
 	public function upload($p = 1, $o = 0, $url = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->surat_keluar_model->upload($url);
 		redirect("surat_keluar/index/$p/$o");
 	}
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', "surat_keluar/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->surat_keluar_model->delete($id);
 		redirect("surat_keluar/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h',"surat_keluar/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->surat_keluar_model->delete_all();
 		redirect("surat_keluar/index/$p/$o");
 	}
