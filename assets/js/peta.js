@@ -1412,8 +1412,6 @@ function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis,
 		});
 	});
 
-
-
 	peta.on('layeradd layerremove', function () {
 		peta.eachLayer(function (layer) {
 			if (peta.hasLayer(layer_lokasi_pembangunan)) {
