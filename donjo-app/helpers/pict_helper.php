@@ -84,9 +84,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter =
 
 function AmbilFoto($foto, $ukuran="kecil_", $sex='1')
 {
-	if ($foto == 'kuser.png' || $foto == 'wuser.png') return base_url() . LOKASI_USER_PICT . $foto;
-
-	if (empty($foto)) return $sex == 2 ? FOTO_DEFAULT_WANITA : FOTO_DEFAULT_PRIA;
+	return (($foto == 'wuser.png') || (empty($foto) && $sex == 2)) ? FOTO_DEFAULT_WANITA : FOTO_DEFAULT_PRIA;
 
 	$ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
 	$file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
