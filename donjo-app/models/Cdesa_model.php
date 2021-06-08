@@ -265,13 +265,14 @@ class Cdesa_model extends CI_Model {
 		$data['id_cdesa_masuk'] = $id_cdesa;
 		$data['no_bidang_persil'] = bilangan($post['no_bidang_persil']) ?: NULL;
 		$data['no_objek_pajak'] = strip_tags($post['no_objek_pajak']);
-
 		$data['tanggal_mutasi'] = $post['tanggal_mutasi'] ? tgl_indo_in($post['tanggal_mutasi']) : NULL;
 		$data['jenis_mutasi'] = $post['jenis_mutasi'] ?: NULL;
 		$data['luas'] = bilangan_titik($post['luas']) ?: NULL;
 		$data['cdesa_keluar'] = bilangan($post['cdesa_keluar']) ?: NULL;
 		$data['keterangan'] = strip_tags($post['keterangan']) ?: NULL;
-
+		$data['path'] = $post['path'];
+		$data['id_peta'] = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? $post['id_peta'] : NULL ; 
+	 
 		if ($id_mutasi)
 			$outp = $this->db->where('id', $id_mutasi)->update('mutasi_cdesa', $data);
 		else

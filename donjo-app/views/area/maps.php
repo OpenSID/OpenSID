@@ -125,6 +125,7 @@
     var marker_dusun = [];
     var marker_rw = [];
     var marker_rt = [];
+    var marker_persil = []
 
     //OVERLAY WILAYAH DESA
     <?php if (!empty($desa['path'])): ?>
@@ -148,7 +149,7 @@
 
     //Menampilkan overlayLayers Peta Semua Wilayah
     <?php if (!empty($wil_atas['path'])): ?>
-      var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
+      var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt,"<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
     <?php else: ?>
       var overlayLayers = {};
     <?php endif; ?>
@@ -187,8 +188,22 @@
     //Menghapus Peta wilayah
     hapusPeta(peta_area);
 
+    // deklrasi variabel agar mudah di baca
+    var all_area = '<?= addslashes(json_encode($all_area)) ?>';
+    var all_garis = '<?= addslashes(json_encode($all_garis)) ?>';
+    var all_lokasi = '<?= addslashes(json_encode($all_lokasi)) ?>';
+    var all_lokasi_pembangunan = '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>';
+    var all_persil = '<?= addslashes(json_encode($persil))?>';
+    var LOKASI_SIMBOL_LOKASI = '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>';
+    var favico_desa = '<?= favico_desa() ?>';
+    var LOKASI_FOTO_AREA = '<?= base_url() . LOKASI_FOTO_AREA ?>';
+    var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
+    var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
+    var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
+    var info_pembangunan = '<?= site_url("pembangunan/info_pembangunan/")?>';
+
     // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
-		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_area, '<?= addslashes(json_encode($all_area)) ?>', '<?= addslashes(json_encode($all_garis)) ?>', '<?= addslashes(json_encode($all_lokasi)) ?>', '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url("pembangunan/info_pembangunan/")?>');
+		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_area, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);
 
     L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_area);
     L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_area);

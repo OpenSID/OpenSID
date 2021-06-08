@@ -64,6 +64,16 @@
 																	<td> :  <a href="<?= site_url("cdesa/mutasi/$persil[cdesa_awal]/$persil[id]")?>"><?= $persil["nomor_cdesa_awal"]?></a></td>
 																</tr>
 															<?php endif; ?>
+															<?php if ($persil['path'] != null || $persil['path']!= ''): ?>
+																<tr>
+																	<td colspan="2">
+																		<input type="hidden" id="path" name="path" value="<?= $persil["path"] ?>">
+																		<input type="hidden" id="zoom" name="zoom" value="">
+																		<div id="map"></div>
+																	</td>
+																</tr>
+															<?php endif ?>
+															
 														</tbody>
 													</table>
 												</div>
@@ -122,3 +132,43 @@
 	</section>
 </div>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		// tampilkan map
+		<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
+	  		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+	  		var zoom = <?=$desa['zoom'] ?: 18?>;
+	  	<?php else: ?>
+	  		var posisi = [-1.0546279422758742,116.71875000000001];
+	  		var zoom = 4;
+	  	<?php endif; ?>
+	  	var peta_area = L.map('map').setView(posisi, zoom);
+
+		//Menampilkan BaseLayers Peta
+		var baseLayers = getBaseLayers(peta_area, '');
+
+
+		if ($('input[name="path"]').val() !== '' ) {
+			var wilayah = JSON.parse($('input[name="path"]').val());
+ 			showCurrentArea(wilayah, peta_area);
+		}
+
+		//Import Peta dari file SHP
+		//eximShp(peta_area);
+
+		//Geolocation IP Route/GPS
+		geoLocation(peta_area);
+
+		//Menambahkan Peta wilayah
+		addPetaPoly(peta_area);
+
+		// end tampilkan map
+	});
+</script>
+<style type="text/css">
+	#map
+  {
+    width:100%;
+    height:210px
+  }
+</style>
