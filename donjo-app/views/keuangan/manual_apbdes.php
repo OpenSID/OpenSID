@@ -57,11 +57,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</section>
 	<section class="content" id="maincontent">
 		<div class="box box-info">
-			<div class="box-header with-border">
-				<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#ModalAdd"><i class="fa fa-plus"></i> Tambah Data</a>
-				<a href="#" id="btn_salin" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah Template</a>
-				<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keuangan_manual/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-			</div>
+			<?php if ($this->CI->cek_hak_akses('u')): ?>
+				<div class="box-header with-border">
+					<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="modal" data-target="#ModalAdd"><i class="fa fa-plus"></i> Tambah Data</a>
+						<a href="#" id="btn_salin" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah Template</a>
+					<?php endif; ?>
+					<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keuangan_manual/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 			<div class="box-body">
 				<div class="row">
 					<div class="col-sm-6">
@@ -120,6 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <?php $this->load->view('global/confirm_delete');?>
 
+<?php if ($this->CI->cek_hak_akses('u')): ?>
 <!-- MODAL ADD GLOBAL-->
 <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -329,11 +336,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 </div>
 <!--END MODAL SALIN-->
+<?php endif; ?>
 
 <script type="text/javascript">
 	$(document).ready(function(){
+		var ubah = <?= $this->CI->cek_hak_akses('u'); ?>;
+		var hapus =  <?= $this->CI->cek_hak_akses('h'); ?>;
+
 		//READ/SHOW
-		generateTable($('#show_data'), $('#mydata'));
+		generateTable($('#show_data'), $('#mydata'), ubah, hapus);
 
 		//ADD
 		saveAdd();
