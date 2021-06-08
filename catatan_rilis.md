@@ -7,7 +7,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-08 adalah sebagai berikut:
 
 #### Penambahan Fitur
-1. [untuk diisi]
+1. [#4099](https://github.com/OpenSID/OpenSID/issues/4099) Tampilkan lokasi persil dalam peta desa.
 
 
 #### Perbaikan BUG

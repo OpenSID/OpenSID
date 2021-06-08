@@ -50,13 +50,13 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-		$hasil = $hasil && $this->migrasi_2021060251($hasil);
+		$hasil = $hasil && $this->migrasi_2021060851($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
 
-	protected function migrasi_2021060251($hasil)
+	protected function migrasi_2021060851($hasil)
 	{
 		if ( ! $this->db->field_exists('id_peta', 'persil'))
 		{
