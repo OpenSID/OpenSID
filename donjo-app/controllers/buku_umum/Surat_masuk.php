@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Surat_masuk.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -102,6 +106,7 @@ class Surat_masuk extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['pengirim'] = $this->surat_masuk_model->autocomplete();
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
 		$data['p'] = $p;
@@ -136,6 +141,7 @@ class Surat_masuk extends Admin_Controller {
 
 	public function form_upload($p = 1, $o = 0, $url = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['form_action'] = site_url("surat_masuk/upload/$p/$o/$url");
 		$this->load->view('surat_masuk/ajax-upload', $data);
 	}
@@ -159,32 +165,35 @@ class Surat_masuk extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->surat_masuk_model->insert();
 		redirect('surat_masuk');
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->surat_masuk_model->update($id);
 		redirect("surat_masuk/index/$p/$o");
 	}
 
 	public function upload($p = 1, $o = 0, $url = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->surat_masuk_model->upload($url);
 		redirect("surat_masuk/index/$p/$o");
 	}
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', "surat_masuk/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->surat_masuk_model->delete($id);
 		redirect("surat_masuk/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', "surat_masuk/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->surat_masuk_model->delete_all();
 		redirect("surat_masuk/index/$p/$o");
 	}

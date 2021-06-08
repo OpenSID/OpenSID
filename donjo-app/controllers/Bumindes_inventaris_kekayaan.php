@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Bumindes_inventaris_kekayaan extends Admin_Controller {
 	private $list_session = ['tahun'];
@@ -6,9 +8,6 @@ class Bumindes_inventaris_kekayaan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->library('session');
-		$this->load->model('header_model');
 		$this->load->model('pamong_model');
 		$this->load->model('inventaris_laporan_model');
 		$this->modul_ini = 302;

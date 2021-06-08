@@ -1,12 +1,12 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ekspedisi extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		session_start();
-		// Untuk bisa menggunakan helper force_download()
 		$this->load->helper('download');
 		$this->load->model('surat_keluar_model');
 		$this->load->model('ekspedisi_model');
@@ -53,6 +53,7 @@ class Ekspedisi extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id)
 	{
+		$this->redirect_hak_akses('u');
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -91,6 +92,7 @@ class Ekspedisi extends Admin_Controller {
 
 	public function update($p = 1, $o = 0, $id)
 	{
+		$this->redirect_hak_akses('u');
 		$this->ekspedisi_model->update($id);
 		redirect("ekspedisi/index/$p/$o");
 	}

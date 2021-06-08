@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/buku_umum/Lembaran_desa.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -107,6 +111,7 @@ class Lembaran_desa extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$data['kat'] = 3;
 		$data['list_kategori'] = $this->web_dokumen_model->list_kategori();
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
@@ -141,6 +146,7 @@ class Lembaran_desa extends Admin_Controller {
 
 	public function update($id='', $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->session->success = 1;
 		$outp = $this->web_dokumen_model->update($id);
 		status_sukses($outp);
@@ -149,6 +155,7 @@ class Lembaran_desa extends Admin_Controller {
 
 	public function lock($id, $val = 1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->web_dokumen_model->dokumen_lock($id, $val);
 		redirect("lembaran_desa");
 	}

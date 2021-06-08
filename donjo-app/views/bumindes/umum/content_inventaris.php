@@ -15,7 +15,7 @@
 						<div class="form-group">
 							<select class="form-control input-sm " name="tahun" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun') ?>')">
 								<option value="">Tahun</option>
-								<?php for ($i = date("Y"); $i >= $min_tahun; $i--) : ?>
+								<?php for ($i = date("Y"); $i >= 10; $i--) : ?>
 									<option value="<?= $i ?>" <?php selected($tahun, $i) ?>><?= $i ?></option>
 								<?php endfor; ?>
 							</select>
