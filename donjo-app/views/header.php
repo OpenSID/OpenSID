@@ -117,7 +117,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
-		<script src="<?= base_url('assets/js/peta.js?v='.date("Ymdhis"))?>"></script>
+		<script src="<?= base_url('assets/js/peta.js')?>"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
 		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
 		<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>

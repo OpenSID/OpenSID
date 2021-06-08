@@ -136,17 +136,16 @@
 	$(document).ready(function() {
 		// tampilkan map
 		<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
-	  		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-	  		var zoom = <?=$desa['zoom'] ?: 18?>;
-	  	<?php else: ?>
-	  		var posisi = [-1.0546279422758742,116.71875000000001];
-	  		var zoom = 4;
-	  	<?php endif; ?>
-	  	var peta_area = L.map('map').setView(posisi, zoom);
+  		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+  		var zoom = <?=$desa['zoom'] ?: 18?>;
+  	<?php else: ?>
+  		var posisi = [-1.0546279422758742,116.71875000000001];
+  		var zoom = 4;
+  	<?php endif; ?>
+  	var peta_area = L.map('map').setView(posisi, zoom);
 
 		//Menampilkan BaseLayers Peta
 		var baseLayers = getBaseLayers(peta_area, '');
-
 
 		if ($('input[name="path"]').val() !== '' ) {
 			var wilayah = JSON.parse($('input[name="path"]').val());

@@ -206,41 +206,38 @@
 	</section>
 </div>
 
-
 <!-- modal -->
 <div id="map-modal" class="modal fade" role="dialog" style="padding-top:30px;">
-		<div class="modal-dialog modal-lg">
-				<div class="modal-content">
-						<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">Lokasi </h4>
-						</div>
-						 <div class="modal-body">
-								<div class="row">
-										<div class="col-sm-12">
-												<input type="hidden" name="path" id="path" value="">
-												<input type="hidden" name="zoom" id="zoom" value="8">
-												 <div id="map" style="width: 100%;"></div>
-										</div>
-								</div>
-						</div>
-						 
-			 
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Lokasi </h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<input type="hidden" name="path" id="path" value="">
+						<input type="hidden" name="zoom" id="zoom" value="8">
+						<div id="map" style="width: 100%;"></div>
+					</div>
 				</div>
+			</div>
 		</div>
+	</div>
 </div>
 
 <script type="text/javascript">
 	// deklarasi variable diluar fungsi agar terbaca di semua fungsi
 	var peta_area;
 		<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
-  		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
-  		var zoom = <?=$desa['zoom'] ?: 18?>;
-  	<?php else: ?>
-  		var posisi = [-1.0546279422758742,116.71875000000001];
-  		var zoom = 4;
-  	<?php endif; ?>
-  		
+			var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+			var zoom = <?=$desa['zoom'] ?: 18?>;
+		<?php else: ?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+			var zoom = 4;
+		<?php endif; ?>
+
 	$(document).ready(function() {
 		$(document).on('shown.bs.modal','#map-modal', function(event) 
 		{

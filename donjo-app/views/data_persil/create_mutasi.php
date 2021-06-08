@@ -158,7 +158,6 @@
 														</div>
 													<?php endif ?>
 
-
 												<?php endif; ?>
 											</form>
 										</div>
@@ -311,9 +310,6 @@
 																<textarea name="keterangan" class="form-control input-sm" type="text" placeholder="Keterangan" name="ket"><?= $mutasi['keterangan'] ?></textarea>
 															</div>
 														</div>
-
-
-
 													</div>
 												</div>
 											<?php else : ?>
@@ -396,42 +392,42 @@
 
 
 			//1. Menampilkan overlayLayers Peta Semua Wilayah
-		    var marker_desa = [];
-		    var marker_dusun = [];
-		    var marker_rw = [];
-		    var marker_rt = [];
-		    var marker_persil = []
+	    var marker_desa = [];
+	    var marker_dusun = [];
+	    var marker_rw = [];
+	    var marker_rt = [];
+	    var marker_persil = []
 
-		    //OVERLAY WILAYAH DESA
-		    <?php if (!empty($desa['path'])): ?>
-		      set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
-		    <?php endif; ?>
+	    //OVERLAY WILAYAH DESA
+	    <?php if (!empty($desa['path'])): ?>
+	      set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
+	    <?php endif; ?>
 
-		    //OVERLAY WILAYAH DUSUN
-		    <?php if (!empty($dusun_gis)): ?>
-		      set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
-		    <?php endif; ?>
+	    //OVERLAY WILAYAH DUSUN
+	    <?php if (!empty($dusun_gis)): ?>
+	      set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+	    <?php endif; ?>
 
-		    //OVERLAY WILAYAH RW
-		    <?php if (!empty($rw_gis)): ?>
-		      set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
-		    <?php endif; ?>
+	    //OVERLAY WILAYAH RW
+	    <?php if (!empty($rw_gis)): ?>
+	      set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
+	    <?php endif; ?>
 
-		    //OVERLAY WILAYAH RT
-		    <?php if (!empty($rt_gis)): ?>
-		      set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
-		    <?php endif; ?>
+	    //OVERLAY WILAYAH RT
+	    <?php if (!empty($rt_gis)): ?>
+	      set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
+	    <?php endif; ?>
 
-		    //Menampilkan overlayLayers Peta Semua Wilayah
-		    <?php if (!empty($wil_atas['path'])): ?>
-		      var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt,"<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
-		    <?php else: ?>
-		      var overlayLayers = {};
-		    <?php endif; ?>
+	    //Menampilkan overlayLayers Peta Semua Wilayah
+	    <?php if (!empty($wil_atas['path'])): ?>
+	      var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt,"<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
+	    <?php else: ?>
+	      var overlayLayers = {};
+	    <?php endif; ?>
 
 
-		    //Menampilkan BaseLayers Peta
-	    	var baseLayers = getBaseLayers(peta_area, '<?=$this->setting->mapbox_key?>');
+	    //Menampilkan BaseLayers Peta
+    	var baseLayers = getBaseLayers(peta_area, '<?=$this->setting->mapbox_key?>');
 
 			if ($('input[name="path"]').val() !== '' )
 			{
@@ -440,17 +436,17 @@
 			}
 
 			//Menambahkan zoom scale ke peta
-	    	L.control.scale().addTo(peta_area);
+    	L.control.scale().addTo(peta_area);
 
-	    	<?php if ($this->CI->cek_hak_akses('u')): ?>
-		      //Export/Import Peta dari file GPX
-		      L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
-		      L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
-		      control = eximGpxPoly(peta_area);
+    	<?php if ($this->CI->cek_hak_akses('u')): ?>
+	      //Export/Import Peta dari file GPX
+	      L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
+	      L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+	      control = eximGpxPoly(peta_area);
 
-		      //Import Peta dari file SHP
-		      eximShp(peta_area);
-		    <?php endif; ?>
+	      //Import Peta dari file SHP
+	      eximShp(peta_area);
+	    <?php endif; ?>
 
 			//Geolocation IP Route/GPS
 			geoLocation(peta_area);
@@ -459,29 +455,27 @@
 			addPetaPoly(peta_area);
 
 			// deklrasi variabel agar mudah di baca
-		    var all_area = '<?= addslashes(json_encode($all_area)) ?>';
-		    var all_garis = '<?= addslashes(json_encode($all_garis)) ?>';
-		    var all_lokasi = '<?= addslashes(json_encode($all_lokasi)) ?>';
-		    var all_lokasi_pembangunan = '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>';
-		    var all_persil = '<?= addslashes(json_encode($persil))?>';
-		    var LOKASI_SIMBOL_LOKASI = '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>';
-		    var favico_desa = '<?= favico_desa() ?>';
-		    var LOKASI_FOTO_AREA = '<?= base_url() . LOKASI_FOTO_AREA ?>';
-		    var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
-		    var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
-		    var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
-		    var info_pembangunan = '<?= site_url("pembangunan/info_pembangunan/")?>';
+	    var all_area = '<?= addslashes(json_encode($all_area)) ?>';
+	    var all_garis = '<?= addslashes(json_encode($all_garis)) ?>';
+	    var all_lokasi = '<?= addslashes(json_encode($all_lokasi)) ?>';
+	    var all_lokasi_pembangunan = '<?= addslashes(json_encode($all_lokasi_pembangunan)) ?>';
+	    var all_persil = '<?= addslashes(json_encode($persil))?>';
+	    var LOKASI_SIMBOL_LOKASI = '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>';
+	    var favico_desa = '<?= favico_desa() ?>';
+	    var LOKASI_FOTO_AREA = '<?= base_url() . LOKASI_FOTO_AREA ?>';
+	    var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
+	    var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
+	    var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
+	    var info_pembangunan = '<?= site_url("pembangunan/info_pembangunan/")?>';
 
-		    // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
-				var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_area, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);
+	    // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
+			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_area, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);
 
-		    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_area);
-		    L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_area);
+	    L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_area);
+	    L.control.groupedLayers('', layerCustom, {groupCheckboxes: true, position: 'topleft', collapsed: true}).addTo(peta_area);
 
 			// end tampilkan map
 		}
-
-
 
 		$('input[name="area_tanah"]').change(function() {
 			var pilih = $(this).val();
@@ -496,8 +490,6 @@
 
 			}
 		});
-
-
 
 		$('select[name="id_peta"]').change(function() {
 			var id_peta = $(this).val();
