@@ -36,7 +36,8 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-md-12">
+												<?php if ($this->CI->cek_hak_akses('u')): ?>
+													<div class="col-md-12">
 													<div class="box-header with-border">
 														<h3 class="box-title"><strong>Restore Database SID</strong></h3>
 													</div>
@@ -80,7 +81,8 @@
 															</div>
 														</div>
 													</div>
-												</div>
+													</div>
+												<?php endif; ?>
 											</div>
 										</div>
 									</div>

@@ -1,5 +1,7 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -8,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * donjo-app/controllers/Setting.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -46,8 +49,7 @@ class Setting extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model','theme_model', 'notif_model']);
-
+		$this->load->model(['theme_model', 'notif_model']);
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 43;
 	}
@@ -69,7 +71,7 @@ class Setting extends Admin_Controller {
 
 	public function update()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->setting_model->update_setting($this->input->post());
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -173,6 +175,7 @@ class Setting extends Admin_Controller {
 
 	public function qrcode_generate()
 	{
+		$this->redirect_hak_akses('u');
 		$pathqr = LOKASI_MEDIA; // Lokasi default simpan file qrcode
 		$post = $this->input->post();
 		$namaqr = $post['namaqr']; // Nama file gambar asli
@@ -183,7 +186,7 @@ class Setting extends Admin_Controller {
 		// $logoqr1 = yg akan disimpan, directory
 		if ($changeqr == '1')
 		{
-			$desa = $this->config_model->get_data();
+			$desa = $this->header['desa'];
 			// Ambil absolute path, bukan url
 			$logoqr1 = gambar_desa($desa['logo'], false, $file = true);
 		}
@@ -220,4 +223,5 @@ class Setting extends Admin_Controller {
 			$this->session->success = -1;
 		}
 	}
+	
 }
