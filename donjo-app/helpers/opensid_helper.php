@@ -50,7 +50,7 @@ define("VERSION", '21.06-premium-beta');
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
-define('VERSI_DATABASE', '2021060851');
+define('VERSI_DATABASE', '2021060901');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -75,6 +75,7 @@ define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
 define("LOKASI_SISIPAN_DOKUMEN", 'assets/files/sisipan/');
 define("LOKASI_SINKRONISASI_ZIP", 'desa/upload/sinkronisasi/');
 define("PENDAPAT", 'assets/images/layanan_mandiri/');
+define("LOKASI_PRODUK", 'desa/upload/produk/');
 
 // Pengaturan Latar
 define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');

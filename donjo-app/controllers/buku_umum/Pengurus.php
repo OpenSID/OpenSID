@@ -246,6 +246,6 @@ class Pengurus extends Admin_Controller {
 			'kategori' => ['conf_bagan']
 		];
 
-		$this->load->view('home/ajax_atur_bagan_layout', $data);
+		$this->load->view('global/modal_setting', $data);
 	}
 }

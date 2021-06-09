@@ -677,8 +677,7 @@ class First extends Web_Controller {
 			$idm = $this->data_publik->get_url_content();
 			if ($idm->body->error)
 			{
-				$idm->body->mapData->error_msg = $idm->body->message . " : " . $idm->header->url . "<br><br>" .
-					"Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh '3507012006'<br>";
+				$idm->body->mapData->error_msg = $idm->body->message . " : " . $idm->header->url . "<br><br>" . "Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh '3507012006'<br>";
 			}
 			$data['idm'] = $idm->body->mapData;
 		}
@@ -757,4 +756,27 @@ class First extends Web_Controller {
 			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code') . '&formId=' . $this->session->google_form_id);
 		}
 	}
+
+	public function lapak($p = 1)
+	{
+		if ($this->setting->tampilkan_lapak_web == 0) show_404();
+
+		$this->load->model('lapak_model');
+
+		$data = $this->includes;
+		$this->_get_common_data($data);
+
+		$data['paging'] = $this->lapak_model->paging_produk($p);
+		$data['paging_page'] = 'produk';
+		$data['paging_range'] = 3;
+		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
+		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
+		$data['pages'] = range($data['start_paging'], $data['end_paging']);
+		$data['produk'] = $this->lapak_model->get_produk()->where('pr.status', 1)->where('lp.status', 1)->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
+		$data['halaman_statis'] = 'web/halaman_statis/lapak';
+
+		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
 }
