@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Grup.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -95,6 +99,7 @@ class Grup extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '', $view = false)
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['view'] = $view;
@@ -131,6 +136,7 @@ class Grup extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->set_form_validation();
 		if ($this->form_validation->run() !== true)
 		{
@@ -161,6 +167,7 @@ class Grup extends Admin_Controller {
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->set_form_validation();
 
 		if ($this->form_validation->run() !== true)
@@ -178,14 +185,14 @@ class Grup extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', "grup/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->grup_model->delete($id);
 		redirect("grup/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', "grup/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->grup_model->delete_all();
 		redirect("grup/index/$p/$o");
 	}

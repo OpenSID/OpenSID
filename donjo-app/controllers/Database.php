@@ -1,4 +1,7 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Database.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -329,6 +333,7 @@ class Database extends Admin_Controller {
 
 	public function import_dasar()
 	{
+		$this->redirect_hak_akses('u');
 		$hapus = isset($_POST['hapus_data']);
 		$this->import_model->import_excel($hapus);
 		redirect('database/import/1');
@@ -336,6 +341,7 @@ class Database extends Admin_Controller {
 
 	public function import_data_bip()
 	{
+		$this->redirect_hak_akses('u');
 		$hapus = isset($_POST['hapus_data']);
 		$this->import_model->import_bip($hapus);
 		redirect('database/import_bip/1');
@@ -343,6 +349,7 @@ class Database extends Admin_Controller {
 
 	public function migrasi_db_cri()
 	{
+		$this->redirect_hak_akses('u');
 		$this->session->unset_userdata('success');
 		$this->session->unset_userdata('error_msg');
 		$this->database_model->migrasi_db_cri();
@@ -351,6 +358,7 @@ class Database extends Admin_Controller {
 
 	public function kosongkan_db()
 	{
+		$this->redirect_hak_akses('u');
 		$this->redirect_hak_akses('h', "database/kosongkan");
 		$this->database_model->kosongkan_db();
 		redirect('database/kosongkan');
@@ -359,6 +367,7 @@ class Database extends Admin_Controller {
 	// Impor Pengelompokan Data Rumah Tangga
 	public function ppls_individu()
 	{
+		$this->redirect_hak_akses('u');
 		$this->import_model->pbdt_individu();
 	}
 
@@ -376,7 +385,7 @@ class Database extends Admin_Controller {
 
 	public function restore()
 	{
-		$this->redirect_hak_akses('h', "database/backup");
+		$this->redirect_hak_akses('h');
 		try
 		{
 			$this->session->success = 1;
@@ -618,6 +627,7 @@ class Database extends Admin_Controller {
 	// Dikhususkan untuk server yg hanya digunakan untuk web publik
 	public function acak()
 	{
+		$this->redirect_hak_akses('u');
 		if ($this->setting->penggunaan_server != 6) return;
 
 		$this->load->model('acak_model');
@@ -630,6 +640,7 @@ class Database extends Admin_Controller {
 	// Digunakan untuk server yg hanya digunakan untuk web publik
 	public function mutakhirkan_data_server()
 	{
+		$this->redirect_hak_akses('u');
 		$this->session->error_msg = null;
 		if ($this->setting->penggunaan_server != 6) return;
 		$this->load->view('database/ajax_sinkronkan', $data);
