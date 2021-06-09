@@ -8,7 +8,7 @@ Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-09 adalah sebagai be
 
 
 #### Perbaikan BUG
-1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Pemetaaan, Buku Administrasi Umum, Keuangan, Siaga Covid-19 dan Analisis kalau pengguna tidak mempunyai hak ubah.
+1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Pemetaaan, Buku Administrasi Umum, Keuangan, Siaga Covid-19, Pengaturan dan Analisis kalau pengguna tidak mempunyai hak ubah.
 2. Sekarang keluarga yang kepala keluarganya meninggal, hilang atau pindah dilaporkan di Laporan Bulanan pada bulan sesuai dengan Tanggal Lapor peristiwa yang bersangkutan.
 3. Sekarang filter tahun berjalan normal di Buku Inventaris dan Kekayaan Desa.
 
