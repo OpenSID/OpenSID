@@ -54,9 +54,7 @@
 															<th><input type="checkbox" id="checkall"/></th>
 														<?php endif; ?>
 														<th>No</th>
-														<?php if ($this->CI->cek_hak_akses('u')): ?>
-															<th>Aksi</th>
-														<?php endif; ?>
+														<th>Aksi</th>
 														<?php if ($o==2): ?>
 															<th><a href="<?= site_url("grup/index/$p/1")?>">Group <i class='fa fa-sort-asc fa-sm'></i></a></th>
 														<?php elseif ($o==1): ?>
@@ -71,26 +69,24 @@
 													<?php foreach ($main as $data): ?>
 														<tr>
 															<?php if ($this->CI->cek_hak_akses('h')): ?>
-																<td>
+																<td class="padat">
 																	<?php if ($data['boleh_hapus']): ?>
 																		<input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" />
 																	<?php endif; ?>
 																</td>
 															<?php endif; ?>
 															<td class="padat"><?=$data['no']?></td>
-															<?php if ($this->CI->cek_hak_akses('u')): ?>
-																<td class="aksi">
-																<?php if ($data[id] <> 1): ?>
-																	<a href="<?= site_url("grup/form/$p/$o/$data[id]/1")?>" class="btn bg-info btn-flat btn-sm"  title="Lihat"><i class='fa fa-eye fa-sm'></i></a>
-																<?php endif; ?>
-																<?php if ($this->CI->cek_hak_akses('u') && $data['jenis'] <> 1): ?>
-																	<a href="<?=site_url("grup/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																<?php endif ?>
-																<?php if ($this->CI->cek_hak_akses('h') && $data['boleh_hapus']): ?>
-																	<a href="#" data-href="<?=site_url("grup/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																<?php endif; ?>
-																</td>
+															<td class="aksi">
+															<?php if ($data[id] <> 1): ?>
+																<a href="<?= site_url("grup/form/$p/$o/$data[id]/1")?>" class="btn bg-info btn-flat btn-sm"  title="Lihat"><i class='fa fa-eye fa-sm'></i></a>
 															<?php endif; ?>
+															<?php if ($this->CI->cek_hak_akses('u') && $data['jenis'] <> 1): ?>
+																<a href="<?=site_url("grup/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+															<?php endif ?>
+															<?php if ($this->CI->cek_hak_akses('h') && $data['boleh_hapus']): ?>
+																<a href="#" data-href="<?=site_url("grup/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															<?php endif; ?>
+															</td>
 															<td><?=$data['nama']?></td>
 															<td class="padat"><?=$data['jml_pengguna']?></td>
 														</tr>

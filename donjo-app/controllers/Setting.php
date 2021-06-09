@@ -71,7 +71,7 @@ class Setting extends Admin_Controller {
 
 	public function update()
 	{
-		$this->redirect_hak_akses('u');
+		$this->redirect_hak_akses_url('u');
 		$this->setting_model->update_setting($this->input->post());
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -108,6 +108,7 @@ class Setting extends Admin_Controller {
 		$data = [
 			'judul' => 'Pengaturan Halaman Web',
 			'kategori' => ['conf_web'],
+			'aksi_controller' => 'setting/web'
 		];
 
 		$this->render('setting/setting_form', $data);
@@ -122,6 +123,7 @@ class Setting extends Admin_Controller {
 		$data = [
 			'judul' => 'Pengaturan Layanan Mandiri',
 			'kategori' => ['setting_mandiri'],
+			'aksi_controller' => 'setting/mandiri'
 		];
 
 		$this->render('setting/setting_form', $data);
@@ -137,6 +139,7 @@ class Setting extends Admin_Controller {
 			'judul' => 'Pengaturan Analisis',
 			'kategori' => ['setting_analisis'],
 			'demo_mode' => $this->setting->demo_mode,
+			'aksi_controller' => 'setting/analisis'
 		];
 
 		$this->render('setting/setting_form', $data);
@@ -151,6 +154,7 @@ class Setting extends Admin_Controller {
 				redirect('setting/qrcode');
 
 			case 'hapus':
+				$this->redirect_hak_akses_url('u');
 				unlink(LOKASI_MEDIA.''.$file.'.png');
 				redirect('setting/qrcode/clear');
 
@@ -175,7 +179,7 @@ class Setting extends Admin_Controller {
 
 	public function qrcode_generate()
 	{
-		$this->redirect_hak_akses('u');
+		$this->redirect_hak_akses_url('u');
 		$pathqr = LOKASI_MEDIA; // Lokasi default simpan file qrcode
 		$post = $this->input->post();
 		$namaqr = $post['namaqr']; // Nama file gambar asli

@@ -99,7 +99,7 @@ class Grup extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '', $view = false)
 	{
-		$this->redirect_hak_akses('u');
+		if (! $view) $this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['view'] = $view;

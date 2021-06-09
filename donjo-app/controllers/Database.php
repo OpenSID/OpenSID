@@ -413,6 +413,7 @@ class Database extends Admin_Controller {
 
 	public function sinkronasi_opendk()
 	{
+		$this->redirect_hak_akses('u');
 		$data['form_action'] = site_url("database/sinkronasi_db_opendk");
 
 		$data['act_tab'] = 7;
@@ -422,6 +423,7 @@ class Database extends Admin_Controller {
 
 	public function sinkronasi_db_opendk()
 	{
+		$this->redirect_hak_akses('u');
 
 		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
 			if (file_exists($file)) {
@@ -648,6 +650,7 @@ class Database extends Admin_Controller {
 
 	public function proses_sinkronkan()
 	{
+		$this->redirect_hak_akses('u');
 		$this->load->model('sinkronisasi_model');
 
 		$this->load->library('upload');

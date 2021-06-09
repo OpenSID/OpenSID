@@ -47,7 +47,7 @@
 										<div class="box-header with-border">
 											<?php if ($currentFile) : ?>
 												<a href="?dl=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
-												<?php if ($this->CI->cek_hak_akses('u')): ?>
+												<?php if ($this->CI->cek_hak_akses_url('u')): ?>
 													<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btm-social btn-flat btn-danger btn-sm" title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
 												<?php endif; ?>
 											<?php endif ?>
