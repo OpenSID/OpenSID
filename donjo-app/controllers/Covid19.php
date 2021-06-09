@@ -243,7 +243,7 @@ class Covid19 extends Admin_Controller {
 
 	public function hapus_pantau($id_pantau_pemudik, $page=NULL, $h_plus=NULL)
 	{
-		$this->redirect_hak_akses('u', '', 'covid19/pantau');
+		$this->redirect_hak_akses('h', '', 'covid19/pantau');
 		$this->covid19_model->delete_pantau_pemudik_by_id($id_pantau_pemudik);
 
 		$url = "covid19/pantau";
