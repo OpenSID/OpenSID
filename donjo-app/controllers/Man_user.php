@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Man_user.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -45,7 +49,6 @@ class Man_user extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->model('referensi_model');
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 44;
@@ -88,6 +91,7 @@ class Man_user extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -127,6 +131,7 @@ class Man_user extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->set_form_validation();
 
 		if ($this->form_validation->run() !== true)
@@ -163,6 +168,7 @@ class Man_user extends Admin_Controller {
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->set_form_validation();
 
 		if ($this->form_validation->run() !== true)
@@ -180,26 +186,28 @@ class Man_user extends Admin_Controller {
 
 	public function delete($p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', "man_user/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->user_model->delete($id);
 		redirect("man_user/index/$p/$o");
 	}
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', "man_user/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->user_model->delete_all();
 		redirect("man_user/index/$p/$o");
 	}
 
 	public function user_lock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->user_model->user_lock($id, 0);
 		redirect("man_user/index/$p/$o");
 	}
 
 	public function user_unlock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->user_model->user_lock($id, 1);
 		redirect("man_user/index/$p/$o");
 	}

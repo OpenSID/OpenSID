@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Modul.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -63,7 +67,7 @@ class Modul extends Admin_Controller {
 	{
 		$id = $this->session->module;
 
-		if (!$id)
+		if ( ! $id)
 		{
 			foreach ($this->list_session as $list)
 			{
@@ -85,6 +89,7 @@ class Modul extends Admin_Controller {
 
 	public function form($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['list_icon'] = $this->modul_model->list_icon();
 		if ($id)
 		{
@@ -118,6 +123,7 @@ class Modul extends Admin_Controller {
 
 	public function update($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->modul_model->update($id);
 		$parent = $this->input->post('parent');
 		if ($parent == 0)
@@ -128,18 +134,21 @@ class Modul extends Admin_Controller {
 
 	public function lock($id = 0, $val = 1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->modul_model->lock($id, $val);
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 	public function ubah_server()
 	{
+		$this->redirect_hak_akses('u');
 		$this->setting_model->update_penggunaan_server();
 		redirect('modul');
 	}
 
 	public function default_server()
 	{
+		$this->redirect_hak_akses('u');
 		$this->modul_model->default_server();
 		$this->clear();
 	}
