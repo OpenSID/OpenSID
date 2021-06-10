@@ -216,7 +216,7 @@ class Lapak_admin extends Admin_Controller
 			$data['form_action'] = site_url("$this->controller/pelapak_insert");
 		}
 
-		$data['list_penduduk'] = $this->lapak_model->list_penduduk();
+		$data['list_penduduk'] = $this->lapak_model->list_penduduk($data['main']->id_pend ?? 0);
 
 		$this->load->view("$this->controller/pelapak/modal_form", $data);
 	}

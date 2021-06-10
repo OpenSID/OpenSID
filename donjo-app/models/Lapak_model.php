@@ -288,13 +288,13 @@ class Lapak_model extends MY_Model
 		return $this->db;
 	}
 
-	public function list_penduduk()
+	public function list_penduduk($id_pend = 0)
 	{
 		$data = $this->db
 			->select('id, nik, nama, telepon')
 			->where('nik <>', '')
 			->where('nik <>', 0)
-			->where('id NOT IN (SELECT id_pend FROM pelapak)')
+			->where("id NOT IN (SELECT id_pend FROM pelapak WHERE id_pend != $id_pend)")
 			->get('penduduk_hidup')
 			->result();
 
