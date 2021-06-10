@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'serverSide': true,
 			'autoWidth': false,
 			'pageLength': 10,
-			'order': [[2, 'desc']],
+			'order': [[3, 'desc']],
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0, 1, 2] },
 				{ 'className' : 'padat', 'targets': [0, 1, 4] },
