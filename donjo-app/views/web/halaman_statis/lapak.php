@@ -100,7 +100,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<?php if ($pro->telepon): ?>
-											<a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone=<?=$pro->telepon;?>&amp;text=<?= str_replace('[nama_produk]', $pro->nama, $this->setting->pesan_singkat_wa) ?>" rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa fa-whatsapp"></i> Beli</a>
+											<?php $valid = '+62' . substr($pro->telepon, 1, 20); ?>
+											<a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone=<?=$valid;?>&amp;text=<?= str_replace('[nama_produk]', $pro->nama, $this->setting->pesan_singkat_wa) ?>" rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa fa-whatsapp"></i> Beli</a>
 										<?php endif; ?>
 										<a class="btn btn-sm btn-primary" data-remote="false" data-toggle="modal" data-target="#lokasi-produk" title="Lokasi" onclick="load_peta(<?= $pro->lat?>, <?= $pro->lng?>, <?= $pro->zoom?>);"><i class="fa fa fa-map"></i> lokasi</a>
 									</div>
