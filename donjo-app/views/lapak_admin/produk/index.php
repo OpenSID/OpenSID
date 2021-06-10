@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</select>
 						</div>
 						<div class="col-sm-2">
-							<select class="form-control input-sm select2" id="kategori" name="id_produk_kategori">
+							<select class="form-control input-sm select2" id="id_produk_kategori" name="id_produk_kategori">
 								<option value="">Semua Kategori</option>
 								<?php foreach ($kategori as $kat): ?>
 									<option value="<?= $kat->id; ?>"><?= $kat->kategori; ?></option>
@@ -135,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				'method': 'POST',
 				'data': function(d) {
 					d.id_pend = $('#id_pend').val();
-					d.kategori = $('#kategori').val();
+					d.id_produk_kategori = $('#id_produk_kategori').val();
 				}
 			},
 			'columns': [
@@ -195,7 +195,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			tabel_produk.ajax.reload();
 		});
 
-		$('#kategori').on('select2:select', function (e) {
+		$('#id_produk_kategori').on('select2:select', function (e) {
 			tabel_produk.ajax.reload();
 		});
 	});

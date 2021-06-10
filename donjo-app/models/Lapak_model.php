@@ -67,7 +67,7 @@ class Lapak_model extends MY_Model
 	];
 
 	// PRODUK
-	public function get_produk(string $search = '', $id_pend = '', $id_produk_kategori = '')
+	public function get_produk(string $search = '', $id_pend = 0, $id_produk_kategori = 0)
 	{
 		$this->produk();
 
@@ -75,14 +75,17 @@ class Lapak_model extends MY_Model
 		{
 			$this->db
 				->group_start()
-				->like('pr.produk', $cari)
-				->or_like('pr.harga', $cari)
-				->or_like('pr.deskripsi', $cari)
+					->like('p.nama', $cari)
+					->or_like('pr.nama', $cari)
+					->or_like('pk.kategori', $cari)
+					->or_like('pr.harga', $cari)
+					->or_like('pr.deskripsi', $cari)
 				->group_end();
 		}
-
-		if ($id_pend) $this->db->where('lp.id_pend', $id_pend);
-		if ($kategori) $this->db->where('pk.id_produk_kategori', $id_produk_kategori);
+		
+		if ($id_pend) $this->db->where('p.id', $id_pend);
+		if ($id_produk_kategori) $this->db->where('pk.id', $id_produk_kategori);
+		
 		return $this->db;
 	}
 
