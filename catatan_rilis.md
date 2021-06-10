@@ -10,6 +10,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-10 adalah sebagai beri
 #### Penambahan Fitur
 1. [#4099](https://github.com/OpenSID/OpenSID/issues/4099) Tampilkan lokasi persil dalam peta desa.
 2. [#4235](https://github.com/OpenSID/OpenSID/issues/4235) Tambahkan tombol ubah persil di rincian C-Desa.
+3. [#3541](https://github.com/OpenSID/OpenSID/issues/3541) Sediakan lapak desa untuk ditampilkan di web.
 
 
 #### Perbaikan BUG
