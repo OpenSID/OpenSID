@@ -27,23 +27,19 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-body">
-							<div class="row">
-								<div class="col-sm-12">
-								  <div class="form-group">
-									<label class="col-sm-3 control-label" for="pesan">Isi Pesan Autoreply</label>
-									<div class="col-sm-8">
-									  <textarea id="autoreply_text" name="autoreply_text" class="form-control input-sm required" maxlength="160" placeholder="Isi Pesan Autoreply"><?php if ($main): ?><?=$main['autoreply_text'];?><?php endif ?></textarea>
-									</div>
-								  </div>
+							  <div class="form-group">
+								<label class="col-sm-3 control-label" for="pesan">Isi Pesan Autoreply</label>
+								<div class="col-sm-8">
+									<textarea id="autoreply_text" name="autoreply_text" class="form-control input-sm required" maxlength="160" placeholder="Isi Pesan Autoreply"><?php if ($main): ?><?=$main['autoreply_text'];?><?php endif ?></textarea>
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
+						<?php if ($this->CI->cek_hak_akses('u', '', 'sms/setting')): ?>
+							<div class='box-footer'>
+							<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
 								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
-						</div>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
