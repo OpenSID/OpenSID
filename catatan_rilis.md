@@ -1,10 +1,10 @@
-#### [v21.06-premium-bugfix - 2021-06-09](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
+#### [v21.06-premium-bugfix - 2021-06-10](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
 
 Di rilis ini, versi 21.06-premium-bugfix, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-09 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-10 adalah sebagai berikut:
 
 
 #### Perbaikan BUG
