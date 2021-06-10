@@ -82,7 +82,7 @@ class Lapak_model extends MY_Model
 					->or_like('pr.deskripsi', $cari)
 				->group_end();
 		}
-		
+
 		if ($id_pend) $this->db->where('p.id', $id_pend);
 		if ($id_produk_kategori) $this->db->where('pk.id', $id_produk_kategori);
 		
@@ -283,12 +283,20 @@ class Lapak_model extends MY_Model
 		{
 			$this->db
 				->group_start()
-				->like('pelapak', $cari)
-				->or_like('lp.telepon', $cari)
+					->like('p.nama', $search)
+					->or_like('lp.telepon', $search)
 				->group_end();
 		}
 
 		return $this->db;
+	}
+
+	protected function pelapak()
+	{
+		$this->db
+			->select('lp.*, p.nama AS pelapak, p.nik')
+			->from('pelapak lp')
+			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT');
 	}
 
 	public function list_penduduk($id_pend = 0)
@@ -302,14 +310,6 @@ class Lapak_model extends MY_Model
 			->result();
 
 		return $data;
-	}
-
-	protected function pelapak()
-	{
-		$this->db
-			->select('lp.*, p.nama AS pelapak, p.nik')
-			->from('pelapak lp')
-			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT');
 	}
 
 	public function pelapak_insert()
