@@ -1,4 +1,7 @@
 <?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  * File ini:
  *
@@ -42,8 +45,6 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-if(!defined('BASEPATH')) exit('No direct script access allowed');
-
 class Cdesa extends Admin_Controller {
 
 	private $set_page;
@@ -72,7 +73,7 @@ class Cdesa extends Admin_Controller {
 	public function autocomplete()
 	{
 		$data = $this->cdesa_model->autocomplete($this->input->post('cari'));
-		echo json_encode($data);
+		$this->json_output($data);
 	}
 
 	public function search(){
