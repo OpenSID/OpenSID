@@ -32,7 +32,7 @@
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-						<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<div class="box-header with-border">
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("sms/delete_all/$p/$o/2")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							</div>
@@ -81,7 +81,7 @@
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<td nowrap>
 																				<a href="<?= site_url("sms/form/$p/$o/2/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lihat Pesan" title="Tampilkan dan Balas"><i class="fa fa-reply"></i></a>
-																				<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<?php if ($this->CI->cek_hak_akses('h')): ?>
 																					<a href="#" data-href="<?= site_url("sms/delete/$p/$o/2/$data[ID]")?>" class="btn bg-maroon btn-flat btn-sm"title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																			</td>
