@@ -339,14 +339,14 @@ class Lapak_admin extends Admin_Controller
 		$this->render("$this->controller/kategori/index", $data);
 	}
 
-	public function kategori_form($kategori = '')
+	public function kategori_form($id = '')
 	{
 		$this->redirect_hak_akses("u");
 
-		if ($kategori)
+		if ($id)
 		{
-			$data['main'] = $this->lapak_model->detail_kategori($kategori) ?? show_404();
-			$data['form_action'] = site_url("$this->controller/kategori_update/$kategori");
+			$data['main'] = $this->lapak_model->kategori_detail($id) ?? show_404();
+			$data['form_action'] = site_url("$this->controller/kategori_update/$id");
 		}
 		else
 		{
@@ -364,10 +364,10 @@ class Lapak_admin extends Admin_Controller
 		redirect("$this->controller/kategori");
 	}
 
-	public function kategori_update($kategori = '')
+	public function kategori_update($id = '')
 	{
 		$this->redirect_hak_akses("u");
-		$this->lapak_model->kategori_update($kategori);
+		$this->lapak_model->kategori_update($id);
 		redirect("$this->controller/kategori");
 	}
 

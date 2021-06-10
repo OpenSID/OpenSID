@@ -202,7 +202,7 @@ class Lapak_model extends MY_Model
 		return ( ! empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
-	public function produk_delete($id)
+	public function produk_delete($id = 0)
 	{
 		$this->hapus_foto_produk('id', $id);
 
@@ -216,7 +216,7 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id = 0);
 		}
 	}
 
@@ -238,7 +238,7 @@ class Lapak_model extends MY_Model
 		}
 	}
 
-	public function produk_detail($id)
+	public function produk_detail($id = 0)
 	{
 		$this->produk();
 		$data = $this->db->where('pr.id', $id)->get()->row();
@@ -357,7 +357,7 @@ class Lapak_model extends MY_Model
 		return $data;
 	}
 
-	public function pelapak_delete($id)
+	public function pelapak_delete($id = 0)
 	{
 		
 		$this->hapus_foto_produk('id_pelapak', $id);
@@ -373,11 +373,11 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->pelapak_delete($id);
+			$this->pelapak_delete($id = 0);
 		}
 	}
 
-	public function pelapak_detail($id)
+	public function pelapak_detail($id = 0)
 	{
 		$this->pelapak();
 		$data = $this->db->where('lp.id', $id)->get()->row();
@@ -404,13 +404,13 @@ class Lapak_model extends MY_Model
 			->result();
 	}
 
-	public function detail_kategori($kategori = '')
+	public function kategori_detail($id = 0)
 	{
-		return $this->db
-			->distinct()
-			->select($tipe)
-			->get_where('produk', ['kategori' => $kategori])
-			->row();
+		$this->kategori();
+
+		$data = $this->db->where('pk.id', $id)->get()->row();
+
+		return $data;
 	}
 
 	public function get_kategori(string $search = '')
@@ -438,17 +438,15 @@ class Lapak_model extends MY_Model
 		status_sukses($outp);
 	}
 
-	public function kategori_update($kategori = '')
+	public function kategori_update($id = 0)
 	{
 		$data = $this->kategori_validasi();
-		$data['updated_at'] = date('Y-m-d H:i:s');
-
-		$outp = $this->db->where('kategori', $kategori)->update('produk_kategori', $data);
+		$outp = $this->db->where('id', $id)->update('produk_kategori', $data);
 
 		status_sukses($outp);
 	}
 
-	public function kategori_delete($id)
+	public function kategori_delete($id = 0)
 	{
 		$this->hapus_foto_produk('id_produk_kategori', $id);
 
@@ -462,7 +460,7 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->kategori_delete($id);
+			$this->kategori_delete($id = 0);
 		}
 	}
 
