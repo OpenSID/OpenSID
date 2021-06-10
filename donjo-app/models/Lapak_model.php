@@ -75,11 +75,13 @@ class Lapak_model extends MY_Model
 		{
 			$this->db
 				->group_start()
-					->like('p.nama', $cari)
-					->or_like('pr.nama', $cari)
-					->or_like('pk.kategori', $cari)
-					->or_like('pr.harga', $cari)
-					->or_like('pr.deskripsi', $cari)
+					->like('p.nama', $search)
+					->or_like('pr.nama', $search)
+					->or_like('pk.kategori', $search)
+					->or_like('pr.harga', $search)
+					->or_like('pr.satuan', $search)
+					->or_like('pr.potongan', $search)
+					->or_like('pr.deskripsi', $search)
 				->group_end();
 		}
 
@@ -87,6 +89,22 @@ class Lapak_model extends MY_Model
 		if ($id_produk_kategori) $this->db->where('pk.id', $id_produk_kategori);
 		
 		return $this->db;
+	}
+
+	protected function produk()
+	{
+		$kantor = $this->db
+			->select('lat, lng')
+			->from('config')->get()->row();
+		$this->db
+			->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.zoom')
+			->select("if(lp.lat is null or lp.lat = ' ', if(m.lat is null or m.lat = ' ', '{$kantor->lat}', m.lat), lp.lat) as lat ")
+			->select("if(lp.lng is null or lp.lng = ' ', if(m.lng is null or m.lng = ' ', '{$kantor->lng}', m.lng), lp.lng) as lng ")
+			->from('produk pr')
+			->join('produk_kategori pk', 'pr.id_produk_kategori = pk.id', 'LEFT')
+			->join('pelapak lp', 'pr.id_pelapak = lp.id', 'LEFT')
+			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT')
+			->join('tweb_penduduk_map m', 'p.id = m.id', 'LEFT');
 	}
 
 	public function paging_produk($p = 1)
@@ -256,22 +274,6 @@ class Lapak_model extends MY_Model
 			->update('produk', ['status' => $status]);
 
 		status_sukses($outp);
-	}
-
-	protected function produk()
-	{
-		$kantor = $this->db
-			->select('lat, lng')
-			->from('config')->get()->row();
-		$this->db
-			->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.zoom')
-			->select("if(lp.lat is null or lp.lat = ' ', if(m.lat is null or m.lat = ' ', '{$kantor->lat}', m.lat), lp.lat) as lat ")
-			->select("if(lp.lng is null or lp.lng = ' ', if(m.lng is null or m.lng = ' ', '{$kantor->lng}', m.lng), lp.lng) as lng ")
-			->from('produk pr')
-			->join('produk_kategori pk', 'pr.id_produk_kategori = pk.id', 'LEFT')
-			->join('pelapak lp', 'pr.id_pelapak = lp.id', 'LEFT')
-			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT')
-			->join('tweb_penduduk_map m', 'p.id = m.id', 'LEFT');
 	}
 
 	// PELAPAK
