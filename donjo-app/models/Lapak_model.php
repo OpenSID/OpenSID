@@ -83,7 +83,6 @@ class Lapak_model extends MY_Model
 
 		if ($id_pend) $this->db->where('lp.id_pend', $id_pend);
 		if ($kategori) $this->db->where('pk.id_produk_kategori', $id_produk_kategori);
-
 		return $this->db;
 	}
 
@@ -258,12 +257,18 @@ class Lapak_model extends MY_Model
 
 	protected function produk()
 	{
+		$kantor = $this->db
+			->select('lat, lng')
+			->from('config')->get()->row();
 		$this->db
-			->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.lat, lp.lng, lp.zoom')
+			->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.zoom')
+			->select("if(lp.lat is null or lp.lat = ' ', if(m.lat is null or m.lat = ' ', '{$kantor->lat}', m.lat), lp.lat) as lat ")
+			->select("if(lp.lng is null or lp.lng = ' ', if(m.lng is null or m.lng = ' ', '{$kantor->lng}', m.lng), lp.lng) as lng ")
 			->from('produk pr')
 			->join('produk_kategori pk', 'pr.id_produk_kategori = pk.id', 'LEFT')
 			->join('pelapak lp', 'pr.id_pelapak = lp.id', 'LEFT')
-			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT');
+			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT')
+			->join('tweb_penduduk_map m', 'p.id = m.id', 'LEFT');
 	}
 
 	// PELAPAK

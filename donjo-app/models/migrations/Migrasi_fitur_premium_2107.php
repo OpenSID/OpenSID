@@ -135,7 +135,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
 		$this->dbforge->add_key('id', TRUE);
 		$this->dbforge->add_field($fields);
-		$hasil =& $this->dbforge->create_table('pelapak', TRUE);
+		$hasil = $hasil && $this->dbforge->create_table('pelapak', TRUE);
 
 		return $hasil;
 	}
@@ -165,7 +165,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
 		$this->dbforge->add_key('id', TRUE);
 		$this->dbforge->add_field($fields);
-		$hasil =& $this->dbforge->create_table('produk_kategori', TRUE);
+		$hasil = $hasil && $this->dbforge->create_table('produk_kategori', TRUE);
 
 		return $hasil;
 	}
@@ -236,38 +236,15 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			],
 
 			'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-
 			'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
 		];
 
 		$this->dbforge->add_key('id', TRUE);
 		$this->dbforge->add_field($fields);
-		$hasil =& $this->dbforge->create_table('produk', TRUE);
+		$hasil = $hasil && $this->dbforge->create_table('produk', TRUE);
 
-
-		$query1 = $this->db->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
-			->where('CONSTRAINT_NAME', 'lapak_id')
-			->where('TABLE_NAME', 'produk')
-			->get();
-
-		if ($query1->num_rows() == 0)
-		{
-			$hasil =& $this->dbforge->add_column(
-				'produk', array("CONSTRAINT `lapak_id` FOREIGN KEY (`id_pelapak`) REFERENCES `pelapak` (`id`) ON DELETE CASCADE ON UPDATE CASCADE")
-			);
-		}
-
-		$query2 = $this->db->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
-			->where('CONSTRAINT_NAME', 'produk_kategori_id')
-			->where('TABLE_NAME', 'produk_kategori')
-			->get();
-
-		if ($query2->num_rows() == 0)
-		{
-			$hasil =& $this->dbforge->add_column(
-				'produk', array("CONSTRAINT `produk_kategori_id` FOREIGN KEY (`id_produk_kategori`) REFERENCES `produk_kategori` (`id`) ON DELETE CASCADE ON UPDATE CASCADE")
-			);
-		}
+		$hasil = $hasil && $this->tambah_foreign_key('lapak_fk', 'produk', 'id_pelapak', 'pelapak', 'id');
+		$hasil = $hasil && $this->tambah_foreign_key('produk_kategori_fk', 'produk', 'id_produk_kategori', 'produk_kategori', 'id');
 
 		return $hasil;
 	}
@@ -299,9 +276,13 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
 	protected function tambah_folder_produk($hasil)
 	{
-		mkdir($folder, 0755, TRUE);
-
-		return TRUE;
+		$folder = 'upload/produk';
+		if ( ! file_exists('/desa/' . $folder))
+		{
+			mkdir('desa/' . $folder, 0755, TRUE);
+			xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
+		}
+		return $hasil;
 	}
 
 	// Menambahkan data ke setting_aplikasi
