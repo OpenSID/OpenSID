@@ -48,11 +48,13 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
-		$hasil = true;
+		$hasil = TRUE;
 
 		$hasil = $hasil && $this->migrasi_2021060851($hasil);
+		$hasil = $hasil && $this->migrasi_2021060901($hasil);
 
 		status_sukses($hasil);
+
 		return $hasil;
 	}
 
@@ -70,4 +72,254 @@ class Migrasi_fitur_premium_2107 extends MY_Model
  
 		return $hasil;
 	}
+
+	protected function migrasi_2021060901($hasil)
+	{
+		$hasil = $hasil && $this->tambah_table_pelapak($hasil);
+		$hasil = $hasil && $this->tambah_table_produk_kategori($hasil);
+		$hasil = $hasil && $this->tambah_table_produk($hasil);
+		$hasil = $hasil && $this->tambah_modul_produk($hasil);
+		$hasil = $hasil && $this->tambah_folder_produk($hasil);
+		$hasil = $hasil && $this->tambah_pengaturan_aplikasi($hasil);
+
+		return $hasil;
+	}
+
+	// Tabel Pelapak
+	protected function tambah_table_pelapak($hasil)
+	{
+		$fields = [
+			'id' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'auto_increment' => TRUE
+			],
+
+			'id_pend' => [
+				'type' => 'TINYINT',
+				'constraint' => 11,
+				'null' => TRUE,
+				'default' => NULL
+			],
+
+			'telepon' => [
+				'type' => 'VARCHAR',
+				'constraint' => 20,
+				'null' => TRUE
+			],
+
+			'lat' => [
+				'type' => 'VARCHAR',
+				'constraint' => 20,
+				'null' => TRUE
+			],
+
+			'lng' => [
+				'type' => 'VARCHAR',
+				'constraint' => 20,
+				'null' => TRUE
+			],
+
+			'zoom' => [
+				'type' => 'TINYINT',
+				'constraint' => 4,
+				'null' => TRUE
+			],
+
+			'status' => [
+				'type' => 'TINYINT',
+				'constraint' => 1,
+				'default' => 1
+			]
+		];
+
+		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_field($fields);
+		$hasil =& $this->dbforge->create_table('pelapak', TRUE);
+
+		return $hasil;
+	}
+
+	// Tabel Produk Kategori
+	protected function tambah_table_produk_kategori($hasil)
+	{
+		$fields = [
+			'id' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'auto_increment' => TRUE
+			],
+
+			'kategori' => [
+				'type' => 'VARCHAR',
+				'constraint' => 50,
+				'default' => NULL
+			],
+
+			'slug' => [
+				'type' => 'VARCHAR',
+				'constraint' => 100,
+				'default' => NULL
+			]
+		];
+
+		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_field($fields);
+		$hasil =& $this->dbforge->create_table('produk_kategori', TRUE);
+
+		return $hasil;
+	}
+
+	// Tabel Produk
+	protected function tambah_table_produk($hasil)
+	{
+		$fields = [
+			'id' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'auto_increment' => TRUE
+			],
+
+			'id_pelapak' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				'default' => NULL
+			],
+
+			'id_produk_kategori' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => TRUE,
+				'default' => NULL
+			],
+
+			'nama' => [
+				'type' => 'VARCHAR',
+				'constraint' => 255,
+				'default' => NULL
+			],
+
+			'harga' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'default' => NULL
+			],
+
+			'satuan' => [
+				'type' => 'VARCHAR',
+				'constraint' => 20,
+				'default' => NULL
+			],
+
+			'potongan' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'default' => 0
+			],
+
+			'deskripsi' => [
+				'type' => 'TEXT',
+				'default' => NULL
+			],
+
+			'foto' => [
+				'type' => 'VARCHAR',
+				'constraint' => 225,
+				'null' => TRUE
+			],
+
+			'status' => [
+				'type' => 'TINYINT',
+				'constraint' => 1,
+				'default' => 1
+			],
+
+			'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+
+			'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+		];
+
+		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_field($fields);
+		$hasil =& $this->dbforge->create_table('produk', TRUE);
+
+
+		$query1 = $this->db->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+			->where('CONSTRAINT_NAME', 'lapak_id')
+			->where('TABLE_NAME', 'produk')
+			->get();
+
+		if ($query1->num_rows() == 0)
+		{
+			$hasil =& $this->dbforge->add_column(
+				'produk', array("CONSTRAINT `lapak_id` FOREIGN KEY (`id_pelapak`) REFERENCES `pelapak` (`id`) ON DELETE CASCADE ON UPDATE CASCADE")
+			);
+		}
+
+		$query2 = $this->db->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+			->where('CONSTRAINT_NAME', 'produk_kategori_id')
+			->where('TABLE_NAME', 'produk_kategori')
+			->get();
+
+		if ($query2->num_rows() == 0)
+		{
+			$hasil =& $this->dbforge->add_column(
+				'produk', array("CONSTRAINT `produk_kategori_id` FOREIGN KEY (`id_produk_kategori`) REFERENCES `produk_kategori` (`id`) ON DELETE CASCADE ON UPDATE CASCADE")
+			);
+		}
+
+		return $hasil;
+	}
+
+	// Menu Produk / Lapak
+	protected function tambah_modul_produk($hasil)
+	{
+		$fields = [
+			'id' => 324,
+			'modul' => 'Lapak',
+			'url' => 'lapak_admin',
+			'aktif' => 1,
+			'ikon' => 'fa-cart-plus',
+			'urut' => 122,
+			'level' => 2,
+			'hidden' => 0,
+			'ikon_kecil' => 'fa-cart-plus',
+			'parent' => 0
+		];
+
+		$hasil =& $this->tambah_modul($fields);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+		return $hasil;
+	}
+
+	protected function tambah_folder_produk($hasil)
+	{
+		mkdir($folder, 0755, TRUE);
+
+		return TRUE;
+	}
+
+	// Menambahkan data ke setting_aplikasi
+	protected function tambah_pengaturan_aplikasi($hasil)
+	{
+		$hasil = $hasil && $this->db->query("
+			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('tampilkan_lapak_web', '1', 'Aktif / Non-aktif Lapak di Halaman Website Url Terpisah', 'boolean', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+
+		$hasil = $hasil && $this->db->query("
+			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('pesan_singkat_wa', 'Saya ingin membeli [nama_produk] yang anda tawarkan', 'Pesan Singkat WhatsApp', 'textarea', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+		
+		$hasil = $hasil && $this->db->query("
+			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('banyak_foto_tiap_produk', 3, 'Banyaknya foto tiap produk yang bisa di unggah', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+
+		$hasil = $hasil && $this->db->query("
+			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('tampilkan_di_halaman_utama_web', '1', 'Aktif / Non-aktif Lapak di Halaman Utama Website', 'boolean', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+
+		return $hasil;
+	}	
+
 }
