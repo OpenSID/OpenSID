@@ -81,7 +81,9 @@
 												<td class="text-center padat"><?= ($key + 1); ?></td>
 												<td nowrap class="padat">
 													<a href='<?= site_url("cdesa/mutasi/$cdesa[id]/$item[id]")?>' class="btn bg-maroon btn-flat btn-sm"  title="Daftar Mutasi"><i class="fa fa-exchange"></i></a>
-													<a href="<?= site_url("data_persil/form/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+													<?php if ($this->CI->cek_hak_akses('u', 'data_persil')): ?>
+														<a href="<?= site_url("data_persil/form/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+													<?php endif; ?>
 													<a href="#" data-path="<?=  $item['path']?>" class="btn bg-olive btn-flat btn-sm area-map" title="Lihat Map" data-toggle="modal" data-target="#map-modal" ><i class="fa fa-map"></i></a>
 												</td>
 												<td>
