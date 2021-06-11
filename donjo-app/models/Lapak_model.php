@@ -67,7 +67,7 @@ class Lapak_model extends MY_Model
 	];
 
 	// PRODUK
-	public function get_produk(string $search = '', $id_pend = '', $id_produk_kategori = '')
+	public function get_produk(string $search = '', $id_pend = 0, $id_produk_kategori = 0)
 	{
 		$this->produk();
 
@@ -75,15 +75,36 @@ class Lapak_model extends MY_Model
 		{
 			$this->db
 				->group_start()
-				->like('pr.produk', $cari)
-				->or_like('pr.harga', $cari)
-				->or_like('pr.deskripsi', $cari)
+					->like('p.nama', $search)
+					->or_like('pr.nama', $search)
+					->or_like('pk.kategori', $search)
+					->or_like('pr.harga', $search)
+					->or_like('pr.satuan', $search)
+					->or_like('pr.potongan', $search)
+					->or_like('pr.deskripsi', $search)
 				->group_end();
 		}
 
-		if ($id_pend) $this->db->where('lp.id_pend', $id_pend);
-		if ($kategori) $this->db->where('pk.id_produk_kategori', $id_produk_kategori);
+		if ($id_pend) $this->db->where('p.id', $id_pend);
+		if ($id_produk_kategori) $this->db->where('pk.id', $id_produk_kategori);
+		
 		return $this->db;
+	}
+
+	protected function produk()
+	{
+		$kantor = $this->db
+			->select('lat, lng')
+			->from('config')->get()->row();
+		$this->db
+			->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.zoom')
+			->select("if(lp.lat is null or lp.lat = ' ', if(m.lat is null or m.lat = ' ', '{$kantor->lat}', m.lat), lp.lat) as lat ")
+			->select("if(lp.lng is null or lp.lng = ' ', if(m.lng is null or m.lng = ' ', '{$kantor->lng}', m.lng), lp.lng) as lng ")
+			->from('produk pr')
+			->join('produk_kategori pk', 'pr.id_produk_kategori = pk.id', 'LEFT')
+			->join('pelapak lp', 'pr.id_pelapak = lp.id', 'LEFT')
+			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT')
+			->join('tweb_penduduk_map m', 'p.id = m.id', 'LEFT');
 	}
 
 	public function paging_produk($p = 1)
@@ -202,7 +223,7 @@ class Lapak_model extends MY_Model
 		return ( ! empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
-	public function produk_delete($id)
+	public function produk_delete($id = 0)
 	{
 		$this->hapus_foto_produk('id', $id);
 
@@ -216,7 +237,7 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id);
+			$this->delete($id = 0);
 		}
 	}
 
@@ -238,7 +259,7 @@ class Lapak_model extends MY_Model
 		}
 	}
 
-	public function produk_detail($id)
+	public function produk_detail($id = 0)
 	{
 		$this->produk();
 		$data = $this->db->where('pr.id', $id)->get()->row();
@@ -255,22 +276,6 @@ class Lapak_model extends MY_Model
 		status_sukses($outp);
 	}
 
-	protected function produk()
-	{
-		$kantor = $this->db
-			->select('lat, lng')
-			->from('config')->get()->row();
-		$this->db
-			->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.zoom')
-			->select("if(lp.lat is null or lp.lat = ' ', if(m.lat is null or m.lat = ' ', '{$kantor->lat}', m.lat), lp.lat) as lat ")
-			->select("if(lp.lng is null or lp.lng = ' ', if(m.lng is null or m.lng = ' ', '{$kantor->lng}', m.lng), lp.lng) as lng ")
-			->from('produk pr')
-			->join('produk_kategori pk', 'pr.id_produk_kategori = pk.id', 'LEFT')
-			->join('pelapak lp', 'pr.id_pelapak = lp.id', 'LEFT')
-			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT')
-			->join('tweb_penduduk_map m', 'p.id = m.id', 'LEFT');
-	}
-
 	// PELAPAK
 	public function get_pelapak(string $search = '')
 	{
@@ -280,25 +285,12 @@ class Lapak_model extends MY_Model
 		{
 			$this->db
 				->group_start()
-				->like('pelapak', $cari)
-				->or_like('lp.telepon', $cari)
+					->like('p.nama', $search)
+					->or_like('lp.telepon', $search)
 				->group_end();
 		}
 
 		return $this->db;
-	}
-
-	public function list_penduduk()
-	{
-		$data = $this->db
-			->select('id, nik, nama, telepon')
-			->where('nik <>', '')
-			->where('nik <>', 0)
-			->where('id NOT IN (SELECT id_pend FROM pelapak)')
-			->get('penduduk_hidup')
-			->result();
-
-		return $data;
 	}
 
 	protected function pelapak()
@@ -307,6 +299,19 @@ class Lapak_model extends MY_Model
 			->select('lp.*, p.nama AS pelapak, p.nik')
 			->from('pelapak lp')
 			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT');
+	}
+
+	public function list_penduduk($id_pend = 0)
+	{
+		$data = $this->db
+			->select('id, nik, nama, telepon')
+			->where('nik <>', '')
+			->where('nik <>', 0)
+			->where("id NOT IN (SELECT id_pend FROM pelapak WHERE id_pend != $id_pend)")
+			->get('penduduk_hidup')
+			->result();
+
+		return $data;
 	}
 
 	public function pelapak_insert()
@@ -357,7 +362,7 @@ class Lapak_model extends MY_Model
 		return $data;
 	}
 
-	public function pelapak_delete($id)
+	public function pelapak_delete($id = 0)
 	{
 		
 		$this->hapus_foto_produk('id_pelapak', $id);
@@ -373,11 +378,11 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->pelapak_delete($id);
+			$this->pelapak_delete($id = 0);
 		}
 	}
 
-	public function pelapak_detail($id)
+	public function pelapak_detail($id = 0)
 	{
 		$this->pelapak();
 		$data = $this->db->where('lp.id', $id)->get()->row();
@@ -404,13 +409,13 @@ class Lapak_model extends MY_Model
 			->result();
 	}
 
-	public function detail_kategori($kategori = '')
+	public function kategori_detail($id = 0)
 	{
-		return $this->db
-			->distinct()
-			->select($tipe)
-			->get_where('produk', ['kategori' => $kategori])
-			->row();
+		$this->kategori();
+
+		$data = $this->db->where('pk.id', $id)->get()->row();
+
+		return $data;
 	}
 
 	public function get_kategori(string $search = '')
@@ -438,17 +443,15 @@ class Lapak_model extends MY_Model
 		status_sukses($outp);
 	}
 
-	public function kategori_update($kategori = '')
+	public function kategori_update($id = 0)
 	{
 		$data = $this->kategori_validasi();
-		$data['updated_at'] = date('Y-m-d H:i:s');
-
-		$outp = $this->db->where('kategori', $kategori)->update('produk_kategori', $data);
+		$outp = $this->db->where('id', $id)->update('produk_kategori', $data);
 
 		status_sukses($outp);
 	}
 
-	public function kategori_delete($id)
+	public function kategori_delete($id = 0)
 	{
 		$this->hapus_foto_produk('id_produk_kategori', $id);
 
@@ -462,7 +465,7 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->kategori_delete($id);
+			$this->kategori_delete($id = 0);
 		}
 	}
 
