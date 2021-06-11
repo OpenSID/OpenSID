@@ -759,7 +759,7 @@ class First extends Web_Controller {
 
 	public function lapak($p = 1)
 	{
-		if ($this->setting->tampilkan_lapak_web == 0) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('lapak') && $this->setting->tampilkan_lapak_web == 0) show_404();
 
 		$this->load->model('lapak_model');
 

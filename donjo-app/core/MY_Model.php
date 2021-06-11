@@ -29,7 +29,7 @@ class MY_Model extends CI_Model {
 				$data = $this->first_artikel_m->get_kategori($cut[1]);
 				$url = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
 				break;
-
+				
 			case 'arsip':
 			case 'peraturan_desa':
 			case 'data_analisis':
@@ -43,6 +43,7 @@ class MY_Model extends CI_Model {
 			case 'data-kelompok':
 			case 'status-idm':
 			case 'status-sdgs':
+			case 'lapak':
 				break;
 
 			default:
