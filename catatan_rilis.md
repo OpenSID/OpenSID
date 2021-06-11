@@ -18,6 +18,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-10 adalah sebagai beri
 2. Sekarang keluarga yang kepala keluarganya meninggal, hilang atau pindah dilaporkan di Laporan Bulanan pada bulan sesuai dengan Tanggal Lapor peristiwa yang bersangkutan.
 3. Sekarang filter tahun berjalan normal di Buku Inventaris dan Kekayaan Desa.
 4. [#4234](https://github.com/OpenSID/OpenSID/issues/4234) Sekarang foto default pengguna yg login ditampilkan kembali.
+5. [#3293](https://github.com/OpenSID/OpenSID/issues/3293) Sekarang modal untuk membuat folder baru di Responsive File Manager tampil ditengah pada layar HP dan dapat diisi.
 
 
 #### Perubahan Teknis
