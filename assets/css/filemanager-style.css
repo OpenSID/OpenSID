@@ -1,0 +1,6 @@
+@media (max-width: 767px) {
+	.modal.fade.in {
+		top: 10%;
+		left: 50%;
+	}
+}
