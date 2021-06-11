@@ -1095,3 +1095,13 @@ function kode_wilayah($kode_wilayah)
 	$kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
 	return $kode_standar;
 }
+
+// Dari 0892611042612 --> +6292611042612 untuk redirect WA
+function format_telpon(string $no_telpon, $kode_negara = '+62')
+{
+	$awalan = substr($no_telpon, 0, 2);
+
+	if ($awalan == "62") return '+' . $no_telpon;
+
+	return $kode_negara . substr($no_telpon, 1, strlen($no_telpon));
+}
