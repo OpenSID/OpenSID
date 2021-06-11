@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php if ($pro->telepon): ?>
 											<a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone=<?=format_telpon($pro->telepon);?>&amp;text=<?= str_replace('[nama_produk]', $pro->nama, $this->setting->pesan_singkat_wa) ?>" rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa fa-whatsapp"></i> Beli</a>
 										<?php endif; ?>
-										<a class="btn btn-sm btn-primary" data-remote="false" data-toggle="modal" data-target="#lokasi-produk" title="Lokasi" onclick="load_peta(<?= $pro->lat?>, <?= $pro->lng?>, <?= $pro->zoom?>);"><i class="fa fa fa-map"></i> lokasi</a>
+										<a class="btn btn-sm btn-primary" data-remote="false" data-toggle="modal" data-target="#map-modal" title="Lokasi" data-lat="<?= $pro->lat?>" data-lng="<?= $pro->lng?>" data-zoom="<?= $pro->zoom?>"><i class="fa fa fa-map"></i> lokasi</a>
 									</div>
 									<small class="text-muted"><b><i class="fa fa-user"></i>&nbsp;<?= $pro->pelapak ?? 'ADMIN'; ?></b></small>
 								</div>
@@ -120,19 +120,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</style>
 
 			<!-- Modal lokasi -->
-			<div class='modal fade' id="lokasi-produk" tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+			<div class='modal fade' id="map-modal" tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 				<div class='modal-dialog'>
 					<div class='modal-content'>
 						<div class='modal-header'>
 							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 								<h4 class='modal-title' id='myModalLabel'><?= $pro->nama; ?></h4>
 						</div>
-						<div class="modal-body" id="map">
+						<div class="modal-body" id="map" style="width: 100%;"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 
 			<?php
 				$paging_page = 'lapak';
@@ -168,21 +168,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php endif;?>
 	</div>
 </div>
-<script>
-	function load_peta(val_lat, val_lng, val_zoom) {
-		var posisi = [val_lat, val_lng];
-		var zoom   = val_zoom;
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(document).on('shown.bs.modal','#map-modal', function(event)  {
+			var link = $(event.relatedTarget);
+			var posisi = [link.data('lat'), link.data('lng')];
+			var zoom = link.data('zoom');
 
-		//Inisialisasi tampilan peta
-		var peta_lapak = L.map('map').setView(posisi, zoom);
+			// Inisialisasi tampilan peta
+			var pelapak = L.map('map').setView(posisi, zoom);
 
-		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_lapak, '<?= $this->setting->mapbox_key; ?>');
+			// Menampilkan BaseLayers Peta
+			var baseLayers = getBaseLayers(pelapak, '');
 
-		//Menambahkan zoom scale ke peta
-		L.control.scale().addTo(peta_lapak);
-
-		showCurrentPoint(posisi, peta_lapak);
-		L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_lapak);
-	}
+			// Tampilkan Posisi Pelapak
+			showCurrentPoint(posisi, pelapak);
+		});
+	});
 </script>
