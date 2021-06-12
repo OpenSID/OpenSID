@@ -375,14 +375,14 @@ class Lapak_admin extends Admin_Controller
 	{
 		$this->redirect_hak_akses("h");
 		$this->lapak_model->kategori_delete($id);
-		redirect("$this->controller/produk");
+		redirect("$this->controller/kategori");
 	}
 
 	public function kategori_delete_all()
 	{
 		$this->redirect_hak_akses("h");
 		$this->lapak_model->kategori_delete_all();
-		redirect("$this->controller/produk");
+		redirect("$this->controller/kategori");
 	}
 
 	// PENGATURAN
