@@ -118,6 +118,7 @@ class Covid19 extends Admin_Controller {
 		$callback_url = $_POST['callback_url'];
 		unset($_POST['callback_url']);
 
+		$this->session->jenis_peristiwa = 5; // pindah masuk
 		$id = $this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1)
 			$_SESSION['dari_internal'] = true;
