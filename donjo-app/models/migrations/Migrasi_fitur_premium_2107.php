@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021060851($hasil);
 		$hasil = $hasil && $this->migrasi_2021060901($hasil);
+		$hasil = $hasil && $this->migrasi_2021061201($hasil);
 
 		status_sukses($hasil);
 
@@ -301,6 +302,27 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('tampilkan_di_halaman_utama_web', '1', 'Aktif / Non-aktif Lapak di Halaman Utama Website', 'boolean', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 
 		return $hasil;
-	}	
+	}
+
+	protected function migrasi_2021061201($hasil)
+	{
+		// Ubah nilai default zoom yang sudah ada
+		$hasil = $hasil && $this->db->where('zoom', NULL)->update('pelapak', ['zoom' => 10]);
+		
+		// Ubah default nilai zoom table pelapak
+		$fields = [
+			'zoom' => [
+				'name' => 'zoom',
+				'type' => 'TINYINT',
+				'constraint' => 4,
+				'null' => FALSE,
+				'default' => 10
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('pelapak', $fields);
+
+		return $hasil;
+	}
 
 }
