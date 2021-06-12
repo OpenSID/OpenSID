@@ -80,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>No</th>
 									<th>Aksi</th>
 									<th>Kategori</th>
-									<th>Jumlah</th>
+									<th>Jumlah Produk</th>
 								</tr>
 							</thead>
 						</table>
@@ -111,18 +111,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'columns': [
 				{
 					'data': function(data) {
-						return `<input type="checkbox" name="id_cb[]" value="${data.id}"/>`
+						if (data.jumlah == 0) {
+							return `<input type="checkbox" name="id_cb[]" value="${data.id}"/>`
+						} else return ''
 					}
 				},
 				{ 'data': null },
 				{
 					'data': function(data) {
+						let hapus;
+						if (data.jumlah == 0) {
+							hapus = '<a href="#" data-href="<?= site_url("$this->controller/kategori_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>'
+						} else { hapus = ''}
 						return `
 						<?php if ($this->CI->cek_hak_akses('u')): ?>
 							<a href="<?= site_url("$this->controller/kategori_form/"); ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Kategori"><i class="fa fa-edit"></i></a>
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
-							<a href="#" data-href="<?= site_url("$this->controller/kategori_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+							${hapus}
 						<?php endif; ?>
 						`
 					}

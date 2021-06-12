@@ -81,6 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>Aksi</th>
 									<th>Pelapak</th>
 									<th>No. Telelpon</th>
+									<th>Jumlah Produk</th>
 								</tr>
 							</thead>
 						</table>
@@ -101,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'order': [[3, 'desc']],
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0, 1, 2] },
-				{ 'className' : 'padat', 'targets': [0, 1, 4] },
+				{ 'className' : 'padat', 'targets': [0, 1, 4, 5] },
 				{ 'className' : 'aksi', 'targets': [2] }
 			],
 			'ajax': {
@@ -111,7 +112,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'columns': [
 				{
 					'data': function(data) {
-						return `<input type="checkbox" name="id_cb[]" value="${data.id}"/>`
+						if (data.jumlah == 0) {
+							return `<input type="checkbox" name="id_cb[]" value="${data.id}"/>`
+						} else return ''
 					}
 				},
 				{ 'data': null },
@@ -123,6 +126,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						} else {
 							status = `<a href="<?= site_url("$this->controller/pelapak_status/"); ?>${data.id}/1" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Produk"><i class="fa fa-lock"></i></a>`
 						}
+						let hapus;
+						if (data.jumlah == 0) {
+							hapus = `<a href="#" dataa-href="<?= site_url("$this->controller/pelapak_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
+						} else { hapus = ''}
 
 						return `
 						<?php if ($this->CI->cek_hak_akses('u')): ?>
@@ -130,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							${status}
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
-							<a href="#" data-href="<?= site_url("$this->controller/pelapak_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+							${hapus}
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('u')): ?>
 							<a href="<?= site_url("$this->controller/pelapak_maps/"); ?>${data.id}" class="btn bg-green btn-flat btn-sm" title="Lokasi"><i class="fa fa-map"></i></a>
@@ -140,6 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				},
 				{ 'data': 'pelapak' },
 				{ 'data': 'telepon' },
+				{ 'data': 'jumlah'}
 			],
 			'language': {
 				'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"

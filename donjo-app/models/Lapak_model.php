@@ -297,6 +297,7 @@ class Lapak_model extends MY_Model
 	{
 		$this->db
 			->select('lp.*, p.nama AS pelapak, p.nik')
+			->select('(SELECT COUNT(pr.id) FROM produk pr WHERE pr.id_pelapak = lp.id) AS jumlah')
 			->from('pelapak lp')
 			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT');
 	}
