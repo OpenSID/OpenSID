@@ -77,9 +77,20 @@ class Lapak_admin extends Admin_Controller
 	public function produk()
 	{
 		$data['navigasi'] = $this->navigasi();
+		
+		if ($data['navigasi']['jml_pelapak'] <= 0)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg ='Pelapak tidak tersedia, silahkan tambah pelapak terlebih dahulu';
+			redirect("$this->controller/pelapak");
+		}
 
-		if ($data['navigasi']['jml_pelapak'] <= 0) redirect("$this->controller/pelapak");
-		if ($data['navigasi']['jml_kategori'] <= 0) redirect("$this->controller/kategori");
+		if ($data['navigasi']['jml_kategori'] <= 0)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg ='Pelapak tidak tersedia, silahkan tambah pelapak terlebih dahulu';
+			redirect("$this->controller/kategori");
+		}
 
 		if ($this->input->is_ajax_request())
 		{
@@ -295,7 +306,17 @@ class Lapak_admin extends Admin_Controller
 	public function pelapak_delete($id)
 	{
 		$this->redirect_hak_akses("h");
-		$this->lapak_model->pelapak_delete($id);
+		// Cek apakah produk pelapak ada ???
+		if ($this->lapak_model->get_produk()->where('id_pelapak', $id)->count_all_results() > 0)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg ='Pelapak tersebut memiliki produk, silahkan hapus terlebih dahulu';
+		}
+		else
+		{
+			$this->lapak_model->pelapak_delete($id);
+		}
+
 		redirect("$this->controller/pelapak");
 	}
 
@@ -374,7 +395,17 @@ class Lapak_admin extends Admin_Controller
 	public function kategori_delete($id)
 	{
 		$this->redirect_hak_akses("h");
-		$this->lapak_model->kategori_delete($id);
+		// Cek apakah produk kategori ada ???
+		if ($this->lapak_model->get_produk()->where('id_produk_kategori', $id)->count_all_results() > 0)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg ='Kategori tersebut memiliki produk, silahkan hapus terlebih dahulu';
+		}
+		else
+		{
+			$this->lapak_model->kategori_delete($id);
+		}
+
 		redirect("$this->controller/kategori");
 	}
 
