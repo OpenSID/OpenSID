@@ -52,7 +52,7 @@
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</div>
-				<input class="form-control input-sm pull-right" id="tanggallahir" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir']?>">
+				<input class="form-control input-sm pull-right tgl-datepicker" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir']?>">
 			</div>
 		</div>
 	</div>
@@ -100,7 +100,6 @@
 			</select>
 		</div>
 	</div>
-
 	<div class="col-sm-4">
 		<div class="form-group">
 			<label>RW</label>
@@ -112,7 +111,6 @@
 			</select>
 		</div>
 	</div>
-
 	<div class="col-sm-4">
 		<div id='isi_rt' class="form-group">
 			<label>RT</label>
@@ -125,6 +123,19 @@
 			</select>
 		</div>
 	</div>
+
+	<div class="col-sm-6">
+		<div class="form-group">
+			<label for="tanggallahir">Tanggal Masuk</label>
+			<div class="input-group input-group-sm date">
+				<div class="input-group-addon">
+					<i class="fa fa-calendar"></i>
+				</div>
+				<input class="form-control input-sm pull-right tgl-datepicker required" name="tgl_peristiwa" type="text" value="<?= $penduduk['tgl_peristiwa']?>">
+			</div>
+		</div>
+	</div>
+
 </form>
 
 <script type="text/javascript">
@@ -146,7 +157,7 @@
 			select_options(rt, params);
 		});
 
-		$('#tanggallahir').datetimepicker({
+		$('.tgl-datepicker').datetimepicker({
 			format: 'DD-MM-YYYY'
 		});
 

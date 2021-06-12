@@ -1,10 +1,10 @@
-#### [v21.06-premium-beta - 2021-06-11](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.06-premium-beta - 2021-06-12](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.06-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-11 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-12 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -19,6 +19,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-11 adalah sebagai beri
 3. Sekarang filter tahun berjalan normal di Buku Inventaris dan Kekayaan Desa.
 4. [#4234](https://github.com/OpenSID/OpenSID/issues/4234) Sekarang foto default pengguna yg login ditampilkan kembali.
 5. [#3293](https://github.com/OpenSID/OpenSID/issues/3293) Sekarang modal untuk membuat folder baru di Responsive File Manager tampil ditengah pada layar HP dan dapat diisi.
+6. Sekarang menambah pemudik Covid-19 tersimpan dengan benar.
 
 
 #### Perubahan Teknis
