@@ -557,3 +557,7 @@ div.form-surat .content-header {
 .box .border-bottom {
 	border-bottom: 1px solid #f4f4f4;
 }
+
+.small-box h3 {
+	font-size: 25px;
+}
