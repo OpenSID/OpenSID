@@ -53,6 +53,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021060851($hasil);
 		$hasil = $hasil && $this->migrasi_2021060901($hasil);
 		$hasil = $hasil && $this->migrasi_2021061201($hasil);
+		$hasil = $hasil && $this->migrasi_2021061301($hasil);
 
 		status_sukses($hasil);
 
@@ -317,6 +318,21 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 				'constraint' => 4,
 				'null' => FALSE,
 				'default' => 10
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('pelapak', $fields);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021061301($hasil)
+	{
+		// Ubah tipe data id_pend pada tabel pelapak
+		$fields = [
+			'id_pend' => [
+				'type' => 'INT',
+				'constraint' => 11,
 			],
 		];
 
