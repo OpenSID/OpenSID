@@ -15,5 +15,6 @@ Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-13 adalah sebagai be
 5. [#3293](https://github.com/OpenSID/OpenSID/issues/3293) Sekarang modal untuk membuat folder baru di Responsive File Manager tampil ditengah pada layar HP dan dapat diisi.
 6. Sekarang menambah pemudik Covid-19 tersimpan dengan benar.
 7. [#3419](https://github.com/OpenSID/OpenSID/issues/3419) Sekarang tidak error kalau tidak berhasil memperoleh informasi rilis dari Github.
+8. [#4247](https://github.com/OpenSID/OpenSID/issues/4247) Perkecil judul Status IDM Desa supaya muat status panjang seperti 'BERKEMBANG'.
 
 
