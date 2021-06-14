@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php if ($pro->telepon): ?>
 											<a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone=<?=format_telpon($pro->telepon);?>&amp;text=<?= str_replace('[nama_produk]', $pro->nama, $this->setting->pesan_singkat_wa) ?>" rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa fa-whatsapp"></i> Beli</a>
 										<?php endif; ?>
-										<a class="btn btn-sm btn-primary" data-remote="false" data-toggle="modal" data-target="#map-modal" title="Lokasi" data-lat="<?= $pro->lat?>" data-lng="<?= $pro->lng?>" data-zoom="<?= $pro->zoom?>"><i class="fa fa fa-map"></i> lokasi</a>
+										<a class="btn btn-sm btn-primary" data-remote="false" data-toggle="modal" data-target="#map-modal" title="Lokasi" data-lat="<?= $pro->lat?>" data-lng="<?= $pro->lng?>" data-zoom="<?= $pro->zoom?>"><i class="fa fa fa-map"></i> Lokasi</a>
 									</div>
 									<small class="text-muted"><b><i class="fa fa-user"></i>&nbsp;<?= $pro->pelapak ?? 'ADMIN'; ?></b></small>
 								</div>
