@@ -49,19 +49,18 @@ class Siteman extends CI_Controller
 		siteman_timeout();
 		$this->load->model('config_model');
 		$this->load->model('user_model');
+		$this->load->model('token_model');
 	}
 
 	public function index()
 	{
-		if (isset($_SESSION['siteman']) and 1 == $_SESSION['siteman'])
-		{
+		if (isset($_SESSION['siteman']) and 1 == $_SESSION['siteman']) {
 			redirect('main');
 		}
 		unset($_SESSION['balik_ke']);
 		$data['header'] = $this->config_model->get_data();
 		//Initialize Session ------------
-		if (!isset($_SESSION['siteman']))
-		{
+		if (!isset($_SESSION['siteman'])) {
 			// Belum ada session variable
 			$this->session->set_userdata('siteman', 0);
 			$this->session->set_userdata('siteman_try', 4);
@@ -80,36 +79,30 @@ class Siteman extends CI_Controller
 	public function auth()
 	{
 		$method = $this->input->method(TRUE);
-				$allow_method = ['POST'];
-		if(!in_array($method,$allow_method))
-		{
+		$allow_method = ['POST'];
+		if (!in_array($method, $allow_method)) {
 			redirect('siteman/login');
 		}
 		$this->user_model->siteman();
 
-		if ($_SESSION['siteman'] != 1)
-		{
+		if ($_SESSION['siteman'] != 1) {
 			// Gagal otentifikasi
 			redirect('siteman');
 		}
 
-		if (!$this->user_model->syarat_sandi() and !($this->session->user == 1 && $this->setting->demo_mode))
-		{
+		if (!$this->user_model->syarat_sandi() and !($this->session->user == 1 && $this->setting->demo_mode)) {
 			// Password tidak memenuhi syarat kecuali di website demo
 			redirect('user_setting/change_pwd');
 		}
 
 		$_SESSION['dari_login'] = '1';
 		// Notif bisa dipanggil sewaktu-waktu dan tidak digunakan untuk redirect
-		if (isset($_SESSION['request_uri']) and strpos($_SESSION['request_uri'], 'notif/') === FALSE)
-		{
+		if (isset($_SESSION['request_uri']) and strpos($_SESSION['request_uri'], 'notif/') === FALSE) {
 			// Lengkapi url supaya tidak diubah oleh redirect
 			$request_awal = $_SERVER['HTTP_ORIGIN'] . $_SESSION['request_uri'];
 			unset($_SESSION['request_uri']);
 			redirect($request_awal);
-		}
-		else
-		{
+		} else {
 			unset($_SESSION['request_uri']);
 			unset($this->session->fm_key);
 			$this->user_model->get_fm_key();
@@ -124,10 +117,74 @@ class Siteman extends CI_Controller
 		$this->load->view('siteman', $data);
 	}
 
+
+	public function forgot($hash = '')
+	{
+
+		/* $rr = $this->token_model->verifyHash("e4fbe77d831224598615defe853129d6");
+		var_dump($rr);
+		return; */
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+
+
+			$username = trim($this->input->post('username'));
+
+			$existingUser = $this->token_model->getUserEmail($username);
+
+			if (isset($existingUser)) {
+
+				// echo  $existingUser->email;
+				$token = $this->token_model->generateRandomString(6);
+				$hash = md5(sprintf("%s%s",  $token, $existingUser->id));
+				$data = array('token' =>  $token, 'hash' => $hash, 'user_id' => $existingUser->id);
+				$AddTokenresult = $this->token_model->addToken($data);
+				$SendForgotresult = $this->token_model->sendForgotMail($hash, $existingUser->email);
+
+				if ($AddTokenresult && $SendForgotresult) {
+					$this->session->success = 1;
+					$this->session->success_msg = 'Email Telah Dikirim silahkan di cek, ikuti langkah selanjutnya';
+					redirect("siteman/forgot");
+				}
+			} else {
+				$this->session->success = -1;
+				$this->session->error_msg = 'Nama Pengguna Tidak ditemukan';
+				redirect("siteman/forgot");
+			}
+		} else {
+
+			if ($hash != "") {
+
+				//todo check validation token
+
+				$Hashverify = $this->token_model->verifyHash($hash);
+				$userId = $this->token_model->getUserbyHash($hash);
+
+				//if ($Hashverify) { 
+				$data['header'] = $this->config_model->get_data();
+				$data['main'] =  array('id' => $userId);
+				$this->load->view('forgot_new_pwd', $data);
+				/* } else {
+					redirect("siteman/forgot");
+				} */
+			} else {
+				$data['header'] = $this->config_model->get_data();
+				$this->load->view('forgot', $data);
+			}
+		}
+	}
+
+	public function update_password_forgot($id = '')
+	{
+		$this->user_model->update_password_forgot($id);
+		if ($this->session->success == -1) {
+			redirect($_SERVER['HTTP_REFERER']);
+		} else redirect("main");
+	}
+
 	public function logout()
 	{
 		$this->user_model->logout();
 		$this->index();
 	}
-
 }

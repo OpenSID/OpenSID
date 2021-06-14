@@ -14440,6 +14440,21 @@ CREATE TABLE `kelompok_anggota` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
+# TABLE STRUCTURE FOR: token
+#
+
+DROP TABLE IF EXISTS `token`;
+CREATE TABLE `token`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token` varchar(8) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `hash` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `created_at` timestamp(0) NULL DEFAULT current_timestamp(0),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+ 
+
+#
 # TABLE STRUCTURE FOR: daftar_kontak
 #
 

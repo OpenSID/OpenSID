@@ -105,6 +105,9 @@
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
 										</div>
+										<div class="form-group">
+											 <a href="<?=site_url('siteman/forgot')?>"  style="cursor:pointer;">Lupa Password </a>
+										</div>
 										<hr />
 										<button type="submit" class="btn">MASUK</button>
 										<?php if ($this->session->siteman == -1 && $this->session->siteman_try < 4): ?>
