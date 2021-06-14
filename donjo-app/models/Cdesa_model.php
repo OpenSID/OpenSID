@@ -129,11 +129,13 @@ class Cdesa_model extends CI_Model {
 			->where('cdesa_awal', $id_cdesa)
 			->get()
 			->result_array();
+
 		$luas_persil = [];
 		foreach ($persil_awal as $persil)
 		{
 			$luas_persil[$persil['tipe']][$persil['id']] = $persil['luas_persil'];
 		}
+		
 		$list_mutasi = $this->db
 			->select('m.id_persil, m.luas, m.cdesa_keluar, k.tipe')
 			->from('mutasi_cdesa m')
@@ -143,22 +145,27 @@ class Cdesa_model extends CI_Model {
 			->or_where('m.cdesa_keluar', $id_cdesa)
 			->get('')
 			->result_array();
-		foreach ($list_mutasi as $mutasi)
+
+		$luas_persil_mutasi = [];
+		foreach ($list_mutasi as $key => $mutasi)
 		{
+
 			if ($mutasi['cdesa_keluar'] == $id_cdesa)
 			{
-				$luas_persil[$mutasi['tipe']][$mutasi['id_persil']] -= $mutasi['luas'];
+				$luas_persil_mutasi[$mutasi['tipe']][$mutasi['id_persil']] -= $mutasi['luas'];
 			}
 			else
 			{
-				$luas_persil[$mutasi['tipe']][$mutasi['id_persil']] += $mutasi['luas'];
+				$luas_persil_mutasi[$mutasi['tipe']][$mutasi['id_persil']] += $mutasi['luas'];
 			}
 		}
+
 		$luas_total = [];
-		foreach ($luas_persil as $key => $luas)
+		foreach ($luas_persil_mutasi as $key => $luas)
 		{
 			$luas_total[$key] += array_sum($luas);
 		}
+
 		return $luas_total;
 	}
 
