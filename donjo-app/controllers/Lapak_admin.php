@@ -81,14 +81,14 @@ class Lapak_admin extends Admin_Controller
 		if ($data['navigasi']['jml_pelapak'] <= 0)
 		{
 			$this->session->success = -1;
-			$this->session->error_msg ='Pelapak tidak tersedia, silahkan tambah pelapak terlebih dahulu';
+			$this->session->error_msg ='Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu';
 			redirect("$this->controller/pelapak");
 		}
 
 		if ($data['navigasi']['jml_kategori'] <= 0)
 		{
 			$this->session->success = -1;
-			$this->session->error_msg ='Pelapak tidak tersedia, silahkan tambah pelapak terlebih dahulu';
+			$this->session->error_msg ='Pelapak tidak tersedia, silakan tambah kategori terlebih dahulu';
 			redirect("$this->controller/kategori");
 		}
 
@@ -399,7 +399,7 @@ class Lapak_admin extends Admin_Controller
 		if ($this->lapak_model->get_produk()->where('id_produk_kategori', $id)->count_all_results() > 0)
 		{
 			$this->session->success = -1;
-			$this->session->error_msg ='Kategori tersebut memiliki produk, silahkan hapus terlebih dahulu';
+			$this->session->error_msg ='Kategori tersebut memiliki produk, silakan hapus terlebih dahulu';
 		}
 		else
 		{

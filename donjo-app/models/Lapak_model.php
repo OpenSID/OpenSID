@@ -237,7 +237,7 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id = 0);
+			$this->produk_delete($id);
 		}
 	}
 
@@ -379,7 +379,7 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->pelapak_delete($id = 0);
+			$this->pelapak_delete($id);
 		}
 	}
 
@@ -466,7 +466,7 @@ class Lapak_model extends MY_Model
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->kategori_delete($id = 0);
+			$this->kategori_delete($id);
 		}
 	}
 
