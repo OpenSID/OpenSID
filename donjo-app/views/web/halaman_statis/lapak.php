@@ -149,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php endif; ?>
 
 						<?php foreach ($pages as $i): ?>
-							<li <?= ($p == $i) ? 'class="active"' : "" ?>>
+							<li <?= jecho($paging->page, $i, 'class="active"'); ?>>
 								<a href="<?= site_url($paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
 							</li>
 						<?php endforeach; ?>

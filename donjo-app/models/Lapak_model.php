@@ -111,7 +111,7 @@ class Lapak_model extends MY_Model
 	{
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = 10;
+		$cfg['per_page'] = $this->setting->jumlah_produk_perhalaman;
 		$cfg['num_rows'] = $this->get_produk()->where('pr.status', 1)->count_all_results();
 		$this->paging->init($cfg);
 
