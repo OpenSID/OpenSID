@@ -48,9 +48,32 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
-		$hasil = true;
+		$hasil = TRUE;
+		$hasil = $hasil && $this->migrasi_2021061602($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
+
+	protected function migrasi_2021061602($hasil)
+	{
+
+		// Ubah nilai default user yang sudah ada
+		$hasil = $hasil && $this->db->where('foto', 'favicon.png')->update('user', ['foto' => 'kuser.png']);
+
+		// Ubah nilai default foto pada tabel user
+		$fields = [
+			'foto' => [
+				'name' => 'foto',
+				'type' => 'VARCHAR',
+				'constraint' => 100,
+				'default' => 'kuser.png',
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('user', $fields);
+
+		return $hasil;
+	}
+
 }
