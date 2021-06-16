@@ -49,18 +49,14 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = TRUE;
-		$hasil = $hasil && $this->migrasi_2021061602($hasil);
+		$hasil = $hasil && $this->migrasi_2021061652($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
 
-	protected function migrasi_2021061602($hasil)
+	protected function migrasi_2021061652($hasil)
 	{
-
-		// Ubah nilai default user yang sudah ada
-		$hasil = $hasil && $this->db->where('foto', 'favicon.png')->update('user', ['foto' => 'kuser.png']);
-
 		// Ubah nilai default foto pada tabel user
 		$fields = [
 			'foto' => [
