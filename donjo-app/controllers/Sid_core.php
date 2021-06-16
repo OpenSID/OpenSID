@@ -393,6 +393,7 @@ class Sid_Core extends Admin_Controller {
 	public function ajax_kantor_dusun_maps($id = '')
 	{
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['poly'] = 'multi';
 		$data['wil_atas'] = $this->header['desa'];
 		$data['wil_ini'] = $this->wilayah_model->cluster_by_id($id);
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
@@ -422,6 +423,7 @@ class Sid_Core extends Admin_Controller {
 	public function ajax_wilayah_dusun_maps($id = '')
 	{
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
+		$data['poly'] = 'multi';
 		$data['wil_atas'] = $this->header['desa'];
 		$data['wil_ini'] = $this->wilayah_model->cluster_by_id($id);
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();

@@ -72,7 +72,7 @@ window.onload = function()
 
 	//WILAYAH DUSUN
   <?php if (!empty($dusun_gis)): ?>
-    set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+    set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
   <?php endif; ?>
 
   //WILAYAH RW

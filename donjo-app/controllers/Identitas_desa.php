@@ -101,6 +101,7 @@ class Identitas_desa extends Admin_Controller {
 	{
 		$data_desa = $this->header['desa'];
 		$data['desa'] = $this->header['desa'];
+		$data['poly'] = ($tipe == 'wilayah') ? 'multi' : 'poly';
 		$data['wil_ini'] = $data_desa;
 		$data['wil_atas']['lat'] = -1.0546279422758742;
 		$data['wil_atas']['lng'] = 116.71875000000001;

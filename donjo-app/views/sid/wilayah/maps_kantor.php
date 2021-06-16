@@ -67,7 +67,6 @@ window.onload = function()
 	var marker_dusun = [];
 	var marker_rw = [];
 	var marker_rt = [];
-	var marker_persil = [];
 	
 	//OVERLAY WILAYAH DESA
 	<?php if (!empty($desa['path'])): ?>
@@ -76,7 +75,7 @@ window.onload = function()
 
 	//OVERLAY WILAYAH DUSUN
 	<?php if (!empty($dusun_gis)): ?>
-		set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', "<?= favico_desa()?>");
+		set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', "<?= favico_desa()?>");
 	<?php endif; ?>
 
 	//OVERLAY WILAYAH RW
@@ -90,11 +89,11 @@ window.onload = function()
 	<?php endif; ?>
 
 	//2. Menampilkan overlayLayers Peta Semua Wilayah
-  <?php if (!empty($wil_atas['path'])): ?>
-    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_persil, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
-  <?php else: ?>
-    var overlayLayers = {};
-  <?php endif; ?>
+	<?php if (!empty($wil_atas['path'])): ?>
+	    var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
+	<?php else: ?>
+	    var overlayLayers = {};
+	<?php endif; ?>
 
 	//Menampilkan BaseLayers Peta
   var baseLayers = getBaseLayers(peta_kantor, '<?=$this->setting->mapbox_key?>');
