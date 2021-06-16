@@ -23,6 +23,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-16 adalah sebagai beri
 7. [#3419](https://github.com/OpenSID/OpenSID/issues/3419) Sekarang tidak error kalau tidak berhasil memperoleh informasi rilis dari Github.
 8. [#4247](https://github.com/OpenSID/OpenSID/issues/4247) Perkecil judul Status IDM Desa supaya muat status panjang seperti 'BERKEMBANG'.
 9. [#4101](https://github.com/OpenSID/OpenSID/issues/4101) Sekarang penjumlahan luas tanah basah dan kering di laporan Data C-Desa sudah benar.
+10. Foto pengguna sekarang diisi foto default pada waktu membuat pengguna baru.
 
 
 #### Perubahan Teknis
