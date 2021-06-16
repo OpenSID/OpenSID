@@ -120,21 +120,15 @@ class Siteman extends CI_Controller
 
 	public function forgot($hash = '')
 	{
-
-		/* $rr = $this->token_model->verifyHash("e4fbe77d831224598615defe853129d6");
-		var_dump($rr);
-		return; */
+ 
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
-
+ 
 			$username = trim($this->input->post('username'));
 
 			$existingUser = $this->token_model->getUserEmail($username);
 
-			if (isset($existingUser)) {
-
-				// echo  $existingUser->email;
+			if (isset($existingUser)) { 
+				
 				$token = $this->token_model->generateRandomString(6);
 				$hash = md5(sprintf("%s%s",  $token, $existingUser->id));
 				$data = array('token' =>  $token, 'hash' => $hash, 'user_id' => $existingUser->id);
@@ -155,18 +149,17 @@ class Siteman extends CI_Controller
 
 			if ($hash != "") {
 
-				//todo check validation token
 
 				$Hashverify = $this->token_model->verifyHash($hash);
 				$userId = $this->token_model->getUserbyHash($hash);
 
-				//if ($Hashverify) { 
-				$data['header'] = $this->config_model->get_data();
-				$data['main'] =  array('id' => $userId);
-				$this->load->view('forgot_new_pwd', $data);
-				/* } else {
+				if ($Hashverify) {
+					$data['header'] = $this->config_model->get_data();
+					$data['main'] =  array('id' => $userId);
+					$this->load->view('forgot_new_pwd', $data);
+				} else {
 					redirect("siteman/forgot");
-				} */
+				}
 			} else {
 				$data['header'] = $this->config_model->get_data();
 				$this->load->view('forgot', $data);
