@@ -49,16 +49,13 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = TRUE;
-<<<<<<< HEAD
 
 		$hasil = $hasil && $this->migrasi_2021060851($hasil);
 		$hasil = $hasil && $this->migrasi_2021060901($hasil);
 		$hasil = $hasil && $this->migrasi_2021061201($hasil);
 		$hasil = $hasil && $this->migrasi_2021061301($hasil);
 		$hasil = $hasil && $this->migrasi_2021061651($hasil);
-=======
 		$hasil = $hasil && $this->migrasi_2021061652($hasil);
->>>>>>> bug-fix
 
 		status_sukses($hasil);
 
@@ -310,7 +307,6 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		return $hasil;
 	}
 
-<<<<<<< HEAD
 	protected function migrasi_2021061201($hasil)
 	{
 		// Ubah nilai default zoom yang sudah ada
@@ -352,7 +348,11 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	{
 		$hasil = $hasil && $this->db->query("
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('jumlah_produk_perhalaman', '10', 'Jumlah produk yang ditampilkan dalam satu halaman', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
-=======
+
+		return $hasil;
+	}
+
+
 	protected function migrasi_2021061652($hasil)
 	{
 		// Ubah nilai default foto pada tabel user
@@ -366,7 +366,6 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		];
 
 		$hasil = $hasil && $this->dbforge->modify_column('user', $fields);
->>>>>>> bug-fix
 
 		return $hasil;
 	}
