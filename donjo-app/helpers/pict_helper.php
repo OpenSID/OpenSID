@@ -84,6 +84,7 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter =
 
 function AmbilFoto($foto, $ukuran = "kecil_", $sex = '1')
 {
+	$sex = $sex ?: 1;
 	$file_foto = Foto_Default($foto, $sex);
 
 	if ($foto == $file_foto)
@@ -93,7 +94,7 @@ function AmbilFoto($foto, $ukuran = "kecil_", $sex = '1')
 		
 		if ( ! file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto))
 		{
-			$file_foto = Foto_Default($foto, $sex);
+			$file_foto = Foto_Default(null, $sex);
 		}
 	}
 
@@ -102,10 +103,9 @@ function AmbilFoto($foto, $ukuran = "kecil_", $sex = '1')
 
 function Foto_Default($foto, $sex = 1)
 {
-	if (($foto == 'kuser.png') || (empty($foto) && $sex == 1)) return FOTO_DEFAULT_PRIA;
-	if (($foto == 'wuser.png') || (empty($foto) && $sex == 2)) return FOTO_DEFAULT_WANITA;
-
-	return $foto;
+	if ( ! in_array($foto, ['kuser.png', 'wuser.png']) && ! empty($foto)) return $foto;
+	if (($foto == 'kuser.png') || $sex == 1) return FOTO_DEFAULT_PRIA;
+	if (($foto == 'wuser.png') || $sex == 2) return FOTO_DEFAULT_WANITA;
 }
 
 function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar)
