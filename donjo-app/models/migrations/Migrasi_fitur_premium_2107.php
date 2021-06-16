@@ -56,10 +56,9 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021061301($hasil);
 		$hasil = $hasil && $this->migrasi_2021061651($hasil);
 		$hasil = $hasil && $this->migrasi_2021061652($hasil);
-    $hasil = $hasil && $this->migrasi_2021061653($hasil);
+		$hasil = $hasil && $this->migrasi_2021061653($hasil);
 
 		status_sukses($hasil);
-
 		return $hasil;
 	}
 
@@ -67,14 +66,14 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	{
 		if ( ! $this->db->field_exists('id_peta', 'persil'))
 		{
-			$hasil = $hasil && $this->dbforge->add_column('persil', 'id_peta int(60)'); // tambah id peta untuk menyimpan id area 
+			$hasil = $hasil && $this->dbforge->add_column('persil', 'id_peta int(60)'); // tambah id peta untuk menyimpan id area
 		}
-    
+
 		if ( ! $this->db->field_exists('id_peta', 'mutasi_cdesa'))
 		{
 			$hasil = $hasil && $this->dbforge->add_column('mutasi_cdesa', 'id_peta int(60)');// tambah id peta untuk menyimpan id area
 		}
- 
+
 		return $hasil;
 	}
 
@@ -298,7 +297,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
 		$hasil = $hasil && $this->db->query("
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('pesan_singkat_wa', 'Saya ingin membeli [nama_produk] yang anda tawarkan', 'Pesan Singkat WhatsApp', 'textarea', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
-		
+
 		$hasil = $hasil && $this->db->query("
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('banyak_foto_tiap_produk', 3, 'Banyaknya foto tiap produk yang bisa di unggah', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 
@@ -312,7 +311,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	{
 		// Ubah nilai default zoom yang sudah ada
 		$hasil = $hasil && $this->db->where('zoom', NULL)->update('pelapak', ['zoom' => 10]);
-		
+
 		// Ubah default nilai zoom table pelapak
 		$fields = [
 			'zoom' => [
@@ -349,8 +348,9 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	{
 		$hasil = $hasil && $this->db->query("
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('jumlah_produk_perhalaman', '10', 'Jumlah produk yang ditampilkan dalam satu halaman', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
-    return $hasil;
-  }
+
+		return $hasil;
+	}
 
 	protected function migrasi_2021061652($hasil)
 	{
@@ -368,12 +368,12 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		return $hasil;
 	}
 
-  protected function migrasi_2021061653($hasil)
-  {
-    // Hapus table provinsi
-    $hasil = $hasil && $this->dbforge->drop_table('provinsi', TRUE);
+	protected function migrasi_2021061653($hasil)
+	{
+		// Hapus table provinsi
+		$hasil = $hasil && $this->dbforge->drop_table('provinsi', TRUE);
 
-    return $hasil;
-  }
+		return $hasil;
+	}
 
 }
