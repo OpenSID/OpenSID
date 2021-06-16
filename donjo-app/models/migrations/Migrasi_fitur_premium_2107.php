@@ -54,7 +54,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021060901($hasil);
 		$hasil = $hasil && $this->migrasi_2021061201($hasil);
 		$hasil = $hasil && $this->migrasi_2021061301($hasil);
-		$hasil = $hasil && $this->migrasi_2021061603($hasil);
+		$hasil = $hasil && $this->migrasi_2021061651($hasil);
 
 		status_sukses($hasil);
 
@@ -343,7 +343,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	}
 
 	// Menambahkan data ke setting_aplikasi
-	protected function migrasi_2021061603($hasil)
+	protected function migrasi_2021061651($hasil)
 	{
 		$hasil = $hasil && $this->db->query("
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('jumlah_produk_perhalaman', '10', 'Jumlah produk yang ditampilkan dalam satu halaman', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
