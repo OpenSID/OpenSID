@@ -27,4 +27,4 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-16 adalah sebagai beri
 
 
 #### Perubahan Teknis
-1. [untuk diisi]
+1. Hapus tabel dan script Provinsi yg tidak digunakan lagi.
