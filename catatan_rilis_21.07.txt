@@ -1,0 +1,19 @@
+Di rilis ini, versi 21.07 berisi perbaikan yang diminta Komunitas SID.
+
+Terima kasih pada afa28 yang terus berkontribusi.
+
+Lengkapnya, isi rilis versi 21.07 adalah sebagai berikut:
+
+1. #4172: Data rincian peserta bantuan sekarang tampil benar di Layanan Mandiri. [bug-fix]
+2. Sekarang tidak menggantung jika gagal koneksi ke website eksternal, seperti ke https://pantau.opensid.or.id.
+3. Sekarang Info Desa > Layanan Pelanggan menyediakan status semua pemesanan layanan dari OpenDesa.
+
+Gabung rilis premium 20.12 :
+Lengkapnya, isi rilis versi 20.12-premium adalah sebagai berikut:
+1. #3680: Di Identitas Desa, ambil kode dan nama wilayah dari TrackSID
+2. Tampilkan lokasi desa pengguna OpenSID di Peta web
+3. #3614: Sekarang di anjungan mandiri, pemohon surat dapat memilih membawa bukti syarat secara fisik ke kantor desa.
+4. Rapikan dan hapus script tidak digunakan di halaman statis peta di web. [teknis]
+5. #3750: Sekarang jenis kelamin tampil benar di daftar anggota kelompok di halaman statis web. [bug-fix]
+6. #3748: Sediakan pengaturan tampilkan/sembunyikan keyboard virtual di anjungan layanan mandiri.
+7. Di Layanan Mandiri, tampilkan notifikasi surat permohonan yang perlu perhatian. Beri warna status surat yang perlu perhatian.

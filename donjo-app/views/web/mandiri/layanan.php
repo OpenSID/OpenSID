@@ -1,20 +1,31 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
+<style type="text/css">
+	td.perhatian {
+		font-weight: bold;
+		background-color: orange !important;
+	}
+	td.siap {
+		color: white;
+		font-weight: bold;
+		background-color: #00a65a !important;
+	}
+</style>
 <section class="content">
 	<div class="row">
 		<input type="hidden" id="tab" value="<?= $tab?>">
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li class="active">
+				<li>
 					<a href="#daftar_rekam" data-toggle="tab">Daftar rekam cetak surat</a>
 				</li>
-				<li>
+				<li class="active">
 					<a href="#permohonan_surat" data-toggle="tab">Status permohonan surat</a>
 				</li>
 			</ul>
 		</div>
 		<div class="tab-content">
-			<div class="tab-pane" id="permohonan_surat">
+			<div class="tab-pane active" id="permohonan_surat">
 				<h5><strong>DAFTAR PERMOHONAN SURAT</strong></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped datatable-polos tabel-daftar" id="list-permohonan">
@@ -42,7 +53,7 @@
 									</td>
 									<td><?=$data['nama']?></td>
 									<td><?=$data['jenis_surat']?></td>
-									<td><?=$data['status']?></td>
+									<td class="<?= jecho($data['status_id'], 1, 'perhatian'); ?><?= jecho($data['status_id'], 3, 'siap'); ?>"><?=$data['status']?></td>
 									<td nowrap><?=tgl_indo2($data['created_at'])?></td>
 								</tr>
 							<?php endforeach; ?>
@@ -50,7 +61,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="tab-pane active" id="daftar_rekam">
+			<div class="tab-pane" id="daftar_rekam">
 				<h5><strong>DAFTAR REKAM CETAK SURAT</strong></h5>
 				<div class="table-responsive">
 					<table class="table table-bordered table-striped datatable-polos tabel-daftar" id="list-rekam">

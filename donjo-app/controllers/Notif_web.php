@@ -56,4 +56,13 @@ class Notif_web extends Web_Controller {
 			echo $j;
 		}
 	}
+
+	public function surat_perlu_perhatian()
+	{
+		$j = $this->notif_model->surat_perlu_perhatian($_SESSION['nik']);
+		if ($j > 0)
+		{
+			echo $j;
+		}
+	}
 }

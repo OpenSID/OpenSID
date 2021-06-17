@@ -42,7 +42,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Identitas <?= $desa; ?></h1>
@@ -100,13 +99,14 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<input id="nama_desa" name="nama_desa" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $desa; ?>" value="<?= $main["nama_desa"]; ?>"></input>
+									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_tracksid')?>" data-tracker='<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>'></select>
 								</div>
+								<input type="hidden" id="nama_desa" name="nama_desa" value="<?= $main["nama_desa"]; ?>">
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_desa">Kode <?= $desa; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_desa" name="kode_desa" class="form-control input-sm bilangan required"  minlength="10" maxlength="10" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
+									<input readonly id="kode_desa" name="kode_desa" class="form-control input-sm" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -154,13 +154,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?= $kecamatan; ?></label>
 								<div class="col-sm-8">
-									<input id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kecamatan; ?>" value="<?= $main["nama_kecamatan"]; ?>"></input>
+									<input readonly id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm required" type="text" placeholder="Nama <?= $kecamatan; ?>" value="<?= $main["nama_kecamatan"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?= $kecamatan; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm bilangan required" type="text" minlength="6" maxlength="6" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
+									<input readonly id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm required" type="text" placeholder="Kode <?= $kecamatan; ?>" value="<?= $main['kode_kecamatan']; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -178,30 +178,25 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama_kabupaten">Nama <?= $kabupaten; ?></label>
 								<div class="col-sm-8">
-									<input id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm nama_terbatas required" maxlength="50" type="text" placeholder="Nama <?= $kabupaten; ?>" value="<?= $main["nama_kabupaten"]; ?>"></input>
+									<input readonly id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm required" type="text" placeholder="Nama <?= $kabupaten; ?>" value="<?= $main["nama_kabupaten"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_kabupaten">Kode <?= $kabupaten; ?></label>
 								<div class="col-sm-2">
-									<input id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm bilangan required" minlength="4" maxlength="4" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
+									<input readonly id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm required" type="text" placeholder="Kode <?= $kabupaten; ?>" value="<?= $main["kode_kabupaten"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="propinsi">Provinsi</label>
-								<div class="col-sm-4">
-									<select name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));" style="width: 100%;">
-										<option value="">Pilih Provinsi</option>
-										<?php foreach ($list_provinsi AS $data): ?>
-											<option value="<?= $data['nama']; ?>" data-kode="<?= $data['kode']; ?>" <?= selected(strtolower($main['nama_propinsi']), strtolower($data['nama'])); ?>><?= $data['nama']; ?></option>
-										<?php endforeach; ?>
-									</select>
+								<label class="col-sm-3 control-label" for="nama_propinsi">Nama Provinsi</label>
+								<div class="col-sm-8">
+									<input readonly id="nama_propinsi" name="nama_propinsi" class="form-control input-sm required" type="text" placeholder="Nama Propinsi" value="<?= $main["nama_propinsi"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Provinsi</label>
 								<div class="col-sm-2">
-									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm bilangan required" minlength="2" maxlength="2" type="text" placeholder="Kode Provinsi" value="<?= $main["kode_propinsi"]; ?>"></input>
+									<input readonly id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="<?= $main["kode_propinsi"]; ?>"></input>
 								</div>
 							</div>
 						</div>
@@ -215,3 +210,34 @@
 		</div>
 	</section>
 </div>
+
+<script>
+$(document).ready(function()
+{
+	var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
+
+	// Ambil Nama dan Kode Wilayah dari API Server
+	$('[name="pilih_desa"]').change(function(){
+		$.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
+        dataType: 'json',
+        success: function(data) {
+					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
+				  $('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
+				  $('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
+				  $('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
+				  $('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
+				  $('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
+				  $('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
+				  $('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+        }
+    });
+	});
+
+	function hapus_kab_kota(str) {
+		return str.replace(/KAB |KOTA /gi, '');
+	}
+
+});
+</script>

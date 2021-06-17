@@ -25,11 +25,9 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -94,7 +92,7 @@
 		<?php endif ?>
 		<!-- Ionicons -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/ionicons.min.css">
-
+		
 		<!-- DataTables -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/mapbox-gl.css" />
@@ -121,19 +119,12 @@
 		<script src="<?= base_url()?>assets/js/highcharts/sankey.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
-
-		<!-- Kelompok JS ini dibutuhkan untuk menggunakan script.js. TODO: pecah script.js -->
-		<script src="<?= base_url()?>assets/bootstrap/js/select2.full.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datepicker.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/moment.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-colorpicker.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap3-wysihtml5.all.min.js"></script>
-
 		<!-- Untuk carousel, slider, teks_berjalan dan widget aparatur_desa -->
 		<script src="<?= base_url()?>assets/front/js/jquery.cycle2.min.js"></script>
 		<script src="<?= base_url()?>assets/front/js/jquery.cycle2.carousel.js"></script>
 		<?php $this->load->view('global/validasi_form'); ?>
+		<!-- Script-->
+		<script src="<?= base_url(); ?>assets/js/script.js"></script>
 
 		<!-- Diperlukan untuk javascript yg mengakses resources -->
 		<script type="text/javascript">

@@ -77,31 +77,25 @@
 			<?php endif; ?>
 			<div class="form-group">
 				<label for="nama_surat" class="col-sm-3 control-label">Jenis Surat Yang Dimohon</label>
-				<div class="col-sm-8">
-					<div class="input-group col-sm-12">
-						<select class="form-control select2 required" name="id_surat" id="id_surat" style="width:100%;">
-							<option value=""> -- Pilih Jenis Surat -- </option>
-							<?php foreach ($menu_surat_mandiri AS $data): ?>
-								<option value="<?= $data['id']?>" <?php selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
-							<?php endforeach;?>
-						</select>
-					</div>
+				<div class="col-sm-9">
+					<select class="form-control select2 required" name="id_surat" id="id_surat">
+						<option value=""> -- Pilih Jenis Surat -- </option>
+						<?php foreach ($menu_surat_mandiri AS $data): ?>
+							<option value="<?= $data['id']?>" <?= selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
+						<?php endforeach;?>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
-				<div class="col-sm-8">
-					<div class="input-group col-sm-12">
-						<textarea class="form-control input-sm <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']?></textarea>
-					</div>
+				<div class="col-sm-9">
+					<textarea class="form-control input-sm <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']; ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
-				<div class="col-sm-8">
-					<div class="input-group col-sm-12">
-						<input class="form-control input-lg bilangan_spasi required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>"/>
-					</div>
+				<div class="col-sm-9">
+					<input class="form-control input-sm bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>" />
 				</div>
 			</div>
 		</div>
@@ -197,17 +191,15 @@
 								<div class="box-body">
 									<div class="form-group">
 										<label for="nama_dokumen">Nama / Jenis Dokumen</label>
-											<div class="input-group col-sm-12">
-												<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
-												<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
-											</div>
+										<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen" value=""/>
+										<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
 									</div>
 									<div class="form-group">
 										<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
 											<option> -- Pilih Jenis Dokumen -- </option>
 											<?php foreach ($menu_dokumen_mandiri AS $data): ?>
-												<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']?></option>
-											<?php endforeach;?>
+												<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']; ?></option>
+											<?php endforeach; ?>
 										</select>
 									</div>
 									<div class="form-group">
@@ -260,6 +252,15 @@
 </div>
 
 <script type='text/javascript'>
+
+	function cek_perhatian(elem){
+		if ($(elem).val() == '-1') {
+			$(elem).next('.perhatian').show();
+		} else {
+			$(elem).next('.perhatian').hide();
+		}
+	}
+
 	$(document).ready(function(){
 
 		// var id_surat = 0;

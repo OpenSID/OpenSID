@@ -29,7 +29,7 @@
 							<div class="form-group">
 								<label for="keterangan" class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-8">
-									<textarea name="keterangan" id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvtext'); ?>" placeholder="Keterangan"></textarea>
+									<textarea name="keterangan" id="keterangan" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" placeholder="Keterangan"></textarea>
 								</div>
 							</div>
 							<?php include("donjo-app/views/surat/form/tgl_berlaku.php"); ?>

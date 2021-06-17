@@ -39,6 +39,7 @@
 						</tr>
 					<?php endforeach; ?>
 				</tbody>
+				<tfoot>
 					<tr style="background-color:#BDD498;font-weight:bold;">
 						<td colspan="5" align="left"><label>TOTAL</label></td>
 						<td align="right"><?= $total['total_kk']?></td>
@@ -46,7 +47,7 @@
 						<td align="right"><?= $total['total_warga_l']?></td>
 						<td align="right"><?= $total['total_warga_p']?></td>
 					</tr>
-				</tbody>
+				</tfoot>
 			</table>
 		<?php else : ?>
 			Belum ada data...

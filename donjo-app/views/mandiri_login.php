@@ -42,14 +42,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
-<style>
-.fa-keyboard-o {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-</style>
 
 <!DOCTYPE html>
 <html>
@@ -124,10 +116,10 @@
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="nik" id="nik" type="text" placeholder="NIK" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" id="nik" type="text" placeholder="NIK" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 										</div>
 										<div class="form-group">
-											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin" id="pin" type="password" placeholder="PIN" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+											<input class="form-username form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" id="pin" type="password" placeholder="PIN" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan PIN
@@ -153,7 +145,12 @@
 								<hr/>
 								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">
 									OpenSID</a> <?= AmbilVersi() ?><br />
-									IP Adress : <?= $this->input->ip_address(); ?>
+									<?php if ( ! $cek_anjungan): ?>
+										IP Address : <?= $this->input->ip_address(); ?>
+									<?php else: ?>
+										<?= "IP Address : " . $cek_anjungan['ip_address'] . "<br>Anjungan Mandiri" ?>
+										<?=jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
+									<?php endif; ?>
 								</div>
 							</div>
 						</div>
@@ -164,7 +161,6 @@
 	</body>
 </html>
 <script>
-
 	function start_countdown(){
 		var times = eval(<?= json_encode($this->session->mandiri_timeout)?>) - eval(<?= json_encode(time())?>);
 		var menit = Math.floor(times / 60);
@@ -184,21 +180,18 @@
 		}, 1000)
 	}
 
-	$('document').ready(function()
-	{
+	$('document').ready(function() {
 		var pass = $("#pin");
-		$('#checkbox').click(function(){
-			if (pass.attr('type') === "password"){
+		$('#checkbox').click(function() {
+			if (pass.attr('type') === "password") {
 				pass.attr('type', 'text');
 			} else {
 				pass.attr('type', 'password')
 			}
 		});
 
-		if ($('#countdown').length)
-		{
+		if ($('#countdown').length) {
 			start_countdown();
 		}
 	});
-
 </script>

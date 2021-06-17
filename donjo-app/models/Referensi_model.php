@@ -47,6 +47,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Model ini digunakan untuk data referensi statis yg tidak disimpan pd database atau sebagai referensi global
 
+define("JENIS_PERATURAN_DESA", serialize([
+	"Peraturan Desa (Perdes)",
+	"Peraturan Kepala Desa (Perkades)",
+	"Peraturan Bersama Kepala Desa"
+]));
+
 define("MASA_BERLAKU", serialize([
 	"d" => "Hari",
 	"w" => "Minggu",
@@ -71,14 +77,14 @@ define("STATUS_PERMOHONAN", serialize([
 	"Sedang diperiksa" => "0",
 	"Belum lengkap" => "1",
 	"Menunggu tandatangan" => "2",
-	"Siap diambil" => "3",
+	"Siap diambil/diantar" => "3",
 	"Sudah diambil" => "4",
 	"Dibatalkan" => "9"
 ]));
 
 define("LINK_TIPE", serialize([
 	'1' => 'Artikel Statis',
-	'7' => 'Kategori Artikel',
+	'8' => 'Kategori Artikel',
 	'2' => 'Statistik Penduduk',
 	'3' => 'Statistik Keluarga',
 	'4' => 'Statistik Program Bantuan',

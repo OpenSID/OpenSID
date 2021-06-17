@@ -79,6 +79,30 @@ $(document).ready(function()
 		dropdownAutoWidth : true
 	});
 
+	// Select2 - Cari Nama Desa di API Server
+	$('.select-nama-desa').select2({
+		ajax: {
+			url: function () {
+				return $(this).data('tracker') + '/index.php/api/wilayah/caridesa?&token=' + $(this).data('token');
+			},
+			dataType: 'json',
+			data: function (params) {
+				return {
+					q: params.term || '',
+					page: params.page || 1,
+				};
+			},
+			processResults: function (data) {
+					return {
+						results: data.results,
+						pagination: data.pagination,
+					}
+				}
+			},
+			placeholder: '--  Cari Nama Desa --',
+			minimumInputLength: 0,
+	});
+
 	$('.select2-nik-ajax').select2({
 	  ajax: {
 	    url: function () {
@@ -779,3 +803,6 @@ function refresh_badge(elem, url)
   }, 5*60*1000);
 }
 
+function huruf_awal_besar(str) {
+	return str.replace(/\S+/g, str => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase());
+}

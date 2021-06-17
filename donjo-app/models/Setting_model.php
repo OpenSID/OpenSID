@@ -52,6 +52,7 @@ class Setting_model extends CI_Model {
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
+
 			$setting_mandiri = $this->db
 				->where('kategori', 'setting_mandiri')
 				->order_by('key')->get("setting_aplikasi")->result();
@@ -59,6 +60,7 @@ class Setting_model extends CI_Model {
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
+
 			$setting_bagan = $this->db
 				->where('kategori', 'conf_bagan')
 				->order_by('key')->get("setting_aplikasi")->result();

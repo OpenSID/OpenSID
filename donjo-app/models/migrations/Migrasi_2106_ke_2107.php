@@ -47,6 +47,16 @@ class Migrasi_2106_ke_2107 extends MY_model
 	public function up()
 	{
 		$hasil = true;
+		// Migrasi fitur premium
+		// Jalankan juga migrasi versi-versi sebelumnya, karena migrasi dari rllis umum belum menjalankan
+		$daftar_migrasi_premium = ['2009', '2010', '2011', '2012'];
+		foreach ($daftar_migrasi_premium as $migrasi)
+		{
+			$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+			$file_migrasi = 'migrations/'.$migrasi_premium;
+				$this->load->model($file_migrasi);
+				$hasil = $hasil && $this->$migrasi_premium->up();
+		}
 
 		$hasil = $hasil && $this->migrasi_2021062701($hasil);
 
