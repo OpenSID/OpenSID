@@ -78,8 +78,8 @@
 																			<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
 																		<?php endif; ?>
 																	<?php endif; ?>
-																	<?php if ($this->CI->cek_hak_akses('h') && in_array($data['status_id'], [0, 1])): ?>
-																		<a href="#" data-href="<?=site_url("{$this->controller}/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php if ($this->CI->cek_hak_akses('u') && $data['status_id'] == 1): ?>
+																		<a href="<?= site_url("permohonan_surat_admin/konfirmasi/$data[id]/5"); ?>" class="btn btn-flat btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Batalkan Permohonan Surat" data-title="Batalkan Permohonan Surat"><i class="fa fa-times"></i></a>
 																	<?php endif; ?>
 																</td>
 															<?php endif; ?>
