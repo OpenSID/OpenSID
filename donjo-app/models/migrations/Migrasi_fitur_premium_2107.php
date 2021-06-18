@@ -57,6 +57,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021061651($hasil);
 		$hasil = $hasil && $this->migrasi_2021061652($hasil);
 		$hasil = $hasil && $this->migrasi_2021061653($hasil);
+		$hasil = $hasil && $this->migrasi_2021061951($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -372,6 +373,31 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	{
 		// Hapus table provinsi
 		$hasil = $hasil && $this->dbforge->drop_table('provinsi', TRUE);
+
+		return $hasil;
+	}
+
+	private function migrasi_2021061951($hasil)
+	{
+		// Tambah hak ases group operator dan redaksi
+		$query = "
+			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+			(2,43,3),
+			(2,44,3),
+			(2,45,3),
+			(2,46,3),
+			(2,102,3),
+			(2,320,3),
+			(2,321,3),
+			(2,322,3),
+			(2,323,3),
+			(2,324,3),
+			(2,214,3),
+			(3,65,7),
+			(3,324,7)
+		";
+
+		$hasil = $hasil && $this->db->query($query);
 
 		return $hasil;
 	}
