@@ -57,6 +57,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021061651($hasil);
 		$hasil = $hasil && $this->migrasi_2021061652($hasil);
 		$hasil = $hasil && $this->migrasi_2021061653($hasil);
+		$hasil = $hasil && $this->migrasi_2021061851($hasil);
 
 		status_sukses($hasil);
 
@@ -371,7 +372,15 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		return $hasil;
 	}
 
-	public function migrasi_2021061653($hasil)
+	protected function migrasi_2021061653($hasil)
+	{
+		// Hapus table provinsi
+		$hasil = $hasil && $this->dbforge->drop_table('provinsi', TRUE);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021061851($hasil)
 	{
 		$count = $this->db->like('path', '[[[[', 'AFTER')
 			->like('path', ']]]]', 'BEFORE')

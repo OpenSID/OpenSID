@@ -640,7 +640,7 @@ function styleGpx()
 	return style;
 }
 
-function eximGpxPoly(layerpeta)
+function eximGpxPoly(layerpeta, multi = false)
 {
 	controlGpxPoly = L.Control.fileLayerLoad({
 		addToMap: true,
@@ -678,6 +678,11 @@ function eximGpxPoly(layerpeta)
 			if (coords[0][x].length > 2) {
 				coords[0][x].pop();
 			};
+		}
+
+		if (multi == true)
+		{
+			coords = new Array(coords);
 		}
 
 		document.getElementById('path').value =
@@ -814,6 +819,11 @@ function eximShp(layerpeta)
 								if (coords[0][x].length > 2) {
 									coords[0][x].pop();
 								};
+							}
+
+							if (multi == true)
+							{
+								coords = new Array(coords);
 							}
 
 							document.getElementById('path').value =

@@ -47,13 +47,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
+<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
+<div class="content-wrapper">
+	<section class="content-header">
+		<h1>Lokasi Pelapak <?= $pelapak->pelapak; ?></h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url("produdk/pelapak")?>"> Pelapak</a></li>
+			<li class="active">Lokasi Pelapak <?= $pelapak->pelapak; ?></a></li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="box box-info">
+			<form id="validasi1" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+				<div class="box-body">
+					<div id="tampil-map"></div>
+				</div>
+				<div class='box-footer'>
+					<input type="hidden" name="zoom" id="zoom"  value="<?= $lokasi['zoom']; ?>"/>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" for="lat">Latitude</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control input-sm number" name="lat" id="lat" value="<?= $lokasi['lat']; ?>"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label" for="lng">Longitude</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control input-sm number" name="lng" id="lng" value="<?= $lokasi['lng']; ?>"/>
+						</div>
+					</div>
+
+					<a href="<?= site_url("lapak_admin/pelapak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+					<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
+					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" id="resetme"><i class="fa fa-times"></i> Reset</button>
+					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class='fa fa-check'></i> Simpan</button>
+				</div>
+			</form>
+		</div>
+	</section>
+</div>
 <script>
 	window.onload = function() {
 		var posisi = [<?= $lokasi['lat'] . "," . $lokasi['lng']; ?>];
 		var zoom = <?= $lokasi['zoom']; ?>;
 
 		//Inisialisasi tampilan peta
-		var peta_lapak = L.map('mapx').setView(posisi, zoom);
+		var peta_lapak = L.map('tampil-map').setView(posisi, zoom);
 
 		//1. Menampilkan overlayLayers Peta Semua Wilayah
 		var marker_desa = [];
@@ -68,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		//WILAYAH DUSUN
 		<?php if ( ! empty($dusun_gis)): ?>
-			set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
+			set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
 		<?php endif; ?>
 
 		//WILAYAH RW
@@ -93,78 +134,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		showCurrentPoint(posisi, peta_lapak);
 
+		<?php if ($this->CI->cek_hak_akses('u')): ?>
+			//Export/Import Peta dari file GPX
+			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
+			L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+			controlGpxPoint = eximGpxPoint(peta_lapak);
+		<?php endif; ?>
+
 		//Menambahkan zoom scale ke peta
 		L.control.scale().addTo(peta_lapak);
 		L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_lapak);
 	}; //EOF window.onload
 </script>
-<style>
-	#mapx {
-		width:100%;
-		height:50vh;
-	}
-
-	.icon {
-		max-width: 70%;
-		max-height: 70%;
-		margin: 4px;
-	}
-
-	.leaflet-control-layers {
-		display: block;
-		position: relative;
-	}
-
-	.leaflet-control-locate a {
-		padding: 5px;
-		font-size: 1.5em;
-	}
-
-	.leaflet-touch .leaflet-control-layers-toggle {
-		width: 30px;
-		height: 30px;
-	}
-</style>
-<!-- Menampilkan OpenStreetMap dalam Box modal bootstrap (AdminLTE)  -->
-<div class="content-wrapper">
-	<section class="content-header">
-		<h1>Lokasi Pelapak <?= $pelapak->pelapak; ?></h1>
-		<ol class="breadcrumb">
-			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url("produdk/pelapak")?>"> Pelapak</a></li>
-			<li class="active">Lokasi Pelapak <?= $pelapak->pelapak; ?></a></li>
-		</ol>
-	</section>
-	<section class="content">
-		<div class="box box-info">
-			<form id="validasi1" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-				<div class="box-body">
-					<div id="mapx"></div>
-				</div>
-				<div class='box-footer'>
-					<input type="hidden" name="zoom" id="zoom"  value="<?= $lokasi['zoom']; ?>"/>
-					<div class="form-group">
-						<label class="col-sm-3 control-label" for="lat">Latitude</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control number" name="lat" id="lat" value="<?= $lokasi['lat']; ?>"/>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label class="col-sm-3 control-label" for="lng">Longitude</label>
-						<div class="col-sm-9">
-							<input type="text" class="form-control number" name="lng" id="lng" value="<?= $lokasi['lng']; ?>"/>
-						</div>
-					</div>
-
-					<a href="<?= site_url("lapak_admin/pelapak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-					<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" id="resetme"><i class="fa fa-times"></i> Reset</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class='fa fa-check'></i> Simpan</button>
-				</div>
-			</form>
-		</div>
-	</section>
-</div>
 <script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 <script src="<?= base_url()?>assets/js/togeojson.js"></script>
