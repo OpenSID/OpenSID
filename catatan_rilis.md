@@ -1,16 +1,17 @@
-#### [v21.06-premium-beta - 2021-06-16](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.06-premium-beta - 2021-06-19](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.06-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-16 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-19 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
 1. [#4099](https://github.com/OpenSID/OpenSID/issues/4099) Tampilkan lokasi persil dalam peta desa.
 2. [#4235](https://github.com/OpenSID/OpenSID/issues/4235) Tambahkan tombol ubah persil di rincian C-Desa.
 3. [#3541](https://github.com/OpenSID/OpenSID/issues/3541) Sediakan lapak desa untuk ditampilkan di web.
+4. [#4266](https://github.com/OpenSID/OpenSID/issues/4266) Sekarang setelah logout layanan mandiri kembali ke form sesuai login awal. Juga untuk login eKTP, sekarang scan dilakukan sebelum mengisi PIN.
 
 
 #### Perbaikan BUG
