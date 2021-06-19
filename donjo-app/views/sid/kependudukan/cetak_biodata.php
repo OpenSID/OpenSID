@@ -91,6 +91,10 @@
 						<td><?= strtoupper($penduduk['warganegara'])?></td>
 					</tr>
 					<tr>
+						<td>Suku/Etnis</td><td >:</td>
+						<td><?= strtoupper($penduduk['suku'])?></td>
+					</tr>
+					<tr>
 						<td>NIK Ayah</td><td >:</td>
 						<td><?= strtoupper($penduduk['ayah_nik'])?></td>
 					</tr>

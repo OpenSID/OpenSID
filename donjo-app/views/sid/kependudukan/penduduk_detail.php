@@ -211,6 +211,9 @@
 															<th colspan="3" class="subtitle_head"><strong>DATA KEWARGANEGARAAN</strong></th>
 														</tr>
 														<tr>
+															<td>Suku/Etnis</td><td >:</td><td><?= strtoupper($penduduk['suku'])?></td>
+														</tr>
+														<tr>
 															<td>Warga Negara</td><td >:</td><td><?= strtoupper($penduduk['warganegara'])?></td>
 														</tr>
 														<tr>

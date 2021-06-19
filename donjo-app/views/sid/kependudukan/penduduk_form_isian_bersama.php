@@ -360,6 +360,17 @@
 						<label class="text-right"><strong>DATA KEWARGANEGARAAN :</strong></label>
 					</div>
 				</div>
+				<div class='col-sm-12'>
+					<div class='form-group'>
+						<label for="etnis">Suku/Etnis</label>
+						<select class="form-control input-sm select2-tags" data-url="<?= site_url().'penduduk/ajax_penduduk_suku/' ?>" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
+							<option value="">Pilih Suku/Etnis</option>
+							<?php foreach ($suku as $ref_suku): ?>
+								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?> ><?= $ref_suku['suku'] ?></option>
+							<?php endforeach ?>
+						</select>
+					</div>
+				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="warganegara_id">Status Warga Negara</label>
