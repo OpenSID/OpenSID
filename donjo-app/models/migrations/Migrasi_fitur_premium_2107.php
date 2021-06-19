@@ -382,19 +382,21 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		// Tambah hak ases group operator dan redaksi
 		$query = "
 			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			(2,43,3),
-			(2,44,3),
-			(2,45,3),
-			(2,46,3),
-			(2,102,3),
-			(2,320,3),
-			(2,321,3),
-			(2,322,3),
-			(2,323,3),
-			(2,324,3),
-			(2,214,3),
-			(3,65,7),
-			(3,324,7)
+			-- Operator --
+			(2,43,3), -- Aplikasi --
+			(2,44,3), -- Pengguna --
+			(2,45,3), -- Database --
+			(2,46,3), -- Info Sistem --
+			(2,214,3), -- C-Desa --
+			(2,320,3), -- Buku Tanah di Desa --
+			(2,321,3), -- Pendapat --
+			(2,322,3), -- Buku Inventaris dan Kekayaan Desa --
+			(2,323,3), -- Buku Rencana Kerja Pembangunan --
+			(2,324,3), -- Lapak --		
+
+			-- Redaksi --
+			(3,65,7), -- Kategori --
+			(3,324,7) -- Lapak --
 		";
 
 		$hasil = $hasil && $this->db->query($query);
