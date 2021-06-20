@@ -49,6 +49,8 @@ $(document).ready(function ()
 	});
 });
 
+var layers = {};
+
 function set_marker(marker, daftar_path, judul, nama_wil, favico_desa)
 {
 	var daftar = JSON.parse(daftar_path);
@@ -58,7 +60,7 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa)
 	{
 		if (daftar[x].path)
 		{
-			daftar[x].path = JSON.parse(daftar[x].path)
+			daftar[x].path = JSON.parse(daftar[x].path);
 			jml_path = daftar[x].path[0].length;
 			for (var y = 0; y < jml_path; y++)
 			{
@@ -68,7 +70,7 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa)
 			var label = L.tooltip({
 				permanent: true,
 				direction: 'center',
-				className: 'text',
+				className: 'text'
 			}).setContent(judul + ' ' + daftar[x][nama_wil]);
 
 			var point_style = {
@@ -98,15 +100,68 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa)
 	}
 }
 
+function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa)
+{
+	var daftar = JSON.parse(daftar_path);
+	var jml = daftar.length;
+	var jml_path;
+	for (var x = 0; x < jml; x++)
+	{
+		if (daftar[x].path)
+		{
+			daftar[x].path = JSON.parse(daftar[x].path)
+			var jml = daftar[x].path.length;
+			for (var a = 0; a < jml; a++)
+			{
+				for (var b = 0; b < daftar[x].path[a].length; b++) {
+					jml_path = daftar[x].path[a][0].length;
+					for (var z = 0; z < jml_path; z++)
+					{
+						 daftar[x].path[a][0][z].reverse();
+					}
+
+					var label = L.tooltip({
+						permanent: true,
+						direction: 'center',
+						className: 'text',
+					}).setContent(judul + ' ' + daftar[x][nama_wil]);
+
+					var point_style = {
+						iconSize: [1, 1],
+						iconAnchor: [0.5, 0.5],
+						labelAnchor: [0.3, 0],
+						iconUrl: favico_desa
+					};
+
+					var marker_style = {
+						stroke: true,
+						color: 'white',
+						opacity: 1,
+						weight: 3,
+						fillColor: daftar[x].warna,
+						fillOpacity: 0.8,
+						dashArray: 4
+					}
+
+					daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
+
+					if (daftar[x].lng)
+					{
+						marker.push(turf.point([daftar[x].lng, daftar[x].lat], { content: label, style: L.icon(point_style) }));
+					}
+					
+					marker.push(turf.polygon(daftar[x].path[a], { content: daftar[x][nama_wil], style: marker_style }));
+				}
+				
+			}
+		}
+	}
+}
+
 function set_marker_desa(marker_desa, desa, judul, favico_desa)
 {
 	var daerah_desa = JSON.parse(desa['path']);
-	var jml = daerah_desa[0].length;
-	daerah_desa[0].push(daerah_desa[0][0]);
-	for (var x = 0; x < jml; x++)
-	{
-		daerah_desa[0][x].reverse();
-	}
+	var jml = daerah_desa.length;
 
 	var style_polygon = {
 		stroke: true,
@@ -123,21 +178,23 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa)
 	{
 		marker_desa.push(turf.point([desa['lng'], desa['lat']], { content: desa, style: L.icon(point_style) }));
 	}
-	marker_desa.push(turf.polygon(daerah_desa, { content: desa, style: style_polygon }));
+
+	for (var x = 0; x < jml; x++)
+	{
+		for (var i = 0; i < daerah_desa[x][0].length; i++) 
+		{
+			daerah_desa[x][0][i].reverse();
+		}
+		daerah_desa[x][0].push(daerah_desa[x][0][0]);
+		marker_desa.push(turf.polygon(daerah_desa[x], { content: desa, style: style_polygon }));
+	}
 }
 
 function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents)
 {
 	var daerah_desa = JSON.parse(desa['path']);
-	var jml = daerah_desa[0].length;
-	daerah_desa[0].push(daerah_desa[0][0]);
-	for (var x = 0; x < jml; x++)
-	{
-		daerah_desa[0][x].reverse();
-	}
-
+	var jml = daerah_desa.length;
 	content = $(contents).html();
-
 	var style_polygon = {
 		stroke: true,
 		color: '#de2d26',
@@ -153,7 +210,16 @@ function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents
 	{
 		marker_desa.push(turf.point([desa['lng'], desa['lat']], { name: "kantor_desa", content: "Kantor Desa", style: L.icon(point_style) }));
 	}
-	marker_desa.push(turf.polygon(daerah_desa, { content: content, style: style_polygon }));
+
+	for (var x = 0; x < jml; x++)
+	{
+		for (var i = 0; i < daerah_desa[x][0].length; i++) 
+		{
+			daerah_desa[x][0][i].reverse();
+		}
+		daerah_desa[x][0].push(daerah_desa[x][0][0]);
+		marker_desa.push(turf.polygon(daerah_desa[x], { content: content, style: style_polygon }));
+	}
 }
 
 function set_marker_persil_content(marker, daftar_path, judul, nama_wil, contents, favico_desa)
@@ -277,6 +343,65 @@ function set_marker_content(marker, daftar_path, judul, nama_wil, contents, favi
 	}
 }
 
+function set_marker_multi_content(marker, daftar_path, judul, nama_wil, contents, favico_desa)
+{
+	var daftar = JSON.parse(daftar_path);
+	var jml = daftar.length;
+	var jml_path;
+	for (var x = 0; x < jml; x++)
+	{
+		if (daftar[x].path)
+		{
+
+			daftar[x].path = JSON.parse(daftar[x].path)
+			var jml = daftar[x].path.length;
+			for (var a = 0; a < jml; a++)
+			{
+				for (var b = 0; b < daftar[x].path[a].length; b++) 
+				{
+					jml_path = daftar[x].path[a][0].length;
+					for (var z = 0; z < jml_path; z++)
+					{
+						 daftar[x].path[a][0][z].reverse();
+					}
+
+					content = $(contents + x).html();
+					var label = L.tooltip({
+						permanent: true,
+						direction: 'center',
+						className: 'text',
+					}).setContent(judul + ' ' + daftar[x][nama_wil]);
+
+					var point_style = {
+						iconSize: [1, 1],
+						iconAnchor: [0.5, 0.5],
+						labelAnchor: [0.3, 0],
+						iconUrl: favico_desa
+					};
+
+					var marker_style = {
+						stroke: true,
+						color: 'white',
+						opacity: 1,
+						weight: 3,
+						fillColor: daftar[x].warna,
+						fillOpacity: 0.8,
+						dashArray: 4
+					}
+
+					daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
+
+					if (daftar[x].lng)
+					{
+						marker.push(turf.point([daftar[x].lng, daftar[x].lat], {content: label, style: L.icon(point_style)}));
+					}
+					marker.push(turf.polygon(daftar[x].path[a], { name: judul, content: content, style: marker_style }));
+				}
+			}
+		}
+	}
+}
+
 function getBaseLayers(peta, access_token)
 {
 	//Menampilkan BaseLayers Peta
@@ -357,14 +482,54 @@ function poligonWil(marker)
 	return poligon_wil;
 }
 
+function multipoligonWil(marker)	// check apakah fungsi double mungkin bakal dihapus
+{	
+	var multipoligonWil = 	
+	L.geoJSON(turf.featureCollection(marker), {	
+		pmIgnore: true,	
+		showMeasurements: false,	
+		measurementOptions: { showSegmentLength: false },	
+		onEachFeature: function (feature, layer) {	
+				
+			if (feature.properties.name == 'kantor_desa')	
+			{	
+				// Beri classname berbeda, supaya bisa gunakan css berbeda	
+				layer.bindPopup(feature.properties.content, { 'className': 'kantor_desa' });	
+			}	
+			else	
+			{	
+				layer.bindPopup(feature.properties.content);	
+			}	
+			layer.bindTooltip(feature.properties.content, { sticky: true, direction: 'top' });(feature.properties.style)	
+				
+		},	
+		style: function (feature) {	
+			if (feature.properties.style)	
+			{	
+				return feature.properties.style;	
+			}	
+		},	
+		pointToLayer: function (feature, latlng) {	
+			if (feature.properties.style)	
+			{	
+				return L.marker({lat: -8.483832804795249, lng: 116.08523368835449});	
+			}	
+			else	
+				return L.marker({lat: -8.483832804795249, lng: 116.08523368835449});	
+					
+		}	
+	});	
+	return multipoligonWil;	
+}
+
 function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_desa, sebutan_dusun)
 {
-	var poligon_wil_desa = poligonWil(marker_desa);
+
+	var poligon_wil_desa = multipoligonWil(marker_desa);
 	var poligon_wil_dusun = poligonWil(marker_dusun);
 	var poligon_wil_rw = poligonWil(marker_rw);
 	var poligon_wil_rt = poligonWil(marker_rt);
 	var poligon_wil_rt = poligonWil(marker_rt);
-	// var poligon_persil = poligonWil(marker_persil);
 
 	var peta_desa = 'Peta Wilayah ' + sebutan_desa;
 	var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
@@ -374,7 +539,7 @@ function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_des
 	overlayLayers[peta_dusun] = poligon_wil_dusun;
 	overlayLayers['Peta Wilayah RW'] = poligon_wil_rw;
 	overlayLayers['Peta Wilayah RT'] = poligon_wil_rt;
-	// overlayLayers[peta_persil] = poligon_persil;
+
 	return overlayLayers;
 }
 
@@ -385,11 +550,15 @@ function getLatLong(x, y)
 	{
 		hasil = JSON.stringify(y._latlngs);
 	}
-	else
+
+	else if(x == 'multi'){	
+		hasil = JSON.stringify(y);	
+	}	
+		else
 	{
 		hasil = JSON.stringify(y._latlng);
 	}
-	//hasil = hasil.replace(/\}/g, ']').replace(/(\{)/g, '[').replace(/(\"lat\"\:|\"lng\"\:)/g, '');
+
 	hasil = hasil
 		.replace(/\}/g, ']')
 		.replace(/(\{)/g, '[')
@@ -471,7 +640,7 @@ function styleGpx()
 	return style;
 }
 
-function eximGpxPoly(layerpeta)
+function eximGpxPoly(layerpeta, multi = false)
 {
 	controlGpxPoly = L.Control.fileLayerLoad({
 		addToMap: true,
@@ -509,6 +678,11 @@ function eximGpxPoly(layerpeta)
 			if (coords[0][x].length > 2) {
 				coords[0][x].pop();
 			};
+		}
+
+		if (multi == true)
+		{
+			coords = new Array(coords);
 		}
 
 		document.getElementById('path').value =
@@ -558,7 +732,6 @@ function eximGpxPoint(layerpeta) {
 		var coords = [];
 		var geojson = layer.toGeoJSON();
 		var shape_for_db = JSON.stringify(geojson);
-
 		var polygon = L.geoJson(JSON.parse(shape_for_db), {
 				pointToLayer: function (feature, latlng) {
 					return L.marker(latlng);
@@ -648,6 +821,11 @@ function eximShp(layerpeta)
 								};
 							}
 
+							if (multi == true)
+							{
+								coords = new Array(coords);
+							}
+
 							document.getElementById('path').value =
 								JSON.stringify(coords)
 									.replace(']],[[', '],[')
@@ -722,6 +900,27 @@ function hapusPeta(layerpeta)
 	return hapusPeta;
 }
 
+function hapuslayer(layerpeta)	
+{	
+	layerpeta.on('pm:remove', function (e) {	
+		var type = e.layerType;	
+		var layer = e.layer;	
+		var latLngs;	
+		
+		// set value setelah create polygon	
+		var last_path =  document.getElementById('path').value;	
+		var new_path = getLatLong('Poly', layer).toString();	
+		last_path = last_path.replace(new_path,'')	
+			.replace(',,',',')	
+			.replace('[,','[')	
+			.replace(',]',']')	
+		document.getElementById('path').value = last_path	
+		document.getElementById('zoom').value = layerpeta.getZoom();	
+	});	
+
+	return hapusPeta;	
+}
+
 function updateZoom(layerpeta)
 {
 	layerpeta.on('zoomend', function (e) {
@@ -792,6 +991,57 @@ function addPetaLine(layerpeta)
 	return addPetaLine;
 }
 
+function old_value(id_path) {
+	return layers[id_path]
+}
+
+function addPetaMultipoly(layerpeta)	
+{	
+	 
+	layerpeta.on('pm:create', function (e) 	
+	{	
+		var type = e.layerType;	
+		var layer = e.layer;	
+		var latLngs;	
+	 
+		// set value setelah create polygon	
+		if (document.getElementById('path').value == '') {document.getElementById('path').value = '[]'}
+
+		var last_path =  JSON.parse(document.getElementById('path').value);	
+		var new_path = JSON.parse(getLatLong('Poly', layer).toString());	
+		last_path.push(new_path) // gabungkan value lama dengan yang baru	
+
+		e.layer.on('pm:edit', function (f) {	
+			var id_path = f.target._leaflet_id;
+			var _path = new Array();
+
+			for (i in layerpeta._layers)
+			{
+				if (layerpeta._layers[i]._path != undefined && layers[i])
+				{
+					try
+					{
+						_path.push(layerpeta._layers[i]._latlngs);
+					}
+					catch (e)
+					{
+						alert("problem with " + e + layerpeta._layers[i]);
+					}
+				}
+			}
+			 
+			var new_path = getLatLong('multi', _path).toString();	
+			document.getElementById('path').value= new_path; 
+			document.getElementById('zoom').value = layerpeta.getZoom();	 
+		})	
+		layers [e.layer._leaflet_id] = last_path[0]
+		 
+		document.getElementById('path').value = JSON.stringify(last_path)	
+		document.getElementById('zoom').value = layerpeta.getZoom();	
+	});	
+	return addPetaPoly;	
+}
+
 function showCurrentPolygon(wilayah, layerpeta, warna) {
 	var daerah_wilayah = wilayah;
 	daerah_wilayah[0].push(daerah_wilayah[0][0]);
@@ -826,6 +1076,52 @@ function showCurrentPolygon(wilayah, layerpeta, warna) {
 	document.getElementById('zoom').value = layerpeta.getZoom();
 
 	return showCurrentPolygon;
+}
+
+function showCurrentMultiPolygon(wilayah, layerpeta, warna) {	
+	var area_wilayah = JSON.parse(JSON.stringify(wilayah));	
+	var bounds = new Array()
+
+	var path  = new Array();	
+	for (var i = 0; i < wilayah.length; i++) {	
+		var daerah_wilayah = area_wilayah[i];	
+		daerah_wilayah[0].push(daerah_wilayah[0][0]);	
+		var poligon_wilayah = L.polygon(daerah_wilayah, {	
+			showMeasurements: true,	
+			measurementOptions: { showSegmentLength: false }	
+		}).addTo(layerpeta)	
+		layers [poligon_wilayah._leaflet_id] = wilayah[i]	
+		poligon_wilayah.on('pm:edit', function (e) {	
+			var old_path = getLatLong('Poly', {_latlngs:layers[e.target._leaflet_id]}).toString();	
+			var new_path = getLatLong('Poly', e.target).toString();	
+			var value_path = document.getElementById('path').value; //ambil value pada input	
+				
+			document.getElementById('path').value = value_path.replace(old_path,new_path)	
+			document.getElementById('zoom').value = layerpeta.getZoom();	
+			layers[e.target._leaflet_id] =  JSON.parse(JSON.stringify(e.target._latlngs)); // update value layers	
+		})	
+		var layer = poligon_wilayah;	
+		var geojson = layer.toGeoJSON();	
+		var shape_for_db = JSON.stringify(geojson);	
+		var gpxData = togpx(JSON.parse(shape_for_db));
+
+		$("#exportGPX").on('click', function (event) {	
+			data = 'data:text/xml;charset=utf-8,' + encodeURIComponent(gpxData);	
+			$(this).attr({	
+				'href': data,	
+				'target': '_blank'	
+			});	
+		});	
+
+		bounds.push(poligon_wilayah.getBounds())
+		// set value setelah create masing2 polygon	
+		path.push(layer._latlngs);	
+	}
+	 
+	layerpeta.fitBounds(bounds);
+	document.getElementById('path').value = getLatLong('multi', path).toString()	
+	document.getElementById('zoom').value = layerpeta.getZoom();	
+	return showCurrentPolygon;	
 }
 
 function showCurrentPoint(posisi1, layerpeta)

@@ -84,7 +84,7 @@
 
 						//OVERLAY WILAYAH DUSUN
 						<?php if (!empty($dusun_gis)) : ?>
-								set_marker_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
+								set_marker_multi_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
 						<?php endif; ?>
 
 						//OVERLAY WILAYAH RW

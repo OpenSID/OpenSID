@@ -100,12 +100,10 @@ class Identitas_desa extends Admin_Controller {
 	public function maps($tipe = 'kantor')
 	{
 		$data_desa = $this->header['desa'];
-		$data['desa'] = $this->header['desa'];
+		$data['desa'] = $data_desa;
+		$data['poly'] = ($tipe == 'wilayah') ? 'multi' : 'poly';
 		$data['wil_ini'] = $data_desa;
-		$data['wil_atas']['lat'] = -1.0546279422758742;
-		$data['wil_atas']['lng'] = 116.71875000000001;
-		$data['wil_atas']['zoom'] = 4;
-		$data['wil_atas'] = $this->header['desa'];
+		$data['wil_atas'] = $data_desa;
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
 		$data['rt_gis'] = $this->wilayah_model->list_rt();

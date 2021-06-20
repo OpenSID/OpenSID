@@ -58,8 +58,10 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021061652($hasil);
 		$hasil = $hasil && $this->migrasi_2021061653($hasil);
 		$hasil = $hasil && $this->migrasi_2021061951($hasil);
+		$hasil = $hasil && $this->migrasi_2021062051($hasil);
 
 		status_sukses($hasil);
+
 		return $hasil;
 	}
 
@@ -353,6 +355,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		return $hasil;
 	}
 
+
 	protected function migrasi_2021061652($hasil)
 	{
 		// Ubah nilai default foto pada tabel user
@@ -366,6 +369,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		];
 
 		$hasil = $hasil && $this->dbforge->modify_column('user', $fields);
+
 		return $hasil;
 	}
 
@@ -392,7 +396,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			(2,321,3), -- Pendapat --
 			(2,322,3), -- Buku Inventaris dan Kekayaan Desa --
 			(2,323,3), -- Buku Rencana Kerja Pembangunan --
-			(2,324,3), -- Lapak --		
+			(2,324,3), -- Lapak --
 
 			-- Redaksi --
 			(3,65,7), -- Kategori --
@@ -400,6 +404,30 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		";
 
 		$hasil = $hasil && $this->db->query($query);
+		return $hasil;
+	}
+
+	protected function migrasi_2021062051($hasil)
+	{
+		$count = $this->db->like('path', '[[[[', 'AFTER')
+			->like('path', ']]]]', 'BEFORE')
+			->get('config')->num_rows();
+
+		if ($count == 0)
+		{
+			//update data path menjadi [[[[x,y]]],[[[x,y]]]]
+			$hasil = $this->db->set('path', 'concat("[",path,"]")', false)
+				->update('config');
+		}
+
+		//update data path pada dusun
+		$hasil = $hasil && $this->db
+			->where('rt', '0')
+			->where('rw', '0')
+			->like('path', '[[[', 'AFTER')
+			->not_like('path', '[[[[', 'AFTER')
+			->set('path', 'concat("[",path,"]")', false)
+			->update('tweb_wil_clusterdesa');
 
 		return $hasil;
 	}
