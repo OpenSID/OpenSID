@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php if ($pro->telepon): ?>
 											<a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone=<?=format_telpon($pro->telepon);?>&amp;text=<?= str_replace('[nama_produk]', $pro->nama, $this->setting->pesan_singkat_wa) ?>" rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa fa-whatsapp"></i> Beli</a>
 										<?php endif; ?>
-										<a class="btn btn-sm btn-primary" data-remote="false" data-toggle="modal" data-target="#map-modal" title="Lokasi" data-lat="<?= $pro->lat?>" data-lng="<?= $pro->lng?>" data-zoom="<?= $pro->zoom?>"><i class="fa fa fa-map"></i> Lokasi</a>
+										<a class="btn btn-sm btn-primary lokasi-pelapak" data-remote="false" data-toggle="modal" data-target="#map-modal" title="Lokasi" data-lat="<?= $pro->lat?>" data-lng="<?= $pro->lng?>" data-zoom="<?= $pro->zoom?>" data-title="Lokasi <?= $pro->pelapak?>"><i class="fa fa fa-map"></i> Lokasi</a>
 									</div>
 									<small class="text-muted"><b><i class="fa fa-user"></i>&nbsp;<?= $pro->pelapak ?? 'ADMIN'; ?></b></small>
 								</div>
@@ -125,10 +125,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class='modal-content'>
 						<div class='modal-header'>
 							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-								<h4 class='modal-title' id='myModalLabel'><?= $pro->nama; ?></h4>
+								<h4 class='modal-title'></h4>
 						</div>
-						<div class="modal-body" id="map" style="width: 100%;"></div>
-							</div>
+						<div class="modal-body">
 						</div>
 					</div>
 				</div>
@@ -169,20 +168,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 </div>
 <script type="text/javascript">
+	var token = "<?= $this->setting->mapbox_key; ?>";
+
 	$(document).ready(function() {
-		$(document).on('shown.bs.modal','#map-modal', function(event)  {
+		$(document).on('shown.bs.modal','#map-modal', function(event) {
 			var link = $(event.relatedTarget);
+			var title = link.data('title');
+			var modal = $(this);
+			modal.find('.modal-title').text(title);
+			modal.find('.modal-body').html("<div id='map' style='width: 100%;'></div>");
+
 			var posisi = [link.data('lat'), link.data('lng')];
 			var zoom = link.data('zoom');
+			$("#lat").val(link.data('lat'));
+			$("#lng").val(link.data('lng'));
 
 			// Inisialisasi tampilan peta
-			var pelapak = L.map('map').setView(posisi, zoom);
+			pelapak = L.map('map').setView(posisi, zoom);
 
 			// Menampilkan BaseLayers Peta
-			var baseLayers = getBaseLayers(pelapak, '');
+			getBaseLayers(pelapak, token);
 
 			// Tampilkan Posisi Pelapak
-			showCurrentPoint(posisi, pelapak);
+			marker = new L.Marker(posisi, {draggable:false});
+			pelapak.addLayer(marker);
 		});
 	});
 </script>
