@@ -59,6 +59,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021061653($hasil);
 		$hasil = $hasil && $this->migrasi_2021061951($hasil);
 		$hasil = $hasil && $this->migrasi_2021062051($hasil);
+		$hasil = $hasil && $this->migrasi_2021062052($hasil);
 
 		status_sukses($hasil);
 
@@ -428,6 +429,37 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			->not_like('path', '[[[[', 'AFTER')
 			->set('path', 'concat("[",path,"]")', false)
 			->update('tweb_wil_clusterdesa');
+
+		return $hasil;
+	}
+
+  protected function migrasi_2021062052($hasil)
+	{
+		// Tambahkan id_cluster pada tweb_keluarga yg null
+		$query = "
+			update tweb_keluarga as k,
+				(select t.* from
+				   (select id, id_kk, id_cluster from tweb_penduduk where id_kk in
+				     (select id from tweb_keluarga where id_cluster is null)
+				   ) t
+				) as p
+				set k.id_cluster = p.id_cluster
+				where k.id = p.id_kk
+		";
+
+		$hasil = $hasil && $this->db->query($query);
+
+		// Perbaiki struktur table tweb_keluarga field id_cluster tdk boleh null
+		$fields = [
+			'id_cluster' => [
+				'name' => 'id_cluster',
+				'type' => 'INT',
+				'constraint' => 11,
+				'null' => FALSE,
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_keluarga', $fields);
 
 		return $hasil;
 	}
