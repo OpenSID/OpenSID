@@ -128,4 +128,11 @@ class Identitas_desa extends Admin_Controller {
 
 		redirect("$this->controller");
 	}
+
+	public function kosongkan($id = '')
+	{
+		$this->redirect_hak_akses('u');
+		$this->config_model->kosongkan_path($id);
+		redirect($_SERVER['HTTP_REFERER']);
+	}
 }

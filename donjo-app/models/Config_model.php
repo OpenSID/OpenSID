@@ -240,4 +240,12 @@ class Config_model extends CI_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
+	public function kosongkan_path($id)
+	{
+		$this->db
+			->set('path', NULL)
+			->where('id', $id)
+			->update('config');
+	}
+
 }
