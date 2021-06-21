@@ -26,11 +26,9 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -59,10 +57,10 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021061653($hasil);
 		$hasil = $hasil && $this->migrasi_2021061951($hasil);
 		$hasil = $hasil && $this->migrasi_2021062051($hasil);
-		$hasil = $hasil && $this->migrasi_2021062052($hasil);
+		$hasil = $hasil && $this->migrasi_2021062152($hasil);
+		$hasil = $hasil && $this->migrasi_2021062154($hasil);
 
 		status_sukses($hasil);
-
 		return $hasil;
 	}
 
@@ -405,6 +403,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		";
 
 		$hasil = $hasil && $this->db->query($query);
+
 		return $hasil;
 	}
 
@@ -433,14 +432,14 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		return $hasil;
 	}
 
-  protected function migrasi_2021062052($hasil)
+	protected function migrasi_2021062052($hasil)
 	{
 		// Tambahkan id_cluster pada tweb_keluarga yg null
 		$query = "
 			update tweb_keluarga as k,
 				(select t.* from
 				   (select id, id_kk, id_cluster from tweb_penduduk where id_kk in
-				     (select id from tweb_keluarga where id_cluster is null)
+					 (select id from tweb_keluarga where id_cluster is null)
 				   ) t
 				) as p
 				set k.id_cluster = p.id_cluster
@@ -463,5 +462,57 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
 		return $hasil;
 	}
+  
+	protected function migrasi_2021062152($hasil)
+	{
+		// Ubah struktur field potongan table produk
+		$fields = [
+			'potongan' => [
+				'name' => 'potongan',
+				'type' => 'INT',
+				'constraint' => 11,
+				'default' => 0
+			],
+		];
 
+		$hasil = $hasil && $this->dbforge->modify_column('produk', $fields);
+
+		if ( ! $this->db->field_exists('tipe_potongan', 'produk'))
+		{
+			// Tambah field tipe_potongan pada table produk
+			// Tipe 1 = persen, 2 = nominal
+			$fields = [
+				'tipe_potongan' => [
+					'type' => 'TINYINT',
+					'constraint' => 1,
+					'default' => 1
+				],
+			];
+		
+			$hasil = $hasil && $this->dbforge->add_column('produk', $fields, 'satuan');
+		}
+	
+		return $hasil;
+	}
+
+	protected function migrasi_2021062154($hasil)
+	{
+		if ( ! $this->db->field_exists('status', 'produk_kategori'))
+		{
+			// Tambah field status pada table produk_kategori
+			$fields = [
+				'status' => [
+					'type' => 'TINYINT',
+					'constraint' => 1,
+					'null' => FALSE,
+					'default' => 1
+				]
+			];
+		
+			$hasil = $hasil && $this->dbforge->add_column('produk_kategori', $fields);
+		}
+	
+		return $hasil;
+	}
+	
 }

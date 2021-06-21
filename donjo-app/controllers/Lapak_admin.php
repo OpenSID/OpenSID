@@ -64,10 +64,20 @@ class Lapak_admin extends Admin_Controller
 	public function navigasi()
 	{
 		$data = [
-			'jml_produk' => $this->lapak_model->get_produk()->count_all_results(),
-			'jml_pelapak' => $this->lapak_model->get_pelapak()->count_all_results(),
-			'jml_kategori' => $this->lapak_model->get_kategori()->count_all_results(),
-			'jml_pengaturan' => '.'
+			'jml_produk' => [
+				'aktif' => $this->lapak_model->get_produk('', 1)->count_all_results(),
+				'total' => $this->lapak_model->get_produk()->count_all_results()
+			],
+
+			'jml_pelapak' => [
+				'aktif' => $this->lapak_model->get_pelapak('', 1)->count_all_results(),
+				'total' => $this->lapak_model->get_pelapak()->count_all_results()
+			],
+
+			'jml_kategori' => [
+				'aktif' => $this->lapak_model->get_kategori('', 1)->count_all_results(),
+				'total' => $this->lapak_model->get_kategori()->count_all_results()
+			],
 		];
 
 		return $data;
@@ -78,14 +88,14 @@ class Lapak_admin extends Admin_Controller
 	{
 		$data['navigasi'] = $this->navigasi();
 		
-		if ($data['navigasi']['jml_pelapak'] <= 0)
+		if ($data['navigasi']['jml_pelapak']['aktif'] <= 0)
 		{
 			$this->session->success = -1;
 			$this->session->error_msg ='Pelapak tidak tersedia, silakan tambah pelapak terlebih dahulu';
 			redirect("$this->controller/pelapak");
 		}
 
-		if ($data['navigasi']['jml_kategori'] <= 0)
+		if ($data['navigasi']['jml_kategori']['aktif'] <= 0)
 		{
 			$this->session->success = -1;
 			$this->session->error_msg ='Pelapak tidak tersedia, silakan tambah kategori terlebih dahulu';
@@ -99,21 +109,22 @@ class Lapak_admin extends Admin_Controller
 			$search = $this->input->post('search[value]');
 			$order = $this->lapak_model::ORDER_ABLE_PRODUK[$this->input->post('order[0][column]')];
 			$dir = $this->input->post('order[0][dir]');
+			$status = $this->input->post('status');
 			$id_pend = $this->input->post('id_pend');
 			$id_produk_kategori = $this->input->post('id_produk_kategori');
 
 			return $this->json_output(
 				[
 					'draw' => $this->input->post('draw'),
-					'recordsTotal' => $this->lapak_model->get_produk()->count_all_results(),
-					'recordsFiltered' => $this->lapak_model->get_produk($search, $id_pend, $id_produk_kategori)->count_all_results(),
-					'data' => $this->lapak_model->get_produk($search, $id_pend, $id_produk_kategori)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+					'recordsTotal' => $this->lapak_model->get_produk('', $status)->count_all_results(),
+					'recordsFiltered' => $this->lapak_model->get_produk($search, $status, $id_pend, $id_produk_kategori)->count_all_results(),
+					'data' => $this->lapak_model->get_produk($search, $status, $id_pend, $id_produk_kategori)->order_by($order, $dir)->limit($length, $start)->get()->result(),
 				]
 			);
 		}
 
-		$data['pelapak'] = $this->lapak_model->get_pelapak()->get()->result();
-		$data['kategori'] = $this->lapak_model->get_kategori()->get()->result();
+		$data['pelapak'] = $this->lapak_model->get_pelapak('', 1)->get()->result();
+		$data['kategori'] = $this->lapak_model->get_kategori('', 1)->get()->result();
 
 		$this->render("$this->controller/produk/index", $data);
 	}
@@ -130,13 +141,13 @@ class Lapak_admin extends Admin_Controller
 		}
 		else
 		{
-			$data['main'] = NULL;
+			$data['main']->tipe_potongan = 1;
 			$data['aksi'] = 'Tambah';
 			$data['form_action'] = site_url("$this->controller/produk_insert");
 		}
 
-		$data['pelapak'] = $this->lapak_model->get_pelapak()->get()->result();
-		$data['kategori'] = $this->lapak_model->get_kategori()->get()->result();
+		$data['pelapak'] = $this->lapak_model->get_pelapak('', 1)->get()->result();
+		$data['kategori'] = $this->lapak_model->get_kategori('', 1)->get()->result();
 		$data['satuan'] = $this->lapak_model->get_satuan();
 
 		$this->render("$this->controller/produk/form", $data);
@@ -180,7 +191,7 @@ class Lapak_admin extends Admin_Controller
 	public function produk_status($id = 0, $status = 0)
 	{
 		$this->redirect_hak_akses("u");
-		$this->lapak_model->produk_status($id, $status);
+		$this->lapak_model->status('produk', $id, $status);
 		redirect("$this->controller/produk");
 	}
 
@@ -196,15 +207,14 @@ class Lapak_admin extends Admin_Controller
 			$search = $this->input->post('search[value]');
 			$order = $this->lapak_model::ORDER_ABLE_PELAPAK[$this->input->post('order[0][column]')];
 			$dir = $this->input->post('order[0][dir]');
-			$id_pend = $this->input->post('id_pend');
-			$kategori = $this->input->post('kategori');
+			$status = $this->input->post('status');
 
 			return $this->json_output(
 				[
 					'draw' => $this->input->post('draw'),
-					'recordsTotal' => $this->lapak_model->get_pelapak()->count_all_results(),
-					'recordsFiltered' => $this->lapak_model->get_pelapak($search)->count_all_results(),
-					'data' => $this->lapak_model->get_pelapak($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+					'recordsTotal' => $this->lapak_model->get_pelapak('', $status)->count_all_results(),
+					'recordsFiltered' => $this->lapak_model->get_pelapak($search, $status)->count_all_results(),
+					'data' => $this->lapak_model->get_pelapak($search, $status)->order_by($order, $dir)->limit($length, $start)->get()->result(),
 				]
 			);
 		}
@@ -330,7 +340,7 @@ class Lapak_admin extends Admin_Controller
 	public function pelapak_status($id = 0, $status = 0)
 	{
 		$this->redirect_hak_akses("u");
-		$this->lapak_model->pelapak_status($id, $status);
+		$this->lapak_model->status('pelapak', $id, $status);
 		redirect("$this->controller/pelapak");
 	}
 
@@ -346,13 +356,14 @@ class Lapak_admin extends Admin_Controller
 			$search = $this->input->post('search[value]');
 			$order = $this->lapak_model::ORDER_ABLE_KATEGORI[$this->input->post('order[0][column]')];
 			$dir = $this->input->post('order[0][dir]');
+			$status = $this->input->post('status');
 
 			return $this->json_output(
 				[
 					'draw' => $this->input->post('draw'),
-					'recordsTotal' => $this->lapak_model->get_kategori()->count_all_results(),
-					'recordsFiltered' => $this->lapak_model->get_kategori($search)->count_all_results(),
-					'data' => $this->lapak_model->get_kategori($search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+					'recordsTotal' => $this->lapak_model->get_kategori('', $status)->count_all_results(),
+					'recordsFiltered' => $this->lapak_model->get_kategori($search, $status)->count_all_results(),
+					'data' => $this->lapak_model->get_kategori($search, $status)->order_by($order, $dir)->limit($length, $start)->get()->result(),
 				]
 			);
 		}
@@ -413,6 +424,13 @@ class Lapak_admin extends Admin_Controller
 	{
 		$this->redirect_hak_akses("h");
 		$this->lapak_model->kategori_delete_all();
+		redirect("$this->controller/kategori");
+	}
+
+	public function kategori_status($id = 0, $status = 0)
+	{
+		$this->redirect_hak_akses("u");
+		$this->lapak_model->status('produk_kategori', $id, $status);
 		redirect("$this->controller/kategori");
 	}
 

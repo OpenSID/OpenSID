@@ -67,7 +67,7 @@ class Lapak_model extends MY_Model
 	];
 
 	// PRODUK
-	public function get_produk(string $search = '', $id_pend = 0, $id_produk_kategori = 0)
+	public function get_produk(string $search = '', $status = NULL, $id_pend = 0, $id_produk_kategori = 0)
 	{
 		$this->produk();
 
@@ -85,6 +85,7 @@ class Lapak_model extends MY_Model
 				->group_end();
 		}
 
+		if ($status) $this->db->where('pr.status', $status);
 		if ($id_pend) $this->db->where('p.id', $id_pend);
 		if ($id_produk_kategori) $this->db->where('pk.id', $id_produk_kategori);
 		
@@ -104,7 +105,9 @@ class Lapak_model extends MY_Model
 			->join('produk_kategori pk', 'pr.id_produk_kategori = pk.id', 'LEFT')
 			->join('pelapak lp', 'pr.id_pelapak = lp.id', 'LEFT')
 			->join('penduduk_hidup p', 'lp.id_pend = p.id', 'LEFT')
-			->join('tweb_penduduk_map m', 'p.id = m.id', 'LEFT');
+			->join('tweb_penduduk_map m', 'p.id = m.id', 'LEFT')
+			->where('lp.status', 1)
+			->where('pk.status', 1);
 	}
 
 	public function paging_produk($p = 1)
@@ -112,7 +115,7 @@ class Lapak_model extends MY_Model
 		$this->load->library('paging');
 		$cfg['page'] = $p;
 		$cfg['per_page'] = $this->setting->jumlah_produk_perhalaman;
-		$cfg['num_rows'] = $this->get_produk()->where('pr.status', 1)->count_all_results();
+		$cfg['num_rows'] = $this->get_produk('', 1)->count_all_results();
 		$this->paging->init($cfg);
 
 		return $this->paging;
@@ -154,7 +157,8 @@ class Lapak_model extends MY_Model
 			'id_produk_kategori' => alfanumerik_spasi($post['id_produk_kategori']),
 			'harga' => bilangan($post['harga']),
 			'satuan' => alfanumerik_spasi($post['satuan']),
-			'potongan' => bilangan($post['potongan']),
+			'tipe_potongan' => bilangan($post['tipe_potongan']),
+			'potongan' => bilangan(($post['tipe_potongan'] == 1) ? $post['persen'] : $post['nominal']),
 			'deskripsi' => alfanumerik_spasi($post['deskripsi']),
 			'foto' => ($foto == []) ? NULL : json_encode($foto)
 		];
@@ -267,17 +271,8 @@ class Lapak_model extends MY_Model
 		return $data;
 	}
 
-	public function produk_status($id, $status = 1)
-	{
-		$outp = $this->db
-			->where('id', $id)
-			->update('produk', ['status' => $status]);
-
-		status_sukses($outp);
-	}
-
 	// PELAPAK
-	public function get_pelapak(string $search = '')
+	public function get_pelapak(string $search = '', $status = NULL)
 	{
 		$this->pelapak();
 
@@ -289,6 +284,8 @@ class Lapak_model extends MY_Model
 					->or_like('lp.telepon', $search)
 				->group_end();
 		}
+
+		if ($status) $this->db->like('lp.status', $status);
 
 		return $this->db;
 	}
@@ -391,21 +388,13 @@ class Lapak_model extends MY_Model
 		return $data;
 	}
 
-	public function pelapak_status($id, $status = 1)
-	{
-		$outp = $this->db
-			->where('id', $id)
-			->update('pelapak', ['status' => $status]);
-
-		status_sukses($outp);
-	}
-
 	// KATEGORI / SATUAN
 	public function get_satuan()
 	{
 		return $this->db
 			->distinct()
 			->select('satuan')
+			->where('status', 1)
 			->get('produk')
 			->result();
 	}
@@ -419,11 +408,13 @@ class Lapak_model extends MY_Model
 		return $data;
 	}
 
-	public function get_kategori(string $search = '')
+	public function get_kategori(string $search = '', $status = NULL)
 	{
 		$this->kategori();
 
 		if ($search) $this->db->like('pk.kategori', $search);
+
+		if ($status) $this->db->like('pk.status', $status);
 
 		return $this->db;
 	}
@@ -480,6 +471,15 @@ class Lapak_model extends MY_Model
 		];
 
 		return $data;
+	}
+
+	public function status($table, $id, $status = 1)
+	{
+		$outp = $this->db
+			->where('id', $id)
+			->update($table, ['status' => $status]);
+
+		status_sukses($outp);
 	}
 
 }

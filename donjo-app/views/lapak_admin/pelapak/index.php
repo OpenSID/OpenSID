@@ -71,6 +71,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php endif; ?>
 			</div>
 			<form id="mainform" name="mainform" method="post">
+				<div class="box-header with-border form-inline">
+					<div class="row">
+						<div class="col-sm-2">
+							<select class="form-control input-sm select2" id="status" name="status">
+								<option value="">Semua Status</option>
+								<option value="1">Aktif</option>
+								<option value="2">Non Aktif</option>
+							</select>
+						</div>
+					</div>
+				</div>
 				<div class="box-body">
 					<div class="table-responsive">
 						<table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-pelapak">
@@ -108,6 +119,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'ajax': {
 				'url': "<?= site_url("$this->controller/pelapak"); ?>",
 				'method': 'POST',
+				'data': function(d) {
+					d.status = $('#status').val();
+				}
 			},
 			'columns': [
 				{
@@ -122,10 +136,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					'data': function(data) {
 						let status;
 						if (data.status == 1) {
-							status = `<a href="<?= site_url("$this->controller/pelapak_status/"); ?>${data.id}/2" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Produk"><i class="fa fa-unlock"></i></a>`
+							status = `<a href="<?= site_url("$this->controller/pelapak_status/"); ?>${data.id}/2" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Pelapak"><i class="fa fa-unlock"></i></a>`
 						} else {
-							status = `<a href="<?= site_url("$this->controller/pelapak_status/"); ?>${data.id}/1" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Produk"><i class="fa fa-lock"></i></a>`
+							status = `<a href="<?= site_url("$this->controller/pelapak_status/"); ?>${data.id}/1" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Pelapak"><i class="fa fa-lock"></i></a>`
 						}
+
 						let hapus;
 						if (data.jumlah == 0) {
 							hapus = `<a href="#" dataa-href="<?= site_url("$this->controller/pelapak_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
@@ -161,6 +176,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}).nodes().each(function(cell, i) {
 				cell.innerHTML = i + 1 + PageInfo.start;
 			});
+		});
+
+		$('#status').on('select2:select', function (e) {
+			tabel_produk.ajax.reload();
 		});
 	});
 </script>

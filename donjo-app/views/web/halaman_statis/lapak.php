@@ -87,9 +87,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php endif; ?>
 							<div class="card-body">
 								<h4><b><?= $pro->nama; ?></b></h4>
-								<h6><b style="color:green;">Harga : <?= rupiah($pro->harga - (($pro->potongan/100) * $pro->harga)); ?>
+								<?php $harga_potongan = ($pro->tipe_potongan == 1) ? ($pro->harga * ($pro->potongan / 100)) : $pro->potongan; ?>
+								<h6><b style="color:green;">Harga : <?= rupiah($pro->harga - $harga_potongan); ?>
 									<?php if ($pro->potongan != 0): ?>
-										&nbsp;&nbsp;<small style="color:red; text-decoration: line-through red;"><?= rupiah($pro->harga); ?></small>
+										&nbsp;&nbsp;<small style="color:red; text-decoration: line-through red;"><?= rupiah($pro->harga); ?> (<?= persen(($pro->tipe_potongan == 1) ? $pro->potongan/100 : $pro->potongan / $pro->harga); ?>)</small>
 									<?php endif; ?>
 								</b></h6>
 								<p class="card-text">

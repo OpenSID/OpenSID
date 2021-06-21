@@ -75,6 +75,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="box-header with-border form-inline">
 					<div class="row">
 						<div class="col-sm-2">
+							<select class="form-control input-sm select2" id="status" name="status">
+								<option value="">Semua Status</option>
+								<option value="1">Aktif</option>
+								<option value="2">Non Aktif</option>
+							</select>
+						</div>
+						<div class="col-sm-2">
 							<select class="form-control input-sm select2" id="id_pend" name="id_pend">
 								<option value="">Semua Pelapak</option>
 								<?php foreach ($pelapak as $pel): ?>
@@ -105,7 +112,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>Kategori</th>
 									<th>Harga</th>
 									<th>Satuan</th>
-									<th>Potongan (%)</th>
+									<th>Potongan</th>
 									<th>Deskripsi</th>
 								</tr>
 							</thead>
@@ -127,13 +134,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'order': [[4, 'desc']],
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0, 1, 2] },
-				{ 'className' : 'padat', 'targets': [0, 1, 8] },
+				{ 'className' : 'padat', 'targets': [0, 1, 7, 8] },
 				{ 'className' : 'aksi', 'targets': [2] }
 			],
 			'ajax': {
 				'url': "<?= site_url("$this->controller/produk"); ?>",
 				'method': 'POST',
 				'data': function(d) {
+					d.status= $('#status').val();
 					d.id_pend = $('#id_pend').val();
 					d.id_produk_kategori = $('#id_produk_kategori').val();
 				}
@@ -174,7 +182,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					'render': $.fn.dataTable.render.number( '.', ',', 0, 'Rp ' )
 				},
 				{ 'data': 'satuan' },
-				{ 'data': 'potongan' },
+				{
+					'data': function(data) {
+						return `${(data.tipe_potongan == 1) ? data.potongan + '%' : 'Rp. ' + formatRupiah(data.potongan)}`
+					}
+				},
 				{ 'data': 'deskripsi' }
 			],
 			'language': {
@@ -191,11 +203,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			});
 		});
 
+		$('#status').on('select2:select', function (e) {
+			tabel_produk.ajax.reload();
+		});
+
 		$('#id_pend').on('select2:select', function (e) {
 			tabel_produk.ajax.reload();
 		});
 
-		$('#id_produk_kategori').on('select2:select', function (e) {
+		$('#status').on('select2:select', function (e) {
 			tabel_produk.ajax.reload();
 		});
 	});

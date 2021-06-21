@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="nama">Nama Produk</label>
-								<input name="nama" class="form-control input-sm required" type="text" placeholder="Nama Produk" minlength="3" maxlength="100" value="<?= $main->nama; ?>"/>
+								<input name="nama" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nama Produk" minlength="3" maxlength="100" value="<?= $main->nama; ?>"/>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
@@ -100,11 +100,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<label class="control-label" for="harga">Harga Produk</label>
 										<div class="input-group">
 											<span class="input-group-addon input-sm">Rp.</span>
-											<input name="harga" class="form-control input-sm number required" type="number" placeholder="Harga Produk" style="text-align:right;" min="100" max="99999999999" step="100" value="<?= $main->harga; ?>"/>
+											<input id="harga" name="harga" onkeyup="cek_nominal();" class="form-control input-sm number required" type="number" placeholder="Harga Produk" style="text-align:right;" min="100" max="99999999999" step="100" value="<?= $main->harga; ?>"/>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-3">
+								<div class="col-md-6">
 									<div class="form-group">
 										<label class="control-label" for="satuan">Satuan Produk</label>
 										<select class="form-control input-sm select2-tags required" name="satuan">
@@ -115,19 +115,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</select>
 									</div>
 								</div>
-								<div class="col-md-3">
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<label for="nama">Potongan Harga Produk</label>
+								</div>
+								<div class="col-sm-6">
 									<div class="form-group">
-										<label class="control-label" for="potongan">Potongan Harga</label>
+										<select id="tipe_potongan" name="tipe_potongan" class="form-control input-sm required">
+											<option value="1" <?= selected($main->tipe_potongan, 1); ?>>Persen (%)</option>
+											<option value="2" <?= selected($main->tipe_potongan, 2); ?>>Nominal (Rp.)</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-6" id="tampil-persen" <?= jecho($main->tipe_potongan == 1, FALSE, 'style="display:none;"'); ?>>
+									<div class="form-group">
 										<div class="input-group">
-											<input name="potongan" class="form-control input-sm number required" type="number" placeholder="Potongan Harga" style="text-align:right;" min="0" max="100" step="1" value="<?= $main->potongan; ?>"/>
+											<input class="form-control input-sm" type="number" id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= str_replace('%', '', $main->potongan); ?>"/>
 											<span class="input-group-addon input-sm">%</span>
 										</div>
 									</div>
 								</div>
+
+								<div class="col-sm-6" id="tampil-nominal" <?= jecho($main->tipe_potongan == 2, FALSE, 'style="display:none;"'); ?>>
+									<div class="form-group">
+										<div class="input-group">
+											<span class="input-group-addon input-sm ">Rp.</span>
+											<input type="number" class="form-control input-sm number" onkeyup="cek_nominal();" id="nominal" name="nominal" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="100" value="<?= $main->potongan; ?>"/>
+										</div>
+									</div>
+								</div>
 							</div>
+
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Deskripsi Produk</label>
-								<textarea name="deskripsi" class="form-control input-sm required" rows="5"><?= $main->deskripsi; ?></textarea>
+								<textarea name="deskripsi" class="form-control input-sm nama_terbatas required" rows="5"><?= $main->deskripsi; ?></textarea>
 							</div>
 						</div>
 						<div class="box-footer">
@@ -178,3 +200,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</form>
 	</section>
 </div>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		$('#tipe_potongan').on('change', function() {
+			if (this.value == 2) {
+				$('#tampil-persen').hide();
+				$('#tampil-nominal').show();
+				cek_nominal();
+			} else {
+				$('#tampil-nominal').hide();
+				$('#tampil-persen').show();
+				cek_persen();
+			}
+		});
+	});
+
+	function cek_persen() {
+		if (($('#tipe_potongan').val() == 1) && ($('#persen').val() > 100)) {
+			$('#persen').val(100);
+		}		
+	}
+
+	function cek_nominal() {
+		if (($('#tipe_potongan').val() == 2) && (($('#nominal').val().length >= $('#harga').val().length) && ($('#nominal').val() >= $('#harga').val()))) {
+			$('#nominal').val($('#harga').val());
+		}		
+	}
+</script>

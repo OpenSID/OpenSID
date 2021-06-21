@@ -561,3 +561,8 @@ div.form-surat .content-header {
 .small-box h3 {
 	font-size: 25px;
 }
+
+.fa-nav {
+	width: auto;
+	padding: 20px;
+}

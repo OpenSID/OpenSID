@@ -49,53 +49,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row">
 	<a href="<?= site_url('lapak_admin/produk'); ?>">
-		<div class="col-lg-3 col-xs-6">
-			<div class="small-box bg-aqua">
-				<div class="inner">
-					<h3><?= $jml_produk; ?></h3>
-					<p><b>PRODUK</b></p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-ios-cart"></i>
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box bg-aqua">
+				<span class="info-box-icon"><i class="fa fa-cubes fa-nav"></i></span>
+				<div class="info-box-content">
+					<span class="info-box-text">PRODUK</span>
+					<span class="info-box-number"><?= $jml_produk['aktif']; ?></span>
+
+					<div class="progress">
+						<div class="progress-bar" style="width: <?= ($jml_produk['aktif']/$jml_produk['total']) * 100; ?>%"></div>
+					</div>
+					<span class="progress-description">Total : <b><?= $jml_produk['total']; ?></b></span>
 				</div>
 			</div>
 		</div>
 	</a>
 	<a href="<?= site_url('lapak_admin/pelapak'); ?>">
-		<div class="col-lg-3 col-xs-6">
-			<div class="small-box bg-green">
-				<div class="inner">
-					<h3><?= $jml_pelapak; ?></sup></h3>
-					<p><b>PELAPAK</b></p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-person"></i>
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box bg-green">
+				<span class="info-box-icon"><i class="fa fa-users fa-nav"></i></span>
+				<div class="info-box-content">
+					<span class="info-box-text">PELAPAK</span>
+					<span class="info-box-number"><?= $jml_pelapak['aktif']; ?></span>
+
+					<div class="progress">
+						<div class="progress-bar" style="width: <?= ($jml_pelapak['aktif']/$jml_pelapak['total']) * 100; ?>%"></div>
+					</div>
+					<span class="progress-description">Total : <b><?= $jml_pelapak['total']; ?></b></span>
 				</div>
 			</div>
 		</div>
 	</a>
 	<a href="<?= site_url('lapak_admin/kategori'); ?>">
-		<div class="col-lg-3 col-xs-6">
-			<div class="small-box bg-yellow">
-				<div class="inner">
-					<h3><?= $jml_kategori; ?></h3>
-					<p><b>KATEGORI</b></p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-pricetags"></i>
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box bg-yellow">
+				<span class="info-box-icon"><i class="fa fa-tags fa-nav"></i></span>
+				<div class="info-box-content">
+					<span class="info-box-text">KATEGORI</span>
+					<span class="info-box-number"><?= $jml_kategori['aktif']; ?></span>
+
+					<div class="progress">
+						<div class="progress-bar" style="width: <?= ($jml_kategori['aktif']/$jml_kategori['total']) * 100; ?>%"></div>
+					</div>
+					<span class="progress-description">Total : <b><?= $jml_kategori['total']; ?></b></span>
 				</div>
 			</div>
 		</div>
 	</a>
 	<a href="<?= site_url('lapak_admin/pengaturan'); ?>" title="Pengaturan Modul" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Modul" data-backdrop="false" data-keyboard="false">
-		<div class="col-lg-3 col-xs-6">
-			<div class="small-box bg-red">
-				<div class="inner">
-					<h3><?= $jml_pengaturan; ?></h3>
-					<p><b>PENGATURAN</b></p>
-				</div>
-				<div class="icon">
-					<i class="ion ion-gear-a"></i>
+		<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="info-box bg-red">
+				<span class="info-box-icon"><i class="fa fa-gear fa-nav"></i></span>
+				<div class="info-box-content">
+					<span class="info-box-number" style="padding-top: 25px; padding-bottom: 25px;">PENGATURAN</span>
 				</div>
 			</div>
 		</div>

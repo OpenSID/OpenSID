@@ -71,6 +71,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php endif; ?>
 			</div>
 			<form id="mainform" name="mainform" method="post">
+				<div class="box-header with-border form-inline">
+					<div class="row">
+						<div class="col-sm-2">
+							<select class="form-control input-sm select2" id="status" name="status">
+								<option value="">Semua Status</option>
+								<option value="1">Aktif</option>
+								<option value="2">Non Aktif</option>
+							</select>
+						</div>
+					</div>
+				</div>
 				<div class="box-body">
 					<div class="table-responsive">
 						<table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-kategori">
@@ -107,6 +118,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'ajax': {
 				'url': "<?= site_url("$this->controller/kategori"); ?>",
 				'method': 'POST',
+				'data': function(d) {
+					d.status = $('#status').val();
+				}
 			},
 			'columns': [
 				{
@@ -119,6 +133,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{ 'data': null },
 				{
 					'data': function(data) {
+						let status;
+						if (data.status == 1) {
+							status = `<a href="<?= site_url("$this->controller/kategori_status/") ?>${data.id}/2" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan Kategori"><i class="fa fa-unlock"></i></a>`
+						} else {
+							status = `<a href="<?= site_url("$this->controller/kategori_status/") ?>${data.id}/1" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Kategori"><i class="fa fa-lock"></i></a>`
+						}
+
 						let hapus;
 						if (data.jumlah == 0) {
 							hapus = '<a href="#" data-href="<?= site_url("$this->controller/kategori_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>'
@@ -126,6 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						return `
 						<?php if ($this->CI->cek_hak_akses('u')): ?>
 							<a href="<?= site_url("$this->controller/kategori_form/"); ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Kategori"><i class="fa fa-edit"></i></a>
+							${status}
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							${hapus}
@@ -148,6 +170,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}).nodes().each(function(cell, i) {
 				cell.innerHTML = i + 1 + PageInfo.start;
 			});
+		});
+
+		$('#status').on('select2:select', function (e) {
+			tabel_produk.ajax.reload();
 		});
 	});
 </script>

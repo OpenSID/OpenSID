@@ -98,7 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label class="control-label" for="harga">Harga Produk</label>
 				<div class="input-group">
 					<span class="input-group-addon input-sm">Rp.</span>
-					<input name="harga" class="form-control input-sm number" type="number" style="text-align:right;" value="<?= $main->harga; ?>" disabled/>
+					<input name="harga" class="form-control input-sm" type="text" style="text-align:right;" value="<?= str_replace('Rp.', '', rupiah($main->harga)); ?>" disabled/>
 				</div>
 			</div>
 		</div>
@@ -111,10 +111,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="col-md-3">
 			<div class="form-group">
 				<label class="control-label" for="potongan">Potongan Harga</label>
-				<div class="input-group">
-					<input name="potongan" class="form-control input-sm number" type="number" style="text-align:right;" value="<?= $main->potongan; ?>" disabled/>
-					<span class="input-group-addon input-sm">%</span>
-				</div>
+				<?php if ($main->tipe_potongan == 1): ?>
+					<div class="input-group">
+						<input name="potongan" class="form-control input-sm" type="text" style="text-align:right;" value="<?= $main->potongan; ?>" disabled/>
+						<span class="input-group-addon input-sm">%</span>
+					</div>
+				<?php else: ?>
+					<div class="input-group">
+						<span class="input-group-addon input-sm">Rp.</span>
+						<input name="potongan" class="form-control input-sm" type="text" style="text-align:right;" value="<?= str_replace('Rp.', '', rupiah($main->potongan)); ?>" disabled/>
+					</div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>

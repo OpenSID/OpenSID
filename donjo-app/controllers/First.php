@@ -772,7 +772,7 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-		$data['produk'] = $this->lapak_model->get_produk()->where('pr.status', 1)->where('lp.status', 1)->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
+		$data['produk'] = $this->lapak_model->get_produk('', 1)->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
 		$data['halaman_statis'] = 'web/halaman_statis/lapak';
 
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
