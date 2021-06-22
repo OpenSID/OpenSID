@@ -98,7 +98,7 @@ class Lapak_admin extends Admin_Controller
 		if ($data['navigasi']['jml_kategori']['aktif'] <= 0)
 		{
 			$this->session->success = -1;
-			$this->session->error_msg ='Pelapak tidak tersedia, silakan tambah kategori terlebih dahulu';
+			$this->session->error_msg ='Kategori tidak tersedia, silakan tambah kategori terlebih dahulu';
 			redirect("$this->controller/kategori");
 		}
 

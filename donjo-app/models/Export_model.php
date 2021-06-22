@@ -130,7 +130,7 @@
 
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'setting_aplikasi_options', 'log_penduduk', 'agenda',
-			'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota', 'log_keluarga', 'grup_akses');
+			'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota', 'log_keluarga', 'grup_akses', 'produk');
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $ada_foreign_key,
