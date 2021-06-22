@@ -397,15 +397,13 @@ class Lapak_model extends MY_Model
 		$data_array = $this->db
 			->distinct()
 			->select('satuan')
-			->where('status', 1)
 			->get('produk')
 			->result();
-
 		foreach ($data_array as $value) {
 
 			if ( ! in_array($value->satuan, $this->list_satuan)) array_push($this->list_satuan, $value->satuan);
 		}
-		sort($this->list_satuan);
+		usort($this->list_satuan, 'strnatcasecmp');
 		return $this->list_satuan;
 	}
 
