@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<select class="form-control input-sm select2-tags required" name="satuan">
 											<option value="">Pilih Satuan Produk</option>
 											<?php foreach ($satuan as $sat): ?>
-												<option value="<?= $sat->satuan; ?>" <?= selected($main->satuan, $sat->satuan); ?>><?= $sat->satuan; ?></option>
+												<option value="<?= $sat; ?>" <?= selected($main->satuan, $sat); ?>><?= $sat; ?></option>
 											<?php endforeach ?>
 										</select>
 									</div>

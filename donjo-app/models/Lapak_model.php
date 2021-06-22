@@ -66,6 +66,9 @@ class Lapak_model extends MY_Model
 		2 => 'kategori'
 	];
 
+	/** @var array */
+	protected $list_satuan = ['lusin', 'gross', 'rim', 'lembar', 'pcs', 'gram', 'kg', 'paket'];
+
 	// PRODUK
 	public function get_produk(string $search = '', $status = NULL, $id_pend = 0, $id_produk_kategori = 0)
 	{
@@ -391,12 +394,19 @@ class Lapak_model extends MY_Model
 	// KATEGORI / SATUAN
 	public function get_satuan()
 	{
-		return $this->db
+		$data_array = $this->db
 			->distinct()
 			->select('satuan')
 			->where('status', 1)
 			->get('produk')
 			->result();
+
+		foreach ($data_array as $value) {
+
+			if ( ! in_array($value->satuan, $this->list_satuan)) array_push($this->list_satuan, $value->satuan);
+		}
+
+		return $this->list_satuan;
 	}
 
 	public function kategori_detail($id = 0)
