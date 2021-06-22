@@ -211,7 +211,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			tabel_produk.ajax.reload();
 		});
 
-		$('#status').on('select2:select', function (e) {
+		$('#id_produk_kategori').on('select2:select', function (e) {
 			tabel_produk.ajax.reload();
 		});
 	});
