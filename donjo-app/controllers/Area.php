@@ -152,6 +152,13 @@ class Area extends Admin_Controller
 		redirect("area/index/$p/$o");
 	}
 
+	public function kosongkan($id = '')
+	{
+		$this->redirect_hak_akses('u');
+		$this->plan_area_model->kosongkan_path($id);
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
 	public function search()
 	{
 		$cari = $this->input->post('cari');

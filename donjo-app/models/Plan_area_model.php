@@ -277,4 +277,12 @@ class Plan_area_model extends MY_Model {
 			->get()->result_array();
 		return $data;
 	}
+
+	public function kosongkan_path($id)
+	{
+		$this->db
+			->set('path', NULL)
+			->where('id', $id)
+			->update('area');
+	}
 }

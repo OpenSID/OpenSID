@@ -440,8 +440,6 @@ class Sid_Core extends Admin_Controller {
 		if ( ! empty($data['wil_atas']['lat'] &&  ! empty($data['wil_atas']['lng'] &&  ! empty($data['wil_atas']['path']))))
 		{
 			$this->render("sid/wilayah/maps_wilayah", $data);
-
-			// echo json_encode($data, true);
 		}
 		else
 		{
@@ -609,6 +607,13 @@ class Sid_Core extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$this->wilayah_model->update_wilayah_rt_map($id);
 		redirect("$this->controller/sub_rt/$id_dusun/$id_rw");
+	}
+
+	public function kosongkan($id = '')
+	{
+		$this->redirect_hak_akses('u');
+		$this->wilayah_model->kosongkan_path($id);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 	public function urut($tipe = '', $p = 1, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0)
