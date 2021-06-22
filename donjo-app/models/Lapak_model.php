@@ -405,7 +405,7 @@ class Lapak_model extends MY_Model
 
 			if ( ! in_array($value->satuan, $this->list_satuan)) array_push($this->list_satuan, $value->satuan);
 		}
-
+		sort($this->list_satuan);
 		return $this->list_satuan;
 	}
 
