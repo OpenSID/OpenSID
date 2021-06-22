@@ -366,15 +366,15 @@ class Penduduk_model extends MY_Model {
 			case 2: $this->db->order_by('u.nik', 'DESC'); break;
 			case 3: $this->db->order_by('u.nama'); break;
 			case 4: $this->db->order_by('u.nama', 'DESC'); break;
-			case 5: $this->db->order_by('CONCAT(d.no_kk, u.kk_level)'); break;
-			case 6: $this->db->order_by('d.no_kk DESC, u.kk_level'); break;
+			case 5: $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)'); break;
+			case 6:$this->db->order_by('d.no_kk DESC, u.id_kk, u.kk_level'); break;
 			case 7: $this->db->order_by('umur'); break;
 			case 8: $this->db->order_by('umur', 'DESC'); break;
 			case 9: $this->db->order_by('u.created_at'); break;
 			case 10: $this->db->order_by('u.created_at', 'DESC'); break;
 			case 11: $this->db->order_by('log.tgl_peristiwa'); break;
 			case 12: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
-			default: $this->db->order_by('CONCAT(d.no_kk, u.kk_level)');
+			default: $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)'); break;
 		}
 	}
 
