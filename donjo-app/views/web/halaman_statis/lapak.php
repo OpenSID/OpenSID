@@ -84,6 +84,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</div>
 									</div>
 								</div>
+							<?php else: ?>
+								<img class="card-img-top" style="width: auto; max-height: 700px" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Produk"/>
 							<?php endif; ?>
 							<div class="card-body">
 								<h4><b><?= $pro->nama; ?></b></h4>
@@ -101,7 +103,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<?php if ($pro->telepon): ?>
-											<a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone=<?=format_telpon($pro->telepon);?>&amp;text=<?= str_replace('[nama_produk]', $pro->nama, $this->setting->pesan_singkat_wa) ?>" rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa fa-whatsapp"></i> Beli</a>
+											<?php $pesan = strReplaceArrayRecursive(['[nama_produk]' => $pro->nama, '[link_web]' => base_url('lapak'), '<br />' => "%0A"], nl2br($this->setting->pesan_singkat_wa)); ?>
+											<a class="btn btn-sm btn-success" href="https://api.whatsapp.com/send?phone=<?=format_telpon($pro->telepon);?>&amp;text=<?= $pesan; ?>" rel="noopener noreferrer" target="_blank" title="WhatsApp"><i class="fa fa-whatsapp"></i> Beli</a>
 										<?php endif; ?>
 										<a class="btn btn-sm btn-primary lokasi-pelapak" data-remote="false" data-toggle="modal" data-target="#map-modal" title="Lokasi" data-lat="<?= $pro->lat?>" data-lng="<?= $pro->lng?>" data-zoom="<?= $pro->zoom?>" data-title="Lokasi <?= $pro->pelapak?>"><i class="fa fa fa-map"></i> Lokasi</a>
 									</div>

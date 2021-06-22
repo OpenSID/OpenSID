@@ -61,6 +61,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021062053($hasil);
 		$hasil = $hasil && $this->migrasi_2021062152($hasil);
 		$hasil = $hasil && $this->migrasi_2021062154($hasil);
+		$hasil = $hasil && $this->migrasi_2021062351($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -300,13 +301,10 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('tampilkan_lapak_web', '1', 'Aktif / Non-aktif Lapak di Halaman Website Url Terpisah', 'boolean', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 
 		$hasil = $hasil && $this->db->query("
-			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('pesan_singkat_wa', 'Saya ingin membeli [nama_produk] yang anda tawarkan', 'Pesan Singkat WhatsApp', 'textarea', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('pesan_singkat_wa', 'Saya ingin membeli [nama_produk] yang anda tawarkan di [link_web]', 'Pesan Singkat WhatsApp', 'textarea', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 
 		$hasil = $hasil && $this->db->query("
 			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('banyak_foto_tiap_produk', 3, 'Banyaknya foto tiap produk yang bisa di unggah', 'int', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
-
-		$hasil = $hasil && $this->db->query("
-			INSERT INTO `setting_aplikasi` (`key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES ('tampilkan_di_halaman_utama_web', '1', 'Aktif / Non-aktif Lapak di Halaman Utama Website', 'boolean', 'lapak') ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 
 		return $hasil;
 	}
@@ -544,6 +542,14 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			$hasil = $hasil && $this->dbforge->add_column('produk_kategori', $fields);
 		}
 
+		return $hasil;
+	}
+
+	protected function migrasi_2021062351($hasil)
+	{
+		// Hapus key tampilkan_di_halaman_utama_web jika terlanjur migrasi (untuk tester)
+		$hasil = $hasil && $this->db->where('key', 'tampilkan_di_halaman_utama_web')->delete('setting_aplikasi');
+		
 		return $hasil;
 	}
 
