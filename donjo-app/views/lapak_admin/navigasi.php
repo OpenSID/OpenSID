@@ -101,7 +101,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="info-box bg-red">
 				<span class="info-box-icon"><i class="fa fa-gear fa-nav"></i></span>
 				<div class="info-box-content">
-					<span class="info-box-number" style="padding-top: 25px; padding-bottom: 25px;">PENGATURAN</span>
+					<span class="info-box-number" style="font-size: 14px; padding-top: 30px; padding-bottom: 30px;">PENGATURAN</span>
 				</div>
 			</div>
 		</div>
