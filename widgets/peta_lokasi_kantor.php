@@ -30,6 +30,7 @@
 		padding: 5px;
 	}
 </style>
+
 <!-- widget Peta Lokasi Kantor Desa -->
 <div class="single_bottom_rightbar">
 	<h2><i class="fa fa-map-marker"></i> <?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?></h2>
@@ -90,6 +91,7 @@
 		</div>
 	</div>
 </div>
+
 <script>
 	//Jika posisi kantor desa belum ada, maka posisi peta akan menampilkan seluruh Indonesia
 	<?php if (!empty($data_config['lat']) && !empty($data_config['lng'])): ?>
@@ -103,7 +105,7 @@
 	var lokasi_kantor = L.map('map_canvas').setView(posisi, zoom);
 
 	//Menampilkan BaseLayers Peta
-	var baseLayers = getBaseLayers(lokasi_kantor, '<?=$this->setting->google_key?>');
+	var baseLayers = getBaseLayers(lokasi_kantor, '<?= $this->setting->mapbox_key; ?>');
 
 	L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(lokasi_kantor);
 

@@ -51,7 +51,7 @@ img:hover{opacity:0.75}
 .navbar-default .navbar-nav > li > a{color:#fff; display:block; font-family:"Oswald",sans-serif; font-size:15px; text-decoration:none; text-transform:uppercase; border-top:2px solid transparent; border-bottom:2px solid transparent; margin-top:-2px; margin-bottom:-2px; padding-bottom:17px; -webkit-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
 .dropdown-menu > li > a{color:#fff; font-family:"Oswald",sans-serif; padding:5px 15px; border-top:1px solid transparent; border-bottom:1px solid transparent; -webkit-transition:all 0.5s; -moz-transition:all 0.5s; -ms-transition:all 0.5s; -o-transition:all 0.5s; transition:all 0.5s}
 .navbar-default .navbar-toggle .icon-bar{background-color:#fff}
-#mainContent{background-color:#f6f6f6; display:inline; float:left; padding-top:15px; width:100%}
+#mainContent{background-color:#f6f6f6; display:inline; float:left; padding-top: 15px; padding-bottom: 15px; width:100%}
 .content_top{float:left; display:inline; width:100%}
 .latest_slider{float:left; display:inline; width:100%; padding-left:10px}
 .single_iteam{position:relative}
