@@ -28,6 +28,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-22 adalah sebagai beri
 9. [#4101](https://github.com/OpenSID/OpenSID/issues/4101) Sekarang penjumlahan luas tanah basah dan kering di laporan Data C-Desa sudah benar.
 10. Foto pengguna sekarang diisi foto default pada waktu membuat pengguna baru.
 11. [#4267](https://github.com/OpenSID/OpenSID/issues/4267) Sekarang keluarga tidak bisa tersimpan dengan lokasi wilayah kosong.
+12. [#4263](https://github.com/OpenSID/OpenSID/issues/4263) Di Buku Induk Penduduk, sekarang anggota keluarga dengan Nomor KK 0 terurut dengan benar.
 
 
 #### Perubahan Teknis
