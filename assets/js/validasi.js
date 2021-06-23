@@ -160,6 +160,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip");
 
+	jQuery.validator.addMethod("nama_suku", function(value, element) {
+		valid = /^[a-zA-Z ]+$/.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alpha dan spasi");
+
 	jQuery.validator.addMethod("nama_terbatas", function(value, element) {
 		valid = /^[a-zA-Z0-9 \-]+$/i.test(value);
 		return this.optional(element) || valid;

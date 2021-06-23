@@ -1535,18 +1535,23 @@ class Penduduk_model extends MY_Model {
 
 	public function get_suku()
 	{
+		$suku = [];
 		// ref pendduduk
-		$ref_penduduk = $this->db->select('suku')->get('ref_penduduk_suku')->result_array();
+		$suku['ref'] = $this->db->select('suku')
+			->order_by('suku')
+			->get('ref_penduduk_suku')
+			->result_array();
 
 		// dari penduduk
-		$penduduk = $this->db
+		$suku['penduduk'] = $this->db
 			->distinct()
 			->select('suku')
 			->where('suku IS NOT NULL')
-			->where('suku NOT IN('.$this->db->last_query().')') // NOT IN REF PENDUDUK
+			// ->where('suku NOT IN('.$this->db->last_query().')') // NOT IN REF PENDUDUK
+			->order_by('suku')
 			->get('tweb_penduduk')->result_array();
 			 
-		return array_merge($ref_penduduk, $penduduk);
+		return $suku;
 	}
 
 }

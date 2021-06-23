@@ -561,7 +561,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', ['suku' => ['type' => 'VARCHAR', 'constraint' => '150', 'null' => TRUE]]);
 		
 		// create table master suku
-		if (!$this->db->table_exists('ref_penduduk_suku'))
+		if ( ! $this->db->table_exists('ref_penduduk_suku'))
 		{
 			$fields = array(
 				'id' => array(

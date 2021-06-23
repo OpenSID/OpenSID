@@ -14,6 +14,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-23 adalah sebagai beri
 4. [#4266](https://github.com/OpenSID/OpenSID/issues/4266) Sekarang setelah logout layanan mandiri kembali ke form sesuai login awal. Juga untuk login eKTP, sekarang scan dilakukan sebelum mengisi PIN.
 5. [#3464](https://github.com/OpenSID/OpenSID/issues/3464) Sekarang peta wilayah desa dan dusun dapat terdiri dari lebih dari satu bagian terpisah.
 6. [#4262](https://github.com/OpenSID/OpenSID/issues/4262) Sekarang bisa kosongkan peta wilayah dan area.
+7. [#4223](https://github.com/OpenSID/OpenSID/issues/4223) Tambahkan data suku/etnis pada biodata penduduk.
 
 
 #### Perbaikan BUG

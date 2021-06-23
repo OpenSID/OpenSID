@@ -510,7 +510,7 @@ class Laporan_penduduk_model extends MY_Model {
 
 		if ($namespace->select_per_kategori())
 		{
-			$this->order_by($o,$lap);
+			$this->order_by($o, $lap);
 			$data = $this->db->get()->result_array();
 			$this->isi_nomor($data);
 		}
