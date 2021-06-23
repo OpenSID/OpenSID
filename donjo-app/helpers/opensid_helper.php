@@ -51,7 +51,7 @@ define("VERSION", '21.06-premium-beta');
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
 
-define('VERSI_DATABASE', '2021062152');
+define('VERSI_DATABASE', '2021062351');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -1105,4 +1105,27 @@ function format_telpon(string $no_telpon, $kode_negara = '+62')
 	if ($awalan == "62") return '+' . $no_telpon;
 
 	return $kode_negara . substr($no_telpon, 1, strlen($no_telpon));
+}
+
+// https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
+function strReplaceArrayRecursive($replacement = array(), $strArray = false, $isReplaceKey = false)
+{
+    if ( ! is_array($strArray))
+    {
+        return str_replace(array_keys($replacement), array_values($replacement), $strArray);
+    }
+    else {
+        $newArr = array();
+        foreach ($strArray as $key=>$value)
+        {
+            $replacedKey = $key;
+            if ($isReplaceKey)
+            {
+                $replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
+            }
+            $newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
+        }
+
+        return $newArr;
+    }
 }
