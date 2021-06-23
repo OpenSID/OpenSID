@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="col-sm-6" id="tampil-persen" <?= jecho($main->tipe_potongan == 1, FALSE, 'style="display:none;"'); ?>>
 									<div class="form-group">
 										<div class="input-group">
-											<input class="form-control input-sm" type="number" id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= str_replace('%', '', $main->potongan); ?>"/>
+											<input type="number" class="form-control input-sm number required" id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= ($main->tipe_potongan == 1) ? $main->potongan : 0; ?>"/>
 											<span class="input-group-addon input-sm">%</span>
 										</div>
 									</div>
@@ -141,7 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon input-sm ">Rp.</span>
-											<input type="number" class="form-control input-sm number" onkeyup="cek_nominal();" id="nominal" name="nominal" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="100" value="<?= $main->potongan; ?>"/>
+											<input type="number" class="form-control input-sm number required" id="nominal" name="nominal" onkeyup="cek_nominal();" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="100" value="<?= ($main->tipe_potongan == 2) ? $main->potongan : 0; ?>"/>
 										</div>
 									</div>
 								</div>
@@ -216,14 +216,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	});
 
 	function cek_persen() {
-		if (($('#tipe_potongan').val() == 1) && ($('#persen').val() > 100)) {
+		if (($('#tipe_potongan').val() == 1) && (parseInt($('#persen').val()) > 100)) {
 			$('#persen').val(100);
-		}		
+		}	
 	}
 
 	function cek_nominal() {
-		if (($('#tipe_potongan').val() == 2) && (($('#nominal').val().length >= $('#harga').val().length) && ($('#nominal').val() >= $('#harga').val()))) {
-			$('#nominal').val($('#harga').val());
-		}		
+		if (($('#tipe_potongan').val() == 2) && (parseInt($('#nominal').val()) > parseInt($('#harga').val()))) {
+			$('#nominal').val($('#harga').val());			
+		}
 	}
 </script>
