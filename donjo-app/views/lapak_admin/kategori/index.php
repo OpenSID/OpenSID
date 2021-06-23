@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 						let hapus;
 						if (data.jumlah == 0) {
-							hapus = '<a href="#" data-href="<?= site_url("$this->controller/kategori_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>'
+							hapus = `<a href="#" data-href="<?= site_url("$this->controller/kategori_delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>`
 						} else { hapus = ''}
 						return `
 						<?php if ($this->CI->cek_hak_akses('u')): ?>
