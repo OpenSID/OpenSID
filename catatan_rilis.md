@@ -1,10 +1,10 @@
-#### [v21.06-premium-beta - 2021-06-22](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.06-premium-beta - 2021-06-23](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.06-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Mokhamad Afila yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-22 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-23 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -33,3 +33,4 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-22 adalah sebagai beri
 
 #### Perubahan Teknis
 1. Hapus tabel dan script Provinsi yg tidak digunakan lagi.
+2. Gunakan dialog konfirmasi global di aksi keluarga, penduduk dan log penduduk.

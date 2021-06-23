@@ -68,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<?php $pertanyaan = "Apakah Anda yakin ingin mengembalikan status data penduduk ini ???"; ?>
+		<?php $pertanyaan = "Apakah Anda yakin ingin mengembalikan status data penduduk ini?"; ?>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
