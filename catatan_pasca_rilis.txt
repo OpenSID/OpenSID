@@ -1,5 +1,6 @@
 Catatan Pra Rilis Tema Natra Versi 4.4, sbb:
 
-1.
+1. Perbaiki Pemanggilan Setting API MapBox pada Widget Peta Kantor dan Wilayah Desa
+2. Pindahkan Menu Login Pada Akhir Menu
 
 ****************************************************************
