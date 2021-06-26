@@ -63,6 +63,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021062154($hasil);
 		$hasil = $hasil && $this->migrasi_2021062371($hasil);
 		$hasil = $hasil && $this->migrasi_2021062373($hasil);
+		$hasil = $hasil && $this->migrasi_2021062674($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -758,4 +759,41 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		return $hasil;
 	}
 
+	protected function migrasi_2021062674($hasil)
+	{
+		// Ubah type data ke text, agar bisa menampung banyak karakter
+		$hasil = $hasil && $this->dbforge->modify_column('setting_aplikasi', [
+			'value' => ['type' => 'text'],
+		]);
+
+		// Url production layanan opendesa
+		$hasil = $hasil && $this->tambah_setting([
+			'key' => 'layanan_opendesa_server',
+			'value' => 'https://layanan.opendesa.id',
+			'keterangan' => 'Alamat Server Layanan OpenDESA',
+			'kategori' => 'sistem',
+		]);
+
+		// Url development layanan opendesa
+		$hasil = $hasil && $this->tambah_setting([
+			'key' => 'layanan_opendesa_dev_server',
+			'value' => '',
+			'keterangan' => 'Alamat Server Dev Layanan OpenDESA',
+			'kategori' => 'sistem',
+		]);
+
+		// Token pelanggan layanan opendesa
+		$hasil = $hasil && $this->tambah_setting([
+			'key' => 'layanan_opendesa_token',
+			'value' => '',
+			'jenis' => 'textarea',
+			'keterangan' => 'Token pelanggan Layanan OpenDESA',
+			'kategori' => 'sistem',
+		]);
+
+		// Hapus API Key Pelanggan
+		$hasil = $hasil && $this->db->where('key', 'api_key_opensid')->delete('setting_aplikasi');
+
+		return $hasil;
+	}
 }
