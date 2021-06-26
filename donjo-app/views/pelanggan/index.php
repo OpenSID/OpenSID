@@ -106,11 +106,6 @@
 									</td>
 								</tr>
 								<tr>
-									<td>Nama Pelaksana</td>
-									<td> : </td>
-									<td><?= $response->body->nama_pelaksana ?></td>
-								</tr>
-								<tr>
 									<td>Token Pelanggan</td>
 									<td> : </td>
 									<td><textarea disabled cols="140" rows="4"><?= $response->body->token ?></textarea></td>

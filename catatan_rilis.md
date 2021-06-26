@@ -1,10 +1,10 @@
-#### [v21.06-premium-beta - 2021-06-23](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.06-premium-beta - 2021-06-27](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.06-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Mokhamad Afila yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-23 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-27 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -15,6 +15,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-23 adalah sebagai beri
 5. [#3464](https://github.com/OpenSID/OpenSID/issues/3464) Sekarang peta wilayah desa dan dusun dapat terdiri dari lebih dari satu bagian terpisah.
 6. [#4262](https://github.com/OpenSID/OpenSID/issues/4262) Sekarang bisa kosongkan peta wilayah dan area.
 7. [#4223](https://github.com/OpenSID/OpenSID/issues/4223) Tambahkan data suku/etnis pada biodata penduduk.
+8. Sekarang Info Desa > Layanan Pelanggan menyediakan status semua pemesanan layanan dari OpenDesa.
 
 
 #### Perbaikan BUG
