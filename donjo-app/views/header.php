@@ -233,7 +233,7 @@
 								<?php if (in_array($this->controller, array_column($this->list_setting, 'kategori')) && $this->CI->cek_hak_akses('u', $this->controller)): ?>
 									<li>
 										<a href="#" data-remote="false" data-toggle="modal" data-tittle="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan">
-											<span><i class="fa fa-gears"></i>&nbsp;</span>
+											<span><i class="fa fa-gear"></i>&nbsp;</span>
 										</a>
 									</li>
 								<?php endif; ?>
