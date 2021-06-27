@@ -160,6 +160,10 @@
 						<td>Tanggal Perceraian</td><td >:</td>
 						<td><?= strtoupper($penduduk['tanggalperceraian'])?></td>
 					</tr>
+					<tr>
+						<td>Nomor BPJS Ketenagakerjaan</td><td >:</td>
+						<td><?= strtoupper($penduduk['bpjs_ketenagakerjaan'])?></td>
+					</tr>
 				</table>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>

@@ -64,6 +64,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021062371($hasil);
 		$hasil = $hasil && $this->migrasi_2021062373($hasil);
 		$hasil = $hasil && $this->migrasi_2021062674($hasil);
+		$hasil = $hasil && $this->migrasi_2021062871($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -793,6 +794,17 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
 		// Hapus API Key Pelanggan
 		$hasil = $hasil && $this->db->where('key', 'api_key_opensid')->delete('setting_aplikasi');
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021062871($hasil)
+	{
+		if ( !$this->db->field_exists('bpjs_ketenagakerjaan', 'tweb_penduduk'))
+			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', ['bpjs_ketenagakerjaan' => ['type' => 'CHAR', 'constraint' => '100', 'null' => TRUE]]);
+	 
+		// Update view supaya kolom baru ikut masuk
+		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
 
 		return $hasil;
 	}

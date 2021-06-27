@@ -422,6 +422,11 @@ class Laporan_penduduk_model extends MY_Model {
 
 				break;
 
+			case "bpjs-tenagakerja":
+				$this->select_jml_penduduk_per_kategori('pekerjaan_id','tweb_penduduk_pekerjaan');
+				$this->db->where('p.bpjs_ketenagakerjaan IS NOT NULL');
+				break;
+
 			case in_array($lap, array_keys($statistik_penduduk)):
 				$this->select_jml_penduduk_per_kategori($statistik_penduduk["$lap"]['id_referensi'], $statistik_penduduk["$lap"]['tabel_referensi']);
 				break;

@@ -111,7 +111,8 @@ define("STAT_PENDUDUK", serialize([
 	'18' => 'Kepemilikan KTP',
 	'19' => 'Jenis Asuransi',
 	'covid' => 'Status Covid',
-	'suku'	=> 'Suku / Etnis'
+	'suku'	=> 'Suku / Etnis',
+	'bpjs-tenagakerja' => 'BPJS Ketenagakerjaan'
 ]));
 
 // Statistik Keluarga

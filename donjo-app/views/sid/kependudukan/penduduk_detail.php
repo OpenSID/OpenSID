@@ -315,6 +315,11 @@
 																<td><?= strtoupper($penduduk['no_asuransi'])?></td>
 															</tr>
 														<?php endif; ?>
+
+														<tr>
+															<td>Nomor Bpjs Kesehatan</td><td >:</td><td><?= $penduduk['bpjs_ketenagakerjaan'] ?></td>
+														</tr>
+
 														<tr>
 															<th colspan="3" class="subtitle_head"><strong>DATA LAINNYA</strong></th>
 														</tr>

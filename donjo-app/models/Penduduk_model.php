@@ -335,14 +335,15 @@ class Penduduk_model extends MY_Model {
 			array('hubungan', 'u.kk_level'), // Kode hubungan_kk
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
 			array('status_covid', 'rc.id'),  // Kode covid
-			array('suku', 'u.suku') // Kode covid
+			array('suku', 'u.suku'), // Kode suku
+			array('bpjs_ketenagakerjaan', 'u.bpjs_ketenagakerjaan') // Kode bpjs_ketenagakerjaan
 		);
 
 		if ($this->session->penerima_bantuan)
 		{
 			$kolom_kode[] = array('penerima_bantuan', 'rcb.id');
 		}
-
+		 
 		foreach ($kolom_kode as $kolom)
 		{
 			// Gunakan cara ini u/ filter sederhana
@@ -391,7 +392,7 @@ class Penduduk_model extends MY_Model {
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
-		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, u.suku, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
+		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, u.suku, u.bpjs_ketenagakerjaan, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
 			(CASE
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
@@ -519,6 +520,7 @@ class Penduduk_model extends MY_Model {
 			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left');
 	}
 
+	// TODO : Apakah function ini masih digunakan? 
 	public function list_data_map()
 	{
 		//Main Query
@@ -586,7 +588,9 @@ class Penduduk_model extends MY_Model {
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
 			array('hubungan', 'u.kk_level'), // Kode 11
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
-			array('status_covid', 'rc.id') // Kode covid
+			array('status_covid', 'rc.id'), // Kode covid
+			array('suku', 'u.suku'), // Kode suku
+			array('bpjs_ketenagakerjaan', 'u.bpjs_ketenagakerjaan') // Kode bpjs_ketenagakerjaan
 		);
 		foreach ($kolom_kode as $kolom)
 		{
@@ -1432,6 +1436,7 @@ class Penduduk_model extends MY_Model {
 				case 17: $table = 'tweb_penduduk_umur'; break;
 				case 18: $table = 'tweb_status_ktp'; break;
 				case 19: $table = 'tweb_penduduk_asuransi'; break;
+				case 'bpjs-tenagakerja': $table = 'tweb_penduduk_pekerjaan'; break;
 				case 'covid': $table = 'ref_status_covid'; break;
 				case 'bantuan_penduduk': $table = 'program'; break;
 				case 'hubungan_kk' : $table = 'tweb_penduduk_hubungan'; break;
