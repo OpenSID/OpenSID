@@ -704,6 +704,7 @@ function eximGpxPoly(layerpeta, multi = false)
 				.replace(']]],[[[', '],[')
 				.replace('[[[[', '[[[')
 				.replace(']]]]', ']]]')
+				.replaceAll(',0]',']')
 				.replace('],null]', ']');
 	});
 	return controlGpxPoly;
