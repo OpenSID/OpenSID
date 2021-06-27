@@ -1,8 +1,9 @@
-Di rilis ini, versi 21.06 berisi perbaikan yang diminta Komunitas SID.
+Di rilis ini, versi 21.06-pasca berisi perbaikan yang diminta Komunitas SID.
 
 Terima kasih pada afa28 yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi 21.06 adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.06-pasca adalah sebagai berikut:
 
 1. #4172: Data rincian peserta bantuan sekarang tampil benar di Layanan Mandiri. [bug-fix]
 2. Sekarang tidak menggantung jika gagal koneksi ke website eksternal, seperti ke https://pantau.opensid.or.id.
+3. Sekarang Info Desa > Layanan Pelanggan menyediakan status semua pemesanan layanan dari OpenDesa.

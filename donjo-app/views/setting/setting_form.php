@@ -71,6 +71,10 @@
 													<?php endforeach;?>
 												</select>
 											</div>
+										<?php elseif ($setting->jenis == 'textarea'): ?>
+											<div class="col-sm-12 col-md-4">
+												<textarea <?php ($setting->kategori != 'readonly') or print 'disabled'?> class="form-control input-sm" name="<?= $setting->key?>" placeholder="<?= $setting->keterangan?>" rows="5"><?= $setting->value; ?> </textarea>
+											</div>
 										<?php else : ?>
 											<div class="col-sm-12 col-md-4">
 												<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text" value="<?= $setting->value?>" <?php ($setting->kategori != 'readonly') or print 'disabled'?>></input>
