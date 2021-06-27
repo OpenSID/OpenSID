@@ -52,8 +52,6 @@ class Cdesa extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('config_model');
 		$this->load->model('data_persil_model');
 		$this->load->model('cdesa_model');
 		$this->load->model('penduduk_model');
@@ -75,10 +73,11 @@ class Cdesa extends Admin_Controller {
 	public function autocomplete()
 	{
 		$data = $this->cdesa_model->autocomplete($this->input->post('cari'));
-		echo json_encode($data);
+		$this->json_output($data);
 	}
 
-	public function search(){
+	public function search()
+	{
 		$this->session->cari = $this->input->post('cari') ?: NULL;
 		redirect('cdesa');
 	}
@@ -96,9 +95,7 @@ class Cdesa extends Admin_Controller {
 		$data['set_page'] = $this->set_page;
 		$data['paging']  = $this->cdesa_model->paging_c_desa($page);
 		$data['keyword'] = $this->data_persil_model->autocomplete();
-		$data["desa"] = $this->config_model->get_data();
 		$data["cdesa"] = $this->cdesa_model->list_c_desa($data['paging']->offset, $data['paging']->per_page);
-		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 
 		$this->render('data_persil/c_desa', $data);
 	}
@@ -355,7 +352,7 @@ class Cdesa extends Admin_Controller {
 
 	public function form_c_desa($id=0)
 	{
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id);
 		$data['basah'] = $this->cdesa_model->get_cetak_mutasi($id, 'BASAH');
 		$data['kering'] = $this->cdesa_model->get_cetak_mutasi($id, 'KERING');

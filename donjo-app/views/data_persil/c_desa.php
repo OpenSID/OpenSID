@@ -20,7 +20,7 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar C-DESA <?= ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
+		<h1>Daftar C-DESA <?= ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']);?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar C-DESA</li>
@@ -93,7 +93,7 @@
 																		<td><?= sprintf("%04s", $item["nomor"]) ?></td>
 																		<td><?= $item['nama_kepemilikan'] ?>
 																		<td><?= strtoupper($item["namapemilik"]) ?></td>
-																		<td><a href='<?= site_url("penduduk/detail/1/0/$item[id_pend]")?>'><?= $item["nik"] ?></a></td>
+																		<td><?= ($item["nik"]) ? "<a href=" . site_url("penduduk/detail/1/0/$item[id_pend]") . ">" . $item["nik"] . "</a>" : "-"; ?></td>
 																		<td><?= $item["jumlah"] ?></td>
 																	</tr>
 																<?php endforeach; ?>
