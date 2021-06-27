@@ -36,3 +36,4 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-27 adalah sebagai beri
 #### Perubahan Teknis
 1. Hapus tabel dan script Provinsi yg tidak digunakan lagi.
 2. Gunakan dialog konfirmasi global di aksi keluarga, penduduk dan log penduduk.
+3. Hapus script popup modal yang tidak digunakan.
