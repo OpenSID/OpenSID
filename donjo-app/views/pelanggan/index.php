@@ -7,19 +7,25 @@
 		</ol>
 	</section>
 	<section class="content">
-		<div class="box box-info">
-			<div class="box-body">
-				<?php if (is_null($response)) : ?>
-					<div class="alert alert-danger alert-dismissible">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-						<h4><i class="icon fa fa-ban"></i><?= "{$this->session->error_status_langganan}"?></h4>
+		<?php if (is_null($response)) : ?>
+			<div class="box box-danger">
+				<div class="box-header with-border">
+					<i class="icon fa fa-ban"></i>
+					<h3 class="box-title"><?= "{$this->session->error_status_langganan}"?></h3>
+				</div>
+				<div class="box-body">
+					<div class="callout callout-danger">
 						<h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
-						<h5>Fitur ini khusus untuk pelanggan Layanan OpenDesa (hosting, Fitur Premium, dll), untuk menampilkan status langganan.</h5>
-						<li>Periksa logs error terakhir di menu <strong>Pengaturan > Info Sistem > Logs</strong></li>
-						<li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di menu <strong>Pengaturan > Aplikasi</strong></li>
-						<li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.</h5>
+						<h5>Fitur ini khusus untuk pelanggan Layanan OpenDesa (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
+						<li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('setting/info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
+						<li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-tittle="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gears"></i>)</strong></a></li>
+						<li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
 					</div>
-				<?php else : ?>
+				</div>
+			</div>
+		<?php else : ?>
+			<div class="box box-info">
+				<div class="box-body">
 					<div class="row">
 						<div class="col-lg-3 col-xs-6">
 							<div class="small-box bg-blue">
@@ -215,8 +221,8 @@
 							</div>
 						</div>
 					</div>
-				<?php endif ?>
+				</div>
 			</div>
-		</div>
+		<?php endif ?>
 	</section>
 </div>

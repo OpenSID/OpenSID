@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 class Pelanggan extends Admin_Controller {
-
+	
 	public function __construct()
 	{
 		parent::__construct();
@@ -58,10 +58,10 @@ class Pelanggan extends Admin_Controller {
 	{
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 313;
-
+		
 		$response = $this->notif_model->api_pelanggan_pemesanan();
 
 		$this->render('pelanggan/index', ['response' => $response]);
 	}
-
+	
 }
