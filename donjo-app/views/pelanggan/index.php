@@ -127,6 +127,7 @@
 									<thead class="bg-gray">
 										<tr>
 											<th width="20px">No</th>
+											<th>Aksi</th>
 											<th>Nota. Faktur</th>
 											<th>Tanggal Mulai</th>
 											<th>Tanggal Berakhir</th>
@@ -139,6 +140,16 @@
 										<?php foreach ($response->body->pemesanan as $pemesanan) : ?>
 											<tr>
 												<td><?= $number ?></td>
+												<td>
+													<?php
+														$host = ENVIRONMENT == 'development'
+															? $this->setting->layanan_opendesa_dev_server
+															: $this->setting->layanan_opendesa_server;
+
+														$token = $this->setting->layanan_opendesa_token;
+													?>
+													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}"?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" data-title="Cetak Laporan"><i class="fa fa-print"></i>Cetak</a>
+												</td>
 												<td>
 													<a href="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>" data-toggle="modal" data-target="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>"><?= $pemesanan->faktur ?></a>
 													<div class="modal fade" id="<?= str_replace('/', '-', $pemesanan->faktur) ?>" style="display: none;">
