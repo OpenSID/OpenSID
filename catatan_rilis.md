@@ -1,10 +1,10 @@
-#### [v21.06-premium-bugfix - 2021-06-20](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
+#### [v21.06-premium-bugfix - 2021-06-28](https://github.com/OpenSID/premium/compare/v21.05-premium...bug-fix)
 
 Di rilis ini, versi 21.06-premium-bugfix, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-20 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-28 adalah sebagai berikut:
 
 
 #### Perbaikan BUG
@@ -20,5 +20,6 @@ Lengkapnya, isi rilis versi v21.06-premium-bugfix - 2021-06-20 adalah sebagai be
 10. Foto pengguna sekarang diisi foto default pada waktu membuat pengguna baru.
 11. [#4267](https://github.com/OpenSID/OpenSID/issues/4267) Sekarang keluarga tidak bisa tersimpan dengan lokasi wilayah kosong.
 12. [#4263](https://github.com/OpenSID/OpenSID/issues/4263) Di Buku Induk Penduduk, sekarang anggota keluarga dengan Nomor KK 0 terurut dengan benar.
+13. [#4294](https://github.com/OpenSID/OpenSID/issues/4294) Sekarang bisa cari C-Desa menggunakan nama pemilik luar desa.
 
 
