@@ -218,6 +218,7 @@
 																	<img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
 																</div>
 																<div class="modal-footer">
+																	<a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-flat btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
 																	<button type="button" class="btn btn-flat btn-sm btn-info" data-dismiss="modal">Tutup</button>
 																</div>
 															</div>
