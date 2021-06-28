@@ -15,7 +15,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-28 adalah sebagai beri
 5. [#3464](https://github.com/OpenSID/OpenSID/issues/3464) Sekarang peta wilayah desa dan dusun dapat terdiri dari lebih dari satu bagian terpisah.
 6. [#4262](https://github.com/OpenSID/OpenSID/issues/4262) Sekarang bisa kosongkan peta wilayah dan area.
 7. [#4223](https://github.com/OpenSID/OpenSID/issues/4223) Tambahkan data suku/etnis pada biodata penduduk.
-8. Sekarang Info Desa > Layanan Pelanggan menyediakan status semua pemesanan layanan dari OpenDesa.
+8. Sekarang Info Desa > Layanan Pelanggan menyediakan status semua pemesanan layanan dari OpenDesa, termasuk faktur pemesanan.
 9. Sediakan pengaturan Layanan Pelanggan terpisah diakses dari header dan pesan peringatan.
 
 
