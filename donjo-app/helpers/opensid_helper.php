@@ -51,7 +51,7 @@ define("VERSION", '21.06-premium-beta');
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
 
-define('VERSI_DATABASE', '2021062871');
+define('VERSI_DATABASE', '2021062872');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');

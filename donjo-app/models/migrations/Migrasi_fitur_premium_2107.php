@@ -65,6 +65,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021062373($hasil);
 		$hasil = $hasil && $this->migrasi_2021062674($hasil);
 		$hasil = $hasil && $this->migrasi_2021062871($hasil);
+		$hasil = $hasil && $this->migrasi_2021062872($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -798,6 +799,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 		return $hasil;
 	}
 
+
 	protected function migrasi_2021062871($hasil)
 	{
 		if ( !$this->db->field_exists('bpjs_ketenagakerjaan', 'tweb_penduduk'))
@@ -805,6 +807,16 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 	 
 		// Update view supaya kolom baru ikut masuk
 		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
+    
+    return $hasil;
+	}
+
+	protected function migrasi_2021062872($hasil)
+	{
+		// Ubah kategori layanan_opendesa_server, layanan_opendesa_dev_server, layanan_opendesa_token jadi pelanggan
+		$hasil = $hasil && $this->db
+			->where_in('key', ['layanan_opendesa_server', 'layanan_opendesa_dev_server', 'layanan_opendesa_token'])
+			->update('setting_aplikasi', ['kategori' => 'pelanggan']);
 
 		return $hasil;
 	}

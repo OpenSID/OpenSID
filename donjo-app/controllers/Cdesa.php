@@ -76,7 +76,8 @@ class Cdesa extends Admin_Controller {
 		$this->json_output($data);
 	}
 
-	public function search(){
+	public function search()
+	{
 		$this->session->cari = $this->input->post('cari') ?: NULL;
 		redirect('cdesa');
 	}
@@ -94,9 +95,7 @@ class Cdesa extends Admin_Controller {
 		$data['set_page'] = $this->set_page;
 		$data['paging']  = $this->cdesa_model->paging_c_desa($page);
 		$data['keyword'] = $this->data_persil_model->autocomplete();
-		$data['desa'] = $this->header['desa'];
 		$data["cdesa"] = $this->cdesa_model->list_c_desa($data['paging']->offset, $data['paging']->per_page);
-		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 
 		$this->render('data_persil/c_desa', $data);
 	}

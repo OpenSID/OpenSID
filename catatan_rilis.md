@@ -1,10 +1,10 @@
-#### [v21.06-premium-beta - 2021-06-27](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.06-premium-beta - 2021-06-28](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
 Di rilis ini, versi 21.06-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Mokhamad Afila yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-27 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-28 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
@@ -16,6 +16,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-27 adalah sebagai beri
 6. [#4262](https://github.com/OpenSID/OpenSID/issues/4262) Sekarang bisa kosongkan peta wilayah dan area.
 7. [#4223](https://github.com/OpenSID/OpenSID/issues/4223) Tambahkan data suku/etnis pada biodata penduduk.
 8. Sekarang Info Desa > Layanan Pelanggan menyediakan status semua pemesanan layanan dari OpenDesa.
+9. Sediakan pengaturan Layanan Pelanggan terpisah diakses dari header dan pesan peringatan.
 
 
 #### Perbaikan BUG
@@ -31,6 +32,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-27 adalah sebagai beri
 10. Foto pengguna sekarang diisi foto default pada waktu membuat pengguna baru.
 11. [#4267](https://github.com/OpenSID/OpenSID/issues/4267) Sekarang keluarga tidak bisa tersimpan dengan lokasi wilayah kosong.
 12. [#4263](https://github.com/OpenSID/OpenSID/issues/4263) Di Buku Induk Penduduk, sekarang anggota keluarga dengan Nomor KK 0 terurut dengan benar.
+13. [#4294](https://github.com/OpenSID/OpenSID/issues/4294) Sekarang bisa cari C-Desa menggunakan nama pemilik luar desa.
 
 
 #### Perubahan Teknis

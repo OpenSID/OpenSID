@@ -109,6 +109,9 @@ class Setting_model extends CI_Model {
 		if ($data['latar_login']  != '') $this->upload_img('latar_login', LATAR_LOGIN); // latar_login
 		if ($data['latar_login_mandiri']  != '') $this->upload_img('latar_login_mandiri', LATAR_LOGIN); // latar_login_mandiri
 
+		// Hapus Cache Pelanggan
+		$this->cache->hapus_cache_untuk_semua('status_langganan');
+
 		return $data;
 	}
 

@@ -230,6 +230,13 @@
 										</div>
 									</li>
 								</ul>
+								<?php if (in_array($this->controller, array_column($this->list_setting, 'kategori')) && $this->CI->cek_hak_akses('u', $this->controller)): ?>
+									<li>
+										<a href="#" data-remote="false" data-toggle="modal" data-tittle="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan">
+											<span><i class="fa fa-gear"></i>&nbsp;</span>
+										</a>
+									</li>
+								<?php endif; ?>
 							</li>
 						</ul>
 					</div>
@@ -248,6 +255,21 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- Untuk menampilkan pengaturan -->
+			<?php if (in_array($this->controller, array_column($this->list_setting, 'kategori')) && $this->CI->cek_hak_akses('u', $this->controller)): ?>
+				<div class="modal fade" id="pengaturan" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel"> Pengaturan <?= ucwords($this->controller); ?></h4>
+							</div>
+							<?php $this->load->view("global/modal_setting", ['kategori' => [$this->controller]]); ?>
+						</div>
+					</div>
+				</div>
+			<?php endif; ?>
 
 			<!-- Untuk menampilkan dialog pengumuman -->
 			<?= $this->pengumuman; ?>
