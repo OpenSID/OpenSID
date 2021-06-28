@@ -114,7 +114,7 @@
 								<tr>
 									<td>Token Pelanggan</td>
 									<td> : </td>
-									<td><textarea disabled cols="140" rows="4"><?= $response->body->token ?></textarea></td>
+									<td><textarea disabled cols="140" rows="4"><?= $this->setting->demo_mode ? '' : $response->body->token ?></textarea></td>
 								</tr>
 							</tbody>
 						</table>
