@@ -42,14 +42,13 @@ class Cdesa_model extends CI_Model {
 
 	private function search_sql()
 	{
-		if ($this->session->cari)
+		$cari = $this->session->cari;
+		if ($cari)
 		{
-			$cari = $this->session->cari;
 			$this->db
 				->group_start()
 					->like('u.nama', $cari)
-					->or_like('c.nama_kepemilikan', $cari)
-					->or_like('c.nama_kepemilikan', $cari)
+					->or_like('c.nama_pemilik_luar', $cari)
 					->or_like('c.nomor', $cari)
 				->group_end();
 		}
@@ -98,8 +97,9 @@ class Cdesa_model extends CI_Model {
 			->select('COUNT(DISTINCT p.id) AS jumlah')
 			->order_by('cast(c.nomor as unsigned)')
 			->group_by('c.id, cu.id');
+		
 		if ($per_page) $this->db->limit($per_page, $offset);
-  	if ($kecuali)	$this->db->where("c.id not in ($kecuali)");
+  		if ($kecuali)	$this->db->where("c.id not in ($kecuali)");
 		$data = $this->db
 			->get()
 			->result_array();
