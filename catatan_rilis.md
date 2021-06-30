@@ -33,6 +33,7 @@ Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-28 adalah sebagai beri
 11. [#4267](https://github.com/OpenSID/OpenSID/issues/4267) Sekarang keluarga tidak bisa tersimpan dengan lokasi wilayah kosong.
 12. [#4263](https://github.com/OpenSID/OpenSID/issues/4263) Di Buku Induk Penduduk, sekarang anggota keluarga dengan Nomor KK 0 terurut dengan benar.
 13. [#4294](https://github.com/OpenSID/OpenSID/issues/4294) Sekarang bisa cari C-Desa menggunakan nama pemilik luar desa.
+14. Perbaiki impor Excel data penduduk supaya data keluarga tersimpan.
 
 
 #### Perubahan Teknis
