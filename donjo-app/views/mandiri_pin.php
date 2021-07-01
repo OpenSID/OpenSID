@@ -42,14 +42,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
-<style>
-.fa-keyboard-o {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-</style>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,13 +117,13 @@
 						<div class="form-bottom">
 							<form action="<?=site_url("mandiri_web/update_pin/$main[nik]"); ?>" method="POST" id="validasi" enctype="multipart/form-data">
 								<div class="form-group">
-									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin_lama" id="pin_lama" type="password" placeholder="PIN Lama" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 								</div>
 								<div class="form-group">
-									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin1" id="pin1" type="password" placeholder="PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 								</div>
 								<div class="form-group">
-									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan, TRUE, 'kbvnumber'); ?>" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
+									<input class="form-username form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin2" id="pin2" type="password" placeholder="Ulangi PIN Baru" <?= jecho($this->session->mandiri_wait, 1, "disabled") ?> value="">
 								</div>
 								<div class="form-group">
 									<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan PIN
@@ -141,8 +134,13 @@
 								</div>
 							</form>
 							<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">
-								OpenSID</a> <?= AmbilVersi(); ?><br />
-								IP Adress : <?= $this->input->ip_address(); ?>
+								OpenSID</a> <?= AmbilVersi() ?><br />
+								<?php if ( ! $cek_anjungan): ?>
+									IP Address : <?= $this->input->ip_address(); ?>
+								<?php else: ?>
+									<?= "IP Address : " . $cek_anjungan['ip_address'] . "<br>Anjungan Mandiri" ?>
+									<?=jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>
@@ -153,9 +151,8 @@
 </body>
 </html>
 <script>
-$('document').ready(function()
-{
-	$('#checkbox').click(function(){
+$('document').ready(function() {
+	$('#checkbox').click(function() {
 		var $pwd = $(".input-sm");
 		if ($pwd.attr('type') === 'password') {
 			$pwd.attr('type', 'text');

@@ -3,9 +3,9 @@
 /**
  * File ini:
  *
- * Model untuk migrasi database
+ * Model untuk modul database
  *
- * donjo-app/models/migrations/Migrasi_2105_ke_2106.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2012.php
  *
  */
 
@@ -26,27 +26,48 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
+
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package   OpenSID
- * @author    Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license   http://www.gnu.org/licenses/gpl.html GPL V3
- * @link      https://github.com/OpenSID/OpenSID
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2105_ke_2106 extends MY_model
+
+class Migrasi_fitur_premium_2012 extends MY_model
 {
+
 	public function up()
 	{
+		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
+
+		// Tambah field keyboard
+		if ( ! $this->db->field_exists('keyboard', 'anjungan'))
+		{
+			$fields = [
+				'keyboard' => [
+					'type' => 'TINYINT',
+					'constraint' => 1,
+					'default' => '1',
+					'after' => 'keterangan'
+				]
+			];
+
+			$hasil = $this->dbforge->add_column('anjungan', $fields);
+		}
 
 		status_sukses($hasil);
 		return $hasil;
 	}
+	
 }

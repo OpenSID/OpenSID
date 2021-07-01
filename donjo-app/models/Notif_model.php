@@ -72,6 +72,17 @@ class Notif_model extends CI_Model {
 		return $num_rows;
 	}
 
+	public function surat_perlu_perhatian($nik='')
+	{
+		$num_rows = $this->db
+			->from('permohonan_surat s')
+			->join('tweb_penduduk p', 's.id_pemohon = p.id')
+			->where("p.nik", $nik)
+			->where('s.status in (1, 3)')
+			->get()->num_rows();
+		return $num_rows;
+	}
+
 	public function get_notif_by_kode($kode)
 	{
 		$notif = $this->db->where('kode', $kode)->get('notifikasi')->row_array();

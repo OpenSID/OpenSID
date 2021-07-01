@@ -294,20 +294,13 @@ function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_des
   var poligon_wil_rw = poligonWil(marker_rw);
   var poligon_wil_rt = poligonWil(marker_rt);
 
-  // var peta_desa = 'Peta Wilayah ' + sebutan_desa;
-  // var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
-  // var overlayLayers = new Object;
-  // overlayLayers[peta_desa] = poligon_wil_desa;
-  // overlayLayers[peta_dusun] = poligon_wil_dusun;
-  // overlayLayers['Peta Wilayah RW'] = poligon_wil_rw;
-  // overlayLayers['Peta Wilayah RT'] = poligon_wil_rt;
-  var overlayLayers = {
-    'Peta Wilayah Desa': poligon_wil_desa,
-    'Peta Wilayah Dusun': poligon_wil_dusun,
-    'Peta Wilayah RW': poligon_wil_rw,
-    'Peta Wilayah RT': poligon_wil_rt
-  };
-
+  var peta_desa = 'Peta Wilayah ' + sebutan_desa;
+  var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
+  var overlayLayers = new Object;
+  overlayLayers[peta_desa] = poligon_wil_desa;
+  overlayLayers[peta_dusun] = poligon_wil_dusun;
+  overlayLayers['Peta Wilayah RW'] = poligon_wil_rw;
+  overlayLayers['Peta Wilayah RT'] = poligon_wil_rt;
   return overlayLayers;
 }
 
@@ -799,15 +792,6 @@ function showCurrentPoint(posisi1, layerpeta)
 		{
 			$("#simpan_kantor").attr('disabled', false);
 		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		lokasi_kantor.setLatLng(latLng);
-		layerpeta.setView(latLng,zoom);
 	})
 
 	$('#lng').on("input",function(e) {
@@ -819,16 +803,7 @@ function showCurrentPoint(posisi1, layerpeta)
 		{
 			$("#simpan_kantor").attr('disabled', false);
 		}
-		let lat = $('#lat').val();
-		let lng = $('#lng').val();
-		let latLng = L.latLng({
-			lat: lat,
-			lng: lng
-		});
-
-		lokasi_kantor.setLatLng(latLng);
-		layerpeta.setView(latLng, zoom);
-	});
+	})
 
 	var geojson = lokasi_kantor.toGeoJSON();
 	var shape_for_db = JSON.stringify(geojson);
@@ -1237,96 +1212,6 @@ $(document).ready(function()
 	return false;
 })
 
-const regions = {
-	indonesia: {
-		id: 1,
-		attributes: {
-			wilayah: 'name',
-			positif: 'confirmed',
-			meninggal: 'deaths',
-			sembuh: 'recovered'
-		}
-	},
-	provinsi: {
-		id: 2,
-		attributes: {
-			wilayah: 'provinsi',
-			positif: 'kasusPosi',
-			meninggal: 'kasusMeni',
-			sembuh: 'kasusSemb'
-		}
-	}
-}
-
-function numberFormat(num) {
-	return new Intl.NumberFormat('id-ID').format(num);
-}
-
-function parseToNum(data) {
-	return parseFloat(data.toString().replace(/,/g, ''));
-}
-
-function showCovidData(data, region) {
-	const elem = region.id === regions.indonesia.id ? '#covid-nasional' : '#covid-provinsi';
-	Object.keys(region.attributes).forEach(function (prop) {
-		let tempData = (region.id === regions.indonesia.id && prop !== 'wilayah') ? data[region.attributes[prop]]['value'] : data[region.attributes[prop]];
-		let finalData = prop === 'wilayah' ? tempData.toUpperCase() : numberFormat(parseToNum(tempData));
-		$(elem).find(`[data-name=${prop}]`).html(`${finalData}`);
-	});
-
-	$(elem).find('.shimmer').removeClass('shimmer');
-}
-
-function showError(elem = '') {
-	$(`${elem} .shimmer`).html('<span class="small"><i class="fa fa-exclamation-triangle"></i> Gagal memuat...</span>');
-	$(`${elem} .shimmer`).removeClass('shimmer');
-}
-
-$(document).ready(function () {
-	if ($('#covid-nasional').length) {
-		const ENDPOINT_NASIONAL = 'https://covid19.mathdro.id/api/countries/indonesia';
-		const ENDPOINT_PROVINSI = 'https://indonesia-covid-19.mathdro.id/api/provinsi';
-
-		try {
-			$.ajax({
-				async: true,
-				cache: true,
-				url: ENDPOINT_NASIONAL,
-				success: function (response) {
-					const data = response;
-					data.name = 'Indonesia';
-					showCovidData(data, regions.indonesia);
-				},
-				error: function (error) {
-					showError('#covid-nasional');
-				}
-			})
-		} catch (error) {
-			showError('#covid-nasional');
-		}
-
-		if (KODE_PROVINSI) {
-			try {
-				$.ajax({
-					async: true,
-					cache: true,
-					url: ENDPOINT_PROVINSI,
-					success: function (response) {
-						const data = response.data.filter(data => data.kodeProvi == KODE_PROVINSI);
-						data.length ? showCovidData(data[0], regions.provinsi) : showError('#covid-provinsi');
-					},
-					error: function (error) {
-						showError('#covid-provinsi');
-					}
-				})
-			} catch (error) {
-				showError('#covid-provinsi')
-			}
-		}
-
-	}
-})
-
 //Cetak Peta ke PNG
 function cetakPeta(layerpeta)
 {
@@ -1464,4 +1349,216 @@ function setlegendPetaDesa(legenda, layerpeta, legendData, judul, nama_wil)
   });
 
   return setlegendPetaDesa;
+}
+
+//loading Info Box Jumlah Status Covid
+const regions = {
+	indonesia: {
+		id: 1,
+		attributes: {
+			wilayah: 'name',
+			positif: 'jumlahKasus',
+			meninggal: 'meninggal',
+			sembuh: 'sembuh'
+		}
+	},
+	provinsi: {
+		id: 2,
+		attributes: {
+			wilayah: 'provinsi',
+			positif: 'kasusPosi',
+			meninggal: 'kasusMeni',
+			sembuh: 'kasusSemb'
+		}
+	}
+}
+
+function numberFormat(num) {
+	return new Intl.NumberFormat('id-ID').format(num);
+}
+
+function parseToNum(data) {
+	return parseFloat(data.toString().replace(/,/g, ''));
+}
+
+function showCovidData(data, region) {
+	const elem = region.id === regions.indonesia.id ? '#covid-nasional' : '#covid-provinsi';
+	Object.keys(region.attributes).forEach(function (prop) {
+		let tempData = data[region.attributes[prop]];
+		let finalData = prop === 'wilayah' ? tempData.toUpperCase() : numberFormat(parseToNum(tempData));
+		$(elem).find(`[data-name=${prop}]`).html(`${finalData}`);
+	});
+
+	$(elem).find('.shimmer').removeClass('shimmer');
+}
+
+function showError(elem = '') {
+	$(`${elem} .shimmer`).html('<span class="small"><i class="fa fa-exclamation-triangle"></i> Gagal memuat...</span>');
+	$(`${elem} .shimmer`).removeClass('shimmer');
+}
+
+$(document).ready(function () {
+	if ($('#covid-nasional').length) {
+		const COVID_API_URL = 'https://indonesia-covid-19.mathdro.id/api/';
+		const ENDPOINT_PROVINSI = 'provinsi/';
+
+		try {
+			$.ajax({
+				async: true,
+				cache: true,
+				url: COVID_API_URL,
+				success: function (response) {
+					const data = response;
+					data.name = 'Indonesia';
+					showCovidData(data, regions.indonesia);
+				},
+				error: function (error) {
+					showError('#covid-nasional');
+				}
+			})
+		} catch (error) {
+			showError('#covid-nasional');
+		}
+
+		if (KODE_PROVINSI) {
+			try {
+				$.ajax({
+					async: true,
+					cache: true,
+					url: COVID_API_URL + ENDPOINT_PROVINSI,
+					success: function (response) {
+						const data = response.data.filter(data => data.kodeProvi == KODE_PROVINSI);
+						data.length ? showCovidData(data[0], regions.provinsi) : showError('#covid-provinsi');
+					},
+					error: function (error) {
+						showError('#covid-provinsi');
+					}
+				})
+			} catch (error) {
+				showError('#covid-provinsi')
+			}
+		}
+
+	}
+})
+
+//loading Peta Sebaran Covid - data geoJSON dari API BNPB-https://bnpb-inacovid19.hub.arcgis.com/datasets/data-harian-kasus-per-provinsi-covid-19-indonesia
+function peta_covid(mylayer, mymap, img)
+{
+  var peta_covid = $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
+    var datalayer = L.geoJson(data ,{
+      onEachFeature: function (feature, layer) {
+        var custom_icon = L.icon({"iconSize": 32, "iconUrl": img});
+        layer.setIcon(custom_icon);
+        var popup_0 = L.popup({"maxWidth": "100%"});
+        var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
+        + '<h4><b>' + feature.properties.Provinsi + '</b></h4>'
+        + '<table><tr>'
+        + '<th style="color:red">Positif&nbsp;&nbsp;</th>'
+        + '<th style="color:green">Sembuh&nbsp;&nbsp;</th>'
+        + '<th style="color:black">Meninggal&nbsp;&nbsp;</th>'
+        + '</tr><tr>'
+        + '<td><center><b style="color:red">' + feature.properties.Kasus_Posi + '</b></center></td>'
+        + '<td><center><b style="color:green">' + feature.properties.Kasus_Semb + '</b></center></td>'
+        + '<td><center><b>' + feature.properties.Kasus_Meni + '</b></center></td>'
+        + '</tr></table></div>')[0];
+        popup_0.setContent(html_a);
+        layer.bindPopup(popup_0, {'className' : 'covid_pop'});
+        layer.bindTooltip(feature.properties.Provinsi, {sticky: true, direction: 'top'});
+      },
+    });
+    mylayer.addLayer(datalayer);
+  });
+  return peta_covid;
+}
+
+//loading Peta Desa Pengguna OpenSID (Data dari API Server)
+function pantau_desa(layer_desa, tracker_host, kode_desa, img, token)
+{
+  var pantau_desa = $.getJSON(tracker_host + '/index.php/api/wilayah/geoprov?token=' + token + '&kode_desa=' + kode_desa, function(data){
+    var datalayer = L.geoJson(data ,{
+      onEachFeature: function (feature, layer) {
+        var custom_icon = L.icon({"iconSize": [16, 16], "iconUrl": img});
+        layer.setIcon(custom_icon);
+        var popup_0 = L.popup({"maxWidth": "100%"});
+        var customOptions = {'maxWidth': '325', 'className' : 'covid_pop'};
+        var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
+        + '<h4><b style="color:red">' + feature.properties.desa + '</b></h4>'
+        + '<table>'
+        + '<tr>'
+        + '<td><b style="color:green">Alamat : ' + feature.properties.alamat + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Kecamatan : ' + feature.properties.kec + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Kab/Kota : ' + feature.properties.kab + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Provinsi : ' + feature.properties.prov + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Website : ' + '<a href="' + 'http://' + feature.properties.web + '" + " target=\"_blank\">' + 'http://' + feature.properties.web + '</a>' + '</b></td>'
+        + '</tr>'
+        + '</table></div>')[0];
+        popup_0.setContent(html_a);
+        layer.bindPopup(popup_0, customOptions);
+        layer.bindTooltip(feature.properties.desa, {sticky: true, direction: 'top'});
+      },
+    });
+    layer_desa.addLayer(datalayer);
+    var infodesa = data;
+    var nama_prov = infodesa.nama_provinsi;
+    var jml_desa_prov = infodesa.jml_desa_prov;
+    var lat = infodesa.lat;
+    var lng = infodesa.lng;
+    let attributes = ['nama_prov','jml_desa_prov'];
+    attributes.forEach(function (attr) {
+      $(`.${attr}`).html(eval(attr));
+    })
+
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geokab?token=' + token + '&kode_desa=' + kode_desa,
+        dataType: 'json',
+        success: function(data) {
+          var nama_kab = data.nama_kabupaten;
+          var jml_desa_kab = data.jml_desa_kab;
+          let attributes = ['nama_kab','jml_desa_kab'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geokec?token=' + token + '&kode_desa=' + kode_desa,
+        dataType: 'json',
+        success: function(data) {
+          var nama_kec = data.nama_kecamatan;
+          var jml_desa_kec = data.jml_desa_kec;
+          let attributes = ['nama_kec','jml_desa_kec'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geoneg?token=' + token,
+        dataType: 'json',
+        success: function(data) {
+          var nama_negara = data.nama_negara;
+          var jml_desa = data.jml_desa;
+          let attributes = ['nama_negara','jml_desa'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
+
+  });
+  return pantau_desa;
 }

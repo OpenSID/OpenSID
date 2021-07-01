@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<option value="artikel/<?= $data['id']; ?>" <?= selected($submenu['link'], "artikel/$data[id]"); ?>><?=$data['judul']; ?></option>
 										<?php endforeach; ?>
 									</select>
-									<select id="kategori_artikel" class="form-control input-sm jenis_link" name="<?= jecho($submenu['link_tipe'], 7, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 7) and print('display:none;'); ?>">
+									<select id="kategori_artikel" class="form-control input-sm jenis_link" name="<?= jecho($submenu['link_tipe'], 8, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 8) and print('display:none;'); ?>">
 										<option value="">-- Pilih Kategori Artikel --</option>
 										<?php foreach ($kategori_artikel as $data): ?>
 											<option value="kategori/<?= $data['id']; ?>" <?= selected($submenu['link'], "kategori/$data[slug]"); ?>><?=$data['kategori']; ?></option>
@@ -141,14 +141,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<option value="<?= $id?>" <?= selected($submenu['link'], $id) ?>><?= $nama?></option>
 										<?php endforeach; ?>
 									</select>
-									<select id="kelompok" class="form-control input-sm jenis_link required" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php ($submenu['link_tipe'] != 7 ) and print('display:none;') ?>">
+									<select id="kelompok" class="form-control input-sm jenis_link required" name="<?= jecho($submenu['link_tipe'], 7, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 7) and print('display:none;'); ?>">
 										<option value="">Pilih Kelompok</option>
 										<?php foreach ($kelompok as $kel): ?>
 											<option value="<?= "kelompok/$kel[id]"; ?>" <?= selected($submenu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
 										<?php endforeach; ?>
 									</select>
-									<span id="eksternal" class="jenis_link" style="<?php if ($submenu['link_tipe']!=99): ?>display:none;<?php endif; ?>">
-										<input name="<?php if ($submenu['link_tipe']==99): ?>link<?php endif; ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
+									<span id="eksternal" class="jenis_link" style="<?php ($submenu['link_tipe'] != 99) and print('display:none;'); ?>">
+										<input name="<?= jecho($submenu['link_tipe'], 99, 'link'); ?>" class="form-control input-sm" type="text" value="<?=$submenu['link']?>"></input>
 										<span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
 									</span>
 								</div>
@@ -199,7 +199,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		} else if (jenis == '7') {
 			$('#kelompok').show();
 			$('#kelompok').attr('name', 'link');
-			$('#kelompok').removeAttr('disabled');
+			$('#kelompok').addClass('required');
 		} else if (jenis == '8') {
 			$('#kategori_artikel').show();
 			$('#kategori_artikel').attr('name', 'link');
@@ -212,10 +212,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#jenis_link').hide();
 		}
 	}
-
-	$('document').ready(function()
-	{
-		$('#link_tipe').change();
-	});
-
 </script>

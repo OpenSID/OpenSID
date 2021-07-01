@@ -83,13 +83,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<table class="table table-bordered table-striped table-hover tabel-rincian">
 									<tbody>
 										<tr>
-											<td width="20%">Kode Kelompok</td>
+											<td width="20%">Nama Kelompok</td>
 											<td width="1">:</td>
-											<td><?= strtoupper($kelompok['kode']); ?></td>
-										</tr>
-										<tr>
-											<td>Nama Kelompok</td>
-											<td>:</td>
 											<td><?= strtoupper($kelompok['nama']); ?></td>
 										</tr>
 										<tr>
@@ -136,10 +131,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<?php foreach ($main as $key => $data): ?>
 												<tr>
 													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
-													<td class="padat"><?= ($key + 1) ?></td>
-													<td class="padat">
-														<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
-														<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+													<td class="padat"><?= ($key + 1); ?></td>
+													<td class="aksi">
+														<a href="<?= site_url("kelompok/form_anggota/$kelompok[id]/$data[id_penduduk]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota" ><i class="fa fa-edit"></i></a>
+														<a href="#" data-href="<?= site_url("kelompok/delete_anggota/$kelompok[id]/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													</td>
 													<td class="text-center">
 														<div class="user-panel">

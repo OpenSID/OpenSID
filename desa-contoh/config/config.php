@@ -14,3 +14,9 @@
 // dapat membuat artikel berisi video yang aktif ditampilkan di Web.
 // Misalnya, ganti dengan id = 1 jika ingin membuat pengguna admin sebagai pengguna terpecaya.
 	$config['user_admin'] = 0;
+
+/*
+	Token untuk mengakses TrackSID mengambil data wilayah
+*/
+	$config['token_tracksid'] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw";
+

@@ -271,7 +271,7 @@ class Mandiri_web extends Mandiri_Controller
 			$row[] = $no;
 			$row[] = $baris['ref_syarat_nama'];
 			// Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-			$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id']), TRUE);
+			$pilihan_dokumen = $this->load->view('web/mandiri/pilihan_syarat.php', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan), TRUE);
 			$row[] = $pilihan_dokumen;
 			$data[] = $row;
 		}
