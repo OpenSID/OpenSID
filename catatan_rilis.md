@@ -1,10 +1,10 @@
-#### [v21.06-premium-beta - 2021-06-28](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
+#### [v21.07-premium - 2021-07-01](https://github.com/OpenSID/premium/compare/v21.05-premium...rilis-dev)
 
-Di rilis ini, versi 21.06-premium-beta, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.07-premium, menyediakan Lapak Desa dan Penambahan Peta Area Pada Pertanahan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Mokhamad Afila yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Mokhamad Afila yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi v21.06-premium-beta - 2021-06-28 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.07-premium - 2021-07-01 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
