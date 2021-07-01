@@ -46,59 +46,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<script>
-	function ganti_jenis_link(jenis) {
-		$('#jenis_link').show();
-		$('.jenis_link').hide();
-		$('.jenis_link').removeAttr( "name" );
-		$('.jenis_link').removeClass('required');
-		$('#eksternal > input').attr('name', '');
-
-		if (jenis == '1') {
-			$('#artikel_statis').show();
-			$('#artikel_statis').attr('name', 'link');
-			$('#artikel_statis').addClass('required');
-		} else if (jenis == '2') {
-			$('#statistik_penduduk').show();
-			$('#statistik_penduduk').attr('name', 'link');
-			$('#statistik_penduduk').addClass('required');
-		} else if (jenis == '3') {
-			$('#statistik_keluarga').show();
-			$('#statistik_keluarga').attr('name', 'link');
-			$('#statistik_keluarga').addClass('required');
-		} else if (jenis == '4') {
-			$('#statistik_program_bantuan').show();
-			$('#statistik_program_bantuan').attr('name', 'link');
-			$('#statistik_program_bantuan').addClass('required');
-		} else if (jenis == '5') {
-			$('#statis_lainnya').show();
-			$('#statis_lainnya').attr('name', 'link');
-			$('#statis_lainnya').addClass('required');
-		} else if (jenis == '6') {
-			$('#artikel_keuangan').show();
-			$('#artikel_keuangan').attr('name', 'link');
-			$('#artikel_keuangan').addClass('required');
-		} else if (jenis == '7') {
-			$('#kelompok').show();
-			$('#kelompok').attr('name', 'link');
-			$('#kelompok').addClass('required');
-		} else if (jenis == '8') {
-			$('#kategori_artikel').show();
-			$('#kategori_artikel').attr('name', 'link');
-			$('#kategori_artikel').addClass('required');
-		} else if (jenis == '99') {
-			$('#eksternal').show();
-			$('#eksternal > input').show();
-			$('#eksternal > input').attr('name', 'link');
-		} else {
-			$('#jenis_link').hide();
-		}
-	}
-	$(document).ready(function()
-	{
-		$('#link_tipe').change();
-	});
-</script>
 <?php $this->load->view('global/validasi_form'); ?>
 <form action="<?=$form_action; ?>" method="post" id="validasi">
 	<div class="modal-body">
@@ -114,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php endif; ?>
 		<div class="form-group">
 			<label class="control-label" for="link">Jenis Link</label>
-			<select class="form-control input-sm required" id="link_tipe" name="link_tipe" onchange="ganti_jenis_link($(this).val());">
+			<select class="form-control input-sm required" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val()); event.stopPropagation();">
 				<option option value="">-- Pilih Jenis Link --</option>
 				<?php foreach ($link_tipe as $id => $nama): ?>
 					<option value="<?= $id; ?>" <?= selected($submenu['link_tipe'], $id) ?>><?= $nama?></option>
@@ -123,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="form-group" id="jenis_link" style="<?php ( ! $submenu['link_tipe']) and print('display:none;');; ?>">
 			<label class="control-label" for="link">Link</label>
-			<select id="artikel_statis" class="form-control input-sm jenis_link select2" name="<?= jecho($submenu['link_tipe'], 1, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 1) and print('display:none;');; ?>">
+			<select id="artikel_statis" class="form-control input-sm jenis_link select2" name="<?= jecho($submenu['link_tipe'], 1, 'link'); ?>" style="<?php ($submenu['link_tipe'] != 1) and print('display:none;'); ?>">
 				<option value="">-- Pilih Artikel Statis --</option>
 				<?php foreach ($artikel_statis as $data): ?>
 					<option value="artikel/<?= $data['id']; ?>" <?= selected($submenu['link'], "artikel/$data[id]"); ?>><?=$data['judul']; ?></option>
@@ -169,9 +116,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php endforeach; ?>
 			</select>
 			<select id="kelompok" class="form-control input-sm jenis_link required" name="<?php if ($submenu['link_tipe']==7): ?>link<?php endif; ?>" style="<?php ($submenu['link_tipe'] != 7 ) and print('display:none;') ?>">
-				<option value="">Pilih Kelompok</option>
-				<?php foreach ($kelompok as $kel): ?>
-					<option value="<?= "kelompok/$kel[id]"; ?>" <?= selected($submenu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
+					<option value="">Pilih Kelompok</option>
+					<?php foreach ($kelompok as $kel): ?>
+						<option value="<?= "kelompok/$kel[id]"; ?>" <?= selected($submenu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<span id="eksternal" class="jenis_link" style="<?php ($submenu['link_tipe'] != 99) and print('display:none;'); ?>">
@@ -181,7 +128,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right confirm"><i class="fa fa-check"></i> Simpan</button>
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
 	</div>
 </form>
+
+<script>
+	function ganti_jenis_link(jenis) {
+		$('#jenis_link').show();
+		$('.jenis_link').hide();
+		$('.jenis_link').removeAttr( "name" );
+		$('.jenis_link').removeClass('required');
+		// Select2 membuat span terpisah dan perlu ditangani khusus
+		$('span.select2').hide();
+		$('#eksternal > input').attr('name', '');
+
+		if (jenis == '1') {
+			$('#artikel_statis').show();
+			$('#artikel_statis').attr('name', 'link');
+			$('#artikel_statis').addClass('required');
+			$('#artikel_statis').select2({
+				width: '100%',
+				dropdownAutoWidth : true
+			});
+		} else if (jenis == '2') {
+			$('#statistik_penduduk').show();
+			$('#statistik_penduduk').attr('name', 'link');
+			$('#statistik_penduduk').addClass('required');
+		} else if (jenis == '3') {
+			$('#statistik_keluarga').show();
+			$('#statistik_keluarga').attr('name', 'link');
+			$('#statistik_keluarga').addClass('required');
+		} else if (jenis == '4') {
+			$('#statistik_program_bantuan').show();
+			$('#statistik_program_bantuan').attr('name', 'link');
+			$('#statistik_program_bantuan').addClass('required');
+		} else if (jenis == '5') {
+			$('#statis_lainnya').show();
+			$('#statis_lainnya').attr('name', 'link');
+			$('#statis_lainnya').addClass('required');
+		} else if (jenis == '6') {
+			$('#artikel_keuangan').show();
+			$('#artikel_keuangan').attr('name', 'link');
+			$('#artikel_keuangan').addClass('required');
+		} else if (jenis == '7') {
+			$('#kelompok').show();
+			$('#kelompok').attr('name', 'link');
+			$('#kelompok').addClass('required');
+		} else if (jenis == '9') {
+			$('#suplemen').show();
+			$('#suplemen').attr('name', 'link');
+			$('#suplemen').addClass('required');
+		} else if (jenis == '8') {
+			$('#kategori_artikel').show();
+			$('#kategori_artikel').attr('name', 'link');
+			$('#kategori_artikel').addClass('required');
+		} else if (jenis == '99') {
+			$('#eksternal').show();
+			$('#eksternal > input').show();
+			$('#eksternal > input').attr('name', 'link');
+		} else {
+			$('#jenis_link').hide();
+		}
+	}
+	$(document).ready(function()
+	{
+		setTimeout(function()
+		{
+			$('#link_tipe').change();
+		}, 500);
+	});
+</script>
