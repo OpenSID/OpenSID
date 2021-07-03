@@ -18,7 +18,7 @@
 						<h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
 						<h5>Fitur ini khusus untuk pelanggan Layanan OpenDesa (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
 						<li>Periksa logs error terakhir di menu <strong><a href="<?= site_url('setting/info_sistem#log_viewer'); ?>" style="text-decoration:none;">Pengaturan > Info Sistem > Logs</a></strong></li>
-						<li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-tittle="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gears"></i>)</strong></a></li>
+						<li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
 						<li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
 					</div>
 				</div>
@@ -114,7 +114,7 @@
 								<tr>
 									<td>Token Pelanggan</td>
 									<td> : </td>
-									<td><textarea disabled cols="140" rows="4"><?= $response->body->token ?></textarea></td>
+									<td><textarea disabled cols="140" rows="4"><?= $this->setting->demo_mode ? '' : $response->body->token ?></textarea></td>
 								</tr>
 							</tbody>
 						</table>
@@ -127,6 +127,7 @@
 									<thead class="bg-gray">
 										<tr>
 											<th width="20px">No</th>
+											<th>Aksi</th>
 											<th>Nota. Faktur</th>
 											<th>Tanggal Mulai</th>
 											<th>Tanggal Berakhir</th>
@@ -139,6 +140,16 @@
 										<?php foreach ($response->body->pemesanan as $pemesanan) : ?>
 											<tr>
 												<td><?= $number ?></td>
+												<td>
+													<?php
+														$host = ENVIRONMENT == 'development'
+															? $this->setting->layanan_opendesa_dev_server
+															: $this->setting->layanan_opendesa_server;
+
+														$token = $this->setting->layanan_opendesa_token;
+													?>
+													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}"?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" data-title="Cetak Laporan"><i class="fa fa-print"></i>Cetak</a>
+												</td>
 												<td>
 													<a href="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>" data-toggle="modal" data-target="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>"><?= $pemesanan->faktur ?></a>
 													<div class="modal fade" id="<?= str_replace('/', '-', $pemesanan->faktur) ?>" style="display: none;">
@@ -207,6 +218,7 @@
 																	<img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
 																</div>
 																<div class="modal-footer">
+																	<a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-flat btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
 																	<button type="button" class="btn btn-flat btn-sm btn-info" data-dismiss="modal">Tutup</button>
 																</div>
 															</div>

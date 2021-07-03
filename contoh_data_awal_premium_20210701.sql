@@ -6,6 +6,7 @@ DROP VIEW IF EXISTS keluarga_aktif;
 DROP VIEW IF EXISTS master_inventaris;
 DROP VIEW IF EXISTS penduduk_hidup;
 DROP VIEW IF EXISTS rekap_mutasi_inventaris;
+DROP TABLE IF EXISTS produk;
 DROP TABLE IF EXISTS grup_akses;
 DROP TABLE IF EXISTS log_keluarga;
 DROP TABLE IF EXISTS kelompok_anggota;
@@ -36,12 +37,12 @@ CREATE TABLE `analisis_indikator` (
   `id_master` int(11) NOT NULL,
   `nomor` varchar(10) DEFAULT NULL,
   `pertanyaan` varchar(400) NOT NULL,
-  `id_tipe` tinyint(4) NOT NULL DEFAULT '1',
-  `bobot` tinyint(4) NOT NULL DEFAULT '0',
-  `act_analisis` tinyint(1) NOT NULL DEFAULT '2',
+  `id_tipe` tinyint(4) NOT NULL DEFAULT 1,
+  `bobot` tinyint(4) NOT NULL DEFAULT 0,
+  `act_analisis` tinyint(1) NOT NULL DEFAULT 2,
   `id_kategori` int(4) NOT NULL,
-  `is_publik` tinyint(1) NOT NULL DEFAULT '0',
-  `is_teks` tinyint(1) NOT NULL DEFAULT '0',
+  `is_publik` tinyint(1) NOT NULL DEFAULT 0,
+  `is_teks` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id_master` (`id_master`,`id_tipe`),
   KEY `id_tipe` (`id_tipe`),
@@ -225,16 +226,16 @@ CREATE TABLE `analisis_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(40) NOT NULL,
   `subjek_tipe` tinyint(4) NOT NULL,
-  `lock` tinyint(1) NOT NULL DEFAULT '1',
+  `lock` tinyint(1) NOT NULL DEFAULT 1,
   `deskripsi` text NOT NULL,
   `kode_analisis` varchar(5) NOT NULL DEFAULT '00000',
   `id_kelompok` int(11) DEFAULT NULL,
   `pembagi` varchar(10) NOT NULL DEFAULT '100',
   `id_child` smallint(4) DEFAULT NULL,
   `format_impor` tinyint(2) DEFAULT NULL,
-  `jenis` tinyint(2) NOT NULL DEFAULT '2',
-  `gform_id` text,
-  `gform_nik_item_id` text,
+  `jenis` tinyint(2) NOT NULL DEFAULT 2,
+  `gform_id` text DEFAULT NULL,
+  `gform_nik_item_id` text DEFAULT NULL,
   `gform_last_sync` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
@@ -255,9 +256,9 @@ CREATE TABLE `analisis_parameter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_indikator` int(11) NOT NULL,
   `jawaban` varchar(200) NOT NULL,
-  `nilai` int(3) NOT NULL DEFAULT '0',
-  `kode_jawaban` int(3) DEFAULT '0',
-  `asign` tinyint(1) NOT NULL DEFAULT '0',
+  `nilai` int(3) NOT NULL DEFAULT 0,
+  `kode_jawaban` int(3) DEFAULT 0,
+  `asign` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id_indikator` (`id_indikator`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1052 DEFAULT CHARSET=latin1;
@@ -1326,7 +1327,7 @@ CREATE TABLE `analisis_partisipasi` (
   `id_subjek` int(11) NOT NULL,
   `id_master` int(11) NOT NULL,
   `id_periode` int(11) NOT NULL,
-  `id_klassifikasi` int(11) NOT NULL DEFAULT '1',
+  `id_klassifikasi` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `id_subjek` (`id_subjek`,`id_master`,`id_periode`,`id_klassifikasi`),
   KEY `id_master` (`id_master`),
@@ -1344,8 +1345,8 @@ CREATE TABLE `analisis_periode` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` int(11) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `id_state` tinyint(4) NOT NULL DEFAULT '1',
-  `aktif` tinyint(1) NOT NULL DEFAULT '0',
+  `id_state` tinyint(4) NOT NULL DEFAULT 1,
+  `aktif` tinyint(1) NOT NULL DEFAULT 0,
   `keterangan` varchar(100) NOT NULL,
   `tahun_pelaksanaan` year(4) NOT NULL,
   PRIMARY KEY (`id`),
@@ -1431,7 +1432,7 @@ CREATE TABLE `analisis_respon_bukti` (
   `id_periode` tinyint(4) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `pengesahan` varchar(100) NOT NULL,
-  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `tgl_update` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
@@ -1445,7 +1446,7 @@ CREATE TABLE `analisis_respon_hasil` (
   `id_periode` tinyint(4) NOT NULL,
   `id_subjek` int(11) NOT NULL,
   `akumulasi` double(8,3) NOT NULL,
-  `tgl_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_update` timestamp NOT NULL DEFAULT current_timestamp(),
   UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1495,12 +1496,12 @@ CREATE TABLE `anjungan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(100) NOT NULL,
   `keterangan` varchar(300) DEFAULT NULL,
-  `keyboard` tinyint(1) DEFAULT '1',
-  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `keyboard` tinyint(1) DEFAULT 1,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
   `created_by` int(11) NOT NULL,
   `updated_by` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1513,8 +1514,8 @@ DROP TABLE IF EXISTS `area`;
 CREATE TABLE `area` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `path` text,
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `path` text DEFAULT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   `ref_polygon` int(9) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `id_cluster` int(11) DEFAULT NULL,
@@ -1536,20 +1537,20 @@ CREATE TABLE `artikel` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` varchar(200) DEFAULT NULL,
   `isi` text NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `enabled` int(2) NOT NULL DEFAULT 1,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
   `id_kategori` int(4) NOT NULL,
   `id_user` int(4) NOT NULL,
   `judul` varchar(100) NOT NULL,
-  `headline` int(1) NOT NULL DEFAULT '0',
+  `headline` int(1) NOT NULL DEFAULT 0,
   `gambar1` varchar(200) DEFAULT NULL,
   `gambar2` varchar(200) DEFAULT NULL,
   `gambar3` varchar(200) DEFAULT NULL,
   `dokumen` varchar(400) DEFAULT NULL,
   `link_dokumen` varchar(200) DEFAULT NULL,
-  `boleh_komentar` tinyint(1) NOT NULL DEFAULT '1',
+  `boleh_komentar` tinyint(1) NOT NULL DEFAULT 1,
   `slug` varchar(200) DEFAULT NULL,
-  `hit` int(11) DEFAULT '0',
+  `hit` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
@@ -1603,7 +1604,7 @@ CREATE TABLE `captcha_codes` (
   `code` varchar(32) NOT NULL,
   `code_display` varchar(32) NOT NULL,
   `created` int(11) NOT NULL,
-  `audio_data` mediumblob,
+  `audio_data` mediumblob DEFAULT NULL,
   PRIMARY KEY (`id`,`namespace`),
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -1623,12 +1624,12 @@ CREATE TABLE `cdesa` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
   `nomor` varchar(20) NOT NULL,
   `nama_kepemilikan` varchar(100) NOT NULL,
-  `jenis_pemilik` tinyint(1) NOT NULL DEFAULT '0',
+  `jenis_pemilik` tinyint(1) NOT NULL DEFAULT 0,
   `nama_pemilik_luar` varchar(100) DEFAULT NULL,
   `alamat_pemilik_luar` varchar(200) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nomor` (`nomor`)
@@ -1673,7 +1674,7 @@ CREATE TABLE `config` (
   `lng` varchar(20) DEFAULT NULL,
   `zoom` tinyint(4) DEFAULT NULL,
   `map_tipe` varchar(20) DEFAULT NULL,
-  `path` text,
+  `path` text DEFAULT NULL,
   `alamat_kantor` varchar(200) DEFAULT NULL,
   `email_desa` varchar(50) DEFAULT NULL,
   `telepon` varchar(50) DEFAULT NULL,
@@ -1684,7 +1685,7 @@ CREATE TABLE `config` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO `config` (`id`, `nama_desa`, `kode_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `email_desa`, `telepon`, `website`, `kantor_desa`, `warna`, `pamong_id`) VALUES (1, 'Senggig1 ', '5201142005', '83355', 'Batulay4r ', '520114', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bart ', '5201', 'Nusa Tenggara Barat', '52', 'opensid_logo__sid__bXziTU1.png', '-8.483832804795249', '116.08523368835449', 14, 'HYBRID', '[[[-8.470247273601585,116.03699684143068],[-8.470993084228864,116.03974342346193],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', '', '', '', NULL, NULL, NULL);
+INSERT INTO `config` (`id`, `nama_desa`, `kode_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `email_desa`, `telepon`, `website`, `kantor_desa`, `warna`, `pamong_id`) VALUES (1, 'Senggig1 ', '5201142005', '83355', 'Batulay4r ', '520114', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bart ', '5201', 'Nusa Tenggara Barat', '52', 'opensid_logo__sid__bXziTU1.png', '-8.483832804795249', '116.08523368835449', 14, 'HYBRID', '[[[[-8.470247273601585,116.03699684143068],[-8.470993084228864,116.03974342346193],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', '', '', '', NULL, NULL, NULL);
 
 
 #
@@ -1708,21 +1709,21 @@ CREATE TABLE `dokumen` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `satuan` varchar(200) DEFAULT NULL,
   `nama` varchar(200) NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `id_pend` int(11) NOT NULL DEFAULT '0',
-  `kategori` tinyint(3) NOT NULL DEFAULT '1',
+  `enabled` int(2) NOT NULL DEFAULT 1,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_pend` int(11) NOT NULL DEFAULT 0,
+  `kategori` tinyint(3) NOT NULL DEFAULT 1,
   `attr` text NOT NULL,
   `tahun` int(4) DEFAULT NULL,
   `kategori_info_publik` tinyint(4) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `deleted` tinyint(1) NOT NULL DEFAULT 0,
   `id_syarat` int(11) DEFAULT NULL,
   `id_parent` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` varchar(16) DEFAULT NULL,
   `updated_by` varchar(16) DEFAULT NULL,
-  `dok_warga` tinyint(1) DEFAULT '0',
+  `dok_warga` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -1741,12 +1742,12 @@ DROP TABLE IF EXISTS `gambar_gallery`;
 
 CREATE TABLE `gambar_gallery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parrent` int(4) DEFAULT '0',
+  `parrent` int(4) DEFAULT 0,
   `gambar` varchar(200) NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `tipe` int(4) DEFAULT '0',
+  `enabled` int(2) NOT NULL DEFAULT 1,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tipe` int(4) DEFAULT 0,
   `slider` tinyint(1) DEFAULT NULL,
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -1772,11 +1773,11 @@ DROP TABLE IF EXISTS `garis`;
 CREATE TABLE `garis` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
-  `path` text,
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `path` text DEFAULT NULL,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   `ref_line` int(9) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
-  `desk` text,
+  `desk` text DEFAULT NULL,
   `id_cluster` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
@@ -2449,14 +2450,14 @@ INSERT INTO `gis_simbol` (`id`, `simbol`) VALUES (610, 'zoo_2.png');
 DROP TABLE IF EXISTS `inbox`;
 
 CREATE TABLE `inbox` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ReceivingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `ReceivingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `Text` text NOT NULL,
   `SenderNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
   `UDH` text NOT NULL,
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
-  `Class` int(11) NOT NULL DEFAULT '-1',
+  `Class` int(11) NOT NULL DEFAULT -1,
   `TextDecoded` text NOT NULL,
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `RecipientID` text NOT NULL,
@@ -2490,12 +2491,12 @@ CREATE TABLE `inventaris_asset` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2512,7 +2513,7 @@ CREATE TABLE `inventaris_gedung` (
   `register` varchar(64) NOT NULL,
   `kondisi_bangunan` varchar(255) NOT NULL,
   `kontruksi_bertingkat` varchar(255) NOT NULL,
-  `kontruksi_beton` tinyint(1) DEFAULT '0',
+  `kontruksi_beton` tinyint(1) DEFAULT 0,
   `luas_bangunan` int(64) NOT NULL,
   `letak` varchar(255) NOT NULL,
   `tanggal_dokument` date DEFAULT NULL,
@@ -2523,12 +2524,12 @@ CREATE TABLE `inventaris_gedung` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2547,7 +2548,7 @@ CREATE TABLE `inventaris_jalan` (
   `panjang` int(64) NOT NULL,
   `lebar` int(64) NOT NULL,
   `luas` int(64) NOT NULL,
-  `letak` text,
+  `letak` text DEFAULT NULL,
   `tanggal_dokument` date NOT NULL,
   `no_dokument` varchar(255) DEFAULT NULL,
   `status_tanah` varchar(255) DEFAULT NULL,
@@ -2556,12 +2557,12 @@ CREATE TABLE `inventaris_jalan` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2576,7 +2577,7 @@ CREATE TABLE `inventaris_kontruksi` (
   `nama_barang` varchar(255) NOT NULL,
   `kondisi_bangunan` varchar(255) NOT NULL,
   `kontruksi_bertingkat` varchar(255) NOT NULL,
-  `kontruksi_beton` tinyint(1) DEFAULT '0',
+  `kontruksi_beton` tinyint(1) DEFAULT 0,
   `luas_bangunan` int(64) NOT NULL,
   `letak` varchar(255) NOT NULL,
   `tanggal_dokument` date DEFAULT NULL,
@@ -2587,12 +2588,12 @@ CREATE TABLE `inventaris_kontruksi` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2608,8 +2609,8 @@ CREATE TABLE `inventaris_peralatan` (
   `kode_barang` varchar(64) NOT NULL,
   `register` varchar(64) NOT NULL,
   `merk` varchar(255) DEFAULT NULL,
-  `ukuran` text,
-  `bahan` text,
+  `ukuran` text DEFAULT NULL,
+  `bahan` text DEFAULT NULL,
   `tahun_pengadaan` year(4) NOT NULL,
   `no_pabrik` varchar(255) DEFAULT NULL,
   `no_rangka` varchar(255) DEFAULT NULL,
@@ -2619,12 +2620,12 @@ CREATE TABLE `inventaris_peralatan` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2649,12 +2650,12 @@ CREATE TABLE `inventaris_tanah` (
   `asal` varchar(255) NOT NULL,
   `harga` double NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `status` int(1) NOT NULL DEFAULT 0,
+  `visible` int(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -2667,10 +2668,10 @@ DROP TABLE IF EXISTS `kategori`;
 CREATE TABLE `kategori` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `kategori` varchar(100) NOT NULL,
-  `tipe` int(4) NOT NULL DEFAULT '1',
+  `tipe` int(4) NOT NULL DEFAULT 1,
   `urut` tinyint(4) NOT NULL,
   `enabled` tinyint(4) NOT NULL,
-  `parrent` tinyint(4) NOT NULL DEFAULT '0',
+  `parrent` tinyint(4) NOT NULL DEFAULT 0,
   `slug` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
@@ -3213,7 +3214,7 @@ CREATE TABLE `keuangan_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(50) NOT NULL,
   `tahun_anggaran` varchar(250) NOT NULL,
-  `aktif` int(2) NOT NULL DEFAULT '1',
+  `aktif` int(2) NOT NULL DEFAULT 1,
   `tanggal_impor` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -3830,7 +3831,7 @@ CREATE TABLE `keuangan_ta_pemda` (
   `Alamat` varchar(100) NOT NULL,
   `Nm_Bupati` varchar(100) NOT NULL,
   `Jbt_Bupati` varchar(100) NOT NULL,
-  `Logo` mediumblob,
+  `Logo` mediumblob DEFAULT NULL,
   `C_Kode` varchar(100) NOT NULL,
   `C_Pemda` varchar(100) NOT NULL,
   `C_Data` varchar(100) NOT NULL,
@@ -4582,7 +4583,7 @@ DROP TABLE IF EXISTS `klasifikasi_analisis_keluarga`;
 CREATE TABLE `klasifikasi_analisis_keluarga` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `jenis` int(11) NOT NULL DEFAULT '1',
+  `jenis` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -4597,7 +4598,7 @@ CREATE TABLE `klasifikasi_surat` (
   `kode` varchar(50) NOT NULL,
   `nama` varchar(250) NOT NULL,
   `uraian` mediumtext NOT NULL,
-  `enabled` int(2) NOT NULL DEFAULT '1',
+  `enabled` int(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2335 DEFAULT CHARSET=latin1;
 
@@ -6948,15 +6949,15 @@ CREATE TABLE `komentar` (
   `id_artikel` int(7) NOT NULL,
   `owner` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `subjek` tinytext,
+  `subjek` tinytext DEFAULT NULL,
   `komentar` text NOT NULL,
-  `tgl_upload` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` tinyint(1) DEFAULT NULL,
   `tipe` tinyint(1) DEFAULT NULL,
   `no_hp` varchar(15) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `is_archived` tinyint(1) DEFAULT '0',
-  `permohonan` text,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_archived` tinyint(1) DEFAULT 0,
+  `permohonan` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
@@ -6989,9 +6990,9 @@ CREATE TABLE `line` (
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(10) NOT NULL DEFAULT 'ff0000',
-  `tipe` int(4) DEFAULT '0',
-  `parrent` int(4) DEFAULT '1',
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `tipe` int(4) DEFAULT 0,
+  `parrent` int(4) DEFAULT 1,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
@@ -7018,7 +7019,7 @@ CREATE TABLE `log_bulanan` (
   `wni_lk` int(11) DEFAULT NULL,
   `wni_pr` int(11) DEFAULT NULL,
   `kk` int(11) NOT NULL,
-  `tgl` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tgl` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `kk_lk` int(11) DEFAULT NULL,
   `kk_pr` int(11) DEFAULT NULL,
   `wna_lk` int(11) DEFAULT NULL,
@@ -7669,11 +7670,11 @@ DROP TABLE IF EXISTS `log_ekspor`;
 
 CREATE TABLE `log_ekspor` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tgl_ekspor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_ekspor` timestamp NOT NULL DEFAULT current_timestamp(),
   `kode_ekspor` varchar(100) NOT NULL,
-  `semua` int(1) NOT NULL DEFAULT '1',
+  `semua` int(1) NOT NULL DEFAULT 1,
   `dari_tgl` date DEFAULT NULL,
-  `total` int(11) NOT NULL DEFAULT '0',
+  `total` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -7689,7 +7690,7 @@ CREATE TABLE `log_hapus_penduduk` (
   `nik` decimal(16,0) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `deleted_by` varchar(100) DEFAULT NULL,
-  `deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -7703,7 +7704,7 @@ CREATE TABLE `log_perubahan_penduduk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_pend` int(11) NOT NULL,
   `id_cluster` varchar(200) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -7719,7 +7720,7 @@ CREATE TABLE `log_surat` (
   `id_pend` int(11) DEFAULT NULL,
   `id_pamong` int(4) NOT NULL,
   `id_user` int(4) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
   `bulan` varchar(2) DEFAULT NULL,
   `tahun` varchar(4) DEFAULT NULL,
   `no_surat` varchar(20) DEFAULT NULL,
@@ -7744,7 +7745,7 @@ CREATE TABLE `lokasi` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `desk` text NOT NULL,
   `nama` varchar(50) NOT NULL,
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `enabled` int(11) NOT NULL DEFAULT 1,
   `lat` varchar(30) DEFAULT NULL,
   `lng` varchar(30) DEFAULT NULL,
   `ref_point` int(9) NOT NULL,
@@ -7768,9 +7769,9 @@ DROP TABLE IF EXISTS `media_sosial`;
 CREATE TABLE `media_sosial` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gambar` text NOT NULL,
-  `link` text,
+  `link` text DEFAULT NULL,
   `nama` varchar(100) NOT NULL,
-  `tipe` tinyint(1) DEFAULT '1',
+  `tipe` tinyint(1) DEFAULT 1,
   `enabled` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
@@ -7794,9 +7795,9 @@ CREATE TABLE `menu` (
   `nama` varchar(50) NOT NULL,
   `link` varchar(500) NOT NULL,
   `tipe` int(4) NOT NULL,
-  `parrent` int(4) NOT NULL DEFAULT '1',
-  `link_tipe` tinyint(1) NOT NULL DEFAULT '0',
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `parrent` int(4) NOT NULL DEFAULT 1,
+  `link_tipe` tinyint(1) NOT NULL DEFAULT 0,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   `urut` int(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8;
@@ -7877,7 +7878,7 @@ CREATE TABLE `migrasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (1, '2020040102');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (2, '2020050101');
@@ -7897,6 +7898,7 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (15, '2021030151');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (16, '2021040151');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (17, '2021050151');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (18, '2021060101');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (19, '2021070171');
 
 
 #
@@ -7911,12 +7913,13 @@ CREATE TABLE `mutasi_cdesa` (
   `cdesa_keluar` int(5) unsigned DEFAULT NULL,
   `jenis_mutasi` tinyint(2) DEFAULT NULL,
   `tanggal_mutasi` date DEFAULT NULL,
-  `keterangan` text,
+  `keterangan` text DEFAULT NULL,
   `id_persil` int(11) NOT NULL,
   `no_bidang_persil` tinyint(3) DEFAULT NULL,
   `luas` decimal(7,0) DEFAULT NULL,
   `no_objek_pajak` varchar(30) DEFAULT NULL,
-  `path` text,
+  `path` text DEFAULT NULL,
+  `id_peta` int(60) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cdesa_mutasi_fk` (`id_cdesa_masuk`),
   CONSTRAINT `cdesa_mutasi_fk` FOREIGN KEY (`id_cdesa_masuk`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -7935,12 +7938,12 @@ CREATE TABLE `notifikasi` (
   `jenis` varchar(50) NOT NULL,
   `isi` text NOT NULL,
   `server` varchar(20) NOT NULL,
-  `tgl_berikutnya` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_berikutnya` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   `frekuensi` smallint(6) NOT NULL,
   `aksi` varchar(100) NOT NULL,
-  `aktif` tinyint(2) NOT NULL DEFAULT '1',
+  `aktif` tinyint(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `kode` (`kode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -7956,28 +7959,48 @@ INSERT INTO `notifikasi` (`id`, `kode`, `judul`, `jenis`, `isi`, `server`, `tgl_
 DROP TABLE IF EXISTS `outbox`;
 
 CREATE TABLE `outbox` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
+  `SendingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `SendBefore` time NOT NULL DEFAULT '23:59:59',
   `SendAfter` time NOT NULL DEFAULT '00:00:00',
-  `Text` text,
+  `Text` text DEFAULT NULL,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
-  `UDH` text,
-  `Class` int(11) DEFAULT '-1',
+  `UDH` text DEFAULT NULL,
+  `Class` int(11) DEFAULT -1,
   `TextDecoded` text NOT NULL,
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `MultiPart` enum('false','true') DEFAULT 'false',
-  `RelativeValidity` int(11) DEFAULT '-1',
+  `RelativeValidity` int(11) DEFAULT -1,
   `SenderID` varchar(255) DEFAULT NULL,
   `SendingTimeOut` timestamp NULL DEFAULT NULL,
   `DeliveryReport` enum('default','yes','no') DEFAULT 'default',
-  `CreatorID` text,
+  `CreatorID` text DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `outbox_date` (`SendingDateTime`,`SendingTimeOut`),
   KEY `outbox_sender` (`SenderID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: pelapak
+#
+
+DROP TABLE IF EXISTS `pelapak`;
+
+CREATE TABLE `pelapak` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_pend` int(11) DEFAULT NULL,
+  `telepon` varchar(20) DEFAULT NULL,
+  `lat` varchar(20) DEFAULT NULL,
+  `lng` varchar(20) DEFAULT NULL,
+  `zoom` tinyint(4) NOT NULL DEFAULT 10,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `pelapak` (`id`, `id_pend`, `telepon`, `lat`, `lng`, `zoom`, `status`) VALUES (1, 1, '082296870436', NULL, NULL, 10, 1);
+
 
 #
 # TABLE STRUCTURE FOR: pembangunan
@@ -7997,11 +8020,11 @@ CREATE TABLE `pembangunan` (
   `volume` varchar(100) DEFAULT NULL,
   `tahun_anggaran` year(4) DEFAULT NULL,
   `pelaksana_kegiatan` varchar(255) DEFAULT NULL,
-  `status` tinyint(3) NOT NULL DEFAULT '1',
+  `status` tinyint(3) NOT NULL DEFAULT 1,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
-  `anggaran` int(11) NOT NULL DEFAULT '0',
+  `anggaran` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `id_lokasi` (`id_lokasi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8033,7 +8056,7 @@ DROP TABLE IF EXISTS `pendapat`;
 CREATE TABLE `pendapat` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pengguna` text NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
   `pilihan` int(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8049,12 +8072,12 @@ CREATE TABLE `permohonan_surat` (
   `id_pemohon` int(11) NOT NULL,
   `id_surat` int(11) NOT NULL,
   `isian_form` text NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `keterangan` text,
+  `status` tinyint(1) NOT NULL DEFAULT 0,
+  `keterangan` text DEFAULT NULL,
   `no_hp_aktif` varchar(50) NOT NULL,
   `syarat` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -8067,13 +8090,14 @@ DROP TABLE IF EXISTS `persil`;
 CREATE TABLE `persil` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `nomor` varchar(20) NOT NULL,
-  `nomor_urut_bidang` tinyint(3) NOT NULL DEFAULT '1',
+  `nomor_urut_bidang` tinyint(3) NOT NULL DEFAULT 1,
   `kelas` int(5) NOT NULL,
   `luas_persil` decimal(7,0) DEFAULT NULL,
   `id_wilayah` int(11) DEFAULT NULL,
-  `lokasi` text,
-  `path` text,
+  `lokasi` text DEFAULT NULL,
+  `path` text DEFAULT NULL,
   `cdesa_awal` int(11) unsigned DEFAULT NULL,
+  `id_peta` int(60) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `nomor_nomor_urut_bidang` (`nomor`,`nomor_urut_bidang`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8105,9 +8129,9 @@ CREATE TABLE `point` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
-  `tipe` int(4) DEFAULT '0',
-  `parrent` int(4) NOT NULL DEFAULT '1',
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `tipe` int(4) DEFAULT 0,
+  `parrent` int(4) NOT NULL DEFAULT 1,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
@@ -8134,9 +8158,9 @@ CREATE TABLE `polygon` (
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
   `color` varchar(10) NOT NULL DEFAULT 'ff0000',
-  `tipe` int(4) DEFAULT '0',
-  `parrent` int(4) DEFAULT '1',
-  `enabled` int(11) NOT NULL DEFAULT '1',
+  `tipe` int(4) DEFAULT 0,
+  `parrent` int(4) DEFAULT 1,
+  `enabled` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `parrent` (`parrent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
@@ -8144,6 +8168,23 @@ CREATE TABLE `polygon` (
 INSERT INTO `polygon` (`id`, `nama`, `simbol`, `color`, `tipe`, `parrent`, `enabled`) VALUES (1, 'rawan topan', '', '#7C78FF', 0, 1, 1);
 INSERT INTO `polygon` (`id`, `nama`, `simbol`, `color`, `tipe`, `parrent`, `enabled`) VALUES (2, 'jalur selokan', '', '#F4FF59', 0, 1, 1);
 INSERT INTO `polygon` (`id`, `nama`, `simbol`, `color`, `tipe`, `parrent`, `enabled`) VALUES (3, 'Pemukiman rawan topan', '', '#db2121', 2, 1, 1);
+
+
+#
+# TABLE STRUCTURE FOR: produk_kategori
+#
+
+DROP TABLE IF EXISTS `produk_kategori`;
+
+CREATE TABLE `produk_kategori` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `kategori` varchar(50) DEFAULT NULL,
+  `slug` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `produk_kategori` (`id`, `kategori`, `slug`, `status`) VALUES (1, 'Makanan', 'makanan', 1);
 
 
 #
@@ -8160,7 +8201,7 @@ CREATE TABLE `program` (
   `sdate` date NOT NULL,
   `edate` date NOT NULL,
   `userid` mediumint(9) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT 0,
   `asaldana` char(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -8203,54 +8244,6 @@ INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `ka
 INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (8, '5201140105136997', 4, '2', '5201143112797117', 'DAHRI', 'MASBAGIK', '1978-12-31', 'RT 003  RW - Dusun Loco', NULL, 12);
 INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (9, '5201142005716996', 5, '1', '5201142005716996', 'AHLUL', 'MANGSIT', '1970-05-20', 'RT 004  RW - Dusun Mangsit', NULL, 1);
 INSERT INTO `program_peserta` (`id`, `peserta`, `program_id`, `no_id_kartu`, `kartu_nik`, `kartu_nama`, `kartu_tempat_lahir`, `kartu_tanggal_lahir`, `kartu_alamat`, `kartu_peserta`, `kartu_id_pend`) VALUES (10, '5201140706966997', 5, '2', '5201140706966997', 'AHMAD ALLIF RIZKI', 'MANGSIT', '1995-06-07', 'RT 004  RW - Dusun Mangsit', NULL, 2);
-
-
-#
-# TABLE STRUCTURE FOR: provinsi
-#
-
-DROP TABLE IF EXISTS `provinsi`;
-
-CREATE TABLE `provinsi` (
-  `kode` tinyint(2) NOT NULL DEFAULT '0',
-  `nama` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`kode`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (11, 'Aceh');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (12, 'Sumatera Utara');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (13, 'Sumatera Barat');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (14, 'Riau');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (15, 'Jambi');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (16, 'Sumatera Selatan');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (17, 'Bengkulu');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (18, 'Lampung');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (19, 'Kepulauan Bangka Belitung');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (21, 'Kepulauan Riau');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (31, 'DKI Jakarta');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (32, 'Jawa Barat');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (33, 'Jawa Tengah');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (34, 'DI Yogyakarta');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (35, 'Jawa Timur');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (36, 'Banten');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (51, 'Bali');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (52, 'Nusa Tenggara Barat');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (53, 'Nusa Tenggara Timur');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (61, 'Kalimantan Barat');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (62, 'Kalimantan Tengah');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (63, 'Kalimantan Selatan');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (64, 'Kalimantan Timur');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (65, 'Kalimantan Utara');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (71, 'Sulawesi Utara');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (72, 'Sulawesi Tengah');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (73, 'Sulawesi Selatan');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (74, 'Sulawesi Tenggara');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (75, 'Gorontalo');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (76, 'Sulawesi Barat');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (81, 'Maluku');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (82, 'Maluku Utara');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (91, 'Papua');
-INSERT INTO `provinsi` (`kode`, `nama`) VALUES (92, 'Papua Barat');
 
 
 #
@@ -8309,6 +8302,184 @@ INSERT INTO `ref_penduduk_bahasa` (`id`, `nama`, `inisial`) VALUES (6, 'Arab, La
 
 
 #
+# TABLE STRUCTURE FOR: ref_penduduk_suku
+#
+
+DROP TABLE IF EXISTS `ref_penduduk_suku`;
+
+CREATE TABLE `ref_penduduk_suku` (
+  `id` int(65) unsigned NOT NULL AUTO_INCREMENT,
+  `suku` varchar(100) NOT NULL,
+  `deskripsi` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8;
+
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (1, 'Aceh', 'Aceh');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (2, 'Alas', 'Aceh');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (3, 'Alor', 'NTT');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (4, 'Ambon', 'Ambon');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (5, 'Ampana', 'Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (6, 'Anak Dalam', 'Jambi');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (7, 'Aneuk Jamee', 'Aceh');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (8, 'Arab: Orang Hadhrami', 'Arab: Orang Hadhrami');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (9, 'Aru', 'Maluku');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (10, 'Asmat', 'Papua');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (11, 'Bare’e', 'Bare’e di Kabupaten Tojo Una-Una Tojo dan Tojo Barat');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (12, 'Banten', 'Banten di Banten');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (13, 'Besemah', 'Besemah di Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (14, 'Bali', 'Bali di Bali terdiri dari: Suku Bali Majapahit di sebagian besar Pulau Bali; Suku Bali Aga di Karangasem dan Kintamani');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (15, 'Balantak', 'Balantak di Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (16, 'Banggai', 'Banggai di Sulawesi Tengah (Kabupaten Banggai Kepulauan)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (17, 'Baduy', 'Baduy di Banten');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (18, 'Bajau', 'Bajau di Kalimantan Timur');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (19, 'Banjar', 'Banjar di Kalimantan Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (20, 'Batak', 'Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (21, 'Batak Karo', 'Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (22, 'Mandailing', 'Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (23, 'Angkola', 'Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (24, 'Toba', 'Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (25, 'Pakpak', 'Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (26, 'Simalungun', 'Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (27, 'Batin', 'Batin di Jambi');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (28, 'Bawean', 'Bawean di Jawa Timur (Gresik)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (29, 'Bentong', 'Bentong di Sulawesi Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (30, 'Berau', 'Berau di Kalimantan Timur (kabupaten Berau)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (31, 'Betawi', 'Betawi di Jakarta');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (32, 'Bima', 'Bima NTB (kota Bima)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (33, 'Boti', 'Boti di kabupaten Timor Tengah Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (34, 'Bolang Mongondow', 'Bolang Mongondow di Sulawesi Utara (Kabupaten Bolaang Mongondow)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (35, 'Bugis', 'Bugis di Sulawesi Selatan: Orang Bugis Pagatan di Kalimantan Selatan, Kusan Hilir, Tanah Bumbu');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (36, 'Bungku', 'Bungku di Sulawesi Tengah (Kabupaten Morowali)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (37, 'Buru', 'Buru di Maluku (Kabupaten Buru)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (38, 'Buol', 'Buol di Sulawesi Tengah (Kabupaten Buol)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (39, 'Bulungan ', 'Bulungan di Kalimantan Timur (Kabupaten Bulungan)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (40, 'Buton', 'Buton di Sulawesi Tenggara (Kabupaten Buton dan Kota Bau-Bau)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (41, 'Bonai', 'Bonai di Riau (Kabupaten Rokan Hilir)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (42, 'Cham ', 'Cham di Aceh');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (43, 'Cirebon ', 'Cirebon di Jawa Barat (Kota Cirebon)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (44, 'Damal', 'Damal di Mimika');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (45, 'Dampeles', 'Dampeles di Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (46, 'Dani ', 'Dani di Papua (Lembah Baliem)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (47, 'Dairi', 'Dairi di Sumatera Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (48, 'Daya ', 'Daya di Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (49, 'Dayak', 'Dayak terdiri dari: Suku Dayak Ahe di Kalimantan Barat; Suku Dayak Bajare di Kalimantan Barat; Suku Dayak Damea di Kalimantan Barat; Suku Dayak Banyadu di Kalimantan Barat; Suku Bakati di Kalimantan Barat; Suku Punan di Kalimantan Tengah; Suku Kanayatn di Kalimantan Barat; Suku Dayak Krio di Kalimantan Barat (Ketapang); Suku Dayak Sungai Laur di Kalimantan Barat (Ketapang); Suku Dayak Simpangh di Kalimantan Barat (Ketapang); Suku Iban di Kalimantan Barat; Suku Mualang di Kalimantan Barat (Sekada');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (50, 'Dompu', 'Dompu NTB (Kabupaten Dompu)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (51, 'Donggo', 'Donggo, Bima');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (52, 'Dongga', 'Donggala di Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (53, 'Dondo ', 'Dondo di Sulawesi Tengah (Kabupaten Toli-Toli)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (54, 'Duri', 'Duri Terletak di bagian utara Kabupaten Enrekang berbatasan dengan Kabupaten Tana Toraja, meliputi tiga kecamatan induk Anggeraja, Baraka, dan Alla di Sulawesi Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (55, 'Eropa ', 'Eropa (orang Indo, peranakan Eropa-Indonesia, atau etnik Mestizo)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (56, 'Flores', 'Flores di NTT (Flores Timur)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (57, 'Lamaholot', 'Lamaholot, Flores Timur, terdiri dari: Suku Wandan, di Solor Timur, Flores Timur; Suku Kaliha, di Solor Timur, Flores Timur; Suku Serang Gorang, di Solor Timur, Flores Timur; Suku Lamarobak, di Solor Timur, Flores Timur; Suku Atanuhan, di Solor Timur, Flores Timur; Suku Wotan, di Solor Timur, Flores Timur; Suku Kapitan Belen, di Solor Timur, Flores Timur');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (58, 'Gayo', 'Gayo di Aceh (Gayo Lues Aceh Tengah Bener Meriah Aceh Tenggara Aceh Timur Aceh Tamiang)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (59, 'Gorontalo', 'Gorontalo di Gorontalo (Kota Gorontalo)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (60, 'Gumai ', 'Gumai di Sumatera Selatan (Lahat)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (61, 'India', 'India, terdiri dari: Suku Tamil di Aceh, Sumatera Utara, Sumatera Barat, dan DKI Jakarta; Suku Punjab di Sumatera Utara, DKI Jakarta, dan Jawa Timur; Suku Bengali di DKI Jakarta; Suku Gujarati di DKI Jakarta dan Jawa Tengah; Orang Sindhi di DKI Jakarta dan Jawa Timur; Orang Sikh di Sumatera Utara, DKI Jakarta, dan Jawa Timur');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (62, 'Jawa', 'Jawa di Jawa Tengah, Jawa Timur, DI Yogyakarta');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (63, 'Tengger', 'Tengger di Jawa Timur (Probolinggo, Pasuruan, dan Malang)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (64, 'Osing ', 'Osing di Jawa Timur (Banyuwangi)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (65, 'Samin ', 'Samin di Jawa Tengah (Purwodadi)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (66, 'Bawean', 'Bawean di Jawa Timur (Pulau Bawean)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (67, 'Jambi ', 'Jambi di Jambi (Kota Jambi)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (68, 'Jepang', 'Jepang di DKI Jakarta, Jawa Timur, dan Bali');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (69, 'Kei', 'Kei di Maluku Tenggara (Kabupaten Maluku Tenggara dan Kota Tual)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (70, 'Kaili ', 'Kaili di Sulawesi Tengah (Kota Palu)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (71, 'Kampar', 'Kampar');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (72, 'Kaur ', 'Kaur di Bengkulu (Kabupaten Kaur)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (73, 'Kayu Agung', 'Kayu Agung di Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (74, 'Kerinci', 'Kerinci di Jambi (Kabupaten Kerinci)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (75, 'Komering ', 'Komering di Sumatera Selatan (Kabupaten Ogan Komering Ilir, Baturaja)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (76, 'Konjo Pegunungan', 'Konjo Pegunungan, Kabupaten Gowa, Sulawesi Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (77, 'Konjo Pesisir', 'Konjo Pesisir, Kabupaten Bulukumba, Sulawesi Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (78, 'Koto', 'Koto di Sumatera Barat');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (79, 'Kubu', 'Kubu di Jambi dan Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (80, 'Kulawi', 'Kulawi di Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (81, 'Kutai ', 'Kutai di Kalimantan Timur (Kutai Kartanegara)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (82, 'Kluet ', 'Kluet di Aceh (Aceh Selatan)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (83, 'Korea ', 'Korea di DKI Jakarta');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (84, 'Krui', 'Krui di Lampung');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (85, 'Laut,', 'Laut, Kepulauan Riau');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (86, 'Lampung', 'Lampung, terdiri dari: Suku Sungkai di Lampung; Suku Abung di Lampung; Suku Way Kanan di Lampung, Sumatera Selatan dan Bengkulu; Suku Pubian di Lampung; Suku Tulang Bawang di Lampung; Suku Melinting di Lampung; Suku Peminggir Teluk di Lampung; Suku Ranau di Lampung, Sumatera Selatan dan Sumatera Utara; Suku Komering di Sumatera Selatan; Suku Cikoneng di Banten; Suku Merpas di Bengkulu; Suku Belalau di Lampung; Suku Smoung di Lampung; Suku Semaka di Lampung');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (87, 'Lematang ', 'Lematang di Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (88, 'Lembak', 'Lembak, Kabupaten Rejang Lebong, Bengkulu');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (89, 'Lintang', 'Lintang, Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (90, 'Lom', 'Lom, Bangka Belitung');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (91, 'Lore', 'Lore, Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (92, 'Lubu', 'Lubu, daerah perbatasan antara Provinsi Sumatera Utara dan Provinsi Sumatera Barat');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (93, 'Moronene', 'Moronene di Sulawesi Tenggara.');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (94, 'Madura', 'Madura di Jawa Timur (Pulau Madura, Kangean, wilayah Tapal Kuda)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (95, 'Makassar', 'Makassar di Sulawesi Selatan: Kabupaten Gowa, Kabupaten Takalar, Kabupaten Jeneponto, Kabupaten Bantaeng, Kabupaten Bulukumba (sebagian), Kabupaten Sinjai (bagian perbatasan Kab Gowa), Kabupaten Maros (sebagian), Kabupaten Pangkep (sebagian), Kota Makassar');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (96, 'Mamasa', 'Mamasa (Toraja Barat) di Sulawesi Barat: Kabupaten Mamasa');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (97, 'Manda', 'Mandar Sulawesi Barat: Polewali Mandar');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (98, 'Melayu', 'Melayu, terdiri dari Suku Melayu Tamiang di Aceh (Aceh Tamiang); Suku Melayu Riau di Riau dan Kepulauan Riau; Suku Melayu Deli di Sumatera Utara; Suku Melayu Jambi di Jambi; Suku Melayu Bangka di Pulau Bangka; Suku Melayu Belitung di Pulau Belitung; Suku Melayu Sambas di Kalimantan Barat');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (99, 'Mentawai', 'Mentawai di Sumatera Barat (Kabupaten Kepulauan Mentawai)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (100, 'Minahasa', 'Minahasa di Sulawesi Utara (Kabupaten Minahasa), terdiri 9 subetnik : Suku Babontehu; Suku Bantik; Suku Pasan Ratahan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (101, 'Ponosakan', 'Ponosakan; Suku Tonsea; Suku Tontemboan; Suku Toulour; Suku Tonsawang; Suku Tombulu');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (102, 'Minangkabau', 'Minangkabau, Sumatera Barat');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (103, 'Mongondow', 'Mongondow, Sulawesi Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (104, 'Mori', 'Mori, Kabupaten Morowali, Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (105, 'Muko-Muko', 'Muko-Muko di Bengkulu (Kabupaten Mukomuko)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (106, 'Muna', 'Muna di Sulawesi Tenggara (Kabupaten Muna)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (107, 'Muyu', 'Muyu di Kabupaten Boven Digoel, Papua');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (108, 'Mekongga', 'Mekongga di Sulawesi Tenggara (Kabupaten Kolaka dan Kabupaten Kolaka Utara)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (109, 'Moro', 'Moro di Kalimantan Barat dan Kalimantan Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (110, 'Nias', 'Nias di Sumatera Utara (Kabupaten Nias, Nias Selatan dan Nias Utara dari dua keturunan Jepang dan Vietnam)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (111, 'Ngada ', 'Ngada di NTT: Kabupaten Ngada');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (112, 'Osing', 'Osing di Banyuwangi Jawa Timur');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (113, 'Ogan', 'Ogan di Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (114, 'Ocu', 'Ocu di Kabupaten Kampar, Riau');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (115, 'Padoe', 'Padoe di Sulawesi Tengah dan Sulawesi Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (116, 'Papua', 'Papua / Irian, terdiri dari: Suku Asmat di Kabupaten Asmat; Suku Biak di Kabupaten Biak Numfor; Suku Dani, Lembah Baliem, Papua; Suku Ekagi, daerah Paniai, Abepura, Papua; Suku Amungme di Mimika; Suku Bauzi, Mamberamo hilir, Papua utara; Suku Arfak di Manokwari; Suku Kamoro di Mimika');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (117, 'Palembang', 'Palembang di Sumatera Selatan (Kota Palembang)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (118, 'Pamona', 'Pamona di Sulawesi Tengah (Kabupaten Poso) dan di Sulawesi Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (119, 'Pesisi', 'Pesisi di Sumatera Utara (Tapanuli Tengah)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (120, 'Pasir', 'Pasir di Kalimantan Timur (Kabupaten Pasir)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (121, 'Pubian', 'Pubian di Lampung');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (122, 'Pattae', 'Pattae di Polewali Mandar');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (123, 'Pakistani', 'Pakistani di Sumatera Utara, DKI Jakarta, dan Jawa Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (124, 'Peranakan', 'Peranakan (Tionghoa-Peranakan atau Baba Nyonya)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (125, 'Rawa', 'Rawa, Rokan Hilir, Riau');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (126, 'Rejang', 'Rejang di Bengkulu (Kabupaten Bengkulu Tengah, Kabupaten Bengkulu Utara, Kabupaten Kepahiang, Kabupaten Lebong, dan Kabupaten Rejang Lebong)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (127, 'Rote', 'Rote di NTT (Kabupaten Rote Ndao)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (128, 'Rongga', 'Rongga di NTT Kabupaten Manggarai Timur');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (129, 'Rohingya', 'Rohingya');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (130, 'Sabu', 'Sabu di Pulau Sabu, NTT');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (131, 'Saluan', 'Saluan di Sulawesi Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (132, 'Sambas', 'Sambas (Melayu Sambas) di Kalimantan Barat: Kabupaten Sambas');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (133, 'Samin', 'Samin di Jawa Tengah (Blora) dan Jawa Timur (Bojonegoro)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (134, 'Sangi', 'Sangir di Sulawesi Utara (Kepulauan Sangihe)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (135, 'Sasak', 'Sasak di NTB, Lombok');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (136, 'Sekak Bangka', 'Sekak Bangka');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (137, 'Sekayu', 'Sekayu di Sumatera Selatan');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (138, 'Semendo ', 'Semendo di Bengkulu, Sumatera Selatan (Muara Enim)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (139, 'Serawai ', 'Serawai di Bengkulu (Kabupaten Bengkulu Selatan dan Kabupaten Seluma)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (140, 'Simeulue', 'Simeulue di Aceh (Kabupaten Simeulue)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (141, 'Sigulai ', 'Sigulai di Aceh (Kabupaten Simeulue bagian utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (142, 'Suluk', 'Suluk di Kalimantan Utara)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (143, 'Sumbawa ', 'Sumbawa Di NTB (Kabupaten Sumbawa)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (144, 'Sumba', 'Sumba di NTT (Sumba Barat, Sumba Timur)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (145, 'Sunda', 'Sunda di Jawa Barat, Banten, DKI Jakarta, Lampung, Sumatra Selatan dan Jawa Tengah');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (146, 'Sungkai ', 'Sungkai di Lampung Lampung Utara');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (147, 'Talau', 'Talaud di Sulawesi Utara (Kepulauan Talaud)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (148, 'Talang Mamak', 'Talang Mamak di Riau (Indragiri Hulu)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (149, 'Tamiang ', 'Tamiang di Aceh (Kabupaten Aceh Tamiang)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (150, 'Tengger ', 'Tengger di Jawa Timur (Kabupaten Pasuruan) dan Probolinggo (lereng G. Bromo)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (151, 'Ternate ', 'Ternate di Maluku Utara (Kota Ternate)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (152, 'Tidore', 'Tidore di Maluku Utara (Kota Tidore)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (153, 'Tidung', 'Tidung di Kalimantan Timur (Kabupaten Tanah Tidung)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (154, 'Timor', 'Timor di NTT, Kota Kupang');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (155, 'Tionghoa', 'Tionghoa, terdiri dari: Orang Cina Parit di Pelaihari, Tanah Laut, Kalsel; Orang Cina Benteng di Tangerang, Provinsi Banten; Orang Tionghoa Hokkien di Jawa dan Sumatera Utara; Orang Tionghoa Hakka di Belitung dan Kalimantan Barat; Orang Tionghoa Hubei; Orang Tionghoa Hainan; Orang Tionghoa Kanton; Orang Tionghoa Hokchia; Orang Tionghoa Tiochiu');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (156, 'Tojo', 'Tojo di Sulawesi Tengah (Kabupaten Tojo Una-Una)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (157, 'Toraja', 'Toraja di Sulawesi Selatan (Tana Toraja)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (158, 'Tolaki', 'Tolaki di Sulawesi Tenggara (Kendari)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (159, 'Toli Toli', 'Toli Toli di Sulawesi Tengah (Kabupaten Toli-Toli)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (160, 'Tomini', 'Tomini di Sulawesi Tengah (Kabupaten Parigi Mouton');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (161, 'Una-una ', 'Una-una di Sulawesi Tengah (Kabupaten Tojo Una-Una)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (162, 'Ulu', 'Ulu di Sumatera Utara (Mandailing natal)');
+INSERT INTO `ref_penduduk_suku` (`id`, `suku`, `deskripsi`) VALUES (163, 'Wolio', 'Wolio di Sulawesi Tenggara (Buton)');
+
+
+#
 # TABLE STRUCTURE FOR: ref_peristiwa
 #
 
@@ -8338,7 +8509,7 @@ CREATE TABLE `ref_persil_kelas` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
   `tipe` varchar(20) NOT NULL,
   `kode` varchar(20) NOT NULL,
-  `ndesc` text,
+  `ndesc` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
@@ -8361,7 +8532,7 @@ DROP TABLE IF EXISTS `ref_persil_mutasi`;
 CREATE TABLE `ref_persil_mutasi` (
   `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `ndesc` text,
+  `ndesc` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -8477,24 +8648,24 @@ INSERT INTO `ref_syarat_surat` (`ref_syarat_id`, `ref_syarat_nama`) VALUES (12, 
 DROP TABLE IF EXISTS `sentitems`;
 
 CREATE TABLE `sentitems` (
-  `UpdatedInDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `InsertIntoDB` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `SendingDateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
+  `SendingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
   `DeliveryDateTime` timestamp NULL DEFAULT NULL,
   `Text` text NOT NULL,
   `DestinationNumber` varchar(20) NOT NULL DEFAULT '',
   `Coding` enum('Default_No_Compression','Unicode_No_Compression','8bit','Default_Compression','Unicode_Compression') NOT NULL DEFAULT 'Default_No_Compression',
   `UDH` text NOT NULL,
   `SMSCNumber` varchar(20) NOT NULL DEFAULT '',
-  `Class` int(11) NOT NULL DEFAULT '-1',
+  `Class` int(11) NOT NULL DEFAULT -1,
   `TextDecoded` text NOT NULL,
-  `ID` int(10) unsigned NOT NULL DEFAULT '0',
+  `ID` int(10) unsigned NOT NULL DEFAULT 0,
   `SenderID` varchar(255) NOT NULL,
-  `SequencePosition` int(11) NOT NULL DEFAULT '1',
+  `SequencePosition` int(11) NOT NULL DEFAULT 1,
   `Status` enum('SendingOK','SendingOKNoReport','SendingError','DeliveryOK','DeliveryFailed','DeliveryPending','DeliveryUnknown','Error') NOT NULL DEFAULT 'SendingOK',
-  `StatusError` int(11) NOT NULL DEFAULT '-1',
-  `TPMR` int(11) NOT NULL DEFAULT '-1',
-  `RelativeValidity` int(11) NOT NULL DEFAULT '-1',
+  `StatusError` int(11) NOT NULL DEFAULT -1,
+  `TPMR` int(11) NOT NULL DEFAULT -1,
+  `RelativeValidity` int(11) NOT NULL DEFAULT -1,
   `CreatorID` text NOT NULL,
   PRIMARY KEY (`ID`,`SequencePosition`),
   KEY `sentitems_date` (`DeliveryDateTime`),
@@ -8512,13 +8683,13 @@ DROP TABLE IF EXISTS `setting_aplikasi`;
 CREATE TABLE `setting_aplikasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `key` varchar(50) DEFAULT NULL,
-  `value` varchar(500) DEFAULT NULL,
+  `value` text DEFAULT NULL,
   `keterangan` varchar(200) DEFAULT NULL,
   `jenis` varchar(30) DEFAULT NULL,
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=latin1;
 
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (1, 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (2, 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -8560,7 +8731,6 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (43, 'token_opensid', '', 'Token OpenSID', '', 'sistem');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (44, 'layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (45, 'ukuran_lebar_bagan', '800', 'Ukuran Lebar Bagan (800 / 1200 / 1400)', 'int', 'conf_bagan');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (46, 'api_key_opensid', '', 'Opensid API Key untuk Pelanggan OpenDesa', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (48, 'api_opendk_server', '', 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (49, 'api_opendk_key', '', 'OpenDK API Key untuk Sinkronisasi Data', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (50, 'api_opendk_user', '', 'Email Login Pengguna OpenDK', NULL, NULL);
@@ -8571,6 +8741,13 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (113, 'api_gform_id_script', '', 'Script ID untuk Google API', NULL, 'setting_analisis');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (114, 'api_gform_credential', '', 'Credential untuk Google API', 'textarea', 'setting_analisis');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (115, 'api_gform_redirect_uri', 'https://berputar.opensid.or.id/index.php/first/get_form_info', 'Redirecet URI untuk Google API', NULL, 'setting_analisis');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (170, 'tampilkan_lapak_web', '1', 'Aktif / Non-aktif Lapak di Halaman Website Url Terpisah', 'boolean', 'lapak');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (171, 'pesan_singkat_wa', 'Saya ingin membeli [nama_produk] yang anda tawarkan di Lapak Desa [link_web]', 'Pesan Singkat WhatsApp', 'textarea', 'lapak');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (172, 'banyak_foto_tiap_produk', '3', 'Banyaknya foto tiap produk yang bisa di unggah', 'int', 'lapak');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (173, 'jumlah_produk_perhalaman', '10', 'Jumlah produk yang ditampilkan dalam satu halaman', 'int', 'lapak');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (174, 'layanan_opendesa_server', 'https://layanan.opendesa.id', 'Alamat Server Layanan OpenDESA', NULL, 'pelanggan');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (175, 'layanan_opendesa_dev_server', '', 'Alamat Server Dev Layanan OpenDESA', NULL, 'pelanggan');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (176, 'layanan_opendesa_token', '', 'Token pelanggan Layanan OpenDESA', 'textarea', 'pelanggan');
 
 
 #
@@ -8583,15 +8760,15 @@ CREATE TABLE `setting_modul` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `modul` varchar(50) NOT NULL,
   `url` varchar(50) NOT NULL,
-  `aktif` tinyint(1) NOT NULL DEFAULT '0',
+  `aktif` tinyint(1) NOT NULL DEFAULT 0,
   `ikon` varchar(50) DEFAULT '',
   `urut` int(4) DEFAULT NULL,
-  `level` tinyint(1) NOT NULL DEFAULT '2',
-  `hidden` tinyint(1) NOT NULL DEFAULT '0',
+  `level` tinyint(1) NOT NULL DEFAULT 2,
+  `hidden` tinyint(1) NOT NULL DEFAULT 0,
   `ikon_kecil` varchar(50) DEFAULT '',
-  `parent` int(2) NOT NULL DEFAULT '0',
+  `parent` int(2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=324 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=utf8;
 
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 10, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 30, 2, 0, 'fa fa-users', 0);
@@ -8719,6 +8896,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (321, 'Pendapat', 'pendapat', 1, 'fa-thumbs-o-up', 5, 0, 0, 'fa-thumbs-o-up', 14);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (322, 'Buku Inventaris dan Kekayaan Desa', 'bumindes_inventaris_kekayaan', 1, 'fa-files-o', 0, 0, 0, '', 302);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (323, 'Buku Rencana Kerja Pembangunan', 'bumindes_rencana_pembangunan', 1, 'fa-files-o', 0, 0, 0, '', 305);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (324, 'Lapak', 'lapak_admin', 1, 'fa-cart-plus', 122, 2, 0, 'fa-cart-plus', 0);
 
 
 #
@@ -8774,17 +8952,17 @@ CREATE TABLE `surat_keluar` (
   `nomor_surat` varchar(35) DEFAULT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `tanggal_surat` date NOT NULL,
-  `tanggal_catat` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal_catat` timestamp NOT NULL DEFAULT current_timestamp(),
   `tujuan` varchar(100) DEFAULT NULL,
   `isi_singkat` varchar(200) DEFAULT NULL,
   `berkas_scan` varchar(100) DEFAULT NULL,
-  `ekspedisi` tinyint(1) DEFAULT '0',
+  `ekspedisi` tinyint(1) DEFAULT 0,
   `tanggal_pengiriman` date DEFAULT NULL,
   `tanda_terima` varchar(200) DEFAULT NULL,
   `keterangan` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -8919,7 +9097,7 @@ CREATE TABLE `tanah_desa` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_penduduk` int(10) NOT NULL,
   `nik` decimal(16,0) DEFAULT NULL,
-  `jenis_pemilik` text,
+  `jenis_pemilik` text DEFAULT NULL,
   `nama_pemilik_asal` varchar(200) NOT NULL,
   `luas` int(10) NOT NULL,
   `hak_milik` int(11) DEFAULT NULL,
@@ -8945,11 +9123,11 @@ CREATE TABLE `tanah_desa` (
   `lain` int(11) DEFAULT NULL,
   `mutasi` text NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(10) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(10) NOT NULL,
-  `visible` tinyint(3) NOT NULL DEFAULT '1',
+  `visible` tinyint(3) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `id_penduduk` (`id_penduduk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8985,11 +9163,11 @@ CREATE TABLE `tanah_kas_desa` (
   `peruntukan` text NOT NULL,
   `mutasi` text NOT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(10) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(10) NOT NULL,
-  `visible` tinyint(2) NOT NULL DEFAULT '1',
+  `visible` tinyint(2) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -9001,13 +9179,13 @@ DROP TABLE IF EXISTS `teks_berjalan`;
 
 CREATE TABLE `teks_berjalan` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `teks` text,
+  `teks` text DEFAULT NULL,
   `urut` int(5) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT 0,
   `tautan` varchar(150) DEFAULT NULL,
   `judul_tautan` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -13341,10 +13519,10 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_nip` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nik` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `jabatan` varchar(50) COLLATE utf8_unicode_ci DEFAULT '0',
-  `pamong_status` tinyint(1) DEFAULT '1',
+  `pamong_status` tinyint(1) DEFAULT 1,
   `pamong_tgl_terdaftar` date DEFAULT NULL,
   `pamong_ttd` tinyint(1) DEFAULT NULL,
-  `foto` text COLLATE utf8_unicode_ci,
+  `foto` text COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_pend` int(11) DEFAULT NULL,
   `pamong_tempatlahir` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_tanggallahir` date DEFAULT NULL,
@@ -13359,7 +13537,7 @@ CREATE TABLE `tweb_desa_pamong` (
   `pamong_pangkat` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_nohenti` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pamong_tglhenti` date DEFAULT NULL,
-  `pamong_ub` tinyint(1) NOT NULL DEFAULT '0',
+  `pamong_ub` tinyint(1) NOT NULL DEFAULT 0,
   `atasan` int(11) DEFAULT NULL,
   `bagan_tingkat` tinyint(2) DEFAULT NULL,
   `bagan_offset` int(3) DEFAULT NULL,
@@ -13414,12 +13592,12 @@ CREATE TABLE `tweb_keluarga` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `no_kk` varchar(160) DEFAULT NULL,
   `nik_kepala` varchar(200) DEFAULT NULL,
-  `tgl_daftar` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_daftar` timestamp NULL DEFAULT current_timestamp(),
   `kelas_sosial` int(4) DEFAULT NULL,
   `tgl_cetak_kk` datetime DEFAULT NULL,
   `alamat` varchar(200) DEFAULT NULL,
-  `id_cluster` int(11) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_cluster` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `nik_kepala` (`nik_kepala`)
@@ -13471,7 +13649,7 @@ INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_s
 DROP TABLE IF EXISTS `tweb_keluarga_sejahtera`;
 
 CREATE TABLE `tweb_keluarga_sejahtera` (
-  `id` int(10) NOT NULL DEFAULT '0',
+  `id` int(10) NOT NULL DEFAULT 0,
   `nama` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -13493,8 +13671,8 @@ CREATE TABLE `tweb_penduduk` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
   `nik` decimal(16,0) NOT NULL,
-  `id_kk` int(11) DEFAULT '0',
-  `kk_level` tinyint(2) NOT NULL DEFAULT '0',
+  `id_kk` int(11) DEFAULT 0,
+  `kk_level` tinyint(2) NOT NULL DEFAULT 0,
   `id_rtm` varchar(30) DEFAULT NULL,
   `rtm_level` int(11) DEFAULT NULL,
   `sex` tinyint(4) unsigned DEFAULT NULL,
@@ -13505,7 +13683,7 @@ CREATE TABLE `tweb_penduduk` (
   `pendidikan_sedang_id` int(1) DEFAULT NULL,
   `pekerjaan_id` int(1) DEFAULT NULL,
   `status_kawin` tinyint(4) DEFAULT NULL,
-  `warganegara_id` tinyint(4) NOT NULL DEFAULT '1',
+  `warganegara_id` tinyint(4) NOT NULL DEFAULT 1,
   `dokumen_pasport` varchar(45) DEFAULT NULL,
   `dokumen_kitas` varchar(45) DEFAULT NULL,
   `ayah_nik` varchar(16) DEFAULT NULL,
@@ -13518,7 +13696,7 @@ CREATE TABLE `tweb_penduduk` (
   `status` int(10) unsigned DEFAULT NULL,
   `alamat_sebelumnya` varchar(200) DEFAULT NULL,
   `alamat_sekarang` varchar(200) DEFAULT NULL,
-  `status_dasar` tinyint(4) NOT NULL DEFAULT '1',
+  `status_dasar` tinyint(4) NOT NULL DEFAULT 1,
   `hamil` int(1) DEFAULT NULL,
   `cacat_id` int(11) DEFAULT NULL,
   `sakit_menahun_id` int(11) DEFAULT NULL,
@@ -13541,120 +13719,121 @@ CREATE TABLE `tweb_penduduk` (
   `berat_lahir` smallint(6) DEFAULT NULL,
   `panjang_lahir` varchar(10) DEFAULT NULL,
   `tag_id_card` varchar(15) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `id_asuransi` tinyint(5) DEFAULT NULL,
   `no_asuransi` char(100) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `bahasa_id` int(11) DEFAULT NULL,
-  `ket` tinytext,
+  `ket` tinytext DEFAULT NULL,
   `negara_asal` varchar(50) DEFAULT NULL,
   `tempat_cetak_ktp` varchar(50) DEFAULT NULL,
   `tanggal_cetak_ktp` date DEFAULT NULL,
+  `suku` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `tag_id_card` (`tag_id_card`),
   KEY `id_rtm` (`id_rtm`)
 ) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (1, 'AHLUL', '5201142005716996', 1, 1, '011405000012', 1, 1, 'MANGSIT', '1970-05-20', 1, 3, 18, 26, 2, 1, '', '0', '', '', 'ARFAH', 'RAISAH', '', 13, 4, 1, '', '', 1, 0, NULL, NULL, '', '', NULL, '', NULL, 0, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:30:21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (2, 'AHMAD ALLIF RIZKI', '5201140706966997', 1, 4, '0', 0, 1, 'MANGSIT', '1995-06-07', 1, 1, 18, 1, 1, 1, '', '0', '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, 0, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (3, 'AHMAD HABIB', '5201140301916995', 1, 4, '011405000012', 2, 1, 'MANGSIT', '1990-01-03', 1, 3, 18, 1, 1, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:36:12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (4, 'ADINI SEPTIA LISTA', '5201145003976995', 1, 4, '0', 0, 2, 'MANGSIT', '1996-03-10', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (5, 'AHYAR', '5201141003666996', 2, 1, '0', 0, 1, 'JAKARTA', '1965-03-10', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'PAIMUN', 'SUPINAH', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (6, 'APTA MADA RIZKY ALAMSYAH', '5201141412121724', 2, 4, '0', 0, 1, 'DEPOK', '2002-12-14', 1, 2, 18, 3, 1, 1, NULL, NULL, '', '', 'AHYAR', 'ALIYAH', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (7, 'ALIYAH', '5201144609786995', 2, 3, '0', 0, 2, 'BEKASI', '1977-09-06', 1, 5, 18, 2, 2, 1, NULL, NULL, '', '', 'TAGOR SIPAHUTAR', 'AMAHWATI', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (8, 'ALPIANI', '5201144301171725', 2, 4, '0', 0, 2, 'BOGOR', '2007-01-03', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'AHYAR', 'ALIYAH', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (9, 'ASHARI', '5201140107867064', 3, 1, '0', 0, 1, 'KERANDANGAN', '1985-12-30', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDUL KARIM', 'RADIAH', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:36:52', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (10, 'BACHTIAR HADI', '5201142210181724', 3, 4, '0', 0, 1, 'MATARAM', '2008-10-22', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'ASHARI', 'ANGGUN LESTARI PRATAMA', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (11, 'ANGGUN LESTARI PRATAMA', '5201146510916995', 3, 3, '0', 0, 2, 'SENGGIGI', '1990-10-25', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'SADIRAH', 'HJ. ROHANI', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (12, 'DAHRI', '5201143112797117', 4, 1, '0', 0, 1, 'MASBAGIK', '1978-12-31', 1, 3, 18, 88, 2, 1, NULL, NULL, '', '', 'AMAQ SAHMINI', 'INAQ SAHMINI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (13, 'ERLANGGA DWIKO SAPUTRO', '5201140705156994', 4, 4, '0', 0, 1, 'MENINTING', '2014-05-07', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'DAHRI', 'ASMIATUN', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (14, 'FARIDAH', '5201141107101724', 4, 4, '0', 0, 1, 'MASBAGIK', '2000-07-11', 1, 3, 18, 3, 1, 1, NULL, NULL, '', '', 'DAHRI', 'ASMIATUN', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (15, 'ASMIATUN', '5201147112817188', 4, 3, '0', 0, 2, 'MASBAGIK', '1980-12-31', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AMAQ MUJAENI', 'INAQ SAHMINI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (16, 'BAIQ OLIVIA APRILLIANI', '5201145211486994', 5, 1, '0', 0, 2, 'SENGGIGI', '1947-11-12', 1, 1, 18, 1, 4, 1, NULL, NULL, '', '', 'AMAQ SINAREP', 'INAQ SINAREP', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (17, 'FAUZI', '5201141210906998', 6, 1, '0', 0, 1, 'KERANDANGAN', '1989-10-12', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'SABLI', 'RAOHUN', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (18, 'DELLA MAHARANI NINGSIH', '5201147112947048', 6, 9, '0', 0, 2, 'KERANDANGAN', '1993-12-31', 1, 4, 18, 1, 1, 1, NULL, NULL, '', '', 'SABLI', 'RAOHUN', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (19, 'HAERUL FATONI', '5201142911936995', 7, 1, '0', 0, 1, 'SENGGIGI', '1992-11-29', 1, 5, 18, 15, 2, 1, NULL, NULL, '', '', 'ANGKASAH', 'MARJANAH', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (20, 'DENATUL SUARTINI', '3275014601977005', 7, 3, '0', 0, 2, 'JAKARTA', '1996-01-06', 1, 5, 18, 2, 2, 1, NULL, NULL, '', '', 'G. AMIN. P', 'NGATI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (21, 'HERI IRAWAN', '5201140607636994', 8, 1, '0', 0, 1, 'TELOKE', '1962-07-06', 1, 3, 18, 9, 2, 1, NULL, NULL, '', '', 'AMAK MAJUMI', 'INAK MIDAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (22, 'HERMAN', '5201140305936994', 8, 4, '0', 0, 1, 'SENGGIGI', '1992-05-03', 1, 4, 18, 1, 1, 1, NULL, NULL, '', '', 'HERI IRAWAN', 'DEWI SAULINA', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (23, 'DEWI SAULINA', '5201144808686994', 8, 3, '0', 0, 2, 'KEKERAN', '1967-08-08', 1, 1, 18, 2, 2, 1, NULL, NULL, '', '', 'H. ZAENUDIN', 'INAK NAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (24, 'ELOK KHALISA SABRINA', '5201144408886994', 8, 4, '0', 0, 2, 'SENGGIGI', '1987-08-04', 1, 4, 18, 88, 1, 1, NULL, NULL, '', '', 'SERIMAN', 'DEWI SAULINA', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (25, 'I KETUT PAHING', '5201142210806997', 9, 1, '0', 0, 1, 'MATARAM', '1979-10-22', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', '-', '-', '', 2, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (26, 'IDA BAGUS MAS BUJANA', '5201143112707040', 10, 1, '0', 0, 1, 'APIT AIK', '1969-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'SAHMIN', 'MAOSIN', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (27, 'JOKO PATMOTO', '5201141009146994', 10, 4, '0', 0, 1, 'MANGSIT', '2013-09-10', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'IDA BAGUS MAS BUJANA', 'FITRIANI', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (28, 'KOMANG SALUN', '5201143105121724', 10, 4, '0', 0, 1, 'KAYANGAN', '2002-05-31', 1, 2, 18, 3, 1, 1, NULL, NULL, '', '', 'AMILUDIN', 'FITRIANI', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (29, 'FITRIANI', '5201145107836994', 10, 3, '0', 0, 2, 'KAYANGAN', '1982-07-11', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'REMBUK', 'SITIAH', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (30, 'LALU WAWAN DININGRAT', '5201141206886994', 11, 1, '0', 0, 1, 'MANGSIT', '1987-06-12', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'MAHSUN SUBUH', 'SARDIAH', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (31, 'FITRIANI', '5271016801926995', 11, 3, '0', 0, 2, 'MATARAM', '1991-01-28', 1, 5, 18, 15, 2, 1, NULL, NULL, '', '', 'UMAR', 'RUMINSIH', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (32, 'M. FA\'IZ AZAMI', '5201143112897123', 12, 1, '0', 0, 1, 'GEGELANG', '1988-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'SAREH', 'SUTIMAH', '', 13, 20, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (33, 'HILMIATI', '5201146402906994', 12, 3, '0', 0, 2, 'LOCO', '1989-02-24', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'H. MANSYUR', 'HJ. SA\'ADAH', '', 13, 20, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (34, 'HJ. PARIDAH', '5201144912146994', 12, 4, '0', 0, 2, 'MENINTING', '2013-12-09', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'M. FA\'IZ AZAMI', 'HILMIATI', '', 13, 20, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (35, 'HJ. SAMIRAH', '5201147112767266', 13, 1, '0', 0, 2, 'SENGGIGI', '1975-12-31', 1, 3, 18, 15, 3, 1, NULL, NULL, '', '', 'DAMSYAH', 'MARWIYAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (36, 'HUR MINAH', '5201144504131726', 13, 4, '0', 0, 2, 'SENGGIGI', '2003-04-05', 1, 3, 18, 3, 1, 1, NULL, NULL, '', '', 'MARSINI', 'KHODIJAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (37, 'HUSNAH', '5201145905936994', 14, 1, '0', 0, 2, 'LOTIM', '1992-05-19', 1, 4, 18, 88, 1, 1, NULL, NULL, '', '', '-', '-', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (38, 'IDA AYU OKA SUKERTI', '5201147112587053', 15, 1, '0', 0, 2, 'KERANDANGAN', '1957-12-31', 1, 3, 18, 88, 4, 1, NULL, NULL, '', '', 'ANGGRAH', 'HABIBAH', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (39, 'M. JAYADI', '5201143112837098', 16, 1, '0', 0, 1, 'SENGGIGI', '1982-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'IKHSAN', 'SAIDAH', '', 13, 21, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (40, 'JARIYAH', '5201145406916994', 16, 3, '0', 0, 2, 'SENGGIGI', '1990-06-14', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'SEGEP', 'HURNIWATI', '', 13, 21, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (41, 'LIHAM SATUN', '5201147112116995', 16, 4, '0', 0, 2, 'MATARAM', '2010-12-31', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'M. JAYADI', 'JARIYAH', '', 13, 21, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (42, 'M. NUR SAHID', '5201140507916996', 17, 1, '0', 0, 1, 'KERANDANGAN', '1990-07-05', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (43, 'MADE ASTAWE', '5201142503181724', 17, 4, '0', 0, 1, 'KERANDANGAN', '2008-03-25', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'M. NUR SAHID', 'MAISAH', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (44, 'MAISAH', '5201144605936994', 17, 3, '0', 0, 2, 'KERANDANGAN', '1992-05-06', 4, 1, 18, 88, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (45, 'MARSUNIN YOGA PRATAMA', '5201143112677056', 18, 1, '0', 0, 1, 'PEJARAKAN', '1966-12-31', 1, 3, 18, 9, 2, 1, NULL, NULL, '', '', 'MISRAH', 'INAQ MISDAH', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (46, 'MARZUKI', '5201141003966996', 18, 4, '0', 0, 1, 'LOCO', '1995-03-10', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (47, 'MUHAMAD HAMDI', '5201141706986996', 18, 4, '0', 0, 1, 'LOCO', '1997-06-17', 1, 4, 18, 3, 1, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (48, 'MARLIA SAJIDA', '5201147112707088', 18, 3, '0', 0, 2, 'PEJARAKAN', '1969-12-31', 1, 3, 18, 2, 2, 1, NULL, NULL, '', '', 'H. ZAINUDIN', 'INAQ NAH', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (49, 'MIRA FANDA', '5201146704906995', 18, 4, '0', 0, 2, 'LOCO', '1989-04-27', 1, 5, 18, 88, 4, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (50, 'MUNAAH', '5201146304171724', 18, 4, '0', 0, 2, 'LOCO', '2007-04-23', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (51, 'MUHAMAD KABIR', '5201140107917031', 19, 1, '0', 0, 1, 'SENGGIGI', '1985-12-31', 1, 3, 18, 88, 2, 1, NULL, NULL, '', '', 'MUNIAH', 'SALIKIN', '', 13, 23, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (52, 'MUHAMAD SUHAD', '5201141704876995', 20, 1, '0', 0, 1, 'SENGGIGI', '1982-12-10', 1, 5, 18, 15, 2, 1, NULL, NULL, '', '', 'MUNIAH', 'HAJRIAH', '', 13, 24, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (53, 'MUHAMMAD HAIKAL FIRMANSYAH', '5201140308151724', 20, 4, '0', 0, 1, 'LOCO', '2005-08-03', 1, 2, 18, 1, 1, 1, NULL, NULL, '', '', 'MUHAMAD SUHAD', 'KHADIJAH', '', 13, 24, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (54, 'MURNIAH', '5201145904846994', 20, 3, '0', 0, 2, 'SETANGI', '1991-03-04', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'SAHABUDIN', 'SAKMAH', '', 13, 24, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (55, 'MURNIATI SAGITA', '5201144112726996', 21, 1, '0', 0, 2, 'YOGYAKARTA', '1971-12-01', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'UMAR SANTOSA', 'MIRANTI', '', 1, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (56, 'MUHAMMAD RIFAI', '5201143105926995', 22, 1, '0', 0, 1, 'LOCO', '1991-05-31', 4, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'I WAYAN MERTI', 'NI NYOMAN RENI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (57, 'NADIA ROSDIANA', '5201144305936996', 22, 3, '0', 0, 2, 'MATARAM', '1992-05-03', 4, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'I WAYAN PARTA', 'NI NENGAH SUDINI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (58, 'NI KOMANG PONIASIH', '5201146206126994', 22, 4, '0', 0, 2, 'MATARAM', '2011-06-22', 4, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MURNIATI SAGITA', 'NADIA ROSDIANA', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (59, 'MUHAMMAD WIRDA MAULANA IBRAHIM', '5201143112417056', 23, 1, '0', 0, 1, 'SENGGIGI', '1940-12-31', 1, 1, 18, 9, 2, 1, NULL, NULL, '', '', 'AMAQ SUN -ALM-', 'INAQ SUN -ALM-', '', 13, 23, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (60, 'NI LUH NITA SARI', '5201147112466997', 23, 3, '0', 0, 2, 'SENTELUK', '1945-12-31', 1, 1, 18, 2, 2, 1, NULL, NULL, '', '', 'AMAQ IRAH', 'INAQ IRAH', '', 13, 23, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (61, 'NI NENGAH AYU KARSINI', '5201145505946996', 24, 1, '0', 0, 2, 'SENGGIGI', '1993-05-15', 1, 2, 18, 15, 1, 1, NULL, NULL, '', '', 'H HAMDANI', 'SANERIAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (62, 'MUKSAN', '5201143112957094', 25, 1, '0', 0, 1, 'MANGSIT', '1994-12-31', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'MISDAH', 'RABIAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (63, 'NURHAYATI', '5201145509146994', 25, 4, '0', 0, 2, 'MENINTING', '2013-09-15', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MUKSAN', 'NUR\'AINI', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (64, 'MURSIDIN', '5201142204966994', 26, 4, '0', 0, 1, 'MANGSIT', '1995-04-22', 1, 3, 18, 11, 1, 1, NULL, NULL, '', '', 'RUSNAH (ALM)', 'NURHIDAYAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (65, 'NURHIDAYAH', '5201144209766995', 26, 1, '0', 0, 2, 'MANGSIT', '1975-09-02', 1, 3, 18, 2, 4, 1, NULL, NULL, '', '', 'ISMAIL', 'JUMINAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (66, 'NURJANAH', '5201145005101724', 26, 4, '0', 0, 2, 'MONTONG', '2000-05-10', 1, 4, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNAH (ALM)', 'NURHIDAYAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (67, 'NURUL AINUN', '5201144108121724', 26, 4, '0', 0, 2, 'MANGSIT', '2002-08-01', 1, 2, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNAH', 'NURHIDAYAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (68, 'MUSAHAB', '5201141607936996', 27, 1, '0', 0, 1, 'LOTENG', '1992-07-16', 1, 6, 18, 88, 2, 1, NULL, NULL, '', '', 'LALU ROSIDI', 'BQ. ALISA', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (69, 'NURUL FAIZAH', '5201145003936994', 27, 3, '0', 0, 2, 'SENGGIGI', '1992-03-10', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'SAHUR', 'SARE\'AH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (70, 'NURUL HIDAYATI', '5201147004136996', 27, 4, '0', 0, 2, 'MATARAM', '2012-04-30', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MUSAHAB', 'NURUL FAIZAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (71, 'NAPIAH', '5201141303906995', 28, 1, '0', 0, 1, 'SENGGIGI', '1989-03-13', 1, 4, 18, 11, 2, 1, NULL, NULL, '', '', 'MUNIAH', 'HAJARIAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (72, 'RACHEL YULIANTI', '5201146507966995', 28, 3, '0', 0, 2, 'MELASE', '1995-07-25', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'LUKMAN', 'MUSNAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (73, 'RAISHA MAULIDYA', '5201144701156995', 28, 4, '0', 0, 2, 'MENINTING', '2014-01-07', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'NAPIAH', 'RACHEL YULIANTI', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (74, 'PATANUL HUSNUL', '5201143112667000', 29, 1, '0', 0, 1, 'JAWA TIMUR', '1965-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'AHMAD', 'ASIH', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (75, 'RATNAWATY', '5201145512796995', 29, 3, '0', 0, 2, 'KERANDANGAN', '1978-12-15', 1, 5, 18, 84, 2, 1, NULL, NULL, '', '', 'JUM', 'REMAH', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (76, 'RABITAH', '5201140312896994', 30, 1, '0', 0, 1, 'KERANDANGAN', '1988-12-03', 4, 4, 18, 88, 1, 1, NULL, NULL, '', '', '-', '-', '', 13, 27, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (77, 'ROMI FAISAL', '5201141506856997', 31, 1, '0', 0, 1, 'MANGSIT', '1984-06-15', 1, 3, 18, 15, 2, 1, NULL, NULL, '', '', 'MUNTAHAR', 'MAKNAH', '', 13, 28, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (78, 'RAUDATUL ILMI', '5201145808816994', 31, 3, '0', 0, 2, 'IRENG DAYE', '1980-08-18', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'MUDAHIR', 'RUMISAH', '', 13, 28, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (79, 'ROHANI', '5201144306116994', 31, 4, '0', 0, 2, 'MANGSIT', '2010-06-03', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'ROMI FAISAL', 'RAUDATUL ILMI', '', 13, 28, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (80, 'RUKIAH', '5201145909946994', 32, 1, '0', 0, 2, 'SERANG', '1993-09-19', 1, 4, 18, 88, 3, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (81, 'RUMALI', '5201144507886994', 32, 9, '0', 0, 2, 'JAKARTA', '1987-07-05', 1, 4, 18, 88, 1, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (82, 'RONI', '5201140301836997', 33, 4, '0', 0, 1, 'DENPASAR', '1982-01-03', 4, 5, 18, 15, 1, 1, NULL, NULL, '', '', 'IDA BAGUS PUTU WIADNYA', 'RUSMAYANTI', '', 13, 30, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (83, 'RUSMAYANTI', '5201145003546994', 33, 1, '0', 0, 2, 'DENPASAR', '1953-03-10', 4, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'IDA BAGUS MAS', 'IDA AYU RAKA', '', 13, 30, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (84, 'RUSNI', '5201143112707180', 34, 1, '0', 0, 1, 'KEKERAN', '1969-12-31', 1, 3, 18, 9, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (85, 'SAPIAH', '5201147011726994', 34, 3, '0', 0, 2, 'KEKERAN', '1971-11-30', 1, 3, 18, 2, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (86, 'SAPINAH', '5201145701966994', 34, 4, '0', 0, 2, 'SENGGIGI', '1995-01-17', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNI', 'SAPIAH', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (87, 'SARRA LANGELAND', '5201145111946996', 34, 4, '0', 0, 2, 'SENGGIGI', '1993-11-11', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNI', 'SAPIAH', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (88, 'SAHRONI', '5201143112617096', 35, 1, '0', 0, 1, 'MEDAS', '1960-12-31', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'SADIYAH', 'INAQ SADIAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (89, 'SERIMAN', '5201141012846995', 35, 4, '0', 0, 1, 'SENGGIGI', '1983-12-10', 1, 5, 18, 15, 1, 1, NULL, NULL, '', '', 'SAHRONI', 'NURLAELA', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (90, 'SUNYOTOH', '5201143112817139', 35, 4, '0', 0, 1, 'MEDAS', '1980-12-31', 1, 5, 18, 15, 1, 1, NULL, NULL, '', '', 'SAHRONI', 'NURLAELA', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (91, 'SYARIFUL KALAM', '5201141707776994', 36, 1, '0', 0, 1, 'SENGGIGI', '1976-07-17', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDURAHMAN', 'NAFISAH', '', 1, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (92, 'SITI AISYAH', '5201146210776994', 36, 3, '0', 0, 2, 'SUKARAJA', '1976-10-22', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AMINALLOH', 'RAEHAN', '', 2, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (93, 'SITI PAOZIAH', '5201146312161724', 36, 4, '0', 0, 2, 'SENGGIGI', '2006-12-23', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'SYARIFUL KALAM', 'SITI AISYAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (94, 'SUKMA UTAMI', '5201144607996998', 36, 4, '0', 0, 2, 'SENGGIGI', '1998-07-06', 1, 4, 18, 3, 1, 1, NULL, NULL, '', '', 'SYARIFUL KALAM', 'SITI AISYAH', '', 5, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (95, 'WAHID ALIAS H. MAHSUN', '5201141212816996', 37, 1, '0', 0, 1, 'SENGGIGI', '1980-12-12', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDURRAHMAN', 'NAFISAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (96, 'WAYAN EKA PRAWATA', '5201142003136994', 37, 4, '0', 0, 1, 'GUNUNG SARI', '2012-03-20', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'WAHID ALIAS H. MAHSUN', 'ULFA WIDIAWATI', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`) VALUES (97, 'ULFA WIDIAWATI', '5201145203896994', 37, 3, '0', 0, 2, 'JOHAR PELITA', '1988-03-12', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'ZAMHARIN', 'SITIYAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (1, 'AHLUL', '5201142005716996', 1, 1, '011405000012', 1, 1, 'MANGSIT', '1970-05-20', 1, 3, 18, 26, 2, 1, '', '0', '', '', 'ARFAH', 'RAISAH', '', 13, 4, 1, '', '', 1, 0, NULL, NULL, '', '', NULL, '', NULL, 0, '082296870436', NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:30:21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (2, 'AHMAD ALLIF RIZKI', '5201140706966997', 1, 4, '0', 0, 1, 'MANGSIT', '1995-06-07', 1, 1, 18, 1, 1, 1, '', '0', '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, 0, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (3, 'AHMAD HABIB', '5201140301916995', 1, 4, '011405000012', 2, 1, 'MANGSIT', '1990-01-03', 1, 3, 18, 1, 1, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:36:12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (4, 'ADINI SEPTIA LISTA', '5201145003976995', 1, 4, '0', 0, 2, 'MANGSIT', '1996-03-10', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (5, 'AHYAR', '5201141003666996', 2, 1, '0', 0, 1, 'JAKARTA', '1965-03-10', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'PAIMUN', 'SUPINAH', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (6, 'APTA MADA RIZKY ALAMSYAH', '5201141412121724', 2, 4, '0', 0, 1, 'DEPOK', '2002-12-14', 1, 2, 18, 3, 1, 1, NULL, NULL, '', '', 'AHYAR', 'ALIYAH', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (7, 'ALIYAH', '5201144609786995', 2, 3, '0', 0, 2, 'BEKASI', '1977-09-06', 1, 5, 18, 2, 2, 1, NULL, NULL, '', '', 'TAGOR SIPAHUTAR', 'AMAHWATI', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (8, 'ALPIANI', '5201144301171725', 2, 4, '0', 0, 2, 'BOGOR', '2007-01-03', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'AHYAR', 'ALIYAH', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (9, 'ASHARI', '5201140107867064', 3, 1, '0', 0, 1, 'KERANDANGAN', '1985-12-30', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDUL KARIM', 'RADIAH', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:36:52', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (10, 'BACHTIAR HADI', '5201142210181724', 3, 4, '0', 0, 1, 'MATARAM', '2008-10-22', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'ASHARI', 'ANGGUN LESTARI PRATAMA', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (11, 'ANGGUN LESTARI PRATAMA', '5201146510916995', 3, 3, '0', 0, 2, 'SENGGIGI', '1990-10-25', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'SADIRAH', 'HJ. ROHANI', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (12, 'DAHRI', '5201143112797117', 4, 1, '0', 0, 1, 'MASBAGIK', '1978-12-31', 1, 3, 18, 88, 2, 1, NULL, NULL, '', '', 'AMAQ SAHMINI', 'INAQ SAHMINI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (13, 'ERLANGGA DWIKO SAPUTRO', '5201140705156994', 4, 4, '0', 0, 1, 'MENINTING', '2014-05-07', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'DAHRI', 'ASMIATUN', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (14, 'FARIDAH', '5201141107101724', 4, 4, '0', 0, 1, 'MASBAGIK', '2000-07-11', 1, 3, 18, 3, 1, 1, NULL, NULL, '', '', 'DAHRI', 'ASMIATUN', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (15, 'ASMIATUN', '5201147112817188', 4, 3, '0', 0, 2, 'MASBAGIK', '1980-12-31', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AMAQ MUJAENI', 'INAQ SAHMINI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (16, 'BAIQ OLIVIA APRILLIANI', '5201145211486994', 5, 1, '0', 0, 2, 'SENGGIGI', '1947-11-12', 1, 1, 18, 1, 4, 1, NULL, NULL, '', '', 'AMAQ SINAREP', 'INAQ SINAREP', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (17, 'FAUZI', '5201141210906998', 6, 1, '0', 0, 1, 'KERANDANGAN', '1989-10-12', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'SABLI', 'RAOHUN', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (18, 'DELLA MAHARANI NINGSIH', '5201147112947048', 6, 9, '0', 0, 2, 'KERANDANGAN', '1993-12-31', 1, 4, 18, 1, 1, 1, NULL, NULL, '', '', 'SABLI', 'RAOHUN', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (19, 'HAERUL FATONI', '5201142911936995', 7, 1, '0', 0, 1, 'SENGGIGI', '1992-11-29', 1, 5, 18, 15, 2, 1, NULL, NULL, '', '', 'ANGKASAH', 'MARJANAH', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (20, 'DENATUL SUARTINI', '3275014601977005', 7, 3, '0', 0, 2, 'JAKARTA', '1996-01-06', 1, 5, 18, 2, 2, 1, NULL, NULL, '', '', 'G. AMIN. P', 'NGATI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (21, 'HERI IRAWAN', '5201140607636994', 8, 1, '0', 0, 1, 'TELOKE', '1962-07-06', 1, 3, 18, 9, 2, 1, NULL, NULL, '', '', 'AMAK MAJUMI', 'INAK MIDAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (22, 'HERMAN', '5201140305936994', 8, 4, '0', 0, 1, 'SENGGIGI', '1992-05-03', 1, 4, 18, 1, 1, 1, NULL, NULL, '', '', 'HERI IRAWAN', 'DEWI SAULINA', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (23, 'DEWI SAULINA', '5201144808686994', 8, 3, '0', 0, 2, 'KEKERAN', '1967-08-08', 1, 1, 18, 2, 2, 1, NULL, NULL, '', '', 'H. ZAENUDIN', 'INAK NAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (24, 'ELOK KHALISA SABRINA', '5201144408886994', 8, 4, '0', 0, 2, 'SENGGIGI', '1987-08-04', 1, 4, 18, 88, 1, 1, NULL, NULL, '', '', 'SERIMAN', 'DEWI SAULINA', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (25, 'I KETUT PAHING', '5201142210806997', 9, 1, '0', 0, 1, 'MATARAM', '1979-10-22', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', '-', '-', '', 2, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (26, 'IDA BAGUS MAS BUJANA', '5201143112707040', 10, 1, '0', 0, 1, 'APIT AIK', '1969-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'SAHMIN', 'MAOSIN', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (27, 'JOKO PATMOTO', '5201141009146994', 10, 4, '0', 0, 1, 'MANGSIT', '2013-09-10', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'IDA BAGUS MAS BUJANA', 'FITRIANI', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (28, 'KOMANG SALUN', '5201143105121724', 10, 4, '0', 0, 1, 'KAYANGAN', '2002-05-31', 1, 2, 18, 3, 1, 1, NULL, NULL, '', '', 'AMILUDIN', 'FITRIANI', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (29, 'FITRIANI', '5201145107836994', 10, 3, '0', 0, 2, 'KAYANGAN', '1982-07-11', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'REMBUK', 'SITIAH', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (30, 'LALU WAWAN DININGRAT', '5201141206886994', 11, 1, '0', 0, 1, 'MANGSIT', '1987-06-12', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'MAHSUN SUBUH', 'SARDIAH', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (31, 'FITRIANI', '5271016801926995', 11, 3, '0', 0, 2, 'MATARAM', '1991-01-28', 1, 5, 18, 15, 2, 1, NULL, NULL, '', '', 'UMAR', 'RUMINSIH', '', 13, 19, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (32, 'M. FA\'IZ AZAMI', '5201143112897123', 12, 1, '0', 0, 1, 'GEGELANG', '1988-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'SAREH', 'SUTIMAH', '', 13, 20, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (33, 'HILMIATI', '5201146402906994', 12, 3, '0', 0, 2, 'LOCO', '1989-02-24', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'H. MANSYUR', 'HJ. SA\'ADAH', '', 13, 20, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (34, 'HJ. PARIDAH', '5201144912146994', 12, 4, '0', 0, 2, 'MENINTING', '2013-12-09', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'M. FA\'IZ AZAMI', 'HILMIATI', '', 13, 20, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (35, 'HJ. SAMIRAH', '5201147112767266', 13, 1, '0', 0, 2, 'SENGGIGI', '1975-12-31', 1, 3, 18, 15, 3, 1, NULL, NULL, '', '', 'DAMSYAH', 'MARWIYAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (36, 'HUR MINAH', '5201144504131726', 13, 4, '0', 0, 2, 'SENGGIGI', '2003-04-05', 1, 3, 18, 3, 1, 1, NULL, NULL, '', '', 'MARSINI', 'KHODIJAH', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (37, 'HUSNAH', '5201145905936994', 14, 1, '0', 0, 2, 'LOTIM', '1992-05-19', 1, 4, 18, 88, 1, 1, NULL, NULL, '', '', '-', '-', '', 13, 18, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (38, 'IDA AYU OKA SUKERTI', '5201147112587053', 15, 1, '0', 0, 2, 'KERANDANGAN', '1957-12-31', 1, 3, 18, 88, 4, 1, NULL, NULL, '', '', 'ANGGRAH', 'HABIBAH', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (39, 'M. JAYADI', '5201143112837098', 16, 1, '0', 0, 1, 'SENGGIGI', '1982-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'IKHSAN', 'SAIDAH', '', 13, 21, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (40, 'JARIYAH', '5201145406916994', 16, 3, '0', 0, 2, 'SENGGIGI', '1990-06-14', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'SEGEP', 'HURNIWATI', '', 13, 21, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (41, 'LIHAM SATUN', '5201147112116995', 16, 4, '0', 0, 2, 'MATARAM', '2010-12-31', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'M. JAYADI', 'JARIYAH', '', 13, 21, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (42, 'M. NUR SAHID', '5201140507916996', 17, 1, '0', 0, 1, 'KERANDANGAN', '1990-07-05', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (43, 'MADE ASTAWE', '5201142503181724', 17, 4, '0', 0, 1, 'KERANDANGAN', '2008-03-25', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'M. NUR SAHID', 'MAISAH', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (44, 'MAISAH', '5201144605936994', 17, 3, '0', 0, 2, 'KERANDANGAN', '1992-05-06', 4, 1, 18, 88, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 12, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (45, 'MARSUNIN YOGA PRATAMA', '5201143112677056', 18, 1, '0', 0, 1, 'PEJARAKAN', '1966-12-31', 1, 3, 18, 9, 2, 1, NULL, NULL, '', '', 'MISRAH', 'INAQ MISDAH', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (46, 'MARZUKI', '5201141003966996', 18, 4, '0', 0, 1, 'LOCO', '1995-03-10', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (47, 'MUHAMAD HAMDI', '5201141706986996', 18, 4, '0', 0, 1, 'LOCO', '1997-06-17', 1, 4, 18, 3, 1, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (48, 'MARLIA SAJIDA', '5201147112707088', 18, 3, '0', 0, 2, 'PEJARAKAN', '1969-12-31', 1, 3, 18, 2, 2, 1, NULL, NULL, '', '', 'H. ZAINUDIN', 'INAQ NAH', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (49, 'MIRA FANDA', '5201146704906995', 18, 4, '0', 0, 2, 'LOCO', '1989-04-27', 1, 5, 18, 88, 4, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (50, 'MUNAAH', '5201146304171724', 18, 4, '0', 0, 2, 'LOCO', '2007-04-23', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MARSUNIN YOGA PRATAMA', 'MARLIA SAJIDA', '', 13, 22, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (51, 'MUHAMAD KABIR', '5201140107917031', 19, 1, '0', 0, 1, 'SENGGIGI', '1985-12-31', 1, 3, 18, 88, 2, 1, NULL, NULL, '', '', 'MUNIAH', 'SALIKIN', '', 13, 23, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (52, 'MUHAMAD SUHAD', '5201141704876995', 20, 1, '0', 0, 1, 'SENGGIGI', '1982-12-10', 1, 5, 18, 15, 2, 1, NULL, NULL, '', '', 'MUNIAH', 'HAJRIAH', '', 13, 24, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (53, 'MUHAMMAD HAIKAL FIRMANSYAH', '5201140308151724', 20, 4, '0', 0, 1, 'LOCO', '2005-08-03', 1, 2, 18, 1, 1, 1, NULL, NULL, '', '', 'MUHAMAD SUHAD', 'KHADIJAH', '', 13, 24, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (54, 'MURNIAH', '5201145904846994', 20, 3, '0', 0, 2, 'SETANGI', '1991-03-04', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'SAHABUDIN', 'SAKMAH', '', 13, 24, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (55, 'MURNIATI SAGITA', '5201144112726996', 21, 1, '0', 0, 2, 'YOGYAKARTA', '1971-12-01', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'UMAR SANTOSA', 'MIRANTI', '', 1, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (56, 'MUHAMMAD RIFAI', '5201143105926995', 22, 1, '0', 0, 1, 'LOCO', '1991-05-31', 4, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'I WAYAN MERTI', 'NI NYOMAN RENI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (57, 'NADIA ROSDIANA', '5201144305936996', 22, 3, '0', 0, 2, 'MATARAM', '1992-05-03', 4, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'I WAYAN PARTA', 'NI NENGAH SUDINI', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (58, 'NI KOMANG PONIASIH', '5201146206126994', 22, 4, '0', 0, 2, 'MATARAM', '2011-06-22', 4, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MURNIATI SAGITA', 'NADIA ROSDIANA', '', 13, 16, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (59, 'MUHAMMAD WIRDA MAULANA IBRAHIM', '5201143112417056', 23, 1, '0', 0, 1, 'SENGGIGI', '1940-12-31', 1, 1, 18, 9, 2, 1, NULL, NULL, '', '', 'AMAQ SUN -ALM-', 'INAQ SUN -ALM-', '', 13, 23, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (60, 'NI LUH NITA SARI', '5201147112466997', 23, 3, '0', 0, 2, 'SENTELUK', '1945-12-31', 1, 1, 18, 2, 2, 1, NULL, NULL, '', '', 'AMAQ IRAH', 'INAQ IRAH', '', 13, 23, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (61, 'NI NENGAH AYU KARSINI', '5201145505946996', 24, 1, '0', 0, 2, 'SENGGIGI', '1993-05-15', 1, 2, 18, 15, 1, 1, NULL, NULL, '', '', 'H HAMDANI', 'SANERIAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (62, 'MUKSAN', '5201143112957094', 25, 1, '0', 0, 1, 'MANGSIT', '1994-12-31', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'MISDAH', 'RABIAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (63, 'NURHAYATI', '5201145509146994', 25, 4, '0', 0, 2, 'MENINTING', '2013-09-15', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MUKSAN', 'NUR\'AINI', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (64, 'MURSIDIN', '5201142204966994', 26, 4, '0', 0, 1, 'MANGSIT', '1995-04-22', 1, 3, 18, 11, 1, 1, NULL, NULL, '', '', 'RUSNAH (ALM)', 'NURHIDAYAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (65, 'NURHIDAYAH', '5201144209766995', 26, 1, '0', 0, 2, 'MANGSIT', '1975-09-02', 1, 3, 18, 2, 4, 1, NULL, NULL, '', '', 'ISMAIL', 'JUMINAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (66, 'NURJANAH', '5201145005101724', 26, 4, '0', 0, 2, 'MONTONG', '2000-05-10', 1, 4, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNAH (ALM)', 'NURHIDAYAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (67, 'NURUL AINUN', '5201144108121724', 26, 4, '0', 0, 2, 'MANGSIT', '2002-08-01', 1, 2, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNAH', 'NURHIDAYAH', '', 13, 26, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (68, 'MUSAHAB', '5201141607936996', 27, 1, '0', 0, 1, 'LOTENG', '1992-07-16', 1, 6, 18, 88, 2, 1, NULL, NULL, '', '', 'LALU ROSIDI', 'BQ. ALISA', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (69, 'NURUL FAIZAH', '5201145003936994', 27, 3, '0', 0, 2, 'SENGGIGI', '1992-03-10', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'SAHUR', 'SARE\'AH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (70, 'NURUL HIDAYATI', '5201147004136996', 27, 4, '0', 0, 2, 'MATARAM', '2012-04-30', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'MUSAHAB', 'NURUL FAIZAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (71, 'NAPIAH', '5201141303906995', 28, 1, '0', 0, 1, 'SENGGIGI', '1989-03-13', 1, 4, 18, 11, 2, 1, NULL, NULL, '', '', 'MUNIAH', 'HAJARIAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (72, 'RACHEL YULIANTI', '5201146507966995', 28, 3, '0', 0, 2, 'MELASE', '1995-07-25', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'LUKMAN', 'MUSNAH', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (73, 'RAISHA MAULIDYA', '5201144701156995', 28, 4, '0', 0, 2, 'MENINTING', '2014-01-07', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'NAPIAH', 'RACHEL YULIANTI', '', 13, 25, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (74, 'PATANUL HUSNUL', '5201143112667000', 29, 1, '0', 0, 1, 'JAWA TIMUR', '1965-12-31', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'AHMAD', 'ASIH', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (75, 'RATNAWATY', '5201145512796995', 29, 3, '0', 0, 2, 'KERANDANGAN', '1978-12-15', 1, 5, 18, 84, 2, 1, NULL, NULL, '', '', 'JUM', 'REMAH', '', 13, 17, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (76, 'RABITAH', '5201140312896994', 30, 1, '0', 0, 1, 'KERANDANGAN', '1988-12-03', 4, 4, 18, 88, 1, 1, NULL, NULL, '', '', '-', '-', '', 13, 27, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (77, 'ROMI FAISAL', '5201141506856997', 31, 1, '0', 0, 1, 'MANGSIT', '1984-06-15', 1, 3, 18, 15, 2, 1, NULL, NULL, '', '', 'MUNTAHAR', 'MAKNAH', '', 13, 28, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (78, 'RAUDATUL ILMI', '5201145808816994', 31, 3, '0', 0, 2, 'IRENG DAYE', '1980-08-18', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'MUDAHIR', 'RUMISAH', '', 13, 28, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (79, 'ROHANI', '5201144306116994', 31, 4, '0', 0, 2, 'MANGSIT', '2010-06-03', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'ROMI FAISAL', 'RAUDATUL ILMI', '', 13, 28, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (80, 'RUKIAH', '5201145909946994', 32, 1, '0', 0, 2, 'SERANG', '1993-09-19', 1, 4, 18, 88, 3, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (81, 'RUMALI', '5201144507886994', 32, 9, '0', 0, 2, 'JAKARTA', '1987-07-05', 1, 4, 18, 88, 1, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (82, 'RONI', '5201140301836997', 33, 4, '0', 0, 1, 'DENPASAR', '1982-01-03', 4, 5, 18, 15, 1, 1, NULL, NULL, '', '', 'IDA BAGUS PUTU WIADNYA', 'RUSMAYANTI', '', 13, 30, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (83, 'RUSMAYANTI', '5201145003546994', 33, 1, '0', 0, 2, 'DENPASAR', '1953-03-10', 4, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'IDA BAGUS MAS', 'IDA AYU RAKA', '', 13, 30, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (84, 'RUSNI', '5201143112707180', 34, 1, '0', 0, 1, 'KEKERAN', '1969-12-31', 1, 3, 18, 9, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (85, 'SAPIAH', '5201147011726994', 34, 3, '0', 0, 2, 'KEKERAN', '1971-11-30', 1, 3, 18, 2, 2, 1, NULL, NULL, '', '', '-', '-', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (86, 'SAPINAH', '5201145701966994', 34, 4, '0', 0, 2, 'SENGGIGI', '1995-01-17', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNI', 'SAPIAH', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (87, 'SARRA LANGELAND', '5201145111946996', 34, 4, '0', 0, 2, 'SENGGIGI', '1993-11-11', 1, 5, 18, 3, 1, 1, NULL, NULL, '', '', 'RUSNI', 'SAPIAH', '', 13, 29, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (88, 'SAHRONI', '5201143112617096', 35, 1, '0', 0, 1, 'MEDAS', '1960-12-31', 1, 4, 18, 88, 2, 1, NULL, NULL, '', '', 'SADIYAH', 'INAQ SADIAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (89, 'SERIMAN', '5201141012846995', 35, 4, '0', 0, 1, 'SENGGIGI', '1983-12-10', 1, 5, 18, 15, 1, 1, NULL, NULL, '', '', 'SAHRONI', 'NURLAELA', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (90, 'SUNYOTOH', '5201143112817139', 35, 4, '0', 0, 1, 'MEDAS', '1980-12-31', 1, 5, 18, 15, 1, 1, NULL, NULL, '', '', 'SAHRONI', 'NURLAELA', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (91, 'SYARIFUL KALAM', '5201141707776994', 36, 1, '0', 0, 1, 'SENGGIGI', '1976-07-17', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDURAHMAN', 'NAFISAH', '', 1, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (92, 'SITI AISYAH', '5201146210776994', 36, 3, '0', 0, 2, 'SUKARAJA', '1976-10-22', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AMINALLOH', 'RAEHAN', '', 2, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (93, 'SITI PAOZIAH', '5201146312161724', 36, 4, '0', 0, 2, 'SENGGIGI', '2006-12-23', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'SYARIFUL KALAM', 'SITI AISYAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (94, 'SUKMA UTAMI', '5201144607996998', 36, 4, '0', 0, 2, 'SENGGIGI', '1998-07-06', 1, 4, 18, 3, 1, 1, NULL, NULL, '', '', 'SYARIFUL KALAM', 'SITI AISYAH', '', 5, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (95, 'WAHID ALIAS H. MAHSUN', '5201141212816996', 37, 1, '0', 0, 1, 'SENGGIGI', '1980-12-12', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'H. ABDURRAHMAN', 'NAFISAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (96, 'WAYAN EKA PRAWATA', '5201142003136994', 37, 4, '0', 0, 1, 'GUNUNG SARI', '2012-03-20', 1, 1, 18, 1, 1, 1, NULL, NULL, '', '', 'WAHID ALIAS H. MAHSUN', 'ULFA WIDIAWATI', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`) VALUES (97, 'ULFA WIDIAWATI', '5201145203896994', 37, 3, '0', 0, 2, 'JOHAR PELITA', '1988-03-12', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'ZAMHARIN', 'SITIYAH', '', 13, 31, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 #
@@ -14011,7 +14190,7 @@ CREATE TABLE `tweb_rtm` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nik_kepala` int(11) NOT NULL,
   `no_kk` varchar(30) NOT NULL,
-  `tgl_daftar` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tgl_daftar` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `kelas_sosial` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `no_kk` (`no_kk`),
@@ -14136,13 +14315,13 @@ CREATE TABLE `tweb_surat_format` (
   `url_surat` varchar(100) NOT NULL,
   `kode_surat` varchar(10) DEFAULT NULL,
   `lampiran` varchar(100) DEFAULT NULL,
-  `kunci` tinyint(1) NOT NULL DEFAULT '0',
-  `favorit` tinyint(1) NOT NULL DEFAULT '0',
-  `jenis` tinyint(2) NOT NULL DEFAULT '2',
-  `mandiri` tinyint(1) DEFAULT '0',
-  `masa_berlaku` int(3) DEFAULT '1',
+  `kunci` tinyint(1) NOT NULL DEFAULT 0,
+  `favorit` tinyint(1) NOT NULL DEFAULT 0,
+  `jenis` tinyint(2) NOT NULL DEFAULT 2,
+  `mandiri` tinyint(1) DEFAULT 0,
+  `masa_berlaku` int(3) DEFAULT 1,
   `satuan_masa_berlaku` varchar(15) DEFAULT 'M',
-  `qr_code` tinyint(1) NOT NULL DEFAULT '0',
+  `qr_code` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
 ) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
@@ -14209,7 +14388,7 @@ CREATE TABLE `tweb_wil_clusterdesa` (
   `lat` varchar(20) DEFAULT NULL,
   `lng` varchar(20) DEFAULT NULL,
   `zoom` int(11) DEFAULT NULL,
-  `path` text,
+  `path` text DEFAULT NULL,
   `map_tipe` varchar(20) DEFAULT NULL,
   `warna` varchar(10) DEFAULT NULL,
   `urut` int(11) DEFAULT NULL,
@@ -14227,7 +14406,7 @@ INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (6, '0', '-', 'SENGGIGI', 0, '', '', 0, '', '', NULL, NULL, NULL);
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (7, '-', '-', 'SENGGIGI', 0, '', '', 0, '', '', NULL, NULL, NULL);
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (8, '001', '-', 'SENGGIGI', 0, '', '', 0, '', '', NULL, NULL, NULL);
-INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (9, '0', '0', 'KERANDANGAN', 0, '-8.487384220496068', '116.04262340348217', 17, '[[[-8.485902029262565,116.04141712188722],[-8.485689801625153,116.04226469993593],[-8.485626133311067,116.04422807693483],[-8.485901656206273,116.04463371913882],[-8.486320971248613,116.04483272647488],[-8.486835829473774,116.0447645187378],[-8.487504344139245,116.04471087455751],[-8.48779085006813,116.04368090629579],[-8.488194080272509,116.04272603988649],[-8.488024299185433,116.04154586791994],[-8.487186003967512,116.04076266288759],[-8.486676659143768,116.04054808616638]]]', 'HYBRID', NULL, NULL, NULL);
+INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (9, '0', '0', 'KERANDANGAN', 0, '-8.487384220496068', '116.04262340348217', 17, '[[[[-8.485902029262565,116.04141712188722],[-8.485689801625153,116.04226469993593],[-8.485626133311067,116.04422807693483],[-8.485901656206273,116.04463371913882],[-8.486320971248613,116.04483272647488],[-8.486835829473774,116.0447645187378],[-8.487504344139245,116.04471087455751],[-8.48779085006813,116.04368090629579],[-8.488194080272509,116.04272603988649],[-8.488024299185433,116.04154586791994],[-8.487186003967512,116.04076266288759],[-8.486676659143768,116.04054808616638]]]]', 'HYBRID', NULL, NULL, NULL);
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (10, '0', '-', 'KERANDANGAN', 0, '', '', 0, '', '', NULL, NULL, NULL);
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (11, '-', '-', 'KERANDANGAN', 0, '', '', 0, '', '', NULL, NULL, NULL);
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (12, '002', '-', 'KERANDANGAN', 0, '', '', 0, '', '', NULL, NULL, NULL);
@@ -14280,11 +14459,11 @@ CREATE TABLE `user` (
   `id_grup` int(5) NOT NULL,
   `email` varchar(100) NOT NULL,
   `last_login` datetime DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT '0',
+  `active` tinyint(1) unsigned DEFAULT 0,
   `nama` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
-  `foto` varchar(100) NOT NULL,
+  `foto` varchar(100) DEFAULT 'kuser.png',
   `session` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -14301,10 +14480,10 @@ DROP TABLE IF EXISTS `user_grup`;
 CREATE TABLE `user_grup` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
-  `jenis` tinyint(2) NOT NULL DEFAULT '1',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `jenis` tinyint(2) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
@@ -14324,13 +14503,13 @@ DROP TABLE IF EXISTS `widget`;
 
 CREATE TABLE `widget` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `isi` text,
+  `isi` text DEFAULT NULL,
   `enabled` int(2) DEFAULT NULL,
   `judul` varchar(100) DEFAULT NULL,
-  `jenis_widget` tinyint(2) NOT NULL DEFAULT '3',
+  `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
   `urut` int(5) DEFAULT NULL,
   `form_admin` varchar(100) DEFAULT NULL,
-  `setting` text,
+  `setting` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 
@@ -14413,11 +14592,11 @@ CREATE TABLE `mutasi_inventaris_asset` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_asset` (`id_inventaris_asset`),
@@ -14438,11 +14617,11 @@ CREATE TABLE `mutasi_inventaris_gedung` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_gedung` (`id_inventaris_gedung`),
@@ -14463,11 +14642,11 @@ CREATE TABLE `mutasi_inventaris_jalan` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_jalan` (`id_inventaris_jalan`),
@@ -14488,11 +14667,11 @@ CREATE TABLE `mutasi_inventaris_peralatan` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_peralatan` (`id_inventaris_peralatan`),
@@ -14513,11 +14692,11 @@ CREATE TABLE `mutasi_inventaris_tanah` (
   `harga_jual` double DEFAULT NULL,
   `sumbangkan` varchar(255) DEFAULT NULL,
   `keterangan` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `created_by` int(11) NOT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` int(11) NOT NULL,
-  `visible` int(1) NOT NULL DEFAULT '1',
+  `visible` int(1) NOT NULL DEFAULT 1,
   `status_mutasi` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_mutasi_inventaris_tanah` (`id_inventaris_tanah`),
@@ -14553,7 +14732,7 @@ CREATE TABLE `tweb_penduduk_mandiri` (
   `last_login` datetime DEFAULT NULL,
   `tanggal_buat` datetime DEFAULT NULL,
   `id_pend` int(9) NOT NULL,
-  `ganti_pin` tinyint(1) NOT NULL DEFAULT '1',
+  `ganti_pin` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id_pend`),
   CONSTRAINT `id_pend_fk` FOREIGN KEY (`id_pend`) REFERENCES `tweb_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -14609,16 +14788,16 @@ CREATE TABLE `log_penduduk` (
   `id_pend` int(11) NOT NULL,
   `kode_peristiwa` int(11) DEFAULT NULL,
   `meninggal_di` varchar(50) DEFAULT NULL,
-  `alamat_tujuan` tinytext,
-  `tgl_lapor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `tgl_peristiwa` datetime DEFAULT CURRENT_TIMESTAMP,
-  `catatan` text,
+  `alamat_tujuan` tinytext DEFAULT NULL,
+  `tgl_lapor` timestamp NOT NULL DEFAULT current_timestamp(),
+  `tgl_peristiwa` datetime DEFAULT current_timestamp(),
+  `catatan` text DEFAULT NULL,
   `no_kk` decimal(16,0) DEFAULT NULL,
   `nama_kk` varchar(100) DEFAULT NULL,
-  `ref_pindah` tinyint(4) DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `ref_pindah` tinyint(4) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
   `created_by` int(11) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_by` int(11) DEFAULT NULL,
   `maksud_tujuan_kedatangan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -14735,7 +14914,7 @@ DROP TABLE IF EXISTS `agenda`;
 CREATE TABLE `agenda` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_artikel` int(11) NOT NULL,
-  `tgl_agenda` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tgl_agenda` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `koordinator_kegiatan` varchar(50) NOT NULL,
   `lokasi_kegiatan` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
@@ -14856,7 +15035,7 @@ CREATE TABLE `kelompok_anggota` (
   `id_kelompok` int(11) NOT NULL,
   `id_penduduk` int(11) NOT NULL,
   `no_anggota` varchar(20) DEFAULT NULL,
-  `keterangan` text,
+  `keterangan` text DEFAULT NULL,
   `jabatan` varchar(50) DEFAULT '90',
   `no_sk_jabatan` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -14875,7 +15054,7 @@ CREATE TABLE `log_keluarga` (
   `id_kk` int(11) NOT NULL,
   `kk_sex` tinyint(2) DEFAULT NULL,
   `id_peristiwa` int(4) NOT NULL,
-  `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tgl_peristiwa` timestamp NOT NULL DEFAULT current_timestamp(),
   `id_pend` int(11) DEFAULT NULL,
   `updated_by` int(11) NOT NULL,
   `id_log_penduduk` int(10) DEFAULT NULL,
@@ -14940,152 +15119,190 @@ CREATE TABLE `grup_akses` (
   KEY `id_modul` (`id_modul`),
   CONSTRAINT `fk_id_grup` FOREIGN KEY (`id_grup`) REFERENCES `user_grup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_modul` FOREIGN KEY (`id_modul`) REFERENCES `setting_modul` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=551 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=998 DEFAULT CHARSET=utf8;
 
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (414, 2, 1, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (415, 2, 2, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (416, 2, 3, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (417, 2, 4, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (418, 2, 5, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (419, 2, 6, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (420, 2, 7, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (421, 2, 8, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (422, 2, 9, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (423, 2, 10, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (424, 2, 11, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (425, 2, 13, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (426, 2, 14, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (427, 2, 15, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (428, 2, 17, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (429, 2, 18, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (430, 2, 20, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (431, 2, 21, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (432, 2, 22, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (433, 2, 23, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (434, 2, 24, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (435, 2, 25, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (436, 2, 26, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (437, 2, 27, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (438, 2, 28, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (439, 2, 29, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (440, 2, 30, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (441, 2, 31, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (442, 2, 32, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (443, 2, 33, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (444, 2, 39, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (445, 2, 40, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (446, 2, 41, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (447, 2, 42, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (448, 2, 47, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (449, 2, 48, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (450, 2, 49, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (451, 2, 50, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (452, 2, 51, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (453, 2, 52, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (454, 2, 53, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (455, 2, 54, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (456, 2, 55, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (457, 2, 56, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (458, 2, 57, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (459, 2, 58, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (460, 2, 61, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (461, 2, 62, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (462, 2, 63, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (463, 2, 64, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (464, 2, 65, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (465, 2, 66, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (466, 2, 67, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (467, 2, 68, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (468, 2, 69, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (469, 2, 70, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (470, 2, 71, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (471, 2, 72, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (472, 2, 73, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (473, 2, 75, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (474, 2, 76, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (475, 2, 77, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (476, 2, 78, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (477, 2, 79, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (478, 2, 80, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (479, 2, 81, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (480, 2, 82, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (481, 2, 83, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (482, 2, 84, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (483, 2, 85, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (484, 2, 86, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (485, 2, 87, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (486, 2, 88, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (487, 2, 89, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (488, 2, 90, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (489, 2, 91, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (490, 2, 92, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (491, 2, 93, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (492, 2, 94, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (493, 2, 95, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (494, 2, 96, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (495, 2, 97, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (496, 2, 98, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (497, 2, 101, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (498, 2, 200, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (499, 2, 201, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (500, 2, 202, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (501, 2, 203, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (502, 2, 205, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (503, 2, 206, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (504, 2, 207, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (505, 2, 208, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (506, 2, 209, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (507, 2, 210, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (508, 2, 211, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (509, 2, 212, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (510, 2, 213, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (511, 2, 220, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (512, 2, 221, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (513, 2, 301, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (514, 2, 302, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (515, 2, 303, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (516, 2, 304, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (517, 2, 305, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (518, 2, 310, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (519, 2, 311, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (520, 2, 312, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (521, 2, 313, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (522, 2, 314, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (523, 2, 315, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (524, 2, 316, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (525, 2, 317, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (526, 2, 318, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (527, 3, 13, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (528, 3, 47, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (529, 3, 48, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (530, 3, 49, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (531, 3, 50, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (532, 3, 51, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (533, 3, 53, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (534, 3, 54, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (535, 3, 64, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (536, 3, 205, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (537, 3, 211, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (538, 4, 13, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (539, 4, 47, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (540, 4, 50, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (541, 4, 51, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (542, 4, 54, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (543, 5, 3, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (544, 5, 27, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (545, 5, 206, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (546, 5, 207, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (547, 5, 208, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (548, 2, 319, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (549, 2, 110, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (550, 2, 111, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (849, 2, 1, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (850, 2, 2, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (851, 2, 3, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (852, 2, 4, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (853, 2, 5, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (854, 2, 6, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (855, 2, 7, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (856, 2, 8, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (857, 2, 9, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (858, 2, 10, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (859, 2, 11, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (860, 2, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (861, 2, 14, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (862, 2, 15, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (863, 2, 17, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (864, 2, 18, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (865, 2, 20, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (866, 2, 21, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (867, 2, 22, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (868, 2, 23, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (869, 2, 24, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (870, 2, 25, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (871, 2, 26, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (872, 2, 27, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (873, 2, 28, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (874, 2, 29, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (875, 2, 30, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (876, 2, 31, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (877, 2, 32, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (878, 2, 33, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (879, 2, 39, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (880, 2, 40, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (881, 2, 41, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (882, 2, 42, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (883, 2, 47, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (884, 2, 48, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (885, 2, 49, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (886, 2, 50, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (887, 2, 51, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (888, 2, 52, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (889, 2, 53, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (890, 2, 54, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (891, 2, 55, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (892, 2, 56, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (893, 2, 57, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (894, 2, 58, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (895, 2, 61, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (896, 2, 62, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (897, 2, 63, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (898, 2, 64, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (899, 2, 65, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (900, 2, 66, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (901, 2, 67, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (902, 2, 68, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (903, 2, 69, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (904, 2, 70, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (905, 2, 71, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (906, 2, 72, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (907, 2, 73, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (908, 2, 75, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (909, 2, 76, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (910, 2, 77, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (911, 2, 78, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (912, 2, 79, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (913, 2, 80, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (914, 2, 81, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (915, 2, 82, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (916, 2, 83, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (917, 2, 84, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (918, 2, 85, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (919, 2, 86, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (920, 2, 87, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (921, 2, 88, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (922, 2, 89, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (923, 2, 90, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (924, 2, 91, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (925, 2, 92, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (926, 2, 93, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (927, 2, 94, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (928, 2, 95, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (929, 2, 96, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (930, 2, 97, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (931, 2, 98, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (932, 2, 101, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (933, 2, 200, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (934, 2, 201, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (935, 2, 202, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (936, 2, 203, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (937, 2, 205, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (938, 2, 206, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (939, 2, 207, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (940, 2, 208, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (941, 2, 209, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (942, 2, 210, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (943, 2, 211, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (944, 2, 212, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (945, 2, 213, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (946, 2, 220, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (947, 2, 221, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (948, 2, 301, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (949, 2, 302, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (950, 2, 303, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (951, 2, 304, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (952, 2, 305, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (953, 2, 310, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (954, 2, 311, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (955, 2, 312, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (956, 2, 313, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (957, 2, 314, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (958, 2, 315, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (959, 2, 316, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (960, 2, 317, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (961, 2, 318, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (962, 3, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (963, 3, 47, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (964, 3, 48, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (965, 3, 49, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (966, 3, 50, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (967, 3, 51, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (968, 3, 53, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (969, 3, 54, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (970, 3, 64, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (971, 3, 205, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (972, 3, 211, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (973, 4, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (974, 4, 47, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (975, 4, 50, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (976, 4, 51, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (977, 4, 54, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (978, 5, 3, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (979, 5, 27, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (980, 5, 206, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (981, 5, 207, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (982, 5, 208, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (983, 2, 319, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (984, 2, 110, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (985, 2, 111, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (986, 2, 43, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (987, 2, 44, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (988, 2, 45, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (989, 2, 46, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (990, 2, 214, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (991, 2, 320, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (992, 2, 321, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (993, 2, 322, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (994, 2, 323, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (995, 2, 324, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (996, 3, 65, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (997, 3, 324, 7);
+
+
+#
+# TABLE STRUCTURE FOR: produk
+#
+
+DROP TABLE IF EXISTS `produk`;
+
+CREATE TABLE `produk` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_pelapak` int(11) DEFAULT NULL,
+  `id_produk_kategori` int(11) DEFAULT NULL,
+  `nama` varchar(255) DEFAULT NULL,
+  `harga` int(11) DEFAULT NULL,
+  `satuan` varchar(20) DEFAULT NULL,
+  `tipe_potongan` tinyint(1) DEFAULT 1,
+  `potongan` int(11) DEFAULT 0,
+  `deskripsi` text DEFAULT NULL,
+  `foto` varchar(225) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `produk` (`id`, `id_pelapak`, `id_produk_kategori`, `nama`, `harga`, `satuan`, `tipe_potongan`, `potongan`, `deskripsi`, `foto`, `status`, `created_at`, `updated_at`) VALUES (1, 1, 1, 'Lumpring', 8000, 'bungkus', 2, 2000, 'Si Camilan Cruncy LUMPRING atau Lumpia Kering ini diolah dari kulit lumpia yang kemudian dibubuhi dengan aneka varian rasa', '[\"lumpring__sid__WMZk6Fs.jpg\"]', 1, '2021-06-30 19:04:47', '2021-06-30 19:04:47');
 
 
 #
 # TABLE STRUCTURE FOR: daftar_kontak
 #
 
-CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,(case when (`b`.`sex` = '1') then 'Laki-laki' else 'Perempuan' end) AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)));
+CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pend` AS `id_pend`,`b`.`nama` AS `nama`,`a`.`no_hp` AS `no_hp`,case when `b`.`sex` = '1' then 'Laki-laki' else 'Perempuan' end AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from (`kontak` `a` left join `tweb_penduduk` `b` on(`a`.`id_pend` = `b`.`id`));
 
 
 
@@ -15093,7 +15310,7 @@ CREATE VIEW `daftar_kontak` AS select `a`.`id_kontak` AS `id_kontak`,`a`.`id_pen
 # TABLE STRUCTURE FOR: daftar_grup
 #
 
-CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` AS `nama_grup`,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where (`a`.`id_grup` = `anggota_grup_kontak`.`id_grup`)) AS `jumlah_anggota` from `kontak_grup` `a`;
+CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` AS `nama_grup`,(select count(`anggota_grup_kontak`.`id_kontak`) from `anggota_grup_kontak` where `a`.`id_grup` = `anggota_grup_kontak`.`id_grup`) AS `jumlah_anggota` from `kontak_grup` `a`;
 
 
 
@@ -15101,7 +15318,7 @@ CREATE VIEW `daftar_grup` AS select `a`.`id_grup` AS `id_grup`,`a`.`nama_grup` A
 # TABLE STRUCTURE FOR: daftar_anggota_grup
 #
 
-CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)));
+CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on(`a`.`id_kontak` = `b`.`id_kontak`)) left join `kontak_grup` `c` on(`a`.`id_grup` = `c`.`id_grup`));
 
 
 
@@ -15109,7 +15326,7 @@ CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kon
 # TABLE STRUCTURE FOR: dokumen_hidup
 #
 
-CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent`,`dokumen`.`created_at` AS `created_at`,`dokumen`.`created_by` AS `created_by`,`dokumen`.`updated_by` AS `updated_by`,`dokumen`.`dok_warga` AS `dok_warga` from `dokumen` where (`dokumen`.`deleted` <> 1);
+CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` AS `satuan`,`dokumen`.`nama` AS `nama`,`dokumen`.`enabled` AS `enabled`,`dokumen`.`tgl_upload` AS `tgl_upload`,`dokumen`.`id_pend` AS `id_pend`,`dokumen`.`kategori` AS `kategori`,`dokumen`.`attr` AS `attr`,`dokumen`.`tahun` AS `tahun`,`dokumen`.`kategori_info_publik` AS `kategori_info_publik`,`dokumen`.`updated_at` AS `updated_at`,`dokumen`.`deleted` AS `deleted`,`dokumen`.`id_syarat` AS `id_syarat`,`dokumen`.`id_parent` AS `id_parent`,`dokumen`.`created_at` AS `created_at`,`dokumen`.`created_by` AS `created_by`,`dokumen`.`updated_by` AS `updated_by`,`dokumen`.`dok_warga` AS `dok_warga` from `dokumen` where `dokumen`.`deleted` <> 1;
 
 
 
@@ -15117,7 +15334,7 @@ CREATE VIEW `dokumen_hidup` AS select `dokumen`.`id` AS `id`,`dokumen`.`satuan` 
 # TABLE STRUCTURE FOR: keluarga_aktif
 #
 
-CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`k`.`nik_kepala` AS `nik_kepala`,`k`.`tgl_daftar` AS `tgl_daftar`,`k`.`kelas_sosial` AS `kelas_sosial`,`k`.`tgl_cetak_kk` AS `tgl_cetak_kk`,`k`.`alamat` AS `alamat`,`k`.`id_cluster` AS `id_cluster` from (`tweb_keluarga` `k` left join `tweb_penduduk` `p` on((`k`.`nik_kepala` = `p`.`id`))) where (`p`.`status_dasar` = 1);
+CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`k`.`nik_kepala` AS `nik_kepala`,`k`.`tgl_daftar` AS `tgl_daftar`,`k`.`kelas_sosial` AS `kelas_sosial`,`k`.`tgl_cetak_kk` AS `tgl_cetak_kk`,`k`.`alamat` AS `alamat`,`k`.`id_cluster` AS `id_cluster` from (`tweb_keluarga` `k` left join `tweb_penduduk` `p` on(`k`.`nik_kepala` = `p`.`id`)) where `p`.`status_dasar` = 1;
 
 
 
@@ -15125,7 +15342,7 @@ CREATE VIEW `keluarga_aktif` AS select `k`.`id` AS `id`,`k`.`no_kk` AS `no_kk`,`
 # TABLE STRUCTURE FOR: master_inventaris
 #
 
-CREATE VIEW `master_inventaris` AS select 'inventaris_asset' AS `asset`,`inventaris_asset`.`id` AS `id`,`inventaris_asset`.`nama_barang` AS `nama_barang`,`inventaris_asset`.`kode_barang` AS `kode_barang`,'Baik' AS `kondisi`,`inventaris_asset`.`keterangan` AS `keterangan`,`inventaris_asset`.`asal` AS `asal`,`inventaris_asset`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_asset` where (`inventaris_asset`.`visible` = 1) union all select 'inventaris_gedung' AS `asset`,`inventaris_gedung`.`id` AS `id`,`inventaris_gedung`.`nama_barang` AS `nama_barang`,`inventaris_gedung`.`kode_barang` AS `kode_barang`,`inventaris_gedung`.`kondisi_bangunan` AS `kondisi_bangunan`,`inventaris_gedung`.`keterangan` AS `keterangan`,`inventaris_gedung`.`asal` AS `asal`,year(`inventaris_gedung`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_gedung` where (`inventaris_gedung`.`visible` = 1) union all select 'inventaris_jalan' AS `asset`,`inventaris_jalan`.`id` AS `id`,`inventaris_jalan`.`nama_barang` AS `nama_barang`,`inventaris_jalan`.`kode_barang` AS `kode_barang`,`inventaris_jalan`.`kondisi` AS `kondisi`,`inventaris_jalan`.`keterangan` AS `keterangan`,`inventaris_jalan`.`asal` AS `asal`,year(`inventaris_jalan`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_jalan` where (`inventaris_jalan`.`visible` = 1) union all select 'inventaris_peralatan' AS `asset`,`inventaris_peralatan`.`id` AS `id`,`inventaris_peralatan`.`nama_barang` AS `nama_barang`,`inventaris_peralatan`.`kode_barang` AS `kode_barang`,'Baik' AS `Baik`,`inventaris_peralatan`.`keterangan` AS `keterangan`,`inventaris_peralatan`.`asal` AS `asal`,`inventaris_peralatan`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_peralatan` where (`inventaris_peralatan`.`visible` = 1);
+CREATE VIEW `master_inventaris` AS select 'inventaris_asset' AS `asset`,`inventaris_asset`.`id` AS `id`,`inventaris_asset`.`nama_barang` AS `nama_barang`,`inventaris_asset`.`kode_barang` AS `kode_barang`,'Baik' AS `kondisi`,`inventaris_asset`.`keterangan` AS `keterangan`,`inventaris_asset`.`asal` AS `asal`,`inventaris_asset`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_asset` where `inventaris_asset`.`visible` = 1 union all select 'inventaris_gedung' AS `asset`,`inventaris_gedung`.`id` AS `id`,`inventaris_gedung`.`nama_barang` AS `nama_barang`,`inventaris_gedung`.`kode_barang` AS `kode_barang`,`inventaris_gedung`.`kondisi_bangunan` AS `kondisi_bangunan`,`inventaris_gedung`.`keterangan` AS `keterangan`,`inventaris_gedung`.`asal` AS `asal`,year(`inventaris_gedung`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_gedung` where `inventaris_gedung`.`visible` = 1 union all select 'inventaris_jalan' AS `asset`,`inventaris_jalan`.`id` AS `id`,`inventaris_jalan`.`nama_barang` AS `nama_barang`,`inventaris_jalan`.`kode_barang` AS `kode_barang`,`inventaris_jalan`.`kondisi` AS `kondisi`,`inventaris_jalan`.`keterangan` AS `keterangan`,`inventaris_jalan`.`asal` AS `asal`,year(`inventaris_jalan`.`tanggal_dokument`) AS `tahun_pengadaan` from `inventaris_jalan` where `inventaris_jalan`.`visible` = 1 union all select 'inventaris_peralatan' AS `asset`,`inventaris_peralatan`.`id` AS `id`,`inventaris_peralatan`.`nama_barang` AS `nama_barang`,`inventaris_peralatan`.`kode_barang` AS `kode_barang`,'Baik' AS `Baik`,`inventaris_peralatan`.`keterangan` AS `keterangan`,`inventaris_peralatan`.`asal` AS `asal`,`inventaris_peralatan`.`tahun_pengadaan` AS `tahun_pengadaan` from `inventaris_peralatan` where `inventaris_peralatan`.`visible` = 1;
 
 
 
@@ -15133,7 +15350,7 @@ CREATE VIEW `master_inventaris` AS select 'inventaris_asset' AS `asset`,`inventa
 # TABLE STRUCTURE FOR: penduduk_hidup
 #
 
-CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi`,`tweb_penduduk`.`email` AS `email`,`tweb_penduduk`.`bahasa_id` AS `bahasa_id`,`tweb_penduduk`.`ket` AS `ket` from `tweb_penduduk` where (`tweb_penduduk`.`status_dasar` = 1);
+CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_penduduk`.`nama` AS `nama`,`tweb_penduduk`.`nik` AS `nik`,`tweb_penduduk`.`id_kk` AS `id_kk`,`tweb_penduduk`.`kk_level` AS `kk_level`,`tweb_penduduk`.`id_rtm` AS `id_rtm`,`tweb_penduduk`.`rtm_level` AS `rtm_level`,`tweb_penduduk`.`sex` AS `sex`,`tweb_penduduk`.`tempatlahir` AS `tempatlahir`,`tweb_penduduk`.`tanggallahir` AS `tanggallahir`,`tweb_penduduk`.`agama_id` AS `agama_id`,`tweb_penduduk`.`pendidikan_kk_id` AS `pendidikan_kk_id`,`tweb_penduduk`.`pendidikan_sedang_id` AS `pendidikan_sedang_id`,`tweb_penduduk`.`pekerjaan_id` AS `pekerjaan_id`,`tweb_penduduk`.`status_kawin` AS `status_kawin`,`tweb_penduduk`.`warganegara_id` AS `warganegara_id`,`tweb_penduduk`.`dokumen_pasport` AS `dokumen_pasport`,`tweb_penduduk`.`dokumen_kitas` AS `dokumen_kitas`,`tweb_penduduk`.`ayah_nik` AS `ayah_nik`,`tweb_penduduk`.`ibu_nik` AS `ibu_nik`,`tweb_penduduk`.`nama_ayah` AS `nama_ayah`,`tweb_penduduk`.`nama_ibu` AS `nama_ibu`,`tweb_penduduk`.`foto` AS `foto`,`tweb_penduduk`.`golongan_darah_id` AS `golongan_darah_id`,`tweb_penduduk`.`id_cluster` AS `id_cluster`,`tweb_penduduk`.`status` AS `status`,`tweb_penduduk`.`alamat_sebelumnya` AS `alamat_sebelumnya`,`tweb_penduduk`.`alamat_sekarang` AS `alamat_sekarang`,`tweb_penduduk`.`status_dasar` AS `status_dasar`,`tweb_penduduk`.`hamil` AS `hamil`,`tweb_penduduk`.`cacat_id` AS `cacat_id`,`tweb_penduduk`.`sakit_menahun_id` AS `sakit_menahun_id`,`tweb_penduduk`.`akta_lahir` AS `akta_lahir`,`tweb_penduduk`.`akta_perkawinan` AS `akta_perkawinan`,`tweb_penduduk`.`tanggalperkawinan` AS `tanggalperkawinan`,`tweb_penduduk`.`akta_perceraian` AS `akta_perceraian`,`tweb_penduduk`.`tanggalperceraian` AS `tanggalperceraian`,`tweb_penduduk`.`cara_kb_id` AS `cara_kb_id`,`tweb_penduduk`.`telepon` AS `telepon`,`tweb_penduduk`.`tanggal_akhir_paspor` AS `tanggal_akhir_paspor`,`tweb_penduduk`.`no_kk_sebelumnya` AS `no_kk_sebelumnya`,`tweb_penduduk`.`ktp_el` AS `ktp_el`,`tweb_penduduk`.`status_rekam` AS `status_rekam`,`tweb_penduduk`.`waktu_lahir` AS `waktu_lahir`,`tweb_penduduk`.`tempat_dilahirkan` AS `tempat_dilahirkan`,`tweb_penduduk`.`jenis_kelahiran` AS `jenis_kelahiran`,`tweb_penduduk`.`kelahiran_anak_ke` AS `kelahiran_anak_ke`,`tweb_penduduk`.`penolong_kelahiran` AS `penolong_kelahiran`,`tweb_penduduk`.`berat_lahir` AS `berat_lahir`,`tweb_penduduk`.`panjang_lahir` AS `panjang_lahir`,`tweb_penduduk`.`tag_id_card` AS `tag_id_card`,`tweb_penduduk`.`created_at` AS `created_at`,`tweb_penduduk`.`created_by` AS `created_by`,`tweb_penduduk`.`updated_at` AS `updated_at`,`tweb_penduduk`.`updated_by` AS `updated_by`,`tweb_penduduk`.`id_asuransi` AS `id_asuransi`,`tweb_penduduk`.`no_asuransi` AS `no_asuransi`,`tweb_penduduk`.`email` AS `email`,`tweb_penduduk`.`bahasa_id` AS `bahasa_id`,`tweb_penduduk`.`ket` AS `ket`,`tweb_penduduk`.`negara_asal` AS `negara_asal`,`tweb_penduduk`.`tempat_cetak_ktp` AS `tempat_cetak_ktp`,`tweb_penduduk`.`tanggal_cetak_ktp` AS `tanggal_cetak_ktp`,`tweb_penduduk`.`suku` AS `suku` from `tweb_penduduk` where `tweb_penduduk`.`status_dasar` = 1;
 
 
 
@@ -15141,7 +15358,7 @@ CREATE VIEW `penduduk_hidup` AS select `tweb_penduduk`.`id` AS `id`,`tweb_pendud
 # TABLE STRUCTURE FOR: rekap_mutasi_inventaris
 #
 
-CREATE VIEW `rekap_mutasi_inventaris` AS select 'inventaris_asset' AS `asset`,`mutasi_inventaris_asset`.`id_inventaris_asset` AS `id_inventaris_asset`,`mutasi_inventaris_asset`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_asset`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_asset`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_asset`.`keterangan` AS `keterangan` from `mutasi_inventaris_asset` where (`mutasi_inventaris_asset`.`visible` = 1) union all select 'inventaris_gedung' AS `inventaris_gedung`,`mutasi_inventaris_gedung`.`id_inventaris_gedung` AS `id_inventaris_gedung`,`mutasi_inventaris_gedung`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_gedung`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_gedung`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_gedung`.`keterangan` AS `keterangan` from `mutasi_inventaris_gedung` where (`mutasi_inventaris_gedung`.`visible` = 1) union all select 'inventaris_jalan' AS `inventaris_jalan`,`mutasi_inventaris_jalan`.`id_inventaris_jalan` AS `id_inventaris_jalan`,`mutasi_inventaris_jalan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_jalan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_jalan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_jalan`.`keterangan` AS `keterangan` from `mutasi_inventaris_jalan` where (`mutasi_inventaris_jalan`.`visible` = 1) union all select 'inventaris_peralatan' AS `inventaris_peralatan`,`mutasi_inventaris_peralatan`.`id_inventaris_peralatan` AS `id_inventaris_peralatan`,`mutasi_inventaris_peralatan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_peralatan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_peralatan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_peralatan`.`keterangan` AS `keterangan` from `mutasi_inventaris_peralatan` where (`mutasi_inventaris_peralatan`.`visible` = 1);
+CREATE VIEW `rekap_mutasi_inventaris` AS select 'inventaris_asset' AS `asset`,`mutasi_inventaris_asset`.`id_inventaris_asset` AS `id_inventaris_asset`,`mutasi_inventaris_asset`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_asset`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_asset`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_asset`.`keterangan` AS `keterangan` from `mutasi_inventaris_asset` where `mutasi_inventaris_asset`.`visible` = 1 union all select 'inventaris_gedung' AS `inventaris_gedung`,`mutasi_inventaris_gedung`.`id_inventaris_gedung` AS `id_inventaris_gedung`,`mutasi_inventaris_gedung`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_gedung`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_gedung`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_gedung`.`keterangan` AS `keterangan` from `mutasi_inventaris_gedung` where `mutasi_inventaris_gedung`.`visible` = 1 union all select 'inventaris_jalan' AS `inventaris_jalan`,`mutasi_inventaris_jalan`.`id_inventaris_jalan` AS `id_inventaris_jalan`,`mutasi_inventaris_jalan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_jalan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_jalan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_jalan`.`keterangan` AS `keterangan` from `mutasi_inventaris_jalan` where `mutasi_inventaris_jalan`.`visible` = 1 union all select 'inventaris_peralatan' AS `inventaris_peralatan`,`mutasi_inventaris_peralatan`.`id_inventaris_peralatan` AS `id_inventaris_peralatan`,`mutasi_inventaris_peralatan`.`status_mutasi` AS `status_mutasi`,`mutasi_inventaris_peralatan`.`jenis_mutasi` AS `jenis_mutasi`,`mutasi_inventaris_peralatan`.`tahun_mutasi` AS `tahun_mutasi`,`mutasi_inventaris_peralatan`.`keterangan` AS `keterangan` from `mutasi_inventaris_peralatan` where `mutasi_inventaris_peralatan`.`visible` = 1;
 
 
 

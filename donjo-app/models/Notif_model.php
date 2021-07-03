@@ -174,6 +174,8 @@ class Notif_model extends CI_Model {
 	{
 		if (empty($token = $this->setting->layanan_opendesa_token))
 		{
+			$this->session->set_userdata('error_status_langganan', "Token Pelanggan Kosong.");
+
 			return null;
 		}
 

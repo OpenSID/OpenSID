@@ -1,4 +1,4 @@
-<form id="validasi" action="<?= site_url('setting/update'); ?>" method="POST" class="form-horizontal">
+<form id="main_setting" action="<?= site_url('setting/update'); ?>" method="POST" class="form-horizontal">
 	<div class="modal-body">
 		<?php include("donjo-app/views/setting/form.php"); ?>
 	</div>
@@ -7,3 +7,8 @@
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
 	</div>
 </form>
+<script>
+	$(document).ready(function() {
+		$("#main_setting").validate();
+	})
+</script>
