@@ -179,9 +179,7 @@ class Notif_model extends CI_Model {
 			return null;
 		}
 
-		$host = ENVIRONMENT == 'development'
-			? $this->setting->layanan_opendesa_dev_server
-			: $this->setting->layanan_opendesa_server;
+		$host = $this->setting->layanan_opendesa_server;
 
 		// simpan cache
 		$response = $this->cache->pakai_cache(function () use ($host, $token) {

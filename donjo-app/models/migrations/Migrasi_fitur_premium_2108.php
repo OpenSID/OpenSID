@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021071251($hasil);
 		$hasil = $hasil && $this->migrasi_2021071551($hasil);
 		$hasil = $hasil && $this->migrasi_2021072672($hasil);
+		$hasil = $hasil && $this->migrasi_2021072771($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -96,6 +97,16 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			$hasil = $hasil && $this->dbforge->add_column('tweb_rtm', ['bdt' => ['type' => 'VARCHAR', 'constraint' => '16', 'null' => TRUE]]);
 		}
 		
+		return $hasil;
+	}
+	
+	protected function migrasi_2021072771($hasil)
+	{
+		// Hapus key layanan_opendesa_server, layanan_opendesa_dev_server dan dev_tracker
+		$hasil = $hasil && $this->db
+			->where_in('key', ['layanan_opendesa_server', 'layanan_opendesa_dev_server', 'dev_tracker'])
+			->delete('setting_aplikasi');
+
 		return $hasil;
 	}
 } 
