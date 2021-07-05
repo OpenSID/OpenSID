@@ -671,7 +671,7 @@
 						<div class="col-sm-4">
 							<div class='form-group'>
 								<label id="label-no-bpjs-ketenagakerjaan" for="bpjs_ketenagakerjaan">Nomor BPJS Ketenagakerjaan</label>
-								<input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor BPJS Ketenagakerjaan" value="<?= $penduduk['bpjs_ketenagakerjaan']?>"></input>
+								<input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm nomor_sk" type="text" maxlength="50" placeholder="Nomor BPJS Ketenagakerjaan" value="<?= $penduduk['bpjs_ketenagakerjaan']?>"></input>
 							</div>
 						</div>
 					</div>

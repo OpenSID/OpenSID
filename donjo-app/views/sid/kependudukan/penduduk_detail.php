@@ -317,7 +317,7 @@
 														<?php endif; ?>
 
 														<tr>
-															<td>Nomor Bpjs Kesehatan</td><td >:</td><td><?= $penduduk['bpjs_ketenagakerjaan'] ?></td>
+															<td>Nomor BPJS Kesehatan</td><td >:</td><td><?= $penduduk['bpjs_ketenagakerjaan'] ?></td>
 														</tr>
 
 														<tr>

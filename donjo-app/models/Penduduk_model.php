@@ -676,6 +676,7 @@ class Penduduk_model extends MY_Model {
 		$data['alamat_sekarang'] = strip_tags($data['alamat_sekarang']);
 		$data['akta_perkawinan'] = nomor_surat_keputusan($data['akta_perkawinan']);
 		$data['akta_perceraian'] = nomor_surat_keputusan($data['akta_perceraian']);
+		$data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
 
 		$valid = array();
 		if (preg_match("/[^a-zA-Z '\.,\-]/", $data['nama']))

@@ -54,7 +54,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		return $hasil;
 	}
 	
-	protected function migrasi_2021062871($hasil)
+	protected function migrasi_2021070271($hasil)
 	{
 		if ( !$this->db->field_exists('bpjs_ketenagakerjaan', 'tweb_penduduk'))
 			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', ['bpjs_ketenagakerjaan' => ['type' => 'CHAR', 'constraint' => '100', 'null' => TRUE]]);
