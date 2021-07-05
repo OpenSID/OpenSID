@@ -352,10 +352,9 @@ function set_marker_multi_content(marker, daftar_path, judul, nama_wil, contents
 	{
 		if (daftar[x].path)
 		{
-
 			daftar[x].path = JSON.parse(daftar[x].path)
-			var jml = daftar[x].path.length;
-			for (var a = 0; a < jml; a++)
+			var jml_path_x = daftar[x].path.length;
+			for (var a = 0; a < jml_path_x; a++)
 			{
 				for (var b = 0; b < daftar[x].path[a].length; b++) 
 				{

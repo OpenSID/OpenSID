@@ -165,7 +165,6 @@ class Penduduk extends Admin_Controller {
 				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
-			$data['form_action_maps'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else
 		{
@@ -508,12 +507,23 @@ class Penduduk extends Admin_Controller {
 		redirect("penduduk/ajax_penduduk_maps/$p/$o/$id/1");
 	}
 
-	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
+	public function ajax_penduduk_maps($p = 1, $o = 0, $id = NULL)
 	{
+		if ($id == NULL)
+		{
+			$id = $this->penduduk_model->insert();
+
+			if ($this->session->success == -1)
+			{
+				$this->session->dari_internal == true;
+				redirect("penduduk/form");
+			}
+		}
+
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['id'] = $id;
-		$data['edit'] =  $edit;
+		$data['edit'] =  1;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
 		$data['desa'] = $this->header['desa'];
@@ -522,7 +532,7 @@ class Penduduk extends Admin_Controller {
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
-		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
+		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$data[edit]");
 
 		$this->render("sid/kependudukan/ajax_penduduk_maps", $data);
 	}
