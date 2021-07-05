@@ -149,6 +149,32 @@ class Web_dokumen_model extends MY_Model {
 		}
 	}
 
+	private function filter_tahun($kat)
+	{
+		if ($tahun = $this->session->tahun)
+		{
+			switch ($kat)
+			{
+				case '1':
+					# Informasi publik, termasuk kategori lainnya
+					$this->db->where('tahun', $tahun);
+					break;
+				case '2':
+					# SK KADES
+					$attr_str = '"tgl_kep_kades":';
+					$this->db->like("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4)", $tahun, 'both')
+						->where('kategori', $kat);
+					break;
+				case '3':
+					# PERDES
+					$attr_str = '"tgl_ditetapkan":';
+					$this->db->like("SUBSTR(attr FROM LOCATE('$attr_str', attr)+LENGTH('$attr_str')+7 FOR 4)", $tahun, 'both')
+						->where('kategori', $kat);
+					break;
+			}
+		}
+	}
+
 	private function list_data_sql($kat)
 	{
 		$this->db->from('dokumen_hidup')
@@ -158,6 +184,7 @@ class Web_dokumen_model extends MY_Model {
 		$this->search_sql();
 		$this->filter_sql();
 		$this->jenis_peraturan_sql($kat);
+		$this->filter_tahun($kat);
 	}
 
 	public function paging($kat, $p=1, $o=0)
