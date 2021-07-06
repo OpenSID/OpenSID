@@ -603,7 +603,7 @@ class Penduduk extends Admin_Controller {
 			case 15: $session = 'umurx'; $kategori = 'UMUR (KATEGORI) : '; break;
 			case 16: $session = 'cara_kb_id'; $kategori = 'CARA KB : '; break;
 			case 17: $session = 'akta_kelahiran'; $kategori = 'AKTA KELAHIRAN : UMUR '; break;
-			case 19: $session = 'id_asuransi'; $kategori = 'JENIS ASURANSI : '; break;
+			case 19: $session = 'id_asuransi'; $kategori = 'ASURANSI KESEHATAN : '; break;
 			case 'bpjs-tenagakerja': $session = ($nomor == BELUM_MENGISI || $nomor == JUMLAH) ? 'bpjs_ketenagakerjaan' : 'pekerjaan_id'; $kategori = 'BPJS Ketenagakerjaan : '; $this->session->bpjs_ketenagakerjaan = ($nomor == TOTAL) ? false : true; break;
 			case 'hubungan_kk': $session = 'hubungan'; $kategori = 'HUBUNGAN DALAM KK : '; break;
 			case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;

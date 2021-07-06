@@ -651,7 +651,7 @@
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
-						<label for="id_asuransi">Asuransi </label>
+						<label for="id_asuransi">Asuransi Kesehatan</label>
 						<select class="form-control input-sm" name="id_asuransi" onchange="show_hide_asuransi($(this).find(':selected').val());">
 							<option value="">Pilih Asuransi</option>
 							<?php foreach ($pilihan_asuransi as $data): ?>
