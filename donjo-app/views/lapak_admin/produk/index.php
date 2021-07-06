@@ -135,7 +135,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0, 1, 2] },
 				{ 'className' : 'padat', 'targets': [0, 1, 7, 8] },
-				{ 'className' : 'aksi', 'targets': [2] }
+				{ 'className' : 'aksi', 'targets': [2] },
+				{ 'className' : 'dt-nowrap', 'targets': [9], 'width': '30%' }
 			],
 			'ajax': {
 				'url': "<?= site_url("$this->controller/produk"); ?>",
@@ -187,7 +188,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						return `${(data.tipe_potongan == 1) ? data.potongan + '%' : 'Rp. ' + formatRupiah(data.potongan)}`
 					}
 				},
-				{ 'data': 'deskripsi' }
+				{
+					'data': 'deskripsi',
+					'render': function (data) {
+						return data.length > 150 ? data.substr(0, 150) + '…' : data;
+					}
+				}
 			],
 			'language': {
 				'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"
