@@ -1,6 +1,6 @@
-#### [v21.07-premium-beta04]
+#### [v21.07-premium-beta05]
 
-Di rilis ini, versi 21.07-premium-beta04, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.07-premium-beta05, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
@@ -19,4 +19,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 #### Perubahan Teknis
 1. Kembalikan commit 6d7d4f776c6a39871a2310dc6d6b0b973aa9e572 yang tertimpa.
-
+2. Rapikan script di form setting untuk kategori readonly demo_mode.
