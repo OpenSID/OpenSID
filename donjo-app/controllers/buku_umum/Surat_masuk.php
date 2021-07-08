@@ -198,8 +198,8 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data();
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
 		$this->load->view('global/ttd_pamong', $data);
 	}
