@@ -96,7 +96,122 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		{
 			$hasil = $hasil && $this->dbforge->add_column('tweb_rtm', ['bdt' => ['type' => 'VARCHAR', 'constraint' => '16', 'null' => TRUE]]);
 		}
-		
+
+		return $hasil;
+	}
+	
+	protected function migrasi_2021072771($hasil)
+	{
+		$hasil = $hasil && $this->tambah_table_laporan_apbdes($hasil);
+		$hasil = $hasil && $this->tambah_modul_laporan_apbdes($hasil);
+		$hasil = $hasil && $this->tambah_modul_sinkronisasi($hasil);
+		$hasil = $hasil && $this->ubah_pengaturan_aplikasi($hasil);
+
+		return $hasil;
+	}	
+
+	// Tabel Laporan APBDes
+	protected function tambah_table_laporan_apbdes($hasil)
+	{
+		$fields = [
+			'id' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'auto_increment' => TRUE
+			],
+
+			'judul' => [
+				'type' => 'VARCHAR',
+				'constraint' => 100
+			],
+
+			'tahun' => [
+				'type' => 'TINYINT',
+				'constraint' => 4
+			],
+
+			'semester' => [
+				'type' => 'TINYINT',
+				'constraint' => 1
+			],
+
+			'nama_file' => [
+				'type' => 'VARCHAR',
+				'constraint' => 100
+			],
+			
+			'nama_file' => [
+				'type' => 'VARCHAR',
+				'constraint' => 100
+			],
+
+			'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+			'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+		];
+
+		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_field($fields);
+		$hasil = $hasil && $this->dbforge->create_table('laporan_apbdes', TRUE);
+
+		return $hasil;
+	}
+
+	// Menu Laporan APBDes
+	protected function tambah_modul_laporan_apbdes($hasil)
+	{
+		$fields = [
+			'id' => 325,
+			'modul' => 'Laporan APBDes',
+			'url' => 'laporan_apbdes',
+			'aktif' => 1,
+			'ikon' => 'fa-file-text-o',
+			'urut' => 5,
+			'level' => 2,
+			'hidden' => 0,
+			'ikon_kecil' => 'fa-file-text-o',
+			'parent' => 201
+		];
+
+		$hasil = $hasil && $this->tambah_modul($fields);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+		return $hasil;
+	}
+
+	// Menu Sinkronisasi
+	protected function tambah_modul_sinkronisasi($hasil)
+	{
+		$fields = [
+			'id' => 326,
+			'modul' => 'Sinkronisasi',
+			'url' => 'sinkronisasi',
+			'aktif' => 1,
+			'ikon' => ' fa-random',
+			'urut' => 7,
+			'level' => 2,
+			'hidden' => 0,
+			'ikon_kecil' => 'fa-random',
+			'parent' => 11
+		];
+
+		$hasil = $hasil && $this->tambah_modul($fields);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+		return $hasil;
+	}
+
+	private function ubah_pengaturan_aplikasi($hasil)
+	{
+		$hasil = $hasil && $this->db
+			->where_in('key', ['api_opendk_server', 'api_opendk_key', 'api_opendk_user', 'api_opendk_password'])
+			->update('setting_aplikasi', ['kategori' => 'opendk']);
+
 		return $hasil;
 	}
 	

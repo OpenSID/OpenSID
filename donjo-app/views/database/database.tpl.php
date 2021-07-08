@@ -27,7 +27,6 @@
 													<?php if ($this->CI->cek_hak_akses('u')): ?>
 														<li <?php if ($act_tab==6): ?>class="active"<?php endif ?>><a href="<?= site_url('database/kosongkan')?>">Kosongkan DB</a></li>
 														<li <?php if ($act_tab==5): ?>class="active"<?php endif ?>><a href="<?= site_url('database/migrasi_cri')?>">Migrasi DB</a></li>
-														<li <?php if ($act_tab==7): ?>class="active"<?php endif ?>><a href="<?= site_url('database/sinkronasi_opendk')?>">Sinkronasi DB OpenDK</a></li>
 													<?php endif; ?>
 												</ul>
 												<div class="tab-content">

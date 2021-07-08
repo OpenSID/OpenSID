@@ -698,6 +698,9 @@ function sql_in_list($list_array)
  */
 function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP)
 {
+	$CI =& get_instance();
+	$CI->load->helper('download');
+	
 	// Tentukan path berkas (absolut)
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
 	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
