@@ -98,10 +98,11 @@ class Surat_masuk extends Admin_Controller {
 		$data['selected_nav'] = 'agenda_masuk';
 		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		// $this->load->view('header', $this->header);
+		// $this->load->view('nav', $nav);
+		// $this->load->view('bumindes/umum/main', $data);
+		// $this->load->view('footer');
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -202,6 +203,8 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
 		$this->load->view('global/ttd_pamong', $data);
 	}
