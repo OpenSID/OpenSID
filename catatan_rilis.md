@@ -1,6 +1,6 @@
-#### [v21.07-premium-beta06]
+#### [v21.07-premium-beta07]
 
-Di rilis ini, versi 21.07-premium-beta06, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.07-premium-beta07, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 3. [#4271](https://github.com/OpenSID/OpenSID/issues/4271) Perbaiki input nama dan deskripsi produk pada Modul Lapak.
 4. Sekarang impor peta data persil tersimpan dan tampil benar.
 5. [#4311](https://github.com/OpenSID/OpenSID/issues/4311) Sekarang blok tanda tangan di Lembar Disposisi sesuai dengan pilihan petugas.
+6. [#3598](https://github.com/OpenSID/OpenSID/issues/3598) Sekarang Buku Peraturan Desa dan Buku Keputusan Kepala Desa dapat dipilah berdasarkan tahun.
 
 
 #### Perubahan Teknis

@@ -46,6 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Dokumen_sekretariat extends Admin_Controller {
 
 	private $list_session = ['filter', 'cari', 'jenis_peraturan', 'tahun'];
+	private $_set_page;
 
 	public function __construct()
 	{
@@ -53,12 +54,14 @@ class Dokumen_sekretariat extends Admin_Controller {
 
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
+		$this->_set_page = ['50', '100', '200'];
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
 	}
 
 	public function index($kat=2, $p=1, $o=0)
 	{
+		if ($this->input->post('per_page') !== NULL) $this->session->per_page = $this->input->post('per_page');
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
@@ -73,8 +76,8 @@ class Dokumen_sekretariat extends Admin_Controller {
 			$data[$list] = $this->session->$list ?: '';
 		}
 
-		if ($this->input->post('per_page') !== NULL) $this->session->per_page = $this->input->post('per_page');
-
+		$data['func'] = "index/$kat";
+		$data['set_page'] = $this->_set_page;
 		$data['per_page'] = $this->session->per_page;
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
@@ -110,6 +113,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 	public function clear($kat=2)
 	{
 		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = $this->_set_page[0];
 		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 
