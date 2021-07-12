@@ -48,7 +48,28 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
+		$hasil = $hasil && $this->migrasi_2021071251($hasil);
+
 		status_sukses($hasil);
 		return $hasil;
+	}
+
+	protected function migrasi_2021071251($hasil)
+	{
+		$data = $this->db->where('status_rekam', 1)->get('tweb_penduduk')->result();
+
+		$updateBatch = [];
+
+		foreach ($data as $value)
+		{
+			$updateBatch[] = [
+				'id' => $value->id,
+				'status_rekam' => null,
+			];
+		}
+	
+		$hasil = $hasil && $this->db->update_batch('tweb_penduduk', $updateBatch, 'id');
+
+		return $hasil >= 0;
 	}
 } 
