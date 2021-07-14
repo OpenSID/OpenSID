@@ -228,7 +228,9 @@ class Referensi_model extends CI_Model {
 
 	public function list_status_rekam()
 	{
-		$status_rekam = array_flip(unserialize(STATUS_REKAM));
+		$data = $this->db->select('status_rekam, LOWER(nama) as nama')
+			->get('tweb_status_ktp')->result_array();
+		$status_rekam = array_combine(array_column($data, 'status_rekam'), array_column($data, 'nama'));
 		return $status_rekam;
 	}
 

@@ -45,12 +45,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-define("VERSION", '21.07-premium-beta07');
+define("VERSION", '21.07-premium-beta08');
 /**
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
-define('VERSI_DATABASE', '2021070551');
+define('VERSI_DATABASE', '2021071251');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -290,16 +290,6 @@ define("KTP_EL", serialize(array(
 	strtolower("BELUM") => "1",
 	strtolower("KTP-EL") => "2",
 	strtolower("KIA") => "3"
-)));
-define("STATUS_REKAM", serialize(array(
-	strtolower("BELUM WAJIB") => "1",
-	strtolower("BELUM REKAM") => "2",
-	strtolower("SUDAH REKAM") => "3",
-	strtolower("CARD PRINTED") => "4",
-	strtolower("PRINT READY RECORD") => "5",
-	strtolower("CARD SHIPPED") => "6",
-	strtolower("SENT FOR CARD PRINTING") => "7",
-	strtolower("CARD ISSUED") => "8"
 )));
 define("TEMPAT_DILAHIRKAN", serialize(array(
 	"RS/RB" => "1",

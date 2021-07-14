@@ -49,19 +49,29 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021070271($hasil);
+		$hasil = $hasil && $this->migrasi_2021071251($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
-	
+
 	protected function migrasi_2021070271($hasil)
 	{
-		if ( !$this->db->field_exists('bpjs_ketenagakerjaan', 'tweb_penduduk'))
+		if ( ! $this->db->field_exists('bpjs_ketenagakerjaan', 'tweb_penduduk'))
 			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', ['bpjs_ketenagakerjaan' => ['type' => 'CHAR', 'constraint' => '100', 'null' => TRUE]]);
 
 		// Update view supaya kolom baru ikut masuk
 		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
 
 		return $hasil;
+  }
+
+	protected function migrasi_2021071251($hasil)
+	{
+    $hasil = $hasil && $this->db->set('status_rekam', null)
+      ->where('status_rekam', 1)
+      ->update('tweb_penduduk');
+
+		return $hasil >= 0;
 	}
 } 
