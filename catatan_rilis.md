@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 5. [#4311](https://github.com/OpenSID/OpenSID/issues/4311) Sekarang blok tanda tangan di Lembar Disposisi sesuai dengan pilihan petugas.
 6. [#3598](https://github.com/OpenSID/OpenSID/issues/3598) Sekarang Buku Peraturan Desa dan Buku Keputusan Kepala Desa dapat dipilah berdasarkan tahun.
 7. [#4287](https://github.com/OpenSID/OpenSID/issues/4287) Sekarang dari statistik kependudukan, bisa tampilkan data penduduk yang belum mengisi Kepemilikan KTP.
+8. [#4309](https://github.com/OpenSID/OpenSID/issues/4309) Perbaiki Paginasi pada modul Menu Statis.
 
 
 #### Perubahan Teknis

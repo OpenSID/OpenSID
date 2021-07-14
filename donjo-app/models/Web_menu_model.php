@@ -61,40 +61,30 @@ class Web_menu_model extends MY_Model {
 		return $this->autocomplete_str('nama', 'menu', $cari);
 	}
 
-	private function search_sql($tip)
+	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($cari = $this->session->cari)
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (nama LIKE '$kw')";
-
-			return $search_sql;
+			$this->db->like('nama', $cari);
 		}
 	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if ($filter = $this->session->filter)
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND enabled = $kf";
-
-			return $filter_sql;
+			$this->db->where('enabled', $filter);
 		}
 	}
 
-	public function paging($tip=0, $p=1, $o=0)
+	public function paging($p = 1)
 	{
-		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
-		$query = $this->db->query($sql,$tip);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
+		$this->list_data_sql();
+		$jml_data = $this->db->select('id')->get()->num_rows();
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -103,31 +93,36 @@ class Web_menu_model extends MY_Model {
 
 	private function list_data_sql()
 	{
-		$sql = " FROM menu WHERE tipe = ? ";
-		$sql .= $this->search_sql($tip);
-		$sql .= $this->filter_sql();
+		$this->db->from('menu')
+			->where('tipe', 1);
 
-		return $sql;
+		$this->filter_sql();
+		$this->search_sql();
 	}
 
-	public function list_data($tip=0, $o=0, $offset=0, $limit=500)
+	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
 		switch($o)
 		{
-			case 1: $order_sql = ' ORDER BY nama'; break;
-			case 2: $order_sql = ' ORDER BY nama DESC'; break;
-			case 3: $order_sql = ' ORDER BY enabled'; break;
-			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
-			default:$order_sql = ' ORDER BY urut';
+			case 1:
+				$this->db->order_by('nama');
+				break;
+			case 2:
+				$this->db->order_by('nama', 'desc');
+				break;
+			case 3:
+				$this->db->order_by('enabled');
+			case 4:
+				$this->db->order_by('enabled', 'desc');
+			default:
+				$this->db->order_by('urut');
 		}
-
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT * " . $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql, $tip);
-		$data = $query->result_array();
+		
+		$this->list_data_sql();
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		$data = $this->db
+			->get()
+			->result_array();
 
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -141,11 +136,12 @@ class Web_menu_model extends MY_Model {
 		return $data;
 	}
 
-	public function insert($tip=1)
+	public function insert()
 	{
 		$post = $this->input->post();
-		$data['tipe'] = $tip;
-		$data['urut'] = $this->urut_model->urut_max(array('tipe' => $tip)) + 1;
+		$data['tipe'] = 1;
+		$data['parrent'] = 0;
+		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 1)) + 1;
 		$data['nama'] = htmlentities($post['nama']);
 		$data['link'] = $post['link'];
 		$data['link_tipe'] = $post['link_tipe'];
@@ -280,9 +276,9 @@ class Web_menu_model extends MY_Model {
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
-	public function urut($id, $arah, $tipe=1, $menu='')
+	public function urut($id, $arah, $menu='')
 	{
-		$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => $tipe);
+		$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => 1);
 		$this->urut_model->urut($id, $arah, $subset);
 	}
 
