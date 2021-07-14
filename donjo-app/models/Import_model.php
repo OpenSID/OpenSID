@@ -68,7 +68,7 @@ class Import_model extends CI_Model {
 		$this->kode_golongan_darah = array_change_key_case(unserialize(KODE_GOLONGAN_DARAH));
 		$this->kode_wajib_ktp = array_change_key_case(unserialize(WAJIB_KTP));
 		$this->kode_ktp_el = array_change_key_case(unserialize(KTP_EL));
-		$this->kode_status_rekam = array_change_key_case(unserialize(STATUS_REKAM));
+		$this->kode_status_rekam = array_flip($this->referensi_model->list_status_rekam());
 		$this->kode_status_dasar = array_change_key_case($this->merge_kode_status_dasar());
 		$this->kode_cacat = array_change_key_case(unserialize(KODE_CACAT));
 		// Load model

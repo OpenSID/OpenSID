@@ -56,19 +56,9 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 
 	protected function migrasi_2021071251($hasil)
 	{
-		$data = $this->db->where('status_rekam', 1)->get('tweb_penduduk')->result();
-
-		$updateBatch = [];
-
-		foreach ($data as $value)
-		{
-			$updateBatch[] = [
-				'id' => $value->id,
-				'status_rekam' => null,
-			];
-		}
-	
-		$hasil = $hasil && $this->db->update_batch('tweb_penduduk', $updateBatch, 'id');
+    $hasil = $hasil && $this->db->set('status_rekam', null)
+      ->where('status_rekam', 1)
+      ->update('tweb_penduduk');
 
 		return $hasil >= 0;
 	}
