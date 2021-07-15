@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021071251($hasil);
+    $hasil = $hasil && $this->migrasi_2021071551($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -60,6 +61,18 @@ class Migrasi_fitur_premium_2108 extends MY_Model
       ->where('status_rekam', 1)
       ->update('tweb_penduduk');
 
-		return $hasil >= 0;
+		return $hasil;
 	}
+
+  // Hapus mutasi kepemilikan awal persil yg salah
+  protected function migrasi_2021071551($hasil)
+  {
+    $hasil = $hasil && $this->db
+      ->where('jenis_mutasi', 9)
+      ->where('id_cdesa_masuk is null')
+      ->delete('mutasi_cdesa');
+
+    return $hasil;
+  }
+
 } 
