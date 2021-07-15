@@ -146,7 +146,8 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 				(42, 'api_key_opensid', '', 'Opensid API Key untuk Pelanggan OpenDesa', '', '')
 				ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
 			$hasil =& $this->db->query($query);
-  	}
-  	return $hasil;
+		}
+		
+		return $hasil;
 	}
 }

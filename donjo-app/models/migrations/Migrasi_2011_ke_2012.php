@@ -66,8 +66,6 @@ class Migrasi_2011_ke_2012 extends MY_model {
 			$hasil = $this->dbforge->add_column('tweb_surat_format', $fields);
 		}
 
-		status_sukses($hasil);
-
 		// Pengaturan Token TrackSID
 		if ( ! $this->db->field_exists('token_opensid', 'setting_aplikasi'))
 		{

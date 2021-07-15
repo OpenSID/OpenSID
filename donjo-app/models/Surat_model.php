@@ -628,6 +628,28 @@
 		return $buffer;
 	}
 
+	private function sisipkan_foto($nama_foto, $buffer)
+	{
+		$file_foto = APPPATH . '../' . LOKASI_USER_PICT . $nama_foto;
+		if (!is_file($file_foto)) return $buffer;
+		$akhiran_foto = 'c37e16e40000000049454e44ae426082';
+		$awalan_foto = '89504e470d0a1a0a0000000d49484452000000c8000000fa0803000000d3';
+		$akhiran_sementara = 'akhiran_foto';
+		$jml_foto = substr_count($buffer, $akhiran_foto);
+		if ($jml_foto <= 0) return $buffer;
+
+		$foto_bytes = file_get_contents($file_foto);
+		$foto_hex = implode(unpack("H*", $foto_bytes));;
+		for ($i=0; $i<$jml_foto; $i++)
+		{
+			$pos = strpos($buffer, $akhiran_foto);
+	    $buffer = substr_replace($buffer, $akhiran_sementara, $pos, strlen($akhiran_foto));
+			$placeholder_foto = '/'.$awalan_foto.'.*'.$akhiran_sementara.'/s';
+			$buffer = preg_replace($placeholder_foto, $foto_hex, $buffer);
+		}
+		return $buffer;
+	}
+
 	public function get_data_form($surat)
 	{
 		$data_form = LOKASI_SURAT_DESA.$surat."/data_form_".$surat.".php";
@@ -747,6 +769,7 @@
 		$tgl = tgl_indo(date("Y m d"));
 		$tgl_hijri = Hijri_date_id::date('j F Y');
 		$thn = date("Y");
+		$tampil_foto = $input['tampil_foto'];
 
 		$tgllhr = ucwords(tgl_indo($individu['tanggallahir']));
 		$individu['nama'] = strtoupper($individu['nama']);
@@ -765,6 +788,10 @@
 			$buffer = $this->bersihkan_kode_isian($buffer);
 			$buffer = $this->sisipkan_kop_surat($buffer);
 			$buffer = $this->sisipkan_logo($config['logo'], $buffer);
+			if ($tampil_foto)
+			{
+				$buffer = $this->sisipkan_foto($individu['foto'], $buffer);
+			}
 
 			//PRINSIP FUNGSI
 			//-> [kata_template] -> akan digantikan dengan data di bawah ini (sebelah kanan)

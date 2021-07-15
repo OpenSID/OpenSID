@@ -3,9 +3,9 @@
 /**
  * File ini:
  *
- * Model untuk migrasi database
+ * Model untuk modul database
  *
- * donjo-app/models/migrations/Migrasi_2012_ke_2101.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2101.php
  *
  */
 
@@ -43,37 +43,55 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_2012_ke_2101 extends MY_model {
+class Migrasi_fitur_premium_2101 extends MY_model {
 
 	public function up()
 	{
+		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-		// Tambah menu Layanan Mandiri > Pengaturan
-		$query = "
-			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
-			('314', 'Pengaturan', 'setting/mandiri', '1', 'fa-gear', '6', '2', '14', '0', 'fa-gear')
-			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
-		";
-		$hasil =& $this->db->query($query);
+		// Tambahkan key sebutan_nip_desa
+		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
+			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
 
-		// Tambahkan key layanan_mandiri
-		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
-			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
-		// Ubah isi field pd tabel kelompok jd unik, kode = kode_id
-		$hasil =& $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
-		// Field unik pd tabel kelompok
-		$hasil =& $this->tambah_indeks('kelompok', 'kode');
+		$list_setting =
+			[
+				[
+					'key' => 'api_opendk_server',
+					'value' => '',
+					'keterangan' => 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)',
+				],
+				[
+					'key' => 'api_opendk_key',
+					'value' => '',
+					'keterangan' => 'OpenDK API Key untuk Sinkronisasi Data',
+				],
+				[
+					'key' => 'api_opendk_user',
+					'value' => '',
+					'keterangan' => 'Email Login Pengguna OpenDK',
+				],
+				[
+					'key' => 'api_opendk_password',
+					'value' => '',
+					'keterangan' => 'Password Login Pengguna OpenDK',
+				],
+			];
+		foreach ($list_setting as $setting)
+		{
+			$hasil =& $this->tambah_setting($setting);
+		}
 
-		// Migrasi fitur premium
-  	$daftar_migrasi_premium = ['2009', '2010', '2011', '2012', '2101'];
-  	foreach ($daftar_migrasi_premium as $migrasi)
-  	{
-  		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
-  		$file_migrasi = 'migrations/'.$migrasi_premium;
-			$this->load->model($file_migrasi);
-			$hasil =& $this->$migrasi_premium->up();
-  	}
+		// setting_aplikasi.valud diperpanjang
+		$field = [
+			'value' => [
+				'type' => 'VARCHAR',
+				'constraint' => 500,
+				'null' => TRUE,
+				'default' => NULL
+			]
+		];
+		$hasil =& $this->dbforge->modify_column('setting_aplikasi', $field);
 
 		status_sukses($hasil);
 		return $hasil;

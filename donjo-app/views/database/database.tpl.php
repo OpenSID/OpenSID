@@ -24,6 +24,7 @@
 													<li <?php if ($act_tab==4): ?>class="active"<?php endif ?>><a href="<?= site_url('database/backup')?>">Backup/Restore</a></li>
 													<li <?php if ($act_tab==6): ?>class="active"<?php endif ?>><a href="<?= site_url('database/kosongkan')?>">Kosongkan DB</a></li>
 													<li <?php if ($act_tab==5): ?>class="active"<?php endif ?>><a href="<?= site_url('database/migrasi_cri')?>">Migrasi DB</a></li>
+													<li <?php if ($act_tab==7): ?>class="active"<?php endif ?>><a href="<?= site_url('database/sinkronasi_opendk')?>">Sinkronasi DB OpenDK</a></li>
 												</ul>
 												<div class="tab-content">
 

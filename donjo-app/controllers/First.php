@@ -78,6 +78,7 @@ class First extends Web_Controller {
 		$this->load->model('web_menu_model');
 		$this->load->model('first_penduduk_m');
 		$this->load->model('penduduk_model');
+		$this->load->model('suplemen_model');
 		$this->load->model('surat_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('web_widget_model');
@@ -89,7 +90,6 @@ class First extends Web_Controller {
 		$this->load->model('keuangan_model');
 		$this->load->model('keuangan_manual_model');
 		$this->load->model('web_dokumen_model');
-		$this->load->model('mailbox_model');
 		$this->load->model('lapor_model');
 		$this->load->model('program_bantuan_model');
 		$this->load->model('keuangan_manual_model');
@@ -98,6 +98,7 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('anjungan_model');
 	}
 
 	public function index($p=1)
@@ -265,6 +266,7 @@ class First extends Web_Controller {
 		$data = $this->includes;
 
 		$data['detail'] = $this->kelompok_model->get_kelompok($id);
+		$data['title'] = 'Data Kelompok '. $data['detail']['nama'];
 		$data['pengurus'] = $this->kelompok_model->list_pengurus($id);
 		$data['anggota'] = $this->kelompok_model->list_anggota($id, $sub='anggota');
 
@@ -272,8 +274,22 @@ class First extends Web_Controller {
 		if ($data['detail'] == NULL) show_404();
 
 		$this->_get_common_data($data);
-
 		$this->set_template('layouts/kelompok.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function suplemen($id = 0)
+	{
+		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
+
+		$data = $this->includes;
+
+		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
+		$data['title'] = 'Data Suplemen '. $data['main']['suplemen']['nama'];
+		$data['sasaran'] = unserialize(SASARAN);
+
+		$this->_get_common_data($data);
+		$this->set_template('layouts/suplemen.tpl.php');
 		$this->load->view($this->template, $data);
 	}
 
@@ -513,6 +529,7 @@ class First extends Web_Controller {
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
 		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
 		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
+		$data['cek_anjungan'] = $this->anjungan_model->cek_anjungan();
 
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();

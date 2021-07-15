@@ -206,9 +206,31 @@ public function get_syarat_permohonan($id)
 	$syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
 	for ($i = 0; $i < count($syarat_surat); $i++)
 	{
-		$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
+		$permohonan = $this->db->where('id', $id)
+			->get('permohonan_surat')
+			->row_array();
+		$syarat_permohonan = json_decode($permohonan['syarat'], true);
+		$dok_syarat = array_values($syarat_permohonan);
+		$sql_syarat_permohonan = sql_in_list($dok_syarat);
+
+		if ($sql_syarat_permohonan) $this->db->where_in('id', $sql_syarat_permohonan);
+  	$dokumen_kelengkapan = $this->db
+  		->select('id, nama')
+  		->from('dokumen')
+  		->get()->result_array();
+  	$dok_syarat = array();
+  	foreach ($dokumen_kelengkapan as $dok)
+  	{
+  		$dok_syarat[$dok['id']] = $dok['nama'];
+  	}
+  	$syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
+  	for ($i = 0; $i < count($syarat_surat); $i++)
+  	{
+  		$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
   		$syarat_surat[$i]['dok_id'] = $dok_id;
   		$syarat_surat[$i]['dok_nama'] = ($dok_id == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dok_syarat[$dok_id];
+  	}
+		return $syarat_surat;
 	}
 
 	return $syarat_surat;

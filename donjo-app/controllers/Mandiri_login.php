@@ -1,11 +1,13 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
- * Model untuk modul database
+ * Controller untuk login Layanan Mandiri
  *
- * donjo-app/models/migrations/Migrasi_fitur_premium_2012.php
+ * donjo-app/controllers/Mandiri_login.php
  *
  */
 
@@ -26,11 +28,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -43,28 +45,65 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_fitur_premium_2012 extends MY_model {
+class Mandiri_login extends Web_Controller
+{
+	private $cek_anjungan;
 
-	public function up()
+	public function __construct()
 	{
-		log_message('error', 'Jalankan ' . get_class($this));
-		$hasil = true;
+		parent::__construct();
+		mandiri_timeout();
+		$this->load->model(['header_model', 'anjungan_model', 'mandiri_model']);
+		$this->header = $this->header_model->get_data();
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 
-		// Tambah field keyboard
-		if ( ! $this->db->field_exists('keyboard', 'anjungan'))
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) redirect();
+	}
+
+	public function index()
+	{
+		if (isset($_SESSION['mandiri']) and 1 == $_SESSION['mandiri'])
 		{
-			$fields = [
-				'keyboard' => [
-					'type' => 'TINYINT',
-					'constraint' => 1,
-					'default' => '1',
-					'after' => 'keterangan'
-				]
-			];
+			redirect('mandiri_web/mandiri/1/1');
+		}
+		unset($_SESSION['balik_ke']);
+		$data['header'] = $this->header['desa'];
+		//Initialize Session ------------
+		if (!isset($_SESSION['mandiri']))
+		{
+			// Belum ada session variable
+			$this->session->set_userdata('mandiri', 0);
+			$this->session->set_userdata('mandiri_try', 4);
+			$this->session->set_userdata('mandiri_wait', 0);
+		}
+		$_SESSION['success'] = 0;
+		//-------------------------------
 
-			$hasil = $this->dbforge->add_column('anjungan', $fields);
+		$data['cek_anjungan'] = $this->cek_anjungan;
+
+		$this->load->view('mandiri_login', $data);
+	}
+
+	public function auth()
+	{
+		if ($this->session->mandiri_wait != 1)
+		{
+			$this->mandiri_model->siteman();
 		}
 
-		status_sukses($hasil);
+		if ($this->session->lg == 1)
+		{
+			redirect('mandiri_web/ganti_pin');
+		}
+
+		if ($this->session->mandiri == 1)
+		{
+			redirect('mandiri_web/mandiri/1/1');
+		}
+		else
+		{
+			redirect('mandiri_login');
+		}
+
 	}
 }

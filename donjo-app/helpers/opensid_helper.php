@@ -1074,6 +1074,11 @@ function crawler()
 	return FALSE;
 }
 
+function pre_print_r($data)
+{
+	print("<pre>".print_r($data, true)."</pre>");
+}
+
 // Kode Wilayah Dengan Titik
 // Dari 5201142005 --> 52.01.14.2005
 function kode_wilayah($kode_wilayah)
@@ -1082,9 +1087,4 @@ function kode_wilayah($kode_wilayah)
 	$kode_desa = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
 	$kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
 	return $kode_standar;
-}
-
-function pre_print_r($data)
-{
-	print("<pre>".print_r($data, true)."</pre>");
 }

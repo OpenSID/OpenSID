@@ -157,17 +157,11 @@ class Data_publik
 
 	/**
 	 * Ambil data url
-	 * @param boolean $no_cache
 	 * @return string
 	 */
-	public function get_url_content($no_cache = false, $secure = true)
+	public function get_url_content()
 	{
-		if (! $this->api)
-		{
-			throw new \Exception('Please specify the API endpoint URL.');
-		}
-		// Jika $no_cache paksa ambil baru
-		return $no_cache ? $this->get_content($secure) : $this->resync($secure);
+		return $this->resync();
 	}
 
 	/**
