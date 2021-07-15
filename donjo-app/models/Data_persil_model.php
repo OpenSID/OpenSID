@@ -364,9 +364,12 @@ class Data_persil_model extends MY_Model {
 		$this->db->where('id', $id_persil)
 			->set('cdesa_awal', $cdesa_awal)
 			->update('persil');
-		$persil = $this->db->where('id', $id_persil)
-			->get('persil')->row_array();
-		$this->mutasi_awal($persil, $id_persil);
+		if ( ! $hapus)
+		{
+			$persil = $this->db->where('id', $id_persil)
+				->get('persil')->row_array();
+			$this->mutasi_awal($persil, $id_persil);
+		}
 	}
 
 	private function mutasi_awal($data, $id_persil)
