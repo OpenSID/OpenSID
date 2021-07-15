@@ -279,6 +279,7 @@ class Cdesa_model extends CI_Model {
 		$data['keterangan'] = strip_tags($post['keterangan']) ?: NULL;
 		$data['path'] = $post['path'];
 		$data['id_peta'] = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? $post['id_peta'] : NULL ; 
+		$data['id_peta'] =  $data['id_peta'] ?: null;
 	 
 		if ($id_mutasi)
 			$outp = $this->db->where('id', $id_mutasi)->update('mutasi_cdesa', $data);

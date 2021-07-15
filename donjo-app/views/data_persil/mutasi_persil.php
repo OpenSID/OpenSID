@@ -69,7 +69,7 @@
 									<tr>
 										<td width="20%">No. Persil : No. Urut Bidang</td>
 										<td width="1%">:</td>
-										<td><<?= $persil['nomor'].' : '.$persil['nomor_urut_bidang']?></td>
+										<td><?= $persil['nomor'].' : '.$persil['nomor_urut_bidang']?></td>
 									</tr>
 									<tr>
 										<td>Kelas Tanah</td>

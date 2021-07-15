@@ -47,6 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Menu extends Admin_Controller {
 
+	protected $list_session = ['cari', 'filter'];
+	protected $set_page = ['10', '20', '50', '100'];
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -69,39 +72,43 @@ class Menu extends Admin_Controller {
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = $this->set_page[0];
+
 		redirect('menu');
 	}
 
-	public function index($tip = 1, $p = 1, $o = 0)
+	public function index($p = 1, $o = 0)
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-		$data['tip'] = $tip;
+		$data['tip'] = 1; // Hanya untuk Navigasi
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		foreach ($this->list_session as $list)
+		{
+			$data[$list] = $this->session->$list ?: '';
+		}
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		$per_page = $this->input->post('per_page');
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+		if (isset($per_page))
+		{
+			$this->session->per_page = $per_page;
+		}
 
-		$data['paging'] = $this->web_menu_model->paging($tip, $p, $o);
-		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
+		$data['func'] = 'index';
+		$data['set_page'] = $this->set_page;
+		$data['per_page'] = $this->session->per_page;
+		$data['paging'] = $this->web_menu_model->paging($p);
+		$data['main'] = $this->web_menu_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_menu_model->autocomplete($data['cari']);
 
 		$this->render('menu/table', $data);
 	}
 
-	public function form($tip = 1, $id = '')
+	public function form($id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
 		$data['artikel_statis'] = $this->web_artikel_model->list_artikel_statis();
 		$data['kategori_artikel'] = $this->web_kategori_model->list_kategori();
@@ -117,33 +124,33 @@ class Menu extends Admin_Controller {
 		if ($id)
 		{
 			$data['submenu'] = $this->web_menu_model->get_menu($id);
-			$data['form_action'] = site_url("menu/update/$tip/$id");
+			$data['form_action'] = site_url("menu/update/$id");
 		}
 		else
 		{
 			$data['submenu'] = NULL;
-			$data['form_action'] = site_url("menu/insert/$tip");
+			$data['form_action'] = site_url("menu/insert");
 		}
 
-		$data['tip'] = $tip;
+		$data['tip'] = 1;
 
 		$this->render('menu/form', $data);
 	}
 
-	public function sub_menu($tip = 1, $menu = 1)
+	public function sub_menu($menu = 1)
 	{
 		$data['submenu'] = $this->web_menu_model->list_sub_menu($menu);
-		$data['tip'] = $tip;
+		$data['tip'] = 1; // Hanya untuk Navigasi
 		$data['menu'] = $menu;
 
 		$this->render('menu/sub_menu_table', $data);
 	}
 
-	public function ajax_add_sub_menu($tip = 1, $menu = '', $id = '')
+	public function ajax_add_sub_menu($menu = '', $id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data['menu'] = $menu;
-		$data['tip'] = $tip;
+		$data['tip'] = 3;
 
 		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
 		$data['artikel_statis'] = $this->web_artikel_model->list_artikel_statis();
@@ -160,24 +167,23 @@ class Menu extends Admin_Controller {
 		if ($id)
 		{
 			$data['submenu'] = $this->web_menu_model->get_menu($id);
-			$data['form_action'] = site_url("menu/update_sub_menu/$tip/$menu/$id");
+			$data['form_action'] = site_url("menu/update_sub_menu/$menu/$id");
 		}
 		else
 		{
 			$data['submenu'] = NULL;
-			$data['form_action'] = site_url("menu/insert_sub_menu/$tip/$menu");
+			$data['form_action'] = site_url("menu/insert_sub_menu/$menu");
 		}
 
 		$this->load->view('menu/ajax_add_sub_menu_form', $data);
 	}
 
-	public function search($tip = 1)
+	public function search()
 	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
+		if ($cari = $this->input->post('cari'))
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
-		redirect("menu/index/$tip");
+		redirect("menu");
 	}
 
 	public function filter()
@@ -189,99 +195,97 @@ class Menu extends Admin_Controller {
 		redirect('menu');
 	}
 
-	public function insert($tip = 1)
+	public function insert()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->web_menu_model->insert($tip);
-		redirect("menu/index/$tip");
+		$this->redirect_hak_akses('u');
+		$this->web_menu_model->insert();
+		redirect("menu");
 	}
 
-	public function update($tip = 1, $id = '')
+	public function update($id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->web_menu_model->update($id);
-		redirect("menu/index/$tip");
+		redirect("menu");
 	}
 
-	public function delete($tip = 1, $id = '')
+	public function delete($id = '')
 	{
-		$this->redirect_hak_akses('h', "menu/index/$tip");
+		$this->redirect_hak_akses('h');
 		$this->web_menu_model->delete($id);
-		redirect("menu/index/$tip");
+		redirect("menu");
 	}
 
-	public function delete_all($tip = 1, $p = 1, $o = 0)
+	public function delete_all()
 	{
-		$this->redirect_hak_akses('h', "menu/index/$tip/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->web_menu_model->delete_all();
-		redirect("menu/index/$tip/$p/$o");
+		redirect("menu");
 	}
 
-	public function menu_lock($tip = 1, $id = '')
+	public function menu_lock($id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->web_menu_model->menu_lock($id, 1);
-		redirect("menu/index/$tip/$p/$o");
+		redirect("menu");
 	}
 
-	public function menu_unlock($tip = 1, $id = '')
+	public function menu_unlock($id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->web_menu_model->menu_lock($id, 2);
-		redirect("menu/index/$tip/$p/$o");
+		redirect("menu");
 	}
 
-	public function insert_sub_menu($tip = 1, $menu = '')
+	public function insert_sub_menu($menu = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->web_menu_model->insert_sub_menu($menu);
-		redirect("menu/sub_menu/$tip/$menu");
+		redirect("menu/sub_menu/$menu");
 	}
 
-	public function update_sub_menu($tip = 1, $menu = '', $id = '')
+	public function update_sub_menu($menu = '', $id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->web_menu_model->update_sub_menu($id);
-		redirect("menu/sub_menu/$tip/$menu");
+		redirect("menu/sub_menu/$menu");
 	}
 
-	public function delete_sub_menu($tip = '', $menu = '', $id = 0)
+	public function delete_sub_menu($menu = '', $id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
+		$this->redirect_hak_akses('h');
 		$this->web_menu_model->delete($id);
-		redirect("menu/sub_menu/$tip/$menu");
+		redirect("menu/sub_menu/$menu");
 	}
 
-	public function delete_all_sub_menu($tip = 1, $menu = '')
+	public function delete_all_sub_menu($menu = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
+		$this->redirect_hak_akses('h');
 		$this->web_menu_model->delete_all();
-		redirect("menu/sub_menu/$tip/$menu");
+		redirect("menu/sub_menu/$menu");
 	}
 
-	public function menu_lock_sub_menu($tip = 1, $menu = '', $id = '')
+	public function menu_lock_sub_menu($menu = '', $id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->web_menu_model->menu_lock($id, 1);
-		redirect("menu/sub_menu/$tip/$menu");
+		redirect("menu/sub_menu/$menu");
 	}
 
-	public function menu_unlock_sub_menu($tip = 1, $menu = '', $id = '')
+	public function menu_unlock_sub_menu($menu = '', $id = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->web_menu_model->menu_lock($id, 2);
-		redirect("menu/sub_menu/$tip/$menu");
+		redirect("menu/sub_menu/$menu");
 	}
 
-	public function urut($tip = 1, $id = 0, $arah = 0, $menu = '')
+	public function urut($id = 0, $arah = 0, $menu = '')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->web_menu_model->urut($id, $arah, $tip, $menu);
-		if ($menu != '')
-			redirect("menu/sub_menu/$tip/$menu");
+		$this->redirect_hak_akses('u');
+		$this->web_menu_model->urut($id, $arah, $menu);
+		if ($menu)
+			redirect("menu/sub_menu/$menu");
 		else
-			redirect("menu/index/$tip");
+			redirect("menu");
 	}
 }
