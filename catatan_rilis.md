@@ -1,6 +1,6 @@
-#### [v21.07-premium-beta09]
+#### [v21.07-premium-beta10]
 
-Di rilis ini, versi 21.07-premium-beta08, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.07-premium-beta10, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
