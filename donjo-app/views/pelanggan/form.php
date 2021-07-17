@@ -104,10 +104,6 @@
 															<td> <span class="nama"></span></td>
 														</tr>
 														<tr>
-															<th class="horizontal">NO. HP</th>
-															<td> <span class="no_hp"></span></td>
-														</tr>
-														<tr>
 															<th class="horizontal">EMAIL</th>
 															<td> <span class="email"></td>
 														</tr>

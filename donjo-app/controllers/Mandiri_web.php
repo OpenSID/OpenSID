@@ -52,7 +52,7 @@ class Mandiri_web extends Mandiri_Controller
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['header_model', 'web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'referensi_model']);
+		$this->load->model(['web_dokumen_model', 'surat_model', 'penduduk_model', 'keluar_model', 'permohonan_surat_model', 'mailbox_model', 'penduduk_model', 'lapor_model', 'keluarga_model', 'mandiri_model', 'referensi_model']);
 		$this->load->helper('download');
 	}
 
@@ -67,9 +67,9 @@ class Mandiri_web extends Mandiri_Controller
 		redirect('mandiri_web');
 	}
 
-	public function update_pin($nik = '')
+	public function update_pin()
 	{
-		$this->mandiri_model->update_pin($nik);
+		$this->mandiri_model->update_pin($this->session->nik);
 		if ($this->session->success == -1)
 		{
 			redirect($_SERVER['HTTP_REFERER']);
