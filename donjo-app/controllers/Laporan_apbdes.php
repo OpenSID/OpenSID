@@ -40,10 +40,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
-
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-
 class Laporan_apbdes extends Admin_Controller {
 
 	public function __construct()
@@ -133,6 +129,57 @@ class Laporan_apbdes extends Admin_Controller {
 	{
 		$nama_file = $this->apbdes->find($id)->nama_file;
 		ambilBerkas($nama_file, $this->controller, NULL, LOKASI_DOKUMEN);	
+	}
+
+	public function kirim()
+	{
+		$this->redirect_hak_akses('u');
+
+		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
+			if (file_exists($file)) {
+				unlink($file);
+				break;
+			}
+		}
+
+		$desa_id = kode_wilayah($this->header['desa']['kode_desa']);
+		$id = $this->input->post('id_cb');
+		
+		//Tambah/Ubah Data
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/laporan-apbdes",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',
+			CURLOPT_POSTFIELDS => json_encode(['desa_id' => $desa_id, 'laporan_apbdes' => $this->apbdes->opendk($id)]),
+			CURLOPT_HTTPHEADER => array(
+				'Accept: application/json',
+				'Content-Type: application/json',
+				"Authorization: Bearer {$this->setting->api_opendk_key}",
+			),
+		));
+
+		$response = json_decode(curl_exec($curl));
+		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+		if ( ! curl_errno($curl) && $http_code !== 422)
+		{
+			// Ubah tgl kirim
+			$this->apbdes->kirim($id);
+		}
+
+		curl_close($curl);
+		$this->session->unset_userdata(['success', 'error_msg']);
+		$this->session->set_flashdata("notif", $response);
+
+		redirect($this->controller);
+
+		// echo json_encode($response->errors, true);
 	}
 
 }

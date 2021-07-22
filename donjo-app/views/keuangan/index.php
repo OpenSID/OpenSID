@@ -68,7 +68,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php if ($this->CI->cek_hak_akses('h')): ?>
 					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("$this->controller/delete_all"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 				<?php endif; ?>
-				<a href="<?= site_url("sinkronisasi_opendk"); ?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Sinkronisasi OpenDK"><i class="fa fa-random"></i> Sinkronisasi OpenDK</a>
+				<?php if ($this->CI->cek_hak_akses('u')): ?>
+					<?php if($this->setting->api_opendk_key): ?>
+						<a href="#" title="Kirim Ke OpenDK" id="kirim" onclick="formAction('mainform','<?=site_url("$this->controller/kirim"); ?>')" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block aksi-terpilih" title="Kirim Ke OpenDK"><i class="fa fa-random"></i> Kirim Ke OpenDK</a>
+					<?php else: ?>
+						<a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Ke OpenDK</a>
+					<?php endif; ?>
+				<?php endif; ?>				
 			</div>
 			<form id="mainform" name="mainform" method="post">
 				<div class="box-header with-border form-inline">
@@ -96,6 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>Semester</th>
 									<th>File</th>
 									<th>Tanggal Upload</th>
+									<th>Tanggal Kirim</th>
 								</tr>
 							</thead>
 						</table>
@@ -105,8 +112,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
-<?php $this->load->view('global/konfirmasi'); ?>
+<div class="modal fade" id='loading' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header btn-warning">
+				<h4 class="modal-title">Proses Sinkronisasi</h4>
+			</div>
+			<div class="modal-body">
+				Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirmkan.
+				<div class='text-center'>
+					<img src="<?= base_url('assets/images/background/loading.gif')?>">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php if ($notif = $this->session->flashdata("notif")): ?>
+	<div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Response</h4>
+				</div>
+				<div class="modal-body btn-<?= $notif->status ?? 'danger'; ?>">
+					<?php if ($notif->status): ?>
+						<?= $notif->message; ?>
+					<?php else: ?>
+						<?php foreach($notif->errors as $key => $error): ?>
+							<?php foreach($error as $er): ?>
+								<?= $er; ?></br>
+							<?php endforeach; ?>
+						<?php endforeach; ?>
+					<?php endif; ?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
+<?php $this->load->view('global/confirm_delete'); ?>
 <script>
 	$(document).ready(function() {
 		let tabel_keuangan = $('#tabel-keuangan').DataTable({
@@ -117,7 +164,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'order': [[4, 'desc']],
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0, 1, 2] },
-				{ 'className' : 'padat', 'targets': [0, 1, 7] },
+				{ 'className' : 'padat', 'targets': [0, 1, 7, 8] },
 				{ 'className' : 'aksi', 'targets': [2] },
 			],
 			'ajax': {
@@ -141,7 +188,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<a href="<?= site_url("$this->controller/form/"); ?>${data.id}" title="Edit APBDes" class="btn bg-orange btn-flat btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Laporan APBDes"><i class="fa fa-edit"></i></a>
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
-							<a href="#" data-href="<?= site_url("$this->controller/delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+							<a href="#" data-href="<?= site_url("$this->controller/delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete" ${data.kirim ? "disabled" : ""}><i class="fa fa-trash-o"></i></a>
 						<?php endif; ?>
 						<a href="<?= site_url("$this->controller/unduh/"); ?>${data.id}" class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
 						`
@@ -152,6 +199,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{ 'data': 'semester' },
 				{ 'data': 'nama_file' },
                 { 'data': 'updated_at' },
+				{ 'data': 'kirim' },
 			],
 			'language': {
 				'url': "<?= base_url('/assets/bootstrap/js/dataTables.indonesian.lang') ?>"
@@ -169,6 +217,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		$('#filter-tahun').on('select2:select', function (e) {
 			tabel_keuangan.ajax.reload();
+		});
+		
+		$('#response').modal({backdrop: 'static', keyboard: false}).show();
+
+		$('#kirim').on('click', function() {
+			$('#loading').modal({backdrop: 'static', keyboard: false}).show();
 		});
 	});
 </script>

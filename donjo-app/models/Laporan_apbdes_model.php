@@ -9,7 +9,8 @@ class Laporan_apbdes_model extends CI_Model {
 		3 => 'tahun',
 		4 => 'semester',
 		5 => 'nama_file',
-		6 => 'updated_at'
+		6 => 'updated_at',
+		7 => 'kirim'
 	];
 
     public function __construct()
@@ -56,13 +57,7 @@ class Laporan_apbdes_model extends CI_Model {
 	public function insert()
 	{
 		$data = $this->validasi();
-
 		$outp = $this->db->insert($this->table, $data);
-
-		// Tambahkan no telpon ke tweb_penduduk jika kosong
-		$this->db
-			->where('id', $data['id_pend'])
-			->update('tweb_penduduk', ['telepon' => $data['telepon']]);
 
 		status_sukses($outp);
 	}
@@ -71,7 +66,7 @@ class Laporan_apbdes_model extends CI_Model {
 	{
 		$data = $this->validasi();
 		$data['updated_at'] = date('Y-m-d H:i:s');
-		$outp = $this->db->where('id', $id)->update($this->table, $data);
+		$outp = $this->db->where('id', $id)->where('kirim', NULL)->update($this->table, $data);
 
 		status_sukses($outp);
 	}
@@ -135,9 +130,10 @@ class Laporan_apbdes_model extends CI_Model {
 		return $upload['file_name'];
 	}
 
-	public function opendk($desa_id)
+	public function opendk($id)
 	{
 		$list_data = $this->db
+			->where_in('id', $id)
 			->get($this->table)
 			->result_array();
 
@@ -149,7 +145,6 @@ class Laporan_apbdes_model extends CI_Model {
 			$kirim[$key]['tahun'] = $data['tahun'];
 			$kirim[$key]['semester'] = $data['semester'];
 			$kirim[$key]['nama_file'] = $data['nama_file'];
-			$kirim[$key]['desa_id'] = $desa_id;
 			$kirim[$key]['created_at'] = $data['created_at'];
 			$kirim[$key]['updated_at'] = $data['updated_at'];
 			$kirim[$key]['file'] = $this->file($data['nama_file']);
@@ -161,9 +156,15 @@ class Laporan_apbdes_model extends CI_Model {
 
 	public function file($nama_file)
 	{
-		$nama_file = base64_encode(file_get_contents(LOKASI_DOKUMEN . $nama_file));
+		return base64_encode(file_get_contents(LOKASI_DOKUMEN . $nama_file));
+	}
 
-		return $nama_file;
+	public function kirim($id)
+	{
+		$data['kirim'] = date('Y-m-d H:i:s');
+		$outp = $this->db->where_in('id', $id)->update($this->table, $data);
+
+		status_sukses($outp);
 	}
 
 }

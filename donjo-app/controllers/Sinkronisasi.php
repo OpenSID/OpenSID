@@ -52,13 +52,13 @@ class Sinkronisasi extends Admin_Controller {
 		$this->modul_ini = 11;
 		$this->sub_modul_ini = 326;
 		$this->load->library('zip');
-		$this->load->model(['export_model', 'laporan_apbdes_model']);
+		$this->load->model('export_model');
 	}
 
 	public function index()
 	{
 		$data = [
-			'kirim_data' => ['Penduduk', 'Laporan APBDes']
+			'kirim_data' => ['Penduduk']
 		];
 
 		$this->render("$this->controller/index", $data);
@@ -75,13 +75,16 @@ class Sinkronisasi extends Admin_Controller {
 			}
 		}
 
-		if ($modul == 'penduduk')
+		switch ($modul)
 		{
-			$this->penduduk();
-		}
-		elseif ($modul == 'laporan-apbdes')
-		{
-			$this->laporan_apbdes();
+			case 'penduduk':
+				// Data Penduduk
+				$this->penduduk();
+				break;
+			
+			default:
+				// Data Lainnya
+				break;
 		}
 
 		redirect($this->controller);
@@ -236,8 +239,6 @@ class Sinkronisasi extends Admin_Controller {
 
 		$response = json_decode(curl_exec($curl));
 		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		$status = (curl_errno($curl) || $http_code === 422) ? "danger" : "success";
-		$this->session->set_flashdata("notif", ["status" => $status, $response]);
 
 		curl_close($curl);
 		unlink(LOKASI_DOKUMEN . $filename);
@@ -265,43 +266,24 @@ class Sinkronisasi extends Admin_Controller {
 
 		$response = json_decode(curl_exec($curl));
 		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		$status = (curl_errno($curl) || $http_code === 422) ? "danger" : "success";
-		$this->session->set_flashdata("notif", ["status" => $status, $response]);
+
+		if (curl_errno($curl) || $http_code === 422)
+		{
+			$notif = [
+				'status' => 'danger',
+				'pesan' => "<b> " . curl_error($curl) . "</b><br/>{$response->message}<br/>{$response->errors}"
+			];
+		}
+		else
+		{
+			$notif = [
+				'status' => $response->status,
+				'pesan' => $response->message
+			];
+		}
 
 		curl_close($curl);
-	}
-
-	private function laporan_apbdes()
-	{
-		$desa_id = kode_wilayah($this->header['desa']['kode_desa']);
-
-		//Tambah/Ubah Data
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/laporan-apbdes",
-			// Jika http gunakan url ini :
-			//CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/laporan-apbdes?token=".$this->setting->api_opendk_key,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => json_encode(['laporan_apbdes' => $this->laporan_apbdes_model->opendk($desa_id)]),
-			CURLOPT_HTTPHEADER => array(
-				'Accept: application/json',
-				'Content-Type: application/json',
-				"Authorization: Bearer {$this->setting->api_opendk_key}",
-			),
-		));
-
-		$response = json_decode(curl_exec($curl));
-		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-		$status = (curl_errno($curl) || $http_code === 422) ? "danger" : "success";
-		$this->session->set_flashdata("notif", ["status" => $status, $response]);
-
-		curl_close($curl);
-
+		$this->session->unset_userdata(['success', 'error_msg']);
+		$this->session->set_flashdata("notif", $notif);
 	}
 }

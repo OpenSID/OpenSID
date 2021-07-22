@@ -52,7 +52,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021071251($hasil);
 		$hasil = $hasil && $this->migrasi_2021071551($hasil);
 		$hasil = $hasil && $this->migrasi_2021072672($hasil);
-		$hasil = $hasil && $this->migrasi_2021072771($hasil);
+		$hasil = $hasil && $this->migrasi_2021072971($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -100,7 +100,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		return $hasil;
 	}
 	
-	protected function migrasi_2021072771($hasil)
+	protected function migrasi_2021072971($hasil)
 	{
 		$hasil = $hasil && $this->tambah_table_laporan_apbdes($hasil);
 		$hasil = $hasil && $this->tambah_modul_laporan_apbdes($hasil);
@@ -126,13 +126,13 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			],
 
 			'tahun' => [
-				'type' => 'TINYINT',
-				'constraint' => 4
+				'type' => 'INT',
+				'constraint' => 11
 			],
 
 			'semester' => [
-				'type' => 'TINYINT',
-				'constraint' => 1
+				'type' => 'INT',
+				'constraint' => 11
 			],
 
 			'nama_file' => [
@@ -140,9 +140,9 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 				'constraint' => 100
 			],
 			
-			'nama_file' => [
-				'type' => 'VARCHAR',
-				'constraint' => 100
+			'kirim' => [
+				'type' => 'DATETIME',
+				'null' => TRUE
 			],
 
 			'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',

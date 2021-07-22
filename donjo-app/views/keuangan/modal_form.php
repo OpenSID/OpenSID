@@ -51,17 +51,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="modal-body">
         <div class="form-group">
             <label for="judul">Judul</label>
-            <input type="text" class="form-control input-sm required" id="judul" name="judul" value="<?= $main->judul; ?>" placeholder="Judul"/>
+            <input type="text" class="form-control input-sm required" id="judul" name="judul" value="<?= $main->judul; ?>" placeholder="Judul"  <?= jecho($main->kirim, TRUE, 'disabled')?>/>
         </div>
 
         <div class="form-group">
             <label for="tahun">Tahun</label>
-            <input type="text" class="form-control input-sm required" id="tahun" name="tahun" value="<?= $main->tahun; ?>" placeholder="Tahun"/>
+            <input type="text" class="form-control input-sm required" id="tahun" name="tahun" value="<?= $main->tahun; ?>" placeholder="Tahun"  <?= jecho($main->kirim, TRUE, 'disabled')?>/>
         </div>
 
         <div class="form-group">
             <label for="semester">Semester</label>
-            <select class="form-control input-sm select2 required" id="semester" name="semester">
+            <select class="form-control input-sm select2 required" id="semester" name="semester" <?= jecho($main->kirim, TRUE, 'disabled')?>>
                 <option value="1" <?= selected(1, $main->semester); ?>>1</option>
                 <option value="2" <?= selected(2, $main->semester); ?>>2</option>
             </select>
