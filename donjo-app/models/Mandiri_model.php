@@ -332,11 +332,7 @@ class Mandiri_model extends CI_Model {
 				$_SESSION['nik'] = $row->nik;
 				$_SESSION['id'] = $row->id;
 				$_SESSION['no_kk'] = $row->no_kk;
-
-				if ($this->session->lg == 2)
-				{
-					$_SESSION['mandiri'] = 1;
-				}
+				$_SESSION['mandiri'] = 1;
 			}
 			return;
 		}

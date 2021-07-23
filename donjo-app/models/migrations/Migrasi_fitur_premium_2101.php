@@ -5,7 +5,7 @@
  *
  * Model untuk modul database
  *
- * donjo-app/models/migrations/Migrasi_fitur_premium_2012.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2101.php
  *
  */
 
@@ -43,27 +43,55 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Migrasi_fitur_premium_2012 extends MY_model {
+class Migrasi_fitur_premium_2101 extends MY_model {
 
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-		// Tambah field keyboard
-		if ( ! $this->db->field_exists('keyboard', 'anjungan'))
-		{
-			$fields = [
-				'keyboard' => [
-					'type' => 'TINYINT',
-					'constraint' => 1,
-					'default' => '1',
-					'after' => 'keterangan'
-				]
-			];
+		// Tambahkan key sebutan_nip_desa
+		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
+			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
 
-			$hasil = $this->dbforge->add_column('anjungan', $fields);
+		$list_setting =
+			[
+				[
+					'key' => 'api_opendk_server',
+					'value' => '',
+					'keterangan' => 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)',
+				],
+				[
+					'key' => 'api_opendk_key',
+					'value' => '',
+					'keterangan' => 'OpenDK API Key untuk Sinkronisasi Data',
+				],
+				[
+					'key' => 'api_opendk_user',
+					'value' => '',
+					'keterangan' => 'Email Login Pengguna OpenDK',
+				],
+				[
+					'key' => 'api_opendk_password',
+					'value' => '',
+					'keterangan' => 'Password Login Pengguna OpenDK',
+				],
+			];
+		foreach ($list_setting as $setting)
+		{
+			$hasil =& $this->tambah_setting($setting);
 		}
+
+		// setting_aplikasi.valud diperpanjang
+		$field = [
+			'value' => [
+				'type' => 'VARCHAR',
+				'constraint' => 500,
+				'null' => TRUE,
+				'default' => NULL
+			]
+		];
+		$hasil =& $this->dbforge->modify_column('setting_aplikasi', $field);
 
 		return $hasil;
 	}

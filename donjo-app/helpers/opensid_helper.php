@@ -45,12 +45,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-define("VERSION", '21.07');
+define("VERSION", '21.08-pasca');
 /**
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
-define('VERSI_DATABASE', '2021070101');
+define('VERSI_DATABASE', '2021080101');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -1074,6 +1074,11 @@ function crawler()
 	return FALSE;
 }
 
+function pre_print_r($data)
+{
+	print("<pre>".print_r($data, true)."</pre>");
+}
+
 // Kode Wilayah Dengan Titik
 // Dari 5201142005 --> 52.01.14.2005
 function kode_wilayah($kode_wilayah)
@@ -1082,9 +1087,4 @@ function kode_wilayah($kode_wilayah)
 	$kode_desa = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
 	$kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
 	return $kode_standar;
-}
-
-function pre_print_r($data)
-{
-	print("<pre>".print_r($data, true)."</pre>");
 }

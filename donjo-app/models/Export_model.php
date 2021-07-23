@@ -292,5 +292,70 @@
 		return $return;
 	}
 
+	/**
+	 * Sinkronasi Data dan Foto Penduduk ke OpenDK.
+	 *
+	 * @return array
+	 */
+	public function hapus_penduduk_sinkronasi_opendk()
+	{
+		$desa = $this->db
+		->select('kode_desa')
+		->get('config')
+		->row();
+		$kode_desa = kode_wilayah($desa->kode_desa);
+
+		$data_hapus = $this->db->select([
+		  "CONCAT('{$kode_desa}') as desa_id",
+			'p.id as id_pend_desa',
+		])
+		->from('tweb_penduduk p')
+		->get()
+		->result_array();
+
+		$response['hapus_penduduk'] = $data_hapus;
+		return $response;
+	}
+
+	public function tambah_penduduk_sinkronasi_opendk()
+	{
+		$desa = $this->db
+		->select('kode_desa')
+		->get('config')
+		->row();
+		$kode_desa = kode_wilayah($desa->kode_desa);
+
+		$data = $this->db->select([
+			'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id"])
+			->from('tweb_penduduk p')
+			->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
+			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+			->order_by('k.no_kk ASC', 'p.kk_level ASC')
+			->get()->result();
+
+		for ($i=0; $i<count($data); $i++)
+		{
+			$baris = $data[$i];
+			array_walk($baris, array($this, 'bersihkanData'));
+			if (!empty($baris->tanggallahir))
+				$baris->tanggallahir = date_format(date_create($baris->tanggallahir),"Y-m-d");
+			if (!empty($baris->tanggalperceraian))
+				$baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian),"Y-m-d");
+			if (!empty($baris->tanggalperkawinan))
+				$baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan),"Y-m-d");
+			if (!empty($baris->tanggal_akhir_paspor))
+				$baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor),"Y-m-d");
+			if (empty($baris->dusun))
+				$baris->dusun = '-';
+			if (empty($baris->rt))
+				$baris->rt = '-';
+			if (empty($baris->rw))
+				$baris->rw = '-';
+			if (!empty($baris->foto))
+				$baris->foto = 'kecil_' . $baris->foto;
+			$data[$i] = $baris;
+		}
+
+		return $data;
+	}
 }
-?>

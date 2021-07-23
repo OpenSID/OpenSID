@@ -106,7 +106,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</section>
 </div>
 <script type="text/javascript">
-	function reset_form() {
+	function reset_form()
+	{
 		<?php if ($anjungan['keyboard'] == '1'): ?>
 			$("#sx1").addClass('active');
 			$("#sx2").removeClass("active");

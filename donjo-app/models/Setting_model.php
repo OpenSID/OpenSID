@@ -52,7 +52,10 @@ class Setting_model extends CI_Model {
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
-
+			$setting_bagan = $this->db
+				->where('kategori', 'conf_bagan')
+				->order_by('key')->get("setting_aplikasi")->result();
+			foreach ($setting_bagan as $p)
 			$setting_mandiri = $this->db
 				->where('kategori', 'setting_mandiri')
 				->order_by('key')->get("setting_aplikasi")->result();
@@ -76,6 +79,7 @@ class Setting_model extends CI_Model {
 		$CI->setting = (object) $pre;
 		$CI->list_setting = $this->sterilkan_setting_demo($pr); // Untuk tampilan daftar setting
 		$CI->list_setting_web = $setting_web; // Untuk tampilan daftar setting web
+		$CI->list_setting_bagan = $setting_bagan; // Untuk tampilan bagan
 		$CI->list_setting_mandiri = $setting_mandiri; // Untuk tampilan daftar setting layanan mandiri
 		$CI->list_setting_bagan = $setting_bagan; // Untuk tampilan bagan
 		$this->apply_setting();
