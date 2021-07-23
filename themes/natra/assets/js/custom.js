@@ -5,7 +5,7 @@ jQuery(document).ready(function() {
     }, function() {
         $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(200);
     });
-    // slick slider call 
+    // slick slider call
     $('.slick_slider').slick({
         dots: true,
         infinite: true,
@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
         autoplaySpeed: 2000,
         cssEase: 'linear'
     });
-    // slick slider2 call 
+    // slick slider2 call
     $('.slick_slider2').slick({
         dots: true,
         infinite: true,
@@ -50,7 +50,7 @@ wow = new WOW({
 });
 wow.init();
 
-jQuery(window).load(function() { // makes sure the whole site is loaded
+$(window).on('load', function() { // makes sure the whole site is loaded
     $('#status').fadeOut(); // will first fade out the loading animation
     $('#preloader').delay(100).fadeOut('slow'); // will fade out the white DIV that covers the website.
     $('body').delay(100).css({
