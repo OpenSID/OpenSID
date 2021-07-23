@@ -1,0 +1,12 @@
+Di rilis ini, versi 21.08-pasca berisi perbaikan yang diminta Komunitas SID.
+
+Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo, Rudy Purwanto, Zeppy Shiddiq dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+
+Gabung rilis 21.01-premium :
+Lengkapnya, isi rilis versi 21.01-premium adalah sebagai berikut:
+
+1. #3794: Sediakan opsi untuk menampilkan foto penduduk di dalam surat keterangan.
+2. #3802: Sekarang data suplemen bisa ditampilkan di web melalui menu statis.
+3. #3803: Kembalikan setting aplikasi sebutan_nip_desa yg terhapus saat migrasi dari rilis umum ke rilis premium. [bug-fix]
+4. #3808: Layanan mandiri melalui anjungan tetap tersedia, meskipun layanan mandiri melalui web dinon-aktifkan.
+5. Sinkronkan data penduduk ke OpenDK menggunakan API yg disediakan OpenDK.

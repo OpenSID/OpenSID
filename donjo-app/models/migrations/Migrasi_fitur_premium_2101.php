@@ -93,7 +93,6 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		];
 		$hasil =& $this->dbforge->modify_column('setting_aplikasi', $field);
 
-		status_sukses($hasil);
 		return $hasil;
 	}
 }
