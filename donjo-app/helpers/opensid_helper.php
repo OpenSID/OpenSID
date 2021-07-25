@@ -49,6 +49,7 @@ define("VERSION", '21.07-pasca');
 /**
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
+ * [nomor urut dua digit] = 01 => rilis umum, 71 => rilis premium, 51 => rilis bugfix
  */
 define('VERSI_DATABASE', '2021072501');
 define("LOKASI_LOGO_DESA", 'desa/logo/');

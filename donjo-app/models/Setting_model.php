@@ -111,12 +111,13 @@ class Setting_model extends CI_Model {
 		{
 			$this->setting->token_opensid = config_item('token_opensid');
 		}
-		// Ambil dev_tracker dari desa/config/config.php kalau tidak ada di database
-		$this->setting->tracker = "https://pantau.opensid.my.id";
-		if (empty($this->setting->dev_tracker))
-		{
-			$this->setting->dev_tracker = config_item('dev_tracker');
-		}
+
+		// Server Pantau
+		$this->setting->tracker = (ENVIRONMENT == 'development' && ! empty(config_item('dev_tracker'))) ? config_item('dev_tracker') : "https://pantau.opensid.my.id";
+		
+		// Server Layanan
+		$this->setting->layanan_opendesa_server = (ENVIRONMENT == 'development' || ! empty(config_item('layanan_opendesa_dev_server'))) ? config_item('layanan_opendesa_dev_server') : "https://layanan.opendesa.id/";
+		
 		$this->setting->user_admin = config_item('user_admin');
 		// Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
 		$pos = strpos($this->setting->web_theme, 'desa/');
