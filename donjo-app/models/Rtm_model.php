@@ -304,21 +304,26 @@ class Rtm_model extends CI_Model {
 
 	public function update_nokk($id)
 	{
-		$data = $_POST;
+		$post = $this->input->post();
+		$data['no_kk'] = bilangan($post['no_kk']);
+		$data['bdt'] =  ! empty($post['bdt']) ? bilangan($post['bdt']) : NULL;
+
 		if ($data['no_kk'])
 		{
-			$ada_nokk = $this->db->select('id')
+			$ada_nokk = $this->db
+				->select('id')
 				->where('no_kk', $data['no_kk'])
 				->get('tweb_rtm')->row()->id;
 			if ($ada_nokk and $ada_nokk != $id)
 			{
-				$_SESSION['success'] = -1;
-				$_SESSION['error_msg'] = 'Nomor RTM itu sudah ada';
+				$this->session->success = 1;
+				$this->session->error_msg = 'Nomor RTM itu sudah ada';
 				return;
 			}
 			$rtm = $this->db->where('id', $id)->get('tweb_rtm')->row();
-			$this->db->where('id_rtm', $rtm->no_kk)
-				->update('tweb_penduduk', array('id_rtm' => $data['no_kk']));
+			$this->db
+				->where('id_rtm', $rtm->no_kk)
+				->update('tweb_penduduk', ['id_rtm' => $data['no_kk']]);
 		}
 		$outp = $this->db->where("id", $id)->update("tweb_rtm", $data);
 
@@ -437,7 +442,7 @@ class Rtm_model extends CI_Model {
 
 		if (isset($value))
 		{
-				$this->db->where($field, $value);
+			$this->db->where($field, $value);
 		}
 	}
 
@@ -446,8 +451,7 @@ class Rtm_model extends CI_Model {
 		if ( ! empty($ss = $this->session->$session))
 		{
 			if ($ss == JUMLAH)
-				$this->db->where("$kolom !=", NULL);
-					
+				$this->db->where("$kolom !=", NULL);	
 			else if ($ss == BELUM_MENGISI)
 				$this->db->where($kolom, NULL);
 			else

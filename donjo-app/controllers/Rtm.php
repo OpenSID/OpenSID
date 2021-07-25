@@ -363,7 +363,7 @@ class Rtm extends Admin_Controller {
 				break;
 		}
 
-		$this->session->$session = $nomor;
+		$this->session->$session = ($nomor != TOTAL) ? $nomor : '';
 
 		$judul = $this->rtm_model->get_judul_statistik($tipe, $nomor, $sex);
 		

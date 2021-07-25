@@ -296,7 +296,8 @@ class Laporan_penduduk_model extends MY_Model {
 			->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
 			->from('keluarga_aktif k')
 			->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
-			->get()->row_array();
+			->get()
+			->row_array();
 
 		return $semua;
 	}
@@ -423,7 +424,7 @@ class Laporan_penduduk_model extends MY_Model {
 					->from("tweb_rtm u")
 					->join('tweb_penduduk p', 'p.id = u.nik_kepala', 'left')
 					->group_by('u.id')
-					->where('u.bdt IS NOT NULL');
+					->where('u.bdt !=', NULL);
 				break;
 
 			// BANTUAN
