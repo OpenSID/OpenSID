@@ -53,7 +53,7 @@ class Rtm extends Admin_Controller {
 		parent::__construct();
 		$this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']);
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
+		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt']; // Session id_bos
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 23;
 		$this->set_minsidebar(1);
@@ -64,7 +64,7 @@ class Rtm extends Admin_Controller {
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->per_page = $this->_set_page[0];
 		$this->session->order_by = 1;
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function index($p = 1)
@@ -144,7 +144,7 @@ class Rtm extends Admin_Controller {
 		if ($value != '')
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function dusun()
@@ -154,7 +154,7 @@ class Rtm extends Admin_Controller {
 		if ($dusun != '')
 			$this->session->dusun = $dusun;
 		else $this->session->unset_userdata('dusun');
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function rw()
@@ -164,7 +164,7 @@ class Rtm extends Admin_Controller {
 		if ($rw != '')
 			$this->session->rw = $rw;
 		else $this->session->unset_userdata('rw');
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function rt()
@@ -173,7 +173,7 @@ class Rtm extends Admin_Controller {
 		if ($rt != '')
 			$this->session->rt = $rt;
 		else $this->session->unset_userdata('rt');
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert()
@@ -182,7 +182,7 @@ class Rtm extends Admin_Controller {
 		$this->rtm_model->insert();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert_by_kk()
@@ -191,7 +191,7 @@ class Rtm extends Admin_Controller {
 		$this->rtm_model->insert_by_kk();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert_a()
@@ -200,7 +200,7 @@ class Rtm extends Admin_Controller {
 		$this->rtm_model->insert_a();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert_new()
@@ -209,35 +209,35 @@ class Rtm extends Admin_Controller {
 		$this->rtm_model->insert_new();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function update($id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->rtm_model->update($id);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function update_nokk($id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->rtm_model->update_nokk($id);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function delete($id = 0)
 	{
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete($id);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function delete_all()
 	{
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete_all();
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function anggota($id = 0)
@@ -340,5 +340,36 @@ class Rtm extends Admin_Controller {
 		$data['form_action'] = site_url("rtm/daftar/$aksi");
 		$data['form_action_privasi'] = site_url("rtm/daftar/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
+	}
+
+	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
+	{
+		// $this->clear_session();
+		if ($sex == NULL)
+		{
+			if ($nomor != 0) $this->session->sex = $nomor;
+			else $this->session->unset_userdata('sex');
+			$this->session->unset_userdata('judul_statistik');
+			redirect($this->controller);
+		}
+
+		$this->session->sex = ($sex == 0) ? NULL : $sex;
+
+		switch ($tipe)
+		{		
+			case 'bdt':
+				$session = 'bdt';
+				$kategori = 'KLASIFIKASI BDT ';
+				break;
+		}
+
+		$this->session->$session = $nomor;
+
+		$judul = $this->rtm_model->get_judul_statistik($tipe, $nomor, $sex);
+		
+		$this->session->unset_userdata('judul_statistik');
+		if ($judul['nama']) $this->session->judul_statistik = $kategori . $judul['nama'];
+
+		redirect($this->controller);
 	}
 }

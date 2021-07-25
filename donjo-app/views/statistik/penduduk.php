@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<hr>
 						<div class="box-body">
-							<?php if (($lap <= 20 OR $lap == 'bantuan_penduduk') AND $lap <> 'kelas_sosial' AND $lap <> 'bantuan_keluarga') : ?>
+							<?php if (($lap <= 20 OR $lap == 'bantuan_penduduk') AND $lap <> 'kelas_sosial' AND $lap <> 'bdt' AND $lap <> 'bantuan_keluarga') : ?>
 								<div class="row">
 									<div class="col-sm-12 form-inline">
 										<formid="mainform" method="post">
@@ -162,8 +162,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="padat"><?= $data['no']; ?></td>
 													<td class="text-left"><?= strtoupper($data['nama']); ?></td>
 													<td class="text-right">
-														<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))): ?>
+														<?php if (in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'])): ?>
 															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]"); ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
+														<?php elseif (in_array($lap, ['bdt'])): ?>
+															<a href="<?= site_url("rtm/statistik/$lap/$data[id]"); ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
 														<?php else: ?>
 															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
 																<a href="<?= $tautan_jumlah ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
@@ -172,6 +174,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="text-right"><?= $data['persen'];?></td>
 													<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))):
 														$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
+													elseif (in_array($lap, ['bdt'])):
+															$tautan_jumlah = site_url("rtm/statistik/$lap/$data[id]");
 													elseif ($lap<50):
 														$tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");
 													endif; ?>

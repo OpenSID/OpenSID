@@ -111,7 +111,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</div>
 							</div>
 						</div>
-						<div class="table-responsive table-min-height">
+						<div class="table-responsive">
+							<?php if ($judul_statistik): ?>
+								<h5 class="box-title text-center"><b><?= $judul_statistik; ?></b></h5>
+							<?php endif; ?>
 							<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 								<thead class="bg-gray disabled color-palette">
 									<tr>

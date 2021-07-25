@@ -120,6 +120,11 @@ define("STAT_KELUARGA", serialize([
 	'kelas_sosial' => 'Kelas Sosial'
 ]));
 
+// Statistik RTM
+define("STAT_RTM", serialize([
+	'bdt' => 'BDT'
+]));
+
 // Statistik Bantuan
 define("STAT_BANTUAN", serialize([
 	'bantuan_penduduk' => 'Penerima Bantuan Penduduk',

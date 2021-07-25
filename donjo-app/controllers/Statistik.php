@@ -69,10 +69,13 @@ class Statistik extends Admin_Controller {
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
 		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
+		$data['stat_rtm'] = $this->referensi_model->list_ref(STAT_RTM);
 		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
 		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
+
+		// echo json_encode($data, true);
 
 		$this->render('statistik/penduduk', $data);
 	}
@@ -93,27 +96,40 @@ class Statistik extends Admin_Controller {
 
 	private function get_data_stat(&$data, $lap)
 	{
+		switch (true)
+		{
+			case ($lap > 50):
+				// Untuk program bantuan, $lap berbentuk '50<program_id>'
+				$program_id = preg_replace('/^50/', '', $lap);
+				$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
+				$data['judul_kelompok'] = $data['program']['judul_sasaran'];
+				$kategori = 'program bantuan';
+				break;
+
+			case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
+				// Kategori bantuan
+				$kategori = 'bantuan';
+				break;
+
+			case ($lap > 20 OR "$lap" == 'kelas_sosial'):
+				// Kelurga
+				$kategori = 'keluarga';
+
+				break;
+			
+			case in_array($lap, ['bdt']):
+				// RTM
+				$kategori = 'rtm';
+				break;
+
+			default :
+				// Penduduk
+				$kategori = 'penduduk';
+				break;
+		}
+
 		$data['stat'] = $this->laporan_penduduk_model->judul_statistik($lap);
-		if ($lap > 50)
-		{
-			// Untuk program bantuan, $lap berbentuk '50<program_id>'
-			$program_id = preg_replace('/^50/', '', $lap);
-			$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
-			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
-			$data['kategori'] = 'bantuan';
-		}
-		elseif (in_array($lap, array('bantuan_penduduk', 'bantuan_keluarga')))
-		{
-			$data['kategori'] = 'bantuan';
-		}
-		elseif ($lap > 20 OR "$lap" == 'kelas_sosial')
-		{
-			$data['kategori'] = 'keluarga';
-		}
-		else
-		{
-			$data['kategori'] = 'penduduk';
-		}
+		$data['kategori'] = $kategori;
 	}
 
 	public function dialog($aksi = '')
@@ -345,5 +361,22 @@ class Statistik extends Admin_Controller {
 			'data' => $data
 		);
 		echo json_encode($output);
+	}
+
+	public function testing()
+	{
+		$data = $this->db
+			->select('u.*')
+			->select('COUNT(u.id) as jumlah')
+			->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
+			->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
+			->from("tweb_rtm u")
+			->join('tweb_penduduk p', 'p.id = u.nik_kepala', 'left')
+			->group_by('u.id')
+			->where('u.bdt IS NOT NULL')
+			->get()
+			->result_array();
+
+		echo json_encode($data, true);
 	}
 }

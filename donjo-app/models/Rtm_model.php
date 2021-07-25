@@ -375,6 +375,16 @@ class Rtm_model extends CI_Model {
 			->join('tweb_keluarga k', 't.id_kk = k.id')
 			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
 
+		$kolom_kode = [
+			['sex', 't.sex'],
+			['bdt', 'u.bdt'],
+		];
+
+		foreach ($kolom_kode as $kolom)
+		{
+			$this->get_sql_kolom_kode($kolom[0], $kolom[1]);
+		}
+
 		$this->order_by_list($order_by);
 
 		$data = $this->db->get()->result_array();
@@ -431,6 +441,34 @@ class Rtm_model extends CI_Model {
 		}
 	}
 
+	protected function get_sql_kolom_kode($session, $kolom)
+	{
+		if ( ! empty($ss = $this->session->$session))
+		{
+			if ($ss == JUMLAH)
+				$this->db->where("$kolom !=", NULL);
+					
+			else if ($ss == BELUM_MENGISI)
+				$this->db->where($kolom, NULL);
+			else
+				$this->db->where($kolom, $ss);
+		}
+	}
 
+	public function get_judul_statistik($tipe = 0, $nomor = 0, $sex = 0)
+	{
+		if ($nomor == JUMLAH)
+			$judul = ["nama" => " : JUMLAH"];
+		else if ($nomor == BELUM_MENGISI)
+			$judul = ["nama" => " : BELUM MENGISI"];
+		else
+		{
+			// Tanpa table referensi
+			$judul = ["nama" => " : TOTAL"];
+		}
+		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
+		elseif ($sex == 2) $judul['nama'] .= " - PEREMPUAN";
+
+		return $judul;
+	}
 }
-?>
