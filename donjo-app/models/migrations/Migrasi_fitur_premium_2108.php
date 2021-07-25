@@ -50,7 +50,8 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021070271($hasil);
 		$hasil = $hasil && $this->migrasi_2021071251($hasil);
-    $hasil = $hasil && $this->migrasi_2021071551($hasil);
+		$hasil = $hasil && $this->migrasi_2021071551($hasil);
+		$hasil = $hasil && $this->migrasi_2021072072($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -65,26 +66,36 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
 
 		return $hasil;
-  }
+	}
 
 	protected function migrasi_2021071251($hasil)
 	{
-    $hasil = $hasil && $this->db->set('status_rekam', null)
-      ->where('status_rekam', 1)
-      ->update('tweb_penduduk');
+		$hasil = $hasil && $this->db
+			->set('status_rekam', null)
+			->where('status_rekam', 1)
+			->update('tweb_penduduk');
+		
+			return $hasil;
+	}
 
+	// Hapus mutasi kepemilikan awal persil yg salah
+	protected function migrasi_2021071551($hasil)
+	{
+		$hasil = $hasil && $this->db
+			->where('jenis_mutasi', 9)
+			->where('id_cdesa_masuk is null')
+			->delete('mutasi_cdesa');
+			
 		return $hasil;
 	}
 
-  // Hapus mutasi kepemilikan awal persil yg salah
-  protected function migrasi_2021071551($hasil)
-  {
-    $hasil = $hasil && $this->db
-      ->where('jenis_mutasi', 9)
-      ->where('id_cdesa_masuk is null')
-      ->delete('mutasi_cdesa');
-
-    return $hasil;
-  }
-
+	protected function migrasi_2021072072($hasil)
+	{
+		if ( ! $this->db->field_exists('bdt', 'tweb_rtm'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tweb_rtm', ['bdt' => ['type' => 'VARCHAR', 'constraint' => '16', 'null' => TRUE]]);
+		}
+		
+		return $hasil;
+	}
 } 
