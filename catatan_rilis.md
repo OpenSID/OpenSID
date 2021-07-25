@@ -20,6 +20,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. [#4287](https://github.com/OpenSID/OpenSID/issues/4287) Sekarang dari statistik kependudukan, bisa tampilkan data penduduk yang belum mengisi Kepemilikan KTP.
 8. [#4309](https://github.com/OpenSID/OpenSID/issues/4309) Perbaiki Paginasi pada modul Menu Statis.
 9. [#4310](https://github.com/OpenSID/OpenSID/issues/4310) Perbaiki penyimpanan mutasi C-Desa dan penghapusan pemilik awal.
+10. [#4299](https://github.com/OpenSID/OpenSID/issues/4299) Tambahkan ID BDT pada data Kependudukan > Rumah Tangga.
+11. [#4300](https://github.com/OpenSID/OpenSID/issues/4300) Tampilkan ID BDT di Surat Keterangan Kurang Mampu.
 
 
 #### Perubahan Teknis

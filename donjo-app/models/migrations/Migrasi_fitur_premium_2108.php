@@ -51,7 +51,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021070271($hasil);
 		$hasil = $hasil && $this->migrasi_2021071251($hasil);
 		$hasil = $hasil && $this->migrasi_2021071551($hasil);
-		$hasil = $hasil && $this->migrasi_2021072072($hasil);
+		$hasil = $hasil && $this->migrasi_2021072672($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -89,7 +89,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		return $hasil;
 	}
 
-	protected function migrasi_2021072072($hasil)
+	protected function migrasi_2021072672($hasil)
 	{
 		if ( ! $this->db->field_exists('bdt', 'tweb_rtm'))
 		{
