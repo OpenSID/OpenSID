@@ -99,7 +99,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_tracksid')?>" data-tracker='<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>'></select>
+									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>"  data-token="<?= config_item('token_tracksid')?>" data-tracker="<?= $this->setting->tracker; ?>"></select>
 								</div>
 								<input type="hidden" id="nama_desa" name="nama_desa" value="<?= $main["nama_desa"]; ?>">
 							</div>
@@ -210,34 +210,31 @@
 		</div>
 	</section>
 </div>
-
 <script>
-$(document).ready(function()
-{
-	var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
+	$(document).ready(function() {
+		var tracker_host = '<?= $this->setting->tracker ?>';
 
-	// Ambil Nama dan Kode Wilayah dari API Server
-	$('[name="pilih_desa"]').change(function(){
-		$.ajax({
-        type: 'GET',
-        url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
-        dataType: 'json',
-        success: function(data) {
+		// Ambil Nama dan Kode Wilayah dari API Server
+		$('[name="pilih_desa"]').change(function() {
+			$.ajax({
+				type: 'GET',
+				url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
+				dataType: 'json',
+				success: function(data) {
 					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
-				  $('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
-				  $('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
-				  $('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
-				  $('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
-				  $('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
-				  $('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
-				  $('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
-        }
-    });
+					$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
+					$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
+					$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
+					$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
+					$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
+					$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
+					$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+				}
+			});
+		});
+
+		function hapus_kab_kota(str) {
+			return str.replace(/KAB |KOTA /gi, '');
+		}
 	});
-
-	function hapus_kab_kota(str) {
-		return str.replace(/KAB |KOTA /gi, '');
-	}
-
-});
 </script>
