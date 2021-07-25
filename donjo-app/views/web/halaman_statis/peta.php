@@ -322,7 +322,7 @@
     });
 
     //loading Peta Desa Pengguna OpenSID (Data dari API Server)
-    pantau_desa(layer_desa, '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>', <?=json_encode($desa['kode_desa'])?>, "<?= base_url()?>favicon.ico", "<?= config_item('token_tracksid')?>");
+    pantau_desa(layer_desa, '<?= $this->setting->tracker ?>', <?=json_encode($desa['kode_desa'])?>, "<?= base_url()?>favicon.ico", "<?= config_item('token_tracksid')?>");
 
     layer_desa.on('add', function () {
       setTimeout(function () {
