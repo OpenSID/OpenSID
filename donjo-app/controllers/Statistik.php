@@ -52,8 +52,7 @@ class Statistik extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'config_model', 'referensi_model']);
-
+		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'referensi_model']);
 		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
 		$this->modul_ini = 3;
 		$this->sub_modul_ini = 27;
@@ -74,8 +73,6 @@ class Statistik extends Admin_Controller {
 		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
 		$data['judul_kelompok'] = "Jenis Kelompok";
 		$this->get_data_stat($data, $data['lap']);
-
-		// echo json_encode($data, true);
 
 		$this->render('statistik/penduduk', $data);
 	}
@@ -355,28 +352,11 @@ class Statistik extends Admin_Controller {
 			$data[] = $row;
 		}
 
-		$output = array(
+		$output = [
 			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
 			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
 			'data' => $data
-		);
-		echo json_encode($output);
-	}
-
-	public function testing()
-	{
-		$data = $this->db
-			->select('u.*')
-			->select('COUNT(u.id) as jumlah')
-			->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
-			->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
-			->from("tweb_rtm u")
-			->join('tweb_penduduk p', 'p.id = u.nik_kepala', 'left')
-			->group_by('u.id')
-			->where('u.bdt IS NOT NULL')
-			->get()
-			->result_array();
-
-		echo json_encode($data, true);
+		];
+		$this->json_output($output);
 	}
 }
