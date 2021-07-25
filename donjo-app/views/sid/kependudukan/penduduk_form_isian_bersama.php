@@ -494,16 +494,6 @@
 						</div>
 					</div>
 				<?php endif; ?>
-				<div class='col-sm-4'>
-					<div class='form-group'>
-						<label for="lokasi">Lokasi Tempat Tinggal </label>
-						<div class='row'>
-							<div class='col-sm-12'>
-							<button type="submit" class="btn btn-social btn-flat bg-navy btn-sm" onclick="$('#'+'mainform').attr('action', '<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]"); ?>');$('#'+'mainform').submit();"><i class="fa fa-map-marker"></i> Cari Lokasi Tempat Tinggal</button>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="telepon"> Nomor Telepon </label>

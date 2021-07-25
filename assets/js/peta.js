@@ -105,26 +105,22 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa)
 	var daftar = JSON.parse(daftar_path);
 	var jml = daftar.length;
 	var jml_path;
-	for (var x = 0; x < jml; x++)
-	{
-		if (daftar[x].path)
-		{
+	for (var x = 0; x < jml; x++) {
+		if (daftar[x].path) {
 			daftar[x].path = JSON.parse(daftar[x].path)
-			var jml = daftar[x].path.length;
-			for (var a = 0; a < jml; a++)
-			{
+			var jml_path_x = daftar[x].path.length;
+			for (var a = 0; a < jml_path_x; a++) {
 				for (var b = 0; b < daftar[x].path[a].length; b++) {
 					jml_path = daftar[x].path[a][0].length;
-					for (var z = 0; z < jml_path; z++)
-					{
-						 daftar[x].path[a][0][z].reverse();
+					for (var z = 0; z < jml_path; z++) {
+						daftar[x].path[a][0][z].reverse();
 					}
 
 					var label = L.tooltip({
 						permanent: true,
 						direction: 'center',
 						className: 'text',
-					}).setContent(judul + ' ' + daftar[x][nama_wil]);
+					 }).setContent(judul + ' ' + daftar[x][nama_wil]);
 
 					var point_style = {
 						iconSize: [1, 1],
@@ -145,14 +141,12 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa)
 
 					daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
 
-					if (daftar[x].lng)
-					{
+					if (daftar[x].lng) {
 						marker.push(turf.point([daftar[x].lng, daftar[x].lat], { content: label, style: L.icon(point_style) }));
 					}
-					
+					 
 					marker.push(turf.polygon(daftar[x].path[a], { content: daftar[x][nama_wil], style: marker_style }));
 				}
-				
 			}
 		}
 	}
