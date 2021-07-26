@@ -257,18 +257,6 @@ class Laporan_penduduk_model extends MY_Model {
 		if ($rt = $this->session->userdata("rt")) $this->db->where('a.rt', $rt);
 	}
 
-	private function select_jml_rtm_per_kategori($id_referensi, $tabel_referensi)
-	{	
-		$this->db
-			->select('u.*, COUNT(k.id) as jumlah')
-				->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
-				->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
-				->from("$tabel_referensi u")
-				->join('tweb_rtm k', "u.id = k.$id_referensi", 'left')
-				->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
-				->group_by('u.id');
-	}
-
 	protected function data_jml_semua_penduduk()
 	{
 		$this->db
@@ -307,10 +295,10 @@ class Laporan_penduduk_model extends MY_Model {
 		// Data jumlah
 		$semua = $this->db
 			->select('COUNT(r.id) as jumlah')
-			->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
-			->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
+			->select('COUNT(CASE WHEN p.sex = 1 THEN r.id END) AS laki')
+			->select('COUNT(CASE WHEN p.sex = 2 THEN r.id END) AS perempuan')
 			->from('tweb_rtm r')
-			->join('tweb_penduduk p', 'p.id_rtm = r.no_kk', 'left') #TODO : Ganti kolom no_kk jadi no_rtm
+			->join('tweb_penduduk p', 'p.id = r.nik_kepala', 'left') #TODO : Ganti kolom no_kk jadi no_rtm
 			->get()
 			->row_array();
 
