@@ -1,0 +1,63 @@
+version: '3'
+services:
+  db:
+    container_name: 'opensid-db'
+    image: 'mariadb:10.3'
+    restart: always
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_DATABASE: 'opensid'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: ''
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - './.docker/var/mysql:/var/lib/database'
+      - './contoh_data_awal_20210701.sql:/docker-entrypoint-initdb.d/01-data.sql'
+    networks:
+      - opensid
+  nginx:
+    container_name: 'opensid-nginx'
+    image: 'nginx:alpine'
+    ports:
+      - '${APP_PORT:-80}:80'
+    volumes:
+      - './:/var/www'
+      - './.docker/nginx/conf.d:/etc/nginx/conf.d'
+    networks:
+      - opensid
+    depends_on:
+      - php
+      - db
+    links:
+      - php
+  php:
+    container_name: 'opensid-php'
+    build:
+      context: .
+      dockerfile: ./.docker/php/Dockerfile
+    working_dir: '/var/www'
+    volumes:
+      - './:/var/www'
+      - './.docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini'
+    networks:
+      - opensid
+    depends_on:
+      - db
+    ports:
+    - "9000:9000"
+  phpmyadmin:
+    container_name: opensid-phpmyadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+    networks:
+      - opensid
+
+networks:
+  opensid:
+    driver: bridge
