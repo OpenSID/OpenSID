@@ -186,6 +186,7 @@ class Penduduk extends Admin_Controller {
 			$data['form_action'] = site_url("penduduk/insert");
 		}
 
+		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
 		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
