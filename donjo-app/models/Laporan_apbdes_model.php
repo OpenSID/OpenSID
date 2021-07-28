@@ -3,8 +3,8 @@
 class Laporan_apbdes_model extends CI_Model {
 
 	private $table = "laporan_apbdes";
-
-    const ORDER_ABLE_APBDES = [
+	
+	const ORDER_ABLE_APBDES = [
 		2 => 'nama',
 		3 => 'tahun',
 		4 => 'semester',
@@ -12,13 +12,13 @@ class Laporan_apbdes_model extends CI_Model {
 		6 => 'updated_at',
 		7 => 'kirim'
 	];
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function get_apbdes(string $search = '', $tahun = NULL)
+	
+	public function __construct()
+	{
+		parent::__construct();
+	}
+	
+	public function get_apbdes(string $search = '', $tahun = NULL)
 	{
 		$this->db->from($this->table);
 
@@ -109,10 +109,10 @@ class Laporan_apbdes_model extends CI_Model {
 	{
 		$this->load->library('upload');
 
-		$config['upload_path']		= LOKASI_DOKUMEN;
-		$config['allowed_types']	= 'pdf';
-		$config['max_size']         = 2048;
-		$config['file_name']		= namafile($nama_file);
+		$config['upload_path'] = LOKASI_DOKUMEN;
+		$config['allowed_types'] = 'pdf';
+		$config['max_size'] = 2048;
+		$config['file_name'] = namafile($nama_file);
 
 		$this->upload->initialize($config);
 
@@ -151,7 +151,6 @@ class Laporan_apbdes_model extends CI_Model {
 		}
 
 		return $kirim;
-
 	}
 
 	public function file($nama_file)
@@ -166,5 +165,4 @@ class Laporan_apbdes_model extends CI_Model {
 
 		status_sukses($outp);
 	}
-
 }

@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/laporan_apbdes.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -178,8 +182,5 @@ class Laporan_apbdes extends Admin_Controller {
 		$this->session->set_flashdata("notif", $response);
 
 		redirect($this->controller);
-
-		// echo json_encode($response->errors, true);
 	}
-
 }
