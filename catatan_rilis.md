@@ -1,6 +1,6 @@
-#### [v21.07-premium-beta12]
+#### [v21.07-premium-beta13]
 
-Di rilis ini, versi 21.07-premium-beta12, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.07-premium-beta13, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 3. [#3598](https://github.com/OpenSID/OpenSID/issues/3598) Sekarang Buku Peraturan Desa dan Buku Keputusan Kepala Desa dapat dipilah berdasarkan tahun.
 4. [#4299](https://github.com/OpenSID/OpenSID/issues/4299) Tambahkan ID BDT pada data Kependudukan > Rumah Tangga.
 5. [#4300](https://github.com/OpenSID/OpenSID/issues/4300) Tampilkan ID BDT di Surat Keterangan Kurang Mampu.
+6. [#2321](https://github.com/OpenSID/OpenSID/issues/2321) Kirim laporan Siskeudes ke OpenDK melalu API
 
 
 #### Perbaikan BUG
