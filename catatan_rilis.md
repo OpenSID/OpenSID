@@ -29,3 +29,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. Kembalikan commit 6d7d4f776c6a39871a2310dc6d6b0b973aa9e572 yang tertimpa.
 2. Rapikan script di form setting untuk kategori readonly demo_mode.
 3. Otomatis simpan token pelanggan terbaru jika pelanggan melalakukan pemesanan.
+4. Default server tracker/pantau dan layanan.
