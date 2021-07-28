@@ -149,7 +149,7 @@
 													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}"?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" data-title="Cetak Laporan"><i class="fa fa-print"></i>Cetak</a>
 												</td>
 												<td>
-													<a href="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>" data-toggle="modal" data-target="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>"><?= $pemesanan->faktur ?></a>
+													<a href="#" data-toggle="modal" data-target="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>"><?= $pemesanan->faktur ?></a>
 													<div class="modal fade" id="<?= str_replace('/', '-', $pemesanan->faktur) ?>" style="display: none;">
 														<div class="modal-dialog modal-lg">
 															<div class="modal-content">
@@ -160,33 +160,31 @@
 																	<h4 class="modal-title">Rincian Pemesanan Layanan <strong><?= $pemesanan->faktur ?></strong></h4>
 																</div>
 																<div class="modal-body">
-																	<div class="row">
-																		<div class="col-sm-12">
-																			<div class="table-responsive">
-																				<table class="table table-bordered dataTable table-hover tabel-daftar">
-																					<thead class="bg-gray">
-																						<tr>
-																							<th>No</th>
-																							<th>Layanan</th>
-																							<th>Harga</th>
-																							<th>Keterangan</th>
-																						</tr>
-																					</thead>
-																					<tbody>
-																						<?php $numberLayanan = 1 ?>
-																						<?php foreach ($pemesanan->layanan as $layanan) : ?>
-																							<tr>
-																								<td class="padat"><?= $numberLayanan ?></td>
-																								<td class="aksi"><?= $layanan->nama ?></td>
-																								<td align="right"><?= rupiah($layanan->harga) ?></td>
-																								<td><?= $layanan->deskripsi ?></td>
-																							</tr>
-																							<?php $numberLayanan++ ?>
-																						<?php endforeach ?>
-																					</tbody>
-																				</table>
-																			</div>
-																		</div>
+																	<div class="table-responsive">
+																		<table class="table table-bordered dataTable table-hover tabel-daftar">
+																			<thead class="bg-gray">
+																				<tr>
+																					<th>No</th>
+																					<th>Layanan</th>
+																					<th>Harga</th>
+																					<th>Keterangan</th>
+																					<th>Ketentuan</th>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
+																					<tr>
+																						<td class="padat"><?= ($key + 1) ?></td>
+																						<td class="aksi"><?= $layanan->nama ?></td>
+																						<td align="right"><?= rupiah($layanan->harga) ?></td>
+																						<td><?= $layanan->deskripsi ?></td>
+																						<td class="padat">
+																							<a href="#" data-dismiss="modal" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Lihat" data-title="Ketentuan <?= $layanan->nama; ?>" data-toggle="modal" data-target="#<?= $layanan->id . '-' . $key?>"><i class="fa fa-file"></i>Lihat</a>
+																						</td>
+																					</tr>
+																				<?php endforeach ?>
+																			</tbody>
+																		</table>
 																	</div>
 																</div>
 																<div class="modal-footer">
@@ -195,6 +193,30 @@
 															</div>
 														</div>
 													</div>
+
+													<!-- Modal Ketentuan Layanan -->
+													<?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
+														<div class="modal fade" id="<?= $layanan->id . '-' . $key; ?>" style="display: none;">
+															<div class="modal-dialog modal-lg">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																			<span aria-hidden="true">×</span>
+																		</button>
+																		<h4 class="modal-title">Ketentuan <strong><?= $layanan->nama ?></strong></h4>
+																	</div>
+																	<div class="modal-body">
+																		<?= $layanan->ketentuan ?? '<p>Belum tersedia</p>'?>
+																	</div>
+																	<div class="modal-footer text-center">
+																		<button type="button" class="btn btn-flat btn-sm btn-info" data-dismiss="modal">Tutup</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+													<?php endforeach ?>
+													<!-- Akhir Modal Ketentuan Layanan -->
+
 												</td>
 												<td class="padat"><?= $pemesanan->tgl_mulai ?></td>
 												<td class="padat"><?= $pemesanan->tgl_akhir ?></td>
