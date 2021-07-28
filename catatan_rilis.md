@@ -9,7 +9,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. [#4224](https://github.com/OpenSID/OpenSID/issues/4224) Tambahkan kolom BPJS Ketenagakerjaan di biodata penduduk, beserta statistiknya.
 2. Perjelas judul Asuransi menjadi Asuransi Kesehatan di biodata penduduk.
 3. [#3598](https://github.com/OpenSID/OpenSID/issues/3598) Sekarang Buku Peraturan Desa dan Buku Keputusan Kepala Desa dapat dipilah berdasarkan tahun.
-4. [#4299](https://github.com/OpenSID/OpenSID/issues/4299) Tambahkan ID BDT pada data Kependudukan > Rumah Tangga.
+4. [#4299](https://github.com/OpenSID/OpenSID/issues/4299) Tambahkan ID BDT pada data Kependudukan > Rumah Tangga dan Statistik > Kependudukan > Rumah Tangga.
 5. [#4300](https://github.com/OpenSID/OpenSID/issues/4300) Tampilkan ID BDT di Surat Keterangan Kurang Mampu.
 6. [#2321](https://github.com/OpenSID/OpenSID/issues/2321) Kirim laporan Siskeudes ke OpenDK melalu API
 
