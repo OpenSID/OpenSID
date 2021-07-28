@@ -24,60 +24,60 @@
 				</div>
 			</div>
 		<?php else : ?>
-			<div class="box box-info">
-				<div class="box-body">
-					<div class="row">
-						<div class="col-lg-3 col-xs-6">
-							<div class="small-box bg-blue">
-								<div class="inner">
-									<h4>PEMESANAN LAYANAN</h4>
-									<h6>
-										<?php foreach ($response->body->pemesanan as $pemesanan) : ?>
-											<?php foreach ($pemesanan->layanan as $layanan) : ?>
-												<li><?= $layanan->nama ?></li>
-											<?php endforeach ?>
-										<?php endforeach ?>
-									</h6>
-								</div>
-								<div class="icon">
-									<i class="ion ion-card"></i>
-								</div>
-							</div>
+			<div class="row">
+				<div class="col-lg-3 col-xs-6">
+					<div class="small-box bg-blue">
+						<div class="inner">
+							<h4>PEMESANAN LAYANAN</h4>
+							<h6>
+								<?php foreach ($response->body->pemesanan as $pemesanan) : ?>
+									<?php foreach ($pemesanan->layanan as $layanan) : ?>
+										<li><?= $layanan->nama ?></li>
+									<?php endforeach ?>
+								<?php endforeach ?>
+							</h6>
 						</div>
-						<div class="col-lg-3 col-xs-6">
-							<div class="small-box bg-yellow">
-								<div class="inner">
-									<h4>STATUS PELANGGAN</h4>
-									<h4><?= $response->body->status_langganan ?></h4>
-								</div>
-								<div class="icon">
-									<i class="ion-person-add"></i>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-xs-6">
-							<div class="small-box bg-green">
-								<div class="inner">
-									<h4>MULAI BERLANGGANAN</h4>
-									<h4><?= $response->body->tanggal_berlangganan->mulai ?></h4>
-								</div>
-								<div class="icon">
-									<i class="ion ion-unlocked"></i>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-xs-6">
-							<div class="small-box bg-red">
-								<div class="inner">
-									<h4>AKHIR BERLANGGANAN</h4>
-									<h4><?= $response->body->tanggal_berlangganan->akhir ?></h4>
-								</div>
-								<div class="icon">
-									<i class="ion ion-locked"></i>
-								</div>
-							</div>
+						<div class="icon">
+							<i class="ion ion-card"></i>
 						</div>
 					</div>
+				</div>
+				<div class="col-lg-3 col-xs-6">
+					<div class="small-box bg-yellow">
+						<div class="inner">
+							<h4>STATUS PELANGGAN</h4>
+							<h4><?= $response->body->status_langganan ?></h4>
+						</div>
+						<div class="icon">
+							<i class="ion-person-add"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-xs-6">
+					<div class="small-box bg-green">
+						<div class="inner">
+							<h4>MULAI BERLANGGANAN</h4>
+							<h4><?= $response->body->tanggal_berlangganan->mulai ?></h4>
+						</div>
+						<div class="icon">
+							<i class="ion ion-unlocked"></i>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-xs-6">
+					<div class="small-box bg-red">
+						<div class="inner">
+							<h4>AKHIR BERLANGGANAN</h4>
+							<h4><?= $response->body->tanggal_berlangganan->akhir ?></h4>
+						</div>
+						<div class="icon">
+							<i class="ion ion-locked"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box box-info">
+				<div class="box-body">
 					<h5 class="text-bold">Rincian Pelanggan Desa</h5>
 					<div class="table-responsive">
 						<table class="table table-bordered table-striped table-hover tabel-rincian">
@@ -111,10 +111,11 @@
 										<?php endforeach ?>
 									</td>
 								</tr>
+								<!-- Token pelangan kayaknya tidak perlu ditampilkan lagi dibagian ini -->
 								<tr>
 									<td>Token Pelanggan</td>
 									<td> : </td>
-									<td><textarea disabled cols="140" rows="4"><?= $this->setting->demo_mode ? '' : $response->body->token ?></textarea></td>
+									<td><textarea disabled style="width:100%; overflow: hidden; background-color: white; border-color: white;"><?= $this->setting->demo_mode ? '' : $response->body->token ?></textarea></td>
 								</tr>
 							</tbody>
 						</table>
@@ -123,24 +124,24 @@
 						<div class="col-sm-12">
 							<h5 class="text-bold">Rincian Pemesanan Layanan</h5>
 							<div class="table-responsive">
-								<table class="table table-bordered dataTable table-hover">
+								<table class="table table-bordered dataTable table-hover tabel-daftar">
 									<thead class="bg-gray">
 										<tr>
 											<th width="20px">No</th>
 											<th>Aksi</th>
 											<th>Nota. Faktur</th>
 											<th>Tanggal Mulai</th>
-											<th>Tanggal Berakhir</th>
-											<th>Status Pemesanan</th>
+											<th>Tanggal Berakhir</th>											
 											<th>Bukti Pembayaran</th>
+											<th>Status Pemesanan</th>
 										</tr>
 									</thead>
 									<tbody>
 										<?php $number = 1 ?>
 										<?php foreach ($response->body->pemesanan as $pemesanan) : ?>
 											<tr>
-												<td><?= $number ?></td>
-												<td>
+												<td class="padat"><?= $number ?></td>
+												<td class="aksi">
 													<?php
 														$host = ENVIRONMENT == 'development'
 															? $this->setting->layanan_opendesa_dev_server
@@ -165,12 +166,12 @@
 																	<div class="row">
 																		<div class="col-sm-12">
 																			<div class="table-responsive">
-																				<table class="table table-bordered dataTable table-hover">
+																				<table class="table table-bordered dataTable table-hover tabel-daftar">
 																					<thead class="bg-gray">
 																						<tr>
-																							<th width="20px">No</th>
+																							<th>No</th>
 																							<th>Layanan</th>
-																							<th>Harga (Rp)</th>
+																							<th>Harga</th>
 																							<th>Keterangan</th>
 																						</tr>
 																					</thead>
@@ -178,9 +179,9 @@
 																						<?php $numberLayanan = 1 ?>
 																						<?php foreach ($pemesanan->layanan as $layanan) : ?>
 																							<tr>
-																								<td><?= $numberLayanan ?></td>
-																								<td><?= $layanan->nama ?></td>
-																								<td><?= number_format($layanan->harga, 2, ',', '.') ?></td>
+																								<td class="padat"><?= $numberLayanan ?></td>
+																								<td class="aksi"><?= $layanan->nama ?></td>
+																								<td align="right"><?= rupiah($layanan->harga) ?></td>
 																								<td><?= $layanan->deskripsi ?></td>
 																							</tr>
 																							<?php $numberLayanan++ ?>
@@ -198,11 +199,8 @@
 														</div>
 													</div>
 												</td>
-												<td><?= $pemesanan->tgl_mulai ?></td>
-												<td><?= $pemesanan->tgl_akhir ?></td>
-												<td class="text-center">
-													<span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
-												</td>
+												<td class="padat"><?= $pemesanan->tgl_mulai ?></td>
+												<td class="padat"><?= $pemesanan->tgl_akhir ?></td>
 												<td>
 													<a href="<?= "#{$pemesanan->id}" ?>" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>"><?= parse_url($pemesanan->bukti, PHP_URL_PATH) ?></a>
 													<div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
@@ -224,6 +222,9 @@
 															</div>
 														</div>
 													</div>
+												</td>
+												<td class="padat">
+													<span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
 												</td>
 											</tr>
 											<?php $number++ ?>
