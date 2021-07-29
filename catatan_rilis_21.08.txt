@@ -10,3 +10,5 @@ Lengkapnya, isi rilis versi 21.01-premium adalah sebagai berikut:
 3. #3803: Kembalikan setting aplikasi sebutan_nip_desa yg terhapus saat migrasi dari rilis umum ke rilis premium. [bug-fix]
 4. #3808: Layanan mandiri melalui anjungan tetap tersedia, meskipun layanan mandiri melalui web dinon-aktifkan.
 5. Sinkronkan data penduduk ke OpenDK menggunakan API yg disediakan OpenDK.
+6. Otomatis simpan token pelanggan terbaru jika pelanggan melalakukan pemesanan.
+7. Default server tracker/pantau dan layanan.
