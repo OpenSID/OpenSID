@@ -38,8 +38,8 @@
                     <a class="dropdown-toggle" href="javascript:void(0);">Login <span class='caret'></span></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="<?= site_url('siteman'); ?>" rel="noopener noreferrer" target="_blank">Administrator</a>
-                            <a href="<?= site_url('mandiri_login'); ?>" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
+                            <a href="<?= site_url(); ?>siteman" rel="noopener noreferrer" target="_blank">Administrator</a>
+                            <a href="<?= site_url(IS_PREMIUM ? 'layanan-mandiri' : 'mandiri_login'); ?>" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
                         </li>
                     </ul>
                 </li>                
