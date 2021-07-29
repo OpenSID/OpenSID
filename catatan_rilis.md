@@ -31,3 +31,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. Rapikan script di form setting untuk kategori readonly demo_mode.
 3. Otomatis simpan token pelanggan terbaru jika pelanggan melalakukan pemesanan.
 4. Default server tracker/pantau dan layanan.
+5. Sederhanakan modul menu

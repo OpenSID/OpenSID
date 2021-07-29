@@ -53,6 +53,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021071551($hasil);
 		$hasil = $hasil && $this->migrasi_2021072672($hasil);
 		$hasil = $hasil && $this->migrasi_2021072971($hasil);
+		$hasil = $hasil && $this->migrasi_2021072951($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -60,8 +61,10 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 
 	protected function migrasi_2021070271($hasil)
 	{
-		if ( ! $this->db->field_exists('bpjs_ketenagakerjaan', 'tweb_penduduk'))
-			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', ['bpjs_ketenagakerjaan' => ['type' => 'CHAR', 'constraint' => '100', 'null' => TRUE]]);
+		if (! $this->db->field_exists('bpjs_ketenagakerjaan', 'tweb_penduduk'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', ['bpjs_ketenagakerjaan' => ['type' => 'CHAR', 'constraint' => '100', 'null' => true]]);
+		}
 
 		// Update view supaya kolom baru ikut masuk
 		$hasil = $hasil && $this->db->query("CREATE OR REPLACE VIEW penduduk_hidup AS SELECT * FROM tweb_penduduk WHERE status_dasar = 1");
@@ -75,8 +78,8 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			->set('status_rekam', null)
 			->where('status_rekam', 1)
 			->update('tweb_penduduk');
-		
-			return $hasil;
+
+		return $hasil;
 	}
 
 	// Hapus mutasi kepemilikan awal persil yg salah
@@ -86,15 +89,14 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			->where('jenis_mutasi', 9)
 			->where('id_cdesa_masuk is null')
 			->delete('mutasi_cdesa');
-			
+
 		return $hasil;
 	}
 
 	protected function migrasi_2021072672($hasil)
 	{
-		if ( ! $this->db->field_exists('bdt', 'tweb_rtm'))
-		{
-			$hasil = $hasil && $this->dbforge->add_column('tweb_rtm', ['bdt' => ['type' => 'VARCHAR', 'constraint' => '16', 'null' => TRUE]]);
+		if (! $this->db->field_exists('bdt', 'tweb_rtm')) {
+			$hasil = $hasil && $this->dbforge->add_column('tweb_rtm', ['bdt' => ['type' => 'VARCHAR', 'constraint' => '16', 'null' => true]]);
 		}
 
 		return $hasil;
@@ -108,7 +110,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = $hasil && $this->ubah_pengaturan_aplikasi($hasil);
 
 		return $hasil;
-	}	
+	}
 
 	// Tabel Laporan APBDes
 	protected function tambah_table_laporan_apbdes($hasil)
@@ -117,7 +119,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			'id' => [
 				'type' => 'INT',
 				'constraint' => 11,
-				'auto_increment' => TRUE
+				'auto_increment' => true
 			],
 
 			'judul' => [
@@ -142,16 +144,16 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			
 			'kirim' => [
 				'type' => 'DATETIME',
-				'null' => TRUE
+				'null' => true
 			],
 
 			'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
 			'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
 		];
 
-		$this->dbforge->add_key('id', TRUE);
+		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_field($fields);
-		$hasil = $hasil && $this->dbforge->create_table('laporan_apbdes', TRUE);
+		$hasil = $hasil && $this->dbforge->create_table('laporan_apbdes', true);
 
 		return $hasil;
 	}
@@ -224,4 +226,46 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 
 		return $hasil;
 	}
-} 
+
+	// Sesuaikan tabel menu
+	protected function migrasi_2021072951($hasil)
+	{
+		if ($this->db->field_exists('tipe', 'menu'))
+		{
+			$hasil = $hasil && $this->dbforge->drop_column('menu', 'tipe');
+		}
+
+		$fields = [
+			'id' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'auto_increment' => true
+			],
+
+			'parrent' => [
+				'type' => 'INT',
+				'constraint' => 11,
+				'default' => 0
+			],
+
+			'enabled' => [
+				'type' => 'TINYINT',
+				'constraint' => 1,
+				'default' => 1
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('menu', $fields);
+
+		$hasil = $hasil && $this->db
+			->where('parrent', 1)
+			->update('menu', ['parrent' => 0]);
+
+		// Hapus menu yg tdk memiliki parrent
+		$list_menu = $this->db->select('id')->get_where('menu', ['parrent' => 0])->result_array();
+		$hapus = sql_in_list(array_column($list_menu, 'id'));
+		if ($hapus) $hasil = $hasil && $this->db->where("parrent NOT IN ($hapus) AND parrent != 0")->delete('menu');
+
+		return $hasil;
+  }
+}

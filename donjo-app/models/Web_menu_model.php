@@ -47,18 +47,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web_menu_model extends MY_Model {
 
+	protected $table = 'menu';
 	private $urut_model;
 
 	public function __construct()
 	{
 		parent::__construct();
 		require_once APPPATH.'/models/Urut_model.php';
-		$this->urut_model = new Urut_Model('menu');
+		$this->urut_model = new Urut_Model($this->table);
 	}
 
 	public function autocomplete($cari = '')
 	{
-		return $this->autocomplete_str('nama', 'menu', $cari);
+		if ($cari) $this->db->like('nama', $cari);
+		
+		$this->list_data_sql();
+		$data =  $this->db->select('nama')->get()->result_array();
+
+		return autocomplete_data_ke_str($data);
 	}
 
 	private function search_sql()
@@ -77,24 +83,19 @@ class Web_menu_model extends MY_Model {
 		}
 	}
 
-	public function paging($p = 1)
+	public function paging($page_number = 1)
 	{
 		$this->list_data_sql();
 		$jml_data = $this->db->select('id')->get()->num_rows();
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $this->paginasi($page_number, $jml_data);
 	}
 
 	private function list_data_sql()
 	{
-		$this->db->from('menu')
-			->where('tipe', 1);
+		$this->db
+			->from($this->table)
+			->where('parrent', $this->session->parrent);
 
 		$this->filter_sql();
 		$this->search_sql();
@@ -138,40 +139,31 @@ class Web_menu_model extends MY_Model {
 
 	public function insert()
 	{
-		$post = $this->input->post();
-		$data['tipe'] = 1;
-		$data['parrent'] = 0;
-		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 1)) + 1;
-		$data['nama'] = htmlentities($post['nama']);
-		$data['link'] = $post['link'];
-		$data['link_tipe'] = $post['link_tipe'];
+		$data = $this->validasi($this->input->post());
+		$data['urut'] = $this->urut_model->urut_max(['parrent' => $this->session->parrent]) + 1;
 
-		$outp = $this->db->insert('menu', $data);
+		$outp = $this->db->insert($this->table, $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
 	public function update($id=0)
 	{
-		$post = $this->input->post();
-		$data['nama'] = htmlentities($post['nama']);
-		$data['link'] = $post['link'];
-		if ($data['link']=="")
-			UNSET($data['link']);
+		$data = $this->validasi($this->input->post());
+		if ($data['link'] == '') UNSET($data['link']);
 
-		$data['link_tipe'] = $post['link_tipe'];
-
-		$this->db->where('id', $id);
-		$outp = $this->db->update('menu', $data);
+		$outp = $this->db
+			->where('id', $id)
+			->update($this->table, $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id = '', $semua=false)
 	{
 		if (!$semua) $this->session->success = 1;
 
-		$outp = $this->db->where('id', $id)->or_where('parrent', $id)->delete('menu');
+		$outp = $this->db->where('id', $id)->or_where('parrent', $id)->delete($this->table);
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
@@ -180,117 +172,64 @@ class Web_menu_model extends MY_Model {
 	{
 		$this->session->success = 1;
 
-		$id_cb = $_POST['id_cb'];
+		$id_cb = $this->input->post('id_cb');
 		foreach ($id_cb as $id)
 		{
 			$this->delete($id, $semua=true);
 		}
 	}
 
-	public function list_sub_menu($menu=1)
+	public function menu_lock($id = '', $val = 1)
 	{
-		$data = $this->db->select('*')
-			->from('menu')
-			->where('parrent', $menu)
-			->where('tipe', 3)
-			->order_by('urut')
-			->get()->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-			if ($data[$i]['link_tipe'] != 99) $data[$i]['link'] = $this->menu_slug($data[$i]['link']);
-		}
-
-		return $data;
-	}
-
-	public function insert_sub_menu($menu=0)
-	{
-		$post = $this->input->post();
-		$data = [];
-		$data['parrent'] = $menu;
-		$data['tipe'] = 3;
-		$data['urut'] = $this->urut_model->urut_max(array('tipe' => 3, 'parrent' => $menu)) + 1;
-		$data['nama'] = htmlentities($post['nama']);
-		$data['link'] = $post['link'];
-		$data['link_tipe'] = $post['link_tipe'];
-		$outp = $this->db->insert('menu', $data);
+		$outp = $this->db
+			->where('id', $id)
+			->or_where('parrent', $id)
+			->update($this->table, ['enabled' => $val]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update_sub_menu($id=0)
+	public function get_menu($id = 0)
 	{
-		$post = $this->input->post();
-		$data = [];
-		$data['nama'] = htmlentities($post['nama']);
-		$data['link'] = $post['link'];
-		$data['link_tipe'] = $post['link_tipe'];
-		if ($data['link'] == "")
-		{
-			UNSET($data['link']);
-		}
+		$data = $this->db
+			->get_where($this->table, ['id' => $id])
+			->row_array();
 
-		$this->db->where('id', $id);
-		$outp = $this->db->update('menu', $data);
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function delete_sub_menu($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
-
-		$outp = $this->db->where('id', $id)->delete('menu');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
-
-	public function delete_all_sub_menu()
-	{
-		$this->session->success = 1;
-
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete_sub_menu($id, $semua=true);
-		}
-	}
-
-	public function menu_lock($id='',$val=0)
-	{
-		$sql = "UPDATE menu SET enabled = ? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
-
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function get_menu($id=0)
-	{
-		$sql = "SELECT * FROM menu WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data  = $query->row_array();
 		return $data;
 	}
 
 	// $arah:
 	//		1 - turun
 	// 		2 - naik
-	public function urut($id, $arah, $menu='')
+	public function urut($id, $arah)
 	{
-		$subset = !empty($menu) ? array("tipe" => 3, "parrent" => $menu) : array("tipe" => 1);
-		$this->urut_model->urut($id, $arah, $subset);
+		$this->urut_model->urut($id, $arah, ['parrent' => $this->session->parrent]);
+	}
+
+	private function validasi($post)
+	{
+		$parrent = bilangan($post['parrent'] ?? 0);
+
+		$data = [
+			'nama' => htmlentities($post['nama']),
+			'link' => $post['link'],
+			'parrent' => $parrent,
+			'link_tipe' => $post['link_tipe'],
+			'enabled' => 1,
+		];
+
+		return $data;
 	}
 
 	public function menu_aktif($link)
 	{
-		$ada_menu = $this->db->where('link', $link)
+		$ada_menu = $this->db
+			->where('link', $link)
 			->where('enabled', 1)
-			->get('menu')
+			->get($this->table)
 			->num_rows();
 
 		return $ada_menu;
 	}
 
 }
-?>
