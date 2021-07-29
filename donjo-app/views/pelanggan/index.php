@@ -17,8 +17,8 @@
 					<div class="callout callout-danger">
 						<h5>Data Gagal Dimuat, Harap Periksa Dibawah Ini</h5>
 						<h5>Fitur ini khusus untuk pelanggan Layanan OpenDesa (hosting, Fitur Premium, dll) untuk menampilkan status langganan.</h5>
-						<li>Periksa logs error terakhir di Folder Logs</a></strong></li>
-						<li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="<?= site_url('pengaturan'); ?> " style="text-decoration:none;"><strong>Pengaturan &nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
+						<li>Periksa log error terakhir di folder <b>logs</b></a></strong></li>
+						<li>Token pelanggan tidak terontentikasi. Periksa [Layanan Opendesa Token] di <a href="#" style="text-decoration:none;" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan"><strong>Pengaturan Pelanggan&nbsp;(<i class="fa fa-gear"></i>)</strong></a></li>
 						<li>Jika masih mengalami masalah harap menghubungi pelaksana masing-masing.
 					</div>
 				</div>
