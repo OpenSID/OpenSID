@@ -1,4 +1,4 @@
-Di rilis ini, versi 21.08-pasca berisi perbaikan yang diminta Komunitas SID.
+Di rilis ini, versi 21.08 berisi perbaikan yang diminta Komunitas SID.
 
 Terima kasih pada Yonathan Rizky, Agung Sugiarto, Ians Shinichi Kudo, Rudy Purwanto, Zeppy Shiddiq dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
