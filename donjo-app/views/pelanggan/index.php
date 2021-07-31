@@ -6,7 +6,7 @@
 			<li class="active">Info Layanan Pelanggan</li>
 		</ol>
 	</section>
-	<section class="content">
+	<section class="content" id="maincontent">
 		<?php if (is_null($response)) : ?>
 			<div class="box box-danger">
 				<div class="box-header with-border">
