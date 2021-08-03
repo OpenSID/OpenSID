@@ -101,7 +101,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function form($program_id = 0)
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->session->unset_userdata('cari');
 		$data['program'] = $this->program_bantuan_model->get_program(1, $program_id);
 		$sasaran = $data['program'][0]['sasaran'];
@@ -180,7 +180,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function add_peserta($program_id = 0)
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->program_bantuan_model->add_peserta($program_id);
 
 		$redirect = ($this->session->userdata('aksi') != 1) ? $_SERVER['HTTP_REFERER'] : "program_bantuan/detail/$program_id";
@@ -192,7 +192,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function aksi($aksi = '', $program_id = 0)
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->session->set_userdata('aksi', $aksi);
 
 		redirect("program_bantuan/form/$program_id");
@@ -200,14 +200,14 @@ class Program_bantuan extends Admin_Controller {
 
 	public function hapus_peserta($program_id = 0, $peserta_id = '')
 	{
-		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('h');
 		$this->program_bantuan_model->hapus_peserta($peserta_id);
 		redirect("program_bantuan/detail/$program_id");
 	}
 
 	public function delete_all($program_id = 0)
 	{
-		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('h');
 		$this->program_bantuan_model->delete_all();
 		redirect("program_bantuan/detail/$program_id");
 	}
@@ -215,7 +215,7 @@ class Program_bantuan extends Admin_Controller {
 	// $id = program_peserta.id
 	public function edit_peserta($id = 0)
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->program_bantuan_model->edit_peserta($id);
 		$program_id = $this->input->post('program_id');
 		redirect("program_bantuan/detail/$program_id");
@@ -224,7 +224,7 @@ class Program_bantuan extends Admin_Controller {
 	// $id = program_peserta.id
 	public function edit_peserta_form($id = 0)
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data = $this->program_bantuan_model->get_program_peserta_by_id($id);
 		$data['form_action'] = site_url("program_bantuan/edit_peserta/$id");
 		$this->load->view('program_bantuan/edit_peserta', $data);
@@ -232,7 +232,7 @@ class Program_bantuan extends Admin_Controller {
 
 	public function create()
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
@@ -259,7 +259,7 @@ class Program_bantuan extends Admin_Controller {
 	// $id = program.id
 	public function edit($id = 0)
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 
@@ -288,7 +288,7 @@ class Program_bantuan extends Admin_Controller {
 	// $id = program.id
 	public function update($id)
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->program_bantuan_model->update_program($id);
 		redirect("program_bantuan/detail/$id");
 	}
@@ -296,7 +296,7 @@ class Program_bantuan extends Admin_Controller {
 	// $id = program.id
 	public function hapus($id)
 	{
-		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('h');
 		$this->program_bantuan_model->hapus_program($id);
 		redirect("program_bantuan");
 	}
@@ -335,7 +335,7 @@ class Program_bantuan extends Admin_Controller {
 	// TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
 	public function impor()
 	{
-		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 
 		$this->load->library('upload');
 
@@ -543,6 +543,12 @@ class Program_bantuan extends Admin_Controller {
 	// TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
 	public function expor($program_id = '')
 	{
+		if ($this->program_bantuan_model->jml_peserta_program($program_id) == 0)
+		{
+			$this->session->success = -1;
+			redirect($this->controller);
+		}
+		
 		// Data Program Bantuan
 		$temp = $this->session->per_page;
 		$this->session->per_page = 1000000000;
