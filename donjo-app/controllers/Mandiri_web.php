@@ -182,9 +182,15 @@ class Mandiri_web extends Mandiri_Controller
 	public function cetak_kk()
 	{
 		$id_kk = $this->penduduk_model->get_id_kk($this->session->id);
-		$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
 
-		$this->load->view("sid/kependudukan/cetak_kk_all", $data);
+		if ($id_kk != 0)
+		{
+			$data = $this->keluarga_model->get_data_cetak_kk($id_kk);
+			$this->load->view("sid/kependudukan/cetak_kk_all", $data);
+		}
+		
+		redirect('mandiri_web');
+
 	}
 
 	public function kartu_peserta($aksi = 'tampil', $id = 0)
