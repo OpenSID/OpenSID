@@ -70,4 +70,9 @@ class Pelanggan extends Admin_Controller {
 		$this->render('pelanggan/index', ['response' => $response]);
 	}
 	
+
+	public function peringatan()
+	{
+		$this->render('pelanggan/peringatan');
+	}
 }
