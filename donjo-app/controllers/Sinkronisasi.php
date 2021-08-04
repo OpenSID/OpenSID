@@ -57,6 +57,7 @@ class Sinkronisasi extends Admin_Controller {
 		$this->sub_modul_ini = 326;
 		$this->load->library('zip');
 		$this->load->model('export_model');
+		$this->sterilkan();
 	}
 
 	public function index()
@@ -68,22 +69,27 @@ class Sinkronisasi extends Admin_Controller {
 		$this->render("$this->controller/index", $data);
 	}
 
+	public function sterilkan()
+	{
+		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
+			if (file_exists($file)) {
+					unlink($file);
+					break;
+			}
+		}
+	}
+
 	public function kirim($modul)
 	{
 		$this->redirect_hak_akses('u');
 
-		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
-			if (file_exists($file)) {
-				unlink($file);
-				break;
-			}
-		}
+		
 
 		switch ($modul)
 		{
 			case 'penduduk':
 				// Data Penduduk
-				$this->penduduk();
+				$this->sinkronisasi_data_penduduk();
 				break;
 			
 			default:
@@ -94,7 +100,24 @@ class Sinkronisasi extends Admin_Controller {
 		redirect($this->controller);
 	}
 
-	private function penduduk()
+	public function unduh($modul)
+	{
+		switch ($modul) {
+			case 'penduduk':
+				// Data Penduduk
+				$filename = $this->data_penduduk();
+				ambilBerkas($filename, null, null, LOKASI_DOKUMEN);
+				break;
+			
+			default:
+				// Data Lainnya
+				break;
+		}
+
+		redirect($this->controller);
+	}
+
+	private function data_penduduk()
 	{
 		$writer = WriterEntityFactory::createXLSXWriter();
 
@@ -156,8 +179,7 @@ class Sinkronisasi extends Admin_Controller {
 		$writer->addRow($header);
 
 		$get = $this->export_model->tambah_penduduk_sinkronasi_opendk();
-		foreach ($get as $row)
-		{
+		foreach ($get as $row) {
 			$penduduk = array(
 				$row->alamat,
 				$row->dusun,
@@ -204,9 +226,8 @@ class Sinkronisasi extends Admin_Controller {
 			);
 
 			$file_foto = LOKASI_USER_PICT . $row->foto;
-			if (is_file($file_foto))
-			{
-				$this->zip->read_file($file_foto);
+			if (is_file($file_foto)) {
+					$this->zip->read_file($file_foto);
 			}
 
 			$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
@@ -220,7 +241,13 @@ class Sinkronisasi extends Admin_Controller {
 		$filename = 'penduduk_' . $tgl . '_opendk.zip';
 		$this->zip->archive(LOKASI_DOKUMEN . $filename);
 
-		
+		return $filename;
+	}
+
+	private function sinkronisasi_data_penduduk()
+	{
+		$filename = $this->data_penduduk();
+
 		//Tambah/Ubah Data
 		$curl = curl_init();
 		curl_setopt_array($curl, array(
