@@ -30,8 +30,8 @@ class Cek_fitur_premium
 	 */
 	public function validasi()
 	{
-		// Jalankan untuk spesifik fitur premium
-		if (in_array($this->ci->router->class, ['pelanggan', 'setting']))
+		// Jangan jalankan validasi akses untuk spesifik controller.
+		if (in_array($this->ci->router->class, ['pelanggan', 'setting', 'siteman', 'first']))
 		{
 			return;
 		}
