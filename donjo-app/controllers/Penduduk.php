@@ -58,7 +58,7 @@ class Penduduk extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan'];
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara'];
 	}
 
 	private function clear_session()
@@ -209,6 +209,7 @@ class Penduduk extends Admin_Controller {
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		$data['suku'] = $this->penduduk_model->get_suku();
+		$data['nik_sementara'] = $this->penduduk_model->nik_sementara();
 
 		if ($this->session->status_hanya_tetap)
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap);
@@ -341,6 +342,13 @@ class Penduduk extends Admin_Controller {
 		if ($value != "")
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
+		redirect('penduduk');
+	}
+
+	public function nik_sementara()
+	{
+		$this->session->nik_sementara = '0';
+
 		redirect('penduduk');
 	}
 

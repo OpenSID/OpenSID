@@ -143,6 +143,14 @@ class Penduduk_model extends MY_Model {
 		}
 	}
 
+	protected function nik_sementara_sql()
+	{
+		if ($this->session->nik_sementara == '0')
+		{
+			$this->db->like('nik', '0', 'after');
+		}
+	}
+
 	// Filter belum digunakan
 	protected function hamil_sql()
 	{
@@ -356,6 +364,7 @@ class Penduduk_model extends MY_Model {
 		$this->umur_sql(); // Kode 13, 15
 		$this->akta_kelahiran_sql(); // Kode 17
 		$this->hamil_sql(); // Filter blum digunakan
+		$this->nik_sementara_sql(); // NIK Sementara
 	}
 
 	// Perlu di urut sebelum paging dan sesudah paging
@@ -1558,8 +1567,24 @@ class Penduduk_model extends MY_Model {
 			// ->where('suku NOT IN('.$this->db->last_query().')') // NOT IN REF PENDUDUK
 			->order_by('suku')
 			->get('tweb_penduduk')->result_array();
-			 
+
 		return $suku;
+	}
+	
+	public function nik_sementara()
+	{
+		$nik = $this->db
+			->select('nik')
+			->order_by('id', 'DESC')
+			->like('nik', '0', 'after')
+			->get('tweb_penduduk')
+			->row()
+			->nik;
+
+		// Ambil 5 digit terakhir
+		$digit = substr($nik, -5);
+
+		return set_nik('0', $digit);
 	}
 
 }

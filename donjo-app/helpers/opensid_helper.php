@@ -59,7 +59,7 @@ define("VERSION", '21.08-premium-rev02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021081851');
+define('VERSI_DATABASE', '2021082151');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -1129,4 +1129,23 @@ function strReplaceArrayRecursive($replacement = array(), $strArray = false, $is
 
         return $newArr;
     }
+}
+
+// Ubah NIK 0 jadi 0[kode-desa][id_pend]
+function set_nik(string $nik, int $digit = 0)
+{
+	if (strlen($nik) !== 1) return $nik;
+
+	$CI =& get_instance();
+	$CI->load->model('config_model');
+	$desa = $CI->config_model->get_data();
+
+	return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1);
+}
+
+function get_nik(string $nik)
+{
+	if (substr($nik, 0, 1) !== '0') return $nik;
+
+	return '0';
 }

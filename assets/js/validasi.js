@@ -134,9 +134,9 @@ $(document).ready(function() {
 	});
 
 	jQuery.validator.addMethod("nik", function(value, element) {
-		nik_valid = /^\d*$/.test(value) && (value == 0 || value.length == 16);
+		nik_valid = /^\d*$/.test(value) && (value.indexOf('0') != 0 || value.length == 16);
 		return this.optional(element) || nik_valid;
-	}, "Harus 0 atau bilangan 16 digit");
+	}, "NIK tidak boleh diawali dengan 0 atau bilangan 16 digit");
 
 	$('.nik').each(function() {
 		$(this).rules("add",

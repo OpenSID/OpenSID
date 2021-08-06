@@ -75,11 +75,17 @@
 					</div>
 				</div>
 				<div class='col-sm-4'>
-					<div class='form-group'>
-						<label for="nik">NIK </label>
-						<input id="nik" name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>"></input>
-						<input name="nik_lama" type="hidden" value="<?= $_SESSION['nik_lama']?>"/>
-					</div>
+						<?php $cek_nik = get_nik($penduduk['nik']); ?>
+							<div class='form-group'>
+								<label for="nik">NIK <code id="tampil_nik" style="display: none;"> (Sementara) </code></label>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">
+										<input type="checkbox" title="Centang jika belum memiliki NIK" id="nik_sementara" <?= jecho($cek_nik, '0', 'checked ="checked"') ?>>
+									</span>
+									<input id="nik" name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>" <?= jecho($cek_nik, '0', 'readonly') ?>></input>
+									<input name="nik_lama" type="hidden" value="<?= $_SESSION['nik_lama']?>"/>
+							</div>
+						</div>
 				</div>
 				<div class='col-sm-8'>
 					<div class='form-group'>
@@ -106,23 +112,23 @@
 											<tr>
 												<td width='25%'><?= strtoupper($penduduk['wajib_ktp'])?></td>
 												<td>
-												 <select name="ktp_el" id="ktp_el" class="form-control input-sm" onchange="show_hide_ktp_el($(this).find(':selected').val())">
-													<option value="">Pilih Identitas-EL</option>
-													<?php foreach ($ktp_el as $id => $nama): ?>
-													 <option value="<?= $id?>" <?php selected(strtolower($penduduk['ktp_el']), $nama); ?>><?= strtoupper($nama)?></option>
-													<?php endforeach;?>
-												 </select>
+													<select name="ktp_el" id="ktp_el" class="form-control input-sm" onchange="show_hide_ktp_el($(this).find(':selected').val())">
+														<option value="">Pilih Identitas-EL</option>
+														<?php foreach ($ktp_el as $id => $nama): ?>
+															<option value="<?= $id?>" <?php selected(strtolower($penduduk['ktp_el']), $nama); ?>><?= strtoupper($nama)?></option>
+														<?php endforeach;?>
+													</select>
 												</td>
 												<td width='25%'>
-												 <select name="status_rekam" class="form-control input-sm">
-													<option value="">Pilih Status Rekam</option>
-													<?php foreach ($status_rekam as $id => $nama): ?>
-													 <option value="<?= $id?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama)?></option>
-													<?php endforeach;?>
-												 </select>
+													<select name="status_rekam" class="form-control input-sm">
+														<option value="">Pilih Status Rekam</option>
+														<?php foreach ($status_rekam as $id => $nama): ?>
+															<option value="<?= $id?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama)?></option>
+														<?php endforeach;?>
+													</select>
 												</td>
 												<td width='25%'>
-												 <input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
+													<input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
 												</td>
 											</tr>
 										</tbody>
@@ -150,9 +156,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-12">
-
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
@@ -265,7 +268,7 @@
 							<option value="">Pilih Tempat Dilahirkan</option>
 							<?php foreach ($tempat_dilahirkan as $id => $nama): ?>
 								<option value="<?= $id?>" <?php selected($penduduk['tempat_dilahirkan'], $id); ?>><?= strtoupper($nama)?></option>
-							 <?php endforeach; ?>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</div>
@@ -369,7 +372,7 @@
 								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?> ><?= $ref_suku['suku'] ?></option>
 							<?php endforeach ?>
 							<option disabled>----------------------</option>
- 							<?php foreach ($suku['ref'] as $ref_suku): ?>
+							<?php foreach ($suku['ref'] as $ref_suku): ?>
 								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?> ><?= $ref_suku['suku'] ?></option>
 							<?php endforeach ?>
 						</select>
@@ -687,7 +690,7 @@
 						<div class='col-sm-8'>
 							<div class='form-group'>
 								<label for="ket">Keterangan</label>
-								<textarea id="ket" name="ket" class="form-control input-sm" style="resize: none" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
+								<textarea id="ket" name="ket" class="form-control input-sm" rows="3" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
 							</div>
 						</div>
 					</div>
@@ -737,11 +740,11 @@
 
 	$('#mainform').on('reset', function(e)
 	{
-	 setTimeout(function() {
+		setTimeout(function() {
 			$("select[name='sex']").change();
 			$("select[name='status_kawin']").change();
 			$("select[name='id_asuransi']").change();
-	 });
+		});
 	});
 
 	function ubah_sex(sex)
@@ -789,15 +792,15 @@
 		//Jika tidak, pakai foto default
 		if (foto)
 		{
-		  ukuran_foto = ukuran || null
-		  file_foto = '<?= base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
+			ukuran_foto = ukuran || null
+			file_foto = '<?= base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
 		}
 		else
 		{
 			file_foto = sex == '2' ? '<?=  FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
 		}
-
-	  return file_foto;
+		
+		return file_foto;
 	}
 
 	function disable_kawin_cerai(status)
@@ -826,6 +829,7 @@
 				break;
 		}
 	}
+
 	function show_hide_penduduk_tidak_tetap(status)
 	{
 		// status 1 = TETAP, 2 = TIDAK TETAP
@@ -863,4 +867,16 @@
 			$('#section_ktp_el').fadeOut();
 		}
 	}
+
+	$('#nik_sementara').click(function() {
+		if ($('#nik_sementara').prop('checked')) {
+			$('#nik').val('<?= $nik_sementara; ?>');
+			$('#nik').prop('readonly', true);
+			$('#tampil_nik').show();
+		} else {
+			$('#nik').val('<?= $penduduk['nik']; ?>');
+			$('#nik').prop('readonly', false);
+			$('#tampil_nik').hide();
+		}
+	});
 </script>

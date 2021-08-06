@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
+		$hasil = $hasil && $this->migrasi_2021082151($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -68,6 +69,32 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 				$hasil = $hasil && unlink($file);
 			}
 		}
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021082151($hasil)
+	{	
+		// Sesuaikan struktur kolom nik di table tweb_penduduk
+		$fields = [
+			'nik' => [
+				'type' => 'VARCHAR',
+				'constraint' => 16,
+			]
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
+
+		$this->load->model('penduduk_model');
+		// Ubah NIK 0 jadi 0[kode-desa-10-digit];
+		$list_data = $this->db->select('id, nik')->get_where('tweb_penduduk', ['nik' => '0'])->result();
+		foreach ($list_data as $data)
+		{
+			$cek = $this->penduduk_model->last_id();
+			$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_penduduk', ['nik' => set_nik($data->nik, $cek->id)]);
+		}
+
+		$hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'nik');
 
 		return $hasil;
 	}
