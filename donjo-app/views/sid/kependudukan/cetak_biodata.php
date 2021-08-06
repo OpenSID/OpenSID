@@ -7,7 +7,7 @@
 					<tr>
 						<td width="8%">NIK</td>
 						<td width="2%">:</td>
-						<td width="90%"><?= $penduduk['nik']?></td>
+						<td width="90%"><?= get_nik($penduduk['nik'])?></td>
 					</tr>
 					<tr>
 						<td width="8%">No.KK</td>
