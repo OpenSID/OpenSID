@@ -69,6 +69,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 					<div class="form-group">
+						<label class="col-sm-3 control-label" for="ip_address">Mac Address</label>
+						<div class="col-sm-7">
+							<input class="form-control input-sm mac_address" type="text" placeholder="00:1B:44:11:3A:B7" name="mac_address" value="<?= $anjungan['mac_address']?>">
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 						<div class="col-sm-7">
 							 <textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;"><?= $anjungan['keterangan']?></textarea>

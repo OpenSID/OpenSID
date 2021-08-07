@@ -46,9 +46,22 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
-		$hasil = true;
+    $hasil = true;
+
+    $hasil = $hasil && $this->migrasi_2021080771($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
+
+  protected function migrasi_2021080771($hasil)
+  {
+    if (! $this->db->field_exists('mac_address', 'anjungan'))
+    {
+      $hasil = $hasil && $this->dbforge->add_column('anjungan', ['mac_address' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+    }
+
+    return $hasil;
+  }
+
 }

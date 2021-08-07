@@ -51,7 +51,7 @@ define("VERSION", '21.08-premium');
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  * [nomor urut dua digit] = 01 => rilis umum, 71 => rilis premium, 51 => rilis bugfix
  */
-define('VERSI_DATABASE', '2021080171');
+define('VERSI_DATABASE', '2021080771');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -876,6 +876,11 @@ function bilangan_spasi($str)
 function bilangan_titik($str)
 {
 	return preg_replace('/[^0-9\.]/', '', strip_tags($str));
+}
+
+function alfanumerik_kolon($str)
+{
+	return preg_replace('/[^a-zA-Z0-9:]/', '', strip_tags($str));
 }
 
 function nomor_surat_keputusan($str)
