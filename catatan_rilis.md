@@ -10,7 +10,11 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 
 #### Perbaikan BUG
-1. [#]() [untuk diisi]
+1. [untuk diisi]
+
+
+#### Perbaikan BUG
+1. [#4346](https://github.com/OpenSID/OpenSID/issues/4346) Perbaiki program bantuan yang tidak dapat terhapus.
 
 
 #### Perubahan Teknis

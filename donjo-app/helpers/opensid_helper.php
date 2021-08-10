@@ -45,11 +45,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
+/**
+ * VERSION
+ * rilis-bugsfix => premium-rev[nomor urut dua digit]
+ * beta => premium-beta[nomor urut dua digit]
+ * [nomor urut dua digit] : minggu 1 => 01, dst
+ */
 define("VERSION", '21.08-premium-beta01');
 /**
- * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
- * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
- * [nomor urut dua digit] = 01 => rilis umum, 71 => rilis premium, 51 => rilis bugfix
+ * VERSI_DATABASE
+ * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
+ * Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
+ * Versi database = [yyyymmdd][nomor urut dua digit]
+ * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
 define('VERSI_DATABASE', '2021080771');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
