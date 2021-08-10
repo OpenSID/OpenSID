@@ -237,7 +237,9 @@ class Cdesa extends Admin_Controller {
 		$this->load->library('form_validation');
 		$this->load->model('plan_area_model');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
-
+		$this->session->unset_userdata('cari'); // Area menggunakan session cari, jadi perlu dihapus terlebih dahulu
+		
+		$this->tab_ini = 12;
 		$this->set_minsidebar(1);
 		if (empty($id_persil)) $id_persil = $this->input->post('id_persil');
 
