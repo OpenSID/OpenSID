@@ -581,8 +581,11 @@ function styleGpx()
 	return style;
 }
 
-function eximGpxPoly(layerpeta, multi = false)
+function eximGpxRegion(layerpeta, multi = false)
 {
+	L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="' + BASE_URL + 'assets/images/gpx.png" alt="file icon"/>';
+	L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+			
 	controlGpxPoly = L.Control.fileLayerLoad({
 		addToMap: true,
 		formats: [
@@ -621,37 +624,22 @@ function eximGpxPoly(layerpeta, multi = false)
 			};
 		}
 
-		if (multi == true)
-		{
+		var path = get_path_import(coords, multi);
+
+		if (multi == true) {
 			coords = new Array(coords);
 		}
 
-		document.getElementById('path').value =
-			JSON.stringify(coords)
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace('[[[[', '[[[')
-				.replace(']]]]', ']]]')
-				.replace(/,0]/g, ']')
-				.replace('],null]', ']');
+		document.getElementById('path').value = path;
 	});
+
 	return controlGpxPoly;
 }
 
 function eximGpxPoint(layerpeta) {
+	L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="' + BASE_URL + 'assets/images/gpx.png" alt="file icon"/>';
+	L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+	
 	controlGpxPoint = L.Control.fileLayerLoad({
 		addToMap: false,
 		formats: [
@@ -691,13 +679,13 @@ function eximGpxPoint(layerpeta) {
 	return controlGpxPoint;
 }
 
-function eximShp(layerpeta)
+function eximShp(layerpeta, multi = false)
 {
 	L.Control.Shapefile = L.Control.extend({
 		onAdd: function (map) {
 			var thisControl = this;
 
-			var controlDiv = L.DomUtil.create('div', 'leaflet-control-command');
+			var controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control leaflet-control-command');
 
 			// Create the leaflet control.
 			var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
@@ -712,6 +700,7 @@ function eximShp(layerpeta)
 			var input = L.DomUtil.create('input', 'leaflet-control-command-form-input', form);
 			input.id = 'file';
 			input.type = 'file';
+			input.accept = '.zip';
 			input.name = 'uploadFile';
 			input.style.display = 'none';
 
@@ -763,39 +752,21 @@ function eximShp(layerpeta)
 								};
 							}
 
-							if (multi == true)
-							{
+							var path = get_path_import(coords, multi);
+							
+							if (multi == true) {
 								coords = new Array(coords);
 							}
 
-							document.getElementById('path').value =
-								JSON.stringify(coords)
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace('[[[[', '[[[')
-									.replace(']]]]', ']]]')
-									.replace('],null]', ']');
+							document.getElementById('path').value = path;	
 
 							layerpeta.fitBounds(shpfile.getBounds());
-
 						});
 					}
 				});
 
 			controlUI.title = 'Impor Shapefile (.Zip)';
+			
 			return controlDiv;
 		},
 	});
@@ -1970,4 +1941,35 @@ function pantau_desa(layer_desa, tracker_host, kode_desa, img, token)
 
 	});
 	return pantau_desa;
+}
+
+function get_path_import(coords, multi = false) {
+
+	var path = JSON.stringify(coords)
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace('[[[[[', '[[[')
+		.replace(']]]]]', ']]]')
+		.replace('[[[[', '[[[')
+		.replace(']]]]', ']]]')
+		.replace('],null]', ']');
+
+	if (multi == true) {
+		path = ''.concat('[', path, ']');
+	}
+
+	return path;
 }
