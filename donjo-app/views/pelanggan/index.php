@@ -46,7 +46,7 @@
 					<div class="small-box bg-yellow">
 						<div class="inner">
 							<h4>STATUS PELANGGAN</h4>
-							<h4><?= $response->body->status_langganan ?></h4>
+							<h5><?= ucwords($response->body->status_langganan); ?></h5>
 						</div>
 						<div class="icon">
 							<i class="ion-person-add"></i>
@@ -57,7 +57,7 @@
 					<div class="small-box bg-green">
 						<div class="inner">
 							<h4>MULAI BERLANGGANAN</h4>
-							<h4><?= $response->body->tanggal_berlangganan->mulai ?></h4>
+							<h5><?= tgl_indo($response->body->tanggal_berlangganan->mulai); ?></h5>
 						</div>
 						<div class="icon">
 							<i class="ion ion-unlocked"></i>
@@ -68,7 +68,7 @@
 					<div class="small-box bg-red">
 						<div class="inner">
 							<h4>AKHIR BERLANGGANAN</h4>
-							<h4><?= $response->body->tanggal_berlangganan->akhir ?></h4>
+							<h5><?= tgl_indo($response->body->tanggal_berlangganan->akhir); ?></h5>
 						</div>
 						<div class="icon">
 							<i class="ion ion-locked"></i>
@@ -78,7 +78,7 @@
 			</div>
 			<div class="box box-info">
 				<div class="box-body">
-					<h5 class="text-bold">Rincian Pelanggan Desa</h5>
+					<h5 class="text-bold">Rincian Pelanggan</h5>
 					<div class="table-responsive">
 						<table class="table table-bordered table-striped table-hover tabel-rincian">
 							<tbody>
@@ -111,148 +111,96 @@
 										<?php endforeach ?>
 									</td>
 								</tr>
-								<!-- Token pelangan kayaknya tidak perlu ditampilkan lagi dibagian ini -->
-								<tr>
-									<td>Token Pelanggan</td>
-									<td> : </td>
-									<td><textarea disabled style="width:100%; overflow: hidden; background-color: white; border-color: white;"><?= $this->setting->demo_mode ? '' : $response->body->token ?></textarea></td>
-								</tr>
 							</tbody>
 						</table>
 					</div>
+					<hr/>
 					<div class="row">
 						<div class="col-sm-12">
-							<h5 class="text-bold">Rincian Pemesanan Layanan</h5>
+							<h5 class="text-bold">Rincian Pemesanan</h5>
 							<div class="table-responsive">
 								<table class="table table-bordered dataTable table-hover tabel-daftar">
 									<thead class="bg-gray">
 										<tr>
-											<th width="20px">No</th>
+											<th>No</th>
 											<th>Aksi</th>
-											<th>Nota. Faktur</th>
+											<th>Layanan</th>
 											<th>Tanggal Mulai</th>
-											<th>Tanggal Berakhir</th>											
-											<th>Bukti Pembayaran</th>
+											<th>Tanggal Berakhir</th>
 											<th>Status Pemesanan</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php $number = 1 ?>
-										<?php foreach ($response->body->pemesanan as $pemesanan) : ?>
+										<?php foreach ($response->body->pemesanan as $number => $pemesanan) : ?>
 											<tr>
-												<td class="padat"><?= $number ?></td>
+												<td class="padat"><?= ($number + 1) ?></td>
 												<td class="aksi">
 													<?php
 														$host = $this->setting->layanan_opendesa_server;
 														$token = $this->setting->layanan_opendesa_token;
 													?>
-													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}"?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" data-title="Cetak Laporan"><i class="fa fa-print"></i>Cetak</a>
+													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}"?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
+													<a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
 												</td>
 												<td>
-													<a href="#" data-toggle="modal" data-target="<?= "#" . str_replace('/', '-', $pemesanan->faktur) ?>"><?= $pemesanan->faktur ?></a>
-													<div class="modal fade" id="<?= str_replace('/', '-', $pemesanan->faktur) ?>" style="display: none;">
-														<div class="modal-dialog modal-lg">
-															<div class="modal-content">
-																<div class="modal-header">
-																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																		<span aria-hidden="true">×</span>
-																	</button>
-																	<h4 class="modal-title">Rincian Pemesanan Layanan <strong><?= $pemesanan->faktur ?></strong></h4>
-																</div>
-																<div class="modal-body">
-																	<div class="table-responsive">
-																		<table class="table table-bordered dataTable table-hover tabel-daftar">
-																			<thead class="bg-gray">
-																				<tr>
-																					<th>No</th>
-																					<th>Layanan</th>
-																					<th>Harga</th>
-																					<th>Keterangan</th>
-																					<th>Ketentuan</th>
-																				</tr>
-																			</thead>
-																			<tbody>
-																				<?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
-																					<tr>
-																						<td class="padat"><?= ($key + 1) ?></td>
-																						<td class="aksi"><?= $layanan->nama ?></td>
-																						<td align="right"><?= rupiah($layanan->harga) ?></td>
-																						<td><?= $layanan->deskripsi ?></td>
-																						<td class="padat">
-																							<a href="#" data-dismiss="modal" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Lihat" data-title="Ketentuan <?= $layanan->nama; ?>" data-toggle="modal" data-target="#<?= $layanan->id . '-' . $key?>"><i class="fa fa-file"></i>Lihat</a>
-																						</td>
-																					</tr>
-																				<?php endforeach ?>
-																			</tbody>
-																		</table>
-																	</div>
-																</div>
-																<div class="modal-footer">
-																	<button type="button" class="btn btn-flat btn-sm btn-info" data-dismiss="modal">Tutup</button>
-																</div>
-															</div>
-														</div>
-													</div>
-
-													<!-- Modal Ketentuan Layanan -->
 													<?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
-														<div class="modal fade" id="<?= $layanan->id . '-' . $key; ?>" style="display: none;">
-															<div class="modal-dialog modal-lg">
-																<div class="modal-content">
-																	<div class="modal-header">
-																		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																			<span aria-hidden="true">×</span>
-																		</button>
-																		<h4 class="modal-title">Ketentuan <strong><?= $layanan->nama ?></strong></h4>
-																	</div>
-																	<div class="modal-body">
-																		<?= $layanan->ketentuan ?? '<p>Belum tersedia</p>'?>
-																	</div>
-																	<div class="modal-footer text-center">
-																		<button type="button" class="btn btn-flat btn-sm btn-info" data-dismiss="modal">Tutup</button>
-																	</div>
-																</div>
-															</div>
-														</div>
-													<?php endforeach ?>
-													<!-- Akhir Modal Ketentuan Layanan -->
-
+														<li>
+															<a href="#"  data-parent="#layanan" data-target="<?= "#" . url_title($layanan->nama, 'dash', true) ?>" data-toggle="collapse"><?= $layanan->nama; ?></a>
+														</li>
+													<?php endforeach; ?>
 												</td>
-												<td class="padat"><?= $pemesanan->tgl_mulai ?></td>
-												<td class="padat"><?= $pemesanan->tgl_akhir ?></td>
-												<td>
-													<a href="<?= "#{$pemesanan->id}" ?>" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>"><?= parse_url($pemesanan->bukti, PHP_URL_PATH) ?></a>
-													<div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
-														<div class="modal-dialog">
-															<div class="modal-content">
-																<div class="modal-header">
-																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																		<span aria-hidden="true">×</span>
-																	</button>
-																	<h4 class="modal-title">Bukti Pembayaran</h4>
-																</div>
-																<div class="modal-body">
-																	<img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
-																</div>
-																<div class="modal-footer">
-																	<a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-flat btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
-																	<button type="button" class="btn btn-flat btn-sm btn-info" data-dismiss="modal">Tutup</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												</td>
+												<td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
+												<td class="padat"><?= tgl_indo($pemesanan->tgl_akhir); ?></td>
 												<td class="padat">
 													<span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
 												</td>
+												<div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<span aria-hidden="true">×</span>
+																</button>
+																<h4 class="modal-title">Bukti Pembayaran</h4>
+															</div>
+															<div class="modal-body">
+																<img class="img-thumbnail" src="<?= $pemesanan->bukti ?>" alt="<?= $pemesanan->bukti ?>">
+															</div>
+															<div class="modal-footer">
+																<a target="_blank" href="<?= $pemesanan->bukti ?>" role="button" class="btn btn-flat btn-sm bg-navy" download="<?= $pemesanan->bukti ?>">Simpan</a>
+																<button type="button" class="btn btn-flat btn-sm btn-info" data-dismiss="modal">Tutup</button>
+															</div>
+														</div>
+													</div>
+												</div>
 											</tr>
-											<?php $number++ ?>
 										<?php endforeach ?>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<div id="layanan">
+					<?php foreach ($response->body->pemesanan as $num1 => $pemesanan) : ?>
+						<?php foreach ($pemesanan->layanan as $num2 => $layanan) : ?>
+							<div id="<?= url_title($layanan->nama, 'dash', true) ?>" class="collapse">
+								<div class="box box-success">
+									<div class="box-header with-border">
+										<div class="text-center"><b>Ketentuan <?= $layanan->nama ?> ( <?= rupiah($layanan->harga) ?> )</b></div>
+										<div class="box-tools pull-right">
+											<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+										</div>
+									</div>
+										<div class="box-body">
+											<?= $layanan->kentuan ?? "Belum tersedia"; ?>
+										</div>
+								</div>
+							</div>					
+						<?php endforeach ?>
+					<?php endforeach ?>
 				</div>
 			</div>
 		<?php endif ?>
