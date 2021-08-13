@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. [#4346](https://github.com/OpenSID/OpenSID/issues/4346) Perbaiki program bantuan yang tidak dapat terhapus.
 2. [#4289](https://github.com/OpenSID/OpenSID/issues/4289) Perbaiki session cari yang bentrok saat membuat C-Desa.
 3. [#4348](https://github.com/OpenSID/OpenSID/issues/4348) Perbaiki batasi akses cetak kk untuk penduduk lepas di layanan mandiri.
+4. [#4334](https://github.com/OpenSID/OpenSID/issues/4334) Perbaiki captcha ke matematik.
 
 
 #### Perubahan Teknis
