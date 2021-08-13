@@ -85,14 +85,14 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
 		$hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
 
-		$this->load->model('penduduk_model');
 		// Ubah NIK 0 jadi 0[kode-desa-10-digit];
 		$list_data = $this->db->select('id, nik')->get_where('tweb_penduduk', ['nik' => '0'])->result();
 		foreach ($list_data as $data)
 		{
-			$cek = $this->penduduk_model->last_id();
-			$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_penduduk', ['nik' => set_nik($data->nik, $cek->id)]);
+			$nik_sementara = $this->penduduk_model->nik_sementara();
+			$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_penduduk', ['nik' => $nik_sementara]);
 		}
+
 
 		$hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'nik');
 

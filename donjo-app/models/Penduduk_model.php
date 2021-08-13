@@ -1577,14 +1577,14 @@ class Penduduk_model extends MY_Model {
 			->select('nik')
 			->order_by('id', 'DESC')
 			->like('nik', '0', 'after')
+			->where('nik !=', '0')
 			->get('tweb_penduduk')
 			->row()
 			->nik;
 
 		// Ambil 5 digit terakhir
-		$digit = substr($nik, -5);
+		$digit = $nik ? intval(substr($nik, -5)) : 0;	
 
-		return set_nik('0', $digit);
+		return set_nik($digit);
 	}
-
 }
