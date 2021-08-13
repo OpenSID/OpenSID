@@ -79,9 +79,16 @@ class Data_eksternal_model extends CI_Model {
 		$this->data_publik->set_api_url("$url", "sdgs_desa_$kode_desa")
 			->set_interval(7)
 			->set_cache_folder(FCPATH.'cache');
-		$sdgs = $this->data_publik->get_url_content($no_cache = false, $secure = false);
+
+		$response = $this->data_publik->get_url_content($no_cache = false, $secure = false);
+		
+		if ($response->header->http_code != 200)
+		{
+			return false;
+		}
+		
 		$selector 	= '.accordion-stn';
-		$html 		= str_get_html($sdgs->body);
+		$html 		= str_get_html($response->body);
 		$kiri 		= $html->find($selector,0); //pertama
 		foreach ($kiri->find('.panel') as $panel)
 		{
