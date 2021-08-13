@@ -15,7 +15,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 3. [#4348](https://github.com/OpenSID/OpenSID/issues/4348) Perbaiki batasi akses cetak kk untuk penduduk lepas di layanan mandiri.
 4. [#4334](https://github.com/OpenSID/OpenSID/issues/4334) Perbaiki captcha ke matematik.
 5. [#4269](https://github.com/OpenSID/OpenSID/issues/4269) Perbaiki permohonan surat berstatus Sedang Diperiksa.
-
+6. [#3105](https://github.com/OpenSID/OpenSID/issues/3105) Perbaiki jangan tampilkan dusun jika - pada program bantuan.
 
 #### Perubahan Teknis
 1. [untuk diisi]
