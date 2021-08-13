@@ -9,31 +9,35 @@
 		<h3 class="box-title">SDGs Desa</h3>
 	</div>
 	<div class="box-body">
-		<div class="panel-group" id="kemendes-sdgs" role="tablist" aria-multiselectable="true">
-			<?php foreach ($evaluasi as $index => $heading) : ?>
-			<div class="panel panel-success">
-				<div class="panel-heading" role="tab">
-					<h4 class="panel-title">
-						<a role="button" data-toggle="collapse" href="#<?= 'col'.$index ?>" aria-expanded="true">
-							<img class="icon" src="<?= $heading['icon'] ?>" alt="Icon SDG"/><?= $heading['uraian'] ?>
-						</a>
-					</h4>
-				</div>
-				<div id="<?= 'col'.$index ?>" class="panel-collapse collapse  " role="tabpanel" aria-labelledby="headingOne">
-					<div class="panel-body">
-						<table class="table ">
-							<?php foreach ($heading['sub'] as $list) : ?>
-							<tr>
-								<td><?= $list['uraian'] ?></td>
-								<td><?= $list['value'] ?></td>
-							</tr>
-							<?php endforeach ?>
-						</table>
+		<?php if ($evaluasi): ?>
+			<div class="panel-group" id="kemendes-sdgs" role="tablist" aria-multiselectable="true">
+				<?php foreach ($evaluasi as $index => $heading) : ?>
+				<div class="panel panel-success">
+					<div class="panel-heading" role="tab">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" href="#<?= 'col'.$index ?>" aria-expanded="true">
+								<img class="icon" src="<?= $heading['icon'] ?>" alt="Icon SDG"/><?= $heading['uraian'] ?>
+							</a>
+						</h4>
+					</div>
+					<div id="<?= 'col'.$index ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+						<div class="panel-body">
+							<table class="table ">
+								<?php foreach ($heading['sub'] as $list) : ?>
+								<tr>
+									<td><?= $list['uraian'] ?></td>
+									<td><?= $list['value'] ?></td>
+								</tr>
+								<?php endforeach ?>
+							</table>
+						</div>
 					</div>
 				</div>
+				<?php endforeach ?>
 			</div>
-			<?php endforeach ?>
-		</div>
+		<?php else: ?>
+			<b>Maaf. Halaman ini tidak dapat di akses.</b>
+		<?php endif; ?>
 	</div>
 </div>
 
