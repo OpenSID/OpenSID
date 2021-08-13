@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 5. [#4269](https://github.com/OpenSID/OpenSID/issues/4269) Perbaiki permohonan surat berstatus Sedang Diperiksa.
 6. [#3105](https://github.com/OpenSID/OpenSID/issues/3105) Perbaiki jangan tampilkan dusun jika - pada program bantuan.
 7. [#4357](https://github.com/OpenSID/OpenSID/issues/4357) Perbaiki pengaturan khusus untuk modul pelanggan.
+8. [#4360](https://github.com/OpenSID/OpenSID/issues/4360) Perbaiki status sdgs ketika tidak berhasil mendapatkan respon.
 
 #### Perubahan Teknis
 1. [untuk diisi]
