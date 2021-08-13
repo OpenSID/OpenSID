@@ -165,29 +165,22 @@ class Permohonan_surat_admin extends Admin_Controller {
 		return $isian_form;
 	}
 
-	public function delete($id_permohonan = 0)
+	public function konfirmasi($id_permohonan = 0, $tipe = 0)
 	{
-		// Hanya status 0 dan 1 yang boleh dihapus
-		if (in_array($id_permohonan, [0, 1])) $this->permohonan_surat_model->delete($id_permohonan);
+		$data['form_action'] = site_url("permohonan_surat_admin/kirim_pesan/$id_permohonan/$tipe");
 
-		redirect('permohonan_surat_admin');
+		$this->load->view('surat/form/konfirmasi_permohonan', $data);
 	}
 
-	public function belum_lengkap($id_permohonan = 0)
-	{
-		$data['form_action'] = site_url("permohonan_surat_admin/kirim_pesan/$id_permohonan");
-
-		$this->load->view('surat/form/belum_lengkap', $data);
-	}
-
-	public function kirim_pesan($id_permohonan = 0)
+	public function kirim_pesan($id_permohonan = 0, $tipe = 0)
 	{
 		$periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id_permohonan, 'status' => 1]);
 		$pemohon = $this->surat_model->get_penduduk($periksa['id_pemohon']);
 		$surat = $this->surat_master_model->get_surat_format($periksa['id_surat']);
 		$post = $this->input->post();
+		$judul = ($tipe == 0) ? 'Perlu Dilengkapi' : 'Dibatalkan';
 		$data = [
-			'subjek' => 'Permohonan Surat ' . $surat['nama'] . ' Perlu Dilengkapi',
+			'subjek' => 'Permohonan Surat ' . $surat['nama'] . ' ' . $judul,
 			'komentar' => $post['pesan'],
 			'owner' => $pemohon['nama'], // TODO : Gunakan id_pend
 			'email' => $pemohon['nik'], // TODO : Gunakan id_pend
@@ -197,7 +190,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 		];
 
 		$this->mailbox_model->insert($data);
-		$this->proses($id_permohonan, 0);
+		$this->proses($id_permohonan, $tipe);
 
 		redirect('permohonan_surat_admin');
 	}
