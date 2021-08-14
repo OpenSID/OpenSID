@@ -702,13 +702,11 @@ class First extends Web_Controller {
 
 	public function verifikasi_surat($alias)
 	{
-		$$cek = $this->url_shortener_model->get_url($alias);
-		if (! $$cek) show_404();
+		$cek = $this->url_shortener_model->get_url($alias);
+		if (! $cek) show_404();
 		
-		$this->stat_shortener_model->add_log($$cek->id);
-		
-		redirect($$cek->url);
-		
+		$this->stat_shortener_model->add_log($cek->id);
+		redirect($cek->url);
 	}
 
 	public function status_sdgs()

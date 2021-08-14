@@ -181,7 +181,4 @@ class Penomoran_surat_model extends CI_Model {
 		$setting = str_replace(array_keys($array_replace), array_values($array_replace), $setting);
 		return $setting;
 	}
-
 }
-
-?>

@@ -109,10 +109,8 @@
 																		<?php if (is_file($data['file_pdf'])): ?>
 																			<a href="<?= base_url($data['file_pdf'])?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
 																		<?php	endif; ?>
-																		<?php if (is_file($data['file_php'])): ?>
-																			<a href="<?= base_url($data['file_php'])?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
-																		<?php	endif; ?>
 																		<?php if (is_file($data['file_qr'])): ?>
+																			<a href="<?= site_url("c1/{$data['id']}"); ?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
 																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
 																		<?php	endif; ?>
 																		<?php if (is_file($data['file_lampiran'])): ?>

@@ -78,6 +78,8 @@ class Dokumen_web extends Web_Controller
 
 		$data['config'] = $this->config_model->get_data();
 		$data['surat'] = $this->keluar_model->verifikasi_data_surat($id_decoded, $data['config']['kode_desa']);
+
+		if (! $data['surat']) show_404();
 		
 		$this->load->view('surat/verifikasi_surat', $data);
 	}

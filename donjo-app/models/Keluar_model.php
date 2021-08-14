@@ -183,7 +183,6 @@
 
 		$data[$i]['file_rtf'] = LOKASI_ARSIP.$berkas_rtf;
 		$data[$i]['file_pdf'] = LOKASI_ARSIP.$berkas_pdf;
-		$data[$i]['file_php'] = LOKASI_ARSIP.$berkas_php;
 		$data[$i]['file_qr'] 	= LOKASI_MEDIA.$berkas_qr;
 		$data[$i]['file_lampiran'] = LOKASI_ARSIP.$berkas_lampiran;
 	}
@@ -453,6 +452,8 @@
 			->where('l.id', $id)
 			->get()
 			->row();
+
+		if (! $data) return false;
 
 		$format['config']['kode_desa'] = $kode_desa;
 		$format['input']['nomor'] = $data->no_surat;
