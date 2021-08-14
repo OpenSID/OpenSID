@@ -27,11 +27,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
-			<?=$this->setting->admin_title
-				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($config['nama_desa']) ? ' ' . $config['nama_desa']: '')
-				. get_dynamic_title_page_from_path();
-			?>
+			<?=$this->setting->admin_title . ' ' . ucwords($this->setting->sebutan_desa) . (($config['nama_desa']) ? ' ' . $config['nama_desa']: '') . get_dynamic_title_page_from_path(); ?>
 		</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	</head>
@@ -56,22 +52,22 @@
 				<tr>
 					<td class="judul abu">Nomor Surat</td>
 					<td class="judul abu">:</td>
-					<td class="judul abu"><?= $surat['format_nomor_surat'] ?></td>
+					<td class="judul abu"><?= $surat->nomor_surat; ?></td>
 				</tr>
 				<tr>
 					<td class="judul abu">Tanggal Surat</td>
 					<td class="judul abu">:</td>
-					<td class="judul abu"><?= $tanggal ?></td>
+					<td class="judul abu"><?= tgl_indo($surat->tanggal); ?></td>
 				</tr>
 				<tr>
 					<td class="judul abu">Perihal</td>
 					<td class="judul abu">:</td>
-					<td class="judul abu"><?= "Surat ".$surat['nama'] ?></td>
+					<td class="judul abu"><?= "Surat " . $surat->perihal; ?></td>
 				</tr>
 				<tr>
 					<td class="judul abu"></td>
 					<td class="judul abu"></td>
-					<td class="judul abu"><?= "a/n ".$individu['nama'] ?></td>
+					<td class="judul abu"><?= "a/n " . $surat->nama_penduduk ?? $surat->nama_non_warga; ?></td>
 				</tr>
 			</table>
 

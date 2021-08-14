@@ -441,5 +441,30 @@
 		return $query;
 	}
 
+	public function verifikasi_data_surat($id, $kode_desa)
+	{
+		$this->load->model('penomoran_surat_model');
+
+		$data = $this->db
+			->select('l.*, k.nama AS perihal, k.kode_surat, p.nama AS nama_penduduk')
+			->from('log_surat l')
+			->join('tweb_surat_format k', 'l.id_format_surat = k.id', 'left')
+			->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
+			->where('l.id', $id)
+			->get()
+			->row();
+
+		$format['config']['kode_desa'] = $kode_desa;
+		$format['input']['nomor'] = $data->no_surat;
+		$format['surat'] = [
+			'cek_thn' => $data->tahun,
+			'cek_bln' => $data->bulan,
+			'nomor' => $data->no_surat,
+			'kode_surat' => $data->kode_surat,
+		];
+		
+		$data->nomor_surat = $this->penomoran_surat_model->format_penomoran_surat($format);
+
+		return $data;
+	}
 }
-?>
