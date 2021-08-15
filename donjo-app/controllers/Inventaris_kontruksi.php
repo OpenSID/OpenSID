@@ -1,14 +1,18 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Inventaris
  *
  * donjo-app/controllers/Inventaris_kontruksi.php
  *
  */
+
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,14 +49,11 @@ class Inventaris_kontruksi extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('inventaris_kontruksi_model');
-		$this->load->model('referensi_model');
-		$this->load->model('pamong_model');
+		$this->load->model(['inventaris_kontruksi_model', 'pamong_model', 'aset_model']);
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
-		$this->tab_ini = 6;
-		$this->tipe = 'inventaris_kontruksi';
+		$this->tab_ini = 7;
+		$this->set_minsidebar(1);
 	}
 
 	public function clear()
@@ -68,7 +69,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$data['total'] = $this->inventaris_kontruksi_model->sum_inventaris();
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/kontruksi/table', $data);
 	}
 
@@ -76,7 +77,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/kontruksi/view_inventaris', $data);
 	}
 
@@ -85,7 +86,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_kontruksi_model->view($id);
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/kontruksi/edit_inventaris', $data);
 	}
 
@@ -93,7 +94,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u');
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/kontruksi/form_tambah', $data);
 	}
 
@@ -103,6 +104,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$data['total'] = $this->inventaris_kontruksi_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_kontruksi_model->cetak($tahun);
 		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
+
 		$this->load->view('inventaris/kontruksi/inventaris_print', $data);
 	}
 
@@ -112,6 +114,7 @@ class Inventaris_kontruksi extends Admin_Controller {
 		$data['total'] = $this->inventaris_kontruksi_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_kontruksi_model->cetak($tahun);
 		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
+		
 		$this->load->view('inventaris/kontruksi/inventaris_excel', $data);
 	}
 }

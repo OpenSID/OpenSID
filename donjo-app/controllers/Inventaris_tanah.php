@@ -1,14 +1,18 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Inventaris
  *
  * donjo-app/controllers/Inventaris_tanah.php
  *
  */
+
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,14 +49,11 @@ class Inventaris_tanah extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('inventaris_tanah_model');
-		$this->load->model('referensi_model');
-		$this->load->model('pamong_model');
+		$this->load->model(['inventaris_tanah_model', 'pamong_model', 'aset_model']);
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
-		$this->tab_ini = 1;
-		$this->tipe = 'inventaris_tanah';
+		$this->tab_ini = 2;
+		$this->set_minsidebar(1);
 	}
 
 	public function clear()
@@ -68,7 +69,7 @@ class Inventaris_tanah extends Admin_Controller {
 		$data['total'] = $this->inventaris_tanah_model->sum_inventaris();
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/table', $data);
 	}
 
@@ -76,7 +77,7 @@ class Inventaris_tanah extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_tanah_model->view($id);
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/view_inventaris', $data);
 	}
 
@@ -84,7 +85,7 @@ class Inventaris_tanah extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_tanah_model->view_mutasi($id);
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/view_mutasi', $data);
 	}
 
@@ -92,12 +93,12 @@ class Inventaris_tanah extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_tanah_model->view($id);
-		$data['aset'] = $this->inventaris_tanah_model->list_aset();
+		$data['aset'] = $this->aset_model->list_aset($this->tab_ini);
 		$data['count_reg'] = $this->inventaris_tanah_model->count_reg();
 		$data['get_kode'] = $this->header['desa'];
 		$data['kd_reg'] = $this->inventaris_tanah_model->list_inventaris_kd_register();
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/edit_inventaris', $data);
 	}
 
@@ -106,7 +107,7 @@ class Inventaris_tanah extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_tanah_model->edit_mutasi($id);
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/edit_mutasi', $data);
 	}
 
@@ -114,11 +115,10 @@ class Inventaris_tanah extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u');
 		$data['tip'] = 1;
-
 		$data['get_kode'] = $this->header['desa'];
-		$data['aset'] = $this->inventaris_tanah_model->list_aset();
+		$data['aset'] = $this->aset_model->list_aset($this->tab_ini);
 		$data['count_reg'] = $this->inventaris_tanah_model->count_reg();
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/form_tambah', $data);
 	}
 
@@ -127,7 +127,7 @@ class Inventaris_tanah extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_tanah_model->view($id);
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/form_mutasi', $data);
 	}
 
@@ -135,7 +135,7 @@ class Inventaris_tanah extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_tanah_model->list_mutasi_inventaris();
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/tanah/table_mutasi', $data);
 	}
 
@@ -145,6 +145,7 @@ class Inventaris_tanah extends Admin_Controller {
 		// $data['total'] = $this->inventaris_tanah_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_tanah_model->cetak($tahun);
 		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
+
 		$this->load->view('inventaris/tanah/inventaris_print', $data);
 	}
 
@@ -154,6 +155,7 @@ class Inventaris_tanah extends Admin_Controller {
 		$data['total'] = $this->inventaris_tanah_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_tanah_model->cetak($tahun);
 		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
+
 		$this->load->view('inventaris/tanah/inventaris_excel', $data);
 	}
 }
