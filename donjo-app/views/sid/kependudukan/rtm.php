@@ -79,6 +79,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<form id="mainform" name="mainform" method="post">
 						<div class="row">
 							<div class="col-sm-8">
+								<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('rtm/filter/sex')?>')">
+									<option value="">Pilih Jenis Kelamin</option>
+									<?php foreach ($list_sex AS $data): ?>
+										<option value="<?= $data['id']?>" <?= selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
+									<?php endforeach; ?>
+								</select>
 								<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('rtm/dusun'); ?>')">
 									<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
 									<?php foreach ($list_dusun AS $data): ?>
