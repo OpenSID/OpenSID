@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. [#4360](https://github.com/OpenSID/OpenSID/issues/4360) Perbaiki status sdgs ketika tidak berhasil mendapatkan respon.
 9. [#4363](https://github.com/OpenSID/OpenSID/issues/4363) Perbaiki impor peta type .gpx setelah impor menjadi blank.
 10. [#4343](https://github.com/OpenSID/OpenSID/issues/4343) Perbaiki Data di ID BDT tidak dapat di filter antara sudah terisi dan belum mengisi.
+11. [#4327](https://github.com/OpenSID/OpenSID/issues/4327) Perbaiki format Data Penduduk .xls Sinkronisasi Dari OpenSID ke OpenDK tidak sesuai.
 
 #### Perubahan Teknis
 1. [untuk diisi]
