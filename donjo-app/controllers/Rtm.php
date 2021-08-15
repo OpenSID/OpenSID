@@ -108,6 +108,7 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_data($data['order_by'], $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 
 		$this->render('sid/kependudukan/rtm', $data);
 	}
@@ -344,7 +345,6 @@ class Rtm extends Admin_Controller {
 
 	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
-		// $this->clear_session();
 		if ($sex == NULL)
 		{
 			if ($nomor != 0) $this->session->sex = $nomor;
@@ -363,7 +363,7 @@ class Rtm extends Admin_Controller {
 				break;
 		}
 
-		$this->session->$session = ($nomor != TOTAL) ? $nomor : '';
+		$this->session->$session = ($nomor != TOTAL) ? $nomor : NULL;
 
 		$judul = $this->rtm_model->get_judul_statistik($tipe, $nomor, $sex);
 		
