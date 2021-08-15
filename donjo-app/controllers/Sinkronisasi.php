@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  *  File ini:
  *
- * Controller untuk modul Laporan APBDes
+ * Controller untuk modul Sinkronasi
  *
- * donjo-app/controllers/laporan_apbdes.php
+ * donjo-app/controllers/sinkronasi.php
  *
  */
 
@@ -71,10 +71,12 @@ class Sinkronisasi extends Admin_Controller {
 
 	public function sterilkan()
 	{
-		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
-			if (file_exists($file)) {
-					unlink($file);
-					break;
+		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file)
+		{
+			if (file_exists($file))
+			{
+				unlink($file);
+				break;
 			}
 		}
 	}
@@ -83,15 +85,12 @@ class Sinkronisasi extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u');
 
-		
-
 		switch ($modul)
 		{
 			case 'penduduk':
 				// Data Penduduk
 				$this->sinkronisasi_data_penduduk();
 				break;
-			
 			default:
 				// Data Lainnya
 				break;
@@ -102,13 +101,13 @@ class Sinkronisasi extends Admin_Controller {
 
 	public function unduh($modul)
 	{
-		switch ($modul) {
+		switch ($modul)
+		{
 			case 'penduduk':
 				// Data Penduduk
 				$filename = $this->data_penduduk();
 				ambilBerkas($filename, null, null, LOKASI_DOKUMEN);
 				break;
-			
 			default:
 				// Data Lainnya
 				break;
@@ -179,7 +178,8 @@ class Sinkronisasi extends Admin_Controller {
 		$writer->addRow($header);
 
 		$get = $this->export_model->tambah_penduduk_sinkronasi_opendk();
-		foreach ($get as $row) {
+		foreach ($get as $row)
+		{
 			$penduduk = array(
 				$row->alamat,
 				$row->dusun,
@@ -226,8 +226,9 @@ class Sinkronisasi extends Admin_Controller {
 			);
 
 			$file_foto = LOKASI_USER_PICT . $row->foto;
-			if (is_file($file_foto)) {
-					$this->zip->read_file($file_foto);
+			if (is_file($file_foto))
+			{
+				$this->zip->read_file($file_foto);
 			}
 
 			$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
