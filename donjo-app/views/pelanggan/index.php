@@ -11,7 +11,7 @@
 			<div class="box box-danger">
 				<div class="box-header with-border">
 					<i class="icon fa fa-ban"></i>
-					<h3 class="box-title"><?= "{$this->session->error_status_langganan}"?></h3>
+					<h3 class="box-title"><?= "{$this->session->error_status_langganan}" ?></h3>
 				</div>
 				<div class="box-body">
 					<div class="callout callout-danger">
@@ -114,7 +114,7 @@
 							</tbody>
 						</table>
 					</div>
-					<hr/>
+					<hr />
 					<div class="row">
 						<div class="col-sm-12">
 							<h5 class="text-bold">Rincian Pemesanan</h5>
@@ -128,6 +128,7 @@
 											<th>Tanggal Mulai</th>
 											<th>Tanggal Berakhir</th>
 											<th>Status Pemesanan</th>
+											<th>Status Pembayaran</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -139,13 +140,13 @@
 														$host = $this->setting->layanan_opendesa_server;
 														$token = $this->setting->layanan_opendesa_token;
 													?>
-													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}"?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
+													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
 													<a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
 												</td>
 												<td>
 													<?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
 														<li>
-															<a href="#"  data-parent="#layanan" data-target="<?= "#" . url_title($layanan->nama, 'dash', true) ?>" data-toggle="collapse"><?= $layanan->nama; ?></a>
+															<a href="#" data-parent="#layanan" data-target="<?= "#" . url_title($layanan->nama, 'dash', true) ?>" data-toggle="collapse"><?= $layanan->nama; ?></a>
 														</li>
 													<?php endforeach; ?>
 												</td>
@@ -153,6 +154,9 @@
 												<td class="padat"><?= tgl_indo($pemesanan->tgl_akhir); ?></td>
 												<td class="padat">
 													<span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
+												</td>
+												<td class="padat">
+													<span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
 												</td>
 												<div class="modal fade" id="<?= $pemesanan->id ?>" style="display: none;">
 													<div class="modal-dialog">
@@ -184,24 +188,23 @@
 			</div>
 
 			<div id="layanan">
-					<?php foreach ($response->body->pemesanan as $num1 => $pemesanan) : ?>
-						<?php foreach ($pemesanan->layanan as $num2 => $layanan) : ?>
-							<div id="<?= url_title($layanan->nama, 'dash', true) ?>" class="collapse">
-								<div class="box box-success">
-									<div class="box-header with-border">
-										<div class="text-center"><b>Ketentuan <?= $layanan->nama ?> ( <?= rupiah($layanan->harga) ?> )</b></div>
-										<div class="box-tools pull-right">
-											<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-										</div>
+				<?php foreach ($response->body->pemesanan as $num1 => $pemesanan) : ?>
+					<?php foreach ($pemesanan->layanan as $num2 => $layanan) : ?>
+						<div id="<?= url_title($layanan->nama, 'dash', true) ?>" class="collapse">
+							<div class="box box-success">
+								<div class="box-header with-border">
+									<div class="text-center"><b>Ketentuan <?= $layanan->nama ?> ( <?= rupiah($layanan->harga) ?> )</b></div>
+									<div class="box-tools pull-right">
+										<button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
 									</div>
-										<div class="box-body">
-											<?= $layanan->kentuan ?? "Belum tersedia"; ?>
-										</div>
 								</div>
-							</div>					
-						<?php endforeach ?>
+								<div class="box-body">
+									<?= $layanan->ketentuan ?? "Belum tersedia"; ?>
+								</div>
+							</div>
+						</div>
 					<?php endforeach ?>
-				</div>
+				<?php endforeach ?>
 			</div>
 		<?php endif ?>
 	</section>
