@@ -5,3 +5,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 Lengkapnya, isi rilis versi 21.01-premium adalah sebagai berikut:
 1. [#4357](https://github.com/OpenSID/OpenSID/issues/4357) Perbaiki pengaturan khusus untuk modul pelanggan.[bug-fix]
 2. [#4348](https://github.com/OpenSID/OpenSID/issues/4348) Perbaiki akses cetak kk untuk penduduk lepas di layanan mandiri.[bug-fix]
+3. [#4373](https://github.com/OpenSID/OpenSID/issues/4373) Perbaiki permohonan surat layanan mandiri yg error 403.[bug-fix]
+4. [#4339](https://github.com/OpenSID/OpenSID/issues/4339) Tampilkan ketentuan layanan di Info Desa > Layanan Pelanggan.
