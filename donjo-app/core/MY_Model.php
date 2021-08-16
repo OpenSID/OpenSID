@@ -116,7 +116,7 @@ class MY_Model extends CI_Model {
 				->select($kolom)
 				->from($tabel)
 				->group_by($kolom)
-				->having("COUNT($kolom) > 1")
+				->having("COUNT(`$kolom`) > 1")
 				->get()->num_rows();
 			if ($duplikat > 0)
 			{
