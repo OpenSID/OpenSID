@@ -21,5 +21,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 11. [#4327](https://github.com/OpenSID/OpenSID/issues/4327) Perbaiki format Data Penduduk .xls Sinkronisasi Dari OpenSID ke OpenDK tidak sesuai.
 12. Perbaiki migrasi gagal pada penambahan indeks dengan nama kolom tertentu.
 
+
 #### Perubahan Teknis
-1. [untuk diisi]
+1. Perbaiki migrasi gagal pada penambahan indeks dengan nama kolom tertentu.
