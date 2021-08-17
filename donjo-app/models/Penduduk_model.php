@@ -61,7 +61,6 @@ class Penduduk_model extends MY_Model {
 		$this->penolong_kelahiran = array_flip(unserialize(PENOLONG_KELAHIRAN));
 	}
 
-
 	public function autocomplete($cari='')
 	{
 		return $this->autocomplete_str('nama', 'tweb_penduduk', $cari);
@@ -141,8 +140,6 @@ class Penduduk_model extends MY_Model {
 				$this->db->where_in($kolom, $kf);
 			else
 				$this->db->where($kolom, $kf);
-
-			return $sql;
 		}
 	}
 
@@ -387,10 +384,6 @@ class Penduduk_model extends MY_Model {
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
 		$this->db->distinct();
-		if ($this->session->penerima_bantuan)
-		{
-			$this->db->select('rcb.id as penerima_bantuan');
-		}
 		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa,
 			(CASE
 				when u.status_kawin IS NULL then ''
@@ -1439,5 +1432,4 @@ class Penduduk_model extends MY_Model {
 				get('tweb_penduduk')->row()->jml;
 		return $jml;
 	}
-
 }
