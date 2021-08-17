@@ -20,7 +20,7 @@
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover" >
 								<tbody>
-									<form id="main" name="main" action="" method="post">
+									<form id="main" name="main"method="post">
 										<tr>
 											<td style="padding-top : 10px;padding-bottom : 10px;width:15%;" >Nama Penduduk </td>
 											<td>
@@ -62,7 +62,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+									<form id="mainform" name="mainform" method="post">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">

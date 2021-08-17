@@ -12,6 +12,7 @@
 		<title>Data Subjek Analisis</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
+		<!-- TODO: Pindahkan ke external css -->
 		<style>
 			td
 			{

@@ -78,12 +78,12 @@ class Dpt extends Admin_Controller {
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
@@ -105,12 +105,11 @@ class Dpt extends Admin_Controller {
 		$data['per_page'] = $this->session->per_page;
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		$data['keyword'] = $this->dpt_model->autocomplete();
 		$data['paging'] = $this->dpt_model->paging($p, $o);
 		$data['main'] = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->dpt_model->autocomplete();
 
 		$this->set_minsidebar(1);
-
 		$this->render('dpt/dpt', $data);
 	}
 
@@ -212,4 +211,5 @@ class Dpt extends Admin_Controller {
 		$data['form_action_privasi'] = site_url("dpt/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
+
 }

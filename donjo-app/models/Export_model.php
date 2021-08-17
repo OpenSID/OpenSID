@@ -169,7 +169,7 @@
 		// dihasilkan oleh dbutil->backup untuk view karena bermasalah
 		// pada waktu import dgn restore ataupun phpmyadmin
 		$backup = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /", "", $backup);
-		$backup = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;|cp850_general_ci;/", "", $backup);
+		$backup = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $backup);
 
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
 		$save = base_url().$db_name;
@@ -307,9 +307,10 @@
 
 		$data_hapus = $this->db->select([
 		  "CONCAT('{$kode_desa}') as desa_id",
-			'p.id as id_pend_desa',
+			'p.id_pend as id_pend_desa',
+			'p.foto',
 		])
-		->from('tweb_penduduk p')
+		->from('log_hapus_penduduk p')
 		->get()
 		->result_array();
 

@@ -27,7 +27,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+									<form id="mainform" name="mainform" method="post">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
@@ -48,9 +48,11 @@
 														<tbody>
 															<?php foreach ($main as $indeks => $data): ?>
 																<tr>
-																	<td><?= $indeks + 1 ?></td>
+																	<td><?= $data['no'] ?></td>
 																	<td nowrap>
 																		<?php if ($data['rt']!="-"): ?>
+																			<a href="<?= site_url("sid_core/urut/rt/$paging->page/$data[id]/1/$id_dusun/$id_rw"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) and print('disabled'); ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																			<a href="<?= site_url("sid_core/urut/rt/$paging->page/$data[id]/2/$id_dusun/$id_rw"); ?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 AND $paging->page == $paging->start_link) and print('disabled'); ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																			<a href="<?= site_url("sid_core/form_rt/$id_dusun/$id_rw/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
 																			<a href="#" data-href="<?= site_url("sid_core/delete/rt/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
@@ -92,6 +94,7 @@
 											</div>
 										</div>
 									</form>
+									<?php $this->load->view('global/paging');?>
 								</div>
 							</div>
 						</div>

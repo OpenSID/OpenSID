@@ -32,7 +32,7 @@ $(document).ready(function()
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
         <?php if (in_array($kat, array('2', '3'))): ?>
 					<?php $this->load->view('dokumen/menu_dokumen'); ?>
@@ -64,7 +64,7 @@ $(document).ready(function()
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" action="" method="post">
+										<form id="mainform" name="mainform" method="post">
 											<input name="kategori" type="hidden" value="<?= $kat?>">
 											<div class="row">
 												<div class="col-sm-6">

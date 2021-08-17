@@ -43,6 +43,14 @@
  */
 ?>
 
+<style type="text/css">
+	<?php if ($latar_login): ?>
+		body.login {
+			background: url('<?= base_url($latar_login) ?>');
+		}
+	<?php endif; ?>
+</style>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -59,8 +67,8 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
-		<?php if (is_file("desa/css/siteman.css")): ?>
-			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
+		<?php if (is_file("desa/pengaturan/siteman/siteman.css")): ?>
+			<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
 		<?php if (is_file(LOKASI_LOGO_DESA ."favicon.ico")): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />

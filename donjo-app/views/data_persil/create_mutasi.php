@@ -76,7 +76,7 @@
 									</div>
 									<div id="persil" class="panel-collapse">
 										<div class="box-body">
-											<form action="" id="main" name="main" method="POST" class="form-horizontal">
+											<form id="main" name="main" method="POST" class="form-horizontal">
 												<div class="form-group" >
 									  			<label class="col-sm-3 control-label" for="id_pend">Nomor Persil</label>
 													<div class="col-sm-8">

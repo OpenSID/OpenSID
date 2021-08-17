@@ -116,13 +116,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama_kepala_desa">Kepala <?= $desa; ?></label>
+								<label class="col-sm-3 control-label" for="nama_kepala_desa"><?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></label>
 								<div class="col-sm-8">
 									<input id="nama_kepala_desa" name="nama_kepala_desa" class="form-control input-sm nama required" maxlength="50" type="text" placeholder="Kepala <?= $desa; ?>" value="<?= $main["nama_kepala_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP Kepala <?=$desa; ?></label>
+								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP <?= $this->setting->sebutan_kepala_desa; ?> <?=$desa; ?></label>
 								<div class="col-sm-8">
 									<input id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP Kepala <?= $desa; ?>" value="<?= $main["nip_kepala_desa"]; ?>"></input>
 								</div>
@@ -210,6 +210,7 @@
 		</div>
 	</section>
 </div>
+
 <script>
 	$(document).ready(function() {
 		var tracker_host = '<?= $this->setting->tracker ?>';
@@ -217,19 +218,19 @@
 		// Ambil Nama dan Kode Wilayah dari API Server
 		$('[name="pilih_desa"]').change(function() {
 			$.ajax({
-				type: 'GET',
-				url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
-				dataType: 'json',
-				success: function(data) {
-					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
-					$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
-					$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
-					$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
-					$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
-					$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
-					$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
-					$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
-				}
+					type: 'GET',
+					url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
+					dataType: 'json',
+					success: function(data) {
+						$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
+						$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
+						$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
+						$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
+						$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
+						$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
+						$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
+						$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+					}
 			});
 		});
 

@@ -70,7 +70,6 @@ class First extends Web_Controller {
 		}
 
 		$this->load->model('config_model');
-		$this->load->model('first_m');
 		$this->load->model('first_artikel_m');
 		$this->load->model('teks_berjalan_model');
 		$this->load->model('first_gallery_m');
@@ -98,7 +97,10 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('theme_model');
 		$this->load->model('anjungan_model');
+		$this->load->model('pembangunan_model');
+		$this->load->model('pembangunan_dokumentasi_model');
 	}
 
 	public function index($p=1)
@@ -388,6 +390,7 @@ class First extends Web_Controller {
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading'] = "Produk Hukum";
+		$data['title'] = $data['heading'];
 		$data['halaman_statis'] = 'web/halaman_statis/peraturan_desa';
 		$this->_get_common_data($data);
 
@@ -481,10 +484,9 @@ class First extends Web_Controller {
 
 	public function add_comment($id=0, $slug = NULL)
 	{
-		$data = $this->db
-			->select("*, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug")
-			->get_where("artikel a",["id" => $id ])
-			->row_array();
+		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug FROM artikel a WHERE id=$id ";
+		$query = $this->db->query($sql,1);
+		$data = $query->row_array();
 		// Periksa isian captcha
 		include FCPATH . 'securimage/securimage.php';
 		$securimage = new Securimage();
@@ -521,6 +523,7 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
+		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
@@ -559,19 +562,19 @@ class First extends Web_Controller {
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$data['wilayah'] = $this->penduduk_model->list_wil();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		$data['wilayah'] = $this->wilayah_model->list_wil();
 		$data['desa'] = $this->config_model->get_data();
 		$data['title'] = 'Peta ' . ucwords($this->setting->sebutan_desa . ' ' . $data['desa']['nama_desa']);
-		$data['penduduk'] = $this->penduduk_model->list_data_map();
-		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['dusun_gis'] = $data['list_dusun'];
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['list_ref'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$data['covid'] = $this->laporan_penduduk_model->list_data('covid');
 		$data['lokasi'] = $this->plan_lokasi_model->list_lokasi();
 		$data['garis'] = $this->plan_garis_model->list_garis();
 		$data['area'] = $this->plan_area_model->list_area();
+		$data['lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
 
 		$data['halaman_peta'] = 'web/halaman_statis/peta';
 		$this->_get_common_data($data);
@@ -635,7 +638,7 @@ class First extends Web_Controller {
 		$kode_desa = $data['desa']['kode_desa'];
 		if ($this->data_publik->has_internet_connection())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2021", "idm_2021_$kode_desa")
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2020", "idm_$kode_desa")
 				->set_interval(7)
 				->set_cache_folder(FCPATH.'desa');
 
@@ -652,5 +655,17 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
+	}
+
+	public function info_pembangunan($id = 0)
+	{
+		$pembangunan = $this->pembangunan_model->find($id);
+		$dokumentasi = $this->pembangunan_dokumentasi_model->find_dokumentasi($pembangunan->id);
+
+		$data['pembangunan']    = $pembangunan;
+		$data['dokumentasi']    = $dokumentasi;
+		$data['config'] = $this->config_model->get_data();
+
+		$this->load->view('pembangunan/informasi', $data);
 	}
 }

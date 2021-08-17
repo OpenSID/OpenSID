@@ -43,6 +43,7 @@
  */
 ?>
 
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	.bs-glyphicons
 	{

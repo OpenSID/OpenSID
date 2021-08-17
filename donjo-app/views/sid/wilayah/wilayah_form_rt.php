@@ -16,7 +16,7 @@
 					<div class="box-header with-border">
 						<a href="<?= site_url("sid_core/sub_rt/$id_dusun/$id_rw")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RT">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RT
-           	</a>
+						</a>
 					</div>
 					<div class="box-body">
 						<div class="row">

@@ -53,12 +53,12 @@ class Penduduk extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'config_model', 'program_bantuan_model', 'lapor_model']);
+		$this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'referensi_model', 'web_dokumen_model', 'program_bantuan_model', 'lapor_model']);
 
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 	}
 
 	private function clear_session()
@@ -90,12 +90,12 @@ class Penduduk extends Admin_Controller {
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
@@ -116,13 +116,20 @@ class Penduduk extends Admin_Controller {
 		$data['set_page'] = $this->_set_page;
 		$data['paging'] = $this->penduduk_model->paging($p, $o);
 		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 
 		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/penduduk', $data);
+	}
+
+	public function form_peristiwa($peristiwa='')
+	{
+		// Acuan jenis peristiwa berada pada ref_peristiwa
+		$this->session->jenis_peristiwa = $peristiwa;
+		$this->form();
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -159,6 +166,7 @@ class Penduduk extends Admin_Controller {
 				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
+			$data['form_action_maps'] = site_url("penduduk/update/1/$o/$id");
 		}
 		else
 		{
@@ -191,6 +199,7 @@ class Penduduk extends Admin_Controller {
 		$data['hubungan'] = $this->penduduk_model->list_hubungan();
 		$data['kawin'] = $this->penduduk_model->list_status_kawin();
 		$data['golongan_darah'] = $this->penduduk_model->list_golongan_darah();
+		$data['bahasa'] = $this->referensi_model->list_data('ref_penduduk_bahasa');
 		$data['cacat'] = $this->penduduk_model->list_cacat();
 		$data['sakit_menahun'] = $this->referensi_model->list_data('tweb_sakit_menahun');
 		$data['cara_kb'] = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
@@ -201,8 +210,13 @@ class Penduduk extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
-		unset($_SESSION['dari_internal']);
+		if ($this->session->status_hanya_tetap)
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap);
+		else
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
+		
+		$this->session->unset_userdata(['dari_internal']);
 
 		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/penduduk_form', $data);
@@ -215,7 +229,6 @@ class Penduduk extends Admin_Controller {
 		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(1, $data['penduduk']['nik']);
-
 		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/penduduk_detail', $data);
 	}
@@ -392,8 +405,8 @@ class Penduduk extends Admin_Controller {
 
 	public function adv_search_proses()
 	{
+		$this->clear_session();
 		$adv_search = $this->validasi_pencarian($this->input->post());
-		$this->session->filter = $adv_search['status_penduduk'];
 
 		$i = 0;
 		while ($i++ < count($adv_search))
@@ -428,13 +441,15 @@ class Penduduk extends Admin_Controller {
 		$data['pendidikan_sedang_id'] = $post['pendidikan_sedang_id'];
 		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
 		$data['status_penduduk'] = $post['status_penduduk'];
+		$data['filter'] = $post['status_penduduk'];
+
 		return $data;
 	}
 
 	public function ajax_penduduk_pindah_rw($dusun = '')
 	{
 		$dusun = urldecode($dusun);
-		$rw = $this->penduduk_model->list_rw($dusun);
+		$rw = $this->wilayah_model->list_rw($dusun);
 		echo"<div class='form-group'><label>RW</label>
 		<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
 		<option value=''>Pilih RW</option>";
@@ -447,7 +462,7 @@ class Penduduk extends Admin_Controller {
 	public function ajax_penduduk_pindah_rt($dusun = '', $rw = '')
 	{
 		$dusun = urldecode($dusun);
-		$rt = $this->penduduk_model->list_rt($dusun, $rw);
+		$rt = $this->wilayah_model->list_rt($dusun, $rw);
 		echo"<div class='form-group'><label>RT</label>
 		<select class='form-control input-sm' name='id_cluster'>
 		<option value=''>Pilih RT</option>";
@@ -459,7 +474,7 @@ class Penduduk extends Admin_Controller {
 
 	public function ajax_penduduk_cari_rw($dusun = '')
 	{
-		$rw = $this->penduduk_model->list_rw($dusun);
+		$rw = $this->wilayah_model->list_rw($dusun);
 
 		echo"<td>RW</td>
 		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
@@ -472,20 +487,36 @@ class Penduduk extends Admin_Controller {
 		</td>";
 	}
 
+	public function penduduk_maps($p = 1, $o = 0, $id = NULL)
+	{
+		if ($id == NULL)
+		{
+			$id = $this->penduduk_model->insert();
+
+			if ($this->session->success == -1)
+			{
+				$this->session->dari_internal = true;
+				redirect("penduduk/form");
+			}
+		}
+
+		redirect("penduduk/ajax_penduduk_maps/$p/$o/$id/1");
+	}
+
 	public function ajax_penduduk_maps($p = 1, $o = 0, $id = '', $edit = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['id'] = $id;
-		$data['edit'] = $edit;
+		$data['edit'] =  $edit;
 
 		$data['penduduk'] = $this->penduduk_model->get_penduduk_map($id);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
-		$data['wil_atas'] = $this->config_model->get_data();
+		$data['wil_atas'] = $this->header['desa'];
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['form_action'] = site_url("penduduk/update_maps/$p/$o/$id/$edit");
 
 		$this->render("sid/kependudukan/ajax_penduduk_maps", $data);
@@ -505,7 +536,7 @@ class Penduduk extends Admin_Controller {
 		$data['nik'] = $this->penduduk_model->get_penduduk($id);
 		$data['form_action'] = site_url("penduduk/update_status_dasar/$p/$o/$id");
 		$data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
-		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', '9'); //Kecuali status dasar 'TIDAK VALID'
+		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', '9, 1'); //Kecuali status dasar 'TIDAK VALID', 'HIDUP'
 		$this->load->view('sid/kependudukan/ajax_edit_status_dasar', $data);
 	}
 
@@ -750,4 +781,27 @@ class Penduduk extends Admin_Controller {
 
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
+
+	public function program_bantuan()
+	{
+		// TODO : Ubah cara ini untuk menampilkan data
+		$this->session->sasaran = 1; // sasaran penduduk
+		$this->session->per_page = 100000; // tampilkan semua program bantuan
+		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
+
+		$data = [
+			'form_action' => site_url("penduduk/program_bantuan_proses"),
+			'program_bantuan' => $list_bantuan['program'],
+			'id_program' => $this->session->penerima_bantuan
+		];
+
+		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);
+	}
+
+	public function program_bantuan_proses()
+	{
+		$id_program = $this->input->post('program_bantuan');
+		$this->statistik('bantuan_penduduk', $id_program, '0');
+	}
+
 }

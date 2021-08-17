@@ -64,6 +64,8 @@ class Import_model extends CI_Model {
 		$this->kode_status_rekam = array_change_key_case(unserialize(STATUS_REKAM));
 		$this->kode_status_dasar = array_change_key_case(unserialize(STATUS_DASAR));
 		$this->kode_cacat = array_change_key_case(unserialize(KODE_CACAT));
+		// Load model
+		$this->load->model('penduduk_model');
 	}
 
 /* 	========================================================
@@ -384,10 +386,19 @@ class Import_model extends CI_Model {
 			else
 			{
 				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->session->user;
 				if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 				$id = $this->db->insert_id();
 				$penduduk_baru = $id;
+				
+				// Insert ke log_penduduk pada penduduk baru
+				$log['tgl_peristiwa'] = $data['created_at'];
+				$log['kode_peristiwa'] = 5;
+				$log['tgl_lapor'] = $data['created_at'];
+				$log['id_pend'] = $penduduk_baru;
+				$log['created_by'] = $data['created_by'];
+				$this->penduduk_model->tulis_log_penduduk_data($log);
 			}
 		}
 		else

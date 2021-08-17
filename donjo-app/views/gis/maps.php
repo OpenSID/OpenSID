@@ -148,8 +148,8 @@
       }
     });
 
-    // Menampilkan OverLayer Area, Garis, Lokasi
-    layerCustom = tampilkan_layer_area_garis_lokasi(mymap, '<?=addslashes(json_encode($area))?>', '<?=addslashes(json_encode($garis))?>', '<?=addslashes(json_encode($lokasi))?>', '<?= base_url().LOKASI_SIMBOL_LOKASI?>', '<?= base_url().LOKASI_FOTO_AREA?>', '<?= base_url().LOKASI_FOTO_GARIS?>', '<?= base_url().LOKASI_FOTO_LOKASI?>');
+    // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
+		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, '<?= addslashes(json_encode($area)) ?>', '<?= addslashes(json_encode($garis)) ?>', '<?= addslashes(json_encode($lokasi)) ?>', '<?= addslashes(json_encode($lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url("pembangunan/info_pembangunan/")?>');
 
 		//PENDUDUK
 		<?php if ($layer_penduduk==1 OR $layer_keluarga==1 AND !empty($penduduk)): ?>
@@ -238,15 +238,27 @@
 
 })();
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	#map
 	{
 		width:100%;
 		height:85vh
 	}
+  .leaflet-popup-content {
+    height: auto;
+    overflow-y: auto;
+  }
+  table {
+    table-layout: fixed;
+    white-space: normal!important;
+  }
+  td {
+    word-wrap: break-word;
+  }
 </style>
 <div class="content-wrapper">
-	<form id="mainform_map" name="mainform_map" action="" method="post">
+	<form id="mainform_map" name="mainform_map"method="post">
 		<div class="row">
 			<div class="col-md-12">
 				<div id="map">

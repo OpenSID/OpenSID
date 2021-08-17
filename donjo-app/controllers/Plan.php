@@ -53,6 +53,8 @@ class Plan extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('pembangunan_model');
+		$this->load->model('pembangunan_dokumentasi_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
 	}
@@ -98,8 +100,9 @@ class Plan extends Admin_Controller {
 		$data['keyword'] = $this->plan_lokasi_model->autocomplete();
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-		$this->set_minsidebar(1);
 		$data['tip'] = 3;
+
+		$this->set_minsidebar(1);
 		$this->render('lokasi/table', $data);
 	}
 
@@ -107,10 +110,6 @@ class Plan extends Admin_Controller {
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-
-		$data['desa'] = $this->config_model->get_data();;
-		$data['list_point'] = $this->plan_lokasi_model->list_point();
-		$data['dusun'] = $this->plan_lokasi_model->list_dusun();
 
 		if ($id)
 		{
@@ -123,7 +122,9 @@ class Plan extends Admin_Controller {
 			$data['form_action'] = site_url("plan/insert");
 		}
 
+		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['tip'] = 3;
+
 		$this->set_minsidebar(1);
 		$this->render('lokasi/form', $data);
 	}
@@ -142,13 +143,14 @@ class Plan extends Admin_Controller {
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['all_lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['all_garis'] = $this->plan_garis_model->list_data();
 		$data['all_area'] = $this->plan_area_model->list_data();
+		$data['all_lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
-		
+
 		$this->render("lokasi/maps", $data);
 	}
 

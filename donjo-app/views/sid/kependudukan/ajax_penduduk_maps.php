@@ -61,6 +61,7 @@ window.onload = function()
 
 }; //EOF window.onload
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	#mapx
 	{

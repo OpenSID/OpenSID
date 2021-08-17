@@ -55,6 +55,8 @@ class Gis extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('pembangunan_model');
+		$this->load->model('pembangunan_dokumentasi_model');
 
 		$this->load->model('wilayah_model');
 		$this->load->model('referensi_model');
@@ -105,11 +107,11 @@ class Gis extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'],$data['rw']);
+				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'],$data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -130,17 +132,18 @@ class Gis extends Admin_Controller {
 
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
 		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
-		$data['wilayah'] = $this->penduduk_model->list_wil();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		$data['wilayah'] = $this->wilayah_model->list_wil();
 		$data['desa'] = $this->config_model->get_data();
 		$data['lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['garis'] = $this->plan_garis_model->list_data();
 		$data['area'] = $this->plan_area_model->list_data();
+		$data['lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
 		$data['penduduk'] = $this->penduduk_model->list_data_map();
 		$data['keyword'] = $this->penduduk_model->autocomplete();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['list_ref'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
 		$this->set_minsidebar(1);
 		$this->render('gis/maps', $data);
