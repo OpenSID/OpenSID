@@ -31,6 +31,7 @@
 		})
 	});
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	#cd_item div
 	{

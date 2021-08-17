@@ -156,7 +156,7 @@ class Mandiri_model extends CI_Model {
 		$pin = bilangan($post['pin'] ?: $this->generate_pin($post['pin']));
 
 		$data['pin'] = hash_pin($pin); // Hash PIN
-		$data['tanggal_buat'] = date("Y-m-d H:i:s");
+		$data['ganti_pin'] = 1;
 		$outp = $this->db->where('id_pend', $id_pend)->update('tweb_penduduk_mandiri', $data);
 
 		status_sukses($data); //Tampilkan Pesan
@@ -301,110 +301,104 @@ class Mandiri_model extends CI_Model {
 
 	public function siteman()
 	{
-		$_SESSION['mandiri'] = -1;
-		$nik = $this->input->post('nik');
-		$pin = $this->input->post('pin');
-		$hash_pin = hash_pin($pin);
+		$masuk = $this->input->post();
+		$nik = bilangan(bilangan($masuk['nik']));
+		$pin = hash_pin(bilangan($masuk['pin']));
 
-		$row = $this->db->select('pin, last_login')
+		$data = $this->db
+			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level, p.id_kk, k.no_kk')
+			->from('tweb_penduduk_mandiri pm')
+			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
 			->where('p.nik', $nik)
-			->from('tweb_penduduk_mandiri m')
-			->join('tweb_penduduk p', 'm.id_pend = p.id', 'left')
 			->get()
 			->row();
-		$lg = $row->last_login;
 
-		if ($hash_pin == $row->pin)
+		switch (true)
 		{
-			$sql = "SELECT nama,nik,p.id,k.no_kk
-			FROM tweb_penduduk p
-			LEFT JOIN tweb_keluarga k ON p.id_kk = k.id
-			WHERE nik = ?";
-			$query = $this->db->query($sql, array($nik));
-			$row = $query->row();
-			// Kosong jika NIK penduduk ybs telah berubah
-			if (!empty($row))
-			{
-				// Kalau pertama kali login, pengguna perlu mengganti PIN ($_SESSION['lg'] == 1)
-				$this->session->lg = ($lg == NULL OR $lg == "0000-00-00 00:00:00") ? 1 : 2;
+			case ($data && $pin == $data->pin):
+				$session = [
+					'mandiri' => 1,
+					'is_login' => $data
+				];
+				$this->session->set_userdata($session);
+				break;
 
-				$_SESSION['nama'] = $row->nama;
-				$_SESSION['nik'] = $row->nik;
-				$_SESSION['id'] = $row->id;
-				$_SESSION['no_kk'] = $row->no_kk;
-				$_SESSION['mandiri'] = 1;
-			}
-			return;
-		}
-		if ($_SESSION['mandiri_try'] > 2)
-		{
-			$_SESSION['mandiri_try'] = $_SESSION['mandiri_try'] - 1;
-		}
-		else
-		{
-			$_SESSION['mandiri_wait'] = 1;
+			case ($this->session->mandiri_try > 2):
+				$this->session->mandiri_try = $this->session->mandiri_try - 1;
+				break;
+
+			default:
+				$this->session->mandiri_wait = 1;
+				break;
 		}
 	}
 
 	public function logout()
 	{
-		if (isset($_SESSION['nik']))
-		{
-			$nik = $_SESSION['nik'];
-			$sql = "UPDATE tweb_penduduk_mandiri SET last_login = NOW()
-			WHERE id_pend = (SELECT id FROM tweb_penduduk WHERE strcmp(nik, ?) = 0)";
-			$this->db->query($sql, $nik);
-		}
-		unset($_SESSION['mandiri']);
-		unset($_SESSION['id']);
-		unset($_SESSION['nik']);
-		unset($_SESSION['nama']);
+		$data = [
+			'id_pend' => $this->is_login->id_pend,
+			'last_login' => date('Y-m-d H:i:s', NOW())
+		];
+
+		if (isset($data['id_pend'])) $this->update_login($data);
+
+		$this->session->unset_userdata(['mandiri', 'is_login']);
 	}
 
-	public function update_pin($nik = 0)
+	public function update_login(array $data = [])
 	{
-		$this->session->success = 1;
-		$this->session->error_msg = '';
+		$this->db->where('id_pend', $data['id_pend'])->update('tweb_penduduk_mandiri', $data);
+	}
 
-		$nik = $this->session->nik;
-		$pin_lama = hash_pin($this->input->post('pin_lama'));
-		$pin1 = hash_pin($this->input->post('pin1'));
-		$pin2 = hash_pin($this->input->post('pin2'));
+	public function ganti_pin()
+	{
+		$id_pend = $this->is_login->id_pend;
+		$ganti = $this->input->post();
+		$pin_lama = hash_pin(bilangan($ganti['pin_lama']));
+		$pin_baru1 = hash_pin(bilangan($ganti['pin_baru1']));
+		$pin_baru2 = hash_pin(bilangan($ganti['pin_baru2']));
 
 		// Ganti password
-		if ($pin_lama != ''	|| $pin1 != '' || $pin2 != '')
-		{
-			$row = $this->db->select('pin, last_login')
-				->where('p.nik', $nik)
-				->from('tweb_penduduk_mandiri m')
-				->join('tweb_penduduk p', 'm.id_pend = p.id', 'left')
-				->get()->row();
+		$pin = $this->db
+			->select('pin')
+			->where('id_pend', $id_pend)
+			->get('tweb_penduduk_mandiri')
+			->row()
+			->pin;
 
-			if ($pin_lama != $row->pin)
-			{
-				$this->session->error_msg .= 'PIN lama salah<br />';
-			}
-			if (empty($pin1))
-			{
-				$this->session->error_msg .= 'PIN baru tidak boleh kosong<br />';
-			}
-			if ($pin1 != $pin2)
-			{
-				$this->session->error_msg .= 'Ulang PIN baru tidak cocok<br />';
-			}
-			if ( ! empty($this->session->error_msg))
-			{
-				$this->session->success = -1;
-			}
-			else
-			{
-				$hash_pin = $pin1;
-				$data['pin'] = $hash_pin;
-				$this->db->where("id_pend = (SELECT id FROM tweb_penduduk WHERE strcmp(nik, {$_SESSION['nik']}) = 0)");
-				$outp = $this->db->update('tweb_penduduk_mandiri', $data);
-				$this->session->lg = 2;
-			}
+		switch (true)
+		{
+			case ($pin_lama != $pin):
+				$respon = [
+					'status' => -1, // Notif gagal
+					'pesan' => 'PIN gagal diganti, <b>PIN Lama</b> yang anda masukkan tidak sesuai'
+				];
+				break;
+
+			case ($pin_baru2 == $pin):
+				$respon = [
+					'status' => -1, // Notif gagal
+					'pesan' => '<b>PIN</b> gagal diganti, Silahkan ganti <b>PIN Lama</b> anda dengan <b>PIN Baru</b> '
+				];
+				break;
+
+			default:
+				$data = [
+					'id_pend' => $id_pend,
+					'pin' => $pin_baru2,
+					'last_login' => date('Y-m-d H:i:s', NOW()),
+					'ganti_pin' => 0
+				];
+				$this->update_login($data);
+				$respon = [
+					'status' => 1, // Notif berhasil
+					'aksi' => site_url('layanan-mandiri/keluar'),
+					'pesan' => 'PIN berhasil diganti, silahkan masuk kembali'
+				];
+				break;
 		}
+		$this->session->set_flashdata('notif', $respon);
 	}
 
 }

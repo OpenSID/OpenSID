@@ -183,12 +183,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	});
 </script>
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	tr.lebih {
 		display: none;
 	}
-</style>
-<style>
+	
 	.input-sm {
 		padding: 4px 4px;
 	}

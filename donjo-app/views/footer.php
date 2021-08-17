@@ -49,14 +49,6 @@
 
 			$('document').ready(function()
 			{
-
-				setTimeout(function()
-				{
-					refresh_badge($("#b_permohonan_surat"), "<?= site_url('notif/permohonan_surat'); ?>");
-					refresh_badge($("#b_komentar"), "<?= site_url('notif/komentar'); ?>");
-					refresh_badge($("#b_inbox"), "<?= site_url('notif/inbox'); ?>");
-				}, 500);
-
 				if ($('#success-code').val() == 1)
 				{
 					notify = 'success';

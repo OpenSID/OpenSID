@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
@@ -69,7 +71,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="box-header with-border">
 							<div class="row">
 								<div class="col-sm-12">
@@ -87,14 +89,26 @@
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-9">
-												<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('penduduk_log/filter/status_dasar')?>')">
-													<option value="">Status Dasar</option>
-													<?php foreach ($list_status_dasar as $data): ?>
+												<select class="form-control input-sm" name="kode_peristiwa" onchange="formAction('mainform', '<?=site_url('penduduk_log/filter/kode_peristiwa')?>')">
+													<option value="">Jenis Peristiwa</option>
+													<?php foreach ($list_jenis_peristiwa as $data): ?>
 														<?php if (strtolower($data['nama']) != 'hidup'): ?>
-															<option value="<?= $data['id']?>" <?php selected($status_dasar, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
+															<option value="<?= $data['id']?>" <?php selected($kode_peristiwa, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 														<?php endif; ?>
 													<?php endforeach; ?>
 												</select>
+                        <select class="form-control input-sm" name="tahun" onchange="formAction('mainform','<?= site_url('penduduk_log/tahun_bulan')?>')" width="100%">
+                          <option value="">Pilih tahun</option>
+                          <?php for ($t=$tahun_log_pertama; $t<=date("Y"); $t++): ?>
+                            <option value=<?= $t ?> <?php selected($tahun, $t); ?>><?= $t ?></option>
+                          <?php endfor; ?>
+                        </select>
+                        <select class="form-control input-sm" name="bulan" onchange="formAction('mainform','<?= site_url('penduduk_log/tahun_bulan')?>')" width="100%">
+                          <option value="">Pilih bulan</option>
+                          <?php foreach (bulan() as $no_bulan => $nama_bulan): ?>
+                            <option value=<?= $no_bulan ?> <?php selected($bulan, $no_bulan); ?>><?= $nama_bulan ?></option>
+                          <?php endforeach; ?>
+                        </select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/sex')?>')">
 													<option value="">Jenis Kelamin</option>
 													<?php foreach ($list_sex AS $data): ?>
@@ -188,20 +202,28 @@
 																<?php else: ?>
 																	<th><a href="<?= site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
-																<th>Tanggal Rekam</th>
+																<th>Tanggal Lapor</th>
 																<th>Catatan Peristiwa</th>
 															</tr>
 														</thead>
 														<tbody>
 															<?php foreach ($main as $data): ?>
+															<?php if ($data['created_at']): ?>
 																<tr>
 																	<td><?= $data['no']?></td>
 																	<td>
 																		<input type="checkbox" name="id_cb[]" value="<?= $data['id_log']?>" />
 																	</td>
 																	<td class="aksi">
-																		<a href="<?= site_url("penduduk_log/edit/$p/$o/$data[id_log]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i></a>
+																			<a href="<?= site_url("penduduk_log/edit/$p/$o/$data[id_log]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>
+																		<?php
+																			if ($data['kode_peristiwa'] != 5 && $data['kode_peristiwa'] != 1 && $data['kode_peristiwa'])
+																			{
+																		?>
+																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i></a>
+																		<?php
+																			}
+																		?>
 																	</td>
 																	<td nowrap>
 																		<div class="user-panel">
@@ -224,11 +246,38 @@
 																	<td><?= $data['rw']?></td>
 																	<td><?= $data['rt']?></td>
 																	<td><?= $data['umur_pada_peristiwa']?></td>
-																	<td><?= $data['status_dasar']?></td>
+																	<td><?= $data['nama_peristiwa']?></td>
 																	<td><?= tgl_indo($data['tgl_peristiwa'])?></td>
-																	<td><?= tgl_indo($data['tanggal'])?></td>
-																	<td><?= $data['catatan']?></td>
+																	<td><?= tgl_indo($data['tgl_lapor'])?></td>
+																	<td><?= $data['catatan']?></td></td>
 																</tr>
+															<?php else: ?>
+																<tr>
+																	<td><?= $data['no']?></td>
+																	<td>
+																		<input type="checkbox" name="id_cb[]" value="<?= $data['id_log']?>" />
+																	</td>
+																	<td class="aksi"></td>
+																	<td nowrap>
+																		<div class="user-panel">
+																			<div class="image2">
+																				<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																			</div>
+																		</div>
+																	</td>
+																	<td><?= $data['nik_hapus']?></td>
+																	<td>-</td>
+																	<td>-</td>
+																	<td>-</td>
+																	<td>-</td>
+																	<td>-</td>
+																	<td>-</td>
+																	<td>-</td>
+																	<td><?= tgl_indo($data['tgl_peristiwa'])?></td>
+																	<td><?= tgl_indo($data['tgl_lapor'])?></td>
+																	<td>Data telah dihapus.</td>
+																</tr>
+															<?php endif; ?>
 															<?php endforeach; ?>
 														</tbody>
 													</table>

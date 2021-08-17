@@ -50,6 +50,8 @@ class Wilayah_model extends MY_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		require_once APPPATH.'/models/Urut_model.php';
+		$this->urut_model = new Urut_Model('tweb_wil_clusterdesa', 'id');
 	}
 
 	public function autocomplete()
@@ -75,14 +77,10 @@ class Wilayah_model extends MY_Model {
 		$query = $this->db->query($sql);
 		$row = $query->row_array();
 		$jml_data = $row['jml'];
+		$per_page = $this->session->per_page;
+		$paginasi = $this->paginasi($p, $jml_data, $per_page);
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $paginasi;
 	}
 
 	private function list_data_sql()
@@ -115,6 +113,7 @@ class Wilayah_model extends MY_Model {
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.sex = 2) AS jumlah_warga_p,
 		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala = p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = u.dusun) AND p.kk_level = 1) AS jumlah_kk ";
 		$sql = $select_sql . $this->list_data_sql();
+		$sql .= "ORDER BY`u`.`urut` ASC";
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
@@ -132,6 +131,8 @@ class Wilayah_model extends MY_Model {
 
 	public function list_semua_wilayah()
 	{
+		$this->urut_semua_wilayah();
+
 		$this->case_dusun = "w.rt = '0' and w.rw = '0'";
 		$this->case_rw = "w.rw <> '0' and w.rw <> '-' and w.rt = '0'";
 		$this->case_rt = "w.rt <> '0' and w.rt <> '-'";
@@ -153,7 +154,7 @@ class Wilayah_model extends MY_Model {
 				->or_where("w.rt <> '0' and w.rt <> '-'")
 			->group_end()
 
-			->order_by('w.dusun, rw, rt')
+			->order_by('w.urut_cetak, w.dusun, rw, rt')
 			->get()
 			->result_array();
 		return $data;
@@ -297,28 +298,55 @@ class Wilayah_model extends MY_Model {
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
 
+	//paginasi untuk RW
+	public function paging_rw($p = 1, $o = 0, $dusun = '')
+	{
+		$row = $this->db
+			->select('COUNT(*) AS jml ')
+			->where('rt', '0')
+			->where('rw <>', '0')
+			->where('dusun', urldecode($dusun))
+			->get('tweb_wil_clusterdesa')
+			->row_array();
+
+		$jml_data = $row['jml'];
+		$per_page = $this->session->per_page;
+		$paginasi = $this->paginasi($p, $jml_data, $per_page);
+
+		return $paginasi;
+	}
+
 	//Bagian RW
-	public function list_data_rw($id = '')
+	public function list_data_rw($id = '', $offset = 0, $limit = 0)
 	{
 		$temp = $this->cluster_by_id($id);
 		$dusun = $temp['dusun'];
 
-		$sql = "SELECT u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
+		$this->db->select("u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
 		(SELECT COUNT(rt.id) FROM tweb_wil_clusterdesa rt WHERE dusun = u.dusun AND rw = u.rw AND rt <> '-' AND rt <> '0' ) AS jumlah_rt,
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw)) AS jumlah_warga,
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 1) AS jumlah_warga_l,
 		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.sex = 2) AS jumlah_warga_p,
-		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u
-		LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
-		WHERE u.rt = '0' AND u.rw <> '0' AND u.dusun = '$dusun'";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = u.rw) AND p.kk_level = 1) AS jumlah_kk ");
+
+		$this->db
+			->from('tweb_wil_clusterdesa u')
+			->join('penduduk_hidup a', 'u.id_kepala = a.id', 'LEFT')
+			->where('u.rt', '0')
+			->where('u.rw <>', '0')
+			->where('u.dusun', urldecode($dusun))
+			->order_by('u.urut', 'ASC');
+
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+
+		$data = $this->db->get()->result_array();
 
 		//Formating Output
+		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no'] = $i + 1;
+			$data[$i]['no'] = $j + 1;
+			$j++;
 		}
 		return $data;
 	}
@@ -366,21 +394,56 @@ class Wilayah_model extends MY_Model {
 		status_sukses($outp1 and $outp2); //Tampilkan Pesan
 	}
 
-	//Bagian RT
-	public function list_data_rt($dusun = '', $rw = '')
+	//Paginasi RT
+	public function paging_rt($p = 1, $o = 0, $dusun = '', $rw='')
 	{
-		$sql = "SELECT u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
-		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt)) AS jumlah_warga,
-		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1) AS jumlah_warga_l,(
-		SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2) AS jumlah_warga_p,
-		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk
-		FROM tweb_wil_clusterdesa u
-		LEFT JOIN penduduk_hidup a ON u.id_kepala = a.id
-		WHERE u.rt <> '0' AND u.rt <> '-' AND u.rw = '$rw' AND u.dusun = '$dusun'
-		ORDER BY u.rt";
+		$this->list_data_rt_query($dusun, $rw);
+		$jml_data = $this->db
+			->select('COUNT(*) AS jml ')
+			->get()
+			->row()->jml;
 
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$per_page = $this->session->per_page;
+		$paginasi = $this->paginasi($p, $jml_data, $per_page);
+
+		return $paginasi;
+	}
+
+	private function list_data_rt_query($dusun = '', $rw='')
+	{
+		$this->db
+			->from('tweb_wil_clusterdesa u')
+			->join('penduduk_hidup a', 'u.id_kepala = a.id', 'LEFT')
+			->where('u.rt <>', '0')
+			->where('u.rt <>', '-')
+			->where('u.rw', urldecode($rw))
+			->where('u.dusun', urldecode($dusun));
+	}
+
+	//Bagian RT
+	public function list_data_rt($dusun = '', $rw = '', $offset = 0, $limit = 0)
+	{
+		$this->list_data_rt_query($dusun, $rw);
+		$this->db->select("u.*, a.nama AS nama_ketua, a.nik AS nik_ketua,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt)) AS jumlah_warga,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 1) AS jumlah_warga_l,
+		(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.sex = 2) AS jumlah_warga_p,
+		(SELECT COUNT(p.id) FROM keluarga_aktif k inner join penduduk_hidup p ON k.nik_kepala=p.id  WHERE p.id_cluster IN(SELECT id FROM tweb_wil_clusterdesa WHERE dusun = '$dusun' AND rw = '$rw' AND rt = u.rt) AND p.kk_level = 1) AS jumlah_kk");
+
+		$this->db
+			->order_by('u.urut', 'ASC');
+
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+
+		$data = $this->db->get()->result_array();
+
+		//Formating Output
+		$j = $offset;
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $j + 1;
+			$j++;
+		}
 		return $data;
 	}
 
@@ -440,11 +503,12 @@ class Wilayah_model extends MY_Model {
 		return $data;
 	}
 
-	public function cluster_by_id($id = 0)
+	public function list_wil()
 	{
-		$data = $this->db->where('id', $id)
+		$data = $this->db
+			->where('zoom >', '0')
 			->get('tweb_wil_clusterdesa')
-			->row_array();
+			->result_array();
 		return $data;
 	}
 
@@ -453,6 +517,7 @@ class Wilayah_model extends MY_Model {
 		$data = $this->db
 			->where('rt', '0')
 			->where('rw', '0')
+			->order_by('urut', 'ASC')
 			->get('tweb_wil_clusterdesa')
 			->result_array();
 
@@ -461,11 +526,16 @@ class Wilayah_model extends MY_Model {
 
 	public function list_rw($dusun = '')
 	{
+		if ($dusun)
+		{
+			$this->db
+				->where('dusun', urldecode($dusun));
+		}
+
 		$data = $this->db
 			->where('rt', '0')
-			->where('dusun', urldecode($dusun))
 			->where('rw <>', '0')
-			->order_by('rw')
+			->order_by('urut', 'ASC')
 			->get('tweb_wil_clusterdesa')
 			->result_array();
 
@@ -474,22 +544,30 @@ class Wilayah_model extends MY_Model {
 
 	public function list_rt($dusun = '', $rw = '')
 	{
+		if ($dusun && $rw)
+		{
+			$this->db
+				->where('dusun', urldecode($dusun))
+				->where('rw', urldecode($rw));
+		}
+
 		$data = $this->db
 			->where('rt <>', '0')
-			->where('dusun', urldecode($dusun))
-			->where('rw', urldecode($rw))
-			->order_by('rt')
+			->order_by('urut', 'ASC')
 			->get('tweb_wil_clusterdesa')
 			->result_array();
 
 		return $data;
 	}
 
-	public function get_rt($dusun = '', $rw = '', $rt = '')
+	public function cluster_by_id($id = 0)
 	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
-		$query = $this->db->query($sql, array($dusun, $rw, $rt));
-		return $query->row_array();
+		$data = $this->db
+			->where('id', $id)
+			->get('tweb_wil_clusterdesa')
+			->row_array();
+
+		return $data;
 	}
 
 	public function total()
@@ -572,13 +650,6 @@ class Wilayah_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_dusun_maps($id = 0)
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		return $query->row_array();
-	}
-
 	public function update_kantor_rw_map($id = 0)
 	{
 		$data = $this->validasi_koordinat($this->input->post());
@@ -599,13 +670,6 @@ class Wilayah_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function get_rw_maps($dusun = '', $rw = '')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ?";
-		$query = $this->db->query($sql, array($dusun, $rw));
-		return $query->row_array();
-	}
-
 	public function update_kantor_rt_map($id = 0)
 	{
 		$data = $this->validasi_koordinat($this->input->post());
@@ -624,38 +688,6 @@ class Wilayah_model extends MY_Model {
 		$outp = $this->db->update('tweb_wil_clusterdesa', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	public function get_rt_maps($rt_id)
-	{
-		$data = $this->db->where('id', $rt_id)
-			->get('tweb_wil_clusterdesa')
-			->row_array();
-		return $data;
-	}
-
-	public function list_rw_gis($dusun = '')
-	{
-		$data = $this->db->
-			where('rt', '0')->
-			//where('dusun', urldecode($dusun))->
-			where('rw <>', '0')->
-			order_by('rw')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
-		return $data;
-	}
-
-	public function list_rt_gis($dusun = '', $rw = '')
-	{
-		$data = $this->db->
-			where('rt <>', '0')->
-			//where('dusun', urldecode($dusun))->
-			//where('rw', $rw)->
-			order_by('rt')->
-			get('tweb_wil_clusterdesa')->
-			result_array();
-		return $data;
 	}
 
 	// TO DO : Gunakan untuk get_alamat mendapatkan alamat penduduk
@@ -695,6 +727,96 @@ class Wilayah_model extends MY_Model {
 		return $data['alamat'];
 	}
 
+	// $arah:
+	//		1 - turun
+	// 		2 - naik
+	public function urut($tipe = 0, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0)
+	{
+		switch ($tipe) {
+			case 'dusun':
+				$subset = "rt = '0' AND rw = '0'";
+				break;
+
+			case 'rw':
+				$temp = $this->wilayah_model->cluster_by_id($id_dusun);
+				$dusun = $temp['dusun'];
+				$subset = " rt = '0' AND rw <> '0' AND dusun = '$dusun'";
+				break;
+
+			case 'rt':
+				$temp = $this->wilayah_model->cluster_by_id($id_dusun);
+				$dusun = $temp['dusun'];
+
+				$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
+				$rw = $data_rw['rw'];
+
+				$subset = " rt <> '0' AND rw = '$rw' AND dusun = '$dusun'";
+				break;
+
+			default:
+				# code...
+				break;
+		}
+
+		$this->urut_model->urut($id, $arah, $subset);
+	}
+
+	// Samakan nomor urut semua subwilayah dusun untuk laporan cetak
+	private function urut_semua_wilayah()
+	{
+		$urut = 1;
+		$urut_dusun = $this->db
+			->select('id, dusun, urut')
+			->where('rt', '0')
+			->where('rw', '0')
+			->order_by('urut')
+			->get('tweb_wil_clusterdesa')
+			->result_array();
+
+		foreach ($urut_dusun as $dusun)
+		{
+			$this->update_urut($urut, $dusun['id']);
+			$urut++;
+
+			$urut_rw = $this->db
+				->select('id, dusun, rw, urut')
+				->where('rt', '0')
+				->where('rw  <>', '0')
+				->where('dusun', $dusun['dusun'])
+				->order_by('urut')
+				->get('tweb_wil_clusterdesa')
+				->result_array();
+
+			foreach ($urut_rw as $rw)
+			{
+				$this->update_urut($urut, $rw['id']);
+					$urut++;
+
+				$urut_rt = $this->db
+					->select('id, dusun, rw, urut')
+					->where('rt <>', '0')
+					->where('rw', $rw['rw'])
+					->where('dusun', $rw['dusun'])
+					->order_by('urut')
+					->get('tweb_wil_clusterdesa')
+					->result_array();
+
+				foreach ($urut_rt as $rt)
+				{
+					$this->update_urut($urut, $rt['id']);
+					$urut++;
+				}
+			}
+		}
+	}
+
+	private function update_urut($urut = 1, $id = 1)
+	{
+		$this->db
+			->set('urut_cetak', $urut)
+			->where('id', $id)
+			->update('tweb_wil_clusterdesa');
+	}
 }
 
 ?>

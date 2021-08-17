@@ -33,7 +33,10 @@
 					<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah KK Baru</a>
 					<ul class="dropdown-menu" role="menu">
 						<li>
-							<a href="<?= site_url('keluarga/form')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data KK Baru"><i class="fa fa-plus"></i> Tambah Penduduk Baru</a>
+							<a href="<?= site_url('keluarga/form_peristiwa/1')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Lahir"><i class="fa fa-plus"></i> Tambah Penduduk Lahir</a>
+						</li>
+						<li>
+							<a href="<?= site_url('keluarga/form_peristiwa/5')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i> Tambah Penduduk Masuk</a>
 						</li>
 						<li>
 							<a href="<?= site_url('keluarga/form_old')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data KK dari keluarga yang sudah ter-input" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Kepala Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
@@ -64,13 +67,16 @@
 						<li>
 							<a href="<?= site_url("keluarga/search_kumpulan_kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan KK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan KK"><i class="fa fa-search"></i> Pilihan Kumpulan KK</a>
 						</li>
+						<li>
+							<a href="<?= site_url("keluarga/program_bantuan")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+						<li>
 					</ul>
 				</div>
 				<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 			</div>
 			<div class="box-body">
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="row">
 							<div class="col-sm-9">
 								<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('keluarga/filter/status_dasar')?>')">
@@ -167,7 +173,17 @@
 											<td class="padat"><?= $data['no']?></td>
 											<td class="aksi">
 												<a href="<?= site_url("keluarga/anggota/$p/$o/$data[id]")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Anggota Keluarga (KK)"><i class="fa fa-list-ol"></i></a>
-												<a href="<?= site_url("keluarga/form_a/$p/$o/$data[id]")?>" class="btn btn-success btn-flat btn-sm " title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> </a>
+												<div class="btn-group btn-group-vertical">
+													<a class="btn btn-success btn-flat btn-sm " data-toggle="dropdown" title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> </a>
+													<ul class="dropdown-menu" role="menu">
+														<li>
+															<a href="<?= site_url("keluarga/form_peristiwa_a/1/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Anggota Keluarga Lahir"><i class="fa fa-plus"></i> Anggota Keluarga Lahir</a>
+														</li>
+														<li>
+															<a href="<?= site_url("keluarga/form_peristiwa_a/5/$p/$o/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Anggota Keluarga Masuk"><i class="fa fa-plus"></i> Anggota Keluarga Masuk</a>
+														</li>
+													</ul>
+												</div>
 												<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 												<?php if ($this->CI->cek_hak_akses('h')): ?>
 													<a href="#" data-href="<?= site_url("keluarga/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus/Keluar Dari Daftar Keluarga" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

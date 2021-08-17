@@ -63,15 +63,6 @@ $(document).ready(function()
 		$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 		$(this).find('.modal-body').html($(e.relatedTarget).data('body'));
 	});
-	//Delay Alert
-	setTimeout(function()
-	{
-		$('#notification').fadeIn('slow');
-	}, 500);
-	setTimeout(function()
-	{
-		$('#notification').fadeOut('slow');
-	}, 2000);
 
 	// Select2 dengan fitur pencarian
 	$('.select2').select2({
@@ -299,6 +290,12 @@ $(document).ready(function()
 		var tglAkhir = moment(new Date(e.date));
 		tglAkhir.add($('#tgl_akhir').data('masa-berlaku'), $('#tgl_akhir').data('satuan-masa-berlaku'));
 		$('#tgl_akhir').data('DateTimePicker').date(tglAkhir);
+	});
+
+	$('.tgl_minimal').datetimepicker().on('dp.change', function (e) {
+		var tgl_lebih_besar = $(this).data('tgl-lebih-besar');
+		$(tgl_lebih_besar).data('DateTimePicker').minDate(moment(new Date(e.date)));
+		$(this).data("DateTimePicker").hide();
 	});
 
 	$('#tgljam_mulai').datetimepicker({
@@ -647,6 +644,16 @@ function formAction(idForm, action, target = '')
 	$('#'+idForm).attr('action', action);
 	$('#'+idForm).submit();
 }
+
+//Delay Alert
+setTimeout(function()
+{
+	$('#notification').fadeIn('slow');
+}, 500);
+setTimeout(function()
+{
+	$('#notification').fadeOut('slow');
+}, 3000);
 
 function notification(type, message)
 {

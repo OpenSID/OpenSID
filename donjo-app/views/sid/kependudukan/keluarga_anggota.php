@@ -59,7 +59,10 @@
 					<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota</a>
 					<ul class="dropdown-menu" role="menu">
 						<li>
-							<a href="<?= site_url("keluarga/form_a/$p/$o/$kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Anggota Keluarga" ><i class="fa fa-plus"></i> Tambah Penduduk Baru</a>
+							<a href="<?= site_url("keluarga/form_peristiwa_a/1/$p/$o/$kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Anggota Keluarga Lahir"><i class="fa fa-plus"></i> Anggota Keluarga Lahir</a>
+						</li>
+						<li>
+							<a href="<?= site_url("keluarga/form_peristiwa_a/5/$p/$o/$kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Anggota Keluarga Masuk"><i class="fa fa-plus"></i> Anggota Keluarga Masuk</a>
 						</li>
 						<li>
 							<a href="<?= site_url("keluarga/ajax_add_anggota/$p/$o/$kk")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Keluarga"><i class="fa fa-plus"></i> Dari Penduduk Sudah Ada</a>
@@ -112,7 +115,7 @@
 			<div class="box-body">
 				<h5><b>Daftar Anggota Keluarga</b></h5>
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="table-responsive">
 							<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 								<thead class="bg-gray disabled color-palette">

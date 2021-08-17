@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<a href="<?= site_url('kelompok_master/form'); ?>" title="Tambah Kategori Kelompok Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori Kelompok Baru</a>
@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div class="box-body">
 					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-						<form id="mainform" name="mainform" action="" method="post">
+						<form id="mainform" name="mainform" method="post">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group input-group-sm pull-right">

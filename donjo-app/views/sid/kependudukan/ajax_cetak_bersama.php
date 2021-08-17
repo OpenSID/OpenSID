@@ -15,11 +15,7 @@
 		$('#modalBox').modal('hide');
 	}
 </script>
-<style>
-	.form-group {
-		margin-bottom: 10px;
-	}
-</style>
+
 <div class='modal-body'>
 	<div class="box box-danger">
 		<div class="box-body">

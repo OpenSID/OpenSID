@@ -48,6 +48,7 @@ class Header_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->model('config_model');
+		$this->load->driver('cache');
 	}
 
 	// Data penduduk yang digunakan untuk ditampilkan di Widget halaman dashbord (Home SID)
@@ -151,9 +152,13 @@ class Header_model extends CI_Model {
 		$lap = $query->row_array();
 		$outp['lapor'] = $lap['jml'];
 
-		$this->load->model('modul_model');
-		$outp['modul'] = $this->modul_model->list_aktif();
+		$outp['modul'] = $this->cache->pakai_cache(function ()
+		{
+			$this->load->model('modul_model');
+			return $this->modul_model->list_aktif();
+		}, "{$this->session->user}_cache_modul", 604800);
 
 		return $outp;
 	}
+
 }

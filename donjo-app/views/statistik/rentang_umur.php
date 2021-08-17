@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-4">
 					<?php $this->load->view('statistik/side_menu.php')?>
@@ -74,7 +74,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="box-body">
 							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-								<form id="mainform" name="mainform" action="" method="post">
+								<form id="mainform" name="mainform" method="post">
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="table-responsive">

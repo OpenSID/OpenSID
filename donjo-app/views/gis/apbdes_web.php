@@ -7,7 +7,7 @@
     font-weight: bold;
   }
 </style>
-<div class="modal-body" id="maincontent">
+<div class="modal-body">
   <div class="container" id="transparansi-footer" style="width: 100%; padding-top: 20px; background: #fff; color: #222">
     <div class="box box-info">
       <?php foreach ($transparansi['data_widget'] as $subdata_name => $subdatas): ?>

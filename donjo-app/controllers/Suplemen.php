@@ -51,17 +51,26 @@ class Suplemen extends Admin_Controller {
 		$this->load->model(['suplemen_model', 'pamong_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 25;
+		$this->_list_session = ['cari', 'sasaran'];
+		$this->_set_page = ['20', '50', '100'];
 	}
 
-	public function index()
+	public function index($p = 1)
 	{
-		$this->session->per_page = 50;
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
 
 		$sasaran = $this->input->post('sasaran');
+		if (isset($sasaran))
+			$this->session->sasaran = $sasaran;
 
-		$data['suplemen'] = $this->suplemen_model->list_data($sasaran);
+		$data['func'] = 'index';
+		$data['set_page'] = $this->_set_page;
+		$data['paging'] = $this->suplemen_model->paging_suplemen($p);
+		$data['suplemen'] = $this->suplemen_model->list_data($data['paging']->offset, $data['paging']->per_page);
 		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['set_sasaran'] = $sasaran;
+		$data['set_sasaran'] = $this->session->sasaran;
 
 		$this->render('suplemen/suplemen', $data);
 	}
@@ -121,7 +130,7 @@ class Suplemen extends Admin_Controller {
 		redirect("suplemen/rincian/$id_rincian");
 	}
 
-	public function clear($id)
+	public function clear($id = 0)
 	{
 		## untuk filter pada data rincian suplemen
 		if ($id)
@@ -129,6 +138,14 @@ class Suplemen extends Admin_Controller {
 			$this->session->id_rincian = $id;
 			$this->session->unset_userdata('cari');
 			redirect("suplemen/rincian/$id");
+		}
+		//Untuk index Suplemen
+		else
+		{
+			$this->session->unset_userdata($this->_list_session);
+			$this->session->per_page = $this->_set_page[0];
+
+			redirect('suplemen');
 		}
 	}
 

@@ -53,6 +53,8 @@ class Garis extends Admin_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('pembangunan_model');
+		$this->load->model('pembangunan_dokumentasi_model');
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
 	}
@@ -102,13 +104,11 @@ class Garis extends Admin_Controller {
 		$this->render('garis/table', $data);
 	}
 
-	public function form($p=1, $o=0, $id='')
+	public function form($p = 1, $o = 0, $id = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-		$data['desa'] = $this->config_model->get_data();
-		$data['list_subline'] = $this->plan_garis_model->list_subline();
-		$data['dusun'] = $this->plan_garis_model->list_dusun();
+
 		if ($id)
 		{
 			$data['garis'] = $this->plan_garis_model->get_garis($id);
@@ -116,11 +116,13 @@ class Garis extends Admin_Controller {
 		}
 		else
 		{
-			$data['garis'] = null;
+			$data['garis'] = NULL;
 			$data['form_action'] = site_url("garis/insert");
 		}
-		
+
+		$data['list_subline'] = $this->plan_garis_model->list_subline();
 		$data['tip'] = 1;
+
 		$this->set_minsidebar(1);
 		$this->render('garis/form', $data);
 	}
@@ -138,11 +140,12 @@ class Garis extends Admin_Controller {
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
-		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
+		$data['rw_gis'] = $this->wilayah_model->list_rw();
+		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['all_lokasi'] = $this->plan_lokasi_model->list_data();
 		$data['all_garis'] = $this->plan_garis_model->list_data();
 		$data['all_area'] = $this->plan_area_model->list_data();
+		$data['all_lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
 		$data['form_action'] = site_url("garis/update_maps/$p/$o/$id");
 
 		$this->render("garis/maps", $data);

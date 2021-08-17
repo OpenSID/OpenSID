@@ -59,13 +59,13 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="" method="post">
+		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<a href="<?= site_url('mandiri/ajax_pin'); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Pengguna</a>
 				</div>
 				<div class="box-body">
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="row">
 							<div class="col-sm-12 form-inline">
 								<div class="input-group input-group-sm pull-right">
@@ -78,7 +78,7 @@
 						</div>
 					</form>
 					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-						<form id="mainform" name="mainform" action="" method="post">
+						<form id="mainform" name="mainform" method="post">
 							<div class="table-responsive">
 								<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 									<thead class="bg-gray disabled color-palette">

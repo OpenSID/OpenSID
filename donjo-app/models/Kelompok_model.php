@@ -172,8 +172,6 @@ class Kelompok_model extends MY_Model {
 		$data['jabatan'] = bilangan($post['jabatan']);
 		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
-		$data['jabatan'] = bilangan($post['jabatan']);
-		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		return $data;
 	}
 
@@ -238,8 +236,8 @@ class Kelompok_model extends MY_Model {
 		$lokasi_file = $_FILES['foto']['tmp_name'];
 		$tipe_file = $_FILES['foto']['type'];
 		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(" ", "_", $nama_file);
-		$old_foto = $this->input->post('old_foto');
+		$nama_file = str_replace(" ", "_", trim($nama_file));
+		$old_foto = $this->input->post('old_foto') ?: '';
 		if (!empty($nama_file))
 		{
 			if (!empty($lokasi_file) AND in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)))

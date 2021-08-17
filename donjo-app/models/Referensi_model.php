@@ -60,12 +60,6 @@ define("MASA_BERLAKU", serialize([
 	"y" => "Tahun"
 ]));
 
-define("JENIS_PERATURAN_DESA", serialize([
-	"Peraturan Desa (Perdes)",
-	"Peraturan Kepala Desa (Perkades)",
-	"Peraturan Bersama Kepala Desa"
-]));
-
 define("KATEGORI_PUBLIK", serialize([
 	"Informasi Berkala" => "1",
 	"Informasi Serta-merta" => "2",
@@ -165,6 +159,53 @@ define("SERVER_NOTIF", serialize([
 	'TrackSID'
 ]));
 
+define("JENIS_PELANGGAN", serialize([
+	1 => 'hosting + update',
+	2 => 'hosting saja',
+	3 => 'premium',
+	4 => 'update saja',
+	5 => 'hosting + domain',
+	6 => 'hosting + domain + update'
+]));
+
+define("STATUS_LANGGANAN", serialize([
+	1 => 'aktif',
+	2 => 'suspended',
+	3 => 'tidak aktif',
+]));
+
+define("FILTER_LANGGANAN", serialize([
+	1 => 'aktif',
+	2 => 'suspended',
+	3 => 'tidak aktif',
+	4 => 'sebentar lagi berakhir',
+	5 => 'baru berakhir',
+	6 => 'sudah berakhir'
+]));
+
+define("PELAKSANA", serialize([
+	1 => 'Herry Wanda',
+	2 => 'Mohammad Ihsan',
+	3 => 'Rudy Purwanto'
+]));
+
+define("SUMBER_DANA", serialize([
+	1 => 'Pendapatan Asli Daerah',
+	2 => 'Alokasi Anggaran Pendapatan dan Belanja Negara (Dana Desa)',
+	3 => 'Bagian Hasil Pajak Daerah dan Retribusi Daerah Kabupaten/Kota',
+	4 => 'Alokasi Dana Desa',
+	5 => 'Bantuan Keuangan dari APBD Provinsi dan APBD Kabupaten/Kota',
+	6 => 'Hibah dan Sumbangan yang Tidak Mengikat dari Pihak Ketiga',
+	7 => 'Lain-lain Pendapatan Desa yang Sah',
+]));
+
+define("STATUS_PEMBANGUNAN", serialize([
+	1 => '0%',
+	2 => '30%',
+	3 => '80%',
+	4 => '100%'
+]));
+
 class Referensi_model extends CI_Model {
 
 	public function __construct()
@@ -231,5 +272,10 @@ class Referensi_model extends CI_Model {
 		$list = array_flip(unserialize($s_array));
 		return $list;
 	}
+
+	public function list_ref_pelanggan($stat)
+	{
+		$list_ref = unserialize($stat);
+		return $list_ref;
+	}
 }
-?>

@@ -148,3 +148,20 @@ hr.garis {
 	margin-top: 5px;
 	margin-bottom: 10px;
 }
+
+.textx {
+	mso-number-format:"\@";
+}
+
+td, th {
+	font-size:9pt;
+}
+
+table#ttd td {
+	text-align: center;
+	white-space: nowrap;
+}
+
+.underline {
+	text-decoration: underline;
+}

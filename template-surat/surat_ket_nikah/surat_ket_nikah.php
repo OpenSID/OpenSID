@@ -253,7 +253,7 @@
 										</div>
 									<?php endif; ?>
 								<?php endif; ?>
-								<?php if ($ayah_pria): ?>
+								<?php if ($ayah_pria['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>A.2 DATA AYAH PASANGAN PRIA</strong></label>
 									</div>
@@ -289,18 +289,18 @@
 									</div>
 								<?php else: ?>
 									<div class="form-group ayah_pria" >
-										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>A.2 DATA AYAH PASANGAN PRIA (Isi jika ayah bukan warga <?= strtolower($this->setting->sebutan_desa)?> ini ini)</strong></label>
+										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>A.2 DATA AYAH PASANGAN PRIA (Isi jika ayah bukan warga <?= strtolower($this->setting->sebutan_desa)?> ini)</strong></label>
 									</div>
 									<div class="form-group ayah_pria">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ayah_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_pria']?>">
+											<input  name="nama_ayah_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_pria'] ?: $ayah_pria['nama']?>">
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input name="bin_ayah_pria" class="form-control input-sm" type="text" placeholder="Bin Ayah Pria" value="<?= $_SESSION['post']['bin_ayah_pria']?>"v>
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input name="noktp_ayah_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Pria" value="<?= $_SESSION['post']['noktp_ayah_pria']?>">
+											<input name="noktp_ayah_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Pria" value="<?= $_SESSION['post']['noktp_ayah_pria'] ?: $ayah_pria['nik']?>">
 										</div>
 									</div>
 									<div class="form-group ayah_pria">
@@ -351,7 +351,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ibu_pria): ?>
+								<?php if ($ibu_pria['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>A.3 DATA IBU PASANGAN PRIA</strong></label>
 									</div>
@@ -392,13 +392,13 @@
 									<div class="form-group ibu_pria">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ibu_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_pria']?>">
+											<input  name="nama_ibu_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_pria'] ?: $ibu_pria['nama']?>">
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input  name="binti_ibu_pria" class="form-control input-sm" type="text" placeholder="Binti Ibu Pria" value="<?= $_SESSION['post']['binti_ibu_pria']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input  name="noktp_ibu_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Pria" value="<?= $_SESSION['post']['noktp_ibu_pria']?>">
+											<input  name="noktp_ibu_pria" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Pria" value="<?= $_SESSION['post']['noktp_ibu_pria'] ?: $ibu_pria['nik']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_pria">
@@ -645,7 +645,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ayah_wanita): ?>
+								<?php if ($ayah_wanita['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:10px;padding-top:10px;padding-bottom:10px"><strong>B.2 DATA AYAH PASANGAN WANITA</strong></label>
 									</div>
@@ -686,13 +686,13 @@
 									<div class="form-group ayah_wanita">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_wanita']?>">
+											<input  name="nama_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_wanita'] ?: $ayah_wanita['nama']; ?>">
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input  name="bin_ayah_wanita" class="form-control input-sm" type="text" placeholder="Bin Ayah Wanita" value="<?= $_SESSION['post']['bin_ayah_wanita']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input  name="noktp_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Wanita" value="<?= $_SESSION['post']['noktp_ayah_wanita']?>">
+											<input  name="noktp_ayah_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ayah Wanita" value="<?= $_SESSION['post']['noktp_ayah_wanita'] ?: $ayah_wanita['nik'];?>">
 										</div>
 									</div>
 									<div class="form-group ayah_wanita">
@@ -743,7 +743,7 @@
 										</div>
 									</div>
 								<?php endif; ?>
-								<?php if ($ibu_wanita): ?>
+								<?php if ($ibu_wanita['id']): ?>
 									<div class="form-group" >
 										<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="padding-top:10px;padding-bottom:10px"><strong>B.3 DATA IBU PASANGAN WANITA</strong></label>
 									</div>
@@ -784,13 +784,13 @@
 									<div class="form-group ibu_wanita">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_wanita']?>">
+											<input  name="nama_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ibu_wanita'] ?: $ibu_wanita['nama']?>">
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input  name="binti_ibu_wanita" class="form-control input-sm" type="text" placeholder="Binti Ibu Wanita" value="<?= $_SESSION['post']['binti_ibu_wanita']?>">
 										</div>
 										<div class="col-sm-3 col-lg-2">
-											<input  name="noktp_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Wanita" value="<?= $_SESSION['post']['noktp_ibu_wanita']?>">
+											<input  name="noktp_ibu_wanita" class="form-control input-sm" type="text" placeholder="Nomor KTP Ibu Wanita" value="<?= $_SESSION['post']['noktp_ibu_wanita'] ?: $ibu_wanita['nik']?>">
 										</div>
 									</div>
 									<div class="form-group ibu_wanita">

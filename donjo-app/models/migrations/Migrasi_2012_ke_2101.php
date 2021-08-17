@@ -60,18 +60,22 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		// Tambahkan key layanan_mandiri
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
-		
 		// Ubah isi field pd tabel kelompok jd unik, kode = kode_id
 		$hasil =& $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
 		// Field unik pd tabel kelompok
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
 		// Migrasi fitur premium
-		$migrasi = 'migrasi_fitur_premium_2009';
-  	$this->load->model('migrations/'.$migrasi);
-  	$hasil =& $this->$migrasi->up();
+  	$daftar_migrasi_premium = ['2009'];
+  	foreach ($daftar_migrasi_premium as $migrasi)
+  	{
+  		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+  		$file_migrasi = 'migrations/'.$migrasi_premium;
+			$this->load->model($file_migrasi);
+			$hasil =& $this->$migrasi_premium->up();
+  	}
 
 		status_sukses($hasil);
+		return $hasil;
 	}
-
 }

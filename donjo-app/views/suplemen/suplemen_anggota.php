@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="box-body">
 				<h5><b>Daftar Terdata</b></h5>
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="input-group input-group-sm pull-right">
