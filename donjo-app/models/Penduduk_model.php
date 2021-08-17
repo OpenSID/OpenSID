@@ -633,7 +633,7 @@ class Penduduk_model extends MY_Model {
 		$data['panjang_lahir'] = $data['panjang_lahir'] ?: NULL;
 		$data['cacat_id'] = $data['cacat_id'] ?: NULL;
 		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
-		$data['kk_level'] = $data['kk_level'] ?: 0;
+		$data['kk_level'] = $data['kk_level'];
 		$data['email'] = strip_tags($data['email']);
 		if (empty($data['id_asuransi']) or $data['id_asuransi'] == 1)
 			$data['no_asuransi'] = NULL;
@@ -677,6 +677,7 @@ class Penduduk_model extends MY_Model {
 		$data['akta_perkawinan'] = nomor_surat_keputusan($data['akta_perkawinan']);
 		$data['akta_perceraian'] = nomor_surat_keputusan($data['akta_perceraian']);
 		$data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
+		$data['suku'] = nama_terbatas($data['suku']);
 
 		$valid = array();
 		if (preg_match("/[^a-zA-Z '\.,\-]/", $data['nama']))

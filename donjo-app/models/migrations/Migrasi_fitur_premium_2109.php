@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
+		$hasil = $hasil && $this->migrasi_2021082151($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -68,6 +69,20 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 				$hasil = $hasil && unlink($file);
 			}
 		}
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021082151($hasil)
+	{
+		$fields = [
+			'tempat_cetak_ktp' => [
+				'type' => 'VARCHAR',
+				'constraint' => 150,
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
 
 		return $hasil;
 	}
