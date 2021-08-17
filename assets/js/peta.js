@@ -1338,17 +1338,6 @@ function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis,
 	setMarkerCluster(marker_lokasi, markersList, markers);
   setMarkerClusterP(marker_lokasi_pembangunan, markersListP, markersP);
 
-	peta.on('layeradd layerremove', function () {
-		peta.eachLayer(function (layer) {
-			if(peta.hasLayer(layer_lokasi)) {
-				peta.addLayer(markers);
-			} else {
-				peta.removeLayer(markers);
-        peta._layersMaxZoom = 19;
-			}
-		});
-	});
-
   peta.on('layeradd layerremove', function () {
 		peta.eachLayer(function (layer) {
 			if(peta.hasLayer(layer_lokasi_pembangunan)) {

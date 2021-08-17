@@ -59,6 +59,7 @@ class Migrasi_2106_ke_2107 extends MY_model
 		}
 
 		$hasil = $hasil && $this->migrasi_2021062701($hasil);
+		$hasil = $hasil && $this->migrasi_2021062872($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -101,6 +102,16 @@ class Migrasi_2106_ke_2107 extends MY_model
 
 		// Hapus API Key Pelanggan
 		$hasil = $hasil && $this->db->where('key', 'api_key_opensid')->delete('setting_aplikasi');
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021062872($hasil)
+	{
+		// Ubah kategori layanan_opendesa_server, layanan_opendesa_dev_server, layanan_opendesa_token jadi pelanggan
+		$hasil = $hasil && $this->db
+			->where_in('key', ['layanan_opendesa_server', 'layanan_opendesa_dev_server', 'layanan_opendesa_token'])
+			->update('setting_aplikasi', ['kategori' => 'pelanggan']);
 
 		return $hasil;
 	}

@@ -206,7 +206,6 @@ class Mandiri_Controller extends MY_Controller {
 
 		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
 	}
-
 }
 
 /*
@@ -271,6 +270,7 @@ class Admin_Controller extends MY_Controller {
 		$this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
 		$this->header['notif_inbox']            = $this->notif_model->inbox_baru();
 		$this->header['notif_komentar']         = $this->notif_model->komentar_baru();
+		$this->header['notif_langganan']        = $this->notif_model->status_langganan();
 	}
 
 	private function cek_pengumuman()

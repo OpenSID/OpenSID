@@ -26,11 +26,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ * 
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ * 
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -60,22 +60,17 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		// Tambahkan key layanan_mandiri
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
+		
 		// Ubah isi field pd tabel kelompok jd unik, kode = kode_id
 		$hasil =& $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
 		// Field unik pd tabel kelompok
 		$hasil =& $this->tambah_indeks('kelompok', 'kode');
 
 		// Migrasi fitur premium
-  	$daftar_migrasi_premium = ['2009'];
-  	foreach ($daftar_migrasi_premium as $migrasi)
-  	{
-  		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
-  		$file_migrasi = 'migrations/'.$migrasi_premium;
-			$this->load->model($file_migrasi);
-			$hasil =& $this->$migrasi_premium->up();
-  	}
+		$migrasi = 'migrasi_fitur_premium_2009';
+		$this->load->model('migrations/'.$migrasi);
+		$hasil =& $this->$migrasi->up();
 
 		status_sukses($hasil);
-		return $hasil;
 	}
 }

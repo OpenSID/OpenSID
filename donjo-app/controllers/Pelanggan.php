@@ -50,24 +50,24 @@ class Pelanggan extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('config_model');
-		$this->load->model('header_model');
-		$this->load->model('referensi_model');
+		$this->load->model(['notif_model', 'setting_model']);
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 313;
 	}
 
 	public function index()
 	{
-		$header = $this->header_model->get_data();
+		$response = $this->notif_model->api_pelanggan_pemesanan();
 
-		$data['jenis_pelanggan'] =  $this->referensi_model->list_ref_pelanggan(JENIS_PELANGGAN);
-		$data['status_langganan'] = $this->referensi_model->list_ref_pelanggan(STATUS_LANGGANAN);
-		$data['filter_langganan'] = $this->referensi_model->list_ref_pelanggan(FILTER_LANGGANAN);
-		$data['pelaksana'] = $this->referensi_model->list_ref_pelanggan(PELAKSANA);
-		$data['selected_filter'] = $filter;
+		// Ubah layanan_opendesa_token terbaru
+		if ( ! is_null($response) && $response->body->token !== $this->setting->layanan_opendesa_token)
+		{
+			$post['layanan_opendesa_token'] = $response->body->token;
+			$this->setting_model->update_setting($post);
+			redirect($this->controller);
+		}
 
-		$this->render('pelanggan/form', $data);
+		$this->render('pelanggan/index', ['response' => $response]);
 	}
 
 }

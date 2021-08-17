@@ -175,7 +175,7 @@ class Data_publik
 	 *
 	 * @return array
 	 */
-	public function resync()
+	public function resync($secure = true)
 	{
 		if ($this->cache_is_outdated())
 		{
