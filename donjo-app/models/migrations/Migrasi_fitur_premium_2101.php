@@ -49,6 +49,8 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
+		
+		$this->log_hapus_penduduk();
 
 		// Tambahkan key sebutan_nip_desa
 		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
@@ -95,4 +97,23 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 
 		return $hasil;
 	}
+
+	private function log_hapus_penduduk()
+	{
+		//insert log_penduduk_hapus
+		if (! $this->db->table_exists('log_hapus_penduduk') )
+		{
+			$query = "
+			CREATE TABLE IF NOT EXISTS `log_hapus_penduduk` (
+				`id` int(11) NOT NULL AUTO_INCREMENT,
+				`id_pend` int NOT NULL,
+				`nik` decimal(16,0) NOT NULL,
+				`foto` varchar(100) DEFAULT NULL,
+				`deleted_by` varchar(100) DEFAULT NULL,
+				`deleted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (`id`)
+				)";
+				$this->db->query($query);
+			}
+		}
 }

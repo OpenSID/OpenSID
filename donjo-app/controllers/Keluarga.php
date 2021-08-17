@@ -56,14 +56,19 @@ class Keluarga extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 22;
 		$this->_set_page = ['20', '50', '100'];
-		$this->_list_session = ['status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
+		$this->_list_session = ['jenis_peristiwa', 'status_hanya_tetap', 'status_dasar', 'sex', 'dusun', 'rw', 'rt', 'cari', 'kelas', 'filter', 'id_bos', 'judul_statistik', 'bantuan_keluarga', 'kumpulan_kk'];
 	}
 
-	public function clear()
+	public function clear_session()
 	{
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->per_page = $this->_set_page[0];
 		$this->session->status_dasar = 1; // tampilkan KK aktif saja
+	}
+
+	public function clear()
+	{
+		$this->clear_session();
 		redirect('keluarga');
 	}
 
@@ -83,12 +88,12 @@ class Keluarga extends Admin_Controller {
 		if (isset($dusun))
 		{
 			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->penduduk_model->list_rw($dusun);
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
 			if (isset($rw))
 			{
 				$data['rw'] = $rw;
-				$data['list_rt'] = $this->penduduk_model->list_rt($dusun, $rw);
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
@@ -110,7 +115,7 @@ class Keluarga extends Admin_Controller {
 		$data['paging'] = $this->keluarga_model->paging($p);
 		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/keluarga', $data);
@@ -127,6 +132,20 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $this->keluarga_model->list_data($o, 0);
 		if ($privasi_kk == 1) $data['privasi_kk'] = true;
 		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
+	}
+
+	public function form_peristiwa($peristiwa='')
+	{
+		// Acuan jenis peristiwa berada pada ref_peristiwa
+		$this->session->jenis_peristiwa = $peristiwa;
+		$this->form();
+	}
+
+	public function form_peristiwa_a($peristiwa='', $p = 1, $o = 0, $id = 0)
+	{
+		// Acuan jenis peristiwa berada pada ref_peristiwa
+		$this->session->jenis_peristiwa = $peristiwa;
+		$this->form_a($p, $o, $id);
 	}
 
 	/*
@@ -161,9 +180,9 @@ class Keluarga extends Admin_Controller {
 		$data['kk'] = null;
 		$data['form_action'] = site_url("keluarga/insert_new");
 		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
-		$data['dusun'] = $this->penduduk_model->list_dusun();
-		$data['rw'] = $this->penduduk_model->list_rw($data['penduduk']['dusun']);
-		$data['rt'] = $this->penduduk_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
+		$data['dusun'] = $this->wilayah_model->list_dusun();
+		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
+		$data['rt'] = $this->wilayah_model->list_rt($data['penduduk']['dusun'], $data['penduduk']['rw']);
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan_sedang'] = $this->penduduk_model->list_pendidikan_sedang();
 		$data['pendidikan_kk'] = $this->penduduk_model->list_pendidikan_kk();
@@ -182,9 +201,13 @@ class Keluarga extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		if ($this->session->status_hanya_tetap)
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap, 1);
+		else
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
-		unset($_SESSION['dari_internal']);
+		$this->session->unset_userdata(['dari_internal']);
 		$this->set_minsidebar(1);
 
 		$this->render('sid/kependudukan/keluarga_form', $data);
@@ -219,7 +242,11 @@ class Keluarga extends Admin_Controller {
 		$data['jenis_kelahiran'] = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
-		$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		if ($this->session->status_hanya_tetap)
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap, 1);
+		else
+			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
 		if ($_SESSION['validation_error'])
@@ -484,17 +511,14 @@ class Keluarga extends Admin_Controller {
 
 	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
 	{
-		$this->session->unset_userdata($this->_list_session);
-		$this->session->per_page = $this->_set_page[0];
-		$this->session->status_dasar = 1; // tampilkan KK aktif saja
-
+		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		if ($sex == NULL)
 		{
 			if ($nomor != 0) $this->session->sex = $nomor;
 			else $this->session->unset_userdata('sex');
 			$this->session->unset_userdata('judul_statistik');
-			redirect('penduduk');
+			redirect('keluarga');
 		}
 
 		$this->session->sex = ($sex == 0) ? NULL : $sex;
@@ -553,4 +577,27 @@ class Keluarga extends Admin_Controller {
 		$data['form_action_privasi'] = site_url("keluarga/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
+
+	public function program_bantuan()
+	{
+		// TODO : Ubah cara ini untuk menampilkan data
+		$this->session->sasaran = 2; // sasaran keluarga
+		$this->session->per_page = 100000; // tampilkan semua program bantuan
+		$list_bantuan = $this->program_bantuan_model->get_program(1, FALSE);
+
+		$data = [
+			'form_action' => site_url("keluarga/program_bantuan_proses"),
+			'program_bantuan' => $list_bantuan['program'],
+			'id_program' => $this->session->bantuan_keluarga
+		];
+
+		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);
+	}
+
+	public function program_bantuan_proses()
+	{
+		$id_program = $this->input->post('program_bantuan');
+		$this->statistik('bantuan_keluarga', $id_program, '0');
+	}
+
 }

@@ -32,42 +32,11 @@ class Setting_model extends CI_Model {
 		if ($this->config->item("useDatabaseConfig"))
 		{
 			$pr = $this->db
-				->where("kategori is null or kategori <> 'sistem' and kategori <> 'conf_web' and kategori <> 'setting_mandiri' ")
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($pr as $p)
-			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
-			}
-			$setting_sistem = $this->db
-				->where('kategori', 'sistem')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_sistem as $p)
-			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
-			}
-			$setting_web = $this->db
-				->where('kategori', 'conf_web')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_web as $p)
-			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
-			}
-			$setting_bagan = $this->db
-				->where('kategori', 'conf_bagan')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_bagan as $p)
-			$setting_mandiri = $this->db
-				->where('kategori', 'setting_mandiri')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_mandiri as $p)
-			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
-			}
+				->order_by('key')
+				->get("setting_aplikasi")
+				->result();
 
-			$setting_bagan = $this->db
-				->where('kategori', 'conf_bagan')
-				->order_by('key')->get("setting_aplikasi")->result();
-			foreach ($setting_bagan as $p)
+			foreach ($pr as $p)
 			{
 				$pre[addslashes($p->key)] = addslashes($p->value);
 			}
@@ -77,23 +46,8 @@ class Setting_model extends CI_Model {
 			$pre = (object) $CI->config->config;
 		}
 		$CI->setting = (object) $pre;
-		$CI->list_setting = $this->sterilkan_setting_demo($pr); // Untuk tampilan daftar setting
-		$CI->list_setting_web = $setting_web; // Untuk tampilan daftar setting web
-		$CI->list_setting_bagan = $setting_bagan; // Untuk tampilan bagan
-		$CI->list_setting_mandiri = $setting_mandiri; // Untuk tampilan daftar setting layanan mandiri
-		$CI->list_setting_bagan = $setting_bagan; // Untuk tampilan bagan
+		$CI->list_setting = $pr; // Untuk tampilan daftar setting
 		$this->apply_setting();
-	}
-
-	// Sembunyikan setting yg tidak untuk ditampilkan di demo, seperti token layanan
-	private function sterilkan_setting_demo($pr)
-	{
-		if ( ! config_item('demo_mode')) return $pr;
-		foreach ($pr as $key => $setting)
-		{
-			if ($setting->key == 'layanan_opendesa_token') $pr[$key]->value = '';
-		}
-		return $pr;
 	}
 
 	// Setting untuk PHP
@@ -111,13 +65,12 @@ class Setting_model extends CI_Model {
 		{
 			$this->setting->token_opensid = config_item('token_opensid');
 		}
-
-		// Server Pantau
-		$this->setting->tracker = (ENVIRONMENT == 'development' && ! empty(config_item('dev_tracker'))) ? config_item('dev_tracker') : "https://pantau.opensid.my.id";
-		
-		// Server Layanan
-		$this->setting->layanan_opendesa_server = (ENVIRONMENT == 'development' || ! empty(config_item('layanan_opendesa_dev_server'))) ? config_item('layanan_opendesa_dev_server') : "https://layanan.opendesa.id/";
-		
+		// Ambil dev_tracker dari desa/config/config.php kalau tidak ada di database
+		$this->setting->tracker = "https://pantau.opensid.my.id";
+		if (empty($this->setting->dev_tracker))
+		{
+			$this->setting->dev_tracker = config_item('dev_tracker');
+		}
 		$this->setting->user_admin = config_item('user_admin');
 		// Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
 		$pos = strpos($this->setting->web_theme, 'desa/');
@@ -148,6 +101,34 @@ class Setting_model extends CI_Model {
 			}
 		}
 		$this->apply_setting();
+		// TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
+		if ($data['latar_website'] != '') $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website()); // latar_website
+		if ($data['latar_login']  != '') $this->upload_img('latar_login', LATAR_LOGIN); // latar_login
+
+		return $data;
+	}
+
+	public function upload_img($key = '', $lokasi = '')
+	{
+		$this->load->library('upload');
+
+		$config['upload_path']		= $lokasi;
+		$config['allowed_types']	= 'jpg|jpeg|png';
+		$config['overwrite'] 			= TRUE;
+		$config['max_size']				= max_upload() * 1024;
+		$config['file_name']			= $key . '.jpg';
+
+		$this->upload->initialize($config);
+
+		if ($this->upload->do_upload($key))
+		{
+			$this->upload->data();
+		}
+		else
+		{
+			$this->session->error_msg = $this->upload->display_errors();
+			$this->session->success = -1;
+		}
 	}
 
 	private function notifikasi_tracker()

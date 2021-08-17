@@ -157,11 +157,17 @@ class Data_publik
 
 	/**
 	 * Ambil data url
+	 * @param boolean $no_cache
 	 * @return string
 	 */
-	public function get_url_content()
+	public function get_url_content($no_cache = false, $secure = true)
 	{
-		return $this->resync();
+		if (! $this->api)
+		{
+			throw new \Exception('Please specify the API endpoint URL.');
+		}
+		// Jika $no_cache paksa ambil baru
+		return $no_cache ? $this->get_content($secure) : $this->resync($secure);
 	}
 
 	/**
@@ -169,7 +175,7 @@ class Data_publik
 	 *
 	 * @return array
 	 */
-	public function resync()
+	public function resync($secure = true)
 	{
 		if ($this->cache_is_outdated())
 		{

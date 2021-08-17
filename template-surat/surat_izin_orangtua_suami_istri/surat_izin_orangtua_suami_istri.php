@@ -44,7 +44,7 @@
            	</a>
 					</div>
 					<div class="box-body">
-						<form action="" id="main" name="main" method="POST" class="form-horizontal">
+						<form id="main" name="main" method="POST" class="form-horizontal">
 							<div class="col-md-12">
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 text-right"><strong>PIHAK YANG MEMBERI IZIN</strong></label>

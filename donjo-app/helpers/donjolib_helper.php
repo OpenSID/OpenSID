@@ -213,21 +213,22 @@
 		return $str;
 	}
 
-	function bulan($bln)
+	function bulan()
 	{
 		$bulan = array(1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember');
-		return $bulan[(int)$bln];
+		return $bulan;
 	}
 
-	function getBulan($bln)
+	function getBulan(int $bln)
 	{
-		return bulan($bln);
+		$bulan = bulan();
+		return $bulan[(int)$bln];
 	}
 
 	function nama_bulan($tgl)
 	{
 		$ar = explode('-', $tgl);
-		$nm = bulan($ar[1]);
+		$nm = getBulan($ar[1]);
 		$o = $ar[0] .' '. $nm .' '. $ar[2];
 		return $o;
 	}

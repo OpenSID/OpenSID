@@ -1,3 +1,4 @@
+<!-- TODO: Pindahkan ke external css -->
 <style>
 	.input-sm
 	{
@@ -116,7 +117,7 @@
 					</div>
 					<div class="box-body">
 						<div class="row">
-							<form id="filterform" name="filterform" action="" method="post">
+							<form id="filterform" name="filterform"method="post">
 
 								<div class="col-sm-3">
 									<div class="form-group">
@@ -147,7 +148,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-									<form id="mainform" name="mainform" action="" method="post">
+									<form id="mainform" name="mainform" method="post">
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
@@ -207,7 +208,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="" method="post" class="form-horizontal">
+												<form id="paging"method="post" class="form-horizontal">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

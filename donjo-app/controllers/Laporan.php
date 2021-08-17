@@ -68,15 +68,8 @@ class Laporan extends Admin_Controller {
 		redirect('laporan');
 	}
 
-	public function index($lap = 0, $p = 1, $o = 0)
+	public function index()
 	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
 		if (isset($_SESSION['bulanku']))
 			$data['bulanku'] = $_SESSION['bulanku'];
 		else
@@ -95,15 +88,32 @@ class Laporan extends Admin_Controller {
 
 		$data['bulan'] = $data['bulanku'];
 		$data['tahun'] = $data['tahunku'];
+		$data['data_lengkap'] = true;
+		$data['sesudah_data_lengkap'] = true;
+		if ( ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap))
+		{
+			$data['data_lengkap'] = false;
+			$this->render('laporan/bulanan', $data);
+			return;
+		}
+		$tahun_bulan = (new DateTime($this->setting->tgl_data_lengkap))->format('Y-m');
+		if ($data['tahunku'].'-'.$data['bulanku'] < $tahun_bulan)
+		{
+			$data['sesudah_data_lengkap'] = false;
+			$this->render('laporan/bulanan', $data);
+			return;
+		}
+		$this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
+		$data['tahun_lengkap'] = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
 		$data['config'] = $this->config_model->get_data();
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
-		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
 		$data['kematian'] = $this->laporan_bulanan_model->kematian();
 		$data['pendatang'] = $this->laporan_bulanan_model->pendatang();
 		$data['pindah'] = $this->laporan_bulanan_model->pindah();
 		$data['hilang'] = $this->laporan_bulanan_model->hilang();
+		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['lap'] = $lap;
 
 		$this->render('laporan/bulanan', $data);
@@ -143,15 +153,15 @@ class Laporan extends Admin_Controller {
 		$data['config'] = $this->config_model->get_data();
 		$data['bulan'] = $_SESSION['bulanku'];
 		$data['tahun'] = $_SESSION['tahunku'];
-		$data['bln'] = $this->laporan_bulanan_model->bulan($data['bulan']);
+		$data['bln'] = getBulan($data['bulan']);
 		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
-		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
 		$data['kematian'] = $this->laporan_bulanan_model->kematian();
 		$data['pendatang'] = $this->laporan_bulanan_model->pendatang();
 		$data['pindah'] = $this->laporan_bulanan_model->pindah();
 		$data['rincian_pindah'] = $this->laporan_bulanan_model->rincian_pindah();
 		$data['hilang'] = $this->laporan_bulanan_model->hilang();
+		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		return $data;
 	}

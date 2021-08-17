@@ -22,7 +22,7 @@
 					<div class="box-header with-border">
 						<h3 class="box-title">Buat QR Code</h3>
 					</div>
-					<form id="mainform" name="mainform" action="" method="post">
+					<form id="mainform" name="mainform" method="post">
 						<div class="box-body">
 							<div class="form-group">
 								<label for="namaqr">Nama File :</label>

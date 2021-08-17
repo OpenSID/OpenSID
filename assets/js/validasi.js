@@ -113,47 +113,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$(".form-validasi").validate({
-		errorElement: "label",
-		errorClass: "error",
-		highlight:function (element){
-			$(element).closest(".form-group").addClass("has-error");
-		},
-		unhighlight:function (element){
-			$(element).closest(".form-group").removeClass("has-error");
-		},
-		errorPlacement: function (error, element) {
-			if (element.parent('.input-group').length) {
-				error.insertAfter(element.parent());
-			} else if (element.hasClass('select2')) {
-				error.insertAfter(element.next('span'));
-			} else {
-				error.insertAfter(element);
-			}
-		}
-	});
-
 	$("#mainform").validate({
-		errorElement: "label",
-		errorClass: "error",
-		highlight:function (element){
-			$(element).closest(".form-group").addClass("has-error");
-		},
-		unhighlight:function (element){
-			$(element).closest(".form-group").removeClass("has-error");
-		},
-		errorPlacement: function (error, element) {
-			if (element.parent('.input-group').length) {
-				error.insertAfter(element.parent());
-			} else if (element.hasClass('select2')) {
-				error.insertAfter(element.next('span'));
-			} else {
-				error.insertAfter(element);
-			}
-		}
-	});
-
-	$("#maincontent").validate({
 		errorElement: "label",
 		errorClass: "error",
 		highlight:function (element){
@@ -280,4 +240,14 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Isi IP address yang valid");
 
+	// Untuk tanggal lapor dan tanggal peristiwa
+	jQuery.validator.addMethod("tgl_lebih_besar", function(value, element, params)  {
+		tgl_minimal = $(params).val().split("-");
+		tgl_minimal = new Date(+tgl_minimal[2], tgl_minimal[1] - 1, +tgl_minimal[0]);
+		tgl_ini = value.split("-");
+		tgl_ini = new Date(+tgl_ini[2], tgl_ini[1] - 1, +tgl_ini[0]);
+		if (tgl_ini >= tgl_minimal)
+			return true;
+		return false;
+	}, "Tanggal harus sama atau lebih besar dari tanggal minimal.");
 })

@@ -236,7 +236,7 @@ class Pamong_model extends CI_Model {
 		$data['jabatan'] = strip_tags($post['jabatan']);
 		$data['pamong_pangkat'] = strip_tags($post['pamong_pangkat']);
 		$data['pamong_status'] = $post['pamong_status'];
-		$data['pamong_nosk'] = strip_tags($post['pamong_nosk']);
+		$data['pamong_nosk'] = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
 		$data['pamong_tglsk'] = !empty($post['pamong_tglsk']) ? tgl_indo_in($post['pamong_tglsk']) : NULL;
 		$data['pamong_tanggallahir'] = !empty($post['pamong_tanggallahir']) ? tgl_indo_in($post['pamong_tanggallahir']) : NULL;
 		$data['pamong_nohenti'] = !empty($post['pamong_nohenti']) ? strip_tags($post['pamong_nohenti']) : NULL;

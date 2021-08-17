@@ -9,7 +9,7 @@
 			<li class="active">Bagan Pemerintahan <?= ucwords($this->setting->sebutan_desa)?></li>
 		</ol>
 	</section>
-	<section class="content" id="maincontent">
+	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">

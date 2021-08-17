@@ -46,6 +46,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
+
 		$hasil = true;
 		// Ubah judul setting ukuran lebar bagan
 		$hasil =& $this->db->where('key', 'ukuran_lebar_bagan')

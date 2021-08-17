@@ -9,6 +9,7 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+		<!-- TODO: Pindahkan ke external css -->
 		<style>
 			.textx
 			{

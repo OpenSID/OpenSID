@@ -104,7 +104,7 @@ class MY_Model extends CI_Model {
 		else return true;
 	}
 
-	public function tambah_indeks($tabel, $kolom)
+	public function tambah_indeks($tabel, $kolom, $index = "UNIQUE")
 	{
 		$db = $this->db->database;
 		$ada = $this->db
@@ -115,7 +115,7 @@ class MY_Model extends CI_Model {
 			->where('index_name', $kolom)
 			->get()->row()->ada;
 		if ( ! $ada)
-			return $this->db->query("ALTER TABLE $tabel ADD UNIQUE $kolom (`$kolom`)");
+			return $this->db->query("ALTER TABLE $tabel ADD $index $kolom (`$kolom`)");
 		else return true;
 	}
 
@@ -129,5 +129,18 @@ class MY_Model extends CI_Model {
 	{
 		$sql = $this->db->insert_string('setting_aplikasi', $setting) . " ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
 		return $this->db->query($sql);
+	}
+
+	// fungsi untuk format paginasi
+	// $per_page = $this->session->per_page;
+	public function paginasi($page = 1, $jml_data = 0, $per_page = 0)
+	{
+		$this->load->library('paging');
+		$cfg['page'] = $page;
+		$cfg['per_page'] = $per_page;
+		$cfg['num_rows'] = $jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
 	}
 }

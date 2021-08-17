@@ -4,6 +4,7 @@
 	$('.cycle-slideshow').cycle();
 </script>
 
+<!-- TODO: Pindahkan ke external css -->
 <style type="text/css">
 	#aparatur_desa .cycle-pager span
 	{
@@ -22,9 +23,8 @@
 	}
 </style>
 <!-- widget Aparatur Desa -->
-<div class="modal-body" id="maincontent">
+<div class="modal-body">
 	<div class="box box-info box-solid">
-
 			<div class="box-body">
 				<div id="aparatur_desa" class="cycle-slideshow"
 					data-cycle-pause-on-hover=true

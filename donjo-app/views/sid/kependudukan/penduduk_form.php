@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" onreset="reset_hamil();">
+		<form id="mainform" name="mainform" method="POST" enctype="multipart/form-data" onreset="reset_hamil();">
 			<div class="row">
 				<?php include("donjo-app/views/sid/kependudukan/penduduk_form_isian.php"); ?>
 			</div>

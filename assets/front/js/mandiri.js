@@ -41,29 +41,100 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-function show_alert(type, title, content) {
-	const icon = type == 'red' ? 'fa fa-warning' : 'fa fa-check';
+$(document).ready(function() {
 
-	$.alert({
-		"type": type,
-		"title": title,
-		"content": content,
-		"icon": icon,
-		"backgroundDismiss": true
-	})
-}
+	var url = SITE_URL + 'layanan_mandiri/surat/cek_syarat';
+	table = $('#syarat_surat').DataTable({
+		'processing': true,
+		'serverSide': true,
+		'paging': false,
+		'info': false,
+		'ordering': false,
+		'searching': false,
+		"ajax": {
+			"url": url,
+			"type": "POST",
+			data: function ( d ) {
+				d.id_surat = $("#id_surat").val();
+				d.id_permohonan = $("#id_permohonan").val();
+			}
+		},
+		//Set column definition initialisation properties.
+		"columnDefs": [
+			{
+				"targets": [ 0 ], //first column / numbering column
+				"orderable": false, //set not orderable
+			},
+		],
+		'aoColumnDefs': [
+			{
+				"sClass": "padat", "aTargets": [0]
+			}
+		],
+		'language': {
+			'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+		},
+		'drawCallback': function () {
+			$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
+		}
+	});
 
-$(document).ready(function () {
+	$('#id_surat').change(function() {
+		table.ajax.reload();
+	});
 
-	$('#unggah_dokumen').validate();
+	// Perbaharui daftar pilihan dokumen setelah ada perubahan daftar dokumen yg tersedia
+	// Beri tenggang waktu supaya database dokumen selesai di-initialise
+	setTimeout(function() {
+		// Ambil instance dari datatable yg sudah ada
+		var dokumen = $('#dokumen').DataTable({"retrieve": true});
+		dokumen.on( 'draw', function () {
+			table.ajax.reload();
+		} );
+	}, 500);
+
+	if ($('input[name=id_permohonan]').val()) {
+		$('#id_surat').attr('disabled','disabled');
+	}
+
+	$('#validasi').submit(function() {
+		var validator = $("#validasi").validate();
+		var syarat = $("select[name='syarat[]']");
+		var i;
+		for (i = 0; i < syarat.length; i++) {
+			if (!validator.element(syarat[i])) {
+				$("#kata_peringatan").text('Syarat belum dilengkapi');
+				$("#dialog").modal('show');
+				return false;
+			}
+		};
+	});
 
 	$('.datatable-polos').DataTable({
 		'pageLength': 10,
 		'responsive': true,
+		'aoColumnDefs': [
+			{
+				"sClass": "padat", "aTargets": [0]
+			}
+		],
 		'language': {
 			'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
 		}
 	});
+
+	function show_alert(type, title, content) {
+		const icon = type == 'red' ? 'fa fa-warning' : 'fa fa-check';
+		$.alert({
+			"type": type,
+			"title": title,
+			"content": content,
+			"icon": icon,
+			"backgroundDismiss": true
+		});
+	}
+
+	$('#unggah_dokumen').validate();
 
 	$('#dokumen').DataTable({
 		'paging': false,
@@ -74,25 +145,27 @@ $(document).ready(function () {
 		'rowReorder': {
 			'selector': 'td:nth-child(2)'
 		},
-		'ajax': SITE_URL + '/mandiri_web/ajax_table_surat_permohonan',
+		'ajax': SITE_URL + '/layanan_mandiri/surat/ajax_table_surat_permohonan',
 		'language': {
 			url: BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
 		},
-    "columnDefs": [
-	   {
-        "targets": [ 5, 6 ],
-        "visible": false
-	    }
+		"columnDefs": [
+		 {
+				"targets": [5, 6],
+				"visible": false
+			}
 		],
 		'aoColumnDefs': [
-			{ "sClass": "nowrap", "aTargets": [ 1 ] },
+			{
+				"sClass": "padat", "aTargets": [0, 1]
+			},
 			{
 				'aTargets': [1],
 				'mData': 'aksi',
 				'mRender': function (data, type, row) {
 					let action = ``;
 					if (row[1] && row[6] == 1) {
-						action = `<button type="button" class="btn bg-orange btn-flat btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[1]}"><i class="fa fa-edit"></i></button> <button type="button" class="btn bg-red btn-flat btn-sm delete text-center" title="Hapus Data" data-id="${row[1]}"><i class="fa fa-trash"></i> Hapus</button>`;
+						action = `<button type="button" class="btn bg-orange btn-sm edit text-center" data-toggle="modal" data-target="#modal" data-title="Ubah Data" title="Ubah Data"  title="Ubah Data" data-id="${row[1]}"><i class="fa fa-edit"></i></button> <button type="button" class="btn bg-red btn-sm delete text-center" title="Hapus Data" data-id="${row[1]}"><i class="fa fa-trash"></i></button>`;
 					}
 					return action;
 				}
@@ -115,18 +188,17 @@ $(document).ready(function () {
 		$('#file').removeClass('required');
 		$('#modal .modal-body').LoadingOverlay('show');
 		$.ajax({
-			url: SITE_URL + '/mandiri_web/ajax_get_dokumen_pendukung',
+			url: SITE_URL + '/layanan_mandiri/surat/ajax_get_dokumen_pendukung',
 			type: 'POST',
 			data: {
 				id_dokumen: id
 			},
 			success: function (response) {
-				let data = JSON.parse(response);
 				$('#unggah_dokumen').validate().resetForm();
-				$('#id_dokumen').val(data.id);
-				$('#nama_dokumen').val(data.nama);
-				$('#id_syarat').val(data.id_syarat);
-				$('#old_file').val(data.satuan);
+				$('#id_dokumen').val(response.id);
+				$('#nama_dokumen').val(response.nama);
+				$('#id_syarat').val(response.id_syarat);
+				$('#old_file').val(response.satuan);
 				$('#modal .modal-body').LoadingOverlay('hide');
 
 				//anggota lain
@@ -166,17 +238,16 @@ $(document).ready(function () {
 					'action': function() {
 						$('#modal .modal-body').LoadingOverlay('show');
 						$.ajax({
-							url: SITE_URL + '/mandiri_web/ajax_hapus_dokumen_pendukung',
+							url: SITE_URL + '/layanan_mandiri/surat/ajax_hapus_dokumen_pendukung',
 							type: 'POST',
 							data: {
 								id_dokumen: id
 							},
 							success: function(response) {
-								let data = JSON.parse(response);
 								$('#modal .modal-body').LoadingOverlay('hide');
-								switch (data.success) {
+								switch (response.success) {
 									case -1:
-										show_alert('red', 'Error', data.message);
+										show_alert('red', 'Error', response.message);
 										break;
 									default:
 										show_alert('green', 'Sukses', 'Berhasil menghapus');
@@ -199,7 +270,7 @@ $(document).ready(function () {
 		if ($(this).valid()) {
 			$('#modal .modal-body').LoadingOverlay("show");
 			$.ajax({
-				url: SITE_URL + '/mandiri_web/ajax_upload_dokumen_pendukung',
+				url: SITE_URL + '/layanan_mandiri/surat/ajax_upload_dokumen_pendukung',
 				type: 'POST',
 				data: new FormData(this),
 				processData: false,
@@ -207,17 +278,16 @@ $(document).ready(function () {
 				cache: false,
 				async: true,
 				success: function (response) {
-					let data = JSON.parse(response);
 					$('#modal .modal-body').LoadingOverlay("hide");
-					switch (data.success) {
+					switch (response.success) {
 						case -1:
-							show_alert('red', 'Error', data.message);
+							show_alert('red', 'Error', response.message);
 							break;
 						default:
 							$('#dokumen').DataTable().ajax.reload();
 							$('#unggah_dokumen').trigger('reset');
 							$('#modal').modal('hide');
-							show_alert('green', 'Sukses', data.message);
+							show_alert('green', 'Sukses', response.message);
 							break;
 					}
 				},
@@ -227,5 +297,4 @@ $(document).ready(function () {
 			})
 		}
 	});
-
 });

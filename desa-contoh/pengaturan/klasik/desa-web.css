@@ -1,0 +1,11 @@
+/*
+ * File ini berisi CSS ubahan desa untuk tema
+ *
+ * desa-web.css ini berisi perubahan untuk styles yang ada di assets/front/css/first.css
+*/
+
+/* Untuk menyembunyikan tampilan keuangan tema, ubah display: block menjadi display: none;. */
+
+#transparansi-footer{
+  display: block;
+}
