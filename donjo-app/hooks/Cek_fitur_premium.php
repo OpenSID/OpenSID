@@ -43,45 +43,47 @@ class Cek_fitur_premium
 		}
 	}
 
+	/**
+	 * Validasi akses fitur.
+	 * 
+	 * @return bool
+	 */
 	protected function validasi_akses()
 	{
 		if (empty($token = $this->ci->setting->layanan_opendesa_token)) {
-			$this->ci->session->set_userdata('error_status_langganan', 'Token pelanggan kosong / tidak valid');
+			$this->ci->session->set_userdata('error_status_langganan', 'Token pelanggan kosong / tidak valid.');
 
 			return false;
 		}
 
-		$host = $this->ci->setting->layanan_opendesa_server;
+		$tokenParts = explode(".", $token);
+		$tokenPayload = base64_decode($tokenParts[1]);
+		$jwtPayload = json_decode($tokenPayload);
 
-		$response = $this->ci->cache->pakai_cache(function () use ($host, $token) {
-			// request ke api layanan.opendesa.id
-			return $this->client->post(
-				"{$host}/api/v1/key/check",
-				[
-					'kode_desa' => kode_wilayah($this->ci->header['desa']['kode_desa']),
-					'domain' => substr(base_url(), 0, -1),
-				],
-				[
-					CURLOPT_HTTPHEADER => [
-						"X-Requested-With: XMLHttpRequest",
-						"Authorization: Bearer {$token}",
-					]
-				]
-			);
-		}, 'validasi_langganan', 24 * 60 * 60);
-
-		if ($response->header->http_code === 401)
+		$date = new DateTime('20' . str_replace('.', '-', $this->ci->setting->current_version) . '-01');
+		$date->modify('last day of this month');
+		$version = $date->format('Y-m-d');
+		
+		if (($version > $jwtPayload->tanggal_berlangganan->akhir) && ($jwtPayload->tanggal_berlangganan->akhir < $version))
 		{
-			$this->ci->cache->hapus_cache_untuk_semua('validasi_langganan');
 			$this->ci->session->set_userdata('error_status_langganan', "Masa aktif berlangganan fitur premium sudah berakhir.");
 
 			return false;
 		}
-
-		if ($response->header->http_code != 200)
+			
+		if (version_compare($jwtPayload->desa_id, kode_wilayah($this->ci->header['desa']['kode_desa']), '!='))
 		{
-			$this->ci->cache->hapus_cache_untuk_semua('validasi_langganan');
-			$this->ci->session->set_userdata('error_status_langganan', "{$response->header->http_code} | {$response->body->messages->error}");
+			$this->ci->session->set_userdata('error_status_langganan', "Kode desa tidak cocok dengan yang ada di layanan.opendesa.id.");
+
+			return false;
+		}
+
+		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']))
+		{
+			return true;
+		} else if ($jwtPayload->domain != substr(base_url(), 0, -1))
+		{
+			$this->ci->session->set_userdata('error_status_langganan', "Domain desa tidak cocok dengan yang ada di layanan.opendesa.id.");
 
 			return false;
 		}
