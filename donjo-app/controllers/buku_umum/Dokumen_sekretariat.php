@@ -104,10 +104,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['subtitle'] = ($kat == '3') ? "Buku Peraturan Desa" : "Buku Keputusan Kepala Desa";
 		$data['selected_nav'] = ($kat == '3') ? 'peraturan' : 'keputusan';
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function clear($kat=2)
