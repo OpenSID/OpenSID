@@ -266,8 +266,8 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			$list_menu = $this->db->select('id')->get_where('menu', ['parrent' => 0])->result_array();
 			$hapus = sql_in_list(array_column($list_menu, 'id'));
 			if ($hapus) $hasil = $hasil && $this->db->where("parrent NOT IN ($hapus) AND parrent != 0")->delete('menu');
-
-			return $hasil;
 		}
+
+		return $hasil;
 	}
 }
