@@ -269,5 +269,5 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 
 			return $hasil;
 		}
-  }
+	}
 }

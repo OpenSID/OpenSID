@@ -27,3 +27,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 #### Perubahan Teknis
 1. Perbaiki migrasi gagal pada penambahan indeks dengan nama kolom tertentu.
+2. Sesuaikan contoh data awal modul menu.
