@@ -45,10 +45,7 @@ class Ekspedisi extends Admin_Controller {
 		$data['selected_nav'] = 'ekspedisi';
 		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id)
@@ -71,11 +68,7 @@ class Ekspedisi extends Admin_Controller {
 		$ekstensiFile = end($ekstensiFile);
 		$data['surat_keluar']['tanda_terima'] = $namaFile.'.'.$ekstensiFile;
 		$this->set_minsidebar(1);
-
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('ekspedisi/form', $data);
-		$this->load->view('footer');
+		$this->render('ekspedisi/form', $data);
 	}
 
 	public function search()
@@ -105,6 +98,7 @@ class Ekspedisi extends Admin_Controller {
 		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_surat'] = $this->ekspedisi_model->list_tahun_surat();
 		$data['form_action'] = site_url("ekspedisi/daftar/$aksi/$o");
+		
 		$this->load->view('ekspedisi/ajax_cetak', $data);
 	}
 
@@ -116,6 +110,7 @@ class Ekspedisi extends Admin_Controller {
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['desa'] = $this->config_model->get_data();
 		$data['main'] = $this->ekspedisi_model->list_data($o, 0, 10000);
+		
 		$this->load->view("ekspedisi/ekspedisi_$aksi", $data);
 	}
 
