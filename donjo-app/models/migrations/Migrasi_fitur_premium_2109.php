@@ -73,9 +73,10 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		foreach ($list_data as $data)
 		{
 			// Hapus file
-			if ($data->nama_surat)
+			$file = LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat);
+			if (file_exists($file))
 			{
-				$hasil = unlink(LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat));
+				$hasil = $hasil && unlink($file);
 			}
 		}
 
