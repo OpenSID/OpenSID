@@ -46,22 +46,39 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
-    $hasil = true;
-
-    $hasil = $hasil && $this->migrasi_2021080771($hasil);
+		$hasil = true;
+		
+		$hasil = $hasil && $this->migrasi_2021080771($hasil);
+		$hasil = $hasil && $this->migrasi_2021081851($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
 
-  protected function migrasi_2021080771($hasil)
-  {
-    if (! $this->db->field_exists('mac_address', 'anjungan'))
-    {
-      $hasil = $hasil && $this->dbforge->add_column('anjungan', ['mac_address' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
-    }
+	protected function migrasi_2021080771($hasil)
+	{
+		if ( ! $this->db->field_exists('mac_address', 'anjungan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('anjungan', ['mac_address' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+		}
 
-    return $hasil;
-  }
+		return $hasil;
+	}
 
+	protected function migrasi_2021081851($hasil)
+	{
+		// Cek log surat, hapus semua file view verifikasi berdasrkan surat yg sudah di cetak
+		$list_data = $this->db->select('nama_surat')->get('log_surat')->result();
+
+		foreach ($list_data as $data)
+		{
+			// Hapus file
+			if ($data->nama_surat)
+			{
+				$hasil = unlink(LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat));
+			}
+		}
+
+		return $hasil;
+	}
 }

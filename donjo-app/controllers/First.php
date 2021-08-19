@@ -700,20 +700,13 @@ class First extends Web_Controller {
 		$this->load->view('pembangunan/informasi', $data);
 	}
 
-	public function redirect( $alias )
+	public function verifikasi_surat($alias)
 	{
-		$url_data = $this->url_shortener_model->get_url($alias);
-		if ( ! $url_data)
-		{
-			header("HTTP/1.0 404 Not Found");
-			$this->load->view('not_found');
-		}
-		else
-		{
-			$this->stat_shortener_model->add_log($url_data->id);
-			header('Location: ' . $url_data->url, true, 302);
-			exit();
-		}
+		$cek = $this->url_shortener_model->get_url($alias);
+		if (! $cek) show_404();
+		
+		$this->stat_shortener_model->add_log($cek->id);
+		redirect($cek->url);
 	}
 
 	public function status_sdgs()
