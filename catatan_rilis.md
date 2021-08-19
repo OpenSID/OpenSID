@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 10. [#4343](https://github.com/OpenSID/OpenSID/issues/4343) Perbaiki Data di ID BDT tidak dapat di filter antara sudah terisi dan belum mengisi.
 11. [#4327](https://github.com/OpenSID/OpenSID/issues/4327) Perbaiki format Data Penduduk .xls Sinkronisasi Dari OpenSID ke OpenDK tidak sesuai.
 12. [#4354](https://github.com/OpenSID/OpenSID/issues/4354) Perbaiki hak akses tambah/ubah dokumen, ekspedisi.
+13. [#356](https://github.com/OpenSID/premium/issues/356) Perbaiki URL verifikasi surat tidak menampilkan data penduduk seperti NIK. [security]
 
 
 #### Perubahan Teknis
