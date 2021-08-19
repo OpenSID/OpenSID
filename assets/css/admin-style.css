@@ -566,3 +566,27 @@ div.form-surat .content-header {
 	width: auto;
 	padding: 20px;
 }
+
+/* Verifikasi */
+.verifikasi-page {
+  background: #d2d6de;
+}
+
+.verifikasi-box {
+  width: 40%;
+  margin: 7% auto;
+}
+
+.verifikasi-box-body {
+  background: #fff;
+  padding: 20px;
+  border-top: 0;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .verifikasi-box {
+    width: 90%;
+    margin-top: 20px;
+  }
+}
