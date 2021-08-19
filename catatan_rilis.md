@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 11. [#4327](https://github.com/OpenSID/OpenSID/issues/4327) Perbaiki format Data Penduduk .xls Sinkronisasi Dari OpenSID ke OpenDK tidak sesuai.
 12. [#4354](https://github.com/OpenSID/OpenSID/issues/4354) Perbaiki hak akses tambah/ubah dokumen, ekspedisi.
 13. [#356](https://github.com/OpenSID/premium/issues/356) Perbaiki URL verifikasi surat tidak menampilkan data penduduk seperti NIK. [security]
+14. [#4388](https://github.com/OpenSID/OpenSID/issues/4388) Perbaiki pencatatan log penduduk saat ubah data.
 
 
 #### Perubahan Teknis
