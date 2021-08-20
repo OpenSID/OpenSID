@@ -1151,7 +1151,6 @@ class Surat_model extends CI_Model {
 		$input = $data['input'];
 		if ($data['surat']['qr_code'] == 1)
 		{
-			$this->verifikasi_surat($data, $nama_surat);
 			$this->buat_qrcode($data, $nama_surat);
 		}
 		$this->lampiran($data, $nama_surat, $lampiran);
@@ -1293,29 +1292,6 @@ class Surat_model extends CI_Model {
 		];
 		$this->session->qrcode = $qrcode;
 		qrcode_generate($qrcode['pathqr'], $qrcode['namaqr'], $qrcode['isiqr'], $qrcode['logoqr'], $qrcode['sizeqr'], $qrcode['foreqr']);
-	}
-
-	public function verifikasi_surat($data, $nama_surat)
-	{
-		$surat = $data['surat'];
-		$config = $data['config'];
-		$individu = $data['individu'];
-		$tanggal = tgl_indo(date("Y m d"));
-		$check_file = pathinfo($nama_surat, PATHINFO_FILENAME).".php";
-
-		ob_start();
-			include("donjo-app/views/surat/verifikasi_surat.php");
-		$content = ob_get_clean();
-		file_put_contents(LOKASI_ARSIP . $check_file, $content);
-	}
-
-	public function get_surat_check($id)
-	{
-		$nama_berkas = $this->db->select('nama_surat')
-			->where('id', $id)
-			->get('log_surat')->row()->nama_surat;
-		$nama_surat_check = pathinfo($nama_berkas, PATHINFO_FILENAME).".php";
-		return $nama_surat_check;
 	}
 
 	// Periksa apakah template rtf berisi sematan qrcode

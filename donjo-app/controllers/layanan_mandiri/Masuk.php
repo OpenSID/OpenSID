@@ -56,13 +56,19 @@ class Masuk extends Web_Controller
 		mandiri_timeout();
 		$this->session->login_ektp = FALSE;
 		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 	}
 
 	public function index()
 	{
 		if ($this->session->mandiri == 1) redirect('layanan-mandiri');
+		$mac_address = $this->input->get('mac_address', TRUE);
+		$token = $this->input->get('token_layanan', TRUE);
+		if ($mac_address && $token == $this->setting->layanan_opendesa_token)
+		{
+			$this->session->mac_address = $mac_address;
+			redirect('layanan-mandiri');
+		}
 
 		//Initialize Session ------------
 		$this->session->unset_userdata('balik_ke');
@@ -78,7 +84,7 @@ class Masuk extends Web_Controller
 		$data = [
 			'header' => $this->config_model->get_data(),
 			'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
-			'cek_anjungan' => $this->cek_anjungan,
+			'cek_anjungan' => $this->anjungan_model->cek_anjungan($this->session->mac_address),
 			'form_action' => site_url('layanan-mandiri/cek')
 		];
 

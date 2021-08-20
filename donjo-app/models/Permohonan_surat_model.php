@@ -176,7 +176,9 @@
 		elseif ($status == 5)
 		{
 			// Batalkan hanya jika status = 0 (belum lengkap) atau 1 (sedang diproses)
-			$this->db->where_in('status', ['0', '1'])->where('id_pemohon', $id_pemohon);
+			$this->db->where_in('status', ['0', '1']);
+			
+			if ($id_pemohon) $this->db->where('id_pemohon', $id_pemohon);
 		}
 		else
 		{

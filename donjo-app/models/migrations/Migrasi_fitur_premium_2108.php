@@ -233,40 +233,41 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 	{
 		if ($this->db->field_exists('tipe', 'menu'))
 		{
+			$hasil = $hasil && $this->db
+				->where('parrent', 1)
+				->where('tipe', 1)
+				->update('menu', ['parrent' => 0]);
+
 			$hasil = $hasil && $this->dbforge->drop_column('menu', 'tipe');
+
+			$fields = [
+				'id' => [
+					'type' => 'INT',
+					'constraint' => 11,
+					'auto_increment' => true
+				],
+
+				'parrent' => [
+					'type' => 'INT',
+					'constraint' => 11,
+					'default' => 0
+				],
+
+				'enabled' => [
+					'type' => 'TINYINT',
+					'constraint' => 1,
+					'default' => 1
+				],
+			];
+
+			$hasil = $hasil && $this->dbforge->modify_column('menu', $fields);
+
+			// Hapus menu yg tdk memiliki parrent
+			$list_menu = $this->db->select('id')->get_where('menu', ['parrent' => 0])->result_array();
+			$hapus = sql_in_list(array_column($list_menu, 'id'));
+			if ($hapus) $hasil = $hasil && $this->db->where("parrent NOT IN ($hapus) AND parrent != 0")->delete('menu');
 		}
 
-		$fields = [
-			'id' => [
-				'type' => 'INT',
-				'constraint' => 11,
-				'auto_increment' => true
-			],
-
-			'parrent' => [
-				'type' => 'INT',
-				'constraint' => 11,
-				'default' => 0
-			],
-
-			'enabled' => [
-				'type' => 'TINYINT',
-				'constraint' => 1,
-				'default' => 1
-			],
-		];
-
-		$hasil = $hasil && $this->dbforge->modify_column('menu', $fields);
-
-		$hasil = $hasil && $this->db
-			->where('parrent', 1)
-			->update('menu', ['parrent' => 0]);
-
-		// Hapus menu yg tdk memiliki parrent
-		$list_menu = $this->db->select('id')->get_where('menu', ['parrent' => 0])->result_array();
-		$hapus = sql_in_list(array_column($list_menu, 'id'));
-		if ($hapus) $hasil = $hasil && $this->db->where("parrent NOT IN ($hapus) AND parrent != 0")->delete('menu');
-
 		return $hasil;
-  }
+	}
 }

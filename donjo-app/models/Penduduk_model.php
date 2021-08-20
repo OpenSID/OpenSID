@@ -896,11 +896,13 @@ class Penduduk_model extends MY_Model {
 		$get_pendudukId = $this->db->where('id', $id)->get('tweb_penduduk')->row();
 		$log = [
 			'tgl_peristiwa' => $tgl_peristiwa,
-			'tgl_lapor' => $tgl_lapor,
 			'updated_at' => date('Y-m-d H:i:s'),
 			'updated_by' => $this->session->user,
 			'maksud_tujuan_kedatangan' => $maksud_tujuan,
 		];
+		
+		if ($_POST['tgl_lapor']) $log['tgl_lapor'] = $tgl_lapor;
+
 		if ($get_pendudukId->status_dasar == 1)
 			$this->db->where('id_pend', $id)->where_in('kode_peristiwa', [1, 5])->update('log_penduduk', $log);
 		else

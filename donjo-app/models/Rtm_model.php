@@ -380,16 +380,6 @@ class Rtm_model extends CI_Model {
 			->join('tweb_keluarga k', 't.id_kk = k.id')
 			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
 
-		$kolom_kode = [
-			['sex', 't.sex'],
-			['bdt', 'u.bdt'],
-		];
-
-		foreach ($kolom_kode as $kolom)
-		{
-			$this->get_sql_kolom_kode($kolom[0], $kolom[1]);
-		}
-
 		$this->order_by_list($order_by);
 
 		$data = $this->db->get()->result_array();
@@ -420,10 +410,16 @@ class Rtm_model extends CI_Model {
 
 		$this->search_sql();
 
-		$list_kode = [['dusun', 'c.dusun'], ['rw', 'c.rw'], ['rt', 'c.rt']];
-		foreach ($list_kode as $list)
-		{
-			$this->filter_sql($list[0], $list[1]);
+		$kolom_kode = [
+			['dusun', 'c.dusun'],
+			['rw', 'c.rw'],
+			['rt', 'c.rt'],
+			['sex', 't.sex'],
+			['bdt', 'u.bdt'],
+		];
+
+		foreach ($kolom_kode as $kolom) {
+			$this->get_sql_kolom_kode($kolom[0], $kolom[1]);
 		}
 	}
 
@@ -433,16 +429,6 @@ class Rtm_model extends CI_Model {
 		if ($cari)
 		{
 			$this->db->like('t.nama', $cari);
-		}
-	}
-
-	private function filter_sql($session, $field)
-	{
-		$value = $this->session->$session;
-
-		if (isset($value))
-		{
-			$this->db->where($field, $value);
 		}
 	}
 

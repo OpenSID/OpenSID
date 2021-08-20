@@ -45,13 +45,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-define("VERSION", '21.08-premium');
 /**
- * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
- * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
- * [nomor urut dua digit] = 01 => rilis umum, 71 => rilis premium, 51 => rilis bugfix
+ * VERSION
+ * rilis-bugsfix => premium-rev[nomor urut dua digit]
+ * beta => premium-beta[nomor urut dua digit]
+ * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSI_DATABASE', '2021080171');
+define("VERSION", '21.08-premium-beta02');
+/**
+ * VERSI_DATABASE
+ * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
+ * Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
+ * Versi database = [yyyymmdd][nomor urut dua digit]
+ * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
+ */
+define('VERSI_DATABASE', '2021081851');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -876,6 +884,11 @@ function bilangan_spasi($str)
 function bilangan_titik($str)
 {
 	return preg_replace('/[^0-9\.]/', '', strip_tags($str));
+}
+
+function alfanumerik_kolon($str)
+{
+	return preg_replace('/[^a-zA-Z0-9:]/', '', strip_tags($str));
 }
 
 function nomor_surat_keputusan($str)

@@ -250,6 +250,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Isi IP address yang valid");
 
+	jQuery.validator.addMethod("mac_address", function(value, element) {
+		valid = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(value);
+		return this.optional(element) || valid;
+	}, "Isi Mac address yang valid");
+
 	// Untuk tanggal lapor dan tanggal peristiwa
 	jQuery.validator.addMethod("tgl_lebih_besar", function(value, element, params)  {
 		tgl_minimal = $(params).val().split("-");
