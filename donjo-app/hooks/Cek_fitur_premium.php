@@ -1,16 +1,9 @@
 <?php
 
-use Esyede\Curly;
-
-require_once APPPATH . '/libraries/Curly.php';
-
 class Cek_fitur_premium
 {
 	/** @var CI_Controller */
 	protected $ci;
-
-	/** @var \Esyede\Curly */
-	protected $client;
 
 	/**
 	 * Constructor Cek fitur premium
@@ -20,7 +13,6 @@ class Cek_fitur_premium
 	public function __construct()
 	{
 		$this->ci = get_instance();
-		$this->client = new Curly();
 	}
 
 	/**
@@ -61,10 +53,9 @@ class Cek_fitur_premium
 		$jwtPayload = json_decode($tokenPayload);
 
 		$date = new DateTime('20' . str_replace('.', '-', $this->ci->setting->current_version) . '-01');
-		$date->modify('last day of this month');
 		$version = $date->format('Y-m-d');
 		
-		if (($version > $jwtPayload->tanggal_berlangganan->akhir) && ($jwtPayload->tanggal_berlangganan->akhir < $version))
+		if ($version >= $jwtPayload->tanggal_berlangganan->akhir)
 		{
 			$this->ci->session->set_userdata('error_status_langganan', "Masa aktif berlangganan fitur premium sudah berakhir.");
 
@@ -73,7 +64,7 @@ class Cek_fitur_premium
 			
 		if (version_compare($jwtPayload->desa_id, kode_wilayah($this->ci->header['desa']['kode_desa']), '!='))
 		{
-			$this->ci->session->set_userdata('error_status_langganan', "Kode desa tidak cocok dengan yang ada di layanan.opendesa.id.");
+			$this->ci->session->set_userdata('error_status_langganan', "Desa tidak cocok dengan yang ada di layanan.opendesa.id.");
 
 			return false;
 		}
@@ -81,7 +72,8 @@ class Cek_fitur_premium
 		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']))
 		{
 			return true;
-		} else if ($jwtPayload->domain != substr(base_url(), 0, -1))
+		}
+		else if ($jwtPayload->domain != substr(base_url(), 0, -1))
 		{
 			$this->ci->session->set_userdata('error_status_langganan', "Domain desa tidak cocok dengan yang ada di layanan.opendesa.id.");
 
