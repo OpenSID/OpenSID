@@ -106,7 +106,7 @@
 		{
 			case 1: $this->db->order_by('u.updated_at', 'asc'); break;
 			case 2: $this->db->order_by('u.updated_at', 'desc'); break;
-			default: $this->db->order_by('ISNULL(u.no_antrian), u.no_antrian', 'asc');
+			default: $this->db->order_by('u.status, ISNULL(u.no_antrian), u.no_antrian', 'asc');
 		}
 
 		//Main Query
