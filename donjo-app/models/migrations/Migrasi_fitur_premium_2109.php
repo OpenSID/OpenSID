@@ -49,6 +49,8 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
+		$hasil = $hasil && $this->migrasi_2021082052($hasil);
+
 
 		status_sukses($hasil);
 		return $hasil;
@@ -67,6 +69,18 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 			{
 				$hasil = $hasil && unlink($file);
 			}
+		}
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021082052($hasil)
+	{
+		// Hapus file .htaccess
+		$file = LOKASI_DOKUMEN . '/.htaccess';
+		if (file_exists($file))
+		{
+			$hasil = $hasil && unlink($file);
 		}
 
 		return $hasil;

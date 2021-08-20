@@ -332,22 +332,28 @@
 														</tr>
 														<tr>
 															<td>
-																<table class="table table-bordered table-striped table-hover detail">
-																	<tr>
-																		<th class="padat">No</th>
-																		<th>Waktu / Tanggal</th>
-																		<th>Nama Program</th>
-																		<th>Keterangan</th>
-																	</tr>
-																	<?php foreach ($program['programkerja'] as $key => $item): ?>
-																		<tr>
-																			<td class="text-center"><?= $key + 1?></td>
-																			<td><?= fTampilTgl($item["sdate"], $item["edate"]); ?></td>
-																			<td><a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]"); ?>"><?= $item["nama"]; ?></a></td>
-																			<td><?= $item["ndesc"];?></td>
-																		</tr>
-																	<?php endforeach;?>
-																</table>
+																<div class="table-responsive">
+																	<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+																		<thead class="bg-gray disabled color-palette">
+																			<tr>
+																				<th class="padat">No</th>
+																				<th>Waktu / Tanggal</th>
+																				<th>Nama Program</th>
+																				<th>Keterangan</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<?php foreach ($program['programkerja'] as $key => $item): ?>
+																				<tr>
+																					<td class="text-center"><?= $key + 1?></td>
+																					<td><?= fTampilTgl($item["sdate"], $item["edate"]); ?></td>
+																					<td><a href="<?= site_url("program_bantuan/data_peserta/$item[peserta_id]"); ?>"><?= $item["nama"]; ?></a></td>
+																					<td><?= $item["ndesc"];?></td>
+																				</tr>
+																			<?php endforeach;?>
+																		</tbody>
+																	</table>
+																</div>
 															</td>
 														</tr>
 														<tr>
@@ -355,22 +361,28 @@
 														</tr>
 														<tr>
 															<td>
-																<table class="table table-bordered table-striped table-hover detail">
-																	<tr>
-																		<th class="padat">No</th>
-																		<th>Nama Dokumen</th>
-																		<th>File</th>
-																		<th>Tanggal Upload</th>
-																	</tr>
-																	<?php foreach ($list_dokumen as $key => $data): ?>
-																		<tr>
-																			<td class="text-center"><?= $key + 1; ?></td>
-																			<td><?= $data['nama']?></td>
-																			<td><a href="<?= base_url().LOKASI_DOKUMEN?><?= urlencode($data['satuan']); ?>" ><?= $data['satuan']; ?></a></td>
-																			<td><?= tgl_indo2($data['tgl_upload']); ?></td>
-																		</tr>
-																	<?php endforeach;?>
-																</table>
+																<div class="table-responsive">
+																	<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+																		<thead class="bg-gray disabled color-palette">
+																			<tr>
+																				<th>No</th>
+																				<th >Aksi</th>
+																				<th>Nama Dokumen</th>
+																				<th>Tanggal Upload</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<?php foreach ($list_dokumen as $key => $data): ?>
+																				<tr>
+																					<td class="padat"><?= $key + 1; ?></td>
+																					<td class="aksi"><a href="<?= site_url("{$this->controller}/unduh_berkas/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Unduh Dokumen"><i class="fa fa-download"></i></a></td>
+																					<td><?= $data['nama']?></td>
+																					<td><?= tgl_indo2($data['tgl_upload']); ?></td>
+																				</tr>
+																			<?php endforeach;?>
+																		</tbody>
+																	</table>
+																</div>
 															</td>
 														</tr>
 													</tbody>
