@@ -90,11 +90,14 @@ class Anjungan_model extends CI_Model {
 	private function validasi($post)
 	{
 		$data['ip_address'] = bilangan_titik($post['ip_address']);
+		$data['printer_ip'] = bilangan_titik($post['printer_ip']);
+		$data['printer_port'] = bilangan($post['printer_port']);
 		$data['mac_address'] = alfanumerik_kolon($post['mac_address']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		$data['keyboard'] = bilangan($post['keyboard']);
 		$data['status'] = bilangan($post['status']);
 		$data['updated_by'] = $this->session->user;
+
 		return $data;
 	}
 

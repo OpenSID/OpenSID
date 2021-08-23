@@ -166,6 +166,16 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 			$hasil = $hasil && $this->dbforge->add_column('permohonan_surat', ['no_antrian' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
 		}
 
+		if ( ! $this->db->field_exists('printer_ip', 'anjungan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('anjungan', ['printer_ip' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+		}
+
+		if ( ! $this->db->field_exists('printer_port', 'anjungan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('anjungan', ['printer_port' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+		}
+
 		return $hasil;
 	}
 }

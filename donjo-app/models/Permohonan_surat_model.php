@@ -60,7 +60,7 @@
 				->group_start()
 					->like('n.nik', $cari)
 					->or_like('n.nama', $cari)
-					->or_like('n.no_antrian', $cari)
+					->or_like('u.no_antrian', $cari)
 				->group_end();
 		}
 	}

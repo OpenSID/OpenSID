@@ -361,7 +361,7 @@ class Surat extends Mandiri_Controller
 	{
 		try
 		{
-			$connector = new NetworkPrintConnector("192.168.43.122");
+			$connector = new NetworkPrintConnector($this->cek_anjungan['printer_ip'], $this->cek_anjungan['printer_port']);
 			$printer = new Printer($connector);
 
 			$printer->initialize();
@@ -404,9 +404,14 @@ class Surat extends Mandiri_Controller
 
 	protected function print_connector()
 	{
+		if (is_null($anjungan = $this->cek_anjungan))
+		{
+			return;
+		}
+
 		try
 		{
-			$connector = new NetworkPrintConnector("192.168.43.122");
+			$connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port']);
 		}
 		catch (Exception $e)
 		{
