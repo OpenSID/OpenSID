@@ -47,6 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once 'vendor/escpos-php/vendor/autoload.php';
 
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+
 class Surat extends Mandiri_Controller
 {
 	public function __construct()
@@ -65,7 +68,8 @@ class Surat extends Mandiri_Controller
 		$data = [
 			'kat' => $kat,
 			'judul' => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
-			'main' => ($kat == 1) ? $permohonan : $arsip
+			'main' => ($kat == 1) ? $permohonan : $arsip,
+			'printer' => $this->print_connector(),
 		];
 
 		$this->render('surat', $data);
@@ -350,4 +354,46 @@ class Surat extends Mandiri_Controller
 		redirect('layanan-mandiri/permohonan-surat');
 	}
 
+	public function cetak_no_antrian(string $no_antrian)
+	{
+		try
+		{
+			$connector = new NetworkPrintConnector("192.168.43.122");
+			$printer = new Printer($connector);
+
+			$printer->setJustification(Printer::JUSTIFY_CENTER);
+			$printer->text('Anjungan Mandiri');
+			$printer->text($no_antrian);
+
+			$printer->cut();
+		}
+		catch (Exception $e)
+		{
+			log_message('error', $e->getMessage());
+
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+		finally
+		{
+			$printer->close();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	protected function print_connector()
+	{
+		try
+		{
+			$connector = new NetworkPrintConnector("192.168.43.122");
+		}
+		catch (Exception $e)
+		{
+			log_message('error', $e->getMessage());
+
+			return false;
+		}
+
+		return $connector;
+	}
 }
