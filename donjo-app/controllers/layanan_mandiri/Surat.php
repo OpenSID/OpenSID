@@ -52,9 +52,12 @@ use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
 class Surat extends Mandiri_Controller
 {
+	protected $driver;
+
 	public function __construct()
 	{
 		parent::__construct();
+		$this->divider = str_repeat("-", 64);
 		$this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'lapor_model', 'penduduk_model']);
 	}
 
@@ -361,9 +364,27 @@ class Surat extends Mandiri_Controller
 			$connector = new NetworkPrintConnector("192.168.43.122");
 			$printer = new Printer($connector);
 
+			$printer->initialize();
 			$printer->setJustification(Printer::JUSTIFY_CENTER);
-			$printer->text('Anjungan Mandiri');
+			$printer->setTextSize(2, 2);
+			$printer->setEmphasis(true);
+			$printer->text("ANJUNGAN MANDIRI");
+			$printer->setEmphasis(false);
+			$printer->feed(1);
+
+			$printer->setTextSize(1, 1);
+			$printer->text("SELAMAT DATANG \n");
+			$printer->text("NOMOR ANTRIAN ANDA");
+			$printer->feed();
+
+			$printer->setTextSize(5, 5);
 			$printer->text($no_antrian);
+			$printer->feed();
+
+			$printer->setTextSize(1, 1);
+			$printer->text("TERIMA KASIH \n");
+			$printer->text("ANDA TELAH MENUNGGU");
+			$printer->feed();
 
 			$printer->cut();
 		}
