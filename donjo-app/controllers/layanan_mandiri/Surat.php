@@ -52,12 +52,9 @@ use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 
 class Surat extends Mandiri_Controller
 {
-	protected $driver;
-
 	public function __construct()
 	{
 		parent::__construct();
-		$this->divider = str_repeat("-", 64);
 		$this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'lapor_model', 'penduduk_model']);
 	}
 
