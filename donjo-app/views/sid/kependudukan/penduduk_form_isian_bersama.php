@@ -869,12 +869,17 @@
 	}
 
 	$('#nik_sementara').click(function() {
+		var nik_1 = '<?= $nik_sementara; ?>';
+		var nik_2 = '<?= $penduduk['nik']; ?>';
+
 		if ($('#nik_sementara').prop('checked')) {
-			$('#nik').val('<?= $nik_sementara; ?>');
+			$('#nik').removeClass('nik');
+			$('#nik').val(nik_1);
 			$('#nik').prop('readonly', true);
 			$('#tampil_nik').show();
 		} else {
-			$('#nik').val('<?= $penduduk['nik']; ?>');
+			$('#nik').addClass('nik');
+			$('#nik').val(nik_2);
 			$('#nik').prop('readonly', false);
 			$('#tampil_nik').hide();
 		}

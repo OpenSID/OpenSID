@@ -1138,7 +1138,7 @@ function set_nik(int $digit = 0)
 	$CI->load->model('config_model');
   $desa = $CI->config_model->get_data();
 
-	return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1); // return '0' . $CI->header['desa']['kode_desa'] . sprintf("%05d", $digit + 1);
+	return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1);
 }
 
 function get_nik($nik = '0')
