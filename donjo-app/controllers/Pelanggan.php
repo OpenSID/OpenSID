@@ -57,8 +57,6 @@ class Pelanggan extends Admin_Controller {
 
 	public function index()
 	{
-		// pre_print_r(substr(base_url(), 0, -1));exit;
-
 		$response = $this->notif_model->api_pelanggan_pemesanan();
 
 		// Ubah layanan_opendesa_token terbaru
@@ -75,6 +73,11 @@ class Pelanggan extends Admin_Controller {
 
 	public function peringatan()
 	{
+		if (empty($this->session->error_status_langganan))
+		{
+			redirect($this->controller);
+		}
+
 		$this->render('pelanggan/peringatan');
 	}
 }

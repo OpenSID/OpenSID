@@ -42,7 +42,10 @@ class Cek_fitur_premium
 	 */
 	protected function validasi_akses()
 	{
-		if (empty($token = $this->ci->setting->layanan_opendesa_token)) {
+		$this->ci->session->unset_userdata('error_status_langganan');
+		
+		if (empty($token = $this->ci->setting->layanan_opendesa_token))
+		{
 			$this->ci->session->set_userdata('error_status_langganan', 'Token pelanggan kosong / tidak valid.');
 
 			return false;
@@ -54,28 +57,28 @@ class Cek_fitur_premium
 
 		$date = new DateTime('20' . str_replace('.', '-', $this->ci->setting->current_version) . '-01');
 		$version = $date->format('Y-m-d');
-		
-		if ($version >= $jwtPayload->tanggal_berlangganan->akhir)
-		{
-			$this->ci->session->set_userdata('error_status_langganan', "Masa aktif berlangganan fitur premium sudah berakhir.");
-
-			return false;
-		}
 			
 		if (version_compare($jwtPayload->desa_id, kode_wilayah($this->ci->header['desa']['kode_desa']), '!='))
 		{
-			$this->ci->session->set_userdata('error_status_langganan', "Desa tidak cocok dengan yang ada di layanan.opendesa.id.");
+			$this->ci->session->set_userdata('error_status_langganan', ucwords($this->ci->setting->sebutan_desa . ' ' . $this->ci->header['desa']['nama_desa']) . ' tidak terdaftar di layanan.opendesa.id.');
 
 			return false;
 		}
-
+		
 		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']))
 		{
 			return true;
 		}
-		else if ($jwtPayload->domain != substr(base_url(), 0, -1))
+		else if (get_domain($jwtPayload->domain) != get_domain(APP_URL))
 		{
-			$this->ci->session->set_userdata('error_status_langganan', "Domain desa tidak cocok dengan yang ada di layanan.opendesa.id.");
+			$this->ci->session->set_userdata('error_status_langganan', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di layanan.opendesa.id.');
+
+			return false;
+		}
+
+		if ($version > $jwtPayload->tanggal_berlangganan->akhir)
+		{
+			$this->ci->session->set_userdata('error_status_langganan', "Masa aktif berlangganan fitur premium sudah berakhir.");
 
 			return false;
 		}
