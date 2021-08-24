@@ -62,14 +62,14 @@ class Cek_fitur_premium
 
 			return false;
 		}
-
+		
 		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']))
 		{
 			return true;
 		}
-		else if ($jwtPayload->domain != substr(base_url(), 0, -1))
+		else if (get_domain($jwtPayload->domain) != get_domain(APP_URL))
 		{
-			$this->ci->session->set_userdata('error_status_langganan', 'Domain ' . APP_URL . ' tidak terdaftar di layanan.opendesa.id.');
+			$this->ci->session->set_userdata('error_status_langganan', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di layanan.opendesa.id.');
 
 			return false;
 		}

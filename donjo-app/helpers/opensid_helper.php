@@ -1116,22 +1116,29 @@ function format_telpon(string $no_telpon, $kode_negara = '+62')
 // https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
 function strReplaceArrayRecursive($replacement = array(), $strArray = false, $isReplaceKey = false)
 {
-    if ( ! is_array($strArray))
-    {
-        return str_replace(array_keys($replacement), array_values($replacement), $strArray);
-    }
-    else {
-        $newArr = array();
-        foreach ($strArray as $key=>$value)
-        {
-            $replacedKey = $key;
-            if ($isReplaceKey)
-            {
-                $replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
-            }
-            $newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
-        }
+	if ( ! is_array($strArray))
+	{
+			return str_replace(array_keys($replacement), array_values($replacement), $strArray);
+	}
+	else {
+		$newArr = array();
+		foreach ($strArray as $key=>$value)
+		{
+			$replacedKey = $key;
+			if ($isReplaceKey)
+			{
+					$replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
+			}
+			$newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
+		}
 
-        return $newArr;
-    }
+		return $newArr;
+	}
+}
+
+function get_domain(string $url)
+{
+	$parse = parse_url($url);
+
+	return $parse['host'];
 }
