@@ -6,6 +6,13 @@ class Cek_fitur_premium
 	protected $ci;
 
 	/**
+	 * Jangan jalankan validasi akses untuk spesifik controller.
+	 */
+	protected $kecuali_controller = [
+		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'siteman', 'first'
+	];
+
+	/**
 	 * Constructor Cek fitur premium
 	 * 
 	 * @return void
@@ -23,7 +30,7 @@ class Cek_fitur_premium
 	public function validasi()
 	{
 		// Jangan jalankan validasi akses untuk spesifik controller.
-		if (in_array($this->ci->router->class, ['pelanggan', 'setting', 'siteman', 'first']))
+		if (in_array($this->ci->router->class, $this->kecuali_controller))
 		{
 			return;
 		}
