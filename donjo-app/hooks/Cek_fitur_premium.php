@@ -49,6 +49,8 @@ class Cek_fitur_premium
 	 */
 	protected function validasi_akses()
 	{
+		$this->ci->session->unset_userdata('error_status_langganan');
+		
 		if (empty($token = $this->ci->setting->layanan_opendesa_token))
 		{
 			$this->ci->session->set_userdata('error_status_langganan', 'Token pelanggan kosong / tidak valid.');

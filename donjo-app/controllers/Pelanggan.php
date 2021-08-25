@@ -73,6 +73,11 @@ class Pelanggan extends Admin_Controller {
 
 	public function peringatan()
 	{
+		if (empty($this->session->error_status_langganan))
+		{
+			redirect($this->controller);
+		}
+
 		$this->render('pelanggan/peringatan');
 	}
 }
