@@ -358,7 +358,7 @@ class Surat extends Mandiri_Controller
 	{
 		try
 		{
-			$connector = new NetworkPrintConnector($this->cek_anjungan['printer_ip'], $this->cek_anjungan['printer_port']);
+			$connector = new NetworkPrintConnector($this->cek_anjungan['printer_ip'], $this->cek_anjungan['printer_port'], 5);
 			$printer = new Printer($connector);
 
 			$printer->initialize();
@@ -374,8 +374,8 @@ class Surat extends Mandiri_Controller
 			$printer->text("NOMOR ANTRIAN ANDA");
 			$printer->feed();
 
-			$printer->setTextSize(5, 5);
-			$printer->text($no_antrian);
+			$printer->setTextSize(4, 4);
+			$printer->text(get_antrian($no_antrian));
 			$printer->feed();
 
 			$printer->setTextSize(1, 1);
@@ -408,7 +408,7 @@ class Surat extends Mandiri_Controller
 
 		try
 		{
-			$connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port']);
+			$connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port'], 5);
 		}
 		catch (Exception $e)
 		{

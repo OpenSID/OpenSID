@@ -84,7 +84,7 @@
 																	<?php endif; ?>
 																</td>
 															<?php endif; ?>
-															<td class="padat"><?= $data['no_antrian'] ?></td>
+															<td class="padat"><?= get_antrian($data['no_antrian']); ?></td>
 															<td class="padat"><?= $data['nik'];?></td>
 															<td><?=$data['nama']?></td>
 															<td><?=$data['no_hp_aktif']?></td>

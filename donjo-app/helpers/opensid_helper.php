@@ -59,7 +59,7 @@ define("VERSION", '21.08-premium-beta03');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021082971');
+define('VERSI_DATABASE', '2021082871');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -796,9 +796,7 @@ function buang_nondigit($str)
 /**
  * @param array 		$files = array($file1, $file2, ...)
  * @return string 	path ke zip file
-
 	Masukkan setiap berkas ke dalam zip.
-
 	$file bisa:
 		- array('nama' => nama-file-yg diinginkan, 'file' => full-path-ke-berkas); atau
 		- full-path-ke-berkas
@@ -1144,4 +1142,9 @@ function get_domain(string $url)
 	$parse = parse_url($url);
 
 	return $parse['host'];
+}
+
+function get_antrian(string $antrian)
+{
+    return substr_replace($antrian, '-', 6, 0);
 }

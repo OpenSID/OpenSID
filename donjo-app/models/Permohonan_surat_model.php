@@ -60,7 +60,7 @@
 				->group_start()
 					->like('n.nik', $cari)
 					->or_like('n.nama', $cari)
-					->or_like('u.no_antrian', $cari)
+					->or_like('u.no_antrian', str_replace('-', '', $cari))
 				->group_end();
 		}
 	}
@@ -245,7 +245,8 @@
 			return;
 		}
 
-		$nomor_terakhir = $this->db->select_max('no_antrian')
+		$nomor_terakhir = $this->db
+			->select_max('no_antrian')
 			->from('permohonan_surat')
 			->where('CAST(created_at AS DATE) >= CURDATE()')
 			->get()
