@@ -87,7 +87,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		$field = [
 			'value' => [
 				'type' => 'VARCHAR',
-				'constraint' => 500,
+				'constraint' => 1000,
 				'null' => TRUE,
 				'default' => NULL
 			]

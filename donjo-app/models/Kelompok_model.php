@@ -47,10 +47,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelompok_model extends MY_Model {
 
+	protected $tipe = 'kelompok';
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('wilayah_model');
+	}
+
+	public function set_tipe(string $tipe)
+	{
+		$this->tipe = $tipe;
+
+		return $this;
 	}
 
 	public function autocomplete()
@@ -60,38 +69,40 @@ class Kelompok_model extends MY_Model {
 
 	private function search_sql()
 	{
-		$value = $this->session->cari;
-		if (isset($value))
+		if ($search = $this->session->cari)
 		{
-			$kw = $this->db->escape_like_str($value);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
-			return $search_sql;
+			$this->db
+				->group_start()
+					->like('u.nama', $search)
+					->or_like('u.keterangan', $search)
+					->or_like('c.nama', $search)
+				->group_end();
 		}
+
+		return $this->db;
 	}
 
 	private function filter_sql()
 	{
-		$value = $this->session->filter;
-		if (isset($value))
+		if ($filter = $this->session->filter)
 		{
-			$filter_sql = " AND u.id_master = $value";
-			return $filter_sql;
+			$this->db->where('u.id_master', $filter);
 		}
+
+		return $this->db;
 	}
 
 	public function paging($p = 1, $o = 0)
 	{
-		$sql = "SELECT COUNT(*) AS jml ";
-		$sql .= $this->list_data_sql();
-
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select('COUNT(u.id) as jml');
+		$this->list_data_sql();
+		$jml_data = $this->db->get()->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
 		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $row['jml'];
+		$cfg['num_links'] = 10;
+		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
 		return $this->paging;
@@ -99,13 +110,15 @@ class Kelompok_model extends MY_Model {
 
 	private function list_data_sql()
 	{
-		$sql = "FROM kelompok u
-			LEFT JOIN kelompok_master s ON u.id_master = s.id
-			LEFT JOIN tweb_penduduk c ON u.id_ketua = c.id
-			WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		return $sql;
+		$this->db->from('kelompok u')
+			->join('kelompok_master s', 'u.id_master = s.id', 'left')
+			->join('tweb_penduduk c', 'u.id_ketua = c.id', 'left')
+			->where('u.tipe', $this->tipe);
+
+		$this->search_sql();
+		$this->filter_sql();
+
+		return $this->db;
 	}
 
 	// $limit = 0 mengambil semua
@@ -113,27 +126,22 @@ class Kelompok_model extends MY_Model {
 	{
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.nama'; break;
-			case 2: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 3: $order_sql = ' ORDER BY c.nama'; break;
-			case 4: $order_sql = ' ORDER BY c.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY master'; break;
-			case 6: $order_sql = ' ORDER BY master DESC'; break;
-			default:$order_sql = ' ORDER BY u.nama';
+			case 1: $this->db->order_by('u.nama'); break;
+			case 2: $this->db->order_by('u.nama', 'desc'); break;
+			case 3: $this->db->order_by('c.nama'); break;
+			case 4: $this->db->order_by('c.nama desc'); break;
+			case 5: $this->db->order_by('master'); break;
+			case 6: $this->db->order_by('master desc'); break;
+			default: $this->db->order_by('u.nama'); break;
 		}
 
-		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
+		$this->list_data_sql();
 
-		$select_sql = "SELECT u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE id_kelompok = u.id) AS jml_anggota ";
-
-		$sql = $select_sql . $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		return $data;
+		return $this->db
+			->select('u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE id_kelompok = u.id) AS jml_anggota')
+			->limit($limit, $offset)
+			->get()
+			->result_array();
 	}
 
 	private function validasi($post)

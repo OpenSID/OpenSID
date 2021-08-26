@@ -50,10 +50,13 @@ class Kelompok extends Admin_Controller {
 	private $_set_page;
 	private $_list_session;
 
+	protected $tipe = 'kelompok';
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['kelompok_model','referensi_model', 'pamong_model']);
+		$this->kelompok_model->set_tipe($this->tipe);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 24;
 		$this->_set_page = ['20', '50', '100'];
