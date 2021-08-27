@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<div class="row">
 										<div class="col-sm-9">
 											<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url("{$this->controller}/filter/filter"); ?>')">
-												<option value="">Kategori <?= ucfirst($this->controller) ?></option>
+												<option value="">Pilih Kategori <?= ucfirst($this->controller) ?></option>
 												<?php foreach ($list_master AS $data): ?>
 													<option value="<?= $data['id']; ?>" <?php selected($filter, $data['id']); ?> ><?= $data['kelompok']; ?></option>
 												<?php endforeach;?>
@@ -158,7 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<?php endforeach; ?>
 												<?php else: ?>
 													<tr>
-														<td class="text-center" colspan="7">Data Tidak Tersedia</td>
+														<td class="text-center" colspan="8">Data Tidak Tersedia</td>
 													</tr>
 												<?php endif; ?>
 											</tbody>

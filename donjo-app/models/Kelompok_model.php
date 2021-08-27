@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelompok_model extends MY_Model {
 
+	protected $table = 'kelompok';
 	protected $tipe = 'kelompok';
 
 	public function __construct()
@@ -64,7 +65,7 @@ class Kelompok_model extends MY_Model {
 
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('nama', 'kelompok');
+		return $this->autocomplete_str('nama', $this->table);
 	}
 
 	private function search_sql()
@@ -92,25 +93,16 @@ class Kelompok_model extends MY_Model {
 		return $this->db;
 	}
 
-	public function paging($p = 1, $o = 0)
+	public function paging($p = 1)
 	{
-		$this->db->select('COUNT(u.id) as jml');
-		$this->list_data_sql();
-		$jml_data = $this->db->get()->row()->jml;
+		$jml_data = $this->list_data_sql()->count_all_results();
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_links'] = 10;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $this->paginasi($p, $jml_data);
 	}
 
 	private function list_data_sql()
 	{
-		$this->db->from('kelompok u')
+		$this->db->from("$this->table u")
 			->join('kelompok_master s', 'u.id_master = s.id', 'left')
 			->join('tweb_penduduk c', 'u.id_ketua = c.id', 'left')
 			->where('u.tipe', $this->tipe);
@@ -164,7 +156,7 @@ class Kelompok_model extends MY_Model {
 	{
 		$data = $this->validasi($this->input->post());
 
-		$outpa = $this->db->insert('kelompok', $data);
+		$outpa = $this->db->insert($this->table, $data);
 		$insert_id = $this->db->insert_id();
 
 		$outpb = $this->db
@@ -225,7 +217,7 @@ class Kelompok_model extends MY_Model {
 		$data = $this->validasi($this->input->post());
 
 		$this->db->where('id', $id);
-		$outp = $this->db->update('kelompok', $data);
+		$outp = $this->db->update($this->table, $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -251,7 +243,7 @@ class Kelompok_model extends MY_Model {
 	{
 		if ( ! $semua) $this->session->success = 1;
 
-		$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete('kelompok');
+		$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete($this->table);
 
 		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
 	}
@@ -453,7 +445,7 @@ class Kelompok_model extends MY_Model {
 			$this->db
 				->set('id_ketua', $id_penduduk)
 				->where('id', $id_kelompok)
-				->update('kelompok');
+				->update($this->table);
 		}
 		elseif ($jabatan_lama == '1') // Ketua
 		{
@@ -461,7 +453,7 @@ class Kelompok_model extends MY_Model {
 			$this->db
 				->set('id_ketua', -9999) // kolom id_ketua di tabel kelompok tidak bisa NULL
 				->where('id', $id_kelompok)
-				->update('kelompok');
+				->update($this->table);
 		}
 	}
 

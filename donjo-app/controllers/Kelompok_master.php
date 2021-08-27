@@ -54,11 +54,12 @@ class Kelompok_master extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model(['kelompok_master_model']);
-		$this->kelompok_master_model->set_tipe($this->tipe);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 24;
 		$this->_set_page = ['20', '50', '100'];
 		$this->_list_session = ['cari', 'filter'];
+		$this->set_minsidebar(1);
+		$this->kelompok_master_model->set_tipe($this->tipe);
 	}
 
 	public function clear()
@@ -85,18 +86,17 @@ class Kelompok_master extends Admin_Controller {
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->kelompok_master_model->paging($p, $o);
+		$data['paging'] = $this->kelompok_master_model->paging($p);
 		$data['main'] = $this->kelompok_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->kelompok_master_model->autocomplete();
 		$data['tipe'] = $this->tipe;
 
-		$this->set_minsidebar(1);
 		$this->render('kelompok_master/table', $data);
 	}
 
-	public function form($id = '')
+	public function form($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		if ($id)
 		{
 			$data['kelompok_master'] = $this->kelompok_master_model->get_kelompok_master($id);
@@ -109,7 +109,7 @@ class Kelompok_master extends Admin_Controller {
 		}
 
 		$data['tipe'] = $this->tipe;
-		$this->set_minsidebar(1);
+
 		$this->render("kelompok_master/form", $data);
 	}
 
@@ -125,21 +125,21 @@ class Kelompok_master extends Admin_Controller {
 
 	public function insert()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->kelompok_master_model->insert();
 
 		redirect($this->controller);
 	}
 
-	public function update($id = '')
+	public function update($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->kelompok_master_model->update($id);
 
 		redirect($this->controller);
 	}
 
-	public function delete($id = '')
+	public function delete($id = 0)
 	{
 		$this->redirect_hak_akses('h');
 		$this->kelompok_master_model->delete($id);

@@ -64,14 +64,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="nama">Klasifikasi/Kategori <?= ucfirst($tipe) ?></label>
 						<div class="col-sm-8">
-							<input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori <?= ucfirst($tipe) ?>" name="kelompok" value="<?= $kelompok_master['kelompok']; ?>"></input>
+							<input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori <?= ucfirst($tipe) ?>" name="kelompok" value="<?= $kelompok_master->kelompok; ?>"></input>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="Deskripsi">Deskripsi <?= ucfirst($tipe) ?></label>
 						<div class="col-sm-8">
-						 	<textarea name="deskripsi" class="form-control input-sm" placeholder="Deskripsi <?= ucfirst($tipe) ?>" rows="3"><?= $kelompok_master['deskripsi']; ?></textarea>
-						 </div>
+							<textarea name="deskripsi" class="form-control input-sm" placeholder="Deskripsi <?= ucfirst($tipe) ?>" rows="5"><?= $kelompok_master->deskripsi; ?></textarea>
+						</div>
 					</div>
 				</div>
 				<div class="box-footer">

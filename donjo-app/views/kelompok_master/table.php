@@ -96,6 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<th>Aksi</th>
 											<th><?= url_order($o, "{$this->controller}/{$func}/$p", 1, "Kategori $tipe"); ?></th>
 											<th width="70%">Deskripsi <?= ucfirst($tipe) ?></th>
+											<th>Jumlah Kelompok</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -114,11 +115,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													</td>
 													<td nowrap><?= $data['kelompok']?></td>
 													<td><?= $data['deskripsi']?></td>
+													<td class="padat"><?= $data['jumlah']?></td>
 												</tr>
 											<?php endforeach; ?>
 										<?php else: ?>
 											<tr>
-												<td class="text-center" colspan="5">Data Tidak Tersedia</td>
+												<td class="text-center" colspan="6">Data Tidak Tersedia</td>
 											</tr>
 										<?php endif; ?>
 									</tbody>

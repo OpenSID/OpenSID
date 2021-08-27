@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelompok_master_model extends MY_Model {
 
+	protected $table = 'kelompok_master';
 	protected $tipe = 'kelompok';
 
 	public function __construct()
@@ -63,7 +64,7 @@ class Kelompok_master_model extends MY_Model {
 
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('kelompok', 'kelompok_master');
+		return $this->autocomplete_str('kelompok', $this->table);
 	}
 
 	private function search_sql()
@@ -80,25 +81,19 @@ class Kelompok_master_model extends MY_Model {
 		return $this->db;
 	}
 
-	public function paging($p = 1, $o = 0)
+	public function paging($p = 1)
 	{
-		$this->db->select('COUNT(u.id) as jml');
-		$this->list_data_sql();
-		$jml_data = $this->db->get()->row()->jml;
+		$jml_data = $this->list_data_sql()->count_all_results();
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_links'] = 10;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $this->paginasi($p, $jml_data);
 	}
 
 	private function list_data_sql()
 	{
-		$this->db->from('kelompok_master u')
+		$this->db
+			->select('u.*')
+			->select('(SELECT COUNT(k.id) FROM kelompok k WHERE k.id_master = u.id) AS jumlah')
+			->from("$this->table u")
 			->where('tipe', $this->tipe);
 
 		$this->search_sql();
@@ -127,7 +122,7 @@ class Kelompok_master_model extends MY_Model {
 	public function insert()
 	{
 		$data = $this->validasi($this->input->post());
-		$outp = $this->db->insert('kelompok_master', $data);
+		$outp = $this->db->insert($this->table, $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -136,7 +131,7 @@ class Kelompok_master_model extends MY_Model {
 	{
 		$data = $this->validasi($this->input->post());
 		$this->db->where('id', $id);
-		$outp = $this->db->update('kelompok_master', $data);
+		$outp = $this->db->update($this->table, $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -153,11 +148,12 @@ class Kelompok_master_model extends MY_Model {
 
 	public function delete($id = '', $semua = FALSE)
 	{
-		if ( ! $semua) $this->session->success = 1;
+		$outp = $this->db
+			->where('id', $id)
+			->where('tipe', $this->tipe)
+			->delete($this->table);
 
-		$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete('kelompok_master');
-
-		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
+		status_sukses($outp, $semua); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -167,7 +163,7 @@ class Kelompok_master_model extends MY_Model {
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id, $semua=true);
+			$this->delete($id, TRUE);
 		}
 	}
 
@@ -178,7 +174,9 @@ class Kelompok_master_model extends MY_Model {
 				'id' => $id,
 				'tipe' => $this->tipe,
 			])
-			->get('kelompok_master')
-			->row_array();
+			->get($this->table)
+			->row();
+		
+		return $this->db;
 	}
 }

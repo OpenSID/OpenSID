@@ -92,7 +92,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 			'url'        => 'lembaga',
 			'aktif'      => 1,
 			'ikon'       => 'fa-list',
-			'urut'       => 6,
+			'urut'       => 4,
 			'level'      => 2,
 			'hidden'     => 0,
 			'ikon_kecil' => 'fa-list',
@@ -133,6 +133,16 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		{
 			$hasil = $hasil && $this->dbforge->add_column('kelompok_master', ['tipe' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok']]);
 		}
+
+		// Tambah hak ases group operator
+		$query = "
+			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+			-- Operator --
+			(2,326,3), -- Lembaga --
+			(2,327,3) -- Kategori Lembaga --
+		";
+
+		$hasil = $hasil && $this->db->query($query);
 
 		return $hasil;
 	}
