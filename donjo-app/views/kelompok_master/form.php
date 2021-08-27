@@ -46,31 +46,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengelolaan Kategori Kelompok</h1>
+		<h1>Pengelolaan Kategori <?= ucfirst($tipe) ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('kelompok'); ?>"> Daftar Kelompok</a></li>
-			<li><a href="<?= site_url('kelompok_master'); ?>"> Daftar Ketegori Kelompok</a></li>
-			<li class="active">Pengelolaan Kategori Kelompok</li>
+			<li><a href="<?= site_url($tipe); ?>"> Daftar <?= ucfirst($tipe) ?></a></li>
+			<li><a href="<?= site_url($this->controller); ?>"> Daftar Ketegori <?= ucfirst($tipe) ?></a></li>
+			<li class="active">Pengelolaan Kategori <?= ucfirst($tipe) ?></li>
 		</ol>
 	</section>
 	<section class="content">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<a href="<?= site_url('kelompok_master'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Kategori Kelompok</a>
+				<a href="<?= site_url($this->controller); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Kategori <?= ucfirst($tipe) ?></a>
 			</div>
 			<form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="box-body">
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="nama">Klasifikasi/Kategori Kelompok</label>
+						<label class="col-sm-3 control-label" for="nama">Klasifikasi/Kategori <?= ucfirst($tipe) ?></label>
 						<div class="col-sm-8">
-							<input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori Kelompok" name="kelompok" value="<?= $kelompok_master['kelompok']; ?>"></input>
+							<input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori <?= ucfirst($tipe) ?>" name="kelompok" value="<?= $kelompok_master['kelompok']; ?>"></input>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="Deskripsi">Deskripsi Kelompok</label>
+						<label class="col-sm-3 control-label" for="Deskripsi">Deskripsi <?= ucfirst($tipe) ?></label>
 						<div class="col-sm-8">
-						 	<textarea name="deskripsi" class="form-control input-sm" placeholder="Deskripsi Kelompok" rows="3"><?= $kelompok_master['deskripsi']; ?></textarea>
+						 	<textarea name="deskripsi" class="form-control input-sm" placeholder="Deskripsi <?= ucfirst($tipe) ?>" rows="3"><?= $kelompok_master['deskripsi']; ?></textarea>
 						 </div>
 					</div>
 				</div>

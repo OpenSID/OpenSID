@@ -146,18 +146,23 @@ class Kelompok_model extends MY_Model {
 
 	private function validasi($post)
 	{
+		if ($post['id_ketua'])
+		{
+			$data['id_ketua'] = bilangan($post['id_ketua']);
+		}
+
 		$data['id_master'] = bilangan($post['id_master']);
-		if ($post['id_ketua']) $data['id_ketua'] = bilangan($post['id_ketua']);
 		$data['nama'] = nama_terbatas($post['nama']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		$data['kode'] = nomor_surat_keputusan($post['kode']);
+		$data['tipe'] = $this->tipe;
+
 		return $data;
 	}
 
 	public function insert()
 	{
 		$data = $this->validasi($this->input->post());
-		$datax = [];
 
 		$outpa = $this->db->insert('kelompok', $data);
 		$insert_id = $this->db->insert_id();
@@ -168,6 +173,7 @@ class Kelompok_model extends MY_Model {
 			->set('no_anggota', 1)
 			->set('jabatan', 1)
 			->set('keterangan', 'Ketua Kelompok') // keterangan default untuk Ketua Kelompok
+			->set('tipe', $this->tipe)
 			->insert('kelompok_anggota');
 
 		status_sukses($outpa && $outpb);
@@ -175,11 +181,17 @@ class Kelompok_model extends MY_Model {
 
 	private function validasi_anggota($post)
 	{
-		if ($post['id_penduduk']) $data['id_penduduk'] = bilangan($post['id_penduduk']);
+		if ($post['id_penduduk'])
+		{
+			$data['id_penduduk'] = bilangan($post['id_penduduk']);
+		}
+
 		$data['no_anggota'] = bilangan($post['no_anggota']);
 		$data['jabatan'] = alfanumerik_spasi($post['jabatan']);
 		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
+		$data['tipe'] = $this->tipe;
+
 		return $data;
 	}
 
@@ -194,7 +206,7 @@ class Kelompok_model extends MY_Model {
 		$nik = $this->get_anggota($id, $id_pend);
 
 		// Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-		if ($foto = upload_foto_penduduk($id_pend, $nik[nik])) $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
+		if ($foto = upload_foto_penduduk($id_pend, $nik['nik'])) $this->db->where('id', $id_pend)->update('tweb_penduduk', ['foto' => $foto]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -221,7 +233,7 @@ class Kelompok_model extends MY_Model {
 		$nik = $this->get_anggota($id, $id_a);
 
 		// Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-		if ($foto = upload_foto_penduduk($id_a, $nik[nik])) $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
+		if ($foto = upload_foto_penduduk($id_a, $nik['nik'])) $this->db->where('id', $id_a)->update('tweb_penduduk', ['foto' => $foto]);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -230,7 +242,7 @@ class Kelompok_model extends MY_Model {
 	{
 		if ( ! $semua) $this->session->success = 1;
 
-		$outp = $this->db->where('id', $id)->delete('kelompok');
+		$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete('kelompok');
 
 		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
 	}
@@ -250,7 +262,7 @@ class Kelompok_model extends MY_Model {
 	{
 		if ( ! $semua) $this->session->success = 1;
 
-		$outp = $this->db->where('id', $id)->delete('kelompok_anggota');
+		$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete('kelompok_anggota');
 
 		status_sukses($outp, $gagal_saja=TRUE); //Tampilkan Pesan
 	}
@@ -318,9 +330,10 @@ class Kelompok_model extends MY_Model {
 
 	public function list_master()
 	{
-		$sql = "SELECT * FROM kelompok_master";
-		$query = $this->db->query($sql);
-		return $query->result_array();
+		return $this->db
+			->where('tipe', $this->tipe)
+			->get('kelompok_master')
+			->result_array();
 	}
 
 	private function in_list_anggota($kelompok)
@@ -330,7 +343,10 @@ class Kelompok_model extends MY_Model {
 			->from('kelompok_anggota k')
 			->join('penduduk_hidup p', 'k.id_penduduk = p.id', 'left')
 			->where('k.id_kelompok', $kelompok)
-			->get()->result_array();
+			->where('k.tipe', $this->tipe)
+			->get()
+			->result_array();
+
 		return sql_in_list(array_column($anggota, 'id'));
 	}
 
@@ -362,6 +378,7 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
 			->join('tweb_wil_clusterdesa ck', 'k.id_cluster = ck.id', 'left');
 		$data = $this->db->get()->result_array();
+		
 		return $data;
 	}
 
@@ -369,13 +386,18 @@ class Kelompok_model extends MY_Model {
 	{
 		$this->db->where('jabatan <>', 90);
 		$data = $this->list_anggota($id_kelompok);
+
 		return $data;
 	}
 
 	public function list_anggota($id_kelompok = 0, $sub = '')
 	{
 		$dusun = ucwords($this->setting->sebutan_dusun);
-		if ($sub == 'anggota') $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
+		if ($sub == 'anggota')
+		{
+			$this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
+		}
+
 		$data = $this->db
 			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
@@ -386,6 +408,7 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
+			->where('ka.tipe', $this->tipe)
 			->order_by("CAST(jabatan AS UNSIGNED) + 30 - jabatan, CAST(no_anggota AS UNSIGNED)")
 			->get()
 			->result_array();
@@ -440,11 +463,11 @@ class Kelompok_model extends MY_Model {
 			->select('UPPER(jabatan) as jabatan ')
 			->where("jabatan REGEXP '[a-zA-Z]+'")
 			->where('id_kelompok', $id_kelompok)
+			->where('tipe', $this->tipe)
 			->order_by("jabatan")
 			->get('kelompok_anggota')
 			->result_array();
 
 		return $data;
 	}
-
 }

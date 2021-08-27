@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Lapak Admin
  *
- * donjo-app/controllers/Lembaga.php
+ * donjo-app/controllers/Lembaga_master.php
  *
  */
 
@@ -45,9 +45,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link      https://github.com/OpenSID/OpenSID
  */
 
-require_once APPPATH . 'controllers/Kelompok.php';
+require_once APPPATH . 'controllers/Kelompok_master.php';
 
-class Lembaga extends Kelompok
+class Lembaga_master extends Kelompok_master
 {
 	protected $tipe = 'lembaga';
 

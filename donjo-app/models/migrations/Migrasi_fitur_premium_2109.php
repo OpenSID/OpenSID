@@ -99,6 +99,15 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 			'parent'     => 200
 		]);
 
+		$hasil = $hasil && $this->tambah_modul([
+			'id'     => 327,
+			'modul'  => 'Kategori Lembaga',
+			'url'    => 'lembaga_master',
+			'aktif'  => 1,
+			'hidden' => 2,
+			'parent' => 326
+		]);
+
 		// Hapus cache menu navigasi
 		$this->load->driver('cache');
 		$this->cache->hapus_cache_untuk_semua('_cache_modul');

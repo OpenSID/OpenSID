@@ -47,9 +47,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelompok_master_model extends MY_Model {
 
+	protected $tipe = 'kelompok';
+
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	public function set_tipe(string $tipe)
+	{
+		$this->tipe = $tipe;
+
+		return $this;
 	}
 
 	public function autocomplete()
@@ -59,28 +68,29 @@ class Kelompok_master_model extends MY_Model {
 
 	private function search_sql()
 	{
-		$value = $this->session->cari;
-		if (isset($value))
+		if ($search = $this->session->cari)
 		{
-			$kw = $this->db->escape_like_str($value);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (u.kelompok LIKE '$kw' OR u.kelompok LIKE '$kw')";
-			return $search_sql;
+			$this->db
+				->group_start()
+					->like('u.kelompok', $search)
+					->or_like('u.deskripsi', $search)
+				->group_end();
 		}
+
+		return $this->db;
 	}
 
 	public function paging($p = 1, $o = 0)
 	{
-		$sql = "SELECT COUNT(*) AS jml ";
-		$sql .= $this->list_data_sql();
-
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select('COUNT(u.id) as jml');
+		$this->list_data_sql();
+		$jml_data = $this->db->get()->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
 		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $row['jml'];
+		$cfg['num_links'] = 10;
+		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
 		return $this->paging;
@@ -88,9 +98,12 @@ class Kelompok_master_model extends MY_Model {
 
 	private function list_data_sql()
 	{
-		$sql = "FROM kelompok_master u WHERE 1 ";
-		$sql .= $this->search_sql();
-		return $sql;
+		$this->db->from('kelompok_master u')
+			->where('tipe', $this->tipe);
+
+		$this->search_sql();
+
+		return $this->db;
 	}
 
 	// $limit = 0 mengambil semua
@@ -98,22 +111,17 @@ class Kelompok_master_model extends MY_Model {
 	{
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.kelompok'; break;
-			case 2: $order_sql = ' ORDER BY u.kelompok DESC'; break;
-			default:$order_sql = ' ORDER BY u.kelompok';
+			case 1: $this->db->order_by('u.kelompok'); break;
+			case 2: $this->db->order_by('u.kelompok', 'desc'); break;
+			default: $this->db->order_by('u.kelompok'); break;
 		}
 
-		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
+		$this->list_data_sql();
 
-		$sql = "SELECT u.* " . $this->list_data_sql();
-
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		return $data;
+		return $this->db
+			->limit($limit, $offset)
+			->get()
+			->result_array();
 	}
 
 	public function insert()
@@ -129,6 +137,7 @@ class Kelompok_master_model extends MY_Model {
 		$data = $this->validasi($this->input->post());
 		$this->db->where('id', $id);
 		$outp = $this->db->update('kelompok_master', $data);
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -137,6 +146,8 @@ class Kelompok_master_model extends MY_Model {
 		if ($post['id']) $data['id'] = bilangan($post['id']);
 		$data['kelompok'] = nama_terbatas($post['kelompok']);
 		$data['deskripsi'] = htmlentities($post['deskripsi']);
+		$data['tipe'] = $this->tipe;
+
 		return $data;
 	}
 
@@ -144,7 +155,7 @@ class Kelompok_master_model extends MY_Model {
 	{
 		if ( ! $semua) $this->session->success = 1;
 
-		$outp = $this->db->where('id', $id)->delete('kelompok_master');
+		$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete('kelompok_master');
 
 		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
 	}
@@ -162,17 +173,12 @@ class Kelompok_master_model extends MY_Model {
 
 	public function get_kelompok_master($id = 0)
 	{
-		$sql = "SELECT * FROM kelompok_master WHERE id = ?";
-		$query = $this->db->query($sql,$id);
-		$data = $query->row_array();
-		return $data;
+		return $this->db
+			->where([
+				'id' => $id,
+				'tipe' => $this->tipe,
+			])
+			->get('kelompok_master')
+			->row_array();
 	}
-
-	public function list_subjek()
-	{
-		$sql = "SELECT * FROM kelompok_ref_subjek";
-		$query = $this->db->query($sql);
-		return $query->result_array();
-	}
-
 }
