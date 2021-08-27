@@ -88,7 +88,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 	{
 		$hasil = $hasil && $this->tambah_modul([
 			'id'         => 326,
-			'modul'      => 'Lembaga Kemasyarakatan [Desa]',
+			'modul'      => 'Lembaga [Desa]',
 			'url'        => 'lembaga',
 			'aktif'      => 1,
 			'ikon'       => 'fa-list',

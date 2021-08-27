@@ -159,7 +159,7 @@ class Kelompok extends Admin_Controller {
 		$data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
 
 		$this->set_minsidebar(1);
-		$this->render("$this->controller/anggota/form", $data);
+		$this->render("kelompok/anggota/form", $data);
 	}
 
 	/*

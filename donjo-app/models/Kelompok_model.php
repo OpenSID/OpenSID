@@ -191,6 +191,15 @@ class Kelompok_model extends MY_Model {
 		$data['no_sk_jabatan'] = nomor_surat_keputusan($post['no_sk_jabatan']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		$data['tipe'] = $this->tipe;
+		
+		if ($this->tipe == 'lembaga')
+		{
+			$data['nmr_sk_pengangkatan'] = nomor_surat_keputusan($post['nmr_sk_pengangkatan']);
+			$data['tgl_sk_pengangkatan'] = tgl_indo_in($post['tgl_sk_pengangkatan']);
+			$data['nmr_sk_pemberhentian'] = nomor_surat_keputusan($post['nmr_sk_pemberhentian']);
+			$data['tgl_sk_pemberhentian'] = tgl_indo_in($post['tgl_sk_pemberhentian']);
+			$data['periode'] = htmlentities($post['periode']);
+		}
 
 		return $data;
 	}
