@@ -708,6 +708,9 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 {
 	$CI =& get_instance();
 	$CI->load->helper('download');
+
+	// Batasi akses LOKASI_ARSIP hanya untuk admin
+	if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) redirect('/'); 
 	
 	// Tentukan path berkas (absolut)
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;

@@ -15,7 +15,7 @@
 						<a href="<?= site_url('keluar/graph')?>" class="btn btn-social btn-flat bg-orange btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pie-chart"></i> Pie Surat Keluar</a>
 						<a href="<?= site_url('keluar/dialog_cetak/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Arsip Layanan Surat"><i class="fa fa-print"></i> Cetak</a>
 						<a href="<?= site_url('keluar/dialog_cetak/unduh')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Arsip Layanan Surat"><i class="fa fa-download"></i> Unduh</a>
-						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+						<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
@@ -101,27 +101,27 @@
 														<tbody>
 															<?php	foreach ($main as $data): ?>
 																<tr>
-																	<td><?= $data['no']?></td>
-																	<td nowrap>
-																		<?php if (is_file($data['file_rtf'])): ?>
-																			<a href="<?= base_url($data['file_rtf'])?>" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a>
-																		<?php	endif; ?>
-																		<?php if (is_file($data['file_pdf'])): ?>
-																			<a href="<?= base_url($data['file_pdf'])?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-																		<?php	endif; ?>
-																		<?php if (is_file($data['file_qr'])): ?>
-																			<a href="<?= site_url("c1/{$data['id']}"); ?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
-																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
-																		<?php	endif; ?>
-																		<?php if (is_file($data['file_lampiran'])): ?>
-																			<a href="<?= base_url($data['file_lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
-																		<?php	endif; ?>
+																	<td class="padat"><?= $data['no']?></td>
+																	<td class="aksi">
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																		<?php endif; ?>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
 																			<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
+																		<?php if (is_file($data['file_rtf'])): ?>
+																			<a href="<?= site_url("{$this->controller}/unduh/rtf/{$data['id']}"); ?>" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_pdf'])): ?>
+																			<a href="<?= site_url("{$this->controller}/unduh/pdf/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_lampiran'])): ?>
+																			<a href="<?= site_url("{$this->controller}/unduh/lampiran/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_qr'])): ?>
+																			<a href="<?= site_url("c1/{$data['id']}"); ?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
+																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
+																		<?php	endif; ?>
 																	</td>
 																	<td><?= $data['kode_surat']?></td>
 																	<td><?= $data['no_surat']?></td>
@@ -136,7 +136,7 @@
 																	</td>
 																	<td><?= $data['keterangan']?></td>
 																	<td><?= $data['pamong']?></td>
-																	<td nowrap><?= tgl_indo2($data['tanggal'])?></td>
+																	<td class="padat"><?= tgl_indo2($data['tanggal'])?></td>
 																	<td><?= $data['nama_user']?></td>
 																</tr>
 															<?php endforeach; ?>
@@ -208,7 +208,7 @@
 				<div class="box-body">
 					<div class="form-group">
 						<center>
-								<img id="qr_image" class="img-thumbnail" src="">
+							<img id="qr_image" class="img-thumbnail" src="">
 						</center>
 					</div>
 				</div>
