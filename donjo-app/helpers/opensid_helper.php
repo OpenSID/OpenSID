@@ -59,7 +59,7 @@ define("VERSION", '21.08-premium-rev02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021081851');
+define('VERSI_DATABASE', '2021082051');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -708,6 +708,9 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 {
 	$CI =& get_instance();
 	$CI->load->helper('download');
+
+	// Batasi akses LOKASI_ARSIP hanya untuk admin
+	if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) redirect('/'); 
 	
 	// Tentukan path berkas (absolut)
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
