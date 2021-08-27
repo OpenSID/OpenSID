@@ -100,7 +100,7 @@
 																<a href="<?= site_url("surat_masuk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 															<?php endif; ?>
 															<?php if ($data['berkas_scan']): ?>
-																<a href="<?= base_url(LOKASI_ARSIP.$data['berkas_scan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
+																<a href="<?= site_url("surat_masuk/unduh_berkas_scan/$data[id]"); ?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
 															<?php endif; ?>
 															<a href="<?= site_url("surat_masuk/dialog_disposisi/$o/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Cetak Lembar Disposisi Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Lembar Disposisi Surat"><i class="fa fa-file-archive-o"></i></a>
 															<?php if ($this->CI->cek_hak_akses('u')): ?>

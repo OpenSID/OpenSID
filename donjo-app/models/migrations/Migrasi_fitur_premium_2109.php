@@ -50,7 +50,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		
 		$hasil = $hasil && $this->migrasi_2021080771($hasil);
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
-		$hasil = $hasil && $this->migrasi_2021082551($hasil);
+		$hasil = $hasil && $this->migrasi_2021082051($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -79,6 +79,18 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 			{
 				$hasil = $hasil && unlink($file);
 			}
+		}
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021082051($hasil)
+	{
+		// Hapus file .htaccess
+		$file = LOKASI_ARSIP . '/.htaccess';
+		if (file_exists($file))
+		{
+			$hasil = $hasil && unlink($file);
 		}
 
 		return $hasil;
@@ -141,9 +153,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 			(2,326,3), -- Lembaga --
 			(2,327,3) -- Kategori Lembaga --
 		";
-
-		$hasil = $hasil && $this->db->query($query);
-
-		return $hasil;
+		
+		return $hasil && $this->db->query($query);
 	}
 }
