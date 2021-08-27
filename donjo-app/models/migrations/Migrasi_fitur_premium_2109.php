@@ -50,6 +50,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		
 		$hasil = $hasil && $this->migrasi_2021080771($hasil);
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
+		$hasil = $hasil && $this->migrasi_2021082551($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -79,6 +80,69 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 				$hasil = $hasil && unlink($file);
 			}
 		}
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021082551($hasil)
+	{
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 326,
+			'modul'      => 'Lembaga [Desa]',
+			'url'        => 'lembaga',
+			'aktif'      => 1,
+			'ikon'       => 'fa-list',
+			'urut'       => 4,
+			'level'      => 2,
+			'hidden'     => 0,
+			'ikon_kecil' => 'fa-list',
+			'parent'     => 200
+		]);
+
+		$hasil = $hasil && $this->tambah_modul([
+			'id'     => 327,
+			'modul'  => 'Kategori Lembaga',
+			'url'    => 'lembaga_master',
+			'aktif'  => 1,
+			'hidden' => 2,
+			'parent' => 326
+		]);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+		
+		if ( ! $this->db->field_exists('tipe', 'kelompok'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('kelompok', ['tipe' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok']]);
+		}
+
+		if ( ! $this->db->field_exists('tipe', 'kelompok_anggota'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('kelompok_anggota', [
+				'tipe'                 => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok'],
+				'periode'              => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+				'nmr_sk_pengangkatan'  => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+				'tgl_sk_pengangkatan'  => ['type' => 'date', 'null' => true],
+				'nmr_sk_pemberhentian' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true],
+				'tgl_sk_pemberhentian' => ['type' => 'date', 'null' => true],
+			]);
+		}
+
+		if ( ! $this->db->field_exists('tipe', 'kelompok_master'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('kelompok_master', ['tipe' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok']]);
+		}
+
+		// Tambah hak ases group operator
+		$query = "
+			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+			-- Operator --
+			(2,326,3), -- Lembaga --
+			(2,327,3) -- Kategori Lembaga --
+		";
+
+		$hasil = $hasil && $this->db->query($query);
 
 		return $hasil;
 	}

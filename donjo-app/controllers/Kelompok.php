@@ -50,6 +50,8 @@ class Kelompok extends Admin_Controller {
 	private $_set_page;
 	private $_list_session;
 
+	protected $tipe = 'kelompok';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -58,13 +60,16 @@ class Kelompok extends Admin_Controller {
 		$this->sub_modul_ini = 24;
 		$this->_set_page = ['20', '50', '100'];
 		$this->_list_session = ['cari', 'filter'];
+		$this->set_minsidebar(1);
+		$this->kelompok_model->set_tipe($this->tipe);
 	}
 
 	public function clear()
 	{
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->per_page = $this->_set_page[0];
-		redirect('kelompok');
+
+		redirect($this->controller);
 	}
 
 	public function index($p = 1, $o = 0)
@@ -89,40 +94,46 @@ class Kelompok extends Admin_Controller {
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
 
-		$this->set_minsidebar(1);
 		$this->render('kelompok/table', $data);
 	}
 
-	public function anggota($id=0)
+	public function anggota($id = 0)
 	{
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 		$data['main'] = $this->kelompok_model->list_anggota($id);
 
-		$this->set_minsidebar(1);
 		$this->render('kelompok/anggota/table', $data);
 	}
 
-	public function form($p = 1, $o = 0, $id = '')
+	public function form($p = 1, $o = 0, $id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
+		$list_master = $this->kelompok_model->list_master();
+
+		if (count($list_master) <= 0)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = "Kategori $this->tipe tidak tersedia, silakan tambah ketegori terlebih dahulu";
+
+			redirect($this->controller);
+		}
 
 		if ($id)
 		{
 			$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
-			$data['form_action'] = site_url("kelompok/update/$p/$o/$id");
+			$data['form_action'] = site_url("$this->controller/update/$p/$o/$id");
 		}
 		else
 		{
 			$data['kelompok'] = NULL;
-			$data['form_action'] = site_url("kelompok/insert");
+			$data['form_action'] = site_url("$this->controller/insert");
 		}
 
-		$data['list_master'] = $this->kelompok_model->list_master();
+		$data['list_master'] = $list_master;
 		$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
 
-		$this->set_minsidebar(1);
 		$this->render('kelompok/form', $data);
 	}
 
@@ -130,46 +141,31 @@ class Kelompok extends Admin_Controller {
 	{
 		$this->session->set_userdata('aksi', $aksi);
 
-		redirect("kelompok/form_anggota/$id");
+		redirect("$this->controller/form_anggota/$id");
 	}
 
 	public function form_anggota($id = 0, $id_a = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		if ($id_a == 0)
 		{
 			$data['kelompok'] = $id;
 			$data['pend'] = NULL;
 			$data['list_penduduk'] = $this->kelompok_model->list_penduduk($ex_kelompok=$id);
-			$data['form_action'] = site_url("kelompok/insert_a/$id");
+			$data['form_action'] = site_url("$this->controller/insert_a/$id");
 		}
 		else
 		{
 			$data['kelompok'] = $id;
 			$data['pend'] = $this->kelompok_model->get_anggota($id, $id_a);
 			$data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-			$data['form_action'] = site_url("kelompok/update_a/$id/$id_a");
+			$data['form_action'] = site_url("$this->controller/update_a/$id/$id_a");
 		}
 
 		$data['list_jabatan1'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
 		$data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
 
-		$this->set_minsidebar(1);
-		$this->render('kelompok/anggota/form', $data);
-	}
-
-	/*
-	* $aksi = cetak/unduh
-	*/
-	public function dialog_anggota($aksi = 'cetak', $id = 0)
-	{
-		$data['aksi'] = ucwords($aksi);
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['pamong_ttd'] = $this->pamong_model->get_ub();
-		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-		$data['form_action'] = site_url("kelompok/daftar_anggota/$aksi/$id");
-
-		$this->load->view('global/ttd_pamong', $data);
+		$this->render("kelompok/anggota/form", $data);
 	}
 
 	/*
@@ -181,7 +177,7 @@ class Kelompok extends Admin_Controller {
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['pamong_ttd'] = $this->pamong_model->get_ub();
 		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-		$data['form_action'] = site_url("kelompok/daftar/$aksi");
+		$data['form_action'] = site_url("$this->controller/daftar/$aksi");
 
 		$this->load->view('global/ttd_pamong', $data);
 	}
@@ -193,14 +189,27 @@ class Kelompok extends Admin_Controller {
 		$data['config'] = $this->header['desa'];
 		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-
 		$data['main'] = $this->kelompok_model->list_data();
 
-		$data['file'] = "Data Kelompok"; // nama file
+		$data['file'] = "Data $this->tipe"; // nama file
 		$data['isi'] = "kelompok/cetak";
 		$data['letak_ttd'] = ['1', '1', '1'];
 
 		$this->load->view('global/format_cetak', $data);
+	}
+
+	/*
+	* $aksi = cetak/unduh
+	*/
+	public function dialog_anggota($aksi = 'cetak', $id = 0)
+	{
+		$data['aksi'] = ucwords($aksi);
+		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
+		$data['form_action'] = site_url("$this->controller/daftar_anggota/$aksi/$id");
+
+		$this->load->view('global/ttd_pamong', $data);
 	}
 
 	public function daftar_anggota($aksi = 'cetak', $id = 0)
@@ -214,7 +223,7 @@ class Kelompok extends Admin_Controller {
 		$data['main'] = $this->kelompok_model->list_anggota($id);
 		$data['kelompok'] = $this->kelompok_model->get_kelompok($id);
 
-		$data['file'] = "Laporan Data Kelompok " . $data['kelompok']['nama']; // nama file
+		$data['file'] = "Laporan Data $this->tipe " . $data['kelompok']['nama']; // nama file
 		$data['isi'] = "kelompok/anggota/cetak";
 		$data['letak_ttd'] = ['2', '3', '2'];
 
@@ -227,74 +236,83 @@ class Kelompok extends Admin_Controller {
 		if ($value != "")
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
-		redirect('kelompok');
+
+		redirect($this->controller);
 	}
 
 	public function insert()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->kelompok_model->insert();
-		redirect('kelompok');
+
+		redirect($this->controller);
 	}
 
-	public function update($p = 1, $o = 0, $id = '')
+	public function update($p = 1, $o = 0, $id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->kelompok_model->update($id);
-		redirect("kelompok/index/$p/$o");
+
+		redirect("$this->controller/index/$p/$o");
 	}
 
-	public function delete($id = '')
+	public function delete($id = 0)
 	{
 		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete($id);
-		redirect("kelompok");
+
+		redirect($this->controller);
 	}
 
 	public function delete_all()
 	{
 		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete_all();
-		redirect("kelompok");
+
+		redirect($this->controller);
 	}
 
 	public function insert_a($id = 0)
 	{
 		$this->kelompok_model->insert_a($id);
-		$redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : "kelompok/anggota/$id";
+		$redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : "$this->controller/anggota/$id";
 
 		$this->session->unset_userdata('aksi');
 
 		redirect($redirect);
 	}
 
-	public function update_a($id = '', $id_a = 0)
+	public function update_a($id = 0, $id_a = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->kelompok_model->update_a($id, $id_a);
-		redirect("kelompok/anggota/$id");
+
+		redirect("$this->controller/anggota/$id");
 	}
 
 	public function delete_anggota($id = 0, $a=0)
 	{
 		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete_anggota($a);
-		redirect("kelompok/anggota/$id");
+
+		redirect("$this->controller/anggota/$id");
 	}
 
 	public function delete_anggota_all($id = 0)
 	{
 		$this->redirect_hak_akses('h');
 		$this->kelompok_model->delete_anggota_all();
-		redirect("kelompok/anggota/$id");
+
+		redirect("$this->controller/anggota/$id");
 	}
 
-	public function to_master($id=0)
+	public function to_master($id = 0)
 	{
 		$filter = $id;
 		if ($filter != 0)
 			$this->session->filter = $filter;
 		else $this->session->unset_userdata(['filter']);
-		redirect('kelompok');
+
+		redirect($this->controller);
 	}
 }
