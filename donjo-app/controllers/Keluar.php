@@ -92,15 +92,15 @@ class Keluar extends Admin_Controller {
 
 	public function edit_keterangan($id=0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$data['data'] = $this->keluar_model->list_data_keterangan($id);
+		$this->redirect_hak_akses('u');
+		$data['main'] = $this->keluar_model->get_surat($id);
 		$data['form_action'] = site_url("keluar/update_keterangan/$id");
 		$this->load->view('surat/ajax_edit_keterangan', $data);
 	}
 
 	public function update_keterangan($id='')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data = array('keterangan' => $this->input->post('keterangan'));
 		$data = $this->security->xss_clean($data);
 		$data = html_escape($data);
@@ -110,7 +110,7 @@ class Keluar extends Admin_Controller {
 
 	public function delete($p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h', "keluar/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		session_error_clear();
 		$this->keluar_model->delete($id);
 		redirect("keluar/index/$p/$o");
@@ -180,16 +180,11 @@ class Keluar extends Admin_Controller {
 		redirect('keluar');
 	}
 
-	public function cetak_surat_keluar($id)
+	public function unduh($tipe = 'rtf', $id)
 	{
-		$berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
-		ambilBerkas($berkas->nama_surat, 'keluar');
-	}
-
-	public function unduh_lampiran($id)
-	{
-		$berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
-		ambilBerkas($berkas->lampiran, 'keluar');
+		$berkas = $this->keluar_model->get_surat($id);
+		if ($tipe == 'pdf') $berkas->nama_surat = basename($berkas->nama_surat, 'rtf') . 'pdf';
+		ambilBerkas($tipe == 'lampiran' ? $berkas->lampiran : $berkas->nama_surat, $this->controller);
 	}
 
 	public function dialog_cetak($aksi = '')
