@@ -73,9 +73,9 @@ class Pelanggan extends Admin_Controller {
 
 	public function peringatan()
 	{
-		if (empty($this->session->error_status_langganan))
+		if (empty($this->session->error_premium))
 		{
-			redirect($this->controller);
+			redirect('hom_sid');
 		}
 
 		$this->render('pelanggan/peringatan');

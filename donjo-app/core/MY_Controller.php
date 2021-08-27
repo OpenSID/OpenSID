@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
@@ -43,8 +45,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 class MY_Controller extends CI_Controller {
 
 	/*
@@ -64,7 +64,8 @@ class MY_Controller extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
+		// Cek file restrict
+		if (! is_file(APPPATH . 'hooks/Cek_fitur_premium.php')) show_404();
 		// Tampilkan profiler untuk development
 		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
 

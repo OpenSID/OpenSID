@@ -23,9 +23,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 12. [#4354](https://github.com/OpenSID/OpenSID/issues/4354) Perbaiki hak akses tambah/ubah dokumen, ekspedisi.
 13. [#356](https://github.com/OpenSID/premium/issues/356) Perbaiki URL verifikasi surat tidak menampilkan data penduduk seperti NIK. [security]
 14. [#4388](https://github.com/OpenSID/OpenSID/issues/4388) Perbaiki pencatatan log penduduk saat ubah data.
-15. Tutup celah privasi data di Arsip Layanan. [security]
-
+15. [#354](https://github.com/OpenSID/premium/issues/354) Tutup celah privasi data di Arsip Layanan. [security]
 
 #### Perubahan Teknis
 1. Perbaiki migrasi gagal pada penambahan indeks dengan nama kolom tertentu.
 2. Sesuaikan contoh data awal modul menu.
+3. Penanganan pelanggan premium. [security]
