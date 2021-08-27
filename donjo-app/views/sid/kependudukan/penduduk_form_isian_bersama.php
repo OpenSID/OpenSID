@@ -83,7 +83,6 @@
 										<input type="checkbox" title="Centang jika belum memiliki NIK" id="nik_sementara" <?= jecho($cek_nik, '0', 'checked ="checked"') ?>>
 									</span>
 									<input id="nik" name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>" <?= jecho($cek_nik, '0', 'readonly') ?>></input>
-									<input name="nik_lama" type="hidden" value="<?= $_SESSION['nik_lama']?>"/>
 							</div>
 						</div>
 				</div>

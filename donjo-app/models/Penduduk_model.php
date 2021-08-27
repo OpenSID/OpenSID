@@ -764,7 +764,6 @@ class Penduduk_model extends MY_Model {
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
-		unset($data['nik_lama']);
 		unset($data['kk_level_lama']);
 		unset($data['dusun']);
 		unset($data['rw']);
@@ -821,13 +820,6 @@ class Penduduk_model extends MY_Model {
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-
-		// Jangan update nik apabila tidak berubah
-		if ($data['nik_lama'] == $data['nik'])
-		{
-			unset($data['nik']);
-		}
-		unset($data['nik_lama']);
 
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi))
