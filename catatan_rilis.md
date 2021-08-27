@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 #### Penambahan Fitur
 1. [#4330](https://github.com/OpenSID/OpenSID/issues/4330) Kenali gawai anjungan layanan mandiri menggunakan MAC Address.
 2. [#4339](https://github.com/OpenSID/OpenSID/issues/4339) Tampilkan ketentuan layanan di Info Desa > Layanan Pelanggan.
+3. [#369](https://github.com/OpenSID/premium/issues/369) Modul pendataan lembaga desa
 
 #### Perbaikan BUG
 1. [#4346](https://github.com/OpenSID/OpenSID/issues/4346) Perbaiki program bantuan yang tidak dapat terhapus.

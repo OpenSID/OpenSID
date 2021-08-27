@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021080771($hasil);
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
 		$hasil = $hasil && $this->migrasi_2021082051($hasil);
+		$hasil = $hasil && $this->migrasi_2021082871($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -96,7 +97,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		return $hasil;
 	}
 
-	protected function migrasi_2021082551($hasil)
+	protected function migrasi_2021082871($hasil)
 	{
 		$hasil = $hasil && $this->tambah_modul([
 			'id'         => 326,
