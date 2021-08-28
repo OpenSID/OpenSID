@@ -94,7 +94,7 @@
 											<div class="box-header">
 												<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("keuangan_manual/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 											</div>
-											<form id="mainform" name="mainform" action="" method="post">
+											<form id="mainform" name="mainform" method="post">
 												<div class="row">
 													<div class="col-sm-12">
 														<div class="table-responsive">
@@ -124,7 +124,7 @@
 											<div class="box-header">
 												<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform_bl','<?=site_url("keuangan_manual/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 											</div>
-											<form id="mainform_bl" name="mainform_bl" action="" method="post">
+											<form id="mainform_bl" name="mainform_bl"method="post">
 												<div class="row">
 													<div class="col-sm-12">
 														<div class="table-responsive">
@@ -154,7 +154,7 @@
 											<div class="box-header">
 												<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform_by','<?=site_url("keuangan_manual/delete_all/")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 											</div>
-											<form id="mainform_by" name="mainform_by" action="" method="post">
+											<form id="mainform_by" name="mainform_by"method="post">
 												<div class="row">
 													<div class="col-sm-12">
 														<div class="table-responsive">

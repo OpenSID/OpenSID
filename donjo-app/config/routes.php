@@ -91,29 +91,6 @@ $route['dokumen_sekretariat'] = "buku_umum/dokumen_sekretariat";
 $route['artikel/kategori/(:any)'] = 'first/kategori/$1'; // Contoh : Contoh : artikel/kategori/berita-desa
 $route['artikel/kategori/(:any)/(:num)'] = 'first/kategori/$1/$2'; // Contoh : Contoh : artikel/kategori/berita-desa/1
 
-// Route bumindes
-$route['bumindes_umum/([a-z_]+)/(:any)'] = "buku_umum/bumindes_umum/$1/$2";
-$route['bumindes_umum/([a-z_]+)'] = "buku_umum/bumindes_umum/$1";
-$route['bumindes_umum'] = "buku_umum/bumindes_umum";
-
-$buku_umum = ['ekspedisi', 'lembaran_desa', 'pengurus', 'surat_keluar', 'surat_masuk'];
-foreach ($buku_umum as $menu)
-{
-	$route["{$menu}/([a-z_]+)/(:any)/(:any)/(:any)"] = "buku_umum/{$menu}/$1/$2/$3/$4";
-	$route["{$menu}/([a-z_]+)/(:any)/(:any)"] = "buku_umum/{$menu}/$1/$2/$3";
-	$route["{$menu}/([a-z_]+)/(:any)"] = "buku_umum/{$menu}/$1/$2";
-	$route["{$menu}/([a-z_]+)"] = "buku_umum/{$menu}/$1";
-	$route["{$menu}"] = "buku_umum/{$menu}";
-}
-
-$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3/$4/$5";
-$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3/$4";
-$route['dokumen_sekretariat/([a-z_]+)/(:any)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2/$3";
-$route['dokumen_sekretariat/([a-z_]+)/(:any)'] = "buku_umum/dokumen_sekretariat/$1/$2";
-$route['dokumen_sekretariat/([a-z_]+)'] = "buku_umum/dokumen_sekretariat/$1";
-$route['dokumen_sekretariat'] = "buku_umum/dokumen_sekretariat";
-
-// Route untuk menghilangkan 'first' dari URL web
 $route['index/(:num)'] = 'first/index/$1';
 $route['(:num)'] = 'first/index/$1';
 $route['arsip'] = 'first/arsip';
@@ -134,3 +111,32 @@ $route['data_analisis/(.+)'] = 'first/data_analisis/$1';
 $route['peta'] = 'first/peta';
 $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
+
+
+// Mandiri Auth
+$route['layanan-mandiri/masuk'] = 'layanan_mandiri/masuk'; // Tampilan Masuk
+$route['layanan-mandiri/cek'] = 'layanan_mandiri/masuk/cek'; // Cek Masuk
+// Mandiri Beranda
+$route['layanan-mandiri'] = 'layanan_mandiri/beranda'; // Beranda/Halaman Awal
+// Mandiri Profil
+$route['layanan-mandiri/profil'] = 'layanan_mandiri/beranda/profil'; // Profil
+$route['layanan-mandiri/cetak-biodata'] = 'layanan_mandiri/beranda/cetak_biodata'; // Cetak Penduduk
+$route['layanan-mandiri/ganti-pin'] = 'layanan_mandiri/beranda/ganti_pin'; // Ganti PIN
+$route['layanan-mandiri/proses-ganti-pin'] = 'layanan_mandiri/beranda/proses_ganti_pin'; // Proses Ganti PIN
+$route['layanan-mandiri/unduh-berkas/(:num)'] = 'layanan_mandiri/beranda/unduh_berkas/$1'; // Proses Unduh Berkas
+$route['layanan-mandiri/cetak-kk'] = 'layanan_mandiri/beranda/cetak_kk'; // Cetak KK
+$route['layanan-mandiri/keluar'] = 'layanan_mandiri/beranda/keluar'; // Keluar
+// Mandiri Pesan
+$route['layanan-mandiri/pesan-masuk'] = 'layanan_mandiri/pesan/index/2'; // Pesan Masuk
+$route['layanan-mandiri/pesan-keluar'] = 'layanan_mandiri/pesan/index/1'; // Pesan Keluar
+$route['layanan-mandiri/pesan/tulis'] = 'layanan_mandiri/pesan/tulis'; // Tulis Pesan
+$route['layanan-mandiri/pesan/balas'] = 'layanan_mandiri/pesan/tulis'; // Balas Pesan
+$route['layanan-mandiri/pesan/kirim'] = 'layanan_mandiri/pesan/kirim'; // Kirim Pesan
+$route['layanan-mandiri/pesan/baca/(:num)/(:num)'] = 'layanan_mandiri/pesan/baca/$1/$2'; // Baca Pesan
+// Mandiri Surat
+$route['layanan-mandiri/arsip-surat'] = 'layanan_mandiri/surat/index/2'; // Arsip Surat
+$route['layanan-mandiri/permohonan-surat'] = 'layanan_mandiri/surat/index/1'; // Permohonan Surat
+$route['layanan-mandiri/surat/buat-surat'] = 'layanan_mandiri/surat/buat_surat'; // Buat Surat Permohonan
+$route['layanan-mandiri/surat/buat-surat/(:num)'] = 'layanan_mandiri/surat/buat_surat/$1'; //Ubah Surat Permohonan yg tdk lengkap
+// Mandiri Bantuan
+$route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan

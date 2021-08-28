@@ -1,0 +1,52 @@
+Di rilis ini, versi 21.02-premium tersedia Buku Induk Penduduk dan Buku Mutasi Penduduk sesuai Permendagri No. 47/2016. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+
+Terima kasih pada afa28, Agung Sugiarto, Zeppy Shiddiq, Ariandi Ryan Kahfi, Il Ham dan Ians Shinichi Kudo yang terus berkontribusi.
+
+Lengkapnya, isi rilis versi 21.02-premium adalah sebagai berikut:
+
+1. Hapus folder themes/hadakewa yg tidak diperlukan lagi. (teknis)
+2. #3848: Tampilkan Nomor Registrasi di semua daftar inventaris.
+3. #3904: Tampilkan luas bangunan di daftar inventaris Konstruksi Dalam Pengerjaan. [bug-fix]
+4. #3890: Pengguna operator sekarang dapat mengakses menu Buku Administrasi Desa.
+5. #3893: Tambah Status hubungan Anak bagi Kepala Keluarga (perempuan) yang belum menikah.
+6. #3891: Sekarang ditampilkan pilihan lengkap tingkat pengguna pada form ubah pengguna Administrator. [bug-fix]
+7. #3910: Sekarang RT '-' tidak ditampilkan di daftar RT suatu RW. [bug-fix]
+8. #3878: Perbaiki masa berlaku surat permohonan layanan mandiri sesuai pengaturan. [bug-fix]
+9. #3922: Sekarang error select2 tidak tampil di console browser. [bug-fix]
+10. #3943: Sekarang anggota keluarga dapat melihat kelengkapan dokumen kepala keluarga yg dibagi pada anggota tersebut. [bug-fix]
+11. #3916: Sekarang bisa simpan Buku Adminisrasi Desa - Administrasi Umum - Buku Agenda-Surat Keluar. [bug-fix]
+12. #3958: Tambahkan berapa kode isian format impor BIP 2016 sesuai yang dikeluarkan Dispenduk. [bug-fix]
+13. Mutakhirkan tema natra.
+
+
+Fitur Premium:
+
+1. Sediakan pengaturan latar belakang halaman login dan tema klasik/hadakewa.
+2. #3069: Sediakan pencarian peserta program bantuan di daftar Penduduk dan Keluarga.
+3. #2068: Sekarang bisa urut dusun/rw/rt di Info Desa > Wilayah Administratif.
+4. #3881: Sederhanakan notifikasi admin supaya tidak memberatkan server. [teknis]
+5. #1613: Sediakan paginasi untuk daftar Data Suplemen.
+6. Sederhanakan script pemantauan rilis baru. (teknis)
+7. p#54: Gunakan cache untuk data menu modul. (teknis)
+8. #2543: Sediakan laporan status pembangunan.
+9. #2659: Sekarang bisa isi lokasi peta tempat tinggal pada waktu menambah penduduk baru.
+10. #3863: Sediakan pengaturan sebutan Kepala Desa, supaya bisa disesuaikan (misalnya 'Wali Nagari').
+11. #3696: Rancang ulang tampilan Layanan Mandiri.
+12. Penyederhanaan script form secara menyeluruh. [teknis]
+13. p#49: Tampilkan 'halaman tidak ditemukan' jika mengakses layanan mandiri saat dinon-aktifkan.
+14. #3917: Dokumen kelengkapan permohonan surat sekarang tampil di halaman periksa permohonan surat layanan mandiri. [bug-fix]
+15. #3919: Perbaiki tampilan halaman periksa permohonan surat layanan mandiri.
+16. #3672: Sekarang pengguna layanan mandiri harus mengubah PIN yg berbeda saat pertama kali login dan setiap kali dibuat ulang oleh petugas. [keamanan]
+17. #2777: Sediakan Buku Administrasi Desa > Buku Induk Penduduk.
+18. Rekam log hapus data penduduk dan gunakan untuk sinkronisasi dengan OpenDK. [teknis]
+19. Sekarang membuka halaman Penduduk dan Buku Induk Penduduk sudah dipercepat. [teknis]
+20. Sekarang membuka halaman Rumah Tangga sudah dipercepat. [teknis]
+21. Sekarang membuka peta di web maupun admin sudah dipercepat. [teknis]
+22. #3813: Perbaiki keterangan data orang tua dari calon pria dan calon wanita pada Surat Keterangan Untuk Nikah. [bug-fix]
+23. #3949: Tampilkan lapisan peta pembangunan di pengaturan peta area/lokasi/garis.
+24. Sederhanakan script mengambil data dusun/rw/rt. [teknis]
+25. #2778: Sediakan Buku Administrasi Desa > Buku Mutasi Penduduk, dan sesuaikan Statistik > Laporan Bulanan.
+
+
+Selalu diingatkan, apabila meng-upgrade (yaitu bukan install baru) dari versi SEBELUM versi 21.02-premium, lakukan Database > Migrasi DB untuk menyesuaikan struktur database dan folder desa.
+

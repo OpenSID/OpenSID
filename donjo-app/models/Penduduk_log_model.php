@@ -62,10 +62,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	public function get_log($id_log)
 	{
 		$log = $this->db
-			->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, id_detail, ref_pindah, catatan")
+			->select("s.nama as status, s.id as status_id, date_format(tgl_peristiwa, '%d-%m-%Y') as tgl_peristiwa, kode_peristiwa, ref_pindah, catatan, date_format(tgl_lapor, '%d-%m-%Y') as tgl_lapor, alamat_tujuan, meninggal_di, p.alamat_sebelumnya")
 			->where('l.id', $id_log)
 			->join('tweb_penduduk p','l.id_pend = p.id', 'left')
-			->join('tweb_status_dasar s','s.id = p.status_dasar', 'left')
+			->join('ref_peristiwa s','s.id = l.kode_peristiwa', 'left')
 			->get('log_penduduk l')->row_array();
 		if (empty($log['tgl_peristiwa'])) $log['tgl_peristiwa'] = date("d-m-Y");
 		return $log;
@@ -81,9 +81,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		unset($_SESSION['success']);
 		$data['catatan'] = htmlentities($this->input->post('catatan'));
+		if ($this->input->post('alamat_tujuan'))
+			$data['alamat_tujuan'] = htmlentities($this->input->post('alamat_tujuan'));
+		if ($this->input->post('meninggal_di'))
+			$data['meninggal_di'] = htmlentities($this->input->post('meninggal_di'));
+		if ($this->input->post('alamat_sebelumnya'))
+		{
+			$penduduk['alamat_sebelumnya'] = htmlentities($this->input->post('alamat_sebelumnya'));
+			$get_pendudukId = $this->db->where('id', $id_log)->get('log_penduduk')->row()->id_pend;
+			$this->db->where('id', $get_pendudukId)->update('tweb_penduduk', $penduduk);
+		}
 		$data['tgl_peristiwa'] = rev_tgl($this->input->post('tgl_peristiwa'));
-		if (!$this->db->where('id', $id_log)->update('log_penduduk', $data))
+		$data['tgl_lapor'] = rev_tgl($this->input->post('tgl_lapor'));
+		$data['updated_at'] = date('Y-m-d H:i:s');
+		$data['updated_by'] = $this->session->user;
+		if (! $this->db->where('id', $id_log)->update('log_penduduk', $data))
 			$_SESSION['success'] = -1;
+		else
+			$_SESSION['success'] = 1;
 	}
 
 	/**
@@ -95,14 +110,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	public function kembalikan_status($id_log)
 	{
 		$log = $this->db->where('id', $id_log)->get('log_penduduk')->row();
-		$data['status_dasar'] = 1; // status dasar hidup
-		$data['updated_at'] = date('Y-m-d H:i:s');
-		$data['updated_by'] = $this->session->user;
-		if (!$this->db->where('id',$log->id_pend)->update('tweb_penduduk', $data))
-			$_SESSION['success'] = - 1;
-		// Hapus log penduduk
-		if (!$this->db->where('id', $id_log)->delete('log_penduduk'))
-			$_SESSION['success'] = - 1;
+		// Kembalikan status selain masuk dan lahir
+		if ($log->kode_peristiwa != 5 && $log->kode_peristiwa != 1 )
+		{
+			$data['status_dasar'] = 1; // status dasar hidup
+			$data['updated_at'] = date('Y-m-d H:i:s');
+			$data['updated_by'] = $this->session->user;
+			if (!$this->db->where('id',$log->id_pend)->update('tweb_penduduk', $data))
+				$_SESSION['success'] = - 1;
+			// Hapus log penduduk
+			if (!$this->db->where('id', $id_log)->delete('log_penduduk'))
+				$_SESSION['success'] = - 1;
+		}
 	}
 
 	/**
@@ -129,16 +148,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$this->db
 				->group_start()
 					->or_like('u.nama', $kw, 'both', FALSE)
-					->or_like('u.nik', $kw, 'both', cFALSE)
+					->or_like('u.nik', $kw, 'both', FALSE)
 				->group_end();
-		}
-	}
-
-	private function status_dasar_sql()
-	{
-		if ($kf = $this->session->status_dasar)
-		{
-			$this->db->where('u.status_dasar', $kf);
 		}
 	}
 
@@ -182,12 +193,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	}
 
+	private function kode_peristiwa()
+	{
+		if ($kf = $this->session->kode_peristiwa)
+		{
+			$this->db->where_in('log.kode_peristiwa', $kf);
+		}
+	}
+
+	private function status_penduduk()
+	{
+		if ($kf = $this->session->status_penduduk)
+		{
+			$this->db->where('u.status', $kf);
+		}
+	}
+
+	private function tahun_bulan()
+	{
+		$kt = $this->session->filter_tahun;
+		$kb = $this->session->filter_bulan;
+
+		if ($kt) $this->db->where("YEAR(log.tgl_lapor)", $kt);
+		if ($kb) $this->db->where("MONTH(log.tgl_lapor)", $kb);
+	}
+
+	private function tgl_lengkap()
+	{
+		if ($kf = $this->session->tgl_lengkap)
+		{
+			$this->db->where("log.tgl_lapor >=",$kf);
+		}
+	}
+
+	// Menampilkan list tahun dari tabel log_penduduk,
+	// Mengambil tahun terkecil dari database, kemudian ditambahkan sampai tahun skrg
+	public function list_tahun()
+	{
+		$list_tahun = array();
+
+		$list_tahun = $this->db
+			->select('MIN(YEAR(tgl_lapor)) as tahun')
+			->from('log_penduduk')
+			->order_by('tahun DESC')
+			->limit(5)
+			->get()->row()->tahun;
+
+		$data_tahun = array();
+		for ($nYear = date('Y'); $nYear >= intval($list_tahun); $nYear--)
+			$data_tahun[]['tahun'] = $nYear;
+
+		return $data_tahun;
+	}
+
 	public function paging($p=1, $o=0)
 	{
-		$this->db->select('COUNT(u.id) AS id');
+		$this->db->select('COUNT(log.id) AS jml');
 		$this->list_data_sql();
 		$jml_data = $this->db->get()
-			->row()->id;
+			->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -198,35 +262,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $this->paging;
 	}
 
-	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
-	//
-	// Batasi pada rekaman ubah status dasar saja, untuk ditampilkan di Log Penduduk.
-	// Yaitu, batasi pada id_detail berikut:
-	//   2 = status menjadi mati
-	//   3 = status menjadi pindah
-	//   4 = status menjadi hilang
+	public function list_data_hapus()
+	{
+		$this->db
+			->select('log.tgl_peristiwa, log.tgl_lapor, h.nik, h.deleted_at')
+			->from('log_penduduk log')
+			->join('tweb_penduduk u', 'u.id = log.id_pend', 'left')
+			->join('log_hapus_penduduk h', 'h.id_pend = log.id_pend', 'left')
+			->where('u.created_at IS NULL')
+			->where('h.deleted_at > log.created_at');
 
+		$this->tgl_lengkap();
+		$this->tahun_bulan();
+
+		$data['list_hapus'] = $this->db->get()->result_array();
+		$data['total'] = count($data['list_hapus']);
+
+		return $data;
+	}
+
+	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
 	private function list_data_sql()
 	{
 		$this->db
-			->from('tweb_penduduk u')
+			->from('log_penduduk log')
+			->join('tweb_penduduk u', 'u.id = log.id_pend', 'left')
+			->join('log_hapus_penduduk h', 'h.id_pend = log.id_pend', 'left')
 			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
 			->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
 			->join('tweb_penduduk_agama g', 'u.agama_id = g.id', 'left')
-			->join('tweb_status_dasar sd', 'u.status_dasar = sd.id', 'left')
-			->join('log_penduduk log', 'u.id = log.id_pend', 'left')
+			->join('tweb_penduduk_warganegara v', 'v.id = u.warganegara_id', 'left')
 			->join('ref_pindah rp', 'rp.id = log.ref_pindah', 'left')
-			->where('u.status_dasar >', 1)
-			->where_in('log.id_detail', array(2, 3, 4));
+			->join('ref_peristiwa ra', 'ra.id = log.kode_peristiwa', 'left');
 
+		$this->kode_peristiwa();
 		$this->search_sql();
-		$this->status_dasar_sql();
 		$this->sex_sql();
 		$this->agama_sql();
 		$this->dusun_sql();
 		$this->rw_sql();
 		$this->rt_sql();
+		$this->status_penduduk();
+		$this->tahun_bulan();
 	}
 
 	// $limit = 0 mengambil semua
@@ -234,10 +312,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	{
 		//Main Query
 		$this->db
-			->select('u.id, u.nik, u.tanggallahir, u.id_kk, u.nama, u.foto, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk')
-			->select('(CASE when log.id_detail = 3 then rp.nama else sd.nama end) as status_dasar')
+			->select('u.id, u.nik, u.tempatlahir, u.tanggallahir, u.id_kk, u.nama, u.foto, a.dusun, a.rw, a.rt, d.alamat, log.id as id_log, log.no_kk AS no_kk, log.catatan as catatan, log.nama_kk as nama_kk, v.nama AS warganegara, u.created_at, log.meninggal_di, u.alamat_sebelumnya, log.alamat_tujuan,')
+			->select('(CASE when log.kode_peristiwa = 3 then rp.nama else ra.nama end) as nama_peristiwa')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(log.tgl_peristiwa)-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur_pada_peristiwa")
-			->select('x.nama AS sex, g.nama AS agama, log.tanggal, log.tgl_peristiwa, log.id_detail');
+			->select('x.nama AS sex, g.nama AS agama, log.tgl_lapor, log.tgl_peristiwa, log.kode_peristiwa, h.nik as nik_hapus');
 
 		$this->list_data_sql();
 
@@ -254,7 +332,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			// Untuk Log Penduduk
 			case 9:  $this->db->order_by('log.tgl_peristiwa', 'ASC'); break;
 			case 10: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
-			default:$this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
+			default:$this->db->order_by('log.tgl_lapor', 'DESC'); break;
 		}
 
 		//Paging SQL
@@ -284,6 +362,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$j++;
 		}
 		return $data;
+	}
+
+	public function tahun_log_pertama()
+	{
+		$thn = $this->db
+			->select('min(date_format(tgl_lapor, "%Y")) as thn')
+			->from('log_penduduk')
+			->get()->row()->thn;
+		return $thn;
 	}
 
 }

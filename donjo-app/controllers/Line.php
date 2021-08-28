@@ -100,8 +100,9 @@ class Line extends Admin_Controller {
 			$data['form_action'] = site_url("line/insert");
 		}
 
-		$this->set_minsidebar(1);
 		$data['tip'] = 2;
+
+		$this->set_minsidebar(1);
 		$this->render('line/form', $data);
 	}
 

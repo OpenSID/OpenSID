@@ -434,23 +434,34 @@
 	public function get_data_ayah($id=0)
 	{
 		$penduduk = $this->get_data_penduduk($id);
-		// Cari berdasarkan ayah_nik dulu
-		if (!empty($penduduk['ayah_nik']))
+		//cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
+		if ($penduduk['kk_level'] == 4)
+		{
+			$id_kk = $penduduk['id_kk'];
+			$data = $this->db
+				->select('u.id')
+				->from('tweb_penduduk u')
+				->where('u.id_kk', $id_kk)
+				->where('u.sex', 1)
+				->group_start()
+					// Kepala Keluarga
+					->where('u.kk_level', 1)
+					// Suami dari ibu
+					->or_group_start()
+						->where('u.kk_level', 2)
+					->group_end()
+				->group_end()
+				->limit(1)->get()
+				->row_array();
+		}
+
+		// jika tidak ada Cari berdasarkan ayah_nik
+		if (empty($data['id']) && ! empty($penduduk['ayah_nik']))
 		{
 			$sql = "SELECT u.id
 				FROM tweb_penduduk u
 				WHERE u.nik = ? limit 1";
 			$query = $this->db->query($sql, $penduduk['ayah_nik']);
-			$data = $query->row_array();
-		}
-
-		// Kalau tidak ada, cari kepala keluarga pria kalau penduduknya seorang anak dalam keluarga
-		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 )
-		{
-			$sql = "SELECT u.id
-				FROM tweb_penduduk u
-				WHERE (u.id_kk = (SELECT id_kk FROM tweb_penduduk where id = $id) AND u.kk_level = 1 AND u.sex = 1) limit 1";
-			$query = $this->db->query($sql);
 			$data = $query->row_array();
 		}
 		if (isset($data['id']))
@@ -459,25 +470,22 @@
 			$ayah = $this->get_data_pribadi($ayah_id);
 			return $ayah;
 		}
+		else
+		{
+			// Ambil data sebisanya dari data ayah penduduk
+			$ayah['nik'] = $penduduk['ayah_nik'];
+			$ayah['nama'] = $penduduk['nama_ayah'];
+			return $ayah;
+		}
 	}
 
 	public function get_data_ibu($id=0)
 	{
 		$penduduk = $this->get_data_penduduk($id);
-		// Cari berdasarkan ibu_nik dulu
-		if (!empty($penduduk['ibu_nik']))
-		{
-			$data = $this->db
-				->select('u.id')
-				->from('tweb_penduduk u')
-				->where('nik', $penduduk['ibu_nik'])
-				->limit(1)->get()
-				->row_array();
-		}
 
-		// Kalau tidak ada, cari istri keluarga kalau penduduknya seorang anak dalam keluarga
+		// Cari istri keluarga kalau penduduknya seorang anak dalam keluarga
 		// atau kepala keluarga perempuan
-		if (!isset($data['id']) AND $penduduk['kk_level'] == 4 )
+		if ($penduduk['kk_level'] == 4 )
 		{
 			$id_kk = $penduduk['id_kk'];
 			$data = $this->db
@@ -496,6 +504,17 @@
 				->limit(1)->get()
 				->row_array();
 		}
+
+		// Cari berdasarkan ibu_nik
+		if (empty($data['id']) AND ! empty($penduduk['ibu_nik']))
+		{
+			$data = $this->db
+				->select('u.id')
+				->from('tweb_penduduk u')
+				->where('nik', $penduduk['ibu_nik'])
+				->limit(1)->get()
+				->row_array();
+		}
 		if (isset($data['id']))
 		{
 			$ibu_id = $data['id'];
@@ -509,27 +528,6 @@
 			$ibu['nama'] = $penduduk['nama_ibu'];
 			return $ibu;
 		}
-	}
-
-	public function get_dusun($dusun='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rt = '0' AND rw = '0'";
-		$query = $this->db->query($sql, $dusun);
-		return $query->row_array();
-	}
-
-	public function get_rw($dusun='', $rw='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = '0'";
-		$query = $this->db->query($sql, array($dusun, $rw));
-		return $query->row_array();
-	}
-
-	public function get_rt($dusun='', $rw='', $rt='')
-	{
-		$sql = "SELECT * FROM tweb_wil_clusterdesa WHERE dusun = ? AND rw = ? AND rt = ?";
-		$query = $this->db->query($sql, array($dusun, $rw, $rt));
-		return $query->row_array();
 	}
 
 	public function get_surat($url='')

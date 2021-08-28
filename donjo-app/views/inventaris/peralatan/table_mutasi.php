@@ -7,7 +7,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
+		<form id="mainformexcel" name="mainformexcel"method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
 					<?php $this->load->view('inventaris/menu_kiri'); ?>
@@ -69,7 +69,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Unduh Inventaris</h4>
 										</div>
-										<form action="" target="_blank" class="form-horizontal" method="get" >
+										<form target="_blank" class="form-horizontal" method="get" >
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Tahun</label>
@@ -112,7 +112,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Cetak Inventaris</h4>
 										</div>
-										<form action="" target="_blank" class="form-horizontal" method="get">
+										<form target="_blank" class="form-horizontal" method="get">
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>

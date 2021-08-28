@@ -203,14 +203,6 @@ class Rtm_model extends CI_Model {
 		}
 	}
 
-	public function get_dusun($id)
-	{
-		$sql = "SELECT * FROM tweb_rtm WHERE dusun_id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
-	}
-
 	public function get_rtm($id)
 	{
 		$sql = "SELECT * FROM tweb_rtm WHERE id = ?";
@@ -370,8 +362,6 @@ class Rtm_model extends CI_Model {
 	// $limit = 0 mengambil semua
 	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
-		$this->db->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, k.alamat, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_rtm = u.no_kk ) AS jumlah_anggota, c.dusun, c.rw, c.rt, u.tgl_daftar');
-
 		$this->list_data_sql();
 
 		switch ($o)
@@ -386,6 +376,15 @@ class Rtm_model extends CI_Model {
 		}
 
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		$query_dasar = $this->db->select('u.*')->get_compiled_select();
+
+		$this->db
+			->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
+			->select('(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_rtm = u.no_kk ) AS jumlah_anggota')
+			->from("($query_dasar) as u")
+			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1')
+			->join('tweb_keluarga k', 't.id_kk = k.id')
+			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
 
 		$data = $this->db->get()->result_array();
 
@@ -396,13 +395,10 @@ class Rtm_model extends CI_Model {
 	{
 		$this->db
 			->from('tweb_rtm u')
-			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'LEFT')
-			->join('tweb_keluarga k', 't.id_kk = k.id', 'LEFT')
-			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id', 'LEFT');
+			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1')
+			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
 
 		$this->search_sql();
-
-		//['kelas', 'kelas_sosial']
 
 		$list_kode = [['dusun', 'c.dusun'], ['rw', 'c.rw'], ['rt', 'c.rt']];
 		foreach ($list_kode as $list)

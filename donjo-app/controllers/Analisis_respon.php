@@ -46,7 +46,7 @@ class Analisis_respon extends Admin_Controller {
 	{
 		parent::__construct();
 		UNSET($_SESSION['delik']);
-		$this->load->model('analisis_respon_model');
+		$this->load->model(['analisis_respon_model', 'wilayah_model']);
 
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
@@ -94,12 +94,12 @@ class Analisis_respon extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->analisis_respon_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
 
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->analisis_respon_model->list_rt($data['dusun'], $data['rw']);
+				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
@@ -117,7 +117,7 @@ class Analisis_respon extends Admin_Controller {
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['list_dusun'] = $this->analisis_respon_model->list_dusun();
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['paging'] = $this->analisis_respon_model->paging($p, $o);
 		$data['main'] = $this->analisis_respon_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_respon_model->autocomplete();

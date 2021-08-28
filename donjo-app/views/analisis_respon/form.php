@@ -233,18 +233,3 @@
 		</form>
 	</section>
 </div>
-<?php if (@$_SESSION['sukses']==1): ?>
-	<script>
-		$(function(){
-			notification('success','Data Berhasil Disimpan')();
-		});
-	</script>
-<?php elseif (@$_SESSION['sukses']==-1): ?>
-	<script>
-		$(function(){
-			notification('error','Data Gagal Disimpan')();
-		});
-	</script>
-<?php endif; ?>
-<?php $_SESSION['sukses']=0;?>
-

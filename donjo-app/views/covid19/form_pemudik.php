@@ -25,7 +25,7 @@
 									<h3 class="box-title">Tambahkan Warga Pemudik</h3>
 								</div>
 								<div class="box-body">
-									<form action="" id="main" name="main" method="POST"  class="form-horizontal">
+									<form id="main" name="main" method="POST"  class="form-horizontal">
 
 										<div class="form-group" >
 											<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>

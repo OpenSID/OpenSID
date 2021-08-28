@@ -40,7 +40,7 @@ process_si_contact_form();
 
 <div id="success_message" style="display: none">Your message has been sent!<br />We will contact you as soon as possible.</div>
 
-<form method="post" action="" id="contact_form" onsubmit="return processForm()">
+<form method="post"id="contact_form" onsubmit="return processForm()">
   <input type="hidden" name="do" value="contact" />
 
   <p>

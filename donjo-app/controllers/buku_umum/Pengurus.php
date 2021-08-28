@@ -224,9 +224,10 @@ class Pengurus extends Admin_Controller {
 
 	public function atur_bagan_layout()
 	{
-		$data['judul'] = 'Atur Ukuran Bagan';
-		$data['list_setting'] = 'list_setting_bagan';
-		$this->setting_model->load_options();
+		$data = [
+			'judul' => 'Atur Ukuran Bagan',
+			'kategori' => ['conf_bagan']
+		];
 
 		$this->load->view('home/ajax_atur_bagan_layout', $data);
 	}

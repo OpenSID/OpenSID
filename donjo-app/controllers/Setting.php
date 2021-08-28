@@ -54,9 +54,14 @@ class Setting extends Admin_Controller {
 
 	public function index()
 	{
-		$data['list_tema'] = $this->theme_model->list_all();
-		$data['judul'] = 'Pengaturan Aplikasi';
-		$data['list_setting'] = 'list_setting';
+		$data = [
+			'judul' => 'Pengaturan Aplikasi',
+			'kategori' => [null, '', 'sistem', 'web_theme', 'readonly', 'web'],
+			'atur_latar' => TRUE,
+			'latar_website' => $this->theme_model->latar_website(),
+			'latar_login' => $this->theme_model->latar_login(),
+			'list_tema' => $this->theme_model->list_all(),
+		];
 		$this->setting_model->load_options();
 
 		$this->render('setting/setting_form', $data);
@@ -65,6 +70,7 @@ class Setting extends Admin_Controller {
 	public function update()
 	{
 		$this->setting_model->update_setting($this->input->post());
+
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
@@ -91,9 +97,10 @@ class Setting extends Admin_Controller {
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 211;
 
-		$data['judul'] = 'Pengaturan Halaman Web';
-		$data['list_setting'] = 'list_setting_web';
-		//$this->setting_model->load_options(); // Digunakan apabila jenis = option-value atau option-kode
+		$data = [
+			'judul' => 'Pengaturan Halaman Web',
+			'kategori' => ['conf_web'],
+		];
 
 		$this->render('setting/setting_form', $data);
 	}
@@ -104,9 +111,10 @@ class Setting extends Admin_Controller {
 		$this->modul_ini = 14;
 		$this->sub_modul_ini = 314;
 
-		$data['judul'] = 'Pengaturan Layanan Mandiri';
-		$data['list_setting'] = 'list_setting_mandiri';
-		//$this->setting_model->load_options(); // Digunakan apabila jenis = option-value atau option-kode
+		$data = [
+			'judul' => 'Pengaturan Layanan Mandiri',
+			'kategori' => ['setting_mandiri'],
+		];
 
 		$this->render('setting/setting_form', $data);
 	}

@@ -64,6 +64,10 @@ class MY_Controller extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+
+		// Tampilkan profiler untuk development
+		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
+
 		$this->load->model('database_model');
 		$this->database_model->cek_migrasi();
 		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
@@ -187,23 +191,21 @@ class Mandiri_Controller extends MY_Controller {
 
 	public $header;
 	public $cek_anjungan;
+	public $is_login;
 
-	/*
-	 * Constructor
-	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model(['config_model', 'anjungan_model']);
-		$this->header = $this->config_model->get_data();;
-		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
-		$this->controller = strtolower($this->router->fetch_class());
 
+		$this->header = $this->config_model->get_data();
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		$this->is_login = $this->session->is_login;
 
-		if ($this->session->mandiri != 1) redirect();
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
+
+		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
 	}
-
 }
 
 /*
@@ -264,8 +266,11 @@ class Admin_Controller extends MY_Controller {
 			}
 		}
 		$this->cek_pengumuman();
-		$this->header = $this->header_model->get_data();
-		$this->header['notif_langganan'] = $this->notif_model->status_langganan();
+		$this->header                           = $this->header_model->get_data();
+		$this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
+		$this->header['notif_inbox']            = $this->notif_model->inbox_baru();
+		$this->header['notif_komentar']         = $this->notif_model->komentar_baru();
+		$this->header['notif_langganan']        = $this->notif_model->status_langganan();
 	}
 
 	private function cek_pengumuman()

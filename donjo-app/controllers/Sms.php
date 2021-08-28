@@ -307,12 +307,12 @@ class Sms extends Admin_Controller {
 		if (isset($_SESSION['dusun1']))
 		{
 			$data['dusun1'] = $_SESSION['dusun1'];
-			$data['list_rw1'] = $this->penduduk_model->list_rw($data['dusun1']);
+			$data['list_rw1'] = $this->wilayah_model->list_rw($data['dusun1']);
 
 			if (isset($_SESSION['rw1']))
 			{
 				$data['rw1'] = $_SESSION['rw1'];
-				$data['list_rt1'] = $this->penduduk_model->list_rt($data['dusun1'], $data['rw11']);
+				$data['list_rt1'] = $this->wilayah_model->list_rt($data['dusun1'], $data['rw11']);
 
 			if (isset($_SESSION['rt1']))
 				$data['rt1'] = $_SESSION['rt1'];
@@ -389,7 +389,7 @@ class Sms extends Admin_Controller {
 
 	public function broadcast()
 	{
-		$data['dusun'] = $this->penduduk_model->list_dusun();
+		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 		$data['pendidikan'] = $this->penduduk_model->list_pendidikan_kk();
 		$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
@@ -400,7 +400,7 @@ class Sms extends Admin_Controller {
 
 	public function ajax_penduduk_rw($dusun = '')
 	{
-		$rw = $this->penduduk_model->list_rw($dusun);
+		$rw = $this->wilayah_model->list_rw($dusun);
 		echo"<div class='form-group'>
 			<label for='rw'>RW</label>
 			<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
@@ -415,7 +415,7 @@ class Sms extends Admin_Controller {
 
 	public function ajax_penduduk_rt($dusun = '', $rw = '')
 	{
-		$rt = $this->penduduk_model->list_rt($dusun, $rw);
+		$rt = $this->wilayah_model->list_rt($dusun, $rw);
 		echo"<div class='form-group'>
 			<label for='rt'>RT</label>
 			<select class='form-control input-sm' name='rt'>

@@ -221,14 +221,15 @@ class Siak_model extends Import_model {
 	private function tulis_log_penduduk($data, $id)
 	{
 		// Tulis log_penduduk
-		$log['id_pend'] = $id;
-		$log['no_kk'] = $data['no_kk'];
-		$log['tgl_peristiwa'] = $data['tgl_entri'];
-		$log['id_detail'] = $data['status_dasar'];
-		$log['bulan'] = date("m");
-		$log['tahun'] = date("Y");
-		$log['catatan'] = 'Status impor data SIAK: '.$data['status_dasar_orig'];
-
+		$log = [
+			'id_pend' => $id,
+			'no_kk' => $data['no_kk'],
+			'tgl_peristiwa' => $data['tgl_entri'],
+			'tgl_lapor' => $data['tgl_entri'],
+			'created_by' => $this->session->user,
+			'kode_peristiwa' => $data['status_dasar'],
+			'catatan' => 'Status impor data SIAK: '.$data['status_dasar_orig']
+		];
 		$this->penduduk_model->tulis_log_penduduk_data($log);
 	}
 

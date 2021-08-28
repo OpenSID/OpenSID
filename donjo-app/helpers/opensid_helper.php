@@ -51,7 +51,7 @@ define("VERSION", '21.08-pasca');
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  * [nomor urut dua digit] = 01 => rilis umum, 71 => rilis premium, 51 => rilis bugfix
  */
-define('VERSI_DATABASE', '2021081401');
+define('VERSI_DATABASE', '2021081701');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -73,6 +73,9 @@ define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
 define("LOKASI_MEDIA", 'desa/upload/media/');
 define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
 define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
+
+// Pengaturan Latar
+define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -457,7 +460,8 @@ function httpPost($url, $params)
 		// Batasi waktu koneksi dan ambil data, supaya tidak menggantung kalau ada error koneksi
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-
+		
+		// Paksa tidak menunggu hasil tracker
 		/*curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
 		curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);

@@ -143,7 +143,8 @@ class Data_persil_model extends MY_Model {
 		return $data;
 	}
 
-	//list pada data select
+	// list pada data select
+	// TODO : Apakah samadengan wilayah_model->list_dusun() ?
 	public function list_dusun()
 	{
 		$this->db
@@ -160,7 +161,8 @@ class Data_persil_model extends MY_Model {
 		return $data;
 	}
 
-	//list pada data select
+	// list pada data select
+	// TODO : Apakah samadengan wilayah_model->list_rw() ?
 	public function list_rw($dusun='')
 	{
 		$data = $this->db
@@ -175,7 +177,8 @@ class Data_persil_model extends MY_Model {
 		return $data;
 	}
 
-	//list pada data select
+	// list pada data select
+	// TODO : Apakah samadengan wilayah_model->list_rt() ?
 	public function list_rt($dusun='', $rw='')
 	{
 		$data = $this->db

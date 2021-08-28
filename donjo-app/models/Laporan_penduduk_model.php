@@ -68,47 +68,6 @@ class Laporan_penduduk_model extends MY_Model {
 		}
 	}
 
-	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
-	public function list_dusun()
-	{
-		$sql = $this->db
-		->select()
-		->from('tweb_wil_clusterdesa')
-		->where('rt', '0')
-		->where('rw', '0')
-		->get();
-
-		return $sql->result_array();
-	}
-
-	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
-	public function list_rw($dusun = '')
-	{
-		$sql = $this->db
-		->select()
-		->from('tweb_wil_clusterdesa')
-		->where('rt', '0')
-		->where('dusun', $dusun)
-		->where('rw <>', '0')
-		->get();
-
-		return $sql->result_array();
-	}
-
-	// TODO: Ubah yg masih menggunakan, spy menggunakan penanganan wilayah di wilayah_model.php
-	public function list_rt($dusun = '', $rw = '')
-	{
-		$sql = $this->db
-		->select()
-		->from('tweb_wil_clusterdesa')
-		->where('dusun', $dusun)
-		->where('rw', $rw)
-		->where('rt <>', '0')
-		->get();
-
-		return $sql->result_array();
-	}
-
 	private function dusun_sql()
 	{
 		if ($dusun = $this->session->userdata("dusun")) {

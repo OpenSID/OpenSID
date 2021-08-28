@@ -2,7 +2,6 @@
 
 class MY_Cache extends CI_Cache {
 
-	// $lama, waktu simpan dalam detik
 	public function pakai_cache($callback, $cache_id, $lama)
 	{
 		if (! $data = $this->file->get($cache_id))

@@ -10,7 +10,7 @@
            	</a>
 					</div>
 					<div class="box-body">
-						<form action="" id="main" name="main" method="POST" class="form-horizontal">
+						<form id="main" name="main" method="POST" class="form-horizontal">
 							<div class="col-md-12">
 								<?php $this->load->view("surat/form/_cari_nik.php", array('filter_sex' => 'perempuan', 'individu' => $individu, 'pemohon'=>'Ibu')); ?>
 							</div>
