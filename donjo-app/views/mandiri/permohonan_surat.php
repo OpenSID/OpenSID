@@ -49,6 +49,7 @@
 													<?php if ($this->CI->cek_hak_akses('u') || $this->CI->cek_hak_akses('h')): ?>
 														<th>Aksi</th>
 													<?php endif; ?>
+													<th>No Antrian</th>
 													<th>NIK</th>
 													<th>Nama Penduduk</th>
 													<th>No HP Aktif</th>
@@ -83,7 +84,8 @@
 																	<?php endif; ?>
 																</td>
 															<?php endif; ?>
-															<td class="padat"><?=$data['nik'];?></td>
+															<td class="padat"><?= get_antrian($data['no_antrian']); ?></td>
+															<td class="padat"><?= $data['nik'];?></td>
 															<td><?=$data['nama']?></td>
 															<td><?=$data['no_hp_aktif']?></td>
 															<td><?=$data['jenis_surat']?></td>

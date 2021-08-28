@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
 		$hasil = $hasil && $this->migrasi_2021082051($hasil);
 		$hasil = $hasil && $this->migrasi_2021082871($hasil);
+		$hasil = $hasil && $this->migrasi_2021082971($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -156,5 +157,25 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		";
 		
 		return $hasil && $this->db->query($query);
+	}
+	
+	protected function migrasi_2021082971($hasil)
+	{
+		if ( ! $this->db->field_exists('no_antrian', 'permohonan_surat'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('permohonan_surat', ['no_antrian' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+		}
+
+		if ( ! $this->db->field_exists('printer_ip', 'anjungan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('anjungan', ['printer_ip' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+		}
+
+		if ( ! $this->db->field_exists('printer_port', 'anjungan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('anjungan', ['printer_port' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+		}
+
+		return $hasil;
 	}
 }

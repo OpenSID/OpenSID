@@ -796,9 +796,7 @@ function buang_nondigit($str)
 /**
  * @param array 		$files = array($file1, $file2, ...)
  * @return string 	path ke zip file
-
 	Masukkan setiap berkas ke dalam zip.
-
 	$file bisa:
 		- array('nama' => nama-file-yg diinginkan, 'file' => full-path-ke-berkas); atau
 		- full-path-ke-berkas
@@ -1144,4 +1142,9 @@ function get_domain(string $url)
 	$parse = parse_url($url);
 
 	return $parse['host'];
+}
+
+function get_antrian(string $antrian)
+{
+    return substr_replace($antrian, '-', 6, 0);
 }

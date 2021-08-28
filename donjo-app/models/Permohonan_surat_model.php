@@ -3,12 +3,17 @@
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('referensi_model');
+		$this->load->model(['referensi_model', 'anjungan_model']);
 	}
 
 	public function insert($data)
 	{
-		$outp = $this->db->insert('permohonan_surat', $data);
+		$outp = $this->db
+			->insert('permohonan_surat', array_merge(
+				['no_antrian' => $this->generate_no_antrian()],
+				$data
+			));
+
 		return $outp;
 	}
 
@@ -25,6 +30,7 @@
 		$outp = $this->db
 			->where('id', $id_permohonan)
 			->update('permohonan_surat', $data);
+
 		return $outp;
 	}
 
@@ -48,37 +54,35 @@
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if ($cari = $this->session->cari)
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql= " AND (n.nik LIKE '$kw' OR n.nama LIKE '$kw')";
-			return $search_sql;
-			}
+			$this->db
+				->group_start()
+					->like('n.nik', $cari)
+					->or_like('n.nama', $cari)
+					->or_like('u.no_antrian', str_replace('-', '', $cari))
+				->group_end();
 		}
+	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if ($filter = $this->session->filter)
 		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND u.status = '".$kf."'";
-			return $filter_sql;
+			$this->db->where('u.status', $filter);
 		}
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$list_data_sql = $this->list_data_sql($log);
-		$sql = "SELECT COUNT(*) AS jml ".$list_data_sql;
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
+		$this->db->select('COUNT(u.id) as jml');
+		$this->list_data_sql();
+		$jml_data = $this->db->get()->row()->jml;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_links'] = 10;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -87,13 +91,12 @@
 
 	private function list_data_sql()
 	{
-		$sql = "FROM permohonan_surat u
-			LEFT JOIN tweb_penduduk n ON u.id_pemohon = n.id
-			LEFT JOIN tweb_surat_format s ON u.id_surat = s.id
-			WHERE 1";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		return $sql;
+		$this->db->from('permohonan_surat u')
+			->join('tweb_penduduk n', 'u.id_pemohon = n.id', 'left')
+			->join('tweb_surat_format s', 'u.id_surat = s.id', 'left');
+
+		$this->search_sql();
+		$this->filter_sql();
 	}
 
 	public function list_data($o=0, $offset=0, $limit=500)
@@ -101,23 +104,24 @@
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.updated_at'; break;
-			case 2: $order_sql = ' ORDER BY u.updated_at DESC'; break;
-			default:$order_sql = ' ORDER BY u.updated_at DESC';
+			case 1: $this->db->order_by('u.updated_at', 'asc'); break;
+			case 2: $this->db->order_by('u.updated_at', 'desc'); break;
+			default: $this->db->order_by('u.status, ISNULL(u.no_antrian), u.no_antrian', 'asc');
 		}
 
-		//Paging SQL
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
 		//Main Query
-		$select_sql = "SELECT u.*, u.status as status_id, n.nama AS nama, n.nik AS nik, s.nama as jenis_surat ";
-		$list_data_sql = $this->list_data_sql();
-		$sql = $select_sql." ".$list_data_sql;
+		$this->list_data_sql();
+		$data = $this->db->select([
+				'u.*',
+				'u.status as status_id',
+				'n.nama AS nama',
+				'n.nik AS nik',
+				's.nama as jenis_surat'
+			])
+			->limit($limit, $offset)
+			->get()
+			->result_array();
 
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
 		//Formating Output
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -126,6 +130,7 @@
 			$data[$i]['status'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN)[$data[$i]['status']];
 			$j++;
 		}
+
 		return $data;
 	}
 
@@ -212,24 +217,44 @@
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
 		$dok_syarat = array_values($syarat_permohonan);
 		if ($dok_syarat) $this->db->where_in('id', $dok_syarat);
-  	$dokumen_kelengkapan = $this->db
-  		->select('id, nama')
+		$dokumen_kelengkapan = $this->db
+			->select('id, nama')
 			->get('dokumen')
 			->result_array();
 
-  	$dok_syarat = array();
-  	foreach ($dokumen_kelengkapan as $dok)
-  	{
-  		$dok_syarat[$dok['id']] = $dok['nama'];
-  	}
-  	$syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
-  	for ($i = 0; $i < count($syarat_surat); $i++)
-  	{
-  		$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
-  		$syarat_surat[$i]['dok_id'] = $dok_id;
-  		$syarat_surat[$i]['dok_nama'] = ($dok_id == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dok_syarat[$dok_id];
-  	}
+		$dok_syarat = array();
+		foreach ($dokumen_kelengkapan as $dok)
+		{
+			$dok_syarat[$dok['id']] = $dok['nama'];
+		}
+		$syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
+		for ($i = 0; $i < count($syarat_surat); $i++)
+		{
+			$dok_id = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
+			$syarat_surat[$i]['dok_id'] = $dok_id;
+			$syarat_surat[$i]['dok_nama'] = ($dok_id == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dok_syarat[$dok_id];
+		}
+
 		return $syarat_surat;
 	}
 
+	protected function generate_no_antrian()
+	{
+		if (is_null($this->anjungan_model->cek_anjungan()))
+		{
+			return;
+		}
+
+		$nomor_terakhir = $this->db
+			->select_max('no_antrian')
+			->from('permohonan_surat')
+			->where('CAST(created_at AS DATE) >= CURDATE()')
+			->get()
+			->row()
+			->no_antrian;
+
+		return is_null($nomor_terakhir)
+			? date('dmy') . '001'
+			: $nomor_terakhir + 1;
+	}
 }
