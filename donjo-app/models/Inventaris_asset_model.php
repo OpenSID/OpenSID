@@ -6,22 +6,6 @@ class Inventaris_asset_model extends CI_Model
 	protected $table = 'inventaris_asset';
 	protected $table_mutasi = 'mutasi_inventaris_asset';
 	protected $mutasi_key = 'id_inventaris_asset';
-	protected $table_pamong = 'tweb_desa_pamong';
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	public function list_aset()
-	{
-		$this->db
-				->select('*')
-				->from('tweb_aset u')
-				->where('golongan',5);
-		$data = $this->db->get()->result_array();
-		return $data;
-	}
 
 	function count_reg()
 	{
