@@ -51,7 +51,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
 		$hasil = $hasil && $this->migrasi_2021082051($hasil);
     $hasil = $hasil && $this->migrasi_2021082052($hasil);
-
+    $hasil = $hasil && $this->migrasi_2021082151($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -74,11 +74,11 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
 		return $hasil;
 	}
-  
+
 	protected function migrasi_2021082051($hasil)
 	{
 		// Hapus file .htaccess
-		$file = LOKASI_ARSIP . '/.htaccess';
+		$file = LOKASI_ARSIP . '.htaccess';
 		if (file_exists($file))
 		{
 			$hasil = $hasil && unlink($file);
@@ -86,16 +86,41 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
 		return $hasil;
 	}
-  
+
   protected function migrasi_2021082052($hasil)
 	{
 		// Hapus file .htaccess
-		$file = LOKASI_DOKUMEN . '/.htaccess';
+		$file = LOKASI_DOKUMEN . '.htaccess';
     if (file_exists($file))
 		{
 			$hasil = $hasil && unlink($file);
 		}
 
 		return $hasil;
-	}    
+	}
+
+  protected function migrasi_2021082151($hasil)
+	{
+		// Sesuaikan struktur kolom nik di table tweb_penduduk
+		$fields = [
+			'nik' => [
+				'type' => 'VARCHAR',
+				'constraint' => 16,
+			]
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
+
+		// Ubah NIK 0 jadi 0[kode-desa-10-digit];
+		$list_data = $this->db->select('id, nik')->get_where('tweb_penduduk', ['nik' => '0'])->result();
+		foreach ($list_data as $data)
+		{
+			$nik_sementara = $this->penduduk_model->nik_sementara();
+			$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_penduduk', ['nik' => $nik_sementara]);
+		}
+
+		$hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'nik');
+
+    return $hasil;
+	}
 }

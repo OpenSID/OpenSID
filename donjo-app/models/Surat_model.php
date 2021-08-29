@@ -959,7 +959,7 @@ class Surat_model extends CI_Model {
                 "[nama_ayah]"            => $individu['nama_ayah'],
                 "[nama_ibu]"             => $individu['nama_ibu'],
                 "[no_kk]"                => $individu['no_kk'],
-                "[no_ktp]"               => $individu['nik'],
+                "[no_ktp]"               => get_nik($individu['nik']),
                 "[pendidikan]"           => $individu['pendidikan'],
                 "[pekerjaan]"            => $individu['pekerjaan'],
                 "[rw]"                   => $individu['rw'],

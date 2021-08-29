@@ -50,7 +50,7 @@
 													<?php foreach ($anggota AS $data): $i++;?>
 														<tr>
 															<td><?= $i?></td>
-															<td><?= $data['nik']?></td>
+															<td><?= get_nik($data['nik'])?></td>
 															<td><?= $data['nama']?></td>
 															<td><?= $data['sex']?></td>
 															<td><?= $data['umur']?></td>

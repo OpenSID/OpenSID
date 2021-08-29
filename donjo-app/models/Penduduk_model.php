@@ -143,6 +143,14 @@ class Penduduk_model extends MY_Model {
 		}
 	}
 
+	protected function nik_sementara_sql()
+	{
+		if ($this->session->nik_sementara == '0')
+		{
+			$this->db->like('nik', '0', 'after');
+		}
+	}
+
 	// Filter belum digunakan
 	protected function hamil_sql()
 	{
@@ -356,6 +364,7 @@ class Penduduk_model extends MY_Model {
 		$this->umur_sql(); // Kode 13, 15
 		$this->akta_kelahiran_sql(); // Kode 17
 		$this->hamil_sql(); // Filter blum digunakan
+		$this->nik_sementara_sql(); // NIK Sementara
 	}
 
 	// Perlu di urut sebelum paging dan sesudah paging
@@ -755,7 +764,6 @@ class Penduduk_model extends MY_Model {
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
-		unset($data['nik_lama']);
 		unset($data['kk_level_lama']);
 		unset($data['dusun']);
 		unset($data['rw']);
@@ -812,13 +820,6 @@ class Penduduk_model extends MY_Model {
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-
-		// Jangan update nik apabila tidak berubah
-		if ($data['nik_lama'] == $data['nik'])
-		{
-			unset($data['nik']);
-		}
-		unset($data['nik_lama']);
 
 		$error_validasi = $this->validasi_data_penduduk($data);
 		if (!empty($error_validasi))
@@ -1558,8 +1559,24 @@ class Penduduk_model extends MY_Model {
 			// ->where('suku NOT IN('.$this->db->last_query().')') // NOT IN REF PENDUDUK
 			->order_by('suku')
 			->get('tweb_penduduk')->result_array();
-			 
+
 		return $suku;
 	}
+	
+	public function nik_sementara()
+	{
+		$nik = $this->db
+			->select('nik')
+			->order_by('id', 'DESC')
+			->like('nik', '0', 'after')
+			->where('nik !=', '0')
+			->get('tweb_penduduk')
+			->row()
+			->nik;
 
+		// Ambil 5 digit terakhir
+		$digit = $nik ? intval(substr($nik, -5)) : 0;	
+
+		return set_nik($digit);
+	}
 }
