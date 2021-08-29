@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021082051($hasil);
     $hasil = $hasil && $this->migrasi_2021082052($hasil);
     $hasil = $hasil && $this->migrasi_2021082151($hasil);
+    $hasil = $hasil && $this->migrasi_2021082851($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -75,7 +76,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		return $hasil;
 	}
 
-	protected function migrasi_2021082051($hasil)
+  protected function migrasi_2021082051($hasil)
 	{
 		// Hapus file .htaccess
 		$file = LOKASI_ARSIP . '.htaccess';
@@ -123,4 +124,18 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
     return $hasil;
 	}
+
+	protected function migrasi_2021082851($hasil)
+	{
+		$fields = [
+			'tempat_cetak_ktp' => [
+				'type' => 'VARCHAR',
+				'constraint' => 150,
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
+
+    return $hasil;
+  }
 }

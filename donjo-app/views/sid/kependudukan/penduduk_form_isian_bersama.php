@@ -139,7 +139,7 @@
 						<div class='col-sm-4'>
 							<div class='form-group'>
 								<label for="tempat_cetak_ktp">Tempat Penerbitan KTP</label>
-								<input id="tempat_cetak_ktp" name="tempat_cetak_ktp" class="form-control input-sm" maxlength="100" type="text" placeholder="Tempat Penerbitan KTP" value="<?= $penduduk['tempat_cetak_ktp']?>"></input>
+								<input id="tempat_cetak_ktp" name="tempat_cetak_ktp" class="form-control input-sm" maxlength="150" type="text" placeholder="Tempat Penerbitan KTP" value="<?= $penduduk['tempat_cetak_ktp']?>"></input>
 							</div>
 						</div>
 						<div class='col-sm-4'>
@@ -366,12 +366,14 @@
 						<label for="etnis">Suku/Etnis</label>
 						<select class="form-control input-sm select2-tags nama_suku" data-url="<?= site_url().'penduduk/ajax_penduduk_suku/' ?>" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
 							<option value="">Pilih Suku/Etnis</option>
-							<?php foreach ($suku['penduduk'] as $ref_suku): ?>
-								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?> ><?= $ref_suku['suku'] ?></option>
-							<?php endforeach ?>
-							<option disabled>----------------------</option>
+							<?php if ($suku['penduduk']): ?>
+								<?php foreach ($suku['penduduk'] as $ref_suku): ?>
+									<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?>><?= $ref_suku['suku'] ?></option>
+								<?php endforeach ?>
+								<option disabled>----------------------</option>
+							<?php endif; ?>
 							<?php foreach ($suku['ref'] as $ref_suku): ?>
-								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?> ><?= $ref_suku['suku'] ?></option>
+								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?>><?= $ref_suku['suku'] ?></option>
 							<?php endforeach ?>
 						</select>
 					</div>
@@ -407,7 +409,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="dokumen_kitas">Nomor KITAS/KITAP </label>
-						<input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="10" type="text" placeholder="Nomor KITAS/KITAP" value="<?= strtoupper($penduduk['dokumen_kitas'])?>"></input>
+						<input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45" type="text" placeholder="Nomor KITAS/KITAP" value="<?= strtoupper($penduduk['dokumen_kitas'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-4' id='field_negara_asal'>
@@ -457,8 +459,8 @@
 				<?php if (!empty($penduduk['no_kk']) or $kk_baru) : ?>
 					<div class='col-sm-12'>
 						<div class='form-group'>
-							<label for="telepon">Alamat KK </label>
-							<input id="alamat" name="alamat" class="form-control input-sm" maxlength="200" ype="text" placeholder="Alamat di Kartu Keluarga" size="20" value="<?= $penduduk['alamat']?>"></input>
+							<label for="alamat">Alamat KK </label>
+							<input id="alamat" name="alamat" class="form-control input-sm nomor_sk" maxlength="200" type="text" placeholder="Alamat di Kartu Keluarga" value="<?= $penduduk['alamat']?>"></input>
 						</div>
 					</div>
 				<?php endif; ?>
@@ -498,19 +500,19 @@
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="telepon"> Nomor Telepon </label>
-						<input id="telepon" name="telepon" class="form-control input-sm" type="text" placeholder="Nomor Telepon" size="20" value="<?= $penduduk['telepon']?>"></input>
+						<input id="telepon" name="telepon" class="form-control input-sm number" type="text" placeholder="Nomor Telepon" value="<?= $penduduk['telepon']?>"></input>
 					</div>
 				</div>
 					<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="email"> Alamat Email </label>
-						<input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" size="20" value="<?= $penduduk['email']?>"></input>
+						<input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" value="<?= $penduduk['email']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="alamat_sebelumnya">Alamat Sebelumnya </label>
-						<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya']?>"></input>
+						<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm nomor_sk" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya']?>"></input>
 					</div>
 				</div>
 				<?php if (!$penduduk['no_kk'] and !$kk_baru): ?>
@@ -654,7 +656,7 @@
 				<div id='asuransi_pilihan' class='col-sm-4'>
 					<div class='form-group'>
 						<label id="label-no-asuransi" for="no_asuransi">No Asuransi </label>
-						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
+						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm nomor_sk" type="text" maxlength="100" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
 					</div>
 				</div>
 				<div class="col-sm-12">
@@ -662,7 +664,7 @@
 						<div class="col-sm-4">
 							<div class='form-group'>
 								<label id="label-no-bpjs-ketenagakerjaan" for="bpjs_ketenagakerjaan">Nomor BPJS Ketenagakerjaan</label>
-								<input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm nomor_sk" type="text" maxlength="50" placeholder="Nomor BPJS Ketenagakerjaan" value="<?= $penduduk['bpjs_ketenagakerjaan']?>"></input>
+								<input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm nomor_sk" type="text" maxlength="100" placeholder="Nomor BPJS Ketenagakerjaan" value="<?= $penduduk['bpjs_ketenagakerjaan']?>"></input>
 							</div>
 						</div>
 					</div>
@@ -818,7 +820,7 @@
 		{
 			file_foto = sex == '2' ? '<?=  FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
 		}
-		
+
 		return file_foto;
 	}
 
