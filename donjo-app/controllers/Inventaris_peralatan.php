@@ -52,15 +52,7 @@ class Inventaris_peralatan extends Admin_Controller {
 		$this->load->model(['inventaris_peralatan_model', 'pamong_model', 'aset_model']);
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
-		$this->tab_ini = 3;
 		$this->set_minsidebar(1);
-	}
-
-	public function clear()
-	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect('Inventaris_peralatan');
 	}
 
 	public function index()
@@ -94,7 +86,7 @@ class Inventaris_peralatan extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_peralatan_model->view($id);
 		$data['get_kode'] = $this->header['desa'];
-		$data['aset'] = $this->aset_model->list_aset($this->tab_ini);
+		$data['aset'] = $this->aset_model->list_aset(3);
 		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
 		$data['kd_reg'] = $this->inventaris_peralatan_model->list_inventaris_kd_register();
 		$data['tip'] = 1;
@@ -116,7 +108,7 @@ class Inventaris_peralatan extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['tip'] = 1;
 		$data['get_kode'] = $this->header['desa'];
-		$data['aset'] = $this->aset_model->list_aset($this->tab_ini);
+		$data['aset'] = $this->aset_model->list_aset(3);
 		$data['count_reg'] = $this->inventaris_peralatan_model->count_reg();
 
 		$this->render('inventaris/peralatan/form_tambah', $data);
