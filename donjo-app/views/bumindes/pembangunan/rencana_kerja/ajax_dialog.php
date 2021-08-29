@@ -1,13 +1,13 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * File ini:
  *
- * View untuk modul Buku Administrasi Desa > Buku Induk Penduduk
+ * View untuk modul Buku Pembangunan Desa > Buku Rencana Pembangunan
  *
- * donjo-app/views/bumindes/penduduk/induk/ajax_dialog_induk.php
+ * donjo-app/views/bumindes/pembangunan/rencana_kerja/ajax_dialog.php,
  *
  */
 
