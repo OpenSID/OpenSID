@@ -106,7 +106,7 @@
 			$i++;
 		}
 		$rp = strrev($str2);
-		if($rp != "" AND $rp > 0){return "Rp.$rp";}else{return "-";}
+		if($rp != "" AND $rp > 0){return "Rp. $rp";}else{return "-";}
 	}
 
 	function Rupiah3($nil=0){

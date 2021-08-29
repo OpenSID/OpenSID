@@ -53,6 +53,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021082051($hasil);
 		$hasil = $hasil && $this->migrasi_2021082871($hasil);
 		$hasil = $hasil && $this->migrasi_2021082971($hasil);
+		$hasil = $hasil && $this->migrasi_2021082972($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -60,7 +61,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
 	protected function migrasi_2021080771($hasil)
 	{
-		if ( ! $this->db->field_exists('mac_address', 'anjungan'))
+		if (! $this->db->field_exists('mac_address', 'anjungan'))
 		{
 			$hasil = $hasil && $this->dbforge->add_column('anjungan', ['mac_address' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
 		}
@@ -177,5 +178,46 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		}
 
 		return $hasil;
+	}
+
+	protected function migrasi_2021082972($hasil)
+	{
+		if ( ! $this->db->field_exists('sumber_biaya_pemerintah', 'pembangunan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sumber_biaya_pemerintah' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('sumber_biaya_provinsi', 'pembangunan')) {
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sumber_biaya_provinsi' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('sumber_biaya_provinsi', 'pembangunan')) {
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sumber_biaya_provinsi' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('sumber_biaya_kab_kota', 'pembangunan')) {
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sumber_biaya_kab_kota' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('sumber_biaya_swadaya', 'pembangunan')) {
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sumber_biaya_swadaya' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('sumber_biaya_jumlah', 'pembangunan')) {
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sumber_biaya_jumlah' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('manfaat', 'pembangunan')) {
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['manfaat' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
+		}
+
+		// Tambah hak ases group operator
+		$query = "
+			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+			-- Operator --
+			(2,305,3) -- Bumindes Rencana Kerja Pembangunan --
+		";
+		
+		return $hasil && $this->db->query($query);
 	}
 }

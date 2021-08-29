@@ -100,7 +100,8 @@ class Pembangunan_model extends CI_Model
 	public function list_lokasi_pembangunan()
 	{
 		$this->lokasi_pembangunan_query();
-		$data = $this->db->select('p.*')
+		$data = $this->db
+			->select('p.*')
 			->from('pembangunan p')
 			->where('p.status = 1')
 			->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
@@ -113,19 +114,7 @@ class Pembangunan_model extends CI_Model
 	public function insert()
 	{
 		$post = $this->input->post();
-
-		$data['sumber_dana']        = $post['sumber_dana'];
-		$data['judul']              = $post['judul'];
-		$data['volume']             = $post['volume'];
-		$data['tahun_anggaran']     = $post['tahun_anggaran'];
-		$data['pelaksana_kegiatan'] = $post['pelaksana_kegiatan'];
-		$data['id_lokasi']          = $post['id_lokasi'] ?: null;
-		$data['lokasi']             = $post['lokasi'] ?: null;
-		$data['keterangan']         = $post['keterangan'];
-		$data['created_at']         = date('Y-m-d H:i:s');
-		$data['updated_at']         = date('Y-m-d H:i:s');
-		$data['foto']               = $this->upload_gambar_pembangunan('foto');
-		$data['anggaran']           = $post['anggaran'];
+		$data = $this->validasi($post);
 
 		if (empty($data['foto'])) unset($data['foto']);
 
@@ -134,26 +123,14 @@ class Pembangunan_model extends CI_Model
 
 		$outp = $this->db->insert('pembangunan', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp);
 	}
 
 	public function update($id=0)
 	{
 		$post = $this->input->post();
-
-		$data['sumber_dana']        = $post['sumber_dana'];
-		$data['judul']              = $post['judul'];
-		$data['volume']             = $post['volume'];
-		$data['tahun_anggaran']     = $post['tahun_anggaran'];
-		$data['pelaksana_kegiatan'] = $post['pelaksana_kegiatan'];
-		$data['id_lokasi']          = $post['id_lokasi'] ?: null;
-		$data['lokasi']             = $post['lokasi'] ?: null;
-		$data['keterangan']         = $post['keterangan'];
-		$data['created_at']         = date('Y-m-d H:i:s');
-		$data['updated_at']         = date('Y-m-d H:i:s');
-		$data['foto']               = $this->upload_gambar_pembangunan('foto');
-		$data['anggaran']           = $post['anggaran'];
+		$data = $this->validasi($post);
+		$data['updated_at'] = date('Y-m-d H:i:s');
 
 		if (empty($data['foto'])) unset($data['foto']);
 
@@ -163,8 +140,31 @@ class Pembangunan_model extends CI_Model
 		$this->db->where('id', $id);
 		$outp = $this->db->update('pembangunan', $data);
 
-		if ($outp) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		status_sukses($outp);
+	}
+
+	private function validasi($post)
+	{
+		$data = [
+			'sumber_dana' => $post['sumber_dana'],
+			'judul' => $post['judul'],
+			'volume' => $post['volume'],
+			'tahun_anggaran' => $post['tahun_anggaran'],
+			'pelaksana_kegiatan' => $post['pelaksana_kegiatan'],
+			'id_lokasi' => $post['lokasi'] ? NULL : $post['id_lokasi'],
+			'lokasi' => $post['id_lokasi'] ? NULL : $post['lokasi'],
+			'keterangan' => $post['keterangan'],
+			'foto' => $this->upload_gambar_pembangunan('foto'),
+			'anggaran' => $post['anggaran'],
+			'sumber_biaya_pemerintah' => $post['sumber_biaya_pemerintah'],
+			'sumber_biaya_provinsi' => $post['sumber_biaya_provinsi'],
+			'sumber_biaya_kab_kota' => $post['sumber_biaya_kab_kota'],
+			'sumber_biaya_swadaya' => $post['sumber_biaya_swadaya'],
+			'sumber_biaya_jumlah' => $post['sumber_biaya_pemerintah'] + $post['sumber_biaya_provinsi'] + $post['sumber_biaya_kab_kota'] + $post['sumber_biaya_swadaya'],
+			'manfaat' => $post['manfaat']
+		];
+
+		return $data;
 	}
 
 	private function upload_gambar_pembangunan($jenis)
