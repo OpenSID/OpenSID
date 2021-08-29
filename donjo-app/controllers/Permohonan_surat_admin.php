@@ -195,24 +195,23 @@ class Permohonan_surat_admin extends Admin_Controller {
 		redirect('permohonan_surat_admin');
 	}
 
-	public function tampilkan($id_dokumen = 0, $id_pend = 0)
+	public function tampilkan($id_dokumen, $id_pend = 0)
 	{
 		$this->load->model('Web_dokumen_model');
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 
 		if (! $id_dokumen || ! $id_pend || ! $berkas || ! file_exists(LOKASI_DOKUMEN . $berkas))
 		{
-			$data['berkas'] = NULL;
+			$data['link_berkas'] = NULL;
 		}
 		else
 		{
 			$data = [
-				'berkas' => base_url(LOKASI_DOKUMEN . $berkas),
+				'link_berkas' => site_url("dokumen/tampilkan_berkas/$id_dokumen/$id_pend"),
 				'tipe' => get_extension($berkas),
-				'link' => site_url("dokumen/unduh_berkas/$id_dokumen/$id_pend")
+				'link_unduh' => site_url("dokumen/unduh_berkas/$id_dokumen/$id_pend")
 			];
 		}	
-
 		$this->load->view('global/tampilkan', $data);
 	}
 }

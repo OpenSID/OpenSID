@@ -47,17 +47,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<?php if ($berkas): ?>
+<?php if ($link_berkas): ?>
 	<div class="modal-body">
 		<?php if ($tipe == '.pdf'): ?>
-			<iframe src="<?= $berkas; ?>" type="application/pdf" style="width: 100%; height: 300px;"></iframe>
+			<iframe src="<?= $link_berkas; ?>" type="application/pdf" style="width: 100%; height: 300px;"></iframe>
 		<?php else: ?>
-			<img src="<?= $berkas; ?>" style="width: 100%; height: auto;">
+			<img src="<?= $link_berkas; ?>" style="width: 100%; height: auto;">
 		<?php endif; ?>
 	</div>
 	<div class="modal-footer">
 		<div class="text-center">
-			<a href="<?= $link; ?>" class="btn btn-flat bg-navy btn-sm"><i class="fa fa-download"></i> Unduh Dokumen</a>
+			<a href="<?= $link_unduh; ?>" class="btn btn-flat bg-navy btn-sm"><i class="fa fa-download"></i> Unduh Dokumen</a>
 		</div>
 	</div>
 <?php else: ?>

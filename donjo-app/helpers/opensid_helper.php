@@ -703,8 +703,9 @@ function sql_in_list($list_array)
  * redirect_url : jika terjadi error, maka halaman akan dialihkan ke redirect_url
  * unique_id : diperlukan jika nama file asli tidak sama dengan nama didatabase
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
+ * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP)
+function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil=false)
 {
 	$CI =& get_instance();
 	$CI->load->helper('download');
@@ -716,7 +717,7 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
 	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
 	// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-	if (!file_exists($pathBerkas))
+	if ( ! file_exists($pathBerkas))
 	{
 		$_SESSION['success'] = -1;
 		$_SESSION['error_msg'] = 'Berkas tidak ditemukan';
@@ -730,8 +731,10 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 		}
 	}
 	// OK, berkas ada. Ambil konten berkasnya
+
 	$data = file_get_contents($pathBerkas);
-	if (!is_null($unique_id))
+
+	if ( ! is_null($unique_id))
 	{
 		// Buang unique id pada nama berkas download
 		$nama_berkas = explode($unique_id, $nama_berkas);
@@ -740,6 +743,23 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 		$ekstensiFile = end($ekstensiFile);
 		$nama_berkas = $namaFile . '.' . $ekstensiFile;
 	}
+
+	// Kalau $tampil, tampilkan secara inline.
+	if ($tampil)
+	{
+		// Set the default MIME type to send
+		$mime = get_extension($nama_berkas) == '.pdf' ? 'application/pdf' : 'application/octet-stream';
+		// Generate the server headers
+		header('Content-Type: '.$mime);
+		header('Content-Disposition: inline; filename="'.$nama_berkas.'"');
+		header('Expires: 0');
+		header('Content-Transfer-Encoding: binary');
+		header('Content-Length: '.strlen($data));
+		header('Cache-Control: private, no-transform, no-store, must-revalidate');
+
+		exit($data);
+	}
+
 	force_download($nama_berkas, $data);
 }
 
