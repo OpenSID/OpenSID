@@ -1557,10 +1557,9 @@ class Penduduk_model extends MY_Model {
 			->distinct()
 			->select('suku')
 			->where('suku IS NOT NULL')
-			// ->where('suku NOT IN('.$this->db->last_query().')') // NOT IN REF PENDUDUK
+			->where('suku <>', '')
 			->order_by('suku')
 			->get('tweb_penduduk')->result_array();
-
 		return $suku;
 	}
 	

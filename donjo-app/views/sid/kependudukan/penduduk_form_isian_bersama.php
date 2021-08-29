@@ -500,7 +500,7 @@
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="telepon"> Nomor Telepon </label>
-						<input id="telepon" name="telepon" class="form-control input-sm number" type="text" placeholder="Nomor Telepon" value="<?= $penduduk['telepon']?>"></input>
+						<input id="telepon" name="telepon" class="form-control input-sm number" type="text" maxlength="20"placeholder="Nomor Telepon" value="<?= $penduduk['telepon']?>"></input>
 					</div>
 				</div>
 					<div class='col-sm-12'>

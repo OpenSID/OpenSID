@@ -28,6 +28,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 15. Tutup celah privasi data Dokumen. [security]
 16. [#3417](https://github.com/OpenSID/OpenSID/issues/3417) Ubah NIK Sementara dari 0 menjadi 16 digit diawali 0, dengan format 0[kode-desa-10-digit][nomor-urut-5-digit]
 17. [#4356](https://github.com/OpenSID/OpenSID/issues/4356) Sekarang Title dan Author berkas RTF dan PDF hasil cetak surat berisi nama jenis surat dan nama desa.
+18. [#360](https://github.com/OpenSID/premium/issues/360) Tambah validasi form isian data penduduk.
 
 
 #### Perubahan Teknis
