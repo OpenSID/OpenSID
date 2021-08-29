@@ -26,6 +26,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 14. [#4388](https://github.com/OpenSID/OpenSID/issues/4388) Perbaiki pencatatan log penduduk saat ubah data.
 15. Tutup celah privasi data Arsip Layanan. [security]
 15. Tutup celah privasi data Dokumen. [security]
+16. [#3417](https://github.com/OpenSID/OpenSID/issues/3417) Ubah NIK Sementara dari 0 menjadi 16 digit diawali 0, dengan format 0[kode-desa-10-digit][nomor-urut-5-digit]
 
 
 #### Perubahan Teknis

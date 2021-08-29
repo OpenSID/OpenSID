@@ -210,6 +210,7 @@ class Penduduk extends Admin_Controller {
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		$data['suku'] = $this->penduduk_model->get_suku();
 		$data['nik_sementara'] = $this->penduduk_model->nik_sementara();
+		$data['cek_nik'] = get_nik($data['penduduk']['nik']);
 
 		if ($this->session->status_hanya_tetap)
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap);

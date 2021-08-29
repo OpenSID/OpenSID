@@ -617,7 +617,7 @@ class Penduduk_model extends MY_Model {
 		return $this->db->get()->result_array();
 	}
 
-	public function validasi_data_penduduk(&$data)
+	public function validasi_data_penduduk(&$data, $id=null)
 	{
 		$data['tanggallahir'] = empty($data['tanggallahir']) ? NULL : tgl_indo_in($data['tanggallahir']);
 		$data['tanggal_akhir_paspor'] = empty($data['tanggal_akhir_paspor']) ? NULL : tgl_indo_in($data['tanggal_akhir_paspor']);
@@ -700,6 +700,7 @@ class Penduduk_model extends MY_Model {
 			}
 			else
 			{
+				if ($id) $this->db->where('id <>', $id); //Tidak termasuk penduduk yg diupdate
 				$existing_data = $this->db
 					->select('nik, status_dasar')
 					->from('tweb_penduduk')
@@ -820,8 +821,7 @@ class Penduduk_model extends MY_Model {
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-
-		$error_validasi = $this->validasi_data_penduduk($data);
+		$error_validasi = $this->validasi_data_penduduk($data, $id);
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -1565,18 +1565,17 @@ class Penduduk_model extends MY_Model {
 	
 	public function nik_sementara()
 	{
-		$nik = $this->db
-			->select('nik')
-			->order_by('id', 'DESC')
+		$digit = $this->db
+			->select('RIGHT(nik, 5) as digit')
+			->order_by('RIGHT(nik, 5) DESC')
 			->like('nik', '0', 'after')
 			->where('nik !=', '0')
 			->get('tweb_penduduk')
-			->row()
-			->nik;
+			->row()->digit;
 
-		// Ambil 5 digit terakhir
-		$digit = $nik ? intval(substr($nik, -5)) : 0;	
+		// NIK Sementara menggunakan format 0[kode-desa][nomor-urut]
+	  $desa = $this->config_model->get_data();
 
-		return set_nik($digit);
+		return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1);
 	}
 }

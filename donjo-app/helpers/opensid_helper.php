@@ -1154,16 +1154,6 @@ function strReplaceArrayRecursive($replacement = array(), $strArray = false, $is
     }
 }
 
-// Ubah NIK 0 jadi 0[kode-desa][id_pend]
-function set_nik(int $digit = 0)
-{
-	$CI =& get_instance();
-	$CI->load->model('config_model');
-  $desa = $CI->config_model->get_data();
-
-	return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1);
-}
-
 function get_nik($nik = '0')
 {
 	if (substr($nik, 0, 1) !== '0') return $nik;

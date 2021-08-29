@@ -138,13 +138,6 @@ $(document).ready(function() {
 		return this.optional(element) || nik_valid;
 	}, "NIK harus bilangan 16 digit dan tidak boleh diawali 0");
 
-	$('.nik').each(function() {
-		$(this).rules("add",
-			{
-				nik: true,
-			});
-	});
-
 	jQuery.validator.addMethod("angka", function(value, element) {
 		angka_valid = /^\d*$/.test(value);
 		return this.optional(element) || angka_valid;

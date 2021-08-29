@@ -75,16 +75,15 @@
 					</div>
 				</div>
 				<div class='col-sm-4'>
-						<?php $cek_nik = get_nik($penduduk['nik']); ?>
-							<div class='form-group'>
-								<label for="nik">NIK <code id="tampil_nik" style="display: none;"> (Sementara) </code></label>
-								<div class="input-group input-group-sm">
-									<span class="input-group-addon">
-										<input type="checkbox" title="Centang jika belum memiliki NIK" id="nik_sementara" <?= jecho($cek_nik, '0', 'checked ="checked"') ?>>
-									</span>
-									<input id="nik" name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>" <?= jecho($cek_nik, '0', 'readonly') ?>></input>
-							</div>
+					<div class='form-group'>
+						<label for="nik">NIK <code id="tampil_nik" style="display: none;"> (Sementara) </code></label>
+						<div class="input-group input-group-sm">
+							<span class="input-group-addon">
+								<input type="checkbox" title="Centang jika belum memiliki NIK" id="nik_sementara" <?= jecho($cek_nik, '0', 'checked ="checked"') ?>>
+							</span>
+							<input id="nik" name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>" <?= jecho($cek_nik, '0', 'readonly') ?>></input>
 						</div>
+					</div>
 				</div>
 				<div class='col-sm-8'>
 					<div class='form-group'>
@@ -732,9 +731,30 @@
 		$("select[name='status_kawin']").change();
 		$("select[name='id_asuransi']").change();
 
+		$('#nik_sementara').change(function() {
+			var cek_nik = '<?= $cek_nik ?>';
+			var nik_sementara_berikut = '<?= $nik_sementara; ?>';
+			var nik_asli = '<?= $penduduk['nik']; ?>';
+
+			if ($('#nik_sementara').prop('checked')) {
+				$('#nik').removeClass('nik');
+				if (cek_nik != '0') $('#nik').val(nik_sementara_berikut);
+				$('#nik').prop('readonly', true);
+				$('#tampil_nik').show();
+			} else {
+				$('#nik').addClass('nik');
+				$('#nik').val(nik_asli);
+				$('#nik').prop('readonly', false);
+				$('#tampil_nik').hide();
+			}
+		});
+
+		$('#nik_sementara').change();
+
 		show_hide_penduduk_tidak_tetap($('#status_penduduk').val());
 		show_hide_negara_asal($('#warganegara_id').val());
 		show_hide_ktp_el($('#ktp_el').val());
+
 	});
 
 	$('#mainform').on('reset', function(e)
@@ -867,20 +887,4 @@
 		}
 	}
 
-	$('#nik_sementara').click(function() {
-		var nik_1 = '<?= $nik_sementara; ?>';
-		var nik_2 = '<?= $penduduk['nik']; ?>';
-
-		if ($('#nik_sementara').prop('checked')) {
-			$('#nik').removeClass('nik');
-			$('#nik').val(nik_1);
-			$('#nik').prop('readonly', true);
-			$('#tampil_nik').show();
-		} else {
-			$('#nik').addClass('nik');
-			$('#nik').val(nik_2);
-			$('#nik').prop('readonly', false);
-			$('#tampil_nik').hide();
-		}
-	});
 </script>
