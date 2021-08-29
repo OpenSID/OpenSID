@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4339](https://github.com/OpenSID/OpenSID/issues/4339) Tampilkan ketentuan layanan di Info Desa > Layanan Pelanggan.
 3. [#369](https://github.com/OpenSID/premium/issues/369) Modul pendataan lembaga desa.
 4. [#3613](https://github.com/OpenSID/OpenSID/issues/3613) Sediakan fitur cetak nomor registrasi/antrian untuk anjungan mandiri.
+5. [#4178](https://github.com/OpenSID/OpenSID/issues/4178) Sediakan Buku Rencana Kerja Pembangunan di Buku Administrasi Pembangunan.
 
 #### Perbaikan BUG
 1. [#4346](https://github.com/OpenSID/OpenSID/issues/4346) Perbaiki program bantuan yang tidak dapat terhapus.
