@@ -876,7 +876,7 @@ class Surat_model extends CI_Model {
 			// SURAT PROPERTI
 			$array_replace = [
 				'/\{\\\\title\s.+?\}/' => '{\title ' . $surat['nama'] . '}',
-				'/\{\\\\author\s.+?\}/' => '{\author ' . $config['nama_desa'] . '}',
+				'/\{\\\\author\s.+?\}/' => '{\author ' . ucwords($this->setting->sebutan_desa) . ' '. $config['nama_desa'] . '}',
 				'/\{\\\\operator\s.+?\}/' => '{\operator ' . $config['website'] . '}',
 			];
 
