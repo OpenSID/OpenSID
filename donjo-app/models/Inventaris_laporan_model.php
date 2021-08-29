@@ -5,11 +5,6 @@ class Inventaris_laporan_model extends CI_Model
 
 	protected $table_pamong = 'tweb_desa_pamong';
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function laporan_inventaris()
 	{
 		$laporan_inventaris = array(

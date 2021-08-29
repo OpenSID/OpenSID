@@ -1,14 +1,18 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Inventaris
  *
  * donjo-app/controllers/Inventaris_asset.php
  *
  */
+
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,21 +49,10 @@ class Inventaris_asset extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('inventaris_asset_model');
-		$this->load->model('referensi_model');
-		$this->load->model('pamong_model');
+		$this->load->model(['inventaris_asset_model', 'pamong_model', 'aset_model']);
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
-		$this->tab_ini = 5;
-		$this->tipe = 'inventaris_asset';
-	}
-
-	public function clear()
-	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect('inventaris');
+		$this->set_minsidebar(1);
 	}
 
 	public function index()
@@ -68,7 +61,7 @@ class Inventaris_asset extends Admin_Controller {
 		$data['total'] = $this->inventaris_asset_model->sum_inventaris();
 		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/asset/table', $data);
 	}
 
@@ -76,7 +69,7 @@ class Inventaris_asset extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_asset_model->view($id);
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/asset/view_inventaris', $data);
 	}
 
@@ -84,7 +77,7 @@ class Inventaris_asset extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_asset_model->view_mutasi($id);
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/asset/view_mutasi', $data);
 	}
 
@@ -93,11 +86,11 @@ class Inventaris_asset extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_asset_model->view($id);
 		$data['get_kode'] = $this->header['desa'];
-		$data['aset'] = $this->inventaris_asset_model->list_aset();
+		$data['aset'] = $this->aset_model->list_aset(6);
 		$data['count_reg'] = $this->inventaris_asset_model->count_reg();
 		$data['kd_reg'] = $this->inventaris_asset_model->list_inventaris_kd_register();
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/asset/edit_inventaris', $data);
 	}
 
@@ -106,7 +99,7 @@ class Inventaris_asset extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_asset_model->edit_mutasi($id);
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/asset/edit_mutasi', $data);
 	}
 
@@ -114,11 +107,10 @@ class Inventaris_asset extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u');
 		$data['tip'] = 1;
-
 		$data['get_kode'] = $this->header['desa'];
-		$data['aset'] = $this->inventaris_asset_model->list_aset();
+		$data['aset'] = $this->aset_model->list_aset(6);
 		$data['count_reg'] = $this->inventaris_asset_model->count_reg();
-		$this->set_minsidebar(1);
+		
 
 		$this->render('inventaris/asset/form_tambah', $data);
 	}
@@ -128,7 +120,7 @@ class Inventaris_asset extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_asset_model->view($id);
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/asset/form_mutasi', $data);
 	}
 
@@ -136,7 +128,7 @@ class Inventaris_asset extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_asset_model->list_mutasi_inventaris();
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		
 		$this->render('inventaris/asset/table_mutasi', $data);
 	}
 
@@ -146,6 +138,7 @@ class Inventaris_asset extends Admin_Controller {
 		$data['total'] = $this->inventaris_asset_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_asset_model->cetak($tahun);
 		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
+
 		$this->load->view('inventaris/asset/inventaris_print', $data);
 	}
 
@@ -155,6 +148,7 @@ class Inventaris_asset extends Admin_Controller {
 		$data['total'] = $this->inventaris_asset_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_asset_model->cetak($tahun);
 		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
+
 		$this->load->view('inventaris/asset/inventaris_excel', $data);
 	}
 }

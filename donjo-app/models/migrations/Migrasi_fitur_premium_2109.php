@@ -53,6 +53,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
     $hasil = $hasil && $this->migrasi_2021082052($hasil);
     $hasil = $hasil && $this->migrasi_2021082151($hasil);
     $hasil = $hasil && $this->migrasi_2021082851($hasil);
+		$hasil = $hasil && $this->migrasi_2021082951($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -138,4 +139,46 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
     return $hasil;
   }
+
+	protected function migrasi_2021082951($hasil)
+	{
+		$gol6 = $this->db->where('golongan', 6)->where('bidang', '00')->where('nama', 'KONSTRUKSI DALAM PENGERJAAN')->get('tweb_aset')->row();
+		if ($gol6)
+		{
+			$hasil = $hasil && $this->db->where('golongan', 6)->update('tweb_aset', ['golongan' => 7]);
+		}
+
+		$gol5 = $this->db->where('golongan', 5)->where('bidang', '00')->where('nama', 'ASET TETAP LAINNYA')->get('tweb_aset')->row();
+		if ($gol5)
+		{
+			$hasil = $hasil && $this->db->where('golongan', 5)->update('tweb_aset', ['golongan' => 6]);
+			$hasil = $hasil && $this->db->query("UPDATE inventaris_asset SET register = CONCAT('6', SUBSTRING(register, 2));");
+		}
+
+		$gol4 = $this->db->where('golongan', 4)->where('bidang', '00')->where('nama', 'JALAN')->get('tweb_aset')->row();
+		if ($gol4) {
+			$hasil = $hasil && $this->db->where('golongan', 4)->update('tweb_aset', ['golongan' => 5]);
+			$hasil = $hasil && $this->db->query("UPDATE inventaris_jalan SET register = CONCAT('5', SUBSTRING(register, 2));");
+		}
+
+		$gol3 = $this->db->where('golongan', 3)->where('bidang', '00')->where('nama', 'GEDUNG DAN BANGUNAN')->get('tweb_aset')->row();
+		if ($gol3) {
+			$hasil = $hasil && $this->db->where('golongan', 3)->update('tweb_aset', ['golongan' => 4]);
+			$hasil = $hasil && $this->db->query("UPDATE inventaris_gedung SET register = CONCAT('4', SUBSTRING(register, 2));");
+		}
+
+		$gol2 = $this->db->where('golongan', 2)->where('bidang', '00')->where('nama', 'PERALATAN DAN MESIN')->get('tweb_aset')->row();
+		if ($gol2) {
+			$hasil = $hasil && $this->db->where('golongan', 2)->update('tweb_aset', ['golongan' => 3]);
+			$hasil = $hasil && $this->db->query("UPDATE inventaris_peralatan SET register = CONCAT('3', SUBSTRING(register, 2));");
+		}
+
+		$gol1 = $this->db->where('golongan', 1)->where('bidang', '00')->where('nama', 'TANAH')->get('tweb_aset')->row();
+		if ($gol1) {
+			$hasil = $hasil && $this->db->where('golongan', 1)->update('tweb_aset', ['golongan' => 2]);
+			$hasil = $hasil && $this->db->query("UPDATE inventaris_tanah SET register = CONCAT('2', SUBSTRING(register, 2));");
+		}
+
+		return $hasil;
+	}
 }
