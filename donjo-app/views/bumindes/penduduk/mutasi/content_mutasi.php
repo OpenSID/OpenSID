@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="box-header with-border">
 			<a href="<?= site_url($this->controller."/ajax_cetak/$o/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Mutasi Penduduk Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Mutasi Penduduk Desa"><i class="fa fa-print "></i> Cetak</a>
 			<a href="<?= site_url($this->controller."/ajax_cetak/$o/unduh"); ?>?>" title="Unduh Buku Mutasi Penduduk Desa" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Mutasi Penduduk Desa" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Mutasi Penduduk Desa"><i class="fa fa-download"></i> Unduh</a>
-			<a href="<?= site_url($this->controller."/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+			<a href="<?= site_url($this->controller."/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 		</div>
 		<div class="box-body">
 			<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

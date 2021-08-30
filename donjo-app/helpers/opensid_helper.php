@@ -1165,7 +1165,7 @@ function get_domain(string $url)
 	return $parse['host'];
 }
 
-function get_antrian(string $antrian)
+function get_antrian($antrian)
 {
 	return substr_replace($antrian, '-', 6, 0);
 }

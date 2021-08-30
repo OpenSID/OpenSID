@@ -44,13 +44,14 @@
  */
 ?>
 
+<?= $tipe = ucfirst($this->controller); ?>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Data Anggota <?= ucfirst($this->controller) ?></h1>
+		<h1>Data Anggota </h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url($this->controller); ?>"> Daftar <?= ucfirst($this->controller) ?></a></li>
-			<li class="active">Data Anggota <?= ucfirst($this->controller) ?></li>
+			<li><a href="<?= site_url($this->controller); ?>"> Daftar <?= $tipe; ?></a></li>
+			<li class="active">Data Anggota <?= $tipe; ?></li>
 		</ol>
 	</section>
 	<section class="content">
@@ -62,7 +63,7 @@
 				<div class="col-md-9">
 					<div class="box box-primary">
 						<div class="box-header with-border">
-							<a href="<?= site_url("$this->controller/anggota/$kelompok"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Anggota <?= ucfirst($this->controller) ?></a>
+							<a href="<?= site_url("$this->controller/anggota/$kelompok"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Anggota <?= $tipe; ?></a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">

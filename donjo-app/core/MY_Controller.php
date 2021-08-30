@@ -57,6 +57,7 @@ class MY_Controller extends CI_Controller {
 	public $theme;
 	public $template;
 	public $error;
+	public $header;
 
 	/*
 	 * Constructor
@@ -64,12 +65,11 @@ class MY_Controller extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		// Cek file restrict
-		if (! is_file(APPPATH . 'hooks/Cek_fitur_premium.php')) show_404();
 		// Tampilkan profiler untuk development
 		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
 
-		$this->load->model(['setting_model']);
+		$this->load->model(['config_model', 'setting_model']);
+		$this->header = $this->config_model->get_data();
 		$this->setting_model->init();
 	}
 
@@ -169,18 +169,16 @@ class Web_Controller extends MY_Controller {
 
 }
 
-class Mandiri_Controller extends MY_Controller {
+class Mandiri_Controller extends MY_Controller
+{
 
-	public $header;
 	public $cek_anjungan;
 	public $is_login;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'anjungan_model']);
-
-		$this->header = $this->config_model->get_data();
+		$this->load->model('anjungan_model');
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 		$this->is_login = $this->session->is_login;
 
@@ -230,17 +228,101 @@ class Api_Controller extends MY_Controller {
 
 }
 
-class Admin_Controller extends MY_Controller {
+class Premium extends MY_Controller
+{
+	protected $kecuali = [
+		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif',
+	];
+
+	/**
+	 * Validasi akses.
+	 * 
+	 * @return mixed
+	 */
+	public function validasi()
+	{
+		// Jangan jalankan validasi akses untuk spesifik controller.
+		if (in_array($this->router->class, $this->kecuali))
+		{
+			return;
+		}
+
+		// Validasi akses
+		if ( ! $this->validasi_akses())
+		{
+			redirect('peringatan');
+		}
+	}
+
+	/**
+	 * Validasi akses fitur.
+	 * 
+	 * @return bool
+	 */
+	protected function validasi_akses()
+	{
+		$this->session->unset_userdata('error_premium');
+		
+		if (empty($token = $this->setting->layanan_opendesa_token))
+		{
+			$this->session->set_userdata('error_premium', 'Token pelanggan kosong / tidak valid.');
+
+			return false;
+		}
+
+		$tokenParts = explode(".", $token);
+		$tokenPayload = base64_decode($tokenParts[1]);
+		$jwtPayload = json_decode($tokenPayload);
+
+		$date = new DateTime('20' . str_replace('.', '-', $this->setting->current_version) . '-01');
+		$version = $date->format('Y-m-d');
+		
+		if ($this->setting->current_version != preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi()))
+		{
+			$this->session->set_userdata('error_premium', 'Versi OpenSID tidak sesuai');
+
+			return false;
+		}
+			
+		if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['kode_desa']), '!='))
+		{
+			$this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['nama_desa']) . ' tidak terdaftar di layanan.opendesa.id.');
+
+			return false;
+		}
+		
+		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']))
+		{
+			return true;
+		}
+		else if (get_domain($jwtPayload->domain) != get_domain(APP_URL))
+		{
+			$this->session->set_userdata('error_premium', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di layanan.opendesa.id.');
+
+			return false;
+		}
+
+		if ($version > $jwtPayload->tanggal_berlangganan->akhir)
+		{
+			$this->session->set_userdata('error_premium', "Masa aktif berlangganan fitur premium sudah berakhir.");
+
+			return false;
+		}
+
+		return true;
+	}
+}
+
+class Admin_Controller extends Premium {
 
 	public $grup;
 	public $CI = NULL;
 	public $pengumuman = NULL;
-	public $header;
-	protected $nav = 'nav';
 	protected $minsidebar = 0;
 	public function __construct()
 	{
 		parent::__construct();
+		$this->validasi();
 		$this->CI = CI_Controller::get_instance();
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model(['header_model', 'user_model', 'notif_model']);

@@ -53,13 +53,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		});
 	});
 </script>
+<?= $tipe = ucfirst(str_replace('_master', '', $this->controller)); ?>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Kategori <?= ucfirst($tipe) ?></h1>
+		<h1>Kategori <?= $tipe; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url($tipe); ?>"> Daftar <?= ucfirst($tipe) ?></a></li>
-			<li class="active">Kategori <?= ucfirst($tipe) ?></li>
+			<li><a href="<?= site_url($tipe); ?>"> Daftar <?= $tipe; ?></a></li>
+			<li class="active">Kategori <?= $tipe; ?></li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -67,12 +68,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<?php if ($this->CI->cek_hak_akses('u')): ?>
-						<a href="<?= site_url("$this->controller/form"); ?>" title="Tambah Kategori <?= ucfirst($tipe) ?> Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori Kelompok Baru</a>
+						<a href="<?= site_url("$this->controller/form"); ?>" title="Tambah Kategori <?= $tipe; ?> Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori <?= $tipe; ?> Baru</a>
 					<?php endif; ?>
 					<?php if ($this->CI->cek_hak_akses('h')): ?>
 						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("$this->controller/delete_all"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					<?php endif; ?>
-					<a href="<?= site_url($tipe); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar <?= ucfirst($tipe) ?></a>
+					<a href="<?= site_url($tipe); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar <?= $tipe; ?></a>
 				</div>
 				<div class="box-body">
 					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -80,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group input-group-sm pull-right">
-										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("kelompok_master/filter/cari")?>');$('#'+'mainform').submit();}">
+										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("$this->controller/filter/cari")?>');$('#'+'mainform').submit();}">
 										<div class="input-group-btn">
 											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("$this->controller/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 										</div>
@@ -95,8 +96,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<th>No</th>
 											<th>Aksi</th>
 											<th><?= url_order($o, "{$this->controller}/{$func}/$p", 1, "Kategori $tipe"); ?></th>
-											<th width="70%">Deskripsi <?= ucfirst($tipe) ?></th>
-											<th>Jumlah Kelompok</th>
+											<th width="70%">Deskripsi <?= $tipe; ?></th>
+											<th>Jumlah <?= $tipe; ?></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -107,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 													<td class="aksi">
 														<?php if ($this->CI->cek_hak_akses('u')): ?>
-															<a href="<?= site_url("$this->controller/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Kategori <?= ucfirst($tipe) ?>"><i class="fa fa-edit"></i></a>
+															<a href="<?= site_url("$this->controller/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Kategori <?= $tipe; ?>"><i class="fa fa-edit"></i></a>
 														<?php endif; ?>
 														<?php if ($this->CI->cek_hak_akses('h')): ?>
 															<a href="#" data-href="<?= site_url("$this->controller/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

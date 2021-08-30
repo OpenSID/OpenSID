@@ -44,33 +44,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
+<?= $tipe = ucfirst(str_replace('_master', '', $this->controller)); ?>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengelolaan Kategori <?= ucfirst($tipe) ?></h1>
+		<h1>Pengelolaan Kategori <?= $tipe; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url($tipe); ?>"> Daftar <?= ucfirst($tipe) ?></a></li>
-			<li><a href="<?= site_url($this->controller); ?>"> Daftar Ketegori <?= ucfirst($tipe) ?></a></li>
-			<li class="active">Pengelolaan Kategori <?= ucfirst($tipe) ?></li>
+			<li><a href="<?= site_url(strtolower($tipe)); ?>"> Daftar <?= $tipe; ?></a></li>
+			<li><a href="<?= site_url($this->controller); ?>"> Daftar Ketegori <?= $tipe; ?></a></li>
+			<li class="active">Pengelolaan Kategori <?= $tipe; ?></li>
 		</ol>
 	</section>
 	<section class="content">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<a href="<?= site_url($this->controller); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Kategori <?= ucfirst($tipe) ?></a>
+				<a href="<?= site_url($this->controller); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Kategori <?= $tipe; ?></a>
 			</div>
 			<form id="validasi" action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="box-body">
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="nama">Klasifikasi/Kategori <?= ucfirst($tipe) ?></label>
+						<label class="col-sm-3 control-label" for="nama">Klasifikasi/Kategori <?= $tipe; ?></label>
 						<div class="col-sm-8">
-							<input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori <?= ucfirst($tipe) ?>" name="kelompok" value="<?= $kelompok_master->kelompok; ?>"></input>
+							<input id="kelompok" class="form-control input-sm required" type="text" placeholder="Kategori <?= $tipe; ?>" name="kelompok" value="<?= $kelompok_master->kelompok; ?>"></input>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="Deskripsi">Deskripsi <?= ucfirst($tipe) ?></label>
+						<label class="col-sm-3 control-label" for="Deskripsi">Deskripsi <?= $tipe; ?></label>
 						<div class="col-sm-8">
-							<textarea name="deskripsi" class="form-control input-sm" placeholder="Deskripsi <?= ucfirst($tipe) ?>" rows="5"><?= $kelompok_master->deskripsi; ?></textarea>
+							<textarea name="deskripsi" class="form-control input-sm" placeholder="Deskripsi <?= $tipe; ?>" rows="5"><?= $kelompok_master->deskripsi; ?></textarea>
 						</div>
 					</div>
 				</div>

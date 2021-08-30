@@ -164,7 +164,7 @@ class Kelompok_model extends MY_Model {
 			->set('id_penduduk', $data['id_ketua'])
 			->set('no_anggota', 1)
 			->set('jabatan', 1)
-			->set('keterangan', 'Ketua Kelompok') // keterangan default untuk Ketua Kelompok
+			->set('keterangan', "Ketua $this->tipe") // keterangan default untuk Ketua Kelompok
 			->set('tipe', $this->tipe)
 			->insert('kelompok_anggota');
 
