@@ -9,7 +9,7 @@ class Cek_fitur_premium
 	 * Jangan jalankan validasi akses untuk spesifik controller.
 	 */
 	protected $kecuali_controller = [
-		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'siteman', 'first', 'masuk', 'masuk_ektp', 'bantuan', 'beranda', 'pesan', 'surat',
+		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'siteman', 'first', 'main', 'notif', 'masuk', 'masuk_ektp', 'bantuan', 'beranda', 'pesan', 'surat',
 	];
 
 	/**
@@ -38,7 +38,7 @@ class Cek_fitur_premium
 		// Validasi akses
 		if ( ! $this->validasi_akses())
 		{
-			($this->session->siteman == 1) ? redirect('peringatan') : show_404();
+			($this->session->mandiri == 1) ? show_404() : redirect('peringatan');
 		}
 	}
 
