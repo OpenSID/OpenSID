@@ -30,8 +30,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="nama_barang">Nama Barang</label>
 									<div class="col-sm-8">
-										 <select class="form-control input-sm select2" id="nama_barang" name="nama_barang" style ="width:100%;" onchange="formAction('main')">
-
+										<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" onchange="formAction('main')">
 											<?php foreach ($aset as $data): ?>
 												<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
 											<?php endforeach; ?>

@@ -118,7 +118,7 @@
 													<?php endif ?>
 												<?php endif; ?> 
 												<?php if (!empty($data['satuan'])): ?>
-													<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
+													<a href='<?= site_url("{$this->controller}/unduh_berkas/{$data['id']}/{$kat}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
 												<?php else: ?>
 													<a class="btn bg-purple btn-flat btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a>
 												<?php endif; ?>

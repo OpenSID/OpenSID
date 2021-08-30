@@ -25,7 +25,11 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 12. [#4354](https://github.com/OpenSID/OpenSID/issues/4354) Perbaiki hak akses tambah/ubah dokumen, ekspedisi.
 13. [#356](https://github.com/OpenSID/premium/issues/356) Perbaiki URL verifikasi surat tidak menampilkan data penduduk seperti NIK. [security]
 14. [#4388](https://github.com/OpenSID/OpenSID/issues/4388) Perbaiki pencatatan log penduduk saat ubah data.
-15. [#354](https://github.com/OpenSID/premium/issues/354) Tutup celah privasi data di Arsip Layanan. [security]
+15. Tutup celah privasi data Arsip Layanan. [security]
+15. Tutup celah privasi data Dokumen. [security]
+16. [#3417](https://github.com/OpenSID/OpenSID/issues/3417) Ubah NIK Sementara dari 0 menjadi 16 digit diawali 0, dengan format 0[kode-desa-10-digit][nomor-urut-5-digit]
+17. [#4356](https://github.com/OpenSID/OpenSID/issues/4356) Sekarang Title dan Author berkas RTF dan PDF hasil cetak surat berisi nama jenis surat dan nama desa.
+18. [#360](https://github.com/OpenSID/premium/issues/360) Tambah validasi form isian data penduduk.
 
 #### Perubahan Teknis
 1. Perbaiki migrasi gagal pada penambahan indeks dengan nama kolom tertentu.

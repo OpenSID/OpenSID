@@ -76,9 +76,13 @@
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
-						<label for="nik">NIK </label>
-						<input id="nik" name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>"></input>
-						<input name="nik_lama" type="hidden" value="<?= $_SESSION['nik_lama']?>"/>
+						<label for="nik">NIK <code id="tampil_nik" style="display: none;"> (Sementara) </code></label>
+						<div class="input-group input-group-sm">
+							<span class="input-group-addon">
+								<input type="checkbox" title="Centang jika belum memiliki NIK" id="nik_sementara" <?= jecho($cek_nik, '0', 'checked ="checked"') ?>>
+							</span>
+							<input id="nik" name="nik" class="form-control input-sm required nik" type="text" placeholder="Nomor NIK" value="<?= $penduduk['nik']?>" <?= jecho($cek_nik, '0', 'readonly') ?>></input>
+						</div>
 					</div>
 				</div>
 				<div class='col-sm-8'>
@@ -106,23 +110,23 @@
 											<tr>
 												<td width='25%'><?= strtoupper($penduduk['wajib_ktp'])?></td>
 												<td>
-												 <select name="ktp_el" id="ktp_el" class="form-control input-sm" onchange="show_hide_ktp_el($(this).find(':selected').val())">
-													<option value="">Pilih Identitas-EL</option>
-													<?php foreach ($ktp_el as $id => $nama): ?>
-													 <option value="<?= $id?>" <?php selected(strtolower($penduduk['ktp_el']), $nama); ?>><?= strtoupper($nama)?></option>
-													<?php endforeach;?>
-												 </select>
+													<select name="ktp_el" id="ktp_el" class="form-control input-sm" onchange="show_hide_ktp_el($(this).find(':selected').val())">
+														<option value="">Pilih Identitas-EL</option>
+														<?php foreach ($ktp_el as $id => $nama): ?>
+															<option value="<?= $id?>" <?php selected(strtolower($penduduk['ktp_el']), $nama); ?>><?= strtoupper($nama)?></option>
+														<?php endforeach;?>
+													</select>
 												</td>
 												<td width='25%'>
-												 <select name="status_rekam" class="form-control input-sm">
-													<option value="">Pilih Status Rekam</option>
-													<?php foreach ($status_rekam as $id => $nama): ?>
-													 <option value="<?= $id?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama)?></option>
-													<?php endforeach;?>
-												 </select>
+													<select name="status_rekam" class="form-control input-sm">
+														<option value="">Pilih Status Rekam</option>
+														<?php foreach ($status_rekam as $id => $nama): ?>
+															<option value="<?= $id?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama)?></option>
+														<?php endforeach;?>
+													</select>
 												</td>
 												<td width='25%'>
-												 <input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
+													<input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
 												</td>
 											</tr>
 										</tbody>
@@ -135,7 +139,7 @@
 						<div class='col-sm-4'>
 							<div class='form-group'>
 								<label for="tempat_cetak_ktp">Tempat Penerbitan KTP</label>
-								<input id="tempat_cetak_ktp" name="tempat_cetak_ktp" class="form-control input-sm" maxlength="100" type="text" placeholder="Tempat Penerbitan KTP" value="<?= $penduduk['tempat_cetak_ktp']?>"></input>
+								<input id="tempat_cetak_ktp" name="tempat_cetak_ktp" class="form-control input-sm" maxlength="150" type="text" placeholder="Tempat Penerbitan KTP" value="<?= $penduduk['tempat_cetak_ktp']?>"></input>
 							</div>
 						</div>
 						<div class='col-sm-4'>
@@ -150,9 +154,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-12">
-
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
@@ -265,7 +266,7 @@
 							<option value="">Pilih Tempat Dilahirkan</option>
 							<?php foreach ($tempat_dilahirkan as $id => $nama): ?>
 								<option value="<?= $id?>" <?php selected($penduduk['tempat_dilahirkan'], $id); ?>><?= strtoupper($nama)?></option>
-							 <?php endforeach; ?>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</div>
@@ -365,12 +366,14 @@
 						<label for="etnis">Suku/Etnis</label>
 						<select class="form-control input-sm select2-tags nama_suku" data-url="<?= site_url().'penduduk/ajax_penduduk_suku/' ?>" data-placeholder="Pilih Suku/Etnis" id="suku" name="suku">
 							<option value="">Pilih Suku/Etnis</option>
-							<?php foreach ($suku['penduduk'] as $ref_suku): ?>
-								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?> ><?= $ref_suku['suku'] ?></option>
-							<?php endforeach ?>
-							<option disabled>----------------------</option>
- 							<?php foreach ($suku['ref'] as $ref_suku): ?>
-								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?> ><?= $ref_suku['suku'] ?></option>
+							<?php if ($suku['penduduk']): ?>
+								<?php foreach ($suku['penduduk'] as $ref_suku): ?>
+									<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?>><?= $ref_suku['suku'] ?></option>
+								<?php endforeach ?>
+								<option disabled>----------------------</option>
+							<?php endif; ?>
+							<?php foreach ($suku['ref'] as $ref_suku): ?>
+								<option value="<?= $ref_suku['suku'] ?>" <?php selected($penduduk['suku'], $ref_suku['suku']); ?>><?= $ref_suku['suku'] ?></option>
 							<?php endforeach ?>
 						</select>
 					</div>
@@ -406,7 +409,7 @@
 				<div class='col-sm-8'>
 					<div class='form-group'>
 						<label for="dokumen_kitas">Nomor KITAS/KITAP </label>
-						<input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="10" type="text" placeholder="Nomor KITAS/KITAP" value="<?= strtoupper($penduduk['dokumen_kitas'])?>"></input>
+						<input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45" type="text" placeholder="Nomor KITAS/KITAP" value="<?= strtoupper($penduduk['dokumen_kitas'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-4' id='field_negara_asal'>
@@ -456,8 +459,8 @@
 				<?php if (!empty($penduduk['no_kk']) or $kk_baru) : ?>
 					<div class='col-sm-12'>
 						<div class='form-group'>
-							<label for="telepon">Alamat KK </label>
-							<input id="alamat" name="alamat" class="form-control input-sm" maxlength="200" ype="text" placeholder="Alamat di Kartu Keluarga" size="20" value="<?= $penduduk['alamat']?>"></input>
+							<label for="alamat">Alamat KK </label>
+							<input id="alamat" name="alamat" class="form-control input-sm nomor_sk" maxlength="200" type="text" placeholder="Alamat di Kartu Keluarga" value="<?= $penduduk['alamat']?>"></input>
 						</div>
 					</div>
 				<?php endif; ?>
@@ -497,19 +500,19 @@
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="telepon"> Nomor Telepon </label>
-						<input id="telepon" name="telepon" class="form-control input-sm" type="text" placeholder="Nomor Telepon" size="20" value="<?= $penduduk['telepon']?>"></input>
+						<input id="telepon" name="telepon" class="form-control input-sm number" type="text" maxlength="20"placeholder="Nomor Telepon" value="<?= $penduduk['telepon']?>"></input>
 					</div>
 				</div>
 					<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="email"> Alamat Email </label>
-						<input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" size="20" value="<?= $penduduk['email']?>"></input>
+						<input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" value="<?= $penduduk['email']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="alamat_sebelumnya">Alamat Sebelumnya </label>
-						<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya']?>"></input>
+						<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm nomor_sk" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya']?>"></input>
 					</div>
 				</div>
 				<?php if (!$penduduk['no_kk'] and !$kk_baru): ?>
@@ -653,7 +656,7 @@
 				<div id='asuransi_pilihan' class='col-sm-4'>
 					<div class='form-group'>
 						<label id="label-no-asuransi" for="no_asuransi">No Asuransi </label>
-						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
+						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm nomor_sk" type="text" maxlength="100" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
 					</div>
 				</div>
 				<div class="col-sm-12">
@@ -661,7 +664,7 @@
 						<div class="col-sm-4">
 							<div class='form-group'>
 								<label id="label-no-bpjs-ketenagakerjaan" for="bpjs_ketenagakerjaan">Nomor BPJS Ketenagakerjaan</label>
-								<input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm nomor_sk" type="text" maxlength="50" placeholder="Nomor BPJS Ketenagakerjaan" value="<?= $penduduk['bpjs_ketenagakerjaan']?>"></input>
+								<input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm nomor_sk" type="text" maxlength="100" placeholder="Nomor BPJS Ketenagakerjaan" value="<?= $penduduk['bpjs_ketenagakerjaan']?>"></input>
 							</div>
 						</div>
 					</div>
@@ -687,7 +690,7 @@
 						<div class='col-sm-8'>
 							<div class='form-group'>
 								<label for="ket">Keterangan</label>
-								<textarea id="ket" name="ket" class="form-control input-sm" style="resize: none" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
+								<textarea id="ket" name="ket" class="form-control input-sm" rows="3" placeholder="Keterangan"><?= $penduduk['ket']?></textarea>
 							</div>
 						</div>
 					</div>
@@ -730,18 +733,39 @@
 		$("select[name='status_kawin']").change();
 		$("select[name='id_asuransi']").change();
 
+		$('#nik_sementara').change(function() {
+			var cek_nik = '<?= $cek_nik ?>';
+			var nik_sementara_berikut = '<?= $nik_sementara; ?>';
+			var nik_asli = '<?= $penduduk['nik']; ?>';
+
+			if ($('#nik_sementara').prop('checked')) {
+				$('#nik').removeClass('nik');
+				if (cek_nik != '0') $('#nik').val(nik_sementara_berikut);
+				$('#nik').prop('readonly', true);
+				$('#tampil_nik').show();
+			} else {
+				$('#nik').addClass('nik');
+				$('#nik').val(nik_asli);
+				$('#nik').prop('readonly', false);
+				$('#tampil_nik').hide();
+			}
+		});
+
+		$('#nik_sementara').change();
+
 		show_hide_penduduk_tidak_tetap($('#status_penduduk').val());
 		show_hide_negara_asal($('#warganegara_id').val());
 		show_hide_ktp_el($('#ktp_el').val());
+
 	});
 
 	$('#mainform').on('reset', function(e)
 	{
-	 setTimeout(function() {
+		setTimeout(function() {
 			$("select[name='sex']").change();
 			$("select[name='status_kawin']").change();
 			$("select[name='id_asuransi']").change();
-	 });
+		});
 	});
 
 	function ubah_sex(sex)
@@ -789,15 +813,15 @@
 		//Jika tidak, pakai foto default
 		if (foto)
 		{
-		  ukuran_foto = ukuran || null
-		  file_foto = '<?= base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
+			ukuran_foto = ukuran || null
+			file_foto = '<?= base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
 		}
 		else
 		{
 			file_foto = sex == '2' ? '<?=  FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
 		}
 
-	  return file_foto;
+		return file_foto;
 	}
 
 	function disable_kawin_cerai(status)
@@ -826,6 +850,7 @@
 				break;
 		}
 	}
+
 	function show_hide_penduduk_tidak_tetap(status)
 	{
 		// status 1 = TETAP, 2 = TIDAK TETAP
@@ -863,4 +888,5 @@
 			$('#section_ktp_el').fadeOut();
 		}
 	}
+
 </script>

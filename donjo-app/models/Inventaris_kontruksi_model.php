@@ -5,7 +5,6 @@ class Inventaris_kontruksi_model extends CI_Model
 
 	protected $table = 'inventaris_kontruksi';
 	protected $table_mutasi = 'mutasi_inventaris_kontruksi';
-	protected $table_pamong = 'tweb_desa_pamong';
 
 	public function __construct()
 	{

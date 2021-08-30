@@ -59,7 +59,7 @@
 					<label class="control-label col-sm-4" for="nama"></label>
 					<div class="col-sm-6">
 						<input type="hidden" name="old_gambar" value="<?= $kartu_peserta?>">
-						<img class="attachment-img img-responsive img-circle" src="<?= AmbilDokumen($kartu_peserta)?>" alt="Gambar">
+						<img class="attachment-img img-responsive img-circle" src="<?= site_url($this->controller.'/'.'unduh_kartu_peserta/'.$id) ?>" alt="Kartu Peserta">
 						<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $kartu_peserta?>" /> Hapus Gambar</label></p>
 					</div>
 				</div>

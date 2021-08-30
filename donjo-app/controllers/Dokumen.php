@@ -243,18 +243,21 @@ class Dokumen extends Admin_Controller {
 		$this->load->view("dokumen/dokumen_excel", $data);
 	}
 
-  	/**
+	/**
 	 * Unduh berkas berdasarkan kolom dokumen.id
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-	public function unduh_berkas($id_dokumen, $id_pend=0)
+	public function unduh_berkas($id_dokumen, $id_pend=null, $tampil=false)
 	{
 		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
-		if ($berkas)
-			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
-		else
-			$this->output->set_status_header('404');
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen, $id_pend);
+		ambilBerkas($data['satuan'], $this->controller, NULL, LOKASI_DOKUMEN, $tampil);
 	}
+
+	public function tampilkan_berkas($id_dokumen, $id_pend=null)
+	{
+		$this->unduh_berkas($id_dokumen, $id_pend, $tampil=true);
+	}
+
 }

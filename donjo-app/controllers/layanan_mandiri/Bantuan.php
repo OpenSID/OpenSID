@@ -73,10 +73,7 @@ class Bantuan extends Mandiri_Controller
 		}
 		else
 		{
-			$this->load->helper('download');
-			if ($data['kartu_peserta']) force_download(LOKASI_DOKUMEN . $data['kartu_peserta'], NULL);
-
-			redirect('layanan-mandiri/bantuan');
+			ambilBerkas($data['kartu_peserta'], 'layanan-mandiri/bantuan', NULL, LOKASI_DOKUMEN);
 		}
 	}
 
