@@ -1,8 +1,8 @@
-Di rilis ini, versi 21.08-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.09, menyediakan Buku Induk Penduduk dan Buku Mutasi Penduduk sesuai Permendagri No. 47/2016. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada afa28, Agung Sugiarto, Zeppy Shiddiq, Ariandi Ryan Kahfi, Il Ham dan Ians Shinichi Kudo yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi 21.08-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.09 adalah sebagai berikut:
 1. [#4357](https://github.com/OpenSID/OpenSID/issues/4357) Perbaiki pengaturan khusus untuk modul pelanggan.[bug-fix]
 2. [#4348](https://github.com/OpenSID/OpenSID/issues/4348) Perbaiki akses cetak kk untuk penduduk lepas di layanan mandiri.[bug-fix]
 3. [#4339](https://github.com/OpenSID/OpenSID/issues/4339) Tampilkan ketentuan layanan di Info Desa > Layanan Pelanggan.
@@ -13,8 +13,8 @@ Fitur v21.02-premium yang digabungkan adalah sebagai berikut:
 3. #2068: Sekarang bisa urut dusun/rw/rt di Info Desa > Wilayah Administratif.
 4. #3881: Sederhanakan notifikasi admin supaya tidak memberatkan server. [teknis]
 5. #1613: Sediakan paginasi untuk daftar Data Suplemen.
-6. Sederhanakan script pemantauan rilis baru. (teknis)
-7. p#54: Gunakan cache untuk data menu modul. (teknis)
+6. Sederhanakan script pemantauan rilis baru. [teknis]
+7. p#54: Gunakan cache untuk data menu modul. [teknis]
 8. #2543: Sediakan laporan status pembangunan.
 9. #2659: Sekarang bisa isi lokasi peta tempat tinggal pada waktu menambah penduduk baru.
 10. #3863: Sediakan pengaturan sebutan Kepala Desa, supaya bisa disesuaikan (misalnya 'Wali Nagari').
