@@ -133,9 +133,9 @@ class Penduduk_model extends MY_Model {
 		if ( ! empty($kf))
 		{
 			if ($kf == JUMLAH)
-				$this->db->where("($kolom IS NOT NULL OR $kolom != '')");
+				$this->db->where("($kolom IS NOT NULL && $kolom != '')");
 			else if ($kf == BELUM_MENGISI)
-				$this->db->where("($kolom IS NULL OR $kolom = '')");
+				$this->db->where("($kolom IS NULL && $kolom = '')");
 			else if ($kf == $this->session->status_dasar)
 				$this->db->where_in($kolom, $kf);
 			else
