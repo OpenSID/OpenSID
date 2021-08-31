@@ -1,8 +1,9 @@
-#### [v21.08-premium-pasca]
+#### [v21.09-premium]
 
-Di rilis ini, versi 21.08-premium-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.09-premium, menyediakan Modul pendataan lembaga desa dan buku rencana kerja pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasih pula pada Cahyo Wicaksono yang baru mulai berkontribusi.
+
 #### Penambahan Fitur
 1. [#4330](https://github.com/OpenSID/OpenSID/issues/4330) Kenali gawai anjungan layanan mandiri menggunakan MAC Address.
 2. [#4339](https://github.com/OpenSID/OpenSID/issues/4339) Tampilkan ketentuan layanan di Info Desa > Layanan Pelanggan.
