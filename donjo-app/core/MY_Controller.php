@@ -291,7 +291,7 @@ class Premium extends MY_Controller
 			return false;
 		}
 		
-		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']))
+		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) || $this->setting->demo_mode)
 		{
 			return true;
 		}
