@@ -93,6 +93,7 @@ class Setting_model extends CI_Model {
 			// Update setting yang diubah
 			if ($this->setting->$key != $value)
 			{
+				if ($key == 'current_version') continue;
 				$value = strip_tags($value);
 				$this->update($key, $value);
 				$this->setting->$key = $value;
