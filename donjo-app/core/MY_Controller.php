@@ -276,14 +276,7 @@ class Premium extends MY_Controller
 
 		$date = new DateTime('20' . str_replace('.', '-', $this->setting->current_version) . '-01');
 		$version = $date->format('Y-m-d');
-		
-		if ($this->setting->current_version != preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi()))
-		{
-			$this->session->set_userdata('error_premium', 'Versi OpenSID tidak sesuai');
 
-			return false;
-		}
-			
 		if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['kode_desa']), '!='))
 		{
 			$this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['nama_desa']) . ' tidak terdaftar di layanan.opendesa.id.');

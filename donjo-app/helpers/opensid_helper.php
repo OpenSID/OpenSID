@@ -1162,7 +1162,7 @@ function get_domain(string $url)
 {
 	$parse = parse_url($url);
 
-	return $parse['host'];
+	return preg_replace('#^(http(s)?://)?w{3}\.#', '$1', $parse['host']);
 }
 
 function get_antrian($antrian)
