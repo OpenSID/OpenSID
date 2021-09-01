@@ -1,15 +1,15 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
-<?php if (IS_PREMIUM): ?>
+<?php if (IS_PREMIUM):
 
 	$hari_ini = $statistik_pengunjung['hari_ini'];
 	$kemarin = $statistik_pengunjung['kemarin'];
 	$total = $statistik_pengunjung['total'];
 	$os = $statistik_pengunjung['os'];
 	$ip_address = $statistik_pengunjung['ip_address'];
-	$browser = statistik_pengunjung['browser'];
+	$browser = $statistik_pengunjung['browser'];
 
-<?php else: ?>
+else: ?>
 
 <?php
 
