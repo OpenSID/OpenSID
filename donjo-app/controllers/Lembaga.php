@@ -56,6 +56,6 @@ class Lembaga extends Kelompok
 		parent::__construct();
 
 		$this->modul_ini = 200;
-		$this->sub_modul_ini = 326;
+		$this->sub_modul_ini = 327;
 	}
 }

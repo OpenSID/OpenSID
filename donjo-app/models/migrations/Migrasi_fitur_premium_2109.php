@@ -47,7 +47,8 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
-		
+
+		$this->cache->hapus_cache_untuk_semua('status_langganan');
 		$hasil = $hasil && $this->migrasi_2021080771($hasil);
 		$hasil = $hasil && $this->migrasi_2021081851($hasil);
 		$hasil = $hasil && $this->migrasi_2021082051($hasil);
@@ -56,7 +57,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021082871($hasil);
 		$hasil = $hasil && $this->migrasi_2021082971($hasil);
 		$hasil = $hasil && $this->migrasi_2021082972($hasil);
-    $hasil = $hasil && $this->migrasi_2021082951($hasil);
+		$hasil = $hasil && $this->migrasi_2021082951($hasil);
 		$hasil = $hasil && $this->migrasi_2021082952($hasil);
 
 		status_sukses($hasil);
@@ -76,15 +77,16 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 	protected function migrasi_2021081851($hasil)
 	{
 		// Cek log surat, hapus semua file view verifikasi berdasrkan surat yg sudah di cetak
-		$list_data = $this->db->select('nama_surat')->get('log_surat')->result();
-
-		foreach ($list_data as $data)
+		if ($list_data = $this->db->select('nama_surat')->get('log_surat')->result())
 		{
-			// Hapus file
-			$file = LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat);
-			if (file_exists($file))
+			foreach ($list_data as $data)
 			{
-				$hasil = $hasil && unlink($file);
+				// Hapus file
+				$file = LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat);
+				if (file_exists($file))
+				{
+					$hasil = $hasil && unlink($file);
+				}
 			}
 		}
 
@@ -143,9 +145,9 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 	protected function migrasi_2021082871($hasil)
 	{
 		$hasil = $hasil && $this->tambah_modul([
-			'id'         => 326,
+			'id'         => 327,
 			'modul'      => 'Lembaga [Desa]',
-			'url'        => 'lembaga',
+			'url'        => 'lembaga/clear',
 			'aktif'      => 1,
 			'ikon'       => 'fa-list',
 			'urut'       => 4,
@@ -156,12 +158,12 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		]);
 
 		$hasil = $hasil && $this->tambah_modul([
-			'id'     => 327,
+			'id'     => 328,
 			'modul'  => 'Kategori Lembaga',
 			'url'    => 'lembaga_master',
 			'aktif'  => 1,
 			'hidden' => 2,
-			'parent' => 326
+			'parent' => 327
 		]);
 
 		// Hapus cache menu navigasi
@@ -194,8 +196,8 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		$query = "
 			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
 			-- Operator --
-			(2,326,3), -- Lembaga --
-			(2,327,3) -- Kategori Lembaga --
+			(2,327,3), -- Lembaga --
+			(2,328,3) -- Kategori Lembaga --
 		";
 		
 		return $hasil && $this->db->query($query);

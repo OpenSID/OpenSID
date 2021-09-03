@@ -187,9 +187,9 @@ class Kelompok_model extends MY_Model {
 		if ($this->tipe == 'lembaga')
 		{
 			$data['nmr_sk_pengangkatan'] = nomor_surat_keputusan($post['nmr_sk_pengangkatan']);
-			$data['tgl_sk_pengangkatan'] = tgl_indo_in($post['tgl_sk_pengangkatan']);
+			$data['tgl_sk_pengangkatan'] = ! empty($post['tgl_sk_pengangkatan']) ? tgl_indo_in($post['tgl_sk_pengangkatan']) : null;
 			$data['nmr_sk_pemberhentian'] = nomor_surat_keputusan($post['nmr_sk_pemberhentian']);
-			$data['tgl_sk_pemberhentian'] = tgl_indo_in($post['tgl_sk_pemberhentian']);
+			$data['tgl_sk_pemberhentian'] = ! empty($post['tgl_sk_pemberhentian']) ? tgl_indo_in($post['tgl_sk_pemberhentian']) : null;
 			$data['periode'] = htmlentities($post['periode']);
 		}
 
