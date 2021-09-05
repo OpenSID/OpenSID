@@ -143,4 +143,7 @@ $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan
 
 // Settings
 $route['set_hari']='settings/set_hari';
+$route['set_hari/api']='settings/api_set_hari';
+$route['set_hari/edit_tgl']='settings/set_hari/edit_tgl';
+$route['set_hari/update_tgl']='settings/set_hari/update_tgl';
 

@@ -14,4 +14,47 @@ class Hari_model extends CI_Model {
 		$this->db->query($insert_query);
 		return ;
 	}
+	
+	function tgl_by_range($start,$end)
+	{
+		$this->db->where('tgl_merah >=',$start)
+			->where('tgl_merah <=',$end)
+			->where('status >=',1)
+			->from('setting_harimerah')
+			->select('tgl_merah,status');
+		$result=$this->db->get()
+			->result();
+			
+		$return=[];//$this->db->last_query(),$start,$end
+		foreach($result as $row)
+		{
+			$return[]=$row->tgl_merah;
+		}
+	
+		return $return;
+	}
+	
+	function _get($params)
+	{
+		$this->db->from('setting_harimerah');
+		
+		if(isset($params['tanggal']))
+		{
+			$this->db->where('tgl_merah',$params['tanggal']);
+		}
+		
+		if(isset($params['first']))
+		{
+			return $this->db->get()->row_array();
+		}
+		
+		return NULL;
+	}
+	
+	function _update($params)
+	{
+		$this->db->replace('setting_harimerah',$params);
+		
+		return ;
+	}
 }

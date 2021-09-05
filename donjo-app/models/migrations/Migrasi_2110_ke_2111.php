@@ -49,7 +49,37 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$hasil=true;
 		$this->create_table_harimerah();
 		$this->add_def_harimerah();
+		$this->add_menu_harimerah();
 		return $hasil;
+	}
+	
+	protected function add_menu_harimerah()
+	{
+		$data = array(
+				'id' => 319,
+				'modul' => 'Tanggal Merah',
+				'url' => 'set_hari',
+				'aktif' => 1,
+				'ikon' => 'fa-gear',
+				'urut' => 7,
+				'level' => 1,
+				'hidden' => 0,
+				'ikon_kecil' => 'fa-gear',
+				'parent' => 11
+				);
+		$sql = $this->db->insert_string('setting_modul', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				modul = VALUES(modul),
+				aktif = VALUES(aktif),
+				ikon = VALUES(ikon),
+				urut = VALUES(urut),
+				level = VALUES(level),
+				hidden = VALUES(hidden),
+				ikon_kecil = VALUES(ikon_kecil),
+				parent = VALUES(parent)
+				";
+		$this->db->query($sql);
+		
 	}
 	
 	protected function create_table_harimerah($hasil=1)
