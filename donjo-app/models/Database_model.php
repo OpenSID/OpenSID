@@ -101,7 +101,8 @@ class Database_model extends CI_Model {
 		'21.06' => array('migrate' => 'migrasi_2106_ke_2107', 'nextVersion' => '21.07'),
 		'21.07' => array('migrate' => 'migrasi_2107_ke_2108', 'nextVersion' => '21.08'),
 		'21.08' => array('migrate' => 'migrasi_2108_ke_2109', 'nextVersion' => '21.09'),
-		'21.09' => array('migrate' => 'migrasi_2109_ke_2110', 'nextVersion' => NULL),
+		'21.09' => array('migrate' => 'migrasi_2109_ke_2110', 'nextVersion' => '21.10'),
+		'21.10' => array('migrate' => 'migrasi_2110_ke_2111', 'nextVersion' => NULL), //baru
 	);
 
 	public function __construct()
@@ -317,6 +318,7 @@ class Database_model extends CI_Model {
 		$this->jalankan_migrasi('migrasi_2009_ke_2010');
 		$this->jalankan_migrasi('migrasi_2010_ke_2011');
 		$this->jalankan_migrasi('migrasi_2101_ke_2102');
+		$this->jalankan_migrasi('migrasi_2110_ke_2111');
   }
 
   private function jalankan_migrasi($migrasi)

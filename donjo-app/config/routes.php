@@ -140,3 +140,7 @@ $route['layanan-mandiri/surat/buat-surat'] = 'layanan_mandiri/surat/buat_surat';
 $route['layanan-mandiri/surat/buat-surat/(:num)'] = 'layanan_mandiri/surat/buat_surat/$1'; //Ubah Surat Permohonan yg tdk lengkap
 // Mandiri Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan
+
+// Settings
+$route['set_hari']='settings/set_hari';
+
