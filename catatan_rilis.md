@@ -1,4 +1,4 @@
-#### [v21.09-premium-rev01]
+#### [v21.09-premium-beta1]
 
 Di rilis ini, versi 21.09-premium-rev01, menyediakan Modul pendataan lembaga desa dan buku rencana kerja pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
