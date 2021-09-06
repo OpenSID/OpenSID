@@ -1965,6 +1965,7 @@ function get_path_import(coords, multi = false) {
 		.replace(']]]]]', ']]]')
 		.replace('[[[[', '[[[')
 		.replace(']]]]', ']]]')
+		.replace(/,0]/g, ']')
 		.replace('],null]', ']');
 
 	if (multi == true) {
