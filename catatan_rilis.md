@@ -8,6 +8,7 @@ Terima kasih pada Agung Sugiarto yang terus berkontribusi. Terima kasih pula pad
 
 
 #### Perbaikan BUG
+1. [#4408](https://github.com/OpenSID/OpenSID/issues/4408) Perbaiki tambah warga terdata di suplemen keluarga berdasarkan keluarga yang aktif.
 
 
 #### Perubahan Teknis
