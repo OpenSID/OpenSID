@@ -63,7 +63,7 @@ class Sinkronisasi extends Admin_Controller {
 	public function index()
 	{
 		$data = [
-			'kirim_data' => ['Penduduk']
+			'kirim_data' => ['Penduduk', 'Laporan Penduduk', 'Laporan APBDes']
 		];
 
 		$this->render("$this->controller/index", $data);
@@ -88,9 +88,20 @@ class Sinkronisasi extends Admin_Controller {
 		switch ($modul)
 		{
 			case 'penduduk':
-				// Data Penduduk
+				// Penduduk
 				$this->sinkronisasi_data_penduduk();
 				break;
+
+			case 'laporan-penduduk':
+				// Laporan Penduduk
+				redirect('laporan_penduduk');
+				break;
+
+			case 'laporan-apbdes':
+				// Laporan APBDes
+				redirect('laporan_apbdes');
+				break;
+
 			default:
 				// Data Lainnya
 				break;

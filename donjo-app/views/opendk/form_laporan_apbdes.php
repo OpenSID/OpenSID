@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View untuk modal form di modul Keuangan > Laporan APBDes
  *
- * donjo-app/views/keuangan/modal_form.php
+ * donjo-app/views/opendk/modal_form_laporan_apbdes.php
  *
  */
 
