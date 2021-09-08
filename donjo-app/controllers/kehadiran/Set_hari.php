@@ -47,8 +47,8 @@ class Set_hari extends Admin_Controller {
 		parent::__construct();
 		$this->load->helper('form');
 		$this->load->model('hari_model');
-		$this->modul_ini = 11;
-		$this->sub_modul_ini = 319;
+		$this->modul_ini = 320;
+		$this->sub_modul_ini = 321;
 	}
 	
 	public function index()
@@ -60,15 +60,15 @@ class Set_hari extends Admin_Controller {
 			redirect('/set_hari'."?reload=1");
 			exit;
 		}			
-		$this->render('hari/hari_index', $data);
+		$this->render('kehadiran/hari_index', $data);
 	}
 	
 	public function edit_tgl()
 	{
-		$tgl=$this->input->get('tgl');
+		$tgl=$this->input->get('tgl'); 
 		$paramsEdit=['tanggal'=>$tgl,'first'=>1];
 		$hari=$this->hari_model->_get($paramsEdit);
-		if(!$hari){
+		if(!$hari&&$tgl!=0){
 			$param=['tgl_merah'=>$tgl, 'status'=>0];
 			$this->hari_model->insert_ignore($param);
 			$hari=$this->hari_model->_get($paramsEdit);
@@ -76,7 +76,7 @@ class Set_hari extends Admin_Controller {
 		$data=[
 			'hari'=>$hari
 		];
-		$this->load->view('hari/hari_edit',$data);
+		$this->load->view('kehadiran/hari_edit',$data);
 	}
 
 	

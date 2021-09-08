@@ -18,7 +18,13 @@ $options = array(
 				<div class="form-group">
 					<label class="col-sm-3 control-label" for="year">Tanggal</label>
 					<div class="col-sm-9">
-						<input name='tgl_merah' value='<?=$hari['tgl_merah'];?>' readonly />
+						<div class="input-group input-group-sm date">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input name='tgl_merah' value='<?=@$hari['tgl_merah'];?>'  class="form-control input-sm tgl"
+							<?=isset($hari['tgl_merah'])&&$hari['tgl_merah']!='0000-00-00'?'readonly':NULL;?>   />
+						</div>
 					</div> 
 				</div>
 				<div class="box-body">
@@ -26,14 +32,14 @@ $options = array(
 						<label class="col-sm-3 control-label" for="year">Status </label>
 						<div class="col-sm-9">
 							<!--select name="tipe" class="form-control input-sm" ></select-->
-							<?=form_dropdown('status', $options, $hari['status']);?>
+							<?=form_dropdown('status', $options, @$hari['status']);?>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="year">Detail </label> 
 						<div class="col-sm-9">
-							<input name='detail' value='<?=$hari['detail'];?>'  />
+							<input name='detail' value='<?=@$hari['detail'];?>'  />
 						</div>
 					</div>
 				</div>
@@ -45,3 +51,17 @@ $options = array(
 		</form>
 	</div>
 </section>
+
+<script>
+
+$(document).ready(function()
+{
+	$('.tgl').datetimepicker(
+	{
+		format: 'YYYY-MM-DD',
+		useCurrent: false,
+		locale:'id'
+	});
+	
+});
+</script>

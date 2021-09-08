@@ -56,16 +56,65 @@ class Migrasi_2110_ke_2111 extends MY_model
 	protected function add_menu_harimerah()
 	{
 		$data = array(
-				'id' => 319,
+				'id' => 320,
+				'modul' => 'Kehadiran',
+				'url' => 'kehadiran/clear',
+				'aktif' => 1,
+				'ikon' => 'fa-gear',
+				'urut' => 15,
+				'level' => 1,
+				'hidden' => 0,
+				'ikon_kecil' => 'fa-gear',
+				'parent' => 0
+				);
+		$sql = $this->db->insert_string('setting_modul', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				modul = VALUES(modul),
+				aktif = VALUES(aktif),
+				ikon = VALUES(ikon),
+				urut = VALUES(urut),
+				level = VALUES(level),
+				hidden = VALUES(hidden),
+				ikon_kecil = VALUES(ikon_kecil),
+				parent = VALUES(parent)
+				";
+		$this->db->query($sql);
+		$data = array(
+				'id' => 321,
 				'modul' => 'Tanggal Merah',
 				'url' => 'set_hari',
 				'aktif' => 1,
 				'ikon' => 'fa-gear',
-				'urut' => 7,
+				'urut' => 1,
 				'level' => 1,
 				'hidden' => 0,
 				'ikon_kecil' => 'fa-gear',
-				'parent' => 11
+				'parent' => 320
+				);
+		$sql = $this->db->insert_string('setting_modul', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				modul = VALUES(modul),
+				aktif = VALUES(aktif),
+				ikon = VALUES(ikon),
+				urut = VALUES(urut),
+				level = VALUES(level),
+				hidden = VALUES(hidden),
+				ikon_kecil = VALUES(ikon_kecil),
+				parent = VALUES(parent)
+				";
+		$this->db->query($sql);
+		
+		$data = array(
+				'id' => 322,
+				'modul' => 'Rekap Kehadiran',
+				'url' => 'kehadiran_rekap',
+				'aktif' => 1,
+				'ikon' => 'fa-gear',
+				'urut' => 2,
+				'level' => 1,
+				'hidden' => 0,
+				'ikon_kecil' => 'fa-gear',
+				'parent' => 320
 				);
 		$sql = $this->db->insert_string('setting_modul', $data);
 		$sql .= " ON DUPLICATE KEY UPDATE
@@ -96,6 +145,11 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('status');
 		$hasil =& $this->dbforge->create_table('setting_harimerah', true);
+		$sql="ALTER TABLE `setting_harimerah` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL; ";
+		$this->db->query($sql);
+		$sql="ALTER TABLE `setting_harimerah` CHANGE `created_at` `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP; ";
+		$this->db->query($sql);
+		
 		return $hasil;
 	}
 	
@@ -106,7 +160,7 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$hari=3600*24;
 		for($i=$tahun0;$i<=$tahun1;$i+=$hari)
 		{
-			if(date('N',$i)==6||date('N',$i)==7)
+			if(date('N',$i)==6||date('N',$i)==7||(date("md",$i)=="0101"))
 			{
 				$param=['tgl_merah'=>date("Y-m-d",$i), 'status'=>1];
 				$this->db->insert('setting_harimerah', $param);

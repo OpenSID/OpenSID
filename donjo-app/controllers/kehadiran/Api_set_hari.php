@@ -86,12 +86,11 @@ class Api_set_hari extends CI_Controller
 		];
 		$raw[]=$data;
 		$json_send['raw']=$raw;
-		$view=$this->load->view('hari/hari_api',$data,true);
+		$view=$this->load->view('kehadiran/hari_api',$data,true);
 		$json_send['html']=$view;
 		
 		return $json_send;
 	}
-	
 		
 	function update_tgl()
 	{
@@ -102,7 +101,76 @@ class Api_set_hari extends CI_Controller
 		$this->hari_model->insert_ignore($param);
 		$param['status']=$this->input->post('status');
 		$param['detail']=$this->input->post('detail');
-		$this->hari_model->_update($param);
+		$raw['sql']=$this->hari_model->_update($param);
+		$raw['param']=$param;
 		return $raw;
+	}
+
+	function datatables()
+	{
+		$return=[
+			'draw'=>0,
+			'recordsTotal'=>0,
+			'recordsFiltered'=>0,
+			'data'=>[],
+			'raw'=>NULL,
+		];
+		$raw[]=[$this->input->post(),$_GET];
+		$return['draw']=$this->input->post('draw',0);
+		$tipe=$this->input->post('type');
+		$start=$this->input->post('start');
+		$limit=$this->input->post('length');
+		$params=[];
+		if($tipe=='date')
+		{
+			$date1=$this->input->post('dateStart');
+			$date2=$this->input->post('dateEnd');
+			if($date1!=''&&$date2!='')
+			{
+				if($date1 > $date2)
+				{
+					$params['date_range']=[$date2,$date1];
+				}
+				else
+				{
+					$params['date_range']=[$date1,$date2];
+				}
+			}
+			
+		}
+		//$return['table']=$table;
+		$return['recordsTotal']		=$this->hari_model->_count();
+		$return['recordsFiltered']	=$this->hari_model->_count($params);
+		$raw[]=$this->db->last_query();
+//-----data
+		$dataHari = $this->hari_model->_get($params, $limit,$start);
+		$raw[]=$this->db->last_query();
+		$raw[]=$dataHari;
+		$data=[];
+		$no=1;
+		foreach($dataHari as $row)
+		{
+			$info="Hari biasa";
+			if($row['status']==1)
+			{
+				$info="Hari Libur";
+			}
+			elseif($row['status']==9)
+			{
+				$info=$row['detail'];
+			}
+			$data[]=[
+				$no++,
+				$row['tgl_merah'],
+				$info,
+				'-'
+			];
+		}
+		$return['data']=$data;
+		$return['raw']=$raw;
+		if(ENVIRONMENT != 'development')
+			unset($return['raw']);
+		
+		return $return;
 	}
 }

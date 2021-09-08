@@ -141,9 +141,9 @@ $route['layanan-mandiri/surat/buat-surat/(:num)'] = 'layanan_mandiri/surat/buat_
 // Mandiri Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan
 
-// Settings
-$route['set_hari']='settings/set_hari';
-$route['set_hari/api']='settings/api_set_hari';
-$route['set_hari/edit_tgl']='settings/set_hari/edit_tgl';
-$route['set_hari/update_tgl']='settings/set_hari/update_tgl';
+// Kehadiran
+$route['set_hari']='kehadiran/set_hari';
+$route['set_hari/api']='kehadiran/api_set_hari';
+$route['set_hari/edit_tgl']='kehadiran/set_hari/edit_tgl';
+$route['set_hari/update_tgl']='kehadiran/set_hari/update_tgl';
 
