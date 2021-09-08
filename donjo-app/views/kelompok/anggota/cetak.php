@@ -83,7 +83,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>NO.</th>
 							<th>NO. ANGGOTA</th>
 							<th>JABATAN</th>
-							<th>SK JABATAN</th>
+							<th>NOMOR SK JABATAN</th>
+							<?php if ($this->controller == 'lembaga') : ?>
+								<th>Nomor SK Pengangkatan</th>
+								<th>Tanggal SK Pengangkatan</th>
+								<th>Nomor SK Pemberhentian</th>
+								<th>Tanggal SK Pemberhentian</th>
+								<th>Masa Jabatan (Usia/Periode)</th>
+							<?php endif ?>
 							<th>NIK</th>
 							<th>NAMA</th>
 							<th>TEMPAT / TANGGAL LAHIR</th>
@@ -100,6 +107,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="textx" align="center"><?= $data['no_anggota']?></td>
 								<td><?= $data['jabatan']?></td>
 								<td><?= $data['no_sk_jabatan']?></td>
+								<?php if ($this->controller == 'lembaga') : ?>
+									<td><?= $data['nmr_sk_pengangkatan'] ?></td>
+									<td><?= tgl_indo_out($data['tgl_sk_pengangkatan']) ?></td>
+									<td><?= $data['nmr_sk_pemberhentian'] ?></td>
+									<td><?= tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
+									<td><?= $data['periode'] ?></td>
+								<?php endif ?>
 								<td class="textx"><?= $data['nik']?></td>
 								<td><?= $data['nama']?></td>
 								<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>

@@ -113,8 +113,7 @@ class Kelompok_model extends MY_Model {
 		return $this->db;
 	}
 
-	// $limit = 0 mengambil semua
-	public function list_data($o = 0, $offset = 0, $limit = 0)
+	public function list_data($o = 0, $offset = 0, $limit = null)
 	{
 		switch ($o)
 		{
