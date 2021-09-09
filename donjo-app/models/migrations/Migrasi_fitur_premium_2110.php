@@ -48,7 +48,40 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
+		$hasil = $hasil && $this->migrasi_2021090971($hasil);
+
 		status_sukses($hasil);
 		return $hasil;
+	}
+
+	protected function migrasi_2021090971($hasil)
+	{
+		if (! $this->db->field_exists('waktu', 'pembangunan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['waktu' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('sifat_proyek', 'pembangunan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sifat_proyek' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'BARU']]);
+		}
+
+		$hasil = $hasil && $this->tambah_modul([
+			'id'     => 329,
+			'modul'  => 'Bumindes Kegiatan Pembangunan',
+			'url'    => 'bumindes_kegiatan_pembangunan',
+			'aktif'  => 1,
+			'hidden' => 2,
+			'parent' => 301
+		]);
+		
+		// Tambah hak ases group operator
+		$query = "
+			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+			-- Operator --
+			(2,329,3) -- Bumindes Kegiatan Pembangunan --
+		";
+
+		return $hasil && $this->db->query($query);
 	}
 }
