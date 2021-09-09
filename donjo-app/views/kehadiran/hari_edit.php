@@ -37,7 +37,7 @@ $options = array(
 					</div>
 
 					<div class="form-group">
-						<label class="col-sm-3 control-label" for="year">Detail </label> 
+						<label class="col-sm-3 control-label" for="year">Keterangan </label> 
 						<div class="col-sm-9">
 							<input name='detail' value='<?=@$hari['detail'];?>'  />
 						</div>

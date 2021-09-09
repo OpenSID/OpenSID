@@ -1,17 +1,19 @@
 <style>
 .info-red{background:red;color:white;text-align:center}
+#divTblTgl{width:90%;margin:auto}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Setting Tanggal Merah</h1>
+		<h1>Pengaturan Tanggal Merah</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Setting Tanggal Merah</li>
+			<li><a href="#"> Kehadiran</a></li>
+			<li class="active">Pengaturan Tanggal Merah</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<div class="box box-info">
-			<a href="<?= site_url("set_hari/edit_tgl")?>?tgl=0" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Tanggal">
+			<a href="<?= site_url("set_hari/edit_tgl")?>?tgl=0" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  data-title="Tambah Tanggal Merah"  data-remote="false" data-toggle="modal" data-target="#modalBox" >
 				<i class="fa fa-plus"></i>Tambah Hari Baru
 			</a>
 			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
@@ -47,23 +49,33 @@
 					</div>
 				</div>
 				<div class='box-footer'>
-					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Reset</button>
+					<!--button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Reset</button-->
 					<button id='showTanggalMerah' type='button' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Lihat</button>
 				</div>
 			</form>
 		</div>
 		<div class="box box-info">
 			<div id='showTanggal' style='padding:30px;text-align:middle'></div>
+			<div id='divTblTgl'>
 			<table id='tblTgl' width='90%' class="table table-bordered table-striped dataTable table-hover">
 				<thead>
 					<tr>
-						<th>NO</th>
-						<th>Tanggal</th>
+						<th width='10%'>NO</th>
+						<th width='15%'>Aksi</th>
+						<th width='20%'>Tanggal</th>
 						<th>Keterangan</th>
-						<th>Option</th>
 					</tr>
 				</thead>
+				<tbody>
+					<tr style='display:none'>
+						<td>1</td>
+						<td><a><i class="fa fa-edit"></i></a></a></td>
+						<td><?=date("Y-m-d");?></td>
+						<td>&nbsp;</td>
+					</tr>
+				</tbody>
 			</table>
+			</div>
 		</div>
 	</section>
 </div>
@@ -152,22 +164,32 @@ function hari_edit(tgl)
 $(function() {
 	tableDT = $('#tblTgl').DataTable(
 	{
-        "dom": '<"top"i>rt<"bottom"lp><"clear">',
+		"language": {
+            url: '/assets/bootstrap/js/dataTables.indonesian.lang'
+        },
+		"dom": '<"top"l>rt<"bottom"p>i<"clear">',
 		"columnDefs": [
-		{
-			"render": function ( data, type, row ) {
- 
-				button='<a href="<?= site_url("set_hari/edit_tgl")?>?tgl='+row[1]+'"'
-				+' title="Ubah Data" data-remote="false" data-toggle="modal" '
-				+'data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange '
-				+'btn-flat btn-sm"><i class="fa fa-edit"></i></a>';
-				return  button;
+			{
+				"render": function ( data, type, row ) {
+	 
+					button='<a href="<?= site_url("set_hari/edit_tgl")?>?tgl='+row[2]+'"'
+					+' title="Ubah Data" data-remote="false" data-toggle="modal" '
+					+'data-target="#modalBox" data-title="Ubah Tanggal Merah" class="btn bg-orange '
+					+'btn-flat btn-sm"><i class="fa fa-edit"></i></a>';
+					return  button;
 
-			},
-			"targets": 3
-		} 
+				},
+				"targets": 1
+			} 
 		],
-		"lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]],
+		"columns":[
+		{orderable:false,searchable:false,defaultContent:"-"},
+		{orderable:false,searchable:false,defaultContent:"-"},
+		{orderable:false,searchable:false,defaultContent:"-"},
+		{orderable:false,searchable:false,defaultContent:"-"},
+		],
+		"order": [[ 2, "asc" ]],
+		"lengthMenu": [[5,10, 25, 50, 60], [5,10, 25, 50, 60]],
 		"processing": true,
         "serverSide": true,
         "ajax": {

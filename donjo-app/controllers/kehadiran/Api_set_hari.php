@@ -4,9 +4,9 @@ if(!defined('BASEPATH')) exit('No direct script access allowed');
 /*
  *  File ini:
  *
- * Controller untuk api Setting > Hari Merah
+ * Controller untuk api Kehadiran > Hari Merah
  *
- * donjo-app/controllers/settings/Api_set_hari.php
+ * donjo-app/controllers/kehadiran/Api_set_hari.php
  *
  */
 /*
@@ -161,9 +161,9 @@ class Api_set_hari extends CI_Controller
 			}
 			$data[]=[
 				$no++,
+				'-',
 				$row['tgl_merah'],
-				$info,
-				'-'
+				$info 
 			];
 		}
 		$return['data']=$data;

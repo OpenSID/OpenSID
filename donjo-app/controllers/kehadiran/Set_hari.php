@@ -2,9 +2,9 @@
 /*
  *  File ini:
  *
- * Controller untuk modul Setting > Hari Merah
+ * Controller untuk modul Kehadiran > Hari Merah
  *
- * donjo-app/controllers/settings/Set_hari.php
+ * donjo-app/controllers/kehadiran/Set_hari.php
  *
  */
 /*
