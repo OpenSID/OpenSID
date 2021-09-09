@@ -5,9 +5,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Buku Pembangunan Desa > Buku Rencana Pembangunan
+ * Controller untuk modul Buku Pembangunan Desa > Buku Kegiatan Pembangunan
  *
- * donjo-app/controllers/Bumindes_rencana_pembangunan.php,
+ * donjo-app/controllers/Bumindes_kegiatan_pembangunan.php,
  *
  */
 

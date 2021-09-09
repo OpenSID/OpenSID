@@ -278,19 +278,6 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 			'ikon_kecil' => 'fa-university',
 			'parent'     => 301,
 		]);
-		// Tambah Buku Rencana Kerja Pembangunan
-		$hasil = $hasil && $this->tambah_modul([
-			'id'         => 328,
-			'modul'      => 'Buku Kegiatan Pembangunan',
-			'url'        => 'bumindes_kegiatan_pembangunan',
-			'aktif'      => 1,
-			'ikon'       => 'fa-files-o',
-			'urut'       => 0,
-			'level'      => 0,
-			'hidden'     => 0,
-			'ikon_kecil' => '',
-			'parent'     => 302,
-		]);
 
 		return $hasil;
 	}
