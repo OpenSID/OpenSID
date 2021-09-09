@@ -399,13 +399,15 @@ class Kelompok_model extends MY_Model {
 		}
 
 		$data = $this->db
-			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto')
+			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto, tpp.nama as pendidikan, tpa.nama as agama')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
 			->select('a.dusun,a.rw,a.rt')
 			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) AS alamat")
 			->from('kelompok_anggota ka')
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
+			->join('tweb_penduduk_pendidikan tpp', 'tp.pendidikan_sedang_id = tpp.id', 'left')
+			->join('tweb_penduduk_agama tpa', 'tp.agama_id = tpa.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
 			->where('ka.tipe', $this->tipe)

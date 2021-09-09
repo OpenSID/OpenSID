@@ -80,46 +80,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th>NO.</th>
-							<th>NO. ANGGOTA</th>
-							<th>JABATAN</th>
-							<th>NOMOR SK JABATAN</th>
-							<?php if ($this->controller == 'lembaga') : ?>
-								<th>Nomor SK Pengangkatan</th>
-								<th>Tanggal SK Pengangkatan</th>
-								<th>Nomor SK Pemberhentian</th>
-								<th>Tanggal SK Pemberhentian</th>
-								<th>Masa Jabatan (Usia/Periode)</th>
-							<?php endif ?>
+							<th>No.</th>
+							<th>No. Anggota</th>
+							<th>Nama Lengkap</th>
 							<th>NIK</th>
-							<th>NAMA</th>
-							<th>TEMPAT / TANGGAL LAHIR</th>
-							<th>UMUR (TAHUN)</th>
-							<th>JENIS KELAMIN</th>
-							<th>ALAMAT</th>
-							<th>KETERANGAN</th>
+							<th>Jenis Kelamin</th>
+							<th>Tempat / Tanggal Lahir</th>
+							<th>Agama</th>
+							<th>Jabatan</th>
+							<th>Pendidikan Terakhir</th>
+							<?php if ($this->controller == 'lembaga') : ?>
+								<th>Nomor Dan Tanggal Keputusan Pengangkatan</th>
+								<th>Nomor Dan Tanggal Keputusan Pemberhentian</th>
+							<?php endif ?>
+							<th>Ket.</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $key => $data): ?>
+					<?php foreach ($main as $key => $data): ?>
 							<tr>
 								<td align="center"><?= ($key + 1)?></td>
 								<td class="textx" align="center"><?= $data['no_anggota']?></td>
-								<td><?= $data['jabatan']?></td>
-								<td><?= $data['no_sk_jabatan']?></td>
-								<?php if ($this->controller == 'lembaga') : ?>
-									<td><?= $data['nmr_sk_pengangkatan'] ?></td>
-									<td><?= tgl_indo_out($data['tgl_sk_pengangkatan']) ?></td>
-									<td><?= $data['nmr_sk_pemberhentian'] ?></td>
-									<td><?= tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
-									<td><?= $data['periode'] ?></td>
-								<?php endif ?>
-								<td class="textx"><?= $data['nik']?></td>
 								<td><?= $data['nama']?></td>
-								<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
-								<td class="textx" align="center"><?= $data['umur']?></td>
+								<td class="textx"><?= $data['nik']?></td>
 								<td><?= $data['sex']?></td>
-								<td><?= $data['alamat']?></td>
+								<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
+								<td><?= $data['agama'] ?></td>
+								<td><?= $data['jabatan']?></td>
+								<td><?= $data['pendidikan']?></td>
+								<?php if ($this->controller == 'lembaga') : ?>
+									<td><?= $data['nmr_sk_pengangkatan'] . " / " . tgl_indo_out($data['tgl_sk_pengangkatan'])?></td>
+									<td><?= $data['nmr_sk_pemberhentian'] . " / " .  tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
+								<?php endif ?>
 								<td><?= $data['keterangan']; ?></td>
 							</tr>
 						<?php endforeach; ?>
