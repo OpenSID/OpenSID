@@ -48,13 +48,45 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-		$hasil = $hasil && $this->migrasi_2021090871($hasil);
+		$hasil = $hasil && $this->migrasi_2021090971($hasil);
+		$hasil = $hasil && $this->migrasi_2021091071($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
 
-	protected function migrasi_2021090871($hasil)
+	protected function migrasi_2021090971($hasil)
+	{
+		if (! $this->db->field_exists('waktu', 'pembangunan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['waktu' => ['type' => 'INT', 'constraint' => 11, 'default' => 0]]);
+		}
+
+		if (! $this->db->field_exists('sifat_proyek', 'pembangunan'))
+		{
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', ['sifat_proyek' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'BARU']]);
+		}
+
+		$hasil = $hasil && $this->tambah_modul([
+			'id'     => 329,
+			'modul'  => 'Bumindes Kegiatan Pembangunan',
+			'url'    => 'bumindes_kegiatan_pembangunan',
+			'aktif'  => 1,
+			'hidden' => 2,
+			'parent' => 301
+		]);
+
+		// Tambah hak ases group operator
+		$query = "
+			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+			-- Operator --
+			(2,329,3) -- Bumindes Kegiatan Pembangunan --
+			";
+
+		return $hasil && $this->db->query($query);
+	}
+
+	protected function migrasi_2021091071($hasil)
 	{
 		$hasil = $hasil && $this->tambah_modul_laporan_sinkronisasi($hasil);
 		$hasil = $hasil && $this->hak_akses_sinkronisasi_opendk($hasil);
@@ -67,7 +99,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 	protected function tambah_modul_laporan_sinkronisasi($hasil)
 	{
 		$fields = [
-			'id' => 329,
+			'id' => 330,
 			'modul' => 'Laporan penduduk',
 			'url' => 'laporan_penduduk',
 			'aktif' => 1,
@@ -96,7 +128,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 			-- Operator --
 			(2,325,3), -- Laporan APBDes --
 			(2,326,3), -- Sinkronisasi --
-      (2,329,3) -- Laporan Penduduk --
+      (2,330,3) -- Laporan Penduduk --
 		";
 
 		return $hasil && $this->db->query($query);
