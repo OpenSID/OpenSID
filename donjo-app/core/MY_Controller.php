@@ -231,7 +231,7 @@ class Api_Controller extends MY_Controller {
 class Premium extends MY_Controller
 {
 	protected $kecuali = [
-		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif',
+		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif', 'user_setting',
 	];
 
 	/**
