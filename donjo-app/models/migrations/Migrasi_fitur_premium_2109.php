@@ -83,7 +83,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 			{
 				// Hapus file
 				$file = LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat);
-				if (file_exists($file))
+				if ($data->nama_surat && file_exists($file))
 				{
 					$hasil = $hasil && unlink($file);
 				}
@@ -93,7 +93,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 		return $hasil;
 	}
 
-  protected function migrasi_2021082051($hasil)
+	protected function migrasi_2021082051($hasil)
 	{
 		// Hapus file .htaccess
 		$file = LOKASI_ARSIP . '.htaccess';
@@ -109,7 +109,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 	{
 		// Hapus file .htaccess
 		$file = LOKASI_DOKUMEN . '.htaccess';
-    if (file_exists($file))
+		if (file_exists($file))
 		{
 			$hasil = $hasil && unlink($file);
 		}
@@ -139,7 +139,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
 		$hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'nik');
 
-    return $hasil;
+		return $hasil;
 	}
 
 	protected function migrasi_2021082871($hasil)
@@ -275,8 +275,8 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
 		$hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
 
-    return $hasil;
-  }
+		return $hasil;
+	}
 
 	protected function migrasi_2021082952($hasil)
 	{
