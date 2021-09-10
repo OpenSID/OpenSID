@@ -654,7 +654,7 @@ class First extends Web_Controller {
 		$kode_desa = $data['desa']['kode_desa'];
 		if ($this->data_publik->has_internet_connection())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/2020", "idm_$kode_desa")
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/" . date('Y'), "idm_$kode_desa")
 				->set_interval(7)
 				->set_cache_folder(FCPATH.'desa');
 
