@@ -12,11 +12,9 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="box box-info">
-			<a href="<?= site_url("set_hari/edit_tgl")?>?tgl=0" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  data-title="Tambah Tanggal Merah"  data-remote="false" data-toggle="modal" data-target="#modalBox" >
-				<i class="fa fa-plus"></i>Tambah Hari Baru
-			</a>
-			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+		<div class="box box-info hidden">
+			
+			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal ">
 				<div class="box-body">
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="year">Pencarian</label>
@@ -55,27 +53,34 @@
 			</form>
 		</div>
 		<div class="box box-info">
-			<div id='showTanggal' style='padding:30px;text-align:middle'></div>
-			<div id='divTblTgl'>
-			<table id='tblTgl' width='90%' class="table table-bordered table-striped dataTable table-hover">
-				<thead>
-					<tr>
-						<th width='10%'>NO</th>
-						<th width='15%'>Aksi</th>
-						<th width='20%'>Tanggal</th>
-						<th>Keterangan</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr style='display:none'>
-						<td>1</td>
-						<td><a><i class="fa fa-edit"></i></a></a></td>
-						<td><?=date("Y-m-d");?></td>
-						<td>&nbsp;</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class='box-header with-border'>
+				<a href="<?= site_url("set_hari/edit_tgl")?>?tgl=0" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  data-title="Tambah Tanggal Merah"  data-remote="false" data-toggle="modal" data-target="#modalBox" >
+					<i class="fa fa-plus"></i>Tambah Hari Baru
+				</a>
 			</div>
+			<div class='box-body'>
+				<div id='showTanggal' style='padding:30px;text-align:middle'></div>
+				<div id='divTblTgl'>
+				<table id='tblTgl' width='90%' class="table table-bordered table-striped dataTable table-hover">
+					<thead>
+						<tr class='bg-gray color-palette'>
+							<th width='10%'>NO</th>
+							<th width='15%'>Aksi</th>
+							<th width='20%'>Tanggal</th>
+							<th>Keterangan</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style='display:none'>
+							<td>1</td>
+							<td><a><i class="fa fa-edit"></i></a></a></td>
+							<td><?=date("Y-m-d");?></td>
+							<td>&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div> 
 		</div>
 	</section>
 </div>
@@ -95,151 +100,5 @@
 </div>
 
 <!-- Untuk menampilkan pengaturan -->
-
-<script> 
-var tableDT;
 <?php 
-/*
-function showCalender()
-{
-	$("#showTanggal").empty();
-	urlApi="<?=site_url('set_hari/api');?>";
-	var $form = $("#validasi");
-	var serializedData = {
-		bln:$('.inp-bulan').val(),
-		tahun:$('.inp-tahun').val(),
-		action:"show"
-	};
-	request = $.ajax({
-		url: urlApi,
-		type: "post",
-		data: serializedData
-	});
-
-	request.done(function (response, textStatus, jqXHR){ 
-		$("#showTanggal").empty().html(response.html);
-	});
- 
-	request.fail(function (jqXHR, textStatus, errorThrown){ 
-		console.error(
-			"The following error occurred: "+
-			textStatus, errorThrown
-		);
-	});
-}
-*/
-?>
-	
-function hari_edit(tgl)
-{
-	var $form = $("#frm_tgl");
-	
-	var $inputs = $form.find("input, select, button, textarea");
-
-    // Serialize the data in the form
-    var serializedData = $form.serialize();
-	urlApi="<?=site_url('set_hari/api');?>";
-	
-	request = $.ajax({
-		url: urlApi,
-		type: "post",
-		data: serializedData
-	});
-		/*status*/
-	request.done(function (response, textStatus, jqXHR){ 
-		 tableDT.draw();
-		 $("#modalBox").modal('hide');
-	});
- 
-	request.fail(function (jqXHR, textStatus, errorThrown){ 
-		console.error(
-			"The following error occurred: "+
-			textStatus, errorThrown
-		);
-	});
-	
-}
-
-
-$(function() {
-	tableDT = $('#tblTgl').DataTable(
-	{
-		"language": {
-            url: '/assets/bootstrap/js/dataTables.indonesian.lang'
-        },
-		"dom": '<"top"l>rt<"bottom"p>i<"clear">',
-		"columnDefs": [
-			{
-				"render": function ( data, type, row ) {
-	 
-					button='<a href="<?= site_url("set_hari/edit_tgl")?>?tgl='+row[2]+'"'
-					+' title="Ubah Data" data-remote="false" data-toggle="modal" '
-					+'data-target="#modalBox" data-title="Ubah Tanggal Merah" class="btn bg-orange '
-					+'btn-flat btn-sm"><i class="fa fa-edit"></i></a>';
-					return  button;
-
-				},
-				"targets": 1
-			} 
-		],
-		"columns":[
-		{orderable:false,searchable:false,defaultContent:"-"},
-		{orderable:false,searchable:false,defaultContent:"-"},
-		{orderable:false,searchable:false,defaultContent:"-"},
-		{orderable:false,searchable:false,defaultContent:"-"},
-		],
-		"order": [[ 2, "asc" ]],
-		"lengthMenu": [[5,10, 25, 50, 60], [5,10, 25, 50, 60]],
-		"processing": true,
-        "serverSide": true,
-        "ajax": {
-			url:"<?=site_url('set_hari/api');?>",
-			type:"POST",
-			data: function (d) {
-				type 	 = $('#date_type').val();
-				dateStart = $('#date_start').val();
-				dateEnd = $('#date_end').val();
-				d.type  	=type;
-				d.dateStart =dateStart;
-				d.dateEnd   =dateEnd;
-				d.action ='datatables';
-			}
-		}
-    }
-	);
-	
-	$('.tgl').datetimepicker(
-	{
-		format: 'YYYY-MM-DD',
-		useCurrent: false,
-		locale:'id'
-	});
-
-	$( ".inp-tahun" ).each(function( index ) {
-		for(y=2021;y<=<?=date("Y",strtotime("+5 year"));?>;y++)
-		{
-			txt="<option>"+y+"</option>";
-			$(this).append(txt);
-		} 
-	});
-	$( ".inp-bulan" ).each(function( index ) {
-		const bln = ["Silakan memilih bulan","Januari", "Februari","Maret","April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober","November", "Desember"];
-		for (month=1; month < bln.length; month++) {
-			txt='<option value="'+month+'">' + bln[month] + '</option>';
-		  $(this).append(txt);
-		}
-
-	});
-	$("#showTanggalMerah").click(function(){
-		/*showCalender();*/
-		tableDT.draw();
-	});
-	  $('#updateDt').on('click', function () {
-		console.log('Redrawing table, searching for', $(this).val());
-		tableDT.draw();
-	  });
-  
-} );
-
-
-</script>
+$this->load->view('kehadiran/js_tgl_merah');

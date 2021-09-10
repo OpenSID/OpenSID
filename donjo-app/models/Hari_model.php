@@ -42,10 +42,19 @@ class Hari_model extends CI_Model {
 		{
 			$this->db->where('tgl_merah',$params['tanggal']);
 		}
+		if(isset($params['active']))
+		{
+			$this->db->where('status >',0);
+		}
 		if(isset($params['date_range']))
 		{
 			$this->db->where('tgl_merah >=',$params['date_range'][0])
 			->where('tgl_merah <=',$params['date_range'][1]);
+		}
+		if(isset($params['datatable_search']))
+		{
+			$this->db->where('tgl_merah like "%'.$params['datatable_search'].'%"')
+			->or_where('detail like "%'.$params['datatable_search'].'%"');
 		}
 		
 		if(isset($params['count']))

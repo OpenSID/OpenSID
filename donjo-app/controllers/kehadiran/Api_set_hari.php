@@ -121,6 +121,8 @@ class Api_set_hari extends CI_Controller
 		$start=$this->input->post('start');
 		$limit=$this->input->post('length');
 		$params=[];
+		$search = $this->input->post('search');
+		$params=['active'=>1];
 		if($tipe=='date')
 		{
 			$date1=$this->input->post('dateStart');
@@ -138,10 +140,21 @@ class Api_set_hari extends CI_Controller
 			}
 			
 		}
+		$params['active']=1;
+		 
+		if(strlen($search['value']) >= 3)
+		{
+			$params['datatable_search']=$search['value'];
+		}else{
+			$raw[]=[strlen($search),$search];
+			
+		}
 		//$return['table']=$table;
+		
 		$return['recordsTotal']		=$this->hari_model->_count();
 		$return['recordsFiltered']	=$this->hari_model->_count($params);
-		$raw[]=$this->db->last_query();
+		
+		$raw[]=[$params,$search,$this->db->last_query()];
 //-----data
 		$dataHari = $this->hari_model->_get($params, $limit,$start);
 		$raw[]=$this->db->last_query();
