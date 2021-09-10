@@ -82,8 +82,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<tr class="border thick">
 							<th>No.</th>
 							<th>No. Anggota</th>
-							<th>Nama Lengkap</th>
 							<th>NIK</th>
+							<th>Nama Lengkap</th>							
 							<th>Jenis Kelamin</th>
 							<th>Tempat / Tanggal Lahir</th>
 							<th>Agama</th>
@@ -101,12 +101,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<tr>
 								<td align="center"><?= ($key + 1)?></td>
 								<td class="textx" align="center"><?= $data['no_anggota']?></td>
-								<td><?= $data['nama']?></td>
 								<td class="textx"><?= $data['nik']?></td>
+								<td><?= $data['nama']?></td>
 								<td><?= $data['sex']?></td>
 								<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
 								<td><?= $data['agama'] ?></td>
-								<td><?= $data['jabatan']?></td>
+								<td><?= $data['jabatan'] ?></td>
 								<td><?= $data['pendidikan']?></td>
 								<?php if ($this->controller == 'lembaga') : ?>
 									<td><?= $data['nmr_sk_pengangkatan'] . " / " . tgl_indo_out($data['tgl_sk_pengangkatan'])?></td>
