@@ -66,6 +66,11 @@ class Hari_model extends CI_Model {
 		}
 		$this->db->limit($limit, $start);
 		
+		if(!isset($isSorted))
+		{
+			$this->db->order_by('tgl_merah','asc');
+		}
+		
 		if(isset($params['first']))
 		{
 			return $this->db->get()->row_array();

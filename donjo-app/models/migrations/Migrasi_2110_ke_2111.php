@@ -48,8 +48,11 @@ class Migrasi_2110_ke_2111 extends MY_model
 	{
 		$hasil=true;
 		$this->create_table_harimerah();
+		log_message("info","create table done");
 		$this->add_def_harimerah();
+		log_message("info","add data table done");
 		$this->add_menu_harimerah();
+		log_message("info","add menu done");
 		return $hasil;
 	}
 	
@@ -129,6 +132,31 @@ class Migrasi_2110_ke_2111 extends MY_model
 				";
 		$this->db->query($sql);
 		
+		$data = array(
+				'id' => 323,
+				'modul' => 'Rekap Laporan',
+				'url' => 'kehadiran_lapor',
+				'aktif' => 1,
+				'ikon' => 'fa-gear',
+				'urut' => 2,
+				'level' => 1,
+				'hidden' => 0,
+				'ikon_kecil' => 'fa-gear',
+				'parent' => 320
+				);
+		$sql = $this->db->insert_string('setting_modul', $data);
+		$sql .= " ON DUPLICATE KEY UPDATE
+				modul = VALUES(modul),
+				aktif = VALUES(aktif),
+				ikon = VALUES(ikon),
+				urut = VALUES(urut),
+				level = VALUES(level),
+				hidden = VALUES(hidden),
+				ikon_kecil = VALUES(ikon_kecil),
+				parent = VALUES(parent)
+				";
+		$this->db->query($sql);
+		
 	}
 	
 	protected function create_table_harimerah($hasil=1)
@@ -145,27 +173,62 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('status');
 		$hasil =& $this->dbforge->create_table('setting_harimerah', true);
-		$sql="ALTER TABLE `setting_harimerah` CHANGE `updated_at` `updated_at` TIMESTAMP on update CURRENT_TIMESTAMP NULL DEFAULT NULL; ";
-		$this->db->query($sql);
-		$sql="ALTER TABLE `setting_harimerah` CHANGE `created_at` `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP; ";
-		$this->db->query($sql);
+		if($hasil)
+		{
+			$sql="ALTER TABLE `setting_harimerah` 
+			CHANGE `updated_at` `updated_at` TIMESTAMP 
+			on update CURRENT_TIMESTAMP NULL DEFAULT NULL; ";
+			$this->db->query($sql);
+			$sql="ALTER TABLE `setting_harimerah` 
+			CHANGE `created_at` `created_at` TIMESTAMP 
+			NULL DEFAULT CURRENT_TIMESTAMP; ";
+			$this->db->query($sql);
+				
+		}
 		
 		return $hasil;
 	}
 	
 	protected function add_def_harimerah()
 	{
-		$tahun0=strtotime(date("Y")."-01-01");
-		$tahun1=strtotime("+2 year");
+		log_message("info","start add tanggal:".date("Ymd H:i:s"));
+		$tahun0=strtotime("2000-01-01");
+		$tahun1=strtotime("+10 year");
 		$hari=3600*24;
 		for($i=$tahun0;$i<=$tahun1;$i+=$hari)
 		{
-			if(date('N',$i)==6||date('N',$i)==7||(date("md",$i)=="0101"))
+			if(date('N',$i)==5) //hari jum'at
 			{
-				$param=['tgl_merah'=>date("Y-m-d",$i), 'status'=>1];
-				$this->db->insert('setting_harimerah', $param);
+				$params=['tgl_merah'=>date("Y-m-d",$i), 'status'=>0];
+				//$this->db->insert('setting_harimerah', $param);
+				$insert_query = $this->db->insert_string('setting_harimerah', $params);
+				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
+				$this->db->query($insert_query);
 			}
+			
+			if(date('N',$i)==6||date('N',$i)==7)
+			{
+				$params=['tgl_merah'=>date("Y-m-d",$i), 'status'=>1];
+				//$this->db->insert('setting_harimerah', $param);
+				$insert_query = $this->db->insert_string('setting_harimerah', $params);
+				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
+				$this->db->query($insert_query);
+			}
+			
+			if((date("md",$i)=="0101")) //tahun baru
+			{
+				$params=['tgl_merah'=>date("Y-m-d",$i), 'status'=>9,'detail'=>'Tahun Baru'];
+				//$this->db->insert('setting_harimerah', $param);
+				$insert_query = $this->db->insert_string('setting_harimerah', $params);
+				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO', $insert_query);
+				$insert_query.="on duplicate key update status=9, detail='Tahun Baru'";
+				$this->db->query($insert_query);
+			}
+			
 		}
+		$fixsql="optimize setting_harimerah";
+		$this->db->query($fixsql);
+		log_message("info","end add tanggal:".date("Ymd H:i:s"));
 	}
 	
 }

@@ -150,8 +150,8 @@ class Api_set_hari extends CI_Controller
 			
 		}
 		//$return['table']=$table;
-		
-		$return['recordsTotal']		=$this->hari_model->_count();
+		$params0=['active'=>1];
+		$return['recordsTotal']		=$this->hari_model->_count($params0);
 		$return['recordsFiltered']	=$this->hari_model->_count($params);
 		
 		$raw[]=[$params,$search,$this->db->last_query()];

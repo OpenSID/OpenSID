@@ -110,31 +110,59 @@ class Masuk extends Web_Controller
 		$masuk = $this->input->post();
 		$nik = bilangan(bilangan($masuk['nik']));
 		$pin = hash_pin(bilangan($masuk['pin']));
+		$selects='pm.*, p.nama, p.nik, p.foto, p.kk_level, 
+		pamong.jabatan, pamong.pamong_id,pamong.pamong_status';
 		$data = $this->db
-			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level')
+			->select($selects)
 			->from('tweb_penduduk_mandiri pm')
 			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+			->join('tweb_desa_pamong pamong', 'pamong.pamong_nip=p.nik','left')	
 			->where('p.nik', $nik)
 			->get()
 			->row();
 		if(!isset($data->nama))
 		{
-			//die($this->db->last_query());
+			log_message("info","cek user sql:".$this->db->last_query());
 			//$this->session->error_msg = "Silahkan memeriksa kembali NIK";
 			$session = [
 				'error_msg' => "Silahkan memeriksa kembali NIK"
 			];
 			$this->session->set_userdata($session); 
-			redirect('kehadiran/masuk',1);
+			redirect($_SERVER['HTTP_REFERER'],1);
+			//redirect('kehadiran/masuk',1);
 		}
 		elseif($pin != $data->pin)
 		{
-			//$this->session->error_msg = "Silahkan memeriksa kembali NIK / PIN (".$pin == $data->pin.")";
+			log_message("info","error:pin|data:".json_encode($data));
 			$add_sess = [
-				'error_msg' => "Silahkan memeriksa kembali NIK / PIN (".$pin  .")",
+				'error_msg' => "Silahkan memeriksa kembali NIK / PIN",
 			];
 			$this->session->set_userdata($add_sess); 
-			redirect('kehadiran/masuk',1);
+			
+			redirect($_SERVER['HTTP_REFERER'],1);
+			//redirect('kehadiran/masuk',1);
+		}
+		elseif(!$data->pamong_id)
+		{
+			log_message("info","error:pamong|data:".json_encode($data));
+			$add_sess = [
+				'error_msg' => "Silahkan memeriksa kembali NIK . Karena tidak terdaftar dalam Sistem",
+			];
+			$this->session->set_userdata($add_sess); 
+			
+			redirect($_SERVER['HTTP_REFERER'],1);
+			//redirect('kehadiran/masuk',1);
+		}
+		elseif($data->pamong_status!=1)
+		{
+			log_message("info","error:not active|data:".json_encode($data));
+			$add_sess = [
+				'error_msg' => "Maaf, {$data->nama} tidak aktif",
+			];
+			$this->session->set_userdata($add_sess); 
+			
+			redirect($_SERVER['HTTP_REFERER'],1);
+			//redirect('kehadiran/masuk',1);
 		}
 		else
 		{
@@ -159,6 +187,13 @@ class Masuk extends Web_Controller
 		}
 		$session =$this->session->userdata();
 		print_r($session);die;
+		$data = $this->db
+			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level')
+			->from('tweb_penduduk_mandiri pm')
+			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+			->where('p.nik', $nik)
+			->get()
+			->row();
 		
 	}
 }
