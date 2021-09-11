@@ -60,7 +60,7 @@ class Set_hari extends Admin_Controller {
 			redirect('/set_hari'."?reload=1");
 			exit;
 		}			
-		$this->render('kehadiran/hari_index', $data);
+		$this->render('kehadiran/hari_view', $data);
 	}
 	
 	public function edit_tgl()
@@ -76,7 +76,7 @@ class Set_hari extends Admin_Controller {
 		$data=[
 			'hari'=>$hari
 		];
-		$this->load->view('kehadiran/hari_edit',$data);
+		$this->load->view('kehadiran/hari_edit_view',$data);
 	}
 
 	

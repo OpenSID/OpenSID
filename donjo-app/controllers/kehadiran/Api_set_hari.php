@@ -86,7 +86,7 @@ class Api_set_hari extends CI_Controller
 		];
 		$raw[]=$data;
 		$json_send['raw']=$raw;
-		$view=$this->load->view('kehadiran/hari_api',$data,true);
+		$view=$this->load->view('kehadiran/hari_api_view',$data,true);
 		$json_send['html']=$view;
 		
 		return $json_send;
