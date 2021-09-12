@@ -1,10 +1,10 @@
 
 <form id="validasi" action="<?= $form_action; ?>" method="post" class="form-login">
 	<div class="form-group form-login">
-		<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder="Masukkan NIK">
+		<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder="Masukkan NIK" id="nik" />
 	</div>
 	<div class="form-group form-login">
-		<input type="password" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="Masukkan PIN" id="pin">
+		<input type="password" class="form-control   <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="Masukkan PIN BILA ADA" id="pin">
 	</div>
 	<div class="form-group">
 		<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>

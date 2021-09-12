@@ -53,7 +53,47 @@ class Migrasi_2110_ke_2111 extends MY_model
 		log_message("info","add data table done");
 		$this->add_menu_harimerah();
 		log_message("info","add menu done");
+		$this->fix_pamong();
+		log_message("info","add menu done");
+		$this->create_table_hadir();
 		return $hasil;
+	}
+	
+	protected function create_table_hadir()
+	{
+		
+		if($hasil)
+		{
+			$sql="ALTER TABLE `hadir_pamong_hari` 
+			CHANGE `pamong_info` `pamong_info` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, 
+			CHANGE `hadir_logs` `hadir_logs` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, CHANGE `lapor_logs` `lapor_logs` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;";
+			$this->db->query($sql);
+			$sql="ALTER TABLE `hadir_pamong_hari` ADD FULLTEXT  (`pamong_info`),
+			ADD FULLTEXT  (`lapor_logs`); ";
+			$this->db->query($sql); 
+			$sql="ALTER TABLE `tmp_opensid`.`hadir_pamong_hari` ADD UNIQUE `pamong_tanggal` (`pamong_id`, `tanggal`)  ";
+			$this->db->query($sql); 
+		}
+	}
+	
+	protected function fix_pamong()
+	{	
+		$sql="insert ignore into tweb_penduduk_mandiri(pin,tanggal_buat,id_pend) select '11948479d5a1007cc6fdb1f652a86abb' pin, now(), id from tweb_penduduk;";
+		//$this->db->query($sql);
+		$sql="ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nik`),ADD INDEX  (`id_pend`); ";
+		//$this->db->query($sql); 
+		//not approve
+		$sql="ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nama`)  ; ";
+		//$this->db->query($sql); 
+		//not approve
+		//=========Penduduk
+		$sql="ALTER TABLE `tweb_penduduk` ADD INDEX  nik_nama(`nik`,`nama`)  ; ";
+		//$this->db->query($sql); 
+		//not approve
+		$sql="ALTER TABLE `tweb_penduduk_mandiri` CHANGE `id_pend` `id_pend` INT(11) NOT NULL; ";
+		//$this->db->query($sql); 
+		//not approve
+		return ;
 	}
 	
 	protected function add_menu_harimerah()

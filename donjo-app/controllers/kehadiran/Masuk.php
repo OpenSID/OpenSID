@@ -48,16 +48,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Masuk extends Web_Controller
 {
 
-	private $cek_anjungan;
+	private $cek_anjungan,$defaultJamTerakhir;
 
 	public function __construct()
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
+		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model','hari_model', 'hadir_model']);
+		$this->load->helper('other_helper');
+		//disarankan diletakkan di config
+		$this->defaultJamTerakhir="18:00:00";//23:59:59
+		
 	}
 
 	public function warning()
@@ -110,26 +111,58 @@ class Masuk extends Web_Controller
 		$masuk = $this->input->post();
 		$nik = bilangan(bilangan($masuk['nik']));
 		$pin = hash_pin(bilangan($masuk['pin']));
-		$selects='pm.*, p.nama, p.nik, p.foto, p.kk_level, 
-		pamong.jabatan, pamong.pamong_id,pamong.pamong_status';
-		$data = $this->db
+		$selects='pm.*, p.nama, p.nik, pamong.foto, p.kk_level, 
+		pamong.jabatan, pamong.pamong_id,pamong.pamong_status,p.id id_penduduk';
+		$penduduk = $this->db
 			->select($selects)
-			->from('tweb_penduduk_mandiri pm')
-			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
-			->join('tweb_desa_pamong pamong', 'pamong.pamong_nip=p.nik','left')	
+			->from('tweb_penduduk p')
+			->join('tweb_penduduk_mandiri pm', 'pm.id_pend = p.id', 'left')
+			->join('tweb_desa_pamong pamong', 'pamong.id_pend=p.id','left')	
 			->where('p.nik', $nik)
-			->get()
-			->row();
+			->get();
+		 
+		$data=$penduduk->row();
 		if(!isset($data->nama))
 		{
-			log_message("info","cek user sql:".$this->db->last_query());
-			//$this->session->error_msg = "Silahkan memeriksa kembali NIK";
-			$session = [
-				'error_msg' => "Silahkan memeriksa kembali NIK"
-			];
-			$this->session->set_userdata($session); 
-			redirect($_SERVER['HTTP_REFERER'],1);
-			//redirect('kehadiran/masuk',1);
+			log_message("info","cek penduduk sql:".$this->db->last_query());
+			$selects='pamong_nama nama,pamong_nik nik, pamong.foto, "0" kk_level, pamong.jabatan, pamong.pamong_id,pamong.pamong_status';
+			$pamong = $this->db
+				->select($selects)
+				->from('tweb_desa_pamong pamong') 	
+				->where('pamong_nik', $nik)
+				->get()
+				->row();
+			if(isset($pamong->nama))
+			{
+				if($pamong->pamong_status!=1)
+				{
+					log_message("info","error:not active|data:".json_encode($data));
+					$add_sess = [
+						'error_msg' => "Maaf, {$pamong->nama} tidak aktif",
+					];
+					$this->session->set_userdata($add_sess); 
+					
+					redirect($_SERVER['HTTP_REFERER'],1);
+					exit;
+					//redirect('kehadiran/masuk',1);
+				}
+				
+				$session = [
+					'kehadiran' => 1,
+					'is_login' => $pamong
+				];
+				$this->session->set_userdata($session);
+				
+			}
+			else
+			{
+				$session = [
+					'error_msg' => "Silahkan memeriksa kembali NIK"
+				];
+				$this->session->set_userdata($session); 
+				redirect($_SERVER['HTTP_REFERER'],1);
+			}
+ 
 		}
 		elseif($pin != $data->pin)
 		{
@@ -149,7 +182,7 @@ class Masuk extends Web_Controller
 				'error_msg' => "Silahkan memeriksa kembali NIK . Karena tidak terdaftar dalam Sistem",
 			];
 			$this->session->set_userdata($add_sess); 
-			
+			 
 			redirect($_SERVER['HTTP_REFERER'],1);
 			//redirect('kehadiran/masuk',1);
 		}
@@ -171,7 +204,6 @@ class Masuk extends Web_Controller
 					'is_login' => $data
 				];
 				$this->session->set_userdata($session);
-			//echo "OK";die;
 		}
 			
 		redirect('kehadiran/depan',1);
@@ -185,15 +217,65 @@ class Masuk extends Web_Controller
 			//$this->session->mandiri_try = $this->session->mandiri_try - 1;
 			redirect('kehadiran/masuk',1);
 		}
+		$this->hadir_clean();
 		$session =$this->session->userdata();
-		print_r($session);die;
-		$data = $this->db
-			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level')
-			->from('tweb_penduduk_mandiri pm')
-			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
-			->where('p.nik', $nik)
-			->get()
-			->row();
+		//echo '<pre>';print_r($session);die;
+		$data = [];
+		$data['status']=1;
+		$data['session']=$session;
 		
+		$login_info=$login_info_clean=$this->session->userdata('is_login');
+		$login_info_clean->nik = base64_encode($login_info->nik);
+		unset($login_info_clean->foto);
+		$logs=[];
+		$logs[]=[
+			'date'=>date("Ymd H:i:s"),
+			'status'=>0,
+			'ip'=>get_client_ip()
+		];
+		//insert
+		$params_add=[
+			'pamong_id'=>@$login_info->pamong_id,
+			'pamong_info'=>json_encode(@$login_info_clean),
+			'hadir_logs'=>json_encode($logs)
+		];
+		$this->hadir_model->_add($params_add,1);//insert ignore 
+		$data['session'][]=$this->db->last_query();
+		$params=[
+			'now'=>1,
+			'pamong'=>@$session['is_login']->pamong_id,
+			'first'=>1
+		];
+		$data['hadir']=$this->hadir_model->_get($params);
+		//kehadiran/depan_view
+		$this->load->view('kehadiran/masuk_view', $data);
+	}
+	
+	function keluar()
+	{
+		$session = [
+			'kehadiran' => 0,
+			'is_login' => NULL,
+			'info_msg' => "Logout telah dilakukan.",
+		];
+		$this->session->set_userdata($session);
+		redirect('kehadiran/masuk',1);
+	}
+	
+	private function hadir_clean()
+	{
+		//$data=$this->hadir_model->_blank();
+		$result=$this->hadir_model->tidakKeluar();
+		foreach($result['data'] as $row)
+		{
+			$params=[
+				'waktu_keluar'=>date("Y-m-d {$this->defaultJamTerakhir}",strtotime(row['waktu_masuk']))
+			];
+			
+			//bug apabila waktunya tidak sesuai?!?
+			$this->hadir_model->_update($params,'id',$row['id']);
+		}
+		 
+		return ;
 	}
 }

@@ -89,20 +89,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			body.login-page {
 				background: url('<?= base_url($latar_login) ?>');
 			}
-			
 		</style>
 	<?php else: ?>
 	<style>
 		.login-box-body{ 
-			margin-right: 50px !important;
-			float: right !important; 
+			margin-left: 50px !important;
+			float: left !important; 
 		}
 		.numpad{
 			min-height:100px;
 			min-width:370px;
 			 
 			margin-right: 50px !important;
-			float: right !important;
+			float: left !important;
 		}
 		.numpad_keypad{
 			width:370px;
@@ -123,69 +122,95 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 	</style>
 	<?php endif; ?>
+	<style>
+.kehadiran-page{
+	width: 100%;
+	background: url(../css/images/latar_login.jpg) no-repeat center fixed;
+}
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 64px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 52px;
+  width: 52px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .8s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(51px);
+  -ms-transform: translateX(52px);
+  transform: translateX(52px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 64px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.form-hadir{
+	width:250px;margin:auto;text-align:center;
+}
+.text-mid{
+	text-align:center;margin:5px auto 3px;
+}
+	</style>
 </head>
 
-<body class="login-page">
-	<div class="login-box">
-<?php if($login_type==3||$login_type==4) {?>
-		<div class='numpad'>
-		<?php $this->load->view('kehadiran/form/login_keypad'); ?>
-		</div>
+<body class="kehadiran-page">
+<?php 
+if(isset($login_type))
+{
+	$this->load->view('kehadiran/login_view');
+}
 
-<?php } ?>
-		<div class="login-box-body">
-			<div class="login-title">
-				<!--a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']); ?>" alt="<?=$header['nama_desa']?>" class="logo-login"/></a-->
-				<h1>
-					LAYANAN KEHADIRAN	<br/><?=ucwords($this->setting->sebutan_desa) . ' ' . $header['nama_desa']?>
-				</h1>
-				<!--h3>
-					<br/><?=$header['alamat_kantor']?><br/>Kodepos <?=$header['kode_pos']?>
-					<br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?><br/><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
-				</h3-->
-			</div>
-			<hr/>
-			<?php if ($error_msg = $this->session->error_msg): 
-					$this->session->unset_userdata('error_msg');
-				?>
-				<div class="callout callout-danger" id="notif_msg">
-					<?=$error_msg;?> 
-				</div>	
-			<?php endif; ?>
-				
-			<?php if ($this->session->mandiri_wait == 1): ?>
-				<div class="notif-mandiri">
-					<p id="countdown"></p>
-				</div>
-			<?php else: ?> 
-				
-				<?php
-					  if ($this->session->mandiri_try < 4): ?>
-					<div class="callout callout-danger" id="notif">
-						<p>NIK atau PIN salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
-					</div>
-				<?php endif; 
-				
-				$this->load->view('kehadiran/form/login_'.$login_type);
-				?>
-				
-				
-			<?php endif; ?>
-			<div class="form-login-footer">
-				<hr/><a href="https://github.com/OpenSID/OpenSID" target="_blank" rel="noreferrer">OpenSID <?= AmbilVersi() ?></a>
-				<br/>
-				IP Address :
-				<?php if ( ! $cek_anjungan): ?>
-					<?= $this->input->ip_address(); ?>
-				<?php else: ?>
-					<?= $cek_anjungan['ip_address'] . "<br/>Anjungan Mandiri" ?>
-					<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
-				<?php endif; ?>
-			</div>
-		</div>
+if(isset($status))
+{
+	$this->load->view('kehadiran/status_view');
+}
+?>
 
-		
-	</div>
 	<!-- jQuery 3 -->
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.7 -->
@@ -208,47 +233,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
 		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
 	<?php endif; ?>
-	<script type="text/javascript">
-		$('document').ready(function() {
-			var pass = $("#pin");
-			$('#checkbox').click(function() {
-				if (pass.attr('type') === "password") {
-					pass.attr('type', 'text');
-				} else {
-					pass.attr('type', 'password')
-				}
-			});
-
-			if ($('#countdown').length) {
-				start_countdown();
-			}
-
-			window.setTimeout(function() {
-				$("#notif").fadeTo(500, 0).slideUp(500, function(){
-					$(this).remove();
-				});
-			}, 5000);
-		});
-
-		function start_countdown() {
-			var times = eval(<?= json_encode($this->session->mandiri_timeout)?>) - eval(<?= json_encode(time())?>);
-			var menit = Math.floor(times / 60);
-			var detik = times % 60;
-
-			timer = setInterval(function() {
-				detik--;
-				if (detik <= 0 && menit >=1) {
-					detik = 60;
-					menit--;
-				}
-				if (menit <= 0 && detik <= 0) {
-					clearInterval(timer);
-					location.reload();
-				} else {
-					document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
-				}
-			}, 500);
-		}
-	</script>
+<?php $this->load->view('kehadiran/js/masuk_js');?>
 </body>
 </html>

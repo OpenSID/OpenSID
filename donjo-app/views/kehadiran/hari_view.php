@@ -101,4 +101,4 @@
 
 <!-- Untuk menampilkan pengaturan -->
 <?php 
-$this->load->view('kehadiran/js_tgl_merah_view');
+$this->load->view('kehadiran/js/tgl_merah_js');
