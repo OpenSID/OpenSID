@@ -815,11 +815,11 @@ class Penduduk extends Admin_Controller {
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-	public function unduh_berkas($id_dokumen = 0)
+	public function unduh_berkas($id_dokumen = 0, $tampil=false)
 	{
 		// Ambil nama berkas dari database
 		$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
-		ambilBerkas($data['satuan'], $this->controller, NULL, LOKASI_DOKUMEN);
+		ambilBerkas($data['satuan'], $this->controller, NULL, LOKASI_DOKUMEN, $tampil);
 	}
 
 }
