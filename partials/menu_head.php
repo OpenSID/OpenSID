@@ -1,11 +1,11 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <nav class="navbar navbar-default" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <div class="row visible-xs">
             <div class="col-xs-6 visible-xs">
-                <img src="<?= gambar_desa($desa['logo']);?>" class="cardz hidden-lg hidden-md" width="30" align="left" alt="<?= $desa['nama_desa']?>"/>
+                <img src="<?= gambar_desa($desa['logo']); ?>" class="cardz hidden-lg hidden-md" width="30" align="left" alt="<?= $desa['nama_desa']; ?>"/>
             </div>
             <div class="col-xs-6 visible-xs">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -31,8 +31,8 @@
                 </li>
 				<?php foreach($menu_atas as $data) { ?>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" href="<?= $data['link']?>"><?= $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>
-                    <?php if(count($data['submenu'])>0): ?>
+                    <a class="dropdown-toggle" href="<?= $data['link']?>"><?= $data['nama']; jecho(count($data['submenu']) > 0, TRUE, '<span class="caret"></span>'); ?></a>
+                    <?php if(count($data['submenu']) > 0): ?>
                     <ul class="dropdown-menu">
                         <?php foreach($data['submenu'] as $submenu): ?>
                         <li>
