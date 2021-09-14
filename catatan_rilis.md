@@ -12,7 +12,7 @@ Terima kasih pada Agung Sugiarto yang terus berkontribusi. Terima kasih pula pad
 2. [#4399](https://github.com/OpenSID/OpenSID/issues/4399) Perbaiki peta wilayah hasil impor file tipe .kml.
 3. [#383](https://github.com/OpenSID/premium/issues/383) Perbaiki tidak bisa ubah password default pengguna baru.
 4. [#4415](https://github.com/OpenSID/OpenSID/issues/4415) Perbaiki Cetak lembaga dan kelompok tidak tampil.
-5. [#4425](https://github.com/OpenSID/OpenSID/issues/4425) Sekarang dokumen lampiran artikel bisa diunduh di tema klasik bawaan sistem.
+5. [#4425](https://github.com/OpenSID/OpenSID/issues/4425) Sekarang dokumen lampiran artikel bisa diunduh di tema klasik dan natra bawaan sistem.
 
 
 #### Perubahan Teknis
