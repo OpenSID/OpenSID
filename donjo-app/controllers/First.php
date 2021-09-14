@@ -186,6 +186,13 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
+	public function unduh_dokumen_artikel($id)
+	{
+		// Ambil nama berkas dari database
+		$dokumen = $this->first_artikel_m->get_dokumen_artikel($id);
+		ambilBerkas($dokumen, $this->controller, NULL, LOKASI_DOKUMEN);
+	}
+
 	public function arsip($p=1)
 	{
 		$data = $this->includes;

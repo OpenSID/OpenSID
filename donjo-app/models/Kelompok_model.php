@@ -113,7 +113,6 @@ class Kelompok_model extends MY_Model {
 		return $this->db;
 	}
 
-	// $limit = 0 mengambil semua
 	public function list_data($o = 0, $offset = 0, $limit = 0)
 	{
 		switch ($o)
@@ -129,9 +128,10 @@ class Kelompok_model extends MY_Model {
 
 		$this->list_data_sql();
 
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+
 		return $this->db
 			->select('u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE id_kelompok = u.id) AS jml_anggota')
-			->limit($limit, $offset)
 			->get()
 			->result_array();
 	}
@@ -156,9 +156,17 @@ class Kelompok_model extends MY_Model {
 	{
 		$data = $this->validasi($this->input->post());
 
+		if ($this->get_kelompok(null, $data['kode']))
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = '<br/>Kode ' . $this->tipe . ' sudah digunakan';
+			return false;
+		}
+
 		$outpa = $this->db->insert($this->table, $data);
 		$insert_id = $this->db->insert_id();
 
+		// TODO : Ubah cara penanganan penambahan ketua kelompok, simpan di bagian kelompok anggota
 		$outpb = $this->db
 			->set('id_kelompok', $insert_id)
 			->set('id_penduduk', $data['id_ketua'])
@@ -215,6 +223,13 @@ class Kelompok_model extends MY_Model {
 	public function update($id = 0)
 	{
 		$data = $this->validasi($this->input->post());
+
+		if ($this->get_kelompok($id, $data['kode']))
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = '<br/>Kode ' . $this->tipe . ' sudah digunakan';
+			return false;
+		}
 
 		$this->db->where('id', $id);
 		$outp = $this->db->update($this->table, $data);
@@ -279,14 +294,19 @@ class Kelompok_model extends MY_Model {
 		}
 	}
 
-	public function get_kelompok($id = 0)
+	public function get_kelompok($id = NULL, $kode = NULL)
 	{
+		if ($id && $kode) $this->db->where('k.id !=', $id);
+
 		$data = $this->db
 			->select('k.*, km.kelompok AS kategori, tp.nama AS nama_ketua')
 			->from('kelompok k')
 			->join('kelompok_master km', 'k.id_master = km.id', 'left')
 			->join('tweb_penduduk tp', 'k.id_ketua = tp.id', 'left')
-			->where('k.id', $id)
+			->group_start()
+				->where('k.id', $id)
+				->or_where('k.kode', $kode)
+			->group_end()
 			->get()
 			->row_array();
 
@@ -400,13 +420,15 @@ class Kelompok_model extends MY_Model {
 		}
 
 		$data = $this->db
-			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto')
+			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.sex AS id_sex, tpx.nama AS sex, tp.foto, tpp.nama as pendidikan, tpa.nama as agama')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
 			->select('a.dusun,a.rw,a.rt')
 			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) AS alamat")
 			->from('kelompok_anggota ka')
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
+			->join('tweb_penduduk_pendidikan tpp', 'tp.pendidikan_sedang_id = tpp.id', 'left')
+			->join('tweb_penduduk_agama tpa', 'tp.agama_id = tpa.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
 			->where('ka.tipe', $this->tipe)
