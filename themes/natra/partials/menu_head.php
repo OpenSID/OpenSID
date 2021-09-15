@@ -40,6 +40,7 @@
                         <li>
                             <a href="<?= site_url(); ?>siteman" rel="noopener noreferrer" target="_blank">Administrator</a>
                             <a href="<?= site_url('layanan-mandiri'); ?>" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
+							<a href="<?= site_url('kehadiran/masuk') ?>" rel="noopener noreferrer"> Kehadiran Aparat </a>
                         </li>
                     </ul>
                 </li>                

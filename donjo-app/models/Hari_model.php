@@ -66,6 +66,11 @@ class Hari_model extends CI_Model {
 		}
 		$this->db->limit($limit, $start);
 		
+		if(!isset($isSorted))
+		{
+			$this->db->order_by('tgl_merah','asc');
+		}
+		
 		if(isset($params['first']))
 		{
 			return $this->db->get()->row_array();
@@ -82,9 +87,6 @@ class Hari_model extends CI_Model {
 	
 	function _update($params)
 	{
-		//$this->db->replace('setting_harimerah',$params);
-		$insert_query = $this->db->insert_string('setting_harimerah', $params);
-		$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
 		$tgl_merah=$params['tgl_merah'];
 		unset($params['tgl_merah']);
 		$this->db->where('tgl_merah',$tgl_merah)->update('setting_harimerah', $params);

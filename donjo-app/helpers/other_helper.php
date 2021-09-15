@@ -1,14 +1,19 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
  *
- * Controller untuk modul Kehadiran > Hari Merah
+ * Helper berisi function lain-lain
  *
- * donjo-app/controllers/kehadiran/Set_hari.php
+ * donjo-app/helpers/other_helper.php
  *
  */
-/*
- *  File ini bagian dari:
+
+/**
+ *
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -40,60 +45,25 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Set_hari extends Admin_Controller {
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->helper('form');
-		$this->load->model('hari_model');
-		$this->modul_ini = 320;
-		$this->sub_modul_ini = 321;
-	}
-	
-	public function index()
-	{
-		$data=[];
-		if(!$this->input->get('reload'))
-		{
-			$this->sabtu_minggu();
-			redirect('/set_hari'."?reload=1");
-			exit;
-		}			
-		$this->render('kehadiran/hari_view', $data);
-	}
-	
-	public function edit_tgl()
-	{
-		$tgl=$this->input->get('tgl'); 
-		$paramsEdit=['tanggal'=>$tgl,'first'=>1];
-		$hari=$this->hari_model->_get($paramsEdit);
-		if(!$hari&&$tgl!=0){
-			$param=['tgl_merah'=>$tgl, 'status'=>0];
-			$this->hari_model->insert_ignore($param);
-			$hari=$this->hari_model->_get($paramsEdit);
-		}
-		$data=[
-			'hari'=>$hari
-		];
-		$this->load->view('kehadiran/hari_edit_view',$data);
-	}
 
-	
-	public function sabtu_minggu()
-	{
-		return;
-		$tahun0=strtotime(date("Y")."-01-01");
-		$tahun1=strtotime("+2 year");
-		$hari=3600*24;
-		for($i=$tahun0;$i<=$tahun1;$i+=$hari)
-		{
-			if(date('N',$i)==6||date('N',$i)==7)
-			{
-				$param=['tgl_merah'=>date("Y-m-d",$i), 'status'=>1];
-				$this->hari_model->insert_ignore($param);
-			}
-		}
-		
-	}
+function get_client_ip()
+{
+//Thank to https://stackoverflow.com/questions/15699101/get-the-client-ip-address-using-php
+    $ipaddress = '';
+    if (getenv('HTTP_CLIENT_IP'))
+        $ipaddress = getenv('HTTP_CLIENT_IP');
+    else if(getenv('HTTP_X_FORWARDED_FOR'))
+        $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+    else if(getenv('HTTP_X_FORWARDED'))
+        $ipaddress = getenv('HTTP_X_FORWARDED');
+    else if(getenv('HTTP_FORWARDED_FOR'))
+        $ipaddress = getenv('HTTP_FORWARDED_FOR');
+    else if(getenv('HTTP_FORWARDED'))
+       $ipaddress = getenv('HTTP_FORWARDED');
+    else if(getenv('REMOTE_ADDR'))
+        $ipaddress = getenv('REMOTE_ADDR');
+    else
+        $ipaddress = 'UNKNOWN';
+    return $ipaddress;
 }

@@ -104,15 +104,17 @@ $(function() {
 			url:"<?=site_url('set_hari/api');?>",
 			type:"POST",
 			data: function (d) {
-/*
+<?php /*
 				type 	 = $('#date_type').val();
 				dateStart = $('#date_start').val();
 				dateEnd = $('#date_end').val();
 				d.type  	=type;
 				d.dateStart =dateStart;
 				d.dateEnd   =dateEnd;
-				d.action ='datatables';
 */
+?>
+				d.action ='datatables';
+
 			}
 		}
     }
