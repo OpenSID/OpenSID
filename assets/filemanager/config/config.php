@@ -63,6 +63,8 @@ if ($_SESSION['fm_key']) {
 	|    |   |   |   |   |- plugin.min.js
 	*/
 
+	$folder_app = strtolower(substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'],'/assets')));
+
 	$config = array(
 
 			/*
@@ -74,7 +76,7 @@ if ($_SESSION['fm_key']) {
 			|
 			*/
 
-			'base_url' => APP_URL,
+			'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] && ! in_array(strtolower($_SERVER['HTTPS']), array( 'off', 'no' ))) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $folder_app . '/assets',
 
 			/*
 			|--------------------------------------------------------------------------
