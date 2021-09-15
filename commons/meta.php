@@ -1,6 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <?php defined('THEME_VERSION') or define('THEME_VERSION', 'v4.5') ?>
-<?php defined('IS_PREMIUM') or define('IS_PREMIUM', preg_match('/premium/', ambilVersi())) ?>
 <?php $desa_title =  ucwords($this->setting->sebutan_desa) . ' '. $desa['nama_desa'] . ' '. ucwords($this->setting->sebutan_kecamatan) . ' '. $desa['nama_kecamatan'] . ' '. ucwords($this->setting->sebutan_kabupaten) . ' '. $desa['nama_kabupaten']; ?>
 
 <meta http-equiv="encoding" content="utf-8">
