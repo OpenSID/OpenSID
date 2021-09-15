@@ -20,6 +20,13 @@
 					<?=$error_msg;?> 
 				</div>	
 			<?php endif; ?>
+			<?php if ($success_msg = $this->session->success_msg): 
+					$this->session->unset_userdata('success_msg');
+				?>
+				<div class="callout callout-success" id="notif_msg">
+					<?=$success_msg;?> 
+				</div>	
+			<?php endif; ?>
 				
 			<?php if ($this->session->mandiri_wait == 1): ?>
 				<div class="notif-mandiri">
@@ -51,7 +58,8 @@
 				<?php endif; ?>
 			</div-->
 		</div>
-<?php if($login_type==3||$login_type==4) {?>
+<?php if(false) {?>
+<!-- $login_type==3||$login_type==4 -->
 		<div class='numpad'>
 		<?php $this->load->view('kehadiran/form/login_keypad'); ?>
 		</div>

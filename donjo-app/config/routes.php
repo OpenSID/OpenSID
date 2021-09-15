@@ -153,3 +153,4 @@ $route['kehadiran/warning'] = 'kehadiran/masuk/warning';
 
 $route['kehadiran/depan'] = 'kehadiran/masuk/depan'; // Tampilan Masuk
 $route['kehadiran/keluar'] = 'kehadiran/masuk/keluar'; // Tampilan Masuk
+$route['kehadiran/pengurus'] = 'kehadiran/masuk/pengurus';

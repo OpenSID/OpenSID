@@ -69,6 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
 	<!-- Style Mandiri Modification -->
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/mandiri-style.css">
+	<link rel="stylesheet" href="<?= base_url()?>assets/css/keyboard-basic.min.css">
 	<?php if (is_file("desa/pengaturan/siteman/siteman.css")): ?>
 		<link rel='Stylesheet' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css">
 	<?php endif; ?>
@@ -125,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<style>
 .kehadiran-page{
 	width: 100%;
-	background: url(../css/images/latar_login.jpg) no-repeat center fixed;
+	background: url(<?=base_url("assets/css/images/latar_login.jpg");?>) no-repeat center fixed;
 }
 /* The switch - the box around the slider */
 .switch {
@@ -190,7 +191,7 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 .form-hadir{
-	width:250px;margin:auto;text-align:center;
+	width:150px;margin:auto;text-align:center;
 }
 .text-mid{
 	text-align:center;margin:5px auto 3px;
@@ -225,6 +226,7 @@ if(isset($status))
 	<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 	<script src="<?= base_url()?>assets/js/validasi.js"></script>
 	<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+	<script src="<?= base_url()?>assets/js/jquery.keyboard.min.js"></script>
 
 	<?php if ($cek_anjungan): ?>
 		<!-- keyboard widget css & script -->

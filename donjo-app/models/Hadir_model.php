@@ -17,6 +17,10 @@ private $table,$table_log;
 			$this->db->where('waktu_masuk is null')
 			->where('waktu_keluar is null');
 		}
+		if(isset($params['pamong_id']))
+		{
+			$this->db->where('pamong_id',$params['pamong_id'] );
+		}
 		if(isset($params['keluarKosong']))
 		{
 			$this->db->where('waktu_keluar is null')
@@ -79,7 +83,6 @@ private $table,$table_log;
 		$this->db->where($where,$cond)->update($this->table, $params);
 		return $this->db->last_query();
 	}
-
 
 	function _add($params,$ignore=0)
 	{

@@ -81,17 +81,19 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$sql="insert ignore into tweb_penduduk_mandiri(pin,tanggal_buat,id_pend) select '11948479d5a1007cc6fdb1f652a86abb' pin, now(), id from tweb_penduduk;";
 		//$this->db->query($sql);
 		$sql="ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nik`),ADD INDEX  (`id_pend`); ";
-		//$this->db->query($sql); 
+		$this->db->query($sql); 
 		//not approve
 		$sql="ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nama`)  ; ";
-		//$this->db->query($sql); 
-		//not approve
+		$this->db->query($sql); 
+		//not approve 
+		$sql="ALTER TABLE `tweb_desa_pamong` ADD `pamong_pin` char(32)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`, ADD `tag_id_card` char(16)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`, ADD INDEX (`tag_id_card`); ";
+		$this->db->query($sql); 
 		//=========Penduduk
 		$sql="ALTER TABLE `tweb_penduduk` ADD INDEX  nik_nama(`nik`,`nama`)  ; ";
-		//$this->db->query($sql); 
+		$this->db->query($sql); 
 		//not approve
 		$sql="ALTER TABLE `tweb_penduduk_mandiri` CHANGE `id_pend` `id_pend` INT(11) NOT NULL; ";
-		//$this->db->query($sql); 
+		//$this->db->query($sql);
 		//not approve
 		return ;
 	}
