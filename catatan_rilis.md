@@ -1,8 +1,8 @@
-#### [v21.09-premium-beta1]
+#### [v21.09-premium-beta02]
 
-Di rilis ini, versi 21.09-premium-beta01, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.09-premium-beta02, menyediakan Modul pendataan lembaga desa dan buku rencana kerja pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Agung Sugiarto yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#4179](https://github.com/OpenSID/OpenSID/issues/4179) Sediakan Buku Kegiatan Pembangunan di Buku Administrasi Pembangunan.
@@ -14,6 +14,9 @@ Terima kasih pada Agung Sugiarto yang terus berkontribusi. Terima kasih pula pad
 3. [#383](https://github.com/OpenSID/premium/issues/383) Perbaiki tidak bisa ubah password default pengguna baru.
 4. [#4415](https://github.com/OpenSID/OpenSID/issues/4415) Perbaiki Cetak lembaga dan kelompok tidak tampil.
 5. [#4425](https://github.com/OpenSID/OpenSID/issues/4425) Sekarang dokumen lampiran artikel bisa diunduh di tema klasik dan natra bawaan sistem.
+6. [#4414](https://github.com/OpenSID/OpenSID/issues/4414) Perbaiki penanganan akses Responsive File Manager menggunakan session bawaan CI3.
+7. [#389](https://github.com/OpenSID/premium/issues/389) Tambahkan validasi input no_kk tidak lagi menggunakan validasi NIK.
+8. [#388](https://github.com/OpenSID/OpenSID/issues/388) Hapus required input kepala desa pada saat edit identitas desa.
 
 
 #### Perubahan Teknis
