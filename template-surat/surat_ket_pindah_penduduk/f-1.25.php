@@ -421,7 +421,7 @@
 			$nomor = $i + 1;
 			if ($i < count($input['id_cb'])) :
 				$id = trim($input['id_cb'][$i], "'");
-				$penduduk = $this->penduduk_model->get_penduduk($id); ?>
+				$penduduk = $this->penduduk_model->get_penduduk($id, TRUE); ?>
 
 				<tr>
 					<td class="tengah"><?= $nomor; ?></td>

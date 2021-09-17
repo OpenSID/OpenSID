@@ -7,7 +7,7 @@
 		if ($i < count($input['id_cb']))
 		{
 			$id = trim($input['id_cb'][$i],"'");
-			$penduduk = $this->penduduk_model->get_penduduk($id);
+			$penduduk = $this->penduduk_model->get_penduduk($id, TRUE);
 			$array_replace = array(
     	  "[pindah_no_$nomor]"   => $nomor,
       	"[pindah_nik_$nomor]"  => $penduduk['nik'],
