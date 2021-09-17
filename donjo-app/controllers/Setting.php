@@ -227,5 +227,21 @@ class Setting extends Admin_Controller {
 			$this->session->success = -1;
 		}
 	}
-	
+
+	public function remove_log(){
+		$path = $this->config->item('log_path');
+		$file = base64_decode($this->input->get('f'));
+
+		if($this->input->post())
+		{
+			$files = $this->input->post('id_cb');
+			foreach($files as $file){
+				$file = $path . basename($file);
+				unlink($file);
+			}
+		}
+
+		redirect('setting/info_sistem');
+	}
+
 }

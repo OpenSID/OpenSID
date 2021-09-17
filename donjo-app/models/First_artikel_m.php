@@ -436,6 +436,14 @@ class First_artikel_m extends CI_Model {
 		return $data;
 	}
 
+	public function get_dokumen_artikel($id)
+	{
+		return $this->db->select('dokumen')
+			->where('id', $id)
+			->get('artikel')
+			->row()->dokumen;
+	}
+
 	public function get_agenda($id)
 	{
 		$data = $this->db->where('id_artikel', $id)

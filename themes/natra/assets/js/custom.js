@@ -1,4 +1,4 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
     // for hover dropdown menu
     $('ul.nav li.dropdown').hover(function() {
         $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(200);
@@ -28,7 +28,7 @@ jQuery(document).ready(function() {
         cssEase: 'linear'
     });
     //Check to see if the window is top if not then display button
-    jQuery(window).scroll(function() {
+    $(window).scroll(function() {
         if ($(this).scrollTop() > 300) {
             $('.scrollToTop').fadeIn();
         } else {
@@ -50,8 +50,8 @@ wow = new WOW({
 });
 wow.init();
 
-$(window).on('load', function() { // makes sure the whole site is loaded
-    $('#status').fadeOut(); // will first fade out the loading animation
+jQuery(document).ready(function($) {            // makes sure the whole site is loaded
+    $('#status').fadeOut();                     // will first fade out the loading animation
     $('#preloader').delay(100).fadeOut('slow'); // will fade out the white DIV that covers the website.
     $('body').delay(100).css({
         'overflow': 'visible'

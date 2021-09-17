@@ -47,11 +47,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * VERSION
- * rilis-bugsfix => premium-rev[nomor urut dua digit]
+ * rilis-bugs-fix => premium-rev[nomor urut dua digit]
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define("VERSION", '21.09-premium-beta01');
+define("VERSION", '21.09-premium-beta02');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -59,7 +59,7 @@ define("VERSION", '21.09-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021091071');
+define('VERSI_DATABASE', '2021091771');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -705,7 +705,7 @@ function sql_in_list($list_array)
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil=false)
+function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil=false)
 {
 	$CI =& get_instance();
 	$CI->load->helper('download');

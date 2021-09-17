@@ -3,7 +3,7 @@
 	<div class="modal-body">
 		<div class="form-group">
 			<label for="no_kk">Nomor KK</label>
-			<input class="form-control input-sm required nik" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
+			<input class="form-control input-sm required no_kk" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
 			<input name="id" type="hidden" value="<?= $kk['id']; ?>">
 			<input name="id_cluster_lama" type="hidden" value="<?= $kk['id_cluster']; ?>">
 		</div>

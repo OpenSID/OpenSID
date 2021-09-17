@@ -31,7 +31,7 @@
 						<?php if ($penduduk): ?>
 							<div class="form-group">
 								<label for="nik_kepala">Nomor Kartu Keluarga (KK)</label>
-								<input id="no_kk" class="form-control input-sm nik required" type="text" placeholder="Nomor KK" name="no_kk"></input>
+								<input id="no_kk" class="form-control input-sm no_kk required" type="text" placeholder="Nomor KK" name="no_kk"></input>
 							</div>
 						<?php endif; ?>
 					</div>
