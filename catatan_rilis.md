@@ -2,11 +2,12 @@
 
 Di rilis ini, versi 21.09-premium-beta02, menyediakan Modul pendataan lembaga desa dan buku rencana kerja pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#4179](https://github.com/OpenSID/OpenSID/issues/4179) Sediakan Buku Kegiatan Pembangunan di Buku Administrasi Pembangunan.
 2. [#4410](https://github.com/OpenSID/OpenSID/issues/4410) Sekarang dokumen kelengkapan penduduk bisa diunduh atau ditampilkan (jika setting browser mendukung).
+3. [#4371](https://github.com/OpenSID/OpenSID/issues/4371) Tambah checklist dan tombol hapus log file.
 
 #### Perbaikan BUG
 1. [#4408](https://github.com/OpenSID/OpenSID/issues/4408) Perbaiki tambah warga terdata di suplemen keluarga berdasarkan keluarga yang aktif.
