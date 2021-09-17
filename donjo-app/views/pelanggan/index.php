@@ -25,7 +25,7 @@
 			</div>
 		<?php else : ?>
 			<div class="row">
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-12">
 					<div class="small-box bg-blue">
 						<div class="inner">
 							<h4>PEMESANAN LAYANAN</h4>
@@ -42,7 +42,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-12">
 					<div class="small-box bg-yellow">
 						<div class="inner">
 							<h4>STATUS PELANGGAN</h4>
@@ -53,7 +53,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-12">
 					<div class="small-box bg-green">
 						<div class="inner">
 							<h4>MULAI BERLANGGANAN</h4>
@@ -64,7 +64,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-xs-6">
+				<div class="col-lg-3 col-xs-12">
 					<div class="small-box bg-red">
 						<div class="inner">
 							<h4>AKHIR BERLANGGANAN</h4>
