@@ -153,7 +153,7 @@ class Config_model extends CI_Model {
 		$this->db->where('id', $id)->update('config', $data);
 
 		// Ubah jabatan pamong saat ditetapkan sebagai kepala desa
-		$kades = ucwords($this->setting->sebutan_kepala_desa . ' '. $this->setting->sebutan_desa);
+		$kades = ucwords($this->setting->sebutan_kepala_desa);
 
 		$outp = $this->db
 			->where('pamong_id', $this->session->kades_lama)
