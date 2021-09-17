@@ -94,7 +94,7 @@
 																				<a href="<?= site_url("sid_core/ajax_kantor_dusun_maps/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor <?=ucwords($this->setting->sebutan_dusun)?></a>
 																			</li>
 																			<li>
-																				<a href="<?= site_url("sid_core/ajax_wilayah_dusun_maps/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah <?=ucwords($this->setting->sebutan_dusun)?></a>
+																				<a href="<?= site_url("sid_core/ajax_wilayah_dusun_maps/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map'></i> Peta Wilayah <?=ucwords($this->setting->sebutan_dusun)?></a>
 																			</li>
 																		</ul>
 																	</div>
