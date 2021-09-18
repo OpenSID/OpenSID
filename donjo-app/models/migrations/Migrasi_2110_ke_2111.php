@@ -86,7 +86,9 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$sql="ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nama`)  ; ";
 		$this->db->query($sql); 
 		//not approve 
-		$sql="ALTER TABLE `tweb_desa_pamong` ADD `pamong_pin` char(32)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`, ADD `tag_id_card` char(16)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`, ADD INDEX (`tag_id_card`); ";
+		$sql="ALTER TABLE `tweb_desa_pamong`
+		ADD `pamong_pin` char(32)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`,
+		ADD `tag_id_card` char(16)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`, ADD INDEX (`tag_id_card`); ";
 		$this->db->query($sql); 
 		//=========Penduduk
 		$sql="ALTER TABLE `tweb_penduduk` ADD INDEX  nik_nama(`nik`,`nama`)  ; ";

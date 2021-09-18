@@ -103,6 +103,29 @@
 									<input id="pamong_nip" name="pamong_nip" class="form-control input-sm digits" type="text" maxlength="20" placeholder="NIP" value="<?=$pamong['pamong_nip']?>" ></input>
 								</div>
 							</div>
+							
+						<?php if($pamong['id_pend']==NULL||$pamong['id_pend']=="") {?>
+							<!--PIN-->
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="pamong_nip">PIN</label>
+								<div class="col-sm-7">
+						
+									  
+						 
+									<input id="pamong_pin" name="pamong_pin" class="form-control input-sm digits" type="text" maxlength="16" placeholder="Isi apabila ada perubahan PIN" /> 
+						
+								</div>
+							</div>
+						<?php } ?>
+						<?php if($pamong['id_pend']==NULL||$pamong['id_pend']=="") {?>
+							<!--Tag id-->
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="pamong_nip">Tag ID</label>
+								<div class="col-sm-7">
+									<input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" maxlength="16" placeholder="input Tag ID valid" value="<?=$pamong['tag_id_card']?>" maxlength=16 /> 
+								</div>
+							</div>
+						<?php } ?>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_tempatlahir">Tempat Lahir</label>
 								<div class="col-sm-7">

@@ -2,7 +2,7 @@
 		$('document').ready(function() {
 			var pass = $("#pin");
  
-			$('#nik_keyboard2').keyboard({
+			$('#nik_keyboard,#pin_keyboard').keyboard({
 				layout : 'custom',
 				customLayout: {
 					'normal': [
@@ -10,28 +10,14 @@
 						'6 7 8 9 0 {accept}',
 						 
 					]   
-				},
+				}, usePreview: false,
 				restrictInput : true, // Prevent keys not in the displayed keyboard from being typed in
 				preventPaste : false,  // prevent ctrl-v and right click
 				autoAccept : true
 			});
 			
-			$('#nik_keyboard,#pin_keyboard').keyboard({
-				layout: 'custom',
-				customLayout: {
-					'normal': [
-						'1 2 3 {bksp}',
-						'4 5 6 {accept}', 
-						'7 8 9 0',
-					]  
-				},
-				css: {
-					// add dark themed class to keyboard popup
-					// to use bright svg padlock icon
-					popup : 'ui-keyboard-dark-theme'
-				}
-			})
-			.addTyping();
+			$('#pin_keyboard2').keyboard({ layout: 'alpha', usePreview: false }) ;
+				 
 			
 			$('#checkbox').click(function() {
 				if (pass.attr('type') === "password") {
@@ -72,7 +58,7 @@
 			}, 500);
 		}
 		
-		//document.getElementById("nik").focus();
+		document.getElementById("nik_keyboard").focus();console.log("NIK AKTIF");
 	</script>
 	
 <script type="text/javascript">

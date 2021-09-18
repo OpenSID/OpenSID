@@ -247,6 +247,9 @@ class Pamong_model extends CI_Model {
 		$data['bagan_offset'] = (integer)$post['bagan_offset'] ?: NULL;
 		$data['bagan_layout'] = htmlentities($post['bagan_layout']);
 		$data['bagan_warna'] = $post['bagan_warna'];
+		//pin & tag id 
+		$data['pamong_pin'] = $post['pamong_pin'];
+		$data['tag_id_card'] = $post['tag_id_card'];
 		return $data;
 	}
 
@@ -288,8 +291,18 @@ class Pamong_model extends CI_Model {
 				$_SESSION['error_msg'] = " -> Jenis file salah: " . $tipe_file;
 			}
 		}
-
+		
 		$data = $this->siapkan_data($data);
+		if(trim($data['pamong_pin'])=='')
+		{
+			unset($data['pamong_pin']);
+		}
+		else
+		{
+			$data['pamong_pin']= hash_pin(bilangan($this->input->post('pamong_pin')));
+			
+		}
+
 		$this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
 	}
 
