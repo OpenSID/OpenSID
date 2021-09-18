@@ -70,13 +70,13 @@ class Masuk extends Web_Controller
 
 	public function index()
 	{
-		$type=[1, 3 ];//2.4 masih ditanya
+		$type=[1,2,3 ];//2.4 masih ditanya
 		if ($this->session->kehadiran == 1)
 		{
 			$this->session->unset_userdata('kehadiran');
 		}			
 			
-			//redirect('kehadiran/daftar');
+		 
 
 		if ($error_msg = $this->session->error_msg)
 		{
@@ -101,6 +101,15 @@ class Masuk extends Web_Controller
 		];
 		
 		$data['login_type']=in_array($this->input->get('form'),$type)?$this->input->get('form'):1;
+		$add_sess=['login_type'=>$data['login_type']];
+		$this->session->set_userdata($add_sess);
+		$params=['now'=>1,'first'=>1];
+		$hari = $this->hari_model->_get($params);
+		if(count($hari))
+		{
+			//pre_print_r($hari);die;
+			$data['locked']=$hari;
+		}
 		
 		$this->load->view('kehadiran/masuk_view', $data);
 	}
@@ -113,10 +122,7 @@ class Masuk extends Web_Controller
 		
 		$penduduk=$this->infoPenduduk($nik);
 		$pamong=$this->infoPamong($nik);
-		$pin = hash_pin(bilangan($masuk['pin']));
-		//echo "<pre>pin:$pin\npenduduk:\n".print_r($penduduk,1);
-		//123123: 11948479d5a1007cc6fdb1f652a86abb
-		//echo "\nPamong:\n".print_r($pamong,1)."</pre>";
+
 		if(!isset($penduduk->nama)&&!isset($pamong->nama))
 		{
 			$add_sess = [
@@ -131,13 +137,13 @@ class Masuk extends Web_Controller
 		if(isset($penduduk->nama)){
 			$login=$penduduk;
 		}
+		
 		if(isset($pamong->nama)){
 			$login=$pamong;
 		}
 		
 		if($login->pamong_status!=1)
-		{
-			log_message("info","error:not active|data:".json_encode($data));
+		{ 
 			$add_sess = [
 				'error_msg' => "Maaf, {$login->nama} tidak aktif",
 			];
@@ -149,9 +155,9 @@ class Masuk extends Web_Controller
 		
 		if($pin != $login->pin)
 		{
-			log_message("info","error:pin|data:".json_encode($data));
 			$add_sess = [
-				'error_msg' => "Silahkan memeriksa kembali NIK / PIN",
+				'error_msg' => "Silahkan memeriksa kembali NIK / PIN ",
+				//($pin|{$login->pin}) ".json_encode($login),
 			];
 			$this->session->set_userdata($add_sess); 
 			
@@ -169,7 +175,7 @@ class Masuk extends Web_Controller
 	
 	private function infoPenduduk($nik)
 	{
-		$selects='pm.*, p.nama, p.nik, pamong.foto, p.kk_level, p.tag_id_card,
+		$selects='pm.*, p.nama, p.nik, pamong.foto, p.kk_level, p.tag_id_card,pamong.pamong_nip nip,
 		pamong.jabatan, pamong.pamong_id,pamong.pamong_status,p.id id_penduduk';
 		$penduduk = $this->db
 			->select($selects)
@@ -184,7 +190,7 @@ class Masuk extends Web_Controller
 	private function infoPamong($nik)
 	{
 		$pamong = $this->db
-			->select("pamong_nama nama, pamong_nik nik,pamong_pin pin,foto,tag_id_card, pamong.jabatan, pamong.pamong_id,pamong.pamong_status")
+			->select("pamong_nama nama, pamong_nik nik, pamong.pamong_nip nip, pamong_pin pin,foto, tag_id_card, pamong.jabatan, pamong.pamong_id,pamong.pamong_status")
 			->from('tweb_desa_pamong pamong')
 			->where("pamong_nik",$nik)
 			->or_where("tag_id_card",$nik)
@@ -332,8 +338,8 @@ class Masuk extends Web_Controller
 					'success_msg' => "<b>Terima kasih.</b><br/>Anda telah mengisi kehadiran hari ini (".tgl_indo_dari_str('now')."). <br/>Selamat bekerja dan jangan lupa login kembali saat pulang.",
 				];
 				$this->session->set_userdata($add_sess); 
-				 
-				redirect("kehadiran/masuk",1);
+				$url_login=site_url("kehadiran/masuk").'?form='. $this->session->userdata('login_type');
+				redirect($url_login,1);
 				exit;
 				//pre_print_r($data);pre_print_r($params);die;
 			}
@@ -453,19 +459,19 @@ class Masuk extends Web_Controller
 		foreach($penduduk->result() as $row)
 		{
 			
-			echo "<tr><td>{$row->nama}</td><td>{$row->nik}</td><td>{$row->tag_id_card}</td></tr>";
+			echo "<tr><td>{$row->nama}</td><td>{$row->nik}</td><td>{$row->jabatan}</td><td>{$row->tag_id_card}</td></tr>";
 		}
 		
 		echo "<tr><td colspan=3>Pamong</td></tr>";
 		$pamong = $this->db
-			->select("pamong_nama nama, pamong_nik nik,tag_id_card")
+			->select("pamong_nama nama, pamong_nik nik,tag_id_card,jabatan")
 			->from('tweb_desa_pamong pamong')
 			->where("id_pend is NULL")
 			->get();
 		foreach($pamong->result() as $row)
 		{
 			//echo"<pre>".print_r($row,1)."</pre>";
-			echo "<tr><td>{$row->nama}</td><td>{$row->nik}</td><td>{$row->tag_id_card}</td></tr>";
+			echo "<tr><td>{$row->nama}</td><td>{$row->nik}</td><td>{$row->jabatan}</td><td>{$row->tag_id_card}</td></tr>";
 		}
 		echo "</table><hr/>";
 	}

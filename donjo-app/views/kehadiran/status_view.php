@@ -1,26 +1,5 @@
 <?php
-/*
-
-    [mandiri_timeout] => 1631457117
-    [kehadiran] => 1
-    [is_login] => stdClass Object
-        (
-            [pin] => 11948479d5a1007cc6fdb1f652a86abb
-            [last_login] => 
-            [tanggal_buat] => 2021-09-12 15:36:35
-            [id_pend] => 26
-            [ganti_pin] => 1
-            [nama] => IDA BAGUS MAS BUJANA
-            [nik] => 5201143112707040
-            [foto] => 
-            [kk_level] => 1
-            [jabatan] => ADMIN IT
-            [pamong_id] => 26
-            [pamong_status] => 1
-            [id_penduduk] => 26
-        )
-
-*/
+ 
 $foto=$session['is_login']->foto;
 if($foto==NULL||$foto=='')
 {
@@ -44,8 +23,19 @@ else
 		</div>
 		<div class="col-lg-12 col-md-12">
 			<img class="profile-user-img img-responsive img-circle" src="<?=$foto;?>" alt="Foto">
-			<h3 class='text-mid'><?=@$session['is_login']->nama;?></h3>
-			<h4 class='text-mid'><?=@$session['is_login']->jabatan;?></h4>
+			<div class='row'>
+				<div class="col-lg-4 col-md-6">Nama:</div> 
+				<div class="col-lg-8 col-md-6"><?=@$session['login_data']->nama;?></div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-4 col-md-6">NIP:</div> 
+				<div class="col-lg-8 col-md-6"><?=@$session['login_data']->nip;?></div>
+			</div>
+			<div class='row'>
+				<div class="col-lg-4 col-md-6">Jabatan:</div> 
+				<div class="col-lg-8 col-md-6"><?=@$session['login_data']->jabatan;?></div>
+			</div>
+
 			<form class="form-hadir " method="post" id='form_hadir'>
 				<?php
 				if($hadir['waktu_masuk']==NULL)
@@ -76,10 +66,23 @@ else
 				}
 				?>
 				<br/>
+				
 				<button type="button" class="btn btn-block btn-block bg-green" 
 				onclick='cekHadir()'><b>KONFIRMASI</b></button>
 			</form>
-<?php if(ENVIRONMENT == 'development'){?>
+<?php if( false&&ENVIRONMENT == 'development'){?>
+<!--
+ [login_data] => stdClass Object
+        (
+            [nama] => Mustahiq S.Adm
+            [nik] => NTIwMTE0MDUwNjc5MDAwMQ==
+            [pin] => 3645e735f033e8482be0c7993fcba946
+            [tag_id_card] => 11123
+            [jabatan] => Sekretaris Desa
+            [pamong_id] => 20
+            [pamong_status] => 1
+        )
+-->
 			<pre><?php print_r($hadir); ?></pre>
 			<a href='<?=site_url('kehadiran/keluar');?>'>Keluar</a>
 			<pre><?php print_r($session); ?></pre>

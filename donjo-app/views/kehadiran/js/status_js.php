@@ -43,4 +43,6 @@ else{
 <?php
 }
 ?>
+var loginPage="<?=site_url('kehadiran/masuk').'?form='. $this->session->userdata('login_type'); ?>";
+setInterval(function(){  window.location.href = loginPage; }, 20000);
 </script>

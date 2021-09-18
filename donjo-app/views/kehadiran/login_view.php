@@ -35,13 +35,26 @@
 			<?php else: ?> 
 				
 				<?php
-					  if ($this->session->mandiri_try < 4): ?>
+					if ($this->session->mandiri_try < 4): ?>
 					<div class="callout callout-danger" id="notif">
 						<p>NIK atau PIN salah.<br/>Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
 					</div>
-				<?php endif; 
+				<?php 
+					endif; 
+				if(isset($locked))
+				{
+					$this->load->view('kehadiran/form/login_locked');
+					if(ENVIRONMENT == 'development')
+					{
+						$this->load->view('kehadiran/form/login_'.$login_type);
+					}
+						 
+				}
+				else
+				{
+					$this->load->view('kehadiran/form/login_'.$login_type);
+				}
 				
-				$this->load->view('kehadiran/form/login_'.$login_type);
 				?>
 				
 				

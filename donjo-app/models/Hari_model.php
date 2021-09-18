@@ -15,8 +15,11 @@ class Hari_model extends CI_Model {
 		return ;
 	}
 	
-	function tgl_by_range($start,$end)
+	function tgl_by_range($start=0,$end=0)
 	{
+		if($start==0)	$start=date("Y-m-d");
+		if($end==0)		$end=  date("Y-m-d");
+		
 		$this->db->where('tgl_merah >=',$start)
 			->where('tgl_merah <=',$end)
 			->where('status >=',1)
@@ -41,6 +44,10 @@ class Hari_model extends CI_Model {
 		if(isset($params['tanggal']))
 		{
 			$this->db->where('tgl_merah',$params['tanggal']);
+		}
+		if(isset($params['now']))
+		{
+			$this->db->where('tgl_merah',date("Y-m-d"));
 		}
 		if(isset($params['active']))
 		{
