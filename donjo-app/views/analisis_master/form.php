@@ -43,10 +43,9 @@
 										<label class="col-sm-3 control-label" for="nama">Subjek/Unit Analisis</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm required" id="subjek_tipe" name="subjek_tipe">
-												<option value="1" <?php ($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == '') and print('selected') ?>>Penduduk</option>
-												<option value="2" <?php selected($analisis_master['subjek_tipe'], '2') ?>>Keluarga / KK</option>
-												<option value="3" <?php selected($analisis_master['subjek_tipe'], '3') ?>>Rumah Tangga</option>
-												<option value="4" <?php selected($analisis_master['subjek_tipe'], '4') ?>>Kelompok Masyarakat</option>
+												<?php foreach ($list_subjek as $subjek) : ?>
+													<option value="<?= $subjek['id'] ?>" <?php selected($analisis_master['subjek_tipe'], $subjek['id']) ?>><?= $subjek['subjek'] ?></option>
+												<?php endforeach; ?>
 											</select>
 										</div>
 									</div>

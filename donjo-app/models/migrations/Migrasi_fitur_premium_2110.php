@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021090971($hasil);
+		$hasil = $hasil && $this->migrasi_2021091771($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -83,5 +84,17 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 		";
 
 		return $hasil && $this->db->query($query);
+	}
+
+	protected function migrasi_2021091771($hasil)
+	{
+		$subjek = [
+			'id' => 5,
+			'subjek' => 'Desa',
+		];
+		$sql = $this->db->insert_string('analisis_ref_subjek', $subjek) . " ON DUPLICATE KEY UPDATE subjek = VALUES(subjek)";
+		$hasil = $hasil && $this->db->query($sql);
+
+		return $hasil;
 	}
 }

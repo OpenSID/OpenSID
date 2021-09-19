@@ -145,6 +145,10 @@ class Analisis_laporan extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['list_jawab'] = $this->analisis_laporan_model->list_indikator($id);
 		$data['form_action'] = site_url("analisis_laporan/update_kuisioner/$p/$o/$id");
+		if ($master['subjek_tipe'] == 5)
+			$data['asubjek'] = ucwords($this->setting->sebutan_desa);
+		else
+			$data['asubjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_laporan/form', $data);

@@ -50,6 +50,7 @@ class Analisis_master extends Admin_Controller
 		parent::__construct();
 		$this->load->model('analisis_master_model');
 		$this->load->model('analisis_import_model');
+		$this->load->model('referensi_model');
 
 		unset($_SESSION['submenu']);
 		unset($_SESSION['asubmenu']);
@@ -120,6 +121,7 @@ class Analisis_master extends Admin_Controller
 		}
 
 		$data['list_format_impor'] = array('1' => 'BDT 2015');
+		$data['list_subjek'] = $this->analisis_master_model->list_subjek();
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
 		$this->set_minsidebar(1);
@@ -152,34 +154,17 @@ class Analisis_master extends Admin_Controller
 	{
 		$_SESSION['analisis_master'] = $id;
 		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($id);
-		$_SESSION['analisis_nama'] = $data['analisis_master']['nama'];
-		$da = $data['analisis_master'];
-		$subjek = $da['subjek_tipe'];
-		$_SESSION['subjek_tipe'] = $subjek;
+		$master = $data['analisis_master'];
+		$this->session->analisis_nama = $master['nama'];
+		$this->session->subjek_tipe = $master['subjek_tipe'];
 
-		switch ($subjek)
-		{
-			case 1:
-				$data['menu_respon'] = "analisis_respon_penduduk";
-				$data['menu_laporan'] = "analisis_laporan_penduduk";
-				break;
-			case 2:
-				$data['menu_respon'] = "analisis_respon_keluarga";
-				$data['menu_laporan'] = "analisis_laporan_keluarga";
-				break;
-			case 3:
-				$data['menu_respon'] = "analisis_respon_rtm";
-				$data['menu_laporan'] = "analisis_laporan_rtm";
-				break;
-			case 4:
-				$data['menu_respon'] = "analisis_respon_kelompok";
-				$data['menu_laporan'] = "analisis_laporan_kelompok";
-				break;
-			default:
-				redirect('analisis_master');
-		}
 		$data['menu_respon'] = "analisis_respon";
 		$data['menu_laporan'] = "analisis_laporan";
+
+		if ($master['subjek_tipe'] == 5)
+			$data['subjek'] = ucwords($this->setting->sebutan_desa);
+		else
+			$data['subjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
 
 		/* TODO: Periksa apakah perlu lakukan pre_update */
 		// $this->load->model('analisis_respon_model');

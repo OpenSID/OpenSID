@@ -764,17 +764,18 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
 }
 
 /**
- * @param array 		(0 => (kolom => teks), 1 => (kolom => teks), ..)
- * @return string 	dalam bentuk siap untuk autocomplete
+ * @param array 		(0 => (kolom1 => teks, kolom2 => teks), 1 => (kolom1 => teks, kolom2 => teks), ..)
+ * @return string 	dalam bentuk siap untuk autocomplete, mengambil teks dari setiap kolom
  */
 function autocomplete_data_ke_str($data)
 {
 	$str = '';
 	foreach ($data as $baris)
 	{
-		$keys = array_keys($baris);
-		$first_key = $keys[0];
-		$str .= ','.json_encode(substr($baris[$first_key], 0, 30));
+		foreach ($baris as $key => $value)
+		{
+			$str .= ','.json_encode(substr($value, 0, 30));
+		}
 	}
 	$str = '[' . strtolower(substr($str, 1)) . ']';
 	return $str;

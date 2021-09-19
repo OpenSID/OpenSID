@@ -123,8 +123,51 @@ class Analisis_respon extends Admin_Controller {
 		$data['keyword'] = $this->analisis_respon_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
+		$data = array_merge($data, $this->judul_subjek($data['analisis_master']['subjek_tipe']));
 		$this->set_minsidebar(1);
 		$this->render('analisis_respon/table', $data);
+	}
+
+	private function judul_subjek($subjek_tipe)
+	{
+		switch ($subjek_tipe)
+		{
+			case 1:
+				$judul = [
+					'nama' => 'Nama',
+					'nomor' => 'NIK',
+					'asubjek' => "Penduduk"
+				];
+				break;
+			case 2: $judul = [
+					'nama' => "Kepala Keluarga",
+					'nomor' => "Nomor KK",
+					'asubjek' => "Keluarga"
+				];
+				break;
+			case 3: $judul = [
+					'nama' => "Kepala Rumah Tangga",
+					'nomor' => "Nomor Rumah Tangga",
+					'asubjek' => "Rumah Tangga"
+				];
+				break;
+			case 4: $judul = [
+					'nama' => "Nama Kelompok",
+					'nomor' => "ID Kelompok",
+					'asubjek' => "Kelompok"
+				];
+				break;
+			case 5:
+				$desa = ucwords($this->setting->sebutan_desa);
+				$judul = [
+					'nama' => "Nama $desa",
+					'nomor' => "Kode $desa",
+					'asubjek' => ucwords($this->setting->sebutan_desa)
+				];
+				break;
+			default: $judul = null;
+		}
+		return $judul;
 	}
 
 	public function kuisioner($p=1, $o=0, $id='', $fs=0)
