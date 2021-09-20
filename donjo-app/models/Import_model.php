@@ -101,8 +101,8 @@ class Import_model extends CI_Model {
 		if ($_FILES['userfile']['error'] == 1)
 		{
 			$upload_mb = max_upload();
-			$_SESSION['error_msg'] .= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
-			$_SESSION['success'] = -1;
+			$this->session->error_msg .= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
+			$this->session->success = -1;
 
 			return false;
 		}
@@ -110,8 +110,8 @@ class Import_model extends CI_Model {
 		$mime_type_excel = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12');
 		if ( ! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel))
 		{
-			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $_FILES['userfile']['type'];
-			$_SESSION['success'] = -1;
+			$this->session->error_msg .= " -> Jenis file salah: " . $_FILES['userfile']['type'];
+			$this->session->success = -1;
 
 			return false;
 		}
@@ -396,50 +396,52 @@ class Import_model extends CI_Model {
 		// penduduk ini belum ada
 		// Penduduk dianggap baru apabila NIK tidak diketahui (nilai 0)
 		$penduduk_baru = false;
-		if ($isi_baris['nik'] != 0)
+		if ($isi_baris['nik'] == 0)
 		{
-			// Update data penduduk yang sudah ada
-			$query = "SELECT id from tweb_penduduk WHERE nik = ?";
-			$hasil = $this->db->query($query, $isi_baris['nik']);
-			$res = $hasil->row_array();
-			if ( ! empty($res))
-			{
-				if ($data['status_dasar'] != -1)
-				{
-					// Hanya update apabila status dasar valid (data SIAK)
-					$data['updated_at'] = date('Y-m-d H:i:s');
-					$data['updated_by'] = $this->session->user;
-					$id = $res['id'];
-					$this->db->where('id', $id);
-					if ( ! $this->db->update('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();
-				}
-			}
-			else
-			{
-				if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
-				$data['created_at'] = date('Y-m-d H:i:s');
-				$data['created_by'] = $this->session->user;
-				if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
-				$id = $this->db->insert_id();
-				$penduduk_baru = $id;
+			// Update penduduk NIK sementara dengan ketentuan
+			// 1. Cek nama
+			// 2. Cek tempat lahir
+			// 3. Cek tgl lahir
+			// Jika ke 3 data tsb sama, maka data sebelumnya dianggap sama, selain itu dianggap penduduk yg berbeda/baru
+			$cek_data = $this->db->get_where('tweb_penduduk', ['nama' => $isi_baris['nama'], 'tempatlahir' => $isi_baris['tempatlahir'], 'tanggallahir' => $isi_baris['tanggallahir']])->row_array();
+			log_message('error', 'sama ' . $cek_data['nik']);
+			$isi_baris['nik'] = $cek_data['nik'] ?? $this->penduduk_model->nik_sementara();
+		}
 
-				// Insert ke log_penduduk pada penduduk baru
-				$log['tgl_peristiwa'] = $data['created_at'];
-				$log['kode_peristiwa'] = 5;
-				$log['tgl_lapor'] = $data['created_at'];
-				$log['id_pend'] = $penduduk_baru;
-				$log['created_by'] = $data['created_by'];
-				$this->penduduk_model->tulis_log_penduduk_data($log);
+		
+
+		$res = $this->db->get_where('tweb_penduduk', ['nik' => $isi_baris['nik']])->row_array();
+		if ($res)
+		{
+			if ($data['status_dasar'] != -1)
+			{
+				$data['nik'] = $res['nik'];
+
+				// Hanya update apabila status dasar valid (data SIAK)
+				$data['updated_at'] = date('Y-m-d H:i:s');
+				$data['updated_by'] = $this->session->user;
+				$this->db->where('id', $res['id']);
+				if ( ! $this->db->update('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();
 			}
 		}
 		else
 		{
-			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
-			$data['created_by'] = $this->session->user;
-			if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
+			// Konfersi nik 0 sesuai format nik sementara
+			$data['nik'] = $isi_baris['nik'];
 
-			$id = $this->db->insert_id();
-			$penduduk_baru = $id;
+			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
+			$data['created_at'] = date('Y-m-d H:i:s');
+			$data['created_by'] = $this->session->user;
+			if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();
+			$penduduk_baru = $this->db->insert_id();
+
+			// Insert ke log_penduduk pada penduduk baru
+			$log['tgl_peristiwa'] = $data['created_at'];
+			$log['kode_peristiwa'] = 5;
+			$log['tgl_lapor'] = $data['created_at'];
+			$log['id_pend'] = $penduduk_baru;
+			$log['created_by'] = $data['created_by'];
+			$this->penduduk_model->tulis_log_penduduk_data($log);
 		}
 
 		// Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
@@ -464,13 +466,14 @@ class Import_model extends CI_Model {
 
 	public function import_excel($hapus = false)
 	{
-		$_SESSION['error_msg'] = '';
-		$_SESSION['success'] = 1;
+		$this->session->error_msg = '';
+		$this->session->success = 1;
+
 		if ($this->file_import_valid() == false)
 		{
 			return;
 		}
-
+		
 		// Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
 		// atau tidak sebelum melakukan impor
 		// Tidak boleh menghapus jika dalam demo_mode
@@ -478,8 +481,6 @@ class Import_model extends CI_Model {
 		{
 			$this->hapus_data_penduduk();
 		}
-
-		$numRows = 0;
 
 		$reader = ReaderEntityFactory::createXLSXReader();
 		$reader->setShouldPreserveEmptyRows(true);
@@ -546,18 +547,18 @@ class Import_model extends CI_Model {
 
 			if ($baris_data <= 0)
 			{
-				$_SESSION['error_msg'] .= " -> Tidak ada data";
-				$_SESSION['success'] = -1;
+				$this->session->error_msg .= " -> Tidak ada data";
+				$this->session->success = -1;
 				return;
 			}
 
 			$sukses = $baris_data - $gagal;
 			if ($gagal == 0)
 				$baris_gagal = "tidak ada data yang gagal di import.";
-			else $_SESSION['success'] = -1;
-			$_SESSION['gagal'] = $gagal;
-			$_SESSION['sukses'] = $sukses;
-			$_SESSION['baris'] = $baris_gagal;
+			else $this->session->success = -1;
+			$this->session->gagal = $gagal;
+			$this->session->sukses = $sukses;
+			$this->session->baris = $baris_gagal;
 		}
 		$reader->close();
 	}
@@ -569,8 +570,8 @@ class Import_model extends CI_Model {
 
 	public function import_bip($hapus = false)
 	{
-		$_SESSION['error_msg'] = '';
-		$_SESSION['success'] = 1;
+		$this->session->error_msg = '';
+		$this->session->success = 1;
 		if ($this->file_import_valid() == false)
 		{
 			return;
