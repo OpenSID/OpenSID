@@ -50,6 +50,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021090971($hasil);
 		$hasil = $hasil && $this->migrasi_2021091771($hasil);
+		$hasil = $hasil && $this->migrasi_2021091751($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -94,6 +95,23 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 		];
 		$sql = $this->db->insert_string('analisis_ref_subjek', $subjek) . " ON DUPLICATE KEY UPDATE subjek = VALUES(subjek)";
 		$hasil = $hasil && $this->db->query($sql);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021091751($hasil)
+	{
+		$hasil = $hasil && $this->ubah_modul(101, ['modul'  => 'Status [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(301, ['modul'  => 'Buku Administrasi [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(311, ['modul'  => 'Buku Lembaran Dan Berita [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(319, ['modul'  => 'Buku Tanah Kas [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(320, ['modul'  => 'Buku Tanah di [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(322, ['modul'  => 'Buku Inventaris dan Kekayaan [Desa]']);
 
 		return $hasil;
 	}
