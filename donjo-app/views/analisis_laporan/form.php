@@ -1,13 +1,3 @@
-<?php
-	$subjek_tipe  = $_SESSION['subjek_tipe'];
-	switch ($subjek_tipe ):
-		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
-		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-		case 3: $sql = $nama="Kepala Rumah Tangga"; $nomor="Nomor Rumah Tangga";$asubjek="Rumah Tangga"; break;
-		case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
-		default: return null;
-	endswitch;
-?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Hasil Analisis</h1>

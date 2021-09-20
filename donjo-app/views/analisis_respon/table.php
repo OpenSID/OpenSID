@@ -7,22 +7,12 @@
 		});
 	});
 </script>
-<?php
-	$subjek = $_SESSION['subjek_tipe'];
-	switch ($subjek):
-		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
-		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-		case 3: $sql = $nama="Kepala Rumah Tangga"; $nomor="Nomor Rumah Tangga";$asubjek="Rumah Tangga"; break;
-		case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
-		default: return null;
-	endswitch;
-?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Data Sensus - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url('analisis_master/clear')?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_respon/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Data Sensus</li>
 		</ol>
@@ -141,10 +131,12 @@
 													<?php else: ?>
 														<th><a href="<?= site_url("analisis_respon/index/$p/3")?>"><?= $nama?> <i class='fa fa-sort fa-sm'></i></a></th>
 													<?php endif; ?>
-													<th>L/P</th>
-													<th>Dusun</th>
-													<th>RW</th>
-													<th>RT</th>
+													<?php if ($analisis_master['subjek_tipe'] != 5): ?>
+														<th>L/P</th>
+														<th>Dusun</th>
+														<th>RW</th>
+														<th>RT</th>
+													<?php endif; ?>
 													<th>Status</th>
 												</tr>
 											</thead>
@@ -161,10 +153,12 @@
 															</td>
 															<td nowrap><?= $data['nid']?></td>
 															<td nowrap><?= $data['nama']?></td>
-															<td align="center"><?= $data['jk']?></td>
-															<td><?= $data['dusun']?></td>
-															<td><?= $data['rw']?></td>
-															<td><?= $data['rt']?></td>
+															<?php if ($analisis_master['subjek_tipe'] != 5): ?>
+																<td align="center"><?= $data['jk']?></td>
+																<td><?= $data['dusun']?></td>
+																<td><?= $data['rw']?></td>
+																<td><?= $data['rt']?></td>
+															<?php endif; ?>
 															<td align="center"><?= $data['set']?></td>
 														</tr>
 													<?php endforeach; ?>

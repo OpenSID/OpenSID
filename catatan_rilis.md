@@ -7,7 +7,8 @@ Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontri
 #### Penambahan Fitur
 1. [#4179](https://github.com/OpenSID/OpenSID/issues/4179) Sediakan Buku Kegiatan Pembangunan di Buku Administrasi Pembangunan.
 2. [#4410](https://github.com/OpenSID/OpenSID/issues/4410) Sekarang dokumen kelengkapan penduduk bisa diunduh atau ditampilkan (jika setting browser mendukung).
-3. [#4371](https://github.com/OpenSID/OpenSID/issues/4371) Tambah checklist dan tombol hapus log file.
+3. [#4371](https://github.com/OpenSID/OpenSID/issues/4371) Sekarang bisa menghapus lebih dari satu log file sekaligus.
+4. [#4355](https://github.com/OpenSID/OpenSID/issues/4355) Sediakan subjek tingkat desa untuk master analisis.
 
 #### Perbaikan BUG
 1. [#4408](https://github.com/OpenSID/OpenSID/issues/4408) Perbaiki tambah warga terdata di suplemen keluarga berdasarkan keluarga yang aktif.
@@ -22,3 +23,4 @@ Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontri
 
 #### Perubahan Teknis
 1. Perbaiki migrasi yang gagal.
+2. Sesuaikan icon peta wilayah dan widget info pelanggan.

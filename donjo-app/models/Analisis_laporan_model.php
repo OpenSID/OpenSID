@@ -101,32 +101,29 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function dusun_sql()
 	{
-		if (isset($this->session->dusun))
-		{
-			$kf = $this->session->dusun;
-			$dusun_sql = " AND c.dusun = '$kf'";
-			return $dusun_sql;
-		}
+		if (empty($this->session->dusun) || $this->session->subjek_tipe == 5) return;
+
+		$kf = $this->session->dusun;
+		$dusun_sql = " AND c.dusun = '$kf'";
+		return $dusun_sql;
 	}
 
 	private function rw_sql()
 	{
-		if (isset($this->session->rw))
-		{
-			$kf = $this->session->rw;
-			$rw_sql = " AND c.rw = '$kf'";
-			return $rw_sql;
-		}
+		if (empty($this->session->rw) || $this->session->subjek_tipe == 5) return;
+
+		$kf = $this->session->rw;
+		$rw_sql = " AND c.rw = '$kf'";
+		return $rw_sql;
 	}
 
 	private function rt_sql()
 	{
-		if (isset($this->session->rt))
-		{
-			$kf = $this->session->rt;
-			$rt_sql = " AND c.rt = '$kf'";
-			return $rt_sql;
-		}
+		if (empty($this->session->rt) || $this->session->subjek_tipe == 5) return;
+
+		$kf = $this->session->rt;
+		$rt_sql = " AND c.rt = '$kf'";
+		return $rt_sql;
 	}
 
 	private function klasifikasi_sql()
@@ -149,62 +146,6 @@ class Analisis_laporan_model extends CI_Model {
 			$jawab_sql = "AND x.id_parameter IN ($kf) AND ((SELECT COUNT(id_parameter) FROM analisis_respon WHERE id_subjek = u.id AND id_periode = $per AND id_parameter IN ($kf)) = $jmkf) ";
 		return $jawab_sql;
 		}
-	}
-
-	public function paging($p=1, $o=0)
-	{
-		$subjek = $this->session->subjek_tipe;
-		$master = $this->get_analisis_master();
-		$id_kelompok = $master['id_kelompok'];
-
-		$per = $this->get_aktif_periode();
-		$pembagi = $this->get_analisis_master();
-		$pembagi = $pembagi['pembagi']+0;
-
-		switch ($subjek)
-		{
-			case 1: $sql = "SELECT COUNT(DISTINCT u.id) AS id FROM tweb_penduduk u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id"; break;
-			case 2: $sql = "SELECT COUNT(DISTINCT u.id) AS id FROM tweb_keluarga u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id"; break;
-			case 3: $sql = "SELECT COUNT(DISTINCT u.id) AS id FROM tweb_rtm u LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id"; break;
-			case 4: $sql = "SELECT COUNT(DISTINCT u.id) AS id FROM kelompok u LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id"; break;
-
-			default: return null;
-		}
-
-		if (isset($this->session->jawab))
-		{
-			$sql .= " LEFT JOIN analisis_respon x ON u.id = x.id_subjek";
-			$sql .= " LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval WHERE h.id_periode = ? AND x.id_periode = ? AND k.id_master = ? ";
-			$sql .= $this->search_sql();
-			$sql .= $this->klasifikasi_sql();
-			$sql .= $this->dusun_sql();
-			$sql .= $this->rw_sql();
-			$sql .= $this->rt_sql();
-			$sql .= $this->jawab_sql();
-			$query = $this->db->query($sql, array($per, $per, $this->session->analisis_master));
-		}
-		else
-		{
-			$sql .= " LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval WHERE h.id_periode = ? AND k.id_master =?";
-			$sql .= $this->search_sql();
-			$sql .= $this->klasifikasi_sql();
-			$sql .= $this->dusun_sql();
-			$sql .= $this->rw_sql();
-			$sql .= $this->rt_sql();
-			$sql .= $this->jawab_sql();
-			$query = $this->db->query($sql, array($per, $this->session->analisis_master));
-		}
-
-		$row = $query->row_array();
-		$jml_data = $row['id'];
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
 	}
 
 	public function get_judul()
@@ -240,6 +181,13 @@ class Analisis_laporan_model extends CI_Model {
 				$data['asubjek'] = "Kelompok";
 				break;
 
+			case 5:
+				$desa = ucwords($this->setting->sebutan_desa);
+				$data['nama'] = "Nama $desa";
+				$data['nomor'] = "Kode $desa";
+				$data['asubjek'] = $desa;
+				break;
+
 			default:
 				# code...
 				break;
@@ -247,11 +195,91 @@ class Analisis_laporan_model extends CI_Model {
 		return $data;
 	}
 
+	public function paging($p=1, $o=0)
+	{
+		$per = $this->get_aktif_periode();
+
+		$sql = "SELECT COUNT(DISTINCT u.id) AS jml_data";
+
+		$sql .= $this->list_data_query();
+
+		if (isset($this->session->jawab))
+		{
+			$query = $this->db->query($sql, array($per, $per, $this->session->analisis_master));
+		}
+		else
+		{
+			$query = $this->db->query($sql, array($per, $this->session->analisis_master));
+		}
+		$row = $query->row();
+
+		$this->load->library('paging');
+		$cfg['page'] = $p;
+		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_rows'] = $row->jml_data;
+		$this->paging->init($cfg);
+
+		return $this->paging;
+	}
+
+	public function list_data_query()
+	{
+		$subjek = $this->session->subjek_tipe;
+		$master = $this->get_analisis_master();
+		$pembagi = $master['pembagi']+0;
+
+		switch ($subjek)
+		{
+			case 1: $sql .= " FROM tweb_penduduk u
+				LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
+				LEFT JOIN tweb_keluarga kk ON kk.id = u.id_kk";
+				break;
+			case 2: $sql .= " FROM tweb_keluarga u
+				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id";
+				break;
+			case 3: $sql .= " FROM tweb_rtm u
+				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id";
+				break;
+			case 4: $sql .= " FROM kelompok u
+				LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
+				LEFT JOIN  tweb_keluarga kk ON kk.nik_kepala = p.id
+				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id";
+				break;
+			case 5: $sql .= " FROM config u"; break;
+		}
+
+		if (isset($this->session->jawab))
+		{
+			$sql .= " LEFT JOIN analisis_respon x ON u.id = x.id_subjek";
+			$sql .= " LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval WHERE h.id_periode = ? AND x.id_periode = ? AND k.id_master = ? ";
+			$sql .= $this->search_sql();
+			$sql .= $this->klasifikasi_sql();
+			$sql .= $this->dusun_sql();
+			$sql .= $this->rw_sql();
+			$sql .= $this->rt_sql();
+			$sql .= $this->jawab_sql();
+		}
+		else
+		{
+			$sql .= " LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval WHERE h.id_periode = ? AND k.id_master =?";
+			$sql .= $this->search_sql();
+			$sql .= $this->klasifikasi_sql();
+			$sql .= $this->dusun_sql();
+			$sql .= $this->rw_sql();
+			$sql .= $this->rt_sql();
+			$sql .= $this->jawab_sql();
+		}
+
+		return $sql;
+	}
+
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		$per = $this->get_aktif_periode();
-		$pembagi = $this->get_analisis_master();
-		$pembagi = $pembagi['pembagi']+0;
+		$master = $this->get_analisis_master();
+		$pembagi = $master['pembagi'] + 0;
 
 		switch ($o)
 		{
@@ -271,62 +299,34 @@ class Analisis_laporan_model extends CI_Model {
 		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id, u.nik AS uid, kk.no_kk AS kk, u.nama, kk.alamat, c.dusun, c.rw, c.rt, u.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
-				FROM tweb_penduduk u
-				LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-				LEFT JOIN tweb_keluarga kk ON kk.id = u.id_kk ";
+			case 1: $sql = "SELECT u.id, u.nik AS uid, kk.no_kk AS kk, u.nama, kk.alamat, c.dusun, c.rw, c.rt, u.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi";
 				break;
 
-			case 2: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, u.alamat, c.dusun, c.rw, c.rt, p.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
-				FROM tweb_keluarga u
-				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
-				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id " ;
+			case 2: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, u.alamat, c.dusun, c.rw, c.rt, p.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi";
 				break;
 
-			case 3: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, kk.alamat, c.dusun, c.rw, c.rt, p.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
-				FROM tweb_rtm u
-				LEFT JOIN tweb_penduduk p ON u.nik_kepala = p.id
-				LEFT JOIN  tweb_keluarga kk ON kk.nik_kepala = p.id
-				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id ";
+			case 3: $sql = "SELECT u.id, u.no_kk AS uid, p.nik AS kk, p.nama, kk.alamat, c.dusun, c.rw, c.rt, p.sex, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi";
 				break;
 
-			case 4: $sql = "SELECT u.id, u.kode AS uid, u.nama, p.sex, c.dusun, c.rw, c.rt, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi
-				FROM kelompok u
-				LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
-				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id ";
+			case 4: $sql = "SELECT u.id, u.kode AS uid, u.nama, p.sex, c.dusun, c.rw, c.rt, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi";
+				break;
+
+			case 5: $sql = "SELECT u.id, u.kode_desa AS uid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt, h.akumulasi/$pembagi AS cek, k.nama AS klasifikasi";
 				break;
 
 			default: return null;
 		}
 
+		$sql .= $this->list_data_query();
+		$sql .= $order_sql;
+		$sql .= $paging_sql;
 
 		if (isset($this->session->jawab))
 		{
-			$sql .= "LEFT JOIN analisis_respon x ON u.id = x.id_subjek ";
-			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval ";
-			$sql .= "WHERE h.id_periode = ? AND x.id_periode = ? AND k.id_master = ? ";
-			$sql .= $this->search_sql();
-			$sql .= $this->klasifikasi_sql();
-			$sql .= $this->dusun_sql();
-			$sql .= $this->rw_sql();
-			$sql .= $this->rt_sql();
-			$sql .= $this->jawab_sql();
-			$sql .= " GROUP BY u.id ";
-			$sql .= $order_sql;
-			$sql .= $paging_sql;
 			$query = $this->db->query($sql, array($per, $per, $this->session->analisis_master));
 		}
 		else
 		{
-			$sql .= "LEFT JOIN analisis_respon_hasil h ON u.id = h.id_subjek LEFT JOIN analisis_klasifikasi k ON h.akumulasi/$pembagi >= k.minval AND h.akumulasi/$pembagi <= k.maxval ";
-			$sql .= "WHERE h.id_periode = ? AND k.id_master = ?";
-			$sql .= $this->search_sql();
-			$sql .= $this->klasifikasi_sql();
-			$sql .= $this->dusun_sql();
-			$sql .= $this->rw_sql();
-			$sql .= $this->rt_sql();
-			$sql .= $order_sql;
-			$sql .= $paging_sql;
 			$query = $this->db->query($sql, array($per, $this->session->analisis_master));
 		}
 		$data = $query->result_array();
@@ -457,6 +457,11 @@ class Analisis_laporan_model extends CI_Model {
 				FROM kelompok u
 				LEFT JOIN tweb_penduduk p ON u.id_ketua = p.id
 				LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
+				WHERE u.id = ? ";
+				break;
+
+			case 5: $sql = "SELECT u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt
+				FROM config u
 				WHERE u.id = ? ";
 				break;
 
