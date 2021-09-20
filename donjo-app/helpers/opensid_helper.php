@@ -400,20 +400,6 @@ function gambar_desa($nama_file, $type = FALSE, $file = FALSE)
 	return $logo_desa = ($file ? APPPATH.'../' : base_url()). "assets/files/logo/$default";
 }
 
-/**
- * KonfigurasiDatabase
- *
- * Mengembalikan path file konfigurasi database desa
- *
- * @access  public
- * @return  string
- */
-function KonfigurasiDatabase()
-{
-	$konfigurasi_database = LOKASI_CONFIG_DESA . 'database.php';
-	return $konfigurasi_database;
-}
-
 function session_error($pesan = '')
 {
 	$_SESSION['error_msg'] = $pesan;
