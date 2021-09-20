@@ -20,3 +20,4 @@ Terima kasih pada Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasi
 
 #### Perubahan Teknis
 1. Perbaiki migrasi yang gagal.
+2. Sesuaikan icon peta wilayah dan widget info pelanggan.
