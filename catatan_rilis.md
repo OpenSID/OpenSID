@@ -9,6 +9,7 @@ Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontri
 2. [#4410](https://github.com/OpenSID/OpenSID/issues/4410) Sekarang dokumen kelengkapan penduduk bisa diunduh atau ditampilkan (jika setting browser mendukung).
 3. [#4371](https://github.com/OpenSID/OpenSID/issues/4371) Sekarang bisa menghapus lebih dari satu log file sekaligus.
 4. [#4355](https://github.com/OpenSID/OpenSID/issues/4355) Sediakan subjek tingkat desa untuk master analisis.
+5. [#4122](https://github.com/OpenSID/OpenSID/issues/4122) Mengirim Buku Rekap Jumlah Penduduk ke OpenDK melalui API.
 
 #### Perbaikan BUG
 1. [#4408](https://github.com/OpenSID/OpenSID/issues/4408) Perbaiki tambah warga terdata di suplemen keluarga berdasarkan keluarga yang aktif.
