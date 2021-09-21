@@ -59,7 +59,7 @@ define("VERSION", '21.09-premium-beta02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021091771');
+define('VERSI_DATABASE', '2021091772');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -398,20 +398,6 @@ function gambar_desa($nama_file, $type = FALSE, $file = FALSE)
 	// type FALSE = logo, TRUE = kantor
 	$default = ($type)  ? 'opensid_kantor.jpg' : 'opensid_logo.png';
 	return $logo_desa = ($file ? APPPATH.'../' : base_url()). "assets/files/logo/$default";
-}
-
-/**
- * KonfigurasiDatabase
- *
- * Mengembalikan path file konfigurasi database desa
- *
- * @access  public
- * @return  string
- */
-function KonfigurasiDatabase()
-{
-	$konfigurasi_database = LOKASI_CONFIG_DESA . 'database.php';
-	return $konfigurasi_database;
 }
 
 function session_error($pesan = '')

@@ -19,8 +19,11 @@ Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontri
 6. [#4414](https://github.com/OpenSID/OpenSID/issues/4414) Perbaiki penanganan akses Responsive File Manager menggunakan session bawaan CI3.
 7. [#389](https://github.com/OpenSID/premium/issues/389) Tambahkan validasi input no_kk tidak lagi menggunakan validasi NIK.
 8. [#388](https://github.com/OpenSID/OpenSID/issues/388) Hapus required input kepala desa pada saat edit identitas desa.
+9. [#4426](https://github.com/OpenSID/OpenSID/issues/4426) Sesuaikan Nama Menu/Modul pada Admin dan web OpenSID dengan sebutan_desa/sebutan_kepala_desa
+10. [$4419](https://github.com/OpenSID/OpenSID/issues/4419) Perbaiki mpor data penduduk dengan NIK sementara.
 
 
 #### Perubahan Teknis
 1. Perbaiki migrasi yang gagal.
 2. Sesuaikan icon peta wilayah dan widget info pelanggan.
+3. Penyesuaian pengaturan basis data untuk pengguna/desa
