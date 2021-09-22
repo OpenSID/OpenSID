@@ -59,7 +59,7 @@ define("VERSION", '21.09-premium-beta03');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021091772');
+define('VERSI_DATABASE', '2021092171');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -750,20 +750,21 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
 }
 
 /**
- * @param array 		(0 => (kolom1 => teks, kolom2 => teks), 1 => (kolom1 => teks, kolom2 => teks), ..)
+ * @param array 		(0 => (kolom1 => teks, kolom2 => teks, ..), 1 => (kolom1 => teks, kolom2 => teks. ..), ..)
  * @return string 	dalam bentuk siap untuk autocomplete, mengambil teks dari setiap kolom
  */
 function autocomplete_data_ke_str($data)
 {
 	$str = '';
-	foreach ($data as $baris)
+	$keys = array_keys($data[0]);
+	$values = [];
+	foreach ($keys as $key)
 	{
-		foreach ($baris as $key => $value)
-		{
-			$str .= ','.json_encode(substr($value, 0, 30));
-		}
+		$values = array_merge($values, array_column($data, $key));
 	}
-	$str = '[' . strtolower(substr($str, 1)) . ']';
+	$values = array_unique($values);
+	sort($values);
+	$str = '["' . strtolower(implode('","', $values)) . '"]';
 	return $str;
 }
 

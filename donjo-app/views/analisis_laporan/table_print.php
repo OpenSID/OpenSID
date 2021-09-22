@@ -69,12 +69,14 @@
 		<tr class="border thick">
 			<th width="10">NO</th>
 			<th align="left"><?= strtoupper($judul['nomor']) ?></th>
-			<?php if ($analisis_master['subjek_tipe'] != 4): ?>
+			<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3])): ?>
 				<th align="left"><?= strtoupper($judul['nomor_kk']) ?></th>
 			<?php endif;?>
 			<th align="left"><?= strtoupper($judul['nama']) ?></th>
-			<th align="left">JENIS KELAMIN</th>
-			<th align="left">ALAMAT</th>
+			<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
+				<th align="left">JENIS KELAMIN</th>
+				<th align="left">ALAMAT</th>
+			<?php endif; ?>
 			<th align="left">NILAI</th>
 			<th align="left">KLASIFIKASI</th>
 		</tr>
@@ -84,12 +86,14 @@
 			<tr>
 				<td align="center" width="2"><?= ($key + 1); ?></td>
 				<td class="textx" ><?= $data['uid'] ?></td>
-				<?php if ($analisis_master['subjek_tipe'] != 4): ?>
+				<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3])): ?>
 					<td class="textx"><?= $data['kk'] ?></td>
 				<?php endif;?>
 				<td><?= $data['nama'] ?></td>
-				<td align="center"><?= $data['jk'] ?></td>
-				<td><?= strtoupper($data['alamat'] . " "  .  "RT/RW ". $data['rt']."/".$data['rw'] . " - " . $this->setting->sebutan_dusun . " " . $data['dusun']) ?></td>
+				<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
+					<td align="center"><?= $data['jk'] ?></td>
+					<td><?= strtoupper($data['alamat'] . " "  .  "RT/RW ". $data['rt']."/".$data['rw'] . " - " . $this->setting->sebutan_dusun . " " . $data['dusun']) ?></td>
+				<?php endif; ?>
 				<td align="right"><?= $data['nilai'] ?></td>
 				<td align="right"><?= $data['klasifikasi'] ?></td>
 			</tr>

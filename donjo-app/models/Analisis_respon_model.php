@@ -1,9 +1,15 @@
 <?php class Analisis_respon_model extends CI_Model {
 
+	protected $per;
+	protected $master;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('Spreadsheet_Excel_Reader');
+		$this->load->model('analisis_master_model');
+		$this->per = $this->analisis_master_model->get_aktif_periode();
+		$this->master = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 	}
 
 	public function autocomplete()
@@ -42,6 +48,14 @@
 				$this->db
 					->select('u.kode_desa AS no_kk, u.nama_desa as nama')
 					->from('config u');
+				break;
+			case 8:
+				$this->db
+					->select("u.dusun, u.rw, u.rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt <> 0')
+					->where('u.rt <> "-"');
+				break;
 		}
 		$this->dusun_sql();
 		$this->rw_sql();
@@ -75,7 +89,7 @@
 				break;
 			case 3:
 				$kw = $this->db->escape_like_str($cari);
-	-			$kw = '%' .$kw. '%';
+				$kw = '%' .$kw. '%';
 				$this->db
 					->group_start()
 						->group_start()
@@ -93,6 +107,14 @@
 						->or_like('p.nama', $cari)
 					->group_end();
 				break;
+			case 8:
+				$this->db
+					->group_start()
+						->like('u.dusun', $cari)
+						->or_like('u.rw', $cari)
+						->or_like('u.rt', $cari)
+					->group_end();
+				break;
 			default: return null;
 		}
 	}
@@ -101,32 +123,32 @@
 	{
 		if (empty($this->session->dusun) || $this->session->subjek_tipe == 5) return;
 
-		$this->db->where('c.dusun', $this->session->dusun);
+		$this->db->where('dusun', $this->session->dusun);
 	}
 
 	private function rw_sql()
 	{
 		if (empty($this->session->rw) || $this->session->subjek_tipe == 5) return;
 
-		$this->db->where('c.rw', $this->session->rw);
+		$this->db->where('rw', $this->session->rw);
 	}
 
 	private function rt_sql()
 	{
 		if (empty($this->session->rt) || $this->session->subjek_tipe == 5) return;
 
-		$this->db->where('c.rt', $this->session->rt);
+		$this->db->where('rt', $this->session->rt);
 	}
 
 	// Pertanyaan telah diisi atau belum
 	// $this->session->isi == 1 untuk pertanyaan yg telah diisi
-	private function isi_sql($per)
+	private function isi_sql()
 	{
 		if (empty($isi = $this->session->isi)) return;
 
 		$isi = $isi == 1 ? 1 : 0;
 		$this->db
-			->where("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode = $per) = $isi");
+			->where("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode = $this->per) = $isi");
 	}
 
 	private function kelompok_sql($kf=0)
@@ -138,7 +160,7 @@
 	{
 		$this->list_data_sql();
 		$jml_data = $this->db
-			->select('COUNT(u.id) AS jml_data')
+			->select('COUNT(*) AS jml_data')
 			->get()->row()->jml_data;
 
 		$this->load->library('paging');
@@ -152,9 +174,7 @@
 
 	private function list_data_sql()
 	{
-		$per = $this->get_aktif_periode();
-		$master = $this->get_analisis_master();
-		$id_kelompok = $master['id_kelompok'];
+		$id_kelompok = $this->master['id_kelompok'];
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
@@ -190,6 +210,13 @@
 					->from('config u');
 				break;
 
+			case 8:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt <> 0')
+					->where('u.rt <> "-"');
+				break;
+
 			default: return null;
 		}
 		if ($id_kelompok != 0) $this->kelompok_sql($id_kelompok);
@@ -198,17 +225,14 @@
 		$this->dusun_sql();
 		$this->rw_sql();
 		$this->rt_sql();
-		$this->isi_sql($per);
+		$this->isi_sql();
 	}
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$per = $this->get_aktif_periode();
-		$master = $this->get_analisis_master();
-
 		$this->db
-			->select("(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode = $per LIMIT 1) as cek")
-			->select("(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = {$master['id']} AND b.id_periode = $per AND b.id_subjek = u.id) as bukti_pengesahan");
+			->select("(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode = {$this->per} LIMIT 1) as cek")
+			->select("(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id) as bukti_pengesahan");
 		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
@@ -235,6 +259,11 @@
 			case 5:
 				$this->db
 					->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+				break;
+
+			case 8:
+				$this->db
+					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
 				break;
 
 			default: return null;
@@ -277,7 +306,7 @@
 
 	public function data_unduh($p, $o)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
@@ -293,7 +322,15 @@
 			case 4:
 				$this->db->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
 				break;
-			default: return null; break;
+			case 5:
+				$this->db->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+				break;
+			case 8:
+				$this->db->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
+				break;
+			default:
+				return null;
+				break;
 		}
 
 		$this->list_data_sql();
@@ -344,7 +381,7 @@
 		$this->session->error_msg = '';
 		if ($per == 0)
 		{
-			$per = $this->get_aktif_periode();
+			$per = $this->analisis_master_model->get_aktif_periode();
 			$id_master = $_SESSION['analisis_master'];
 		}
 		else
@@ -606,7 +643,7 @@
 
 	public function list_indikator($id=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 
 		$data = $this->db
 			->select('u.id, u.id_kategori, u.nomor, u.id_tipe, u.pertanyaan, k.kategori')
@@ -732,7 +769,7 @@
 
 	public function list_bukti($id=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 		$sql = "SELECT pengesahan FROM analisis_respon_bukti WHERE id_subjek = ? AND id_master = ? AND id_periode = ? ";
 		$sql .= " ORDER BY tgl_update DESC";
 		$query = $this->db->query($sql, array($id, $_SESSION['analisis_master'], $per));
@@ -746,20 +783,58 @@
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM penduduk_hidup u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = ? "; break;
+			case 1:
+				$this->db
+					->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt')
+					->from('penduduk_hidup u')
+					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+				break;
 
-			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM keluarga_aktif u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? " ; break;
+			case 2:
+				$this->db
+					->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
+					->from('keluarga_aktif u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
 
-			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 3:
+				$this->db
+					->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
+					->from('tweb_rtm u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
 
-			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 4: $
+				$this->db
+					->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt')
+					->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
 
-			case 5: $sql = "SELECT u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt FROM config u WHERE u.id = ? "; break;
+			case 5:
+				$this->db
+					->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
+					->from('config u');
+				break;
+
+			case 8:
+				$this->db
+					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt <> 0')
+					->where('u.rt <> "-"');
+				break;
 
 			default: return null;
 		}
-		$query = $this->db->query($sql, $id);
-		return $query->row_array();
+		$data = $this->db
+			->where('u.id', $id)
+			->limit(1)
+			->get()->row_array();
+
+		return $data;
 	}
 
 	public function list_anggota($id=0)
@@ -792,7 +867,7 @@
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		$data=$query->result_array();
 
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
@@ -818,8 +893,6 @@
 
 	public function indikator_data_unduh()
 	{
-		$master = $this->get_analisis_master();
-
 		$order_sql = ' ORDER BY u.nomor';
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
@@ -842,8 +915,6 @@
 
 	public function indikator_unduh($p=0)
 	{
-		$master = $this->get_analisis_master();
-
 		$data = $this->db
 			->select('u.*')
 			->where('u.id_master', $this->session->analisis_master)
@@ -864,10 +935,6 @@
 					->where('asign', 1)
 					->get('analisis_parameter')
 					->result_array();
-
-				// $sql2 = "SELECT * FROM analisis_parameter WHERE id_indikator = ? AND asign = 1 ";
-				// $query2 = $this->db->query($sql2, $data[$i]['id']);
-				// $par = $query2->result_array();
 				$data[$i]['par'] = $par;
 			}
 		}
@@ -877,7 +944,7 @@
 	public function pre_update($pr=0)
 	{
 		if ($pr == 0)
-			$per = $this->get_aktif_periode();
+			$per = $this->analisis_master_model->get_aktif_periode();
 		else
 			$per = $pr;
 
@@ -911,7 +978,7 @@
 
 	public function update_hasil($id=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 
 		$sql = "SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis = 1 AND r.id_periode = ?";
 		$query = $this->db->query($sql, array($id, $per));
@@ -929,7 +996,7 @@
 
 	public function import_respon($op=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 
 		$subjek = $_SESSION['subjek_tipe'];
 		$mas = $_SESSION['analisis_master'];
@@ -1130,29 +1197,6 @@
 					'id_periode' => $per);
 			}
 		}
-	}
-
-	public function get_aktif_periode()
-	{
-		$sql = "SELECT * FROM analisis_periode WHERE aktif = 1 AND id_master = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		$data = $query->row_array();
-		return $data['id'];
-	}
-
-	public function get_analisis_master()
-	{
-		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		return $query->row_array();
-	}
-
-	public function get_periode()
-	{
-		$sql = "SELECT * FROM analisis_periode WHERE aktif = 1 AND id_master = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		$data = $query->row_array();
-		return $data['nama'];
 	}
 
 	public function get_respon_by_id_periode($id_periode = 0, $subjek = 1)

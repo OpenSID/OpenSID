@@ -56,7 +56,7 @@
 								<tr>
 									<td>Periode</td>
 									<td>:</td>
-									<td><?= $analisis_periode?></td>
+									<td><?= $analisis_periode->nama ?></td>
 								</tr>
 								<?php if ($analisis_master['gform_id'] != null && $analisis_master['gform_id'] != ""): ?>
 								<tr>
@@ -131,8 +131,10 @@
 													<?php else: ?>
 														<th><a href="<?= site_url("analisis_respon/index/$p/3")?>"><?= $nama?> <i class='fa fa-sort fa-sm'></i></a></th>
 													<?php endif; ?>
-													<?php if ($analisis_master['subjek_tipe'] != 5): ?>
+													<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
 														<th>L/P</th>
+													<?php endif; ?>
+													<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4,8])): ?>
 														<th>Dusun</th>
 														<th>RW</th>
 														<th>RT</th>
@@ -153,8 +155,10 @@
 															</td>
 															<td nowrap><?= $data['nid']?></td>
 															<td nowrap><?= $data['nama']?></td>
-															<?php if ($analisis_master['subjek_tipe'] != 5): ?>
+															<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
 																<td align="center"><?= $data['jk']?></td>
+															<?php endif; ?>
+															<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4,8])): ?>
 																<td><?= $data['dusun']?></td>
 																<td><?= $data['rw']?></td>
 																<td><?= $data['rt']?></td>

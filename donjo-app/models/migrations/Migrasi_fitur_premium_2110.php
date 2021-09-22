@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021091771($hasil);
 		$hasil = $hasil && $this->migrasi_2021091751($hasil);
 		$hasil = $hasil && $this->migrasi_2021092071($hasil);
+		$hasil = $hasil && $this->migrasi_2021092171($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -185,6 +186,17 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 			// Default data yg sudah ada
 			$hasil = $hasil && $this->db->where('tipe', NULL)->update('laporan_sinkronisasi', ['tipe' => 'laporan_apbdes']);
 		}
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021092171($hasil)
+	{
+		$sql = "INSERT INTO analisis_ref_subjek (id, subjek) VALUES
+			(6, 'Dusun'), (7, 'Rukun Warga (RW)'), (8, 'Rukun Tetangga (RT)')
+			ON DUPLICATE KEY UPDATE subjek = VALUES(subjek)
+		";
+		$hasil = $hasil && $this->db->query($sql);
 
 		return $hasil;
 	}

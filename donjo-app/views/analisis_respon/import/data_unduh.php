@@ -1,16 +1,5 @@
 <?php
 	$tgl =  date('d_m_Y');
-	$subjek = $_SESSION['subjek_tipe'];
-	$mas = $_SESSION['analisis_master'];
-	$key = ($periode+3)*($mas+7)*($subjek*3);
-	$key = "AN".$key;
-	switch ($subjek):
-		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
-		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-		case 3: $sql = $nama="Kepala Rumahtangga"; $nomor="Nomor Rumahtangga";$asubjek="Rumahtangga"; break;
-		case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
-		default: return null;
-	endswitch;
 	header("Content-type: application/octet-stream");
 	header("Content-Disposition: attachment; filename=statistik_analisis_jawaban_$tgl.xls");
 	header("Pragma: no-cache");
@@ -36,12 +25,16 @@
 	<table>
 		<tr>
 			<th>No</th>
-			<th><?= $nomor ?></th>
-			<th><?= $nama ?></th>
-			<th>L/P</th>
-			<th>Dusun</th>
-			<th>RW</th>
-			<th>RT</th>
+			<th><?= $judul['nomor'] ?></th>
+			<th><?= $judul['nama'] ?></th>
+			<?php if (in_array($subjek_tipe, [1,2,3,4])): ?>
+				<th>L/P</th>
+			<?php endif; ?>
+			<?php if (in_array($subjek_tipe, [1,2,3,4,8])): ?>
+				<th>Dusun</th>
+				<th>RW</th>
+				<th>RT</th>
+			<?php endif; ?>
 			<th style="background-color:#fefe00">Batas</th>
 			<?php
 			$tot = count($indikator);
@@ -85,7 +78,7 @@
 			?>
 		</tr>
 		<tr>
-			<th colspan='7' style="background-color:#fefe00"></th>
+			<th colspan='<?= $span_kolom ?: 7?>' style="background-color:#fefe00"></th>
 			<th style="background-color:#fefe00"><?= $key?></th>
 			<?php
 			$tot = count($indikator);
@@ -100,10 +93,14 @@
 			<td><?= $data['no']?></td>
 			<td><?= $data['nid']?></td>
 			<td><?= $data['nama']?></td>
-			<td><?= $data['jk']?></td>
-			<td><?= $data['dusun']?></td>
-			<td><?= $data['rw']?></td>
-			<td><?= $data['rt']?></td>
+			<?php if (in_array($subjek_tipe, [1,2,3,4])): ?>
+				<td><?= $data['jk']?></td>
+			<?php endif; ?>
+			<?php if (in_array($subjek_tipe, [1,2,3,4,8])): ?>
+				<td><?= $data['dusun']?></td>
+				<td><?= $data['rw']?></td>
+				<td><?= $data['rt']?></td>
+			<?php endif; ?>
 			<td style="background-color:#fefe00"><?= $data['id']?></td>
 			<?php
 			if ($data['par']==null):

@@ -1,10 +1,16 @@
 <?php
 class Analisis_master_model extends MY_Model {
 
+	public $analisis_master;
+	public $periode;
+
 	function __construct()
 	{
 		parent::__construct();
 		$this->load->model('referensi_model');
+		$this->analisis_master = $this->get_analisis_master($this->session->analisis_master);
+		$this->periode = $this->get_periode();
+
 	}
 
 	public function autocomplete()
@@ -195,6 +201,24 @@ class Analisis_master_model extends MY_Model {
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
+	}
+
+	// periode aktif
+	public function get_periode()
+	{
+		$periode = $this->db
+			->select('*')
+			->from('analisis_periode')
+			->where('aktif', 1)
+			->where('id_master', $this->session->analisis_master)
+			->get()->row();
+		return $periode;
+	}
+
+	// id dari periode aktif
+	public function get_aktif_periode()
+	{
+		return $this->periode->id;
 	}
 
 	public function list_subjek()
