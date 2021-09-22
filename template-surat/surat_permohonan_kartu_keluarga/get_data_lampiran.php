@@ -4,7 +4,7 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	$anggota = $this->keluarga_model->list_anggota($individu['id_kk'], TRUE);
+	$anggota = $this->keluarga_model->list_anggota($individu['id_kk']);
 	$anggota_ikut = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => FALSE], TRUE);
 
 	$id = $this->input->post('pamong_id');
