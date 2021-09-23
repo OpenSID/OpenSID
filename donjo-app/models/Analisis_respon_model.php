@@ -49,6 +49,20 @@
 					->select('u.kode_desa AS no_kk, u.nama_desa as nama')
 					->from('config u');
 				break;
+			case 6:
+				$this->db
+					->select("u.dusun")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+			case 7:
+				$this->db
+					->select("u.dusun, u.rw")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0');
+				break;
 			case 8:
 				$this->db
 					->select("u.dusun, u.rw, u.rt")
@@ -105,6 +119,17 @@
 					->group_start()
 						->like('u.nama', $cari)
 						->or_like('p.nama', $cari)
+					->group_end();
+				break;
+			case 6:
+				$this->db
+					->like('u.dusun', $cari);
+				break;
+			case 7:
+				$this->db
+					->group_start()
+						->like('u.dusun', $cari)
+						->or_like('u.rw', $cari)
 					->group_end();
 				break;
 			case 8:
@@ -210,6 +235,21 @@
 					->from('config u');
 				break;
 
+			case 6:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+
+			case 7:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0')
+					->where('u.rw <>', '-');
+				break;
+
 			case 8:
 				$this->db
 					->from('tweb_wil_clusterdesa u')
@@ -259,6 +299,14 @@
 			case 5:
 				$this->db
 					->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+				break;
+
+			case 6:
+				$this->db->select("u.id, u.dusun AS nid, CONCAT(UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+				break;
+
+			case 7:
+				$this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
 				break;
 
 			case 8:
@@ -324,6 +372,12 @@
 				break;
 			case 5:
 				$this->db->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+				break;
+			case 6:
+				$this->db->select("u.id, u.dusun AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+				break;
+			case 7:
+				$this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
 				break;
 			case 8:
 				$this->db->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
@@ -817,6 +871,22 @@
 				$this->db
 					->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
 					->from('config u');
+				break;
+
+			case 6:
+				$this->db
+					->select("u.id, u.dusun AS nid, UPPER('{$this->setting->sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+
+			case 7:
+				$this->db
+					->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0');
 				break;
 
 			case 8:

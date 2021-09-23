@@ -163,6 +163,8 @@ class Analisis_master extends Admin_Controller
 
 		if ($master['subjek_tipe'] == 5)
 			$data['subjek'] = ucwords($this->setting->sebutan_desa);
+		elseif ($master['subjek_tipe'] == 6)
+			$data['subjek'] = ucwords($this->setting->sebutan_dusun);
 		else
 			$data['subjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
 

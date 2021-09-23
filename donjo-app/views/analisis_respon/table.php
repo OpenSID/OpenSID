@@ -134,10 +134,12 @@
 													<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
 														<th>L/P</th>
 													<?php endif; ?>
-													<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4,8])): ?>
-														<th>Dusun</th>
+													<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4,7,8])): ?>
+														<th><?= ucwords($this->setting->sebutan_dusun) ?></th>
 														<th>RW</th>
-														<th>RT</th>
+														<?php if ($analisis_master['subjek_tipe'] != 7): ?>
+															<th>RT</th>
+														<?php endif; ?>
 													<?php endif; ?>
 													<th>Status</th>
 												</tr>
@@ -158,10 +160,12 @@
 															<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
 																<td align="center"><?= $data['jk']?></td>
 															<?php endif; ?>
-															<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4,8])): ?>
+															<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4,7,8])): ?>
 																<td><?= $data['dusun']?></td>
 																<td><?= $data['rw']?></td>
-																<td><?= $data['rt']?></td>
+																<?php if ($analisis_master['subjek_tipe'] != 7): ?>
+																	<td><?= $data['rt']?></td>
+																<?php endif; ?>
 															<?php endif; ?>
 															<td align="center"><?= $data['set']?></td>
 														</tr>

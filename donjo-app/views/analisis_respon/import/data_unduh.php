@@ -30,10 +30,14 @@
 			<?php if (in_array($subjek_tipe, [1,2,3,4])): ?>
 				<th>L/P</th>
 			<?php endif; ?>
-			<?php if (in_array($subjek_tipe, [1,2,3,4,8])): ?>
+			<?php if (in_array($subjek_tipe, [1,2,3,4,7,8])): ?>
 				<th>Dusun</th>
-				<th>RW</th>
-				<th>RT</th>
+				<?php if ($subjek_tipe != 6): ?>
+					<th>RW</th>
+					<?php if ($subjek_tipe != 7): ?>
+						<th>RT</th>
+					<?php endif; ?>
+				<?php endif; ?>
 			<?php endif; ?>
 			<th style="background-color:#fefe00">Batas</th>
 			<?php
@@ -96,10 +100,14 @@
 			<?php if (in_array($subjek_tipe, [1,2,3,4])): ?>
 				<td><?= $data['jk']?></td>
 			<?php endif; ?>
-			<?php if (in_array($subjek_tipe, [1,2,3,4,8])): ?>
+			<?php if (in_array($subjek_tipe, [1,2,3,4,7,8])): ?>
 				<td><?= $data['dusun']?></td>
-				<td><?= $data['rw']?></td>
-				<td><?= $data['rt']?></td>
+				<?php if ($subjek_tipe != 6): ?>
+					<td><?= $data['rw']?></td>
+					<?php if ($subjek_tipe != 7): ?>
+						<td><?= $data['rt']?></td>
+					<?php endif; ?>
+				<?php endif; ?>
 			<?php endif; ?>
 			<td style="background-color:#fefe00"><?= $data['id']?></td>
 			<?php

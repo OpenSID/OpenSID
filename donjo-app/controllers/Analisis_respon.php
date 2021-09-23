@@ -167,6 +167,21 @@ class Analisis_respon extends Admin_Controller {
 					'asubjek' => ucwords($this->setting->sebutan_desa)
 				];
 				break;
+			case 6:
+				$dusun = ucwords($this->setting->sebutan_dusun);
+				$judul = [
+					'nama' => "Nama {$dusun}",
+					'nomor' => $dusun,
+					'asubjek' => $asubjek
+				];
+				break;
+			case 7:
+				$judul = [
+					'nama' => "Nama {$this->setting->sebutan_dusun}/RW",
+					'nomor' => "RW",
+					'asubjek' => $asubjek
+				];
+				break;
 			case 8:
 				$judul = [
 					'nama' => "Nama {$this->setting->sebutan_dusun}/RW/RT",
@@ -262,6 +277,12 @@ class Analisis_respon extends Admin_Controller {
 		{
 			case 5:
 				$data['span_kolom'] = 3;
+				break;
+			case 6:
+				$data['span_kolom'] = 3;
+				break;
+			case 7:
+				$data['span_kolom'] = 5;
 				break;
 			case 8:
 				$data['span_kolom'] = 6;

@@ -109,6 +109,17 @@ class Analisis_laporan_model extends CI_Model {
 						->or_like('p.nama', $cari)
 					->group_end();
 				break;
+			case 6:
+				$this->db
+					->like('u.dusun', $cari);
+				break;
+			case 7:
+				$this->db
+					->group_start()
+						->like('u.dusun', $cari)
+						->or_like('u.rw', $cari)
+					->group_end();
+				break;
 			case 8:
 				$this->db
 					->group_start()
@@ -211,6 +222,23 @@ class Analisis_laporan_model extends CI_Model {
 				$data['asubjek'] = $desa;
 				break;
 
+			case 6:
+				$dusun = ucwords($this->setting->sebutan_dusun);
+				$data = [
+					'nama' => "Nama {$dusun}",
+					'nomor' => $dusun,
+					'asubjek' => $dusun
+				];
+				break;
+
+			case 7:
+				$data = [
+					'nama' => "Nama {$this->setting->sebutan_dusun}/RW",
+					'nomor' => "RW",
+					'asubjek' => $asubjek
+				];
+				break;
+
 			case 8:
 				$data = [
 					'nama' => "Nama {$this->setting->sebutan_dusun}/RW/RT",
@@ -281,6 +309,18 @@ class Analisis_laporan_model extends CI_Model {
 				$this->db
 					->from('config u');
 				break;
+			case 6:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+			case 7:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0');
+				break;
 			case 8:
 				$this->db
 					->from('tweb_wil_clusterdesa u')
@@ -337,8 +377,16 @@ class Analisis_laporan_model extends CI_Model {
 				$this->db->select("u.id, u.kode_desa AS uid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt");
 				break;
 
+			case 6:
+				$this->db->select("u.id, u.dusun AS uid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt");
+				break;
+
+			case 7:
+				$this->db->select("u.id, u.rw AS uid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
+				break;
+
 			case 8:
-				$this->db->select("u.id, u.rt AS uid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt");
+				$this->db->select("u.id, u.rt AS uid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
 				break;
 
 			default: return null;
@@ -493,6 +541,22 @@ class Analisis_laporan_model extends CI_Model {
 				$this->db
 					->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
 					->from('config u');
+				break;
+
+			case 6:
+				$this->db
+					->select("u.id, u.dusun AS nid, UPPER('{$this->setting->sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+
+			case 7:
+				$this->db
+					->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0');
 				break;
 
 			case 8:
