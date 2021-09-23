@@ -1,3 +1,8 @@
+<style type="text/css">
+	.form-group a {
+		color: #3c8dbc;
+	}
+</style>
 <script>
 	$('#file_browser2').click(function(e)
 	{
