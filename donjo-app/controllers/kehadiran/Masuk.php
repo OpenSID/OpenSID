@@ -54,40 +54,25 @@ class Masuk extends Web_Controller
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model','hari_model', 'hadir_model']);
+		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model', 'hari_model', 'hadir_model']);
 		$this->load->helper('other_helper');
 		//disarankan diletakkan di config
 		$this->defaultJamTerakhir="18:00:00";//23:59:59
 		
 	}
 
-	public function warning()
-	{
-		$session =$this->session->userdata();
-			print_r($session);die;
-			
-	}
-
 	public function index()
 	{
-		$type=[1,2,3 ];//2.4 masih ditanya
+		$type = [1,2,3 ];//2.4 masih ditanya
 		if ($this->session->kehadiran == 1)
 		{
 			$this->session->unset_userdata('kehadiran');
 		}			
-			
-		 
 
-		if ($error_msg = $this->session->error_msg)
-		{
-			//die($error_msg);
-		}
-		else{
-			
-		}
+
 		//Initialize Session ------------
 		$this->session->unset_userdata('balik_ke');
-		if ( ! isset($this->session->mandiri))
+		if ( !isset($this->session->mandiri))
 		{
 			// Belum ada session variable
 			$this->session->kehadiran = 0;
@@ -100,15 +85,15 @@ class Masuk extends Web_Controller
 			'form_action' => site_url('kehadiran/cek')
 		];
 		
-		$data['login_type']=in_array($this->input->get('form'),$type)?$this->input->get('form'):1;
-		$add_sess=['login_type'=>$data['login_type']];
+		$data['login_type'] = in_array($this->input->get('form'),$type)?$this->input->get('form'):1;
+		$add_sess = ['login_type'=>$data['login_type']];
 		$this->session->set_userdata($add_sess);
-		$params=['now'=>1,'first'=>1];
+		$params = ['now'=>1,'first'=>1];
 		$hari = $this->hari_model->_get($params);
 		if (count($hari))
 		{
 			//pre_print_r($hari);die;
-			$data['locked']=$hari;
+			$data['locked'] = $hari;
 		}
 		
 		$this->load->view('kehadiran/masuk_view', $data);
@@ -120,8 +105,8 @@ class Masuk extends Web_Controller
 		$nik = bilangan(bilangan($masuk['nik']));
 		$pin = hash_pin(bilangan($masuk['pin']));
 		
-		$penduduk=$this->infoPenduduk($nik);
-		$pamong=$this->infoPamong($nik);
+		$penduduk = $this->infoPenduduk($nik);
+		$pamong   = $this->infoPamong($nik);
 
 		if (!isset($penduduk->nama)&&!isset($pamong->nama))
 		{
@@ -134,15 +119,15 @@ class Masuk extends Web_Controller
 			exit;
 		}
 		
-		if(isset($penduduk->nama)){
-			$login=$penduduk;
+		if (isset($penduduk->nama)){
+			$login = $penduduk;
 		}
 		
-		if(isset($pamong->nama)){
-			$login=$pamong;
+		if (isset($pamong->nama)){
+			$login = $pamong;
 		}
 		
-		if($login->pamong_status!=1)
+		if ($login->pamong_status!=1)
 		{ 
 			$add_sess = [
 				'error_msg' => "Maaf, {$login->nama} tidak aktif",
@@ -153,14 +138,13 @@ class Masuk extends Web_Controller
 			exit;
 		}
 		
-		if($pin != $login->pin)
+		if ($pin != $login->pin)
 		{
 			$add_sess = [
 				'error_msg' => "Silahkan memeriksa kembali NIK / PIN ",
 				//($pin|{$login->pin}) ".json_encode($login),
 			];
 			$this->session->set_userdata($add_sess); 
-			
 			redirect($_SERVER['HTTP_REFERER'],1);
 		}
 		
@@ -215,7 +199,7 @@ class Masuk extends Web_Controller
 			->get();
 		 
 		$data=$penduduk->row();
-		if(!isset($data->nama))
+		if (!isset($data->nama))
 		{
 			log_message("info","cek penduduk sql:".$this->db->last_query());
 			$selects='pamong_nama nama,pamong_nik nik, pamong.foto, "0" kk_level, pamong.jabatan, pamong.pamong_id,pamong.pamong_status';
@@ -225,9 +209,9 @@ class Masuk extends Web_Controller
 				->where('pamong_nik', $nik)
 				->get()
 				->row();
-			if(isset($pamong->nama))
+			if (isset($pamong->nama))
 			{
-				if($pamong->pamong_status!=1)
+				if ($pamong->pamong_status!=1)
 				{
 					log_message("info","error:not active|data:".json_encode($data));
 					$add_sess = [
@@ -257,7 +241,7 @@ class Masuk extends Web_Controller
 			}
  
 		}
-		elseif($pin != $data->pin)
+		elseif ($pin != $data->pin)
 		{
 			log_message("info","error:pin|data:".json_encode($data));
 			$add_sess = [
@@ -268,7 +252,7 @@ class Masuk extends Web_Controller
 			redirect($_SERVER['HTTP_REFERER'],1);
 			//redirect('kehadiran/masuk',1);
 		}
-		elseif(!$data->pamong_id)
+		elseif (!$data->pamong_id)
 		{
 			log_message("info","error:pamong|data:".json_encode($data));
 			$add_sess = [
@@ -279,7 +263,7 @@ class Masuk extends Web_Controller
 			redirect($_SERVER['HTTP_REFERER'],1);
 			//redirect('kehadiran/masuk',1);
 		}
-		elseif($data->pamong_status!=1)
+		elseif ($data->pamong_status != 1)
 		{
 			log_message("info","error:not active|data:".json_encode($data));
 			$add_sess = [
@@ -296,7 +280,7 @@ class Masuk extends Web_Controller
 					'kehadiran' => 1,
 					'is_login' => $data
 				];
-				$this->session->set_userdata($session);
+			$this->session->set_userdata($session);
 		}
 			
 		redirect('kehadiran/depan',1);
@@ -305,64 +289,65 @@ class Masuk extends Web_Controller
 	function depan()
 	{
 		
-		if ( isset($this->session->kehadiran)&&$this->session->kehadiran==0)
+		if ( isset($this->session->kehadiran) && $this->session->kehadiran == 0 )
 		{
-			//$this->session->mandiri_try = $this->session->mandiri_try - 1;
 			redirect('kehadiran/masuk',1);
 		}
+		
 		$this->hadir_clean();
 		$session =$this->session->userdata();
-		if($this->input->post('hadir'))
+		
+		if ($this->input->post('hadir'))
 		{
-			$post=$this->input->post();
-			$hadir=$this->input->post('hadir');
-			if($hadir==1)
+			$post  = $this->input->post();
+			$hadir = $this->input->post('hadir');
+			if ($hadir == 1)
 			{
-				$params =['now'=>1,'pamong_id'=>$session['login_data']->pamong_id,'first'=>1];
-				$params['select']="id,hadir_logs";
-				$data=$this->hadir_model->_get($params);
-				$hadir_logs=json_decode($data['hadir_logs']);
-				$hadir_logs[]=[
+				$params           = ['now'=>1, 'pamong_id'=>$session['login_data']->pamong_id, 'first'=>1];
+				$params['select'] = "id,hadir_logs";
+				$data             = $this->hadir_model->_get($params);
+				$hadir_logs       = json_decode($data['hadir_logs']);
+				$hadir_logs[]     = [
 					'date'=>date("Ymd H:i:s"),
 					'status'=>1,
 					'ip'=>get_client_ip()
 				];
-				$update=[
+				$update           = [
 					'hadir_logs'=>json_encode($hadir_logs),
 					'waktu_masuk'=>date("Y-m-d H:i:s")					
 				];
-				$where='id';
-				$cond=$data['id'];
+				$where            = 'id';
+				$cond             = $data['id'];
 				$this->hadir_model->_update($update,$where,$cond);
-				$add_sess = [
+				$add_sess         = [
 					'success_msg' => "<b>Terima kasih.</b><br/>Anda telah mengisi kehadiran hari ini (".tgl_indo_dari_str('now')."). <br/>Selamat bekerja dan jangan lupa login kembali saat pulang.",
 				];
 				$this->session->set_userdata($add_sess); 
-				$url_login=site_url("kehadiran/masuk").'?form='. $this->session->userdata('login_type');
+				$url_login        = site_url("kehadiran/masuk").'?form='. $this->session->userdata('login_type');
 				redirect($url_login,1);
 				exit;
-				//pre_print_r($data);pre_print_r($params);die;
+
 			}
 			
-			if($hadir==2)
+			if ($hadir==2)
 			{
-				$params =['now'=>1,'pamong_id'=>$session['login_data']->pamong_id,'first'=>1];
-				$params['select']="*";
+				$params           = ['now'=>1,'pamong_id'=>$session['login_data']->pamong_id,'first'=>1];
+				$params['select'] = "*";
 				$data=$this->hadir_model->_get($params);
-				$hadir_logs=json_decode($data['hadir_logs']);
-				$hadir_logs[]=[
+				$hadir_logs       = json_decode($data['hadir_logs']);
+				$hadir_logs[]     = [
 					'date'=>date("Ymd H:i:s"),
 					'status'=>2,
 					'ip'=>get_client_ip()
 				];
-				$update=[
+				$update           = [
 					'hadir_logs'=>json_encode($hadir_logs),
 					'waktu_keluar'=>date("Y-m-d H:i:s")					
 				];
-				$where='id';
-				$cond=$data['id'];
+				$where            = 'id';
+				$cond             = $data['id'];
 				$this->hadir_model->_update($update,$where,$cond);
-				$add_sess = [
+				$add_sess         = [
 					'success_msg' => "Terima kasih. Anda telah mengisi kehadiran hari ini (".tgl_indo_dari_str('now')."). <br/>Terima kasih atas kerja keras hari ini, semoga bertemu kembali dengan keadaan sehat.",
 				];
 				$this->session->set_userdata($add_sess); 
@@ -371,36 +356,37 @@ class Masuk extends Web_Controller
 				exit;
 				//pre_print_r($data);pre_print_r($params);die;
 			}
+			
 		}
-		$data = [];
-		$data['status']=1;
-		$data['session']=$session;
 		
-		$login_info=$login_info_clean=$this->session->userdata('login_data');
+		$data            = [];
+		$data['status']  = 1;
+		$data['session'] = $session; 
+		$login_info      = $login_info_clean=$this->session->userdata('login_data');
 		//$login_info_clean->nik = base64_encode($login_info->nik);
 		unset($login_info_clean->foto);
-		$logs=[];
-		$logs[]=[
+		$logs   = [];
+		$logs[] = [
 			'date'=>date("Ymd H:i:s"),
 			'status'=>0,
 			'ip'=>get_client_ip()
 		];
-		//insert
-		$params_add=[
+		//insert--------------------
+		$params_add 		= [
 			'pamong_id'=>@$login_info->pamong_id,
 			'pamong_info'=>json_encode(@$login_info_clean),
 			'hadir_logs'=>json_encode($logs)
 		];
 		$this->hadir_model->_add($params_add,1);//insert ignore 
-		$data['session'][]=$this->db->last_query();
-		$params=[
+		$data['session'][]	= $this->db->last_query();
+		$params				= [
 			'now'=>1,
 			'pamong'=>@$session['login_data']->pamong_id,
 			'first'=>1
 		];
-		$data['hadir']=$hadir=$this->hadir_model->_get($params);
+		$data['hadir']		= $hadir=$this->hadir_model->_get($params);
 		
-		if($hadir['waktu_keluar']!=NULL)
+		if ($hadir['waktu_keluar']!=NULL)
 		{
 			$add_sess = [
 				'error_msg' => "Silahkan periksa kembali kehadiran anda pada (".tgl_indo_dari_str('now').").",
@@ -425,12 +411,11 @@ class Masuk extends Web_Controller
 	
 	private function hadir_clean()
 	{
-		//$data=$this->hadir_model->_blank();
 		$result=$this->hadir_model->tidakKeluar();
 		foreach($result['data'] as $row)
 		{
-			$params=[
-				'waktu_keluar'=>date("Y-m-d {$this->defaultJamTerakhir}",strtotime(row['waktu_masuk']))
+			$params = [
+				'waktu_keluar' => date("Y-m-d {$this->defaultJamTerakhir}",strtotime(row['waktu_masuk']))
 			];
 			
 			//bug apabila waktunya tidak sesuai?!?
@@ -442,11 +427,12 @@ class Masuk extends Web_Controller
 	
 	function pengurus()
 	{
-		if(ENVIRONMENT != 'development')
+		if (ENVIRONMENT != 'development')
 		{
 			redirect($_SERVER['HTTP_REFERER'],1);
 		}
-		$selects='pm.*, p.nama, p.nik, pamong.foto, p.kk_level, p.tag_id_card,
+		
+		$selects = 'pm.*, p.nama, p.nik, pamong.foto, p.kk_level, p.tag_id_card,
 		pamong.jabatan, pamong.pamong_id,pamong.pamong_status,p.id id_penduduk';
 		$penduduk = $this->db
 			->select($selects)
@@ -475,6 +461,5 @@ class Masuk extends Web_Controller
 		}
 		echo "</table><hr/>";
 	}
-	
-	
+
 }
