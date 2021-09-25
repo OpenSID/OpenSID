@@ -15,8 +15,11 @@ class Hari_model extends CI_Model {
 		return ;
 	}
 	
-	function tgl_by_range($start,$end)
+	function tgl_by_range($start=0,$end=0)
 	{
+		if($start==0)	$start=date("Y-m-d");
+		if($end==0)		$end=  date("Y-m-d");
+		
 		$this->db->where('tgl_merah >=',$start)
 			->where('tgl_merah <=',$end)
 			->where('status >=',1)
@@ -42,6 +45,10 @@ class Hari_model extends CI_Model {
 		{
 			$this->db->where('tgl_merah',$params['tanggal']);
 		}
+		if(isset($params['now']))
+		{
+			$this->db->where('tgl_merah',date("Y-m-d"));
+		}
 		if(isset($params['active']))
 		{
 			$this->db->where('status >',0);
@@ -66,6 +73,11 @@ class Hari_model extends CI_Model {
 		}
 		$this->db->limit($limit, $start);
 		
+		if(!isset($isSorted))
+		{
+			$this->db->order_by('tgl_merah','asc');
+		}
+		
 		if(isset($params['first']))
 		{
 			return $this->db->get()->row_array();
@@ -82,9 +94,6 @@ class Hari_model extends CI_Model {
 	
 	function _update($params)
 	{
-		//$this->db->replace('setting_harimerah',$params);
-		$insert_query = $this->db->insert_string('setting_harimerah', $params);
-		$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
 		$tgl_merah=$params['tgl_merah'];
 		unset($params['tgl_merah']);
 		$this->db->where('tgl_merah',$tgl_merah)->update('setting_harimerah', $params);

@@ -20,3 +20,4 @@ $lang['profiler_no_memory']		= 'Penggunaan Memori Tidak Tersedia';
 $lang['profiler_no_profiles']	= 'Tidak ada Data Profil - semua bagian Profiler telah dinonaktifkan.';
 $lang['profiler_section_hide']	= 'Sembunyi';
 $lang['profiler_section_show']	= 'Tampil';
+$lang['profiler_seconds']		= 'Detik';
