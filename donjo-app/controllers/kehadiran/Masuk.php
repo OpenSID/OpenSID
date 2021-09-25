@@ -105,7 +105,7 @@ class Masuk extends Web_Controller
 		$this->session->set_userdata($add_sess);
 		$params=['now'=>1,'first'=>1];
 		$hari = $this->hari_model->_get($params);
-		if(count($hari))
+		if (count($hari))
 		{
 			//pre_print_r($hari);die;
 			$data['locked']=$hari;
@@ -123,7 +123,7 @@ class Masuk extends Web_Controller
 		$penduduk=$this->infoPenduduk($nik);
 		$pamong=$this->infoPamong($nik);
 
-		if(!isset($penduduk->nama)&&!isset($pamong->nama))
+		if (!isset($penduduk->nama)&&!isset($pamong->nama))
 		{
 			$add_sess = [
 				'error_msg' => "Silahkan memeriksa kembali Inputan Anda. Karena tidak terdaftar dalam Sistem",
