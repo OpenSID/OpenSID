@@ -248,7 +248,7 @@ class Pamong_model extends CI_Model {
 		$data['bagan_layout'] = htmlentities($post['bagan_layout']);
 		$data['bagan_warna'] = $post['bagan_warna'];
 		//pin & tag id 
-		$data['pamong_pin'] = $post['pamong_pin'];
+		$data['pamong_pin']  = $post['pamong_pin'];
 		$data['tag_id_card'] = $post['tag_id_card'];
 		return $data;
 	}
