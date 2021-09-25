@@ -1,6 +1,6 @@
 <?php 
 //api_set_hari
-if(!defined('BASEPATH')) exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
  *  File ini:
  *
@@ -35,7 +35,7 @@ if(!defined('BASEPATH')) exit('No direct script access allowed');
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
  * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
+ * @author	Gunawan Wibisono
  * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
@@ -53,137 +53,156 @@ class Api_set_hari extends CI_Controller
 
 	public function index()
 	{
-		$post = $this->input->post();
-		$json_send=[ ];
-		$raw=[$post,$_SESSION];
-		$action=$this->input->post('action','none');
-		//die($action."|".json_encode($post));
-		if(method_exists($this, $action))
+		$post      = $this->input->post();
+		$json_send = [ ];
+		$raw       = [ $post, $this->session->userdata() ];
+		$action    = $this->input->post('action', 'none');
+
+		if ( method_exists($this, $action))
 		{
-			$json_send=$this->{$action}();
-		}else{
-			$json_send['error']=TRUE;
-			$json_send['message']='Metode tidak diketahui';
+			$json_send = $this->{$action}();
+		}
+		else
+		{
+			$json_send['error']   = TRUE;
+			$json_send['message'] = 'Metode tidak diketahui';
 		}
 		
-		header('Content-Type: application/json');
+		header('Content-Type: application/json' );
 		echo json_encode($json_send);
+		
 	}
 	
 	private function show()
 	{
-		$post = $this->input->post();
-		$tgl1=strtotime($post['tahun'].'-'.$post['bln'].'-01');
-		$hari1=date("N",$tgl1);
-		$tglAkhir=date("t",$tgl1);
-		$raw[]=[$tgl1,$hari1,$tglAkhir];
-		$tgl_merah=$this->hari_model->tgl_by_range(date("Y-m-d",$tgl1), date("Y-m-t",$tgl1));
-		$data=[
-			'tgl1'=>$tgl1,
-			'start'=>$hari1,
-			'last'=>$tglAkhir,
-			'merah'=>$tgl_merah
+		$return   = [];
+		$post     = $this->input->post();
+		$tgl1     = strtotime($post['tahun'] .'-' .$post['bln'] .'-01');
+		$hari1    = date("N",$tgl1);
+		$tglAkhir = date("t",$tgl1);
+		$raw[]	  = [$tgl1, $hari1, $tglAkhir];
+		$tgl_mrh  = $this->hari_model->tgl_by_range(date("Y-m-d",$tgl1), date("Y-m-t",$tgl1));
+		$data     = [
+			'tgl1'  => $tgl1,
+			'start' => $hari1,
+			'last'  => $tglAkhir,
+			'merah' => $tgl_merah
 		];
-		$raw[]=$data;
-		$json_send['raw']=$raw;
-		$view=$this->load->view('kehadiran/hari_api_view',$data,true);
-		$json_send['html']=$view;
+		$raw[]          = $data;
+		$return['raw']  = $raw;
+		$view           = $this->load->view('kehadiran/hari_api_view', $data,true);
+		$return['html'] = $view;
 		
-		return $json_send;
+		return $return;
 	}
 		
-	function update_tgl()
+	public function update_tgl()
 	{
-		$post = $this->input->post();
-		$json_send=[ ];
-		$raw=[$post,$_SESSION];
-		$param=['tgl_merah'=>$this->input->post('tgl_merah'), 'status'=>0];
+		$post      = $this->input->post();
+		$json_send = [ ];
+		$raw       = [$post, $this->session->userdata()];
+		$param     = [
+			'tgl_merah' => $this->input->post('tgl_merah'), 'status'=>0
+		];
 		$this->hari_model->insert_ignore($param);
-		$param['status']=$this->input->post('status');
-		$param['detail']=$this->input->post('detail');
-		$raw['sql']=$this->hari_model->_update($param);
-		$raw['param']=$param;
+		
+		$param['status'] = $this->input->post('status');
+		$param['detail'] = $this->input->post('detail');
+		$raw['sql']      = $this->hari_model->_update($param);
+		$raw['param']    = $param;
+		
 		return $raw;
 	}
 
-	function datatables()
+	public function datatables()
 	{
-		$return=[
-			'draw'=>0,
-			'recordsTotal'=>0,
-			'recordsFiltered'=>0,
-			'data'=>[],
-			'raw'=>NULL,
+		$return         = [
+			'draw' 			  => 0,
+			'recordsTotal'    => 0,
+			'recordsFiltered' => 0,
+			'data'            => [],
+			'raw'			  => NULL,
 		];
-		$raw[]=[$this->input->post(),$_GET];
-		$return['draw']=$this->input->post('draw',0);
-		$tipe=$this->input->post('type');
-		$start=$this->input->post('start');
-		$limit=$this->input->post('length');
-		$params=[];
-		$search = $this->input->post('search');
-		$params=['active'=>1];
-		if($tipe=='date')
+		$raw[]          = [$this->input->post(), $this->input->get()];
+		$return['draw'] = $this->input->post('draw',0);
+		$tipe			= $this->input->post('type');
+		$start			= $this->input->post('start');
+		$limit			= $this->input->post('length');
+		$params			= [];
+		$search 		= $this->input->post('search');
+		$params			= ['active'=>1];
+		if ($tipe=='date')
 		{
-			$date1=$this->input->post('dateStart');
-			$date2=$this->input->post('dateEnd');
-			if($date1!=''&&$date2!='')
+			$date1 = $this->input->post('dateStart');
+			$date2 = $this->input->post('dateEnd');
+			if ($date1 != '' && $date2 != '')
 			{
-				if($date1 > $date2)
+				if ($date1 > $date2)
 				{
-					$params['date_range']=[$date2,$date1];
+					$params['date_range'] = [$date2, $date1];
 				}
 				else
 				{
-					$params['date_range']=[$date1,$date2];
+					$params['date_range'] = [$date1, $date2];
 				}
+				
 			}
 			
 		}
-		$params['active']=1;
-		 
-		if(strlen($search['value']) >= 3)
+		
+		$params['active'] = 1;
+		if (strlen($search['value']) >= 3)
 		{
-			$params['datatable_search']=$search['value'];
-		}else{
-			$raw[]=[strlen($search),$search];
+			$params['datatable_search'] = $search['value'];
 			
 		}
-		//$return['table']=$table;
-		$params0=['active'=>1];
-		$return['recordsTotal']		=$this->hari_model->_count($params0);
-		$return['recordsFiltered']	=$this->hari_model->_count($params);
-		
+		else
+		{
+			$raw[] 						= [strlen($search), $search];
+			
+		}
+
+		$params0 					= ['active'=>1];
+		$return['recordsTotal']		= $this->hari_model->_count($params0);
+		$return['recordsFiltered']	= $this->hari_model->_count($params);		
 		$raw[]=[$params,$search,$this->db->last_query()];
 //-----data
 		$dataHari = $this->hari_model->_get($params, $limit,$start);
-		$raw[]=$this->db->last_query();
-		$raw[]=$dataHari;
-		$data=[];
-		$no=1;
+		$raw[]    = $this->db->last_query();
+		$raw[]    = $dataHari;
+		$data     = [];
+		$no       = 1;
 		foreach($dataHari as $row)
 		{
-			$info="Hari biasa";
-			if($row['status']==1)
+			$info = "Hari biasa";
+			if ($row['status'] == 1)
 			{
-				$info="Hari Libur";
+				$info = "Hari Libur";
+				
 			}
-			elseif($row['status']==9)
+			elseif ($row['status'] == 9)
 			{
-				$info=$row['detail'];
+				$info = $row['detail'];
+				
 			}
-			$data[]=[
+
+			$data[] = [
 				$no++,
 				'-',
 				$row['tgl_merah'],
 				$info 
 			];
 		}
-		$return['data']=$data;
-		$return['raw']=$raw;
-		if(ENVIRONMENT != 'development')
+		
+		$return['data'] = $data;
+		$return['raw'] = $raw;
+		if (ENVIRONMENT != 'development')
+		{
 			unset($return['raw']);
+			
+		}
 		
 		return $return;
 	}
+	
 }
