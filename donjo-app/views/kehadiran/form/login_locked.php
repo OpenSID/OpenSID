@@ -5,7 +5,7 @@
 <div> 
 <p class="text-info"> 
 <?php 
-if(ENVIRONMENT == 'development')
+if (ENVIRONMENT == 'development')
 {
 	echo "khusus development akan menampilkan login untuk test";
 }	

@@ -104,7 +104,7 @@
 								</div>
 							</div>
 							
-						<?php if($pamong['id_pend']==NULL||$pamong['id_pend']=="") {?>
+					<?php	if ($pamong['id_pend'] == NULL || $pamong['id_pend'] == "") :?>
 							<!--PIN-->
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nip">PIN</label>
@@ -116,8 +116,9 @@
 						
 								</div>
 							</div>
-						<?php } ?>
-						<?php if($pamong['id_pend']==NULL||$pamong['id_pend']=="") {?>
+					<?php	endif; 
+					
+							if ($pamong['id_pend'] == NULL || $pamong['id_pend'] == "") :?>
 							<!--Tag id-->
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_nip">Tag ID</label>
@@ -125,7 +126,7 @@
 									<input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" maxlength="16" placeholder="input Tag ID valid" value="<?=$pamong['tag_id_card']?>" maxlength=16 /> 
 								</div>
 							</div>
-						<?php } ?>
+					<?php	endif; ?>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_tempatlahir">Tempat Lahir</label>
 								<div class="col-sm-7">
