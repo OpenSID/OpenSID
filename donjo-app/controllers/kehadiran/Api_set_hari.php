@@ -88,6 +88,7 @@ class Api_set_hari extends CI_Controller
 			'last'  => $tglAkhir,
 			'merah' => $tgl_merah
 		];
+//-------------DATA 
 		$raw[]          = $data;
 		$return['raw']  = $raw;
 		$view           = $this->load->view('kehadiran/hari_api_view', $data,true);
@@ -117,11 +118,11 @@ class Api_set_hari extends CI_Controller
 	public function datatables()
 	{
 		$return         = [
-			'draw' 			  => 0,
-			'recordsTotal'    => 0,
-			'recordsFiltered' => 0,
-			'data'            => [],
-			'raw'			  => NULL,
+		 'draw'			   => 0,
+		 'recordsTotal'    => 0,
+		 'recordsFiltered' => 0,
+		 'data'            => [],
+		 'raw'			   => NULL,
 		];
 		$raw[]          = [$this->input->post(), $this->input->get()];
 		$return['draw'] = $this->input->post('draw',0);
@@ -158,20 +159,20 @@ class Api_set_hari extends CI_Controller
 		}
 		else
 		{
-			$raw[] 						= [strlen($search), $search];
+			$raw[] = [strlen($search), $search];
 			
 		}
 
 		$params0 					= ['active'=>1];
 		$return['recordsTotal']		= $this->hari_model->_count($params0);
 		$return['recordsFiltered']	= $this->hari_model->_count($params);		
-		$raw[]=[$params,$search,$this->db->last_query()];
+		$raw[]	  					= [$params,$search,$this->db->last_query()];
 //-----data
-		$dataHari = $this->hari_model->_get($params, $limit,$start);
-		$raw[]    = $this->db->last_query();
-		$raw[]    = $dataHari;
-		$data     = [];
-		$no       = 1;
+		$dataHari					= $this->hari_model->_get($params, $limit,$start);
+		$raw[]    					= $this->db->last_query();
+		$raw[]    					= $dataHari;
+		$data     					= [];
+		$no       					= 1;
 		foreach($dataHari as $row)
 		{
 			$info = "Hari biasa";

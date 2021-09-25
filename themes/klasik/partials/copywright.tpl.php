@@ -7,7 +7,7 @@
 			<?php if ($this->setting->layanan_mandiri || $cek_anjungan): ?>
 				<a href="<?= site_url('layanan-mandiri') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-user fa-lg"></i> Layanan Mandiri</button></a>
 			<?php endif; ?>
-			<a href="<?= site_url('kehadiran/masuk') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-user fa-lg"></i> Kehadiran Aparat</button></a>
+
 		</div>
 		&copy; 2016-<?= date("Y");?> <a target="_blank" href="https://opendesa.id">OpenDesa</a> <i class="fa fa-circle" style="font-size: smaller;"></i>
 		<a target="_blank" href="https://github.com/OpenSID/OpenSID">OpenSID</a> <?= AmbilVersi()?>

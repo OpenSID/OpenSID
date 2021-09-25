@@ -47,7 +47,7 @@ class Set_hari extends Admin_Controller {
 		parent::__construct();
 		$this->load->helper('form');
 		$this->load->model('hari_model');
-		$this->modul_ini = 320;
+		$this->modul_ini 	 = 320;
 		$this->sub_modul_ini = 321;
 	}
 	
@@ -69,7 +69,7 @@ class Set_hari extends Admin_Controller {
 		$tgl		= $this->input->get('tgl'); 
 		$paramsEdit	= ['tanggal'=>$tgl, 'first'=>1];
 		$hari		= $this->hari_model->_get($paramsEdit);
-		if (!$hari&&$tgl!=0)
+		if (!$hari&&$tgl != 0)
 		{
 			$param	= ['tgl_merah'=>$tgl, 'status'=>0];
 			$this->hari_model->insert_ignore($param);
@@ -90,7 +90,7 @@ class Set_hari extends Admin_Controller {
 		$hari   = 3600*24;
 		for ($i=$tahun0; $i<=$tahun1; $i+=$hari)
 		{
-			if (date('N',$i)==6 || date('N', $i)==7)
+			if (date('N',$i) == 6 || date('N', $i) == 7)
 			{
 				$param = ['tgl_merah'=>date("Y-m-d",$i), 'status'=>1];
 				$this->hari_model->insert_ignore($param);

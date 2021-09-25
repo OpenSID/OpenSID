@@ -1,14 +1,12 @@
 <?php
 //hari_edit
 $options = array(
-        '0'         => 'Hari Biasa',
-        '1'           => 'Hari Libur',
+        '0' 	=> 'Hari Biasa',
+        '1'		=> 'Hari Libur',
       //  '2'         => 'Libur bersama',
-        '9'        => 'Lain-lain',
+        '9'		=> 'Lain-lain',
 );
- 
-//echo form_dropdown('shirts', $options, 'large');
-//print_r($hari);
+
 ?>
 <section class="content" id="maincontent">
 	<div class="box box-info">
@@ -23,7 +21,7 @@ $options = array(
 								<i class="fa fa-calendar"></i>
 							</div>
 							<input name='tgl_merah' value='<?=@$hari['tgl_merah'];?>'  class="form-control input-sm tgl"
-							<?=isset($hari['tgl_merah'])&&$hari['tgl_merah']!='0000-00-00'?'readonly':NULL;?>   />
+							<?=isset($hari['tgl_merah']) && $hari['tgl_merah'] != '0000-00-00'?'readonly' : NULL;?>   />
 						</div>
 					</div> 
 				</div>
