@@ -67,7 +67,10 @@ class Set_hari extends Admin_Controller {
 	public function edit_tgl()
 	{
 		$tgl		= $this->input->get('tgl'); 
-		$paramsEdit	= ['tanggal'=>$tgl, 'first'=>1];
+		$paramsEdit	= [
+			'tanggal' => $tgl, 
+			'first'   => 1
+		];
 		$hari		= $this->hari_model->_get($paramsEdit);
 		if (!$hari&&$tgl != 0)
 		{
@@ -77,7 +80,7 @@ class Set_hari extends Admin_Controller {
 		}
 		
 		$data=[
-			'hari'=>$hari
+			'hari' => $hari
 		];
 		$this->load->view('kehadiran/hari_edit_view',$data);
 	}
@@ -92,7 +95,10 @@ class Set_hari extends Admin_Controller {
 		{
 			if (date('N',$i) == 6 || date('N', $i) == 7)
 			{
-				$param = ['tgl_merah'=>date("Y-m-d",$i), 'status'=>1];
+				$param = [
+					'tgl_merah' => date("Y-m-d",$i), 
+					'status'    => 1
+				];
 				$this->hari_model->insert_ignore($param);
 			}
 			

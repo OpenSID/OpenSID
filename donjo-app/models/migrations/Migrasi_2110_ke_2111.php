@@ -49,12 +49,16 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$hasil=true;
 		$this->create_table_harimerah();
 		log_message("info","create table done");
+		
 		$this->add_def_harimerah();
 		log_message("info","add data table done");
+		
 		$this->add_menu_harimerah();
 		log_message("info","add menu done");
+		
 		$this->fix_pamong();
 		log_message("info","add menu done");
+		
 		$this->create_table_hadir();
 		return $hasil;
 	}
@@ -62,39 +66,40 @@ class Migrasi_2110_ke_2111 extends MY_model
 	protected function create_table_hadir()
 	{
 		
-		if($hasil)
+		if ($hasil)
 		{
-			$sql="ALTER TABLE `hadir_pamong_hari` 
+			$sql = "ALTER TABLE `hadir_pamong_hari` 
 			CHANGE `pamong_info` `pamong_info` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, 
 			CHANGE `hadir_logs` `hadir_logs` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL, CHANGE `lapor_logs` `lapor_logs` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL;";
 			$this->db->query($sql);
-			$sql="ALTER TABLE `hadir_pamong_hari` ADD FULLTEXT  (`pamong_info`),
+			$sql = "ALTER TABLE `hadir_pamong_hari` ADD FULLTEXT  (`pamong_info`),
 			ADD FULLTEXT  (`lapor_logs`); ";
 			$this->db->query($sql); 
-			$sql="ALTER TABLE `tmp_opensid`.`hadir_pamong_hari` ADD UNIQUE `pamong_tanggal` (`pamong_id`, `tanggal`)  ";
+			$sql = "ALTER TABLE `tmp_opensid`.`hadir_pamong_hari` ADD UNIQUE `pamong_tanggal` (`pamong_id`, `tanggal`)  ";
 			$this->db->query($sql); 
 		}
+		
 	}
 	
 	protected function fix_pamong()
 	{	
-		$sql="insert ignore into tweb_penduduk_mandiri(pin,tanggal_buat,id_pend) select '11948479d5a1007cc6fdb1f652a86abb' pin, now(), id from tweb_penduduk;";
-		//$this->db->query($sql);
-		$sql="ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nik`),ADD INDEX  (`id_pend`); ";
-		$this->db->query($sql); 
+		$sql = "insert ignore into tweb_penduduk_mandiri(pin,tanggal_buat,id_pend) select '11948479d5a1007cc6fdb1f652a86abb' pin, now(), id from tweb_penduduk;";
+
+		$sql = "ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nik`),ADD INDEX  (`id_pend`); ";
+		//$this->db->query($sql); 
 		//not approve
-		$sql="ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nama`)  ; ";
-		$this->db->query($sql); 
-		//not approve 
-		$sql="ALTER TABLE `tweb_desa_pamong`
+		$sql = "ALTER TABLE `tweb_desa_pamong` ADD INDEX  (`pamong_nama`)  ; ";
+		//$this->db->query($sql); 
+		//not approve
+		$sql = "ALTER TABLE `tweb_desa_pamong`
 		ADD `pamong_pin` char(32)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`,
 		ADD `tag_id_card` char(16)  CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL AFTER `pamong_nama`, ADD INDEX (`tag_id_card`); ";
 		$this->db->query($sql); 
 		//=========Penduduk
-		$sql="ALTER TABLE `tweb_penduduk` ADD INDEX  nik_nama(`nik`,`nama`)  ; ";
-		$this->db->query($sql); 
+		$sql = "ALTER TABLE `tweb_penduduk` ADD INDEX  nik_nama(`nik`,`nama`)  ; ";
+		//$this->db->query($sql); 
 		//not approve
-		$sql="ALTER TABLE `tweb_penduduk_mandiri` CHANGE `id_pend` `id_pend` INT(11) NOT NULL; ";
+		$sql = "ALTER TABLE `tweb_penduduk_mandiri` CHANGE `id_pend` `id_pend` INT(11) NOT NULL; ";
 		//$this->db->query($sql);
 		//not approve
 		return ;
@@ -219,11 +224,11 @@ class Migrasi_2110_ke_2111 extends MY_model
 		$hasil =& $this->dbforge->create_table('setting_harimerah', true);
 		if($hasil)
 		{
-			$sql="ALTER TABLE `setting_harimerah` 
+			$sql = "ALTER TABLE `setting_harimerah` 
 			CHANGE `updated_at` `updated_at` TIMESTAMP 
 			on update CURRENT_TIMESTAMP NULL DEFAULT NULL; ";
 			$this->db->query($sql);
-			$sql="ALTER TABLE `setting_harimerah` 
+			$sql = "ALTER TABLE `setting_harimerah` 
 			CHANGE `created_at` `created_at` TIMESTAMP 
 			NULL DEFAULT CURRENT_TIMESTAMP; ";
 			$this->db->query($sql);
@@ -236,40 +241,51 @@ class Migrasi_2110_ke_2111 extends MY_model
 	protected function add_def_harimerah()
 	{
 		log_message("info","start add tanggal:".date("Ymd H:i:s"));
-		$tahun0=strtotime("2000-01-01");
-		$tahun1=strtotime("+10 year");
-		$hari=3600*24;
-		for($i=$tahun0;$i<=$tahun1;$i+=$hari)
+		$tahun0 = strtotime("2000-01-01");
+		$tahun1 = strtotime("+10 year");
+		$hari   = 3600*24;
+		for ($i = $tahun0; $i <= $tahun1; $i+=$hari)
 		{
-			if(date('N',$i)==5) //hari jum'at
+			if (date('N', $i) == 5) //hari jum'at
 			{
-				$params=['tgl_merah'=>date("Y-m-d",$i), 'status'=>0];
-				//$this->db->insert('setting_harimerah', $param);
-				$insert_query = $this->db->insert_string('setting_harimerah', $params);
-				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
-				$this->db->query($insert_query);
-			}
-			
-			if(date('N',$i)==6||date('N',$i)==7)
-			{
-				$params=['tgl_merah'=>date("Y-m-d",$i), 'status'=>1];
-				//$this->db->insert('setting_harimerah', $param);
-				$insert_query = $this->db->insert_string('setting_harimerah', $params);
-				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO',$insert_query);
-				$this->db->query($insert_query);
-			}
-			
-			if((date("md",$i)=="0101")) //tahun baru
-			{
-				$params=['tgl_merah'=>date("Y-m-d",$i), 'status'=>9,'detail'=>'Tahun Baru'];
+				$params = [
+					'tgl_merah' => date("Y-m-d", $i), 
+					'status'    => 0
+				];
 				//$this->db->insert('setting_harimerah', $param);
 				$insert_query = $this->db->insert_string('setting_harimerah', $params);
 				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO', $insert_query);
-				$insert_query.="on duplicate key update status=9, detail='Tahun Baru'";
+				$this->db->query($insert_query);
+			}
+			
+			if (date('N', $i) == 6 ||date('N', $i) == 7)
+			{
+				$params = [
+					'tgl_merah' => date("Y-m-d",$i), 
+					'status'    => 1
+				];
+				//$this->db->insert('setting_harimerah', $param);
+				$insert_query = $this->db->insert_string('setting_harimerah', $params);
+				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO', $insert_query);
+				$this->db->query($insert_query);
+			}
+			
+			if ((date("md", $i) == "0101")) //tahun baru
+			{
+				$params=[
+					'tgl_merah' => date("Y-m-d",$i), 
+					'status'    => 9,
+					'detail'    => 'Tahun Baru'
+				];
+				//$this->db->insert('setting_harimerah', $param);
+				$insert_query = $this->db->insert_string('setting_harimerah', $params);
+				$insert_query = str_replace('INSERT INTO','INSERT IGNORE INTO', $insert_query);
+				$insert_query.= "on duplicate key update status=9, detail='Tahun Baru'";
 				$this->db->query($insert_query);
 			}
 			
 		}
+		
 		$fixsql="optimize setting_harimerah";
 		$this->db->query($fixsql);
 		log_message("info","end add tanggal:".date("Ymd H:i:s"));
