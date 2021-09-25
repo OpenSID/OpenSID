@@ -141,9 +141,17 @@ $route['layanan-mandiri/surat/buat-surat/(:num)'] = 'layanan_mandiri/surat/buat_
 // Mandiri Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan
 
-// Kehadiran
-$route['set_hari']='kehadiran/set_hari';
-$route['set_hari/api']='kehadiran/api_set_hari';
-$route['set_hari/edit_tgl']='kehadiran/set_hari/edit_tgl';
-$route['set_hari/update_tgl']='kehadiran/set_hari/update_tgl';
+// Tanggal merah
+$route['set_hari']            = 'kehadiran/set_hari';
+$route['set_hari/api']        = 'kehadiran/api_set_hari';
+$route['set_hari/edit_tgl']   = 'kehadiran/set_hari/edit_tgl';
+$route['set_hari/update_tgl'] = 'kehadiran/set_hari/update_tgl';
 
+// login kehadiran pamong
+$route['kehadiran/masuk']     = 'kehadiran/masuk'; // Tampilan Masuk
+$route['kehadiran/cek']       = 'kehadiran/masuk/cek';  
+$route['kehadiran/warning']   = 'kehadiran/masuk/warning';  
+
+$route['kehadiran/depan']     = 'kehadiran/masuk/depan'; // Tampilan Masuk
+$route['kehadiran/keluar']    = 'kehadiran/masuk/keluar';
+$route['kehadiran/pengurus']  = 'kehadiran/masuk/pengurus';																	
