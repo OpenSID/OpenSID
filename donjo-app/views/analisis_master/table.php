@@ -121,6 +121,7 @@
 																	<td><?= $data['no'] ?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("analisis_master/menu/$data[id]") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a>
+																		<a href="<?= site_url("analisis_master/ekspor/$data[id]") ?>" class="btn bg-navy btn-flat btn-sm" title="Ekspor Analisis"><i class="fa fa-download"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<a href="<?= site_url("analisis_master/form/$p/$o/$data[id]") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 																		<?php endif; ?>

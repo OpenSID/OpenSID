@@ -204,13 +204,15 @@ class Analisis_master_model extends MY_Model {
 	}
 
 	// periode aktif
-	public function get_periode()
+	public function get_periode($id=null)
 	{
+		$id = $id ?: $this->session->analisis_master;
+
 		$periode = $this->db
 			->select('*')
 			->from('analisis_periode')
 			->where('aktif', 1)
-			->where('id_master', $this->session->analisis_master)
+			->where('id_master', $id)
 			->get()->row();
 		return $periode;
 	}

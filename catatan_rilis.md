@@ -10,6 +10,8 @@ Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontri
 3. [#4371](https://github.com/OpenSID/OpenSID/issues/4371) Sekarang bisa menghapus lebih dari satu log file sekaligus.
 4. [#4355](https://github.com/OpenSID/OpenSID/issues/4355) Sediakan subjek tingkat desa, dusun, rukun warga (RW) dan rukun tetangga (RT) untuk master analisis.
 5. [#4122](https://github.com/OpenSID/OpenSID/issues/4122) Mengirim Buku Rekap Jumlah Penduduk ke OpenDK melalui API.
+6. Sediakan fitur ekspor master analisis yang bisa langsung diimpor.
+7. Sekarang impor master analisis membaca file xlsx, tidak lagi xls.
 
 #### Perbaikan BUG
 1. [#4408](https://github.com/OpenSID/OpenSID/issues/4408) Perbaiki tambah warga terdata di suplemen keluarga berdasarkan keluarga yang aktif.

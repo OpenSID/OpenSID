@@ -41,6 +41,13 @@
  */
 
 require_once 'vendor/google-api-php-client/vendor/autoload.php';
+require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Common\Entity\Style\Border;
+use Box\Spout\Writer\Common\Creator\Style\BorderBuilder;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Common\Entity\Row;
 
 class Analisis_master extends Admin_Controller
 {
@@ -50,6 +57,9 @@ class Analisis_master extends Admin_Controller
 		parent::__construct();
 		$this->load->model('analisis_master_model');
 		$this->load->model('analisis_import_model');
+		$this->load->model('analisis_indikator_model');
+		$this->load->model('analisis_parameter_model');
+		$this->load->model('analisis_klasifikasi_model');
 		$this->load->model('referensi_model');
 
 		unset($_SESSION['submenu']);
@@ -142,6 +152,164 @@ class Analisis_master extends Admin_Controller
 		$this->load->view('analisis_master/import', $data);
 	}
 
+	public function import()
+	{
+		$this->redirect_hak_akses('u');
+		$this->analisis_import_model->impor_analisis();
+		redirect('analisis_master');
+	}
+
+	public function ekspor($id)
+	{
+		$writer = WriterEntityFactory::createXLSXWriter();
+		$master = $this->analisis_master_model->get_analisis_master($id);
+		//Nama File
+		$tgl =  date('Y_m_d');
+		$fileName = 'analisis_' . urlencode($master['nama']) . '_' . $tgl . '.xlsx';
+		$writer->openToBrowser($fileName); // stream data directly to the browser
+
+		$this->ekspor_master($writer, $master);
+		$this->ekspor_pertanyaan($writer, $master);
+		$this->ekspor_jawaban($writer, $master);
+		$this->ekspor_klasifikasi($writer, $master);
+
+		$writer->close();
+
+		redirect('analisis_master');
+	}
+
+	private function style_judul()
+	{
+		$border = (new BorderBuilder())
+		    ->setBorderBottom()
+		    ->setBorderTop()
+		    ->setBorderRight()
+		    ->setBorderLeft()
+		    ->build();
+
+		$style = (new StyleBuilder())
+           ->setFontBold()
+           ->setFontSize(14)
+           ->setBorder($border)
+           ->build();
+    return $style;
+	}
+
+	private function style_baris()
+	{
+		$border = (new BorderBuilder())
+		    ->setBorderBottom(null, Border::WIDTH_THIN)
+		    ->setBorderRight(null, Border::WIDTH_THIN)
+		    ->setBorderLeft(null, Border::WIDTH_THIN)
+		    ->build();
+
+		$style = (new StyleBuilder())
+           ->setBorder($border)
+           ->build();
+    return $style;
+	}
+
+	private function ekspor_master($writer, $master)
+	{
+		$sheet = $writer->getCurrentSheet();
+		$sheet->setName('master');
+		$periode = $this->analisis_master_model->get_periode($master['id']);
+		//Tulis judul
+		$master_analisis = [
+			['NAMA ANALISIS', $master['nama']],
+			['SUBJEK', $master['subjek_tipe']],
+			['STATUS', $master['lock']],
+			['BILANGAN PEMBAGI', $master['pembagi']],
+			['DESKRIPSI ANALISIS', $master['deskripsi']],
+			['NAMA PERIODE', $periode->nama],
+			['TAHUN PENDATAAN', $periode->tahun_pelaksanaan]
+		];
+
+		foreach ($master_analisis as $baris_master)
+		{
+			$baris = [
+				WriterEntityFactory::createCell($baris_master[0], $this->style_judul()),
+				WriterEntityFactory::createCell($baris_master[1], $this->style_baris()),
+			];
+			$row = WriterEntityFactory::createRow($baris);
+			$writer->addRow($row);
+		}
+	}
+
+	private function ekspor_pertanyaan($writer, $master)
+	{
+		$sheet = $writer->addNewSheetAndMakeItCurrent();
+		$sheet->setName('pertanyaan');
+		//Tulis judul
+		$daftar_kolom = [
+			['NO / KODE', 'nomor'],
+			['PERTANYAAN / INDIKATOR', 'pertanyaan'],
+			['KATEGORI / ASPEK', 'kategori'],
+			['TIPE PERTANYAAN', 'id_tipe'],
+			['BOBOT', 'bobot'],
+			['AKSI ANALISIS', 'act_analisis'],
+		];
+		$judul = array_column($daftar_kolom, 0);
+		$header = WriterEntityFactory::createRowFromArray($judul, $this->style_judul());
+		$writer->addRow($header);
+		// Tulis data
+		$indikator = $this->analisis_indikator_model->raw_analisis_indikator_by_id_master($master['id']);
+		foreach ($indikator as $p)
+		{
+			$baris_data = [$p['nomor'], $p['pertanyaan'], $p['kategori'], $p['id_tipe'], $p['bobot'], $p['act_analisis']];
+			$baris = WriterEntityFactory::createRowFromArray($baris_data, $this->style_baris());
+			$writer->addRow($baris);
+		}
+	}
+
+	private function ekspor_jawaban($writer, $master)
+	{
+		$jawaban = $writer->addNewSheetAndMakeItCurrent();
+		$jawaban->setName('jawaban');
+		//Tulis judul
+		$daftar_kolom = [
+			['KODE PERTANYAAN', 'nomor'],
+			['KODE JAWABAN', 'kode_jawaban'],
+			['ISI JAWABAN', 'jawaban'],
+			['NILAI', 'nilai'],
+		];
+		$judul = array_column($daftar_kolom, 0);
+		$header = WriterEntityFactory::createRowFromArray($judul, $this->style_judul());
+		$writer->addRow($header);
+		// Tulis data
+		$parameter = $this->analisis_parameter_model->list_parameter_by_id_master($master['id']);
+
+		foreach ($parameter as $p)
+		{
+			$baris_data = [$p['nomor'], $p['kode_jawaban'], $p['jawaban'], $p['nilai']];
+			$baris = WriterEntityFactory::createRowFromArray($baris_data, $this->style_baris());
+			$writer->addRow($baris);
+		}
+	}
+
+	private function ekspor_klasifikasi($writer, $master)
+	{
+		$klasifikasi = $writer->addNewSheetAndMakeItCurrent();
+		$klasifikasi->setName('klasifikasi');
+		//Tulis judul
+		$daftar_kolom = [
+			['KLASIFIKASI', 'nama'],
+			['NILAI MINIMAL', 'minval'],
+			['NILAI MAKSIMAL', 'maxval'],
+		];
+		$judul = array_column($daftar_kolom, 0);
+		$header = WriterEntityFactory::createRowFromArray($judul, $this->style_judul());
+		$writer->addRow($header);
+		// Tulis data
+		$klasifikasi = $this->analisis_klasifikasi_model->list_klasifikasi_by_id_master($master['id']);
+		foreach ($klasifikasi as $k)
+		{
+			$baris_data = [$k['nama'], $k['minval'], $k['maxval']];
+			$baris = WriterEntityFactory::createRowFromArray($baris_data, $this->style_baris());
+			$writer->addRow($baris);
+		}
+	}
+
 	public function import_gform()
 	{
 		$this->redirect_hak_akses('u');
@@ -206,13 +374,6 @@ class Analisis_master extends Admin_Controller
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_master_model->insert();
-		redirect('analisis_master');
-	}
-
-	public function import()
-	{
-		$this->redirect_hak_akses('u');
-		$this->analisis_import_model->import_excel();
 		redirect('analisis_master');
 	}
 

@@ -145,5 +145,16 @@
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		return $query->row_array();
 	}
+
+	public function list_klasifikasi_by_id_master($id_master)
+	{
+		$data = $this->db
+			->select('nama, minval, maxval')
+			->from('analisis_klasifikasi')
+			->where('id_master', $id_master)
+			->order_by('id')
+			->get()->result_array();
+		return $data;
+	}
 }
 ?>
