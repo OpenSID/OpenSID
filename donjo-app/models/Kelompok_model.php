@@ -427,7 +427,7 @@ class Kelompok_model extends MY_Model {
 			->from('kelompok_anggota ka')
 			->join('tweb_penduduk tp', 'ka.id_penduduk = tp.id', 'left')
 			->join('tweb_penduduk_sex tpx', 'tp.sex = tpx.id', 'left')
-			->join('tweb_penduduk_pendidikan tpp', 'tp.pendidikan_sedang_id = tpp.id', 'left')
+			->join('tweb_penduduk_pendidikan_kk tpp', 'tp.pendidikan_kk_id = tpp.id', 'left')
 			->join('tweb_penduduk_agama tpa', 'tp.agama_id = tpa.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'tp.id_cluster = a.id', 'left')
 			->where('ka.id_kelompok', $id_kelompok)
