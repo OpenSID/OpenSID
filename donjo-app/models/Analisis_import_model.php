@@ -38,6 +38,7 @@ class Analisis_import_Model extends CI_Model {
 
 	public function impor_analisis($file='', $kode='00000', $jenis=2)
 	{
+		$this->session->success = 1;
 
 		if (empty($file)) $file = $this->upload_file_analisis();
 		if (empty($file)) return;
@@ -61,6 +62,11 @@ class Analisis_import_Model extends CI_Model {
 				case "klasifikasi":
 					$this->impor_klasifikasi($sheet, $id_master);
 					break;
+			}
+			if ($this->session->success == -1)
+			{
+				$reader->close();
+				return;
 			}
 		}
 		$reader->close();
@@ -101,14 +107,21 @@ class Analisis_import_Model extends CI_Model {
 		$master['kode_analisis'] = $kode;
 		$master['jenis'] = $jenis;
 
-		$outp = $this->db->insert('analisis_master',$master);
+		if ( ! $this->db->insert('analisis_master',$master)) return $this->impor_error();
 		$id_master = $this->db->insert_id();
 
 		$periode['id_master']	= $id_master;
 		$periode['aktif']	= 1;
-		$this->db->insert('analisis_periode', $periode);
+		if ( ! $this->db->insert('analisis_periode', $periode)) return $this->impor_error();
 
 		return $id_master;
+	}
+
+	private function impor_error()
+	{
+		$error = $this->db->error();
+		$this->session->success = -1;
+		$this->session->error_msg = $error['message'];
 	}
 
 	private function impor_pertanyaan($sheet, $id_master)
@@ -126,7 +139,7 @@ class Analisis_import_Model extends CI_Model {
 			$indikator['id_tipe']	= $cells[3]->getValue();
 			$indikator['bobot']	= $cells[4]->getValue() ?: 0;
 			$indikator['act_analisis'] = $cells[5]->getValue() ?: 2;
-			$this->db->insert('analisis_indikator', $indikator);
+			if ( ! $this->db->insert('analisis_indikator', $indikator)) return $this->impor_error();;
     }
 	}
 
@@ -140,10 +153,10 @@ class Analisis_import_Model extends CI_Model {
 			->get();
 		if ($ada_kategori->num_rows()) return $ada_kategori->row()->id;
 
-		$this->db
+		if ( ! $this->db
 			->set('id_master', $id_master)
 			->set('kategori', $kategori)
-			->insert('analisis_kategori_indikator');
+			->insert('analisis_kategori_indikator')) return $this->impor_error();
 		return $this->db->insert_id();
 	}
 
@@ -159,7 +172,7 @@ class Analisis_import_Model extends CI_Model {
 			$parameter['kode_jawaban'] = $cells[1]->getValue();
 			$parameter['jawaban']	= $cells[2]->getValue();
 			$parameter['nilai'] = $cells[3]->getValue();
-			$this->db->insert('analisis_parameter', $parameter);
+			if ( ! $this->db->insert('analisis_parameter', $parameter)) return $this->impor_error();;
     }
 	}
 
@@ -186,7 +199,7 @@ class Analisis_import_Model extends CI_Model {
 			$klasifikasi['nama'] = $cells[0]->getValue();
 			$klasifikasi['minval'] = $cells[1]->getValue();
 			$klasifikasi['maxval'] = $cells[2]->getValue();
-			$this->db->insert('analisis_klasifikasi', $klasifikasi);
+			if ( ! $this->db->insert('analisis_klasifikasi', $klasifikasi)) return $this->impor_error();;
     }
 	}
 
