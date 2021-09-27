@@ -66,13 +66,14 @@ class Analisis_master extends Admin_Controller
 		unset($_SESSION['asubmenu']);
 		$this->modul_ini = 5;
 		$this->sub_modul_ini = 110;
+		$this->set_page = ['20', '50', '100'];
+		$this->list_session = ['cari', 'filter', 'state'];
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['state']);
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = $this->set_page[0];
 		redirect('analisis_master');
 	}
 
@@ -83,22 +84,17 @@ class Analisis_master extends Admin_Controller
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		foreach ($this->list_session as $list)
+		{
+			$data[$list] = $this->session->$list ?: '';
+		}
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
-
-		if (isset($_SESSION['state']))
-			$data['state'] = $_SESSION['state'];
-		else $data['state'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+			$this->session->per_page = $per_page;
+		$data['func'] = 'index';
+		$data['set_page'] = $this->set_page;
+		$data['per_page'] = $this->session->per_page;
 		$data['paging'] = $this->analisis_master_model->paging($p,$o);
 		$data['data_import'] = $this->session->data_import;
 		$data['list_error'] = $this->session->list_error;

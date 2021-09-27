@@ -14,7 +14,7 @@
 		<h1>Pengaturan Kategori - <?= $analisis_master['nama']?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('analisis_master')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url('analisis_master/clear')?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url()?>analisis_kategori/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Pengaturan Kategori</li>
 		</ol>
