@@ -62,6 +62,10 @@ class Analisis_import_Model extends CI_Model {
 				case "klasifikasi":
 					$this->impor_klasifikasi($sheet, $id_master);
 					break;
+				default:
+					$this->session->success = -1;
+					$this->session->error_msg = "Bukan file impor master analisis";
+					break;
 			}
 			if ($this->session->success == -1)
 			{
