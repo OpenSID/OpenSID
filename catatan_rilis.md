@@ -19,6 +19,7 @@ Terima kasih pada Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasi
 9. [#4426](https://github.com/OpenSID/OpenSID/issues/4426) Sesuaikan Nama Menu/Modul pada Admin dan web OpenSID dengan sebutan_desa/sebutan_kepala_desa
 10. [$4419](https://github.com/OpenSID/OpenSID/issues/4419) Perbaiki impor data penduduk dengan NIK sementara.
 11. [#4421](https://github.com/OpenSID/OpenSID/issues/4421) Perbaiki NIK sementara pada persuratan belum disesuaikan secara menyeluruh.
+12. [#4439](https://github.com/OpenSID/OpenSID/issues/4439) Perbaiki error ketika kolom hubungan dalam keluarga tidak di isi saat menambah penduduk masuk.
 
 
 #### Perubahan Teknis
