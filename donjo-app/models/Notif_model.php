@@ -1,6 +1,44 @@
 <?php
 
+use Esyede\Curly;
+
+require_once APPPATH . '/libraries/Curly.php';
+
 class Notif_model extends CI_Model {
+
+	/** @var Esyede\Curly */
+	protected $client;
+
+	public function __construct()
+	{
+		$this->client = new Curly();
+		$this->load->driver('cache');
+	}
+
+	public function status_langganan()
+	{
+		if (empty($response = $this->api_pelanggan_pemesanan()))
+		{
+			return null;
+		}
+
+		$tgl_akhir = $response->body->tanggal_berlangganan->akhir;
+		$tgl_akhir = strtotime($tgl_akhir);
+		$masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
+		switch (true)
+		{
+			case ($masa_berlaku > 30):
+				$status = ['status' => 1, 'warna' => 'lightgreen', 'ikon' => 'fa-battery-full'];
+				break;
+			case ($masa_berlaku > 10):
+				$status = ['status' => 2, 'warna' => 'orange', 'ikon' => 'fa-battery-half'];
+				break;
+			default:
+				$status = ['status' => 3, 'warna' => 'pink', 'ikon' => 'fa-battery-empty'];
+		}
+		$status['masa'] = $masa_berlaku;
+		return $status;
+	}
 
 	public function permohonan_surat_baru()
 	{
@@ -126,6 +164,45 @@ class Notif_model extends CI_Model {
 		$this->db->query($sql);
 	}
 
-}
+	/**
+	 * Ambil data pemesanan dari api layanan.opendeda.id
+	 * 
+	 * @return mixed
+	 */
+	public function api_pelanggan_pemesanan()
+	{
+		if (empty($token = $this->setting->layanan_opendesa_token))
+		{
+			$this->session->set_userdata('error_status_langganan', "Token Pelanggan Kosong.");
 
-?>
+			return null;
+		}
+
+		$host = $this->setting->layanan_opendesa_server;
+
+		// simpan cache
+		$response = $this->cache->pakai_cache(function () use ($host, $token) {
+			// request ke api layanan.opendesa.id
+			return $this->client->get(
+				"{$host}/api/v1/pelanggan/pemesanan",
+				[],
+				[
+					CURLOPT_HTTPHEADER => [
+						"X-Requested-With: XMLHttpRequest",
+						"Authorization: Bearer {$token}",
+					],
+				]
+			);
+		}, 'status_langganan', 24 * 60 * 60);
+
+		if ($response->header->http_code != 200)
+		{
+			$this->cache->hapus_cache_untuk_semua('status_langganan');
+			$this->session->set_userdata('error_status_langganan', "{$response->header->http_code} {$response->body->messages->error}");
+
+			return null;
+		}
+
+		return $response;
+	}
+}
