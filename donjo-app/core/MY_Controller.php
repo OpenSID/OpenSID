@@ -157,29 +157,6 @@ class Web_Controller extends MY_Controller {
 	}
 
 }
-
-class Mandiri_Controller extends MY_Controller {
-
-	public $header;
-	public $cek_anjungan;
-	public $is_login;
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model(['config_model', 'anjungan_model']);
-
-		$this->header = $this->config_model->get_data();
-		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-		$this->is_login = $this->session->is_login;
-
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
-
-		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
-	}
-
-}
-
 class Mandiri_Controller extends MY_Controller {
 
 	public $header;
