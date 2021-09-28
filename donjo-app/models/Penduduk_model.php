@@ -276,10 +276,21 @@ class Penduduk_model extends MY_Model {
 		return $alamat_wilayah;
 	}
 
+	// Masalah sql_mode ONLY_FULL_GROUP_BY diperbaiki di rilis v21.05-premium. Setelah rilis itu digabung, method ini tidak diperlukan lagi
+	private function temp_mode_get()
+	{
+		$sql_mode = $this->db->query('SELECT @@sql_mode')->row_array()['@@sql_mode'];
+		$temp_mode = preg_replace('/\,*ONLY_FULL_GROUP_BY/', '', $sql_mode);
+		$this->db->query("SET sql_mode='{$temp_mode}'");
+		$get = $this->db->get();
+		$this->db->query("SET sql_mode='{$sql_mode}'");
+		return $get;
+	}
+
 	public function paging($page_number = 1)
 	{
 		$list_data_sql = $this->list_data_sql($paging = true);
-		$row_data = $this->db->get()->result_array();
+		$row_data = $this->temp_mode_get()->result_array();
 		$jml_data = count($row_data);
 
 		return $this->paginasi($page_number, $jml_data);
@@ -406,7 +417,7 @@ class Penduduk_model extends MY_Model {
 		$this->lookup_ref_penduduk();
 		$this->order_by_list($order_by);
 
-		$data = $this->db->get()->result_array();
+		$data = $this->temp_mode_get()->result_array();
 
 		//Formating Output
 		$j = $offset;
