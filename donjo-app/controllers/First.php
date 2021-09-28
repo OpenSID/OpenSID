@@ -175,17 +175,6 @@ class First extends Web_Controller {
 		$data['detail_agenda'] = $this->first_artikel_m->get_agenda($id);//Agenda
 		$data['komentar'] = $this->first_artikel_m->list_komentar($id);
 		$this->_get_common_data($data);
-
-		// Validasi pengisian komentar di add_comment()
-		// Kalau tidak ada error atau artikel pertama kali ditampilkan, kosongkan data sebelumnya
-		if (empty($_SESSION['validation_error']))
-		{
-			$_SESSION['post']['owner'] = '';
-			$_SESSION['post']['email'] = '';
-			$_SESSION['post']['no_hp'] = '';
-			$_SESSION['post']['komentar'] = '';
-			$_SESSION['post']['captcha_code'] = '';
-		}
 		$this->set_template('layouts/artikel.tpl.php');
 		$this->load->view($this->template, $data);
 	}
@@ -482,43 +471,71 @@ class First extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function add_comment($id=0, $slug = NULL)
+	public function add_comment($id = 0)
 	{
-		$sql = "SELECT *, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri, slug AS slug FROM artikel a WHERE id=$id ";
-		$query = $this->db->query($sql,1);
-		$data = $query->row_array();
-		// Periksa isian captcha
-		include FCPATH . 'securimage/securimage.php';
-		$securimage = new Securimage();
-		$_SESSION['validation_error'] = false;
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('komentar', 'Komentar', 'required');
+		$this->form_validation->set_rules('owner', 'Nama', 'required');
+		$this->form_validation->set_rules('no_hp', 'No HP', 'numeric|required');
+		$this->form_validation->set_rules('email', 'Email', 'valid_email');
 
-		if ($securimage->check($_POST['captcha_code']) == false)
+		if ($this->form_validation->run() == TRUE)
 		{
-			$this->session->set_flashdata('flash_message', 'Kode anda salah. Silakan ulangi lagi.');
-			$_SESSION['post'] = $_POST;
-			$_SESSION['validation_error'] = true;
-			redirect($_SERVER['HTTP_REFERER']."#kolom-komentar");
-		}
+			// Periksa isian captcha
+			include FCPATH . 'securimage/securimage.php';
+			$securimage = new Securimage();
 
-		$res = $this->first_artikel_m->insert_comment($id);
-		$data['data_config'] = $this->config_model->get_data();
+			$post = $this->input->post();
+			if ($securimage->check($_POST['captcha_code']) == false)
+			{
+				$respon = [
+					'status' => -1, // Notif gagal
+					'pesan' => 'Kode anda salah. Silakan ulangi lagi.',
+					'data' => $post
+				];
+			}
+			else
+			{
+				$data = [
+					'komentar' => htmlentities($post['komentar']),
+					'owner' => htmlentities($post['owner']),
+					'no_hp' => bilangan($post['no_hp']),
+					'email' => email($post['email']),
+					'status' => 2,
+					'id_artikel' => $id
+				];
 
-		// cek kalau berhasil disimpan dalam database
-		if ($res)
-		{
-			$this->session->set_flashdata('flash_message', 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.');
+				$res = $this->first_artikel_m->insert_comment($data);
+
+				if ($res)
+				{
+					$respon = [
+						'status' => 1, // Notif berhasil
+						'pesan' => 'Komentar anda telah berhasil dikirim dan perlu dimoderasi untuk ditampilkan.'
+					];
+				}
+				else
+				{
+					$respon = [
+						'status' => -1, // Notif gagal
+						'pesan' => 'Komentar anda gagal dikirim. Silakan ulangi lagi.',
+						'data' => $post
+					];
+				}
+			}
 		}
 		else
 		{
-			$_SESSION['post'] = $_POST;
-			if (!empty($_SESSION['validation_error']))
-				$this->session->set_flashdata('flash_message', validation_errors());
-			else
-				$this->session->set_flashdata('flash_message', 'Komentar anda gagal dikirim. Silakan ulangi lagi.');
+			$respon = [
+				'status' => -1, // Notif gagal
+				'pesan' => validation_errors(),
+				'data' => $post
+			];
 		}
 
-		$_SESSION['sukses'] = 1;
-		redirect("first/artikel/".$data['thn']."/".$data['bln']."/".$data['hri']."/".$data['slug']."#kolom-komentar");
+		$this->session->set_flashdata('notif', $respon);
+
+		redirect($_SERVER['HTTP_REFERER'] . "#kolom-komentar");
 	}
 
 	private function _get_common_data(&$data)
@@ -536,7 +553,6 @@ class First extends Web_Controller {
 
 		$this->web_widget_model->get_widget_data($data);
 		$data['data_config'] = $this->config_model->get_data();
-		$data['flash_message'] = $this->session->flashdata('flash_message');
 		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
 		{
 			$data['transparansi'] = $this->setting->apbdes_manual_input

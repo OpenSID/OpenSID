@@ -80,7 +80,7 @@ class Wilayah_model extends MY_Model {
 		$per_page = $this->session->per_page;
 		$paginasi = $this->paginasi($p, $jml_data, $per_page);
 
-		return $paginasi;
+		return $this->paginasi($p, $jml_data);
 	}
 
 	private function list_data_sql()
@@ -310,10 +310,8 @@ class Wilayah_model extends MY_Model {
 			->row_array();
 
 		$jml_data = $row['jml'];
-		$per_page = $this->session->per_page;
-		$paginasi = $this->paginasi($p, $jml_data, $per_page);
-
-		return $paginasi;
+		
+		return $this->paginasi($p, $jml_data);
 	}
 
 	//Bagian RW
@@ -403,10 +401,8 @@ class Wilayah_model extends MY_Model {
 			->get()
 			->row()->jml;
 
-		$per_page = $this->session->per_page;
-		$paginasi = $this->paginasi($p, $jml_data, $per_page);
-
-		return $paginasi;
+		
+		return $this->paginasi($p, $jml_data);
 	}
 
 	private function list_data_rt_query($dusun = '', $rw='')

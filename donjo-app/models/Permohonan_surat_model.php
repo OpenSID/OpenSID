@@ -193,6 +193,7 @@
 			->row_array();
 		$syarat_permohonan = json_decode($permohonan['syarat'], true);
 		$dok_syarat = array_values($syarat_permohonan);
+<<<<<<< HEAD
 		$sql_syarat_permohonan = sql_in_list($dok_syarat);
 
 		if ($sql_syarat_permohonan) $this->db->where_in('id', $sql_syarat_permohonan);
@@ -200,6 +201,14 @@
   		->select('id, nama')
   		->from('dokumen')
   		->get()->result_array();
+=======
+		if ($dok_syarat) $this->db->where_in('id', $dok_syarat);
+  	$dokumen_kelengkapan = $this->db
+  		->select('id, nama')
+			->get('dokumen')
+			->result_array();
+
+>>>>>>> v21.03-premium-clear
   	$dok_syarat = array();
   	foreach ($dokumen_kelengkapan as $dok)
   	{

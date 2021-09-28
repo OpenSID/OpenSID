@@ -88,7 +88,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Unduh Inventaris</h4>
 										</div>
-										<form target="_blank" class="form-horizontal" method="get" >
+										<formtarget="_blank" class="form-horizontal" method="get" >
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Tahun</label>
@@ -131,7 +131,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Cetak Inventaris</h4>
 										</div>
-										<form target="_blank" class="form-horizontal" method="get">
+										<formtarget="_blank" class="form-horizontal" method="get">
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>

@@ -379,7 +379,7 @@ class Rtm_model extends CI_Model {
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
 		$this->db
-			->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
+			->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
 			->select('(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_rtm = u.no_kk ) AS jumlah_anggota')
 			->from("($query_dasar) as u")
 			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1')

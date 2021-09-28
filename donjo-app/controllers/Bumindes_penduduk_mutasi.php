@@ -1,4 +1,4 @@
-<?php  
+<?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -54,68 +54,51 @@ class Bumindes_penduduk_mutasi extends Admin_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model(['pamong_model', 'penduduk_model']);
+		$this->load->model(['pamong_model', 'penduduk_model', 'penduduk_log_model']);
 
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 303;
 
 		$this->_set_page = ['10', '20', '50', '100'];
 		$this->_list_session = ['tgl_lengkap', 'filter_tahun', 'filter_bulan', 'filter', 'kode_peristiwa', 'status_dasar', 'cari', 'status', 'status_penduduk'];
-
-		$this->session->per_page = 10;
 	}
 
-	public function index($page_number=1, $offset=0)
+	public function index($page_number=1, $order_by=0)
 	{
-		$data['main_content'] = "bumindes/penduduk/mutasi/content_mutasi";
-		$data['subtitle'] = "Buku Mutasi Penduduk Desa";
-		$data['selected_nav'] = 'mutasi';
-		$data['p'] = $page_number;
-		$data['o'] = $offset;
-
-		// set session
-		if ($this->session->cari)
-			$data['cari'] = $this->session->cari;
-		else $data['cari'] = '';
-
-		if ($this->session->filter)
-			$data['filter'] = $this->session->filter;
-		else $data['filter'] = '';
-
-		if (isset($_POST['per_page']))
-			$this->session->per_page = $_POST['per_page'];
-		$data['per_page'] = $this->session->per_page;
-		// set session END
-
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
 
 		// Menampilkan hanya kode peristiwa
 		$this->session->kode_peristiwa = array(2, 3, 5);
-
-		// Hanya menampilkan data status_dasar HIDUP, HILANG
-		// $this->session->status_dasar = array(1, 4);
-		
 		// Menampilkan hanya status penduduk TETAP
 		$this->session->status_penduduk = 1;
 
-		// Set session untuk bulan dan tahun
-		if ($this->session->filter_bulan)
-			$data['bulan'] = $this->session->filter_bulan;
-		if ($this->session->filter_tahun)
-			$data['tahun'] = $this->session->filter_tahun;
+		$data = [
+			'main_content' => "bumindes/penduduk/mutasi/content_mutasi",
+			'subtitle' => "Buku Mutasi Penduduk Desa",
+			'selected_nav' => 'mutasi',
+			'p' => $page_number,
+			'o' => $order_by,
+			'cari' => $this->session->cari ? $this->session->cari : '',
+			'filter' => $this->session->filter ? $this->session->filter : '',
+			'per_page' => $this->session->per_page,
+			'bulan' => $this->session->filter_bulan ? $this->session->filter_bulan : NULL,
+			'tahun' => $this->session->filter_tahun ? $this->session->filter_tahun : NULL,
+			'func' => 'index',
+			'set_page' => $this->_set_page,
+			'tgl_lengkap' => $this->setting->tgl_data_lengkap ? rev_tgl($this->setting->tgl_data_lengkap) : NULL,
+			'tgl_lengkap_aktif' => $this->setting->tgl_data_lengkap_aktif,
+			'paging' => $this->penduduk_log_model->paging($page_number),
+			'tahun_lengkap' => (new DateTime($this->setting->tgl_data_lengkap))->format('Y'),
+			'data_hapus' => $this->penduduk_log_model->list_data_hapus(),
+		];
 
-		$data['func'] = 'index';
-		$data['set_page'] = $this->_set_page;
-		$data['tgl_lengkap'] = rev_tgl($this->setting->tgl_data_lengkap);
-		$data['tgl_lengkap_aktif'] = $this->setting->tgl_data_lengkap_aktif;
-		if ($data['tgl_lengkap']) $this->session->tgl_lengkap = $data['tgl_lengkap'];
-		$data['paging'] = $this->penduduk_log_model->paging($page_number, $offset);
-		$data['main'] = $this->penduduk_log_model->list_data($offset, $data['paging']->offset, $data['paging']->per_page);
-		$data['list_tahun'] = $this->penduduk_log_model->list_tahun();
-		$data['data_hapus'] = $this->penduduk_log_model->list_data_hapus();
-		
+		$data['main'] = $this->penduduk_log_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);
+
+		if ($data['tgl_lengkap'])
+			$this->session->tgl_lengkap = $data['tgl_lengkap'];
+
 		$this->set_minsidebar(1);
 		$this->render('bumindes/penduduk/main', $data);
 	}
@@ -137,33 +120,33 @@ class Bumindes_penduduk_mutasi extends Admin_Controller {
 
 	public function ajax_cetak($o = 0, $aksi = '')
 	{
-		$data['o'] = $o;
-		
 		// pengaturan data untuk dialog cetak/unduh
-		$data['aksi'] = $aksi;
-		$data['list_tahun'] = $this->penduduk_log_model->list_tahun();
-		$data['form_action'] = site_url("bumindes_penduduk_mutasi/cetak/$o/$aksi");
-		$data['isi'] = "bumindes/penduduk/mutasi/ajax_cetak_bersama";
+		$data = [
+			'o' => $o,
+			'aksi' => $aksi,
+			'list_tahun' => $this->penduduk_log_model->list_tahun(),
+			'form_action' => site_url("bumindes_penduduk_mutasi/cetak/$o/$aksi"),
+			'isi' => "bumindes/penduduk/mutasi/ajax_dialog_mutasi",
+		];
 
 		$this->load->view('global/dialog_cetak', $data);
 	}
 
 	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
 	{
-		$data['aksi'] = $aksi;
-		$data['config'] = $this->header['desa'];
-		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-		$data['pamong_ttd'] = $this->pamong_model->get_ub();
-		$data['bulan'] = $this->session->filter_bulan;
-		$data['tahun'] = $this->session->filter_tahun;
-		$data['tgl_cetak'] = $_POST['tgl_cetak'];
-
-		$data['main'] = $this->penduduk_log_model->list_data($o, NULL, NULL);
-
-		// pengaturan data untuk format cetak/unduh
-		$data['file'] = "Buku Mutasi Penduduk";
-		$data['isi'] = "bumindes/penduduk/mutasi/content_mutasi_cetak";
-		$data['letak_ttd'] = ['1', '2', '8'];
+		$data = [
+			'aksi' => $aksi,
+			'config' => $this->header['desa'],
+			'pamong_ketahui' => $this->pamong_model->get_ttd(),
+			'pamong_ttd' => $this->pamong_model->get_ub(),
+			'main' => $this->penduduk_log_model->list_data($o, NULL, NULL),
+			'bulan' => $this->session->filter_bulan,
+			'tahun' => $this->session->filter_tahun,
+			'tgl_cetak' => $_POST['tgl_cetak'],
+			'file' => "Buku Mutasi Penduduk",
+			'isi' => "bumindes/penduduk/mutasi/content_mutasi_cetak",
+			'letak_ttd' => ['1', '2', '8'],
+		];
 
 		$this->load->view('global/format_cetak', $data);
 	}

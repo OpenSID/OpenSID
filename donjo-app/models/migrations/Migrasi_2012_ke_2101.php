@@ -72,5 +72,6 @@ class Migrasi_2012_ke_2101 extends MY_model {
 		$hasil =& $this->$migrasi->up();
 
 		status_sukses($hasil);
+		return $hasil;
 	}
 }

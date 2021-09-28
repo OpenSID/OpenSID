@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<a href="<?= site_url('penduduk/form_peristiwa/5'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Data Penduduk Masuk"><i class="fa fa-plus"></i>  Penduduk Masuk</a>
 								</li>
 							</ul>
-						</div>					
+						</div>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?= site_url("penduduk/delete_all/$p/$o"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
@@ -164,10 +164,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>No</th>
 												<th>Aksi</th>
 												<th>Foto</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 1, 'NIK'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 1, 'NIK'); ?></th>
 												<th>Tag ID Card</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 3, 'Nama'); ?></th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 5, 'No. KK'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 3, 'Nama'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 5, 'No. KK'); ?></th>
 												<!-- tambah kolom orang tua-->
 												<th>Nama Ayah</th>
 												<th>Nama Ibu</th>
@@ -178,11 +178,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<th>RW</th>
 												<th>RT</th>
 												<th>Pendidikan dalam KK</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 7, 'Umur'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 7, 'Umur'); ?></th>
 												<th >Pekerjaan</th>
 												<th>Kawin</th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 11, 'Tgl Peristiwa'); ?></th>
-												<th><?= url_order($o, "{$this->controller}/{$func}/$p", 9, 'Tgl Terdaftar'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 11, 'Tgl Peristiwa'); ?></th>
+												<th><?= url_order($o, "{$this->controller}/{$func}/1", 9, 'Tgl Terdaftar'); ?></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -231,7 +231,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 														<td class="padat">
 															<div class="user-panel">
 																<div class="image2">
-																	<img src="<?= ! empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																	<img class="img-circle" alt="Foto Penduduk"
+																		src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>"
+																	/>
 																</div>
 															</div>
 														</td>

@@ -83,6 +83,11 @@
 		format: 'DD-MM-YYYY',
 		locale:'id'
 	});
+	$('#tgl_lapor').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id'
+	});
 	$('document').ready(function()
 	{
 		$('#status_dasar').change(function()

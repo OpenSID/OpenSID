@@ -56,4 +56,5 @@ version.json
 Obfuscator.php
 make_obfuscate.php
 cache/*
-
+vendor/libreoffice/*
+.htaccess

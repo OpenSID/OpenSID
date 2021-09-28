@@ -79,5 +79,6 @@ class Migrasi_2011_ke_2012 extends MY_model {
 		}
 
 		status_sukses($hasil);
+		return $hasil;
 	}
 }

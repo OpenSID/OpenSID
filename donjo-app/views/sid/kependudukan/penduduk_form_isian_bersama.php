@@ -1,96 +1,47 @@
-<script type="text/javascript">
-	$(document).ready(function()
-	{
-		$("select[name='sex']").change();
-		$("select[name='status_kawin']").change();
-		$("select[name='id_asuransi']").change();
-	});
-	$('#mainform').on('reset', function(e)
-	{
-	 setTimeout(function() {
-			$("select[name='sex']").change();
-			$("select[name='status_kawin']").change();
-			$("select[name='id_asuransi']").change();
-	 });
-	});
-	function show_hide_hamil(sex)
-	{
-		if (sex == '2')
-		{
-			$("#isian_hamil").show();
-		}
-		else
-		{
-			$("#isian_hamil").hide();
-		}
-	};
-	function reset_hamil()
-	{
-		setTimeout(function()
-		{
-			$('select[name=sex]').change();
-		});
-	};
-	function show_hide_asuransi(asuransi)
-	{
-		if (asuransi == '1' || asuransi == '')
-		{
-			$('#asuransi_pilihan').hide();
-		}
-		else
-		{
-			if (asuransi == '99')
-			{
-				$('#label-no-asuransi').text('Nama/nomor Asuransi');
-			}
-			else
-			{
-				$('#label-no-asuransi').text('No Asuransi');
-			}
+<?php
+/*
+ * File ini:
+ *
+ * Views di Modul Kependudukan
+ *
+ * donjo-app/views/sid/kependudukan/penduduk_form_isian_bersama.php
+ *
+ */
 
-			$('#asuransi_pilihan').show();
-		}
-	}
-	function disable_kawin_cerai(status)
-	{
-		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
-		switch (status)
-		{
-			case '1':
-			case '4':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("#akta_perceraian").attr('disabled', true);
-				$("input[name=tanggalperceraian]").attr('disabled', true);
-				break;
-			case '2':
-				$("#akta_perkawinan").attr('disabled', false);
-				$("input[name=tanggalperkawinan]").attr('disabled', false);
-				$("#akta_perceraian").attr('disabled', true);
-				$("input[name=tanggalperceraian]").attr('disabled', true);
-				break;
-			case '3':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
-				$("#akta_perceraian").attr('disabled', false);
-				$("input[name=tanggalperceraian]").attr('disabled', false);
-				break;
-		}
-	}
-	function ubah_dusun(dusun)
-	{
-		$('#isi_rt').hide();
-		var rw = $('#rw');
-		select_options(rw, urlencode(dusun));
-	}
-	function ubah_rw(dusun, rw)
-	{
-		$('#isi_rt').show();
-		var rt = $('#id_cluster');
-		var params = urlencode(dusun) + '/' + urlencode(rw);
-		select_options(rt, params);
-	}
-</script>
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package OpenSID
+ * @author  Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license http://www.gnu.org/licenses/gpl.html  GPL V3
+ * @link  https://github.com/OpenSID/OpenSID
+ */
+?>
 			<div class="row">
 				<?php if ($jenis_peristiwa == 5): ?>
 					<div class='col-sm-4'>
@@ -135,45 +86,71 @@
 					</div>
 				</div>
 				<div class='col-sm-12'>
-					<div class='form-group'>
-						<label for="nama">Status Kepemilikan KTP</label>
-						<div class="table-responsive">
-							<table class="table table-bordered table-hover">
-								<thead class="bg-gray disabled color-palette">
-									<tr>
-										<th width='25%'>Wajib KTP</th>
-										<th>KTP Elektrtonik</th>
-										<th>Status Rekam</th>
-										<th>Tag ID Card</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td width='25%'><?= strtoupper($penduduk['wajib_ktp'])?></td>
-										<td>
-										 <select name="ktp_el" class="form-control input-sm">
-											<option value="">Pilih KTP-EL</option>
-											<?php foreach ($ktp_el as $id => $nama): ?>
-											 <option value="<?= $id?>" <?php selected(strtolower($penduduk['ktp_el']), $nama); ?>><?= strtoupper($nama)?></option>
-											<?php endforeach;?>
-										 </select>
-										</td>
-										<td width='25%'>
-										 <select name="status_rekam" class="form-control input-sm">
-											<option value="">Pilih Status Rekam</option>
-											<?php foreach ($status_rekam as $id => $nama): ?>
-											 <option value="<?= $id?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama)?></option>
-											<?php endforeach;?>
-										 </select>
-										</td>
-										<td width='25%'>
-										 <input name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class='form-group'>
+								<label for="nama">Status Kepemilikan Identitas</label>
+								<div class="table-responsive">
+									<table class="table table-bordered table-hover" style="margin-bottom: 0px;">
+										<thead class="bg-gray disabled color-palette">
+											<tr>
+												<th width='25%'>Wajib Identitas</th>
+												<th>Identitas Elektronik</th>
+												<th>Status Rekam</th>
+												<th>Tag ID Card</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td width='25%'><?= strtoupper($penduduk['wajib_ktp'])?></td>
+												<td>
+												 <select name="ktp_el" id="ktp_el" class="form-control input-sm" onchange="show_hide_ktp_el($(this).find(':selected').val())">
+													<option value="">Pilih Identitas-EL</option>
+													<?php foreach ($ktp_el as $id => $nama): ?>
+													 <option value="<?= $id?>" <?php selected(strtolower($penduduk['ktp_el']), $nama); ?>><?= strtoupper($nama)?></option>
+													<?php endforeach;?>
+												 </select>
+												</td>
+												<td width='25%'>
+												 <select name="status_rekam" class="form-control input-sm">
+													<option value="">Pilih Status Rekam</option>
+													<?php foreach ($status_rekam as $id => $nama): ?>
+													 <option value="<?= $id?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama)?></option>
+													<?php endforeach;?>
+												 </select>
+												</td>
+												<td width='25%'>
+												 <input name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
 						</div>
 					</div>
+					<div class="row" id="section_ktp_el">
+						<div class='col-sm-4'>
+							<div class='form-group'>
+								<label for="tempat_cetak_ktp">Tempat Penerbitan KTP</label>
+								<input id="tempat_cetak_ktp" name="tempat_cetak_ktp" class="form-control input-sm" maxlength="100" type="text" placeholder="Tempat Penerbitan KTP" value="<?= $penduduk['tempat_cetak_ktp']?>"></input>
+							</div>
+						</div>
+						<div class='col-sm-4'>
+							<div class='form-group'>
+								<label for="tanggal_cetak_ktp">Tanggal Penerbitan KTP</label>
+								<div class="input-group input-group-sm date">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input class="form-control input-sm pull-right tgl_1" id="tanggal_cetak_ktp" name="tanggal_cetak_ktp" type="text" value="<?= $penduduk['tanggal_cetak_ktp']?>">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
@@ -198,7 +175,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="sex">Jenis Kelamin </label>
-						<select class="form-control input-sm required" name="sex" onchange="show_hide_hamil($(this).find(':selected').val());">
+						<select class="form-control input-sm required" name="sex" onchange="ubah_sex($(this).find(':selected').val());">
 							<option value="">Jenis Kelamin</option>
 							<option value="1" <?php selected($penduduk['id_sex'], '1'); ?>>Laki-Laki</option>
 							<option value="2" <?php selected($penduduk['id_sex'], '2'); ?> >Perempuan</option>
@@ -219,12 +196,25 @@
 				<div class='col-sm-5'>
 					<div class='form-group'>
 						<label for="status">Status Penduduk </label>
-						<select class="form-control input-sm required" name="status" <?php ($penduduk['no_kk']) and print('disabled') ?>>
+						<select class="form-control input-sm required" id="status_penduduk" name="status" onchange="show_hide_penduduk_tidak_tetap($(this).find(':selected').val())" <?php ($penduduk['no_kk']) and print('disabled') ?>>
 							<option value="">Pilih Status Penduduk</option>
 							<?php foreach ($status_penduduk as $data): ?>
 								<option value="<?= $data['id']?>" <?php selected($penduduk['id_status'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
 							<?php endforeach;?>
 						</select>
+					</div>
+				</div>
+				<div id="section_penduduk_tidak_tetap">
+					<div class='col-sm-12'>
+						<div class="form-group subtitle_head">
+							<label class="text-right"><strong>DATA PENDUDUK TIDAK TETAP :</strong></label>
+						</div>
+					</div>
+					<div class='col-sm-8'>
+						<div class='form-group'>
+						<label for="maksud_tujuan_kedatangan">Maksud dan Tujuan Kedatangan</label>
+							<textarea id="maksud_tujuan_kedatangan" name="maksud_tujuan_kedatangan" class="form-control input-sm" style="resize: none" placeholder="Maksud dan Tujuan Kedatangan"><?= $penduduk['maksud_tujuan_kedatangan']?></textarea>
+						</div>
 					</div>
 				</div>
 				<div class='col-sm-12'>
@@ -371,7 +361,7 @@
 				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="warganegara_id">Status Warga Negara</label>
-						<select class="form-control input-sm required" name="warganegara_id">
+						<select class="form-control input-sm required" id="warganegara_id" name="warganegara_id" onchange="show_hide_negara_asal($(this).find(':selected').val())">
 							<option value="">Pilih Warga Negara</option>
 							<?php foreach ($warganegara as $data): ?>
 								<option value="<?= $data['id']?>" <?php selected($penduduk['warganegara_id'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
@@ -400,6 +390,12 @@
 					<div class='form-group'>
 						<label for="dokumen_kitas">Nomor KITAS/KITAP </label>
 						<input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="10" type="text" placeholder="Nomor KITAS/KITAP" value="<?= strtoupper($penduduk['dokumen_kitas'])?>"></input>
+					</div>
+				</div>
+				<div class='col-sm-4' id='field_negara_asal'>
+					<div class='form-group'>
+						<label for="negara_asal">Negara Asal</label>
+						<input id="negara_asal" name="negara_asal" class="form-control input-sm" maxlength="10" type="text" placeholder="Negara Asal" value="<?= strtoupper($penduduk['negara_asal'])?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>
@@ -452,17 +448,17 @@
 					<div class="row">
 						<div class="col-sm-12">
 							<div class='form-group col-sm-3'>
-								<label><?= ucwords($this->setting->sebutan_dusun)?> <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
-								<select name="dusun" class="form-control input-sm required" onchange="ubah_dusun($(this).val())">
+								<label for="dusun"><?= ucwords($this->setting->sebutan_dusun)?> <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+								<select id="dusun" name="dusun" class="form-control input-sm required">
 									<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 									<?php foreach ($dusun as $data): ?>
-										<option value="<?= $data['dusun']?>" <?php selected($penduduk['dusun'], $data['dusun']) ?>><?= $data['dusun']?></option>
+										<option value="<?= $data['dusun']?>" <?php selected($penduduk['dusun'], $data['dusun']) ?>><?= set_ucwords($data['dusun'])?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
-							<div class='form-group col-sm-2'>
-								<label>RW <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
-								<select id="rw" class="form-control input-sm required" name="rw" data-source="<?= site_url()?>wilayah/list_rw/" data-valueKey="rw" data-displayKey="rw" onchange="ubah_rw($('select[name=dusun]').val(), $(this).val())">
+							<div id='isi_rw' class='form-group col-sm-2'>
+								<label for="rw">RW <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+								<select id="rw" name="rw" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rw/')?>" data-valueKey="rw" data-displayKey="rw" >
 									<option class="placeholder" value="">Pilih RW</option>
 									<?php foreach ($rw as $data): ?>
 										<option value="<?= $data['rw']?>" <?php selected($penduduk['rw'], $data['rw']) ?>><?= $data['rw']?></option>
@@ -470,8 +466,8 @@
 								</select>
 							</div>
 							<div id='isi_rt' class='form-group col-sm-2'>
-								<label>RT <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
-								<select id="id_cluster" class="form-control input-sm required" name="id_cluster" data-source="<?= site_url()?>wilayah/list_rt/" data-valueKey="id" data-displayKey="rt">
+								<label for="id_cluster">RT <?php (empty($penduduk['no_kk']) and empty($kk_baru)) or print('KK')?></label>
+								<select id="id_cluster" name="id_cluster" class="form-control input-sm required" data-source="<?= site_url('wilayah/list_rt/')?>" data-valueKey="id" data-displayKey="rt">
 									<option class="placeholder" value="">Pilih RT </option>
 									<?php foreach ($rt as $data): ?>
 										<option value="<?= $data['id']?>" <?php selected($penduduk['id_cluster'], $data['id']) ?>><?= $data['rt']?></option>
@@ -506,14 +502,14 @@
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="alamat_sebelumnya">Alamat Sebelumnya </label>
-						<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= strtoupper($penduduk['alamat_sebelumnya'])?>"></input>
+						<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya']?>"></input>
 					</div>
 				</div>
 				<?php if (!$penduduk['no_kk'] and !$kk_baru): ?>
 					<div class='col-sm-12'>
 						<div class='form-group'>
 							<label for="alamat_sekarang">Alamat Sekarang </label>
-							<input id="alamat_sekarang" name="alamat_sekarang" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Sekarang" value="<?= strtoupper($penduduk['alamat_sekarang'])?>"></input>
+							<input id="alamat_sekarang" name="alamat_sekarang" class="form-control input-sm" maxlength="200" type="text" placeholder="Alamat Sekarang" value="<?= $penduduk['alamat_sekarang']?>"></input>
 						</div>
 					</div>
 				<?php endif; ?>
@@ -678,5 +674,178 @@
 							</div>
 						</div>
 					</div>
+<<<<<<< HEAD
 				</div>	
+=======
+				</div>
+>>>>>>> v21.03-premium-clear
 			</div>
+
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		$("#dusun").change(function() {
+			let dusun = $(this).val();
+			$('#isi_rt').hide();
+
+			if (dusun) {
+				var rw = $('#rw');
+				$('#isi_rw').show();
+				select_options(rw, urlencode(dusun));
+			} else {
+				$('#isi_rw').hide();
+			}
+		});
+
+		$("#rw").change(function() {
+			let dusun = $("#dusun").val();
+			let rw = $(this).val();
+
+			if (dusun && rw) {
+				var rt = $('#id_cluster');
+				var params = urlencode(dusun) + '/' + urlencode(rw);
+				$('#isi_rt').show();
+				select_options(rt, params);
+			} else {
+				$('#isi_rt').hide();
+			}
+		});
+
+		$("select[name='sex']").change();
+		$("select[name='status_kawin']").change();
+		$("select[name='id_asuransi']").change();
+
+		show_hide_penduduk_tidak_tetap($('#status_penduduk').val());
+		show_hide_negara_asal($('#warganegara_id').val());
+		show_hide_ktp_el($('#ktp_el').val());
+	});
+
+	$('#mainform').on('reset', function(e)
+	{
+	 setTimeout(function() {
+			$("select[name='sex']").change();
+			$("select[name='status_kawin']").change();
+			$("select[name='id_asuransi']").change();
+	 });
+	});
+
+	function ubah_sex(sex)
+	{
+		var old_foto = $('#old_foto').val();
+
+		(sex == '2') ? $("#isian_hamil").show() : $("#isian_hamil").hide();
+
+		if (old_foto == '') {
+			$('#foto').attr("src", AmbilFoto(old_foto, 'kecil_', sex))
+		}
+	};
+
+	function reset_hamil()
+	{
+		setTimeout(function()
+		{
+			$('select[name=sex]').change();
+		});
+	};
+	function show_hide_asuransi(asuransi)
+	{
+		if (asuransi == '1' || asuransi == '')
+		{
+			$('#asuransi_pilihan').hide();
+		}
+		else
+		{
+			if (asuransi == '99')
+			{
+				$('#label-no-asuransi').text('Nama/nomor Asuransi');
+			}
+			else
+			{
+				$('#label-no-asuransi').text('No Asuransi');
+			}
+
+			$('#asuransi_pilihan').show();
+		}
+	}
+
+	function AmbilFoto(foto, ukuran = "kecil_", sex)
+	{
+		//Jika penduduk ada foto, maka pakai foto tersebut
+		//Jika tidak, pakai foto default
+		if (foto)
+		{
+		  ukuran_foto = ukuran || null
+		  file_foto = '<?= base_url().LOKASI_USER_PICT;?>'+ukuran_foto+foto;
+		}
+		else
+		{
+			file_foto = sex == '2' ? '<?=  FOTO_DEFAULT_WANITA ?>' : '<?= FOTO_DEFAULT_PRIA ?>';
+		}
+
+	  return file_foto;
+	}
+
+	function disable_kawin_cerai(status)
+	{
+		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
+		switch (status)
+		{
+			case '1':
+			case '4':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '2':
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
+				break;
+			case '3':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', false);
+				$("input[name=tanggalperceraian]").attr('disabled', false);
+				break;
+		}
+	}
+	function show_hide_penduduk_tidak_tetap(status)
+	{
+		// status 1 = TETAP, 2 = TIDAK TETAP
+		if (status == 2)
+		{
+			$('#section_penduduk_tidak_tetap').fadeIn();
+		} 
+		else 
+		{
+			$('#section_penduduk_tidak_tetap').fadeOut();
+		}
+	}
+	function show_hide_negara_asal(warganegaraId)
+	{
+		// warganegara_id 1 = WNI, 2 = WNA, 3 = DUA KEWARGANEGARAAN
+		if (warganegaraId == 2 || warganegaraId == 3)
+		{
+			$('#field_negara_asal').fadeIn();
+		} 
+		else 
+		{
+			$('#field_negara_asal').fadeOut();
+		}
+	}
+
+	function show_hide_ktp_el(status)
+	{
+		// status 1 = BELUM MEMILIKI KTP-EL, 2 = SUDAH MEMILIKI KTP-EL
+		if (status == 2)
+		{
+			$('#section_ktp_el').fadeIn();
+		} 
+		else 
+		{
+			$('#section_ktp_el').fadeOut();
+		}
+	}
+</script>

@@ -12,7 +12,7 @@
 			</div>
 			<div id="collapse1" class="panel-collapse collapse in">
 				<div class="box-body">
-					<p>OpenSID adalah aplikasi Sistem Informasi Desa (SID) yang dikembangkan sejak Mei 2016. OpenSID dirancang dan dikelola supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Informasi lebih lanjut dapat dilihat di <a href= https://github.com/OpenSID/opensid>https://github.com/OpenSID/opensid</a>.</p>
+					<p>OpenSID adalah aplikasi Sistem Informasi Desa (SID) yang dikembangkan sejak Mei 2016. OpenSID dirancang dan dikelola supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Informasi lebih lanjut dapat dilihat di <a href= https://github.com/OpenSID/opensid>https://github.com/OpenSID/OpenSID</a>.</p>
 				</div>
 			</div>
 		</div>
@@ -89,9 +89,9 @@
 						<li>Bentuk tim kerja bersama pemerintah desa</li>
 						<li>Diskusikan basis data apa saja yang diperlukan untuk warga</li>
 						<li>Himpun data kependudukan warga dari Kartu Keluarga (KK)</li>
-						<li>Dapatkan aplikasi softwarenya di https://github.com/OpenSID/OpenSID/releases</li>
-						<li>Install aplikasi software SID di komputer desa</li>
-						<li>Entry data penduduk ke SID</li>
+						<li>Dapatkan aplikasi SID di <a href= https://github.com/OpenSID/OpenSID/releases>https://github.com/OpenSID/OpenSID/releases</a></li>
+						<li>Pasang aplikasi SID di komputer desa</li>
+						<li>Masukkan data penduduk ke SID</li>
 						<li>Basis data kependudukan sudah bisa dimanfaatkan</li>
 						<li>Diskusikan rencana pengembangan SID sesuai kebutuhan desa</li>
 						<li>Sebarluaskan informasi desa melalui beragam media untuk warga</li>
@@ -126,7 +126,7 @@
 						<li>Website OpenDesa, pengelola OpenSID: </li>
 						<a href="http://opendesa.id/" target="_blank">http://opendesa.id </a>
 						<li>Website resmi OpenSID: </li>
-						<a href="http://opensid.my.id/" target="_blank">http://opensid.my.id </a>
+						<a href="http://opensid.my.id/" target="_blank">http://opensid.or.id </a>
 						<li>Group Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
 						<a href="https://www.facebook.com/groups/opensid/" target="_blank">Forum Pengguna dan Pegiat OpenSID </a>
 						<li>Tempat mengunduh rilis OpenSID:</li>

@@ -68,8 +68,33 @@ class MY_Controller extends CI_Controller {
 		// Tampilkan profiler untuk development
 		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
 
-		$this->load->model('database_model');
-		$this->database_model->cek_migrasi();
+		$this->load->model(['setting_model']);			
+        $this->setting_model->init();
+	}	
+
+	/*
+	 * Bersihkan session cluster wilayah
+	 */
+	public function clear_cluster_session()
+	{
+		$cluster_session = array('dusun', 'rw', 'rt');
+		foreach ($cluster_session as $session)
+		{
+			$this->session->unset_userdata($session);
+		}
+	}
+
+}
+
+class Web_Controller extends MY_Controller {
+
+	/*
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		parent::__construct();		
+		$this->controller = strtolower($this->router->fetch_class());
 		// Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
 		// if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
 		$theme = preg_replace("/desa\//","",strtolower($this->setting->web_theme)) ;
@@ -86,37 +111,27 @@ class MY_Controller extends CI_Controller {
 		}
 		// Variabel untuk tema
 		$this->template = "../../{$this->theme_folder}/{$this->theme}/template.php";
-	}
-
-	function set_title($page_title)
-	{
-		$this->includes[ 'page_title' ] = $page_title;
-
-		/*
-		 * check wether page_header has been set or has a value
-		 * if not, then set page_title as page_header
-		 */
-		$this->includes[ 'page_header' ] = isset( $this->includes[ 'page_header' ] ) ? $this->includes[ 'page_header' ] : $page_title;
-		return $this;
+		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
 	}
 
 	/*
-	 * Set Page Header
-	 * sometime, we want to have page header different from page title
-	 * so, use this function
-	 * --------------------------------------
-	 * @author	Arif Rahman Hakim
-	 * @since	Version 3.0.5
-	 * @access	public
-	 * @param	string
-	 * @return	chained object
+	 * Jika file theme/view tidak ada, gunakan file klasik/view
+	 * Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
 	 */
-	function set_page_header($page_header)
+	public static function fallback_default($theme, $view)
 	{
-		$this->includes[ 'page_header' ] = $page_header;
-		return $this;
-	}
+		$view = trim($view, '/');
+		$theme_folder = self::get_instance()->theme_folder;
+		$theme_view = "../../$theme_folder/$theme/$view";
 
+		if (!is_file(APPPATH .'views/'. $theme_view))
+		{
+			$theme_view = "../../themes/klasik/$view";
+		}
+
+		return $theme_view;
+	}	
+	
 	/*
 	 * Set Template
 	 * sometime, we want to use different template for different page
@@ -141,48 +156,26 @@ class MY_Controller extends CI_Controller {
 			$this->template = '../../themes/klasik/' . $template_file;
 	}
 
-	/*
-	 * Bersihkan session cluster wilayah
-	 */
-	public function clear_cluster_session()
-	{
-		$cluster_session = array('dusun', 'rw', 'rt');
-		foreach ($cluster_session as $session)
-		{
-			$this->session->unset_userdata($session);
-		}
-	}
-
 }
 
-class Web_Controller extends MY_Controller {
+class Mandiri_Controller extends MY_Controller {
 
-	/*
-	 * Constructor
-	 */
+	public $header;
+	public $cek_anjungan;
+	public $is_login;
+
 	public function __construct()
 	{
 		parent::__construct();
-		$this->includes['folder_themes'] = '../../'.$this->theme_folder.'/'.$this->theme;
-		$this->controller = strtolower($this->router->fetch_class());
-	}
+		$this->load->model(['config_model', 'anjungan_model']);
 
-	/*
-	 * Jika file theme/view tidak ada, gunakan file klasik/view
-	 * Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
-	 */
-	public static function fallback_default($theme, $view)
-	{
-		$view = trim($view, '/');
-		$theme_folder = self::get_instance()->theme_folder;
-		$theme_view = "../../$theme_folder/$theme/$view";
+		$this->header = $this->config_model->get_data();
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+		$this->is_login = $this->session->is_login;
 
-		if (!is_file(APPPATH .'views/'. $theme_view))
-		{
-			$theme_view = "../../themes/klasik/$view";
-		}
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 
-		return $theme_view;
+		if ($this->session->mandiri != 1) redirect('layanan-mandiri/masuk');
 	}
 
 }
@@ -244,7 +237,7 @@ class Admin_Controller extends MY_Controller {
 		$this->controller = strtolower($this->router->fetch_class());
 		$this->load->model(['header_model', 'user_model', 'notif_model']);
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
-
+        
 		$this->load->model('modul_model');
 		if (!$this->modul_model->modul_aktif($this->controller))
 		{
@@ -270,7 +263,6 @@ class Admin_Controller extends MY_Controller {
 		$this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
 		$this->header['notif_inbox']            = $this->notif_model->inbox_baru();
 		$this->header['notif_komentar']         = $this->notif_model->komentar_baru();
-		$this->header['notif_langganan']        = $this->notif_model->status_langganan();
 	}
 
 	private function cek_pengumuman()

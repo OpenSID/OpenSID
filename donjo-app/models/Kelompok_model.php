@@ -318,7 +318,7 @@ class Kelompok_model extends MY_Model {
 	{
 		$this->load->model('penduduk_model');
 		$sql = "SELECT u.id, u.nik, u.nama, k.id as id_kelompok, k.nama as nama_kelompok, u.tempatlahir, u.tanggallahir, s.nama as sex,
-				(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) AS umur,
+				DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
 				d.nama as pendidikan, f.nama as warganegara, a.nama as agama,
 				wil.rt, wil.rw, wil.dusun
 			FROM kelompok k
@@ -338,9 +338,14 @@ class Kelompok_model extends MY_Model {
 
 	public function get_anggota($id = 0, $id_a = 0)
 	{
-		$sql = "SELECT * FROM kelompok_anggota WHERE id_kelompok = ? AND id_penduduk = ?";
-		$query = $this->db->query($sql,array($id, $id_a));
-		$data = $query->row_array();
+		$data = $this->db
+			->select('k.*, p.foto, p.sex as id_sex')
+			->from('kelompok_anggota k')
+			->join('tweb_penduduk p', 'k.id_penduduk = p.id')
+			->where('id_kelompok', $id)
+			->where('id_penduduk', $id_a)
+			->get()
+			->row_array();
 		return $data;
 	}
 
@@ -405,7 +410,7 @@ class Kelompok_model extends MY_Model {
 		$dusun = ucwords($this->setting->sebutan_dusun);
 		if ($sub == 'anggota') $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
 		$data = $this->db
-			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tpx.nama AS sex')
+			->select('ka.*, tp.nik, tp.nama, tp.tempatlahir, tp.tanggallahir, tp.foto, tp.sex as id_sex, tpx.nama AS sex')
 			->select("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = tp.id) AS umur")
 			->select('a.dusun,a.rw,a.rt')
 			->select("CONCAT('{$dusun} ', a.dusun, ' RW ', a.rw, ' RT ', a.rt) as alamat")

@@ -536,7 +536,10 @@ class Penduduk extends Admin_Controller {
 		$data['nik'] = $this->penduduk_model->get_penduduk($id);
 		$data['form_action'] = site_url("penduduk/update_status_dasar/$p/$o/$id");
 		$data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
-		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', '9, 1'); //Kecuali status dasar 'TIDAK VALID', 'HIDUP'
+
+		//Pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
+		$excluded_status = $data['nik']['id_status'] == 1 ? '9, 1, 6' : '9, 1'; 
+		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar', $excluded_status);
 		$this->load->view('sid/kependudukan/ajax_edit_status_dasar', $data);
 	}
 

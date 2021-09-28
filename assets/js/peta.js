@@ -1264,9 +1264,9 @@ function tampilkan_layer_area_garis_lokasi(peta, daftar_path, daftar_garis, daft
 		set_marker_garis(marker_garis, daftar_garis, foto_garis);
 	}
 
-	//OVERLAY LOKASI DAN PROPERTI
+  //OVERLAY LOKASI DAN PROPERTI
 	if (daftar_lokasi) {
-		set_marker_lokasi_pembangunan(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
+		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
 	}
 
 	setMarkerCustom(marker_area, layer_area);
@@ -1325,7 +1325,7 @@ function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis,
 
   //OVERLAY LOKASI DAN PROPERTI
 	if (daftar_lokasi) {
-		set_marker_lokasi(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
+		set_marker_lokasi_pembangunan(marker_lokasi, daftar_lokasi, path_icon, foto_lokasi);
 	}
 
 	//OVERLAY LOKASI PEMBANGUNAN
@@ -1337,6 +1337,17 @@ function tampilkan_layer_area_garis_lokasi_plus(peta, daftar_path, daftar_garis,
 	setMarkerCustom(marker_garis, layer_garis);
 	setMarkerCluster(marker_lokasi, markersList, markers);
   setMarkerClusterP(marker_lokasi_pembangunan, markersListP, markersP);
+
+	peta.on('layeradd layerremove', function () {
+		peta.eachLayer(function (layer) {
+			if(peta.hasLayer(layer_lokasi)) {
+				peta.addLayer(markers);
+			} else {
+				peta.removeLayer(markers);
+        peta._layersMaxZoom = 19;
+			}
+		});
+	});
 
   peta.on('layeradd layerremove', function () {
 		peta.eachLayer(function (layer) {
@@ -1415,6 +1426,7 @@ function cetakPeta(layerpeta)
     });
   };
   return cetakPeta;
+<<<<<<< HEAD
 }
 
 //Menambahkan legend ke peta dusun/rw/rt
@@ -1542,74 +1554,219 @@ const regions = {
 			sembuh: 'kasusSemb'
 		}
 	}
+=======
+>>>>>>> v21.03-premium-clear
 }
 
-function numberFormat(num) {
-	return new Intl.NumberFormat('id-ID').format(num);
+//Menambahkan legend ke peta dusun/rw/rt
+function setlegendPeta(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas)
+{
+  var daftar = JSON.parse(legendData);
+  var div = L.DomUtil.create('div', 'info legend');
+  var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+
+  for (var x = 0; x < daftar.length; x++)
+  {
+    if (daftar[x].path)
+    {
+      legenda.onAdd = function (layerpeta) {
+        var categories = [judul + ' ' + daftar[x][nama_wil]];
+        if (judul === 'RT') {
+          var categories = [judul + ' ' + daftar[x][nama_wil]  + ' ' + judul_wil_atas + ' ' + daftar[x].rw + ' ' + daftar[x].dusun];
+        }
+        if (judul === 'RW') {
+          var categories = [judul + ' ' + daftar[x][nama_wil] + ' ' + judul_wil_atas + ' ' + daftar[x].dusun];
+        }
+        for (var i = 0; i < categories.length; i++)
+          {
+          div.innerHTML +=
+          labels.push(
+            '<i class="circle" style="background:' + daftar[x].warna + '"></i> ' +
+            (categories[i] ? categories[i] + '<br>' : '+'));
+          }
+        div.innerHTML = labels.join('<br>');
+        return div;
+      }
+      legenda.addTo(layerpeta);
+    }
+  }
+  setlegendPrint(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas);
+  return setlegendPeta;
 }
 
-function parseToNum(data) {
-	return parseFloat(data.toString().replace(/,/g, ''));
+function setlegendPrint(legenda, layerpeta, legendData, judul, nama_wil, judul_wil_atas)
+{
+  layerpeta.on("browser-print-start", function(e){
+
+    var daftar = JSON.parse(legendData);
+    var div = L.DomUtil.create('div', 'info legend');
+    var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+
+    for (var x = 0; x < daftar.length; x++)
+    {
+      if (daftar[x].path)
+      {
+        legenda.onAdd = function (layerpeta) {
+          var categories = [judul + ' ' + daftar[x][nama_wil]];
+          if (judul === 'RT') {
+            var categories = [judul + ' ' + daftar[x][nama_wil]  + ' ' + judul_wil_atas + ' ' + daftar[x].rw + ' ' + daftar[x].dusun];
+          }
+          if (judul === 'RW') {
+            var categories = [judul + ' ' + daftar[x][nama_wil] + ' ' + judul_wil_atas + ' ' + daftar[x].dusun];
+          }
+          for (var i = 0; i < categories.length; i++)
+            {
+            div.innerHTML +=
+            labels.push(
+              '<i class="circle" style="background:' + daftar[x].warna + '"></i> ' +
+              (categories[i] ? categories[i] + '<br>' : '+'));
+            }
+          div.innerHTML = labels.join('<br>');
+          return div;
+        }
+        legenda.addTo(e.printMap);
+      }
+    }
+  });
+  return setlegendPrint;
 }
 
-function showCovidData(data, region) {
-	const elem = region.id === regions.indonesia.id ? '#covid-nasional' : '#covid-provinsi';
-	Object.keys(region.attributes).forEach(function (prop) {
-		let tempData = data[region.attributes[prop]];
-		let finalData = prop === 'wilayah' ? tempData.toUpperCase() : numberFormat(parseToNum(tempData));
-		$(elem).find(`[data-name=${prop}]`).html(`${finalData}`);
-	});
+//Menambahkan legend ke peta desa
+function setlegendPetaDesa(legenda, layerpeta, legendData, judul, nama_wil)
+{
+  var daftar = JSON.parse(legendData['path']);
 
-	$(elem).find('.shimmer').removeClass('shimmer');
+  for (var x = 0; x < daftar.length; x++)
+  {
+    legenda.onAdd = function (layerpeta) {
+      var div = L.DomUtil.create('div', 'info legend');
+      var labels = ['<strong>Legenda' + ' ' + ' - ' +  ' ' + judul + '</strong>'];
+      var categories = [judul + ' ' + legendData['nama_desa']];
+      for (var i = 0; i < categories.length; i++)
+        {
+          div.innerHTML +=
+          labels.push(
+            '<i class="circle" style="background:' + legendData['warna'] + '"></i> ' +
+            (categories[i] ? categories[i] + '<br>' : '+'));
+          }
+        div.innerHTML = labels.join('<br>');
+        return div;
+    }
+    legenda.addTo(layerpeta);
+  }
+
+  layerpeta.on("browser-print-start", function(e){
+    L.control.scale({position: 'bottomleft'}).addTo(e.printMap);
+    legenda.addTo(e.printMap);
+  });
+
+  return setlegendPetaDesa;
 }
 
-function showError(elem = '') {
-	$(`${elem} .shimmer`).html('<span class="small"><i class="fa fa-exclamation-triangle"></i> Gagal memuat...</span>');
-	$(`${elem} .shimmer`).removeClass('shimmer');
+//loading Peta Sebaran Covid - data geoJSON dari API BNPB-https://bnpb-inacovid19.hub.arcgis.com/datasets/data-harian-kasus-per-provinsi-covid-19-indonesia
+function peta_covid(mylayer, mymap, img)
+{
+  var peta_covid = $.getJSON("https://opendata.arcgis.com/datasets/0c0f4558f1e548b68a1c82112744bad3_0.geojson",function(data){
+    var datalayer = L.geoJson(data ,{
+      onEachFeature: function (feature, layer) {
+        var custom_icon = L.icon({"iconSize": 32, "iconUrl": img});
+        layer.setIcon(custom_icon);
+        var popup_0 = L.popup({"maxWidth": "100%"});
+        var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
+        + '<h4><b>' + feature.properties.Provinsi + '</b></h4>'
+        + '<table><tr>'
+        + '<th style="color:red">Positif&nbsp;&nbsp;</th>'
+        + '<th style="color:green">Sembuh&nbsp;&nbsp;</th>'
+        + '<th style="color:black">Meninggal&nbsp;&nbsp;</th>'
+        + '</tr><tr>'
+        + '<td><center><b style="color:red">' + feature.properties.Kasus_Posi + '</b></center></td>'
+        + '<td><center><b style="color:green">' + feature.properties.Kasus_Semb + '</b></center></td>'
+        + '<td><center><b>' + feature.properties.Kasus_Meni + '</b></center></td>'
+        + '</tr></table></div>')[0];
+        popup_0.setContent(html_a);
+        layer.bindPopup(popup_0, {'className' : 'covid_pop'});
+        layer.bindTooltip(feature.properties.Provinsi, {sticky: true, direction: 'top'});
+      },
+    });
+    mylayer.addLayer(datalayer);
+  });
+  return peta_covid;
 }
 
-$(document).ready(function () {
-	if ($('#covid-nasional').length) {
-		const COVID_API_URL = 'https://indonesia-covid-19.mathdro.id/api/';
-		const ENDPOINT_PROVINSI = 'provinsi/';
+//loading Peta Desa Pengguna OpenSID (Data dari API Server)
+function pantau_desa(layer_desa, tracker_host, kode_desa, img, token)
+{
+  var pantau_desa = $.getJSON(tracker_host + '/index.php/api/wilayah/geoprov?token=' + token + '&kode_desa=' + kode_desa, function(data){
+    var datalayer = L.geoJson(data ,{
+      onEachFeature: function (feature, layer) {
+        var custom_icon = L.icon({"iconSize": [16, 16], "iconUrl": img});
+        layer.setIcon(custom_icon);
+        var popup_0 = L.popup({"maxWidth": "100%"});
+        var customOptions = {'maxWidth': '325', 'className' : 'covid_pop'};
+        var html_a = $('<div id="html_a" style="width: 100.0%; height: 100.0%;">'
+        + '<h4><b style="color:red">' + feature.properties.desa + '</b></h4>'
+        + '<table>'
+        + '<tr>'
+        + '<td><b style="color:green">Alamat : ' + feature.properties.alamat + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Kecamatan : ' + feature.properties.kec + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Kab/Kota : ' + feature.properties.kab + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Provinsi : ' + feature.properties.prov + '</b></td>'
+        + '</tr>'
+        + '<tr>'
+        + '<td><b style="color:green">Website : ' + '<a href="' + 'http://' + feature.properties.web + '" + " target=\"_blank\">' + 'http://' + feature.properties.web + '</a>' + '</b></td>'
+        + '</tr>'
+        + '</table></div>')[0];
+        popup_0.setContent(html_a);
+        layer.bindPopup(popup_0, customOptions);
+        layer.bindTooltip(feature.properties.desa, {sticky: true, direction: 'top'});
+      },
+    });
+    layer_desa.addLayer(datalayer);
+    var infodesa = data;
+    var nama_prov = infodesa.nama_provinsi;
+    var jml_desa_prov = infodesa.jml_desa_prov;
+    var lat = infodesa.lat;
+    var lng = infodesa.lng;
+    let attributes = ['nama_prov','jml_desa_prov'];
+    attributes.forEach(function (attr) {
+      $(`.${attr}`).html(eval(attr));
+    })
 
-		try {
-			$.ajax({
-				async: true,
-				cache: true,
-				url: COVID_API_URL,
-				success: function (response) {
-					const data = response;
-					data.name = 'Indonesia';
-					showCovidData(data, regions.indonesia);
-				},
-				error: function (error) {
-					showError('#covid-nasional');
-				}
-			})
-		} catch (error) {
-			showError('#covid-nasional');
-		}
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geokab?token=' + token + '&kode_desa=' + kode_desa,
+        dataType: 'json',
+        success: function(data) {
+          var nama_kab = data.nama_kabupaten;
+          var jml_desa_kab = data.jml_desa_kab;
+          let attributes = ['nama_kab','jml_desa_kab'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
 
-		if (KODE_PROVINSI) {
-			try {
-				$.ajax({
-					async: true,
-					cache: true,
-					url: COVID_API_URL + ENDPOINT_PROVINSI,
-					success: function (response) {
-						const data = response.data.filter(data => data.kodeProvi == KODE_PROVINSI);
-						data.length ? showCovidData(data[0], regions.provinsi) : showError('#covid-provinsi');
-					},
-					error: function (error) {
-						showError('#covid-provinsi');
-					}
-				})
-			} catch (error) {
-				showError('#covid-provinsi')
-			}
-		}
+    $.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/geokec?token=' + token + '&kode_desa=' + kode_desa,
+        dataType: 'json',
+        success: function(data) {
+          var nama_kec = data.nama_kecamatan;
+          var jml_desa_kec = data.jml_desa_kec;
+          let attributes = ['nama_kec','jml_desa_kec'];
+          attributes.forEach(function (attr) {
+            $(`.${attr}`).html(eval(attr));
+          })
+        }
+    });
 
+<<<<<<< HEAD
 	}
 })
 
@@ -1716,6 +1873,8 @@ function pantau_desa(layer_desa, tracker_host, kode_desa, img, token)
         }
     });
 
+=======
+>>>>>>> v21.03-premium-clear
     $.ajax({
         type: 'GET',
         url: tracker_host + '/index.php/api/wilayah/geoneg?token=' + token,

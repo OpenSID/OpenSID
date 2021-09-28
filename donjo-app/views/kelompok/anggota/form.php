@@ -62,7 +62,7 @@
 					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 						<div class="col-md-3">
 							<div class="box-body box-profile">
-								<img class="profile-user-img img-responsive img-circle" src="<?= $pend['foto'] ? AmbilFoto($pend['foto']) : base_url() . 'assets/files/user_pict/kuser.png'; ?>" alt="Foto">
+								<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($pend['foto'], '', $pend['id_sex']); ?>" alt="Foto">
 								<br/>
 								<p class="text-muted text-center"><code>(Kosongkan jika tidak ingin mengubah foto)</code></p>
 								<br/>

@@ -1,4 +1,56 @@
-<?php class Surat_model extends CI_Model {
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * Model untuk modul Surat
+ *
+ * donjo-app/models/Surat_model.php
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+
+ require_once 'vendor/html2pdf/vendor/autoload.php';
+ use Spipu\Html2Pdf\Html2Pdf;
+ use Spipu\Html2Pdf\Exception\Html2PdfException;
+ use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+
+class Surat_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -1018,30 +1070,26 @@
     include($this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']));
 		$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
 
-    // get the HTML using output buffer
-    ob_start();
-    foreach ($daftar_lampiran as $format_lampiran)
-    {
-	    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
-    }
-    $content = ob_get_clean();
-
     // convert in PDF
-    require_once(FCPATH.'vendor/html2pdf/html2pdf.class.php');
-    try
-    {
-      $html2pdf = new HTML2PDF();
-//      $html2pdf->setModeDebug();
-      $html2pdf->setDefaultFont('Arial');
-      $html2pdf->writeHTML($content, isset($_GET['vuehtml']));
-			ob_end_clean();
-      $html2pdf->Output(LOKASI_ARSIP.$lampiran, 'F');
-    }
-    catch(HTML2PDF_exception $e)
-    {
-      echo $e;
-      exit;
-    }
+		try {
+		    // get the HTML using output buffer
+		    ob_start();
+				foreach ($daftar_lampiran as $format_lampiran)
+		    {
+			    include($this->get_file_lampiran($surat['url_surat'], $surat['lokasi_rtf'], $format_lampiran));
+		    }
+		    $content = ob_get_clean();
+
+		    $html2pdf = new Html2Pdf();
+				$html2pdf->setDefaultFont('Arial');
+		    $html2pdf->writeHTML($content);
+		    $html2pdf->output(FCPATH.LOKASI_ARSIP.$lampiran, 'F');
+		} catch (Html2PdfException $e) {
+		    $html2pdf->clean();
+		    $formatter = new ExceptionFormatter($e);
+		    echo $formatter->getHtmlMessage();
+		}
+
 	}
 
 	public function get_data_untuk_surat($url)
@@ -1092,9 +1140,14 @@
 				$cmd = 'cd '.$this->setting->libreoffice_path;
 				$cmd = $cmd." && soffice --headless --convert-to pdf:writer_pdf_Export --outdir ".$outdir." ".$fcpath.$berkas_arsip_win;
 			}
+			elseif ($this->setting->libreoffice_path == '/')
+			{
+				// Linux menggunakan stand-alone LibreOffice
+				$cmd = "".FCPATH."vendor/libreoffice/opt/libreoffice/program/soffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
+			}
 			else
 			{
-				// Linux
+				// Linux menggunakan LibreOffice yg dipasang menggunakan 'sudo apt-get'
 				$cmd = "libreoffice --headless --norestore --convert-to pdf --outdir ".FCPATH.LOKASI_ARSIP." ".FCPATH.$berkas_arsip;
 			}
 			exec($cmd, $output, $return);

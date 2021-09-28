@@ -196,6 +196,20 @@ class Penduduk_log extends Admin_Controller {
 		redirect("penduduk_log");
 	}
 
+	public function ajax_kembalikan_status_pergi($id = 0)
+	{
+		$data['nik'] = $this->penduduk_model->get_penduduk($id);
+		$data['form_action'] = site_url("penduduk_log/kembalikan_status_pergi/$id");
+		$this->load->view('sid/kependudukan/ajax_edit_status_dasar_pergi', $data);
+	}
+
+	public function kembalikan_status_pergi($id_log = 0)
+	{
+		unset($_SESSION['success']);
+		$this->penduduk_log_model->kembalikan_status_pergi($id_log);
+		redirect("penduduk_log");
+	}
+
 	public function kembalikan_status_all()
 	{
 		$this->penduduk_log_model->kembalikan_status_all();

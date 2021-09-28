@@ -35,9 +35,9 @@
 					<tr>
 						<td width="220">Nama Lengkap</td><td width="2%">:</td>
 						<td><?= strtoupper($penduduk['nama'])?></td>
-						<td rowspan="18" style="vertical-align: middle;">
+						<td rowspan="18" style="vertical-align: top;">
 							<?php if ($penduduk['foto']): ?>
-								<img src="<?= AmbilFoto($penduduk['foto'])?>" alt="" style="border: solid 1px black; padding: 5px;"/>
+								<img class="pas_foto" src="<?= AmbilFoto($penduduk['foto'], '', $penduduk['id_sex'])?>" alt="<?= $penduduk['foto']; ?>" style="width: 100%; max-width: 150px; height: auto; border: solid 2px black;"/>
 							<?php endif; ?>
 						</td>
 					</tr>

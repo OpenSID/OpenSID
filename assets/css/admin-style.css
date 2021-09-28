@@ -523,7 +523,7 @@ div.form-surat .content-wrapper {
 	padding-top: 0px !important;
 }
 
-.breadcrumb.admin, .box-header.admin, .tdk-periksa {
+.breadcrumb.admin, .box-header.admin, #periksa-permohonan .tdk-periksa {
 	display: none;
 }
 

@@ -217,18 +217,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																	<td class="aksi">
 																			<a href="<?= site_url("penduduk_log/edit/$p/$o/$data[id_log]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>
 																		<?php
-																			if ($data['kode_peristiwa'] != 5 && $data['kode_peristiwa'] != 1 && $data['kode_peristiwa'])
+																			if ($data['is_log_pergi_terakhir'] && $data['status_dasar'] == 6)
 																			{
 																		?>
 																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i></a>
+																				<a href="<?= site_url("penduduk_log/ajax_kembalikan_status_pergi/$data[id_log]")?>" class="btn bg-purple btn-flat btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>
 																		<?php
+																			}
+																			else if ($data['kode_peristiwa'] != 5 && $data['kode_peristiwa'] != 1 && $data['kode_peristiwa'] != 6 && $data['kode_peristiwa'])
+																			{
+																		?>
+																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status"><i class="fa fa-undo"></i></a>
+																		<?php	
 																			}
 																		?>
 																	</td>
 																	<td nowrap>
 																		<div class="user-panel">
 																			<div class="image2">
-																				<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																				<img src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>" class="img-circle" alt="Foto Penduduk"/>
 																			</div>
 																		</div>
 																	</td>

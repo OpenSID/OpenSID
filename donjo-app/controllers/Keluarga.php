@@ -137,6 +137,9 @@ class Keluarga extends Admin_Controller {
 	public function form_peristiwa($peristiwa='')
 	{
 		// Acuan jenis peristiwa berada pada ref_peristiwa
+		// Yg valid hanya peristiwa datang masuk
+		if ($peristiwa <> 5) redirect('keluarga');
+
 		$this->session->jenis_peristiwa = $peristiwa;
 		$this->form();
 	}

@@ -54,11 +54,7 @@
 				<div class="col-md-3">
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<?php if ($pamong['foto']): ?>
-								<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($pamong['foto'])?>" alt="Foto">
-							<?php else: ?>
-								<img class="profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
-							<?php endif; ?>
+							<img class="profile-user-img img-responsive img-circle" src="<?= AmbilFoto($pamong['foto'], '', $pamong['id_sex'])?>" alt="Foto">
 							<br/>
 							<p class="text-muted text-center"><code>(Kosongkan jika tidak ingin mengubah foto)</code></p>
 							<br/>

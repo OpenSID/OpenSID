@@ -1,8 +1,6 @@
 <?php foreach ($this->list_setting as $setting): ?>
 	<?php $key = ucwords(str_replace('_', ' ', $setting->key)); ?>
 	<?php if ($setting->key != 'penggunaan_server' && $setting->jenis != 'upload' && in_array($setting->kategori, $kategori)): ?>
-		<?php $setting->kategori = ($setting->kategori == 'setting_analisis' && $this->setting->demo_mode) ? 'readonly' : $setting->kategori; ?>
-		<?php $setting->value = ($setting->key == 'layanan_opendesa_token' && $this->setting->demo_mode) ? '' : $setting->value; ?>
 		<div class="form-group">
 			<label class="col-sm-12 col-md-3" for="nama"><?= $key; ?></label>
 			<?php if ($setting->jenis == 'option'): ?>
@@ -69,10 +67,13 @@
 						<input class="form-control input-sm pull-right tgl_1" id="<?= $setting->key?>" name="<?= $setting->key?>" type="text" value="<?= $setting->value?>">
 					</div>
 				</div>
+<<<<<<< HEAD
 			<?php elseif ($setting->jenis == 'textarea'): ?>
 				<div class="col-sm-12 col-md-4">
 					<textarea <?php ($setting->kategori != 'readonly') or print 'disabled'?> class="form-control input-sm" name="<?= $setting->key?>" placeholder="<?= $setting->keterangan?>" rows="5"><?= $setting->value; ?> </textarea>
 				</div>
+=======
+>>>>>>> v21.03-premium-clear
 			<?php else : ?>
 				<div class="col-sm-12 col-md-4">
 					<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text" value="<?= $setting->value?>" <?php ($setting->kategori != 'readonly') or print 'disabled'?>></input>

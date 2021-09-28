@@ -40,7 +40,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Siteman extends CI_Controller
+class Siteman extends MY_Controller
 {
 
 	public function __construct()

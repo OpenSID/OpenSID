@@ -115,39 +115,13 @@ class Dpt extends Admin_Controller {
 
 	public function filter($filter)
 	{
+		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
+		if ($filter == "rw") $this->session->unset_userdata("rt");
+
 		$value = $this->input->post($filter);
-		if ($value != '')
+		if ($value != "")
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
-		redirect('dpt');
-	}
-
-	public function dusun()
-	{
-		$this->session->unset_userdata(['rw', 'rt']);
-		$dusun = $this->input->post('dusun');
-		if ($dusun != "")
-			$this->session->dusun = $dusun;
-		else $this->session->unset_userdata('dusun');
-		redirect('dpt');
-	}
-
-	public function rw()
-	{
-		$this->session->unset_userdata('rt');
-		$rw = $this->input->post('rw');
-		if ($rw != "")
-			$this->session->rw = $rw;
-		else $this->session->unset_userdata('rw');
-		redirect('dpt');
-	}
-
-	public function rt()
-	{
-		$rt = $this->input->post('rt');
-		if ($rt != "")
-			$this->session->rt = $rt;
-		else $this->session->unset_userdata('rt');
 		redirect('dpt');
 	}
 
