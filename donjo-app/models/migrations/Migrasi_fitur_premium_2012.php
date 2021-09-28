@@ -62,9 +62,10 @@ class Migrasi_fitur_premium_2012 extends MY_model {
 				]
 			];
 
-			$hasil = $this->dbforge->add_column('anjungan', $fields);
+			$hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
 		}
 
 		status_sukses($hasil);
+		return $hasil;
 	}
 }
