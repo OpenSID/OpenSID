@@ -70,12 +70,21 @@ class Laporan_sinkronisasi_model extends MY_Model {
 		status_sukses($outp);
 	}
 
-	public function update($id)
+	public function update($id, $data = null)
 	{
-		$data = $this->validasi();
+		$data = $data ?: $this->validasi();
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['kirim'] = NULL;
 		$outp = $this->db->where('id', $id)->update($this->table, $data);
+
+		status_sukses($outp);
+	}
+
+	public function insert_or_update($where = null, $data = null)
+	{
+		$id = $this->db->select('id')->get_where($this->table, $where)->row()->id;
+
+		$outp = ($id) ? $this->update($id, $data) : $this->insert($data);
 
 		status_sukses($outp);
 	}

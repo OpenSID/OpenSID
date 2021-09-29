@@ -150,6 +150,12 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller {
 		$data = array_merge($data, ['width' => 400]); // lebar dalam mm
 		$laporan = $this->load->view('global/format_cetak', $data, true);
 		buat_pdf($laporan, $file, null, 'L', array(200, 400)); // perlu berikan dimensi eksplisit dalam mm
+		
+		$where = [
+			'semester' => $this->session->filter_bulan,
+			'tahun' => $this->session->filter_tahun,
+		];
+
 		$lap_sinkron = [
 			'judul' => 'Rekap Jumlah Penduduk',
 			'semester' => $this->session->filter_bulan,
@@ -157,7 +163,7 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller {
 			'nama_file' => $nama_file . '.pdf',
 			'tipe' => 'laporan_penduduk',
 		];
-		$this->laporan_sinkronisasi_model->insert($lap_sinkron);
+		$this->laporan_sinkronisasi_model->insert_or_update($where, $lap_sinkron);
 	}
 
 	public function autocomplete()
