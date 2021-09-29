@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="box box-info">
 	<div class="box-header with-border">
 		<a href="<?= site_url("bumindes_penduduk_sementara/ajax_cetak/$o/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Penduduk Sementara" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Buku Penduduk Sementara"><i class="fa fa-print "></i> Cetak</a>
-		<a href="<?= site_url("bumindes_penduduk_sementara/ajax_cetak/$o/unduh"); ?>?>" title="Unduh Buku Penduduk Sementara" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Penduduk Sementara" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Penduduk Sementara"><i class="fa fa-download"></i> Unduh</a>
+		<a href="<?= site_url("bumindes_penduduk_sementara/ajax_cetak/$o/unduh"); ?>" title="Unduh Buku Penduduk Sementara" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Penduduk Sementara" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Buku Penduduk Sementara"><i class="fa fa-download"></i> Unduh</a>
 		<a href="<?= site_url($this->controller."/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 	</div>
 	<div class="box-body">
