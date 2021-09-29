@@ -50,10 +50,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<tbody>
 		<tr>
 			<td>
-				<?php if ($aksi != 'unduh'): ?>
+				<?php if ($aksi == 'cetak'): ?>
 					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
+				<?php elseif ($aksi == 'pdf'): ?>
+					<div style="text-align: center;">
+						<img class="logo" src="<?= gambar_desa($config['logo'], false, $file = true); ?>" alt="logo-desa">
+					</div>
 				<?php endif; ?>
-				<h1 class="judul"> 
+				<h1 class="judul">
 					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
 				</h1>
 			</td>
@@ -85,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th colspan="8">TAMBAHAN BULAN INI</th>
 							<th colspan="8">PENGURANGAN BULAN INI</th>
 							<th rowspan="2" colspan="7">JML PENDUDUK AKHIR BULAN</th>
-							<th rowspan="4">KET</th>								
+							<th rowspan="4">KET</th>
 						</tr>
 						<tr class="border thick">
 							<th colspan="2">WNA</th>
@@ -176,48 +180,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-					<?php if ($main): ?>
-						<?php foreach ($main as $data): ?>
-						<tr>
-							<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
-							<td><?= strtoupper($data['DUSUN'])?></td>
-							<td><?= show_zero_as($data['WNA_L_AWAL'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_P_AWAL'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_L_AWAL'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_P_AWAL'],'-') ?></td>
-							<td><?= show_zero_as($data['KK_JLH'],'-') ?></td>
-							<td><?= show_zero_as($data['KK_ANG_KEL'],'-') ?></td>
-							<td><?= show_zero_as($data['KK_JLH']+$data['KK_ANG_KEL'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_L_TAMBAH_LAHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_P_TAMBAH_LAHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_L_TAMBAH_LAHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_P_TAMBAH_LAHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_L_TAMBAH_MASUK'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_P_TAMBAH_MASUK'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_L_TAMBAH_MASUK'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_P_TAMBAH_MASUK'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_L_KURANG_MATI'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_P_KURANG_MATI'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_L_KURANG_MATI'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_P_KURANG_MATI'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_L_KURANG_KELUAR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_P_KURANG_KELUAR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_L_KURANG_KELUAR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_P_KURANG_KELUAR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_L_AKHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNA_P_AKHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_L_AKHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['WNI_P_AKHIR'],'-') ?></td>
-							<td><?= show_zero_as($data['KK_AKHIR_JML'],'-') ?></td>
-							<td><?= show_zero_as($data['KK_AKHIR_ANG_KEL'],'-') ?></td>
-							<td><?= show_zero_as($data['KK_AKHIR_JML']+$data['KK_AKHIR_ANG_KEL'],'-') ?></td>
-							<td>-</td>
-						</tr>
-						<?php endforeach; ?>
-					<?php endif; ?>
+						<?php if ($main): ?>
+							<?php foreach ($main as $data): ?>
+								<tr>
+									<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
+									<td><?= strtoupper($data['DUSUN'])?></td>
+									<td><?= show_zero_as($data['WNA_L_AWAL'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_P_AWAL'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_L_AWAL'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_P_AWAL'],'-') ?></td>
+									<td><?= show_zero_as($data['KK_JLH'],'-') ?></td>
+									<td><?= show_zero_as($data['KK_ANG_KEL'],'-') ?></td>
+									<td><?= show_zero_as($data['KK_JLH']+$data['KK_ANG_KEL'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_L_TAMBAH_LAHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_P_TAMBAH_LAHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_L_TAMBAH_LAHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_P_TAMBAH_LAHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_L_TAMBAH_MASUK'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_P_TAMBAH_MASUK'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_L_TAMBAH_MASUK'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_P_TAMBAH_MASUK'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_L_KURANG_MATI'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_P_KURANG_MATI'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_L_KURANG_MATI'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_P_KURANG_MATI'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_L_KURANG_KELUAR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_P_KURANG_KELUAR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_L_KURANG_KELUAR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_P_KURANG_KELUAR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_L_AKHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNA_P_AKHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_L_AKHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['WNI_P_AKHIR'],'-') ?></td>
+									<td><?= show_zero_as($data['KK_AKHIR_JML'],'-') ?></td>
+									<td><?= show_zero_as($data['KK_AKHIR_ANG_KEL'],'-') ?></td>
+									<td><?= show_zero_as($data['KK_AKHIR_JML']+$data['KK_AKHIR_ANG_KEL'],'-') ?></td>
+									<td>-</td>
+								</tr>
+							<?php endforeach; ?>
+						<?php endif; ?>
 					</tbody>
 				</table>
 			</td>
 		</tr>
-	<table>
-<tbody>			
+	</tbody>
+</table>

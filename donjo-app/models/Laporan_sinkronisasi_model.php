@@ -61,9 +61,10 @@ class Laporan_sinkronisasi_model extends MY_Model {
 		return $data;
 	}
 
-	public function insert()
+	public function insert($data = null)
 	{
-		$data = $this->validasi();
+		// $data bisa dikirim dari laporan yg dibuat otomatis; kalau kosong ambil dari form
+		$data = $data ?: $this->validasi();
 		$outp = $this->db->insert($this->table, $data);
 
 		status_sukses($outp);
