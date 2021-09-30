@@ -168,7 +168,17 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 
   private function ubah_nama_tabel($hasil)
 	{
-		if (! $this->db->field_exists('tipe', 'laporan_apbdes'))
+		if (! $this->db->table_exists('laporan_sinkronisasi'))
+		{
+			// Ubah nama tabel
+			$hasil = $hasil && $this->dbforge->rename_table('laporan_apbdes', 'laporan_sinkronisasi');
+
+			// Hapus table laporan apbdes jika masih ada
+			$hasil = $hasil && $this->dbforge->drop_table('laporan_apbdes', true);
+		}
+		
+		
+		if (! $this->db->field_exists('tipe', 'laporan_sinkronisasi'))
 		{
 			$fields = [
 				'tipe' => [
@@ -178,10 +188,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 				],
 			];
 
-			$hasil = $hasil && $this->dbforge->add_column('laporan_apbdes', $fields);
-
-			// Ubah nama tabel
-			$hasil = $hasil && $this->dbforge->rename_table('laporan_apbdes', 'laporan_sinkronisasi');
+			$hasil = $hasil && $this->dbforge->add_column('laporan_sinkronisasi', $fields);
 
 			// Default data yg sudah ada
 			$hasil = $hasil && $this->db->where('tipe', NULL)->update('laporan_sinkronisasi', ['tipe' => 'laporan_apbdes']);
