@@ -1,8 +1,8 @@
-#### [v21.09-premium-beta02]
+#### [v21.10-premium]
 
-Di rilis ini, versi 21.09-premium-beta02, menyediakan [umtuk diisi] Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.10-premium, menyediakan **Buku Kegiatan Pembangunan di Buku Administrasi Pembangunan**. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada Agung Sugiarto, afa28 dan Cahyo Wicaksono yang terus berkontribusi. Terima kasih pula pada Cahyo Wicaksono yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#4179](https://github.com/OpenSID/OpenSID/issues/4179) Sediakan Buku Kegiatan Pembangunan di Buku Administrasi Pembangunan.
