@@ -5,7 +5,7 @@
  *
  * Model untuk migrasi database
  *
- * donjo-app/models/migrations/Migrasi_2106_ke_2107.php
+ * donjo-app/models/migrations/Migrasi_2109_ke_2110.php
  *
  */
 
@@ -42,35 +42,23 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2107_ke_2108 extends MY_model
+class Migrasi_2110_ke_2111 extends MY_model
 {
 	public function up()
 	{
 		$hasil = true;
-		// Migrasi fitur premium
-		// Jalankan juga migrasi versi-versi sebelumnya, karena migrasi dari rllis umum belum menjalankan
-		$daftar_migrasi_premium = ['2012', '2101', '2102', '2103'];
-		foreach ($daftar_migrasi_premium as $migrasi)
-		{
-			$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
-			$file_migrasi = 'migrations/'.$migrasi_premium;
-				$this->load->model($file_migrasi);
-				$hasil = $hasil && $this->$migrasi_premium->up();
-		}
-
-		$hasil = $hasil && $this->migrasi_2021072571($hasil);
-
+    // Migrasi fitur premium
+    // Jalankan migrasi fitur premium yg digabungkan sejak rilis sebelumnya
+    $daftar_migrasi_premium = ['2012', '2101', '2102', '2103'];
+    foreach ($daftar_migrasi_premium as $migrasi)
+    {
+      $migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+      $file_migrasi = 'migrations/'.$migrasi_premium;
+        $this->load->model($file_migrasi);
+        $hasil = $hasil && $this->$migrasi_premium->up();
+    }
+	
 		status_sukses($hasil);
-		return $hasil;
-	}
-
-	protected function migrasi_2021072571($hasil)
-	{
-		// Hapus key layanan_opendesa_server, layanan_opendesa_dev_server dan dev_tracker
-		$hasil = $hasil && $this->db
-			->where_in('key', ['layanan_opendesa_server', 'layanan_opendesa_dev_server', 'dev_tracker'])
-			->delete('setting_aplikasi');
-
 		return $hasil;
 	}
 }

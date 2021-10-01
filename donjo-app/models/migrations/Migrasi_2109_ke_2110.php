@@ -49,7 +49,7 @@ class Migrasi_2109_ke_2110 extends MY_model
 		$hasil = true;
     // Migrasi fitur premium
     // Jalankan migrasi fitur premium yg digabungkan sejak rilis sebelumnya
-    $daftar_migrasi_premium = ['2009', '2010', '2011', '2012', '2101', '2102', '2103'];
+    $daftar_migrasi_premium = ['2012', '2101', '2102', '2103'];
     foreach ($daftar_migrasi_premium as $migrasi)
     {
       $migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
