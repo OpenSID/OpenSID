@@ -1,9 +1,11 @@
-.innertube {
-	margin: 0px;
-}
 .content {
-	padding: 0px;
+	background: #ffffff;
 }
-.box-body {
-	padding: 0px;
+
+.box {
+	border-top: 0;
+}
+
+.small-box h3 {
+	font-size: 25px;
 }

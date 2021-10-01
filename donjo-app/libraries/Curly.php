@@ -141,6 +141,10 @@ class Curly
 
 		$curl = curl_init();
 
+		// Batasi waktu koneksi dan ambil data supaya tidak menggantung kalau ada error koneksi
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 4);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, static::$secure ? 1 : 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, static::$secure ? 2 : 0);
 		curl_setopt($curl, CURLOPT_CAINFO, static::$secure ? static::$certificate : null);
@@ -216,7 +220,7 @@ class Curly
 			break;
 
 			default:
-			throw new \Exception('Usupported request method: '.strtoupper($method));
+			throw new \Exception('Usupported request method: ' . strtoupper($method));
 			break;
 		}
 
@@ -232,9 +236,13 @@ class Curly
 			$code = curl_errno($curl);
 			$message = curl_error($curl);
 
+			log_message('error', 'Curl error: ' . $message . ' Code: ' . $code);
+			log_message('error', print_r(curl_getinfo($curl), true));
+
 			curl_close($curl);
 
-			throw new \Exception($message, $code);
+			// Jangan lempar exception, supaya proses bisa jalan terus
+			// throw new \Exception($message, $code);
 		}
 
 		$header = (object) curl_getinfo($curl);

@@ -93,8 +93,20 @@ class Beranda extends Mandiri_Controller
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
 	}
 
-	public function cetak_kk()
+	public function cetak_kk() 
 	{
+		if ($this->is_login->id_kk == 0)
+		{
+			// Jika diakses melalui URL
+			$respon = [
+				'status' => 1,
+				'pesan' => 'Anda tidak terdaftar dalam sebuah keluarga'
+			];
+			$this->session->set_flashdata('notif', $respon);
+
+			redirect('layanan-mandiri');
+		}
+
 		$data = $this->keluarga_model->get_data_cetak_kk($this->is_login->id_kk);
 
 		$this->load->view('sid/kependudukan/cetak_kk_all', $data);

@@ -52,7 +52,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 		$this->log_hapus_penduduk();
 
 		// Tambahkan key sebutan_nip_desa
-		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
+		$hasil = $hasil && $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan) VALUES ('sebutan_nip_desa', 'NIPD', 'Pengganti sebutan label niap/nipd')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan)");
 
 		$list_setting =
@@ -80,19 +80,19 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 			];
 		foreach ($list_setting as $setting)
 		{
-			$hasil =& $this->tambah_setting($setting);
+			$hasil = $hasil && $this->tambah_setting($setting);
 		}
 
 		// setting_aplikasi.valud diperpanjang
 		$field = [
 			'value' => [
 				'type' => 'VARCHAR',
-				'constraint' => 500,
+				'constraint' => 1000,
 				'null' => TRUE,
 				'default' => NULL
 			]
 		];
-		$hasil =& $this->dbforge->modify_column('setting_aplikasi', $field);
+		$hasil = $hasil && $this->dbforge->modify_column('setting_aplikasi', $field);
 
 		status_sukses($hasil);
 		return $hasil;

@@ -1,11 +1,11 @@
-Di rilis ini, versi 21.03-premium melengkapi Buku Administrasi Desa > Buku Administrasi Penduduk dan menyediakan fitur merekam foto penduduk langsung dari kamera HP/DSLR. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.10 melengkapi Buku Administrasi Desa > Buku Administrasi Penduduk dan menyediakan fitur merekam foto penduduk langsung dari kamera HP/DSLR. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada afa28, Ahmad Afandi, Nur Hidayat, Dirga, Diki Siswanto dan Zeppy Shiddiq yang terus berkontribusi. Terima kasih pula pada Ahmad Satiri yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 21.03 adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.10 adalah sebagai berikut:
 
 
-Fitur Premium:
+Fitur v21.03-premium yang digabungkan adalah sebagai berikut:
 
 1. Perbaiki jumlah KK di Statistik > Laporan Bulanan. [bug-fix]
 2. #3977: Urut persentase di rincian pembangunan sudah diperbaiki. [bug-fix]

@@ -26,11 +26,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ * 
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ * 
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -48,10 +48,9 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 	public function up()
 	{
 		log_message('error', 'Jalankan ' . get_class($this));
-		// Menu baru -FITUR PREMIUM-
-
+		$hasil = true;
 		// Ubah judul setting ukuran lebar bagan
-		$this->db->where('key', 'ukuran_lebar_bagan')
+		$hasil =& $this->db->where('key', 'ukuran_lebar_bagan')
 			->set('keterangan', 'Ukuran Lebar Bagan (800 / 1200 / 1400)')
 			->set('kategori', 'conf_bagan')
 			->update('setting_aplikasi');
@@ -82,7 +81,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 			$list_kelompok = $this->db->get('kelompok')->result_array();
 			foreach ($list_kelompok as $kelompok)
 			{
-				$this->db
+				$hasil =& $this->db
 					->set('jabatan', 1)
 					->where('id_kelompok', $kelompok['id'])
 					->where('id_penduduk', $kelompok['id_ketua'])
@@ -99,7 +98,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 				'default' => NULL
 			]
 		];
-		$this->dbforge->modify_column('kelompok', $field);
+		$hasil =& $this->dbforge->modify_column('kelompok', $field);
 
 		// Tambah menu IDM
 		$modul = array(
@@ -114,7 +113,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 			'hidden' => '0',
 			'ikon_kecil' => ''
 		);
-		$this->tambah_modul($modul);
+		$hasil =& $this->tambah_modul($modul);
 
 		// Tambah modul Lembaran Desa
 		$modul = array(
@@ -129,8 +128,8 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 			'hidden' => '0',
 			'ikon_kecil' => ''
 		);
-		$this->tambah_modul($modul);
+		$hasil =& $this->tambah_modul($modul);
 
+		return $hasil;
 	}
-
 }

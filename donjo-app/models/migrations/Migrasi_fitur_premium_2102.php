@@ -50,7 +50,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-		$hasil =& $this->pengaturan_latar($hasil);
+		$hasil = $hasil && $this->pengaturan_latar($hasil);
 
 		//tambah kolom urut di tabel tweb_wil_clusterdesa
 		if (!$this->db->field_exists('urut', 'tweb_wil_clusterdesa'))
@@ -62,16 +62,16 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 				),
 			));
 
-		$hasil =& $this->url_suplemen($hasil);
+		$hasil = $hasil && $this->url_suplemen($hasil);
 		// Buat folder untuk cache - 'cache\';
 		mkdir(config_item('cache_path'), 0775, true);
 
-		$hasil =& $this->create_table_pembangunan($hasil);
-		$hasil =& $this->create_table_pembangunan_ref_dokumentasi($hasil);
-		$hasil =& $this->add_modul_pembangunan($hasil);
-		$hasil =& $this->sebutan_kepala_desa($hasil);
-		$hasil =& $this->urut_cetak($hasil);
-		$hasil =& $this->bumindes_updates($hasil);
+		$hasil = $hasil && $this->create_table_pembangunan($hasil);
+		$hasil = $hasil && $this->create_table_pembangunan_ref_dokumentasi($hasil);
+		$hasil = $hasil && $this->add_modul_pembangunan($hasil);
+		$hasil = $hasil && $this->sebutan_kepala_desa($hasil);
+		$hasil = $hasil && $this->urut_cetak($hasil);
+		$hasil = $hasil && $this->bumindes_updates($hasil);
 
 		// Tambah kolom ganti_pin di tabel tweb_penduduk_mandiri
 		if ( ! $this->db->field_exists('ganti_pin', 'tweb_penduduk_mandiri'))
@@ -81,13 +81,13 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			];
 			$hasil = $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
 			// Set ulang value ganti_pin = 0 jika last_login sudah terisi
-			$hasil =& $this->db
+			$hasil = $hasil && $this->db
 				->where('last_login !=', NULL)
 				->set('ganti_pin', 0)
 				->update('tweb_penduduk_mandiri');
 		}
 
-		$hasil =& $this->tambah_indeks('tweb_penduduk', 'id_rtm', 'INDEX');
+		$hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'id_rtm', 'INDEX');
 
 		// Perbaiki jenis untuk key 'offline_mode'
 		$this->db->where('key', 'offline_mode')->update('setting_aplikasi', array('jenis' => 'option-value'));
@@ -115,7 +115,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 	// Tambahkan clear pada url suplemen
 	private function url_suplemen($hasil)
 	{
-		$hasil =& $this->db->where('id', 25)
+		$hasil = $hasil && $this->db->where('id', 25)
 			->set('url', 'suplemen/clear')
 			->update('setting_modul');
 		return $hasil;
@@ -142,7 +142,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('id_lokasi');
-		$hasil =& $this->dbforge->create_table('pembangunan', true);
+		$hasil = $hasil && $this->dbforge->create_table('pembangunan', true);
 		return $hasil;
 	}
 
@@ -160,13 +160,13 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->add_key('id_pembangunan');
-		$hasil =& $this->dbforge->create_table('pembangunan_ref_dokumentasi', true);
+		$hasil = $hasil && $this->dbforge->create_table('pembangunan_ref_dokumentasi', true);
 		return $hasil;
 	}
 
 	protected function add_modul_pembangunan($hasil)
 	{
-		$hasil =& $this->tambah_modul([
+		$hasil = $hasil && $this->tambah_modul([
 			'id'         => 220,
 			'modul'      => 'Pembangunan',
 			'url'        => 'pembangunan',
@@ -179,7 +179,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			'parent'     => 0
 		]);
 
-		$hasil =& $this->tambah_modul([
+		$hasil = $hasil && $this->tambah_modul([
 			'id'         => 221,
 			'modul'      => 'Pembangunan Dokumentasi',
 			'url'        => 'pembangunan_dokumentasi',
@@ -228,7 +228,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 					'value' => 'Kepala',
 					'keterangan' => 'Pengganti sebutan jabatan Kepala Desa'
 					];
-		$hasil =& $this->tambah_setting($setting);
+		$hasil = $hasil && $this->tambah_setting($setting);
 
 		return $hasil;
 	}
@@ -237,7 +237,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 	{
 		//tambah kolom urut untuk tabel cetak semua di tabel tweb_wil_clusterdesa
 		if ( ! $this->db->field_exists('urut_cetak', 'tweb_wil_clusterdesa'))
-			$hasil =& $this->dbforge->add_column('tweb_wil_clusterdesa', array(
+			$hasil = $hasil && $this->dbforge->add_column('tweb_wil_clusterdesa', array(
 				'urut_cetak' => array(
 				'type' => 'INT',
 				'constraint' => 11,
@@ -251,9 +251,9 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 	// Bumindes updates
 	protected function bumindes_updates($hasil){
 		// Updates for issues #2777
-		$hasil =& $this->penduduk_induk($hasil);
+		$hasil = $hasil && $this->penduduk_induk($hasil);
 		// Updates for issues #2778
-		$hasil =& $this->penduduk_mutasi($hasil);
+		$hasil = $hasil && $this->penduduk_mutasi($hasil);
 
 		// Menambahkan data pada setting_modul untuk controller bumindes_penduduk
 		$data = array(
@@ -278,7 +278,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 					hidden = VALUES(hidden),
 					ikon_kecil = VALUES(ikon_kecil),
 					parent = VALUES(parent)";
-			$hasil =& $this->db->query($sql);
+			$hasil = $hasil && $this->db->query($sql);
 		}
 
 		return $hasil;
@@ -294,11 +294,11 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		]);
 
 		$this->dbforge->add_key('id', true);
-		$hasil =& $this->dbforge->create_table('ref_penduduk_bahasa', true);
+		$hasil = $hasil && $this->dbforge->create_table('ref_penduduk_bahasa', true);
 
 		// Menambahkan bahasa_id pada table tweb_penduduk, digunakan untuk define bahasa penduduk
 		if (! $this->db->field_exists('bahasa_id', 'tweb_penduduk'))
-			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', array(
 				'bahasa_id' => array(
 				'type' => 'INT',
 				'constraint' => 11,
@@ -308,7 +308,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		// Menambahkan column ket pada table tweb_penduduk, digunakan untuk keterangan penduduk
 		if (! $this->db->field_exists('ket', 'tweb_penduduk'))
-			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', array(
 				'ket' => array(
 				'type' => 'TINYTEXT',
 				'null' => TRUE,
@@ -332,7 +332,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 					id = VALUES(id),
 					nama = VALUES(nama),
 					inisial = VALUES(inisial)";
-			$hasil =& $this->db->query($sql);
+			$hasil = $hasil && $this->db->query($sql);
 		}
 
 		return $hasil;
@@ -342,15 +342,15 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 	{
 		// Mengubah column tanggal menjadi tanggal_lapor
 		if (! $this->db->field_exists('tgl_lapor', 'log_penduduk'))
-			$hasil =& $this->db->query('ALTER TABLE log_penduduk CHANGE COLUMN tanggal tgl_lapor TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+			$hasil = $hasil && $this->db->query('ALTER TABLE log_penduduk CHANGE COLUMN tanggal tgl_lapor TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
 
 		// Menambahkan column created_at
 		if (! $this->db->field_exists('created_at', 'log_penduduk'))
-			$hasil =& $this->dbforge->add_column('log_penduduk', 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
+			$hasil = $hasil && $this->dbforge->add_column('log_penduduk', 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
 
 		// Menambahkan column created_by
 		if (! $this->db->field_exists('created_by', 'log_penduduk'))
-			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('log_penduduk', array(
 				'created_by' => array(
 				'type' => 'INT',
 				'null' => TRUE,
@@ -359,11 +359,11 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		// Menambahkan column updated_at
 		if (! $this->db->field_exists('updated_at', 'log_penduduk'))
-			$hasil =& $this->dbforge->add_column('log_penduduk', 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+			$hasil = $hasil && $this->dbforge->add_column('log_penduduk', 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
 
 		// Menambahkan column created_by
 		if (! $this->db->field_exists('updated_by', 'log_penduduk'))
-			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('log_penduduk', array(
 				'updated_by' => array(
 				'type' => 'INT',
 				'null' => TRUE,
@@ -372,7 +372,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		// Menambahkan column meninggal_di
 		if (! $this->db->field_exists('meninggal_di', 'log_penduduk'))
-			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('log_penduduk', array(
 				'meninggal_di' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 50,
@@ -383,7 +383,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		// Menambahkan column alamat_tujuan
 		if (! $this->db->field_exists('alamat_tujuan', 'log_penduduk'))
-			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('log_penduduk', array(
 				'alamat_tujuan' => array(
 				'type' => 'TINYTEXT',
 				'null' => TRUE,
@@ -393,22 +393,22 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 
 		// Menghapus column tahun, dan bulan
 		if ($this->db->field_exists('tahun', 'log_penduduk'))
-			$hasil =& $this->dbforge->drop_column('log_penduduk', 'tahun');
+			$hasil = $hasil && $this->dbforge->drop_column('log_penduduk', 'tahun');
 		if ($this->db->field_exists('bulan', 'log_penduduk'))
-			$hasil =& $this->dbforge->drop_column('log_penduduk', 'bulan');
+			$hasil = $hasil && $this->dbforge->drop_column('log_penduduk', 'bulan');
 
 		// Merubah status pendatang menjadi tidak tetap
-		$hasil =& $this->db->set('status', 2)->where('status', 3)->update('tweb_penduduk');
+		$hasil = $hasil && $this->db->set('status', 2)->where('status', 3)->update('tweb_penduduk');
 
 		// Mengubah column id_detail menjadi kode_peristiwa
 		if (! $this->db->field_exists('kode_peristiwa', 'log_penduduk'))
-			$hasil =& $this->db->query('ALTER TABLE log_penduduk CHANGE COLUMN id_detail kode_peristiwa INT NULL AFTER id_pend');
+			$hasil = $hasil && $this->db->query('ALTER TABLE log_penduduk CHANGE COLUMN id_detail kode_peristiwa INT NULL AFTER id_pend');
 
 		// Menghapus data Pendatang dari table status, dan mengubah auto increment ke 3
 		if ($this->db->get_where('tweb_penduduk_status', array('id' => 3)))
 		{
-			$hasil =& $this->db->delete('tweb_penduduk_status', array('id' => 3));
-			$hasil =& $this->db->query('ALTER TABLE tweb_penduduk_status AUTO_INCREMENT = 3');
+			$hasil = $hasil && $this->db->delete('tweb_penduduk_status', array('id' => 3));
+			$hasil = $hasil && $this->db->query('ALTER TABLE tweb_penduduk_status AUTO_INCREMENT = 3');
 		}
 
 		// Membuat table ref_peristiwa
@@ -418,7 +418,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		]);
 
 		$this->dbforge->add_key('id', true);
-		$hasil =& $this->dbforge->create_table('ref_peristiwa', true);
+		$hasil = $hasil && $this->dbforge->create_table('ref_peristiwa', true);
 
 		// Menambahkan data ke ref_peristiwa
 		$data = array(
@@ -435,7 +435,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			$sql .= " ON DUPLICATE KEY UPDATE
 					id = VALUES(id),
 					nama = VALUES(nama)";
-			$hasil =& $this->db->query($sql);
+			$hasil = $hasil && $this->db->query($sql);
 		}
 
 		/* KETERANGAN id_detail (sebelum konversi ke kode_peristiwa)
@@ -459,7 +459,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 		*/
 
 		// Hapus log untuk penduduk yg sudah terhapus
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where("id_pend IN
 				(select id_pend from
 					(select l.id_pend
@@ -470,48 +470,48 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			->delete('log_penduduk');
 
 		// Konversi id_detail ke kode_peristiwa di log_penduduk
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('kode_peristiwa', 8)
 			->set('kode_peristiwa', 5)
 			->update('log_penduduk');
 
 		// Konversi kode_peristiwa null dari migrasi salah sebelumnya
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('kode_peristiwa IS NULL')
 			->set('kode_peristiwa', 5)
 			->update('log_penduduk');
 
 		// Hapus log_penduduk yg tidak diperlukan lagi (id_detail tidak berlaku lagi)
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('kode_peristiwa IN (6,7,9)')
 			->delete('log_penduduk');
 
 		// Hapus log salah untuk penduduk dgn status dasar hidup
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('kode_peristiwa NOT IN (1,5)')
 			->where("id_pend IN (select id from penduduk_hidup)")
 			->delete('log_penduduk');
 
 		// Hapus log salah untuk penduduk dgn status dasar mati
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('kode_peristiwa NOT IN (1,5,2)')
 			->where("id_pend IN (select id from tweb_penduduk where status_dasar = 2)")
 			->delete('log_penduduk');
 
 		// Hapus log salah untuk penduduk dgn status dasar pindah
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('kode_peristiwa NOT IN (1,5,3)')
 			->where("id_pend IN (select id from tweb_penduduk where status_dasar = 3)")
 			->delete('log_penduduk');
 
 		// Hapus log salah untuk penduduk dgn status dasar hilang
-		$hasil =& $this->db
+		$hasil = $hasil && $this->db
 			->where('kode_peristiwa NOT IN (1,5,4)')
 			->where("id_pend IN (select id from tweb_penduduk where status_dasar = 4)")
 			->delete('log_penduduk');
 
 		// Menambahkan data yang sudah ada ke tabel log_penduduk kalau belum ada
-		$hasil =& $this->db->query('
+		$hasil = $hasil && $this->db->query('
 			INSERT INTO log_penduduk (id_pend, tgl_lapor, tgl_peristiwa, created_at, kode_peristiwa)
 			SELECT p.id, p.created_at, p.created_at, p.created_at,
 			(CASE when YEAR(p.tanggallahir) = YEAR(p.created_at) AND MONTH(p.tanggallahir) = MONTH(p.created_at) then 1 else 5 end)
@@ -533,7 +533,7 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 	     	) dup
 	    	on dup.id_pend = log_penduduk.id_pend and dup.kode_peristiwa = log_penduduk.kode_peristiwa
 	  	where log_penduduk.id < dup.last_id";
-	  $hasil =& $this->db->query($hapus_dupl_sql);
+	  $hasil = $hasil && $this->db->query($hapus_dupl_sql);
 
 		// Menambahkan data ke setting_aplikasi
 		$data_setting = array(
@@ -547,10 +547,10 @@ class Migrasi_fitur_premium_2102 extends MY_model {
 			$sql .= " ON DUPLICATE KEY UPDATE
 					keterangan = VALUES(keterangan),
 					jenis = VALUES(jenis)";
-			$hasil =& $this->db->query($sql);
+			$hasil = $hasil && $this->db->query($sql);
 		}
 
 		return $hasil;
 	}
-	
+
 }

@@ -51,9 +51,9 @@ class Migrasi_fitur_premium_2103 extends MY_model {
 		$hasil = true;
 
 		// Updates for issues #2834
-		$hasil =& $this->penduduk_sementara($hasil);
+		$hasil = $hasil && $this->penduduk_sementara($hasil);
 		// Updates for issues #2835
-		$hasil =& $this->ktp_kk($hasil);
+		$hasil = $hasil && $this->ktp_kk($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -63,7 +63,7 @@ class Migrasi_fitur_premium_2103 extends MY_model {
 	{
 		// Menambahkan column maksud_tujuan_kedatangan pada table tweb_penduduk, digunakan untuk define maksud dan tujuan kedatangan penduduk tidak tetap
 		if (! $this->db->field_exists('maksud_tujuan_kedatangan', 'log_penduduk'))
-			$hasil =& $this->dbforge->add_column('log_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('log_penduduk', array(
 				'maksud_tujuan_kedatangan' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 50,
@@ -73,14 +73,14 @@ class Migrasi_fitur_premium_2103 extends MY_model {
 
 		// Menambahkan column negara_asal pada table tweb_penduduk, digunakan untuk define negara asal untuk WNA
 		if (! $this->db->field_exists('negara_asal', 'tweb_penduduk'))
-			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', array(
 				'negara_asal' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 50,
 				'null' => TRUE,
 				),
 			));
-		
+
 		// Tambah status dasar 'PERGI'
 		$data = array(
 			'id' => 6,
@@ -108,17 +108,17 @@ class Migrasi_fitur_premium_2103 extends MY_model {
 	{
 		// Menambahkan column tempat_cetak_ktp pada table tweb_penduduk, digunakan untuk define tempat penerbitan KTP untuk penduduk yang sudah memiliki KTP-EL
 		if (! $this->db->field_exists('tempat_cetak_ktp', 'tweb_penduduk'))
-			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', array(
 				'tempat_cetak_ktp' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 50,
 				'null' => TRUE,
 				),
 			));
-		
+
 		// Menambahkan column tanggal_cetak_ktp pada table tweb_penduduk, digunakan untuk define tanggal penerbitan KTP untuk penduduk yang sudah memiliki KTP-EL
 		if (! $this->db->field_exists('tanggal_cetak_ktp', 'tweb_penduduk'))
-			$hasil =& $this->dbforge->add_column('tweb_penduduk', array(
+			$hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', array(
 				'tanggal_cetak_ktp' => array(
 				'type' => 'DATE',
 				'null' => TRUE,
@@ -127,4 +127,5 @@ class Migrasi_fitur_premium_2103 extends MY_model {
 
 		return $hasil;
 	}
+
 }

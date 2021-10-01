@@ -3,9 +3,9 @@
 /**
  * File ini:
  *
- * Model untuk modul database
+ * Model untuk migrasi database
  *
- * donjo-app/models/migrations/Migrasi_fitur_premium_2012.php
+ * donjo-app/models/migrations/Migrasi_2108_ke_2109.php
  *
  */
 
@@ -35,34 +35,27 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
  */
-
-class Migrasi_fitur_premium_2012 extends MY_model {
-
+class Migrasi_2108_ke_2109 extends MY_model
+{
 	public function up()
 	{
-		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
-
-		// Tambah field keyboard
-		if ( ! $this->db->field_exists('keyboard', 'anjungan'))
+		// Migrasi fitur premium
+		// Jalankan juga migrasi versi-versi sebelumnya, karena migrasi dari rllis umum belum menjalankan
+		$daftar_migrasi_premium = ['2012', '2101', '2102', '2103'];
+		foreach ($daftar_migrasi_premium as $migrasi)
 		{
-			$fields = [
-				'keyboard' => [
-					'type' => 'TINYINT',
-					'constraint' => 1,
-					'default' => '1',
-					'after' => 'keterangan'
-				]
-			];
-
-			$hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
+			$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+			$file_migrasi = 'migrations/'.$migrasi_premium;
+				$this->load->model($file_migrasi);
+				$hasil = $hasil && $this->$migrasi_premium->up();
 		}
 
 		status_sukses($hasil);
