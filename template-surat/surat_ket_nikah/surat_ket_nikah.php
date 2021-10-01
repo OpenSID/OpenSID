@@ -207,6 +207,12 @@
 										</div>
 									</div>
 									<div class="form-group pria_luar_desa">
+										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Pendidikan Terakhir</strong></label>
+										<div class="col-sm-8">
+											<input  name="pendidikan_pria" class="form-control input-sm" type="text" placeholder="Pendidikan Terakhir" value="<?= $_SESSION['post']['pendidikan_pria']?>">
+										</div>
+									</div>
+									<div class="form-group pria_luar_desa">
 										<label for="pria_luar_desa" class="col-sm-3 control-label" ><strong>Tempat Tinggal</strong></label>
 										<div class="col-sm-8">
 											<input  name="alamat_pria" class="form-control input-sm" type="text" placeholder="Tempat Tinggal" value="<?= $_SESSION['post']['alamat_pria']?>">
@@ -294,7 +300,7 @@
 									<div class="form-group ayah_pria">
 										<label class="col-sm-3 control-label" ><strong>Nama Lengkap</strong></label>
 										<div class="col-sm-3">
-											<input  name="nama_ayah_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_pria'] ?: $ayah_pria['nama']?>">
+										<input  name="nama_ayah_pria" class="form-control input-sm" type="text" placeholder="Nama Lengkap" value="<?= $_SESSION['post']['nama_ayah_pria'] ?: $ayah_pria['nama']?>">										</div>
 										</div>
 										<div class="col-sm-3 col-lg-3">
 											<input name="bin_ayah_pria" class="form-control input-sm" type="text" placeholder="Bin Ayah Pria" value="<?= $_SESSION['post']['bin_ayah_pria']?>"v>
@@ -625,6 +631,12 @@
 													<option value="<?= $data['nama']?>" <?php if ($data['nama']==$_SESSION['post']['pekerjaan_wanita']): ?>selected<?php endif; ?>><?= $data['nama']?></option>
 												<?php endforeach;?>
 											</select>
+										</div>
+									</div>
+									<div class="form-group wanita_luar_desa">
+										<label for="wanita_luar_desa" class="col-sm-3 control-label" ><strong>Pendidikan Terakhir</strong></label>
+										<div class="col-sm-8">
+											<input  name="pendidikan_wanita" class="form-control input-sm" type="text" placeholder="Pendidikan Terakhir" value="<?= $_SESSION['post']['pendidikan_wanita']?>">
 										</div>
 									</div>
 									<div class="form-group wanita_luar_desa">
@@ -1016,6 +1028,12 @@
 									<label class="col-sm-3 control-label" ><strong>Tempat</strong></label>
 									<div class="col-sm-8">
 										<input name="tempat_nikah" class="form-control input-sm required" type="text" placeholder="Tempat" value="<?= $_SESSION['post']['tempat_nikah']?>">
+									</div>
+								</div>
+								<div class="form-group wali">
+									<label class="col-sm-3 control-label" ><strong>Maskawin</strong></label>
+									<div class="col-sm-8">
+										<input name="mas_kawin" class="form-control input-sm required" type="text" placeholder="Maskawin" value="<?= $_SESSION['post']['mas_kawin']?>">
 									</div>
 								</div>
 								<div class="form-group" >
