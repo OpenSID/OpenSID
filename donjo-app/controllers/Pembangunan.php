@@ -78,6 +78,8 @@ class Pembangunan extends Admin_Controller
 			$dir = $this->input->post('order[0][dir]');
 			$tahun = $this->input->post('tahun');
 
+			$this->model->set_tipe(''); // Ambil semua pembangunan
+
 			return $this->output
 				->set_content_type('application/json')
 				->set_output(json_encode([

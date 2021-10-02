@@ -70,7 +70,7 @@ class Pembangunan_model extends CI_Model
 		return $this;
 	}
 
-	public function get_data(string $search = '', $tahun = '')
+	public function get_data(string $search = '', $tahun = 'semua')
 	{
 		$this->lokasi_pembangunan_query();
 		$this->db->select([
@@ -106,7 +106,6 @@ class Pembangunan_model extends CI_Model
 		{
 			$this->db->where('p.tahun_anggaran', $tahun);
 		}
-
 		return $this->db;
 	}
 
@@ -289,6 +288,8 @@ class Pembangunan_model extends CI_Model
 
 	public function get_tipe()
 	{
+		if (empty($this->tipe)) return; // Untuk semua pembangunan
+
 		if($this->tipe == 'kegiatan')
 		{
 			$this->db->where('d.persentase !=', NULL);
