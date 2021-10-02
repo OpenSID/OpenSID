@@ -8,6 +8,7 @@
 	<channel>
 		<title>Desa <?= $data_config["nama_desa"]; ?></title>
 		<link><?= base_url(); ?></link>
+		<atom:link href="<?= base_url('feed'); ?>" rel="self" type="application/rss+xml" />
 		<description>Situs Web <?= ucwords($this->setting->sebutan_desa . ' ' . $data_config["nama_desa"] . ' ' . $this->setting->sebutan_kecamatan_singkat . ' ' . $data_config["nama_kecamatan"] . ' ' . $this->setting->sebutan_kabupaten_singkat . ' ' . $data_config["nama_kabupaten"] . ' Prov. ' . $data_config["nama_propinsi"]); ?>.</description>
 		<dc:language>id</dc:language>
 		<dc:rights>Copyright 2016-<?= date('Y') ?> OpenDESA - OpenSID <?= $this->setting->current_version ?></dc:rights>
@@ -15,7 +16,8 @@
 			<item>
 				<title><?= htmlspecialchars($key->judul); ?></title>
 				<link><?= site_url("artikel/".buat_slug((array) $key)); ?></link>
-				<pubdate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubdate>
+				<guid><?= site_url("artikel/".buat_slug((array) $key)); ?></guid>
+				<pubDate><?= date(DATE_RSS, strtotime($key->tgl_upload)); ?></pubDate>
 				<description>
 					<![CDATA[
 						<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_{$key->gambar}")): ?>
