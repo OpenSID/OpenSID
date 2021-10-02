@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
 2. [#4451](https://github.com/OpenSID/OpenSID/issues/4451) Daftar Pembangunan sekarang menampilkan semua pembangunan.
+3. Tambahkan penjelasan dan validasi pengisian waktu di form Pembangunan.
 
 #### Perubahan Teknis
 1. [untuk diisi]
