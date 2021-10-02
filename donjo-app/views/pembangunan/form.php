@@ -59,7 +59,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		</div>
 		<div class="form-group">
 			<label class="control-label" style="text-align:left;">Waktu</label>
-			<input maxlength="50" class="form-control input-sm required" name="waktu" id="waktu" value="<?= $main->waktu ?>" type="text" placeholder="Waktu Pembangunan" />
+			<input maxlength="50" class="form-control number input-sm required" name="waktu" id="waktu" value="<?= $main->waktu ?>" type="text" placeholder="Lamanya pembangunan (bulan)" />
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="sumber_dana">Sumber Dana</label>
