@@ -998,7 +998,7 @@
 			// Satu kk
 			$data = $this->get_data_unduh_kk($id);
 			$berkas_kk = $this->buat_berkas_kk($data);
-			header("location:".base_url($berkas_kk));
+			ambilBerkas(basename($berkas_kk));
 		}
 	}
 
