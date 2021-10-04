@@ -74,7 +74,7 @@
 </style>
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title"><?= $indikator; ?></h3>
+		<h3 class="box-title"><?= $indikator['pertanyaan']; ?></h3>
 	</div>
 	<div class="box-body">
 		<div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
@@ -99,7 +99,7 @@
 			</tbody>
 		</table>
 		<div>
-			<a href="<?= site_url('data_analisis'); ?>" class="uibutton icon prev">Kembali</a>
+			<a href="<?= site_url('data_analisis?master='.$indikator[id_master]); ?>" class="uibutton icon prev">Kembali</a>
 		</div>
 	</div>
 </div>

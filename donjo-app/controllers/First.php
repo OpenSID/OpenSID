@@ -324,27 +324,30 @@ class First extends Web_Controller {
 		echo json_encode($output);
 	}
 
-	public function data_analisis($stat="", $sb=0, $per=0)
+	public function data_analisis()
+	{
+		if (!$this->web_menu_model->menu_aktif('data_analisis')) show_404();
+
+		$master = $this->input->get('master');
+
+		$data = $this->includes;
+		$data['master_indikator'] = $this->first_penduduk_m->master_indikator();
+		$data['list_indikator'] = $this->first_penduduk_m->list_indikator($master);
+
+		$this->_get_common_data($data);
+
+		$this->set_template('layouts/analisis.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function jawaban_analisis($stat="", $sb=0, $per=0)
 	{
 		if (!$this->web_menu_model->menu_aktif('data_analisis')) show_404();
 
 		$data = $this->includes;
-
-		if ($stat == "")
-		{
-			$data['list_indikator'] = $this->first_penduduk_m->list_indikator();
-			$data['list_jawab'] = null;
-			$data['indikator'] = null;
-		}
-		else
-		{
-			$data['list_indikator'] = "";
-			$data['list_jawab'] = $this->first_penduduk_m->list_jawab($stat, $sb, $per);
-			$data['indikator'] = $this->first_penduduk_m->get_indikator($stat);
-		}
-
+		$data['list_jawab'] = $this->first_penduduk_m->list_jawab($stat, $sb, $per);
+		$data['indikator'] = $this->first_penduduk_m->get_indikator($stat);
 		$this->_get_common_data($data);
-
 		$this->set_template('layouts/analisis.tpl.php');
 		$this->load->view($this->template, $data);
 	}

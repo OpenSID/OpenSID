@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 #### Penambahan Fitur
 1. [#4366](https://github.com/OpenSID/OpenSID/issues/4366) RSS Feeds artikel sekarang berisi tanggal unggah artikel.
+2. [#4440](https://github.com/OpenSID/OpenSID/issues/4440) Perbaiki tampilan hasil analisis di web, supaya indikator ditampilkan per master analisis.
 
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
