@@ -400,6 +400,10 @@ class Penduduk_model extends MY_Model {
 		");
 		$this->db->from("($query_dasar) as u");
 		$this->lookup_ref_penduduk();
+		// di mysql 8.0.25
+        $compiled = str_replace(' as u)',' )as u',$this->db->get_compiled_select());
+        $data = $this->db->query($compiled)->result_array();
+        $this->db->from("($compiled) as uu");
 
 		$data = $this->db->get()->result_array();
 
