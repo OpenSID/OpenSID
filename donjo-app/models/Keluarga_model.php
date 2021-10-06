@@ -427,6 +427,13 @@
 	{
 		if (!$semua) $this->session->success = 1;
 
+		if ($this->keluarga_model->get_kepala_a($id)['status_dasar'] != 1)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = "Keluarga {$id} tidak diperbolehkan dihapus";
+			return;
+		}
+
 		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
 		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
 		foreach ($list_anggota as $anggota)
@@ -595,12 +602,12 @@
 
 	public function get_keluarga($id = 0)
 	{
-		$sql = "SELECT k.*, b.dusun as dusun, b.rw as rw
-			FROM tweb_keluarga k
-			LEFT JOIN tweb_wil_clusterdesa b ON k.id_cluster = b.id
-			WHERE k.id = ?";
-		$query = $this->db->query($sql, $id);
-		$data  = $query->row_array();
+		$data = $this->db
+			->select('k.*, b.dusun as dusun, b.rw as rw')
+			->from('tweb_keluarga k')
+			->join('tweb_wil_clusterdesa b', 'k.id_cluster = b.id', 'left')
+			->where('k.id', $id)
+			->get()->row_array();
 		$data['alamat_plus_dusun'] = $data['alamat'];
 		$data['tgl_cetak_kk'] = tgl_indo_out($data['tgl_cetak_kk']);
 

@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
 2. [#4451](https://github.com/OpenSID/OpenSID/issues/4451) Daftar Pembangunan sekarang menampilkan semua pembangunan.
 3. Tambahkan penjelasan dan validasi pengisian waktu di form Pembangunan.
+4. [#4455](https://github.com/OpenSID/OpenSID/issues/4455) Data keluarga dengan KK yang mati/pindah/hilang sekarang tidak dapat diubah.
 
 #### Perubahan Teknis
 1. [untuk diisi]

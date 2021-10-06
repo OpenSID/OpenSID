@@ -229,7 +229,8 @@ class Keluarga extends Admin_Controller {
 	public function form_a($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
-		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
+		$this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
+
 		if (empty($_POST) AND !$_SESSION['dari_internal'])
 				unset($_SESSION['validation_error']);
 		else unset($_SESSION['dari_internal']);
@@ -386,6 +387,7 @@ class Keluarga extends Admin_Controller {
 	public function update_nokk($id = 0)
 	{
 		$this->redirect_hak_akses('u');
+		$this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
 		$this->keluarga_model->update_nokk($id);
 		redirect('keluarga');
 	}
@@ -393,6 +395,7 @@ class Keluarga extends Admin_Controller {
 	public function delete($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('h');
+		$this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
 		$this->keluarga_model->delete($id);
 		redirect('keluarga');
 	}
@@ -438,6 +441,7 @@ class Keluarga extends Admin_Controller {
 		$this->load->view("sid/kependudukan/ajax_add_anggota_form", $data);
 	}
 
+	// $id adalah id tweb_penduduk
 	public function edit_anggota($p = 1, $o = 0, $id_kk = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
@@ -447,7 +451,7 @@ class Keluarga extends Admin_Controller {
 		$data['hubungan'] = $this->keluarga_model->list_hubungan();
 		$data['main'] = $this->keluarga_model->get_anggota($id);
 
-		$kk = $this->keluarga_model->get_kepala_kk($id);
+		$kk = $this->keluarga_model->get_kepala_kk($id_kk);
 		if ($kk)
 			$data['kepala_kk'] = $kk;
 		else
@@ -506,6 +510,7 @@ class Keluarga extends Admin_Controller {
 	public function add_anggota($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
+		$this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
 		$this->keluarga_model->add_anggota($id);
 		redirect("keluarga/anggota/$p/$o/$id");
 	}
@@ -513,6 +518,7 @@ class Keluarga extends Admin_Controller {
 	public function update_anggota($p = 1, $o = 0, $id_kk=0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
+		$this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
 		$this->keluarga_model->update_anggota($id);
 		redirect("keluarga/anggota/$p/$o/$id_kk");
 	}
