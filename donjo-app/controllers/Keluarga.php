@@ -518,7 +518,7 @@ class Keluarga extends Admin_Controller {
 	public function update_anggota($p = 1, $o = 0, $id_kk=0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
-		$this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
+		$this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id_kk)['status_dasar'] == 1);
 		$this->keluarga_model->update_anggota($id);
 		redirect("keluarga/anggota/$p/$o/$id_kk");
 	}
