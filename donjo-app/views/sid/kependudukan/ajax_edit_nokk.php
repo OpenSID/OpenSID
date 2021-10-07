@@ -60,13 +60,22 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
+		<?php if ($kk['status_dasar'] == 1): ?>
+			<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
+		<?php else: ?>
+			<button id="tutup" type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+		<?php endif; ?>
 	</div>
 </form>
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+		<?php if ($kk['status_dasar'] != 1): ?>
+			$("#validasi :input").prop("disabled", true);
+			$("#tutup").prop("disabled", false);
+		<?php endif; ?>
+
 		$("#dusun").change(function() {
 			let dusun = $(this).val();
 			$('#isi_rt').hide();
