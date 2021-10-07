@@ -70,7 +70,7 @@
 	h3{ margin-left: 10px; }
 </style>
 
-<h3><?= $indikator?></h3><br>
+<h3><?= $indikator['pertanyaan'] ?></h3><br>
 <div class="middin-center" style="padding: 5px;">
 	<div id="contentpane">
 		<div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
@@ -93,7 +93,7 @@
 			</tbody>
 		</table>
 		<div>
-			<a href="<?= site_url()?>first/data_analisis" class="uibutton icon prev">Kembali</a>
+			<a href="<?= site_url('data_analisis?master='.$indikator[id_master]); ?>" class="uibutton icon prev">Kembali</a>
 		</div>
 	</div>
 </div>
