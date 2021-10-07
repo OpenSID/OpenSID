@@ -206,7 +206,7 @@
 				<h1>404</h1>
 				<h2>Maaf</h2>
 				<h3>Halaman ini belum tersedia atau sedang dalam perbaikan</h3>
-				<p class="wow fadeInLeftBig">Silahkan kembali lagi ke halaman <a href="<?= site_url(); ?>first">Beranda</a></p>
+				<p class="wow fadeInLeftBig">Silakan kembali lagi ke halaman <a href="<?= site_url(); ?>first">Beranda</a></p>
 			</div>
 		</div>
 	</div>
