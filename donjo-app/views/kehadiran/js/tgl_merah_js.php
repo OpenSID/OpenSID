@@ -89,7 +89,7 @@ $(function() {
 					return  button;
 
 				},
-				"targets": 1
+				"targets": 3
 			} 
 		],
 		"columns":[

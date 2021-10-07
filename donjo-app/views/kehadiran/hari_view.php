@@ -1,7 +1,8 @@
 <style>
 .info-red{background:red;color:white;text-align:center}
 #divTblTgl{width:99%;margin:auto}
-#divTblTgl tbody tr td:nth-child(2),#divTblTgl tbody tr td:nth-child(3){text-align:center}
+#divTblTgl tbody tr td:nth-child(1){text-align:right}
+#divTblTgl tbody tr td:nth-child(2),#divTblTgl tbody tr td:nth-child(4){text-align:center}
 #divTblTgl thead tr th{text-align:center;font-size:medium}
 </style>
 <div class="content-wrapper">
@@ -67,9 +68,9 @@
 					<thead>
 						<tr class='bg-gray color-palette'>
 							<th width='10%'>NO</th>
-							<th width='15%'>Aksi</th>
 							<th width='20%'>Tanggal</th>
-							<th>Keterangan</th>
+							<th>Keterangan</th>							
+							<th width='15%'>Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
