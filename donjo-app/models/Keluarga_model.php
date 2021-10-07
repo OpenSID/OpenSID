@@ -603,8 +603,9 @@
 	public function get_keluarga($id = 0)
 	{
 		$data = $this->db
-			->select('k.*, b.dusun as dusun, b.rw as rw')
+			->select('k.*, p.status_dasar, b.dusun as dusun, b.rw as rw')
 			->from('tweb_keluarga k')
+			->join('tweb_penduduk p', 'k.nik_kepala = p.id')
 			->join('tweb_wil_clusterdesa b', 'k.id_cluster = b.id', 'left')
 			->where('k.id', $id)
 			->get()->row_array();
