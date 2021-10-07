@@ -66,12 +66,14 @@ function hari_edit(tgl)
 
 $(function() {
 	$("#validasi").hide();
+	
 	tableDT = $('#tblTgl').DataTable(
 	{
 		"language": {
             url: '/assets/bootstrap/js/dataTables.indonesian.lang'
         },
-		/*"dom": '<"top"l>rt<"bottom"p>i<"clear">',*/
+		//"dom": '<"top"l>rt<"bottom"p>i<"clear">', 
+		"dom": '<"top"fl>t<"bottom"ip>',
 		"columnDefs": [
 			{
 				"render": function ( data, type, row ) {
@@ -97,7 +99,7 @@ $(function() {
 		{orderable:false,searchable:false,defaultContent:"-"},
 		],
 		"order": [[ 2, "asc" ]],
-		"lengthMenu": [[5,10, 25, 50, 60], [5,10, 25, 50, 60]],
+		"lengthMenu": [[ 10, 25, 50, 60,5], [10, 25, 50, 60,5]],
 		"processing": true,
         "serverSide": true,
         "ajax": {
@@ -113,6 +115,7 @@ $(function() {
 				d.dateEnd   =dateEnd;
 */
 ?>
+				d.search.value = '<?=date("Y");?>';
 				d.action ='datatables';
 
 			}

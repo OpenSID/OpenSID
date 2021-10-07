@@ -190,7 +190,7 @@ class Api_set_hari extends CI_Controller
 			$data[] = [
 				$no++,
 				'-',
-				$row['tgl_merah'],
+				date("d/m/Y",strtotime($row['tgl_merah'])),
 				$info 
 			];
 		}

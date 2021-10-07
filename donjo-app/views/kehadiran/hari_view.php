@@ -1,6 +1,8 @@
 <style>
 .info-red{background:red;color:white;text-align:center}
-#divTblTgl{width:90%;margin:auto}
+#divTblTgl{width:99%;margin:auto}
+#divTblTgl tbody tr td:nth-child(2),#divTblTgl tbody tr td:nth-child(3){text-align:center}
+#divTblTgl thead tr th{text-align:center;font-size:medium}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -61,7 +63,7 @@
 			<div class='box-body'>
 				<div id='showTanggal' style='padding:30px;text-align:middle'></div>
 				<div id='divTblTgl'>
-				<table id='tblTgl' width='90%' class="table table-bordered table-striped dataTable table-hover">
+				<table id='tblTgl'  class="table table-bordered table-striped dataTable table-hover">
 					<thead>
 						<tr class='bg-gray color-palette'>
 							<th width='10%'>NO</th>
