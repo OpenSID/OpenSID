@@ -100,7 +100,7 @@ class Statistik extends Admin_Controller {
 				$program_id = preg_replace('/^50/', '', $lap);
 				$data['program'] = $this->program_bantuan_model->get_sasaran($program_id);
 				$data['judul_kelompok'] = $data['program']['judul_sasaran'];
-				$kategori = 'program bantuan';
+				$kategori = 'bantuan';
 				break;
 
 			case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
