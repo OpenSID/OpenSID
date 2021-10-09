@@ -48,7 +48,28 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
+		$hasil = $hasil && $this->migrasi_2021100171($hasil);
+
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function migrasi_2021100171($hasil)
+	{
+		$hasil = $hasil && $this->tambah_setting([
+			'key' => 'telegram_token',
+			'value' => '',
+			'keterangan' => 'Telgram token',
+			'kategori' => 'sistem',
+		]);
+
+		$hasil = $hasil && $this->tambah_setting([
+			'key' => 'telegram_user_id',
+			'value' => '',
+			'keterangan' => 'Telgram user id untuk notifikasi ke pengguna',
+			'kategori' => 'sistem',
+		]);
+
 		return $hasil;
 	}
 }

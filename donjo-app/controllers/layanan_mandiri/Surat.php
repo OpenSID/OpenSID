@@ -302,6 +302,8 @@ class Surat extends Mandiri_Controller
 
 	public function kirim($id = '')
 	{
+		$this->load->library('telegram/telegram');
+
 		$data_permohonan = $this->session->data_permohonan;
 		$post = $this->input->post();
 		$data = [
@@ -322,6 +324,22 @@ class Surat extends Mandiri_Controller
 		else
 		{
 			$this->permohonan_surat_model->insert($data);
+
+			if (cek_koneksi_internet())
+			{
+				try
+				{
+					$this->telegram->sendMessage([
+						"text" => sprintf("Segera cek Halaman Admin, penduduk atas nama %s telah mengajukan %s melalui Layanan Mandiri pada tanggal %s", $this->is_login->nama, str_replace('_', ' ', mb_convert_case($post['url_surat'], MB_CASE_TITLE)), tgl_indo2(date('Y-m-d h:i:s'))),
+						"parse_mode" => "Markdown",
+						"chat_id" => $this->setting->telegram_user_id,
+					]);
+				}
+				catch (Exception $e)
+				{
+					log_message('error', $e->getMessage());
+				}
+			}
 		}
 
 		$this->session->unset_userdata('data_permohonan');
