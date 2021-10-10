@@ -734,12 +734,16 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 			->where('sub.id is not null')
 			->order_by('m.id')
 			->get()->result_array();
-		$ada_sub = array_column($ada_sub, 'id');
-		// Kosongkan url modul utama yg mempunyai sub
-		$hasil = $hasil && $this->db
-			->set('url', '')
-			->where_in('id', $ada_sub)
-			->update('setting_modul');
+		
+		if ($ada_sub)
+		{
+			$ada_sub = array_column($ada_sub, 'id');
+			// Kosongkan url modul utama yg mempunyai sub
+			$hasil = $hasil && $this->db
+				->set('url', '')
+				->where_in('id', $ada_sub)
+				->update('setting_modul');
+		}
 
 		return $hasil;
 	}

@@ -36,7 +36,7 @@ class Analisis_import_Model extends CI_Model {
 		return $upload['full_path'];
 	}
 
-	public function impor_analisis($file='', $kode='00000', $jenis=2)
+	public function impor_analisis($file = '', $kode = '00000', $jenis = 2)
 	{
 		$this->session->success = 1;
 
