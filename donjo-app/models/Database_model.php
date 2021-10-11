@@ -3779,11 +3779,11 @@ class Database_model extends CI_Model {
 		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
 		// Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
 		$file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
-		$this->analisis_import_model->import_excel($file_analisis, 'DDK02', $jenis = 1);
+		$this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', $jenis = 1);
 		$file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
-		$this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis = 1);
+		$this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
 
-		$_SESSION['success'] = 1;
+		$this->session->success = 1;
 	}
 
 	public function get_views()

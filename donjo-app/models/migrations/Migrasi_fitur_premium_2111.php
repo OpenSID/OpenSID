@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021100171($hasil);
+		$hasil = $hasil && $this->migrasi_2021101051($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -69,6 +70,22 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 			'keterangan' => 'Telgram user id untuk notifikasi ke pengguna',
 			'kategori' => 'sistem',
 		]);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021101051($hasil)
+	{
+		$fields = [
+			'kode_pos' => [
+				'type' => 'INT',
+				'constraint' => 5,
+				'null' => TRUE,
+				'default' => NULL
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('config', $fields);
 
 		return $hasil;
 	}

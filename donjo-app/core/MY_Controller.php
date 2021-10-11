@@ -230,8 +230,13 @@ class Api_Controller extends MY_Controller {
 
 class Premium extends MY_Controller
 {
+	/**
+	 * TODO :
+	 * Controller main exted ke CI_Controller bukan ke Admin_controller tp masih berpengaruh pada validasi pengguna premium
+	 * Sehingga akan error saat login di awal, namun setelah di refresh akan kembali normal
+	 */
 	protected $kecuali = [
-		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif', 'user_setting',
+		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif', 'user_setting', 'main',
 	];
 
 	/**
