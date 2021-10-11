@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. [#4455](https://github.com/OpenSID/OpenSID/issues/4455) Data keluarga dengan KK yang mati/pindah/hilang sekarang tidak dapat diubah.
 5. [#4458](https://github.com/OpenSID/OpenSID/issues/4458) Perbaiki tombol simpan tidak berfungsi pada input menu Buku Tanah di Desa.
 6. [#4459](https://github.com/OpenSID/OpenSID/issues/4459) Perbaiki error 500 Ketika klik Kosongkan DB.
+7. Sekarang pilihan 'Bawa bukti fisik ke Kantor Desa' untuk syarat dokumen di layanan surat anjungan kembali tersedia.
 
 #### Perubahan Teknis
 1. [untuk diisi]
