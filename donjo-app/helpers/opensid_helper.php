@@ -59,7 +59,7 @@ define("VERSION", '21.10-premium-rev01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021100171');
+define('VERSI_DATABASE', '2021101051');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -882,6 +882,8 @@ function alfanumerik_spasi($str)
 
 function bilangan($str)
 {
+	if ($str == NULL) return NULL;
+	
 	return preg_replace('/[^0-9]/', '', strip_tags($str));
 }
 

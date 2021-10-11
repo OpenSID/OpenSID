@@ -48,7 +48,25 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
+		$hasil = $hasil && $this->migrasi_2021101051($hasil);
+
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function migrasi_2021101051($hasil)
+	{
+		$fields = [
+			'kode_pos' => [
+				'type' => 'INT',
+				'constraint' => 5,
+				'null' => TRUE,
+				'default' => NULL
+			],
+		];
+
+		$hasil = $hasil && $this->dbforge->modify_column('config', $fields);
+
 		return $hasil;
 	}
 }
