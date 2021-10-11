@@ -20,4 +20,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. [#4459](https://github.com/OpenSID/OpenSID/issues/4459) Perbaiki error 500 Ketika klik Kosongkan DB.
 
 #### Perubahan Teknis
-1. [untuk diisi]
+1. Pindahkan tampilan lapak ke masing-masing tema.

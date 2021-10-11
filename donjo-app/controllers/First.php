@@ -795,7 +795,7 @@ class First extends Web_Controller {
 
 		$data['produk'] = $data['produk']->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
 		$data['kategori'] = $this->lapak_model->get_kategori()->get()->result();
-		$data['halaman_statis'] = 'web/halaman_statis/lapak';
+		$data['halaman_statis'] = 'lapak/index';
 
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
