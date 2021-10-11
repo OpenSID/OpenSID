@@ -768,6 +768,9 @@ class First extends Web_Controller {
 
 		$data = $this->includes;
 		$this->_get_common_data($data);
+		
+		$data['id_kategori'] = $this->input->get('id_kategori');
+		$data['keyword'] = $this->input->get('keyword');
 
 		$data['paging'] = $this->lapak_model->paging_produk($p);
 		$data['paging_page'] = 'produk';
@@ -775,7 +778,23 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-		$data['produk'] = $this->lapak_model->get_produk('', 1)->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
+		// $data['produk'] = $this->lapak_model->get_produk('', 1)->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
+		
+		if($data['keyword'])
+		{
+			$data['produk'] = $this->lapak_model->get_produk($data['keyword'], 1);
+		}
+		else
+		{
+			$data['produk'] = $this->lapak_model->get_produk('', 1);
+		}
+
+		if($data['id_kategori'] != ''){
+			$data['produk'] = $data['produk']->where('id_produk_kategori', $data['id_kategori']);
+		}
+
+		$data['produk'] = $data['produk']->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
+		$data['kategori'] = $this->lapak_model->get_kategori()->get()->result();
 		$data['halaman_statis'] = 'web/halaman_statis/lapak';
 
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');

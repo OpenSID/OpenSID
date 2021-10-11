@@ -49,9 +49,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="box box-primary">
 	<div class="box-header with-border">
-		<h3 class="box-title">Lapak Desa</h3>
+		<h3 class="box-title text-center">Lapak Desa</h3>
 	</div>
 	<div class="box-body">
+		<form method="get" class="form-inline text-center">
+			<div class="row">
+				<div class="col-sm-12">
+					<select class="form-control input-sm select2" id="id_kategori" name="id_kategori">
+						<option selected value="">Semua Kategori</option>
+						<?php foreach ($kategori as $kategori_item) : ?>
+							<option value="<?= $kategori_item->id ?>" <?= selected($id_kategori, $kategori_item->id) ?>><?= $kategori_item->kategori ?></option>
+						<?php endforeach; ?>
+					</select>
+					<input type="text" name="keyword" maxlength="50" class="form-control" value="<?= $keyword; ?>" placeholder="Cari Produk" style="width: 400px;">
+					<button type="submit" class="btn btn-primary">Cari</button>
+					<?php if ($keyword): ?>
+						<a href="<?=site_url('lapak')?>" class="btn btn-info">Tampilkan Semua</a>
+					<?php endif ?>
+				</div>
+			</div>
+		</form>
+		<br/>
 		<?php if ($produk): ?>
 			<div class="row">
 				<?php foreach ($produk as $in => $pro): ?>
@@ -142,7 +160,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 
 			<?php
-				$paging_page = 'lapak';
 				if ($paging->num_rows > $paging->per_page):
 			?>
 				<div class="box-footer text-center">
