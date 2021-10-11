@@ -6,10 +6,9 @@
 </head>
 <body>
 	<style type="text/css">
-	  .web .content-wrapper
-	  {
-		margin-left: 0px !important;
-	  }
+		.web .content-wrapper {
+			margin-left: 0px !important;
+		}
 	</style>
 	<a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
 	<div class="container" style="background-color: #f6f6f6;">
@@ -25,7 +24,11 @@
 				<div class="content_bottom">
 					<div class="col-lg-12 col-md-12">
 						<div id="contentwrapper" class="web">
-							<?php $this->load->view($halaman_statis); ?>
+							<?php if ($halaman_statis == 'lapak/index'): ?>
+								<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/' . $halaman_statis . '.php')); ?>
+							<?php else: ?>
+								<?php $this->load->view($halaman_statis); ?>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>
