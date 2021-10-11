@@ -778,7 +778,6 @@ class First extends Web_Controller {
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
-		// $data['produk'] = $this->lapak_model->get_produk('', 1)->limit($data['paging']->per_page, $data['paging']->offset)->get()->result();
 		
 		if($data['keyword'])
 		{
@@ -789,7 +788,8 @@ class First extends Web_Controller {
 			$data['produk'] = $this->lapak_model->get_produk('', 1);
 		}
 
-		if($data['id_kategori'] != ''){
+		if($data['id_kategori'] != '')
+		{
 			$data['produk'] = $data['produk']->where('id_produk_kategori', $data['id_kategori']);
 		}
 

@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4440](https://github.com/OpenSID/OpenSID/issues/4440) Perbaiki tampilan hasil analisis di web, supaya indikator ditampilkan per master analisis.
 3. [#4446](https://github.com/OpenSID/OpenSID/issues/4446) Perbaiki surat keterangan nikah sesuai dg KEPDIRJEN BIMAS ISLAM NO. 473 TAHUN 2020.
 4. [#4322](https://github.com/OpenSID/OpenSID/issues/4322) Sediakan notifikasi telegram ke pengguna admin / operator.
+5. [#4376](https://github.com/OpenSID/OpenSID/issues/4376) Pencarian dan kategori produk pada web lapak.
 
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
