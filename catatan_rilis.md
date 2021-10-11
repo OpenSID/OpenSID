@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4451](https://github.com/OpenSID/OpenSID/issues/4451) Daftar Pembangunan sekarang menampilkan semua pembangunan.
 3. Tambahkan penjelasan dan validasi pengisian waktu di form Pembangunan.
 4. [#4455](https://github.com/OpenSID/OpenSID/issues/4455) Data keluarga dengan KK yang mati/pindah/hilang sekarang tidak dapat diubah.
+5. [#4458](https://github.com/OpenSID/OpenSID/issues/4458) Perbaiki tombol simpan tidak berfungsi pada input menu Buku Tanah di Desa.
 
 #### Perubahan Teknis
 1. [untuk diisi]
