@@ -99,7 +99,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="form-group" id="nik_penduduk">
 								<label class="col-sm-3 control-label" style="text-align:left;" for="nik">NIK Penduduk</label>
 								<div class="col-sm-8">
-									<input class="form-control input-sm nik required" maxlength="16"  min="0" type="text" placeholder="0" value="<?= $main->nik_penduduk ?: $main->nik ?>" name="nik" id="nik" />
+									<input class="form-control input-sm nik required" type="text" placeholder="NIK Penduduk" value="<?= $main->nik_penduduk ?: $main->nik ?>" name="nik" id="nik" />
 								</div>
 							</div>
 							<div class="form-group">
@@ -486,8 +486,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$('#penduduk').val($('#id_penduduk').val());
 			$('#penduduk').addClass('required');
 			$('#pemilik_asal').val('');
-			$('#nik').val('0');
+			$('#nik').val('');
 			$('#pemilik_asal').removeClass('required');
+			$('#nik').removeClass('required');
+			$('#nik').removeClass('nik');
 			$('#nama_penduduk').hide();
 			$('#nik_penduduk').hide();
 			$('#pilihan_penduduk').show();
@@ -496,6 +498,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		{
 			$('#penduduk').val('');
 			$('#pemilik_asal').addClass('required');
+			$('#nik').addClass('required');
+			$('#nik').addClass('nik');
 			$('#penduduk').removeClass('required');
 			$('#nama_penduduk').show();
 			$('#nik_penduduk').show();
