@@ -773,7 +773,7 @@ class First extends Web_Controller {
 		$data['keyword'] = $this->input->get('keyword');
 
 		$data['paging'] = $this->lapak_model->paging_produk($p);
-		$data['paging_page'] = 'produk';
+		$data['paging_page'] = 'lapak';
 		$data['paging_range'] = 3;
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
