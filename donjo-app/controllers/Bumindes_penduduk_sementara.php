@@ -60,7 +60,7 @@ class Bumindes_penduduk_sementara extends Admin_Controller {
 		$this->sub_modul_ini = 303;
 
 		$this->_set_page = ['10', '20', '50', '100'];
-		$this->_list_session = ['filter_tahun', 'filter_bulan', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 	}
 
 	public function index($page_number=1, $order_by=0)
@@ -71,6 +71,7 @@ class Bumindes_penduduk_sementara extends Admin_Controller {
 
 		if ($this->input->post('per_page')) $this->session->per_page = $this->input->post('per_page');
 
+		$list_data = $this->penduduk_model->list_data($order_by, $page_number);
 		$data = [
 			'main_content' => "bumindes/penduduk/sementara/content_sementara",
 			'subtitle' => "Buku Penduduk Sementara",
@@ -84,11 +85,11 @@ class Bumindes_penduduk_sementara extends Admin_Controller {
 			'tahun' => (! isset($this->session->filter_tahun)) ? : $this->session->filter_tahun,
 			'func' => 'index',
 			'set_page' => $this->_set_page,
-			'paging' => $this->penduduk_model->paging($page_number),
+			'paging' => $list_data['paging'],
 			'list_tahun' => $this->penduduk_log_model->list_tahun()
 		];
 
-		$data['main'] = $this->penduduk_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);
+		$data['main'] = $list_data['main'];
 
 		$this->set_minsidebar(1);
 		$this->render('bumindes/penduduk/main', $data);

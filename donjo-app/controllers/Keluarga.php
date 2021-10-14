@@ -113,8 +113,9 @@ class Keluarga extends Admin_Controller {
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->keluarga_model->paging($p);
-		$data['main'] = $this->keluarga_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$list_data = $this->keluarga_model->list_data($o, $p);
+		$data['paging'] = $list_data['paging'];
+		$data['main'] = $list_data['main'];
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$this->set_minsidebar(1);
@@ -130,7 +131,7 @@ class Keluarga extends Admin_Controller {
 
 	public function cetak($o = 0, $aksi = '', $privasi_kk = 0)
 	{
-		$data['main'] = $this->keluarga_model->list_data($o, 0);
+		$data['main'] = $this->keluarga_model->list_data($o, -1);
 		if ($privasi_kk == 1) $data['privasi_kk'] = true;
 		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
 	}
@@ -557,18 +558,38 @@ class Keluarga extends Admin_Controller {
 			redirect('keluarga');
 		}
 
+		$this->session->unset_userdata('program_bantuan');
 		$this->session->sex = ($sex == 0) ? NULL : $sex;
 
-		switch ($tipe)
+		switch (true)
 		{
-			case 'kelas_sosial':
+			case ($tipe == 'kelas_sosial'):
 				$session = 'kelas';
 				$kategori = 'KLASIFIKASI SOSIAL : ';
 				break;
 
-			case 'bantuan_keluarga':
+			case ($tipe == 'bantuan_keluarga'):
+				if ( ! in_array($nomor, [BELUM_MENGISI, TOTAL]))
+					$this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
 				$session = 'bantuan_keluarga';
 				$kategori = 'PENERIMA BANTUAN (KELUARGA) : ';
+				break;
+
+			case ($tipe > 50):
+				$program_id = preg_replace('/^50/', '', $tipe);
+				$this->session->program_bantuan = $program_id;
+				$nama = $this->db->select('nama')
+					->where('id', $program_id)
+					->get('program')->row()
+					->nama;
+				if ( ! in_array($nomor, [BELUM_MENGISI, TOTAL]))
+				{
+					$this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
+					$nomor = $program_id;
+				}
+				$kategori = $nama . ' : ';
+				$session = 'bantuan_keluarga';
+				$tipe = 'bantuan_keluarga';
 				break;
 		}
 

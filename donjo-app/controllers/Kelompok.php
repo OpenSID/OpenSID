@@ -59,7 +59,7 @@ class Kelompok extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 24;
 		$this->_set_page = ['20', '50', '100'];
-		$this->_list_session = ['cari', 'filter'];
+		$this->_list_session = ['cari', 'filter', 'penerima_bantuan', 'sex'];
 		$this->set_minsidebar(1);
 		$this->kelompok_model->set_tipe($this->tipe);
 	}
@@ -89,8 +89,9 @@ class Kelompok extends Admin_Controller {
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
 		$data['filter'] = $this->session->filter;
-		$data['paging'] = $this->kelompok_model->paging($p, $o);
-		$data['main'] = $this->kelompok_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$list_data = $this->kelompok_model->list_data($o, $p);
+		$data['paging'] = $list_data['paging'];
+		$data['main'] = $list_data['main'];
 		$data['keyword'] = $this->kelompok_model->autocomplete();
 		$data['list_master'] = $this->kelompok_model->list_master();
 
@@ -315,4 +316,48 @@ class Kelompok extends Admin_Controller {
 
 		redirect($this->controller);
 	}
+
+	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
+	{
+		if ($sex == NULL)
+		{
+			if ($nomor != 0) $this->session->sex = $nomor;
+			else $this->session->unset_userdata('sex');
+			$this->session->unset_userdata('judul_statistik');
+			redirect($this->controller);
+		}
+
+		$this->session->unset_userdata('program_bantuan');
+		$this->session->sex = ($sex == 0) ? NULL : $sex;
+
+		switch ($tipe)
+		{
+			case ($tipe > 50):
+				$program_id = preg_replace('/^50/', '', $tipe);
+				$this->session->program_bantuan = $program_id;
+				$nama = $this->db->select('nama')
+					->where('id', $program_id)
+					->get('program')->row()
+					->nama;
+				if ( ! in_array($nomor, [BELUM_MENGISI, TOTAL]))
+				{
+					$this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
+					$nomor = $program_id;
+				}
+				$kategori = $nama . ' : ';
+				$session = 'penerima_bantuan';
+				$tipe = 'penerima_bantuan';
+				break;
+		}
+
+		$this->session->$session = ($nomor != TOTAL) ? $nomor : NULL;
+
+		$judul = $this->kelompok_model->get_judul_statistik($tipe, $nomor, $sex);
+
+		$this->session->unset_userdata('judul_statistik');
+		if ($judul['nama']) $this->session->judul_statistik = $kategori . $judul['nama'];
+
+		redirect($this->controller);
+	}
+
 }

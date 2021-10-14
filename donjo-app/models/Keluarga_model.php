@@ -1,4 +1,4 @@
-<?php class Keluarga_model extends CI_Model {
+<?php class Keluarga_model extends MY_Model {
 
 /**
  * File ini:
@@ -72,28 +72,29 @@
 	*/
 	private function status_dasar_sql()
 	{
-		$value = $this->session->status_dasar;
+		if (empty($value = $this->session->status_dasar)) return;
 
-		if (isset($value))
-		{
-			if ($value == '1') $status_dasar_sql = " AND t.status_dasar = 1 AND t.kk_level = 1";
-			elseif ($value == '3') $status_dasar_sql = 'AND (t.status_dasar IS NULL OR t.kk_level <> 1)';
-			else $status_dasar_sql = " AND t.status_dasar <> 1";
-			return $status_dasar_sql;
-		}
+		if ($value == '1') $this->db
+			->where('t.status_dasar', 1)
+			->where('t.kk_level', 1);
+		elseif ($value == '3') $this->db
+			->group_start()
+				->where('t.status_dasar IS NULL')
+				->or_where(' t.kk_level <>', 1)
+			->group_end();
+		else $this->db->where('t.status_dasar <>', 1);
 	}
 
 	private function search_sql()
 	{
-		$value = $this->session->cari;
+		if (empty($value = $this->session->cari)) return;
 
-		if (isset($value))
-		{
-			$kw = $this->db->escape_like_str($value);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (t.nama LIKE '$kw' OR u.no_kk LIKE '$kw' OR t.tag_id_card LIKE '$kw')";
-			return $search_sql;
-		}
+		$this->db
+			->group_start()
+				->like('t.nama', $value)
+				->or_like('u.no_kk ', $value)
+				->or_like('t.tag_id_card', $value)
+			->group_end();
 	}
 
 	private function kumpulan_kk_sql()
@@ -104,48 +105,62 @@
 		$kumpulan_kk = array_filter(array_slice(explode(",", $kumpulan_kk), 0, 20)); // ambil 20 saja
 		$kumpulan_kk = implode(',', $kumpulan_kk);
 		$this->session->kumpulan_kk = $kumpulan_kk;
-		$sql = " AND u.no_kk in ($kumpulan_kk)";
-		return $sql;
+		$this->db->where_in('u.no_kk ', $kumpulan_kk);
 	}
 
-	public function paging($p = 1)
+	private function bantuan_keluarga_sql()
 	{
-		$sql = "SELECT COUNT(*) AS jml ".$this->list_data_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		$bantuan_keluarga = $this->session->bantuan_keluarga;
+		if ( ! in_array($bantuan_keluarga, [JUMLAH, BELUM_MENGISI, TOTAL]))
+			// Salin program_id
+			$this->session->program_bantuan = $bantuan_keluarga;
+		if ($bantuan_keluarga && $bantuan_keluarga != BELUM_MENGISI)
+		{
+			if ( $bantuan_keluarga != JUMLAH && $this->session->program_bantuan)
+				$this->db
+					->join('program_peserta bt', 'bt.peserta = u.no_kk')
+					->join('program rcb', 'bt.program_id = rcb.id', 'left');
+		}
+		// Untuk BUKAN PESERTA program bantuan tertentu
+		if ($bantuan_keluarga == BELUM_MENGISI)
+		{
+			if ($this->session->program_bantuan)
+			{
+				// Program bantuan tertentu
+				$program_id = $this->session->program_bantuan;
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.no_kk and bt.program_id = $program_id", 'left')
+					->where('bt.id is null');
+			}
+			else
+			{
+				// Bukan penerima bantuan apa pun
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.no_kk", 'left')
+					->where('bt.id is null');
+			}
+		}
+		elseif ($bantuan_keluarga == JUMLAH && ! $this->session->program_bantuan)
+		{
+			// Penerima bantuan mana pun
+			$this->db
+				->where('u.no_kk IN (select peserta from program_peserta)');
+		}
 	}
 
 	private function list_data_sql()
 	{
-		/** untuk join ke tweb_penduduk bisa menggunakan join bukan left join karena data dari tweb_penduduk
-				selalu digunakan dalam pencarian function status_dasar_sql
-		*/
-		$sql = "FROM tweb_keluarga u
-			JOIN tweb_penduduk t ON u.nik_kepala = t.id
-			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id";
+		$this->db
+			->from('tweb_keluarga u')
+			->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
+			->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
 
-		// Yg berikut hanya untuk menampilkan peserta bantuan
-		if ($this->session->bantuan_keluarga)
-		{
-			$sql .= "
-				LEFT JOIN program_peserta bt ON bt.peserta = u.no_kk
-				LEFT JOIN program rcb ON bt.program_id = rcb.id
-			";
-		}
+		if ($this->session->bantuan_keluarga) $this->bantuan_keluarga_sql();
 
-		$sql .= " WHERE 1 ";
-		$sql .=	$this->search_sql();
-		$sql .=	$this->kumpulan_kk_sql();
-		$sql .=	$this->status_dasar_sql();
+		$this->search_sql();
+		$this->kumpulan_kk_sql();
+		$this->status_dasar_sql();
 
 		$kolom_kode = [
 			array('dusun', 'c.dusun'),
@@ -156,65 +171,71 @@
 			array('id_bos', 'id_bos'),
 		];
 
-		if ($this->session->bantuan_keluarga)
+		if ($this->session->bantuan_keluarga && $this->session->bantuan_keluarga != BELUM_MENGISI)
 		{
-			$kolom_kode[] = array('bantuan_keluarga', 'rcb.id');
+			if ( $this->session->bantuan_keluarga != JUMLAH && $this->session->program_bantuan)
+				$kolom_kode[] = array('bantuan_keluarga', 'rcb.id');
 		}
 
 		foreach ($kolom_kode as $kolom)
 		{
-			$sql .= $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
+			$this->get_sql_kolom_kode($kolom[0], $kolom[1]);
 		}
-
-		return $sql;
 	}
 
 	protected function get_sql_kolom_kode($session, $kolom)
 	{
-		$kf = $this->session->$session;
-		if ( ! empty($kf))
-		{
-			if ($kf == JUMLAH)
-				$sql = " AND (" . $kolom . " IS NOT NULL OR " . $kolom . " != '')";
-			else if ($kf == BELUM_MENGISI)
-				$sql = " AND (" . $kolom . " IS NULL OR " . $kolom . " = '')";
-			else
-				$sql = " AND " . $kolom . " = '$kf'";
+		if (empty($kf = $this->session->$session)) return;
 
-			return $sql;
-		}
+		if ($kf == JUMLAH)
+			$this->db
+				->group_start()
+					->where("$kolom IS NOT NULL")
+					->or_where("$kolom <>", '')
+				->group_end();
+		elseif ($kf == BELUM_MENGISI)
+			$this->db
+				->group_start()
+					->where("$kolom IS NULL")
+					->or_where($kolom, '')
+				->group_end();
+		else
+			$this->db->where($kolom, $kf);
 	}
 
-	// $limit = 0 mengambil semua
-	public function list_data($o = 0, $offset = 0, $limit = 0)
+	// $page = -1 mengambil semua
+	public function list_data($o = 0, $page = 1)
 	{
-		//Ordering SQL
+		$this->db
+			->distinct()
+			->select('u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend, c.dusun, c.rw, c.rt');
+		$this->list_data_sql();
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.no_kk'; break;
-			case 2: $order_sql = ' ORDER BY u.no_kk DESC'; break;
-			case 3: $order_sql = ' ORDER BY kepala_kk'; break;
-			case 4: $order_sql = ' ORDER BY kepala_kk DESC'; break;
-			case 5: $order_sql = ' ORDER BY u.tgl_daftar'; break;
-			case 6: $order_sql = ' ORDER BY u.tgl_daftar DESC'; break;
-			default:$order_sql = ' ORDER BY u.no_kk DESC';
+			case 1: $this->db->order_by('u.no_kk'); break;
+			case 2: $this->db->order_by('u.no_kk DESC'); break;
+			case 3: $this->db->order_by('kepala_kk'); break;
+			case 4: $this->db->order_by('kepala_kk DESC'); break;
+			case 5: $this->db->order_by('u.tgl_daftar'); break;
+			case 6: $this->db->order_by('u.tgl_daftar DESC'); break;
+			default:$this->db->order_by('u.no_kk DESC');
 		}
+		$query_dasar = $this->db->get_compiled_select();
 
-		//Paging SQL
-		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
-
-		$sql = "SELECT u.*, t.nama AS kepala_kk, t.nik, t.tag_id_card, t.sex, t.sex as id_sex, t.status_dasar, t.foto, t.id as id_pend,
-			c.dusun, c.rw, c.rt ";
-		$sql .= $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
 		/** Lakukan pencarian jumlah anggota setelah data diperoleh supaya lebih cepat */
-		$sql = "select u.*,(SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota from (".$sql.") u";
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$this->db->select('u.*, (SELECT COUNT(id) FROM tweb_penduduk WHERE id_kk = u.id AND status_dasar = 1) AS jumlah_anggota')
+			->from('(' . $query_dasar . ') u');
+
+		if ($page > 0 )
+		{
+			$jumlah_pilahan = $this->db->count_all_results('', false);
+			$paging = $this->paginasi($page, $jumlah_pilahan);
+			$this->db->limit($paging->per_page, $paging->offset);
+		}
+		$data = $this->db->get()->result_array();
 
 		//Formating Output
-		$j = $offset;
+		$j = $paging->offset ?: 0;
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
@@ -228,7 +249,10 @@
 			$j++;
 		}
 
-		return $data;
+		if ($page > 0)
+			return ['paging' => $paging, 'main' => $data];
+		else
+			return $data;
 	}
 
 	// Tambah keluarga baru dari penduduk lepas (status tetap atau pendatang)
@@ -434,13 +458,19 @@
 			return;
 		}
 
-		$nik_kepala = $this->db->select('nik_kepala')->where('id',$id)->get('tweb_keluarga')->row()->nik_kepala;
+		$keluarga = $this->db->select('*')->where('id',$id)->get('tweb_keluarga')->row();
+		$nik_kepala = $keluarga->nik_kepala;
+
 		$list_anggota = $this->db->select('id')->where('id_kk',$id)->get('tweb_penduduk')->result_array();
 		foreach ($list_anggota as $anggota)
 		{
 			$this->rem_anggota($id,$anggota['id']);
 		}
 		$outp = $this->db->where('id',$id)->delete('tweb_keluarga');
+
+		// Hapus peserta program bantuan sasaran keluarga, kalau ada
+		$outp = $outp && $this->program_bantuan_model->hapus_peserta_dari_sasaran($keluarga->no_kk, 2);
+
 		// Untuk statistik perkembangan keluarga
 		$this->log_keluarga($id, $nik_kepala, 13);
 
@@ -941,8 +971,10 @@
 	{
 		if ($nomor == JUMLAH)
 			$judul = array("nama" => "JUMLAH");
-		else if ($nomor == BELUM_MENGISI)
+		elseif ($nomor == BELUM_MENGISI)
 			$judul = array("nama" => "BELUM MENGISI");
+		elseif ($nomor == TOTAL)
+			$judul = array("nama" => "TOTAL");
 		else
 		{
 			switch ($tipe)

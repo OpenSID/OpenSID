@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Rtm_model extends CI_Model {
+class Rtm_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -114,6 +114,9 @@ class Rtm_model extends CI_Model {
 		$this->db->where('id_rtm', $no_kk)->update('tweb_penduduk', $temp);
 
 		$outp = $this->db->where('no_kk', $no_kk)->delete('tweb_rtm');
+
+		// Hapus peserta program bantuan sasaran rumah tangga, kalau ada
+		$outp = $outp && $this->program_bantuan_model->hapus_peserta_dari_sasaran($no_kk, 3);
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}
@@ -347,44 +350,36 @@ class Rtm_model extends CI_Model {
 		return autocomplete_data_ke_str($data);
 	}
 
-	public function paging($p)
-	{
-		$this->db->select('COUNT(u.id) AS jml');
-		$this->list_data_sql();
-
-		$row = $this->db->get()->row_array();
-		$jml_data = $row['jml'];
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
-	}
-
-	// $limit = 0 mengambil semua
-	public function list_data($order_by = 0, $offset = 0, $limit = 0)
+	// $page = 0 mengambil semua
+	public function list_data($page = 1)
 	{
 		$this->list_data_sql();
 
-		if ($limit > 0 ) $this->db->limit($limit, $offset);
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
 		$this->db
 			->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
 			->select('(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_rtm = u.no_kk ) AS jumlah_anggota')
 			->from("($query_dasar) as u")
-			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1')
-			->join('tweb_keluarga k', 't.id_kk = k.id')
-			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
+			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
+			->join('tweb_keluarga k', 't.id_kk = k.id', 'left')
+			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id', 'left');
 
-		$this->order_by_list($order_by);
+		$this->order_by_list($this->session->order_by);
+
+		if ($page > 0 )
+		{
+			$jumlah_pilahan = $this->db->count_all_results('', false);
+			$paging = $this->paginasi($page, $jumlah_pilahan);
+			$this->db->limit($paging->per_page, $paging->offset);
+		}
 
 		$data = $this->db->get()->result_array();
 
-		return $data;
+		if ($page > 0)
+			return ['paging' => $paging, 'main' => $data];
+		else
+			return $data;
 	}
 
 	private function order_by_list($order_by)
@@ -401,13 +396,55 @@ class Rtm_model extends CI_Model {
 		}
 	}
 
+	private function penerima_bantuan_sql()
+	{
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		$penerima_bantuan = $this->session->penerima_bantuan;
+		if ( ! in_array($penerima_bantuan, [JUMLAH, BELUM_MENGISI, TOTAL]))
+			// Salin program_id
+			$this->session->program_bantuan = $penerima_bantuan;
+		if ($penerima_bantuan && $penerima_bantuan != BELUM_MENGISI)
+		{
+			if ( $penerima_bantuan != JUMLAH && $this->session->program_bantuan)
+				$this->db
+					->join('program_peserta bt', 'bt.peserta = u.no_kk')
+					->join('program rcb', 'bt.program_id = rcb.id', 'left');
+		}
+		// Untuk BUKAN PESERTA program bantuan tertentu
+		if ($penerima_bantuan == BELUM_MENGISI)
+		{
+			if ($this->session->program_bantuan)
+			{
+				// Program bantuan tertentu
+				$program_id = $this->session->program_bantuan;
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.no_kk and bt.program_id = $program_id", 'left')
+					->where('bt.id is null');
+			}
+			else
+			{
+				// Bukan penerima bantuan apa pun
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.no_kk", 'left')
+					->where('bt.id is null');
+			}
+		}
+		elseif ($penerima_bantuan == JUMLAH && ! $this->session->program_bantuan)
+		{
+			// Penerima bantuan mana pun
+			$this->db
+				->where('u.no_kk IN (select peserta from program_peserta)');
+		}
+	}
+
 	private function list_data_sql()
 	{
 		$this->db
 			->from('tweb_rtm u')
-			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1')
-			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
+			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
+			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id', 'left');
 
+		if ($this->session->penerima_bantuan) $this->penerima_bantuan_sql();
 		$this->search_sql();
 
 		$kolom_kode = [
@@ -418,18 +455,27 @@ class Rtm_model extends CI_Model {
 			['bdt', 'u.bdt'],
 		];
 
-		foreach ($kolom_kode as $kolom) {
+		if ($this->session->penerima_bantuan && $this->session->penerima_bantuan != BELUM_MENGISI)
+		{
+			if ( $this->session->penerima_bantuan != JUMLAH && $this->session->program_bantuan)
+				$kolom_kode[] = array('penerima_bantuan', 'rcb.id');
+		}
+
+		foreach ($kolom_kode as $kolom)
+		{
 			$this->get_sql_kolom_kode($kolom[0], $kolom[1]);
 		}
 	}
 
 	private function search_sql()
 	{
-		$cari = $this->session->cari;
-		if ($cari)
-		{
-			$this->db->like('t.nama', $cari);
-		}
+		if (empty($cari = $this->session->cari)) return;
+
+		$this->db
+			->group_start()
+				->like('t.nama', $cari)
+				->or_like('u.no_kk', $cari)
+			->group_end();
 	}
 
 	protected function get_sql_kolom_kode($session, $kolom)
@@ -449,13 +495,22 @@ class Rtm_model extends CI_Model {
 	{
 		if ($nomor == JUMLAH)
 			$judul = ["nama" => " : JUMLAH"];
-		else if ($nomor == BELUM_MENGISI)
+		elseif ($nomor == BELUM_MENGISI)
 			$judul = ["nama" => " : BELUM MENGISI"];
+		elseif ($nomor == TOTAL)
+			$judul = ["nama" => " : TOTAL"];
 		else
 		{
-			// Tanpa table referensi
-			$judul = ["nama" => " : TOTAL"];
+			switch ($tipe)
+			{
+				case 'penerima_bantuan': $table = 'program'; break;
+
+				default: $table = 'tweb_rtm'; break;
+			}
+
+			$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
 		}
+
 		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
 		elseif ($sex == 2) $judul['nama'] .= " - PEREMPUAN";
 

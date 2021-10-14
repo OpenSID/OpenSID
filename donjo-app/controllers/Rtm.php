@@ -53,7 +53,7 @@ class Rtm extends Admin_Controller {
 		parent::__construct();
 		$this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']);
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt']; // Session id_bos
+		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan']; // Session id_bos
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 23;
 		$this->set_minsidebar(1);
@@ -67,7 +67,7 @@ class Rtm extends Admin_Controller {
 		redirect($this->controller);
 	}
 
-	public function index($p = 1)
+	public function index($page = 1, $order_by = 0)
 	{
 		foreach ($this->_list_session as $list)
 		{
@@ -104,8 +104,9 @@ class Rtm extends Admin_Controller {
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->rtm_model->paging($p);
-		$data['main'] = $this->rtm_model->list_data($data['order_by'], $data['paging']->offset, $data['paging']->per_page);
+		$list_data = $this->rtm_model->list_data($page);
+		$data['paging'] = $list_data['paging'];
+		$data['main'] = $list_data['main'];
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
@@ -118,7 +119,7 @@ class Rtm extends Admin_Controller {
 	*/
 	public function daftar($aksi = '', $privasi_nik = 0)
 	{
-		$data['main'] = $this->rtm_model->list_data($this->session->order_by, 0);
+		$data['main'] = $this->rtm_model->list_data(0);
 		if ($privasi_nik == 1) $data['privasi_nik'] = true;
 		$this->load->view("sid/kependudukan/rtm_$aksi", $data);
 	}
@@ -353,6 +354,7 @@ class Rtm extends Admin_Controller {
 			redirect($this->controller);
 		}
 
+		$this->session->unset_userdata('program_bantuan');
 		$this->session->sex = ($sex == 0) ? NULL : $sex;
 
 		switch ($tipe)
@@ -360,6 +362,22 @@ class Rtm extends Admin_Controller {
 			case 'bdt':
 				$session = 'bdt';
 				$kategori = 'KLASIFIKASI BDT ';
+				break;
+			case ($tipe > 50):
+				$program_id = preg_replace('/^50/', '', $tipe);
+				$this->session->program_bantuan = $program_id;
+				$nama = $this->db->select('nama')
+					->where('id', $program_id)
+					->get('program')->row()
+					->nama;
+				if ( ! in_array($nomor, [BELUM_MENGISI, TOTAL]))
+				{
+					$this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
+					$nomor = $program_id;
+				}
+				$kategori = $nama . ' : ';
+				$session = 'penerima_bantuan';
+				$tipe = 'penerima_bantuan';
 				break;
 		}
 

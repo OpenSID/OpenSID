@@ -126,11 +126,12 @@ class Program_bantuan_model extends MY_Model {
 
 	public function paging_bantuan($p)
 	{
-		$sql = "SELECT count(*) as jumlah " . $this->get_program_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jumlah'];
+		$this->sasaran_sql();
 
+		$jml_data = $this->db
+			->select('count(p.id) as jumlah')
+			->from('program p')
+			->get()->row()->jumlah;
 		$this->load->library('paging');
 		$cfg['page'] = $p;
 		$cfg['per_page'] = $this->session->per_page;
@@ -216,7 +217,7 @@ class Program_bantuan_model extends MY_Model {
 	// konsisten dengan data yang diperoleh
 	private function get_peserta_sql($slug, $sasaran, $jumlah = false)
 	{
-		if ($jumlah) $select_sql = "COUNT(*) as jumlah";
+		if ($jumlah) $select_sql = "COUNT(p.id) as jumlah";
 		switch ($sasaran)
 		{
 			case 1:
@@ -235,7 +236,7 @@ class Program_bantuan_model extends MY_Model {
 				if (!$jumlah) $select_sql = "p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun";
 				$strSQL = "SELECT ". $select_sql."
 					FROM program_peserta p
-					LEFT JOIN tweb_keluarga k ON p.peserta = k.no_kk
+					JOIN tweb_keluarga k ON p.peserta = k.no_kk
 					LEFT JOIN tweb_penduduk o ON k.nik_kepala = o.id
 					LEFT JOIN tweb_penduduk kartu on p.kartu_id_pend = kartu.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = kartu.sex
@@ -307,25 +308,6 @@ class Program_bantuan_model extends MY_Model {
 		return $data;
 	}
 
-	private function sasaran_sql()
-	{
-		$kf = $this->session->sasaran;
-
-		if (isset($kf))
-		{
-			$sql = " AND p.sasaran = $kf ";
-			return $sql;
-		}
-	}
-
-	private function get_program_sql()
-	{
-		$sql = ' FROM program p WHERE 1 ';
-		$sql .= $this->sasaran_sql();
-
-		return $sql;
-	}
-
 	private function get_program_data($p, $slug)
 	{
 		$strSQL = "SELECT p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana, p.status
@@ -385,7 +367,6 @@ class Program_bantuan_model extends MY_Model {
 		$strSQL = $this->get_peserta_sql($slug, $hasil0["sasaran"]);
 		$strSQL .= $paging_sql;
 		$query = $this->db->query($strSQL);
-
 		switch ($hasil0["sasaran"])
 		{
 			case 1:
@@ -672,6 +653,12 @@ class Program_bantuan_model extends MY_Model {
 		return $hasil2;
 	}
 
+	private function sasaran_sql()
+	{
+		if ($sasaran = $this->session->sasaran)
+			$this->db->where('p.sasaran', $sasaran);
+	}
+
 	public function get_program($p, $slug)
 	{
 		if ($slug === false)
@@ -681,13 +668,16 @@ class Program_bantuan_model extends MY_Model {
 			$expiryQuery = $this->db->query($expirySQL);
 
 			$response['paging'] = $this->paging_bantuan($p);
-			$strSQL = "SELECT COUNT(v.program_id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana FROM program p ";
-			$strSQL .= "LEFT JOIN program_peserta AS v ON p.id = v.program_id WHERE 1 ";
-			$strSQL .= $this->sasaran_sql();
-			$strSQL .= " GROUP BY p.id ";
-			$strSQL .= ' LIMIT ' .$response["paging"]->offset. ',' .$response["paging"]->per_page;
-			$query = $this->db->query($strSQL);
-			$data = $query->result_array();
+
+			$this->sasaran_sql();
+
+			$data = $this->db
+				->select('COUNT(v.id) AS jml_peserta, p.id, p.nama, p.sasaran, p.ndesc, p.sdate, p.edate, p.userid, p.status, p.asaldana')
+				->from('program p')
+				->join('program_peserta v', 'p.id = v.program_id', 'left')
+				->group_by('p.id')
+				->limit($response["paging"]->per_page, $response["paging"]->offset)
+				->get()->result_array();
 			$response['program'] = $data;
 			return $response;
 		}
@@ -1329,6 +1319,27 @@ class Program_bantuan_model extends MY_Model {
 	private function dusun($nama_dusun)
 	{
 		return ($this->setting->sebutan_dusun == '-') ? '' : ucwords(strtolower($this->setting->sebutan_dusun . " " . $nama_dusun));
+	}
+
+	// Jika sasaran (penduduk/keluarga/rumah-tangga/kelompok),
+	// peserta terkait perlu dihapus juga dari program jenis sasaran itu
+	public function hapus_peserta_dari_sasaran($peserta, $sasaran)
+	{
+		$peserta_hapus = $this->db
+			->select('pp.id')
+			->from('program_peserta pp')
+			->join('program p', 'p.id = pp.program_id')
+			->where('p.sasaran', $sasaran)
+			->where('pp.peserta', $peserta)
+			->get()->result_array();
+		$peserta_hapus = array_column($peserta_hapus, 'id');
+		if (empty($peserta_hapus)) return true;
+
+		$outp = $this->db
+			->where_in('id', $peserta_hapus)
+			->delete('program_peserta');
+
+		return $outp;
 	}
 
 }

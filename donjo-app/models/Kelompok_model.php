@@ -93,11 +93,45 @@ class Kelompok_model extends MY_Model {
 		return $this->db;
 	}
 
-	public function paging($p = 1)
+	private function penerima_bantuan_sql()
 	{
-		$jml_data = $this->list_data_sql()->count_all_results();
-
-		return $this->paginasi($p, $jml_data);
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		$penerima_bantuan = $this->session->penerima_bantuan;
+		if ( ! in_array($penerima_bantuan, [JUMLAH, BELUM_MENGISI, TOTAL]))
+			// Salin program_id
+			$this->session->program_bantuan = $penerima_bantuan;
+		if ($penerima_bantuan && $penerima_bantuan != BELUM_MENGISI)
+		{
+			if ( $penerima_bantuan != JUMLAH && $this->session->program_bantuan)
+				$this->db
+					->join('program_peserta bt', 'bt.peserta = u.id')
+					->join('program rcb', 'bt.program_id = rcb.id', 'left');
+		}
+		// Untuk BUKAN PESERTA program bantuan tertentu
+		if ($penerima_bantuan == BELUM_MENGISI)
+		{
+			if ($this->session->program_bantuan)
+			{
+				// Program bantuan tertentu
+				$program_id = $this->session->program_bantuan;
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.id and bt.program_id = $program_id", 'left')
+					->where('bt.id is null');
+			}
+			else
+			{
+				// Bukan penerima bantuan apa pun
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.id", 'left')
+					->where('bt.id is null');
+			}
+		}
+		elseif ($penerima_bantuan == JUMLAH && ! $this->session->program_bantuan)
+		{
+			// Penerima bantuan mana pun
+			$this->db
+				->where('u.id IN (select peserta from program_peserta)');
+		}
 	}
 
 	private function list_data_sql()
@@ -107,13 +141,37 @@ class Kelompok_model extends MY_Model {
 			->join('tweb_penduduk c', 'u.id_ketua = c.id', 'left')
 			->where('u.tipe', $this->tipe);
 
+		if ($this->session->penerima_bantuan) $this->penerima_bantuan_sql();
+
 		$this->search_sql();
 		$this->filter_sql();
+
+		$kolom_kode = [
+			['sex', 'c.sex'],
+		];
+
+		foreach ($kolom_kode as $kolom)
+		{
+			$this->get_sql_kolom_kode($kolom[0], $kolom[1]);
+		}
 
 		return $this->db;
 	}
 
-	public function list_data($o = 0, $offset = 0, $limit = 0)
+	protected function get_sql_kolom_kode($session, $kolom)
+	{
+		if ( ! empty($ss = $this->session->$session))
+		{
+			if ($ss == JUMLAH)
+				$this->db->where("$kolom !=", NULL);
+			else if ($ss == BELUM_MENGISI)
+				$this->db->where($kolom, NULL);
+			else
+				$this->db->where($kolom, $ss);
+		}
+	}
+
+	public function list_data($o = 0, $page = 0)
 	{
 		switch ($o)
 		{
@@ -128,12 +186,22 @@ class Kelompok_model extends MY_Model {
 
 		$this->list_data_sql();
 
-		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		if ($page > 0 )
+		{
+			$jumlah_pilahan = $this->db->count_all_results('', false);
+			$paging = $this->paginasi($page, $jumlah_pilahan);
+			$this->db->limit($paging->per_page, $paging->offset);
+		}
 
-		return $this->db
+		$data = $this->db
 			->select('u.*, s.kelompok AS master, c.nama AS ketua, (SELECT COUNT(id) FROM kelompok_anggota WHERE id_kelompok = u.id) AS jml_anggota')
 			->get()
 			->result_array();
+
+		if ($page > 0)
+			return ['paging' => $paging, 'main' => $data];
+		else
+			return $data;
 	}
 
 	private function validasi($post)
@@ -254,11 +322,24 @@ class Kelompok_model extends MY_Model {
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
+	// Hapus kelompok dengan tipe 'kelompok' saja
 	public function delete($id = '', $semua = FALSE)
 	{
 		if ( ! $semua) $this->session->success = 1;
 
-		$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete($this->table);
+		$kelompok = $this->db
+			->where('id', $id)
+			->where('tipe', $this->tipe)
+			->get('kelompok')->num_rows();
+
+		if ($kelompok)
+		{
+			$outp = $this->db->where('id', $id)->where('tipe', $this->tipe)->delete($this->table);
+			// Hapus peserta program bantuan sasaran kelompok, kalau ada
+			$outp = $outp && $this->program_bantuan_model->hapus_peserta_dari_sasaran($id, 4);
+		}
+		else
+			$outp = false;
 
 		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
 	}
@@ -493,4 +574,31 @@ class Kelompok_model extends MY_Model {
 
 		return $data;
 	}
+
+	public function get_judul_statistik($tipe = 0, $nomor = 0, $sex = 0)
+	{
+		if ($nomor == JUMLAH)
+			$judul = ["nama" => " : JUMLAH"];
+		elseif ($nomor == BELUM_MENGISI)
+			$judul = ["nama" => " : BELUM MENGISI"];
+		elseif ($nomor == TOTAL)
+			$judul = ["nama" => " : TOTAL"];
+		else
+		{
+			switch ($tipe)
+			{
+				case 'penerima_bantuan': $table = 'program'; break;
+
+				default: $table = 'kelompok'; break;
+			}
+
+			$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+		}
+
+		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
+		elseif ($sex == 2) $judul['nama'] .= " - PEREMPUAN";
+
+		return $judul;
+	}
+
 }

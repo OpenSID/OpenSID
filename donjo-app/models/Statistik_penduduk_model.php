@@ -73,7 +73,6 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
 			->where('u.sasaran', '1')
-			->where('u.status', '1')
 			->group_by('u.id');
 
 		if ($dusun = $this->session->userdata("dusun")) $this->db->where('a.dusun', $dusun);
@@ -101,7 +100,6 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model {
 			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
 			->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
 			->where('u.sasaran', '1')
-			->where('u.status', '1')
 			->get()->row_array();
 		return $data;
 	}
@@ -120,7 +118,7 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 
 	public function select_per_kategori()
 	{
-		// Ambil data sasaran penduduk
+		// Ambil data sasaran keluarga
 		$this->db->select('u.id, u.nama')
 			->select('u.*, COUNT(pp.peserta) as jumlah')
 			->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
@@ -130,7 +128,6 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
 			->where('u.sasaran', '2')
-			->where('u.status', '1')
 			->group_by('u.id');
 		return true;
 	}
@@ -150,11 +147,10 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 			->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 1 THEN p.id END)) AS jumlah_nonaktif_laki')
 			->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 2 THEN p.id END)) AS jumlah_nonaktif_perempuan')
 			->from('program u')
-			->join('program_peserta pp', 'pp.program_id = u.id', 'left')
-			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
+			->join('program_peserta pp', 'pp.program_id = u.id')
+			->join('tweb_keluarga k', 'pp.peserta = k.no_kk')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
 			->where('u.sasaran', '2')
-			->where('u.status', '1')
 			->get()->row_array();
 		return $data;
 	}
@@ -237,7 +233,7 @@ class Bantuan_keluarga extends Statistik_penduduk_model {
 			->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 1 THEN pp.id END)) AS jumlah_nonaktif_laki')
 			->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 2 THEN pp.id END)) AS jumlah_nonaktif_perempuan')
 			->from('program_peserta pp')
-			->join('tweb_keluarga k', 'k.no_kk = pp.peserta', 'left')
+			->join('tweb_keluarga k', 'k.no_kk = pp.peserta')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
 			->where('pp.program_id', $this->program_id)
@@ -321,6 +317,7 @@ class Bantuan_kelompok extends Statistik_penduduk_model {
 			->from('kelompok k')
 			->join('tweb_penduduk p', 'k.id_ketua = p.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
+			->where('k.tipe', 'kelompok')
 			->get()->row_array();
 		return $data;
 	}
@@ -336,6 +333,7 @@ class Bantuan_kelompok extends Statistik_penduduk_model {
 			->join('kelompok k', 'k.id = pp.peserta', 'left')
 			->join('tweb_penduduk p', 'k.id_ketua = p.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
+			->where('k.tipe', 'kelompok')
 			->where('pp.program_id', $this->program_id)
 			->get()->row_array();
 		return $data;
