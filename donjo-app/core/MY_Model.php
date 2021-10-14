@@ -95,15 +95,7 @@ class MY_Model extends CI_Model {
 
 	public function hapus_indeks($tabel, $indeks)
 	{
-		$db = $this->db->database;
-		$ada = $this->db
-			->select("COUNT(index_name) as ada")
-			->from('INFORMATION_SCHEMA.STATISTICS')
-			->where('table_schema', $db)
-			->where('table_name', $tabel)
-			->where('index_name', $indeks)
-			->get()->row()->ada;
-		if ($ada)
+		if ($this->cek_indeks($tabel, $indeks))
 			return $this->db->query("DROP INDEX $indeks ON $tabel");
 		else return true;
 	}
@@ -125,6 +117,13 @@ class MY_Model extends CI_Model {
 			}
 		}
 
+		if ( ! $this->cek_indeks($tabel, $kolom))
+			return $this->db->query("ALTER TABLE $tabel ADD $index $kolom (`$kolom`)");
+		else return true;
+	}
+
+	public function cek_indeks($tabel, $kolom)
+	{
 		$db = $this->db->database;
 		$ada = $this->db
 			->select("COUNT(index_name) as ada")
@@ -133,9 +132,7 @@ class MY_Model extends CI_Model {
 			->where('table_name', $tabel)
 			->where('index_name', $kolom)
 			->get()->row()->ada;
-		if ( ! $ada)
-			return $this->db->query("ALTER TABLE $tabel ADD $index $kolom (`$kolom`)");
-		else return true;
+		return $ada;
 	}
 
 	public function tambah_modul($modul)

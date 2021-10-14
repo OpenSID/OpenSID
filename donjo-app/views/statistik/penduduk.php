@@ -157,31 +157,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</thead>
 										<tbody>
 											<?php foreach ($main as $data): ?>
-												<?php if ($lap>50) $tautan_jumlah = site_url("program_bantuan/detail/$lap/1"); ?>
+												<?php if ($lap > 50) $tautan_jumlah = site_url("program_bantuan/detail/$lap/1"); ?>
 												<tr>
 													<td class="padat"><?= $data['no']; ?></td>
 													<td class="text-left"><?= strtoupper($data['nama']); ?></td>
 													<td class="text-right">
-														<?php if (in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'])): ?>
-															<a href="<?= site_url("keluarga/statistik/$lap/$data[id]"); ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
-														<?php elseif (in_array($lap, ['bdt'])): ?>
-															<a href="<?= site_url("rtm/statistik/$lap/$data[id]"); ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
-														<?php else: ?>
-															<?php if ($lap<50) $tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]"); ?>
-																<a href="<?= $tautan_jumlah ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
-														<?php endif; ?>
+														<a href="<?= $tautan_data . $data[id] ?>/0" target="_blank"><?= $data['jumlah']; ?></a>
 													</td>
 													<td class="text-right"><?= $data['persen'];?></td>
-													<?php if (in_array($lap, array(21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'))):
-														$tautan_jumlah = site_url("keluarga/statistik/$lap/$data[id]");
-													elseif (in_array($lap, ['bdt'])):
-															$tautan_jumlah = site_url("rtm/statistik/$lap/$data[id]");
-													elseif ($lap<50):
-														$tautan_jumlah = site_url("penduduk/statistik/$lap/$data[id]");
-													endif; ?>
-													<td class="text-right"><a href="<?= $tautan_jumlah?>/1" target="_blank"><?= $data['laki']; ?></a></td>
+													<td class="text-right"><a href="<?= $tautan_data . $data[id] ?>/1" target="_blank"><?= $data['laki']; ?></a></td>
 													<td class="text-right"><?= $data['persen1']; ?></td>
-													<td class="text-right"><a href="<?= $tautan_jumlah?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
+													<td class="text-right"><a href="<?= $tautan_data . $data[id] ?>/2" target="_blank"><?= $data['perempuan']; ?></a></td>
 													<td class="text-right"><?= $data['persen2'];?></td>
 												</tr>
 											<?php endforeach; ?>
@@ -191,16 +177,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<?php if (in_array($lap, array('bantuan_keluarga', 'bantuan_penduduk'))):?>
 									<p class="text-muted text-justify text-red"><b>Catatan:</b>
 										<br>
-										1. Pada jumlah PENERIMA, setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan.
+										1. Angka masing-masing program menghitung semua peserta, aktif maupun yang tidak
 										<br>
-										2. Jumlah BUKAN PENERIMA dan TOTAL berdasarkan jumlah peserta yang aktif saat ini.
+										2. Jumlah PENERIMA menghitung peserta aktif saja, dan setiap peserta terhitung satu sekali saja, meskipun menerima lebih dari satu jenis bantuan.
+										<br>
+										3. Jumlah BUKAN PENERIMA dan TOTAL menghitung peserta aktif saja.
 									</p>
 									<br><br>
 								<?php endif; ?>
 								<?php if ($lap > 50): ?>
 									<p class="text-muted text-justify text-red"><b>Catatan:</b>
 										<br>
-										1. Jumlah BUKAN PESERTA dan TOTAL berdasarkan jumlah peserta yang aktif saat ini.
+										1. Jumlah PESERTA termasuk peserta yang mungkin tidak aktif lagi.<br>
+										2. Jumlah BUKAN PESERTA dan TOTAL menghitung peserta aktif saja.
 									</p>
 								<?php endif; ?>
 							</div>

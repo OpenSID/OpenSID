@@ -58,7 +58,7 @@ class Penduduk extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara'];
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'suku', 'bpjs_ketenagakerjaan', 'nik_sementara'];
 	}
 
 	private function clear_session()
@@ -114,8 +114,9 @@ class Penduduk extends Admin_Controller {
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->penduduk_model->paging($p, $o);
-		$data['main'] = $this->penduduk_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$list_data = $this->penduduk_model->list_data($o, $p);
+		$data['paging'] = $list_data['paging'];
+		$data['main'] = $list_data['main'];
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
@@ -577,6 +578,7 @@ class Penduduk extends Admin_Controller {
 			redirect('penduduk');
 		}
 
+		$this->session->unset_userdata('program_bantuan');
 		$this->session->sex = ($sex == 0) ? NULL : $sex;
 
 		switch ($tipe)
@@ -600,7 +602,12 @@ class Penduduk extends Admin_Controller {
 			case 'bpjs-tenagakerja': $session = ($nomor == BELUM_MENGISI || $nomor == JUMLAH) ? 'bpjs_ketenagakerjaan' : 'pekerjaan_id'; $kategori = 'BPJS Ketenagakerjaan : '; $this->session->bpjs_ketenagakerjaan = ($nomor == TOTAL) ? false : true; break;
 			case 'hubungan_kk': $session = 'hubungan'; $kategori = 'HUBUNGAN DALAM KK : '; break;
 			case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;
-			case 'bantuan_penduduk': $session = 'penerima_bantuan'; $kategori = 'PENERIMA BANTUAN PENDUDUK : '; break;
+			case 'bantuan_penduduk':
+				if ( ! in_array($nomor, [BELUM_MENGISI, TOTAL]))
+					$this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
+				$session = 'bantuan_penduduk';
+				$kategori = 'PENERIMA BANTUAN PENDUDUK : ';
+				break;
 			case 18:
 				if ($sex == NULL)
 				{
@@ -617,6 +624,22 @@ class Penduduk extends Admin_Controller {
 				$kategori = "KEPEMILIKAN WAJIB KTP : ";
 				break;
 			case 'suku': $session = 'suku'; $kategori = 'Suku: ';break;
+			case ($tipe > 50):
+				$program_id = preg_replace('/^50/', '', $tipe);
+				$this->session->program_bantuan = $program_id;
+				$nama = $this->db->select('nama')
+					->where('id', $program_id)
+					->get('program')->row()
+					->nama;
+				if ( ! in_array($nomor, [BELUM_MENGISI, TOTAL]))
+				{
+					$this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
+					$nomor = $program_id;
+				}
+				$kategori = $nama . ' : ';
+				$session = 'bantuan_penduduk';
+				$tipe = 'bantuan_penduduk';
+				break;
 		}
 
 		// Filter berdasarkan kategori tdk dilakukan jika $nomer = TOTAL (888)
@@ -798,7 +821,7 @@ class Penduduk extends Admin_Controller {
 		$data = [
 			'form_action' => site_url("penduduk/program_bantuan_proses"),
 			'program_bantuan' => $list_bantuan['program'],
-			'id_program' => $this->session->penerima_bantuan
+			'id_program' => $this->session->bantuan_penduduk
 		];
 
 		$this->load->view("sid/kependudukan/pencarian_program_bantuan", $data);

@@ -50,6 +50,7 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021100171($hasil);
 		$hasil = $hasil && $this->migrasi_2021101051($hasil);
+    $hasil = $hasil && $this->migrasi_2021101351($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -89,4 +90,14 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
 		return $hasil;
 	}
+
+  protected function migrasi_2021101351($hasil)
+  {
+    $hasil = $hasil && $this->hapus_indeks('log_keluarga', 'id_kk');
+    if ( ! $this->cek_indeks('log_keluarga', 'id_kk'))
+      $hasil = $hasil && $this->db->query("ALTER TABLE log_keluarga ADD UNIQUE id_kk (id_kk, id_peristiwa, tgl_peristiwa, id_pend)");
+
+    return $hasil;
+  }
+
 }
