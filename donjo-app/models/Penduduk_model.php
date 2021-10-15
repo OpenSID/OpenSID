@@ -129,18 +129,24 @@ class Penduduk_model extends MY_Model {
 
 	protected function get_sql_kolom_kode($session, $kolom)
 	{
-		$kf = $this->session->$session;
-		if ( ! empty($kf))
-		{
-			if ($kf == JUMLAH)
-				$this->db->where("($kolom IS NOT NULL && $kolom != '')");
-			else if ($kf == BELUM_MENGISI)
-				$this->db->where("($kolom IS NULL && $kolom = '')");
-			else if ($kf == $this->session->status_dasar)
-				$this->db->where_in($kolom, $kf);
-			else
-				$this->db->where($kolom, $kf);
-		}
+		if (empty($kf = $this->session->$session)) return;
+
+		if ($kf == JUMLAH)
+			$this->db
+				->group_start()
+					->where("$kolom IS NOT NULL")
+					->or_where("$kolom <>", '')
+				->group_end();
+		elseif ($kf == BELUM_MENGISI)
+			$this->db
+				->group_start()
+					->where("$kolom IS NULL")
+					->or_where($kolom, '')
+				->group_end();
+		elseif ($kf == $this->session->status_dasar)
+			$this->db->where_in($kolom, $kf);
+		else
+			$this->db->where($kolom, $kf);
 	}
 
 	protected function nik_sementara_sql()
@@ -283,18 +289,51 @@ class Penduduk_model extends MY_Model {
 		return $alamat_wilayah;
 	}
 
-	public function paging($page_number = 1)
+	private function bantuan_penduduk_sql()
 	{
-		$this->db->select('COUNT(u.id) as jml');
-		$this->list_data_sql();
-		$jml_data = $this->db->get()->row()->jml;
-
-		return $this->paginasi($page_number, $jml_data);
+		// Yg berikut hanya untuk menampilkan peserta bantuan
+		$bantuan_penduduk = $this->session->bantuan_penduduk;
+		if ( ! in_array($bantuan_penduduk, [JUMLAH, BELUM_MENGISI, TOTAL]))
+			// Salin program_id
+			$this->session->program_bantuan = $bantuan_penduduk;
+		if ($bantuan_penduduk && $bantuan_penduduk != BELUM_MENGISI)
+		{
+			if ( $bantuan_penduduk != JUMLAH && $this->session->program_bantuan)
+				$this->db
+					->join('program_peserta bt', 'bt.peserta = u.nik')
+					->join('program rcb', 'bt.program_id = rcb.id', 'left');
+		}
+		// Untuk BUKAN PESERTA program bantuan tertentu
+		if ($bantuan_penduduk == BELUM_MENGISI)
+		{
+			if ($this->session->program_bantuan)
+			{
+				// Program bantuan tertentu
+				$program_id = $this->session->program_bantuan;
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.nik and bt.program_id = $program_id", 'left')
+					->where('bt.id is null');
+			}
+			else
+			{
+				// Bukan penerima bantuan apa pun
+				$this->db
+					->join('program_peserta bt', "bt.peserta = u.nik", 'left')
+					->where('bt.id is null');
+			}
+		}
+		elseif ($bantuan_penduduk == JUMLAH && ! $this->session->program_bantuan)
+		{
+			// Penerima bantuan mana pun
+			$this->db
+				->where('u.nik IN (select peserta from program_peserta)');
+		}
 	}
 
 	// Digunakan untuk paging dan query utama supaya jumlah data selalu sama
 	private function list_data_sql()
 	{
+		// Join di sini untuk mendukung urut penduduk
 		$this->db
 			->from('tweb_penduduk u')
 			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
@@ -305,16 +344,9 @@ class Penduduk_model extends MY_Model {
               SELECT    MAX(id) max_id, id_pend
               FROM      log_penduduk
               GROUP BY  id_pend
-          ) log_max', 'log_max.id_pend = u.id')
-			->join('log_penduduk log', 'log_max.max_id = log.id');
-
-		// Yg berikut hanya untuk menampilkan peserta bantuan
-		if ($this->session->penerima_bantuan)
-		{
-			$this->db
-				->join('program_peserta bt', 'bt.peserta = u.nik', 'left')
-				->join('program rcb', 'bt.program_id = rcb.id', 'left');
-		}
+          ) log_max', 'log_max.id_pend = u.id', 'left')
+			->join('log_penduduk log', 'log_max.max_id = log.id', 'left');
+		if ($this->session->bantuan_penduduk) $this->bantuan_penduduk_sql();
 
 		$this->search_sql();
 		$this->kumpulan_nik_sql();
@@ -347,9 +379,10 @@ class Penduduk_model extends MY_Model {
 			array('bpjs_ketenagakerjaan', 'u.bpjs_ketenagakerjaan') // Kode bpjs_ketenagakerjaan
 		);
 
-		if ($this->session->penerima_bantuan)
+		if ($this->session->bantuan_penduduk && $this->session->bantuan_penduduk != BELUM_MENGISI)
 		{
-			$kolom_kode[] = array('penerima_bantuan', 'rcb.id');
+			if ( $this->session->bantuan_penduduk != JUMLAH && $this->session->program_bantuan)
+				$kolom_kode[] = array('bantuan_penduduk', 'rcb.id');
 		}
 		 
 		foreach ($kolom_kode as $kolom)
@@ -389,18 +422,25 @@ class Penduduk_model extends MY_Model {
 		}
 	}
 
-	// $limit = 0 mengambil semua
-	public function list_data($order_by = 1, $offset = 0, $limit = 0)
+	// $page = 0 mengambil semua
+	public function list_data($order_by = 1, $page = 1)
 	{
 		//Main Query
 		$this->list_data_sql();
 		$this->db->select("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur");
 		$this->order_by_list($order_by);
 
-		//Paging SQL
-		if ($limit > 0 ) $this->db->limit($limit, $offset);
+		if ($page > 0 )
+		{
+			$jumlah_pilahan = $this->db->count_all_results('', false);
+			$paging = $this->paginasi($page, $jumlah_pilahan);
+			$this->db->limit($paging->per_page, $paging->offset);
+		}
+
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
+		// Proses berikutnya dilakukan setelah paginasi, untuk mempercepat proses join di lookup_ref_penduduk
+		// yang cukup banyak.
 		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, u.suku, u.bpjs_ketenagakerjaan, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
 			(CASE
 				when u.status_kawin IS NULL then ''
@@ -421,7 +461,6 @@ class Penduduk_model extends MY_Model {
 		$this->order_by_list($order_by);
 
 		$data = $this->db->get()->result_array();
-
 		//Formating Output
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -495,7 +534,11 @@ class Penduduk_model extends MY_Model {
 			$data[$i]['no'] = $j + 1;
 			$j++;
 		}
-		return $data;
+
+		if ($page > 0)
+			return ['paging' => $paging, 'main' => $data];
+		else
+			return $data;
 	}
 
 	private function lookup_ref_penduduk()
@@ -1059,6 +1102,9 @@ class Penduduk_model extends MY_Model {
 		}
 
 		$outp = $this->db->where('id', $id)->delete('tweb_penduduk');
+
+		// Hapus peserta program bantuan sasaran penduduk, kalau ada
+		$outp = $outp && $this->program_bantuan_model->hapus_peserta_dari_sasaran($penduduk_hapus['nik'], 1);
 
 		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
 	}

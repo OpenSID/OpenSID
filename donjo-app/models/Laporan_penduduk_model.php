@@ -564,7 +564,6 @@ class Laporan_penduduk_model extends MY_Model {
 			$this->isi_nomor($data);
 		}
 		else $data = [];
-
 		$semua = $namespace->get_data_jml();
 		$semua = $this->persentase_semua($semua);
 		$total = $namespace->hitung_total($data);

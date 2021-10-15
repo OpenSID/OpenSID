@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4440](https://github.com/OpenSID/OpenSID/issues/4440) Perbaiki tampilan hasil analisis di web, supaya indikator ditampilkan per master analisis.
 3. [#4446](https://github.com/OpenSID/OpenSID/issues/4446) Perbaiki surat keterangan nikah sesuai dg KEPDIRJEN BIMAS ISLAM NO. 473 TAHUN 2020.
 4. [#4322](https://github.com/OpenSID/OpenSID/issues/4322) Sediakan notifikasi telegram ke pengguna admin / operator.
+5. [#4376](https://github.com/OpenSID/OpenSID/issues/4376) Pencarian dan kategori produk pada web lapak.
 
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
@@ -17,6 +18,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. [#4455](https://github.com/OpenSID/OpenSID/issues/4455) Data keluarga dengan KK yang mati/pindah/hilang sekarang tidak dapat diubah.
 5. [#4458](https://github.com/OpenSID/OpenSID/issues/4458) Perbaiki tombol simpan tidak berfungsi pada input menu Buku Tanah di Desa.
 6. [#4459](https://github.com/OpenSID/OpenSID/issues/4459) Perbaiki error 500 Ketika klik Kosongkan DB.
+7. Sekarang pilihan 'Bawa bukti fisik ke Kantor Desa' untuk syarat dokumen di layanan surat anjungan kembali tersedia.
+8. [#4456](https://github.com/OpenSID/OpenSID/issues/4456) Perbaiki menampilkan penerima bantuan dari statistik program bantuan.
 
 #### Perubahan Teknis
-1. [untuk diisi]
+1. Pindahkan tampilan lapak ke masing-masing tema.

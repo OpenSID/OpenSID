@@ -62,8 +62,12 @@ class Statistik extends Admin_Controller {
 	{
 		$data = $this->get_cluster_session();
 		$data['lap'] = $this->session->lap;
+
 		$data['order_by'] = $this->session->order_by;
 		$data['main'] = $this->laporan_penduduk_model->list_data($data['lap'], $data['order_by']);
+
+		$data['tautan_data'] = $this->tautan_data($this->session->lap);
+
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['heading'] = $this->laporan_penduduk_model->judul_statistik($data['lap']);
 		$data['stat_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
@@ -75,6 +79,43 @@ class Statistik extends Admin_Controller {
 		$this->get_data_stat($data, $data['lap']);
 
 		$this->render('statistik/penduduk', $data);
+	}
+
+	private function tautan_data($lap)
+	{
+		if ($lap > 50)
+		{
+			$program_id = preg_replace('/^50/', '', $lap);
+			$sasaran = $this->db
+				->select('sasaran')
+				->from('program')
+				->where('id', $program_id)
+				->get()->row()->sasaran;
+		}
+
+		switch (true)
+		{
+			case (in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ($lap > 50 && $sasaran == 2)):
+				$tautan = site_url("keluarga/statistik/$lap/");
+				break;
+
+			case ($lap < 50 || ($lap > 50 && $sasaran == 1)):
+				$tautan = site_url("penduduk/statistik/$lap/");
+				break;
+
+			case (in_array($lap, ['bdt']) || $lap < 50 || ($lap > 50 && $sasaran == 3)):
+				$tautan = site_url("rtm/statistik/$lap/");
+				break;
+
+			case ($lap > 50 && $sasaran == 4):
+				$tautan = site_url("kelompok/statistik/$lap/");
+				break;
+
+			default:
+				// code...
+				break;
+		}
+		return $tautan;
 	}
 
 	public function clear($lap = '0', $order_by = '1')
