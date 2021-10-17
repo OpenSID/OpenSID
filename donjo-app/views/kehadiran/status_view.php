@@ -7,14 +7,14 @@ if ($foto == NULL || $foto == '')
 }
 else
 {
-	$foto = base_url("desa/upload/user_pict")."kecil_".$foto;
+	$foto = base_url("desa/upload/user_pict")."/kecil_".$foto;
 }
 ?>
 <div2 class="container2" style="background-color: #f6f6f6;">
-	<div2 class="row2" style="margin-bottom:3px; margin-top:5px;">
+	<div class="row2" style="margin-bottom:3px; margin-top:5px;">
 	<div class="login-box" style='margin:auto;width:400px'>
 
-		<div class="login-box-body">
+		<div class="login-box-body" style='height:490px' >
 		<div class="col-lg-12 col-md-12">
 			<div class="header_top">
 				<div id="jam" style="margin:5px 0 5px 0; background:#2196f3;border:3px double #ffffff;padding:3px;width:auto;" align="center;"> </div>
@@ -80,7 +80,8 @@ endif;
 ?>
 		</div>
 		</div>
+		<div style='clear:both'></div>
 	</div>
-	</div2>
+	</div>
 </div2>
 <?php $this->load->view('kehadiran/js/status_js'); ?>

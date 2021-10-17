@@ -108,23 +108,24 @@ class Masuk extends Web_Controller
 		$penduduk = $this->infoPenduduk($nik);
 		$pamong   = $this->infoPamong($nik);
 
-		if (!isset($penduduk->nama)&&!isset($pamong->nama))
+		
+		if (!isset($penduduk['result']->nama)&&!isset($pamong['result']->nama))
 		{
 			$add_sess = [
 				'error_msg' => "Silahkan memeriksa kembali Inputan Anda. Karena tidak terdaftar dalam Sistem",
 			];
 			$this->session->set_userdata($add_sess); 
-			 
+			//pre_print_r($penduduk);pre_print_r($pamong);die("?");
 			redirect($_SERVER['HTTP_REFERER'],1);
 			exit;
 		}
 		
-		if (isset($penduduk->nama)){
-			$login = $penduduk;
+		if (isset($penduduk['result']->nama)){
+			$login = $penduduk['result'];
 		}
 		
-		if (isset($pamong->nama)){
-			$login = $pamong;
+		if (isset($pamong['result']->nama)){
+			$login = $pamong['result'];
 		}
 		
 		if ($login->pamong_status!=1)
@@ -169,8 +170,9 @@ class Masuk extends Web_Controller
 			->where("p.nik",$nik)
 			->or_where("p.tag_id_card",$nik)
 			->get();
-		return $penduduk->row();
+		return ['nik'=>$nik, 'result'=>$penduduk->row()];
 	}
+	
 	private function infoPamong($nik)
 	{
 		$pamong = $this->db
@@ -179,7 +181,9 @@ class Masuk extends Web_Controller
 			->where("pamong_nik",$nik)
 			->or_where("tag_id_card",$nik)
 			->get();
-		return $pamong->row();
+		//pamong.pamong_nip
+		//'query'=>$this->db->last_query()
+		return ['nik'=>$nik, 'result'=>$pamong->row()];
 	}
 	
 	public function cekv0()

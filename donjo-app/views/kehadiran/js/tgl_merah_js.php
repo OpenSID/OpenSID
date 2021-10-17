@@ -65,7 +65,7 @@ function hari_edit(tgl)
 
 
 $(function() {
-	$("#validasi").hide();
+	//$("#validasi").hide();
 	
 	tableDT = $('#tblTgl').DataTable(
 	{

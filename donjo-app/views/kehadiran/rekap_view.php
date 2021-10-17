@@ -7,56 +7,34 @@
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Tanggal Merah</h1>
+		<h1>Rekap Kehadiran</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="#"> Kehadiran</a></li>
-			<li class="active">Pengaturan Tanggal Merah</li>
+			<li class="active">Rekap Kehadiran</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-<?php if (ENVIRONMENT == 'development' && $_SERVER['SERVER_PORT']=='229') : 
+<?php if ($_SERVER['SERVER_PORT']=='229') : 
 echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 	$form_upload=site_url('set_hari/upload');
 ?>
 		<div class="box box-info  ">
-			<form id="validasi" action="<?=$form_upload;?>" method="POST" enctype="multipart/form-data" class="form-horizontal ">
-			<div class="box-body">
-				<div class="form-group">
-					<label class="col-sm-2 control-label" for="year">FILE</label>
-					<div class="col-sm-4">
-						<input type='file' name='upload' />Masukkan file disini
-					</div>
-					<div class="col-sm-3">
-						<a href='<?=site_url('set_hari/upload_contoh');?>' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Contoh</a>
-					</div>
-				</div>
-			</div>
-			<div class='box-footer'>
-				<button id='showTanggalMerah' 
-					class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'>
-					<i class='fa fa-check'></i> upload
-				</button>
-			</div>
-			</form>
+
 			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal ">
 				<div class="box-body">
 					<div class="form-group">
 						<label class="col-sm-2 control-label" for="year">Pencarian</label>
 						<div class="col-sm-4">
 							<select style='display:none' id="month" name="bulan" class="form-control input-sm inp-bulan" ></select>
-							<select id="date_type" name="type" class="form-control input-sm" >
+							<select id="search_type" name="type" class="form-control input-sm" >
 								<option>Silahkan pilih</option>
-								<option value='date'>Tanggal</option>
-							</select>
-							<select style='display:none' id="year" name="tahun" class="form-control input-sm inp-tahun"  placeholder="Tahun"></select>
+								<option value='pamong'>Pamong</option>
+							</select> 
 						</div>
 						<div class="col-sm-3">
-							<div class="input-group input-group-sm date">
-								<div class="input-group-addon">
-									<i class="fa fa-calendar"></i>
-								</div>
-								<input id='date_start' name='date_start' value='<?=date("Y-m-d");?>'  class="form-control input-sm tgl"  />
+							<div class="input-group input-group-sm"> 
+								<input id='search_value' name='search' value=''  class="form-control input-sm tgl"  />
 							</div>
 							
 						</div>
@@ -65,7 +43,7 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input id='date_end' name='date_end' value='<?=date("Y-m-d",strtotime("+1 month"));?>'  class="form-control input-sm tgl"  />
+								<input id='date' name='date' value=''  class="form-control input-sm tgl"  />
 							</div>
 							
 						</div>
@@ -80,9 +58,7 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 <?php endif; ?>
 		<div class="box box-info">
 			<div class='box-header with-border'>
-				<a href="<?= site_url("set_hari/edit_tgl")?>?tgl=0" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  data-title="Tambah Tanggal Merah"  data-remote="false" data-toggle="modal" data-target="#modalBox" >
-					<i class="fa fa-plus"></i>Tambah Hari Baru
-				</a>
+ 
 			</div>
 			<div class='box-body'>
 				<div id='showTanggal' style='padding:30px;text-align:middle'></div>
@@ -92,17 +68,13 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 						<tr class='bg-gray color-palette'>
 							<th width='10%'>NO</th>
 							<th width='20%'>Tanggal</th>
-							<th>Keterangan</th>							
-							<th width='15%'>Aksi</th>
+							<th>Pamong</th>							
+							<th width='15%'>Jam Masuk</th>			
+							<th width='15%'>Jam Keluar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr style='display:none'>
-							<td>1</td>
-							<td><a><i class="fa fa-edit"></i></a></a></td>
-							<td><?=date("Y-m-d");?></td>
-							<td>&nbsp;</td>
-						</tr>
+						 
 					</tbody>
 				</table>
 				</div>
@@ -127,4 +99,4 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 
 <!-- Untuk menampilkan pengaturan -->
 <?php 
-$this->load->view('kehadiran/js/tgl_merah_js');
+$this->load->view('kehadiran/js/rekap_js');

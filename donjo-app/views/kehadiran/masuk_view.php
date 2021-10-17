@@ -94,8 +94,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php else: ?>
 	<style>
 		.login-box-body{ 
-			margin-left: 50px !important;
-			float: left !important; 
+			margin: auto;width:380px;
+			/*float: left !important; */
 		}
 		.numpad{
 			min-height:100px;
@@ -126,7 +126,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<style>
 .kehadiran-page{
 	width: 100%;
-	background: url(<?=base_url("assets/css/images/latar_login.jpg");?>) no-repeat center fixed;
+	background: url(<?=base_url("assets/css/images/latar_login.jpg");?>) no-repeat center fixed  ;
+	background-size:cover;
 }
 /* The switch - the box around the slider */
 .switch {

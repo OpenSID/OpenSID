@@ -40,7 +40,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Set_hari extends Admin_Controller {
+class Kehadiran_rekap extends Admin_Controller {
 
 	public function __construct()
 	{
@@ -48,61 +48,14 @@ class Set_hari extends Admin_Controller {
 		$this->load->helper('form');
 		$this->load->model('hari_model');
 		$this->modul_ini 	 = 320;
-		$this->sub_modul_ini = 321;
+		$this->sub_modul_ini = 322;
 	}
 	
 	public function index()
 	{
 		$data = [];
-		if (!$this->input->get('reload') )
-		{
-			$this->sabtu_minggu();
-			redirect('/set_hari'. "?reload=1");
-			exit;
-		}
 		
-		$this->render('kehadiran/hari_view', $data);
-	}
-	
-	public function edit_tgl()
-	{
-		$tgl		= $this->input->get('tgl'); 
-		$paramsEdit	= [
-			'tanggal' => $tgl, 
-			'first'   => 1
-		];
-		$hari		= $this->hari_model->_get($paramsEdit);
-		if (!$hari&&$tgl != 0)
-		{
-			$param	= ['tgl_merah'=>$tgl, 'status'=>0];
-			$this->hari_model->insert_ignore($param);
-			$hari	= $this->hari_model->_get($paramsEdit);
-		}
-		
-		$data=[
-			'hari' => $hari
-		];
-		$this->load->view('kehadiran/hari_edit_view',$data);
-	}
-
-	public function sabtu_minggu()
-	{
-		$tahun0 = strtotime(date("Y")."-01-01");
-		$tahun1 = strtotime("+2 year");
-		$hari   = 3600*24;
-		for ($i=$tahun0; $i<=$tahun1; $i+=$hari)
-		{
-			if (date('N',$i) == 6 || date('N', $i) == 7)
-			{
-				$param = [
-					'tgl_merah' => date("Y-m-d",$i), 
-					'status'    => 1
-				];
-				$this->hari_model->insert_ignore($param);
-			}
-			
-		}
-		
+		$this->render('kehadiran/rekap_view', $data);
 	}
 	
 }

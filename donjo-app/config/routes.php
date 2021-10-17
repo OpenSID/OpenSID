@@ -132,6 +132,12 @@ $route['layanan-mandiri/pesan-keluar'] = 'layanan_mandiri/pesan/index/1'; // Pes
 $route['layanan-mandiri/pesan/tulis'] = 'layanan_mandiri/pesan/tulis'; // Tulis Pesan
 $route['layanan-mandiri/pesan/balas'] = 'layanan_mandiri/pesan/tulis'; // Balas Pesan
 $route['layanan-mandiri/pesan/kirim'] = 'layanan_mandiri/pesan/kirim'; // Kirim Pesan
+
+//laporan kehadiran 
+$route['layanan-mandiri/kehadiran'] = 'kehadiran/layanan_mandiri/index'; // Halaman Lapor
+$route['layanan-mandiri/kehadiran/lapor'] = 'kehadiran/layanan_mandiri/aparat_lapor';
+
+
 $route['layanan-mandiri/pesan/baca/(:num)/(:num)'] = 'layanan_mandiri/pesan/baca/$1/$2'; // Baca Pesan
 // Mandiri Surat
 $route['layanan-mandiri/arsip-surat'] = 'layanan_mandiri/surat/index/2'; // Arsip Surat
@@ -146,6 +152,10 @@ $route['set_hari'] = 'kehadiran/set_hari';
 $route['set_hari/api'] = 'kehadiran/api_set_hari';
 $route['set_hari/edit_tgl'] = 'kehadiran/set_hari/edit_tgl';
 $route['set_hari/update_tgl'] = 'kehadiran/set_hari/update_tgl';
+
+// Kehadiran Rekap 
+$route['kehadiran_rekap'] = 'kehadiran/kehadiran_rekap';
+$route['kehadiran_rekap/api'] = 'kehadiran/api_rekap';
 // Login Kehadiran Pamong
 $route['kehadiran/masuk'] = 'kehadiran/masuk'; // Tampilan Masuk
 $route['kehadiran/cek'] = 'kehadiran/masuk/cek';  
@@ -154,3 +164,5 @@ $route['kehadiran/warning'] = 'kehadiran/masuk/warning';
 $route['kehadiran/depan'] = 'kehadiran/masuk/depan'; // Tampilan Masuk
 $route['kehadiran/keluar'] = 'kehadiran/masuk/keluar';
 $route['kehadiran/pengurus'] = 'kehadiran/masuk/pengurus';
+$file_kehadiran= __DIR__."/routes/kehadiran.php";
+if(is_file($file_kehadiran)) include_once($file_kehadiran);
