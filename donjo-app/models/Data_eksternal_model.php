@@ -78,7 +78,7 @@ class Data_eksternal_model extends CI_Model {
 
 		$this->data_publik->set_api_url("$url", "sdgs_desa_$kode_desa")
 			->set_interval(7)
-			->set_cache_folder(FCPATH.'cache');
+			->set_cache_folder($this->config->item('cache_path'));
 
 		$response = $this->data_publik->get_url_content($no_cache = false, $secure = false);
 		

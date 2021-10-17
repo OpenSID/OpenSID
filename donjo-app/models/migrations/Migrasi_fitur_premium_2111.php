@@ -55,6 +55,7 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021101871($hasil);
 		$hasil = $hasil && $this->migrasi_2021101872($hasil);
 		$hasil = $hasil && $this->migrasi_2021102071($hasil);
+    $hasil = $hasil && $this->migrasi_2021102271($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -197,4 +198,14 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 	{
 		return $hasil && $this->db->where('link', 'wilayah')->update('menu', ['link' => 'data-wilayah']);
 	}
+
+	protected function migrasi_2021102271($hasil)
+  {
+		if (is_dir(FCPATH . 'cache'))
+		{
+			$hasil = $hasil && rename(FCPATH . 'cache', DESAPATH . 'cache');
+		}
+
+		return $hasil;
+  }
 }
