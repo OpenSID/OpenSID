@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. Sekarang pilihan 'Bawa bukti fisik ke Kantor Desa' untuk syarat dokumen di layanan surat anjungan kembali tersedia.
 8. [#4456](https://github.com/OpenSID/OpenSID/issues/4456) Perbaiki menampilkan penerima bantuan dari statistik program bantuan.
 9. [#4461](https://github.com/OpenSID/OpenSID/issues/4461) Izinkan data penduduk sama di modul buku tanah di desa.
+10. [#4467](https://github.com/OpenSID/OpenSID/issues/4467) Pindahkan pemanggilan required di js agar menyesuaikan dgn tipe potongan.
 
 #### Perubahan Teknis
 1. [untuk diisi]
