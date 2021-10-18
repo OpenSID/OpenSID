@@ -819,6 +819,38 @@ class Wilayah_model extends MY_Model {
 			->where('id', $id)
 			->update('tweb_wil_clusterdesa');
 	}
-}
 
-?>
+	public function daftar_wilayah_dusun()
+	{
+		// Daftar Dusun
+		$dusun = [];
+		if ($daftar_dusun = $this->list_data()) {
+			foreach ($daftar_dusun as $data_dusun) {
+				$rw = [];
+        if ($daftar_rw = $this->list_data_rw($data_dusun['id'])) {
+					foreach ($daftar_rw as $data_rw) {
+						// Daftar RW
+						$rt = [];
+						if ($daftar_rt = $this->list_data_rt($data_rw['dusun'], $data_rw['rw'])) {
+							foreach ($daftar_rt as $data_rt) {
+								// Daftar RT
+								$rt[] = $data_rt;
+							}
+						}
+						
+						$data_rw['daftar_rt'] = $rt;
+						array_merge($data_rw, $data_rw['daftar_rt']);
+						$rw[] = $data_rw;
+					}
+        }
+
+				$data_dusun['daftar_rw'] = $rw;
+				array_merge($data_dusun, $data_dusun['daftar_rw']);
+				$dusun[] = $data_dusun;
+			}
+		}
+
+		return $dusun;
+  }
+
+}

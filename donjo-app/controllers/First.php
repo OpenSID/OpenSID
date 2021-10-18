@@ -375,9 +375,9 @@ class First extends Web_Controller {
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['heading'] = "Populasi Per Wilayah";
 		$data['tipe'] = 3;
+		$data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
 		$this->_get_common_data($data);

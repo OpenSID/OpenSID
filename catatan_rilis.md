@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 3. [#4446](https://github.com/OpenSID/OpenSID/issues/4446) Perbaiki surat keterangan nikah sesuai dg KEPDIRJEN BIMAS ISLAM NO. 473 TAHUN 2020.
 4. [#4322](https://github.com/OpenSID/OpenSID/issues/4322) Sediakan notifikasi telegram ke pengguna admin / operator.
 5. [#4376](https://github.com/OpenSID/OpenSID/issues/4376) Pencarian dan kategori produk pada web lapak.
+6. [#3844](https://github.com/OpenSID/OpenSID/issues/3844) Perjelas keterangan data kependudukan wilayah pada halaman website desa.
 
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
@@ -23,7 +24,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 9. [#4461](https://github.com/OpenSID/OpenSID/issues/4461) Izinkan data penduduk sama di modul buku tanah di desa.
 10. [#4467](https://github.com/OpenSID/OpenSID/issues/4467) Pindahkan pemanggilan required di js agar menyesuaikan dgn tipe potongan.
 11. [#4462](https://github.com/OpenSID/OpenSID/issues/4462) Perbaiki urut permohonan surat.
-
 #### Perubahan Teknis
 1. Pindahkan tampilan lapak ke masing-masing tema.
 2. Pindahkan Info System ke controller tersendiri.
