@@ -18,6 +18,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. [#4456](https://github.com/OpenSID/OpenSID/issues/4456) Perbaiki menampilkan penerima bantuan dari statistik program bantuan.
 9. [#4461](https://github.com/OpenSID/OpenSID/issues/4461) Izinkan data penduduk sama di modul buku tanah di desa.
 10. [#4467](https://github.com/OpenSID/OpenSID/issues/4467) Pindahkan pemanggilan required di js agar menyesuaikan dgn tipe potongan.
+11. [#4462](https://github.com/OpenSID/OpenSID/issues/4462) Perbaiki urut permohonan surat.
 
 #### Perubahan Teknis
 1. [untuk diisi]
