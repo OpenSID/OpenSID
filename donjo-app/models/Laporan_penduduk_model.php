@@ -429,10 +429,10 @@ class Laporan_penduduk_model extends MY_Model {
 				// Covid
 				$this->db
 					->select('u.*, COUNT(k.id) as jumlah')
-					->select('COUNT(CASE WHEN k.status_covid = u.nama AND p.sex = 1 THEN k.id_terdata END) AS laki')
-					->select('COUNT(CASE WHEN k.status_covid = u.nama AND p.sex = 2 THEN k.id_terdata END) AS perempuan')
+					->select('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 1 THEN k.id_terdata END) AS laki')
+					->select('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 2 THEN k.id_terdata END) AS perempuan')
 					->from('ref_status_covid u')
-					->join('covid19_pemudik k', 'k.status_covid = u.nama', 'left')
+					->join('covid19_pemudik k', 'k.status_covid = u.id', 'left')
 					->join('tweb_penduduk p', 'p.id=k.id_terdata', 'left')
 					->group_by('u.id');
 				break;
