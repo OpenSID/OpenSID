@@ -718,33 +718,28 @@ class Migrasi_fitur_premium_2105 extends MY_model {
 	// Kosongkan url modul yg mempunyai sub modul
 	private function bersihkan_modul($hasil)
 	{
-		// Semua modul utama yg mempunyai url
-		$this->db
-			->select('id, modul')
-			->from('setting_modul')
-			->where('parent', 0)
-			->where('url <>', '');
-		$modul = $this->db->get_compiled_select();
-
-		// Semua modul utama yg mempunyai sub
+		// Modul utama yg mempunyai sub
 		$ada_sub = $this->db
 			->distinct()
-			->select('m.id, m.modul')
-			->from('('.$modul.') as m')
-			->join('setting_modul sub', 'sub.parent = m.id and sub.hidden <> 2')
+			->select('m.id')
+			->from('setting_modul as m')
+			->join('setting_modul sub', 'sub.parent = m.id and sub.hidden <> 2' )
+			->where('m.parent', 0)
+			->where('m.url <>', '')
 			->where('sub.id is not null')
 			->order_by('m.id')
 			->get()
 			->result_array();
-
+	
 		if ($ada_sub)
 		{
+
 			$ada_sub = array_column($ada_sub, 'id');
-			// Kosongkan url semua modul utama yg mempunyai sub
+
 			$hasil = $hasil && $this->db
 				->set('url', '')
 				->where_in('id', $ada_sub)
-				->update('setting_modul');
+				->update('setting_modul');	
 		}
 
 		return $hasil;
