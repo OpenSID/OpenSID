@@ -1808,7 +1808,7 @@ class Database_model extends CI_Model {
 			->get('analisis_master')->result_array();
 		if (count($query) == 0)
 		{
-			$file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
+			$file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
 			$this->analisis_import_model->import_excel($file_analisis,'DDK02',$jenis = 1);
 		}
 		// Impor analisis Data Anggota Keluarga kalau belum ada
@@ -1824,7 +1824,7 @@ class Database_model extends CI_Model {
 			->get('analisis_master')->row();
 		if (empty($dak))
 		{
-			$file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
+			$file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
 			$id_dak = $this->analisis_import_model->import_excel($file_analisis,'DAK02', $jenis = 1);
 		} else $id_dak = $dak->id;
 		// Tambah kolom is_teks pada analisis_indikator
@@ -3709,6 +3709,7 @@ class Database_model extends CI_Model {
 			"analisis_ref_subjek",
 			"analisis_tipe_indikator",
 			"artikel", //remove everything except widgets 1003
+			"config", //Karena terkait validasi pengguna premium
 			"gis_simbol",
 			"klasifikasi_surat",
 			"keuangan_manual_ref_rek1",
@@ -3778,9 +3779,9 @@ class Database_model extends CI_Model {
 		}
 		$this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
 		// Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
-		$file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xls';
+		$file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
 		$this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', $jenis = 1);
-		$file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
+		$file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
 		$this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
 
 		$this->session->success = 1;
