@@ -128,20 +128,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</select>
 									</div>
 								</div>
-								<div class="col-sm-6" id="tampil-persen" <?= jecho($main->tipe_potongan == 1, FALSE, 'style="display:none;"'); ?>>
+								<div class="col-sm-6" id="tampil-persen" <?= jecho($main->tipe_potongan, 2, 'style="display:none;"'); ?>>
 									<div class="form-group">
 										<div class="input-group">
-											<input type="number" class="form-control input-sm number required" id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= ($main->tipe_potongan == 1) ? $main->potongan : 0; ?>"/>
+											<input type="number" class="form-control input-sm number" id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= ($main->tipe_potongan == 1) ? $main->potongan : 0; ?>"/>
 											<span class="input-group-addon input-sm">%</span>
 										</div>
 									</div>
 								</div>
 
-								<div class="col-sm-6" id="tampil-nominal" <?= jecho($main->tipe_potongan == 2, FALSE, 'style="display:none;"'); ?>>
+								<div class="col-sm-6" id="tampil-nominal" <?= jecho($main->tipe_potongan, 1, 'style="display:none;"'); ?>>
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon input-sm ">Rp.</span>
-											<input type="number" class="form-control input-sm number required" id="nominal" name="nominal" onkeyup="cek_nominal();" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="100" value="<?= ($main->tipe_potongan == 2) ? $main->potongan : 0; ?>"/>
+											<input type="number" class="form-control input-sm number" id="nominal" name="nominal" onkeyup="cek_nominal();" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="100" value="<?= ($main->tipe_potongan == 2) ? $main->potongan : 0; ?>"/>
 										</div>
 									</div>
 								</div>
@@ -201,15 +201,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</section>
 </div>
 <script type="text/javascript">
+	/**
+	 * Tipe Potongan
+	 * 1 = Persen
+	 * 2 = Nominal
+	 */
 	$( document ).ready(function() {
 		$('#tipe_potongan').on('change', function() {
 			if (this.value == 2) {
 				$('#tampil-persen').hide();
 				$('#tampil-nominal').show();
+				$('#nominal').addClass('required');
+				$('#persen').removeClass('required');
 				cek_nominal();
 			} else {
 				$('#tampil-nominal').hide();
 				$('#tampil-persen').show();
+				$('#persen').addClass('required');
+				$('#nominal').removeClass('required');
 				cek_persen();
 			}
 		});
