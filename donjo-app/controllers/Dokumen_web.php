@@ -65,19 +65,19 @@ class Dokumen_web extends Web_Controller
 	{
 		$this->load->model('url_shortener_model');
 
-		$seed = time();
-		$id_encoded = $this->url_shortener_model->encode_id($id_dokumen, $seed);
-		$id_decoded = $this->url_shortener_model->decode_id($id_encoded, $seed);
+		$id_encoded = $this->url_shortener_model->encode_id($id_dokumen);
 
-		redirect('c2/'. $id_decoded);
+		redirect('c2/'. $id_encoded);
 	}
 
-	public function check_surat2($id_decoded)
+	public function check_surat2($id_encoded)
 	{
-		$this->load->model(['config_model', 'keluar_model']);
+		$this->load->model(['keluar_model', 'url_shortener_model']);
+
+		$id_decoded = $this->url_shortener_model->decode_id($id_encoded);
 
 		$data['config'] = $this->config_model->get_data();
-		$data['surat'] = $this->keluar_model->verifikasi_data_surat($id_decoded, $data['config']['kode_desa']);
+		$data['surat'] = $this->keluar_model->verifikasi_data_surat($id_decoded, $this->header['kode_desa']);
 
 		if (! $data['surat']) show_404();
 		

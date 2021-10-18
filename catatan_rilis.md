@@ -24,6 +24,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 9. [#4461](https://github.com/OpenSID/OpenSID/issues/4461) Izinkan data penduduk sama di modul buku tanah di desa.
 10. [#4467](https://github.com/OpenSID/OpenSID/issues/4467) Pindahkan pemanggilan required di js agar menyesuaikan dgn tipe potongan.
 11. [#4462](https://github.com/OpenSID/OpenSID/issues/4462) Perbaiki urut permohonan surat.
+12. [#4471](https://github.com/OpenSID/OpenSID/issues/4471) Perbaiki buka halaman verifikasi surat.
+
 #### Perubahan Teknis
 1. Pindahkan tampilan lapak ke masing-masing tema.
 2. Pindahkan Info System ke controller tersendiri.
