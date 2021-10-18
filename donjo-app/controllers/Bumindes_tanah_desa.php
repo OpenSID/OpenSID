@@ -118,13 +118,12 @@ class Bumindes_tanah_desa extends Admin_Controller {
 		{
 			$data = [
 				'main' => NULL,
-				'main_content' => "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa",
 				'form_action' => site_url("bumindes_tanah_desa/add_tanah_desa"),
 			];
 		}
 		
 		$data['main_content'] = "bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa";
-		$data['penduduk'] = $this->tanah_desa_model->list_penduduk($id);
+		$data['penduduk'] = $this->tanah_desa_model->list_penduduk();
 		$data['subtitle'] = 'Buku Tanah di Desa';
 		$data['selected_nav'] = 'tanah';
 		$data['view_mark'] =  0;
