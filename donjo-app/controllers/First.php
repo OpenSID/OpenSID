@@ -153,8 +153,6 @@ class First extends Web_Controller {
 		$this->_get_common_data($data);
 		$this->track_model->track_desa('first');
 		$this->load->view($this->template, $data);
-
-		// $this->json_output($data['covid']);
 	}
 
 	/*
@@ -748,6 +746,8 @@ class First extends Web_Controller {
 			}
 			$this->session->google_form_id = $this->input->get('formId');
 			$result = $this->analisis_import_model->import_gform($redirect_link);
+
+			echo json_encode($result);
 		}
 		else
 		{
