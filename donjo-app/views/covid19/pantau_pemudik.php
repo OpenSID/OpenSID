@@ -24,7 +24,7 @@
 								<select class="form-control select2" id="terdata" name="terdata">
 									<option value="">-- Silakan Masukan NIK / Nama--</option>
 									<?php foreach ($pemudik_array as $item): ?>
-									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['status_covid']?>" data-tgltiba="<?= $item['tanggal_datang']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
+									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['covid_id']?>" data-tgltiba="<?= $item['tanggal_datang']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
