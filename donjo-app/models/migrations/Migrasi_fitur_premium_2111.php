@@ -50,7 +50,8 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021100171($hasil);
 		$hasil = $hasil && $this->migrasi_2021101051($hasil);
-    $hasil = $hasil && $this->migrasi_2021101351($hasil);
+		$hasil = $hasil && $this->migrasi_2021101572($hasil);
+		$hasil = $hasil && $this->migrasi_2021101351($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -100,4 +101,8 @@ class Migrasi_fitur_premium_2111 extends MY_Model
     return $hasil;
   }
 
+	protected function migrasi_2021101572($hasil)
+	{
+		return $hasil && $this->ubah_modul(46, ['url'  => 'info_sistem']);
+	}
 }

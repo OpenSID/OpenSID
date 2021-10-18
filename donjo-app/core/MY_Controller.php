@@ -236,7 +236,7 @@ class Premium extends MY_Controller
 	 * Sehingga akan error saat login di awal, namun setelah di refresh akan kembali normal
 	 */
 	protected $kecuali = [
-		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif', 'user_setting', 'main',
+		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
 	];
 
 	/**
