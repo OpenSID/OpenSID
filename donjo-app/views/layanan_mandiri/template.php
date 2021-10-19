@@ -129,7 +129,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
 							<li>
-								<a href="<?= site_url('layanan-mandiri/permohonan-surat'); ?>" title="Pesan Masuk">
+								<a href="<?= site_url('layanan-mandiri/permohonan-surat'); ?>" title="Permohonan Surat">
 								<i class="fa fa-file-word-o"></i>
 									<span class="label label-danger" id="b_surat" title="Surat perlu perhatian" style="display: none;"></span>
 								</a>

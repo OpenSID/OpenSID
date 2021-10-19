@@ -19,7 +19,7 @@
 			Jika ada keperluan yang mendesak silakan langsung datang ke Kantor <?= ucwords($this->setting->sebutan_desa)?>.<br>
 			Alamat : <?= $main['alamat_kantor'] ?><br>
 			Email : <?= $main['email_desa'] ?><br>
-			Telepon : <?= $main['Telepon'] ?>
+			Telepon : <?= $main['telepon'] ?>
 		</p>
 		<p>
 			<?= ucwords($pamong_kades['jabatan']).' '.$main['nama_desa'] ?>

@@ -48,7 +48,7 @@ class Inventaris_peralatan extends Admin_Controller {
 
 		$this->load->model('inventaris_peralatan_model');
 		$this->load->model('referensi_model');
-		$this->load->model('surat_model');
+		$this->load->model('pamong_model');
 		$this->modul_ini = 15;
 		$this->sub_modul_ini = 61;
 		$this->tab_ini = 2;
@@ -66,7 +66,7 @@ class Inventaris_peralatan extends Admin_Controller {
 	{
 		$data['main'] = $this->inventaris_peralatan_model->list_inventaris();
 		$data['total'] = $this->inventaris_peralatan_model->sum_inventaris();
-		$data['pamong'] = $this->surat_model->list_pamong();
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['tip'] = 1;
 		$this->set_minsidebar(1);
 		$this->render('inventaris/peralatan/table', $data);
@@ -141,7 +141,7 @@ class Inventaris_peralatan extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_peralatan_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_peralatan_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_peralatan_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/peralatan/inventaris_print', $data);
 	}
 
@@ -150,7 +150,7 @@ class Inventaris_peralatan extends Admin_Controller {
 		$data['header'] = $this->header['desa'];
 		$data['total'] = $this->inventaris_peralatan_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_peralatan_model->cetak($tahun);
-		$data['pamong'] = $this->inventaris_peralatan_model->pamong($penandatangan);
+		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/peralatan/inventaris_excel', $data);
 	}
 }

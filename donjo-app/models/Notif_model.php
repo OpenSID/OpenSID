@@ -42,7 +42,7 @@ class Notif_model extends CI_Model {
 
 	public function permohonan_surat_baru()
 	{
-		$num_rows = $this->db->where('status', 0)
+		$num_rows = $this->db->where('status', 1)
 			->get('permohonan_surat')->num_rows();
 		return $num_rows;
 	}
@@ -59,7 +59,8 @@ class Notif_model extends CI_Model {
 	 * Tipe 1: Inbox untuk admin, Outbox untuk pengguna layanan mandiri
 	 * Tipe 2: Outbox untuk admin, Inbox untuk pengguna layanan mandiri
 	 */
-	public function inbox_baru($tipe=1, $nik='')
+	// TODO : Gunakan id penduduk
+	public function inbox_baru($tipe=1, $nik = '')
 	{
 		if ($nik) $this->db->where('email', $nik);
 
@@ -68,18 +69,19 @@ class Notif_model extends CI_Model {
 			->where('status', 2)
 			->where('tipe', $tipe)
 			->where('is_archived', 0)
-			->get('komentar')->num_rows();
+			->get('komentar')
+			->num_rows();
 		return $num_rows;
 	}
 
-	public function surat_perlu_perhatian($nik='')
+	// Notifikasi pada layanan mandiri, ditampilkan jika ada surat belum lengkap (0) atau surat siap diambil (3)
+	public function surat_perlu_perhatian($id = '')
 	{
 		$num_rows = $this->db
-			->from('permohonan_surat s')
-			->join('tweb_penduduk p', 's.id_pemohon = p.id')
-			->where("p.nik", $nik)
-			->where('s.status in (1, 3)')
-			->get()->num_rows();
+			->where('id_pemohon', $id)
+			->where_in('status', [0, 3])
+			->get('permohonan_surat')
+			->num_rows();
 		return $num_rows;
 	}
 

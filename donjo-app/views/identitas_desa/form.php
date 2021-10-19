@@ -116,15 +116,20 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama_kepala_desa"><?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></label>
+								<label class="col-sm-3 control-label" for="pamong_id"><?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<input id="nama_kepala_desa" name="nama_kepala_desa" class="form-control input-sm nama required" maxlength="50" type="text" placeholder="Kepala <?= $desa; ?>" value="<?= $main["nama_kepala_desa"]?>"></input>
+									<select class="form-control input-sm required" id="kades" name="pamong_id">
+										<option value="">--- Pilih <?= $this->setting->sebutan_kepala_desa; ?>  <?= ucwords($this->setting->sebutan_desa)?> ---</option>
+										<?php foreach ($pamong AS $data): ?>
+											<option value="<?= $data['pamong_id']; ?>" data-nip="<?= $data['pamong_nip']; ?>" <?= selected($data['pamong_id'], $main['pamong_id']); ?> ><?= $data['nama'].' ('.$data['jabatan'].')'; ?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP <?= $this->setting->sebutan_kepala_desa; ?> <?=$desa; ?></label>
+								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP <?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<input id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP Kepala <?= $desa; ?>" value="<?= $main["nip_kepala_desa"]; ?>"></input>
+									<input readonly id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP Kepala <?= $desa; ?>" value="<?= $main["nip_kepala_desa"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">

@@ -93,6 +93,8 @@ class Sid_Core extends Admin_Controller {
 	{
 		$data['aksi'] = $aksi;
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("sid_core/daftar/$aksi");
 		$this->load->view('global/ttd_pamong', $data);
 	}
@@ -104,7 +106,7 @@ class Sid_Core extends Admin_Controller {
 	{
 		$data['pamong_ttd'] = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
-		$data['desa'] = $this->_header;
+		$data['desa'] = $this->header;
 		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['total'] = $this->wilayah_model->total();
 

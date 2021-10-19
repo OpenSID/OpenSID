@@ -306,6 +306,9 @@
 		return true;
 	}
 
+	/*
+	 * Tambah KK dengan mengisi form penduduk kepala keluarga baru pindah datang
+	 */
 	public function insert_new()
 	{
 		unset($_SESSION['validation_error']);
@@ -410,9 +413,6 @@
 		$log['id_cluster'] = 1;
 		$log['tanggal'] = date("Y-m-d H:i:s");
 		$outp = $this->db->insert('log_perubahan_penduduk', $log);
-
-		// Untuk statistik perkembangan keluarga
-		$this->log_keluarga($kk_id, $data2['nik_kepala'], 1);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -779,7 +779,7 @@
 
 		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
 		unset($data['maksud_tujuan_kedatangan']);
-		
+
 		if (!$this->validasi_data_keluarga($data)) return;
 		unset($data['alamat']);
 

@@ -6,6 +6,19 @@
 	.btn-margin {
 		margin-right: 5px;
 	}
+	#qr-reader {
+	    width: 450px;
+	}
+	@media(max-width: 600px) {
+		#qr-reader {
+			width: 300px;
+		}
+	}
+	.empty {
+	    display: block;
+	    width: 100%;
+	    height: 20px;
+	}
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -66,7 +79,7 @@
 									</select>
 								</div>
 								<div class="form-group col-md-6">
-									<label for="foreqr">Warna :</label>
+									<label for="foreqr">Warna Depan :</label>
 									<div class="input-group my-colorpicker2">
 										<div class="input-group-addon input-sm">
 											<i></i>
@@ -87,6 +100,23 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title">Scan QR Code</h3>
+						<button class="btn btn-primary btn-sm" style="float: right;" onClick="window.location.reload();">Scan Baru</button>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<center>
+								<div id="qr-reader"></div>
+								<div class="empty"></div>
+								<div id="qr-reader-results"></div>
+							</center>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="box box-info">
+					<div class="box-header with-border">
+						<h3 class="box-title">Pengaturan File</h3>
 					</div>
 					<div class="box-body">
 						<div class="form-group">
@@ -123,8 +153,11 @@
 		</div>
 	</div>
 </div>
-
 <script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
+<script src="<?= base_url('assets/js/html5-qrcode-scanner.js'); ?>"></script>
+<script src="<?= base_url('assets/js/html5-qrcode.js'); ?>"></script>
+<script src="<?= base_url('assets/js/qrcode.js'); ?>"></script>
+<script src="<?= base_url('assets/js/qrcode-scanner.js'); ?>"></script>
 <script>
 	$('document').ready(function() {
 		$('#changeqr').change();

@@ -73,16 +73,26 @@ class Surat extends Mandiri_Controller
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 
-	public function buat_surat($id_permohonan = '')
+	public function buat($id = '')
 	{
+		$id_pend = $this->is_login->id_pend;
+
+		// Cek hanya status = 0 (belum lengkap) yg boleh di ubah
+		if ($id)
+		{
+			$permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
+
+			if (! $permohonan) redirect('layanan-mandiri/surat/buat');
+		}
+
 		$data = [
 			'desa' => $this->header,
 			'cek_anjungan' => $this->cek_anjungan,
 			'menu_surat_mandiri' => $this->surat_model->list_surat_mandiri(),
 			'menu_dokumen_mandiri' => $this->lapor_model->get_surat_ref_all(),
-			'permohonan' => $this->permohonan_surat_model->get_permohonan($id_permohonan),
-			'list_dokumen' => $this->penduduk_model->list_dokumen($this->is_login->id_pend),
+			'list_dokumen' => $this->penduduk_model->list_dokumen($id_pend),
 			'kk' => ($this->is_login->kk_level === '1') ? $this->keluarga_model->list_anggota($this->is_login->id_kk) : '', // Ambil data anggota KK, jika Kepala Keluarga
+			'permohonan' => $permohonan,
 			'konten' => 'buat_surat'
 		];
 
@@ -238,8 +248,10 @@ class Surat extends Mandiri_Controller
 		}
 		elseif ($this->is_login->id_pend != $data['id_pend'])
 		{
-			$data['success'] = -1;
-			$data['message'] = 'Anda tidak mempunyai hak akses itu';
+			$data = [
+				'success' => -1,
+				'message' => 'Anda tidak mempunyai hak akses itu'
+			];
 		}
 		else
 		{
@@ -252,65 +264,80 @@ class Surat extends Mandiri_Controller
 	}
 
 	// Proses permohonan surat
-	public function form($id_permohonan = '')
+	public function form($id = '')
 	{
-		$data = $this->input->post();
-		$data_permohonan = array('data_permohonan' => array(
-			'keterangan' => $data['keterangan'],
-			'no_hp_aktif' => $data['no_hp_aktif'],
-			'syarat' => $data['syarat']));
-		$this->session->set_userdata($data_permohonan);
+		$id_pend = $this->is_login->id_pend;
 
-		if ($id_permohonan)
+		// Simpan data dari buat surat
+		$post = $this->input->post();
+		$post = ($post) ? $post : $this->session->data_permohonan;
+		$this->session->data_permohonan = $post;
+
+		// Cek hanya status = 0 (belum lengkap) yg boleh di ubah
+		if ($id)
 		{
-			$data['permohonan'] = $this->permohonan_surat_model->get_permohonan($id_permohonan);
-			$data['isian_form'] = json_encode($this->permohonan_surat_model->ambil_isi_form($data['permohonan']['isian_form']));
-			$data['id_surat'] = $data['permohonan']['id_surat'];
+			$permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
+
+			if (! $permohonan OR ! $post) redirect('layanan-mandiri/surat/buat');
+
+			$data['permohonan'] = $permohonan;
+			$data['isian_form'] = json_encode($this->permohonan_surat_model->ambil_isi_form($permohonan['isian_form']));
+			$data['id_surat'] = $permohonan['id_surat'];
+		}
+		else
+		{
+			if (! $post) redirect('layanan-mandiri/surat/buat');
+
+			$data['permohonan'] = NULL;
+			$data['isian_form'] = NULL;
+			$data['id_surat'] = $post['id_surat'];
 		}
 
-		$surat = $this->db->where('id', $data['id_surat'])
-			->get('tweb_surat_format')
-			->row_array();
-		$data['url'] = $surat['url_surat'];
-		$url = $data['url'];
+		$surat = $this->surat_model->cek_surat_mandiri($data['id_surat']);
+		$url = $surat['url_surat'];
 
-		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($this->is_login->id_pend);
-		$data['individu'] = $this->surat_model->get_penduduk($this->is_login->id_pend);
+		$data['url'] = $url;
+		$data['list_dokumen'] = $this->penduduk_model->list_dokumen($id_pend);
+		$data['individu'] = $this->surat_model->get_penduduk($id_pend);
 		$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
-		$data['penduduk'] = $this->penduduk_model->get_penduduk($this->is_login->id_pend);
+		$data['penduduk'] = $this->penduduk_model->get_penduduk($id_pend);
 		$this->get_data_untuk_form($url, $data);
 		$data['desa'] = $this->header;
-
 		$data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], "/clear");
 		$data['form_action'] = site_url("surat/cetak/$url");
 		$data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
-		$data['data'] = $data;
 		$data['cek_anjungan'] = $this->cek_anjungan;
-
 		$data['mandiri'] = 1; // Untuk tombol cetak/kirim surat
 		$data['konten'] = 'permohonan_surat';
+
 		$this->load->view('layanan_mandiri/template', $data);
 	}
 
-	public function kirim($id_permohonan = '')
+	public function kirim($id = '')
 	{
+		$data_permohonan = $this->session->data_permohonan;
 		$post = $this->input->post();
-		$data = array();
-		$data['id_pemohon'] = $post['nik'];
-		$data['id_surat'] = $post['id_surat'];
-		$data['isian_form'] = json_encode($post);
-		$data_permohonan = $this->session->userdata('data_permohonan');
-		$data['keterangan'] = $data_permohonan['keterangan'];
-		$data['no_hp_aktif'] = $data_permohonan['no_hp_aktif'];
-		$data['syarat'] = json_encode($data_permohonan['syarat']);
+		$data = [
+			'id_pemohon' => $post['nik'],
+			'id_surat' => $post['id_surat'],
+			'isian_form' => json_encode($post),
+			'status' => 1, // Selalu 1 bagi penggun layanan mandiri
+			'keterangan' => $data_permohonan['keterangan'],
+			'no_hp_aktif' => $data_permohonan['no_hp_aktif'],
+			'syarat' => json_encode($data_permohonan['syarat']),
+		];
 
-		if ($id_permohonan)
+		if ($id)
 		{
-			$data['status'] = 0; // kembalikan ke status 'sedang diperiksa'
-			$this->permohonan_surat_model->update($id_permohonan, $data);
+			$data['updated_at'] = date('Y-m-d H:i:s');
+			$this->permohonan_surat_model->update($id, $data);
 		}
 		else
+		{
 			$this->permohonan_surat_model->insert($data);
+		}
+
+		$this->session->unset_userdata('data_permohonan');
 
 		redirect('layanan-mandiri/permohonan-surat');
 	}
@@ -333,9 +360,9 @@ class Surat extends Mandiri_Controller
 			include($data_form);
 	}
 
-	public function batalkan($id)
+	public function proses($id = '')
 	{
-		$this->permohonan_surat_model->update_status($id, array('status' => 9));
+		$this->permohonan_surat_model->proses($id, 5, $this->is_login->id_pend);
 
 		redirect('layanan-mandiri/permohonan-surat');
 	}

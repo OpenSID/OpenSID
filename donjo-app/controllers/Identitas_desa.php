@@ -1,4 +1,7 @@
 <?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  * File ini:
  *
@@ -42,15 +45,12 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Identitas_desa extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'wilayah_model', 'provinsi_model']);
-
+		$this->load->model(['config_model', 'wilayah_model', 'pamong_model']);
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 17;
 	}
@@ -71,9 +71,9 @@ class Identitas_desa extends Admin_Controller {
 		$data['desa'] = ucwords($this->setting->sebutan_desa);
 		$data['kecamatan'] = ucwords($this->setting->sebutan_kecamatan);
 		$data['kabupaten'] = ucwords($this->setting->sebutan_kabupaten);
-		$data['list_provinsi'] = $this->provinsi_model->list_data();
+		$data['pamong'] = $this->pamong_model->list_data();
+		$this->session->kades_lama = $data['main']['pamong_id'];
 
-		// Buat row data desa di form apabila belum ada data desa
 		if ($data['main'])
 			$data['form_action'] = site_url('identitas_desa/update/' . $data['main']['id']);
 		else

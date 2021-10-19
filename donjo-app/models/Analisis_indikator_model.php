@@ -128,7 +128,7 @@
 	{
 		$data = array();
 		$data['id_tipe'] = $post['id_tipe'] ?: null;
-		$data['nomor'] = bilangan($post['nomor']);
+		$data['nomor'] = nomor_surat_keputusan($post['nomor']);
 		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
 		$data['id_kategori'] = $post['id_kategori'] ?: null;
 		$data['bobot'] = bilangan($post['bobot']);

@@ -175,6 +175,7 @@ class Penomoran_surat_model extends CI_Model {
         "[kode_surat]" => $data['surat']['kode_surat'],
         "[tahun]" => $thn,
 			  "[bulan_romawi]" => bulan_romawi((int)date("m")),
+				"[kode_desa]" => $data['config']['kode_desa'],
 		);
 		$setting = str_replace(array_keys($array_replace), array_values($array_replace), $setting);
 		return $setting;

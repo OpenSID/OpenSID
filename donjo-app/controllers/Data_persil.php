@@ -53,7 +53,7 @@ class Data_persil extends Admin_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model(['config_model', 'data_persil_model', 'cdesa_model', 'penduduk_model', 'pamong_model']);
+		$this->load->model(['config_model', 'data_persil_model', 'cdesa_model', 'penduduk_model', 'pamong_model', 'wilayah_model']);
 		$this->controller = 'data_persil';
 		$this->modul_ini = 7;
 		$this->set_page = ['20', '50', '100'];
@@ -155,7 +155,7 @@ class Data_persil extends Admin_Controller {
 		if ($id) $data["persil"] = $this->data_persil_model->get_persil($id);
 		if ($id_cdesa) $data["id_cdesa"] = $id_cdesa;
 		$data['list_cdesa'] = $this->cdesa_model->list_c_desa();
-		$data["persil_lokasi"] = $this->data_persil_model->list_dusunrwrt();
+		$data["persil_lokasi"] = $this->wilayah_model->list_semua_wilayah();
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 		$this->render('data_persil/form_persil', $data);
 	}

@@ -787,7 +787,7 @@ function periksa_file($upload, $mime_types, $exts)
 	return '';
 }
 
-function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $foreqr)
+function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
 {
 	$barcodeobj = new TCPDF2DBarcode($isiqr, 'QRCODE,H');
 
@@ -796,45 +796,48 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $backqr, $f
 		if ($foreqr[0] == '#' ) {
 			$foreqr = substr( $foreqr, 1 );
 		}
-
 		$split = str_split($foreqr, 2);
 		$r = hexdec($split[0]);
 		$g = hexdec($split[1]);
 		$b = hexdec($split[2]);
 	}
 
+	//Hasilkan QRCode
 	$imgData = $barcodeobj->getBarcodePngData($sizeqr, $sizeqr, array($r,$g,$b));
 	$filename = FCPATH . $pathqr . $namaqr . '.png';
 	file_put_contents($filename, $imgData);
 
-	//ambil logo
+	//Ubah backround transparan ke warna putih supaya terbaca qrcode scanner
+	$src_qr = imagecreatefrompng($filename);
+	$sizeqrx = imagesx($src_qr);
+	$sizeqry = imagesy($src_qr);
+	$backcol = imagecreatetruecolor($sizeqrx, $sizeqry);
+	$newwidth = $sizeqrx;
+	$newheight = ($sizeqry/$sizeqrx)*$newwidth;
+	$color = imagecolorallocatealpha($backcol, 255, 255, 255, 1);
+	imagefill($backcol, 0, 0, $color);
+	imagecopyresampled($backcol,$src_qr,0,0,0,0,$newwidth,$newheight,$sizeqrx,$sizeqry);
+	imagepng($backcol,$filename);
+	imagedestroy($src_qr );
+	imagedestroy($backcol);
+
+	//Tambah Logo
 	$logopath = $logoqr; // Logo yg tampil di tengah QRCode
-
-	// ambil file qrcode
 	$QR = imagecreatefrompng($filename);
-
-	// memulai menggambar logo dalam file qrcode
-	// ambil file di server menggunakan absolute path, tidak menggunakan url
 	$logo = imagecreatefromstring(file_get_contents($logopath));
-
 	imagecolortransparent($logo, imagecolorallocatealpha($logo , 0, 0, 0, 127));
 	imagealphablending($logo, false);
 	imagesavealpha($logo, true);
-
 	$QR_width = imagesx($QR);
 	$QR_height = imagesy($QR);
-
 	$logo_width = imagesx($logo);
 	$logo_height = imagesy($logo);
-
-	// Scale logo to fit in the QR Code
 	$logo_qr_width = $QR_width/4;
 	$scale = $logo_width/$logo_qr_width;
 	$logo_qr_height = $logo_height/$scale;
-
 	imagecopyresampled($QR, $logo, $QR_width/2.5, $QR_height/2.5, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
-
-	// Simpan kode QR lagi, dengan logo di atasnya
 	imagepng($QR, $filename);
+	imagedestroy($QR);
 }
+
 ?>

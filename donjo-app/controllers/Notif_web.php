@@ -40,7 +40,7 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Notif_web extends Web_Controller {
+class Notif_web extends Mandiri_Controller {
 
 	public function __construct()
 	{
@@ -50,7 +50,7 @@ class Notif_web extends Web_Controller {
 
 	public function inbox()
 	{
-		$j = $this->notif_model->inbox_baru($tipe=2, $_SESSION['nik']);
+		$j = $this->notif_model->inbox_baru($tipe=2, $this->is_login->nik);
 		if ($j > 0)
 		{
 			echo $j;
@@ -59,7 +59,7 @@ class Notif_web extends Web_Controller {
 
 	public function surat_perlu_perhatian()
 	{
-		$j = $this->notif_model->surat_perlu_perhatian($_SESSION['nik']);
+		$j = $this->notif_model->surat_perlu_perhatian($this->is_login->id_pend);
 		if ($j > 0)
 		{
 			echo $j;

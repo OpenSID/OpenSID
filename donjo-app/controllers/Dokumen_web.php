@@ -47,6 +47,9 @@ class Dokumen_web extends Web_Controller
 		parent::__construct();
 		$this->load->model('web_dokumen_model');
 		$this->load->helper('download');
+		$this->load->model('surat_model');
+		$this->load->model('url_shortener_model');
+		$this->load->model('stat_shortener_model');
 	}
 
   /**
@@ -60,6 +63,24 @@ class Dokumen_web extends Web_Controller
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
 		if ($berkas)
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
+		else
+			$this->output->set_status_header('404');
+	}
+
+	public function check_surat1($id_dokumen)
+	{
+		$seed = time();
+		$id_encoded = $this->url_shortener_model->encode_id($id_dokumen, $seed);
+		$id_decoded = $this->url_shortener_model->decode_id($id_encoded, $seed);
+
+		redirect('c2/'. $id_decoded);
+	}
+
+	public function check_surat2($id_decoded)
+	{
+		$berkas = $this->surat_model->get_surat_check($id_decoded);
+		if ($berkas)
+			$this->load->view('../../' . LOKASI_ARSIP . $berkas);
 		else
 			$this->output->set_status_header('404');
 	}

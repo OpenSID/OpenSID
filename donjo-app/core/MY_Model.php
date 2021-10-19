@@ -107,6 +107,21 @@ class MY_Model extends CI_Model {
 
 	public function tambah_indeks($tabel, $kolom, $index = "UNIQUE")
 	{
+		if ($index == "UNIQUE")
+		{
+			$duplikat = $this->db
+				->select($kolom)
+				->from($tabel)
+				->group_by($kolom)
+				->having("COUNT($kolom) > 1")
+				->get()->num_rows();
+			if ($duplikat > 0)
+			{
+				$this->session->error_msg = "Data $kolom ada yg duplikat";
+				return false;
+			}
+		}
+
 		$db = $this->db->database;
 		$ada = $this->db
 			->select("COUNT(index_name) as ada")

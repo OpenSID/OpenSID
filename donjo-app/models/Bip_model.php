@@ -5,7 +5,10 @@ class Bip_model extends CI_Model {
 	public function __construct($data)
 	{
 		parent::__construct();
-		ini_set('memory_limit', '512M');
+		// Sediakan memory paling sedikit 512M
+		preg_match('/^(\d+)(M)$/', ini_get('memory_limit'), $matches);
+		$memory_limit = $matches[1] ?: 0;
+		if ($memory_limit < 512) ini_set('memory_limit', '512M');
 		set_time_limit(3600);
 		$this->load->library('Spreadsheet_Excel_Reader');
 		$this->format_bip = $this->cari_format_bip($data);

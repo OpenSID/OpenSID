@@ -70,3 +70,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</table>
 	</div>
 </div>
+
+<?php if ($this->session->flashdata('notif')): ?>
+	<div class='modal fade' id='notif-box' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+		<div class='modal-dialog'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+						<h4 class='modal-title' id='myModalLabel'> Informasi</h4>
+				</div>
+				<div class='modal-body'>
+					<?php $data = $this->session->flashdata('notif'); ?>
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped table-hover tabel-rincian">
+							<tbody>
+								<tr>
+									<td width="30%">Data Peserta Gagal</td>
+									<td width="1">:</td>
+									<td><?= $data['gagal']; ?></td>
+								</tr>
+								<tr>
+									<td>Data Peserta Sukses</td>
+									<td> : </td>
+									<td><?= $data['sukses']; ?></td>
+								</tr>
+								<?php if ($data['pesan']): ?>
+									<tr>
+										<td>Informasi Tambahan </td>
+										<td> : </td>
+										<td><?= $data['pesan']; ?></td>
+									</tr>
+								<?php endif; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(window).on('load', function() {
+			$('#notif-box').modal('show');
+		});
+	</script>
+<?php endif; ?>

@@ -45,6 +45,8 @@ class Mandiri_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('anjungan_model');
+		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 	}
 
 	public function autocomplete()
@@ -298,7 +300,6 @@ class Mandiri_model extends CI_Model {
 	}
 
 	#Login Layanan Mandiri
-
 	public function siteman()
 	{
 		$masuk = $this->input->post();
@@ -306,30 +307,81 @@ class Mandiri_model extends CI_Model {
 		$pin = hash_pin(bilangan($masuk['pin']));
 
 		$data = $this->db
-			->select('pm.*, p.nama, p.nik, p.foto, p.kk_level, p.id_kk, k.no_kk')
-			->from('tweb_penduduk_mandiri pm')
-			->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
-			->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
-			->where('p.nik', $nik)
-			->get()
-			->row();
+						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
+						->from('tweb_penduduk_mandiri pm')
+						->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+						->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+						->where('p.nik',$nik)
+						->get()
+						->row();
 
 		switch (true)
 		{
 			case ($data && $pin == $data->pin):
 				$session = [
 					'mandiri' => 1,
-					'is_login' => $data
+					'is_login' => $data,
+					'login_ektp' => FALSE
 				];
 				$this->session->set_userdata($session);
 				break;
 
 			case ($this->session->mandiri_try > 2):
 				$this->session->mandiri_try = $this->session->mandiri_try - 1;
+				$this->session->login_ektp = FALSE;
 				break;
 
 			default:
 				$this->session->mandiri_wait = 1;
+				$this->session->login_ektp = FALSE;
+				break;
+		}
+	}
+
+	#Login Layanan Mandiri E-KTP
+	public function siteman_ektp()
+	{
+		$masuk = $this->input->post();
+		$pin = hash_pin(bilangan($masuk['pin']));
+		$tag = bilangan(bilangan($masuk['tag']));
+
+		$data = $this->db
+						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
+						->from('tweb_penduduk_mandiri pm')
+						->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+						->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+						->where('p.tag_id_card', $tag)
+						->get()
+						->row();
+
+		switch (true)
+		{
+			case ($data && $this->cek_anjungan && $tag == $data->tag_id_card):
+				$session = [
+					'mandiri' => 1,
+					'is_login' => $data,
+					'login_ektp' => TRUE
+				];
+				$this->session->set_userdata($session);
+				break;
+
+			case ($data && ! $this->cek_anjungan && $tag == $data->tag_id_card && $pin == $data->pin):
+				$session = [
+					'mandiri' => 1,
+					'is_login' => $data,
+					'login_ektp' => TRUE
+				];
+				$this->session->set_userdata($session);
+				break;
+
+			case ($this->session->mandiri_try > 2):
+				$this->session->mandiri_try = $this->session->mandiri_try - 1;
+				$this->session->login_ektp = TRUE;
+				break;
+
+			default:
+				$this->session->mandiri_wait = 1;
+				$this->session->login_ektp = TRUE;
 				break;
 		}
 	}
@@ -343,7 +395,8 @@ class Mandiri_model extends CI_Model {
 
 		if (isset($data['id_pend'])) $this->update_login($data);
 
-		$this->session->unset_userdata(['mandiri', 'is_login']);
+		$this->session->unset_userdata(['mandiri', 'is_login', 'data_permohonan']);
+		$this->session->login_ektp = FALSE;
 	}
 
 	public function update_login(array $data = [])

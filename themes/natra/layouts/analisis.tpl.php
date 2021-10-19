@@ -65,11 +65,10 @@
 								<?php endif; ?>
 							</div>
 						</div>
+						<div class="col-lg-3 col-md-3">
+							<?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
+						</div>
 					</div>
-					<div class="col-lg-3 col-md-3">
-						<?php $this->load->view("$folder_themes/partials/bottom_content_right.php"); ?>
-					</div>
-				</div>
 			</section>
 		</div>
 	</div>

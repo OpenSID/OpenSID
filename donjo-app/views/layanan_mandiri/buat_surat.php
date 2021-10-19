@@ -96,9 +96,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="table table-bordered table-hover table-data" id="syarat_surat">
 					<thead>
 						<tr>
-							<th><center>No</center></th>
-							<th><center>Syarat</center></th>
-							<th><center>Dokumen Melengkapi Syarat</center></th>
+							<th class="padat">No</center></th>
+							<th>Syarat</th>
+							<th class="padat">Dokumen Melengkapi Syarat</th>
 						</tr>
 					</thead>
 				</table>
@@ -122,10 +122,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<table class="table table-bordered table-hover table-data" id="dokumen">
 				<thead>
 					<tr>
-						<th>No</th>
-						<th>Aksi</th>
+						<th class="padat">No</th>
+						<th class="aksi">Aksi</th>
 						<th>Judul Dokumen</th>
-						<th>Jenis Dokumen</th>
+						<th class="padat">Jenis Dokumen</th>
 						<th width="20%" nowrap>Tanggal Upload</th>
 					</tr>
 				</thead>
@@ -187,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 							</span>
 						</div>
-						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen.</code></span>
+						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
 					</div>
 					</hr>
 					<?php if ( ! empty($kk)): ?>

@@ -48,14 +48,14 @@ class Suplemen extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['suplemen_model', 'pamong_model']);
+		$this->load->model(['suplemen_model', 'pamong_model', 'penduduk_model', 'keluarga_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 25;
 		$this->_list_session = ['cari', 'sasaran'];
 		$this->_set_page = ['20', '50', '100'];
 	}
 
-	public function index($p = 1)
+	public function index($page_number = 1, $order_by = 0)
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
@@ -65,12 +65,15 @@ class Suplemen extends Admin_Controller {
 		if (isset($sasaran))
 			$this->session->sasaran = $sasaran;
 
-		$data['func'] = 'index';
-		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->suplemen_model->paging_suplemen($p);
-		$data['suplemen'] = $this->suplemen_model->list_data($data['paging']->offset, $data['paging']->per_page);
-		$data['list_sasaran'] = unserialize(SASARAN);
-		$data['set_sasaran'] = $this->session->sasaran;
+		$data = [
+			'func' => 'index',
+			'set_page' => $this->_set_page,
+			'paging' => $this->suplemen_model->paging_suplemen($page_number),
+			'list_sasaran' => unserialize(SASARAN),
+			'set_sasaran' => $this->session->sasaran,
+		];
+
+		$data['suplemen'] = $this->suplemen_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);
 
 		$this->render('suplemen/suplemen', $data);
 	}
@@ -237,6 +240,8 @@ class Suplemen extends Admin_Controller {
 	{
 		$data['aksi'] = $aksi;
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("suplemen/daftar/$id/$aksi");
 
 		$this->load->view('global/ttd_pamong', $data);
@@ -267,6 +272,18 @@ class Suplemen extends Admin_Controller {
 
 			$this->load->view('global/format_cetak', $data);
 		}
+	}
+
+	public function impor()
+	{
+		$suplemen_id = $this->input->post('id_suplemen');
+		$this->suplemen_model->impor();
+		redirect("suplemen/rincian/$suplemen_id");
+	}
+
+	public function ekspor($id = 0)
+	{
+		$this->suplemen_model->ekspor($id);
 	}
 
 }

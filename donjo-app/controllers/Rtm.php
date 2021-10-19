@@ -51,8 +51,7 @@ class Rtm extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model']);
-
+		$this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']);
 		$this->_set_page = ['50', '100', '200'];
 		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
 		$this->modul_ini = 2;
@@ -275,7 +274,7 @@ class Rtm extends Admin_Controller {
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$kk = $this->rtm_model->get_kepala_rtm($id);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 
 		if ($kk)
 			$data['kepala_kk'] = $kk;
@@ -295,7 +294,7 @@ class Rtm extends Admin_Controller {
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 	}
 

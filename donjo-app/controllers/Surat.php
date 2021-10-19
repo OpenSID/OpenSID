@@ -1,14 +1,18 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Layanan Surat
  *
  * donjo-app/controllers/Surat.php
  *
  */
+
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,7 +49,6 @@ class Surat extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->model('penduduk_model');
 		$this->load->model('keluarga_model');
 		$this->load->model('surat_model');
@@ -77,6 +80,7 @@ class Surat extends Admin_Controller {
 		unset($_SESSION['post']);
 		unset($_SESSION['id_pemberi_kuasa']);
 		unset($_SESSION['id_penerima_kuasa']);
+		unset($_SESSION['qrcode']);
 
 		$this->render('surat/format_surat', $data);
 	}
@@ -115,7 +119,7 @@ class Surat extends Admin_Controller {
 	public function periksa_doc($id, $url)
 	{
 		// Ganti status menjadi 'Menunggu Tandatangan'
-		$this->permohonan_surat_model->update_status($id, array('status' => 2));
+		$this->permohonan_surat_model->proses($id, 2);
 		$this->cetak_doc($url);
 	}
 
@@ -172,11 +176,14 @@ class Surat extends Admin_Controller {
 
 		$log_surat['keterangan'] = $keterangan ? $keterangan : $keperluan;
 		$nama_surat = $this->keluar_model->nama_surat_arsip($url, $nik, $_POST['nomor']);
-		$lampiran = '';
-		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 		$log_surat['nama_surat'] = $nama_surat;
-		$log_surat['lampiran'] = $lampiran;
+		if ($format['lampiran'])
+		{
+			$lampiran = pathinfo($nama_surat, PATHINFO_FILENAME)."_lampiran.pdf";
+			$log_surat['lampiran'] = $lampiran;
+		}
 		$this->keluar_model->log_surat($log_surat);
+		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 
 		if ($this->input->post('submit_cetak') == 'cetak_pdf')
 			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".pdf";
@@ -191,11 +198,11 @@ class Surat extends Admin_Controller {
 			$berkas_zip[] = LOKASI_ARSIP.$lampiran;
 			# Masukkan semua berkas ke dalam zip
 			$berkas_zip = masukkan_zip($berkas_zip);
-	    # Unduh berkas zip
-	    header('Content-disposition: attachment; filename='.$nama_file);
-	    header('Content-type: application/zip');
+			# Unduh berkas zip
+			header('Content-disposition: attachment; filename='.$nama_file);
+			header('Content-type: application/zip');
 			header($this->security->get_csrf_token_name().':'.$this->security->get_csrf_hash());
-	    readfile($berkas_zip);
+			readfile($berkas_zip);
 		}
 		else
 		{
@@ -207,7 +214,7 @@ class Surat extends Admin_Controller {
 	public function nomor_surat_duplikat()
 	{
 		$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('log_surat', $_POST['nomor'], $_POST['url']);
-   	echo $hasil ? 'false' : 'true';
+		echo $hasil ? 'false' : 'true';
 	}
 
 	public function search()
@@ -221,9 +228,11 @@ class Surat extends Admin_Controller {
 
 	private function get_data_untuk_form($url, &$data)
 	{
+		$this->session->unset_userdata('qrcode');
 		$this->load->model('pamong_model');
 		$data['surat_terakhir'] = $this->surat_model->get_last_nosurat_log($url);
 		$data['surat'] = $this->surat_model->get_surat($url);
+		$data['config'] = $this->config_model->get_data();
 		$data['input'] = $this->input->post();
 		$data['input']['nomor'] = $data['surat_terakhir']['no_surat_berikutnya'];
 		$data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
@@ -233,7 +242,6 @@ class Surat extends Admin_Controller {
 		$pamong_ttd = $this->pamong_model->get_ttd();
 		$pamong_ub = $this->pamong_model->get_ub();
 		$data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
-		$tampil_foto = $this->input->post('tampil_foto');
 		if ($pamong_ttd)
 		{
 			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);
