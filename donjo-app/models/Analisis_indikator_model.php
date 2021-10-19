@@ -134,6 +134,7 @@
 		$data['bobot'] = bilangan($post['bobot']);
 		$data['act_analisis'] = $post['act_analisis'];
 		$data['is_publik'] = $post['is_publik'];
+		$data['referensi'] = $post['referensi'];
 		if ($data['id_tipe'] != 1)
 			{
 				$data['act_analisis'] = 2;
@@ -151,6 +152,23 @@
 
 		$data['id_master'] = $this->session->analisis_master;
 		$outp = $this->db->insert('analisis_indikator', $data);
+		$id = $this->db->insert_id();
+
+		// Tambahkan Isi dari pertanyaan berdasarkan referensi
+		if ($id && $data['id_tipe'] == 1)
+		{
+			$data_referensi = $this->data_tabel($this->session->subjek_tipe)[$data['referensi']];
+			if ($data_referensi['referensi'])
+			{
+				foreach ($data_referensi['referensi'] as $value)
+				{
+					$insert['kode_jawaban'] = bilangan($value['id']);
+					$insert['jawaban'] = htmlentities($value['nama']);
+					$insert['nilai'] = 1;
+					$this->p_insert($id, $insert);
+				}
+			}
+		}
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -218,21 +236,21 @@
 		return $data;
 	}
 
-	public function p_insert($in='')
+	public function p_insert($in='', $data_referensi = null)
 	{
 		// Analisis sistem tidak boleh diubah
 		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
 
-		$data = $this->validasi_parameter($this->input->post());
+		$data = $data_referensi ?? $this->validasi_parameter($this->input->post());
 		$data['id_indikator'] = $in;
 		$outp = $this->db->insert('analisis_parameter', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function p_update($id=0)
+	public function p_update($id = 0, $data_referensi = null)
 	{
-		$data = $this->validasi_parameter($this->input->post());
+		$data = $data_referensi ?? $this->validasi_parameter($this->input->post());
 		// Analisis sistem hanya kolom tertentu boleh diubah
 		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)){
 			unset($data['kode_jawaban']);
@@ -362,5 +380,51 @@
 		];
 		return $result;
 	}
+
+	public function data_tabel($sasaran)
+	{
+		$this->load->model('referensi_model');
+
+		switch ($sasaran)
+		{
+			// Penduduk
+			case 1:
+				$data = [
+					'' => [
+						'judul' => 'id_cluster',
+					],
+					'' => [
+						'judul' => '',
+						'referensi' => '',
+					],
+					'' => [
+						'judul' => '',
+						'referensi' => '',
+					],
+				];
+				break;
+			
+			// Keluarga
+			default:
+				$data = [
+					'no_kk' => [
+						'judul' => 'No KK',
+					],
+					'nik_kepala' => [
+						'judul' => 'NIK Kepala KK',
+					],
+					'kelas_sosial' => [
+						'judul' => 'Kelas Sosial',
+						'tipe' => 1,
+						'referensi' => $this->referensi_model->list_data('tweb_keluarga_sejahtera'),
+					],
+					'alamat' => [
+						'judul' => 'Alamat KK (Alamat, Wilayah (Dusun/RW/T))',
+					],
+				];
+				break;
+		}
+
+		return $data;
+	}
 }
-?>

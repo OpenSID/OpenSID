@@ -45,11 +45,11 @@
 						<?php if (isset($_SESSION['fullscreen'])): ?>
 							<a id="toggle-btn" href="<?= current_url()?>/2" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-search-minus"></i>Normal
-            	</a>
+							</a>
 						<?php else: ?>
 							<a id="toggle-expand-btn" href="<?= current_url()?>/1" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-search-plus"></i>Full Screen
-            	</a>
+							</a>
 						<?php endif; ?>
 							<a href="<?= site_url()?>analisis_respon" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
 						</div>
@@ -138,7 +138,7 @@
 																		<select class="form-control input-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
 																			<option value="">Pilih Jawaban</option>
 																			<?php foreach ($data['parameter_respon'] AS $data2): ?>
-																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']?>" <?php if ($data2['cek']): ?>selected<?php endif ?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
+																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']; ?>" <?= selected(($subjek[$data['referensi']] == $data2['kode_jawaban']) || ($data2['cek'] == 1), true); ?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
 																			<?php endforeach;?>
 																		</select>
 																	</td>
@@ -162,12 +162,7 @@
 																	<tr>
 																		<td></td>
 																		<td>
-																			<?php if ($data['parameter_respon']): ?>
-																				<?php $data2=$data['parameter_respon'];?>
-																				<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="<?= $data2['jawaban']?>" type="text">
-																			<?php else: ?>
-																				<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="" type="text">
-																			<?php endif; ?>
+																			<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="<?= $data['parameter_respon']['jawaban']; ?>" type="number" min=0>
 																		</td>
 																	</tr>
 																</div>
@@ -176,12 +171,7 @@
 																	<tr>
 																		<td></td>
 																		<td>
-																			<?php if ($data['parameter_respon']): ?>
-																				<?php $data2=$data['parameter_respon'];?>
-																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"><?= $data2['jawaban']?></textarea>
-																			<?php else: ?>
-																				<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"></textarea>
-																			<?php endif; ?>
+																			<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"><?= $data['parameter_respon']['jawaban'] ?? $subjek[$data['referensi']]; ?></textarea>
 																		</td>
 																	</tr>
 																</div>
