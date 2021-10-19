@@ -1,4 +1,19 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php
+
+	defined('BASEPATH') OR exit('No direct script access allowed');
+
+	$panel = [
+		'default',
+		'info',
+		'primary',
+		'secondary',
+		'warning',
+		'danger',
+		'success',
+	];
+	
+?>
+
 
 <style type="text/css">
 	#covid_local {
@@ -39,8 +54,8 @@
 					if ($key >= 7) break;
 					if($key >= 3) echo '<br/>'
 				?>
-					<div class="col-lg-3 col-md-3 col-sm-3">
-						<div class="panel panel-danger">
+					<div class="col-lg-3 col-md-3 col-sm-3"">
+						<div class="panel panel-<?= $panel[$key]?>" style="border: 1px solid">
 							<div style="padding:1px" class="panel-heading text-center"><h4><?= $val['nama']; ?></h4></div>
 							<div style="height: 40px;padding:1px" class="panel-body text-center">
 								<h4><?= number_format($val['jumlah']); ?> <small>Orang</small></h4>
