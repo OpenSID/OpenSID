@@ -50,7 +50,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 		// Ubah judul setting ukuran lebar bagan
-		$hasil =& $this->db->where('key', 'ukuran_lebar_bagan')
+		$hasil = $hasil && $this->db->where('key', 'ukuran_lebar_bagan')
 			->set('keterangan', 'Ukuran Lebar Bagan (800 / 1200 / 1400)')
 			->set('kategori', 'conf_bagan')
 			->update('setting_aplikasi');
@@ -81,7 +81,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 			$list_kelompok = $this->db->get('kelompok')->result_array();
 			foreach ($list_kelompok as $kelompok)
 			{
-				$hasil =& $this->db
+				$hasil = $hasil && $this->db
 					->set('jabatan', 1)
 					->where('id_kelompok', $kelompok['id'])
 					->where('id_penduduk', $kelompok['id_ketua'])
@@ -98,7 +98,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 				'default' => NULL
 			]
 		];
-		$hasil =& $this->dbforge->modify_column('kelompok', $field);
+		$hasil = $hasil && $this->dbforge->modify_column('kelompok', $field);
 
 		// Tambah menu IDM
 		$modul = array(
@@ -113,7 +113,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 			'hidden' => '0',
 			'ikon_kecil' => ''
 		);
-		$hasil =& $this->tambah_modul($modul);
+		$hasil = $hasil && $this->tambah_modul($modul);
 
 		// Tambah modul Lembaran Desa
 		$modul = array(
@@ -128,7 +128,7 @@ class Migrasi_fitur_premium_2010 extends MY_model {
 			'hidden' => '0',
 			'ikon_kecil' => ''
 		);
-		$hasil =& $this->tambah_modul($modul);
+		$hasil = $hasil && $this->tambah_modul($modul);
 
 		return $hasil;
 	}
