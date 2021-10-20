@@ -227,8 +227,6 @@ class Analisis_respon extends Admin_Controller {
 			$data['layarpenuh']= 2;
 		}
 
-		// $this->json_output($data);
-
 		$this->render('analisis_respon/form', $data);
 	}
 

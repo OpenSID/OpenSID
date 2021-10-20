@@ -272,13 +272,4 @@ class Analisis_indikator extends Admin_Controller
 
 		redirect("{$this->controller}/parameter/{$in}");
 	}
-
-	public function test()
-	{
-		$data['referensi'] = 'kelas_sosial';
-
-		$data_referensi = $this->analisis_indikator_model->data_tabel($this->session->subjek_tipe)[$data['referensi']];
-
-		$this->json_output($data_referensi['referensi']);
-	}
 }

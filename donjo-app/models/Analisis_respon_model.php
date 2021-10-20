@@ -809,7 +809,7 @@
 		{
 			case 1:
 				$this->db
-					->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt')
+					->select('u.*, u.nik AS nid, c.dusun, c.rw, c.rt')
 					->from('penduduk_hidup u')
 					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
 				break;
@@ -820,8 +820,7 @@
 					->select("CONCAT(COALESCE(u.alamat, ''), ' {$sebutan_dusun} ', c.dusun, ' RT ', c.rt, ' / RW ', c.rw) as alamat")
 					->from('keluarga_aktif u')
 					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
-					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left')
-					->join('tweb_keluarga_sejahtera ks', 'u.kelas_sosial = ks.id', 'left');
+					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
 					
 				break;
 
