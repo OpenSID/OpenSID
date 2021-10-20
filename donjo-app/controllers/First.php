@@ -370,7 +370,7 @@ class First extends Web_Controller {
 
 	public function wilayah()
 	{
-		if (!$this->web_menu_model->menu_aktif('wilayah')) show_404();
+		if (!$this->web_menu_model->menu_aktif('data-wilayah')) show_404();
 
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
