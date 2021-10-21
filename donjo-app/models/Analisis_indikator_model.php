@@ -387,7 +387,13 @@
 
 		switch ($sasaran)
 		{
-			// Catatan : Data berupa tanggal tdk bisa digunakan di analisis
+			/*
+			 * Keterangan Tipe : 
+			 * 1 => Pilihan (Tunggal)
+			 * 2 => Pilihan (Ganda) 
+			 * 3 => Isian Jumlah (Kuantitatif) / Isian berupa angka
+			 * 4 => Isian Teks
+			 */
 		
 			// Penduduk
 			case 1:
@@ -410,9 +416,10 @@
 					'tempatlahir' => [
 						'judul' => 'Tempat Lahir',
 					],
-					// 'tanggallahir' => [
-					// 	'judul' => 'Tanggal Lahir',
-					// ],
+					'tanggallahir' => [
+						'judul' => 'Tanggal Lahir',
+						'tipe' => 5,
+					],
 					'agama_id' => [
 						'judul' => 'Agama',
 						'tipe' => 1,
@@ -461,9 +468,10 @@
 						'tipe' => 1,
 						'referensi' =>  $this->referensi_model->list_data('tweb_golongan_darah'),
 					],
-					// 'id_cluster' => [
-					// 	'judul' => '',
-					// ],
+					// id_cluster => wilayah, agar tdk duplikasi
+					'wilayah' => [
+						'judul' => 'Wilayah (Dusun/RW/T)',
+					],
 					'status' => [
 						'judul' => 'Status Penduduk',
 						'tipe' => 1,
@@ -476,11 +484,12 @@
 						'judul' => 'Alamat Sekarang',
 					],
 					'status_dasar' => [
-						'judul' => '',
+						'judul' => 'Status Dasar',
+						'referensi' => $this->referensi_model->list_data('tweb_status_dasar'),
 					],
-					// 'hamil' => [
-					// 	'judul' => 'Status Kehamilan',
-					// ],
+					'hamil' => [
+						'judul' => 'Status Kehamilan',
+					],
 					'cacat_id' => [
 						'judul' => 'Jenis Cacat',
 						'tipe' => 1,
@@ -503,9 +512,9 @@
 					'akta_perceraian' => [
 						'judul' => 'Akta Perceraian',
 					],
-					// 'tanggalperceraian' => [
-					// 	'judul' => 'Tanggal Perceraian',
-					// ],
+					'tanggalperceraian' => [
+						'judul' => 'Tanggal Perceraian',
+					],
 					'cara_kb_id' => [
 						'judul' => 'Akseptor KB',
 						'tipe' => 1,
@@ -525,34 +534,34 @@
 						'tipe' => 1,
 						'referensi' =>  $this->referensi_model->list_data('tweb_status_ktp'),
 					],
-					// 'status_rekam' => [
-					// 	'judul' => 'Status Rekam',
-					// 	'referensi' =>  $this->referensi_model->list_data('',
-					// ],
-					// 'waktu_lahir' => [
-					// 	'judul' => 'Waktu Lahir',
-					// ],
-					// 'tempat_dilahirkan' => [
-					// 	'judul' => 'Tempat Dilahirkan',
-					// ],
-					// 'jenis_kelahiran' => [
-					// 	'judul' => 'Jenis Kelahiran',
-					// ],
-					// 'kelahiran_anak_ke' => [
-					// 	'judul' => 'Kelahiran Anak Ke-',
-					// 	'tipe' => 3,
-					// ],
-					// 'penolong_kelahiran' => [
-					// 	'judul' => 'Penolong Kelahiran',
-					// ],
-					// 'berat_lahir' => [
-					// 	'judul' => 'Berat lahir',
-					// 	'tipe' => 3,
-					// ],
-					// 'panjang_lahir' => [
-					// 	'judul' => 'Panjang Lahir',
-					// 	'tipe' => 3,
-					// ],
+					'status_rekam' => [
+						'judul' => 'Status Rekam',
+						'referensi' =>  $this->referensi_model->list_status_rekam(),
+					],
+					'waktu_lahir' => [
+						'judul' => 'Waktu Lahir',
+					],
+					'tempat_dilahirkan' => [
+						'judul' => 'Tempat Dilahirkan',
+					],
+					'jenis_kelahiran' => [
+						'judul' => 'Jenis Kelahiran',
+					],
+					'kelahiran_anak_ke' => [
+						'judul' => 'Kelahiran Anak Ke - ',
+						'tipe' => 3,
+					],
+					'penolong_kelahiran' => [
+						'judul' => 'Penolong Kelahiran',
+					],
+					'berat_lahir' => [
+						'judul' => 'Berat lahir',
+						'tipe' => 3,
+					],
+					'panjang_lahir' => [
+						'judul' => 'Panjang Lahir',
+						'tipe' => 3,
+					],
 					'tag_id_card' => [
 						'judul' => 'Tag ID Card',
 					],
@@ -578,9 +587,9 @@
 					'tempat_cetak_ktp' => [
 						'judul' => 'Tempat Cetak KTP',
 					],
-					// 'tanggal_cetak_ktp' => [
-					// 	'judul' => 'Tanggal Cetak KTP',
-					// ],
+					'tanggal_cetak_ktp' => [
+						'judul' => 'Tanggal Cetak KTP',
+					],
 					'suku' => [
 						'judul' => 'Suku/Etnis',
 					],
@@ -605,7 +614,11 @@
 						'referensi' => $this->referensi_model->list_data('tweb_keluarga_sejahtera'),
 					],
 					'alamat' => [
-						'judul' => 'Alamat KK (Alamat, Wilayah (Dusun/RW/T))',
+						'judul' => 'Alamat',
+					],
+					// id_cluster => wilayah, agar tdk duplikasi
+					'wilayah' => [
+						'judul' => 'Wilayah (Dusun/RW/T)',
 					],
 				];
 				break;

@@ -166,11 +166,17 @@
 																		</td>
 																	</tr>
 																</div>
-															<?php elseif ($data['id_tipe']==4): ?>
+															<?php else: ?>
 																<div class="form-group">
 																	<tr>
 																		<td></td>
-																		<td>
+																		<td>																			
+																			<?php
+																				if (preg_match("/tanggal/i", $data['referensi']) || preg_match("/tanggal/i", $data['referensi']))
+																				{
+																					$subjek[$data['referensi']] = tgl_indo_dari_str($subjek[$data['referensi']]);
+																				}
+																			?>
 																			<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"><?= $data['parameter_respon']['jawaban'] ?? $subjek[$data['referensi']]; ?></textarea>
 																		</td>
 																	</tr>

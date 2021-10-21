@@ -810,6 +810,7 @@
 			case 1:
 				$this->db
 					->select('u.*, u.nik AS nid, c.dusun, c.rw, c.rt')
+					->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
 					->from('penduduk_hidup u')
 					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
 				break;
@@ -817,7 +818,7 @@
 			case 2:
 				$this->db
 					->select("u.*, u.no_kk AS nid, p.nik AS nik_kepala, p.nama, p.sex, c.dusun, c.rw, c.rt")
-					->select("CONCAT(COALESCE(u.alamat, ''), ' {$sebutan_dusun} ', c.dusun, ' RT ', c.rt, ' / RW ', c.rw) as alamat")
+					->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
 					->from('keluarga_aktif u')
 					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
 					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
@@ -847,7 +848,7 @@
 
 			case 6:
 				$this->db
-					->select("u.id, u.dusun AS nid, UPPER('{$this->setting->sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
+					->select("u.id, u.dusun AS nid, UPPER('{$sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
 					->from('tweb_wil_clusterdesa u')
 					->where('u.rt', '0')
 					->where('u.rw', '0');
@@ -855,7 +856,7 @@
 
 			case 7:
 				$this->db
-					->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
+					->select("u.id, u.rw AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
 					->from('tweb_wil_clusterdesa u')
 					->where('u.rt', '0')
 					->where('u.rw <>', '0');
@@ -863,7 +864,7 @@
 
 			case 8:
 				$this->db
-					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
+					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
 					->from('tweb_wil_clusterdesa u')
 					->where('u.rt <> 0')
 					->where('u.rt <> "-"');
@@ -874,7 +875,8 @@
 		$data = $this->db
 			->where('u.id', $id)
 			->limit(1)
-			->get()->row_array();
+			->get()
+			->row_array();
 
 		return $data;
 	}
