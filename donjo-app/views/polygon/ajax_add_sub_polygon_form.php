@@ -20,7 +20,7 @@
 								<div class="input-group-addon input-sm">
 									<i></i>
 								</div>
-								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?= $polygon['color']?>">
+								<input type="text" id="color" name="color" class="form-control input-sm color" placeholder="#FFFFFF" value="<?= $polygon['color']?>">
 							</div>
 						</div>
 					</div>

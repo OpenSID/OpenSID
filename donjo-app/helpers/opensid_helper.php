@@ -943,6 +943,15 @@ function alamat_web($str)
 	return preg_replace("/[^a-zA-Z0-9:\/\.\-]/", '', htmlentities($str));
 }
 
+// Format wanrna #803c3c
+if (! function_exists('warna'))
+{
+	function warna($length = 32)
+	{
+		return preg_replace("/[^a-zA-Z0-9\#]/", '', $str);
+	}
+}
+
 function buat_slug($data_slug)
 {
 	$slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
