@@ -20,7 +20,7 @@
 								<div class="input-group-addon input-sm">
 									<i></i>
 								</div>
-								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?= $line['color']?>">
+								<input type="text" id="color" name="color" class="form-control input-sm warna" placeholder="#FFFFFF" value="<?= $line['color']?>">
 							</div>
 						</div>
 					</div>
