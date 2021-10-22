@@ -46,6 +46,7 @@ class Analisis_laporan_model extends CI_Model {
 	{
 		parent::__construct();
 		$this->load->model('analisis_master_model');
+		$this->subjek = $this->session->subjek_tipe;
 	}
 
 	public function autocomplete()
@@ -73,8 +74,7 @@ class Analisis_laporan_model extends CI_Model {
 	{
 		if (empty($cari = $this->session->cari)) return;
 
-		$subjek = $this->session->subjek_tipe;
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
@@ -144,21 +144,21 @@ class Analisis_laporan_model extends CI_Model {
 
 	private function dusun_sql()
 	{
-		if (empty($this->session->dusun) || $this->session->subjek_tipe == 5) return;
+		if (empty($this->session->dusun) || $this->subjek  == 5) return;
 
 		$this->db->where('dusun', $this->session->dusun);
 	}
 
 	private function rw_sql()
 	{
-		if (empty($this->session->rw) || $this->session->subjek_tipe == 5) return;
+		if (empty($this->session->rw) || $this->subjek  == 5) return;
 
 		$this->db->where('rw', $this->session->rw);
 	}
 
 	private function rt_sql()
 	{
-		if (empty($this->session->rt) || $this->session->subjek_tipe == 5) return;
+		if (empty($this->session->rt) || $this->subjek  == 5) return;
 
 		$this->db->where('rt', $this->session->rt);
 	}
@@ -183,10 +183,9 @@ class Analisis_laporan_model extends CI_Model {
 
 	public function get_judul()
 	{
-		$subjek_tipe = $this->session->subjek_tipe;
-		$asubjek = 	$this->referensi_model->list_by_id('analisis_ref_subjek')[$subjek_tipe]['subjek'];
+		$asubjek = 	$this->referensi_model->list_by_id('analisis_ref_subjek')[$this->subjek]['subjek'];
 
-		switch ($subjek_tipe)
+		switch ($this->subjek)
 		{
 			case 1:
 				$data['nama'] = "Nama";
@@ -273,11 +272,10 @@ class Analisis_laporan_model extends CI_Model {
 	public function list_data_query()
 	{
 		$per = $this->analisis_master_model->periode->id;
-		$subjek = $this->session->subjek_tipe;
 		$master = $this->analisis_master_model->analisis_master;
 		$pembagi = $master['pembagi'] + 0;
 
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
@@ -354,8 +352,7 @@ class Analisis_laporan_model extends CI_Model {
 		$per = $this->analisis_master_model->periode->id;
 		$master = $this->analisis_master_model->analisis_master;
 		$pembagi = $master['pembagi'] + 0;
-		$subjek = $this->session->subjek_tipe;
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db->select("u.id, u.nik AS uid, kk.no_kk AS kk, u.nama, kk.alamat, c.dusun, c.rw, c.rt, u.sex");
@@ -503,8 +500,7 @@ class Analisis_laporan_model extends CI_Model {
 
 	public function get_subjek($id=0)
 	{
-		$subjek = $this->session->subjek_tipe;
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
@@ -569,9 +565,11 @@ class Analisis_laporan_model extends CI_Model {
 
 			default: return null;
 		}
+		
 		$data = $this->db
 			->where('u.id', $id)
-			->get()->row_array();
+			->get()
+			->row_array();
 
 		return $data;
 	}

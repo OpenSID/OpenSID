@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -216,7 +219,8 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
 
-		$this->set_minsidebar(1);		if (isset($_SESSION['fullscreen']))
+		$this->set_minsidebar(1);
+		if (isset($_SESSION['fullscreen']))
 			$data['layarpenuh']= 1;
 		else
 		{

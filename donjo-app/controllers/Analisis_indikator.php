@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -40,15 +43,15 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_indikator extends Admin_Controller{
+class Analisis_indikator extends Admin_Controller
+{
 
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('analisis_indikator_model');
-
-		$_SESSION['submenu'] = "Data Indikator";
-		$_SESSION['asubmenu'] = "analisis_indikator";
+		$this->load->model(['analisis_indikator_model', 'analisis_parameter_model']);
+		$this->session->submenu = "Data Indikator";
+		$this->session->asubmenu = "analisis_indikator";
 		$this->modul_ini = 5;
 	}
 
@@ -58,17 +61,19 @@ class Analisis_indikator extends Admin_Controller{
 		unset($_SESSION['filter']);
 		unset($_SESSION['tipe']);
 		unset($_SESSION['kategori']);
-		redirect('analisis_indikator');
+
+		redirect($this->controller);
 	}
 
 	public function leave()
 	{
 		$id = $_SESSION['analisis_master'];
 		unset($_SESSION['analisis_master']);
-		redirect("analisis_master/menu/$id");
+
+		redirect("{$this->controller}/menu/{$id}");
 	}
 
-	public function index($p=1, $o=0)
+	public function index($p = 1, $o = 0)
 	{
 		unset($_SESSION['cari2']);
 		$data['p'] = $p;
@@ -96,11 +101,12 @@ class Analisis_indikator extends Admin_Controller{
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['list_tipe'] = $this->analisis_indikator_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
+
 		$this->set_minsidebar(1);
 		$this->render('analisis_indikator/table', $data);
 	}
 
-	public function form($p=1, $o=0, $id='')
+	public function form($p = 1, $o = 0, $id = '')
 	{
 		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
@@ -109,26 +115,31 @@ class Analisis_indikator extends Admin_Controller{
 		if ($id)
 		{
 			$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
-			$data['form_action'] = site_url("analisis_indikator/update/$p/$o/$id");
+			$data['form_action'] = site_url("{$this->controller}/update/$p/$o/$id");
 		}
 		else
 		{
 			$data['analisis_indikator'] = null;
-			$data['form_action'] = site_url("analisis_indikator/insert");
+			$data['form_action'] = site_url("{$this->controller}/insert");
 		}
 
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
-
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
-		$this->set_minsidebar(1);
+		
 
+		// List field yg bisa dikaitkan
+		$data['data_tabel'] = $this->analisis_indikator_model->data_tabel($this->session->subjek_tipe);
+
+		// $this->json_output($data);
+
+		$this->set_minsidebar(1);
 		$this->render('analisis_indikator/form', $data);
 	}
 
-	public function parameter($id=''){
+	public function parameter($id = '')
+	{
 		$ai = $this->analisis_indikator_model->get_analisis_indikator($id);
-		if ($ai['id_tipe'] == 3 OR $ai['id_tipe'] == 4)
-		redirect('analisis_indikator');
+		if ($ai['id_tipe'] == 3 OR $ai['id_tipe'] == 4) redirect($this->controller);
 
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
@@ -138,22 +149,23 @@ class Analisis_indikator extends Admin_Controller{
 		$this->render('analisis_indikator/parameter/table', $data);
 	}
 
-	public function form_parameter($in='', $id='')
+	public function form_parameter($in='', $id = '')
 	{
 		$this->redirect_hak_akses('u');
 		if ($id)
 		{
 			$data['analisis_parameter'] = $this->analisis_indikator_model->get_analisis_parameter($id);
-			$data['form_action'] = site_url("analisis_indikator/p_update/$in/$id");
+			$data['form_action'] = site_url("{$this->controller}/p_update/{$in}/$id");
 		}
 		else
 		{
 			$data['analisis_parameter'] = null;
-			$data['form_action'] = site_url("analisis_indikator/p_insert/$in");
+			$data['form_action'] = site_url("{$this->controller}/p_insert/{$in}");
 		}
 
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($in);
+
 		$this->load->view('analisis_indikator/parameter/ajax_form', $data);
 	}
 
@@ -163,7 +175,8 @@ class Analisis_indikator extends Admin_Controller{
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
-		redirect('analisis_indikator');
+
+		redirect($this->controller);
 	}
 
 	public function filter()
@@ -172,7 +185,8 @@ class Analisis_indikator extends Admin_Controller{
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
-		redirect('analisis_indikator');
+
+		redirect($this->controller);
 	}
 
 	public function tipe()
@@ -181,7 +195,8 @@ class Analisis_indikator extends Admin_Controller{
 		if ($filter != 0)
 			$_SESSION['tipe'] = $filter;
 		else unset($_SESSION['tipe']);
-		redirect('analisis_indikator');
+
+		redirect($this->controller);
 	}
 
 	public function kategori()
@@ -190,59 +205,71 @@ class Analisis_indikator extends Admin_Controller{
 		if ($filter != 0)
 			$_SESSION['kategori']=$filter;
 		else unset($_SESSION['kategori']);
-		redirect('analisis_indikator');
+
+		redirect($this->controller);
 	}
 
 	public function insert()
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->insert();
-		redirect('analisis_indikator');
+
+		redirect($this->controller);
 	}
 
-	public function update($p=1, $o=0, $id=''){
+	public function update($p = 1, $o = 0, $id = '')
+	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->update($id);
-		redirect("analisis_indikator/index/$p/$o");
+
+		redirect("{$this->controller}/index/$p/$o");
 	}
 
-	public function delete($p=1, $o=0, $id=''){
-		$this->redirect_hak_akses('h', "analisis_indikator/index/$p/$o");
+	public function delete($p = 1, $o = 0, $id = '')
+	{
+		$this->redirect_hak_akses('h', "{$this->controller}/index/$p/$o");
 		$this->analisis_indikator_model->delete($id);
-		redirect("analisis_indikator/index/$p/$o");
+
+		redirect("{$this->controller}/index/$p/$o");
 	}
 
-	public function delete_all($p=1, $o=0){
-		$this->redirect_hak_akses('h', "analisis_indikator/index/$p/$o");
+	public function delete_all($p = 1, $o = 0)
+	{
+		$this->redirect_hak_akses('h', "{$this->controller}/index/$p/$o");
 		$this->analisis_indikator_model->delete_all();
-		redirect("analisis_indikator/index/$p/$o");
+
+		redirect("{$this->controller}/index/$p/$o");
 	}
 
 	public function p_insert($in='')
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->p_insert($in);
-		redirect("analisis_indikator/parameter/$in");
+
+		redirect("{$this->controller}/parameter/{$in}");
 	}
 
-	public function p_update($in='', $id='')
+	public function p_update($in='', $id = '')
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->p_update($id);
-		redirect("analisis_indikator/parameter/$in");
+
+		redirect("{$this->controller}/parameter/{$in}");
 	}
 
-	public function p_delete($in='', $id='')
+	public function p_delete($in='', $id = '')
 	{
-		$this->redirect_hak_akses('h', "analisis_indikator/parameter/$in");
+		$this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
 		$this->analisis_indikator_model->p_delete($id);
-		redirect("analisis_indikator/parameter/$in");
+
+		redirect("{$this->controller}/parameter/{$in}");
 	}
 
 	public function p_delete_all($in='')
 	{
-		$this->redirect_hak_akses('h', "analisis_indikator/parameter/$in");
+		$this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
 		$this->analisis_indikator_model->p_delete_all();
-		redirect("analisis_indikator/parameter/$in");
+
+		redirect("{$this->controller}/parameter/{$in}");
 	}
 }

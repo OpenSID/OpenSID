@@ -55,7 +55,8 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021101871($hasil);
 		$hasil = $hasil && $this->migrasi_2021101872($hasil);
 		$hasil = $hasil && $this->migrasi_2021102071($hasil);
-    $hasil = $hasil && $this->migrasi_2021102271($hasil);
+		$hasil = $hasil && $this->migrasi_2021102271($hasil);
+		$hasil = $hasil && $this->migrasi_2021102371($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -208,4 +209,21 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
 		return $hasil;
   }
+	
+	protected function migrasi_2021102371($hasil)
+	{
+		if (! $this->db->field_exists('referensi', 'analisis_indikator')) {
+			$fields = [
+				'referensi' => [
+					'type' => 'VARCHAR',
+					'constraint' => 50,
+					'null' => true,
+					'default' => NULL
+				]
+			];
+			$hasil = $hasil && $this->dbforge->add_column('analisis_indikator', $fields);
+		}
+
+		return $hasil;
+	}
 }

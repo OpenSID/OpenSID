@@ -10,12 +10,12 @@
 		$this->load->model('analisis_master_model');
 		$this->per = $this->analisis_master_model->get_aktif_periode();
 		$this->master = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
+		$this->subjek = $this->session->subjek_tipe;
 	}
 
 	public function autocomplete()
 	{
-		$subjek = $this->session->subjek_tipe;
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
@@ -84,8 +84,7 @@
 	{
 		if (empty($cari = $this->session->cari)) return;
 
-		$subjek = $this->session->subjek_tipe;
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
@@ -146,21 +145,21 @@
 
 	private function dusun_sql()
 	{
-		if (empty($this->session->dusun) || $this->session->subjek_tipe == 5) return;
+		if (empty($this->session->dusun) || $this->subjek == 5) return;
 
 		$this->db->where('dusun', $this->session->dusun);
 	}
 
 	private function rw_sql()
 	{
-		if (empty($this->session->rw) || $this->session->subjek_tipe == 5) return;
+		if (empty($this->session->rw) || $this->subjek == 5) return;
 
 		$this->db->where('rw', $this->session->rw);
 	}
 
 	private function rt_sql()
 	{
-		if (empty($this->session->rt) || $this->session->subjek_tipe == 5) return;
+		if (empty($this->session->rt) || $this->subjek == 5) return;
 
 		$this->db->where('rt', $this->session->rt);
 	}
@@ -200,8 +199,7 @@
 	private function list_data_sql()
 	{
 		$id_kelompok = $this->master['id_kelompok'];
-		$subjek = $_SESSION['subjek_tipe'];
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
@@ -273,8 +271,7 @@
 		$this->db
 			->select("(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode = {$this->per} LIMIT 1) as cek")
 			->select("(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id) as bukti_pengesahan");
-		$subjek = $this->session->subjek_tipe;
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
@@ -334,19 +331,9 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
-
-			if ($data[$i]['cek'])
-				$data[$i]['set'] = "<img src='".base_url()."assets/images/icon/ok.png'>";
-			else
-				$data[$i]['set'] = "<img src='".base_url()."assets/images/icon/nok.png'>";
-
-			$data[$i]['jk'] = "-";
-			if ($data[$i]['sex'] == 1)
-				$data[$i]['jk'] = "L";
-			else
-				$data[$i]['jk'] = "P";
-
-			$data[$i]['alamat'] = $data[$i]['dusun']." RW-".$data[$i]['rw']." RT-".$data[$i]['rt'];
+			$data[$i]['set'] = '<img src="' . base_url('assets/images/icon/') . ($data[$i]['cek'] ? 'ok': 'nok') . '.png">';
+			$data[$i]['jk'] = ($data[$i]['sex'] == 1) ? 'L' : 'P';
+			$data[$i]['alamat'] = $data[$i]['dusun'] . " RW-" . $data[$i]['rw'] . " RT-" . $data[$i]['rt'];
 			$j++;
 		}
 		return $data;
@@ -355,8 +342,7 @@
 	public function data_unduh($p, $o)
 	{
 		$per = $this->analisis_master_model->get_aktif_periode();
-		$subjek = $this->session->subjek_tipe;
-		switch ($subjek)
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
@@ -420,16 +406,13 @@
 				$data[$i]['par'] = null;
 			}
 
-			$data[$i]['jk'] = "-";
-			if ($data[$i]['sex'] == 1)
-				$data[$i]['jk'] = "L";
-			else
-				$data[$i]['jk'] = "P";
+			$data[$i]['jk'] = ($data[$i]['sex'] == 1) ? 'L' : 'P';
 		}
+
 		return $data;
 	}
 
-	public function update_kuisioner($id=0, $per=0)
+	public function update_kuisioner($id = 0, $per = 0)
 	{
 		$outp = true;
 		$this->session->error_msg = '';
@@ -440,9 +423,7 @@
 		}
 		else
 		{
-			$sql = "SELECT id_master FROM analisis_periode WHERE id = ?";
-			$query = $this->db->query($sql,$per);
-			$id_master = $query->row_array();
+			$id_master = $this->db->get_where('analisis_periode', ['id' => $per])->row_array();
 			$id_master = $id_master['id_master'];
 		}
 		$ia = 0;$it = 0;$ir = 0;$ic = 0;
@@ -661,9 +642,9 @@
 		status_sukses($outp);
 	}
 
-	private function list_jawab2($id=0, $in=0, $per=0)
+	private function list_jawab2($id = 0, $in = 0, $per = 0)
 	{
-		if (isset($_SESSION['delik']))
+		if (isset($this->session->delik))
 		{
 			$sql = "SELECT s.id as id_parameter,s.jawaban,s.kode_jawaban FROM analisis_parameter s WHERE id_indikator = ? ORDER BY s.kode_jawaban ASC ";
 			$query = $this->db->query($sql, $in);
@@ -679,7 +660,7 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i+1;
-			if (isset($_SESSION['delik']))
+			if (isset($this->session->delik))
 			{
 				$data[$i]['cek'] = 0;
 			}
@@ -687,7 +668,7 @@
 		return $data;
 	}
 
-	private function list_jawab3($id=0, $in=0, $per=0)
+	private function list_jawab3($id = 0, $in = 0, $per = 0)
 	{
 		$sql = "SELECT s.id as id_parameter,s.jawaban FROM analisis_respon r LEFT JOIN analisis_parameter s ON r.id_parameter = s.id WHERE r.id_indikator = ? AND r.id_subjek = ? AND r.id_periode=?";
 		$query = $this->db->query($sql, array($in, $id, $per));
@@ -695,12 +676,12 @@
 		return $data;
 	}
 
-	public function list_indikator($id=0)
+	public function list_indikator($id = 0)
 	{
 		$per = $this->analisis_master_model->get_aktif_periode();
 
 		$data = $this->db
-			->select('u.id, u.id_kategori, u.nomor, u.id_tipe, u.pertanyaan, k.kategori')
+			->select('u.id, u.id_kategori, u.nomor, u.id_tipe, u.pertanyaan, u.referensi, k.kategori')
 			->from('analisis_indikator u')
 			->join('analisis_kategori_indikator k', 'u.id_kategori = k.id', 'left')
 			->where('u.id_master', $this->session->analisis_master)
@@ -718,24 +699,18 @@
 			}
 			else
 			{
-				if (isset($_SESSION['delik']))
-				{
-					$data[$i]['parameter_respon'] = "";
-				}
-				else
-				{
-					$data[$i]['parameter_respon'] = $this->list_jawab3($id, $data[$i]['id'], $per);
-				}
+				$data[$i]['parameter_respon'] = (isset($this->session->delik)) ? '' : $this->list_jawab3($id, $data[$i]['id'], $per);
 			}
 		}
+
 		return $data;
 	}
 
 	//CHILD-----------------------
 
-	private function list_jawab4($id=0, $in=0, $per=0)
+	private function list_jawab4($id = 0, $in = 0, $per = 0)
 	{
-		if (isset($_SESSION['delik']))
+		if (isset($this->session->delik))
 		{
 			$sql = "SELECT s.id as id_parameter,s.jawaban,s.kode_jawaban FROM analisis_parameter s WHERE id_indikator = ? ";
 			$query = $this->db->query($sql, $in);
@@ -750,15 +725,16 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
-			if (isset($_SESSION['delik']))
+			if (isset($this->session->delik))
 			{
 				$data[$i]['cek']=0;
 			}
 		}
+
 		return $data;
 	}
 
-	private function list_jawab5($id=0, $in=0, $per=0)
+	private function list_jawab5($id = 0, $in = 0, $per = 0)
 	{
 		$sql = "SELECT s.id as id_parameter,s.jawaban FROM analisis_respon r LEFT JOIN analisis_parameter s ON r.id_parameter = s.id WHERE r.id_indikator = ? AND r.id_subjek = ? AND r.id_periode = ?";
 		$query = $this->db->query($sql, array($in, $id, $per));
@@ -766,7 +742,7 @@
 		return $data;
 	}
 
-	public function list_indikator_child($id=0)
+	public function list_indikator_child($id = 0)
 	{
 		$sql = "SELECT id_child FROM analisis_master WHERE id = ? ";
 		$query = $this->db->query($sql,$_SESSION['analisis_master']);
@@ -793,14 +769,7 @@
 			}
 			else
 			{
-				if (isset($_SESSION['delik']))
-				{
-					$data[$i]['parameter_respon'] = "";
-				}
-				else
-				{
-					$data[$i]['parameter_respon'] = $this->list_jawab5($id, $data[$i]['id'], $per);
-				}
+				$data[$i]['parameter_respon'] = (isset($this->session->delik)) ? '' : $this->list_jawab5($id, $data[$i]['id'], $per);
 			}
 		}
 		return $data;
@@ -821,7 +790,7 @@
 	}
 	//---------------------------
 
-	public function list_bukti($id=0)
+	public function list_bukti($id = 0)
 	{
 		$per = $this->analisis_master_model->get_aktif_periode();
 		$sql = "SELECT pengesahan FROM analisis_respon_bukti WHERE id_subjek = ? AND id_master = ? AND id_periode = ? ";
@@ -832,24 +801,28 @@
 		return $data;
 	}
 
-	public function get_subjek($id=0)
+	public function get_subjek($id = 0)
 	{
-		$subjek = $_SESSION['subjek_tipe'];
-		switch ($subjek)
+		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+
+		switch ($this->subjek)
 		{
 			case 1:
 				$this->db
-					->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt')
+					->select('u.*, u.nik AS nid, c.dusun, c.rw, c.rt')
+					->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
 					->from('penduduk_hidup u')
 					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
 				break;
 
 			case 2:
 				$this->db
-					->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
+					->select("u.*, u.no_kk AS nid, p.nik AS nik_kepala, p.nama, p.sex, c.dusun, c.rw, c.rt")
+					->select("CONCAT('{$sebutan_dusun} ', c.dusun, ', RT ', c.rt, ' / RW ', c.rw) as wilayah")
 					->from('keluarga_aktif u')
 					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
-					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+					
 				break;
 
 			case 3:
@@ -875,7 +848,7 @@
 
 			case 6:
 				$this->db
-					->select("u.id, u.dusun AS nid, UPPER('{$this->setting->sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
+					->select("u.id, u.dusun AS nid, UPPER('{$sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
 					->from('tweb_wil_clusterdesa u')
 					->where('u.rt', '0')
 					->where('u.rw', '0');
@@ -883,7 +856,7 @@
 
 			case 7:
 				$this->db
-					->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
+					->select("u.id, u.rw AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
 					->from('tweb_wil_clusterdesa u')
 					->where('u.rt', '0')
 					->where('u.rw <>', '0');
@@ -891,7 +864,7 @@
 
 			case 8:
 				$this->db
-					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
+					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
 					->from('tweb_wil_clusterdesa u')
 					->where('u.rt <> 0')
 					->where('u.rt <> "-"');
@@ -902,14 +875,15 @@
 		$data = $this->db
 			->where('u.id', $id)
 			->limit(1)
-			->get()->row_array();
+			->get()
+			->row_array();
 
 		return $data;
 	}
 
-	public function list_anggota($id=0)
+	public function list_anggota($id = 0)
 	{
-		$subjek = $_SESSION['subjek_tipe'];
+		$subjek = $this->subjek;
 		if ($subjek == 2 OR $subjek == 3)
 		{
 			switch ($subjek)
@@ -929,7 +903,7 @@
 
 	public function aturan_unduh()
 	{
-		$subjek = $_SESSION['subjek_tipe'];
+		$subjek = $this->subjek;
 		$order_sql = " ORDER BY u.nomor ASC";
 		$sql = "SELECT u.*,t.tipe AS tipe_indikator,k.kategori AS kategori FROM analisis_indikator u LEFT JOIN analisis_tipe_indikator t ON u.id_tipe = t.id LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE u.id_master = ? ";
 		$sql .= $order_sql;
@@ -1046,7 +1020,7 @@
 			$this->db->insert_batch('analisis_respon_hasil', $upx);
 	}
 
-	public function update_hasil($id=0)
+	public function update_hasil($id = 0)
 	{
 		$per = $this->analisis_master_model->get_aktif_periode();
 
@@ -1068,7 +1042,7 @@
 	{
 		$per = $this->analisis_master_model->get_aktif_periode();
 
-		$subjek = $_SESSION['subjek_tipe'];
+		$subjek = $this->subjek;
 		$mas = $_SESSION['analisis_master'];
 		$key = ($per+3)*($mas+7)*($subjek*3);
 		$key = "AN".$key;
@@ -1264,7 +1238,8 @@
 					'id_parameter' => $in_param,
 					'id_indikator' => $indi['id'],
 					'id_subjek'	=> $id_subjek,
-					'id_periode' => $per);
+					'id_periode' => $per
+				);
 			}
 		}
 	}
@@ -1303,5 +1278,4 @@
 		
 		return $result;
 	}
-
 }
