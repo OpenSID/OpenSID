@@ -75,16 +75,13 @@ class First extends Web_Controller {
 
 		$this->load->model('config_model');
 		$this->load->model('first_artikel_m');
-		$this->load->model('teks_berjalan_model');
 		$this->load->model('first_gallery_m');
-		$this->load->model('first_menu_m');
 		$this->load->model('web_menu_model');
 		$this->load->model('first_penduduk_m');
 		$this->load->model('penduduk_model');
 		$this->load->model('suplemen_model');
 		$this->load->model('surat_model');
 		$this->load->model('keluarga_model');
-		$this->load->model('web_widget_model');
 		$this->load->model('web_gallery_model');
 		$this->load->model('laporan_penduduk_model');
 		$this->load->model('track_model');
@@ -101,8 +98,6 @@ class First extends Web_Controller {
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
-		$this->load->model('theme_model');
-		$this->load->model('anjungan_model');
 		$this->load->model('pembangunan_model');
 		$this->load->model('pembangunan_dokumentasi_model');
 		$this->load->model('url_shortener_model');
@@ -370,14 +365,14 @@ class First extends Web_Controller {
 
 	public function wilayah()
 	{
-		if (!$this->web_menu_model->menu_aktif('wilayah')) show_404();
+		if (!$this->web_menu_model->menu_aktif('data-wilayah')) show_404();
 
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
 
-		$data['main'] = $this->wilayah_model->list_semua_wilayah();
 		$data['heading'] = "Populasi Per Wilayah";
 		$data['tipe'] = 3;
+		$data['daftar_dusun'] = $this->wilayah_model->daftar_wilayah_dusun();
 		$data['total'] = $this->wilayah_model->total();
 		$data['st'] = 1;
 		$this->_get_common_data($data);
@@ -556,45 +551,6 @@ class First extends Web_Controller {
 		redirect($_SERVER['HTTP_REFERER'] . "#kolom-komentar");
 	}
 
-	private function _get_common_data(&$data)
-	{
-		// Counter statistik pengunjung
-		$this->statistik_pengunjung->counter_visitor();
-
-		// Data statistik pengunjung
-		$data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
-
-		$data['latar_website'] = $this->theme_model->latar_website();
-		$data['desa'] = $this->config_model->get_data();
-		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
-		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
-		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
-		$data['teks_berjalan'] = $this->teks_berjalan_model->list_data(TRUE);
-		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
-		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
-		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
-		$data['cek_anjungan'] = $this->anjungan_model->cek_anjungan();
-
-		$this->web_widget_model->get_widget_data($data);
-		$data['data_config'] = $this->config_model->get_data();
-		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
-		{
-			$data['transparansi'] = $this->setting->apbdes_manual_input
-				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
-				: $this->keuangan_grafik_model->grafik_keuangan_tema();
-		}
-		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
-		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
-		$list_kolom = array(
-			'arsip',
-			'w_cos'
-		);
-		foreach ($list_kolom as $kolom)
-		{
-			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
-		}
-	}
-
 	public function peta()
 	{
 		if (!$this->web_menu_model->menu_aktif('peta')) show_404();
@@ -678,36 +634,30 @@ class First extends Web_Controller {
 		$this->load->library('data_publik');
 		$this->_get_common_data($data);
 		$kode_desa = $data['desa']['kode_desa'];
-		if ($this->data_publik->has_internet_connection())
+		$cache = 'idm_' . $tahun . '_' . $kode_desa;
+
+		if (cek_koneksi_internet())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", 'idm_' . $tahun . '_' . $kode_desa)
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", $cache)
 				->set_interval(7)
-				->set_cache_folder(FCPATH . 'cache');
+				->set_cache_folder($this->config->item('cache_path'));
 
 			$idm = $this->data_publik->get_url_content();
 			if ($idm->body->error)
 			{
-				$idm->body->mapData->error_msg = $idm->body->message . " : " . $idm->header->url . "<br><br>" . "Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh '3507012006'<br>";
+				$idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '<br><br> Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh : 3507012006 <br>';
 			}
-			$data['idm'] = $idm->body->mapData;
+
+			$data = [
+				'idm' => $idm->body->mapData,
+				'tahun' => $tahun
+			];
 		}
 
 		$data['halaman_statis'] = 'home/idm';
 
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
-	}
-
-	public function info_pembangunan($id = 0)
-	{
-		$pembangunan = $this->pembangunan_model->find($id);
-		$dokumentasi = $this->pembangunan_dokumentasi_model->find_dokumentasi($pembangunan->id);
-
-		$data['pembangunan']    = $pembangunan;
-		$data['dokumentasi']    = $dokumentasi;
-		$data['config'] = $this->config_model->get_data();
-
-		$this->load->view('pembangunan/informasi', $data);
 	}
 
 	public function verifikasi_surat($alias)
@@ -800,5 +750,4 @@ class First extends Web_Controller {
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
 	}
-
 }

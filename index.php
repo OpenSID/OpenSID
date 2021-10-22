@@ -94,6 +94,16 @@ switch (ENVIRONMENT)
 
 /*
  *---------------------------------------------------------------
+ * DESA DIRECTORY NAME
+ *---------------------------------------------------------------
+ *
+ * This variable must contain the name of your "desa" directory.
+ * Set the path if it is not in the same directory as this file.
+ */
+	$desa_path = 'desa';
+
+/*
+ *---------------------------------------------------------------
  * SYSTEM DIRECTORY NAME
  *---------------------------------------------------------------
  *
@@ -134,6 +144,20 @@ switch (ENVIRONMENT)
  */
 	$view_folder = '';
 
+
+/**
+ *---------------------------------------------------------------
+ * WEB DIRECTORY NAME
+ *---------------------------------------------------------------
+ */
+	$web_folder = 'fweb';
+
+/**
+ *---------------------------------------------------------------
+ * ADMIN DIRECTORY NAME
+ *---------------------------------------------------------------
+ */
+	$admin_folder = 'fadmin';
 
 /*
  * --------------------------------------------------------------------
@@ -316,8 +340,14 @@ switch (ENVIRONMENT)
  */
 	define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}".str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
 
-/*
-/*
+/**
+ * Costume path
+ */
+	define('WEB', $web_folder);
+	define('ADMIN', $admin_folder);
+	define('DESAPATH', $desa_path.DIRECTORY_SEPARATOR);
+
+/**
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------

@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define("VERSION", '21.10-premium-beta01');
+define("VERSION", '21.10-premium-beta02');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -59,7 +59,7 @@ define("VERSION", '21.10-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021101351');
+define('VERSI_DATABASE', '2021102071');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -941,6 +941,15 @@ function email($str)
 function alamat_web($str)
 {
 	return preg_replace("/[^a-zA-Z0-9:\/\.\-]/", '', htmlentities($str));
+}
+
+// Format wanrna #803c3c
+if (! function_exists('warna'))
+{
+	function warna($length = 32)
+	{
+		return preg_replace("/[^a-zA-Z0-9\#]/", '', $str);
+	}
 }
 
 function buat_slug($data_slug)

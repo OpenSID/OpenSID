@@ -29,7 +29,12 @@ class MY_Model extends CI_Model {
 				$data = $this->first_artikel_m->get_kategori($cut[1]);
 				$url = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
 				break;
-				
+			
+			/*
+			 * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
+			 * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
+			 */
+
 			case 'arsip':
 			case 'peraturan_desa':
 			case 'data_analisis':
@@ -39,6 +44,7 @@ class MY_Model extends CI_Model {
 			case 'load_apbdes':
 			case 'load_aparatur_wilayah':
 			case 'peta':
+			case 'data-wilayah':
 			case 'data-suplemen':
 			case 'data-kelompok':
 			case 'status-idm':
@@ -166,7 +172,7 @@ class MY_Model extends CI_Model {
 	{
 		$this->load->library('paging');
 		$cfg['page'] = $page;
-		$cfg['per_page'] = $this->session->per_page;
+		$cfg['per_page'] = $this->session->per_page ?? 10;
 		$cfg['num_links'] = 10;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);

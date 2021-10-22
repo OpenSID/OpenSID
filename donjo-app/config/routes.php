@@ -103,6 +103,7 @@ $route['ganti'] = 'first/ganti';
 $route['auth'] = 'first/auth';
 
 // Halaman statis
+$route['data-wilayah'] = 'first/wilayah';
 $route['data-suplemen/(:num)'] = 'first/suplemen/$1';
 $route['data-kelompok/(:num)'] = 'first/kelompok/$1';
 $route['informasi_publik'] = 'first/informasi_publik';
@@ -117,6 +118,11 @@ $route['status-idm/(:num)'] = 'first/status_idm/$1';
 $route['status-sdgs'] = 'first/status_sdgs';
 $route['lapak'] = 'first/lapak';
 $route['lapak/(:num)'] = 'first/lapak/$1';
+
+// WEB
+$route['pembangunan'] = WEB . '/pembangunan';
+$route['pembangunan/(:num)'] = WEB . '/pembangunan/index/$1';
+$route['pembangunan/detail/(:num)'] = WEB . '/pembangunan/detail/$1';
 
 // URL Shortener
 $route['v/(:any)'] = 'first/verifikasi_surat/$1';

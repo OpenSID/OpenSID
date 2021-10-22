@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-class Pembangunan_model extends CI_Model
+class Pembangunan_model extends MY_Model
 {
 	protected $tipe = 'rencana';
 	protected $table = 'pembangunan';
@@ -107,6 +107,13 @@ class Pembangunan_model extends CI_Model
 			$this->db->where('p.tahun_anggaran', $tahun);
 		}
 		return $this->db;
+	}
+
+	public function paging_pembangunan($page_number = 1)
+	{
+		$jml_data = $this->get_data('', 'semua')->count_all_results();
+
+		return $this->paginasi($page_number, $jml_data);
 	}
 
 	public function list_lokasi_pembangunan()

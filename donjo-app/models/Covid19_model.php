@@ -6,15 +6,6 @@ define("TUJUAN_MUDIK", serialize(array(
 	"Dll" => "4",
 )));
 
-define("STATUS_COVID", serialize(array(
-	"Orang Dalam Pemantauan (ODP)" => "ODP",
-	"Pasien Dalam Pengawasan (PDP)" => "PDP",
-	"Orang Dalam Resiko (ODR)" => "ODR",
-	"Orang Tanpa Gejala (OTG)" => "OTG",
-	"Positif Covid-19" => "POSITIF",
-	"Dll" => "DLL",
-)));
-
 $h_plus_array = array();
 $h_plus_array["-- Semua Data --"] = "99";
 for ($i=0; $i<=31; $i++, $h_plus_array["H+$i"] = "$i");
@@ -27,19 +18,12 @@ class Covid19_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('session');
 		$this->load->model('referensi_model');
 	}
 
 	public function list_tujuan_mudik()
 	{
 		$status_rekam = array_flip(unserialize(TUJUAN_MUDIK));
-		return $status_rekam;
-	}
-
-	public function list_status_covid()
-	{
-		$status_rekam = array_flip(unserialize(STATUS_COVID));
 		return $status_rekam;
 	}
 
@@ -123,10 +107,12 @@ class Covid19_model extends CI_Model
 		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
 		$this->db->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS `alamat`');
+		$this->db->select('cv.id AS covid_id, cv.nama AS status_covid');
 		$this->db->from('covid19_pemudik s');
 		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
 		$this->db->join('tweb_keluarga k', 'k.id = o.id_kk', 'left');
 		$this->db->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left');
+		$this->db->join('ref_status_covid cv', 'cv.id = s.status_covid', 'left');
 
 		if (isset($id))
 			$this->db->where('s.id', $id);
@@ -254,11 +240,16 @@ class Covid19_model extends CI_Model
 		$this->db->select('DATEDIFF(p.tanggal_jam, s.tanggal_datang) AS date_diff');
 		$this->db->select("(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = o.id)) AS umur");
+		$this->db->select('cv.id AS covid_id, cv.nama AS status_covid');
 		$this->db->from('covid19_pantau p');
 		$this->db->join('covid19_pemudik s', 's.id = p.id_pemudik', 'left');
 		$this->db->join('tweb_penduduk o', 's.id_terdata = o.id', 'left');
+		$this->db->join('ref_status_covid cv', 'cv.id = p.status_covid', 'left');
 		$this->db->order_by('o.nik', 'ASC');
 		$this->db->order_by('p.tanggal_jam', 'DESC');
+
+		
+		
 
 		if (isset($filter_tgl))
 		{

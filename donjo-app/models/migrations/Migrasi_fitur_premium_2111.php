@@ -50,7 +50,12 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021100171($hasil);
 		$hasil = $hasil && $this->migrasi_2021101051($hasil);
-    $hasil = $hasil && $this->migrasi_2021101351($hasil);
+		$hasil = $hasil && $this->migrasi_2021101572($hasil);
+		$hasil = $hasil && $this->migrasi_2021101351($hasil);
+		$hasil = $hasil && $this->migrasi_2021101871($hasil);
+		$hasil = $hasil && $this->migrasi_2021101872($hasil);
+		$hasil = $hasil && $this->migrasi_2021102071($hasil);
+    $hasil = $hasil && $this->migrasi_2021102271($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -91,13 +96,116 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		return $hasil;
 	}
 
-  protected function migrasi_2021101351($hasil)
+	protected function migrasi_2021101351($hasil)
+	{
+		$hasil = $hasil && $this->hapus_indeks('log_keluarga', 'id_kk');
+		if (!$this->cek_indeks('log_keluarga', 'id_kk'))
+		$hasil = $hasil && $this->db->query("ALTER TABLE log_keluarga ADD UNIQUE id_kk (id_kk, id_peristiwa, tgl_peristiwa, id_pend)");
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021101572($hasil)
+	{
+		return $hasil && $this->ubah_modul(46, ['url'  => 'info_sistem']);
+	}
+
+	protected function migrasi_2021101871($hasil)
+	{
+		// Sesuaikan tabel covid19_pemudik
+		
+		$this->db->truncate('ref_status_covid');
+
+		$data = [
+			[
+				'id' => 1,
+				'nama' => 'Kasus Suspek',
+			],
+			[
+				'id' => 2,
+				'nama' => 'Kasus Probable',
+			],
+			[
+				'id' => 3,
+				'nama' => 'Kasus Konfirmasi',
+			],
+			[
+				'id' => 4,
+				'nama' => 'Kontak Erat',
+			],
+			[
+				'id' => 5,
+				'nama' => 'Pelaku Perjalanan',
+			],
+			[
+				'id' => 6,
+				'nama' => 'Discarded',
+			],
+			[
+				'id' => 7,
+				'nama' => 'Selesai Isolasi',
+			],
+		];
+
+		$hasil = $hasil && $this->db->insert_batch('ref_status_covid', $data);
+    
+		// Ganti ODP & PDP jadi Suspek
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['ODP', 'PDP'])
+			->update('covid19_pemudik', ['status_covid' => 1]);
+
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['ODP', 'PDP'])
+			->update('covid19_pantau', ['status_covid' => 1]);
+
+		// Ganti ODR & OTG jadi Kontak Erat
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['ODR', 'OTG'])
+			->update('covid19_pemudik', ['status_covid' => 4]);
+		
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['ODR', 'OTG'])
+			->update('covid19_pantau', ['status_covid' => 4]);
+
+		// Ganti POSITIF jadi Kasus konfirmasi 
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['POSITIF'])
+			->update('covid19_pemudik', ['status_covid' => 3]);
+
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['POSITIF'])
+			->update('covid19_pantau', ['status_covid' => 3]);
+
+		// Karena di table ref_status_covid sebelumny tdk ada DLL namu di form pilihan ada,
+		// Maka DLL dinyatakan sebagai Selesai isolasi.
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['DLL'])
+			->update('covid19_pemudik', ['status_covid' => 7]);
+
+		$hasil = $hasil && $this->db
+			->where_in('status_covid', ['DLL'])
+			->update('covid19_pantau', ['status_covid' => 7]);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021101872($hasil)
+	{
+		return $hasil && $this->ubah_modul(220, ['url'  => 'admin_pembangunan']);
+	}
+
+	protected function migrasi_2021102071($hasil)
+	{
+		return $hasil && $this->db->where('link', 'wilayah')->update('menu', ['link' => 'data-wilayah']);
+	}
+
+	protected function migrasi_2021102271($hasil)
   {
-    $hasil = $hasil && $this->hapus_indeks('log_keluarga', 'id_kk');
-    if ( ! $this->cek_indeks('log_keluarga', 'id_kk'))
-      $hasil = $hasil && $this->db->query("ALTER TABLE log_keluarga ADD UNIQUE id_kk (id_kk, id_peristiwa, tgl_peristiwa, id_pend)");
+		if (is_dir(FCPATH . 'cache'))
+		{
+			$hasil = $hasil && rename(FCPATH . 'cache', DESAPATH . 'cache');
+		}
 
-    return $hasil;
+		return $hasil;
   }
-
 }

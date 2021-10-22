@@ -141,8 +141,8 @@ class Analisis_import_Model extends CI_Model {
 			$indikator['pertanyaan'] = $cells[1]->getValue();
 			$indikator['id_kategori']	= $this->get_id_kategori($cells[2]->getValue(), $id_master);
 			$indikator['id_tipe']	= $cells[3]->getValue();
-			$indikator['bobot']	= $cells[4]->getValue() ?: 0;
-			$indikator['act_analisis'] = $cells[5]->getValue() ?: 2;
+			$indikator['bobot']	= $cells[4]->getValue() ?? 0;
+			$indikator['act_analisis'] = $cells[5]->getValue() ?? 2;
 			if ( ! $this->db->insert('analisis_indikator', $indikator)) return $this->impor_error();;
     }
 	}

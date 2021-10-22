@@ -164,6 +164,55 @@ class Web_Controller extends MY_Controller {
 			$this->template = '../../themes/klasik/' . $template_file;
 	}
 
+	public function _get_common_data(&$data)
+	{
+		$this->load->library('statistik_pengunjung');
+
+		$this->load->model('theme_model');
+		$this->load->model('first_menu_m');
+		$this->load->model('teks_berjalan_model');
+		$this->load->model('first_artikel_m');
+		$this->load->model('web_widget_model');
+		$this->load->model('anjungan_model');
+		$this->load->model('keuangan_grafik_manual_model');
+		$this->load->model('keuangan_grafik_model');
+
+		// Counter statistik pengunjung
+		$this->statistik_pengunjung->counter_visitor();
+
+		// Data statistik pengunjung
+		$data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
+
+		$data['latar_website'] = $this->theme_model->latar_website();
+		$data['desa'] = $this->header;
+		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
+		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
+		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
+		$data['teks_berjalan'] = $this->teks_berjalan_model->list_data(TRUE);
+		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
+		$data['slider_gambar'] = $this->first_artikel_m->slider_gambar();
+		$data['w_cos'] = $this->web_widget_model->get_widget_aktif();
+		$data['cek_anjungan'] = $this->anjungan_model->cek_anjungan();
+
+		$this->web_widget_model->get_widget_data($data);
+		$data['data_config'] = $this->header;
+		if ($this->setting->apbdes_footer AND $this->setting->apbdes_footer_all)
+		{
+			$data['transparansi'] = $this->setting->apbdes_manual_input
+				? $this->keuangan_grafik_manual_model->grafik_keuangan_tema()
+				: $this->keuangan_grafik_model->grafik_keuangan_tema();
+		}
+		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
+		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
+		$list_kolom = array(
+			'arsip',
+			'w_cos'
+		);
+		foreach ($list_kolom as $kolom)
+		{
+			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
+		}
+	}
 }
 
 class Mandiri_Controller extends MY_Controller
@@ -233,7 +282,7 @@ class Premium extends MY_Controller
 	 * Sehingga akan error saat login di awal, namun setelah di refresh akan kembali normal
 	 */
 	protected $kecuali = [
-		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif', 'user_setting', 'main',
+		'hom_sid', 'identitas_desa', 'pelanggan', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
 	];
 
 	/**

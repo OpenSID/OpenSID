@@ -381,72 +381,13 @@ class Tanah_desa_model extends CI_Model
 		return $data;
 	}
 
-	private function get_penduduk_terdaftar()
+	public function list_penduduk()
 	{
-		$this->db
-				->select('p.id')
-				->from("{$this->table} td")
-				->join('tweb_penduduk p', 'td.id_penduduk = p.id')
-				->where('td.visible', 1);
-		$data = $this->db
-				->get()
-				->result_array();
-
-		for ($i=0; $i < count($data) ; $i++)
-		{
-			$result[$i] = $data[$i]['id'];
-		}
-
-		return $result;
+	return $this->db
+		->select('p.id, p.nama, p.nik')
+		->from("tweb_penduduk p")
+		->order_by('p.nama', 'ASC')
+		->get()
+		->result_array();
 	}
-
-	private function with_current_penduduk($filter, $id)
-	{
-		$this->db
-				->select('td.id_penduduk')
-				->from("{$this->table} td")
-				->where((['td.visible' => 1, 'td.id' => $id]))
-				->limit(1);
-		$data = $this->db
-				->get()
-				->row();
-		$result = array_diff($filter, [$data->id_penduduk]);
-
-		return $result;
-	}
-
-	public function list_penduduk($id='')
-	{
-		$this->db
-				->select('p.id, p.nama, p.nik')
-				->from("tweb_penduduk p")
-				->order_by('p.nama', 'ASC');
-		$data = $this->db
-				->get()
-				->result_array();
-
-		$filter = $this->get_penduduk_terdaftar();
-		if ($id != '')
-		{
-			$filter = $this->with_current_penduduk($filter, $id);
-		}
-
-		if (count($data) > 0)
-		{
-			$j = 0;
-			for ($i=0; $i < count($data); $i++)
-			{
-				if ( ! in_array($data[$i]['id'], $filter))
-				{
-					$result[$j]['id'] = $data[$i]['id'];
-					$result[$j]['nama'] = $data[$i]['nama'];
-					$result[$j]['nik'] = $data[$i]['nik'];
-					$j++;
-				}
-			}
-		}
-
-		return $result;
-	}
-
 }
