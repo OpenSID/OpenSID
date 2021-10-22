@@ -31,7 +31,7 @@
 								<label class="control-label col-sm-3">Warna</label>
 								<div class="col-sm-4">
 									<div class="input-group my-colorpicker2">
-										<input type="text" id="color" name="color" class="form-control input-sm required" placeholder="#FFFFFF" value="<?= $polygon['color']?>">
+										<input type="text" id="color" name="color" class="form-control input-sm color required" placeholder="#FFFFFF" value="<?= $polygon['color']?>">
 										<div class="input-group-addon input-sm">
 											<i></i>
 										</div>

@@ -117,6 +117,7 @@ class Config_model extends CI_Model {
 		$data['kode_kabupaten'] = bilangan($post['kode_kabupaten']);
 		$data['nama_propinsi'] = nama_terbatas($post['nama_propinsi']);
 		$data['kode_propinsi'] = bilangan($post['kode_propinsi']);
+		$data['warna'] = warna($post['warna']);
 		return $data;
 	}
 

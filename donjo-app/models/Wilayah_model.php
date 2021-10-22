@@ -620,6 +620,7 @@ class Wilayah_model extends MY_Model {
 		$data['map_tipe'] = $post['map_tipe'];
 		$data['lat'] = koordinat($post['lat']) ?: NULL;
 		$data['lng'] = koordinat($post['lng']) ?: NULL;
+		$data['warna'] = warna($post['warna']);
 		return $data;
 	}
 
