@@ -32,3 +32,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 #### Perubahan Teknis
 1. Pindahkan tampilan lapak ke masing-masing tema.
 2. Pindahkan Info System ke controller tersendiri.
+3. Pindahkan folder cache ke desa > cache.
