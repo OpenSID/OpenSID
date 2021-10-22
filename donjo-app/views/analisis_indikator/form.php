@@ -27,9 +27,9 @@
 										<label class="col-sm-3 control-label" for="referensi">Kaitkan Dengan Data Yang Sudah Ada</label>
 										<div class="col-sm-5">
 											<select class="form-control select2" id="referensi" name="referensi" <?= jecho($analisis_master['jenis'], 1, 'disabled') ?>>
-												<option value="" selected="selected" data-tipe="">-- Kaitakan Dengan Kolom--</option>
+												<option value="" selected="selected" data-tipe="">Tidak Perlu di Hubungkan</option>
 												<?php foreach ($data_tabel AS $referensi => $data): ?>
-													<option value="<?= $referensi; ?>" <?= selected($analisis_indikator['referensi'], $referensi) ?> data-tipe="<?= $data['tipe'] ?? 4; ?>">Kolom : <?= $data['judul']; ?></option>
+													<option value="<?= $referensi; ?>" <?= selected($analisis_indikator['referensi'], $referensi) ?> data-tipe="<?= $data['tipe'] ?? 4; ?>"><?= $data['judul']; ?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
