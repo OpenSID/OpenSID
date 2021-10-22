@@ -648,10 +648,7 @@ class First extends Web_Controller {
 				$idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '<br><br> Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh : 3507012006 <br>';
 			}
 
-			$data = [
-				'idm' => $idm->body->mapData,
-				'tahun' => $tahun
-			];
+			$data['idm'] = $idm->body->mapData;
 		}
 
 		$data['halaman_statis'] = 'home/idm';
