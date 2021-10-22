@@ -634,18 +634,24 @@ class First extends Web_Controller {
 		$this->load->library('data_publik');
 		$this->_get_common_data($data);
 		$kode_desa = $data['desa']['kode_desa'];
-		if ($this->data_publik->has_internet_connection())
+		$cache = 'idm_' . $tahun . '_' . $kode_desa;
+
+		if (cek_koneksi_internet())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", 'idm_' . $tahun . '_' . $kode_desa)
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", $cache)
 				->set_interval(7)
-				->set_cache_folder(FCPATH . 'cache');
+				->set_cache_folder($this->config->item('cache_path'));
 
 			$idm = $this->data_publik->get_url_content();
 			if ($idm->body->error)
 			{
-				$idm->body->mapData->error_msg = $idm->body->message . " : " . $idm->header->url . "<br><br>" . "Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh '3507012006'<br>";
+				$idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '<br><br> Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh : 3507012006 <br>';
 			}
-			$data['idm'] = $idm->body->mapData;
+
+			$data = [
+				'idm' => $idm->body->mapData,
+				'tahun' => $tahun
+			];
 		}
 
 		$data['halaman_statis'] = 'home/idm';
