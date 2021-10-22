@@ -119,6 +119,11 @@ $route['status-sdgs'] = 'first/status_sdgs';
 $route['lapak'] = 'first/lapak';
 $route['lapak/(:num)'] = 'first/lapak/$1';
 
+// WEB
+$route['pembangunan'] = WEB . '/pembangunan';
+$route['pembangunan/(:num)'] = WEB . '/pembangunan/index/$1';
+$route['pembangunan/detail/(:num)'] = WEB . '/pembangunan/detail/$1';
+
 // URL Shortener
 $route['v/(:any)'] = 'first/verifikasi_surat/$1';
 $route['c1/(:any)'] = 'dokumen_web/check_surat1/$1';

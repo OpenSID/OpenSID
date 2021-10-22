@@ -47,14 +47,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pembangunan_dokumentasi extends Admin_Controller
 {
-	protected $table = 'pembangunan_ref_dokumentasi';
 
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->modul_ini = 220;
-
 		$this->load->library('upload');
 		$this->load->model('referensi_model');
 		$this->load->model('pembangunan_model');
@@ -74,17 +71,15 @@ class Pembangunan_dokumentasi extends Admin_Controller
 			$order = $this->model::ORDER_ABLE[$this->input->post('order[0][column]')];
 			$dir = $this->input->post('order[0][dir]');
 
-			return $this->output
-				->set_content_type('application/json')
-				->set_output(json_encode([
-					'draw'            => $this->input->post('draw'),
-					'recordsTotal'    => $this->model->get_data($id)->count_all_results(),
-					'recordsFiltered' => $this->model->get_data($id, $search)->count_all_results(),
-					'data'            => $this->model->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-				]));
+			$this->json_output([
+				'draw'            => $this->input->post('draw'),
+				'recordsTotal'    => $this->model->get_data($id)->count_all_results(),
+				'recordsFiltered' => $this->model->get_data($id, $search)->count_all_results(),
+				'data'            => $this->model->get_data($id, $search)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+			]);
 		}
 
-		$this->render('pembangunan/dokumentasi/index', [
+		$this->render(ADMIN . '/pembangunan/dokumentasi/index', [
 			'pembangunan' => $pembangunan,
 		]);
 	}
@@ -92,38 +87,38 @@ class Pembangunan_dokumentasi extends Admin_Controller
 	public function form($id = '')
 	{
 		$this->redirect_hak_akses('u');
+		$id_pembangunan = $this->session->id_pembangunan;
+
 		if ($id)
 		{
-			$id_pembangunan = $_SESSION['id_pembangunan'];
-			$data['id_pembangunan'] = $_SESSION['id_pembangunan'];
 			$data['main'] = $this->model->find($id);
-			$data['persentase'] = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
-			$data['form_action'] = site_url("pembangunan_dokumentasi/update/$id/$id_pembangunan");
+			$data['form_action'] = site_url("$this->controller/update/$id/$id_pembangunan");
 		}
 		else
 		{
-			$id_pembangunan = $_SESSION['id_pembangunan'];
-			$data['id_pembangunan'] = $_SESSION['id_pembangunan'];
 			$data['main'] = NULL;
-			$data['persentase'] = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
-			$data['form_action'] = site_url("pembangunan_dokumentasi/insert/$id_pembangunan");
+			$data['form_action'] = site_url("$this->controller/insert/$id_pembangunan");
 		}
 
-		$this->render('pembangunan/dokumentasi/form', $data);
+		$data['id_pembangunan'] = $id_pembangunan;
+		$data['persentase'] = $this->referensi_model->list_ref(STATUS_PEMBANGUNAN);
+
+
+		$this->render(ADMIN . '/pembangunan/dokumentasi/form', $data);
 	}
 
 	public function insert($id_pembangunan = '')
 	{
 		$this->redirect_hak_akses('u');
 		$this->model->insert($id_pembangunan);
-		redirect("pembangunan_dokumentasi/show/$id_pembangunan");
+		redirect("$this->controller/show/$id_pembangunan");
 	}
 
 	public function update($id = '', $id_pembangunan = '')
 	{
 		$this->redirect_hak_akses('u');
 		$this->model->update($id, $id_pembangunan);
-		redirect("pembangunan_dokumentasi/show/$id_pembangunan");
+		redirect("$this->controller/show/$id_pembangunan");
 	}
 
 	public function delete($id_pembangunan, $id)
@@ -140,7 +135,6 @@ class Pembangunan_dokumentasi extends Admin_Controller
 			$this->session->success = -4;
 		}
 
-		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
+		redirect("$this->controller/show/{$id_pembangunan}");
 	}
-
 }

@@ -135,6 +135,20 @@ switch (ENVIRONMENT)
 	$view_folder = '';
 
 
+/**
+ *---------------------------------------------------------------
+ * WEB DIRECTORY NAME
+ *---------------------------------------------------------------
+ */
+	$web_folder = 'fweb';
+
+/**
+ *---------------------------------------------------------------
+ * ADMIN DIRECTORY NAME
+ *---------------------------------------------------------------
+ */
+	$admin_folder = 'fadmin';
+
 /*
  * --------------------------------------------------------------------
  * DEFAULT CONTROLLER
@@ -316,8 +330,14 @@ switch (ENVIRONMENT)
  */
 	define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}".str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
 
-/*
-/*
+
+/**
+ * Costume path
+ */
+	define('WEB', $web_folder);
+	define('ADMIN', $admin_folder);
+
+/**
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------

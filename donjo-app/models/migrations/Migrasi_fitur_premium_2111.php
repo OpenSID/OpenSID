@@ -53,6 +53,7 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021101572($hasil);
 		$hasil = $hasil && $this->migrasi_2021101351($hasil);
 		$hasil = $hasil && $this->migrasi_2021101871($hasil);
+		$hasil = $hasil && $this->migrasi_2021101872($hasil);
 		$hasil = $hasil && $this->migrasi_2021102071($hasil);
 
 		status_sukses($hasil);
@@ -185,6 +186,11 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 			->update('covid19_pantau', ['status_covid' => 7]);
 
 		return $hasil;
+	}
+
+	protected function migrasi_2021101872($hasil)
+	{
+		return $hasil && $this->ubah_modul(220, ['url'  => 'admin_pembangunan']);
 	}
 
 	protected function migrasi_2021102071($hasil)

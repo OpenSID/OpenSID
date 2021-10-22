@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 5. [#4376](https://github.com/OpenSID/OpenSID/issues/4376) Pencarian dan kategori produk pada web lapak.
 6. [#3844](https://github.com/OpenSID/OpenSID/issues/3844) Perjelas keterangan data kependudukan wilayah pada halaman website desa.
 7. [#3404](https://github.com/OpenSID/OpenSID/issues/3404) Penyesuaian Istilah Baru tentng COVID-19.
+8. [#4402](https://github.com/OpenSID/OpenSID/issues/4402) Tampilkan data Pembangunan di halaman WEB.
 
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
