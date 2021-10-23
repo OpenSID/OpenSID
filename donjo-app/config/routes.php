@@ -156,6 +156,10 @@ $route['set_hari/update_tgl'] = 'kehadiran/set_hari/update_tgl';
 // Kehadiran Rekap 
 $route['kehadiran_rekap'] = 'kehadiran/kehadiran_rekap';
 $route['kehadiran_rekap/api'] = 'kehadiran/api_rekap';
+// Kehadiran Lapor 
+$route['kehadiran_lapor'] = 'kehadiran/kehadiran_lapor';
+$route['kehadiran_lapor/laporan'] = 'kehadiran/api_lapor/show';
+$route['kehadiran_lapor/api'] = 'kehadiran/api_lapor';
 // Login Kehadiran Pamong
 $route['kehadiran/masuk'] = 'kehadiran/masuk'; // Tampilan Masuk
 $route['kehadiran/cek'] = 'kehadiran/masuk/cek';  

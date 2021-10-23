@@ -97,7 +97,8 @@ class Layanan_mandiri extends Mandiri_Controller
 				'id_penduduk' => @$login->id_pend,
 				'nama' => @$login->nama,
 				'nik' => @$login->nik,
-				'laporan' => $this->input->post('lapor_txt')
+				'laporan' => $this->input->post('lapor_txt'),
+				'tanggal' => date('Y-m-d H:i:s')
 			];
 			
 			$params=[

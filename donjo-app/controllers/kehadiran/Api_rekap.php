@@ -4,9 +4,9 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
  *  File ini:
  *
- * Controller untuk api Kehadiran > Hari Merah
+ * Controller untuk api Kehadiran > Rekap
  *
- * donjo-app/controllers/kehadiran/Api_set_hari.php
+ * donjo-app/controllers/kehadiran/Api_rekap.php
  *
  */
 /*
@@ -42,13 +42,14 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 error_reporting(E_ALL);
-class Api_set_hari extends CI_Controller
+class Api_rekap extends CI_Controller
 {
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('hari_model');
+		$this->load->model('hadir_model');
+		$this->load->model('pamong_model','pamong');
 	}
 
 	public function index()
@@ -72,58 +73,23 @@ class Api_set_hari extends CI_Controller
 		echo json_encode($json_send);
 		
 	}
-	
-	private function show()
-	{
-		$return   = [];
-		$post     = $this->input->post();
-		$tgl1     = strtotime($post['tahun'] .'-' .$post['bln'] .'-01');
-		$hari1    = date("N",$tgl1);
-		$tglAkhir = date("t",$tgl1);
-		$raw[]	  = [$tgl1, $hari1, $tglAkhir];
-		$tgl_mrh  = $this->hari_model->tgl_by_range(date("Y-m-d",$tgl1), date("Y-m-t",$tgl1));
-		$data     = [
-			'tgl1'  => $tgl1,
-			'start' => $hari1,
-			'last'  => $tglAkhir,
-			'merah' => $tgl_merah
-		];
-//-------------DATA 
-		$raw[]          = $data;
-		$return['raw']  = $raw;
-		$view           = $this->load->view('kehadiran/hari_api_view', $data,true);
-		$return['html'] = $view;
-		
-		return $return;
-	}
-		
-	public function update_tgl()
-	{
-		$post      = $this->input->post();
-		$json_send = [ ];
-		$raw       = [$post, $this->session->userdata()];
-		$param     = [
-			'tgl_merah' => $this->input->post('tgl_merah'), 'status'=>0
-		];
-		$this->hari_model->insert_ignore($param);
-		
-		$param['status'] = $this->input->post('status');
-		$param['detail'] = $this->input->post('detail');
-		$raw['sql']      = $this->hari_model->_update($param);
-		$raw['param']    = $param;
-		
-		return $raw;
-	}
 
 	public function datatables()
 	{
+		$startTime = microtime(true);
+		$times	= [$startTime];
 		$return         = [
-		 'draw'			   => 0,
-		 'recordsTotal'    => 0,
-		 'recordsFiltered' => 0,
-		 'data'            => [],
-		 'raw'			   => NULL,
+			 'draw'			   => 0,
+			 'recordsTotal'    => 0,
+			 'recordsFiltered' => 0,
+			 'data'            => [],
+			 'raw'			   => NULL,
 		];
+		$column_order = [
+			1 => 'tanggal',
+			2 => 'pamong_nama' //harus memakai view
+		];
+		
 		$raw[]          = [$this->input->post(), $this->input->get()];
 		$return['draw'] = $this->input->post('draw',0);
 		$tipe			= $this->input->post('type');
@@ -131,6 +97,7 @@ class Api_set_hari extends CI_Controller
 		$limit			= $this->input->post('length');
 		$params			= [];
 		$search 		= $this->input->post('search');
+		$order 			= $this->input->post('order');
 		$params			= ['active'=>1];
 		if ($tipe=='date')
 		{
@@ -149,9 +116,12 @@ class Api_set_hari extends CI_Controller
 				
 			}
 			
+			$times['cek date'] = microtime(true) - $startTime;
 		}
 		
 		$params['active'] = 1;
+		$params['waktu_masuk'] = 1;
+		$params['select'] = 'id, pamong_id, tanggal, pamong_info';
 		if (strlen($search['value']) >= 3)
 		{
 			$params['datatable_search'] = $search['value'];
@@ -162,45 +132,59 @@ class Api_set_hari extends CI_Controller
 			$raw[] = [strlen($search), $search];
 			
 		}
+		//-------------order
+		$order_column = $order[0]['column'];//urut
+		$order_dir 	  = $order[0]['dir'];//urut
+		$params['orders'] = [ $column_order[$order_column] , $order_dir];
 
-		$params0 					= ['active'=>1];
-		$return['recordsTotal']		= $this->hari_model->_count($params0);
-		$return['recordsFiltered']	= $this->hari_model->_count($params);		
-		$raw[]	  					= [$params,$search,$this->db->last_query()];
+		$params0 					= ['active'=>1, 'waktu_masuk'=>1];
+		$return['recordsTotal']		= $this->hadir_model->_count($params0);
+		$times['recordsTotal'] = microtime(true) - $startTime;
+		$raw['count']				= [$params0, $search, $this->db->last_query()];
+		
+		$return['recordsFiltered']	= $this->hadir_model->_count($params);
+		$times['recordsFiltered']   = microtime(true) - $startTime;
+		$raw[]	  					= [$params, $search, $this->db->last_query()];
 //-----data
-		$dataHari					= $this->hari_model->_get($params, $limit,$start);
+		$dataHari					= $this->hadir_model->_get($params, $limit,$start);
+		$times['getData']   		= microtime(true) - $startTime;
 		$raw[]    					= $this->db->last_query();
-		$raw[]    					= $dataHari;
+		$raw['data']                = $dataHari;
 		$data     					= [];
-		$no       					= $start+1;;
+		$no       					= $start+1;
+		
+		$pamongs = [];
 		foreach($dataHari as $row)
 		{
-			$info = "Hari biasa";
-			if ($row['status'] == 1)
+			if( !isset($pamongs[ $row['pamong_id'] ]) )
 			{
-				$info = "Hari Libur";
-				
+				$pamongs[ $row['pamong_id'] ] = $this->pamong->get_data($row['pamong_id']);
+				$times['getPamong-'.$row['pamong_id']] = microtime(true) - $startTime;
 			}
-			elseif ($row['status'] == 9)
-			{
-				$info = $row['detail'];
-				
-			}
-
+			
+			$pamong = $pamongs[ $row['pamong_id'] ];
+			//$pamong = json_decode( $row['pamong_info'], 1);
 			$data[] = [
-				$no++,
-				date("d/m/Y",strtotime($row['tgl_merah'])),
-				$info,
-				'-'
+				$no++, //no
+				date( "d/m/Y", strtotime($row['tanggal']) ), //tanggal
+				$pamong['pamong_nama'], //pamong
+				date( "H:i:s", strtotime($row['waktu_masuk']) ), //jam masuk 
+				date( "H:i:s", strtotime($row['waktu_keluar']) ), //jam keluar
+				'pamong'=>$pamongs[ $row['pamong_id'] ]
 			];
 		}
 		
+		$raw['pamongs'] = $pamongs;
 		$return['data'] = $data;
 		$return['raw'] = $raw;
 		if (ENVIRONMENT != 'development')
 		{
 			unset($return['raw']);
 			
+		}
+		else
+		{
+			$return['times'] = $times;
 		}
 		
 		return $return;

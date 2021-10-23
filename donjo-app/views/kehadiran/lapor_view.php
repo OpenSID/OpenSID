@@ -2,7 +2,7 @@
 .info-red{background:red;color:white;text-align:center}
 #divTblTgl{width:99%;margin:auto}
 #divTblTgl tbody tr td:nth-child(1){text-align:right}
-#divTblTgl tbody tr td:nth-child(2),#divTblTgl tbody tr td:nth-child(4){text-align:center}
+#divTblTgl tbody tr td:nth-child(2){text-align:center}
 #divTblTgl thead tr th{text-align:center;font-size:medium}
 </style>
 <div class="content-wrapper">
@@ -11,12 +11,12 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="#"> Kehadiran</a></li>
-			<li class="active">Rekap Kehadiran</li>
+			<li class="active">Rekap Kehadiran dan Laporan</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
 <?php if ($_SERVER['SERVER_PORT']=='229') : 
-echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
+ 
 	$form_upload=site_url('set_hari/upload');
 ?>
 		<div class="box box-info  ">
@@ -81,6 +81,7 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 					<thead>
 						<tr class='bg-gray color-palette'>
 							<th width='10%'>NO</th>
+							<th> Aksi</th>
 							<th width='20%'>Tanggal</th>
 							<th>Pamong</th>							
 							<th width='15%'>Jam Masuk</th>			
@@ -113,4 +114,4 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 
 <!-- Untuk menampilkan pengaturan -->
 <?php 
-$this->load->view('kehadiran/js/rekap_js');
+$this->load->view('kehadiran/js/lapor_js');

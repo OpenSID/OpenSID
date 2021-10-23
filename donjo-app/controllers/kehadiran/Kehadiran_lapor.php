@@ -4,7 +4,7 @@
  *
  * Controller untuk modul Kehadiran > Hari Merah
  *
- * donjo-app/controllers/kehadiran/Kehadiran_rekap.php
+ * donjo-app/controllers/kehadiran/Kehadiran_lapor.php
  *
  */
 /*
@@ -40,22 +40,30 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Kehadiran_rekap extends Admin_Controller {
+class kehadiran_lapor extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->helper('form');
 		$this->load->model('hari_model');
+		$this->load->model('hadir_model');
 		$this->modul_ini 	 = 320;
-		$this->sub_modul_ini = 322;
+		$this->sub_modul_ini = 323;
 	}
 	
 	public function index()
 	{
 		$data = [];
 		
-		$this->render('kehadiran/rekap_view', $data);
+		$this->render('kehadiran/lapor_view', $data);
+	}
+	
+	public function detail()
+	{
+		$id = $this->input->get('id');
+		$data = $this->hadir_model->_get_id($id);
+		pre_print_r($data); 
 	}
 	
 }

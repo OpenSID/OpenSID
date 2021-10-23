@@ -24,6 +24,34 @@ private $table,$table_log;
 			$this->db->where('pamong_id', $params['pamong_id'] );
 		}
 		
+		if (isset($params['id']))
+		{
+			$this->db->where('id', $params['id'] );
+		}
+		
+		if (isset($params['waktu_masuk']))
+		{
+			$this->db->where('waktu_masuk is NOT NULL', NULL, FALSE );
+		}
+		
+		if (isset($params['isReported']))
+		{
+			$this->db->where('lapor_logs is NOT NULL', NULL, FALSE );
+		}
+		
+		if (isset($params['datatable_search_lapor']))
+		{
+			$this->db->where('pamong_info like "%'.$params['datatable_search_lapor'].'%"')
+			->or_where('lapor_logs like "%'.$params['datatable_search_lapor'].'%"');
+		}
+		
+		if (isset($params['datatable_search']))
+		{
+			$this->db->where('pamong_info like "%'.$params['datatable_search'].'%"')
+			->or_where('waktu_masuk like "%'.$params['datatable_search'].'%"')
+			->or_where('waktu_keluar like "%'.$params['datatable_search'].'%"');
+		}
+		
 		if (isset($params['keluarKosong']))
 		{
 			$this->db
@@ -57,6 +85,12 @@ private $table,$table_log;
 		}
 		
 		$this->db->limit($limit, $start);
+		
+		if ( isset($params['orders']))
+		{
+			$this->db->order_by($params['orders'][0], $params['orders'][1]);
+			$isSorted = 1;
+		}
 		
 		if ( !isset($isSorted))
 		{
@@ -127,5 +161,14 @@ private $table,$table_log;
 		$data   = $this->_get($params,$total);
 		$return = ['total'=>$total,'data'=>$data];
 		return $return;
+	}
+	
+	public function _get_id($id)
+	{
+		$params = [ 'id' => $id ];
+		$params['select']='*';
+		$params['first']=1;
+		return $this->_get($params);
+		
 	}
 }

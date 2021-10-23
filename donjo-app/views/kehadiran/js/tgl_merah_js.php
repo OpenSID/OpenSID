@@ -137,6 +137,7 @@ $(function() {
 			$(this).append(txt);
 		} 
 	});
+	
 	$( ".inp-bulan" ).each(function( index ) {
 		const bln = ["Silakan memilih bulan","Januari", "Februari","Maret","April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober","November", "Desember"];
 		for (month=1; month < bln.length; month++) {
@@ -145,14 +146,15 @@ $(function() {
 		}
 
 	});
+
 	$("#showTanggalMerah").click(function(){
 		/*showCalender();*/
 		tableDT.draw();
 	});
-	  $('#updateDt').on('click', function () {
-		console.log('Redrawing table, searching for', $(this).val());
+	
+	$('#updateDt').on('click', function () {
 		tableDT.draw();
-	  });
+	});
 
   
 } );

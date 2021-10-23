@@ -58,7 +58,8 @@
 			}, 500);
 		}
 		
-		document.getElementById("nik_keyboard").focus();console.log("NIK AKTIF");
+		document.getElementById("nik_keyboard").focus();
+		/*console.log("NIK AKTIF");*/
 	</script>
 	
 <script type="text/javascript">
