@@ -161,13 +161,6 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
-							<?php if (ENVIRONMENT == 'development'): ?>
-								<li>
-									<a>
-										<i class="fa fa-cog fa-lg" title="Development"></i><span class="badge">Development</span>
-									</a>
-								</li>
-							<?php endif; ?>
 							<?php if ($notif_langganan): ?>
 								<li>
 									<a href="<?= site_url('pelanggan'); ?>">
