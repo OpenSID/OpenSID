@@ -3,7 +3,7 @@
 	<div class="modal-body">
 		<div class="form-group">
 			<label for="rtm_nomor">Nomor Rumah Tangga</label>
-			<input id="no_kk" name="no_kk" class="form-control input-sm digits required" type="text" placeholder="Nomor Rumah Tangga" value="<?= $kk['no_kk']; ?>"/>
+			<input id="no_kk" name="no_kk" class="form-control input-sm digits required" type="text" placeholder="Nomor Rumah Tangga" value="<?= $kk['no_kk']; ?>" maxlength="30"/>
 		</div>
 		<div class="form-group">
 			<label for="bdt">BDT</label>
