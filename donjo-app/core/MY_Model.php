@@ -50,6 +50,7 @@ class MY_Model extends CI_Model {
 			case 'status-idm':
 			case 'status-sdgs':
 			case 'lapak':
+			case 'pembangunan':
 				break;
 
 			default:

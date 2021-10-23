@@ -112,7 +112,7 @@
 								<?php if ($this->CI->cek_hak_akses('u')): ?>
 									<a href="#" data-href="<?= site_url("pembangunan_dokumentasi/delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 								<?php endif; ?>
-					   `
+							`
 						}, 'class': 'text-center'
 					},
 				<?php endif; ?>

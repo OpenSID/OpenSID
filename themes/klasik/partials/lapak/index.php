@@ -146,30 +146,28 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var token = "<?= $this->setting->mapbox_key; ?>";
+	var map_key = "<?= $this->setting->mapbox_key; ?>";
 
 	$(document).ready(function() {
 		$(document).on('shown.bs.modal','#map-modal', function(event) {
-			var link = $(event.relatedTarget);
-			var title = link.data('title');
-			var modal = $(this);
+			let link = $(event.relatedTarget);
+			let title = link.data('title');
+			let modal = $(this);
 			modal.find('.modal-title').text(title);
 			modal.find('.modal-body').html("<div id='map' style='width: 100%;'></div>");
 
-			var posisi = [link.data('lat'), link.data('lng')];
-			var zoom = link.data('zoom');
+			let posisi = [link.data('lat'), link.data('lng')];
+			let zoom = link.data('zoom');
+			let logo = L.icon({
+				iconUrl: "<?= base_url('assets/images/gis/point/fastfood.png'); ?>",
+			});
+			
 			$("#lat").val(link.data('lat'));
 			$("#lng").val(link.data('lng'));
 
-			// Inisialisasi tampilan peta
 			pelapak = L.map('map').setView(posisi, zoom);
-
-			// Menampilkan BaseLayers Peta
-			getBaseLayers(pelapak, token);
-
-			// Tampilkan Posisi Pelapak
-			marker = new L.Marker(posisi, {draggable:false});
-			pelapak.addLayer(marker);
+			getBaseLayers(pelapak, map_key);
+			pelapak.addLayer(new L.Marker(posisi, {icon:logo}));
 		});
 	});
 </script>
