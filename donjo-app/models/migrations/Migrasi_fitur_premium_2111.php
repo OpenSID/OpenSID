@@ -202,11 +202,36 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
 	protected function migrasi_2021102271($hasil)
   {
-		if (is_dir(FCPATH . 'cache'))
+		$cache_lama = FCPATH . 'cache';
+		$cache_desa = DESAPATH . 'cache';
+		if (is_dir($cache_lama))
 		{
-			$hasil = $hasil && rename(FCPATH . 'cache', DESAPATH . 'cache');
+			// Paksa supaya error_get_last() menangkap error
+			// var_dump or anything else, as this will never be called because of the 0
+			set_error_handler('var_dump', 0);
+			if ( ! is_dir($cache_desa))
+			{
+				$hasil = $hasil && rename($cache_lama, $cache_desa);
+				if ( ! $hasil) log_message('error', print_r(error_get_last(), true));
+			}
+			else
+			{
+				// Kalau folder desa/cache sudah ada, pindahkan file dari cache lama dan hapus cache lama
+			  $files = scandir($cache_lama);
+			  foreach ($files as $fname)
+			  {
+		      if ($fname != '.' && $fname != '..')
+		      {
+		        $hasil = $hasil && rename($cache_lama . '/' . $fname, $cache_desa . '/' . $fname);
+						if ( ! $hasil) log_message('error', print_r(error_get_last(), true));
+		      }
+		    }
+		    $hasil = $hasil && rmdir($cache_lama);
+				if ( ! $hasil) log_message('error', print_r(error_get_last(), true));
+			}
+			// Kembalikan error_handler;
+			restore_error_handler();
 		}
-
 		return $hasil;
   }
 	

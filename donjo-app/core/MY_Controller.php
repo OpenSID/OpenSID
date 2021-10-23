@@ -324,7 +324,6 @@ class Premium extends MY_Controller
 		$tokenParts = explode(".", $token);
 		$tokenPayload = base64_decode($tokenParts[1]);
 		$jwtPayload = json_decode($tokenPayload);
-
 		$date = new DateTime('20' . str_replace('.', '-', $this->setting->current_version) . '-01');
 		$version = $date->format('Y-m-d');
 
@@ -334,8 +333,7 @@ class Premium extends MY_Controller
 
 			return false;
 		}
-		
-		if (in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) || $this->setting->demo_mode)
+		if (isLocalIPAddress($_SERVER['REMOTE_ADDR']) || $this->setting->demo_mode)
 		{
 			return true;
 		}

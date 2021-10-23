@@ -341,7 +341,7 @@ switch (ENVIRONMENT)
 	define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}".str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
 
 /**
- * Costume path
+ * Custom path
  */
 	define('WEB', $web_folder);
 	define('ADMIN', $admin_folder);

@@ -1175,3 +1175,11 @@ function get_nik($nik = '0')
 
 	return '0';
 }
+
+// https://stackoverflow.com/questions/24043400/php-check-if-ipaddress-is-local/37725041
+function isLocalIPAddress($IPAddress)
+{
+    if( strpos($IPAddress, '127.0.') === 0 )
+        return true;
+    return ( ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) );
+}
