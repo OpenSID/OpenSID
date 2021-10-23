@@ -392,8 +392,7 @@ class Import_model extends CI_Model {
 				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->session->user;
 				if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
-				$id = $this->db->insert_id();
-				$penduduk_baru = $id;
+				$penduduk_baru = $this->db->insert_id();
 
 				// Insert ke log_penduduk pada penduduk baru
 				$log['tgl_peristiwa'] = $data['created_at'];
@@ -410,16 +409,15 @@ class Import_model extends CI_Model {
 			$data['created_by'] = $this->session->user;
 			if (! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 
-			$id = $this->db->insert_id();
-			$penduduk_baru = $id;
+			$penduduk_baru = $this->db->insert_id();
 		}
 
 		// Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
 		// dan sudah ada NIK
 		if ($data['kk_level'] == 1)
 		{
-      $this->db->where('id', $data['id_kk']);
-      $this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
+			$this->db->where('id', $data['id_kk']);
+			$this->db->update('tweb_keluarga', array('nik_kepala' => $penduduk_baru, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
 		}
 		return $penduduk_baru;
 	}
