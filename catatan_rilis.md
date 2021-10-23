@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 11. [#4462](https://github.com/OpenSID/OpenSID/issues/4462) Perbaiki urut permohonan surat.
 12. [#4471](https://github.com/OpenSID/OpenSID/issues/4471) Perbaiki buka halaman verifikasi surat.
 13. Perbaiki validasi input warna di Identitas Desa Peta Wilayah
+14. [#4484](https://github.com/OpenSID/OpenSID/issues/4484) Perbaiki impor data penduduk yg data keluarga tdk tampil.
 
 #### Perubahan Teknis
 1. [untuk diisi]
