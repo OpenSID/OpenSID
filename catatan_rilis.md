@@ -36,3 +36,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. Pindahkan Info System ke controller tersendiri.
 3. Pindahkan folder cache ke desa > cache.
 4. Gunakan devtool debugbar untuk development.
+5. Sederhanakan paging pada tema klasik.
