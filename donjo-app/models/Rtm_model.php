@@ -64,7 +64,10 @@ class Rtm_model extends MY_Model {
 
 	public function insert()
 	{
-		$nik = $_POST['nik_kepala'];
+
+		$post = $this->input->post();
+		$nik = bilangan($post['nik_kepala']);
+		
 
 		$no_rtm = $this->db->select('no_kk')
 			->order_by('length(no_kk) DESC, no_kk DESC')->limit(1)
@@ -90,6 +93,7 @@ class Rtm_model extends MY_Model {
 		}
 
 		$rtm['nik_kepala'] = $nik;
+		$rtm['bdt'] =  ! empty($post['bdt']) ? bilangan($post['bdt']) : NULL;
 		$outp = $this->db->insert('tweb_rtm', $rtm);
 
 		$default['id_rtm'] = $rtm['no_kk'];

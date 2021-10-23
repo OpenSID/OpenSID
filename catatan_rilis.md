@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. [#3404](https://github.com/OpenSID/OpenSID/issues/3404) Penyesuaian Istilah Baru tentng COVID-19.
 8. [#4402](https://github.com/OpenSID/OpenSID/issues/4402) Tampilkan data Pembangunan di halaman WEB.
 9. [#4404](https://github.com/OpenSID/OpenSID/issues/4404) Kaitkan indikator/pertanyaan analisis dengan data kependudukan.
+10. [#4352](https://github.com/OpenSID/OpenSID/issues/4352) Sediakan kolom input ID BDT di menu Tambah Rumah Tangga Baru.
 
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
