@@ -25,7 +25,7 @@
 						</div>
 						<div class="box-header">
 							<h3 class="text-center"><strong>SALINAN KARTU KELUARGA</strong></h3>
-							<h5 class="text-center"><strong>No.  <?= $kepala_kk['no_kk']?> </strong></h5>
+							<h5 class="text-center"><strong>No.  <?= get_nokk($kepala_kk['no_kk'])?> </strong></h5>
 						</div>
 						<div class="box-body">
 							<div class="row">

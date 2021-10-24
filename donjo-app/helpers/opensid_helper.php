@@ -1176,6 +1176,12 @@ function get_nik($nik = '0')
 	return '0';
 }
 
+// Sama dengan nik sementara
+function get_nokk($nokk = '0')
+{
+	return get_nik($nokk);
+}
+
 // https://stackoverflow.com/questions/24043400/php-check-if-ipaddress-is-local/37725041
 function isLocalIPAddress($IPAddress)
 {

@@ -213,6 +213,8 @@ class Keluarga extends Admin_Controller {
 		$data['suku'] = $this->penduduk_model->get_suku();
 		$data['nik_sementara'] = $this->penduduk_model->nik_sementara();
 		$data['cek_nik'] = get_nik($data['penduduk']['nik']);
+		$data['cek_nokk'] = get_nokk($data['kk']['no_kk']);
+		$data['nokk_sementara'] = $this->keluarga_model->nokk_sementara();
 
 		if ($this->session->status_hanya_tetap)
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap, 1);
@@ -288,6 +290,8 @@ class Keluarga extends Admin_Controller {
 		$data['rt'] = $this->wilayah_model->list_rt($data['kk']['dusun'], $data['kk']['rw']);
 		$data['program'] = $this->program_bantuan_model->list_program_keluarga($id);
 		$data['keluarga_sejahtera'] = $this->referensi_model->list_data('tweb_keluarga_sejahtera');
+		$data['cek_nokk'] = get_nokk($data['kk']['no_kk']);
+		$data['nokk_sementara'] = $this->keluarga_model->nokk_sementara();
 		$data['form_action'] = site_url("keluarga/update_nokk/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_nokk', $data);
 	}
@@ -297,6 +301,8 @@ class Keluarga extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u');
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
+		$data['cek_nokk'] = get_nokk($data['kk']['no_kk']);
+		$data['nokk_sementara'] = $this->keluarga_model->nokk_sementara();
 		$data['form_action'] = site_url("keluarga/insert/$id");
 		$this->load->view('sid/kependudukan/ajax_add_keluarga', $data);
 	}
@@ -655,6 +661,13 @@ class Keluarga extends Admin_Controller {
 	{
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_keluarga', $id_program, '0');
+	}
+
+	public function nokk_sementara()
+	{
+		$this->session->nokk_sementara = '0';
+
+		redirect('keluarga');
 	}
 
 }

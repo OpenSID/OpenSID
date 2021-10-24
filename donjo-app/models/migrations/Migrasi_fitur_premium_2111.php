@@ -57,7 +57,7 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021102071($hasil);
 		$hasil = $hasil && $this->migrasi_2021102271($hasil);
 		$hasil = $hasil && $this->migrasi_2021102371($hasil);
-
+		$hasil = $hasil && $this->migrasi_2021102451($hasil);
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -237,7 +237,8 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 	
 	protected function migrasi_2021102371($hasil)
 	{
-		if (! $this->db->field_exists('referensi', 'analisis_indikator')) {
+		if (! $this->db->field_exists('referensi', 'analisis_indikator'))
+		{
 			$fields = [
 				'referensi' => [
 					'type' => 'VARCHAR',
@@ -251,4 +252,38 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
 		return $hasil;
 	}
+
+	protected function migrasi_2021102451($hasil)
+	{
+		// Sesuaikan struktur kolom no_kk untuk No KK Sementara
+		$fields = [
+			'no_kk' => [
+				'type' => 'VARCHAR',
+				'constraint' => 16,
+			]
+		];
+		$hasil = $hasil && $this->dbforge->modify_column('tweb_keluarga', $fields);
+		$fields = [
+			'no_kk' => [
+				'type' => 'VARCHAR',
+				'constraint' => 16,
+				'default' => NULL
+			]
+		];
+		$hasil = $hasil && $this->dbforge->modify_column('log_penduduk', $fields);
+
+
+		// Ubah No. KK 0 jadi 0[kode-desa-10-digit];
+		$list_data = $this->db->select('id, no_kk')->get_where('tweb_keluarga', ['no_kk' => '0'])->result();
+		foreach ($list_data as $data)
+		{
+			$nokk_sementara = $this->keluarga_model->nokk_sementara();
+			$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_keluarga', ['no_kk' => $nokk_sementara]);
+		}
+
+		$hasil = $hasil && $this->tambah_indeks('tweb_keluarga', 'no_kk');
+
+		return $hasil;
+	}
+
 }

@@ -83,6 +83,7 @@
 									<option value="1" <?= selected($status_dasar, 1); ?>>KK Aktif</option>
 									<option value="2" <?= selected($status_dasar, 2); ?>>KK Hilang/Pindah/Mati</option>
 									<option value="3" <?= selected($status_dasar, 3); ?>>KK Kosong</option>
+									<option value="4" <?= selected($status_dasar, 4); ?>>No. KK Sementara</option>
 								</select>
 								<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('keluarga/filter/sex')?>')">
 									<option value="">Pilih Jenis Kelamin</option>
