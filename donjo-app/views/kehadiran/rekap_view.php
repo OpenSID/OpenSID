@@ -47,10 +47,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <style>
 .info-red{background:red;color:white;text-align:center}
-#divTblTgl{width:99%;margin:auto}
-#divTblTgl tbody tr td:nth-child(1){text-align:right}
-#divTblTgl tbody tr td:nth-child(2),#divTblTgl tbody tr td:nth-child(4),#divTblTgl tbody tr td:nth-child(5){text-align:center}
-#divTblTgl thead tr th{text-align:center;font-size:medium}
+#divTblRekap{width:99%;margin:auto}
+#divTblRekap tbody tr td:nth-child(1){text-align:right}
+#divTblRekap tbody tr td:nth-child(2),#divTblRekap tbody tr td:nth-child(4),#divTblRekap tbody tr td:nth-child(5){text-align:center}
+#divTblRekap thead tr th{text-align:center;}
+<?=$this->load->view('kehadiran/datatable_css',[],1);?>
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -122,8 +123,8 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
  
 			</div>
 			<div class='box-body'> 
-				<div id='divTblTgl'>
-				<table id='tblRekap'  class="table table-bordered table-striped dataTable table-hover">
+				<div id='divTblRekap'>
+				<table id='tblRekap'  class="dataTable datatable-striped">
 					<thead>
 						<tr class='bg-gray color-palette'>
 							<th width='10%'>NO</th>
