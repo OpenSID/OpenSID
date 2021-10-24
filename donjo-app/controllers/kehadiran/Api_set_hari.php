@@ -124,6 +124,11 @@ class Api_set_hari extends CI_Controller
 		 'data'            => [],
 		 'raw'			   => NULL,
 		];
+		
+		$column_order = [
+			2 => 'tgl_merah',
+		];
+		
 		$raw[]          = [$this->input->post(), $this->input->get()];
 		$return['draw'] = $this->input->post('draw',0);
 		$tipe			= $this->input->post('type');
@@ -131,7 +136,9 @@ class Api_set_hari extends CI_Controller
 		$limit			= $this->input->post('length');
 		$params			= [];
 		$search 		= $this->input->post('search');
-		$params			= ['active'=>1];
+		$order 			= $this->input->post('order');
+		$params			= [ 'active' => 1 ];
+		
 		if ($tipe=='date')
 		{
 			$date1 = $this->input->post('dateStart');
@@ -162,6 +169,10 @@ class Api_set_hari extends CI_Controller
 			$raw[] = [strlen($search), $search];
 			
 		}
+		
+		$order_column = $order[0]['column'];//urut
+		$order_dir 	  = $order[0]['dir'];//urut
+		$params['orders'] = [ $column_order[$order_column] , $order_dir];
 
 		$params0 					= ['active'=>1];
 		$return['recordsTotal']		= $this->hari_model->_count($params0);
@@ -189,15 +200,15 @@ class Api_set_hari extends CI_Controller
 
 			$data[] = [
 				$no++,
+				$row['tgl_merah'],				
 				date("d/m/Y",strtotime($row['tgl_merah'])),
-				$info,
-				'-'
+				$info, 
 			];
 		}
 		
 		$return['data'] = $data;
 		$return['raw'] = $raw;
-		if (ENVIRONMENT != 'development')
+		if (ENVIRONMENT != 'development'  )
 		{
 			unset($return['raw']);
 			
