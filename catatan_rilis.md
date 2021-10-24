@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 13. Perbaiki validasi input warna di Identitas Desa Peta Wilayah
 14. [#4484](https://github.com/OpenSID/OpenSID/issues/4484) Perbaiki impor data penduduk yg data keluarga tdk tampil.
 15. [#4485](https://github.com/OpenSID/OpenSID/issues/4485) Batasi input data Nomor Rumah Tangga maksimal 30 karakter.
+16. [#4492](https://github.com/OpenSID/OpenSID/issues/4492) Perbaiki gagal akses modul Inventaris dan Kekayaan Desa jika data masih kosong/tidak ada.
 
 #### Perubahan Teknis
 1. Pindahkan tampilan lapak ke masing-masing tema.
