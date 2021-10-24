@@ -121,7 +121,7 @@ class Api_rekap extends CI_Controller
 		
 		$params['active'] = 1;
 		$params['waktu_masuk'] = 1;
-		$params['select'] = 'id, pamong_id, tanggal, pamong_info';
+		$params['select'] = 'id, pamong_id, tanggal, pamong_info, waktu_masuk, waktu_keluar';
 		if (strlen($search['value']) >= 3)
 		{
 			$params['datatable_search'] = $search['value'];
