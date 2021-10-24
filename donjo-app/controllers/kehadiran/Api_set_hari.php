@@ -166,6 +166,7 @@ class Api_set_hari extends CI_Controller
 		}
 		else
 		{
+			$params['datatable_search'] = date("Y");
 			$raw[] = [strlen($search), $search];
 			
 		}

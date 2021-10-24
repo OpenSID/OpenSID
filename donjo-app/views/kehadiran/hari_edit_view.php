@@ -66,7 +66,7 @@ $options = array(
 							<div class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input name='tgl_merah' value='<?=@$hari['tgl_merah'];?>'  class="form-control input-sm tgl"
+							<input name='tgl_merah' value='<?=@$hari['tgl_merah'];?>'  class="  input-sm tgl"
 							<?=isset($hari['tgl_merah']) && $hari['tgl_merah'] != '0000-00-00'?'readonly' : NULL;?>   />
 						</div>
 					</div> 
@@ -83,7 +83,7 @@ $options = array(
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="year">Keterangan </label> 
 						<div class="col-sm-9">
-							<input name='detail' value='<?=@$hari['detail'];?>'  />
+							<input name='detail' value='<?=@$hari['detail'];?>' class="form-control input-sm " />
 						</div>
 					</div>
 				</div>

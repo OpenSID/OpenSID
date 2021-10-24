@@ -161,7 +161,7 @@ $(function() {
 				d.dateEnd   =dateEnd;
 */
 ?>
-				d.search.value = '<?=date("Y");?>';
+				//d.search.value = '<?=date("Y");?>';
 				d.action ='datatables';
 
 			}
