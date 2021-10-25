@@ -5,7 +5,7 @@
 		<div style="margin-top:0px;">
 			<?php if (!empty($teks_berjalan)): ?>
 				<marquee onmouseover="this.stop()" onmouseout="this.start()">
-					<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php'); ?>
+					<?php $this->load->view("$folder_themes/layouts/teks_berjalan"); ?>
 				</marquee>
 			<?php endif; ?>
 		</div>
@@ -174,7 +174,7 @@
 							</tr>
 							<tr class="captcha"><td>&nbsp;</td>
 								<td>
-									<img id="captcha" src="<?= base_url('securimage/securimage_show.php'); ?>" alt="CAPTCHA Image"/>
+									<img id="captcha" src="<?= base_url('securimage/securimage_show'); ?>" alt="CAPTCHA Image"/>
 									<a href="#" onclick="document.getElementById('captcha').src = '<?= base_url()."securimage/securimage_show.php?"?>' + Math.random(); return false" style="color: #000000;">[ Ganti gambar ]</a>
 								</td>
 							</tr>
