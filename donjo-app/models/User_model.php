@@ -78,7 +78,7 @@ class User_model extends CI_Model {
 
 	public function siteman()
 	{
-		$this->load->library('telegram/telegram');
+		$this->load->library('Telegram/telegram');
 
 		$this->_username = $username = trim($this->input->post('username'));
 		$this->_password = $password = trim($this->input->post('password'));

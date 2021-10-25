@@ -302,7 +302,7 @@ class Surat extends Mandiri_Controller
 
 	public function kirim($id = '')
 	{
-		$this->load->library('telegram/telegram');
+		$this->load->library('Telegram/telegram');
 
 		$data_permohonan = $this->session->data_permohonan;
 		$post = $this->input->post();

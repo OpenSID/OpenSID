@@ -69,7 +69,7 @@ class Pesan extends Mandiri_Controller
 	// TODO: Ganti nik jadi id_pend
 	public function kirim($kat = 2)
 	{
-		$this->load->library('telegram/telegram');
+		$this->load->library('Telegram/telegram');
 
 		$data = $this->input->post();
 		$post['email'] = $this->is_login->nik; // kolom email diisi nik untuk pesan
