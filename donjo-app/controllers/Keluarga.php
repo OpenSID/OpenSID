@@ -670,4 +670,22 @@ class Keluarga extends Admin_Controller {
 		redirect('keluarga');
 	}
 
+	public function form_pecah_semua($id = 0)
+	{
+		$this->redirect_hak_akses('u');
+		$data['kk'] = $this->keluarga_model->get_keluarga($id);
+		$data['anggota'] = 	$this->keluarga_model->list_anggota($id, ['dengan_kk' => FALSE]);
+		$data['cek_nokk'] = get_nokk($data['kk']['no_kk']);
+		$data['nokk_sementara'] = $this->keluarga_model->nokk_sementara();
+		$data['form_action'] = site_url("keluarga/pecah_semua/$id");
+		$this->load->view('sid/kependudukan/pecah_semua', $data);
+	}
+
+	public function pecah_semua($id = 0)
+	{
+		$this->redirect_hak_akses('u');
+		$this->keluarga_model->pecah_semua($id, $this->input->post());
+		redirect('keluarga/clear');
+	}
+
 }

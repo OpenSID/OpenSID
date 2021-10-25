@@ -635,7 +635,7 @@
 	public function get_keluarga($id = 0)
 	{
 		$data = $this->db
-			->select('k.*, p.status_dasar, b.dusun as dusun, b.rw as rw')
+			->select('k.*, p.nama, p.nik, p.status_dasar, b.dusun as dusun, b.rw as rw, b.rt as rt')
 			->from('tweb_keluarga k')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id')
 			->join('tweb_wil_clusterdesa b', 'k.id_cluster = b.id', 'left')
@@ -643,8 +643,11 @@
 			->get()->row_array();
 		$data['alamat_plus_dusun'] = $data['alamat'];
 		$data['tgl_cetak_kk'] = tgl_indo_out($data['tgl_cetak_kk']);
-
-		if ($nokk_sementara) $data['no_kk'] = get_nokk($data['no_kk']);
+		if ( ! isset($data['alamat'])) $data['alamat'] = '';
+		if ( ! isset($data['rt'])) $data['rt'] = '';
+		if ( ! isset($data['rw'])) $data['rw'] = '';
+		$str_dusun = (empty($data['dusun']) or $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun." ".$data['dusun']);
+		$data['alamat_wilayah'] = trim("$data[alamat] RT $data[rt] / RW $data[rw] ".$str_dusun);
 
 		return $data;
 	}
@@ -1157,6 +1160,49 @@
 	  $desa = $this->config_model->get_data();
 
 		return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1);
+	}
+
+	public function pecah_semua($id, $post)
+	{
+		$this->session->unset_userdata(['success', 'error_msg']);
+		// Buat keluarga baru
+		$kel = $this->db
+			->where('id', $id)
+			->get('tweb_keluarga')->row_array();
+		unset($kel['id']);
+		$no_kk_lama = $kel['no_kk'];
+		$kel['nik_kepala'] = bilangan($post['nik_kepala']);
+		$kel['no_kk'] = bilangan($post['no_kk']);
+		$kel['updated_at'] = date('Y-m-d H:i:s');
+		$kel['updated_by'] = $this->session->user;
+		$hasil = $this->db->insert('tweb_keluarga', $kel);
+		$kk_id = $this->db->insert_id();
+		// Untuk statistik perkembangan keluarga
+		$this->log_keluarga($kk_id, $kel['nik_kepala'], 1);
+
+		// Masukkan semua anggota lama
+		$list_anggota = $this->db
+			->select('id')
+			->where('id_kk', $id)
+			->get('tweb_penduduk')->result_array();
+		foreach ($list_anggota as $anggota)
+		{
+			$data = [
+				'id_kk' => $kk_id,
+				'no_kk_sebelumnya' => $no_kk_lama,
+				'updated_at' => date('Y-m-d H:i:s'),
+				'updated_by' => $this->session->user
+			];
+			if ($anggota['id'] == $post['nik_kepala']) $data['kk_level'] = 1;
+			$hasil = $hasil && $this->db
+				->where('id', $anggota['id'])
+				->update('tweb_penduduk', $data);
+		}
+
+		// Hapus dokumen bersama dengan kepala KK sebelumnya
+		$hasil = $hasil && $this->web_dokumen_model->hard_delete_dokumen_bersama($id);
+
+		status_sukses($hasil, true); //Tampilkan Pesan
 	}
 
 }

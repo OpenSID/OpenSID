@@ -489,7 +489,7 @@ class Web_dokumen_model extends MY_Model {
 
 	public function hard_delete_dokumen_bersama($id_pend)
 	{
-		$this->db->delete('dokumen', array('id_pend' => $id_pend, 'id_parent >' => '0'));
+		return $this->db->delete('dokumen', array('id_pend' => $id_pend, 'id_parent >' => '0'));
 	}
 
 	public function delete_all()

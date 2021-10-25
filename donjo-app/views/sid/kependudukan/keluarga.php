@@ -190,6 +190,7 @@
 													<?php if ($data['status_dasar'] == 1): ?>
 														<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 													<?php else: ?>
+														<a href="<?= site_url("keluarga/form_pecah_semua/$data[id]")?>" title="Pecah semua anggota ke keluarga baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pecah menjadi keluarga baru" class="btn bg-purple btn-flat btn-sm"><i class="fa fa-cut"></i></a>
 														<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Lihat Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Data KK" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 													<?php endif; ?>
 												<?php endif; ?>

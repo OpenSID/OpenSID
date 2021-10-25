@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 9. [#4404](https://github.com/OpenSID/OpenSID/issues/4404) Kaitkan indikator/pertanyaan analisis dengan data kependudukan.
 10. [#4352](https://github.com/OpenSID/OpenSID/issues/4352) Sediakan kolom input ID BDT di menu Tambah Rumah Tangga Baru.
 11. Ubah No. KK Sementara dari 0 menjadi 16 digit diawali 0, dengan format 0[kode-desa-10-digit][nomor-urut-5-digit]
+12. Sediakan bisa pecah seluruh anggota keluarga status mati/hilang/pindah dan masukkan ke keluarga baru.
 
 #### Perbaikan BUG
 1. [#4450](https://github.com/OpenSID/OpenSID/issues/4450) Perbaiki bisa unduh salinan kartu keluarga.
