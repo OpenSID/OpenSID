@@ -110,11 +110,11 @@
 																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Tipe Pertanyaan <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==6): ?>
-																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori / Variabel <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																	<?php elseif ($o==5): ?>
-																		<th><a href="<?= site_url("analisis_indikator/index/$p/6")?>">Kategori/Variabel <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																		<th><a href="<?= site_url("analisis_indikator/index/$p/6")?>">Kategori / Variabel <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																	<?php else: ?>
-																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
+																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/5")?>">Kategori / Variabel <i class='fa fa-sort fa-sm'></i></a></th>
 																	<?php endif; ?>
 																	<?php if ($o==2): ?>
 																		<th nowrap><a href="<?= site_url("analisis_indikator/index/$p/1")?>">Bobot <i class='fa fa-sort-asc fa-sm'></i></a></th>

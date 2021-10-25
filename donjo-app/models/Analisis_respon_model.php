@@ -1278,4 +1278,25 @@
 		
 		return $result;
 	}
+
+	public function perbaharui($id_subjek = 0)
+	{
+		// Daftar indikator yg menggunakan referensi
+		$id_indikator = $this->db
+			->select('id')
+			->get_where('analisis_indikator', ['id_master' => $this->session->analisis_master])
+			->result_array();
+
+		if ($id_indikator)
+		{
+			$id_indikator = array_column($id_indikator, 'id');
+
+			$outp = $this->db
+				->where('id_subjek', $id_subjek)
+				->where_in('id_indikator', $id_indikator)
+				->delete('analisis_respon');
+		}
+
+		status_sukses($outp);
+	}
 }

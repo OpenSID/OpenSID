@@ -157,10 +157,10 @@
 		// Tambahkan Isi dari pertanyaan berdasarkan referensi
 		if ($id && $data['id_tipe'] == 1)
 		{
-			$data_referensi = $this->data_tabel($this->session->subjek_tipe)[$data['referensi']];
-			if ($data_referensi['referensi'])
+			$referensi = $this->data_tabel($this->session->subjek_tipe)[$data['referensi']]['referensi'];
+			if ($referensi)
 			{
-				foreach ($data_referensi['referensi'] as $value)
+				foreach ($referensi as $value)
 				{
 					$insert['kode_jawaban'] = bilangan($value['id']);
 					$insert['jawaban'] = htmlentities($value['nama']);
@@ -178,10 +178,10 @@
 		// Hanya kolom yang boleh diubah untuk analisis sistem
 		$data['is_publik'] = $_POST['is_publik'];
 		$this->db->where('id',$id)->update('analisis_indikator', $data);
-		$_SESSION['success'] = 1;
+		$this->session->success = 1;
 	}
 
-	public function update($id=0)
+	public function update($id = 0)
 	{
 		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master))
 		{
@@ -191,28 +191,28 @@
 
 		$data = $this->validasi_data($this->input->post());
 
-		if ($data['id_tipe'] == 3 OR $data['id_tipe'] == 4)
+		if ($data['id_tipe'] == 1 OR $data['id_tipe'] == 2)
 		{
-			$sql = "DELETE FROM analisis_parameter WHERE id_indikator=?";
-			$this->db->query($sql, $id);
-
+			$this->db->where('id_indikator', $id)->delete('analisis_parameter');
 		}
 
 		$data['id_master'] = $this->session->analisis_master;
-		$this->db->where('id', $id);
-		$outp = $this->db->update('analisis_indikator', $data);
+		$outp = $this->db->where('id', $id)->update('analisis_indikator', $data);
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id = 0, $semua = false)
 	{
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
+		// Hapus data analisis master
+		$outp = $this->db->where('id_indikator', $id)->delete('analisis_parameter');
+
 		if (!$semua) $this->session->success = 1;
 		$outp = $this->db->where('id', $id)->delete('analisis_indikator');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, true); //Tampilkan Pesan
 	}
 
 
@@ -223,20 +223,22 @@
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id, $semua=true);
+			$this->delete($id, true);
 		}
 	}
 
 	private function validasi_parameter($post)
 	{
-		$data = array();
-		$data['kode_jawaban'] = bilangan($post['kode_jawaban']);
-		$data['jawaban'] = htmlentities($post['jawaban']);
-		$data['nilai'] = bilangan($post['nilai']);
+		$data = [
+			'kode_jawaban' => bilangan($post['kode_jawaban']),
+			'jawaban' => htmlentities($post['jawaban']),
+			'nilai' => bilangan($post['nilai']),
+		];
+
 		return $data;
 	}
 
-	public function p_insert($in='', $data_referensi = null)
+	public function p_insert($in = 0, $data_referensi = null)
 	{
 		// Analisis sistem tidak boleh diubah
 		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
@@ -248,11 +250,12 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function p_update($id = 0, $data_referensi = null)
+	public function p_update($id = 0)
 	{
-		$data = $data_referensi ?? $this->validasi_parameter($this->input->post());
+		$data = $this->validasi_parameter($this->input->post());
 		// Analisis sistem hanya kolom tertentu boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)){
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master) || $this->input->post('referensi'))
+		{
 			unset($data['kode_jawaban']);
 			unset($data['jawaban']);
 		}
@@ -261,7 +264,7 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function p_delete($id='')
+	public function p_delete($id = 0)
 	{
 		$this->session->success = 1;
 		// Analisis sistem tidak boleh dihapus
@@ -269,7 +272,7 @@
 
 		$outp = $this->db->where('id', $id)->delete('analisis_parameter');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, true); //Tampilkan Pesan
 	}
 
 	public function p_delete_all()
@@ -282,47 +285,32 @@
 		}
 	}
 
-	public function list_indikator($id=0)
+	public function list_indikator($id = 0)
 	{
-		$sql = "SELECT * FROM analisis_parameter WHERE id_indikator = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-		}
-		return $data;
+		return $this->db
+			->get_where('analisis_parameter', ['id_indikator' => $id])
+			->result_array();
 	}
 
-	public function get_analisis_indikator($id=0)
+	public function get_analisis_indikator($id = 0)
 	{
-		$sql = "SELECT * FROM analisis_indikator WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
+		return $this->db
+			->get_where('analisis_indikator', ['id' => $id])
+			->row_array();
 	}
 
-	// TODO: ganti semua method get_analisis_master menggunakan yg di analisis_master_model
-	public function get_analisis_master()
+	public function get_analisis_parameter($id = 0)
 	{
-		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql,$_SESSION['analisis_master']);
-		return $query->row_array();
-	}
-
-	public function get_analisis_parameter($id='')
-	{
-		$sql = "SELECT * FROM analisis_parameter WHERE id = ?";
-		$query = $this->db->query($sql,$id);
-		return $query->row_array();
+		return $this->db
+			->get_where('analisis_parameter', ['id' => $id])
+			->row_array();
 	}
 
 	public function list_tipe()
 	{
-		$sql = "SELECT * FROM analisis_tipe_indikator";
-		$query = $this->db->query($sql);
-		return $query->result_array();
+		return $this->db
+			->get('analisis_tipe_indikator')
+			->result_array();
 	}
 
 	// TODO: pindahkan ke analisis_kategori_model
@@ -334,7 +322,7 @@
 		return $query->result_array();
 	}
 
-	public function raw_analisis_indikator_by_id_master($id='')
+	public function raw_analisis_indikator_by_id_master($id = 0)
 	{
 		$raw_indikator = $this->db
 			->select('i.*, k.kategori')
@@ -345,7 +333,7 @@
 		return $raw_indikator;
 	}
 
-	public function get_analisis_indikator_by_id_master($id='')
+	public function get_analisis_indikator_by_id_master($id = 0)
 	{
 		$result = array();
 		$list_indikator = array();

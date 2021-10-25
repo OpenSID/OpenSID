@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Indikator Analisis [ <?= $analisis_master['nama']?> ]</h1>
+		<h1>Pengaturan Indikator Analisis [ <?= $analisis_master['nama']; ?> ]</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?=site_url('analisis_master/clear')?>"> Master Analisis</a></li>
@@ -24,12 +24,12 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="referensi">Kaitkan Dengan Data Yang Sudah Ada</label>
+										<label class="col-sm-3 control-label" for="referensi">Hubungkan Dengan Data <?= $analisis_master['subjek_nama']; ?></label>
 										<div class="col-sm-5">
-											<select class="form-control select2" id="referensi" name="referensi" <?= jecho($analisis_master['jenis'], 1, 'disabled') ?>>
-												<option value="" selected="selected" data-tipe="">Tidak Perlu di Hubungkan</option>
+											<select class="form-control select2" id="referensi" name="referensi" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?>>
+												<option value="" selected data-tipe="">Jangan hubungkan</option>
 												<?php foreach ($data_tabel AS $referensi => $data): ?>
-													<option value="<?= $referensi; ?>" <?= selected($analisis_indikator['referensi'], $referensi) ?> data-tipe="<?= $data['tipe'] ?? 4; ?>"><?= $data['judul']; ?></option>
+													<option value="<?= $referensi; ?>" <?= selected($analisis_indikator['referensi'], $referensi) ?> data-tipe="<?= $data['tipe'] ?? 4; ?>"><?= $analisis_master['subjek_nama'] . ' : ' . $data['judul']; ?></option>
 												<?php endforeach;?>
 											</select>
 										</div>
@@ -39,16 +39,16 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="id_tipe">Tipe Pertanyaan</label>
 										<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-											<label id="sx3" <?= jecho($analisis_master['jenis'], 1, 'disabled') ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'] == '1' OR $analisis_indikator['id_tipe'] == NULL, true, 'active') ?>">
+											<label id="sx3" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'] == '1' OR $analisis_indikator['id_tipe'] == NULL, true, 'active') ?>">
 												<input id="group3" type="radio" name="id_tipe" class="form-check-input" type="radio" value="1" onclick="<?= $analisis_indikator['id_tipe']; ?>" autocomplete="off">Pilihan (Tunggal)
 											</label>
-											<label id="sx2" <?= jecho($analisis_master['jenis'], 1, 'disabled') ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'], '2', 'active') ?>">
+											<label id="sx2" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'], '2', 'active') ?>">
 												<input id="group2" type="radio" name="id_tipe" class="form-check-input" type="radio" value="2" onclick="<?= $analisis_indikator['id_tipe']; ?>" autocomplete="off">Pilihan (Ganda)
 											</label>
-											<label id="sx1" <?= jecho($analisis_master['jenis'], 1, 'disabled') ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'], '3', 'active') ?>">
+											<label id="sx1" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'], '3', 'active') ?>">
 												<input id="group1" type="radio" name="id_tipe" class="form-check-input" type="radio" value="3" onclick="<?= $analisis_indikator['id_tipe']; ?>" autocomplete="off">Isian Jumlah (Kuantitatif)
 											</label>
-											<label id="sx4" <?= jecho($analisis_master['jenis'], 1, 'disabled') ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'], '4', 'active') ?>">
+											<label id="sx4" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'], '4', 'active') ?>">
 												<input id="group4" type="radio" name="id_tipe" class="form-check-input" type="radio" value="4" onclick="<?= $analisis_indikator['id_tipe']; ?>" autocomplete="off">Isian Teks (Kualitatif)
 											</label>
 										</div>
@@ -66,7 +66,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="pertanyaan">Pertanyaan</label>
 										<div class="col-sm-8">
-											<textarea id="pertanyaan" class="form-control input-sm required" placeholder="Pertanyaan" name="pertanyaan" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>><?= $analisis_indikator['pertanyaan']?></textarea>
+											<textarea id="pertanyaan" class="form-control input-sm required" placeholder="Pertanyaan" name="pertanyaan" rows="5" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>><?= $analisis_indikator['pertanyaan']?></textarea>
 										</div>
 									</div>
 								</div>
@@ -74,8 +74,8 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="id_tipe">Kategori Indikator</label>
 										<div class="col-sm-5">
-											<select class="form-control select2 required" id="id_kategori" name="id_kategori" <?= jecho($analisis_master['jenis'], 1, 'disabled') ?>>
-												<option value="" selected="selected">-- Kategori Indikator--</option>
+											<select class="form-control select2 required" id="id_kategori" name="id_kategori">
+												<option value="" selected="selected">-- Kategori Indikator --</option>
 												<?php foreach ($list_kategori AS $data): ?>
 													<option value="<?= $data['id']?>" <?= selected($analisis_indikator['id_kategori'], $data['id']) ?>><?= $data['kategori']?></option>
 												<?php endforeach;?>
@@ -116,7 +116,7 @@
 											</label>
 										</div>
 										<label class="col-sm-3 control-label"></label>
-										<div class="col-sm-7"><p class="help-block small">*) Tampilkan data indikator di halaman depan website desa melalui menu statis/menu atas.</p></div>
+										<div class="col-sm-7"><p class="help-block small"><code>*) Tampilkan data indikator di halaman depan website desa melalui menu statis/menu atas</code></p></div>
 									</div>
 								</div>
 							</div>

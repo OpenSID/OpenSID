@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Analisis_statistik_jawaban.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -48,31 +52,27 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model(['analisis_statistik_jawaban_model', 'analisis_respon_model', 'wilayah_model', 'analisis_master_model']);
-
-		$_SESSION['submenu'] = "Statistik Jawaban";
-		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
+		$this->session->submenu = "Statistik Jawaban";
+		$this->session->asubmenu = "analisis_statistik_jawaban";
 		// TODO : Simpan di pengaturan aplikasi agar bisa disesuaikan oleh pengguna
 		$this->_set_page = ['20', '50', '100'];
 		$this->modul_ini = 5;
+		$this->sub_modul_ini = 110;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['tipe']);
-		unset($_SESSION['kategori']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
+		$this->session->unset_userdata(['cari', 'dusun', 'rw', 'rt', 'filter', 'tipe', 'kategori']);
 		$this->session->per_page = $this->_set_page[0];
-		redirect('analisis_statistik_jawaban');
+
+		redirect($this->controller);
 	}
 
 	public function leave()
 	{
-		$id = $_SESSION['analisis_master'];
-		unset($_SESSION['analisis_master']);
+		$id = $this->session->analisis_master;
+		$this->session->unset_userdata(['analisis_master']);
+
 		redirect("analisis_master/menu/$id");
 	}
 
@@ -80,8 +80,8 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		if (empty($this->analisis_master_model->get_aktif_periode()))
 		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';
+			$this->session->success = -1;
+			$this->session->error_msg = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';
 			redirect('analisis_periode');
 		}
 		unset($_SESSION['cari2']);
@@ -133,7 +133,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['paging'] = $this->analisis_statistik_jawaban_model->paging($p,$o);
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_statistik_jawaban_model->autocomplete();
-		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['list_tipe'] = $this->analisis_statistik_jawaban_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_statistik_jawaban_model->list_kategori();
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
@@ -168,7 +168,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$ai = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
-		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_indikator($id);
 
 		$this->set_minsidebar(1);
@@ -203,7 +203,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 		$data['analisis_statistik_pertanyaan'] = $this->analisis_statistik_jawaban_model->get_analisis_indikator($id);
 		$data['analisis_statistik_jawaban'] = $this->analisis_statistik_jawaban_model->get_analisis_parameter($par);
-		$data['analisis_master'] = $this->analisis_statistik_jawaban_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['main'] = $this->analisis_statistik_jawaban_model->list_subjek($par);
 
 		$this->set_minsidebar(1);
@@ -244,7 +244,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
-		redirect('analisis_statistik_jawaban');
+		redirect($this->controller);
 	}
 
 	public function filter()
@@ -253,7 +253,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if ($filter != 0)
 			$_SESSION['filter'] = $filter;
 		else unset($_SESSION['filter']);
-		redirect('analisis_statistik_jawaban');
+		redirect($this->controller);
 	}
 
 	public function tipe()
@@ -262,7 +262,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if ($filter != 0)
 			$_SESSION['tipe'] = $filter;
 		else unset($_SESSION['tipe']);
-		redirect('analisis_statistik_jawaban');
+		redirect($this->controller);
 	}
 
 	public function kategori()
@@ -271,7 +271,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if ($filter != 0)
 			$_SESSION['kategori'] = $filter;
 		else unset($_SESSION['kategori']);
-		redirect('analisis_statistik_jawaban');
+		redirect($this->controller);
 	}
 
 	public function dusun()
@@ -282,7 +282,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if ($dusun != "")
 			$_SESSION['dusun'] = $dusun;
 		else unset($_SESSION['dusun']);
-		redirect('analisis_statistik_jawaban');
+		redirect($this->controller);
 	}
 
 	public function rw()
@@ -292,7 +292,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if ($rw != "")
 			$_SESSION['rw'] = $rw;
 		else unset($_SESSION['rw']);
-		redirect('analisis_statistik_jawaban');
+		redirect($this->controller);
 	}
 
 	public function rt()
@@ -301,7 +301,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		if ($rt != "")
 			$_SESSION['rt'] = $rt;
 		else unset($_SESSION['rt']);
-		redirect('analisis_statistik_jawaban');
+		redirect($this->controller);
 	}
 
 	public function dusun2($id='', $par='')

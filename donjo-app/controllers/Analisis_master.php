@@ -10,6 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * donjo-app/controllers/Analisis_master.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -64,9 +65,7 @@ class Analisis_master extends Admin_Controller
 		$this->load->model('analisis_parameter_model');
 		$this->load->model('analisis_klasifikasi_model');
 		$this->load->model('referensi_model');
-
-		unset($_SESSION['submenu']);
-		unset($_SESSION['asubmenu']);
+		$this->session->unset_userdata(['submenu', 'asubmenu']);
 		$this->modul_ini = 5;
 		$this->sub_modul_ini = 110;
 		$this->set_page = ['20', '50', '100'];
@@ -112,7 +111,7 @@ class Analisis_master extends Admin_Controller
 		$this->render('analisis_master/table', $data);
 	}
 
-	public function form($p = 1, $o = 0, $id = '')
+	public function form($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
@@ -149,6 +148,7 @@ class Analisis_master extends Admin_Controller
 		$this->redirect_hak_akses('u');
 		$this->set_minsidebar(1);
 		$data['form_action'] = site_url("{$this->controller}/import");
+
 		$this->load->view('analisis_master/import', $data);
 	}
 
@@ -324,9 +324,9 @@ class Analisis_master extends Admin_Controller
 		$this->load->view('analisis_master/import_gform', $data);
 	}
 
-	public function menu($id = '')
+	public function menu($id = 0)
 	{
-		$_SESSION['analisis_master'] = $id;
+		$this->session->analisis_master = $id;
 		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($id);
 		$master = $data['analisis_master'];
 		$this->session->analisis_nama = $master['nama'];
@@ -448,7 +448,7 @@ class Analisis_master extends Admin_Controller
 		}
 	}
 
-	public function update($p = 1, $o = 0, $id = '')
+	public function update($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_master_model->update($id);
@@ -456,9 +456,9 @@ class Analisis_master extends Admin_Controller
 		redirect("{$this->controller}/index/$p/$o");
 	}
 
-	public function delete($p = 1, $o = 0, $id = '')
+	public function delete($p = 1, $o = 0, $id = 0)
 	{
-		$this->redirect_hak_akses('h', "{$this->controller}/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->analisis_master_model->delete($id);
 
 		redirect("{$this->controller}/index/$p/$o");
@@ -466,7 +466,7 @@ class Analisis_master extends Admin_Controller
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', "{$this->controller}/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->analisis_master_model->delete_all();
 
 		redirect("{$this->controller}/index/$p/$o");
@@ -481,7 +481,7 @@ class Analisis_master extends Admin_Controller
 		redirect($this->controller);
 	}
 
-	public function update_gform($id = '')
+	public function update_gform($id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->session->google_form_id = $this->analisis_master_model->get_analisis_master($id)['gform_id'];

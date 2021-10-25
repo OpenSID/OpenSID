@@ -102,11 +102,11 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function update($id=0)
+	public function update($id = 0)
 	{
 		$data = $this->validasi_data($this->input->post());
 		$data['id_master'] = $this->session->analisis_master;
-		$this->db->where('id',$id);
+		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_klasifikasi', $data);
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -137,13 +137,6 @@
 		$query = $this->db->query($sql, $id);
 		$data = $query->row_array();
 		return $data;
-	}
-
-	public function get_analisis_master()
-	{
-		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		return $query->row_array();
 	}
 
 	public function list_klasifikasi_by_id_master($id_master)

@@ -51,7 +51,8 @@
 								<i class="fa fa-search-plus"></i>Full Screen
 							</a>
 						<?php endif; ?>
-							<a href="<?= site_url()?>analisis_respon" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
+							<a href="<?= $perbaharui; ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perbaharui Data <?= $analisis_master['subjek_nama']; ?>"><i class="fa fa-refresh"></i> Pebaharui Data <?= $analisis_master['subjek_nama']; ?></a>
+							<a href="<?= site_url('analisis_respon'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -136,9 +137,9 @@
 																	<td width="35px;"></td>
 																	<td class="col-xs-12 col-sm-6 pull-left">
 																		<select class="form-control input-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
-																			<option value="">Pilih Jawaban</option>
+																			<option value="" <?= jecho(($data['referensi'] && $subjek[$data['referensi']]) && ! ($subjek[$data['referensi']] == $data2['kode_jawaban']) || ($data2['cek'] == 1), true, 'disabled'); ?>>Pilih Jawaban</option>
 																			<?php foreach ($data['parameter_respon'] AS $data2): ?>
-																				<option value="<?= $data['id']?>.<?= $data2['id_parameter']; ?>" <?= selected(($subjek[$data['referensi']] == $data2['kode_jawaban']) || ($data2['cek'] == 1), true); ?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
+																				<option <?= jecho(($data['referensi'] && $subjek[$data['referensi']]) && ! ($subjek[$data['referensi']] == $data2['kode_jawaban']) || ($data2['cek'] == 1), true, 'disabled'); ?> value="<?= $data['id']?>.<?= $data2['id_parameter']; ?>" <?= selected(($data2['cek'] == 1) || ($subjek[$data['referensi']] == $data2['kode_jawaban']), true); ?>><?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?></option>
 																			<?php endforeach;?>
 																		</select>
 																	</td>
@@ -150,7 +151,7 @@
 																		<?php foreach ($data['parameter_respon'] AS $data2): ?>
 																			<div class="checkbox">
 																				<label>
-																					<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" type="checkbox" <?php selected($data2['cek'], true, 1) ?>>
+																					<input name="cb[<?= $data2['id_parameter']?>_<?= $data['id']?>]" value="<?= $data['id']?>.<?= $data2['id_parameter']?>" type="checkbox" <?= selected($data2['cek'], true, 1) ?>>
 																					<?= $data2['kode_jawaban']?>. <?= $data2['jawaban']?>
 																				</label>
 																			</div>
@@ -162,7 +163,7 @@
 																	<tr>
 																		<td></td>
 																		<td>
-																			<input class="form-control input-sm" name="ia[<?= $data['id']?>]" value="<?= $data['parameter_respon']['jawaban']; ?>" type="number" min=0>
+																			<input <?= jecho($data['referensi'] && $subjek[$data['referensi']], true, 'readonly'); ?> class="form-control input-sm" name="ia[<?= $data['id']?>]" value="<?= $data['parameter_respon']['jawaban'] ?? $subjek[$data['referensi']]; ?>" type="number" min=0>
 																		</td>
 																	</tr>
 																</div>
@@ -177,7 +178,7 @@
 																					$subjek[$data['referensi']] = tgl_indo_dari_str($subjek[$data['referensi']]);
 																				}
 																			?>
-																			<textarea id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"><?= $data['parameter_respon']['jawaban'] ?? $subjek[$data['referensi']]; ?></textarea>
+																			<textarea <?= jecho($data['referensi'] && $subjek[$data['referensi']], true, 'readonly'); ?> id="it[<?= $data['id']?>]" name="it[<?= $data['id']?>]" class="form-control input-sm" style="width:100%"><?= $data['parameter_respon']['jawaban'] ?? $subjek[$data['referensi']]; ?></textarea>
 																		</td>
 																	</tr>
 																</div>

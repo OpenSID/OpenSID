@@ -272,13 +272,6 @@
 		return $data;
 	}
 
-	public function get_analisis_master()
-	{
-		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql,$_SESSION['analisis_master']);
-		return $query->row_array();
-	}
-
 	public function get_analisis_parameter($id='')
 	{
 		$sql = "SELECT * FROM analisis_parameter WHERE id = ?";

@@ -10,6 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * donjo-app/controllers/Analisis_indikator.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -49,26 +50,24 @@ class Analisis_indikator extends Admin_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['analisis_indikator_model', 'analisis_parameter_model']);
+		$this->load->model(['analisis_indikator_model', 'analisis_parameter_model', 'analisis_master_model']);
 		$this->session->submenu = "Data Indikator";
 		$this->session->asubmenu = "analisis_indikator";
 		$this->modul_ini = 5;
+		$this->sub_modul_ini = 110;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['tipe']);
-		unset($_SESSION['kategori']);
+		$this->session->unset_userdata(['cari', 'filter', 'tipe', 'kategori']);
 
 		redirect($this->controller);
 	}
 
 	public function leave()
 	{
-		$id = $_SESSION['analisis_master'];
-		unset($_SESSION['analisis_master']);
+		$id = $this->session->analisis_master;
+		$this->session->unset_userdata(['analisis_master']);
 
 		redirect("{$this->controller}/menu/{$id}");
 	}
@@ -98,7 +97,7 @@ class Analisis_indikator extends Admin_Controller
 		$data['paging'] = $this->analisis_indikator_model->paging($p,$o);
 		$data['main'] = $this->analisis_indikator_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_indikator_model->autocomplete();
-		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['list_tipe'] = $this->analisis_indikator_model->list_tipe();
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
 
@@ -106,7 +105,7 @@ class Analisis_indikator extends Admin_Controller
 		$this->render('analisis_indikator/table', $data);
 	}
 
-	public function form($p = 1, $o = 0, $id = '')
+	public function form($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
@@ -124,32 +123,27 @@ class Analisis_indikator extends Admin_Controller
 		}
 
 		$data['list_kategori'] = $this->analisis_indikator_model->list_kategori();
-		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
-		
-
-		// List field yg bisa dikaitkan
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['data_tabel'] = $this->analisis_indikator_model->data_tabel($this->session->subjek_tipe);
-
-		// $this->json_output($data);
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_indikator/form', $data);
 	}
 
-	public function parameter($id = '')
+	public function parameter($id = 0)
 	{
 		$ai = $this->analisis_indikator_model->get_analisis_indikator($id);
 		if ($ai['id_tipe'] == 3 OR $ai['id_tipe'] == 4) redirect($this->controller);
 
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
-		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['main'] = $this->analisis_indikator_model->list_indikator($id);
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_indikator/parameter/table', $data);
 	}
 
-	public function form_parameter($in='', $id = '')
+	public function form_parameter($in = '', $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		if ($id)
@@ -163,7 +157,7 @@ class Analisis_indikator extends Admin_Controller
 			$data['form_action'] = site_url("{$this->controller}/p_insert/{$in}");
 		}
 
-		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($in);
 
 		$this->load->view('analisis_indikator/parameter/ajax_form', $data);
@@ -217,7 +211,7 @@ class Analisis_indikator extends Admin_Controller
 		redirect($this->controller);
 	}
 
-	public function update($p = 1, $o = 0, $id = '')
+	public function update($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_indikator_model->update($id);
@@ -225,9 +219,9 @@ class Analisis_indikator extends Admin_Controller
 		redirect("{$this->controller}/index/$p/$o");
 	}
 
-	public function delete($p = 1, $o = 0, $id = '')
+	public function delete($p = 1, $o = 0, $id = 0)
 	{
-		$this->redirect_hak_akses('h', "{$this->controller}/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->analisis_indikator_model->delete($id);
 
 		redirect("{$this->controller}/index/$p/$o");
@@ -235,7 +229,7 @@ class Analisis_indikator extends Admin_Controller
 
 	public function delete_all($p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', "{$this->controller}/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->analisis_indikator_model->delete_all();
 
 		redirect("{$this->controller}/index/$p/$o");
@@ -249,15 +243,15 @@ class Analisis_indikator extends Admin_Controller
 		redirect("{$this->controller}/parameter/{$in}");
 	}
 
-	public function p_update($in='', $id = '')
+	public function p_update($in = '', $id = 0)
 	{
 		$this->redirect_hak_akses('u');
-		$this->analisis_indikator_model->p_update($id);
+		$this->analisis_indikator_model->p_update($id, $in);
 
 		redirect("{$this->controller}/parameter/{$in}");
 	}
 
-	public function p_delete($in='', $id = '')
+	public function p_delete($in='', $id = 0)
 	{
 		$this->redirect_hak_akses('h', "{$this->controller}/parameter/{$in}");
 		$this->analisis_indikator_model->p_delete($id);
