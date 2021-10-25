@@ -72,18 +72,22 @@
 				<div class="panel panel-success">
 					<div class="panel-heading">Progres Pembangunan</div>
 					<div class="panel-body">
-						<div class="row">
-							<?php foreach ($dokumentasi as $value): ?>
-								<div class="col-sm-6 text-center">
-									<?php if (is_file(LOKASI_GALERI . $value->foto)): ?>
-										<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url() . LOKASI_GALERI . $value->foto ?>" alt="Foto Pembangunan <?= $value->persentase; ?>"/>
-									<?php else: ?>
-										<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan <?= $value->persentase; ?>"/>
-									<?php endif; ?>
-									<b>Foto Pembangunan <?= $value->persentase; ?></b>
-								</div>
-							<?php endforeach; ?>
-						</div>
+						<?php if ($dokumentasi): ?>
+							<div class="row">
+								<?php foreach ($dokumentasi as $value): ?>
+									<div class="col-sm-6 text-center">
+										<?php if (is_file(LOKASI_GALERI . $value->gambar)): ?>
+											<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url(LOKASI_GALERI . $value->gambar); ?>" alt="Foto Pembangunan <?= $value->persentase; ?>"/>
+										<?php else: ?>
+											<img width="auto" class="img-fluid img-thumbnail" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Foto Pembangunan <?= $value->persentase; ?>"/>
+										<?php endif; ?>
+										<b>Foto Pembangunan <?= $value->persentase; ?></b>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						<?php else: ?>
+							<div class="text-center">Belum ada progres</div>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
@@ -92,17 +96,17 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function() {
-		var posisi = ["<?= $pembangunan->lat; ?>", "<?= $pembangunan->lng; ?>"];
-		var zoom = "<?= $desa['zoom'] ?? 10 ?>";
+		let map_key = "<?= $this->setting->mapbox_key; ?>";
+		let lat = "<?= $pembangunan->lat ?? $desa['lat']; ?>";
+		let lng = "<?= $pembangunan->lng ?? $desa['lng']; ?>";
+		let posisi = [lat, lng];
+		let zoom = "<?= $desa['zoom'] ?? 10 ?>";
+		let logo = L.icon({
+			iconUrl: "<?= base_url('assets/images/gis/point/construction.png'); ?>",
+    });
 
-		// Inisialisasi tampilan peta
 		pembangunan = L.map('map').setView(posisi, zoom);
-
-		// Menampilkan BaseLayers Peta
-		getBaseLayers(pembangunan, "<?= $this->setting->mapbox_key; ?>");
-
-		// Tampilkan Posisi pembangunan
-		marker = new L.Marker(posisi, {draggable:false});
-		pembangunan.addLayer(marker);
+		getBaseLayers(pembangunan, map_key);
+		pembangunan.addLayer(new L.Marker(posisi, {icon:logo}));
 	});
 </script>

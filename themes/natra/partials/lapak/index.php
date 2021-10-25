@@ -113,64 +113,36 @@
 				</div>
 			</div>
 
-			<?php
-				if ($paging->num_rows > $paging->per_page):
-			?>
-				<div class="box-footer text-center">
-					<div>Halaman <?= $paging->page ?> dari <?= $paging->end_link ?></div>
-					<ul class="pagination pagination-sm no-margin">
-						<?php if ($paging->start_link): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
-						<?php endif; ?>
-						<?php if ($paging->prev): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
-						<?php endif; ?>
+			<?php $this->load->view("$folder_themes/commons/page"); ?>
 
-						<?php foreach ($pages as $i): ?>
-							<li <?= jecho($paging->page, $i, 'class="active"'); ?>>
-								<a href="<?= site_url($paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
-							</li>
-						<?php endforeach; ?>
-
-						<?php if ($paging->next): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
-						<?php endif; ?>
-						<?php if ($paging->end_link): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
-						<?php endif; ?>
-					</ul>
-				</div>
-			<?php endif; ?>
 		<?php else: ?>
 			<h5>Belum ada produk yang ditawarkan.</h5>
 		<?php endif;?>
 	</div>
 </div>
 <script type="text/javascript">
-	var token = "<?= $this->setting->mapbox_key; ?>";
+	var map_key = "<?= $this->setting->mapbox_key; ?>";
 
 	$(document).ready(function() {
 		$(document).on('shown.bs.modal','#map-modal', function(event) {
-			var link = $(event.relatedTarget);
-			var title = link.data('title');
-			var modal = $(this);
+			let link = $(event.relatedTarget);
+			let title = link.data('title');
+			let modal = $(this);
 			modal.find('.modal-title').text(title);
 			modal.find('.modal-body').html("<div id='map' style='width: 100%;'></div>");
 
-			var posisi = [link.data('lat'), link.data('lng')];
-			var zoom = link.data('zoom');
+			let posisi = [link.data('lat'), link.data('lng')];
+			let zoom = link.data('zoom');
+			let logo = L.icon({
+				iconUrl: "<?= base_url('assets/images/gis/point/fastfood.png'); ?>",
+			});
+			
 			$("#lat").val(link.data('lat'));
 			$("#lng").val(link.data('lng'));
 
-			// Inisialisasi tampilan peta
 			pelapak = L.map('map').setView(posisi, zoom);
-
-			// Menampilkan BaseLayers Peta
-			getBaseLayers(pelapak, token);
-
-			// Tampilkan Posisi Pelapak
-			marker = new L.Marker(posisi, {draggable:false});
-			pelapak.addLayer(marker);
+			getBaseLayers(pelapak, map_key);
+			pelapak.addLayer(new L.Marker(posisi, {icon:logo}));
 		});
 	});
 </script>
