@@ -124,6 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</div>
 			<div class='box-body'> 
 				<div id='divTblLapor'>
+				*) untuk pencarian, Gunakan kotak pencarian dan masukkan Minimal 4 huruf.
 				<table id='tblRekap'  class="dataTable datatable-striped">
 					<thead>
 						<tr class='bg-gray color-palette'>

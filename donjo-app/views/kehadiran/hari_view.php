@@ -135,6 +135,7 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 			</div>
 			<div class='box-body'>
 				<div id='divTblTgl' >
+				*) untuk pencarian, Gunakan kotak pencarian dan masukkan Minimal 4 huruf.
 				<!-- class="table table-bordered table-striped dataTable table-hover" -->
 				<table id='tblTgl' class='dataTable datatable-striped'>
 					<thead>

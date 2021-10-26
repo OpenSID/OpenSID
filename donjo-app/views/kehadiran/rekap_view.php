@@ -124,6 +124,7 @@ echo "<!--pre>".print_r($_SERVER,1)."</pre-->";
 			</div>
 			<div class='box-body'> 
 				<div id='divTblRekap'>
+				*) untuk pencarian, Gunakan kotak pencarian dan masukkan Minimal 4 huruf.
 				<table id='tblRekap'  class="dataTable datatable-striped">
 					<thead>
 						<tr class='bg-gray color-palette'>
