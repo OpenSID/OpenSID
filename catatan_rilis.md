@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 15. [#4485](https://github.com/OpenSID/OpenSID/issues/4485) Batasi input data Nomor Rumah Tangga maksimal 30 karakter.
 16. [#4492](https://github.com/OpenSID/OpenSID/issues/4492) Perbaiki gagal akses modul Inventaris dan Kekayaan Desa jika data masih kosong/tidak ada.
 17. [#4483](https://github.com/OpenSID/OpenSID/issues/4483) Perbaiki gagal menampilkan file/gambar dengan nama yang berkarakter kshsus (misalnya persen (%)).
+18. [#4494](https://github.com/OpenSID/OpenSID/issues/4494) Perbaiki ubah menu untuk kelompok yang salah.
 
 #### Perubahan Teknis
 1. [untuk diisi]
