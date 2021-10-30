@@ -4,6 +4,7 @@ class keuangan_grafik_manual_model extends CI_model {
   public function __construct()
   {
 		parent::__construct();
+		$this->load->model('keuangan_manual_model');
   }
 
   public function rp_apbd_widget($thn, $opt=false)

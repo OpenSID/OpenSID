@@ -217,16 +217,16 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 			else
 			{
 				// Kalau folder desa/cache sudah ada, pindahkan file dari cache lama dan hapus cache lama
-			  $files = scandir($cache_lama);
-			  foreach ($files as $fname)
-			  {
-		      if ($fname != '.' && $fname != '..')
-		      {
-		        $hasil = $hasil && rename($cache_lama . '/' . $fname, $cache_desa . '/' . $fname);
+				$files = scandir($cache_lama);
+				foreach ($files as $fname)
+				{
+					if ($fname != '.' && $fname != '..')
+					{
+						$hasil = $hasil && rename($cache_lama . '/' . $fname, $cache_desa . '/' . $fname);
 						if ( ! $hasil) log_message('error', print_r(error_get_last(), true));
-		      }
-		    }
-		    $hasil = $hasil && rmdir($cache_lama);
+					}
+				}
+				$hasil = $hasil && rmdir($cache_lama);
 				if ( ! $hasil) log_message('error', print_r(error_get_last(), true));
 			}
 			// Kembalikan error_handler;
@@ -272,13 +272,15 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		];
 		$hasil = $hasil && $this->dbforge->modify_column('log_penduduk', $fields);
 
-
 		// Ubah No. KK 0 jadi 0[kode-desa-10-digit];
 		$list_data = $this->db->select('id, no_kk')->get_where('tweb_keluarga', ['no_kk' => '0'])->result();
-		foreach ($list_data as $data)
+		if ($list_data)
 		{
-			$nokk_sementara = $this->keluarga_model->nokk_sementara();
-			$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_keluarga', ['no_kk' => $nokk_sementara]);
+			foreach ($list_data as $data)
+			{
+				$nokk_sementara = $this->keluarga_model->nokk_sementara();
+				$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_keluarga', ['no_kk' => $nokk_sementara]);
+			}
 		}
 
 		$hasil = $hasil && $this->tambah_indeks('tweb_keluarga', 'no_kk');

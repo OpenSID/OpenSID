@@ -56,7 +56,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
 		{
-			$hasil =& $this->db
+			$hasil = $hasil && $this->db
 				->where('id_peristiwa', 1)
 				->where("date(tgl_peristiwa) < '2021-03-04'")
 				->delete('log_keluarga');
@@ -169,11 +169,11 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			$pamong_id = $this->db
 				->select('pamong_id')
 				->where(['pamong_nama' => $config['nama_kepala_desa'], 'pamong_nip' => $config['nip_kepala_desa']])
-				->get_where('tweb_desa_pamong')
+				->get('tweb_desa_pamong')
 				->row()
 				->pamong_id;
 
-			$this->db->where('id', $config['id'])->update('config', ['pamong_id' => $pamong_id]);
+			if ($pamong_id) $this->db->where('id', $config['id'])->update('config', ['pamong_id' => $pamong_id]);
 
 			// Hapus field nama_kepala_desa dan nip_kepala_desa
 			if ($this->db->field_exists('nama_kepala_desa','config'))
