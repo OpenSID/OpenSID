@@ -236,18 +236,24 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->or_where("kartu_tempat_lahir is NULL or kartu_tempat_lahir = ''")
 			->or_where("kartu_tanggal_lahir is NULL")
 			->or_where("kartu_alamat is NULL or kartu_alamat = ''")
-			->get()->result_array();
-		foreach ($kartu_kosong as $kartu)
+			->get()
+			->result_array();
+
+		if ($kartu_kosong)
 		{
-			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik'] ?: 0);
-			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama'] ?: '');
-			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir'] ?: '');
-			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir'] ?: date('Y-m-d H:i:s'));
-			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat'] ?: '');
-			$hasil = $hasil && $this->db
-				->where('id', $kartu['id'])
-				->update('program_peserta');
+			foreach ($kartu_kosong as $kartu)
+			{
+				$data = [
+					'kartu_nik' => $kartu['nik'] ?? 0,
+					'kartu_nama' => $kartu['nama'] ?? '',
+					'kartu_tempat_lahir' => $kartu['tempatlahir'] ?? '',
+					'kartu_tanggal_lahir' => $kartu['tanggallahir'] ?? date('Y-m-d H:i:s'),
+					'kartu_alamat' => $kartu['alamat'] ?? '',
+				];
+				$hasil = $hasil && $this->db->where('id', $kartu['id'])->update('program_peserta', $data);
+			}
 		}
+		
 		// Ubah kolom supaya tidak boleh kosong
 		$fields = [
 			'kartu_nik' => ['type' => 'VARCHAR', 'constraint' => 30, 'null' => false],
@@ -257,6 +263,7 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			'kartu_alamat' => ['type' => 'VARCHAR', 'constraint' => 200, 'null' => false],
 		];
 		$hasil = $hasil && $this->dbforge->modify_column('program_peserta', $fields);
+
 		return $hasil;
 	}
 
