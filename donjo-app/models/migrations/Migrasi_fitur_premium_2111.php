@@ -53,11 +53,14 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021101572($hasil);
 		$hasil = $hasil && $this->migrasi_2021101351($hasil);
 		$hasil = $hasil && $this->migrasi_2021101871($hasil);
+		$hasil = $hasil && $this->migrasi_2021101671($hasil);
 		$hasil = $hasil && $this->migrasi_2021101872($hasil);
 		$hasil = $hasil && $this->migrasi_2021102071($hasil);
 		$hasil = $hasil && $this->migrasi_2021102271($hasil);
 		$hasil = $hasil && $this->migrasi_2021102371($hasil);
 		$hasil = $hasil && $this->migrasi_2021102451($hasil);
+		$hasil = $hasil && $this->migrasi_2021103171($hasil);
+
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -200,8 +203,30 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		return $hasil && $this->db->where('link', 'wilayah')->update('menu', ['link' => 'data-wilayah']);
 	}
 
+	protected function migrasi_2021101671($hasil)
+	{
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 331,
+			'modul'      => 'Pendaftaran Kerjasama',
+			'url'        => 'pendaftaran_kerjasama',
+			'aktif'      => 1,
+			'ikon'       => 'fa-list',
+			'urut'       => 6,
+			'level'      => 2,
+			'hidden'     => 0,
+			'ikon_kecil' => 'fa-list',
+			'parent'     => 200
+		]);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+		return $hasil;
+	}
+
 	protected function migrasi_2021102271($hasil)
-  {
+	{
 		$cache_lama = FCPATH . 'cache';
 		$cache_desa = DESAPATH . 'cache';
 		if (is_dir($cache_lama))
@@ -209,10 +234,10 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 			// Paksa supaya error_get_last() menangkap error
 			// var_dump or anything else, as this will never be called because of the 0
 			set_error_handler('var_dump', 0);
-			if ( ! is_dir($cache_desa))
+			if (!is_dir($cache_desa))
 			{
 				$hasil = $hasil && rename($cache_lama, $cache_desa);
-				if ( ! $hasil) log_message('error', print_r(error_get_last(), true));
+				if (!$hasil) log_message('error', print_r(error_get_last(), true));
 			}
 			else
 			{
@@ -233,7 +258,7 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 			restore_error_handler();
 		}
 		return $hasil;
-  }
+	}
 	
 	protected function migrasi_2021102371($hasil)
 	{
@@ -284,6 +309,28 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 		}
 
 		$hasil = $hasil && $this->tambah_indeks('tweb_keluarga', 'no_kk');
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021103171($hasil)
+	{
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 331,
+			'modul'      => 'Pendaftaran Kerjasama',
+			'url'        => 'pendaftaran_kerjasama',
+			'aktif'      => 1,
+			'ikon'       => 'fa-list',
+			'urut'       => 6,
+			'level'      => 2,
+			'hidden'     => 0,
+			'ikon_kecil' => 'fa-list',
+			'parent'     => 200
+		]);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 
 		return $hasil;
 	}
