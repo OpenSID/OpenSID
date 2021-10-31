@@ -4,7 +4,7 @@
 	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Galeri <?= $desa["nama_desa"] ?></span></h2>
 </div>
 
-<div style="content_bottom_left">
+<div style="content_left">
 	<ul>
 	<?php $i = 1; ?>
 	<?php foreach($gallery AS $data): ?>
