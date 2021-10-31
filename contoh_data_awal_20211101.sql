@@ -30,7 +30,7 @@ DROP TABLE IF EXISTS `analisis_indikator`;
 CREATE TABLE `analisis_indikator` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_master` int(11) NOT NULL,
-  `nomor` int(3) NOT NULL,
+  `nomor` varchar(10) DEFAULT NULL,
   `pertanyaan` varchar(400) NOT NULL,
   `id_tipe` tinyint(4) NOT NULL DEFAULT '1',
   `bobot` tinyint(4) NOT NULL DEFAULT '0',
@@ -44,116 +44,116 @@ CREATE TABLE `analisis_indikator` (
   KEY `id_kategori` (`id_kategori`)
 ) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=latin1;
 
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (1, 2, 1, 'kepemilikan rumah', 1, 1, 1, 1, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (2, 2, 2, 'penghasilan perbulan', 1, 4, 1, 2, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (3, 3, 1, 'Jumlah Penghasilan Perbulan', 3, 0, 0, 3, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (4, 3, 2, 'Jumlah Pengeluaran Perbulan', 3, 0, 0, 3, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (5, 3, 3, 'Status Kepemilikan Rumah?*', 1, 0, 0, 3, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (6, 3, 4, 'Kategori KK', 1, 0, 0, 3, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (7, 3, 5, 'Penerima Raskin', 1, 0, 0, 3, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (8, 3, 6, 'Penerima BLT/BLSM', 1, 0, 0, 3, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (9, 3, 7, 'Peserta BPJS/Jamkesmas/Jamkesda', 1, 0, 0, 3, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (10, 3, 8, 'Sumber Air Minum?*', 1, 0, 0, 4, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (11, 3, 9, 'Keterangan', 2, 0, 0, 4, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (12, 3, 10, 'Jenis Lahan', 1, 0, 0, 5, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (13, 3, 11, 'Luas Lahan', 1, 0, 0, 5, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (14, 3, 12, 'Jenis Komoditas', 1, 0, 0, 6, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (15, 3, 13, 'Produksi', 3, 0, 0, 6, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (16, 3, 14, 'Satuan', 1, 0, 0, 6, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (17, 3, 15, 'Nilai (Rp)', 3, 0, 0, 6, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (18, 3, 16, 'Pemasaran Hasil', 1, 0, 0, 6, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (19, 3, 17, 'Jenis Komoditas', 1, 0, 0, 7, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (20, 3, 18, 'Jumlah Pohon', 3, 0, 0, 7, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (21, 3, 19, 'Produksi', 3, 0, 0, 7, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (22, 3, 20, 'Satuan', 1, 0, 0, 7, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (23, 3, 21, 'Nilai (Rp)', 3, 0, 0, 7, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (24, 3, 22, 'Pemasaran Hasil', 1, 0, 0, 7, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (25, 3, 23, 'Jenis Komoditas', 1, 0, 0, 8, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (26, 3, 24, 'Produksi', 3, 0, 0, 8, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (27, 3, 25, 'Satuan', 1, 0, 0, 8, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (28, 3, 26, 'Nilai (Rp)', 3, 0, 0, 8, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (29, 3, 27, 'Pemasaran Hasil', 1, 0, 0, 8, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (30, 3, 28, 'Jenis Komoditas', 1, 0, 0, 9, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (31, 3, 29, 'Produksi', 3, 0, 0, 9, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (32, 3, 30, 'Satuan', 1, 0, 0, 9, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (33, 3, 31, 'Nilai (Rp)', 3, 0, 0, 9, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (34, 3, 32, 'Pemasaran Hasil', 1, 0, 0, 9, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (35, 3, 33, 'Jenis Komoditas', 1, 0, 0, 10, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (36, 3, 34, 'Produksi', 3, 0, 0, 10, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (37, 3, 35, 'Satuan', 1, 0, 0, 10, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (38, 3, 36, 'Nilai (Rp)', 3, 0, 0, 10, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (39, 3, 37, 'Pemasaran Hasil', 1, 0, 0, 10, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (40, 3, 38, 'Jenis Komoditas', 1, 0, 0, 11, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (41, 3, 39, 'Produksi', 3, 0, 0, 11, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (42, 3, 40, 'Satuan', 1, 0, 0, 11, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (43, 3, 41, 'Nilai (Rp)', 3, 0, 0, 11, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (44, 3, 42, 'Pemasaran Hasil', 1, 0, 0, 11, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (45, 3, 43, 'Jenis Komoditas', 1, 0, 0, 12, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (46, 3, 44, 'Produksi', 3, 0, 0, 12, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (47, 3, 45, 'Satuan', 1, 0, 0, 12, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (48, 3, 46, 'Nilai (Rp)', 3, 0, 0, 12, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (49, 3, 47, 'Pemasaran Hasil', 1, 0, 0, 12, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (50, 3, 48, 'Jenis Bahan Galian', 1, 0, 0, 13, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (51, 3, 49, 'Milik Perorangan (Ha)', 3, 0, 0, 13, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (52, 3, 50, 'Milik Adat (Ha)', 3, 0, 0, 13, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (53, 3, 51, 'Satuan', 1, 0, 0, 13, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (54, 3, 52, 'Pemasaran', 1, 0, 0, 13, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (55, 3, 53, 'Jenis Komoditas', 1, 0, 0, 14, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (56, 3, 54, 'Produksi', 3, 0, 0, 14, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (57, 3, 55, 'Satuan', 1, 0, 0, 14, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (58, 3, 56, 'Nilai (Rp)', 3, 0, 0, 14, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (59, 3, 57, 'Pemasaran Hasil', 1, 0, 0, 14, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (60, 3, 58, 'Nama Alat', 1, 0, 0, 15, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (61, 3, 59, 'Jumlah', 3, 0, 0, 15, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (62, 3, 60, 'Pemanfaatan Sungai/Waduk DLL', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (63, 3, 61, 'Lembaga Pendidikan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (64, 3, 62, 'Penguasaan Aset Tanah', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (65, 3, 63, 'Aset Sarana Transportasi Umum', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (66, 3, 64, 'Aset Sarana Produksi', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (67, 3, 65, 'Aset Rumah (Dinding)', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (68, 3, 66, 'Aset Rumah (Lantai)', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (69, 3, 67, 'Aset Rumah (Atap)', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (70, 3, 68, 'Aset Lainnya', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (71, 3, 69, 'Kualitas Ibu Hamil', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (72, 3, 70, 'Kualitas Bayi', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (73, 3, 71, 'Tempat Persalinan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (74, 3, 72, 'Pertolongan Persalinan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (75, 3, 73, 'Cakupan Imunisasi', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (76, 3, 74, 'Penderita Sakit Kelainan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (77, 3, 75, 'Perilaku Hidup Bersih', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (78, 3, 76, 'Pola Makan', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (79, 3, 77, 'Kebiasaan Berobat', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (80, 3, 78, 'Status Gizi Balita', 1, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (81, 3, 79, 'Jenis Penyakit', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (82, 3, 80, 'Kerukunan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (83, 3, 81, 'Perkelahian', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (84, 3, 82, 'Pencurian', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (85, 3, 83, 'Penjarahan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (86, 3, 84, 'Perjudian', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (87, 3, 85, 'Pemakaian Miras dan Narkoba', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (88, 3, 86, 'Pembunuhan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (89, 3, 87, 'Penculikan', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (90, 3, 88, 'Kejahatan Seksual', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (91, 3, 89, 'Kekerasan Dalam Rumah Tangga', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (92, 3, 90, 'Masalah Kesejahteraan Keluarga', 2, 0, 0, 16, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (93, 4, 1, 'Nomor Akte Kelahiran', 4, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (94, 4, 2, 'Hubungan dengan Kepala Keluarga', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (95, 4, 3, 'Status Perkawinan', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (96, 4, 4, 'Agama dan Aliran Kepercayaan', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (97, 4, 5, 'Golongan Darah', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (98, 4, 6, 'Kewarganegaraan', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (99, 4, 7, 'Etnis/Suku', 4, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (100, 4, 8, 'Pendidikan Umum Terakhir', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (101, 4, 9, 'Mata Pencaharian Pokok/Pekerjaan', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (102, 4, 10, 'Nama Bapak Kandung', 4, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (103, 4, 11, 'Nama Ibu Kandung', 4, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (104, 4, 12, 'Akseptor KB', 1, 0, 0, 17, 0, 0);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (105, 4, 13, 'Cacat Fisik', 2, 0, 0, 17, 0, 1);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (106, 4, 14, 'Cacat Mental', 2, 0, 0, 17, 0, 1);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (107, 4, 15, 'Kedudukan Anggota Keluarga sebagai Wajib Pajak dan Retribusi', 2, 0, 0, 17, 0, 1);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (108, 4, 16, 'Lembaga Pemerintahan Yang Diikuti Anggota Keluarga', 2, 0, 0, 17, 0, 1);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (109, 4, 17, 'Lembaga Kemasyarakatan Yang Diikuti Anggota Keluarga', 2, 0, 0, 17, 0, 1);
-INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (110, 4, 18, 'Lembaga Ekonomi Yang Dimiliki Anggota Keluarga', 2, 0, 0, 17, 0, 1);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (1, 2, '1', 'kepemilikan rumah', 1, 1, 1, 1, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (2, 2, '2', 'penghasilan perbulan', 1, 4, 1, 2, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (3, 3, '1', 'Jumlah Penghasilan Perbulan', 3, 0, 0, 3, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (4, 3, '2', 'Jumlah Pengeluaran Perbulan', 3, 0, 0, 3, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (5, 3, '3', 'Status Kepemilikan Rumah?*', 1, 0, 0, 3, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (6, 3, '4', 'Kategori KK', 1, 0, 0, 3, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (7, 3, '5', 'Penerima Raskin', 1, 0, 0, 3, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (8, 3, '6', 'Penerima BLT/BLSM', 1, 0, 0, 3, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (9, 3, '7', 'Peserta BPJS/Jamkesmas/Jamkesda', 1, 0, 0, 3, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (10, 3, '8', 'Sumber Air Minum?*', 1, 0, 0, 4, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (11, 3, '9', 'Keterangan', 2, 0, 0, 4, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (12, 3, '10', 'Jenis Lahan', 1, 0, 0, 5, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (13, 3, '11', 'Luas Lahan', 1, 0, 0, 5, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (14, 3, '12', 'Jenis Komoditas', 1, 0, 0, 6, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (15, 3, '13', 'Produksi', 3, 0, 0, 6, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (16, 3, '14', 'Satuan', 1, 0, 0, 6, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (17, 3, '15', 'Nilai (Rp)', 3, 0, 0, 6, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (18, 3, '16', 'Pemasaran Hasil', 1, 0, 0, 6, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (19, 3, '17', 'Jenis Komoditas', 1, 0, 0, 7, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (20, 3, '18', 'Jumlah Pohon', 3, 0, 0, 7, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (21, 3, '19', 'Produksi', 3, 0, 0, 7, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (22, 3, '20', 'Satuan', 1, 0, 0, 7, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (23, 3, '21', 'Nilai (Rp)', 3, 0, 0, 7, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (24, 3, '22', 'Pemasaran Hasil', 1, 0, 0, 7, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (25, 3, '23', 'Jenis Komoditas', 1, 0, 0, 8, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (26, 3, '24', 'Produksi', 3, 0, 0, 8, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (27, 3, '25', 'Satuan', 1, 0, 0, 8, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (28, 3, '26', 'Nilai (Rp)', 3, 0, 0, 8, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (29, 3, '27', 'Pemasaran Hasil', 1, 0, 0, 8, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (30, 3, '28', 'Jenis Komoditas', 1, 0, 0, 9, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (31, 3, '29', 'Produksi', 3, 0, 0, 9, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (32, 3, '30', 'Satuan', 1, 0, 0, 9, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (33, 3, '31', 'Nilai (Rp)', 3, 0, 0, 9, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (34, 3, '32', 'Pemasaran Hasil', 1, 0, 0, 9, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (35, 3, '33', 'Jenis Komoditas', 1, 0, 0, 10, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (36, 3, '34', 'Produksi', 3, 0, 0, 10, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (37, 3, '35', 'Satuan', 1, 0, 0, 10, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (38, 3, '36', 'Nilai (Rp)', 3, 0, 0, 10, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (39, 3, '37', 'Pemasaran Hasil', 1, 0, 0, 10, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (40, 3, '38', 'Jenis Komoditas', 1, 0, 0, 11, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (41, 3, '39', 'Produksi', 3, 0, 0, 11, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (42, 3, '40', 'Satuan', 1, 0, 0, 11, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (43, 3, '41', 'Nilai (Rp)', 3, 0, 0, 11, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (44, 3, '42', 'Pemasaran Hasil', 1, 0, 0, 11, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (45, 3, '43', 'Jenis Komoditas', 1, 0, 0, 12, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (46, 3, '44', 'Produksi', 3, 0, 0, 12, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (47, 3, '45', 'Satuan', 1, 0, 0, 12, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (48, 3, '46', 'Nilai (Rp)', 3, 0, 0, 12, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (49, 3, '47', 'Pemasaran Hasil', 1, 0, 0, 12, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (50, 3, '48', 'Jenis Bahan Galian', 1, 0, 0, 13, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (51, 3, '49', 'Milik Perorangan (Ha)', 3, 0, 0, 13, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (52, 3, '50', 'Milik Adat (Ha)', 3, 0, 0, 13, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (53, 3, '51', 'Satuan', 1, 0, 0, 13, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (54, 3, '52', 'Pemasaran', 1, 0, 0, 13, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (55, 3, '53', 'Jenis Komoditas', 1, 0, 0, 14, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (56, 3, '54', 'Produksi', 3, 0, 0, 14, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (57, 3, '55', 'Satuan', 1, 0, 0, 14, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (58, 3, '56', 'Nilai (Rp)', 3, 0, 0, 14, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (59, 3, '57', 'Pemasaran Hasil', 1, 0, 0, 14, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (60, 3, '58', 'Nama Alat', 1, 0, 0, 15, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (61, 3, '59', 'Jumlah', 3, 0, 0, 15, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (62, 3, '60', 'Pemanfaatan Sungai/Waduk DLL', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (63, 3, '61', 'Lembaga Pendidikan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (64, 3, '62', 'Penguasaan Aset Tanah', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (65, 3, '63', 'Aset Sarana Transportasi Umum', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (66, 3, '64', 'Aset Sarana Produksi', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (67, 3, '65', 'Aset Rumah (Dinding)', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (68, 3, '66', 'Aset Rumah (Lantai)', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (69, 3, '67', 'Aset Rumah (Atap)', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (70, 3, '68', 'Aset Lainnya', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (71, 3, '69', 'Kualitas Ibu Hamil', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (72, 3, '70', 'Kualitas Bayi', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (73, 3, '71', 'Tempat Persalinan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (74, 3, '72', 'Pertolongan Persalinan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (75, 3, '73', 'Cakupan Imunisasi', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (76, 3, '74', 'Penderita Sakit Kelainan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (77, 3, '75', 'Perilaku Hidup Bersih', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (78, 3, '76', 'Pola Makan', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (79, 3, '77', 'Kebiasaan Berobat', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (80, 3, '78', 'Status Gizi Balita', 1, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (81, 3, '79', 'Jenis Penyakit', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (82, 3, '80', 'Kerukunan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (83, 3, '81', 'Perkelahian', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (84, 3, '82', 'Pencurian', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (85, 3, '83', 'Penjarahan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (86, 3, '84', 'Perjudian', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (87, 3, '85', 'Pemakaian Miras dan Narkoba', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (88, 3, '86', 'Pembunuhan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (89, 3, '87', 'Penculikan', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (90, 3, '88', 'Kejahatan Seksual', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (91, 3, '89', 'Kekerasan Dalam Rumah Tangga', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (92, 3, '90', 'Masalah Kesejahteraan Keluarga', 2, 0, 0, 16, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (93, 4, '1', 'Nomor Akte Kelahiran', 4, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (94, 4, '2', 'Hubungan dengan Kepala Keluarga', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (95, 4, '3', 'Status Perkawinan', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (96, 4, '4', 'Agama dan Aliran Kepercayaan', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (97, 4, '5', 'Golongan Darah', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (98, 4, '6', 'Kewarganegaraan', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (99, 4, '7', 'Etnis/Suku', 4, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (100, 4, '8', 'Pendidikan Umum Terakhir', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (101, 4, '9', 'Mata Pencaharian Pokok/Pekerjaan', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (102, 4, '10', 'Nama Bapak Kandung', 4, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (103, 4, '11', 'Nama Ibu Kandung', 4, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (104, 4, '12', 'Akseptor KB', 1, 0, 0, 17, 0, 0);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (105, 4, '13', 'Cacat Fisik', 2, 0, 0, 17, 0, 1);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (106, 4, '14', 'Cacat Mental', 2, 0, 0, 17, 0, 1);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (107, 4, '15', 'Kedudukan Anggota Keluarga sebagai Wajib Pajak dan Retribusi', 2, 0, 0, 17, 0, 1);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (108, 4, '16', 'Lembaga Pemerintahan Yang Diikuti Anggota Keluarga', 2, 0, 0, 17, 0, 1);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (109, 4, '17', 'Lembaga Kemasyarakatan Yang Diikuti Anggota Keluarga', 2, 0, 0, 17, 0, 1);
+INSERT INTO `analisis_indikator` (`id`, `id_master`, `nomor`, `pertanyaan`, `id_tipe`, `bobot`, `act_analisis`, `id_kategori`, `is_publik`, `is_teks`) VALUES (110, 4, '18', 'Lembaga Ekonomi Yang Dimiliki Anggota Keluarga', 2, 0, 0, 17, 0, 1);
 
 
 #
@@ -1652,8 +1652,6 @@ CREATE TABLE `config` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `nama_desa` varchar(100) NOT NULL,
   `kode_desa` varchar(100) NOT NULL,
-  `nama_kepala_desa` varchar(100) NOT NULL,
-  `nip_kepala_desa` varchar(100) NOT NULL,
   `kode_pos` varchar(6) NOT NULL,
   `nama_kecamatan` varchar(100) NOT NULL,
   `kode_kecamatan` varchar(100) NOT NULL,
@@ -1675,10 +1673,11 @@ CREATE TABLE `config` (
   `website` varchar(100) DEFAULT NULL,
   `kantor_desa` varchar(100) DEFAULT NULL,
   `warna` varchar(10) DEFAULT NULL,
+  `pamong_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO `config` (`id`, `nama_desa`, `kode_desa`, `nama_kepala_desa`, `nip_kepala_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `email_desa`, `telepon`, `website`, `kantor_desa`, `warna`) VALUES (1, 'Senggig1 ', '5201142005', 'Muhammad Ilham ', '--', '83355', 'Batulay4r ', '520114', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bart ', '5201', 'Nusa Tenggara Barat', '52', 'opensid_logo__sid__bXziTU1.png', '-8.483832804795249', '116.08523368835449', 14, 'HYBRID', '[[[-8.470247273601585,116.03699684143068],[-8.470993084228864,116.03974342346193],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', '', '', '', NULL, NULL);
+INSERT INTO `config` (`id`, `nama_desa`, `kode_desa`, `kode_pos`, `nama_kecamatan`, `kode_kecamatan`, `nama_kepala_camat`, `nip_kepala_camat`, `nama_kabupaten`, `kode_kabupaten`, `nama_propinsi`, `kode_propinsi`, `logo`, `lat`, `lng`, `zoom`, `map_tipe`, `path`, `alamat_kantor`, `email_desa`, `telepon`, `website`, `kantor_desa`, `warna`, `pamong_id`) VALUES (1, 'Senggig1 ', '5201142005', '83355', 'Batulay4r ', '520114', 'Bambang Budi Sanyoto, S. H', '-', 'Lombok Bart ', '5201', 'Nusa Tenggara Barat', '52', 'opensid_logo__sid__bXziTU1.png', '-8.483832804795249', '116.08523368835449', 14, 'HYBRID', '[[[-8.470247273601585,116.03699684143068],[-8.470993084228864,116.03974342346193],[-8.471775371367853,116.04249000549318],[-8.474831548688417,116.04557991027833],[-8.47754813036,116.04334831237793],[-8.478736628804842,116.0522747039795],[-8.48688623339785,116.04712486267091],[-8.492319207044495,116.04626655578615],[-8.492319207044495,116.04866981506349],[-8.490281850938663,116.05433464050294],[-8.499110315926593,116.06446266174318],[-8.507429260374638,116.06068611145021],[-8.509466525358253,116.05605125427248],[-8.501656950751967,116.04969978332521],[-8.501656950751967,116.046781539917],[-8.503694246430312,116.04454994201662],[-8.496820982890759,116.0453224182129],[-8.494953428786745,116.03931427001955],[-8.48986005320605,116.0365676879883],[-8.48493639256516,116.03364944458009],[-8.47975533883251,116.03768348693849]]]', 'Jl. Raya Senggigi Km 10 Kerandangan ', '', '', '', NULL, NULL, NULL);
 
 
 #
@@ -7889,7 +7888,7 @@ CREATE TABLE `migrasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (1, '2020040102');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (2, '2020050101');
@@ -7913,6 +7912,7 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (19, '2021070101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (20, '2021080101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (21, '2021090101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (22, '2021100101');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (23, '2021110101');
 
 
 #
@@ -8185,11 +8185,11 @@ CREATE TABLE `program_peserta` (
   `peserta` varchar(30) NOT NULL,
   `program_id` int(11) NOT NULL,
   `no_id_kartu` varchar(30) DEFAULT NULL,
-  `kartu_nik` varchar(30) DEFAULT NULL,
-  `kartu_nama` varchar(100) DEFAULT NULL,
-  `kartu_tempat_lahir` varchar(100) DEFAULT NULL,
-  `kartu_tanggal_lahir` date DEFAULT NULL,
-  `kartu_alamat` varchar(200) DEFAULT NULL,
+  `kartu_nik` varchar(30) NOT NULL,
+  `kartu_nama` varchar(100) NOT NULL,
+  `kartu_tempat_lahir` varchar(100) NOT NULL,
+  `kartu_tanggal_lahir` date NOT NULL,
+  `kartu_alamat` varchar(200) NOT NULL,
   `kartu_peserta` varchar(100) DEFAULT NULL,
   `kartu_id_pend` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -8467,7 +8467,7 @@ CREATE TABLE `setting_aplikasi` (
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1;
 
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (1, 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (2, 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -8480,13 +8480,13 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (9, 'login_title', 'OpenSID', 'Judul tab browser halaman login modul administrasi', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (10, 'admin_title', 'Sistem Informasi', 'Judul tab browser modul administrasi', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (11, 'web_theme', 'natra', 'Tema penampilan modul web', '', 'web');
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (12, 'offline_mode', '0', 'Apakah modul web akan ditampilkan atau tidak', 'option-value', '');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (12, 'offline_mode', '0', 'Apakah modul web akan ditampilkan atau tidak', 'option-kode', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (13, 'enable_track', '1', 'Apakah akan mengirimkan data statistik ke tracker', 'boolean', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (16, 'google_key', '', 'Google API Key untuk Google Maps', '', 'web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '2', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
-INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '21.10', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '21.11', 'Versi sekarang untuk migrasi', NULL, 'readonly');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (24, 'penomoran_surat', '2', 'Penomoran surat mulai dari satu (1) setiap tahun', 'option', NULL);
@@ -8537,7 +8537,7 @@ CREATE TABLE `setting_modul` (
   `ikon_kecil` varchar(50) NOT NULL,
   `parent` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8;
 
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 1, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 3, 2, 0, 'fa fa-users', 0);
@@ -8658,6 +8658,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (316, 'Buku Rekapitulasi Jumlah Penduduk', 'bumindes_penduduk_rekapitulasi/clear', 1, 'fa-files-o', 0, 0, 0, '', 303);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (317, 'Buku Penduduk Sementara', 'bumindes_penduduk_sementara/clear', 1, 'fa-files-o', 0, 0, 0, '', 303);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (318, 'Buku KTP dan KK', 'bumindes_penduduk_ktpkk/clear', 1, 'fa-files-o', 0, 0, 0, '', 303);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (331, 'Pendaftaran Kerjasama', 'pendaftaran_kerjasama', 1, 'fa-list', 6, 2, 0, 'fa-list', 200);
 
 
 #
@@ -8672,6 +8673,20 @@ CREATE TABLE `setting_sms` (
 
 INSERT INTO `setting_sms` (`autoreply_text`) VALUES ('Terima kasih pesan Anda telah kami terima.');
 
+
+#
+# TABLE STRUCTURE FOR: statistics
+#
+
+DROP TABLE IF EXISTS `statistics`;
+
+CREATE TABLE `statistics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `url_id` (`url_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: suplemen
@@ -13392,6 +13407,7 @@ CREATE TABLE `tweb_penduduk` (
   `tempat_cetak_ktp` varchar(50) DEFAULT NULL,
   `tanggal_cetak_ktp` date DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `tag_id_card` (`tag_id_card`),
   KEY `id_rtm` (`id_rtm`)
 ) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
@@ -13979,55 +13995,56 @@ CREATE TABLE `tweb_surat_format` (
   `mandiri` tinyint(1) DEFAULT '0',
   `masa_berlaku` int(3) DEFAULT '1',
   `satuan_masa_berlaku` varchar(15) DEFAULT 'M',
+  `qr_code` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `url_surat` (`url_surat`)
-) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8;
 
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (3, 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03', 'f-1.01.php', 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (5, 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04', 'f-1.08.php,f-1.25.php', 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (6, 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (8, 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (9, 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (10, 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (11, 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (12, 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (13, 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (14, 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (15, 'Keterangan Usaha', 'surat_ket_usaha', 'S-14', NULL, 0, 0, 1, 1, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (16, 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (17, 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (18, 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', 'f-2.01.php', 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (20, 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (21, 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (22, 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (24, 'Keterangan Kematian', 'surat_ket_kematian', 'S-21', 'f-2.29.php', 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (25, 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (26, 'Keterangan Untuk Nikah (N-1 s/d N-7)', 'surat_ket_nikah', 'S-23', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (33, 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (35, 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (36, 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (37, 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (45, 'Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'S-36', 'f-1.15.php,f-1.01.php', 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (51, 'Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (76, 'Keterangan Beda Identitas KIS', 'surat_ket_beda_identitas_kis', 'S-38', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (85, 'Keterangan Izin Orang Tua/Suami/Istri', 'surat_izin_orangtua_suami_istri', 'S-39', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (86, 'Pernyataan Penguasaan Fisik Bidang Tanah (SPORADIK)', 'surat_sporadik', 'S-40', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (89, 'Permohonan Perubahan Kartu Keluarga', 'surat_permohonan_perubahan_kartu_keluarga', 'S-41', 'f-1.16.php,f-1.01.php', 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (110, 'Non Warga', 'surat_non_warga', '', NULL, 0, 0, 2, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (156, 'Keterangan Domisili', 'surat_ket_domisili', 'S-41', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (160, 'Keterangan Penghasilan Orangtua', 'surat_ket_penghasilan_orangtua', 'S-42', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (161, 'Pengantar Permohonan Penerbitan Buku Pas Lintas', 'surat_permohonan_penerbitan_buku_pas_lintas', 'S-43', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (162, 'Keterangan Penghasilan Ayah', 'surat_ket_penghasilan_ayah', 'S-44', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (163, 'Keterangan Penghasilan Ibu', 'surat_ket_penghasilan_ibu', 'S-45', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (167, 'Perintah Perjalanan Dinas', 'surat_perintah_perjalanan_dinas', 'S-46', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (168, 'Kuasa', 'surat_kuasa', 'S-47', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (172, 'Keterangan Kepemilikan Kendaraan', 'surat_ket_kepemilikan_kendaraan', 'S-48', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (173, 'Keterangan Kepemilikan Tanah', 'surat_ket_kepemilikan_tanah', 'S-49', NULL, 0, 0, 1, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (177, 'Baru', 'surat_baru', NULL, NULL, 0, 0, 2, 0, 1, 'M');
-INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`) VALUES (178, 'Raw', 'raw', NULL, NULL, 0, 0, 2, 0, 1, 'M');
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (1, 'Keterangan Pengantar', 'surat_ket_pengantar', 'S-01', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (2, 'Keterangan Penduduk', 'surat_ket_penduduk', 'S-02', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (3, 'Biodata Penduduk', 'surat_bio_penduduk', 'S-03', 'f-1.01.php', 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (5, 'Keterangan Pindah Penduduk', 'surat_ket_pindah_penduduk', 'S-04', 'f-1.08.php,f-1.25.php', 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (6, 'Keterangan Jual Beli', 'surat_ket_jual_beli', 'S-05', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (8, 'Pengantar Surat Keterangan Catatan Kepolisian', 'surat_ket_catatan_kriminal', 'S-07', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (9, 'Keterangan KTP dalam Proses', 'surat_ket_ktp_dalam_proses', 'S-08', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (10, 'Keterangan Beda Identitas', 'surat_ket_beda_nama', 'S-09', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (11, 'Keterangan Bepergian / Jalan', 'surat_jalan', 'S-10', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (12, 'Keterangan Kurang Mampu', 'surat_ket_kurang_mampu', 'S-11', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (13, 'Pengantar Izin Keramaian', 'surat_izin_keramaian', 'S-12', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (14, 'Pengantar Laporan Kehilangan', 'surat_ket_kehilangan', 'S-13', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (15, 'Keterangan Usaha', 'surat_ket_usaha', 'S-14', NULL, 0, 0, 1, 1, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (16, 'Keterangan JAMKESOS', 'surat_ket_jamkesos', 'S-15', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (17, 'Keterangan Domisili Usaha', 'surat_ket_domisili_usaha', 'S-16', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (18, 'Keterangan Kelahiran', 'surat_ket_kelahiran', 'S-17', 'f-2.01.php', 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (20, 'Permohonan Akta Lahir', 'surat_permohonan_akta', 'S-18', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (21, 'Pernyataan Belum Memiliki Akta Lahir', 'surat_pernyataan_akta', 'S-19', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (22, 'Permohonan Duplikat Kelahiran', 'surat_permohonan_duplikat_kelahiran', 'S-20', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (24, 'Keterangan Kematian', 'surat_ket_kematian', 'S-21', 'f-2.29.php', 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (25, 'Keterangan Lahir Mati', 'surat_ket_lahir_mati', 'S-22', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (26, 'Keterangan Untuk Nikah (N-1 s/d N-7)', 'surat_ket_nikah', 'S-23', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (33, 'Keterangan Pergi Kawin', 'surat_ket_pergi_kawin', 'S-30', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (35, 'Keterangan Wali Hakim', 'surat_ket_wali_hakim', 'S-32', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (36, 'Permohonan Duplikat Surat Nikah', 'surat_permohonan_duplikat_surat_nikah', 'S-33', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (37, 'Permohonan Cerai', 'surat_permohonan_cerai', 'S-34', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (38, 'Keterangan Pengantar Rujuk/Cerai', 'surat_ket_rujuk_cerai', 'S-35', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (45, 'Permohonan Kartu Keluarga', 'surat_permohonan_kartu_keluarga', 'S-36', 'f-1.15.php,f-1.01.php', 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (51, 'Domisili Usaha Non-Warga', 'surat_domisili_usaha_non_warga', 'S-37', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (76, 'Keterangan Beda Identitas KIS', 'surat_ket_beda_identitas_kis', 'S-38', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (85, 'Keterangan Izin Orang Tua/Suami/Istri', 'surat_izin_orangtua_suami_istri', 'S-39', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (86, 'Pernyataan Penguasaan Fisik Bidang Tanah (SPORADIK)', 'surat_sporadik', 'S-40', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (89, 'Permohonan Perubahan Kartu Keluarga', 'surat_permohonan_perubahan_kartu_keluarga', 'S-41', 'f-1.16.php,f-1.01.php', 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (110, 'Non Warga', 'surat_non_warga', '', NULL, 0, 0, 2, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (156, 'Keterangan Domisili', 'surat_ket_domisili', 'S-41', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (160, 'Keterangan Penghasilan Orangtua', 'surat_ket_penghasilan_orangtua', 'S-42', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (161, 'Pengantar Permohonan Penerbitan Buku Pas Lintas', 'surat_permohonan_penerbitan_buku_pas_lintas', 'S-43', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (162, 'Keterangan Penghasilan Ayah', 'surat_ket_penghasilan_ayah', 'S-44', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (163, 'Keterangan Penghasilan Ibu', 'surat_ket_penghasilan_ibu', 'S-45', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (167, 'Perintah Perjalanan Dinas', 'surat_perintah_perjalanan_dinas', 'S-46', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (168, 'Kuasa', 'surat_kuasa', 'S-47', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (172, 'Keterangan Kepemilikan Kendaraan', 'surat_ket_kepemilikan_kendaraan', 'S-48', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (173, 'Keterangan Kepemilikan Tanah', 'surat_ket_kepemilikan_tanah', 'S-49', NULL, 0, 0, 1, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (177, 'Baru', 'surat_baru', NULL, NULL, 0, 0, 2, 0, 1, 'M', 0);
+INSERT INTO `tweb_surat_format` (`id`, `nama`, `url_surat`, `kode_surat`, `lampiran`, `kunci`, `favorit`, `jenis`, `mandiri`, `masa_berlaku`, `satuan_masa_berlaku`, `qr_code`) VALUES (178, 'Raw', 'raw', NULL, NULL, 0, 0, 2, 0, 1, 'M', 0);
 
 
 #
@@ -14087,6 +14104,21 @@ INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (30, '006', '-', 'KERANDANGAN', 0, '', '', 0, '', '', NULL, NULL, NULL);
 INSERT INTO `tweb_wil_clusterdesa` (`id`, `rt`, `rw`, `dusun`, `id_kepala`, `lat`, `lng`, `zoom`, `path`, `map_tipe`, `warna`, `urut`, `urut_cetak`) VALUES (31, '002', '-', 'SENGGIGI', 0, '', '', 0, '', '', NULL, NULL, NULL);
 
+
+#
+# TABLE STRUCTURE FOR: urls
+#
+
+DROP TABLE IF EXISTS `urls`;
+
+CREATE TABLE `urls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) NOT NULL,
+  `alias` varchar(100) NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `alias` (`alias`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: user
@@ -14436,7 +14468,7 @@ CREATE TABLE `log_penduduk` (
   UNIQUE KEY `id_pend` (`id_pend`,`kode_peristiwa`,`tgl_peristiwa`),
   KEY `id_ref_pindah` (`ref_pindah`),
   CONSTRAINT `id_ref_pindah` FOREIGN KEY (`ref_pindah`) REFERENCES `ref_pindah` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 
 INSERT INTO `log_penduduk` (`id`, `id_pend`, `kode_peristiwa`, `meninggal_di`, `alamat_tujuan`, `tgl_lapor`, `tgl_peristiwa`, `catatan`, `no_kk`, `nama_kk`, `ref_pindah`, `created_at`, `created_by`, `updated_at`, `updated_by`, `maksud_tujuan_kedatangan`) VALUES (1, 1, 5, NULL, NULL, '2019-05-28 22:45:28', '2019-05-28 22:45:28', NULL, NULL, NULL, 1, '2019-05-28 22:45:28', NULL, '2021-09-01 01:43:08', NULL, NULL);
 INSERT INTO `log_penduduk` (`id`, `id_pend`, `kode_peristiwa`, `meninggal_di`, `alamat_tujuan`, `tgl_lapor`, `tgl_peristiwa`, `catatan`, `no_kk`, `nama_kk`, `ref_pindah`, `created_at`, `created_by`, `updated_at`, `updated_by`, `maksud_tujuan_kedatangan`) VALUES (2, 2, 5, NULL, NULL, '2019-05-28 22:45:28', '2019-05-28 22:45:28', NULL, NULL, NULL, 1, '2019-05-28 22:45:28', NULL, '2021-09-01 01:43:08', NULL, NULL);

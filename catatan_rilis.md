@@ -1,8 +1,8 @@
-Di rilis ini, versi 21.10-pasca melengkapi Buku Administrasi Desa > Buku Administrasi Penduduk dan menyediakan fitur merekam foto penduduk langsung dari kamera HP/DSLR. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.11 melengkapi Buku Administrasi Desa > Buku Administrasi Penduduk dan menyediakan fitur merekam foto penduduk langsung dari kamera HP/DSLR. Rilis ini juga berisi perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Zeppy Shiddiq dan afa28 yang terus berkontribusi. Terima kasih pula pada Mochamad Arifin yang baru mulai berkontribusi.
+Terima kasih pada Zeppy Shiddiq dan andifahruddinakas yang terus berkontribusi. Terima kasih pula pada Mochamad Arifin yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi 21.10-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi 21.11 adalah sebagai berikut:
 
 
 Fitur v21.04-premium yang digabungkan adalah sebagai berikut:
