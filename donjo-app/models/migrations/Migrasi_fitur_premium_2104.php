@@ -76,6 +76,8 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		// Sesuaikan key offline mode
 		$hasil = $hasil && $this->ubah_setting_offline_mode($hasil);
 
+		$hasil = $hasil && $this->migrasi_2021110171($hasil);
+
 		status_sukses($hasil);
 		return $hasil;
 	}
@@ -261,6 +263,28 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil = $hasil && $this->db->where('value', 'Web hanya bisa diakses petugas web')->update('setting_aplikasi', ['value' => 1]);
 		$hasil = $hasil && $this->db->where('value', 'Web non-aktif sama sekali')->update('setting_aplikasi', ['value' => 2]);
 		$hasil = $hasil && $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-kode']);
+
+		return $hasil;
+	}
+
+	protected function migrasi_2021110171($hasil)
+	{
+		$hasil = $hasil && $this->tambah_modul([
+			'id'         => 331,
+			'modul'      => 'Pendaftaran Kerjasama',
+			'url'        => 'pendaftaran_kerjasama',
+			'aktif'      => 1,
+			'ikon'       => 'fa-list',
+			'urut'       => 6,
+			'level'      => 2,
+			'hidden'     => 0,
+			'ikon_kecil' => 'fa-list',
+			'parent'     => 200
+		]);
+
+		// Hapus cache menu navigasi
+		$this->load->driver('cache');
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 
 		return $hasil;
 	}
