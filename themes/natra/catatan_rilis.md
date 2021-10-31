@@ -5,8 +5,9 @@ Catatan Pra Rilis Tema Natra Versi 4.6, sbb:
 3. Sederhanakan paging.
 4. Sesuaikan route dan tampilan wilayah.
 5. Sesuaikan tampilan covid desa.
-6. 
+6. Sesuaikan tampilan analisis.
 
+Support OpenSID 21.11-premium
 
 
 ****************************************************************

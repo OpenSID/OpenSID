@@ -18,5 +18,5 @@
 			</div>
 			<div class="content_bottom">
 				<div class="col-lg-12 col-md-12">
-					<div class="content_bottom_left">
+					<div class="content_left">
 						<?php $this->load->view('head_tags_front') ?>

@@ -4,7 +4,7 @@
 	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Album Galeri <?= $parrent['nama']; ?></span></h2>
 </div>
 
-<div class="content_bottom_left" style="margin-bottom:10px;">
+<div class="content_left" style="margin-bottom:10px;">
 	<ul>
 		<?php foreach ($gallery as $key => $data): ?>
 			<?php if (is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>

@@ -87,7 +87,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="bobot">Bobot</label>
 										<div class="col-sm-2">
-											<input id="bobot" class="form-control input-sm number" type="text" placeholder="Bobot Pertanyaan" max="100" name="bobot" value="<?= ($analisis_indikator['bobot'] == "") ? '1' : $analisis_indikator['bobot'] ?>">
+											<input id="bobot" class="form-control input-sm number" type="number" placeholder="Bobot Pertanyaan" min="0" max="100" name="bobot" value="<?= $analisis_indikator['bobot'] ?? 1; ?>">
 										</div>
 									</div>
 								</div>

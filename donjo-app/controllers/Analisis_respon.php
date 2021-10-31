@@ -198,16 +198,11 @@ class Analisis_respon extends Admin_Controller {
 		return $judul;
 	}
 
-	public function kuisioner($p = 1, $o = 0, $id = 0, $fs=0)
+	public function kuisioner($p = 1, $o = 0, $id = 0, $fs = 0)
 	{
-		if ($fs == 1)
-			$this->session->fullscreen = 1;
-
-		if($fs == 2)
-			unset($this->session->fullscreen);
-
-		if ($fs != 0)
-			redirect("{$this->controller}/kuisioner/$p/$o/$id");
+		if ($fs == 1) $this->session->fullscreen = 1;
+		if ($fs == 2) $this->session->unset_userdata('fullscreen');
+		if ($fs != 0) redirect("analisis_respon/kuisioner/$p/$o/$id");
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -222,19 +217,10 @@ class Analisis_respon extends Admin_Controller {
 		$data['perbaharui'] = site_url("{$this->controller}/perbaharui/$p/$o/$id");
 
 		$this->set_minsidebar(1);
-		if (isset($this->session->fullscreen))
-			$data['layarpenuh']= 1;
-		else
-		{
-			$data['layarpenuh']= 2;
-		}
-
-		// $this->json_output($data);
-
 		$this->render('analisis_respon/form', $data);
 	}
 
-	public function perbaharui($p = 1, $o = 0, $id_subjek = 0, $fs=0)
+	public function perbaharui($p = 1, $o = 0, $id_subjek = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$data = $this->analisis_respon_model->perbaharui($id_subjek);

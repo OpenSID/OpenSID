@@ -23,7 +23,7 @@
 			<div class="content_middle"></div>
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
-					<div class="content_bottom_left">
+					<div class="content_left">
 						<?php $this->load->view("$folder_themes/partials/gallery"); ?>
 					</div>
 				</div>

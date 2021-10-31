@@ -12,7 +12,7 @@
 		</div>
 		<div class="form-group">
 			<label class="control-label" for="nilai">Nilai / Ukuran</label>
-			<input id="nilai" class="form-control input-sm required bilangan" type="number" min="0" max="999" placeholder="Nilai" name="nilai" value="<?= $analisis_parameter['nilai']; ?>">
+			<input id="nilai" class="form-control input-sm required bilangan" type="number" min="0" max="100" placeholder="Nilai" name="nilai" value="<?= $analisis_parameter['nilai'] ?? 1; ?>">
 		</div>
 	</div>
 	<div class="modal-footer">

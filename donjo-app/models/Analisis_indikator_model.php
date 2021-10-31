@@ -126,20 +126,29 @@
 
 	private function validasi_data($post)
 	{
-		$data = array();
-		$data['id_tipe'] = $post['id_tipe'] ?: null;
-		$data['nomor'] = nomor_surat_keputusan($post['nomor']);
-		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
-		$data['id_kategori'] = $post['id_kategori'] ?: null;
-		$data['bobot'] = bilangan($post['bobot']);
-		$data['act_analisis'] = $post['act_analisis'];
-		$data['is_publik'] = $post['is_publik'];
-		$data['referensi'] = $post['referensi'];
+		$data = [
+			'id_tipe' => $post['id_tipe'],
+			'referensi' => $post['referensi'] ?? null,
+			'nomor' => nomor_surat_keputusan($post['nomor']),
+			'pertanyaan' => htmlentities($post['pertanyaan']),
+			'id_kategori' => $post['id_kategori'] ?? null,
+			'bobot' => bilangan($post['bobot']),
+			'act_analisis' => $post['act_analisis'],
+			'is_publik' => $post['is_publik'],
+		];
+
+		if (! $post['referensi'])
+		{
+			unset($data['id_tipe']);
+			unset($data['referensi']);
+		}
+
 		if ($data['id_tipe'] != 1)
-			{
-				$data['act_analisis'] = 2;
-				$data['bobot'] = 0;
-			}
+		{
+			$data['act_analisis'] = 2;
+			$data['bobot'] = 0;
+		}
+
 		return $data;
 	}
 
@@ -191,7 +200,7 @@
 
 		$data = $this->validasi_data($this->input->post());
 
-		if ($data['id_tipe'] == 1 OR $data['id_tipe'] == 2)
+		if (($data['id_tipe'] == 1 OR $data['id_tipe'] == 2) && ! $data['referensi'])
 		{
 			$this->db->where('id_indikator', $id)->delete('analisis_parameter');
 		}
@@ -406,7 +415,6 @@
 					],
 					'tanggallahir' => [
 						'judul' => 'Tanggal Lahir',
-						'tipe' => 5,
 					],
 					'agama_id' => [
 						'judul' => 'Agama',
@@ -422,6 +430,11 @@
 						'judul' => 'Pendidikan Sedang Ditempuh',
 						'tipe' => 1,
 						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_pendidikan'),
+					],
+					'pekerjaan_id' => [
+						'judul' => 'Pekerjaan',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_pekerjaan'),
 					],
 					'status_kawin' => [
 						'judul' => 'Status_perkawinan',
@@ -458,7 +471,7 @@
 					],
 					// id_cluster => wilayah, agar tdk duplikasi
 					'wilayah' => [
-						'judul' => 'Wilayah (Dusun/RW/T)',
+						'judul' => 'Wilayah (Dusun/RW/RT)',
 					],
 					'status' => [
 						'judul' => 'Status Penduduk',
@@ -590,9 +603,6 @@
 			// Keluarga
 			default:
 				$data = [
-					'no_kk' => [
-						'judul' => 'No KK',
-					],
 					'nik_kepala' => [
 						'judul' => 'NIK Kepala KK',
 					],
@@ -606,7 +616,7 @@
 					],
 					// id_cluster => wilayah, agar tdk duplikasi
 					'wilayah' => [
-						'judul' => 'Wilayah (Dusun/RW/T)',
+						'judul' => 'Wilayah (Dusun/RW/RT)',
 					],
 				];
 				break;

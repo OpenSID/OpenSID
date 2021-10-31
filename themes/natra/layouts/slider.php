@@ -4,15 +4,15 @@
 	.slick_slider img {
 		width: 100%;
 	}
+
 	.slick_slider, .cycle-slideshow {
 		max-height: 350px;
-		border: 5px solid #e5e5e500;
 		display: block;
 		position: relative;
-		/*margin: 0px auto;*/
 		overflow: hidden;
 	}
-	.textgambar{
+	
+	.textgambar {
 		position: absolute;
 		left: 20px;
 		top: 280px;
