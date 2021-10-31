@@ -1,8 +1,8 @@
-#### [v21.10-premium-beta03]
+#### [v21.11-premium]
 
-Di rilis ini, versi 21.10-premium-beta03, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.11-premium, menyediakan Kaitkan indikator/pertanyaan analisis dengan data saran penduduk dan keluarga, Tampilkan data Pembangunan di halaman WEB. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi.
 
 #### Penambahan Fitur
 1. [#4366](https://github.com/OpenSID/OpenSID/issues/4366) RSS Feeds artikel sekarang berisi tanggal unggah artikel.
@@ -13,7 +13,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. [#3844](https://github.com/OpenSID/OpenSID/issues/3844) Perjelas keterangan data kependudukan wilayah pada halaman website desa.
 7. [#3404](https://github.com/OpenSID/OpenSID/issues/3404) Penyesuaian Istilah Baru tentng COVID-19.
 8. [#4402](https://github.com/OpenSID/OpenSID/issues/4402) Tampilkan data Pembangunan di halaman WEB.
-9. [#4404](https://github.com/OpenSID/OpenSID/issues/4404) Kaitkan indikator/pertanyaan analisis dengan data kependudukan.
+9. [#4404](https://github.com/OpenSID/OpenSID/issues/4404) Kaitkan indikator/pertanyaan analisis dengan data saran penduduk dan keluarga.
 10. [#4352](https://github.com/OpenSID/OpenSID/issues/4352) Sediakan kolom input ID BDT di menu Tambah Rumah Tangga Baru.
 11. Ubah No. KK Sementara dari 0 menjadi 16 digit diawali 0, dengan format 0[kode-desa-10-digit][nomor-urut-5-digit]
 12. Sediakan bisa pecah seluruh anggota keluarga status mati/hilang/pindah dan masukkan ke keluarga baru.
