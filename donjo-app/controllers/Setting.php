@@ -60,10 +60,10 @@ class Setting extends Admin_Controller {
 			'atur_latar' => TRUE,
 			'latar_website' => $this->theme_model->latar_website(),
 			'latar_login' => $this->theme_model->latar_login(),
+			'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
 			'list_tema' => $this->theme_model->list_all(),
 		];
 		$this->setting_model->load_options();
-
 		$this->render('setting/setting_form', $data);
 	}
 
@@ -140,7 +140,7 @@ class Setting extends Admin_Controller {
 				$this->modul_ini = 11;
 				$this->sub_modul_ini = 212;
 
-				$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['changeqr' => '1', 'sizeqr' => '6', 'backqr' => '#ffffff'];
+				$data['qrcode'] = $this->session->qrcode ?: $qrcode = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000'];
 				$data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
 				$data['list_sizeqr'] = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
 
@@ -182,8 +182,7 @@ class Setting extends Admin_Controller {
 			'changeqr' => $changeqr, // Pilihan jenis sisipkan logo
 			'logoqr' => $logoqr,
 			'sizeqr' => bilangan($post['sizeqr']), // Ukuran qrcode
-			'backqr' => '#ffffff', // Code warna default (#ffffff / putih)
-			'foreqr' => $post['foreqr'], // Code warna asli
+			'foreqr' => $post['foreqr'], //
 			'pathqr' => base_url(LOKASI_MEDIA.''.$namaqr1.'.png') // Tampilkan gambar qrcode
 		];
 
@@ -192,7 +191,7 @@ class Setting extends Admin_Controller {
 		if ($post)
 		{
 			$this->session->success = 1;
-			$data = qrcode_generate($pathqr, $namaqr1, $qrcode['isiqr'], $logoqr1, $qrcode['sizeqr'], $qrcode['backqr'], $qrcode['foreqr']);
+			$data = qrcode_generate($pathqr, $namaqr1, $qrcode['isiqr'], $logoqr1, $qrcode['sizeqr'], $qrcode['foreqr']);
 			echo json_encode($data);
 		}
 		else

@@ -112,31 +112,38 @@ $route['peta'] = 'first/peta';
 $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 
+// URL Shortener
+$route['v/(:any)'] = 'first/redirect/$1';
+$route['c1/(:any)'] = 'dokumen_web/check_surat1/$1';
+$route['c2/(:any)'] = 'dokumen_web/check_surat2/$1';
 
-// Mandiri Auth
-$route['layanan-mandiri/masuk'] = 'layanan_mandiri/masuk'; // Tampilan Masuk
-$route['layanan-mandiri/cek'] = 'layanan_mandiri/masuk/cek'; // Cek Masuk
-// Mandiri Beranda
-$route['layanan-mandiri'] = 'layanan_mandiri/beranda'; // Beranda/Halaman Awal
-// Mandiri Profil
-$route['layanan-mandiri/profil'] = 'layanan_mandiri/beranda/profil'; // Profil
-$route['layanan-mandiri/cetak-biodata'] = 'layanan_mandiri/beranda/cetak_biodata'; // Cetak Penduduk
-$route['layanan-mandiri/ganti-pin'] = 'layanan_mandiri/beranda/ganti_pin'; // Ganti PIN
-$route['layanan-mandiri/proses-ganti-pin'] = 'layanan_mandiri/beranda/proses_ganti_pin'; // Proses Ganti PIN
-$route['layanan-mandiri/unduh-berkas/(:num)'] = 'layanan_mandiri/beranda/unduh_berkas/$1'; // Proses Unduh Berkas
-$route['layanan-mandiri/cetak-kk'] = 'layanan_mandiri/beranda/cetak_kk'; // Cetak KK
-$route['layanan-mandiri/keluar'] = 'layanan_mandiri/beranda/keluar'; // Keluar
-// Mandiri Pesan
-$route['layanan-mandiri/pesan-masuk'] = 'layanan_mandiri/pesan/index/2'; // Pesan Masuk
-$route['layanan-mandiri/pesan-keluar'] = 'layanan_mandiri/pesan/index/1'; // Pesan Keluar
-$route['layanan-mandiri/pesan/tulis'] = 'layanan_mandiri/pesan/tulis'; // Tulis Pesan
-$route['layanan-mandiri/pesan/balas'] = 'layanan_mandiri/pesan/tulis'; // Balas Pesan
-$route['layanan-mandiri/pesan/kirim'] = 'layanan_mandiri/pesan/kirim'; // Kirim Pesan
-$route['layanan-mandiri/pesan/baca/(:num)/(:num)'] = 'layanan_mandiri/pesan/baca/$1/$2'; // Baca Pesan
-// Mandiri Surat
-$route['layanan-mandiri/arsip-surat'] = 'layanan_mandiri/surat/index/2'; // Arsip Surat
-$route['layanan-mandiri/permohonan-surat'] = 'layanan_mandiri/surat/index/1'; // Permohonan Surat
-$route['layanan-mandiri/surat/buat-surat'] = 'layanan_mandiri/surat/buat_surat'; // Buat Surat Permohonan
-$route['layanan-mandiri/surat/buat-surat/(:num)'] = 'layanan_mandiri/surat/buat_surat/$1'; //Ubah Surat Permohonan yg tdk lengkap
-// Mandiri Bantuan
-$route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan'; // Bantuan
+// Halaman Layanan Mandiri
+// Auth
+$route['layanan-mandiri/masuk'] = 'layanan_mandiri/masuk';
+$route['layanan-mandiri/cek'] = 'layanan_mandiri/masuk/cek';
+$route['layanan-mandiri/masuk_ektp'] = 'layanan_mandiri/masuk_ektp';
+$route['layanan-mandiri/cek_ektp'] = 'layanan_mandiri/masuk_ektp/cek_ektp';
+// Beranda
+$route['layanan-mandiri'] = 'layanan_mandiri/beranda';
+// Profil
+$route['layanan-mandiri/profil'] = 'layanan_mandiri/beranda/profil';
+$route['layanan-mandiri/cetak-biodata'] = 'layanan_mandiri/beranda/cetak_biodata';
+$route['layanan-mandiri/ganti-pin'] = 'layanan_mandiri/beranda/ganti_pin';
+$route['layanan-mandiri/proses-ganti-pin'] = 'layanan_mandiri/beranda/proses_ganti_pin';
+$route['layanan-mandiri/unduh-berkas/(:num)'] = 'layanan_mandiri/beranda/unduh_berkas/$1';
+$route['layanan-mandiri/cetak-kk'] = 'layanan_mandiri/beranda/cetak_kk';
+$route['layanan-mandiri/keluar'] = 'layanan_mandiri/beranda/keluar';
+// Pesan
+$route['layanan-mandiri/pesan-masuk'] = 'layanan_mandiri/pesan/index/2';
+$route['layanan-mandiri/pesan-keluar'] = 'layanan_mandiri/pesan/index/1';
+$route['layanan-mandiri/pesan/tulis'] = 'layanan_mandiri/pesan/tulis';
+$route['layanan-mandiri/pesan/balas'] = 'layanan_mandiri/pesan/tulis';
+$route['layanan-mandiri/pesan/kirim'] = 'layanan_mandiri/pesan/kirim';
+$route['layanan-mandiri/pesan/baca/(:num)/(:num)'] = 'layanan_mandiri/pesan/baca/$1/$2';
+// Surat
+$route['layanan-mandiri/arsip-surat'] = 'layanan_mandiri/surat/index/2';
+$route['layanan-mandiri/permohonan-surat'] = 'layanan_mandiri/surat/index/1';
+$route['layanan-mandiri/surat/buat'] = 'layanan_mandiri/surat/buat';
+$route['layanan-mandiri/surat/buat/(:num)'] = 'layanan_mandiri/surat/buat/$1';
+// Bantuan
+$route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan';

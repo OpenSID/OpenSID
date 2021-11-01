@@ -101,6 +101,8 @@ class First extends Web_Controller {
 		$this->load->model('anjungan_model');
 		$this->load->model('pembangunan_model');
 		$this->load->model('pembangunan_dokumentasi_model');
+		$this->load->model('url_shortener_model');
+		$this->load->model('stat_shortener_model');
 	}
 
 	public function index($p=1)
@@ -683,5 +685,21 @@ class First extends Web_Controller {
 		$data['config'] = $this->config_model->get_data();
 
 		$this->load->view('pembangunan/informasi', $data);
+	}
+
+	public function redirect( $alias )
+	{
+		$url_data = $this->url_shortener_model->get_url($alias);
+		if ( ! $url_data)
+		{
+			header("HTTP/1.0 404 Not Found");
+			$this->load->view('not_found');
+		}
+		else
+		{
+			$this->stat_shortener_model->add_log($url_data->id);
+			header('Location: ' . $url_data->url, true, 302);
+			exit();
+		}
 	}
 }

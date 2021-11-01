@@ -306,6 +306,9 @@
 		return true;
 	}
 
+	/*
+	 * Tambah KK dengan mengisi form penduduk kepala keluarga baru pindah datang
+	 */
 	public function insert_new()
 	{
 		unset($_SESSION['validation_error']);
@@ -358,6 +361,9 @@
 		UNSET($data['rw']);
 		UNSET($data['no_kk']);
 
+		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
+		unset($data['maksud_tujuan_kedatangan']);
+
 		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
 		if ($_POST['tgl_peristiwa'])
 			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
@@ -398,7 +404,8 @@
 			'kode_peristiwa' => $this->session->jenis_peristiwa,
 			'tgl_lapor' => $tgl_lapor,
 			'id_pend' => $id_pend,
-			'created_by' => $this->session->user
+			'created_by' => $this->session->user,
+			'maksud_tujuan_kedatangan' => $maksud_tujuan,
 		];
 		$this->penduduk_model->tulis_log_penduduk_data($x);
 
@@ -406,9 +413,6 @@
 		$log['id_cluster'] = 1;
 		$log['tanggal'] = date("Y-m-d H:i:s");
 		$outp = $this->db->insert('log_perubahan_penduduk', $log);
-
-		// Untuk statistik perkembangan keluarga
-		$this->log_keluarga($kk_id, $data2['nik_kepala'], 1);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -773,6 +777,9 @@
 		unset($data['tgl_lapor']);
 		unset($data['tgl_peristiwa']);
 
+		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
+		unset($data['maksud_tujuan_kedatangan']);
+
 		if (!$this->validasi_data_keluarga($data)) return;
 		unset($data['alamat']);
 
@@ -801,7 +808,8 @@
 			'kode_peristiwa' => $this->session->jenis_peristiwa,
 			'tgl_lapor' => $tgl_lapor,
 			'id_pend' => $id_pend,
-			'created_by' => $this->session->user
+			'created_by' => $this->session->user,
+			'maksud_tujuan_kedatangan' => $maksud_tujuan,
 		];
 		$this->penduduk_model->tulis_log_penduduk_data($x);
 	}

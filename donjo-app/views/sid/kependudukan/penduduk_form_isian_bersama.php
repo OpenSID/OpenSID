@@ -43,7 +43,7 @@
  */
 ?>
 			<div class="row">
-				<?php if ($jenis_peristiwa == 5): ?>
+				<?php if ($jenis_peristiwa == 5 && ! $penduduk['tgl_peristiwa']): ?>
 					<div class='col-sm-4'>
 						<div class='form-group'>
 							<label for="tgl_peristiwa">Tanggal Pindah Masuk</label>
@@ -56,17 +56,19 @@
 						</div>
 					</div>
 				<?php endif; ?>
-				<div class='col-sm-4'>
-					<div class='form-group'>
-						<label for="tgl_lapor">Tanggal Lapor</label>
-						<div class="input-group input-group-sm date">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
+				<?php if (! $penduduk['tgl_lapor']): ?>
+					<div class='col-sm-4'>
+						<div class='form-group'>
+							<label for="tgl_lapor">Tanggal Lapor</label>
+							<div class="input-group input-group-sm date">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input class="form-control input-sm pull-right" id="tgl_6" name="tgl_lapor" type="text" value="<?= $penduduk['tgl_lapor']?rev_tgl($penduduk['tgl_lapor']):date("d-m-Y");?>">
 							</div>
-							<input class="form-control input-sm pull-right" id="tgl_6" name="tgl_lapor" type="text" value="<?= $penduduk['tgl_lapor']?rev_tgl($penduduk['tgl_lapor']):date("d-m-Y");?>">
 						</div>
 					</div>
-				</div>
+				<?php endif; ?>
 				<div class='col-sm-12'>
 					<div class="form-group subtitle_head">
 						<label class="text-right"><strong>DATA DIRI :</strong></label>
@@ -120,7 +122,7 @@
 												 </select>
 												</td>
 												<td width='25%'>
-												 <input name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
+												 <input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
 												</td>
 											</tr>
 										</tbody>
@@ -150,7 +152,7 @@
 					</div>
 				</div>
 				<div class="col-sm-12">
-					
+
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
@@ -164,7 +166,7 @@
 							<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level']?>">
 						<?php endif; ?>
 						<label for="kk_level">Hubungan Dalam Keluarga</label>
-						<select class="form-control input-sm <?= jecho($id_kk, true, 'required'); ?>" name="kk_level">
+						<select class="form-control input-sm required" name="kk_level">
 							<option value="">Pilih Hubungan Keluarga</option>
 							<?php foreach ($hubungan as $data): ?>
 								<option value="<?= $data['id']?>"<?php selected($penduduk['kk_level'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
@@ -482,7 +484,7 @@
 						<label for="lokasi">Lokasi Tempat Tinggal </label>
 						<div class='row'>
 							<div class='col-sm-12'>
-								<button type="submit" class="btn btn-social btn-flat bg-navy btn-sm" onclick="$('#'+'mainform').attr('action', '<?= site_url("penduduk/penduduk_maps/$p/$o/$penduduk[id]"); ?>');$('#'+'mainform').submit();"><i class="fa fa-map-marker"></i> Cari Lokasi Tempat Tinggal</button>
+								<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
 							</div>
 						</div>
 					</div>
@@ -680,6 +682,8 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
+		$('#tag_id_card').focus();
+
 		$("#dusun").change(function() {
 			let dusun = $(this).val();
 			$('#isi_rt').hide();
@@ -813,8 +817,8 @@
 		if (status == 2)
 		{
 			$('#section_penduduk_tidak_tetap').fadeIn();
-		} 
-		else 
+		}
+		else
 		{
 			$('#section_penduduk_tidak_tetap').fadeOut();
 		}
@@ -825,8 +829,8 @@
 		if (warganegaraId == 2 || warganegaraId == 3)
 		{
 			$('#field_negara_asal').fadeIn();
-		} 
-		else 
+		}
+		else
 		{
 			$('#field_negara_asal').fadeOut();
 		}
@@ -838,8 +842,8 @@
 		if (status == 2)
 		{
 			$('#section_ktp_el').fadeIn();
-		} 
-		else 
+		}
+		else
 		{
 			$('#section_ktp_el').fadeOut();
 		}

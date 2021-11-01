@@ -20,7 +20,7 @@ class Setting_model extends CI_Model {
 
 	public function __construct()
 	{
-		parent::__construct();		
+		parent::__construct();
 	}
 
 	public function init(){
@@ -107,6 +107,7 @@ class Setting_model extends CI_Model {
 		// TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
 		if ($data['latar_website'] != '') $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website()); // latar_website
 		if ($data['latar_login']  != '') $this->upload_img('latar_login', LATAR_LOGIN); // latar_login
+		if ($data['latar_login_mandiri']  != '') $this->upload_img('latar_login_mandiri', LATAR_LOGIN); // latar_login_mandiri
 
 		return $data;
 	}

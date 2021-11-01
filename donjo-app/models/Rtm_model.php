@@ -360,20 +360,9 @@ class Rtm_model extends CI_Model {
 	}
 
 	// $limit = 0 mengambil semua
-	public function list_data($o = 0, $offset = 0, $limit = 0)
+	public function list_data($order_by = 0, $offset = 0, $limit = 0)
 	{
 		$this->list_data_sql();
-
-		switch ($o)
-		{
-			case 1: $this->db->order_by('u.no_kk'); break;
-			case 2: $this->db->order_by('u.no_kk', DESC); break;
-			case 3: $this->db->order_by('t.nama'); break;
-			case 4: $this->db->order_by('t.nama', DESC); break;
-			case 5: $this->db->order_by('u.tgl_daftar'); break;
-			case 6: $this->db->order_by('u.tgl_daftar', DESC); break;
-			default: ' ';
-		}
 
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
@@ -386,9 +375,25 @@ class Rtm_model extends CI_Model {
 			->join('tweb_keluarga k', 't.id_kk = k.id')
 			->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id');
 
+		$this->order_by_list($order_by);
+
 		$data = $this->db->get()->result_array();
 
 		return $data;
+	}
+
+	private function order_by_list($order_by)
+	{
+		switch ($order_by)
+		{
+			case 1: $this->db->order_by('u.no_kk'); break;
+			case 2: $this->db->order_by('u.no_kk', DESC); break;
+			case 3: $this->db->order_by('t.nama'); break;
+			case 4: $this->db->order_by('t.nama', DESC); break;
+			case 5: $this->db->order_by('u.tgl_daftar'); break;
+			case 6: $this->db->order_by('u.tgl_daftar', DESC); break;
+			default: $this->db->order_by('u.no_kk'); break;
+		}
 	}
 
 	private function list_data_sql()

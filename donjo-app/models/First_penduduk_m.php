@@ -57,28 +57,41 @@ class First_penduduk_m extends CI_Model {
 
 	public function list_jawab($id=0, $sb=0, $per=0)
 	{
-		switch ($sb)
-		{
-			case 1: $sbj = "LEFT JOIN tweb_penduduk p ON r.id_subjek = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id "; break;
-			case 2: $sbj = "LEFT JOIN tweb_keluarga v ON r.id_subjek = v.id LEFT JOIN tweb_penduduk p ON v.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  " ; break;
-			case 3: $sbj = "LEFT JOIN tweb_rtm v ON r.id_subjek = v.id
-				LEFT JOIN tweb_penduduk p ON v.nik_kepala = p.id
-				LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id ";
-				break;
-			case 4: $sbj = "LEFT JOIN kelompok v ON r.id_subjek = v.id LEFT JOIN tweb_penduduk p ON v.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa a ON p.id_cluster = a.id  "; break;
-		}
-
-		$sql = "SELECT * FROM analisis_parameter WHERE id_indikator = ? ORDER BY kode_jawaban ASC ";
-		$query = $this->db->query($sql, $id);
-		$data = $query->result_array();
+		$data = $this->db->select('*')
+			->from('analisis_parameter')
+			->where('id_indikator', $id)
+			->order_by('kode_jawaban ASC')
+			->get()->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
+			switch ($sb)
+			{
+				case 1: $this->db->join('tweb_penduduk p', 'r.id_subjek = p.id', 'left')
+					->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left');
+					break;
+				case 2: $this->db->join('tweb_keluarga v', 'r.id_subjek = v.id', 'left')
+					->join('tweb_penduduk p', 'v.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left');
+					break;
+				case 3: $this->db->join('tweb_rtm v', 'r.id_subjek = v.id', 'left')
+					->join('tweb_penduduk p', 'v.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left');
+					break;
+				case 4: $this->db->join('kelompok v', 'r.id_subjek = v.id', 'left')
+					->join('tweb_penduduk p', 'v.id_ketua = p.id', 'left')
+					->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left');
+					break;
+			}
+
+			$jml = $this->db
+				->select('COUNT(r.id_subjek) AS jml')
+				->from('analisis_respon r')
+				->where('r.id_parameter', $data[$i]['id'])
+				->where('r.id_periode', $per)
+				->get()->row()->jml;
+			$data[$i]['nilai'] = $jml;
 			$data[$i]['no'] = $i + 1;
-			$sql = "SELECT COUNT(r.id_subjek) AS jml FROM analisis_respon r $sbj WHERE r.id_parameter = ? AND r.id_periode = $per";
-			$query = $this->db->query($sql, $data[$i]['id']);
-			$respon= $query->row_array();
-			$data[$i]['nilai'] = $respon['jml'];
 		}
 		return $data;
 	}

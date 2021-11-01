@@ -48,24 +48,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <script>
-	$( function() {
-		$( "#cari" ).autocomplete( {
-			source: function( request, response ) {
-				$.ajax( {
-					type: "POST",
-					url: '<?= site_url("penduduk/autocomplete"); ?>',
-					dataType: "json",
-					data: {
-						cari: request.term
-					},
-					success: function( data ) {
-						response( JSON.parse( data ));
-					}
-				} );
-			},
-			minLength: 2,
-		} );
+$(document).ready(function()
+{
+	$('#cari').focus();
+});
+
+$( function() {
+	$( "#cari" ).autocomplete( {
+		source: function( request, response ) {
+			$.ajax( {
+				type: "POST",
+				url: '<?= site_url("penduduk/autocomplete"); ?>',
+				dataType: "json",
+				data: {
+					cari: request.term
+				},
+				success: function( data ) {
+					response( JSON.parse( data ));
+				}
+			} );
+		},
+		minLength: 2,
 	} );
+} );
 </script>
 <div class="content-wrapper">
 	<section class="content-header">

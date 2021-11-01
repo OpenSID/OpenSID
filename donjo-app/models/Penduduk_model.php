@@ -685,16 +685,24 @@ class Penduduk_model extends MY_Model {
 			if ($error_nik = $this->nik_error($data['nik'], 'NIK'))
 			{
 				array_push($valid, $error_nik);
-
-				$existing_data = $this->db->select('nik, status_dasar')->from('tweb_penduduk')->where(array('nik'=>$data['nik']))->limit(1)->get()->row();
-
-				if ($existing_data->status_dasar != 6)
-					array_push($valid, "NIK {$data['nik']} sudah digunakan");
-				else
-					array_push($valid, "NIK {$data['nik']} terdaftar Penduduk PERGI. Ubah Status di Menu Log Penduduk");
 			}
+			else
+			{
+				if ($id) $this->db->where('id <>', $id); //Tidak termasuk penduduk yg diupdate
+				$existing_data = $this->db
+					->select('nik, status_dasar')
+					->from('tweb_penduduk')
+					->where('nik', $data['nik'])
+					->limit(1)->get()->row();
 
-
+				if ($existing_data)
+				{
+					if ($existing_data->status_dasar != 6)
+						array_push($valid, "NIK {$data['nik']} sudah digunakan");
+					else
+						array_push($valid, "NIK {$data['nik']} terdaftar Penduduk PERGI. Ubah Status di Menu Log Penduduk");
+				}
+			}
 		}
 		if ($error_nik = $this->nik_error($data['ayah_nik'], 'NIK Ayah'))
 			array_push($valid, $error_nik);
@@ -761,6 +769,7 @@ class Penduduk_model extends MY_Model {
 
 		$data['created_at'] = date('Y-m-d H:i:s');
 		$data['created_by'] = $this->session->user;
+		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
 		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
@@ -905,6 +914,7 @@ class Penduduk_model extends MY_Model {
 
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
+		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 

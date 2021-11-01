@@ -68,12 +68,12 @@ define("KATEGORI_PUBLIK", serialize([
 ]));
 
 define("STATUS_PERMOHONAN", serialize([
-	"Sedang diperiksa" => "0",
-	"Belum lengkap" => "1",
-	"Menunggu tandatangan" => "2",
-	"Siap diambil/diantar" => "3",
-	"Sudah diambil" => "4",
-	"Dibatalkan" => "9"
+	"Belum Lengkap" => "0",
+	"Sedang Diperiksa" => "1",
+	"Menunggu Tandatangan" => "2",
+	"Siap Diambil" => "3",
+	"Sudah Diambil" => "4",
+	"Dibatalkan" => "5"
 ]));
 
 define("LINK_TIPE", serialize([
@@ -204,6 +204,12 @@ define("STATUS_PEMBANGUNAN", serialize([
 	2 => '30%',
 	3 => '80%',
 	4 => '100%'
+]));
+
+define("ISI_QR", serialize([
+ 1 => 'Konfirmasi Validitasi Surat',
+ 2 => 'Pilih Isi Data',
+ 3 => 'Ketik Isi Manual',
 ]));
 
 class Referensi_model extends CI_Model {

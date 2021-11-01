@@ -45,6 +45,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
+require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Writer\Common\Creator\Style\BorderBuilder;
+use Box\Spout\Common\Entity\Style\Color;
+use Box\Spout\Common\Entity\Row;
+use Box\Spout\Common\Entity\Style\Border;
+
+
 class Suplemen_model extends MY_Model {
 
 	public function __construct()
@@ -69,21 +80,15 @@ class Suplemen_model extends MY_Model {
 		return $data;
 	}
 
-	public function paging_suplemen($p)
+	public function paging_suplemen($page_number = 1)
 	{
-		$this->db->select('COUNT(s.id) AS jml');
+		$this->db->select('COUNT(DISTINCT s.id) AS jml');
 		$this->list_data_sql();
 
 		$row = $this->db->get()->row_array();
 		$jml_data = $row['jml'];
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $this->paginasi($page_number, $jml_data);
 	}
 
 	private function list_data_sql()
@@ -99,20 +104,18 @@ class Suplemen_model extends MY_Model {
 		$this->search_sql();
 	}
 
-	public function list_data($offset = 0, $limit = 0)
+	public function list_data($order_by = 1, $offset = 0, $limit = 0)
 	{
 		$this->list_data_sql();
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
 
-		$data = $this->db
+		$this->db
 			->select('s.*')
 			->select('COUNT(st.id) AS jml')
 			->order_by('s.nama')
-			->group_by('s.id')
-			->get()
-			->result_array();
+			->group_by('s.id');
 
-		return $data;
+		return $this->db->get()->result_array();
 	}
 
 	public function list_sasaran($id, $sasaran)
@@ -295,7 +298,7 @@ class Suplemen_model extends MY_Model {
 		return $sql;
 	}
 
-	private function get_penduduk_terdata($suplemen_id, $p)
+	public function get_penduduk_terdata($suplemen_id, $p=0)
 	{
 		$hasil = [];
 		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
@@ -343,7 +346,7 @@ class Suplemen_model extends MY_Model {
 	}
 
 
-	private function get_kk_terdata($suplemen_id, $p)
+	public function get_kk_terdata($suplemen_id, $p=0)
 	{
 		$hasil = [];
 		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
@@ -644,6 +647,314 @@ class Suplemen_model extends MY_Model {
 		}
 
 		return autocomplete_data_ke_str($data);
+	}
+
+	public function ekspor($id = 0)
+	{
+		$data_suplemen = $this->get_rincian(0, $id);
+		// print_r($data_anggota);
+		$writer = WriterEntityFactory::createXLSXWriter();
+		$file_name = namafile($data_suplemen['suplemen']['nama']) . ".xlsx";
+		// $writer->openToFile($filePath);
+		$writer->openToBrowser($file_name);
+
+		// Ubah Nama Sheet
+		$sheet = $writer->getCurrentSheet();
+		$sheet->setName('Peserta');
+
+		// Deklarasi Style
+		$border = (new BorderBuilder())
+			->setBorderTop(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+			->setBorderBottom(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+			->setBorderRight(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+			->setBorderLeft(Color::BLACK, Border::WIDTH_THIN, Border::STYLE_SOLID)
+			->build();
+
+		$borderStyle = (new StyleBuilder())
+			->setBorder($border)
+			->build();
+
+		$yellowBackgroundStyle = (new StyleBuilder())
+			->setBackgroundColor(Color::YELLOW)
+			->setFontBold()
+			->setBorder($border)
+			->build();
+
+		$greenBackgroundStyle = (new StyleBuilder())
+			->setBackgroundColor(Color::LIGHT_GREEN)
+			->build();
+
+		// Cetak Header Tabel
+		$values = ['Peserta', 'Nama', 'Tempat Lahir', 'Tanggal Lahir', 'Alamat', 'Keterangan'];
+		$rowFromValues = WriterEntityFactory::createRowFromArray($values, $yellowBackgroundStyle);
+		$writer->addRow($rowFromValues);
+
+		// Cetak Data Anggota Suplemen
+		$data_anggota = $data_suplemen['terdata'];
+		foreach ($data_anggota as $data)
+		{
+			$cells = [
+				WriterEntityFactory::createCell($data['nik']),
+				WriterEntityFactory::createCell(strtoupper($data['nama'])),
+				WriterEntityFactory::createCell($data['tempatlahir']),
+				WriterEntityFactory::createCell(tgl_indo_out($data['tanggallahir'])),
+				WriterEntityFactory::createCell(strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])),
+				WriterEntityFactory::createCell(empty($data['keterangan']) ? "-" : $data['keterangan'])
+			];
+
+			$singleRow = WriterEntityFactory::createRow($cells);
+			$singleRow->setStyle($borderStyle);
+			$writer->addRow($singleRow);
+		}
+
+		$cells = [
+			'###', '', '', '', '', ''
+		];
+		$singleRow = WriterEntityFactory::createRowFromArray($cells);
+		$writer->addRow($singleRow);
+
+		// Cetak Catatan
+		$array_catatan = [
+			[
+				'Catatan:', '', '', '', '', ''
+			],
+			[
+				'1. Sesuaikan kolom peserta (A) berdasarkan sasaran : - penduduk = nik, - keluarga = no. kk', '', '', '', '', ''
+			],
+			[
+				'2. Kolom Peserta (A)  wajib di isi', '', '', '', '', ''
+			],
+			[
+				'3. Kolom (B, C, D, E) diambil dari database kependudukan', '', '', '', '', ''
+			],
+			[
+				'4. Kolom (F) opsional', '', '', '', '', ''
+			]
+		];
+
+		$rows_catatan = array();
+		foreach ($array_catatan as $catatan)
+		{
+			array_push($rows_catatan, WriterEntityFactory::createRowFromArray($catatan, $greenBackgroundStyle));
+		}
+		$writer->addRows($rows_catatan);
+
+		$writer->close();
+	}
+
+	public function impor()
+	{
+		$this->load->library('upload');
+
+		$config['upload_path']		= LOKASI_DOKUMEN;
+		$config['allowed_types']	= 'xls|xlsx|xlsm';
+		$config['file_name']		= namafile('Impor Peserta Data Suplemen');
+
+		$this->upload->initialize($config);
+
+		if ( ! $this->upload->do_upload('userfile'))
+		{
+			$this->session->error_msg = $this->upload->display_errors();
+			$this->session->success = -1;
+			return;
+		}
+
+		$suplemen_id = $this->input->post('id_suplemen');
+		// Data Suplemen
+		$temp = $this->session->per_page;
+		$this->session->per_page = 1000000000;
+
+		$ganti_suplemen = $this->input->post('ganti_suplemen');
+		$kosongkan_peserta = $this->input->post('kosongkan_peserta');
+
+		$upload = $this->upload->data();
+		$file = LOKASI_DOKUMEN . $upload['file_name'];
+
+		$reader = ReaderEntityFactory::createXLSXReader();
+		$reader->open($file);
+
+		$data_suplemen = [];
+		$data_peserta = [];
+		$data_diubah = '';
+
+		foreach ($reader->getSheetIterator() as $sheet)
+		{
+			$no_baris = 0;
+			$no_gagal = 0;
+			$no_sukses = 0;
+			$pesan ='';
+
+			$field = ['id', 'nama', 'sasaran', 'keterangan'];
+
+			// // Sheet Program
+			if ($sheet->getName() == 'Peserta')
+			{
+				$suplemen_record = $this->get_suplemen($suplemen_id);
+				$sasaran = $suplemen_record['sasaran'];
+
+				if ($sasaran == '1')
+				{
+					$ambil_peserta = $this->get_penduduk_terdata($suplemen_id);
+					$terdaftar_peserta = str_replace("'", "", explode (", ", sql_in_list(array_column($ambil_peserta['terdata'], 'nik'))));
+				}
+				else if ($sasaran == '2')
+				{
+					$ambil_peserta = $this->get_kk_terdata($suplemen_id);
+					$terdaftar_peserta = str_replace("'", "", explode (", ", sql_in_list(array_column($ambil_peserta['terdata'], 'no_kk'))));
+				}
+
+				if ($kosongkan_peserta == 1)
+				{
+					$pesan .= "- Data peserta " . ($field['nama']) . " sukses dikosongkan<br>";
+					$terdaftar_peserta = NULL;
+				}
+
+				foreach ($sheet->getRowIterator() as $row)
+				{
+					$no_baris++;
+					$cells = $row->getCells();
+					$peserta = trim ( (string) $cells[0] );
+
+					// Data terakhir
+					if ($peserta == '###') break;
+
+					// Abaikan baris pertama / judul
+					if ($no_baris <= 1) continue;
+
+					// Cek valid data peserta sesuai sasaran
+					$cek_peserta = $this->cek_peserta($peserta, $sasaran);
+					if ( ! in_array($peserta, $cek_peserta['valid']))
+					{
+						$no_gagal++;
+						$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / " . $cek_peserta['sasaran_peserta'] . " = " . $peserta . "</b> tidak ditemukan <br>";
+						continue;
+					}
+
+					$penduduk_sasaran = $this->cek_penduduk($sasaran, $peserta);
+					if ( ! $penduduk_sasaran['id_terdata'])
+					{
+						$no_gagal++;
+						$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / ". $penduduk_sasaran['id_sasaran'] . " = " . $peserta . "</b> yang terdaftar tidak ditemukan <br>";
+						continue;
+					}
+					$id_terdata = $penduduk_sasaran['id_terdata'];
+
+					// Cek data peserta yg akan dimpor dan yg sudah ada
+					if (in_array($peserta, $terdaftar_peserta))
+					{
+						$no_gagal++;
+						$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . "</b> sudah ada <br>";
+						continue;
+					}
+
+					// Simpan data peserta yg diimpor dalam bentuk array
+					$simpan = [
+						'id_suplemen' => $suplemen_id,
+						'id_terdata' => $id_terdata,
+						'sasaran' => $sasaran,
+						'keterangan' => (string) $cells[5],
+					];
+
+					array_push($data_peserta, $simpan);
+					$no_sukses++;
+				}
+
+				// Proses impor peserta
+				if ($no_baris <= 0)
+				{
+					$pesan .= "- Data peserta tidak tersedia<br>";
+				}
+				else
+				{
+					$this->impor_peserta($suplemen_id, $data_peserta, $kosongkan_peserta);
+				}
+			}
+		}
+
+		$reader->close();
+		unlink($file);
+
+		$notif = [
+			'gagal' => $no_gagal,
+			'sukses' => $no_sukses,
+			'pesan' => $pesan,
+			'total' => $total,
+		];
+
+		$this->session->set_flashdata('notif', $notif);
+		$this->session->per_page = $temp;
+	}
+
+	// Cek valid data peserta sesuai sasaran (by NIK atau No. KK)
+	private function cek_penduduk($sasaran, $peserta)
+	{
+		$terdata = [];
+		if ($sasaran == '1')
+		{
+			$terdata['id_sasaran'] = 'NIK';
+			$cek_penduduk = $this->penduduk_model->get_penduduk_by_nik($peserta);
+			if ($cek_penduduk['id']) $terdata['id_terdata'] = $cek_penduduk['id'];
+		}
+		else if ($sasaran == '2')
+		{
+			$terdata['id_sasaran'] = 'KK';
+			$kepala_kk = $this->keluarga_model->get_kepala_kk($peserta, true);
+			if ($kepala_kk['nik']) $id_terdata = $kepala_kk['id_kk'];
+		}
+		return $terdata;
+	}
+
+	public function impor_peserta($suplemen_id = '', $data_peserta = [], $kosongkan_peserta = 0)
+	{
+		$this->session->success = 1;
+
+		if ($kosongkan_peserta == 1) $this->db->where('id_suplemen', $suplemen_id)->delete('suplemen_terdata');
+
+		$outp = $this->db->insert_batch('suplemen_terdata', $data_peserta);
+		status_sukses($outp, true);
+	}
+
+	public function cek_peserta($peserta = '', $sasaran = 1)
+	{
+		if (in_array($peserta, [NULL, '-', ' ', '0'])) return false;
+
+		switch ($sasaran)
+		{
+			case 1:
+				// Penduduk
+				$sasaran_peserta = 'NIK';
+
+				$data = $this->db
+					->select('id, nik as no')
+					->where('nik', $peserta)
+					->get('penduduk_hidup')
+					->result_array();
+				break;
+
+			case 2:
+				// Keluarga
+				$sasaran_peserta = 'No. KK';
+
+				$data = $this->db
+					->select('id, no_kk as no')
+					->from('keluarga_aktif')
+					->where('no_kk', $peserta)
+					->get()
+					->result_array();
+				break;
+
+			default:
+				// Lainnya
+				break;
+		}
+
+		$data = [
+			'id' => $data[0]['id'], // untuk nik, no_kk, no_rtm, kode konversi menjadi id issue #3417
+			'sasaran_peserta' => $sasaran_peserta,
+			'valid' => str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'no')))) // untuk daftar valid anggota keluarga
+		];
+
+		return $data;
 	}
 
 }

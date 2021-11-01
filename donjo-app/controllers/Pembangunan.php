@@ -64,6 +64,7 @@ class Pembangunan extends Admin_Controller
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
+		$this->load->model('pamong_model');
 	}
 
 	public function index()
@@ -97,14 +98,14 @@ class Pembangunan extends Admin_Controller
 		if ($id)
 		{
 			$data['main'] = $this->model->find($id);
-			$data['list_lokasi'] = $this->model->list_dusun_rt_rw();
+			$data['list_lokasi'] = $this->wilayah_model->list_semua_wilayah();
 			$data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
 			$data['form_action'] = site_url("pembangunan/update/$id");
 		}
 		else
 		{
 			$data['main'] = NULL;
-			$data['list_lokasi'] = $this->model->list_dusun_rt_rw();
+			$data['list_lokasi'] = $this->wilayah_model->list_semua_wilayah();
 			$data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
 			$data['form_action'] = site_url("pembangunan/insert");
 		}
@@ -175,8 +176,10 @@ class Pembangunan extends Admin_Controller
 	public function dialog_daftar($id = 0, $aksi = '')
 	{
 		$this->load->view('global/ttd_pamong', [
-			'aksi'        => $aksi,
-			'pamong'      => $this->pamong_model->list_data(),
+			'aksi' => $aksi,
+			'pamong' => $this->pamong_model->list_data(),
+			'pamong_ttd' => $this->pamong_model->get_ub(),
+			'pamong_ketahui' => $this->pamong_model->get_ttd(),
 			'form_action' => site_url("pembangunan/daftar/$id/$aksi"),
 		]);
 	}

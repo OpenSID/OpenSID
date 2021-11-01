@@ -1,14 +1,18 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
- *  File ini:
+ * File ini:
  *
  * Controller untuk modul Layanan Surat
  *
  * donjo-app/controllers/Surat_master.php
  *
  */
+
 /*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -45,11 +49,7 @@ class Surat_master extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('surat_master_model');
-		$this->load->model('klasifikasi_model');
-		$this->load->model('referensi_model');
-
-		$this->load->model('lapor_model');
+		$this->load->model(['surat_master_model', 'klasifikasi_model', 'surat_model', 'referensi_model', 'lapor_model']);
 		$this->modul_ini = 4;
 		$this->sub_modul_ini = 30;
 	}
@@ -100,12 +100,14 @@ class Surat_master extends Admin_Controller {
 			$data['surat_master'] = $this->surat_master_model->get_surat_format($id);
 			$data['form_action'] = site_url("surat_master/update/$p/$o/$id");
 			$data['syarat_surat'] = $this->lapor_model->get_current_surat_ref($id);
+			$data['sisipan_qrcode'] = $this->surat_model->cek_sisipan_qrcode($data['surat_master']['url_surat']);
 		}
 		else
 		{
 			$data['surat_master'] = NULL;
 			$data['form_action'] = site_url("surat_master/insert");
 			$data['syarat_surat'] = NULL;
+			$data['sisipan_qrcode'] = FALSE;
 		}
 
 		$this->set_minsidebar(1);
