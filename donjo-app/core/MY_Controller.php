@@ -333,20 +333,22 @@ class Premium extends MY_Controller
 
 			return false;
 		}
-		if (isLocalIPAddress($_SERVER['REMOTE_ADDR']) || $this->setting->demo_mode)
-		{
-			return true;
-		}
-		else if (get_domain($jwtPayload->domain) != get_domain(APP_URL))
-		{
-			$this->session->set_userdata('error_premium', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di layanan.opendesa.id.');
-
-			return false;
-		}
 
 		if ($version > $jwtPayload->tanggal_berlangganan->akhir)
 		{
 			$this->session->set_userdata('error_premium', "Masa aktif berlangganan fitur premium sudah berakhir.");
+
+			return false;
+		}
+
+		if (isLocalIPAddress($_SERVER['REMOTE_ADDR']) || $this->setting->demo_mode)
+		{
+			return true;
+		}
+		
+		if (get_domain($jwtPayload->domain) != get_domain(APP_URL))
+		{
+			$this->session->set_userdata('error_premium', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di layanan.opendesa.id.');
 
 			return false;
 		}
