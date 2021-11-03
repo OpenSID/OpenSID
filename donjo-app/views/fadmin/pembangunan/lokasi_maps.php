@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View di Modul Pemetaan
  *
- * /donjo-app/views/pembangunan/lokasi_maps.php
+ * /donjo-app/views/pembangunan/fadmin/lokasi_maps.php
  *
  */
 
@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h1>Lokasi <?= $data->judul ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('admin_pembangunan') ?>"> Daftar Pembangunan</a></li>
+			<li><a href="<?= site_url($this->controller) ?>"> Daftar Pembangunan</a></li>
 			<li class="active">Lokasi <?= $data->judul ?></li>
 		</ol>
 	</section>
@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="text" class="form-control input-sm number" name="lng" id="lng" value="<?= $data->lng ?>" />
 						</div>
 					</div>
-					<a href="<?= site_url('pembangunan') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+					<a href="<?= site_url($this->controller) ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 					<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
 					<?php if ($this->CI->cek_hak_akses('u')): ?>
@@ -156,6 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			position: 'topleft',
 			collapsed: true
 		}).addTo(peta_lokasi);
+
 		L.control.groupedLayers('', layerCustom, {
 			groupCheckboxes: true,
 			position: 'topleft',

@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *
  * View untuk modul Admin Pembangunan
  *
- * donjo-app/views/pembangunan/index.php,
+ * donjo-app/views/pembangunan/fadmin/index.php,
  *
  */
 
