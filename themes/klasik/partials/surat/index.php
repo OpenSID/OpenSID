@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,14 +15,18 @@
 			<center>
 				<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
 					<h4>
-						Pemerintah <?= ucwords($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten']); ?><br/>
-						<?= ucwords($this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan']); ?><br/>
-						<?= ucwords($this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
+						<b>
+							Pemerintah <?= ucwords($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten']); ?><br/>
+							<?= ucwords($this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan']); ?><br/>
+							<?= ucwords($this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
+						</b>
 					</h4>
 					<hr style="border-bottom: 2px solid #000000; height:0px;">
-					<h5><u>Menyatakan bahwa</u></h5>
 			<table>
 				<tbody>
+					<tr>
+						<td colspan="3"><u><b>Menyatakan Bahwa :</b></u></td>
+					</tr>
 					<tr>
 						<td width="30%">Nomor Surat</td>
 						<td width="1%">:</td>
@@ -44,12 +47,25 @@
 						<td></td>
 						<td><?= "a/n " . $surat->nama_penduduk ?? $surat->nama_non_warga; ?></td>
 					</tr>
+					<tr>
+						<td colspan="3"><u><b>Ditandatangani oleh :</b></u></td>
+					</tr>
+					<tr>
+						<td>Nama</td>
+						<td>:</td>
+						<td><?= $surat->pamong_nama; ?></td>
+					</tr>
+					<tr>
+						<td>Jabatan</td>
+						<td>:</td>
+						<td><?= $surat->pamong_jabatan; ?></td>
+					</tr>
 				</tbody>
 			</table>
 			<br/>
-			<h5>
-				Adalah benar dan tercatat dalam database sistem informasi kami.
-			</h5>
+			<div class="callout callout-success">
+				<h5><b>Adalah benar dan tercatat dalam database sistem informasi kami.</b></h5>
+			</div>
 			</center>
 		</div>
 	</div>

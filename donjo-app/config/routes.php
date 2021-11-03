@@ -127,10 +127,10 @@ $route['pembangunan/detail/(:num)'] = WEB . '/pembangunan/detail/$1';
 $route['lapak'] =  WEB . '/lapak';
 $route['lapak/(:num)'] = WEB . '/lapak/index/$1';
 
-// URL Shortener
-$route['v/(:any)'] = 'first/verifikasi_surat/$1';
-$route['c1/(:any)'] = 'dokumen_web/check_surat1/$1';
-$route['c2/(:any)'] = 'dokumen_web/check_surat2/$1';
+// Surat
+$route['v/(:any)'] = WEB . '/verifikasi_surat/cek/$1';
+$route['c1/(:any)'] = WEB . '/verifikasi_surat/encode/$1';
+$route['verifikasi-surat/(:any)'] = WEB . '/verifikasi_surat/decode/$1';
 
 // Halaman Layanan Mandiri
 // Auth
