@@ -56,6 +56,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
 	/** @var Client HTTP Client */
 	protected $client;
+	protected $server;
 
 	public function __construct()
 	{
@@ -65,13 +66,14 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
 		$this->load->model(['setting_model', 'surat_model', 'pamong_model']);
 		$this->client = new Client();
+		$this->server = config_item('server_layanan');
 	}
 
 	public function index()
 	{
 		try
 		{
-			$response = $this->client->get("{$this->setting->layanan_opendesa_server}/api/v1/pelanggan/terdaftar", [
+			$response = $this->client->get("{$this->server}/api/v1/pelanggan/terdaftar", [
 				'headers' => [
 					'X-Requested-With' => 'XMLHttpRequest',
 					'Authorization' => "Bearer {$this->setting->layanan_opendesa_token}"
@@ -97,7 +99,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 	{
 		try
 		{
-			$response = $this->client->get("{$this->setting->layanan_opendesa_server}/api/v1/pelanggan/form-register", [
+			$response = $this->client->get("{$this->server}/api/v1/pelanggan/form-register", [
 				'headers' => [
 					'X-Requested-With' => 'XMLHttpRequest',
 					'Authorization' => "Bearer {$this->setting->layanan_opendesa_token}"
@@ -124,7 +126,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
 		try {
 			$this->upload->do_upload('permohonan');
-			$response = $this->client->post("{$this->setting->layanan_opendesa_server}/api/v1/pelanggan/register", [
+			$response = $this->client->post("{$this->server}/api/v1/pelanggan/register", [
 				'headers' => ['X-Requested-With' => 'XMLHttpRequest'],
 				'multipart' => [
 					['name' => 'user_id', 'contents' => $this->input->post('user_id')],
