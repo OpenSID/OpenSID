@@ -57,36 +57,50 @@ class Import_model extends CI_Model {
 		$memory_limit = $matches[1] ?: 0;
 		if ($memory_limit < 512) ini_set('memory_limit', '512M');
 		set_time_limit(3600);
-		$this->load->model('referensi_model');
+		$this->load->model(['referensi_model', 'penduduk_model']);
 		$this->load->library('Spreadsheet_Excel_Reader');
-		$this->kode_sex = array_change_key_case(unserialize(KODE_SEX));
-		$this->kode_hubungan = array_change_key_case(unserialize(KODE_HUBUNGAN));
-		$this->kode_agama = array_change_key_case(unserialize(KODE_AGAMA));
-		$this->kode_pendidikan = array_change_key_case(unserialize(KODE_PENDIDIKAN));
-		$this->kode_pekerjaan = array_change_key_case(unserialize(KODE_PEKERJAAN));
-		$this->kode_status = array_change_key_case(unserialize(KODE_STATUS));
-		$this->kode_golongan_darah = array_change_key_case(unserialize(KODE_GOLONGAN_DARAH));
-		$this->kode_wajib_ktp = array_change_key_case(unserialize(WAJIB_KTP));
+
+		// Data referensi tambahan
+		$sex = [
+			'L' => 1,
+			'LK' => 1,
+			'P' => 2,
+			'Pr' => 2,
+		];
+
+		$pendidikan = [
+			'Tidak/Blm Sekolah' => 1,
+			'Tidak Tamat SD/Sederajat' => 2,
+			'Akademi/Diploma III/Sarjana Muda' => 7,
+			'Strata-II' => 9,
+		];
+
+		$status = [
+			'BK' => 1,
+			'K' => 2,
+			'CH' => 3,
+			'CM' => 4,
+		];
+
+		$status_dasar = [
+			'PINDAH DALAM NEGERI' => 3,
+			'PINDAH LUAR NEGERI' => 3,
+		];
+
+		$this->kode_sex = $this->referensi_model->impor_list_data('tweb_penduduk_sex', $sex);
+		$this->kode_hubungan = $this->referensi_model->impor_list_data('tweb_penduduk_hubungan');
+		$this->kode_agama = $this->referensi_model->impor_list_data('tweb_penduduk_agama');
+		$this->kode_pendidikan_kk =  $this->referensi_model->impor_list_data('tweb_penduduk_pendidikan_kk', $pendidikan);
+		$this->kode_pendidikan_sedang = $this->referensi_model->impor_list_data('tweb_penduduk_pendidikan');
+		$this->kode_pekerjaan = $this->referensi_model->impor_list_data('tweb_penduduk_pekerjaan');
+		$this->kode_status = $this->referensi_model->impor_list_data('tweb_penduduk_kawin', $status);
+		$this->kode_golongan_darah = $this->referensi_model->impor_list_data('tweb_golongan_darah');
 		$this->kode_ktp_el = array_change_key_case(unserialize(KTP_EL));
 		$this->kode_status_rekam = array_flip($this->referensi_model->list_status_rekam());
-		$this->kode_status_dasar = array_change_key_case($this->merge_kode_status_dasar());
-		$this->kode_cacat = array_change_key_case(unserialize(KODE_CACAT));
-		// Load model
-		$this->load->model('penduduk_model');
-	}
-
-	/**
-	 * Gabungkan kode status dasar untuk Siak dan OpenSID.
-	 *
-	 * @return array
-	 */
-	protected function merge_kode_status_dasar()
-	{
-		$tweb_status_dasar = $this->referensi_model->list_data('tweb_status_dasar');
-		$data = array_combine(array_column($tweb_status_dasar, 'nama'), array_column($tweb_status_dasar, 'id'));
-		$data['PINDAH DALAM NEGERI'] = 3;
-		$data['PINDAH LUAR NEGERI'] = 3;
-		return $data;
+		$this->kode_status_dasar = $this->referensi_model->impor_list_data('tweb_status_dasar', $status_dasar);
+		$this->kode_cacat = $this->referensi_model->impor_list_data('tweb_cacat');
+		$this->kode_warganegara = $this->referensi_model->impor_list_data('tweb_penduduk_warganegara');
+		$this->kode_hamil = array_change_key_case(unserialize(HAMIL));
 	}
 
 	/**
@@ -150,7 +164,7 @@ class Import_model extends CI_Model {
 		if ($isi_baris['nama'] == "" or $isi_baris['nik'] == "" or $isi_baris['dusun'] == "" or $isi_baris['rt'] == "" or $isi_baris['rw'] == "")
 			return 'nama/nik/dusun/rt/rw kosong';
 		// Validasi data setiap kolom ber-kode
-		if ($isi_baris['sex'] != "" and !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return 'kode sex tidak dikenal';
+		if ($isi_baris['sex'] != "" and !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return 'kode jenis kelamin tidak dikenal';
 		if ($isi_baris['agama_id'] != "" and !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return 'kode agama tidak dikenal';
 		if ($isi_baris['pendidikan_kk_id'] != "" and !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return 'kode pendidikan tidak dikenal';
 		if ($isi_baris['pendidikan_sedang_id'] != "" and !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return 'kode pendidikan_sedang tidak dikenal';
@@ -159,7 +173,6 @@ class Import_model extends CI_Model {
 		if ($isi_baris['kk_level'] != "" and !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return 'kode status hubungan tidak dikenal';
 		if ($isi_baris['warganegara_id'] != "" and !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return 'kode warganegara tidak dikenal';
 		if ($isi_baris['golongan_darah_id'] != "" and !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return 'kode golongan_darah tidak dikenal';
-
 		if ($isi_baris['cacat_id'] != "" and !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return 'kode cacat tidak dikenal';
 		if ($isi_baris['cara_kb_id'] != "" and !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) and $isi_baris['cara_kb_id'] != "99") return 'kode cara_kb tidak dikenal';
 		if ($isi_baris['hamil'] != "" and !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
@@ -230,40 +243,19 @@ class Import_model extends CI_Model {
 		$isi_baris['sex'] = $this->get_konversi_kode($this->kode_sex, trim($rowData[$kolom_impor_keluarga['sex']]));
 		$isi_baris['tempatlahir'] = trim($rowData[$kolom_impor_keluarga['tempatlahir']]);
 		$isi_baris['tanggallahir'] = $this->format_tanggal($rowData[$kolom_impor_keluarga['tanggallahir']]);
-
 		$isi_baris['agama_id'] = $this->get_konversi_kode($this->kode_agama, trim($rowData[$kolom_impor_keluarga['agama_id']]));
-		$isi_baris['pendidikan_kk_id'] = $this->get_konversi_kode($this->kode_pendidikan, trim($rowData[$kolom_impor_keluarga['pendidikan_kk_id']]));
-		// TODO: belum ada kode_pendudukan_sedang
-		$pendidikan_sedang_id = trim($rowData[$kolom_impor_keluarga['pendidikan_sedang_id']]);
-		if ($pendidikan_sedang_id == "")
-			$pendidikan_sedang_id = 18;
-		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
-
+		$isi_baris['pendidikan_kk_id'] = $this->get_konversi_kode($this->kode_pendidikan_kk, trim($rowData[$kolom_impor_keluarga['pendidikan_kk_id']]));
+		$isi_baris['pendidikan_sedang_id'] = $this->get_konversi_kode($this->kode_pendidikan_sedang, trim($rowData[$kolom_impor_keluarga['pendidikan_sedang_id']]));
 		$isi_baris['pekerjaan_id'] = $this->get_konversi_kode($this->kode_pekerjaan, trim($rowData[$kolom_impor_keluarga['pekerjaan_id']]));
 		$isi_baris['status_kawin'] = $this->get_konversi_kode($this->kode_status, trim($rowData[$kolom_impor_keluarga['status_kawin']]));
 		$isi_baris['kk_level'] = $this->get_konversi_kode($this->kode_hubungan, trim($rowData[$kolom_impor_keluarga['kk_level']]));
-		// TODO: belum ada kode_warganegara
-		$isi_baris['warganegara_id'] = trim($rowData[$kolom_impor_keluarga['warganegara_id']]);
-
-		$nama_ayah = trim($rowData[$kolom_impor_keluarga['nama_ayah']]);
-		if ($nama_ayah == "")
-		{
-			$nama_ayah = "-";
-		}
-		$isi_baris['nama_ayah'] = $nama_ayah;
-
-		$nama_ibu = trim($rowData[$kolom_impor_keluarga['nama_ibu']]);
-		if ($nama_ibu == "")
-		{
-			$nama_ibu = "-";
-		}
-		$isi_baris['nama_ibu'] = $nama_ibu;
-
+		$isi_baris['warganegara_id'] = $this->get_konversi_kode($this->kode_warganegara, trim($rowData[$kolom_impor_keluarga['warganegara_id']]));
+		$isi_baris['nama_ayah'] = trim($rowData[$kolom_impor_keluarga['nama_ayah']]) ?? '-';
+		$isi_baris['nama_ibu'] = trim($rowData[$kolom_impor_keluarga['nama_ibu']]) ?? '-';
 		$isi_baris['golongan_darah_id'] = $this->get_konversi_kode($this->kode_golongan_darah, trim($rowData[$kolom_impor_keluarga['golongan_darah_id']]));
 		$isi_baris['akta_lahir'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_lahir']]));
 		$isi_baris['dokumen_pasport'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['dokumen_pasport']]));
 		$isi_baris['tanggal_akhir_paspor'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggal_akhir_paspor']]));
-
 		$isi_baris['dokumen_kitas'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['dokumen_kitas']]));
 		$isi_baris['ayah_nik'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ayah_nik']]));
 		$isi_baris['ibu_nik'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ibu_nik']]));
@@ -271,11 +263,9 @@ class Import_model extends CI_Model {
 		$isi_baris['tanggalperkawinan'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperkawinan']]));
 		$isi_baris['akta_perceraian'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_perceraian']]));
 		$isi_baris['tanggalperceraian'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperceraian']]));
-		// TODO: belum ada kode_cacat
-		$isi_baris['cacat_id'] = trim($rowData[$kolom_impor_keluarga['cacat_id']]);
-		// TODO: belum ada kode_cara_kb
-		$isi_baris['cara_kb_id'] = trim($rowData[$kolom_impor_keluarga['cara_kb_id']]);
-		$isi_baris['hamil'] = trim($rowData[$kolom_impor_keluarga['hamil']]);
+		$isi_baris['cacat_id'] = $this->get_konversi_kode($this->kode_cacat, trim($rowData[$kolom_impor_keluarga['cacat_id']]));
+		$isi_baris['cara_kb_id'] = $this->get_konversi_kode($this->kode_cara_kb, trim($rowData[$kolom_impor_keluarga['cara_kb_id']]));
+		$isi_baris['hamil'] = $this->get_konversi_kode($this->kode_hamil, trim($rowData[$kolom_impor_keluarga['hamil']]));
 		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($rowData[$kolom_impor_keluarga['ktp_el']]));
 		$isi_baris['status_rekam'] = $this->get_konversi_kode($this->kode_status_rekam, trim($rowData[$kolom_impor_keluarga['status_rekam']]));
 		$isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
