@@ -2,7 +2,6 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once APPPATH . '/libraries/Curly.php';
 require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
 use GuzzleHttp\Client;
@@ -120,6 +119,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 		$config['file_name']     = 'dokumen-permohonan.pdf';
 		$config['allowed_types'] = 'pdf';
 		$config['max_size']      = 1024;
+		$config['overwrite']     = true;
 		$this->upload->initialize($config);
 
 		try {
@@ -166,26 +166,22 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
 	public function dokumen_template()
 	{
-		$this->load->helper('download');
 		$date = new \DateTime();
 		$desa = $this->header['desa'];
 
-		$handle = fopen($template = 'donjo-app/views/pendaftaran_kerjasama/KESEPAKATAN_MENJADI_DESA_DIGITAL_OPENDESA.rtf', 'r');
-		$content = fread($handle, filesize($template));
+		$data['desa'] = $desa['nama_desa'];
+		$data['logo'] = $desa['logo'];
+		$data['random'] = substr(str_shuffle("0123456789"), 0, 4);
+		$data['hari'] = $date->format('d');
+		$data['nama_hari'] = ucwords(hari(intval($date->format('d'))));
+		$data['nama_tanggal'] = ucwords(to_word($date->format('d')));
+		$data['bulan'] = $date->format('m');
+		$data['nama_bulan'] = ucwords(getBulan($date->format('m')));
+		$data['tahun'] = $date->format('Y');
+		$data['nama_tahun'] = ucwords(to_word($date->format('Y')));
+		$data['kepala_desa'] = strtoupper($this->pamong_model->get_ttd()['pamong_nama']);
+		$data['alamat'] = $desa['alamat_kantor'];
 
-		$content = str_replace('[desa]', $desa['nama_desa'], $content);
-		$content = str_replace('[random]', substr(str_shuffle("0123456789"), 0, 4), $content);
-		$content = str_replace('[hari]', $date->format('d'), $content);
-		$content = str_replace('[nama_hari]', ucwords(hari($date->format('dmY'))), $content);
-		$content = str_replace('[nama_tanggal]', ucwords(to_word($date->format('d'))), $content);
-		$content = str_replace('[bulan]', $date->format('m'), $content);
-		$content = str_replace('[nama_bulan]', ucwords(getBulan($date->format('m'))), $content);
-		$content = str_replace('[tahun]', $date->format('Y'), $content);
-		$content = str_replace('[nama_tahun]', ucwords(to_word($date->format('Y'))), $content);
-		$content = str_replace('[kepala_desa]', strtoupper($this->pamong_model->get_ttd()['pamong_nama']), $content);
-		$content = str_replace('[alamat]', $desa['alamat_kantor'], $content);
-
-		fclose($handle);
-		force_download('KESEPAKATAN_MENJADI_DESA_DIGITAL_OPENDESA.rtf', $content);
+		$this->load->view('pendaftaran_kerjasama/template', $data);
 	}
 }
