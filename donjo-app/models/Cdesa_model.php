@@ -30,7 +30,7 @@ class Cdesa_model extends CI_Model {
 			->join('tweb_penduduk u', 'u.id = cu.id_pend', 'left')
 			->order_by('item');
 			if ($cari) $this->db->like('u.nama', $cari);
-			$sql_kolom[] = $this->db->get_compiled_select();;
+			$sql_kolom[] = $this->db->get_compiled_select();
 		$sql = '('.implode(') UNION (', $sql_kolom).')';
 
 		$query = $this->db->query($sql);

@@ -590,7 +590,7 @@ class Program_bantuan_model extends MY_Model {
 			WHERE 1
 			";
 		$query = $this->db->query($strSQL);
-		$hasil2 = array();;
+		$hasil2 = array();
 		$data = $query->result_array();
 		if ($query->num_rows() > 0)
 		{

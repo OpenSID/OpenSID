@@ -36,7 +36,7 @@ class Informasi_publik extends Admin_Controller
 		);
 
 		// Ambil data dan berkas infoemasi publik
-		$file = fopen($tmpfname, "w");;
+		$file = fopen($tmpfname, "w");
 		$data = $this->web_dokumen_model->ekspor_informasi_publik($this->input->post('data_ekspor'), $this->input->post('tgl_dari'));
 
 		$header = array_keys($data[0]);

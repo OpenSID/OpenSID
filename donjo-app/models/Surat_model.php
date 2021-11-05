@@ -670,7 +670,7 @@ class Surat_model extends CI_Model {
 
 		// Ganti logo placeholder dengan logo desa kalau ada, satu per satu
 		$logo_bytes = file_get_contents($file_logo);
-		$logo_hex = implode(unpack("H*", $logo_bytes));;
+		$logo_hex = implode(unpack("H*", $logo_bytes));
 		for ($i=0; $i<$jml_logo; $i++)
 		{
 			// Ganti akhiran logo supaya preg_replace hanya memproses logo yg ditemukan
@@ -704,7 +704,7 @@ class Surat_model extends CI_Model {
 		if ($jml_foto <= 0) return $buffer;
 
     $foto_bytes = file_get_contents($file_foto);
-		$foto_hex = implode(unpack("H*", $foto_bytes));;
+		$foto_hex = implode(unpack("H*", $foto_bytes));
 		for ($i=0; $i<$jml_foto; $i++)
 		{
 			$pos = strpos($buffer, $akhiran_foto);
@@ -1260,7 +1260,7 @@ class Surat_model extends CI_Model {
 		if ($jml_qr <= 0) return $buffer;
 
 		$qr_bytes = file_get_contents($file_qr);
-		$qr_hex = implode(unpack("H*", $qr_bytes));;
+		$qr_hex = implode(unpack("H*", $qr_bytes));
 		for ($i=0; $i<$jml_qr; $i++)
 		{
 			$pos = strpos($buffer, $akhiran_qr);

@@ -143,7 +143,7 @@ class Analisis_import_Model extends CI_Model {
 			$indikator['id_tipe']	= $cells[3]->getValue();
 			$indikator['bobot']	= $cells[4]->getValue() ?? 0;
 			$indikator['act_analisis'] = $cells[5]->getValue() ?? 2;
-			if ( ! $this->db->insert('analisis_indikator', $indikator)) return $this->impor_error();;
+			if ( ! $this->db->insert('analisis_indikator', $indikator)) return $this->impor_error();
     }
 	}
 
@@ -176,7 +176,7 @@ class Analisis_import_Model extends CI_Model {
 			$parameter['kode_jawaban'] = $cells[1]->getValue();
 			$parameter['jawaban']	= $cells[2]->getValue();
 			$parameter['nilai'] = $cells[3]->getValue();
-			if ( ! $this->db->insert('analisis_parameter', $parameter)) return $this->impor_error();;
+			if ( ! $this->db->insert('analisis_parameter', $parameter)) return $this->impor_error();
     }
 	}
 
@@ -203,7 +203,7 @@ class Analisis_import_Model extends CI_Model {
 			$klasifikasi['nama'] = $cells[0]->getValue();
 			$klasifikasi['minval'] = $cells[1]->getValue();
 			$klasifikasi['maxval'] = $cells[2]->getValue();
-			if ( ! $this->db->insert('analisis_klasifikasi', $klasifikasi)) return $this->impor_error();;
+			if ( ! $this->db->insert('analisis_klasifikasi', $klasifikasi)) return $this->impor_error();
     }
 	}
 
