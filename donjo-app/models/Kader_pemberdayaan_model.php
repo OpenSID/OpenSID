@@ -61,7 +61,7 @@ class Kader_pemberdayaan_model extends CI_Model
 		}
 		$data['pendidikankursus'] = $post['pendidikankursus'];
 		$data['pendidikanahli'] = $post['pendidikankeahlian'];
-		$data['alamat'] = $post['alamat'];
+		//$data['alamat'] = $post['alamat'];
 		$data['keterangan'] = $post['keterangan'] ?: null;
 
 		$outp = $this->db->insert('tweb_penduduk_kader_berdaya', $data);
@@ -70,6 +70,7 @@ class Kader_pemberdayaan_model extends CI_Model
 		$idpendidikan = $this->input->post('pendidikan', true);
 		$pendidikankursus = $this->input->post('pendidikankursus', true);
 		$pendidikankeahlian = $this->input->post('pendidikankeahlian', true);
+	/*
 		$data_group1 = array(
 			'nama'=>$pendidikankursus
 		);
@@ -79,7 +80,7 @@ class Kader_pemberdayaan_model extends CI_Model
 				'nama'=>$pendidikankeahlian
 			);
 				   $this->db->insert('tweb_penduduk_keahlian', $data_group2);
-			
+			*/
          
 		if ($outp) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
