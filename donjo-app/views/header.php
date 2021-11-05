@@ -105,7 +105,7 @@
 		<?php endif; ?>
 		<!-- Diperlukan untuk script jquery khusus halaman -->
 		<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
-
+		
 		<!-- OpenStreetMap Js-->
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
 		<script src="<?= base_url()?>assets/js/turf.min.js"></script>
@@ -144,6 +144,12 @@
 		<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
 
+
+		<!-- token field -->
+		<script src="<?= base_url()?>assets/js/jquerytokenfield.min.js"></script>
+       	<link rel="stylesheet" type="text/css" href="<?= base_url()?>assets/css/bootstrap-tokenfield.min.css">
+        <script src="<?= base_url()?>assets/js/bootstrap-tokenfield.js"></script>
+		
 		<?php require __DIR__ .'/head_tags.php' ?>
 	</head>
 	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
