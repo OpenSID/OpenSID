@@ -61,7 +61,7 @@ class Kader_pemberdayaan_model extends CI_Model
 		}
 		$data['pendidikankursus'] = $post['pendidikankursus'];
 		$data['pendidikanahli'] = $post['pendidikankeahlian'];
-		//$data['alamat'] = $post['alamat'];
+	// $data['alamat'] = $post['alamat'];
 		$data['keterangan'] = $post['keterangan'] ?: null;
 
 		$outp = $this->db->insert('tweb_penduduk_kader_berdaya', $data);
