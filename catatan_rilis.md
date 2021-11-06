@@ -10,3 +10,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 1. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
 
 #### Perubahan Teknis
+1. Tambahkan define DESAPATH pada filemanager.
