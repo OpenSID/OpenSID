@@ -1,5 +1,4 @@
 # File ini untuk branch master, berisi source code inti OpenSID
-donjo-app/config/db_donjo.php
 backup/
 assets/sync/
 # Jangan simpan isi folder logo. Isinya khusus desa, kecuali
@@ -55,9 +54,15 @@ version.json
 # obfuscator
 Obfuscator.php
 make_obfuscate.php
+composer.lock
 cache/*
-vendor/libreoffice/*
 .htaccess
 !desa-contoh/arsip/.htaccess
 !desa-contoh/upload/dokumen/.htaccess
 test/
+
+# Abaikan folder example di vendor (untuk commit update rilis)
+examples/
+vendor/libreoffice/*
+vendor/codeigniter/framework/*
+!vendor/codeigniter/framework/system/
