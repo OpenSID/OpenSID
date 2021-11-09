@@ -23,7 +23,7 @@
             </td>
             <td width="50" align="center">
                 <p align="center">
-                    <strong>KESEPAKATAN BERSAMA</strong>
+                    <strong>KESEPAKATAN KERJASAMA</strong>
                 </p>
                 <p align="center">
                     <strong>ANTARA</strong>
@@ -204,7 +204,7 @@
         menggunakan aplikasi dan layanan yang disediakan OpenDesa.
     </p>
     <p align="justify">
-        Maksud dan tujuan Kesepakatan Bersama ini adalah untuk saling mendukung dan
+        Maksud dan tujuan Kesepakatan Kerjasama ini adalah untuk saling mendukung dan
         bersinergi dalam rangka mewujudkan pemerintahan desa yang transparan dan
         efisien dengan menggunakan teknologi informasi dan komunikasi (ICT) untuk
         meningkatkan kapasitas desa dalam rangka mewujudkan Desa Digital menuju
@@ -216,7 +216,7 @@
         <strong>RUANG LINGKUP</strong>
     </p>
     <p align="justify">
-        Ruang lingkup Kesepakatan Bersama ini adalah pemanfaatan aplikasi dan
+        Ruang lingkup Kesepakatan Kerjasama ini adalah pemanfaatan aplikasi dan
         layanan yang disediakan OpenDesa.
     </p>
     <p style="page-break-after: always;"></p>
@@ -227,7 +227,7 @@
     <ol>
         <li>
             <p align="justify">
-                Pelaksanaan Kesepakatan Bersama ini adalah mewujudkan Desa Digital di Desa <strong><?= $desa ?>
+                Pelaksanaan Kesepakatan Kerjasama ini adalah mewujudkan Desa Digital di Desa <strong><?= $desa ?>
                 </strong> dengan
                 memanfaatkan aplikasi dan
                 layanan yang disediakan <strong>PIHAK KEDUA</strong>.<em> </em>
@@ -235,7 +235,7 @@
         </li>
         <li>
             <p align="justify">
-                Dengan berlakunya Kesepakatan Bersama ini, <strong>PIHAK KEDUA</strong>
+                Dengan berlakunya Kesepakatan Kerjasama ini, <strong>PIHAK KEDUA</strong>
                 akan menyediakan layanan OpenDesa untuk dapat dimanfaatkan oleh <strong>PIHAK KESATU</strong>, di mana
                 layanan
                 tersebut hanya tersedia bagi
@@ -253,7 +253,7 @@
         </li>
         <li>
             <p align="justify">
-                Terhadap pelaksanaan Kesepakatan Bersama ini sebagaimana dimaksud pada
+                Terhadap pelaksanaan Kesepakatan Kerjasama ini sebagaimana dimaksud pada
                 ayat (1) akan dilakukan pemantauan dan evaluasi secara berkala oleh <strong>PARA PIHAK</strong> sebagai
                 laporan
                 dalam rangka mendukung
@@ -269,13 +269,13 @@
     <ol>
         <li>
             <p align="justify">
-                Kesepakatan Bersama berlaku terhitung sejak ditandatanganinya
-                Kesepakatan Bersama ini tanpa batas waktu.
+                Kesepakatan Kerjasama berlaku terhitung sejak ditandatanganinya
+                Kesepakatan Kerjasama ini tanpa batas waktu.
             </p>
         </li>
         <li>
             <p align="justify">
-                Kesepakatan Bersama ini dapat diakhiri oleh <strong>PARA PIHAK</strong>
+                Kesepakatan Kerjasama ini dapat diakhiri oleh <strong>PARA PIHAK</strong>
                 dengan pemberitahuan tertulis dari satu pihak kepada pihak yang lain.
             </p>
         </li>
@@ -331,16 +331,16 @@
     <ol>
         <li>
             <p align="justify">
-                Pelaksanaan Kesepakatan Bersama ini tidak terpengaruh dengan terjadinya
+                Pelaksanaan Kesepakatan Kerjasama ini tidak terpengaruh dengan terjadinya
                 pergantian kepemimpinan dari <strong>PARA PIHAK</strong>.
             </p>
         </li>
         <li>
             <p align="justify">
                 Dalam hal terjadi perubahan atau terdapat ketentuan yang belum diatur
-                dalam Kesepakatan Bersama ini dituangkan dalam bentuk <em>addendum</em>
+                dalam Kesepakatan Kerjasama ini dituangkan dalam bentuk <em>addendum</em>
                 atas persetujuan <strong>PARA PIHAK</strong> yang merupakan bagian tidak
-                terpisahkan dari Kesepakatan Bersama ini.
+                terpisahkan dari Kesepakatan Kerjasama ini.
             </p>
         </li>
     </ol>
@@ -352,27 +352,27 @@
     <ol>
         <li>
             <p align="justify">
-                Kesepakatan Bersama ini dibuat dalam rangkap 1 (satu) bermeterai cukup
+                Kesepakatan Kerjasama ini dibuat dalam rangkap 1 (satu) bermeterai cukup
                 dan ditandatangani basah oleh <strong>PIHAK KESATU </strong>dan tanda
                 tangan digital oleh <strong>PIHAK KEDUA</strong>.
             </p>
         </li>
         <li>
             <p align="justify">
-                Kesepakatan Bersama ini disampaikan untuk disepakati <strong>PIHAK KEDUA</strong> dengan diunggahnya
+                Kesepakatan Kerjasama ini disampaikan untuk disepakati <strong>PIHAK KEDUA</strong> dengan diunggahnya
                 hasil
                 scan
                 Perjanjian ini
                 yang telah ditandatangani <strong>PIHAK KESATU</strong> sesuai ayat (1)
                 melalui fitur pendaftaran Desa Digital OpenDesa yang disediakan di aplikasi
                 OpenSID. <strong>PIHAK KEDUA</strong> secara resmi menyatakan persetujuan
-                dengan Kesepakatan Bersama ini dengan mengubah status pendaftaran menjadi
+                dengan Kesepakatan Kerjasama ini dengan mengubah status pendaftaran menjadi
                 TERDAFTAR.
             </p>
         </li>
         <li>
             <p align="justify">
-                Setelah Kesepakatan Bersama ini dieksekusi, Desa <strong><?= $desa ?></strong> akan resmi
+                Setelah Kesepakatan Kerjasama ini dieksekusi, Desa <strong><?= $desa ?></strong> akan resmi
                 terdaftar sebagai Desa Digital OpenDesa, dan berhak mengakses aplikasi,
                 layanan dan kegiatan yang hanya tersedia bagi desa yang terdaftar sebagai
                 Desa Digital OpenDesa.
@@ -380,7 +380,7 @@
         </li>
         <li>
             <p align="justify">
-                Kesepakatan Bersama ini dibuat dengan semangat kerja sama yang baik,
+                Kesepakatan Kerjasama ini dibuat dengan semangat kerja sama yang baik,
                 untuk dipatuhi dan dilaksanakan oleh <strong>PARA PIHAK</strong>.
             </p>
         </li>

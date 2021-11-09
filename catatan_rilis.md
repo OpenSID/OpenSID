@@ -8,6 +8,10 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 
 #### Perbaikan BUG
 1. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
+2. [#4466](https://github.com/OpenSID/OpenSID/issues/4466) Perbaiki pencarian produk beserta halaman pada web lapak.
+2. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
+
 
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.
+2. Perbaiki template dokumen kerjasama.
