@@ -192,7 +192,7 @@ class Pamong_model extends CI_Model {
 
 	public function get_pamong($id = null)
 	{
-		$pamong = $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();;
+		$pamong = $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();
 
 		return $pamong;
 	}

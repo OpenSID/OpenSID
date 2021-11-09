@@ -130,7 +130,7 @@ class Menu extends Admin_Controller {
 		if ($id)
 		{
 			$data['menu'] = $this->web_menu_model->get_menu($id);
-			$data['form_action'] = site_url("$this->controller/update/$id");;
+			$data['form_action'] = site_url("$this->controller/update/$id");
 		}
 		else
 		{

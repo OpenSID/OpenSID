@@ -140,7 +140,7 @@ class Plan extends Admin_Controller {
 			$data['lokasi'] = NULL;
 		}
 
-		$data['desa'] = $this->config_model->get_data();;
+		$data['desa'] = $this->config_model->get_data();
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();

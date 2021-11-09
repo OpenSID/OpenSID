@@ -84,7 +84,7 @@ class Rtm_model extends MY_Model {
 				$rtm['no_kk'] = $kw . $no_urut;
 			}
 			else
-				$rtm['no_kk'] = str_pad($no_rtm + 1, strlen($no_rtm), '0', STR_PAD_LEFT);;
+				$rtm['no_kk'] = str_pad($no_rtm + 1, strlen($no_rtm), '0', STR_PAD_LEFT);
 		}
 		else
 		{

@@ -58,7 +58,7 @@ require_once 'vendor/html2pdf/vendor/tecnickcom/tcpdf/tcpdf_barcodes_2d_include.
 */
 function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter = NULL)
 {
-	$namaFile = preg_replace('/[^A-Za-z0-9\- .]/', '', $namaFile);;
+	$namaFile = preg_replace('/[^A-Za-z0-9\- .]/', '', $namaFile);
 	
 	// Delimiter untuk tambahSuffixUniqueKeNamaFile()
 	$delimiterUniqueKey = NULL;
