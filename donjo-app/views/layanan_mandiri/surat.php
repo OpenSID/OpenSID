@@ -116,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>No</th>
 							<th>Nomor Surat</th>
 							<th>Jenis Surat</th>
-							<th>Nama Staf</th>
+							<th>Ditandatangani Oleh</th>
 							<th>Tanggal</th>
 						</tr>
 					</thead>
@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							foreach ($main as $key => $data): ?>
 								<tr>
 									<td class="padat"><?= ($key + 1); ?></td>
-									<td><?= $data['no_surat']; ?></td>
+									<td class="padat"><?= $data['no_surat']; ?></td>
 									<td class="padat"><?= $data['format']; ?></td>
 									<td><?= $data['pamong']; ?></td>
 									<td class="padat"><?= tgl_indo2($data['tanggal']); ?></td>

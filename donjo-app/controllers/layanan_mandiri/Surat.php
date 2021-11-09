@@ -63,7 +63,7 @@ class Surat extends Mandiri_Controller
 	public function index($kat = 1)
 	{
 		$arsip = $this->keluar_model->list_data_perorangan($this->is_login->id_pend);
-		$permohonan = $this->permohonan_surat_model->list_permohonan_perorangan($this->is_login->id_pend);
+		$permohonan = $this->permohonan_surat_model->list_permohonan_perorangan($this->is_login->id_pend, 1);
 
 		$data = [
 			'kat' => $kat,
