@@ -173,7 +173,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 		$data['logo'] = $desa['logo'];
 		$data['random'] = substr(str_shuffle("0123456789"), 0, 4);
 		$data['hari'] = $date->format('d');
-		$data['nama_hari'] = ucwords(hari(intval($date->format('d'))));
+		$data['nama_hari'] = ucwords(hari($date->getTimestamp()));
 		$data['nama_tanggal'] = ucwords(to_word($date->format('d')));
 		$data['bulan'] = $date->format('m');
 		$data['nama_bulan'] = ucwords(getBulan($date->format('m')));
