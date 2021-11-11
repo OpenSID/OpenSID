@@ -46,15 +46,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 ?>
 
-<div class="form-group">
-	<label for="tahun">Tahun Anggaran</label>
-	<select class="form-control input-sm" name="tahun">
-		<option value="semua">Semua Tahun</option>
-		<?php foreach ($list_tahun as $list): ?>
-			<option value="<?= $list->tahun_anggaran; ?>" <?= selected($tahun, $list->tahun_anggaran); ?>><?= $list->tahun_anggaran; ?></option>
-		<?php endforeach; ?>
-	</select>
-</div>
+<?php if ($list_tahun): ?>
+	<div class="form-group">
+		<label for="tahun">Tahun Anggaran</label>
+		<select class="form-control input-sm" name="tahun">
+			<option value="semua">Semua Tahun</option>
+			<?php foreach ($list_tahun as $list): ?>
+				<option value="<?= $list->tahun_anggaran; ?>" <?= selected($tahun, $list->tahun_anggaran); ?>><?= $list->tahun_anggaran; ?></option>
+			<?php endforeach; ?>
+		</select>
+	</div>
+<?php endif; ?>
 
 <div class="form-group">
 	<label for="tgl_cetak">Tanggal Cetak</label>
