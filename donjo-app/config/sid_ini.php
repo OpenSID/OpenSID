@@ -29,7 +29,7 @@ $config["useDatabaseConfig"] = true;
 
 // Untuk situs yang digunakan untuk demo, seperti https://demo.opensid.my.id,
 // buat setting berikut menjadi 'y'
-$config['demo_mode'] = '';
+$config['demo_mode'] = false;
 
 $config['defaultAdminAuthInfo'] = array(
     'username' => 'admin',

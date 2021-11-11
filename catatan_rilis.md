@@ -14,4 +14,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.
-2. Perbaiki template dokumen kerjasama.
+2. Pindahkan config pantau ke sistem.
+3. Sembunyikan token_opensid pada pengaturan.
+4. Jangan kirim data ke pantau jika versi demo / development.
+5. Sediakan pengaturan config untuk mempermudah proses rilis.
