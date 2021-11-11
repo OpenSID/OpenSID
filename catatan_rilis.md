@@ -5,11 +5,12 @@ Di rilis ini, versi 21.11-premium-rev01, menyediakan [untuk_diisi]. Rilis ini ju
 Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
+1. [#4435](https://github.com/OpenSID/OpenSID/issues/4181) Tambahkan Buku Kader Pemberdayaan Masyarakat di Buku Administrasi Pembangunan.
 
 #### Perbaikan BUG
 1. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
 2. [#4466](https://github.com/OpenSID/OpenSID/issues/4466) Perbaiki pencarian produk beserta halaman pada web lapak.
-2. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
+3. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
 
 
 #### Perubahan Teknis
