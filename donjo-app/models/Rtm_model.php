@@ -498,21 +498,24 @@ class Rtm_model extends MY_Model {
 	public function get_judul_statistik($tipe = 0, $nomor = 0, $sex = 0)
 	{
 		if ($nomor == JUMLAH)
-			$judul = ["nama" => " : JUMLAH"];
+			$judul = ["nama" => " JUMLAH"];
 		elseif ($nomor == BELUM_MENGISI)
-			$judul = ["nama" => " : BELUM MENGISI"];
+			$judul = ["nama" => " BELUM MENGISI"];
 		elseif ($nomor == TOTAL)
-			$judul = ["nama" => " : TOTAL"];
+			$judul = ["nama" => " TOTAL"];
 		else
 		{
 			switch ($tipe)
 			{
-				case 'penerima_bantuan': $table = 'program'; break;
+				case 'penerima_bantuan':
+					$judul = ['nama' => 'PESERTA'];
+					break;
 
-				default: $table = 'tweb_rtm'; break;
+				default: $table = 'tweb_rtm';
+					$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+					break;
 			}
 
-			$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
 		}
 
 		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
