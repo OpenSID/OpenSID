@@ -116,13 +116,16 @@ $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 $route['status-idm/(:num)'] = 'first/status_idm/$1';
 $route['status-sdgs'] = 'first/status_sdgs';
-$route['lapak'] = 'first/lapak';
-$route['lapak/(:num)'] = 'first/lapak/$1';
 
-// WEB
+// WEB --------------------------------------------------------------
+// Pembangunan
 $route['pembangunan'] = WEB . '/pembangunan';
 $route['pembangunan/(:num)'] = WEB . '/pembangunan/index/$1';
 $route['pembangunan/detail/(:num)'] = WEB . '/pembangunan/detail/$1';
+
+// Lapak
+$route['lapak'] =  WEB . '/lapak';
+$route['lapak/(:num)'] = WEB . '/lapak/index/$1';
 
 // URL Shortener
 $route['v/(:any)'] = 'first/verifikasi_surat/$1';

@@ -98,8 +98,11 @@ class Lapak_model extends MY_Model
 	protected function produk()
 	{
 		$kantor = $this->db
-			->select('lat, lng')
-			->from('config')->get()->row();
+			->select('c.lat, c.lng')
+			->from('config c')
+			->get()
+			->row();
+
 		$this->db
 			->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.zoom')
 			->select("if(lp.lat is null or lp.lat = ' ', if(m.lat is null or m.lat = ' ', '{$kantor->lat}', m.lat), lp.lat) as lat ")
@@ -113,12 +116,29 @@ class Lapak_model extends MY_Model
 			->where('pk.status', 1);
 	}
 
-	public function paging_produk($p = 1)
+	public function paging_produk($p = 1, $keyword = '', $id_kategori = '')
 	{
 		$this->load->library('paging');
+
+		if($keyword)
+		{
+			$jml = $this->get_produk($keyword, 1);
+			$cfg['suffix'] = "?id_kategori={$id_kategori}&keyword={$keyword}";
+		}
+		else
+		{
+			$jml = $this->get_produk('', 1);
+		}
+
+		if($id_kategori != '')
+		{
+			$jml = $jml->where('id_produk_kategori', $id_kategori);
+			$cfg['suffix'] = "?id_kategori={$id_kategori}&keyword={$keyword}";
+		}
+
 		$cfg['page'] = $p;
 		$cfg['per_page'] = $this->setting->jumlah_produk_perhalaman;
-		$cfg['num_rows'] = $this->get_produk('', 1)->count_all_results();
+		$cfg['num_rows'] = $jml->count_all_results();
 		$this->paging->init($cfg);
 
 		return $this->paging;

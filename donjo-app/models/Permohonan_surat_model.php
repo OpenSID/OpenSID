@@ -101,6 +101,8 @@
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
+		$this->db->order_by('u.status');
+
 		//Ordering SQL
 		switch ($o)
 		{
@@ -134,16 +136,21 @@
 		return $data;
 	}
 
-	public function list_permohonan_perorangan($id_pemohon)
+	public function list_permohonan_perorangan($id_pemohon, $kat = null)
 	{
+		if ($kat == 1) $this->db->where_not_in('u.status', [4]);
+
 		$data = $this->db
 			->select('u.*, u.status as status_id, n.nama AS nama, n.nik AS nik, s.nama as jenis_surat')
 			->where('id_pemohon', $id_pemohon)
 			->from('permohonan_surat u')
 			->join('tweb_penduduk n', 'u.id_pemohon = n.id', 'left')
 			->join('tweb_surat_format s', 'u.id_surat = s.id', 'left')
+			->order_by('u.status')
 			->order_by('updated_at', 'DESC')
-			->get()->result_array();
+			->get()
+			->result_array();
+			
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
