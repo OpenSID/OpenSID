@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#### [21.11-premium-rev01]
-=======
 #### [21.11-premium-beta01]
->>>>>>> de3c9694ac912410c8cc5792146d97d80c03b06f
 
 Di rilis ini, versi 21.11-premium-beta01, menyediakan [untuk_diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
@@ -29,9 +25,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 5. Sediakan pengaturan config untuk mempermudah proses rilis.
 6. Perbaiki template dokumen kerjasama.
 7. Perbaiki mengurut view yang bergantungan di backup database.
-<<<<<<< HEAD
 8. Sesuaikan impor data untuk mode demo.
-
-=======
-8. Sesuaikan impor data untuk mode demo.
->>>>>>> de3c9694ac912410c8cc5792146d97d80c03b06f
