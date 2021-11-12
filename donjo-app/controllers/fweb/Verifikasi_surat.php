@@ -80,7 +80,5 @@ class Verifikasi_surat extends Web_Controller
 		if (! $data['surat']) show_404();
 		
 		$this->load->view($this->fallback_default($this->includes['folder_themes'], '/partials/surat/index'), $data);
-
-		// $this->json_output($data);
 	}
 }

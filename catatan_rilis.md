@@ -5,6 +5,7 @@ Di rilis ini, versi 21.11-premium-rev01, menyediakan [untuk_diisi]. Rilis ini ju
 Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
+1. [#4470](https://github.com/OpenSID/OpenSID/issues/4470) Menambahkan informasi penandatangan di halaman verifikasi surat.
 
 #### Perbaikan BUG
 1. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
