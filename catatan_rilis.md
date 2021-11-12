@@ -16,3 +16,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.
 2. Perbaiki template dokumen kerjasama.
+3. Perbaiki mengurut view yang bergantungan di backup database.
