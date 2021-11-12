@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021110571($hasil);
+    $hasil = $hasil && $this->migrasi_22021111251($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -59,7 +60,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 	{
 		$hasil = $hasil && $this->tambah_modul_kader_pemberdayaan_masyarakat($hasil);
 		$hasil = $hasil && $this->tabel_referensi($hasil);
-	
+
 		return $hasil;
 	}
 
@@ -242,4 +243,39 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
 		return $hasil;
 	}
+
+  protected function migrasi_2021111251($hasil)
+  {
+    // Ubah default kk_level menjadi null; tadinya 0
+    $fields = [
+      'kk_level' => [
+        'type' => 'TINYINT',
+        'constraint' => 2,
+        'null' => TRUE,
+        'default' => NULL
+      ],
+    ];
+    $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
+
+    $hasil = $hasil && $this->db
+      ->set('kk_level', NULL)
+      ->where('kk_level', 0)
+      ->update('tweb_penduduk');
+
+    // Ubah rentang umur kategori TUA untuk kasus salah pengisian tanggal lahir
+    $hasil = $hasil && $this->db
+      ->set('sampai', '99999')
+      ->where('id', 4)
+      ->update('tweb_penduduk_umur');
+
+
+    // Ubah cara_kb_id yg nilainya tidak valid
+    $hasil = $hasil && $this->db
+      ->set('cara_kb_id', NULL)
+      ->where_not_in('cara_kb_id', [1, 2, 3, 4, 5, 6, 7, 99])
+      ->update('tweb_penduduk');
+
+    return $hasil;
+  }
+
 }
