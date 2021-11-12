@@ -124,15 +124,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{ 'data': 'umur' },
 				{ 'data': 'jk' },
 				{
-					'data': 'kursus',
-						render: function (data) {
-							return data.replaceAll(/(["|\[\]\/\\])/g, '');
-					},
+					'data': function(data) {
+						return (data.pendidikan_sedang + ',' + data.kursus.replaceAll(/(["|\[\]\/\\])/g, '')).replaceAll(',', ', ');
+					}
 				},
 				{
 					'data': 'bidang',
 						render: function (data) {
-							return data.replaceAll(/(["|\[\]\/\\])/g, '');
+							return (data.replaceAll(/(["|\[\]\/\\])/g, '')).replaceAll(',', ', ');
 					},
 				},
 				{ 'data': 'alamat' },

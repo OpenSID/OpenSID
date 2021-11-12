@@ -111,8 +111,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<td class="textx"><?= $item->nama; ?></td>
 								<td align="center"><?= $item->umur; ?></td>
 								<td align="center"><?= $item->jk; ?></td>
-								<td><?= preg_replace('/[^a-zA-Z, ]/', '', $item->kursus); ?></td>
-								<td><?= preg_replace('/[^a-zA-Z, ]/', '', $item->bidang); ?></td>
+								<td><?= str_replace(',', ', ', $item->pendidikan_sedang . ',' . preg_replace('/[^a-zA-Z, ]/', '', $item->kursus)); ?></td>
+								<td><?= str_replace(',', ', ', preg_replace('/[^a-zA-Z, ]/', '', $item->bidang)); ?></td>
 								<td><?= $item->alamat; ?></td>
 								<td><?= $item->keterangan; ?></td>
 							</tr>

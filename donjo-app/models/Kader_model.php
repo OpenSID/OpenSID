@@ -129,7 +129,7 @@ class Kader_model extends MY_Model
 	{
 		$data = $this->validasi();
 
-		$outp = $this->db->set($data)->update($this->table, ['id' => $id]);
+		$outp = $this->db->where('id', $id)->update($this->table, $data);
 
 		status_sukses($outp);
 	}
@@ -143,10 +143,10 @@ class Kader_model extends MY_Model
 
 	public function hapus_semua()
 	{
-		foreach ($this->input->post('id_cb') as $id)
-		{
-			$this->hapus($id);
-		}
+		$id = $this->input->post('id_cb');
+		$outp = $this->db->where_in('id', $id)->delete($this->table);
+
+		status_sukses($outp);
 	}
 
 	private function validasi()

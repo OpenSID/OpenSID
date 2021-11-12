@@ -67,7 +67,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 	protected function tambah_modul_kader_pemberdayaan_masyarakat($hasil)
 	{
 		$hasil = $hasil && $this->tambah_modul([
-			'id'     => 331,
+			'id'     => 332,
 			'modul'  => 'Kader Pemberdayaan Masyarakat',
 			'url'    => 'bumindes_kader',
 			'aktif'  => 1,

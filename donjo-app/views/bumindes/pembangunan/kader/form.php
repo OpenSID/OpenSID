@@ -63,7 +63,7 @@
 						<label class="col-sm-3 control-label" for="penduduk_id">NIK / Nama Kader</label>
 						<div class="col-sm-6">
 							<select class="form-control select2 required" id="penduduk_id" name="penduduk_id">
-								<option selected="selected">-- Silakan Masukkan NIK / Nama Kader  --</option>
+								<option value="" selected="selected">-- Silakan Masukkan NIK / Nama Kader  --</option>
 								<?php foreach ($daftar_penduduk as $penduduk): ?>
 									<option value="<?= $penduduk['id']; ?>" <?= selected($main['penduduk_id'], $penduduk['id']); ?>>NIK : <?= $penduduk['nik'] . ' | Nama : ' . $penduduk['nama']; ?></option>
 								<?php endforeach; ?>
@@ -73,7 +73,7 @@
 					<div class="form-group">
 						<label  class="col-sm-3 control-label" for="kursus">Kursus</label>
 						<div class="col-sm-6">
-							<select class="form-control input-sm select2 required" multiple="multiple" id="kursus" name="kursus[]">                      
+							<select class="form-control input-sm select2 required" multiple="multiple" id="kursus" name="kursus[]">
 								<?php foreach ($daftar_kursus as $kursus): ?>
 									<option value="<?= $kursus['nama']; ?>" <?= selected(in_array($kursus['nama'], json_decode($main['kursus'])), true); ?>><?= $kursus['nama']; ?></option>;
 								<?php endforeach; ?>

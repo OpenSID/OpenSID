@@ -85,19 +85,17 @@ class Bumindes_kader extends Admin_Controller {
 	{
 		if ($id)
 		{
-			$data['main'] = $this->kader_model->find($id) ?? show_404();
-			$data['form_action'] = site_url("bumindes_kader/ubah/$id");
+			$data['main'] = $this->kader_model->find($id) ?? redirect($this->controller . '/form');
+			$data['form_action'] = site_url("{$this->controller}/ubah/$id");
 		}
 		else
 		{
 			$data['main'] = null;
-			$data['form_action'] = site_url("bumindes_kader/tambah");
+			$data['form_action'] = site_url("{$this->controller}/tambah");
 		}
 		$data['daftar_penduduk'] = $this->kader_model->list_penduduk($data['main']['penduduk_id'] ?? 0);
 		$data['daftar_bidang'] = $this->referensi_model->list_data('ref_penduduk_bidang');
 		$data['daftar_kursus'] = $this->referensi_model->list_data('ref_penduduk_kursus');
-
-		// $this->json_output($data);
 
 		$this->render('bumindes/pembangunan/kader/form', $data);
 	}
@@ -159,7 +157,6 @@ class Bumindes_kader extends Admin_Controller {
 			'letak_ttd' => ['2', '2', '5'],
 		];
 
-		// $this->json_output($data);
 		$this->load->view('global/format_cetak', $data);
 	}
 }
