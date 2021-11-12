@@ -74,7 +74,7 @@
 					</div>
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<img class="img-responsive" src="<?= gambar_desa($main['kantor_desa'], TRUE); ?>" alt="Kantor <?= $desa; ?>">
+							<img class="img-responsive" src="<?= gambar_desa($main['kantor_desa'], true); ?>" alt="Kantor <?= $desa; ?>">
 							<br/>
 							<p class="text-center text-bold">Kantor <?= $desa; ?></p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika kantor <?= $desa; ?> tidak berubah)</p>
@@ -120,7 +120,7 @@
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="kades" name="pamong_id">
 										<option value="">--- Pilih <?= $this->setting->sebutan_kepala_desa; ?>  <?= ucwords($this->setting->sebutan_desa)?> ---</option>
-										<?php foreach ($pamong AS $data): ?>
+										<?php foreach ($pamong as $data): ?>
 											<option value="<?= $data['pamong_id']; ?>" data-nip="<?= $data['pamong_nip']; ?>" <?= selected($data['pamong_id'], $main['pamong_id']); ?> ><?= $data['nama'].' ('.$data['jabatan'].')'; ?></option>
 										<?php endforeach; ?>
 									</select>
@@ -217,13 +217,15 @@
 </div>
 <script>
 	$(document).ready(function() {
-		var tracker_host = '<?= $this->setting->tracker ?>';
+		
+		var server_pantau = '<?= config_item('server_pantau'); ?>';
+		var token_pantau = '<?= config_item('token_pantau'); ?>';
 
 		// Ambil Nama dan Kode Wilayah dari API Server
 		$('[name="pilih_desa"]').change(function() {
 			$.ajax({
 				type: 'GET',
-				url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
+				url: server_pantau + '/index.php/api/wilayah/ambildesa?token=' + token_pantau + '&id_desa=' + $(this).val(),
 				dataType: 'json',
 				success: function(data) {
 					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);

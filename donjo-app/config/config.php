@@ -521,3 +521,25 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| PANTAU / TRACKSID
+|--------------------------------------------------------------------------
+|
+| - Server Pantau (Default)
+| - Token Pantau (Default)
+|
+*/
+$config['server_pantau'] = 'https://pantau.opensid.my.id';
+$config['token_pantau'] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCwidGltZXN0YW1wIjoxNjAzNDY2MjM5fQ.HVCNnMLokF2tgHwjQhSIYo6-2GNXB4-Kf28FSIeXnZw';
+
+/*
+|--------------------------------------------------------------------------
+| LAYANAN OPENDESA
+|--------------------------------------------------------------------------
+|
+| - Server layanan (Default)
+| 
+*/
+$config['server_layanan'] = 'https://layanan.opendesa.id';
