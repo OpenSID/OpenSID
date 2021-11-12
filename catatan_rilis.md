@@ -11,6 +11,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 1. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
 2. [#4466](https://github.com/OpenSID/OpenSID/issues/4466) Perbaiki pencarian produk beserta halaman pada web lapak.
 3. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
+4. [#4531](https://github.com/OpenSID/OpenSID/issues/4531) Perbaiki tampilkan daftar rumah tangga sesuai statistik RTM.
 
 
 #### Perubahan Teknis
@@ -19,3 +20,5 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 3. Sembunyikan token_opensid pada pengaturan.
 4. Jangan kirim data ke pantau jika versi demo / development.
 5. Sediakan pengaturan config untuk mempermudah proses rilis.
+6. Perbaiki template dokumen kerjasama.
+7. Perbaiki mengurut view yang bergantungan di backup database.
