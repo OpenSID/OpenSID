@@ -431,9 +431,10 @@
 		$this->load->model('penomoran_surat_model');
 
 		$data = $this->db
-			->select('l.*, k.nama AS perihal, k.kode_surat, p.nama AS nama_penduduk')
+			->select('l.*, k.nama AS perihal, k.kode_surat, p.nama AS nama_penduduk, s.pamong_nama AS pamong_nama, s.jabatan AS pamong_jabatan')
 			->from('log_surat l')
 			->join('tweb_surat_format k', 'l.id_format_surat = k.id', 'left')
+			->join('tweb_desa_pamong s', 'l.id_pamong = s.pamong_id', 'left')
 			->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
 			->where('l.id', $id)
 			->get()

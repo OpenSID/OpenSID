@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  *  File ini:
  *
- * Controller untuk modul Dokumen
+ * Controller untuk modul Web Verifikasi Surat
  *
- * donjo-app/controllers/Dokumen_web.php
+ * donjo-app/controllers/fweb/Verifikasi_surat.php
  *
  */
 
@@ -44,20 +44,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Dokumen_web extends Web_Controller
+class Verifikasi_surat extends Web_Controller
 {
-	
-  /**
-	 * Unduh berkas berdasarkan kolom dokumen.id
-	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
-	 * @return  void
-	 */
-	public function unduh_berkas($id_dokumen)
+	public function __construct()
 	{
-		$this->load->model('web_dokumen_model');
+		parent::__construct();
+		$this->load->model(['keluar_model', 'url_shortener_model', 'stat_shortener_model']);
+	}
 
-		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
-		ambilBerkas($berkas, null, null, LOKASI_DOKUMEN);
+
+	public function cek($alias = null)
+	{
+		$cek = $this->url_shortener_model->get_url($alias);
+		if (! $cek) show_404();
+		
+		$this->stat_shortener_model->add_log($cek->id);
+
+		redirect($cek->url);
+	}
+
+	public function encode($id_dokumen = null)
+	{
+		$id_encoded = $this->url_shortener_model->encode_id($id_dokumen);
+
+		redirect('verifikasi-surat/'. $id_encoded);
+	}
+
+	public function decode($id_encoded = null)
+	{
+		$id_decoded = $this->url_shortener_model->decode_id($id_encoded);
+
+		$data['config'] = $this->header;
+		$data['surat'] = $this->keluar_model->verifikasi_data_surat($id_decoded, $this->header['kode_desa']);
+
+		if (! $data['surat']) show_404();
+		
+		$this->load->view($this->fallback_default($this->includes['folder_themes'], '/partials/surat/index'), $data);
 	}
 }
