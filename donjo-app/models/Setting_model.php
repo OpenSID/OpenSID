@@ -84,7 +84,6 @@ class Setting_model extends CI_Model {
 				$this->setting->web_theme = "default";
 			}
 		}
-		$this->setting->demo_mode = config_item('demo_mode');
 		$this->load->model('database_model');
 		$this->database_model->cek_migrasi();
 	}

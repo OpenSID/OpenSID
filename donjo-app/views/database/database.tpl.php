@@ -18,13 +18,18 @@
 									<div class="col-xs-12">
 											<div class="nav-tabs-custom">
 												<ul class="nav nav-tabs">
-													<li <?php if ($act_tab==1): ?>class="active"<?php endif ?>><a href="<?= site_url('database')?>">Ekspor Database</a></li>
-													<li <?php if ($act_tab==2): ?>class="active"<?php endif ?>><a href="<?= site_url('database/import')?>">Impor Database</a></li>
-													<li <?php if ($act_tab==3): ?>class="active"<?php endif ?>><a href="<?= site_url('database/import_bip')?>">Impor BIP</a></li>
-													<li <?php if ($act_tab==4): ?>class="active"<?php endif ?>><a href="<?= site_url('database/backup')?>">Backup/Restore</a></li>
-													<li <?php if ($act_tab==6): ?>class="active"<?php endif ?>><a href="<?= site_url('database/kosongkan')?>">Kosongkan DB</a></li>
-													<li <?php if ($act_tab==5): ?>class="active"<?php endif ?>><a href="<?= site_url('database/migrasi_cri')?>">Migrasi DB</a></li>
-													<li <?php if ($act_tab==7): ?>class="active"<?php endif ?>><a href="<?= site_url('database/sinkronasi_opendk')?>">Sinkronasi DB OpenDK</a></li>
+													<li <?= jecho($act_tab, 1, 'class="active"'); ?>><a href="<?= site_url('database'); ?>">Ekspor Database</a></li>
+													<?php if ($this->CI->cek_hak_akses('u') && ! config_item('demo_mode')): ?>
+														<li <?= jecho($act_tab, 2, 'class="active"'); ?>><a href="<?= site_url('database/import'); ?>">Impor Database</a></li>
+														<li <?= jecho($act_tab, 3, 'class="active"'); ?>><a href="<?= site_url('database/import_bip'); ?>">Impor BIP</a></li>
+													<?php endif; ?>
+													<li <?= jecho($act_tab, 4, 'class="active"'); ?>><a href="<?= site_url('database/backup'); ?>">Backup <?= jecho(config_item('demo_mode'), false,' /Restore'); ?></a></li>
+													<?php if ($this->CI->cek_hak_akses('u')): ?>
+														<?php if (! config_item('demo_mode')): ?>
+															<li <?= jecho($act_tab, 6, 'class="active"'); ?>><a href="<?= site_url('database/kosongkan'); ?>">Kosongkan DB</a></li>
+														<?php endif; ?>
+														<li <?= jecho($act_tab, 5, 'class="active"'); ?>><a href="<?= site_url('database/migrasi_cri'); ?>">Migrasi DB</a></li>
+													<?php endif; ?>
 												</ul>
 												<div class="tab-content">
 
