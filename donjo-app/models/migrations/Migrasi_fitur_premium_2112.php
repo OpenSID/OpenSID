@@ -49,7 +49,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 		$hasil = true;
 
 		$hasil = $hasil && $this->migrasi_2021110571($hasil);
-    $hasil = $hasil && $this->migrasi_22021111251($hasil);
+    $hasil = $hasil && $this->migrasi_2021111251($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -277,5 +277,4 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
     return $hasil;
   }
-
 }

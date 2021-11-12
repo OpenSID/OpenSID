@@ -69,7 +69,7 @@ class Setting_model extends CI_Model {
 		}
 		
 		// Ganti token_layanan sesuai config untuk development untuk mempermudah rilis
-		if ((ENVIRONMENT == 'development') || ! empty(config_item('token_layanan')))
+		if ((ENVIRONMENT == 'development') && ! empty(config_item('token_layanan')))
 		{
 			$this->setting->layanan_opendesa_token = config_item('token_layanan');
 		}
