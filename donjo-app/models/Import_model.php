@@ -477,10 +477,7 @@ class Import_model extends CI_Model {
 		// Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
 		// atau tidak sebelum melakukan impor
 		// Tidak boleh menghapus jika dalam demo_mode
-		if ($hapus && ! config_item('demo_mode'))
-		{
-			$this->hapus_data_penduduk();
-		}
+		if ($hapus) $this->hapus_data_penduduk();
 
 		$reader = ReaderEntityFactory::createXLSXReader();
 		$reader->setShouldPreserveEmptyRows(true);

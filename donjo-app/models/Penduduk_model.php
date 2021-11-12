@@ -468,6 +468,7 @@ class Penduduk_model extends MY_Model {
 		$this->order_by_list($order_by);
 
 		$data = $this->db->get()->result_array();
+
 		//Formating Output
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -541,7 +542,6 @@ class Penduduk_model extends MY_Model {
 			$data[$i]['no'] = $j + 1;
 			$j++;
 		}
-
 		if ($page > 0)
 			return ['paging' => $paging, 'main' => $data];
 		else
@@ -699,7 +699,7 @@ class Penduduk_model extends MY_Model {
 		if (empty($data['warganegara_id'])) $data['warganegara_id'] = 1; //default WNI
 
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
-		if ($data['status_kawin'] != 2 or empty($data['cara_kb_id'])) $data['cara_kb_id'] = NULL;
+		if ($data['status_kawin'] != 2 or ! in_array($data['cara_kb_id'], [1, 2, 3, 4, 5, 6, 7, 99])) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
 		if ($data['sex'] == 1) $data['hamil'] = 0;
 		if (empty($data['kelahiran_anak_ke'])) $data['kelahiran_anak_ke'] = NULL;
