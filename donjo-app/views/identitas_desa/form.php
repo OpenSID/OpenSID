@@ -100,7 +100,7 @@
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
 									<?php if (cek_koneksi_internet()): ?>
-										<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_tracksid')?>" data-tracker='<?= $this->setting->tracker; ?>' style="display: none;"></select>
+										<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_pantau'); ?>" data-tracker='<?= config_item('server_pantau'); ?>' style="display: none;"></select>
 									<?php endif; ?>
 									<input type="hidden" id="nama_desa" class="form-control input-sm nama_terbatas required" minlength="3" maxlength="50" name="nama_desa" value="<?= $main["nama_desa"]; ?>">
 								</div>
@@ -227,13 +227,14 @@
 		if (koneksi) {
 			$("#nama_desa").attr('type', 'hidden');
 
-			var tracker_host = '<?= $this->setting->tracker ?>';
+			var server_pantau = '<?= config_item('server_pantau'); ?>';
+			var token_pantau = '<?= config_item('token_pantau'); ?>';
 
 			// Ambil Nama dan Kode Wilayah dari Pantau > Wilayah
 			$('[name="pilih_desa"]').change(function(){
 				$.ajax({
 					type: 'GET',
-					url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
+					url: server_pantau + '/index.php/api/wilayah/ambildesa?token=' + token_pantau + '&id_desa=' + $(this).val(),
 					dataType: 'json',
 					success: function(data) {
 						$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);

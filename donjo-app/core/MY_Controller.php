@@ -341,7 +341,7 @@ class Premium extends MY_Controller
 			return false;
 		}
 
-		if (isLocalIPAddress($_SERVER['REMOTE_ADDR']) || $this->setting->demo_mode)
+		if (isLocalIPAddress($_SERVER['REMOTE_ADDR']) || config_item('demo_mode'))
 		{
 			return true;
 		}

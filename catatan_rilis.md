@@ -1,18 +1,29 @@
-#### [21.11-premium-rev01]
+#### [21.11-premium-beta01]
 
-Di rilis ini, versi 21.11-premium-rev01, menyediakan [untuk_diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.11-premium-beta01, menyediakan [untuk_diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
-1. [#4470](https://github.com/OpenSID/OpenSID/issues/4470) Menambahkan informasi penandatangan di halaman verifikasi surat.
+1. [#4435](https://github.com/OpenSID/OpenSID/issues/4181) Tambahkan Buku Kader Pemberdayaan Masyarakat di Buku Administrasi Pembangunan.
+2. [#4470](https://github.com/OpenSID/OpenSID/issues/4470) Menambahkan informasi penandatangan di halaman verifikasi surat.
 
 #### Perbaikan BUG
 1. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
 2. [#4466](https://github.com/OpenSID/OpenSID/issues/4466) Perbaiki pencarian produk beserta halaman pada web lapak.
-2. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
+3. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
+4. [#4531](https://github.com/OpenSID/OpenSID/issues/4531) Perbaiki tampilkan daftar rumah tangga sesuai statistik RTM.
+5. Perbaiki statistik kependudukan berbasis rentang umur, yaitu Umur (Rentang), Umur (Kategori) dan Akta Kelahiran.
+6. Perbaiki statistik kependudukan hubungan keluarga, untuk menangani kasus data yang belum diisi.
+7. [#4530](https://github.com/OpenSID/OpenSID/issues/4530) Ubah data Akseptor KB yang tidak valid supaya statistik Akseptor KB tampil benar.
 
 
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.
-2. Perbaiki template dokumen kerjasama.
+2. Pindahkan config pantau ke sistem.
+3. Sembunyikan token_opensid pada pengaturan.
+4. Jangan kirim data ke pantau jika versi demo / development.
+5. Sediakan pengaturan config untuk mempermudah proses rilis.
+6. Perbaiki template dokumen kerjasama.
+7. Perbaiki mengurut view yang bergantungan di backup database.
+8. Sesuaikan impor data untuk mode demo.

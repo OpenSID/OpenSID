@@ -99,12 +99,12 @@ class Statistik extends Admin_Controller {
 				$tautan = site_url("keluarga/statistik/$lap/");
 				break;
 
-			case ($lap < 50 || ($lap > 50 && $sasaran == 1)):
-				$tautan = site_url("penduduk/statistik/$lap/");
+			case (in_array($lap, ['bdt']) || ($lap > 50 && $sasaran == 3)):
+				$tautan = site_url("rtm/statistik/$lap/");
 				break;
 
-			case (in_array($lap, ['bdt']) || $lap < 50 || ($lap > 50 && $sasaran == 3)):
-				$tautan = site_url("rtm/statistik/$lap/");
+			case ($lap < 50 || ($lap > 50 && $sasaran == 1)):
+				$tautan = site_url("penduduk/statistik/$lap/");
 				break;
 
 			case ($lap > 50 && $sasaran == 4):

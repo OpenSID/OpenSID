@@ -424,7 +424,7 @@ class User_model extends CI_Model {
 		// radiisi menandakan password tidak diubah
 		if ($data['password'] == 'radiisi') unset($data['password']);
 		// Untuk demo jangan ubah username atau password
-		if ($idUser == 1 && $this->setting->demo_mode)
+		if ($idUser == 1 && config_item('demo_mode'))
 		{
 			unset($data['username'], $data['password']);
 		}
@@ -534,7 +534,7 @@ class User_model extends CI_Model {
 		$data = [];
 
 		// Jangan edit password admin apabila di situs demo
-		if ($id == 1 && $this->setting->demo_mode)
+		if ($id == 1 && config_item('demo_mode'))
 		{
 		  unset($data['password']);
 		  return $data;
@@ -742,7 +742,7 @@ class User_model extends CI_Model {
 	{
 		$controller = explode('/', $url_modul);
 		// Demo tidak boleh mengakses menu tertentu
-		if ($this->setting->demo_mode)
+		if (config_item('demo_mode'))
 		{
 			if (in_array($akses, $this->larangan_demo[$controller[0]]))
 			{
