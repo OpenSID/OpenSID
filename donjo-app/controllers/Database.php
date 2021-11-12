@@ -54,8 +54,6 @@ class Database extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->dbforge();
-		$this->load->library('zip');
 		$this->load->model(['import_model', 'export_model', 'database_model']);
 
 		$this->modul_ini = 11;
@@ -87,6 +85,8 @@ class Database extends Admin_Controller {
 
 	public function import()
 	{
+		if (config_item('demo_mode')) redirect($this->controller);
+
 		$data['form_action'] = site_url("database/import_dasar");
 		$data['form_action3'] = site_url("database/ppls_individu");
 
@@ -97,6 +97,8 @@ class Database extends Admin_Controller {
 
 	public function import_bip()
 	{
+		if (config_item('demo_mode')) redirect($this->controller);
+
 		$data['form_action'] = site_url("database/import_data_bip");
 
 		$data['act_tab'] = 3;
@@ -124,6 +126,8 @@ class Database extends Admin_Controller {
 
 	public function kosongkan()
 	{
+		if (config_item('demo_mode')) redirect($this->controller);
+		
 		$data['act_tab'] = 6;
 		$data['content'] = 'database/kosongkan';
 		$this->load->view('database/database.tpl.php', $data);
@@ -262,16 +266,14 @@ class Database extends Admin_Controller {
 	public function migrasi_db_cri()
 	{
 		$this->redirect_hak_akses('u');
-		$this->session->unset_userdata('success');
-		$this->session->unset_userdata('error_msg');
+		$this->session->unset_userdata(['success, error_msg']);
 		$this->database_model->migrasi_db_cri();
 		redirect('database/migrasi_cri');
 	}
 
 	public function kosongkan_db()
 	{
-		$this->redirect_hak_akses('u');
-		$this->redirect_hak_akses('h', "database/kosongkan");
+		$this->redirect_hak_akses('h');
 		$this->database_model->kosongkan_db();
 		redirect('database/kosongkan');
 	}
@@ -290,6 +292,8 @@ class Database extends Admin_Controller {
 
 	public function desa_backup()
 	{
+		$this->load->library('zip');
+
 		$backup_folder = FCPATH.'desa/'; // Folder yg akan di backup
 		$this->zip->read_dir($backup_folder, FALSE);
 		$this->zip->download('backup_folder_desa_'.date('Y_m_d').'.zip');
