@@ -63,14 +63,6 @@ class Analisis_periode extends Admin_Controller {
 		redirect($this->controller);
 	}
 
-	public function leave()
-	{
-		$id = $this->session->analisis_master;
-		$this->session->unset_userdata(['analisis_master']);
-		
-		redirect("analisis_master/menu/$id");
-	}
-
 	public function index($p = 1, $o=0)
 	{
 		unset($_SESSION['cari2']);
