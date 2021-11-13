@@ -50,6 +50,8 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
 		$hasil = $hasil && $this->migrasi_2021110571($hasil);
     $hasil = $hasil && $this->migrasi_2021111251($hasil);
+    $hasil = $hasil && $this->migrasi_2021111451($hasil);
+    $hasil = $hasil && $this->migrasi_2021111551($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -276,5 +278,18 @@ class Migrasi_fitur_premium_2112 extends MY_Model
       ->update('tweb_penduduk');
 
     return $hasil;
+  }
+
+  protected function migrasi_2021111451($hasil)
+  {
+    // Ubah judul status hubungan dalam keluarga
+    return $hasil && $this->db->where('id', 9)->update('tweb_penduduk_hubungan', array('nama' => 'FAMILI LAIN'));
+  }
+
+  protected function migrasi_2021111551($hasil)
+  {
+    // Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4
+    $this->load->model('analisis_statistik_jawaban_model');
+    return $hasil && $this->analisis_statistik_jawaban_model->hapus_data_kosong();
   }
 }

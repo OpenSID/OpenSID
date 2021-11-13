@@ -13,7 +13,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('analisis_master/clear')?>"> Master Analisis</a></li>
-			<li><a href="<?= site_url()?>analisis_respon/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url('analisis_master/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
 			<li class="active">Data Sensus</li>
 		</ol>
 	</section>
@@ -38,7 +38,7 @@
 								<i class="fa fa-upload"></i>Impor BDT 2015
 							</a>
 						<?php endif; ?>
-						<a href="<?= site_url()?>analisis_respon/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+						<a href="<?= site_url('analisis_master/leave'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 					</div>
 					<div class="box-header with-border">
 						<div class="table-responsive">
