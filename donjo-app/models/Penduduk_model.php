@@ -689,11 +689,11 @@ class Penduduk_model extends MY_Model {
 			}
 			else
 			{
-				if ($id) $this->db->where('id <>', $id); //Tidak termasuk penduduk yg diupdate
 				$existing_data = $this->db
 					->select('nik, status_dasar')
 					->from('tweb_penduduk')
 					->where('nik', $data['nik'])
+					->where('nik <>', 0)
 					->limit(1)->get()->row();
 
 				if ($existing_data)
