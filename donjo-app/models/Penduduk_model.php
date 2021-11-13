@@ -622,6 +622,7 @@ class Penduduk_model extends MY_Model {
 		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
 		$data['hamil'] = $data['hamil'] ?: NULL;
 
+		$data['tag_id_card'] = $data['tag_id_card'] ?: NULL;
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
 		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
@@ -769,7 +770,6 @@ class Penduduk_model extends MY_Model {
 
 		$data['created_at'] = date('Y-m-d H:i:s');
 		$data['created_by'] = $this->session->user;
-		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		if ($data['tanggallahir'] == '') unset($data['tanggallahir']);
 		if ($data['tanggalperkawinan'] == '') unset($data['tanggalperkawinan']);
 		if ($data['tanggalperceraian'] == '') unset($data['tanggalperceraian']);
