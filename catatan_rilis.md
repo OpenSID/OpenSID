@@ -16,6 +16,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 5. Perbaiki statistik kependudukan berbasis rentang umur, yaitu Umur (Rentang), Umur (Kategori) dan Akta Kelahiran.
 6. Perbaiki statistik kependudukan hubungan keluarga, untuk menangani kasus data yang belum diisi.
 7. [#4530](https://github.com/OpenSID/OpenSID/issues/4530) Ubah data Akseptor KB yang tidak valid supaya statistik Akseptor KB tampil benar.
+8. [#4530](https://github.com/OpenSID/OpenSID/issues/4532) Perbaiki link detail pembangunan pada halaman peta.
 
 
 #### Perubahan Teknis
