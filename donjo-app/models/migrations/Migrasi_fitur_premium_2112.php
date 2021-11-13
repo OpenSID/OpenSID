@@ -48,15 +48,15 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
 
-    $hasil = $hasil && $this->migrasi_22021111251($hasil);
-    $hasil = $hasil && $this->migrasi_22021111451($hasil);
-    $hasil = $hasil && $this->migrasi_22021111551($hasil);
+    $hasil = $hasil && $this->migrasi_2021111251($hasil);
+    $hasil = $hasil && $this->migrasi_2021111451($hasil);
+    $hasil = $hasil && $this->migrasi_2021111551($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
 	}
 
-  protected function migrasi_22021111251($hasil)
+  protected function migrasi_2021111251($hasil)
   {
     // Ubah default kk_level menjadi null; tadinya 0
     $fields = [
@@ -90,13 +90,13 @@ class Migrasi_fitur_premium_2112 extends MY_Model
     return $hasil;
   }
 
-  protected function migrasi_22021111451($hasil)
+  protected function migrasi_2021111451($hasil)
   {
     // Ubah judul status hubungan dalam keluarga
     return $hasil && $this->db->where('id', 9)->update('tweb_penduduk_hubungan', array('nama' => 'FAMILI LAIN'));
   }
 
-  protected function migrasi_22021111551($hasil)
+  protected function migrasi_2021111551($hasil)
   {
     // Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4
     $this->load->model('analisis_statistik_jawaban_model');
