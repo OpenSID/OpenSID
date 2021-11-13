@@ -329,7 +329,7 @@ class Premium extends MY_Controller
 
 		if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['kode_desa']), '!='))
 		{
-			$this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['nama_desa']) . ' tidak terdaftar di layanan.opendesa.id.');
+			$this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
 			return false;
 		}
@@ -348,7 +348,7 @@ class Premium extends MY_Controller
 		
 		if (get_domain($jwtPayload->domain) != get_domain(APP_URL))
 		{
-			$this->session->set_userdata('error_premium', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di layanan.opendesa.id.');
+			$this->session->set_userdata('error_premium', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
 			return false;
 		}
