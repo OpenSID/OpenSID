@@ -49,6 +49,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 		$hasil = true;
 
     $hasil = $hasil && $this->migrasi_22021111251($hasil);
+    $hasil = $hasil && $this->migrasi_22021111451($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -86,6 +87,12 @@ class Migrasi_fitur_premium_2112 extends MY_Model
       ->update('tweb_penduduk');
 
     return $hasil;
+  }
+
+  protected function migrasi_22021111451($hasil)
+  {
+    // Ubah judul status hubungan dalam keluarga
+    return $hasil && $this->db->where('id', 9)->update('tweb_penduduk_hubungan', array('nama' => 'FAMILI LAIN'));
   }
 
 }
