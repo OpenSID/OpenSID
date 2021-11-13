@@ -100,6 +100,20 @@ class Bumindes_kader extends Admin_Controller {
 		$this->render('bumindes/pembangunan/kader/form', $data);
 	}
 
+	public function get_kursus()
+	{
+		$data = $this->kader_model->get_kursus($this->input->get('nama', true));
+
+		echo json_encode($data);
+	}
+
+	public function get_bidang()
+	{
+		$data = $this->kader_model->get_bidang($this->input->get('nama', true));
+
+		echo json_encode($data);
+	}
+
 	public function tambah()
 	{
 		$this->redirect_hak_akses('u');

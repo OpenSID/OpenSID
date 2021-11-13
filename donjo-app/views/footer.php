@@ -47,6 +47,12 @@
 		<script src="<?= base_url('assets/js/custom-select2.js'); ?>"></script>
 		<script src="<?= base_url('assets/js/custom-datetimepicker.js'); ?>"></script>
 
+		<!-- Token Field -->
+		<?php if ($this->controller == 'bumindes_kader'): ?>
+			<script src="<?= base_url('assets/bootstrap/js/bootstrap-tokenfield.min.js'); ?>"></script>
+		<?php endif; ?>
+
+
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
 

@@ -73,21 +73,13 @@
 					<div class="form-group">
 						<label  class="col-sm-3 control-label" for="kursus">Kursus</label>
 						<div class="col-sm-6">
-							<select class="form-control input-sm select2 required" multiple="multiple" id="kursus" name="kursus[]">
-								<?php foreach ($daftar_kursus as $kursus): ?>
-									<option value="<?= $kursus['nama']; ?>" <?= selected(in_array($kursus['nama'], json_decode($main['kursus'])), true); ?>><?= $kursus['nama']; ?></option>;
-								<?php endforeach; ?>
-							</select>
+							<input type="text" name="kursus[]" id="kursus" class="form-control required" placeholder="Pilih Kursus" value="<?= str_replace(',', ', ', preg_replace('/[^a-zA-Z, ]/', '', $main['kursus'])); ?>"/>
 						</div>
 					</div>
 					<div class="form-group">
-						<label  class="col-sm-3 control-label" for="bidang">Keahlian</label>
+						<label  class="col-sm-3 control-label" for="bidang">Bidang Keahlian</label>
 						<div class="col-sm-6">
-							<select class="form-control input-sm select2 required" multiple="multiple" id="bidang" name="bidang[]">                      
-								<?php foreach ($daftar_bidang as $bidang): ?>
-									<option value="<?= $bidang['nama']; ?>" <?= selected(in_array($bidang['nama'], json_decode($main['bidang'])), true); ?>><?= $bidang['nama']; ?></option>;
-								<?php endforeach; ?>
-							</select>
+							<input type="text" name="bidang[]" id="bidang" class="form-control required" placeholder="Pilih Bidang Keahlian" value="<?= str_replace(',', ', ', preg_replace('/[^a-zA-Z, ]/', '', $main['bidang'])); ?>"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -105,3 +97,39 @@
 		</div>
 	</section>
 </div>
+<script>
+	$(document).ready(function(){
+		
+		var url = BASE_URL + '/bumindes_kader/';
+		
+		$('#kursus').tokenfield({
+			autocomplete: {
+				source: function (request, response) {
+					jQuery.get(url + 'get_kursus', {
+						nama: request.term
+					}, function (data) {
+						data = $.parseJSON(data);
+						response(data);
+					});
+				},
+				delay: 100
+			},
+			showAutocompleteOnFocus: true
+		});
+
+		$('#bidang').tokenfield({
+			autocomplete: {
+				source: function (request, response) {
+					jQuery.get(url + 'get_bidang', {
+						nama: request.term
+					}, function (data) {
+						data = $.parseJSON(data);
+						response(data);
+					});
+				},
+				delay: 100
+			},
+			showAutocompleteOnFocus: true
+		});
+	});
+</script> 

@@ -59,6 +59,12 @@ class Kader_model extends MY_Model
 		9 => 'p.keterangan',
 	];
 
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('referensi_model');
+	}
+
 	public function get_data(string $search = '')
 	{
 		$sebutan_dusun = ucwords($this->setting->sebutan_dusun);
@@ -114,6 +120,68 @@ class Kader_model extends MY_Model
 		$this->db->where("id NOT IN (SELECT penduduk_id FROM kader_pemberdayaan_masyarakat WHERE penduduk_id != $id)");
 
 		return $this->db->select('id, nik, nama')->get('penduduk_hidup')->result_array();
+	}
+
+	public function get_kursus($nama = null)
+	{
+		if ($nama) $this->db->like('nama', $nama);
+
+		$kursus = array_column($this->referensi_model->list_data('ref_penduduk_kursus'), 'nama');
+
+		if ($list_data = $this->db->select('kursus')->get($this->table)->result_array())
+		{
+			$data = [];
+			foreach ($list_data as $value)
+			{
+				if ($value) $data = array_merge($data, json_decode($value['kursus']));
+			}
+
+			$new = [];
+			if ($nama)
+			{
+				foreach (array_unique($data) as $value)
+				{
+					if (preg_match("/{$nama}/i", $value)) array_push($new, $value);
+				}
+			}
+			else
+			{
+				$new = $data;
+			}
+		}
+
+		return array_unique(array_merge($kursus, $new));
+	}
+
+	public function get_bidang($nama = null)
+	{
+		if ($nama) $this->db->like('nama', $nama);
+
+		$bidang = array_column($this->referensi_model->list_data('ref_penduduk_bidang'), 'nama');
+
+		if ($list_data = $this->db->select('bidang')->get($this->table)->result_array())
+		{
+			$data = [];
+			foreach ($list_data as $value)
+			{
+				if ($value) $data = array_merge($data, json_decode($value['bidang']));
+			}
+
+			$new = [];
+			if ($nama)
+			{
+				foreach (array_unique($data) as $value)
+				{
+					if (preg_match("/{$nama}/i", $value)) array_push($new, $value);
+				}
+			}
+			else
+			{
+				$new = $data;
+			}
+		}
+
+		return array_unique(array_merge($bidang, $new));
 	}
 
 	public function tambah()
