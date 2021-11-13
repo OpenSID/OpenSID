@@ -50,7 +50,7 @@ $(document).ready(function() {
 		'ordering': false,
 		'searching': false,
 		'ajax': {
-			'url': SITE_URL + 'layanan_mandiri/surat/cek_syarat',
+			'url': SITE_URL + 'fmandiri/surat/cek_syarat',
 			'type': "POST",
 			data: function ( d ) {
 				d.id_surat = $("#id_surat").val();
@@ -152,7 +152,7 @@ $(document).ready(function() {
 		'rowReorder': {
 			'selector': 'td:nth-child(2)'
 		},
-		'ajax': SITE_URL + '/layanan_mandiri/surat/ajax_table_surat_permohonan',
+		'ajax': SITE_URL + '/fmandiri/surat/ajax_table_surat_permohonan',
 		'language': {
 			url: BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
 		},
@@ -195,7 +195,7 @@ $(document).ready(function() {
 		$('#file').removeClass('required');
 		$('#modal .modal-body').LoadingOverlay('show');
 		$.ajax({
-			url: SITE_URL + '/layanan_mandiri/surat/ajax_get_dokumen_pendukung',
+			url: SITE_URL + '/fmandiri/surat/ajax_get_dokumen_pendukung',
 			type: 'POST',
 			data: {
 				id_dokumen: id
@@ -245,7 +245,7 @@ $(document).ready(function() {
 					'action': function() {
 						$('#modal .modal-body').LoadingOverlay('show');
 						$.ajax({
-							url: SITE_URL + '/layanan_mandiri/surat/ajax_hapus_dokumen_pendukung',
+							url: SITE_URL + '/fmandiri/surat/ajax_hapus_dokumen_pendukung',
 							type: 'POST',
 							data: {
 								id_dokumen: id
@@ -277,7 +277,7 @@ $(document).ready(function() {
 		if ($(this).valid()) {
 			$('#modal .modal-body').LoadingOverlay("show");
 			$.ajax({
-				url: SITE_URL + '/layanan_mandiri/surat/ajax_upload_dokumen_pendukung',
+				url: SITE_URL + '/fmandiri/surat/ajax_upload_dokumen_pendukung',
 				type: 'POST',
 				data: new FormData(this),
 				processData: false,

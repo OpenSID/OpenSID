@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Masuk Layanan Mandiri dengan E-KTP
+ * Controller untuk modul Layanan Mandiri > Bantuan
  *
- * donjo-app/controllers/layanan_mandiri/Masuk_ektp.php
+ * donjo-app/controllers/fmandiri/Bantuan.php
  *
  */
 
@@ -45,56 +45,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Masuk_ektp extends Web_Controller
+class Bantuan extends Mandiri_Controller
 {
-
-	private $cek_anjungan;
 
 	public function __construct()
 	{
 		parent::__construct();
-		mandiri_timeout();
-		$this->session->login_ektp = TRUE;
-		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
+		$this->load->model('program_bantuan_model');
 	}
 
 	public function index()
 	{
-		if ($this->session->mandiri == 1) redirect('layanan-mandiri');
-		$mac_address = $this->input->get('mac_address', TRUE);
-		$token = $this->input->get('token_layanan', TRUE);
-		if ($mac_address && $token == $this->setting->layanan_opendesa_token)
-		{
-			$this->session->mac_address = $mac_address;
-			redirect('layanan-mandiri');
-		}
+		$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik);
 
-		//Initialize Session ------------
-		$this->session->unset_userdata('balik_ke');
-		if ( ! isset($this->session->mandiri))
-		{
-			// Belum ada session variable
-			$this->session->mandiri = 0;
-			$this->session->mandiri_try = 4;
-			$this->session->mandiri_wait = 0;
-			$this->session->login_ektp = TRUE;
-		}
-
-		$data = [
-			'header' => $this->config_model->get_data(),
-			'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
-			'cek_anjungan' => $this->anjungan_model->cek_anjungan($this->session->mac_address),
-			'form_action' => site_url('layanan-mandiri/cek_ektp')
-		];
-
-		$this->load->view('layanan_mandiri/masuk', $data);
+		$this->render('bantuan', $data);
 	}
 
-	public function cek_ektp()
+	public function kartu_peserta($aksi = 'tampil', $id_peserta = '')
 	{
-		$this->mandiri_model->siteman_ektp();
-		redirect('layanan-mandiri');
+		$data = $this->program_bantuan_model->get_program_peserta_by_id($id_peserta);
+		// Hanya boleh menampilkan data pengguna yang login
+		// ** Bagi program sasaran pendududk **
+		// TO DO : Ganti parameter nik menjadi id
+		if ($aksi == 'tampil')
+		{
+			$this->load->view(MANDIRI . '/peserta_bantuan', $data);
+		}
+		else
+		{
+			ambilBerkas($data['kartu_peserta'], MANDIRI . '/bantuan', NULL, LOKASI_DOKUMEN);
+		}
 	}
 
 }

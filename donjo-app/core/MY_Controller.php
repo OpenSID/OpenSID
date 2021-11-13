@@ -238,7 +238,7 @@ class Mandiri_Controller extends MY_Controller
 			}
 			else
 			{
-				redirect('layanan-mandiri/masuk_ektp');
+				redirect('layanan-mandiri/masuk-ektp');
 			}
 		}
 	}
@@ -248,7 +248,7 @@ class Mandiri_Controller extends MY_Controller
 		$data['desa'] = $this->header;
 		$data['cek_anjungan'] = $this->cek_anjungan;
 		$data['konten'] = $view;
-		$this->load->view('layanan_mandiri/template', $data);
+		$this->load->view(MANDIRI . '/template', $data);
 	}
 
 }

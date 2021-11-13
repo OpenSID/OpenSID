@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Masuk Layanan Mandiri
+ * Controller untuk modul Masuk Layanan Mandiri dengan E-KTP
  *
- * donjo-app/controllers/layanan_mandiri/Masuk.php
+ * donjo-app/controllers/fmandiri/Masuk_ektp.php
  *
  */
 
@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Masuk extends Web_Controller
+class Masuk_ektp extends Web_Controller
 {
 
 	private $cek_anjungan;
@@ -54,7 +54,7 @@ class Masuk extends Web_Controller
 	{
 		parent::__construct();
 		mandiri_timeout();
-		$this->session->login_ektp = FALSE;
+		$this->session->login_ektp = TRUE;
 		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
 		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
 	}
@@ -78,22 +78,22 @@ class Masuk extends Web_Controller
 			$this->session->mandiri = 0;
 			$this->session->mandiri_try = 4;
 			$this->session->mandiri_wait = 0;
-			$this->session->login_ektp = FALSE;
+			$this->session->login_ektp = TRUE;
 		}
 
 		$data = [
 			'header' => $this->config_model->get_data(),
 			'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
 			'cek_anjungan' => $this->anjungan_model->cek_anjungan($this->session->mac_address),
-			'form_action' => site_url('layanan-mandiri/cek')
+			'form_action' => site_url('layanan-mandiri/cek_ektp')
 		];
 
-		$this->load->view('layanan_mandiri/masuk', $data);
+		$this->load->view(MANDIRI . '/masuk', $data);
 	}
 
-	public function cek()
+	public function cek_ektp()
 	{
-		$this->mandiri_model->siteman();
+		$this->mandiri_model->siteman_ektp();
 		redirect('layanan-mandiri');
 	}
 

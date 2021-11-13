@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View Masuk Layanan Mandiri
  *
- * donjo-app/views/layanan_mandiri/masuk.php
+ * donjo-app/views/fmandiri/masuk.php
  *
  */
 
@@ -148,7 +148,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
 											</div>
 											<div class="form-group">
-												<a href="<?= site_url("layanan_mandiri/masuk_ektp")?>" >
+												<a href="<?= site_url("layanan-mandiri/masuk-ektp")?>" >
 													<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
 												</a>
 											</div>
@@ -180,7 +180,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</div>
 										<?php endif; ?>
 										<div class="form-group">
-											<a href="<?= site_url("layanan_mandiri/masuk")?>" >
+											<a href="<?= site_url("layanan-mandiri/masuk")?>" >
 												<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
 											</a>
 										</div>

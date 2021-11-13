@@ -164,6 +164,13 @@ switch (ENVIRONMENT)
 
 /**
  *---------------------------------------------------------------
+ * MANDIRI DIRECTORY NAME
+ *---------------------------------------------------------------
+ */
+	$mandiri_folder = 'fmandiri';
+
+/**
+ *---------------------------------------------------------------
  * ADMIN DIRECTORY NAME
  *---------------------------------------------------------------
  */
@@ -354,6 +361,7 @@ switch (ENVIRONMENT)
  * Custom path
  */
 	define('WEB', $web_folder);
+	define('MANDIRI', $mandiri_folder);
 	define('ADMIN', $admin_folder);
 	define('DESAPATH', $desa_path.DIRECTORY_SEPARATOR);
 

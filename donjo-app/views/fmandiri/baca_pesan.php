@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View modul Layanan Mandiri > Pesan > Tulis Pesan
+ * View modul Layanan Mandiri > Pesan > Baca Pesan
  *
- * donjo-app/views/layanan_mandiri/tulis_pesan.php
+ * donjo-app/views/fmandiri/baca_pesan.php
  *
  */
 
@@ -56,21 +56,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</div>
 	<div class="box-body box-line">
-		<h4><b>TULIS PESAN</b></h4>
+		<h4><b>BACA PESAN</b></h4>
 	</div>
 	<div class="box-body">
-		<form id="validasi" action="<?= site_url('layanan-mandiri/pesan/kirim'); ?>" method="post">
+		<form id="validasi" action="<?= site_url('layanan-mandiri/pesan/balas'); ?>" method="post">
+			<div class="form-group">
+				<label for="owner"><?= $owner; ?></label>
+				<input type="text" class="form-control" value="<?= $pesan['owner']; ?>" readonly>
+			</div>
 			<div class="form-group">
 				<label for="subjek">Subjek</label>
-				<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="subjek" placeholder="Subjek" value="<?= $subjek; ?>">
+				<input type="text" class="form-control" name= "subjek" value="<?= $pesan['subjek']; ?>" readonly>
 			</div>
 			<div class="form-group">
 				<label for="pesan">Isi Pesan</label>
-				<textarea class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="pesan" placeholder="Isi Pesan"></textarea>
+				<textarea class="form-control" readonly><?= $pesan['komentar']; ?></textarea>
 			</div>
-			<div class="form-group">
-				<button type="submit" class="btn bg-green btn-social"><i class="fa fa-send-o"></i>Kirim Pesan</button>
-			</div>
+			<?php if($kat == 2): ?>
+				<!-- Tombol balas hanya untuk kotak masuk -->
+				<hr/>
+				<div class="form-group">
+					<button type="submit" class="btn bg-green btn-social"><i class="fa fa-reply"></i>Balas Pesan</button>
+					<?php if($pesan['permohonan'] && $permohonan['status'] == 0): ?>
+						<a href="<?= site_url("layanan-mandiri/surat/buat/$pesan[permohonan]"); ?>" class="btn btn-social bg-navy" title="Lengkapi Surat"><i class="fa fa-info-circle"></i>Lengkapi Surat</a>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
 		</form>
 	</div>
 </div>

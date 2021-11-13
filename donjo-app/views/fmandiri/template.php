@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View template Layanan Mandiri
  *
- * donjo-app/views/layanan_mandiri/template.php
+ * donjo-app/views/fmandiri/template.php
  *
  */
 
@@ -241,7 +241,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="col-md-9">
 							<?php
-								$this->load->view("layanan_mandiri/$konten");
+								$this->load->view(MANDIRI . '/' . $konten);
 
 								if ($this->is_login->ganti_pin === '1' && $this->uri->segment(2) != "ganti-pin"):
 
@@ -250,19 +250,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										'aksi' => site_url('layanan-mandiri/ganti-pin')
 									];
 
-									$this->load->view('layanan_mandiri/notif', $data);
+									$this->load->view(MANDIRI . '/notif', $data);
 								endif;
 
 								$data = $this->session->flashdata('notif');
 
 								if ($data['status'] == 1):
-									$this->load->view('layanan_mandiri/notif', $data);
+									$this->load->view(MANDIRI . '/notif', $data);
 								endif;
 							?>
 						</div>
 					</div>
 				</section>
-				<?php $this->load->view('layanan_mandiri/pendapat'); ?>
+				<?php $this->load->view(MANDIRI . '/pendapat'); ?>
 			</div>
 		</div>
 

@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View Layanan Mandiri Pendapat
+ * Controller untuk modul Masuk Layanan Mandiri
  *
- * donjo-app/views/layanan_mandiri/pendapat.php
+ * donjo-app/controllers/fmandiri/Masuk.php
  *
  */
 
@@ -44,22 +44,57 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
 
-<div class="modal fade" id="pendapat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false" data-keyboard="false">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body text-center">
-				<h4>BERIKAN PENILAIAN ANDA TERHADAP PELAYANAN KAMI</h4>
-				<?php foreach (unserialize(NILAI_PENDAPAT) as $key => $value) : ?>
-					<a href="<?= site_url("layanan-mandiri/pendapat/$key"); ?>" class="btn btn-app pendapat">
-						<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
-						<p><?= $value; ?></p>
-					</a>
-				<?php endforeach; ?>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-				<a href="<?= site_url("layanan-mandiri/keluar"); ?> " class="btn btn-success">Lain Kali</a>
-			</div>
-		</div>
-	</div>
-</div>
+class Masuk extends Web_Controller
+{
+
+	private $cek_anjungan;
+
+	public function __construct()
+	{
+		parent::__construct();
+		mandiri_timeout();
+		$this->session->login_ektp = FALSE;
+		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
+	}
+
+	public function index()
+	{
+		if ($this->session->mandiri == 1) redirect('layanan-mandiri');
+		$mac_address = $this->input->get('mac_address', TRUE);
+		$token = $this->input->get('token_layanan', TRUE);
+		if ($mac_address && $token == $this->setting->layanan_opendesa_token)
+		{
+			$this->session->mac_address = $mac_address;
+			redirect('layanan-mandiri');
+		}
+
+		//Initialize Session ------------
+		$this->session->unset_userdata('balik_ke');
+		if ( ! isset($this->session->mandiri))
+		{
+			// Belum ada session variable
+			$this->session->mandiri = 0;
+			$this->session->mandiri_try = 4;
+			$this->session->mandiri_wait = 0;
+			$this->session->login_ektp = FALSE;
+		}
+
+		$data = [
+			'header' => $this->config_model->get_data(),
+			'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
+			'cek_anjungan' => $this->anjungan_model->cek_anjungan($this->session->mac_address),
+			'form_action' => site_url('layanan-mandiri/cek')
+		];
+
+		$this->load->view(MANDIRI . '/masuk', $data);
+	}
+
+	public function cek()
+	{
+		$this->mandiri_model->siteman();
+		redirect('layanan-mandiri');
+	}
+
+}

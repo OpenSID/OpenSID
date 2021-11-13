@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View modul Layanan Mandiri > Ganti PIN
  *
- * donjo-app/views/layanan_mandiri/ganti_pin.php
+ * donjo-app/views/fmandiri/ganti_pin.php
  *
  */
 
