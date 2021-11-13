@@ -18,7 +18,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 9. [#4502](https://github.com/OpenSID/OpenSID/issues/4502) Perbaiki status hubungan dalam keluarga untuk famili menjadi famili lain.
 10. [#4514](https://github.com/OpenSID/OpenSID/issues/4514) Perbaiki dan sederhanakan tombol kemabli pada modul analisis.
 11. [#4513](https://github.com/OpenSID/OpenSID/issues/4513) Jangan tampilkan aksi pecah kk untuk keluarga tidak aktif dengan anggota keluarga 0.
-
+12. [#4498](https://github.com/OpenSID/OpenSID/issues/4498)  Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4.
 
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.

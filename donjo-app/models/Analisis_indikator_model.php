@@ -137,12 +137,6 @@
 			'is_publik' => $post['is_publik'],
 		];
 
-		if (! $post['referensi'])
-		{
-			unset($data['id_tipe']);
-			unset($data['referensi']);
-		}
-
 		if ($data['id_tipe'] != 1)
 		{
 			$data['act_analisis'] = 2;
