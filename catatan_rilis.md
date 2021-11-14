@@ -7,6 +7,8 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 #### Penambahan Fitur
 1. [#4435](https://github.com/OpenSID/OpenSID/issues/4181) Tambahkan Buku Kader Pemberdayaan Masyarakat di Buku Administrasi Pembangunan.
 2. [#4470](https://github.com/OpenSID/OpenSID/issues/4470) Menambahkan informasi penandatangan di halaman verifikasi surat.
+3. [#4527](https://github.com/OpenSID/OpenSID/issues/4527) Gunakan slug untuk detail pembangunan dan tambahkan tombol share.
+
 
 #### Perbaikan BUG
 1. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
@@ -22,6 +24,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 11. [#4513](https://github.com/OpenSID/OpenSID/issues/4513) Jangan tampilkan aksi pecah kk untuk keluarga tidak aktif dengan anggota keluarga 0.
 12. [#4498](https://github.com/OpenSID/OpenSID/issues/4498) Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4.
 13. [#4499](https://github.com/OpenSID/OpenSID/issues/4499) Perbaiki lampiran surat_ket_kelahiran (F-21.01).
+
 
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.

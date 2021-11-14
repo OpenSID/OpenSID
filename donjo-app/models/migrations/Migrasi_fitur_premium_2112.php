@@ -53,6 +53,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
     $hasil = $hasil && $this->migrasi_2021111451($hasil);
     $hasil = $hasil && $this->migrasi_2021111551($hasil);
     $hasil = $hasil && $this->migrasi_2021111552($hasil);
+		$hasil = $hasil && $this->migrasi_2021111571($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -298,5 +299,33 @@ class Migrasi_fitur_premium_2112 extends MY_Model
   {
     // Tambah lampiran untuk Surat Keterangan Kelahiran
 		return $hasil && $this->db->where('url_surat', 'surat_ket_kelahiran')->update('tweb_surat_format', ['lampiran' => 'f-2.01.php']);
+  }
+
+	protected function migrasi_2021111571($hasil)
+  {
+		if (! $this->db->field_exists('slug', 'pembangunan'))
+		{
+			$fields = [
+				'slug' => [
+					'type' => 'VARCHAR',
+					'constraint' => 255,
+					'unique' => TRUE,
+					'after' => 'judul',
+				]
+			];
+			$hasil = $hasil && $this->dbforge->add_column('pembangunan', $fields);
+		}
+
+		$this->load->model('pembangunan_model');
+		
+		if ($data_pembangunan = $this->pembangunan_model->get_data()->get()->result_array())
+		{
+			foreach ($data_pembangunan as $pembangunan)
+			{
+				$slug = $this->pembangunan_model->str_slug($pembangunan);
+				$hasil = $hasil && $this->db->where('id', $pembangunan['id'])->update('pembangunan', ['slug' => $slug]);
+			}
+		}
+		return $hasil;
   }
 }

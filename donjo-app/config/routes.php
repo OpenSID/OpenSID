@@ -120,8 +120,8 @@ $route['status-sdgs'] = 'first/status_sdgs';
 // WEB --------------------------------------------------------------
 // Pembangunan
 $route['pembangunan'] = WEB . '/pembangunan';
-$route['pembangunan/(:num)'] = WEB . '/pembangunan/index/$1';
-$route['pembangunan/detail/(:num)'] = WEB . '/pembangunan/detail/$1';
+$route['pembangunan/index/(:num)'] = WEB . '/pembangunan/index/$1';
+$route['pembangunan/(:any)'] = WEB . '/pembangunan/detail/$1';
 
 // Lapak
 $route['lapak'] =  WEB . '/lapak';
