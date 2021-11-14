@@ -1,22 +1,31 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-new-composer',
-        'version' => 'dev-new-composer',
+        'pretty_version' => '21.05.x-dev',
+        'version' => '21.05.9999999.9999999-dev',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '4556a4589ba8ef040cd5d991e4ff953b863d19f6',
+        'reference' => 'dbe29476416e2bcfd0887d972292df453403e8b0',
         'name' => '__root__',
         'dev' => true,
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => 'dev-new-composer',
-            'version' => 'dev-new-composer',
+            'pretty_version' => '21.05.x-dev',
+            'version' => '21.05.9999999.9999999-dev',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '4556a4589ba8ef040cd5d991e4ff953b863d19f6',
+            'reference' => 'dbe29476416e2bcfd0887d972292df453403e8b0',
+            'dev_requirement' => false,
+        ),
+        'codeigniter/framework' => array(
+            'pretty_version' => '3.1.11',
+            'version' => '3.1.11.0',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../codeigniter/framework',
+            'aliases' => array(),
+            'reference' => 'b73eb19aed66190c10c9cad476da7c36c271d6dc',
             'dev_requirement' => false,
         ),
         'mikey179/vfsstream' => array(

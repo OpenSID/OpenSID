@@ -62,7 +62,8 @@ cache/*
 test/
 
 # Abaikan folder example di vendor (untuk commit update rilis)
-examples/
-vendor/libreoffice/*
 vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
+
+examples/
+vendor/libreoffice/*
