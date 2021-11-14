@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
     $hasil = $hasil && $this->migrasi_2021111251($hasil);
     $hasil = $hasil && $this->migrasi_2021111451($hasil);
     $hasil = $hasil && $this->migrasi_2021111551($hasil);
+    $hasil = $hasil && $this->migrasi_2021111552($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -93,7 +94,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
   protected function migrasi_2021111451($hasil)
   {
     // Ubah judul status hubungan dalam keluarga
-    return $hasil && $this->db->where('id', 9)->update('tweb_penduduk_hubungan', array('nama' => 'FAMILI LAIN'));
+    return $hasil && $this->db->where('id', 9)->update('tweb_penduduk_hubungan', ['nama' => 'FAMILI LAIN']);
   }
 
   protected function migrasi_2021111551($hasil)
@@ -101,5 +102,11 @@ class Migrasi_fitur_premium_2112 extends MY_Model
     // Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4
     $this->load->model('analisis_statistik_jawaban_model');
     return $hasil && $this->analisis_statistik_jawaban_model->hapus_data_kosong();
+  }
+
+  protected function migrasi_2021111552($hasil)
+  {
+    // Tambah lampiran untuk Surat Keterangan Kelahiran
+		return $hasil && $this->db->where('url_surat', 'surat_ket_kelahiran')->update('tweb_surat_format', ['lampiran' => 'f-2.01.php']);
   }
 }
