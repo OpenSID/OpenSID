@@ -315,6 +315,6 @@
 				->delete('analisis_parameter');
 		}
 
-		return false;
+		return true;
 	}
 }
