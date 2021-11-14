@@ -33,3 +33,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 7. Perbaiki mengurut view yang bergantungan di backup database.
 8. Sesuaikan impor data untuk mode demo.
 9. Kelompokkan bagian layanan mandiri agar mudah diubah.
+10. Sederhanakan kondisi menyisipkan gambar pada surat.
