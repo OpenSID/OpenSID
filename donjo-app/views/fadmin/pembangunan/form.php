@@ -66,7 +66,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Nama Kegiatan</label>
-								<input maxlength="50" class="form-control input-sm required" name="judul" id="judul" value="<?= $main->judul ?>" type="text" placeholder="Nama Kegiatan Pembangunan" />
+								<input id="judul" name="judul" class="form-control input-sm required" value="<?= $main->judul ?>" type="text" maxlength="50"  minlength="5" maxlength="100" placeholder="Nama Kegiatan Pembangunan" />
 							</div>
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Volume</label>

@@ -3,6 +3,7 @@
 	public function __construct()
 	{
 		parent::__construct();
+		$this->hapus_data_kosong();
 	}
 
 	public function autocomplete()
@@ -294,4 +295,26 @@
 		return $query->result_array();
 	}
 	
+	public function hapus_data_kosong()
+	{
+		// Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4
+		$hapus = $this->db
+			->select('ap.id')
+			->from('analisis_respon ar')
+			->join('analisis_parameter ap', 'ar.id_parameter = ap.id', 'right')
+			->join('analisis_indikator ai', 'ai.id = ap.id_indikator', 'left')
+			->where_in('ai.id_tipe', [3, 4])
+			->where('id_subjek', null)
+			->get()
+			->result_array();
+
+		if ($hapus)
+		{
+			return $this->db
+				->where_in('id', array_column($hapus, 'id'))
+				->delete('analisis_parameter');
+		}
+
+		return true;
+	}
 }

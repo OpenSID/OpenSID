@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View modul Layanan Mandiri > Surat
+ * View modul Layanan Mandiri > Bantuan > Peserta Bantuan
  *
- * donjo-app/views/layanan_mandiri/pilih_syarat.php
+ * donjo-app/views/fmandiri/peserta_bantuan.php
  *
  */
 
@@ -46,18 +46,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<div class="form-group form-horizontal">
-	<select class="form-control syarat required" name="syarat[<?= $syarat_id; ?>]" onchange="cek_perhatian($(this));">
-		<option value=""> -- Pilih dokumen yang melengkapi syarat -- </option>
-		<?php foreach ($dokumen AS $key => $data): ?>
-			<?php if ($data['id_syarat'] == $syarat_id): ?>
-				<option value="<?= $data['id']?>" <?= selected($data['id'], $syarat_permohonan[$syarat_id]); ?>><?= $data['nama']?></option>
-			<?php endif; ?>
-		<?php endforeach;?>
-		<?php if ($cek_anjungan): ?>
-			<option value="-1" <?= selected('-1', '$syarat_permohonan[$syarat_id]'); ?>>Bawa bukti fisik ke Kantor Desa</option>
-		<?php endif; ?>
-	</select>
-	<i class="fa fa-exclamation-triangle text-red perhatian" style="display: none; padding-left: 10px; font-weight: bold;">&nbsp;Perhatian!</i>
-</div>
-
+<table class="table table-bordered table-striped table-hover" >
+	<tbody>
+		<tr>
+			<td>Nomor Kartu Peserta</td>
+			<td> : <?= $no_id_kartu; ?></td>
+		</tr>
+		<tr>
+			<td>NIK</td>
+			<td> : <?= $kartu_nik; ?></td>
+		</tr>
+		<tr>
+			<td>Nama</td>
+			<td> : <?= $kartu_nama; ?></td>
+		</tr>
+		<tr>
+			<td>Tempat Lahir</td>
+			<td> : <?= $kartu_tempat_lahir; ?></td>
+		</tr>
+		<tr>
+			<td>Tanggal Lahir</td>
+			<td> : <?= tgl_indo($kartu_tanggal_lahir); ?></td>
+		</tr>
+		<tr>
+			<td>Alamat</td>
+			<td> : <?= $kartu_alamat; ?></td>
+		</tr>
+	</tbody>
+</table>

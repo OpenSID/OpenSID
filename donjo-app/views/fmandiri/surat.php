@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View modul Layanan Mandiri > Surat
  *
- * donjo-app/views/layanan_mandiri/surat.php
+ * donjo-app/views/fmandiri/surat.php
  *
  */
 
@@ -91,10 +91,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<a class="btn btn-social btn-danger btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
 										<?php endif; ?>
 										<?php if (in_array($data['status_id'], ['0', '1'])): ?>
-											<a href="<?= site_url("layanan_mandiri/surat/proses/$data[id]"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
+											<a href="<?= site_url(MANDIRI . "/surat/proses/$data[id]"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 										<?php if ($data['no_antrian'] && $this->cek_anjungan && $printer) : ?>
-											<a href="<?= site_url("layanan_mandiri/surat/cetak_no_antrian/{$data['no_antrian']}"); ?>" class="btn btn-social btn-sm bg-navy" title="Cetak No Antrian"><i class="fa fa-print"></i>No Antrian</a>
+											<a href="<?= site_url(MANDIRI . "/surat/cetak_no_antrian/{$data['no_antrian']}"); ?>" class="btn btn-social btn-sm bg-navy" title="Cetak No Antrian"><i class="fa fa-print"></i>No Antrian</a>
 										<?php endif ?>
 									</td>
 									<td class="padat"><?= get_antrian($data['no_antrian']) ?? '-'; ?></td>

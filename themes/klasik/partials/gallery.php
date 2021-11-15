@@ -34,7 +34,7 @@
 
 			$data['paging_page'] = 'first/gallery';
 
-			$this->load->view("$folder_themes/cummons/page", $data);
+			$this->load->view("$folder_themes/commons/page", $data);
 
 		?>
 	</div>

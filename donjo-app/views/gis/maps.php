@@ -168,7 +168,7 @@
 						var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
 						var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
 						var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
-						var info_pembangunan = '<?= site_url("pembangunan/info_pembangunan/")?>';
+						var info_pembangunan = '<?= site_url("pembangunan/")?>';
 						
 						// Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan, persil
 						var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);

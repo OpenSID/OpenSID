@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Layanan Mandiri > Pesan
  *
- * donjo-app/controllers/layanan_mandiri/Pesan.php
+ * donjo-app/controllers/fmandiri/Pesan.php
  *
  */
 

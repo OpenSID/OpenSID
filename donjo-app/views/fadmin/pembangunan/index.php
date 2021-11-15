@@ -148,7 +148,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#" data-href="<?= site_url($this->controller . '/delete/'); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 							<?php endif; ?>
-							<a href="<?= site_url('pembangunan/detail/'); ?>${data.id}" target="_blank" class="btn bg-blue btn-flat btn-sm" title="Lihat Summary"><i class="fa fa-eye"></i></a>
+							<a href="<?= site_url('pembangunan/'); ?>${data.slug}" target="_blank" class="btn bg-blue btn-flat btn-sm" title="Lihat Summary"><i class="fa fa-eye"></i></a>
 							`
 					}
 				},

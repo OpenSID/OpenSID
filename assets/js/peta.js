@@ -1479,7 +1479,7 @@ function set_marker_lokasi_pembangunan(marker, daftar_path, path_icon, foto_loka
 				+ '<td>' + daftar[x].tahun_anggaran + '</td>'
 				+ '</tr>'
 				+ '</table>'
-				+ '<center><a href="' + link_progress + daftar[x].id + '" target="_blank" class="btn btn-flat bg-red btn-sm"><i class="fa fa-info"></i> Informasi Rinci</a>'
+				+ '<center><a href="' + link_progress + daftar[x].slug + '" target="_blank" class="btn btn-flat bg-red btn-sm"><i class="fa fa-info"></i> Selengkapnya</a>'
 				+ '</div>';
 
 			marker.push(turf.point([daftar[x].lng, daftar[x].lat], { content: content_lokasi, style: L.icon({ "iconSize": [16, 16], "iconUrl": path_icon }) }));

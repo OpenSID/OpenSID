@@ -15,7 +15,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('analisis_master/clear') ?>"> Master Analisis</a></li>
-			<li><a href="<?= site_url() ?>analisis_klasifikasi/leave"><?= $analisis_master['nama']?></a></li>
+			<li><a href="<?= site_url('analisis_master/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
 			<li class="active">Pengaturan Klasifikasi</li>
 		</ol>
 	</section>
@@ -35,7 +35,7 @@
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("analisis_klasifikasi/delete_all/$p/$o") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
-							<a href="<?= site_url() ?>analisis_klasifikasi/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+							<a href="<?= site_url('analisis_master/leave'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 						</div>
 						<div class="box-body">
 							<div class="row">

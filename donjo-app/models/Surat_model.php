@@ -855,23 +855,8 @@ class Surat_model extends CI_Model {
 			$buffer = $this->sisipkan_kop_surat($buffer);
 			$buffer = $this->sisipkan_logo($config['logo'], $buffer);
 
-      if ($tampil_foto)
-      {
-        $buffer = $this->sisipkan_foto($data, $individu['foto'], $buffer);
-      }
-      else
-      {
-        $buffer = $this->sisipkan_foto($data, 'empty.png', $buffer);
-      }
-
-      if ($qrcode)
-      {
-        $buffer = $this->sisipkan_qr($data, $qrcode['namaqr'].".png", $buffer);
-      }
-      else
-      {
-        $buffer = $this->sisipkan_qr($data, 'empty.png', $buffer);
-      }
+      $buffer = $this->sisipkan_foto($data, $tampil_foto ? $individu['foto'] : 'empty.png', $buffer);
+			$buffer = $this->sisipkan_qr($data, $qrcode ? "{$qrcode['namaqr']}.png" : 'empty.png', $buffer);
 
 			// SURAT PROPERTI
 			$array_replace = [

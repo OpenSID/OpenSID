@@ -118,8 +118,8 @@ class Keluarga extends Admin_Controller {
 		$data['main'] = $list_data['main'];
 		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
-		$this->set_minsidebar(1);
 
+		$this->set_minsidebar(1);
 		$this->render('sid/kependudukan/keluarga', $data);
 	}
 

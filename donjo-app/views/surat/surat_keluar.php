@@ -119,8 +119,7 @@
 																			<a href="<?= site_url("{$this->controller}/unduh/lampiran/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
 																		<?php	endif; ?>
 																		<?php if (is_file($data['file_qr'])): ?>
-																			<a href="<?= site_url("c1/{$data['id']}"); ?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
-																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
+																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" data-urlqr="<?= site_url("c1/{$data['id']}"); ?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
 																		<?php	endif; ?>
 																	</td>
 																	<td><?= $data['kode_surat']?></td>
@@ -208,7 +207,8 @@
 				<div class="box-body">
 					<div class="form-group">
 						<center>
-							<img id="qr_image" class="img-thumbnail" src="">
+							<img id="image_qr" src="" class="img-thumbnail" >
+							<a id="url_qr" href="" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i> Lihat</a>
 						</center>
 					</div>
 				</div>
@@ -228,10 +228,10 @@
 
 	$(document).on("click", ".viewQR", function (e) {
 		e.preventDefault();
-		var _self = $(this);
-		var fileqr = _self.data('fileqr');
-		var image = document.getElementById("qr_image");
-		image.src = fileqr;
-		$(_self.attr('href')).modal('show');
+
+		$("#image_qr").attr('src', $(this).data('fileqr'));
+		$("#url_qr").attr('href', $(this).data('urlqr'));
+
+		$($(this).attr('href')).modal('show');
 	});
 </script>

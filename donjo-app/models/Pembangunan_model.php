@@ -185,6 +185,8 @@ class Pembangunan_model extends MY_Model
 			'sifat_proyek' => $post['sifat_proyek'],
 		];
 
+		$data['slug'] = $this->str_slug($data);
+
 		return $data;
 	}
 
@@ -273,6 +275,19 @@ class Pembangunan_model extends MY_Model
 		return $data;
 	}
 
+	public function slug($slug = null)
+	{
+		$this->lokasi_pembangunan_query();
+		$data = $this->db->select('p.*')
+			->from("{$this->table} p")
+			->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+			->where('p.slug', $slug)
+			->get()
+			->row();
+
+		return $data;
+	}
+
 	public function list_filter_tahun()
 	{
 		$this->get_tipe();
@@ -326,5 +341,13 @@ class Pembangunan_model extends MY_Model
 				w.dusun
 			) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat"
 		);
+	}
+
+	public function str_slug($data = null)
+	{
+		$slug = url_title($data['judul'], 'dash', true);
+		$cek_slug = $this->db->get_where($this->table, ['slug' => $slug, 'id !=' => $data['id']])->row();
+
+		return $slug . ($cek_slug ? '-' . ($data['id'] ?? 1) : '');
 	}
 }

@@ -82,9 +82,9 @@ class Keluar extends Admin_Controller {
 
 		$data['paging'] = $this->keluar_model->paging($p,$o);
 		$data['main'] = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
- 		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
+		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
 		$data['bulan_surat'] = ($this->session->tahun == NULL) ? [] :  $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
- 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
+		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
 		$this->render('surat/surat_keluar', $data);
