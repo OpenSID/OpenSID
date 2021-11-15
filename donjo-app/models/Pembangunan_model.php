@@ -202,14 +202,21 @@ class Pembangunan_model extends MY_Model
 		$adaBerkas = !empty($_FILES[$jenis]['name']);
 		if ($adaBerkas !== TRUE)
 		{
-			return NULL;
+			// Jika hapus (ceklis)
+			if (isset($_POST["hapus_foto"]))
+			{
+				unlink(LOKASI_GALERI . $this->input->post("old_foto"));
+
+				return NULL;
+			}
+
+			return $this->input->post("old_foto");
 		}
 		// Tes tidak berisi script PHP
 		if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jenis]['name']))
-
 		{
-			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
-			$_SESSION['success'] = -1;
+			$this->session->success = -1;
+			$this->session->error_msg = " -> Jenis file ini tidak diperbolehkan ";
 			redirect('identitas_desa');
 		}
 
@@ -234,10 +241,11 @@ class Pembangunan_model extends MY_Model
 		// Upload gagal
 		else
 		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
+			$this->session->success = -1;
+			$this->session->error_msg = $this->upload->display_errors(NULL, NULL);
 		}
-		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
+
+		return (! empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
 	public function update_lokasi_maps($id, array $request)
