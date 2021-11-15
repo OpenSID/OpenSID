@@ -1,6 +1,6 @@
-#### [21.11-premium-rev01]
+#### [21.11-premium-rev02]
 
-Di rilis ini, versi 21.11-premium-rev01, menyediakan [untuk_diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.11-premium-rev02, menyediakan [untuk_diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 
