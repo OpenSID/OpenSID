@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View modul Layanan Mandiri > Surat > Permohonan Surat
  *
- * donjo-app/views/layanan_mandiri/prmohonan_surat.php
+ * donjo-app/views/fmandiri/prmohonan_surat.php
  *
  */
 

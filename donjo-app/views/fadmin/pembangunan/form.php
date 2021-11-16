@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *
  * View untuk modul Pembangunan
  *
- * donjo-app/views/pembangunan/form.php,
+ * donjo-app/views/pembangunan/fadmin/form.php,
  *
  */
 
@@ -56,15 +56,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</ol>
 	</section>
 	<section class="content" id="maincontent">
-			<form action="<?= $form_action; ?>" method="post" id="validasi" enctype="multipart/form-data">
-				<div class="box box-info">
+		<form action="<?= $form_action; ?>" method="post" id="validasi" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-md-9">
+					<div class="box box-info">
 						<div class="box-header with-border">
 								<a href="<?= site_url('admin_pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Nama Kegiatan</label>
-								<input maxlength="50" class="form-control input-sm required" name="judul" id="judul" value="<?= $main->judul ?>" type="text" placeholder="Nama Kegiatan Pembangunan" />
+								<input id="judul" name="judul" class="form-control input-sm required" value="<?= $main->judul ?>" type="text" maxlength="50"  minlength="5" maxlength="100" placeholder="Nama Kegiatan Pembangunan" />
 							</div>
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Volume</label>
@@ -88,7 +90,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										<label class="control-label" for="tahun_anggaran">Tahun Anggaran</label>
 										<select class="form-control input-sm select2" id="tahun_anggaran" name="tahun_anggaran" style="width:100%;">
 											<?php for ($i = date('Y'); $i >= 1999; $i--) : ?>
-												<option value="<?= $i ?>" <?= selected($id, $main->tahun_anggaran) ?>><?= $i ?></option>
+												<option value="<?= $i ?>" <?= selected($id, $main->tahun_anggaran ?? date(Y)) ?>><?= $i ?></option>
 											<?php endfor; ?>
 										</select>
 									</div>
@@ -143,7 +145,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 							<div class="form-group">
 								<label for="jenis_lokasi" class="control-label">Lokasi Pembangunan</label>
 								<div class="row">
-									<div class="btn-group col-sm-12" data-toggle="buttons">
+									<div class="btn-group col-sm-6" data-toggle="buttons">
 										<label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 <?= $main->lokasi ? NULL : 'active' ?>">
 											<input type="radio" name="jenis_lokasi" class="form-check-input" value="1" autocomplete="off" onchange="pilih_lokasi(this.value);"> Pilih Lokasi
 										</label>
@@ -175,34 +177,47 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label class="control-label" for="keterangan">Keterangan</label>
 									<textarea id="keterangan" class="form-control input-sm required" name="keterangan" placeholder="Keterangan" rows="3"><?= $main->keterangan ?></textarea>
 							</div>
-							<?php if ($main->foto) : ?>
-								<div class="form-group">
-									<label class="control-label col-sm-4" for="nama"></label>
-									<div class="col-sm-7">
-										<input type="hidden" name="old_foto" value="<?= $main->foto ?>">
-										<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_GALERI . $main->foto ?>" alt="Gambar Dokumentasi" width="200" height="200">
-									</div>
-								</div>
-							<?php endif; ?>
-							<div class="form-group">
-								<label class="control-label" for="upload">Unggah Gambar Utama</label>
-									<div class="input-group input-group-sm">
-										<input type="text" class="form-control " id="file_path" name="foto">
-										<input id="file" type="file" class="hidden" name="foto">
-										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
-										</span>
-									</div>
-									<span class="help-block"><code>(Kosongkan jika tidak ingin mengubah gambar)</code></span>
-								</div>
-							</div>
 						</div>
 						<div class="box-footer">
 							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 						</div>
+					</div>
 				</div>
-			</form>
+				<div class="col-md-3">
+					<div class="box box-info">
+						<div class="box-header with-border">
+							<h3 class="box-title">Gambar Utama</h3>
+							<div class="box-tools">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+							</div>
+						</div>
+						<div class="box-body">
+							<center>
+								<div class="form-group">
+									<?php if (is_file(LOKASI_GALERI . $main->foto)): ?>
+										<img class="img-responsive" src="<?= base_url(LOKASI_GALERI . $main->foto); ?>" alt="Gambar Utama Pembangunan">
+									<?php else: ?>
+										<img class="img-responsive" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Gambar Utama Pembangunan"/>
+									<?php endif; ?>
+									<div class="input-group input-group-sm">
+										<input type="hidden" name="old_foto" value="<?= $main->foto; ?>">
+										<input type="text" class="form-control" id="file_path">
+										<input type="file" class="hidden" id="file" name="foto">
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
+										</span>
+										<span class="input-group-addon" style="background-color: red; border: 1px solid #ccc;">
+											<input type="checkbox" title="Centang Untuk Hapus Gambar" name="hapus_foto" value="hapus">
+										</span>											
+									</div>
+								</div>
+							</center>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
 	</section>
 </div>
 <script>
@@ -224,6 +239,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	}
 
 	$(document).ready(function() {
-		pilih_lokasi(<?= is_null($main->id_lokasi) ? 2 : 1 ?>);
+		pilih_lokasi(<?= (is_null($main->id_lokasi) && $main) ? 2 : 1 ?>);
+		// alert($main->id_lokasi);
 	});
 </script>

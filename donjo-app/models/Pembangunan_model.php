@@ -185,6 +185,8 @@ class Pembangunan_model extends MY_Model
 			'sifat_proyek' => $post['sifat_proyek'],
 		];
 
+		$data['slug'] = $this->str_slug($data);
+
 		return $data;
 	}
 
@@ -200,14 +202,21 @@ class Pembangunan_model extends MY_Model
 		$adaBerkas = !empty($_FILES[$jenis]['name']);
 		if ($adaBerkas !== TRUE)
 		{
-			return NULL;
+			// Jika hapus (ceklis)
+			if (isset($_POST["hapus_foto"]))
+			{
+				unlink(LOKASI_GALERI . $this->input->post("old_foto"));
+
+				return NULL;
+			}
+
+			return $this->input->post("old_foto");
 		}
 		// Tes tidak berisi script PHP
 		if (isPHP($_FILES['logo']['tmp_name'], $_FILES[$jenis]['name']))
-
 		{
-			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
-			$_SESSION['success'] = -1;
+			$this->session->success = -1;
+			$this->session->error_msg = " -> Jenis file ini tidak diperbolehkan ";
 			redirect('identitas_desa');
 		}
 
@@ -232,10 +241,11 @@ class Pembangunan_model extends MY_Model
 		// Upload gagal
 		else
 		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
+			$this->session->success = -1;
+			$this->session->error_msg = $this->upload->display_errors(NULL, NULL);
 		}
-		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
+
+		return (! empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
 
 	public function update_lokasi_maps($id, array $request)
@@ -259,6 +269,19 @@ class Pembangunan_model extends MY_Model
 			->from("{$this->table} p")
 			->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
 			->where('p.id', $id)
+			->get()
+			->row();
+
+		return $data;
+	}
+
+	public function slug($slug = null)
+	{
+		$this->lokasi_pembangunan_query();
+		$data = $this->db->select('p.*')
+			->from("{$this->table} p")
+			->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+			->where('p.slug', $slug)
 			->get()
 			->row();
 
@@ -318,5 +341,13 @@ class Pembangunan_model extends MY_Model
 				w.dusun
 			) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat"
 		);
+	}
+
+	public function str_slug($data = null)
+	{
+		$slug = url_title($data['judul'], 'dash', true);
+		$cek_slug = $this->db->get_where($this->table, ['slug' => $slug, 'id !=' => $data['id']])->row();
+
+		return $slug . ($cek_slug ? '-' . ($data['id'] ?? 1) : '');
 	}
 }

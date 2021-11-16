@@ -97,11 +97,7 @@ class First extends Web_Controller {
 		$this->load->model('keuangan_grafik_manual_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
-		$this->load->model('plan_garis_model');
-		$this->load->model('pembangunan_model');
-		$this->load->model('pembangunan_dokumentasi_model');
-		$this->load->model('url_shortener_model');
-		$this->load->model('stat_shortener_model');
+		$this->load->model('plan_garis_model');		
 		$this->load->model('analisis_import_model');
 	}
 
@@ -557,6 +553,8 @@ class First extends Web_Controller {
 
 		$this->load->model('wilayah_model');
 		$this->load->model('data_persil_model');
+		$this->load->model('pembangunan_model');
+
 		$data = $this->includes;
 
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
@@ -655,15 +653,6 @@ class First extends Web_Controller {
 
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
-	}
-
-	public function verifikasi_surat($alias)
-	{
-		$cek = $this->url_shortener_model->get_url($alias);
-		if (! $cek) show_404();
-		
-		$this->stat_shortener_model->add_log($cek->id);
-		redirect($cek->url);
 	}
 
 	public function status_sdgs()

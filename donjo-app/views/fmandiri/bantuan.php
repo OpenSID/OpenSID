@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View modul Layanan Mandiri > Pesan > Pesan Masuk / Keluar
+ * View modul Layanan Mandiri > Bantuan
  *
- * donjo-app/views/layanan_mandiri/pesan.php
+ * donjo-app/views/fmandiri/bantuan.php
  *
  */
 
@@ -46,50 +46,70 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
+<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
+<script src="<?= base_url()?>assets/bootstrap/js/jquery-ui.min.js"></script>
+<script>
+	function show_kartu_peserta(elem) {
+		var id = elem.attr('target');
+		var title = elem.attr('title');
+		var url = elem.attr('href');
+		$('#'+id+'').remove();
+
+		$('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative;overflow:scroll;"></div>');
+
+		$('#'+id+'').dialog({
+			resizable: true,
+			draggable: true,
+			width: 500,
+			height: 'auto',
+			open: function(event, ui) {
+				$('#'+id+'').load(url);
+			}
+		});
+		$('#'+id+'').dialog('open');
+	}
+</script>
 <div class="box box-solid">
-	<div class="box-header with-border bg-yellow">
-		<h4 class="box-title">Pesan</h4>
+	<div class="box-header with-border bg-red">
+		<h4 class="box-title">Bantuan</h4>
 	</div>
 	<div class="box-body box-line">
-		<a href="<?= site_url("layanan-mandiri/pesan/tulis"); ?>" class="btn btn-social btn-success visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-pencil-square-o"></i>Tulis Pesan</a>
-		<a href="<?= site_url("layanan-mandiri/pesan-masuk"); ?>" class="btn btn-social btn-primary visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-inbox"></i>Pesan Masuk</a>
-		<a href="<?= site_url("layanan-mandiri/pesan-keluar"); ?>" class="btn btn-social bg-purple visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-envelope-o"></i>Pesan Keluar</a>
+		<h4><b>BANTUAN PENDUDUK</b></h4>
 	</div>
 	<div class="box-body box-line">
-		<h4><b>PESAN <?= strtoupper($judul); ?></b></h4>
-	</div>
-	<div class="box-body">
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover table-data datatable-polos">
+		<table class="table table-bordered table-hover table-data datatable-polos">
 				<thead>
-					<tr>
+					<tr class="judul">
 						<th>No</th>
 						<th>Aksi</th>
-						<th width="75%">Subjek Pesan</th>
-						<th>Status Pesan</th>
-						<th width="20%">Dikirimkan Pada</th>
+						<th width="20%">Waktu / Tanggal</th>
+						<th width="20%">Nama Program</th>
+						<th>Keterangan</th>
 					</tr>
 				</thead>
 				<tbody>
-				<?php if ($pesan):
-						foreach ($pesan as $key => $data): ?>
-							<tr <?= jecho($data['status'], '2', 'class="select_row"'); ?>>
+					<?php if ($bantuan_penduduk):
+						foreach ($bantuan_penduduk as $key => $item): ?>
+							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
-									<a href="<?= site_url("layanan-mandiri/pesan/baca/$kat/$data[id]"); ?>" class="btn bg-green btn-sm" title="Baca pesan"><i class="fa fa-eye<?= jecho($data['status'], '2', '-slash'); ?>">&nbsp;</i></a>
+									<?php if ($item['no_id_kartu']) : ?>
+										<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/tampil/$item[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm" ><i class="fa fa-eye"></i></button>
+										<a href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/unduh/$item[id]")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php empty($item['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
+									<?php endif; ?>
 								</td>
-								<td><?= $data['subjek']; ?></td>
-								<td class="padat"><?= $data['status'] == 1 ? 'Sudah Dibaca' : 'Belum Dibaca' ?></td>
-								<td nowrap><?=tgl_indo2($data['tgl_upload']); ?></td>
+								<td><?= fTampilTgl($item["sdate"], $item["edate"]); ?></td>
+								<td><?= $item["nama"]; ?></td>
+								<td><p align="justify"><?= $item["ndesc"];?></p></td>
 							</tr>
 						<?php endforeach;
 					else: ?>
 						<tr>
 							<td class="text-center" colspan="5">Data tidak tersedia</td>
 						</tr>
-					<?php endif; ?>
-				</tbody>
-			</table>
-		</div>
+				<?php endif; ?>
+			</tbody>
+		</table>
 	</div>
 </div>

@@ -2,18 +2,17 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
- * File ini:
+/*
+ *  File ini:
  *
- * View modul Layanan Mandiri > Pesan > Tulis Pesan
+ * Controller untuk modul Web Verifikasi Surat
  *
- * donjo-app/views/layanan_mandiri/tulis_pesan.php
+ * donjo-app/controllers/fweb/Verifikasi_surat.php
  *
  */
 
-/**
- *
- * File ini bagian dari:
+/*
+ *  File ini bagian dari:
  *
  * OpenSID
  *
@@ -44,33 +43,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
 
-<div class="box box-solid">
-	<div class="box-header with-border bg-yellow">
-		<h4 class="box-title">Pesan</h4>
-	</div>
-	<div class="box-body box-line">
-		<div class="form-group">
-			<a href="<?= site_url("layanan-mandiri/$tujuan"); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke <?= ucwords(spaceunpenetration($tujuan)); ?></a>
-		</div>
-	</div>
-	<div class="box-body box-line">
-		<h4><b>TULIS PESAN</b></h4>
-	</div>
-	<div class="box-body">
-		<form id="validasi" action="<?= site_url('layanan-mandiri/pesan/kirim'); ?>" method="post">
-			<div class="form-group">
-				<label for="subjek">Subjek</label>
-				<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="subjek" placeholder="Subjek" value="<?= $subjek; ?>">
-			</div>
-			<div class="form-group">
-				<label for="pesan">Isi Pesan</label>
-				<textarea class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="pesan" placeholder="Isi Pesan"></textarea>
-			</div>
-			<div class="form-group">
-				<button type="submit" class="btn bg-green btn-social"><i class="fa fa-send-o"></i>Kirim Pesan</button>
-			</div>
-		</form>
-	</div>
-</div>
+class Verifikasi_surat extends Web_Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model(['keluar_model', 'url_shortener_model', 'stat_shortener_model']);
+	}
+
+
+	public function cek($alias = null)
+	{
+		$cek = $this->url_shortener_model->get_url($alias);
+		if (! $cek) show_404();
+		
+		$this->stat_shortener_model->add_log($cek->id);
+
+		redirect($cek->url);
+	}
+
+	public function encode($id_dokumen = null)
+	{
+		$id_encoded = $this->url_shortener_model->encode_id($id_dokumen);
+
+		redirect('verifikasi-surat/'. $id_encoded);
+	}
+
+	public function decode($id_encoded = null)
+	{
+		$id_decoded = $this->url_shortener_model->decode_id($id_encoded);
+
+		$data['config'] = $this->header;
+		$data['surat'] = $this->keluar_model->verifikasi_data_surat($id_decoded, $this->header['kode_desa']);
+
+		if (! $data['surat']) show_404();
+		
+		$this->load->view($this->fallback_default($this->includes['folder_themes'], '/partials/surat/index'), $data);
+	}
+}

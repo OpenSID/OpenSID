@@ -124,9 +124,9 @@
 		// semua views ditambah di belakang.
 		$views = $this->database_model->get_views();
 		// Urutan kedua view berikut perlu diubah karena bergantungan
-		$view1 = array_search('daftar_anggota_grup', $views);
-		$view2 = array_search('daftar_kontak', $views);
-		list($views[$view1], $views[$view2]) = array($views[$view2], $views[$view1]);
+		unset($views[array_search('daftar_anggota_grup', $views)]);
+		unset($views[array_search('daftar_kontak', $views)]);
+		$views = array_merge($views, ['daftar_kontak', 'daftar_anggota_grup']);
 
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'setting_aplikasi_options', 'log_penduduk', 'agenda',

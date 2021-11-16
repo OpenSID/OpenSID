@@ -86,6 +86,10 @@
 		<!-- AdminLTE Skins. -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
 		<!-- Style Admin Modification Css -->
+		<!-- Token Field -->
+		<?php if ($this->controller == 'bumindes_kader'): ?>
+			<link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap-tokenfield.min.css'); ?>">
+		<?php endif; ?>
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/admin-style.css">
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />

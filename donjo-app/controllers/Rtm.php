@@ -361,7 +361,7 @@ class Rtm extends Admin_Controller {
 		{		
 			case 'bdt':
 				$session = 'bdt';
-				$kategori = 'KLASIFIKASI BDT ';
+				$kategori = 'KLASIFIKASI BDT :';
 				break;
 			case ($tipe > 50):
 				$program_id = preg_replace('/^50/', '', $tipe);
@@ -380,11 +380,9 @@ class Rtm extends Admin_Controller {
 				$tipe = 'penerima_bantuan';
 				break;
 		}
-
 		$this->session->$session = ($nomor != TOTAL) ? $nomor : NULL;
 
 		$judul = $this->rtm_model->get_judul_statistik($tipe, $nomor, $sex);
-		
 		$this->session->unset_userdata('judul_statistik');
 		if ($judul['nama']) $this->session->judul_statistik = $kategori . $judul['nama'];
 

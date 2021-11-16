@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller Web Pembangunan
  *
- * donjo-app/controllers/web/Pembangunan.php
+ * donjo-app/controllers/fweb/Pembangunan.php
  *
  */
 
@@ -72,12 +72,12 @@ class Pembangunan extends Web_Controller {
 		$this->load->view($this->template, $data);
 	}
 
-	public function detail($id = 0)
+	public function detail($slug = null)
 	{
 		$data = $this->includes;
 		$this->_get_common_data($data);
 
-		$data['pembangunan']    = $this->pembangunan_model->find($id);
+		$data['pembangunan']    = $this->pembangunan_model->slug($slug);
 		$data['dokumentasi']    = $this->pembangunan_dokumentasi_model->find_dokumentasi($data['pembangunan']->id);
 		$data['halaman_statis'] = $this->controller . '/detail';
 

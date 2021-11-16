@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * View modul Layanan Mandiri > Profil
  *
- * donjo-app/views/layanan_mandiri/profil.php
+ * donjo-app/views/fmandiri/profil.php
  *
  */
 

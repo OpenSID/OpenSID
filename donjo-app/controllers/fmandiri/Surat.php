@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Layanan Mandiri > Surat
  *
- * donjo-app/controllers/layanan_mandiri/Surat.php
+ * donjo-app/controllers/fmandiri/Surat.php
  *
  */
 
@@ -120,7 +120,7 @@ class Surat extends Mandiri_Controller
 			$row[] = $no;
 			$row[] = $baris['ref_syarat_nama'];
 			// Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-			$pilihan_dokumen = $this->load->view('layanan_mandiri/pilihan_syarat', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan), TRUE);
+			$pilihan_dokumen = $this->load->view(MANDIRI . '/pilihan_syarat', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan), TRUE);
 			$row[] = $pilihan_dokumen;
 			$data[] = $row;
 		}

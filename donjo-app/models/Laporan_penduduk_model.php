@@ -358,7 +358,7 @@ class Laporan_penduduk_model extends MY_Model {
 		if ($sex) $this->db->where('b.sex', $sex);
 		$str_jml_penduduk = $this->db->select('COUNT(b.id)')
 		->from('penduduk_hidup b')
-		->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id')
+		->join('tweb_wil_clusterdesa a', 'b.id_cluster = a.id', 'left')
 		->where($where)
 		->get_compiled_select();
 

@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View Notifikasi Layanan Mandiri Harus Ganti PIN
+ * View Layanan Mandiri Pendapat
  *
- * donjo-app/views/layanan_mandiri/notif.php
+ * donjo-app/views/fmandiri/pendapat.php
  *
  */
 
@@ -46,13 +46,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<div class="modal fade" id="notif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false" data-keyboard="false">
+<div class="modal fade" id="pendapat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false" data-keyboard="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body text-center">
-				<h4><b>Informasi</b></h4>
-				<p><?= $pesan; ?></p>
-				<a href="<?= $aksi; ?>" class="btn bg-green">OK</a>
+				<h4>BERIKAN PENILAIAN ANDA TERHADAP PELAYANAN KAMI</h4>
+				<?php foreach (unserialize(NILAI_PENDAPAT) as $key => $value) : ?>
+					<a href="<?= site_url("layanan-mandiri/pendapat/$key"); ?>" class="btn btn-app pendapat">
+						<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
+						<p><?= $value; ?></p>
+					</a>
+				<?php endforeach; ?>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
+				<a href="<?= site_url("layanan-mandiri/keluar"); ?> " class="btn btn-success">Lain Kali</a>
 			</div>
 		</div>
 	</div>
