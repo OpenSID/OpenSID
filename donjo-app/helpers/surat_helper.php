@@ -1,6 +1,5 @@
 <?php
 
-require_once 'vendor/html2pdf/vendor/autoload.php';
 use Spipu\Html2Pdf\Html2Pdf;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;

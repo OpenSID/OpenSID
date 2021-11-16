@@ -65,5 +65,8 @@ test/
 vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
 
+test/
+doc/
+example/
 examples/
 vendor/libreoffice/*

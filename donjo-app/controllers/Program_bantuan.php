@@ -45,13 +45,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
-
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Common\Entity\Style\Color;
-use Box\Spout\Common\Entity\Row;
 
 class Program_bantuan extends Admin_Controller {
 

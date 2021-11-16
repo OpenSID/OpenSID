@@ -1,6 +1,5 @@
 <?php
 
-require_once 'vendor/google-api-php-client/vendor/autoload.php';
 require_once 'donjo-app/libraries/Telegram/Exceptions/CouldNotSendNotification.php';
 
 use Exception;

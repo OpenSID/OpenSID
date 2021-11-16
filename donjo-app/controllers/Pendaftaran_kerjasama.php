@@ -2,8 +2,6 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once 'vendor/google-api-php-client/vendor/autoload.php';
-
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7;
