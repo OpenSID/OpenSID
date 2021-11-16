@@ -9,6 +9,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 2. [#4470](https://github.com/OpenSID/OpenSID/issues/4470) Menambahkan informasi penandatangan di halaman verifikasi surat.
 3. [#4527](https://github.com/OpenSID/OpenSID/issues/4527) Gunakan slug untuk detail pembangunan dan tambahkan tombol share.
 4. [#4495](https://github.com/OpenSID/OpenSID/issues/4495) Sesuaikan input data pembangunan.
+5. [#4486](https://github.com/OpenSID/OpenSID/issues/4486) Penyesuaian impor data penduduk berupa huruf untuk pendidikan_sedang, cacat, dll.
 
 
 #### Perbaikan BUG
