@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
+ 
  
 $foto=$session['is_login']->foto;
 if ($foto == NULL || $foto == '')

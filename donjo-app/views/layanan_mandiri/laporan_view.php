@@ -25,7 +25,7 @@
 		<?=$success_msg;?> 
 	</div>	
 <?php endif; ?>
-			
+			<H3> APARAT AKTIF </h3>
 <?php 
 foreach($aparat_aktif['result'] as $aparat)
 {
