@@ -186,11 +186,11 @@ define("STATUS_PEMBANGUNAN", serialize([
 	4 => '100%'
 ]));
 
-define("ISI_QR", serialize([
- 1 => 'Konfirmasi Validitasi Surat',
- 2 => 'Pilih Isi Data',
- 3 => 'Ketik Isi Manual',
+define("HAMIL", serialize([
+	0 => 'Tidak Hamil',
+	1 => 'Hamil',
 ]));
+
 
 class Referensi_model extends CI_Model {
 
@@ -259,5 +259,13 @@ class Referensi_model extends CI_Model {
 	{
 		$list = array_flip(unserialize($s_array));
 		return $list;
+	}
+
+	public function impor_list_data($tabel, $tambahan = [], $kecuali = '', $termasuk = null)
+	{
+		$data = $this->list_data($tabel, $kecuali, $termasuk);
+		$data = array_flip(array_combine(array_column($data, 'id'), array_column($data, 'nama')));
+
+		return array_change_key_case(array_merge($data, $tambahan)); 
 	}
 }
