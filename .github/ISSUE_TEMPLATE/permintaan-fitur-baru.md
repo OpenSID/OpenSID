@@ -1,7 +1,7 @@
 ---
 name: Permintaan Fitur Baru
 about: Mengusulkan fitur baru
-title: ''
+title: "[Nama Modul]"
 labels: Fitur
 assignees: ''
 
