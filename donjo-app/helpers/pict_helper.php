@@ -46,9 +46,6 @@ define ('EXT_ARSIP', serialize(array(
 	".zip", ".rar"
 )));
 
-// include 2D barcode class
-require_once 'vendor/html2pdf/vendor/tecnickcom/tcpdf/tcpdf_barcodes_2d_include.php';
-
 /**
 * Tambahkan suffix unik ke nama file
 * @param   string        $namaFile    Nama file asli (beserta ekstensinya)

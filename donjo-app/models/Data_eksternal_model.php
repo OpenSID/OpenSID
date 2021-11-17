@@ -67,7 +67,6 @@ class Data_eksternal_model extends CI_Model {
 	 */
 	public function sdgs_kemendes($kode_desa)
 	{
-		include FCPATH . '/vendor/simple_html_dom.php';
 		$this->load->library('data_publik');
 		$url = "https://sid.kemendesa.go.id/home/sdgs/{$kode_desa}";
 		if ( ! $this->data_publik->has_internet_connection())

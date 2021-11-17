@@ -44,14 +44,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-require_once 'vendor/google-api-php-client/vendor/autoload.php';
-require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
-
 use Box\Spout\Common\Entity\Style\Border;
 use Box\Spout\Writer\Common\Creator\Style\BorderBuilder;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
-use Box\Spout\Common\Entity\Row;
 
 class Analisis_master extends Admin_Controller
 {

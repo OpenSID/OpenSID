@@ -40,8 +40,6 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
 	"status_dasar" => "36"
 )));
 
-require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
-
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 

@@ -1,6 +1,4 @@
 <?php
-require_once 'vendor/google-api-php-client/vendor/autoload.php';
-require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
 
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 

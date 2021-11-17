@@ -1,7 +1,5 @@
 <?php
 
-require_once 'vendor/google-api-php-client/vendor/autoload.php';
-
 use Exception;
 use GuzzleHttp\Exception\ClientException;
 

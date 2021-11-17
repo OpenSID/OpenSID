@@ -39,3 +39,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 8. Sesuaikan impor data untuk mode demo.
 9. Kelompokkan bagian layanan mandiri agar mudah diubah.
 10. Sederhanakan kondisi menyisipkan gambar pada surat.
+11. Gunakan composer untuk mengelola package library.
