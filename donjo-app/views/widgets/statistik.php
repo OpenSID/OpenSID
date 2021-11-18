@@ -7,7 +7,7 @@
 </style>
 <div class="box box-primary box-solid">
 	<div class="box-header">
-		<h3 class="box-title"><a href="<?= site_url("first/statistik/4")?>"><i class="fa fa-bar-chart"></i> Statistik <?= ucwords($this->setting->sebutan_desa),' ', $desa["nama_desa"];?></a></h3>
+		<h3 class="box-title"><a href="<?= site_url('first/statistik/4')?>"><i class="fa fa-bar-chart"></i> Statistik <?= ucwords($this->setting->sebutan_desa),' ', $desa['nama_desa']; ?></a></h3>
 	</div>
 	<div class="box-body">
 		<script type="text/javascript">
@@ -41,8 +41,8 @@
 						{
 							categories:
 							[
-								<?php foreach($stat_widget as $data): ?>
-									<?php if ($data['jumlah'] != "-" AND $data['nama']!= "JUMLAH"): ?>
+								<?php foreach ($stat_widget as $data): ?>
+									<?php if ($data['jumlah'] != '-' && $data['nama'] != 'JUMLAH'): ?>
 										['<?= $data['jumlah']?> <br> <?= $data['nama']?>'],
 									<?php endif; ?>
 								<?php endforeach; ?>
@@ -70,7 +70,7 @@
 							name: 'Populasi',
 							data: [
 								<?php foreach ($stat_widget as $data): ?>
-									<?php if ($data['jumlah'] != "-" AND $data['nama']!= "JUMLAH"): ?>
+									<?php if ($data['jumlah'] != '-' && $data['nama'] != 'JUMLAH'): ?>
 										['<?= $data['nama']?>',<?= $data['jumlah']?>],
 									<?php endif; ?>
 								<?php endforeach; ?>

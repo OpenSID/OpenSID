@@ -1,17 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Controller untuk modul Layanan Mandiri > Bantuan
- *
- * donjo-app/controllers/fmandiri/Bantuan.php
- *
- */
-
-/**
+/*
  *
  * File ini bagian dari:
  *
@@ -22,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -37,44 +26,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Bantuan extends Mandiri_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('program_bantuan_model');
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model('program_bantuan_model');
-	}
+    public function index()
+    {
+        $data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik);
 
-	public function index()
-	{
-		$data['bantuan_penduduk'] = $this->program_bantuan_model->daftar_bantuan_yang_diterima($this->is_login->nik);
+        $this->render('bantuan', $data);
+    }
 
-		$this->render('bantuan', $data);
-	}
-
-	public function kartu_peserta($aksi = 'tampil', $id_peserta = '')
-	{
-		$data = $this->program_bantuan_model->get_program_peserta_by_id($id_peserta);
-		// Hanya boleh menampilkan data pengguna yang login
-		// ** Bagi program sasaran pendududk **
-		// TO DO : Ganti parameter nik menjadi id
-		if ($aksi == 'tampil')
-		{
-			$this->load->view(MANDIRI . '/peserta_bantuan', $data);
-		}
-		else
-		{
-			ambilBerkas($data['kartu_peserta'], MANDIRI . '/bantuan', NULL, LOKASI_DOKUMEN);
-		}
-	}
-
+    public function kartu_peserta($aksi = 'tampil', $id_peserta = '')
+    {
+        $data = $this->program_bantuan_model->get_program_peserta_by_id($id_peserta);
+        // Hanya boleh menampilkan data pengguna yang login
+        // ** Bagi program sasaran pendududk **
+        // TO DO : Ganti parameter nik menjadi id
+        if ($aksi == 'tampil') {
+            $this->load->view(MANDIRI . '/peserta_bantuan', $data);
+        } else {
+            ambilBerkas($data['kartu_peserta'], MANDIRI . '/bantuan', null, LOKASI_DOKUMEN);
+        }
+    }
 }

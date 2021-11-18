@@ -5,11 +5,9 @@
  * Form kelompok di modul Kelompok
  *
  * donjo-app/views/kelompok/form.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -34,12 +32,11 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ *
+ * @see  https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -78,7 +75,7 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm select2 required" id="id_master" name="id_master">
 										<option value="">-- Silakan Masukkan Kategori <?= ucfirst($this->controller) ?>--</option>
-										<?php foreach ($list_master AS $data): ?>
+										<?php foreach ($list_master as $data): ?>
 											<option value="<?= $data['id']; ?>" <?= selected($kelompok['id_master'], $data['id']); ?>><?= $data['kelompok']; ?></option>
 										<?php endforeach; ?>
 									</select>
@@ -90,7 +87,7 @@
 									<select class="form-control input-sm select2 required" id="id_ketua" name="id_ketua">
 										<option value="">-- Silakan Masukkan NIK / Nama--</option>
 										<?php foreach ($list_penduduk as $data): ?>
-											<option value="<?= $data['id']; ?>" <?= selected($data['id'], $kelompok['id_ketua']); ?>>NIK :<?= $data['nik'] . " - " . $data['nama'] . " - " . $data['alamat']; ?></option>
+											<option value="<?= $data['id']; ?>" <?= selected($data['id'], $kelompok['id_ketua']); ?>>NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>

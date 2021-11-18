@@ -1,1 +1,1 @@
-<img src="<?php echo $icon ?>" alt="<?php echo lang('memory_usage') ?>" title="<?php echo lang('memory_usage') ?>" /> <?php echo $memory ?>
+<img src="<?= $icon ?>" alt="<?= lang('memory_usage') ?>" title="<?= lang('memory_usage') ?>" /> <?= $memory ?>

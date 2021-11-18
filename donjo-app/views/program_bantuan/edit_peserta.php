@@ -59,7 +59,7 @@
 					<label class="control-label col-sm-4" for="nama"></label>
 					<div class="col-sm-6">
 						<input type="hidden" name="old_gambar" value="<?= $kartu_peserta?>">
-						<img class="attachment-img img-responsive img-circle" src="<?= site_url($this->controller.'/'.'unduh_kartu_peserta/'.$id) ?>" alt="Kartu Peserta">
+						<img class="attachment-img img-responsive img-circle" src="<?= site_url($this->controller . '/' . 'unduh_kartu_peserta/' . $id) ?>" alt="Kartu Peserta">
 						<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $kartu_peserta?>" /> Hapus Gambar</label></p>
 					</div>
 				</div>
@@ -102,7 +102,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</div>
-						<input class="form-control input-sm pull-right required" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= date_format(date_create($kartu_tanggal_lahir),"d-m-Y")?>">
+						<input class="form-control input-sm pull-right required" id="tgl_1" name="kartu_tanggal_lahir" placeholder="Tgl. Lahir" type="text" value="<?= date_format(date_create($kartu_tanggal_lahir), 'd-m-Y')?>">
 					</div>
 				</div>
 			</div>

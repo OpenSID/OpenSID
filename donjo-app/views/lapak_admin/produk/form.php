@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
  * File ini:
@@ -12,8 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -38,12 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -65,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("$this->controller/produk"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Produk</a>
+							<a href="<?= site_url("{$this->controller}/produk"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Data Produk</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
@@ -187,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										</span>
 										<span class="input-group-addon" style="background-color: red; border: 1px solid #ccc;">
 											<input type="checkbox" title="Centang Untuk Hapus Foto" name="hapus_foto_<?= $ii; ?>" value="hapus">
-										</span>											
+										</span>
 									</div>
 								</div>
 								<hr/>
@@ -227,12 +225,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	function cek_persen() {
 		if (($('#tipe_potongan').val() == 1) && (parseInt($('#persen').val()) > 100)) {
 			$('#persen').val(100);
-		}	
+		}
 	}
 
 	function cek_nominal() {
 		if (($('#tipe_potongan').val() == 2) && (parseInt($('#nominal').val()) > parseInt($('#harga').val()))) {
-			$('#nominal').val($('#harga').val());			
+			$('#nominal').val($('#harga').val());
 		}
 	}
 </script>

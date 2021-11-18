@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengelolaan Data C-Desa <?= ucwords($this->setting->sebutan_desa) ?> <?= $desa["nama_desa"]; ?></h1>
+		<h1>Pengelolaan Data C-Desa <?= ucwords($this->setting->sebutan_desa) ?> <?= $desa['nama_desa']; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('cdesa/clear') ?>"> Daftar C-Desa</a></li>
@@ -32,19 +32,19 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label">Nama Pemilik</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" type="text" placeholder="Nama Pemilik" value="<?= $pemilik["namapemilik"] ?>" disabled>
+											<input class="form-control input-sm" type="text" placeholder="Nama Pemilik" value="<?= $pemilik['namapemilik'] ?>" disabled>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label">NIK Pemilik</label>
 										<div class="col-sm-8">
-											<input class="form-control input-sm" type="text" placeholder="NIK Pemilik" value="<?= $pemilik["nik"] ?>" disabled>
+											<input class="form-control input-sm" type="text" placeholder="NIK Pemilik" value="<?= $pemilik['nik'] ?>" disabled>
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="alamat" class="col-sm-3 control-label">Alamat Pemilik</label>
 										<div class="col-sm-8">
-											<textarea class="form-control input-sm" placeholder="Alamat Pemilik" rows="" disabled><?= $pemilik["alamat"] ?></textarea>
+											<textarea class="form-control input-sm" placeholder="Alamat Pemilik" rows="" disabled><?= $pemilik['alamat'] ?></textarea>
 										</div>
 									</div>
 								<?php endif; ?>
@@ -52,14 +52,14 @@
 								<div class="form-group">
 									<label for="c_desa" class="col-sm-3 control-label">Nomor C-DESA</label>
 									<div class="col-sm-8">
-										<input class="form-control input-sm angka required" type="text" placeholder="Nomor Surat C-DESA" name="c_desa" value="<?= ($cdesa['nomor']) ? sprintf("%04s", $cdesa["nomor"]) : NULL ?>" disabled>
+										<input class="form-control input-sm angka required" type="text" placeholder="Nomor Surat C-DESA" name="c_desa" value="<?= ($cdesa['nomor']) ? sprintf('%04s', $cdesa['nomor']) : null ?>" disabled>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label for="nama_kepemilikan" class="col-sm-3 control-label">Nama Pemilik Tertulis di C-Desa</label>
 									<div class="col-sm-8">
-										<input class="form-control input-sm nama required" type="text" placeholder="Nama pemilik di Surat C-DESA" name="nama_kepemilikan" value="<?= ($cdesa["nama_kepemilikan"]) ? sprintf("%04s", $cdesa["nama_kepemilikan"]) : NULL ?>" disabled>
+										<input class="form-control input-sm nama required" type="text" placeholder="Nama pemilik di Surat C-DESA" name="nama_kepemilikan" value="<?= ($cdesa['nama_kepemilikan']) ? sprintf('%04s', $cdesa['nama_kepemilikan']) : null ?>" disabled>
 									</div>
 								</div>
 							</div>
@@ -84,7 +84,7 @@
 													<select class="form-control select2 input-sm" name="id_persil" onchange="formAction('main')" style="width:100%">
 														<option value='' selected="selected">-- Pilih Nomor Persil --</option>
 														<?php foreach ($list_persil as $data) : ?>
-															<option value="<?= $data['id'] ?>" <?php selected($persil['id'], $data['id']); ?>> <?= $data['nomor'] . " : " . $data['nomor_urut_bidang'] . " - " . $data['alamat'] ?></option>
+															<option value="<?= $data['id'] ?>" <?php selected($persil['id'], $data['id']); ?>> <?= $data['nomor'] . ' : ' . $data['nomor_urut_bidang'] . ' - ' . $data['alamat'] ?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
@@ -93,7 +93,7 @@
 												<div class="form-group">
 													<label class="col-sm-3 control-label">Kalau persil belum ada</label>
 													<div class="col-sm-8">
-														<a href="<?= site_url("data_persil/form/0/$cdesa[id]") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
+														<a href="<?= site_url("data_persil/form/0/{$cdesa['id']}") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Persil">
 															<i class="fa fa-plus"></i>Tambah Persil
 														</a>
 													</div>
@@ -102,31 +102,31 @@
 												<div class="form-group">
 													<label for="no_persil" class="col-sm-3 control-label">Nomor Persil : Nomor Urut Bidang</label>
 													<div class="col-sm-8">
-														<input name="no_persil" class="form-control input-sm angka required" type="text" disabled value="<?= $persil["nomor"] . ' : ' . $persil['nomor_urut_bidang'] ?>">
+														<input name="no_persil" class="form-control input-sm angka required" type="text" disabled value="<?= $persil['nomor'] . ' : ' . $persil['nomor_urut_bidang'] ?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="tipe" class="col-sm-3 control-label">Tipe Tanah</label>
 													<div class="col-sm-8">
-														<input name="tipe" class="form-control input-sm angka required" type="text" disabled value="<?= $persil["tipe"] ?>">
+														<input name="tipe" class="form-control input-sm angka required" type="text" disabled value="<?= $persil['tipe'] ?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="kelas" class="col-sm-3 control-label">Kelas Tanah</label>
 													<div class="col-sm-8">
-														<input name="kelas" class="form-control input-sm required" type="text" disabled value="<?= $persil["kode"] ?>">
+														<input name="kelas" class="form-control input-sm required" type="text" disabled value="<?= $persil['kode'] ?>">
 													</div>
 												</div>
 												<div class="form-group">
 													<label for="luas_persil" class="col-sm-3 control-label">Luas Persil Keseluruhan (M2)</label>
 													<div class="col-sm-8">
-														<input name="luas_persil" class="form-control input-sm angka required" type="text" disabled value="<?= $persil["luas_persil"] ?>">
+														<input name="luas_persil" class="form-control input-sm angka required" type="text" disabled value="<?= $persil['luas_persil'] ?>">
 													</div>
 												</div>
 												<div class="form-group ">
 													<label for="alamat" class="col-sm-3 control-label">Lokasi Tanah </label>
 													<div class="col-sm-8">
-														<input name="alamat" class="form-control input-sm angka required" type="text" disabled value="<?= $persil["alamat"] ?>">
+														<input name="alamat" class="form-control input-sm angka required" type="text" disabled value="<?= $persil['alamat'] ?>">
 													</div>
 												</div>
 												<?php if ($mutasi['jenis_mutasi'] == 9) : ?>
@@ -147,7 +147,7 @@
 															<select class="form-control input-sm select2" id="id_peta" name="id_peta">
 																<option value=''>-- Pilih Area--</option>
 																<?php foreach ($peta as $key => $item) : ?>
-																	<option value="<?= $item["id"] ?>" <?php selected($item["id"], $mutasi["id_peta"]) ?>><?= $item["nama"] ?></option>
+																	<option value="<?= $item['id'] ?>" <?php selected($item['id'], $mutasi['id_peta']) ?>><?= $item['nama'] ?></option>
 																<?php endforeach ?>
 															</select>
 														</div>
@@ -171,11 +171,11 @@
 									<h3 class="box-title">Tambah Mutasi</h3>
 								</div>
 
-								<?php if (empty($persil['cdesa_awal']) and empty($mutasi)) : ?>
+								<?php if (empty($persil['cdesa_awal']) && empty($mutasi)) : ?>
 									<div id="cdesa_awal">
 										<div class="box-body">
 											<a href="<?= site_url('cdesa/awal_persil/' . $cdesa[id] . '/' . $persil['id']) ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block col-sm-2" title="Kembali Ke Rincian C-Desa"><i class="fa fa-step-backward"></i>C-Desa Awal</a>
-											<span style="padding-left: 10px;">Catat C-Desa ini sebagai pemilik awal keseluruhan persil <?= $persil["nomor"] ?></span>
+											<span style="padding-left: 10px;">Catat C-Desa ini sebagai pemilik awal keseluruhan persil <?= $persil['nomor'] ?></span>
 										</div>
 										<div class="box-body">
 											<a class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block col-sm-2" title="Kembali Ke Rincian C-Desa" onclick="tambah_mutasi();"><i class="fa fa-plus"></i>Tambah Mutasi</a>
@@ -184,14 +184,14 @@
 									</div>
 								<?php endif; ?>
 
-								<div id="mutasi_persil" <?php empty($persil['cdesa_awal']) and empty($mutasi) and print('style="display: none;"') ?>>
+								<div id="mutasi_persil" <?php empty($persil['cdesa_awal']) && empty($mutasi) && print 'style="display: none;"' ?>>
 
 									<form name='mainform' action="<?= site_url('cdesa/simpan_mutasi/' . $cdesa['id'] . '/' . $mutasi['id']) ?>" method="POST" id="validasi" class="form-horizontal">
 										<input name="jenis_pemilik" type="hidden" value="1">
-										<input type="hidden" name="nik_lama" value="<?= $pemilik["nik_lama"] ?>" />
-										<input type="hidden" name="nik" value="<?= $pemilik["nik"] ?>" />
-										<input type="hidden" name="id_pend" value="<?= $pemilik["id"] ?>" />
-										<input type="hidden" name="id_persil" value="<?= $persil["id"] ?>" />
+										<input type="hidden" name="nik_lama" value="<?= $pemilik['nik_lama'] ?>" />
+										<input type="hidden" name="nik" value="<?= $pemilik['nik'] ?>" />
+										<input type="hidden" name="id_pend" value="<?= $pemilik['id'] ?>" />
+										<input type="hidden" name="id_persil" value="<?= $persil['id'] ?>" />
 
 										<?php if ($mutasi['jenis_mutasi'] != 9) : ?>
 											<div class="box-header with-border">
@@ -204,7 +204,7 @@
 													<div class="form-group">
 														<label for="no_bidang_persil" class="col-sm-3 control-label">Nomor Bidang Mutasi</label>
 														<div class="col-sm-4">
-															<input name="no_bidang_persil" type="text" class="form-control input-sm digits" placeholder="Nomor urut pecahan bidang persil hasil mutasi" maxlength="2" value="<?= $mutasi["no_bidang_persil"] ?>">
+															<input name="no_bidang_persil" type="text" class="form-control input-sm digits" placeholder="Nomor urut pecahan bidang persil hasil mutasi" maxlength="2" value="<?= $mutasi['no_bidang_persil'] ?>">
 														</div>
 													</div>
 													<div class="form-group">
@@ -216,7 +216,7 @@
 													<div class="form-group">
 														<label for="no_objek_pajak" class="col-sm-3 control-label">Nomor Objek Pajak</label>
 														<div class="col-sm-8">
-															<input class="form-control input-sm angka" type="text" placeholder="Nomor Objek Pajak" name="no_objek_pajak" value="<?= $mutasi["no_objek_pajak"] ?>">
+															<input class="form-control input-sm angka" type="text" placeholder="Nomor Objek Pajak" name="no_objek_pajak" value="<?= $mutasi['no_objek_pajak'] ?>">
 														</div>
 													</div>
 
@@ -238,7 +238,7 @@
 															<select class="form-control input-sm select2" id="id_peta" name="id_peta" style="width:100%">
 																<option value=''>-- Pilih Area--</option>
 																<?php foreach ($peta as $key => $item) : ?>
-																	<option value="<?= $item["id"] ?>" <?php selected($item["id"], $mutasi["id_peta"]) ?>><?= $item["nama"] ?></option>
+																	<option value="<?= $item['id'] ?>" <?php selected($item['id'], $mutasi['id_peta']) ?>><?= $item['nama'] ?></option>
 																<?php endforeach ?>
 															</select>
 														</div>
@@ -246,7 +246,7 @@
 
 													<div class="row">
 														<div class="col-sm-12">
-															<input type="hidden" id="path" name="path" value="<?= $mutasi["path"] ?>">
+															<input type="hidden" id="path" name="path" value="<?= $mutasi['path'] ?>">
 															<input type="hidden" id="zoom" name="zoom" value="">
 															<div id="map"></div>
 														</div>
@@ -295,7 +295,7 @@
 															<select class="form-control select2 input-sm" id="cdesa_keluar" name="cdesa_keluar">
 																<option value='' selected="selected">-- Pilih C-DESA dari mana bidang persil ini dimutasikan --</option>
 																<?php foreach ($list_cdesa as $data) : ?>
-																	<option value="<?= $data['id_cdesa'] ?>" <?php selected($mutasi['cdesa_keluar'], $data['id_cdesa']); ?>> <?= $data['nomor'] . " - " . $data['namapemilik'] ?></option>
+																	<option value="<?= $data['id_cdesa'] ?>" <?php selected($mutasi['cdesa_keluar'], $data['id_cdesa']); ?>> <?= $data['nomor'] . ' - ' . $data['namapemilik'] ?></option>
 																<?php endforeach; ?>
 															</select>
 															<label for="" class="col-sm-3 control-label"></label>
@@ -321,7 +321,7 @@
 												</h4>
 											</div>
 											<input type="hidden" name="jenis_mutasi" value="<?= $mutasi['jenis_mutasi'] ?>">
-											<input type="hidden" id="path" name="path" value="<?= $mutasi["path"] ?>">
+											<input type="hidden" id="path" name="path" value="<?= $mutasi['path'] ?>">
 											<input type="hidden" id="zoom" name="zoom" value="">
 
 											<div id="pemilik_awal" class="panel-collapse">
@@ -329,7 +329,7 @@
 													<div class="form-group">
 														<label for="no_objek_pajak" class="col-sm-3 control-label">Nomor Objek Pajak</label>
 														<div class="col-sm-8">
-															<input class="form-control input-sm angka" type="text" placeholder="Nomor Objek Pajak" name="no_objek_pajak" value="<?= $mutasi["no_objek_pajak"] ?>">
+															<input class="form-control input-sm angka" type="text" placeholder="Nomor Objek Pajak" name="no_objek_pajak" value="<?= $mutasi['no_objek_pajak'] ?>">
 														</div>
 													</div>
 													<div class="form-group">
@@ -381,8 +381,8 @@
 		if ($('#map').length !== 0) // jika ada element map
 		{
 			// tampilkan map
-			<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
-				var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+			<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
+				var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
 				var zoom = <?=$desa['zoom'] ?: 18?>;
 			<?php else: ?>
 				var posisi = [-1.0546279422758742,116.71875000000001];
@@ -399,27 +399,27 @@
 	    var marker_persil = []
 
 	    //OVERLAY WILAYAH DESA
-	    <?php if (!empty($desa['path'])): ?>
-	      set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
+	    <?php if (! empty($desa['path'])): ?>
+	      set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
 	    <?php endif; ?>
 
 	    //OVERLAY WILAYAH DUSUN
-	    <?php if (!empty($dusun_gis)): ?>
+	    <?php if (! empty($dusun_gis)): ?>
 	      set_marker(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
 	    <?php endif; ?>
 
 	    //OVERLAY WILAYAH RW
-	    <?php if (!empty($rw_gis)): ?>
+	    <?php if (! empty($rw_gis)): ?>
 	      set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
 	    <?php endif; ?>
 
 	    //OVERLAY WILAYAH RT
-	    <?php if (!empty($rt_gis)): ?>
+	    <?php if (! empty($rt_gis)): ?>
 	      set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
 	    <?php endif; ?>
 
 	    //Menampilkan overlayLayers Peta Semua Wilayah
-	    <?php if (!empty($wil_atas['path'])): ?>
+	    <?php if (! empty($wil_atas['path'])): ?>
 	      var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt,"<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
 	    <?php else: ?>
 	      var overlayLayers = {};
@@ -464,7 +464,7 @@
 	    var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
 	    var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
 	    var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
-	    var info_pembangunan = '<?= site_url("pembangunan/")?>';
+	    var info_pembangunan = '<?= site_url('pembangunan/')?>';
 
 	    // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
 			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta_area, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);

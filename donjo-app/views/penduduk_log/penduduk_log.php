@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View Log Penduduk untuk modul Kependudukan > Penduduk
  *
  * donjo-app/views/penduduk_log/penduduk_log.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,14 +35,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
-
 ?>
 
 <script>
@@ -68,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<?php $pertanyaan = "Apakah Anda yakin ingin mengembalikan status data penduduk ini?"; ?>
+		<?php $pertanyaan = 'Apakah Anda yakin ingin mengembalikan status data penduduk ini?'; ?>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="box box-info">
@@ -76,9 +72,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="box-header with-border">
 							<div class="row">
 								<div class="col-sm-12">
-									<a href="#confirm-status" title="Kembalikan Status" data-body="<?= $pertanyaan; ?>" onclick="aksiBorongan('mainform', '<?=site_url("penduduk_log/kembalikan_status_all")?>')" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-undo'></i> Kembalikan Status Terpilih</a>
-									<a href="<?= site_url("penduduk_log/ajax_cetak/$o/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
-									<a href="<?= site_url("penduduk_log/ajax_cetak/$o/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
+									<a href="#confirm-status" title="Kembalikan Status" data-body="<?= $pertanyaan; ?>" onclick="aksiBorongan('mainform', '<?=site_url('penduduk_log/kembalikan_status_all')?>')" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-undo'></i> Kembalikan Status Terpilih</a>
+									<a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
+									<a href="<?= site_url("penduduk_log/ajax_cetak/{$o}/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 									<a href="<?= site_url('penduduk/clear')?>" class="btn btn-social btn-flat bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Penduduk</a>
 									<a href="<?= site_url("{$this->controller}/clear") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
 								</div>
@@ -100,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</select>
                         <select class="form-control input-sm" name="tahun" onchange="formAction('mainform','<?= site_url('penduduk_log/tahun_bulan')?>')" width="100%">
                           <option value="">Pilih tahun</option>
-                          <?php for ($t=$tahun_log_pertama; $t<=date("Y"); $t++): ?>
+                          <?php for ($t = $tahun_log_pertama; $t <= date('Y'); $t++): ?>
                             <option value=<?= $t ?> <?php selected($tahun, $t); ?>><?= $t ?></option>
                           <?php endfor; ?>
                         </select>
@@ -112,26 +108,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </select>
 												<select class="form-control input-sm" name="sex" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/sex')?>')">
 													<option value="">Jenis Kelamin</option>
-													<?php foreach ($list_sex AS $data): ?>
+													<?php foreach ($list_sex as $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm" name="agama" onchange="formAction('mainform','<?= site_url('penduduk_log/filter/agama')?>')">
 													<option value="">Agama</option>
-													<?php foreach ($list_agama AS $data): ?>
+													<?php foreach ($list_agama as $data): ?>
 														<option value="<?= $data['id']?>" <?php selected($agama, $data['id']); ?>><?= set_ucwords($data['nama'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('penduduk_log/dusun')?>')">
 													<option value=""><?= ucwords($this->setting->sebutan_dusun)?></option>
-													<?php foreach ($list_dusun AS $data): ?>
+													<?php foreach ($list_dusun as $data): ?>
 														<option value="<?= $data['dusun']?>" <?php selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun'])?></option>
 													<?php endforeach; ?>
 												</select>
 												<?php if ($dusun): ?>
 													<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url('penduduk_log/rw')?>')" >
 														<option value="">RW</option>
-														<?php foreach ($list_rw AS $data): ?>
+														<?php foreach ($list_rw as $data): ?>
 															<option value="<?= $data['rw']?>" <?php selected($rw, $data['rw']); ?>><?= set_ucwords($data['rw'])?></option>
 														<?php endforeach; ?>
 													</select>
@@ -139,7 +135,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<?php if ($rw): ?>
 													<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url('penduduk_log/rt')?>')">
 														<option value="">RT</option>
-														<?php foreach ($list_rt AS $data): ?>
+														<?php foreach ($list_rt as $data): ?>
 															<option value="<?= $data['rt']?>" <?php selected($rt, $data['rt']); ?>><?= set_ucwords($data['rt'])?></option>
 														<?php endforeach; ?>
 													</select>
@@ -164,44 +160,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																<th><input type="checkbox" id="checkall"/></th>
 																<th>Aksi</th>
 																<th>Foto</th>
-																<?php if ($o==2): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==1): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/2")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></span></a></th>
+																<?php if ($o == 2): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/1")?>">NIK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 1): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/2")?>">NIK <i class='fa fa-sort-desc fa-sm'></i></span></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
-																<?php if ($o==4): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==3): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 4): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 3): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/4")?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/3")?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
-																<?php if ($o==6): ?>
-																	<th nowrap><a href="<?= site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==5): ?>
-																	<th nowrap><a href="<?= site_url("penduduk_log/index/$p/6")?>">No. KK / Nama KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 6): ?>
+																	<th nowrap><a href="<?= site_url("penduduk_log/index/{$p}/5")?>">No. KK / Nama KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 5): ?>
+																	<th nowrap><a href="<?= site_url("penduduk_log/index/{$p}/6")?>">No. KK / Nama KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("penduduk_log/index/$p/5")?>">No. KK / Nama KK <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("penduduk_log/index/{$p}/5")?>">No. KK / Nama KK <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th><?= ucwords($this->setting->sebutan_dusun)?></th>
 																<th>RW</th>
 																<th>RT</th>
-																<?php if ($o==8): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/7")?>">Umur <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==7): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/8")?>">Umur <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 8): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/7")?>">Umur <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 7): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/8")?>">Umur <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/7")?>">Umur <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/7")?>">Umur <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Status Menjadi</th>
-																<?php if ($o==10): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==9): ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/10")?>">Tanggal Peristiwa <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 10): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/9")?>">Tanggal Peristiwa <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 9): ?>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/10")?>">Tanggal Peristiwa <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("penduduk_log/index/$p/9")?>">Tanggal Peristiwa <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("penduduk_log/index/{$p}/9")?>">Tanggal Peristiwa <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Tanggal Lapor</th>
 																<th>Catatan Peristiwa</th>
@@ -216,22 +212,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																		<input type="checkbox" name="id_cb[]" value="<?= $data['id_log']?>" />
 																	</td>
 																	<td class="aksi">
-																			<a href="<?= site_url("penduduk_log/edit/$p/$o/$data[id_log]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>
+																			<a href="<?= site_url("penduduk_log/edit/{$p}/{$o}/{$data['id_log']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Log Penduduk" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Log Penduduk" ><i class="fa fa-edit"></i></a>
 																		<?php
-																			if ($data['is_log_pergi_terakhir'] && $data['status_dasar'] == 6)
-																			{
-																		?>
-																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status" data-body="<?= $pertanyaan; ?>"><i class="fa fa-undo"></i></a>
-																				<a href="<?= site_url("penduduk_log/ajax_kembalikan_status_pergi/$data[id_log]")?>" class="btn bg-purple btn-flat btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>
+                                                                            if ($data['is_log_pergi_terakhir'] && $data['status_dasar'] == 6) {
+                                                                                ?>
+																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/{$data['id_log']}")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status" data-body="<?= $pertanyaan; ?>"><i class="fa fa-undo"></i></a>
+																				<a href="<?= site_url("penduduk_log/ajax_kembalikan_status_pergi/{$data['id_log']}")?>" class="btn bg-purple btn-flat btn-sm" title="Datang Kembali"  data-remote="false"  data-toggle="modal" data-target="#modalBox" data-title="Kembalikan Penduduk"><i class="fa fa-angle-double-left"></i></a>
 																		<?php
-																			}
-																			else if ($data['kode_peristiwa'] != 5 && $data['kode_peristiwa'] != 1 && $data['kode_peristiwa'] != 6 && $data['kode_peristiwa'])
-																			{
-																		?>
-																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/$data[id_log]")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status" data-body="<?= $pertanyaan; ?>"><i class="fa fa-undo"></i></a>
-																		<?php	
-																			}
-																		?>
+                                                                            } elseif ($data['kode_peristiwa'] != 5 && $data['kode_peristiwa'] != 1 && $data['kode_peristiwa'] != 6 && $data['kode_peristiwa']) {
+                                                                                ?>
+																				<a href="#" data-href="<?= site_url("penduduk_log/kembalikan_status/{$data['id_log']}")?>" class="btn bg-olive btn-flat btn-sm" title="Kembalikan Status"  data-remote="false"  data-toggle="modal" data-target="#confirm-status" data-body="<?= $pertanyaan; ?>"><i class="fa fa-undo"></i></a>
+																		<?php
+                                                                            }
+                                                                        ?>
 																	</td>
 																	<td nowrap>
 																		<div class="user-panel">
@@ -241,13 +234,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																		</div>
 																	</td>
 																	<td>
-																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
+																		<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
 																	</td>
 																	<td>
-																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>"><?= strtoupper($data['nama'])?></a>
+																		<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}")?>"><?= strtoupper($data['nama'])?></a>
 																	</td>
 																	<td>
-																		<a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]")?>"><?= $data['no_kk']?> </a> <br>
+																		<a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}")?>"><?= $data['no_kk']?> </a> <br>
 																		<?= $data['nama_kk']?>
 																	</td>
 																	<td><?= $data['dusun']?></td>
@@ -269,7 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 																	<td nowrap>
 																		<div class="user-panel">
 																			<div class="image2">
-																				<img src="<?= !empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																				<img src="<?= ! empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
 																			</div>
 																		</div>
 																	</td>
@@ -293,7 +286,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</div>
 										</div>
 									</form>
-									<?php $this->load->view('global/paging');?>
+									<?php $this->load->view('global/paging'); ?>
 								</div>
 							</div>
 						</div>

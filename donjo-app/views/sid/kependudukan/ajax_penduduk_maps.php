@@ -5,11 +5,13 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<?php switch ($edit): ?><?php case '0': ?>
-			<?php case '2': ?>
-				<li><a href="<?= site_url("penduduk")?>"> Daftar Penduduk</a></li>
+			<?php
+// no break
+case '2': ?>
+				<li><a href="<?= site_url('penduduk')?>"> Daftar Penduduk</a></li>
 				<?php break; ?>
 			<?php case '1': ?>
-				<li><a href="<?= site_url("penduduk/form/$p/$o/$id/1")?>"> Biodata Penduduk</a></li>
+				<li><a href="<?= site_url("penduduk/form/{$p}/{$o}/{$id}/1")?>"> Biodata Penduduk</a></li>
 				<li><a href=#> Lokasi Tempat Tinggal</a></li>
 				<?php break; ?>
 			<?php endswitch ?>
@@ -55,22 +57,22 @@
 				</div>
 
 				<?php switch ($edit): ?><?php case '0': ?>
-					<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
-					<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$id/2")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah"><i class="fa fa-edit"></i> Ubah</a>
+					<a href="<?=site_url('penduduk')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+					<a href="<?=site_url("penduduk/ajax_penduduk_maps/{$p}/{$o}/{$id}/2")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah"><i class="fa fa-edit"></i> Ubah</a>
 					<?php break; ?>
 				<?php case '1': ?>
-					<a href="<?=site_url("penduduk/form/$p/$o/$id/1")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+					<a href="<?=site_url("penduduk/form/{$p}/{$o}/{$id}/1")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 					<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
-					<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
+					<?php if ($penduduk['status_dasar'] == 1 || ! isset($penduduk['status_dasar'])): ?>
 						<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
 					<?php endif; ?>
 					<?php break; ?>
 				<?php case '2': ?>
-					<a href="<?=site_url("penduduk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+					<a href="<?=site_url('penduduk')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 					<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
-					<?php if ($penduduk['status_dasar'] == 1 || !isset($penduduk['status_dasar'])): ?>
+					<?php if ($penduduk['status_dasar'] == 1 || ! isset($penduduk['status_dasar'])): ?>
 						<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
 					<?php endif; ?>
 					<?php break; ?>
@@ -84,11 +86,11 @@
 <script>
 	window.onload = function() {
 		//Jika posisi kantor dusun belum ada, maka posisi peta akan menampilkan peta desa
-		<?php if ( ! empty($penduduk['lat'])):	?>
-			var posisi = [<?= $penduduk['lat'].",".$penduduk['lng']; ?>];
+		<?php if (! empty($penduduk['lat'])):	?>
+			var posisi = [<?= $penduduk['lat'] . ',' . $penduduk['lng']; ?>];
 			var zoom = <?= $desa['zoom'] ?: 10; ?>;
 		<?php else: ?>
-			var posisi = [<?= $desa['lat'].",".$desa['lng']; ?>];
+			var posisi = [<?= $desa['lat'] . ',' . $desa['lng']; ?>];
 			var zoom = 10;
 		<?php	endif; ?>
 
@@ -102,27 +104,27 @@
 		var marker_rt = [];
 		var marker_persil = []
 		//WILAYAH DESA
-		<?php if ( ! empty($desa['path'])): ?>
-		set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
+		<?php if (! empty($desa['path'])): ?>
+		set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
 		<?php endif; ?>
 
 		//WILAYAH DUSUN
-		<?php if ( ! empty($dusun_gis)): ?>
+		<?php if (! empty($dusun_gis)): ?>
 			set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
 		<?php endif; ?>
 
 		//WILAYAH RW
-		<?php if ( ! empty($rw_gis)): ?>
+		<?php if (! empty($rw_gis)): ?>
 			set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
 		<?php endif; ?>
 
 		//WILAYAH RT
-		<?php if ( ! empty($rt_gis)): ?>
+		<?php if (! empty($rt_gis)): ?>
 			set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
 		<?php endif; ?>
 
 		//2. Menampilkan overlayLayers Peta Semua Wilayah
-		<?php if ( ! empty($wil_atas['path'])): ?>
+		<?php if (! empty($wil_atas['path'])): ?>
 			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, marker_persil, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
 		<?php else: ?>
 			var overlayLayers = {};

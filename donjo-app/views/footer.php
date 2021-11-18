@@ -102,7 +102,7 @@
 				$('#success-code').val('');
 			});
 		</script>
-		<?php $_SESSION['success']=0; ?>
+		<?php $_SESSION['success'] = 0; ?>
 	</body>
 </html>
 

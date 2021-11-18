@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View modul Layanan Mandiri > Surat
  *
  * donjo-app/views/fmandiri/pilih_syarat.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,23 +35,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
 <div class="form-group form-horizontal">
 	<select class="form-control syarat required" name="syarat[<?= $syarat_id; ?>]" onchange="cek_perhatian($(this));">
 		<option value=""> -- Pilih dokumen yang melengkapi syarat -- </option>
-		<?php foreach ($dokumen AS $key => $data): ?>
+		<?php foreach ($dokumen as $key => $data): ?>
 			<?php if ($data['id_syarat'] == $syarat_id): ?>
 				<option value="<?= $data['id']?>" <?= selected($data['id'], $syarat_permohonan[$syarat_id]); ?>><?= $data['nama']?></option>
 			<?php endif; ?>
-		<?php endforeach;?>
+		<?php endforeach; ?>
 		<?php if ($cek_anjungan): ?>
 			<option value="-1" <?= selected('-1', '$syarat_permohonan[$syarat_id]'); ?>>Bawa bukti fisik ke Kantor Desa</option>
 		<?php endif; ?>

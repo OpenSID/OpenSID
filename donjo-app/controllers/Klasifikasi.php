@@ -1,14 +1,8 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
 /*
- *  File ini:
  *
- * Controller untuk modul Klasifikasi Surat
- *
- * donjo-app/controllers/Klasifikasi.php
- *
- */
-/*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -17,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -32,158 +26,171 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Klasifikasi extends Admin_Controller {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function __construct()
-	{
-		parent::__construct();
+class Klasifikasi extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->load->model('klasifikasi_model');
-		$this->modul_ini = 15;
-		$this->sub_modul_ini = 63;
-	}
+        $this->load->model('klasifikasi_model');
+        $this->modul_ini     = 15;
+        $this->sub_modul_ini = 63;
+    }
 
-	public function clear()
-	{
-		$_SESSION['per_page'] = 50;
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect('klasifikasi');
-	}
+    public function clear()
+    {
+        $_SESSION['per_page'] = 50;
+        unset($_SESSION['cari'], $_SESSION['filter']);
 
-	public function index($p=1, $o=0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
+        redirect('klasifikasi');
+    }
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+    public function index($p = 1, $o = 0)
+    {
+        $data['p'] = $p;
+        $data['o'] = $o;
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+        if (isset($_SESSION['cari'])) {
+            $data['cari'] = $_SESSION['cari'];
+        } else {
+            $data['cari'] = '';
+        }
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+        if (isset($_SESSION['filter'])) {
+            $data['filter'] = $_SESSION['filter'];
+        } else {
+            $data['filter'] = '';
+        }
 
-		$data['paging'] = $this->klasifikasi_model->paging($p, $o);
-		$data['main'] = $this->klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->klasifikasi_model->autocomplete();
+        if (isset($_POST['per_page'])) {
+            $_SESSION['per_page'] = $_POST['per_page'];
+        }
+        $data['per_page'] = $_SESSION['per_page'];
 
-		$this->render('klasifikasi/table', $data);
-	}
+        $data['paging']  = $this->klasifikasi_model->paging($p, $o);
+        $data['main']    = $this->klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword'] = $this->klasifikasi_model->autocomplete();
 
-	public function form($p=1, $o=0, $id='')
-	{
-		$this->redirect_hak_akses('u');
-		$data['p'] = $p;
-		$data['o'] = $o;
+        $this->render('klasifikasi/table', $data);
+    }
 
-		if ($id)
-		{
-			$data['data'] = $this->klasifikasi_model->get_klasifikasi($id);
-			$data['form_action'] = site_url("klasifikasi/update/$id/$p/$o");
-		}
-		else
-		{
-			$data['data'] = null;
-			$data['form_action'] = site_url("klasifikasi/insert");
-		}
+    public function form($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('u');
+        $data['p'] = $p;
+        $data['o'] = $o;
 
-		$this->render('klasifikasi/form', $data);
-	}
+        if ($id) {
+            $data['data']        = $this->klasifikasi_model->get_klasifikasi($id);
+            $data['form_action'] = site_url("klasifikasi/update/{$id}/{$p}/{$o}");
+        } else {
+            $data['data']        = null;
+            $data['form_action'] = site_url('klasifikasi/insert');
+        }
 
-	public function search()
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect('klasifikasi');
-	}
+        $this->render('klasifikasi/form', $data);
+    }
 
-	public function filter()
-	{
-		$filter = $this->input->post('filter');
-		if ($filter != "")
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
-		redirect("klasifikasi");
-	}
+    public function search()
+    {
+        $cari = $this->input->post('cari');
+        if ($cari != '') {
+            $_SESSION['cari'] = $cari;
+        } else {
+            unset($_SESSION['cari']);
+        }
+        redirect('klasifikasi');
+    }
 
-	public function insert()
-	{
-		$this->redirect_hak_akses('u');
-		$_SESSION['success'] = 1;
-		$outp = $this->klasifikasi_model->insert();
-		if (!$outp) $_SESSION['success'] = -1;
-		redirect("klasifikasi");
-	}
+    public function filter()
+    {
+        $filter = $this->input->post('filter');
+        if ($filter != '') {
+            $_SESSION['filter'] = $filter;
+        } else {
+            unset($_SESSION['filter']);
+        }
+        redirect('klasifikasi');
+    }
 
-	public function update($id='', $p=1, $o=0)
-	{
-		$this->redirect_hak_akses('u');
-		$_SESSION['success'] = 1;
-		$outp = $this->klasifikasi_model->update($id);
-		if (!$outp) $_SESSION['success'] = -1;
-		redirect("klasifikasi/index/$p/$o");
-	}
+    public function insert()
+    {
+        $this->redirect_hak_akses('u');
+        $_SESSION['success'] = 1;
+        $outp                = $this->klasifikasi_model->insert();
+        if (! $outp) {
+            $_SESSION['success'] = -1;
+        }
+        redirect('klasifikasi');
+    }
 
-	public function delete($p=1, $o=0, $id='')
-	{
-		$this->redirect_hak_akses('h', "klasifikasi/index/$p/$o");
-		$this->klasifikasi_model->delete($id);
-		redirect("klasifikasi/index/$p/$o");
-	}
+    public function update($id = '', $p = 1, $o = 0)
+    {
+        $this->redirect_hak_akses('u');
+        $_SESSION['success'] = 1;
+        $outp                = $this->klasifikasi_model->update($id);
+        if (! $outp) {
+            $_SESSION['success'] = -1;
+        }
+        redirect("klasifikasi/index/{$p}/{$o}");
+    }
 
-	public function delete_all($p=1, $o=0)
-	{
-		$this->redirect_hak_akses('h', "klasifikasi/index/$p/$o");
-		$this->klasifikasi_model->delete_all();
-		redirect("klasifikasi/index/$p/$o");
-	}
+    public function delete($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
+        $this->klasifikasi_model->delete($id);
+        redirect("klasifikasi/index/{$p}/{$o}");
+    }
 
-	public function lock($p=1, $o=0, $id='')
-	{
-		$this->redirect_hak_akses('u');
-		$this->klasifikasi_model->lock($id, 0);
-		redirect("klasifikasi/index/$p/$o");
-	}
+    public function delete_all($p = 1, $o = 0)
+    {
+        $this->redirect_hak_akses('h', "klasifikasi/index/{$p}/{$o}");
+        $this->klasifikasi_model->delete_all();
+        redirect("klasifikasi/index/{$p}/{$o}");
+    }
 
-	public function unlock($p=1, $o=0, $id='')
-	{
-		$this->redirect_hak_akses('u');
-		$this->klasifikasi_model->lock($id, 1);
-		redirect("klasifikasi/index/$p/$o");
-	}
+    public function lock($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('u');
+        $this->klasifikasi_model->lock($id, 0);
+        redirect("klasifikasi/index/{$p}/{$o}");
+    }
 
-	public function ekspor()
-	{
-		download_send_headers("klasifikasi_surat_" . date("Y-m-d") . ".csv");
-		echo tulis_csv('klasifikasi_surat');
-	}
+    public function unlock($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('u');
+        $this->klasifikasi_model->lock($id, 1);
+        redirect("klasifikasi/index/{$p}/{$o}");
+    }
 
-	public function impor()
-	{
-		$this->redirect_hak_akses('u');
-		$data['form_action'] = site_url("klasifikasi/proses_impor");
-		$this->load->view('klasifikasi/impor', $data);
-	}
+    public function ekspor()
+    {
+        download_send_headers('klasifikasi_surat_' . date('Y-m-d') . '.csv');
+        echo tulis_csv('klasifikasi_surat');
+    }
 
-	public function proses_impor()
-	{
-		$this->redirect_hak_akses('u');
-		$this->klasifikasi_model->impor($_FILES['klasifikasi']['tmp_name']);
-		redirect('klasifikasi');
-	}
+    public function impor()
+    {
+        $this->redirect_hak_akses('u');
+        $data['form_action'] = site_url('klasifikasi/proses_impor');
+        $this->load->view('klasifikasi/impor', $data);
+    }
+
+    public function proses_impor()
+    {
+        $this->redirect_hak_akses('u');
+        $this->klasifikasi_model->impor($_FILES['klasifikasi']['tmp_name']);
+        redirect('klasifikasi');
+    }
 }

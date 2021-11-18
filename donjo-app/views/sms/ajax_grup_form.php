@@ -9,8 +9,8 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label class="control-label" for="nama_grup">Nama Group</label>
-							<input name="nama_grup" class="form-control input-sm required nomor_sk" maxlength="30" type="text" value="<?=$grup['nama_grup']?>"></input>
-							<input name="id_grup" type="hidden" value="<?=$grup['id_grup']?>"></input>
+							<input name="nama_grup" class="form-control input-sm required nomor_sk" maxlength="30" type="text" value="<?= $grup['nama_grup']?>"></input>
+							<input name="id_grup" type="hidden" value="<?= $grup['id_grup']?>"></input>
 						</div>
 					</div>
 				</div>

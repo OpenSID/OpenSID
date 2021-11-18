@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View modul Layanan Mandiri > Bantuan
  *
  * donjo-app/views/fmandiri/bantuan.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -90,21 +87,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</thead>
 				<tbody>
 					<?php if ($bantuan_penduduk):
-						foreach ($bantuan_penduduk as $key => $item): ?>
+                        foreach ($bantuan_penduduk as $key => $item): ?>
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
 									<?php if ($item['no_id_kartu']) : ?>
-										<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/tampil/$item[id]")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm" ><i class="fa fa-eye"></i></button>
-										<a href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/unduh/$item[id]")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php empty($item['kartu_peserta']) and print('disabled')?>><i class="fa fa-download"></i></a>
+										<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/tampil/{$item['id']}")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm" ><i class="fa fa-eye"></i></button>
+										<a href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/unduh/{$item['id']}")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php empty($item['kartu_peserta']) && print 'disabled'?>><i class="fa fa-download"></i></a>
 									<?php endif; ?>
 								</td>
-								<td><?= fTampilTgl($item["sdate"], $item["edate"]); ?></td>
-								<td><?= $item["nama"]; ?></td>
-								<td><p align="justify"><?= $item["ndesc"];?></p></td>
+								<td><?= fTampilTgl($item['sdate'], $item['edate']); ?></td>
+								<td><?= $item['nama']; ?></td>
+								<td><p align="justify"><?= $item['ndesc']; ?></p></td>
 							</tr>
 						<?php endforeach;
-					else: ?>
+                    else: ?>
 						<tr>
 							<td class="text-center" colspan="5">Data tidak tersedia</td>
 						</tr>

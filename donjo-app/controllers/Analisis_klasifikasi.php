@@ -1,18 +1,8 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
-
 /*
- *  File ini:
  *
- * Controller untuk modul Analisis
- *
- * donjo-app/controllers/Analisis_klasifikasi.php
- *
- */
-
-/*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -21,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -36,117 +26,122 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Analisis_klasifikasi extends Admin_Controller {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	function __construct()
-	{
-		parent::__construct();
-		$this->load->model(['analisis_klasifikasi_model', 'analisis_master_model']);
-		$this->session->submenu = "Data Klasifikasi";
-		$this->session->asubmenu = "{$this->controller}";
-		$this->modul_ini = 5;
-		$this->sub_modul_ini = 110;
-	}
+class Analisis_klasifikasi extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model(['analisis_klasifikasi_model', 'analisis_master_model']);
+        $this->session->submenu  = 'Data Klasifikasi';
+        $this->session->asubmenu = "{$this->controller}";
+        $this->modul_ini         = 5;
+        $this->sub_modul_ini     = 110;
+    }
 
-	public function clear()
-	{
-		$this->session->unset_userdata(['cari']);
-		
-    redirect($this->controller);
-	}
+    public function clear()
+    {
+        $this->session->unset_userdata(['cari']);
 
-	public function index($p = 1, $o = 0)
-	{
-		unset($_SESSION['cari2']);
-		$data['p'] = $p;
-		$data['o'] = $o;
+        redirect($this->controller);
+    }
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+    public function index($p = 1, $o = 0)
+    {
+        unset($_SESSION['cari2']);
+        $data['p'] = $p;
+        $data['o'] = $o;
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+        if (isset($_SESSION['cari'])) {
+            $data['cari'] = $_SESSION['cari'];
+        } else {
+            $data['cari'] = '';
+        }
 
-		$data['paging'] = $this->analisis_klasifikasi_model->paging($p,$o);
-		$data['main'] = $this->analisis_klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->analisis_klasifikasi_model->autocomplete();
-		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
+        if (isset($_POST['per_page'])) {
+            $_SESSION['per_page'] = $_POST['per_page'];
+        }
+        $data['per_page'] = $_SESSION['per_page'];
 
-		$this->set_minsidebar(1);
-		$this->render('analisis_klasifikasi/table', $data);
-	}
+        $data['paging']          = $this->analisis_klasifikasi_model->paging($p, $o);
+        $data['main']            = $this->analisis_klasifikasi_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword']         = $this->analisis_klasifikasi_model->autocomplete();
+        $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 
-	public function form($p = 1, $o = 0, $id = 0)
-	{
-		$this->redirect_hak_akses('u');
-		$data['p'] = $p;
-		$data['o'] = $o;
+        $this->set_minsidebar(1);
+        $this->render('analisis_klasifikasi/table', $data);
+    }
 
-		if ($id)
-		{
-			$data['analisis_klasifikasi'] = $this->analisis_klasifikasi_model->get_analisis_klasifikasi($id);
-			$data['form_action'] = site_url("{$this->controller}/update/$p/$o/$id");
-		}
-		else
-		{
-			$data['analisis_klasifikasi'] = null;
-			$data['form_action'] = site_url("{$this->controller}/insert");
-		}
+    public function form($p = 1, $o = 0, $id = 0)
+    {
+        $this->redirect_hak_akses('u');
+        $data['p'] = $p;
+        $data['o'] = $o;
 
-		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
+        if ($id) {
+            $data['analisis_klasifikasi'] = $this->analisis_klasifikasi_model->get_analisis_klasifikasi($id);
+            $data['form_action']          = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
+        } else {
+            $data['analisis_klasifikasi'] = null;
+            $data['form_action']          = site_url("{$this->controller}/insert");
+        }
 
-		$this->load->view('analisis_klasifikasi/ajax_form', $data);
-	}
+        $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 
-	public function search()
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
-		
-    redirect($this->controller);
-	}
+        $this->load->view('analisis_klasifikasi/ajax_form', $data);
+    }
 
-	public function insert()
-	{
-		$this->redirect_hak_akses('u');
-		$this->analisis_klasifikasi_model->insert();
-		
-    redirect($this->controller);
-	}
+    public function search()
+    {
+        $cari = $this->input->post('cari');
+        if ($cari != '') {
+            $_SESSION['cari'] = $cari;
+        } else {
+            unset($_SESSION['cari']);
+        }
 
-	public function update($p = 1, $o = 0, $id = 0)
-	{
-		$this->redirect_hak_akses('u');
-		$this->analisis_klasifikasi_model->update($id);
-		
-		redirect("{$this->controller}/index/{$p}/{$o}");
-	}
+        redirect($this->controller);
+    }
 
-	public function delete($p = 1, $o = 0, $id = 0)
-	{
-		$this->redirect_hak_akses('h');
-		$this->analisis_klasifikasi_model->delete($id);
+    public function insert()
+    {
+        $this->redirect_hak_akses('u');
+        $this->analisis_klasifikasi_model->insert();
 
-		redirect("{$this->controller}/index/{$p}/{$o}");
-	}
+        redirect($this->controller);
+    }
 
-	public function delete_all($p = 1, $o = 0)
-	{
-		$this->redirect_hak_akses('h');
-		$this->analisis_klasifikasi_model->delete_all();
+    public function update($p = 1, $o = 0, $id = 0)
+    {
+        $this->redirect_hak_akses('u');
+        $this->analisis_klasifikasi_model->update($id);
 
-		redirect("{$this->controller}/index/{$p}/{$o}");
-	}
+        redirect("{$this->controller}/index/{$p}/{$o}");
+    }
+
+    public function delete($p = 1, $o = 0, $id = 0)
+    {
+        $this->redirect_hak_akses('h');
+        $this->analisis_klasifikasi_model->delete($id);
+
+        redirect("{$this->controller}/index/{$p}/{$o}");
+    }
+
+    public function delete_all($p = 1, $o = 0)
+    {
+        $this->redirect_hak_akses('h');
+        $this->analisis_klasifikasi_model->delete_all();
+
+        redirect("{$this->controller}/index/{$p}/{$o}");
+    }
 }

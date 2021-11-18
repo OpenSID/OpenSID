@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View template Layanan Mandiri
  *
  * donjo-app/views/fmandiri/template.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -51,9 +48,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Layanan Mandiri <?= ucwords($this->setting->sebutan_desa . ' '. $desa['nama_desa']); ?></title>
+	<title>Layanan Mandiri <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']); ?></title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 	<?php else: ?>
 		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -94,8 +91,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</script>
 	<?php if ($cek_anjungan): ?>
 		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
-		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
-		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
+		<link rel="stylesheet" href="<?= base_url('assets/css/keyboard.min.css')?>">
+		<link rel="stylesheet" href="<?= base_url('assets/front/css/mandiri-keyboard.css')?>">
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags'); ?>
@@ -111,7 +108,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<img src="<?= gambar_desa($desa['logo']); ?>" class="logo-brand" alt="<?= $desa['nama_desa']?>"/>
 						</a>
 						<div class="navbar-brand">
-							<?= ucwords($this->setting->sebutan_desa . ' ' .$desa['nama_desa']); ?>
+							<?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']); ?>
 						</div>
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
 							<i class="fa fa-bars"></i>
@@ -241,24 +238,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="col-md-9">
 							<?php
-								$this->load->view(MANDIRI . '/' . $konten);
+                                $this->load->view(MANDIRI . '/' . $konten);
 
-								if ($this->is_login->ganti_pin === '1' && $this->uri->segment(2) != "ganti-pin"):
+                                if ($this->is_login->ganti_pin === '1' && $this->uri->segment(2) != 'ganti-pin'):
 
-									$data = [
-										'pesan' => "Selamat datang pengguna layanan mandiri <b> " . ucwords($this->setting->sebutan_desa . " " . $desa[nama_desa]) . " </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.",
-										'aksi' => site_url('layanan-mandiri/ganti-pin')
-									];
+                                    $data = [
+                                        'pesan' => 'Selamat datang pengguna layanan mandiri <b> ' . ucwords($this->setting->sebutan_desa . ' ' . $desa[nama_desa]) . ' </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.',
+                                        'aksi'  => site_url('layanan-mandiri/ganti-pin'),
+                                    ];
 
-									$this->load->view(MANDIRI . '/notif', $data);
-								endif;
+                                    $this->load->view(MANDIRI . '/notif', $data);
+                                endif;
 
-								$data = $this->session->flashdata('notif');
+                                $data = $this->session->flashdata('notif');
 
-								if ($data['status'] == 1):
-									$this->load->view(MANDIRI . '/notif', $data);
-								endif;
-							?>
+                                if ($data['status'] == 1):
+                                    $this->load->view(MANDIRI . '/notif', $data);
+                                endif;
+                            ?>
 						</div>
 					</div>
 				</section>
@@ -316,10 +313,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<?php if ($cek_anjungan): ?>
 		<!-- keyboard widget script -->
-		<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
-		<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
-		<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
-		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
+		<script src="<?= base_url('assets/js/jquery.keyboard.min.js')?>"></script>
+		<script src="<?= base_url('assets/js/jquery.mousewheel.min.js')?>"></script>
+		<script src="<?= base_url('assets/js/jquery.keyboard.extension-all.min.js')?>"></script>
+		<script src="<?= base_url('assets/front/js/mandiri-keyboard.js')?>"></script>
 	<?php endif; ?>
 	<script type="text/javascript">
 		$(window).on('load', function() {

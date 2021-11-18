@@ -17,7 +17,7 @@
 		$('#file_browser').click();
 	});
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi" enctype="multipart/form-data">
+<form action="<?= $form_action?>" method="post" id="validasi" enctype="multipart/form-data">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">

@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk pengaturan menu statis di modul Admin Web > Menu
  *
  * donjo-app/views/menu/ajax_menu_form.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -60,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<label class="control-label" for="nama">Nama</label>
 			<input name="nama" class="form-control input-sm required nomor_sk" maxlength="50" type="text" value="<?=$menu['nama']?>"></input>
 		</div>
-		<?php if ( ! empty($menu['link'])): ?>
+		<?php if (! empty($menu['link'])): ?>
 			<div class="form-group">
 				<label class="control-label" for="link_sebelumnya">Link Sebelumnya</label>
 				<input class="form-control input-sm" type="text" value="<?=$menu['link']?>" disabled></input>
@@ -75,72 +72,72 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php endforeach; ?>
 			</select>
 		</div>
-		<div class="form-group" id="jenis_link" style="<?php ( ! $menu['link_tipe']) and print('display:none;'); ?>">
+		<div class="form-group" id="jenis_link" style="<?php (! $menu['link_tipe']) && print 'display:none;'; ?>">
 			<label class="control-label" for="link">Link</label>
-			<select id="artikel_statis" class="form-control input-sm jenis_link select2" name="<?= jecho($menu['link_tipe'], 1, 'link'); ?>" style="<?php ($menu['link_tipe'] != 1) and print('display:none;'); ?>">
+			<select id="artikel_statis" class="form-control input-sm jenis_link select2" name="<?= jecho($menu['link_tipe'], 1, 'link'); ?>" style="<?php ($menu['link_tipe'] != 1) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Artikel Statis --</option>
 				<?php foreach ($artikel_statis as $data): ?>
-					<option value="artikel/<?= $data['id']; ?>" <?= selected($menu['link'], "artikel/$data[id]"); ?>><?=$data['judul']; ?></option>
+					<option value="artikel/<?= $data['id']; ?>" <?= selected($menu['link'], "artikel/{$data['id']}"); ?>><?=$data['judul']; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="kategori_artikel" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 8, 'link'); ?>" style="<?php ($menu['link_tipe'] != 8) and print('display:none;'); ?>">
+			<select id="kategori_artikel" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 8, 'link'); ?>" style="<?php ($menu['link_tipe'] != 8) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Kategori Artikel --</option>
 				<?php foreach ($kategori_artikel as $data): ?>
-					<option value="kategori/<?= $data['slug']; ?>" <?= selected($menu['link'], "kategori/$data[slug]"); ?>><?=$data['kategori']; ?></option>
+					<option value="kategori/<?= $data['slug']; ?>" <?= selected($menu['link'], "kategori/{$data['slug']}"); ?>><?=$data['kategori']; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="statistik_penduduk" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 2, 'link'); ?>" style="<?php ($menu['link_tipe'] != 2) and print('display:none;'); ?>">
+			<select id="statistik_penduduk" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 2, 'link'); ?>" style="<?php ($menu['link_tipe'] != 2) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Statistik Penduduk --</option>
 				<?php foreach ($statistik_penduduk as $id => $nama): ?>
-					<option value="<?= "statistik/$id"; ?>" <?= selected($menu['link'], "statistik/$id") ?>><?= $nama?></option>
+					<option value="<?= "statistik/{$id}"; ?>" <?= selected($menu['link'], "statistik/{$id}") ?>><?= $nama?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="statistik_keluarga" class="form-control jenis_link input-sm" name="<?= jecho($menu['link_tipe'], 3, 'link'); ?>" style="<?php ($menu['link_tipe'] != 3) and print('display:none;'); ?>">
+			<select id="statistik_keluarga" class="form-control jenis_link input-sm" name="<?= jecho($menu['link_tipe'], 3, 'link'); ?>" style="<?php ($menu['link_tipe'] != 3) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Statistik Keluarga --</option>
 				<?php foreach ($statistik_keluarga as $id => $nama): ?>
-					<option value="<?= "statistik/$id"; ?>" <?= selected($menu['link'], "statistik/$id") ?>><?= $nama?></option>
+					<option value="<?= "statistik/{$id}"; ?>" <?= selected($menu['link'], "statistik/{$id}") ?>><?= $nama?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="statistik_program_bantuan" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 4, 'link')?>" style="<?php ($menu['link_tipe'] != 4) and print('display:none;'); ?>">
+			<select id="statistik_program_bantuan" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 4, 'link')?>" style="<?php ($menu['link_tipe'] != 4) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Statistik Program Bantuan --</option>
 				<?php foreach ($statistik_kategori_bantuan as $id => $nama): ?>
-					<option value="<?= "statistik/$id"; ?>" <?= selected($menu['link'], "statistik/$id") ?>><?= $nama?></option>
+					<option value="<?= "statistik/{$id}"; ?>" <?= selected($menu['link'], "statistik/{$id}") ?>><?= $nama?></option>
 				<?php endforeach; ?>
 				<?php foreach ($statistik_program_bantuan as $nama): ?>
-					<option value="<?= "statistik/$nama[lap]"; ?>" <?= selected($menu['link'], "statistik/$nama[lap]"); ?>><?= $nama['nama']; ?></option>
+					<option value="<?= "statistik/{$nama['lap']}"; ?>" <?= selected($menu['link'], "statistik/{$nama['lap']}"); ?>><?= $nama['nama']; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="statis_lainnya" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 5, 'link')?>" style="<?php ($menu['link_tipe'] != 5) and print('display:none;'); ?>">
+			<select id="statis_lainnya" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 5, 'link')?>" style="<?php ($menu['link_tipe'] != 5) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Halaman Statis Lainnya --</option>
 				<?php foreach ($statis_lainnya as $id => $nama): ?>
 					<option value="<?= $id?>" <?= selected($menu['link'], $id) ?>><?= $nama?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="artikel_keuangan" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 6, 'link')?>" style="<?php ($menu['link_tipe'] != 6) and print('display:none;'); ?>">
+			<select id="artikel_keuangan" class="form-control input-sm jenis_link" name="<?= jecho($menu['link_tipe'], 6, 'link')?>" style="<?php ($menu['link_tipe'] != 6) && print 'display:none;'; ?>">
 				<option value="">-- Pilih Artikel Keuangan --</option>
 				<?php foreach ($artikel_keuangan as $id => $nama): ?>
 					<option value="<?= $id?>" <?= selected($menu['link'], $id) ?>><?= $nama?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="kelompok" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 7, 'link'); ?>" style="<?php ($menu['link_tipe'] != 7 ) and print('display:none;') ?>">
+			<select id="kelompok" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 7, 'link'); ?>" style="<?php ($menu['link_tipe'] != 7) && print 'display:none;' ?>">
 				<option value="">Pilih Kelompok</option>
 				<?php foreach ($kelompok as $kel): ?>
-					<option value="<?= "data-kelompok/$kel[id]"; ?>" <?= selected($menu['link'], "data-kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
+					<option value="<?= "data-kelompok/{$kel['id']}"; ?>" <?= selected($menu['link'], "data-kelompok/{$kel['id']}") ?>><?= $kel['nama'] . ' (' . $kel['master'] . ')'; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="suplemen" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 9, 'link'); ?>" style="<?php ($menu['link_tipe'] != 9) and print('display:none;'); ?>">
+			<select id="suplemen" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 9, 'link'); ?>" style="<?php ($menu['link_tipe'] != 9) && print 'display:none;'; ?>">
 				<option value="">Pilih Suplemen</option>
 				<?php foreach ($suplemen as $sup): ?>
-					<option value="<?= "data-suplemen/$sup[id]"; ?>" <?= selected($menu['link'], "data-suplemen/$sup[id]") ?>><?= $sup['nama']; ?></option>
+					<option value="<?= "data-suplemen/{$sup['id']}"; ?>" <?= selected($menu['link'], "data-suplemen/{$sup['id']}") ?>><?= $sup['nama']; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<select id="status_idm" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 10, 'link'); ?>" style="<?php ($menu['link_tipe'] != 10) and print('display:none;'); ?>">
+			<select id="status_idm" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 10, 'link'); ?>" style="<?php ($menu['link_tipe'] != 10) && print 'display:none;'; ?>">
 				<option value="">Pilih Tahun</option>
 				<?php foreach (tahun(2020) as $thn): ?>
-					<option value="<?= "status-idm/$thn"; ?>" <?= selected($menu['link'], "status-idm/$thn") ?>><?= $thn; ?></option>
+					<option value="<?= "status-idm/{$thn}"; ?>" <?= selected($menu['link'], "status-idm/{$thn}") ?>><?= $thn; ?></option>
 				<?php endforeach; ?>
 			</select>
-			<span id="eksternal" class="jenis_link" style="<?php ($menu['link_tipe'] != 99) and print('display:none;'); ?>">
+			<span id="eksternal" class="jenis_link" style="<?php ($menu['link_tipe'] != 99) && print 'display:none;'; ?>">
 				<input name="<?= jecho($menu['link_tipe'], 99, 'link'); ?>" class="form-control input-sm" type="text" value="<?=$menu['link']?>" ></input>
 				<span class="text-sm text-red">(misalnya: https://opendesa.id)</span>
 			</span>

@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk modul Buku Pembangunan Desa > Buku Kader Pemberdayaan Masyarakat
  *
  * donjo-app/views/bumindes/pembangunan/kader/cetak.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -67,9 +64,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			</td>
 		</tr>
 		<?php
-			$tahun = date('Y', strtotime($tgl_cetak));
-			if ($tahun):
-		?>
+            $tahun = date('Y', strtotime($tgl_cetak));
+            if ($tahun):
+        ?>
 		<tr>
 			<td class="text-center">
 				<h4>TAHUN <?= $tahun; ?></h4>
@@ -116,7 +113,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<td><?= $item->alamat; ?></td>
 								<td><?= $item->keterangan; ?></td>
 							</tr>
-						<?php endforeach;	?>
+						<?php endforeach; ?>
 					</tbody>
 				</table>
 			</td>

@@ -1,9 +1,9 @@
 <?php
-	if ($log_status_dasar['tgl_peristiwa']!=''):
-		$sekarang = $log_status_dasar['tgl_peristiwa'];
-	else:
-		$sekarang = date("d-m-Y");
-	endif;
+    if ($log_status_dasar['tgl_peristiwa'] != ''):
+        $sekarang = $log_status_dasar['tgl_peristiwa'];
+    else:
+        $sekarang = date('d-m-Y');
+    endif;
 ?>
 <form action="<?=$form_action?>" method="post" id="validasi" class="tgl_lapor_peristiwa">
 	<div class='modal-body'>
@@ -15,7 +15,7 @@
 							<label for="status_dasar">Status Dasar Baru</label>
 							<select id="status_dasar" name="status_dasar" class="form-control select2 input-sm required">
 								<option value="">Pilih Status Dasar</option>
-								<?php foreach ($list_status_dasar AS $data): ?>
+								<?php foreach ($list_status_dasar as $data): ?>
 									<option value="<?=$data['id']?>" <?php selected($data['id'], $nik['status_dasar_id'])?>><?=$data['nama']?></option>
 								<?php endforeach; ?>
 							</select>
@@ -29,14 +29,14 @@
 								<label for="ref_pindah">Tujuan Pindah</label>
 								<select  name="ref_pindah" class="form-control select2 input-sm required">
 									<option value="">Pilih Tujuan Pindah</option>
-									<?php foreach ($list_ref_pindah AS $data): ?>
+									<?php foreach ($list_ref_pindah as $data): ?>
 										<option value="<?=$data['id']?>" <?php selected($data['id'], $nik['ref_pindah'])?>><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
 							<div class="form-group">
 								<label for="alamat_tujuan">Alamat Tujuan</label>
-								<textarea id="alamat_tujuan" name="alamat_tujuan" class="form-control input-sm" placeholder="Alamat Tujuan" style="height: 50px;"><?= $data['alamat_tujuan'];?></textarea>
+								<textarea id="alamat_tujuan" name="alamat_tujuan" class="form-control input-sm" placeholder="Alamat Tujuan" style="height: 50px;"><?= $data['alamat_tujuan']; ?></textarea>
 							</div>
 						</div>
 						<div class="form-group">
@@ -45,7 +45,7 @@
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right required tgl_minimal" id="tgl_1" name="tgl_peristiwa" type="text" data-tgl-lebih-besar="#tgl_lapor" value="<?= $sekarang;?>">
+								<input class="form-control input-sm pull-right required tgl_minimal" id="tgl_1" name="tgl_peristiwa" type="text" data-tgl-lebih-besar="#tgl_lapor" value="<?= $sekarang; ?>">
 							</div>
 						</div>
 						<div class="form-group">
@@ -54,12 +54,12 @@
 								<div class="input-group-addon">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right tgl_indo required" id="tgl_lapor" name="tgl_lapor" type="text" value="<?= $sekarang;?>">
+								<input class="form-control input-sm pull-right tgl_indo required" id="tgl_lapor" name="tgl_lapor" type="text" value="<?= $sekarang; ?>">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="catatan">Catatan Peristiwa</label>
-							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" style="height: 50px;"><?= $log_status_dasar['catatan'];?></textarea>
+							<textarea id="catatan" name="catatan" class="form-control input-sm" placeholder="Catatan" style="height: 50px;"><?= $log_status_dasar['catatan']; ?></textarea>
 							<p class="help-block">*mati/hilang terangkan penyebabnya, pindah tuliskan alamat pindah</p>
 						</div>
 					</div>

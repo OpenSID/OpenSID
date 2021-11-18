@@ -1,6 +1,6 @@
 <form id="main_setting" action="<?= site_url('setting/update'); ?>" method="POST" class="form-horizontal">
 	<div class="modal-body">
-		<?php include("donjo-app/views/setting/form.php"); ?>
+		<?php include 'donjo-app/views/setting/form.php'; ?>
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>

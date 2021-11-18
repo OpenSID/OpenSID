@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View modul Layanan Mandiri > Pesan > Buat Pesan
  *
  * donjo-app/views/fmandiri/buat_pesan.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,16 +35,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
-<form id="validasi" action="<?= site_url("layanan-mandiri/surat/form/$permohonan[id]"); ?>" method="POST" enctype="multipart/form-data">
+<form id="validasi" action="<?= site_url("layanan-mandiri/surat/form/{$permohonan['id']}"); ?>" method="POST" enctype="multipart/form-data">
 	<div class="box box-solid">
 		<div class="box-header with-border bg-green">
 			<h4 class="box-title">Surat</h4>
@@ -66,22 +63,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="col-sm-9">
 					<select class="form-control select2 required" name="id_surat" id="id_surat">
 						<option value=""> -- Pilih Jenis Surat -- </option>
-						<?php foreach ($menu_surat_mandiri AS $data): ?>
+						<?php foreach ($menu_surat_mandiri as $data): ?>
 							<option value="<?= $data['id']?>" <?= selected($data['id'], $permohonan['id_surat'])?>><?= $data['nama']?></option>
-						<?php endforeach;?>
+						<?php endforeach; ?>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="keterangan_tambahan" class="col-sm-3 control-label">Keterangan Tambahan</label>
 				<div class="col-sm-9">
-					<textarea class="form-control <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']; ?></textarea>
+					<textarea class="form-control <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" name="keterangan" id="keterangan" placeholder="Ketik di sini untuk memberikan keterangan tambahan."><?= $permohonan['keterangan']; ?></textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
 				<div class="col-sm-9">
-					<input class="form-control bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>" />
+					<input class="form-control bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>" />
 				</div>
 			</div>
 		</div>
@@ -169,14 +166,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="nama_dokumen">Nama Dokumen</label>
-						<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen"/>
+						<input id="nama_dokumen" name="nama" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" type="text" placeholder="Nama Dokumen"/>
 						<input type="text" class="hidden" name="id" id="id_dokumen" value=""/>
 					</div>
 					<div class="form-group">
 						<label for="nama_dokumen">Jenis Dokumen</label>
 						<select class="form-control input-sm required" name="id_syarat" id="id_syarat">
 							<option value=""> -- Pilih Jenis Dokumen -- </option>
-							<?php foreach ($menu_dokumen_mandiri AS $data): ?>
+							<?php foreach ($menu_dokumen_mandiri as $data): ?>
 								<option value="<?= $data['ref_syarat_id']?>" ><?= $data['ref_syarat_nama']; ?></option>
 							<?php endforeach; ?>
 						</select>
@@ -193,7 +190,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
 					</div>
 					</hr>
-					<?php if ( ! empty($kk)): ?>
+					<?php if (! empty($kk)): ?>
 						<p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
 						<div class="table-responsive">
 							<table class="table table-bordered table-hover table-data">

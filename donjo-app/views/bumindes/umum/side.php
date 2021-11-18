@@ -25,16 +25,16 @@
 <div class="list-group">
   <div class="box-footer no-padding col-sm-11">
     <ul class="nav nav-stacked">
-      <li class="<?php compared_return($selected_nav, "peraturan", "active"); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/3') ?>">Buku Peraturan <?= ucwords($this->setting->sebutan_desa); ?></a></li>
-      <li class="<?php compared_return($selected_nav, "keputusan", "active"); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/2') ?>">Buku Keputusan <?= ucwords($this->setting->sebutan_kepala_desa); ?></a></li>
-      <li class="<?php compared_return($selected_nav, "inventaris", "active"); ?>"><a href="<?= site_url('bumindes_inventaris_kekayaan') ?>">Buku Inventaris dan Kekayaan <?= ucwords($this->setting->sebutan_desa); ?></a></li>
-      <li class="<?php compared_return($selected_nav, "aparat", "active"); ?>"><a href="<?= site_url('pengurus') ?>">Buku Aparat Pemerintah <?= ucwords($this->setting->sebutan_desa); ?></a></li>
-      <li class="<?php compared_return($selected_nav, "tanah_kas", "active"); ?>"><a href="<?= site_url('bumindes_tanah_kas_desa/clear') ?>">Buku Tanah Kas <?= ucwords($this->setting->sebutan_desa); ?></a></li>
-      <li class="<?php compared_return($selected_nav, "tanah", "active"); ?>"><a href="<?= site_url('bumindes_tanah_desa/clear') ?>">Buku Tanah di <?= ucwords($this->setting->sebutan_desa); ?></a></li>
-      <li class="<?php compared_return($selected_nav, "agenda_keluar", "active"); ?>"><a href="<?= site_url('surat_keluar') ?>">Buku Agenda - Surat Keluar</a></li>
-      <li class="<?php compared_return($selected_nav, "agenda_masuk", "active"); ?>"><a href="<?= site_url('surat_masuk') ?>">Buku Agenda - Surat Masuk</a></li>
-      <li class="<?php compared_return($selected_nav, "ekspedisi", "active"); ?>"><a href="<?= site_url('ekspedisi/clear') ?>">Buku Ekspedisi</a></li>
-      <li class="<?php compared_return($selected_nav, "lembaran", "active"); ?>"><a href="<?= site_url('buku_umum/lembaran_desa/clear') ?>">Buku Lembaran Desa dan Berita <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'peraturan', 'active'); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/3') ?>">Buku Peraturan <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'keputusan', 'active'); ?>"><a href="<?= site_url('dokumen_sekretariat/clear/2') ?>">Buku Keputusan <?= ucwords($this->setting->sebutan_kepala_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'inventaris', 'active'); ?>"><a href="<?= site_url('bumindes_inventaris_kekayaan') ?>">Buku Inventaris dan Kekayaan <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'aparat', 'active'); ?>"><a href="<?= site_url('pengurus') ?>">Buku Aparat Pemerintah <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'tanah_kas', 'active'); ?>"><a href="<?= site_url('bumindes_tanah_kas_desa/clear') ?>">Buku Tanah Kas <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'tanah', 'active'); ?>"><a href="<?= site_url('bumindes_tanah_desa/clear') ?>">Buku Tanah di <?= ucwords($this->setting->sebutan_desa); ?></a></li>
+      <li class="<?php compared_return($selected_nav, 'agenda_keluar', 'active'); ?>"><a href="<?= site_url('surat_keluar') ?>">Buku Agenda - Surat Keluar</a></li>
+      <li class="<?php compared_return($selected_nav, 'agenda_masuk', 'active'); ?>"><a href="<?= site_url('surat_masuk') ?>">Buku Agenda - Surat Masuk</a></li>
+      <li class="<?php compared_return($selected_nav, 'ekspedisi', 'active'); ?>"><a href="<?= site_url('ekspedisi/clear') ?>">Buku Ekspedisi</a></li>
+      <li class="<?php compared_return($selected_nav, 'lembaran', 'active'); ?>"><a href="<?= site_url('buku_umum/lembaran_desa/clear') ?>">Buku Lembaran Desa dan Berita <?= ucwords($this->setting->sebutan_desa); ?></a></li>
     </ul>
   </div>
   <button class="hide-menu col-sm-1" id="slide-submenu">

@@ -39,24 +39,24 @@
 															<tr>
 																<td></td>
 																<td nowrap>
-																	<?php if ($data->status == "0"): ?>
-																		<a href="<?= site_url('inventaris_tanah/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																	<?php if ($data->status == '0'): ?>
+																		<a href="<?= site_url('inventaris_tanah/form_mutasi/' . $data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
-																	<a href="<?= site_url('inventaris_tanah/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= site_url('inventaris_tanah/view_mutasi/' . $data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
-																		<a href="<?= site_url('inventaris_tanah/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<a href="<?= site_url('inventaris_tanah/edit_mutasi/' . $data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
 																	<?php if ($this->CI->cek_hak_akses('h')): ?>
-																		<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="#" data-href="<?= site_url("api_inventaris_tanah/delete_mutasi/{$data->id}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																</td>
-																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
-																<td><?= $data->tahun_pengadaan;?></td>
-																<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
-																<td><?= $data->status_mutasi;?></td>
-																<td><?= $data->jenis_mutasi;?></td>
-																<td><?= $data->keterangan;?></td>
+																<td><?= $data->nama_barang; ?></td>
+																<td><?= $data->kode_barang; ?><br><?= $data->register; ?></td>
+																<td><?= $data->tahun_pengadaan; ?></td>
+																<td nowrap><?= date('d M Y', strtotime($data->tahun_mutasi)); ?></td>
+																<td><?= $data->status_mutasi; ?></td>
+																<td><?= $data->jenis_mutasi; ?></td>
+																<td><?= $data->keterangan; ?></td>
 															</tr>
 														<?php endforeach; ?>
 													</tbody>
@@ -80,7 +80,7 @@
 													<div class="col-sm-9">
 														<select name="tahun" id="tahun" class="form-control select2 input-sm" style="width:100%;">
 															<option value="1">Semua Tahun</option>
-															<?php for ($i=date("Y"); $i>=date("Y")-30; $i--): ?>
+															<?php for ($i = date('Y'); $i >= date('Y') - 30; $i--): ?>
 																<option value="<?= $i ?>"><?= $i ?></option>
 															<?php endfor; ?>
 														</select>
@@ -90,9 +90,9 @@
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
 													<div class="col-sm-9">
 														<select name="penandatangan" id="penandatangan" class="form-control input-sm">
-															<?php foreach ($pamong AS $data): ?>
+															<?php foreach ($pamong as $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+																	<?= (strpos(strtolower($data['jabatan']), 'Kepala Desa') !== false) ? 'selected' : '' ?>>
 																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 																</option>
 															<?php endforeach; ?>
@@ -123,7 +123,7 @@
 													<div class="col-sm-9">
 														<select name="tahun_pdf" id="tahun_pdf" class="form-control select2 input-sm" style="width:100%;">
 															<option value="1">Semua Tahun</option>
-															<?php for ($i = date("Y"); $i >= date("Y")-30; $i--): ?>
+															<?php for ($i = date('Y'); $i >= date('Y') - 30; $i--): ?>
 																<option value="<?= $i ?>"><?= $i ?></option>
 															<?php endfor; ?>
 														</select>
@@ -133,9 +133,9 @@
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
 													<div class="col-sm-9">
 														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
-															<?php foreach ($pamong AS $data): ?>
+															<?php foreach ($pamong as $data): ?>
 																<option value="<?= $data['pamong_id']?>" data-jabatan="<?= trim($data['jabatan'])?>"
-																	<?= (strpos(strtolower($data['jabatan']),'Kepala Desa') !== false) ? 'selected' : '' ?>>
+																	<?= (strpos(strtolower($data['jabatan']), 'Kepala Desa') !== false) ? 'selected' : '' ?>>
 																	<?= $data['pamong_nama']?>(<?= $data['jabatan']?>)
 																</option>
 															<?php endforeach; ?>
@@ -158,4 +158,4 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>

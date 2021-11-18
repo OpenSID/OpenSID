@@ -1,217 +1,254 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
 
-class Bumindes_umum extends Admin_Controller {
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
 
-	public function __construct()
-	{
-		parent::__construct();
+defined('BASEPATH') || exit('No direct script access allowed');
 
-		$this->load->library('session');
-		$this->load->model('header_model');
+class Bumindes_umum extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->modul_ini = 301;
-	}
+        $this->load->library('session');
+        $this->load->model('header_model');
 
-	public function index()
-	{
-		redirect('dokumen_sekretariat/peraturan_desa/3');
-	}
+        $this->modul_ini = 301;
+    }
 
-	// TABLES
-	public function tables($page="peraturan", $page_number=1, $offset=0)
-	{
-		$this->sub_modul_ini = 302;
+    public function index()
+    {
+        redirect('dokumen_sekretariat/peraturan_desa/3');
+    }
 
-		// set session
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+    // TABLES
+    public function tables($page = 'peraturan', $page_number = 1, $offset = 0)
+    {
+        $this->sub_modul_ini = 302;
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+        // set session
+        if (isset($_SESSION['cari'])) {
+            $data['cari'] = $_SESSION['cari'];
+        } else {
+            $data['cari'] = '';
+        }
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-		// set session END
+        if (isset($_SESSION['filter'])) {
+            $data['filter'] = $_SESSION['filter'];
+        } else {
+            $data['filter'] = '';
+        }
 
-		// load data for displaying at tables
-		$data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
+        if (isset($_POST['per_page'])) {
+            $_SESSION['per_page'] = $_POST['per_page'];
+        }
+        $data['per_page'] = $_SESSION['per_page'];
+        // set session END
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+        // load data for displaying at tables
+        $data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
 
-		$this->load->view('header', $header);
-		$this->load->view('nav');
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
-	}
+        $header               = $this->header_model->get_data();
+        $header['minsidebar'] = 1;
 
-	private function load_data_tables($page, $page_number, $offset)
-	{
-		$data['selected_nav'] = $page;
-		switch (strtolower($page))
-		{
-			case 'ekspedisi':
-				$data = array_merge($data, $this->load_ekspedisi_data_tables($page_number, $offset));
-				break;
+        $this->load->view('header', $header);
+        $this->load->view('nav');
+        $this->load->view('bumindes/umum/main', $data);
+        $this->load->view('footer');
+    }
 
-			case 'berita':
-				$data = array_merge($data, $this->load_berita_data_tables($page_number, $offset));
-				break;
+    private function load_data_tables($page, $page_number, $offset)
+    {
+        $data['selected_nav'] = $page;
 
-			default:
-				$data = array_merge($data, $this->load_ekspedisi_data_tables($page_number, $offset));
-				break;
-		}
-		return $data;
-	}
+        switch (strtolower($page)) {
+            case 'ekspedisi':
+                $data = array_merge($data, $this->load_ekspedisi_data_tables($page_number, $offset));
+                break;
 
-	private function load_ekspedisi_data_tables($page_number=1, $offset=0)
-	{
-		$data['main_content'] = "bumindes/umum/content_ekspedisi";
-		$data['subtitle'] = "Buku Ekspedisi";
+            case 'berita':
+                $data = array_merge($data, $this->load_berita_data_tables($page_number, $offset));
+                break;
 
-		return $data;
-	}
+            default:
+                $data = array_merge($data, $this->load_ekspedisi_data_tables($page_number, $offset));
+                break;
+        }
 
-	private function load_berita_data_tables($page_number=1, $offset=0)
-	{
-		$data['main_content'] = "bumindes/umum/content_berita";
-		$data['subtitle'] = "Buku Lembaran Desa dan Berita Desa";
+        return $data;
+    }
 
-		return $data;
-	}
-	// TABLES END
+    private function load_ekspedisi_data_tables($page_number = 1, $offset = 0)
+    {
+        $data['main_content'] = 'bumindes/umum/content_ekspedisi';
+        $data['subtitle']     = 'Buku Ekspedisi';
 
-	// FORM
-	public function form($page="peraturan", $page_number=1, $offset=0, $key=null)
-	{
-		$this->sub_modul_ini = 302;
+        return $data;
+    }
 
-		$data = array();
-		$data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));
+    private function load_berita_data_tables($page_number = 1, $offset = 0)
+    {
+        $data['main_content'] = 'bumindes/umum/content_berita';
+        $data['subtitle']     = 'Buku Lembaran Desa dan Berita Desa';
 
-		$header = $this->header_model->get_data();
-		$header['minsidebar'] = 1;
+        return $data;
+    }
+    // TABLES END
 
-		$this->load->view('header', $header);
-		$this->load->view('nav',$nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
-	}
+    // FORM
+    public function form($page = 'peraturan', $page_number = 1, $offset = 0, $key = null)
+    {
+        $this->sub_modul_ini = 302;
 
-	private function load_form($page, $page_number, $offset, $key)
-	{
-		$data['p'] = $page_number;
-		$data['o'] = $offset;
+        $data = [];
+        $data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));
 
-		$data['selected_nav'] = $page;
-		switch (strtolower($page))
-		{
-			case 'ekspedisi':
-				$data = array_merge($data, $this->load_form_ekspedisi($page_number, $offset, $key));
-				break;
+        $header               = $this->header_model->get_data();
+        $header['minsidebar'] = 1;
 
-			case 'berita':
-				$data = array_merge($data, $this->load_form_berita($page_number, $offset, $key));
-				break;
+        $this->load->view('header', $header);
+        $this->load->view('nav', $nav);
+        $this->load->view('bumindes/umum/main', $data);
+        $this->load->view('footer');
+    }
 
-			default:
-				$data = array_merge($data, $this->load_form_peraturan($page_number, $offset, $key));
-				break;
-		}
-		return $data;
-	}
+    private function load_form($page, $page_number, $offset, $key)
+    {
+        $data['p'] = $page_number;
+        $data['o'] = $offset;
 
-	function load_form_ekspedisi($page_number, $offset, $key)
-	{
+        $data['selected_nav'] = $page;
 
-	}
+        switch (strtolower($page)) {
+            case 'ekspedisi':
+                $data = array_merge($data, $this->load_form_ekspedisi($page_number, $offset, $key));
+                break;
 
-	function load_form_berita($page_number, $offset, $key)
-	{
+            case 'berita':
+                $data = array_merge($data, $this->load_form_berita($page_number, $offset, $key));
+                break;
 
-	}
+            default:
+                $data = array_merge($data, $this->load_form_peraturan($page_number, $offset, $key));
+                break;
+        }
 
-	// FORM END
+        return $data;
+    }
 
-	// INSERT
-	public function insert($page)
-	{
-		switch (strtolower($page))
-		{
-			case 'ekspedisi':
+    public function load_form_ekspedisi($page_number, $offset, $key)
+    {
+    }
 
-				break;
+    public function load_form_berita($page_number, $offset, $key)
+    {
+    }
 
-			case 'berita':
+    // FORM END
 
-				break;
+    // INSERT
+    public function insert($page)
+    {
+        switch (strtolower($page)) {
+            case 'ekspedisi':
 
-			default:
+                break;
 
-				break;
-		}
-	}
-	// INSERT END
+            case 'berita':
 
-	// DELETE
-	public function delete($page, $p=1, $o=0, $id='')
-	{
-		switch (strtolower($page))
-		{
-			case 'ekspedisi':
+                break;
 
-				break;
+            default:
 
-			case 'berita':
+                break;
+        }
+    }
+    // INSERT END
 
-				break;
+    // DELETE
+    public function delete($page, $p = 1, $o = 0, $id = '')
+    {
+        switch (strtolower($page)) {
+            case 'ekspedisi':
 
-			default:
+                break;
 
-				break;
-		}
-	}
+            case 'berita':
 
-	public function delete_all($page, $p=1, $o=0)
-	{
-		switch (strtolower($page))
-		{
-			case 'ekspedisi':
+                break;
 
-				break;
+            default:
 
-			case 'berita':
+                break;
+        }
+    }
 
-				break;
+    public function delete_all($page, $p = 1, $o = 0)
+    {
+        switch (strtolower($page)) {
+            case 'ekspedisi':
 
-			default:
+                break;
 
-				break;
-		}
-	}
+            case 'berita':
 
-	// UPDATE
-	public function update($page, $p=1, $o=0, $id='')
-	{
-		switch (strtolower($page))
-		{
-			case 'ekspedisi':
+                break;
 
-				break;
+            default:
 
-			case 'berita':
+                break;
+        }
+    }
 
-				break;
+    // UPDATE
+    public function update($page, $p = 1, $o = 0, $id = '')
+    {
+        switch (strtolower($page)) {
+            case 'ekspedisi':
 
-			default:
+                break;
 
-				break;
-		}
-	}
-	// UPDATE END
+            case 'berita':
 
+                break;
+
+            default:
+
+                break;
+        }
+    }
+    // UPDATE END
 }

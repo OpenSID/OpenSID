@@ -18,11 +18,11 @@
 						<div class="form-group">
 							<label class="col-xs-12 col-sm-4 col-lg-2 control-label" for="pengurus">Data Staf</label>
 							<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-								<label for="pengurus_1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if (empty($pamong) or ! empty($individu)): ?>active<?php endif ?>">
-									<input id="pengurus_1" type="radio" name="pengurus" class="form-check-input" type="radio" value="1" <?php if (empty($pamong) or ! empty($individu)): ?>checked<?php endif; ?> autocomplete="off" onchange="pengurus_asal(this.value);"> Dari Database Penduduk
+								<label for="pengurus_1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if (empty($pamong) || ! empty($individu)): ?>active<?php endif ?>">
+									<input id="pengurus_1" type="radio" name="pengurus" class="form-check-input" type="radio" value="1" <?php if (empty($pamong) || ! empty($individu)): ?>checked<?php endif; ?> autocomplete="off" onchange="pengurus_asal(this.value);"> Dari Database Penduduk
 								</label>
-								<label for="pengurus_2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if ( ! empty($pamong) and empty($individu)): ?>active<?php endif; ?>">
-									<input id="pengurus_2" type="radio" name="pengurus" class="form-check-input" type="radio" value="2" <?php if ( ! empty($pamong) and empty($individu)): ?>checked<?php endif; ?> autocomplete="off" onchange="pengurus_asal(this.value);"> Tidak Terdata
+								<label for="pengurus_2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if (! empty($pamong) && empty($individu)): ?>active<?php endif; ?>">
+									<input id="pengurus_2" type="radio" name="pengurus" class="form-check-input" type="radio" value="2" <?php if (! empty($pamong) && empty($individu)): ?>checked<?php endif; ?> autocomplete="off" onchange="pengurus_asal(this.value);"> Tidak Terdata
 								</label>
 							</div>
 						</div>
@@ -34,8 +34,8 @@
 								<select class="form-control select2 input-sm" id="id_pend" name="id_pend" onchange="formAction('main')">
 									<option value="0">-- Silakan Masukan NIK / Nama --</option>
 									<?php foreach ($penduduk as $data): ?>
-										<option value="<?= $data['id']; ?>" <?= selected($individu['id'], $data['id']); ?>>NIK : <?= $data['nik'] . " - " . $data['nama'] . " - " . $data['dusun']; ?></option>
-									<?php endforeach;?>
+										<option value="<?= $data['id']; ?>" <?= selected($individu['id'], $data['id']); ?>>NIK : <?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['dusun']; ?></option>
+									<?php endforeach; ?>
 								</select>
 							</div>
 						</form>
@@ -48,11 +48,11 @@
 				<input type="hidden" name="id_pend" value="<?= $individu['id']?>">
 				<div class="col-md-3">
 					<?php
-						$sex = $individu ? $individu['id_sex'] : $pamong['id_sex'];
-						$foto = $individu ? $individu['foto'] : $pamong['foto'];
+                        $sex  = $individu ? $individu['id_sex'] : $pamong['id_sex'];
+                        $foto = $individu ? $individu['foto'] : $pamong['foto'];
 
-						$this->load->view('global/ambil_foto', ['id_sex' => $sex, 'foto' => $foto]);
-					?>
+                        $this->load->view('global/ambil_foto', ['id_sex' => $sex, 'foto' => $foto]);
+                    ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-primary">
@@ -134,7 +134,7 @@
 										<option value="">Pilih Agama</option>
 										<?php foreach ($agama as $data): ?>
 											<option value="<?= $data['id']?>" <?= selected($pamong['pamong_agama'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
-										<?php endforeach;?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
@@ -197,7 +197,7 @@
 										<option value="">Pilih Atasan</option>
 										<?php foreach ($atasan as $data): ?>
 											<option value="<?= $data['id']?>" <?= selected($pamong['atasan'], $data['id']); ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
-										<?php endforeach;?>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
@@ -236,8 +236,8 @@
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status Pegawai Desa</label>
 								<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if ($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>active<?php endif ?>">
-										<input id="group1" type="radio" name="pamong_status" class="form-check-input" type="radio" value="1" <?php if ($pamong['pamong_status'] == '1' OR $pamong['pamong_status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if ($pamong['pamong_status'] == '1' || $pamong['pamong_status'] == null): ?>active<?php endif ?>">
+										<input id="group1" type="radio" name="pamong_status" class="form-check-input" type="radio" value="1" <?php if ($pamong['pamong_status'] == '1' || $pamong['pamong_status'] == null): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
 									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?php if ($pamong['pamong_status'] == '2'): ?>active<?php endif ?>">
 										<input id="group2" type="radio" name="pamong_status" class="form-check-input" type="radio" value="2" <?php if ($pamong['pamong_status'] == '2'): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
@@ -267,11 +267,11 @@
 	});
 
 	function reset_form() {
-		<?php if ($pamong['pamong_status'] =='1' OR $pamong['pamong_status'] == NULL): ?>
+		<?php if ($pamong['pamong_status'] == '1' || $pamong['pamong_status'] == null): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
 		<?php endif ?>
-		<?php if ($pamong['pamong_status'] =='2'): ?>
+		<?php if ($pamong['pamong_status'] == '2'): ?>
 			$("#sx4").addClass('active');
 			$("#sx3").removeClass("active");
 		<?php endif ?>

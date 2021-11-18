@@ -11,7 +11,7 @@
 			<div class='col-xs-12'>
 				<div class='box box-danger'>
 					<div class='box-body'>
-						<?php $this->load->view('surat/signature.php');?>
+						<?php $this->load->view('surat/signature.php'); ?>
 					</div>
 				</div>
 			</div>

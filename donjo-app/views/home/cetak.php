@@ -3,7 +3,7 @@
 	<head>
 		<title>BUKU DATA APARAT PEMERINTAHAN DESA</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -53,7 +53,7 @@
 					</tr>
 					<tr>
 						<td colspan="2" class="bold">Bulan / Tahun</td>
-						<td colspan="1"> : <?= getBulan(date('m')).' / '.date('Y')?></td>
+						<td colspan="1"> : <?= getBulan(date('m')) . ' / ' . date('Y')?></td>
 						<td colspan="10">&nbsp;</td>
 					</tr>
 					<tr>
@@ -100,19 +100,19 @@
 								<td class="textx"><?= $data['pamong_niap']?></td>
 								<td class="textx"><?= $data['pamong_nip']?></td>
 								<td><?= $data['sex']?></td>
-								<td><?= $data['tempatlahir'].', '.tgl_indo_out($data['tanggallahir'])?></td>
+								<td><?= $data['tempatlahir'] . ', ' . tgl_indo_out($data['tanggallahir'])?></td>
 								<td><?= $data['agama']?></td>
 								<td><?= $data['pamong_pangkat']?></td>
 								<td><?= $data['jabatan']?></td>
 								<td><?= $data['pendidikan_kk']?></td>
-								<td><?= $data['pamong_nosk'].', '.tgl_indo_out($data['pamong_tglsk'])?></td>
-								<td><?= $data['pamong_nohenti'].', '.tgl_indo_out($data['pamong_tglhenti'])?></td>
+								<td><?= $data['pamong_nosk'] . ', ' . tgl_indo_out($data['pamong_tglsk'])?></td>
+								<td><?= $data['pamong_nohenti'] . ', ' . tgl_indo_out($data['pamong_tglhenti'])?></td>
 								<td><?= $data['pamong_masajab']?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 13, 'spasi_kiri' => 3, 'spasi_tengah' => 6]); ?>
+				<?php $this->load->view('global/blok_ttd_pamong.php', ['total_col' => 13, 'spasi_kiri' => 3, 'spasi_tengah' => 6]); ?>
 			</div>
 		</div>
 	</body>

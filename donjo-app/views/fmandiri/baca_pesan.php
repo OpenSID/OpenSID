@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View modul Layanan Mandiri > Pesan > Baca Pesan
  *
  * donjo-app/views/fmandiri/baca_pesan.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -52,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div>
 	<div class="box-body box-line">
 		<div class="form-group">
-			<a href="<?= site_url("layanan-mandiri/$tujuan"); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke <?= ucwords(spaceunpenetration($tujuan)); ?></a>
+			<a href="<?= site_url("layanan-mandiri/{$tujuan}"); ?>" class="btn bg-aqua btn-social"><i class="fa fa-arrow-circle-left "></i>Kembali ke <?= ucwords(spaceunpenetration($tujuan)); ?></a>
 		</div>
 	</div>
 	<div class="box-body box-line">
@@ -72,13 +69,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<label for="pesan">Isi Pesan</label>
 				<textarea class="form-control" readonly><?= $pesan['komentar']; ?></textarea>
 			</div>
-			<?php if($kat == 2): ?>
+			<?php if ($kat == 2): ?>
 				<!-- Tombol balas hanya untuk kotak masuk -->
 				<hr/>
 				<div class="form-group">
 					<button type="submit" class="btn bg-green btn-social"><i class="fa fa-reply"></i>Balas Pesan</button>
-					<?php if($pesan['permohonan'] && $permohonan['status'] == 0): ?>
-						<a href="<?= site_url("layanan-mandiri/surat/buat/$pesan[permohonan]"); ?>" class="btn btn-social bg-navy" title="Lengkapi Surat"><i class="fa fa-info-circle"></i>Lengkapi Surat</a>
+					<?php if ($pesan['permohonan'] && $permohonan['status'] == 0): ?>
+						<a href="<?= site_url("layanan-mandiri/surat/buat/{$pesan['permohonan']}"); ?>" class="btn btn-social bg-navy" title="Lengkapi Surat"><i class="fa fa-info-circle"></i>Lengkapi Surat</a>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>

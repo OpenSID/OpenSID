@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk modul Pembangunan
  *
  * donjo-app/views/pembangunan/fadmin/form.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -146,10 +143,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 								<label for="jenis_lokasi" class="control-label">Lokasi Pembangunan</label>
 								<div class="row">
 									<div class="btn-group col-sm-6" data-toggle="buttons">
-										<label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 <?= $main->lokasi ? NULL : 'active' ?>">
+										<label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 <?= $main->lokasi ? null : 'active' ?>">
 											<input type="radio" name="jenis_lokasi" class="form-check-input" value="1" autocomplete="off" onchange="pilih_lokasi(this.value);"> Pilih Lokasi
 										</label>
-										<label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 <?= $main->lokasi ? 'active' : NULL ?>">
+										<label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 <?= $main->lokasi ? 'active' : null ?>">
 											<input type="radio" name="jenis_lokasi" class="form-check-input" value="2" autocomplete="off" onchange="pilih_lokasi(this.value);"> Tulis Manual
 										</label>
 									</div>
@@ -160,7 +157,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 											<select class="form-control input-sm select2 required" id="id_lokasi" name="id_lokasi">
 												<option value="">-- Pilih Lokasi Pembangunan --</option>
 												<?php foreach ($list_lokasi as $key => $item) : ?>
-													<option value="<?= $item["id"] ?>" <?= selected($item["id"], $main->id_lokasi) ?>><?= strtoupper($item["dusun"]) ?> <?= empty($item['rw']) ? "" : " - RW  {$item["rw"]}" ?> <?= empty($item['rt']) ? "" : " / RT  {$item["rt"]}" ?></option>
+													<option value="<?= $item['id'] ?>" <?= selected($item['id'], $main->id_lokasi) ?>><?= strtoupper($item['dusun']) ?> <?= empty($item['rw']) ? '' : " - RW  {$item['rw']}" ?> <?= empty($item['rt']) ? '' : " / RT  {$item['rt']}" ?></option>
 												<?php endforeach; ?>
 											</select>
 									</div>
@@ -209,7 +206,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 										</span>
 										<span class="input-group-addon" style="background-color: red; border: 1px solid #ccc;">
 											<input type="checkbox" title="Centang Untuk Hapus Gambar" name="hapus_foto" value="hapus">
-										</span>											
+										</span>
 									</div>
 								</div>
 							</center>
@@ -239,7 +236,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	}
 
 	$(document).ready(function() {
-		pilih_lokasi(<?= (is_null($main->id_lokasi) && $main) ? 2 : 1 ?>);
+		pilih_lokasi(<?= (null === $main->id_lokasi && $main) ? 2 : 1 ?>);
 		// alert($main->id_lokasi);
 	});
 </script>

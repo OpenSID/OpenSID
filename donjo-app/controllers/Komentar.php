@@ -1,14 +1,8 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
 /*
- *  File ini:
  *
- * Controller untuk modul Komentar Artikel
- *
- * donjo-app/controllers/Komentar.php
- *
- */
-/*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -17,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -32,136 +26,144 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Komentar extends Admin_Controller {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function __construct()
-	{
-		parent::__construct();
+class Komentar extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->load->model('web_komentar_model');
-		$this->modul_ini = 13;
-		$this->sub_modul_ini = 50;
-	}
+        $this->load->model('web_komentar_model');
+        $this->modul_ini     = 13;
+        $this->sub_modul_ini = 50;
+    }
 
-	public function clear()
-	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter_status']);
-		unset($_SESSION['filter_nik']);
-		redirect('komentar');
-	}
+    public function clear()
+    {
+        unset($_SESSION['cari'], $_SESSION['filter_status'], $_SESSION['filter_nik']);
 
-	public function index($p=1, $o=0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
+        redirect('komentar');
+    }
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+    public function index($p = 1, $o = 0)
+    {
+        $data['p'] = $p;
+        $data['o'] = $o;
 
-		if (isset($_SESSION['filter_status']))
-			$data['filter_status'] = $_SESSION['filter_status'];
-		else $data['filter_status'] = '';
+        if (isset($_SESSION['cari'])) {
+            $data['cari'] = $_SESSION['cari'];
+        } else {
+            $data['cari'] = '';
+        }
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
+        if (isset($_SESSION['filter_status'])) {
+            $data['filter_status'] = $_SESSION['filter_status'];
+        } else {
+            $data['filter_status'] = '';
+        }
 
-		$data['paging'] = $this->web_komentar_model->paging($p,$o);
-		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->web_komentar_model->autocomplete();
+        if (isset($_POST['per_page'])) {
+            $_SESSION['per_page'] = $_POST['per_page'];
+        }
+        $data['per_page'] = $_SESSION['per_page'];
 
-		$this->render('komentar/table', $data);
-	}
+        $data['paging']  = $this->web_komentar_model->paging($p, $o);
+        $data['main']    = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword'] = $this->web_komentar_model->autocomplete();
 
-	public function form($p=1, $o=0, $id='')
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$data['p'] = $p;
-		$data['o'] = $o;
+        $this->render('komentar/table', $data);
+    }
 
-		if ($id)
-		{
-			$data['komentar'] = $this->web_komentar_model->get_komentar($id);
-			$data['form_action'] = site_url("komentar/update/$id/$p/$o");
-		}
-		else
-		{
-			$data['komentar'] = null;
-			$data['form_action'] = site_url("komentar/insert");
-		}
+    public function form($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $data['p'] = $p;
+        $data['o'] = $o;
 
-		$data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
+        if ($id) {
+            $data['komentar']    = $this->web_komentar_model->get_komentar($id);
+            $data['form_action'] = site_url("komentar/update/{$id}/{$p}/{$o}");
+        } else {
+            $data['komentar']    = null;
+            $data['form_action'] = site_url('komentar/insert');
+        }
 
-		$this->render('komentar/form', $data);
-	}
+        $data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
 
-	public function search()
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect('komentar');
-	}
+        $this->render('komentar/form', $data);
+    }
 
-	public function filter()
-	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0)
-			$_SESSION['filter_status'] = $filter;
-		else unset($_SESSION['filter_status']);
-		redirect('komentar');
-	}
+    public function search()
+    {
+        $cari = $this->input->post('cari');
+        if ($cari != '') {
+            $_SESSION['cari'] = $cari;
+        } else {
+            unset($_SESSION['cari']);
+        }
+        redirect('komentar');
+    }
 
-	public function insert()
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->web_komentar_model->insert();
-		redirect('komentar');
-	}
+    public function filter()
+    {
+        $filter = $this->input->post('filter');
+        if ($filter != 0) {
+            $_SESSION['filter_status'] = $filter;
+        } else {
+            unset($_SESSION['filter_status']);
+        }
+        redirect('komentar');
+    }
 
-	public function update($id='', $p=1, $o=0)
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->web_komentar_model->update($id);
-		redirect("komentar/index/$p/$o");
-	}
+    public function insert()
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->web_komentar_model->insert();
+        redirect('komentar');
+    }
 
-	public function delete($p=1, $o=0, $id='')
-	{
-		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
-		$this->web_komentar_model->delete($id);
-		redirect("komentar/index/$p/$o");
-	}
+    public function update($id = '', $p = 1, $o = 0)
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->web_komentar_model->update($id);
+        redirect("komentar/index/{$p}/{$o}");
+    }
 
-	public function delete_all($p=1, $o=0)
-	{
-		$this->redirect_hak_akses('h', "komentar/index/$p/$o");
-		$this->web_komentar_model->delete_all();
-		redirect("komentar/index/$p/$o");
-	}
+    public function delete($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('h', "komentar/index/{$p}/{$o}");
+        $this->web_komentar_model->delete($id);
+        redirect("komentar/index/{$p}/{$o}");
+    }
 
-	public function komentar_lock($id='')
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->web_komentar_model->komentar_lock($id, 1);
-		redirect("komentar/index/$p/$o");
-	}
+    public function delete_all($p = 1, $o = 0)
+    {
+        $this->redirect_hak_akses('h', "komentar/index/{$p}/{$o}");
+        $this->web_komentar_model->delete_all();
+        redirect("komentar/index/{$p}/{$o}");
+    }
 
-	public function komentar_unlock($id='')
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->web_komentar_model->komentar_lock($id, 2);
-		redirect("komentar/index/$p/$o");
-	}
+    public function komentar_lock($id = '')
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->web_komentar_model->komentar_lock($id, 1);
+        redirect("komentar/index/{$p}/{$o}");
+    }
+
+    public function komentar_unlock($id = '')
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->web_komentar_model->komentar_lock($id, 2);
+        redirect("komentar/index/{$p}/{$o}");
+    }
 }

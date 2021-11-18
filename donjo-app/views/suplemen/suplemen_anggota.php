@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View daftar terdata untuk modul suplemen
  *
  * donjo-app/views/suplemen/suplemen_anggota.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -72,13 +69,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="box-header with-border">
 				<p class="hidden" id="data-id"><?= $suplemen['id']; ?></p>
 				<?php if ($this->CI->cek_hak_akses('u')): ?>
-					<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
-					<a href="<?= site_url("suplemen/impor")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-import visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#impor" data-title="Impor Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-upload "></i> Impor Data</a>
+					<a href="<?= site_url('suplemen/form_terdata/' . $suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
+					<a href="<?= site_url('suplemen/impor')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-import visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#impor" data-title="Impor Data Suplemen <?= $sasaran[$suplemen['sasaran']]; ?> "><i class="fa fa-upload "></i> Impor Data</a>
 				<?php endif; ?>
-				<a href="<?= site_url("suplemen/ekspor/$suplemen[id]")?>" class="btn btn-social btn-flat bg-teal btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-excel-o "></i> Ekspor Data</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-print "></i> Cetak</a>
-				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
-				<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
+				<a href="<?= site_url("suplemen/ekspor/{$suplemen['id']}")?>" class="btn btn-social btn-flat bg-teal btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-excel-o "></i> Ekspor Data</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/{$suplemen['id']}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen['sasaran']]; ?> "><i class="fa fa-print "></i> Cetak</a>
+				<a href="<?= site_url("suplemen/dialog_daftar/{$suplemen['id']}/unduh")?>" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen['sasaran']]; ?> "><i class="fa fa-download "></i> Unduh</a>
+				<a href="<?= site_url('suplemen')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 				</a>
 			</div>
@@ -90,9 +87,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="input-group input-group-sm pull-right">
-									<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" value="<?= $cari ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("suplemen/filter/cari")?>');$('#'+'mainform').submit();}">
+									<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" value="<?= $cari ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url('suplemen/filter/cari')?>');$('#'+'mainform').submit();}">
 									<div class="input-group-btn">
-										<button type="submit" class="btn btn-default" value="<?= $cari ?>" onclick="$('#'+'mainform').attr('action', '<?=site_url("suplemen/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+										<button type="submit" class="btn btn-default" value="<?= $cari ?>" onclick="$('#'+'mainform').attr('action', '<?=site_url('suplemen/filter/cari')?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 									</div>
 								</div>
 							</div>
@@ -114,26 +111,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</tr>
 								</thead>
 								<tbody>
-									<?php if($terdata): ?>
+									<?php if ($terdata): ?>
 										<?php foreach ($terdata as $key => $item): ?>
 											<tr>
 												<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 												<td class="aksi">
 													<?php if ($this->CI->cek_hak_akses('u')): ?>
-														<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+														<a href="<?= site_url("suplemen/edit_terdata_form/{$item['id']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 													<?php endif; ?>
 													<?php if ($this->CI->cek_hak_akses('h')): ?>
-														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/{$suplemen['id']}/{$item['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													<?php endif; ?>
 												</td>
-												<td nowrap><?= $item["terdata_info"]; ?></td>
-												<td nowrap><a href="<?= site_url("suplemen/terdata/$suplemen[sasaran]/$item[id_terdata]"); ?>" title="Daftar suplemen untuk terdata"><?= $item["terdata_plus"]; ?></a></td>
-												<td nowrap><a href="<?= site_url("suplemen/data_terdata/$item[id]"); ?>" title="Data terdata"><?= $item['terdata_nama'];?></a></td>
-												<td><?= $item["tempat_lahir"]; ?></td>
-												<td nowrap><?= $item["tanggal_lahir"]; ?></td>
-												<td nowrap><?= $item["sex"]; ?></td>
-												<td nowrap><?= $item["info"];?></td>
-												<td width="25%"><?= $item["keterangan"]; ?></td>
+												<td nowrap><?= $item['terdata_info']; ?></td>
+												<td nowrap><a href="<?= site_url("suplemen/terdata/{$suplemen['sasaran']}/{$item['id_terdata']}"); ?>" title="Daftar suplemen untuk terdata"><?= $item['terdata_plus']; ?></a></td>
+												<td nowrap><a href="<?= site_url("suplemen/data_terdata/{$item['id']}"); ?>" title="Data terdata"><?= $item['terdata_nama']; ?></a></td>
+												<td><?= $item['tempat_lahir']; ?></td>
+												<td nowrap><?= $item['tanggal_lahir']; ?></td>
+												<td nowrap><?= $item['sex']; ?></td>
+												<td nowrap><?= $item['info']; ?></td>
+												<td width="25%"><?= $item['keterangan']; ?></td>
 											</tr>
 										<?php endforeach; ?>
 									<?php else: ?>
@@ -145,14 +142,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</table>
 						</div>
 					</form>
-					<?php $this->load->view('global/paging');?>
+					<?php $this->load->view('global/paging'); ?>
 				</div>
 			</div>
 		</div>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
-<?php $this->load->view('suplemen/impor');?>
+<?php $this->load->view('global/confirm_delete'); ?>
+<?php $this->load->view('suplemen/impor'); ?>
 <script type="text/javascript">
 	$(".btn-import").click(function() {
 		$("#id_suplemen").val($("#data-id").html());

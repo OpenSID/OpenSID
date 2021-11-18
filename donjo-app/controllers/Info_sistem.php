@@ -1,16 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
-
 /*
- *  File ini:
- *
- * Controller untuk modul Info Sistem
- *
- * donjo-app/controllers/Info_sistem.php
- *
-
-/**
  *
  * File ini bagian dari:
  *
@@ -21,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -36,52 +26,54 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Info_sistem extends Admin_Controller {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->modul_ini = 11;
-		$this->sub_modul_ini = 46;
-		$this->set_minsidebar(1);
-	}
+class Info_sistem extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->modul_ini     = 11;
+        $this->sub_modul_ini = 46;
+        $this->set_minsidebar(1);
+    }
 
-	public function index()
-	{
-		// Logs viewer
-		$this->load->library('Log_Viewer');
+    public function index()
+    {
+        // Logs viewer
+        $this->load->library('Log_Viewer');
 
-		$data = $this->log_viewer->showLogs();
-		$data['ekstensi'] = $this->setting_model->cek_ekstensi();
-		$data['php'] = $this->setting_model->cek_php();
-		$data['mysql'] = $this->setting_model->cek_mysql();
+        $data             = $this->log_viewer->showLogs();
+        $data['ekstensi'] = $this->setting_model->cek_ekstensi();
+        $data['php']      = $this->setting_model->cek_php();
+        $data['mysql']    = $this->setting_model->cek_mysql();
 
-		$this->render('setting/info_sistem/index', $data);
-	}
+        $this->render('setting/info_sistem/index', $data);
+    }
 
-	public function remove_log()
-	{
-		$path = $this->config->item('log_path');
-		$file = base64_decode($this->input->get('f'));
+    public function remove_log()
+    {
+        $path = $this->config->item('log_path');
+        $file = base64_decode($this->input->get('f'), true);
 
-		if ($this->input->post())
-		{
-			$files = $this->input->post('id_cb');
-			foreach ($files as $file)
-			{
-				$file = $path . basename($file);
-				unlink($file);
-			}
-		}
+        if ($this->input->post()) {
+            $files = $this->input->post('id_cb');
 
-		redirect($this->controller);
-	}
+            foreach ($files as $file) {
+                $file = $path . basename($file);
+                unlink($file);
+            }
+        }
+
+        redirect($this->controller);
+    }
 }

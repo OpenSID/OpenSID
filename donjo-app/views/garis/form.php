@@ -5,11 +5,9 @@
  * View untuk modul Pemetaan (Garis)
  *
  * /donjo-app/views/garis/form.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -25,21 +23,20 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ *
+ * @see  https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -61,7 +58,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("garis")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url('garis')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Garis
 							</a>
 						</div>
@@ -77,17 +74,17 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm" id="ref_line" name="ref_line" style="width:100%;">
 									<option value="">Kategori</option>
-									<?php foreach ($list_subline AS $data): ?>
-										<option <?php if ($garis['ref_line']==$data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
-									<?php endforeach;?>
+									<?php foreach ($list_subline as $data): ?>
+										<option <?php if ($garis['ref_line'] == $data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
+									<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
-							<?php if ($garis["foto"]): ?>
+							<?php if ($garis['foto']): ?>
 								<div class="form-group">
 									<label class="control-label col-sm-3"></label>
 									<div class="col-sm-7">
-									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_FOTO_GARIS?>kecil_<?= $garis['foto']?>" alt="Foto">
+									  <img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_FOTO_GARIS?>kecil_<?= $garis['foto']?>" alt="Foto">
 									</div>
 								</div>
 							<?php endif; ?>
@@ -113,11 +110,11 @@
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] =='1' OR $garis['enabled'] == NULL): ?>active<?php endif ?>">
-										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($garis['enabled'] =='1' OR $garis['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] == '1' || $garis['enabled'] == null): ?>active<?php endif ?>">
+										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($garis['enabled'] == '1' || $garis['enabled'] == null): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] == '2' ): ?>active<?php endif ?>">
-										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($garis['enabled'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($garis['enabled'] == '2'): ?>active<?php endif ?>">
+										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($garis['enabled'] == '2'): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
@@ -137,11 +134,11 @@
 <script>
 	function reset_form()
 	{
-		<?php if ($lokasi['enabled'] =='1' OR $lokasi['enabled'] == NULL): ?>
+		<?php if ($lokasi['enabled'] == '1' || $lokasi['enabled'] == null): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
 		<?php endif ?>
-		<?php if ($lokasi['enabled'] =='2'): ?>
+		<?php if ($lokasi['enabled'] == '2'): ?>
 			$("#sx4").addClass('active');
 			$("#sx3").removeClass("active");
 		<?php endif ?>

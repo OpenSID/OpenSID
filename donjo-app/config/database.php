@@ -1,5 +1,41 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -72,29 +108,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default';
 // $active_record = TRUE;
-$query_builder = TRUE;
+$query_builder = true;
 
 // Pengaturan basisdata standar
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'opensid';
-$db['default']['port']     = 3306;
-$db['default']['stricton'] = TRUE;
-$db['default']['dbdriver'] = 'mysqli';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['encrypt'] = FALSE;
-$db['default']['compress'] = FALSE;
-$db['default']['failover'] = array();
-$db['default']['save_queries'] = TRUE;
+$db['default']['hostname']     = 'localhost';
+$db['default']['username']     = 'root';
+$db['default']['password']     = '';
+$db['default']['database']     = 'opensid';
+$db['default']['port']         = 3306;
+$db['default']['stricton']     = true;
+$db['default']['dbdriver']     = 'mysqli';
+$db['default']['dbprefix']     = '';
+$db['default']['pconnect']     = true;
+$db['default']['db_debug']     = true;
+$db['default']['cache_on']     = false;
+$db['default']['cachedir']     = '';
+$db['default']['char_set']     = 'utf8';
+$db['default']['dbcollat']     = 'utf8_general_ci';
+$db['default']['swap_pre']     = '';
+$db['default']['autoinit']     = true;
+$db['default']['encrypt']      = false;
+$db['default']['compress']     = false;
+$db['default']['failover']     = [];
+$db['default']['save_queries'] = true;
 
 // Ganti pegaturan basisdata sesuai yg ada pada file desa/config/database.php
-include(LOKASI_CONFIG_DESA . 'database.php');
+include LOKASI_CONFIG_DESA . 'database.php';

@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View Masuk Layanan Mandiri
  *
  * donjo-app/views/fmandiri/masuk.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -52,16 +49,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<meta charset="utf-8">
 	<title>
 		<?=$this->setting->login_title
-			. ' ' . ucwords($this->setting->sebutan_desa)
-			. (($header['nama_desa']) ? ' ' . $header['nama_desa']: '')
-			. get_dynamic_title_page_from_path();
-		?>
+            . ' ' . ucwords($this->setting->sebutan_desa)
+            . (($header['nama_desa']) ? ' ' . $header['nama_desa'] : '')
+            . get_dynamic_title_page_from_path();
+        ?>
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 	<?php else: ?>
 		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -71,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/login-form-elements.css" media="screen" type="text/css"/>
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/siteman_mandiri.css" media="screen" type="text/css"/>
 	<link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css"/>
-	<?php if (is_file("desa/pengaturan/siteman/siteman_mandiri.css")): ?>
+	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')): ?>
 		<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman_mandiri.css" rel='Stylesheet' />
 	<?php endif; ?>
 	<!-- Google Font -->
@@ -80,8 +77,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<?php if ($cek_anjungan): ?>
 		<!-- Keyboard Default (Ganti dengan keyboard-dark.min.css untuk tampilan lain)-->
-		<link rel="stylesheet" href="<?= base_url("assets/css/keyboard.min.css")?>">
-		<link rel="stylesheet" href="<?= base_url("assets/front/css/mandiri-keyboard.css")?>">
+		<link rel="stylesheet" href="<?= base_url('assets/css/keyboard.min.css')?>">
+		<link rel="stylesheet" href="<?= base_url('assets/front/css/mandiri-keyboard.css')?>">
 	<?php endif; ?>
 
 	<?php $this->load->view('head_tags'); ?>
@@ -100,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-4 form-box">
 						<div class="form-top">
-							<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']);?>" alt="Lambang Desa" class="img-responsive"/></a>
+							<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']); ?>" alt="Lambang Desa" class="img-responsive"/></a>
 							<div class="login-footer-top"><h1>LAYANAN MANDIRI<br/><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 								<h3>
 									<br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?>
@@ -108,13 +105,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<br/><?=$header['alamat_kantor']?>
 									<br />Kodepos <?=$header['kode_pos']?>
 									<br/><br/>Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
-									<?php if ( ! $cek_anjungan): ?>
+									<?php if (! $cek_anjungan): ?>
 										<br/><br/><br/>IP Address: <?= $this->input->ip_address(); ?>
 									<?php else: ?>
 										<br/><br/><br/>IP Address :	<?= $cek_anjungan['ip_address']?>
 										<br/>Mac Address :	<?= $cek_anjungan['mac_address']?>
 										<br/>Anjungan Mandiri
-										<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
+										<?= jecho($cek_anjungan['keyboard'] == 1, true, ' | Virtual Keyboard : Aktif'); ?>
 									<?php endif; ?>
 								</h3>
 							</div>
@@ -136,10 +133,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												</div>
 											<?php endif; ?>
 											<div class="form-group form-login">
-												<input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
+												<input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
 											</div>
 											<div class="form-group form-login">
-												<input type="password" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
+												<input type="password" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
 											</div>
 											<div class="form-group">
 												<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>
@@ -148,7 +145,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
 											</div>
 											<div class="form-group">
-												<a href="<?= site_url("layanan-mandiri/masuk-ektp")?>" >
+												<a href="<?= site_url('layanan-mandiri/masuk-ektp')?>" >
 													<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
 												</a>
 											</div>
@@ -168,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<img src="<?= base_url('assets/images/camera-scan.gif')?>" alt="scanner" class="center" style="width:30%">
 											</div>
 										</div>
-										<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', FALSE, 'width: 0; overflow: hidden;'); ?>" >
+										<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; overflow: hidden;'); ?>" >
 											<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
 										</div>
 										<?php if (! $cek_anjungan): ?>
@@ -180,7 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											</div>
 										<?php endif; ?>
 										<div class="form-group">
-											<a href="<?= site_url("layanan-mandiri/masuk")?>" >
+											<a href="<?= site_url('layanan-mandiri/masuk')?>" >
 												<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
 											</a>
 										</div>
@@ -215,10 +212,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<?php if ($cek_anjungan): ?>
 		<!-- keyboard widget css & script -->
-		<script src="<?= base_url("assets/js/jquery.keyboard.min.js")?>"></script>
-		<script src="<?= base_url("assets/js/jquery.mousewheel.min.js")?>"></script>
-		<script src="<?= base_url("assets/js/jquery.keyboard.extension-all.min.js")?>"></script>
-		<script src="<?= base_url("assets/front/js/mandiri-keyboard.js")?>"></script>
+		<script src="<?= base_url('assets/js/jquery.keyboard.min.js')?>"></script>
+		<script src="<?= base_url('assets/js/jquery.mousewheel.min.js')?>"></script>
+		<script src="<?= base_url('assets/js/jquery.keyboard.extension-all.min.js')?>"></script>
+		<script src="<?= base_url('assets/front/js/mandiri-keyboard.js')?>"></script>
 	<?php endif; ?>
 	<script type="text/javascript">
 	$('document').ready(function() {

@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View Layanan Mandiri Pendapat
  *
  * donjo-app/views/fmandiri/pendapat.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -52,13 +49,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="modal-body text-center">
 				<h4>BERIKAN PENILAIAN ANDA TERHADAP PELAYANAN KAMI</h4>
 				<?php foreach (unserialize(NILAI_PENDAPAT) as $key => $value) : ?>
-					<a href="<?= site_url("layanan-mandiri/pendapat/$key"); ?>" class="btn btn-app pendapat">
+					<a href="<?= site_url("layanan-mandiri/pendapat/{$key}"); ?>" class="btn btn-app pendapat">
 						<img src="<?= base_url(PENDAPAT . underscore(strtolower($value)) . '.png'); ?>">
 						<p><?= $value; ?></p>
 					</a>
 				<?php endforeach; ?>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">Batalkan</button>
-				<a href="<?= site_url("layanan-mandiri/keluar"); ?> " class="btn btn-success">Lain Kali</a>
+				<a href="<?= site_url('layanan-mandiri/keluar'); ?> " class="btn btn-success">Lain Kali</a>
 			</div>
 		</div>
 	</div>

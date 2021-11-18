@@ -42,6 +42,7 @@ info.php
 **/.DS_Store
 mitra
 sftp-config.json
+.php-cs-fixer.cache
 
 # Abaikan file milik library Release dan Curly
 *.pem

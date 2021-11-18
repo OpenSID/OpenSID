@@ -6,11 +6,9 @@
  * Form anggota untuk modul Kelompok
  *
  * donjo-app/views/kelompok/anggota/form.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -35,12 +33,11 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ *
+ * @see  https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -58,12 +55,12 @@
 		<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('global/ambil_foto', ['id_sex' => $pend['id_sex'], 'foto' => $pend['foto'],]); ?>
+					<?php $this->load->view('global/ambil_foto', ['id_sex' => $pend['id_sex'], 'foto' => $pend['foto']]); ?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-primary">
 						<div class="box-header with-border">
-							<a href="<?= site_url("$this->controller/anggota/$kelompok"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Anggota <?= $tipe; ?></a>
+							<a href="<?= site_url("{$this->controller}/anggota/{$kelompok}"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Anggota <?= $tipe; ?></a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
@@ -72,7 +69,7 @@
 									<select class="form-control input-sm select2 required" <?= jecho($pend, true, 'disabled') ?> id="id_penduduk" name="id_penduduk">
 										<option value="">-- Silakan Masukan NIK / Nama --</option>
 										<?php foreach ($list_penduduk as $data) : ?>
-											<option value="<?= $data['id']; ?>" <?= selected($data['id'], $pend['id_penduduk']); ?>>NIK :<?= $data['nik'] . " - " . $data['nama'] . " - " . $data['alamat']; ?></option>
+											<option value="<?= $data['id']; ?>" <?= selected($data['id'], $pend['id_penduduk']); ?>>NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['alamat']; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -84,7 +81,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<?php if (!empty($pend)) : ?>
+								<?php if (! empty($pend)) : ?>
 									<input type="hidden" name="jabatan_lama" value="<?= $pend['jabatan'] ?>">
 								<?php endif; ?>
 								<label class="col-sm-3 control-label" for="jabatan">Jabatan</label>

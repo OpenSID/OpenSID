@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Kas Desa
  *
  * donjo-app/views/bumindes/pembangunan/tanah_kas_desa/tanah_kas_desa_cetak.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -74,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th colspan="6">PEROLEHAN TKD</th>
 							<th colspan="5">JENIS TKD</th>
 							<th colspan="2">PATOK TANDA BATAS</th>
-							<th colspan="2">PAPAN NAMA</th>										
+							<th colspan="2">PAPAN NAMA</th>
 							<th rowspan="3">LOKASI</th>
 							<th rowspan="3">PERUNTUKAN</th>
 							<th rowspan="3">MUTASI</th>
@@ -82,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 						<tr class="border thick">
 							<th rowspan="2">ASLI MILIK DESA</th>
-							<th colspan="3">BANTUAN</th>		
+							<th colspan="3">BANTUAN</th>
 							<th rowspan="2">LAIN - LAIN</th>
 							<th width="100" rowspan="2">TGL PEROLEHAN</th>
 							<th rowspan="2">SAWAH</th>
@@ -128,10 +125,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-						<?php 
-							$count = 1;
-							foreach ($main as $data):
-						?>
+						<?php
+                            $count = 1;
+
+                            foreach ($main as $data):
+                        ?>
 							<tr>
 								<td class="text-left"><?= $count ?></td>
 								<td><?= strtoupper($data['asal'])?></td>
@@ -154,14 +152,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td class="text-center"><?= $data['ada_papan_nama'] ?: '' ?></td>
 								<td class="text-center"><?= $data['tidak_ada_papan_nama'] ?: '' ?></td>
 								<td><?= strtoupper($data['lokasi']) ?></td>
-								<td class="text-center"><?= strtoupper($data['peruntukan_tanah'] ?: '') ?></td>								
+								<td class="text-center"><?= strtoupper($data['peruntukan_tanah'] ?: '') ?></td>
 								<td><?= strtoupper($data['mutasi']) ?></td>
 								<td><?= strtoupper($data['keterangan']) ?></td>
 							</tr>
 						<?php
-							$count++;
-						 	endforeach;
-						?>
+                            $count++;
+                            endforeach;
+                        ?>
 					</tbody>
 				</table>
 			</td>

@@ -35,7 +35,7 @@
 							</div>
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
-							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("analisis_master/delete_all/$p/$o") ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("analisis_master/delete_all/{$p}/{$o}") ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('u')): ?>
 							<a href="<?= site_url('analisis_master/import_analisis') ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Analisis" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Impor Analisis"><i class="fa fa-upload"></i> Impor Analisis</a>
@@ -66,7 +66,7 @@
 													<div class="input-group input-group-sm pull-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari) ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action','<?= site_url('analisis_master/search') ?>');$('#'+'mainform').submit();};">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("analisis_master/search") ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url('analisis_master/search') ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -84,25 +84,25 @@
 																<th>No</th>
 																<th>Aksi</th>
 																<?php if ($o == 4) : ?>
-																	<th><a href="<?= site_url("analisis_master/index/$p/3") ?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("analisis_master/index/{$p}/3") ?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o == 3) : ?>
-																	<th><a href="<?= site_url("analisis_master/index/$p/4") ?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("analisis_master/index/{$p}/4") ?>">Nama <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else : ?>
-																	<th><a href="<?= site_url("analisis_master/index/$p/3") ?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("analisis_master/index/{$p}/3") ?>">Nama <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<?php if ($o == 6) : ?>
-																	<th nowrap><a href="<?= site_url("analisis_master/index/$p/5") ?>">Subjek/Unit Analisis <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("analisis_master/index/{$p}/5") ?>">Subjek/Unit Analisis <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o == 5) : ?>
-																	<th nowrap><a href="<?= site_url("analisis_master/index/$p/6") ?>">Subjek/Unit Analisis <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("analisis_master/index/{$p}/6") ?>">Subjek/Unit Analisis <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else : ?>
-																	<th nowrap><a href="<?= site_url("analisis_master/index/$p/5") ?>">Subjek/Unit Analisis <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("analisis_master/index/{$p}/5") ?>">Subjek/Unit Analisis <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<?php if ($o == 2) : ?>
-																	<th nowrap><a href="<?= site_url("analisis_master/index/$p/1") ?>">Status <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("analisis_master/index/{$p}/1") ?>">Status <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o == 1) : ?>
-																	<th nowrap><a href="<?= site_url("analisis_master/index/$p/2") ?>">Status <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("analisis_master/index/{$p}/2") ?>">Status <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else : ?>
-																	<th nowrap><a href="<?= site_url("analisis_master/index/$p/1") ?>">Status <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("analisis_master/index/{$p}/1") ?>">Status <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>ID Google Form</th>
 																<th>Sinkronasi Google Form</th>
@@ -120,16 +120,16 @@
 																	<?php endif; ?>
 																	<td><?= $data['no'] ?></td>
 																	<td nowrap>
-																		<a href="<?= site_url("analisis_master/menu/$data[id]") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a>
-																		<a href="<?= site_url("analisis_master/ekspor/$data[id]") ?>" class="btn bg-navy btn-flat btn-sm" title="Ekspor Analisis"><i class="fa fa-download"></i></a>
+																		<a href="<?= site_url("analisis_master/menu/{$data['id']}") ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Analisis"><i class="fa fa-list-ol"></i></a>
+																		<a href="<?= site_url("analisis_master/ekspor/{$data['id']}") ?>" class="btn bg-navy btn-flat btn-sm" title="Ekspor Analisis"><i class="fa fa-download"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
-																			<a href="<?= site_url("analisis_master/form/$p/$o/$data[id]") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
+																			<a href="<?= site_url("analisis_master/form/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class='fa fa-edit'></i></a>
 																		<?php endif; ?>
 																		<?php if ($data['jenis'] != 1 && $this->CI->cek_hak_akses('u')) : ?>
-																			<a href="#" data-href="<?= site_url("analisis_master/delete/$p/$o/$data[id]") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("analisis_master/delete/{$p}/{$o}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
-																		<?php if ($data['gform_id'] != null && $data['gform_id'] != "" && $this->CI->cek_hak_akses('u')) : ?>
-																			<a href="<?= site_url("analisis_master/update_gform/$data[id]") ?>" class="btn bg-navy btn-flat btn-sm" title="Update Data Google Form"><i class='fa fa-refresh'></i></a>
+																		<?php if ($data['gform_id'] != null && $data['gform_id'] != '' && $this->CI->cek_hak_akses('u')) : ?>
+																			<a href="<?= site_url("analisis_master/update_gform/{$data['id']}") ?>" class="btn bg-navy btn-flat btn-sm" title="Update Data Google Form"><i class='fa fa-refresh'></i></a>
 																		<?php endif; ?>
 																	</td>
 																	<td width="30%"><?= $data['nama'] ?></td>
@@ -145,7 +145,7 @@
 											</div>
 										</div>
 									</form>
-									<?php $this->load->view('global/paging');?>
+									<?php $this->load->view('global/paging'); ?>
 								</div>
 							</div>
 						</div>

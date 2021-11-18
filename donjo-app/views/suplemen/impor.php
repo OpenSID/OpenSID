@@ -4,7 +4,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Impor Data Suplemen</h4>
 			</div>
-			<form id="mainform" action="<?= site_url("suplemen/impor"); ?>" method="POST" enctype="multipart/form-data">
+			<form id="mainform" action="<?= site_url('suplemen/impor'); ?>" method="POST" enctype="multipart/form-data">
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="file" class="control-label">File Data Suplemen : </label>
@@ -19,7 +19,7 @@
 						<label>Data yang dimasukkan adalah data yang baru</label>
 						<br/>
 						<br/>
-						<a href="<?= base_url("assets/import/format_impor_suplemen.xlsx"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Suplemen</a>
+						<a href="<?= base_url('assets/import/format_impor_suplemen.xlsx'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block text-center"><i class="fa fa-file-excel-o"></i> Contoh Format Impor Data Suplemen</a>
 					</div>
 				</div>
 				<div class="modal-footer">

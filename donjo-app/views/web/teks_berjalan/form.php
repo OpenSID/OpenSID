@@ -12,7 +12,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url().$this->controller?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url() . $this->controller?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Teks
 							</a>
 						</div>
@@ -29,7 +29,7 @@
 									<select class="form-control select2 " id="tautan" name="tautan" style="width: 100%;">
 										<option value="">-- Cari Judul Artikel --</option>
 										<?php foreach ($list_artikel as $artikel): ?>
-											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'], $teks['tautan']); ?>><?=tgl_indo($artikel['tgl_upload']).' | '.$artikel['judul']?></option>
+											<option value="<?= $artikel['id']?>" <?php selected($artikel['id'], $teks['tautan']); ?>><?=tgl_indo($artikel['tgl_upload']) . ' | ' . $artikel['judul']?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
@@ -37,7 +37,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label class="control-label">Judul tautan</label>
-									<input class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" value="<?= $teks['judul_tautan'] ? $teks['judul_tautan'] : '-- selengkapnya...' ?>" maxlength="150"></input>
+									<input class="form-control input-sm required" placeholder="Judul tautan ke artikel atau url" name="judul_tautan" value="<?= $teks['judul_tautan'] ?: '-- selengkapnya...' ?>" maxlength="150"></input>
 								</div>
 							</div>
 						</div>

@@ -5,11 +5,9 @@
  * Bagian dari form penambahan peserta Program Bantuan
  *
  * donjo-app/views/program_bantuan/konfirmasi_peserta.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -25,60 +23,59 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
 <div class="form-group">
 	<label class="col-sm-4 col-lg-5 control-label"><?=$individu['judul_nik']?></label>
 	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu['nik'];?>">
+		<input class="form-control input-sm" type="text" disabled value="<?= $individu['nik']; ?>">
 	</div>
 </div>
 <div class="form-group">
 	<label class="col-sm-4 col-lg-5 control-label">Nama <?=$individu['judul']?></label>
 	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu['nama'];?>">
+		<input class="form-control input-sm" type="text" disabled value="<?= $individu['nama']; ?>">
 	</div>
 </div>
-<?php if ($detail["sasaran"] == 2): ?>
+<?php if ($detail['sasaran'] == 2): ?>
 	<div class="form-group">
 		<label class="col-sm-4 col-lg-5 control-label">Nomer KK</label>
 		<div class="col-sm-7">
-			<input class="form-control input-sm" type="text" disabled value="<?= $individu['no_kk'];?>">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['no_kk']; ?>">
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-4 col-lg-5 control-label">Nama Kepala Keluarga</label>
 		<div class="col-sm-7">
-			<input class="form-control input-sm" type="text" disabled value="<?= $individu['nama_kk'];?>">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['nama_kk']; ?>">
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-sm-4 col-lg-5 control-label">Status KK</label>
 		<div class="col-sm-7">
-			<input class="form-control input-sm" type="text" disabled value="<?= $individu['hubungan'];?>">
+			<input class="form-control input-sm" type="text" disabled value="<?= $individu['hubungan']; ?>">
 		</div>
 	</div>
 <?php endif; ?>
 <div class="form-group">
 	<label class="col-sm-4 col-lg-5 control-label">Alamat <?=$individu['judul']?></label>
 	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu['alamat_wilayah'];?>">
+		<input class="form-control input-sm" type="text" disabled value="<?= $individu['alamat_wilayah']; ?>">
 	</div>
 </div>
 <div class="form-group">
@@ -90,7 +87,7 @@
 <div class="form-group">
 	<label class="col-sm-4 col-lg-5 control-label">Jenis Kelamin <?=$individu['judul']?></label>
 	<div class="col-sm-7">
-		<input class="form-control input-sm" type="text" disabled value="<?= $individu["sex"]?>">
+		<input class="form-control input-sm" type="text" disabled value="<?= $individu['sex']?>">
 	</div>
 </div>
 <div class="form-group">
@@ -116,7 +113,7 @@
 	<div class="col-sm-7">
 		<?php foreach ($individu['program']['programkerja'] as $item): ?>
 			<?php if ($item[status] == '1'): ?>
-				<?= anchor("program_bantuan/data_peserta/$item[peserta_id]", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
+				<?= anchor("program_bantuan/data_peserta/{$item['peserta_id']}", '<span class="label label-success">' . $item['nama'] . '</span>&nbsp;', 'target="_blank"'); ?>
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</div>

@@ -1,4 +1,4 @@
-<?php $this->load->view('print/headjs.php');?>
+<?php $this->load->view('print/headjs.php'); ?>
 	<body>
 		<div id="content" class="container_12 clearfix">
 			<div id="content-main" class="grid_7">
@@ -18,7 +18,7 @@
 				</table>
 				<table width="100%" style="border: solid 0px black; text-align: center;">
 					<tr>
-						<td align="center"><img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
+						<td align="center"><img src="<?= gambar_desa($desa['logo']); ?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
 					</tr>
 					<tr>
 						</td>
@@ -169,7 +169,7 @@
 					<tr>
 						<td align="center" scope="col" width="40%">Yang Bersangkutan</td>
 						<td align="center" scope="col" width="10%">&nbsp;</td>
-						<td align="center" scope="col" width="50%"><?= ucwords($this->setting->sebutan_desa . ' '. $desa['nama_desa']) . ', ' . tgl_indo(date("Y m d"))?></td>
+						<td align="center" scope="col" width="50%"><?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) . ', ' . tgl_indo(date('Y m d'))?></td>
 					</tr>
 					<tr>
 						<td align="center">&nbsp;</td>

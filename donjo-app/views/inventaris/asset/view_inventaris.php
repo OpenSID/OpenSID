@@ -134,7 +134,7 @@
 									<div class="col-sm-4">
 										<div class="input-group">
 											<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
-											<input type="text"  value="<?= number_format($main->harga,0,".",".");?>" class="form-control input-sm number" id="harga" name="harga" type="text" disabled/>
+											<input type="text"  value="<?= number_format($main->harga, 0, '.', '.'); ?>" class="form-control input-sm number" id="harga" name="harga" type="text" disabled/>
 										</div>
 									</div>
 								</div>

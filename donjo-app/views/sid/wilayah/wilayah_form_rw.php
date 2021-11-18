@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('sid_core')?>"> Daftar <?= ucwords($this->setting->sebutan_dusun)?></a></li>
-			<li><a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>"> Daftar RW</a></li>
+			<li><a href="<?= site_url("sid_core/sub_rw/{$id_dusun}")?>"> Daftar RW</a></li>
 			<li class="active">Data RW</li>
 		</ol>
 	</section>
@@ -13,7 +13,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url("sid_core/sub_rw/$id_dusun")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
+						<a href="<?= site_url("sid_core/sub_rw/{$id_dusun}")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar RW">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar RW
            	</a>
 					</div>
@@ -40,8 +40,8 @@
 														<label class="col-sm-3 control-label" for="kepala_lama">Kepala RW Sebelumnya</label>
 														<div class="col-sm-7">
 															<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-																<strong><?= $individu["nama"]?></strong>
-																<br/>NIK - <?= $individu["nik"]?>
+																<strong><?= $individu['nama']?></strong>
+																<br/>NIK - <?= $individu['nik']?>
 															</p>
 														</div>
 													</div>
@@ -54,7 +54,7 @@
 														<select class="form-control select2" style="width: 100%;" id="id_kepala" name="id_kepala">
 															<option selected="selected">-- Silakan Masukan NIK / Nama--</option>
 															<?php foreach ($penduduk as $data): ?>
-																<option value="<?= $data['id']?>">NIK :<?= $data['nik']." - ".$data['nama']." - ".$data['dusun']?></option>
+																<option value="<?= $data['id']?>">NIK :<?= $data['nik'] . ' - ' . $data['nama'] . ' - ' . $data['dusun']?></option>
 															<?php endforeach; ?>
 														</select>
 													</div>

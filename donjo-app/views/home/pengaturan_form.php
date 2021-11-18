@@ -5,8 +5,8 @@
 			<label>Program Bantuan Untuk Ditampilkan</label>
 			<select name="dashboard_program_bantuan" class="form-control select2 input-sm required">
 				<option value="">Pilih Program Bantuan</option>
-				<?php foreach ($list_program_bantuan AS $data): ?>
-					<option value="<?=$data['id']?>" <?= selected($this->setting->dashboard_program_bantuan, $data['id']) ?>><?=$data['nama'].' - ['.$sasaran[$data['sasaran']].']'?></option>
+				<?php foreach ($list_program_bantuan as $data): ?>
+					<option value="<?=$data['id']?>" <?= selected($this->setting->dashboard_program_bantuan, $data['id']) ?>><?=$data['nama'] . ' - [' . $sasaran[$data['sasaran']] . ']'?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>

@@ -13,7 +13,7 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<?php $this->load->view('analisis_master/left', $data);?>
+					<?php $this->load->view('analisis_master/left', $data); ?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
@@ -28,9 +28,9 @@
 										<div class="col-sm-5">
 											<select class="form-control select2" id="referensi" name="referensi" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?>>
 												<option value="" selected data-tipe="">Jangan hubungkan</option>
-												<?php foreach ($data_tabel AS $referensi => $data): ?>
+												<?php foreach ($data_tabel as $referensi => $data): ?>
 													<option value="<?= $referensi; ?>" <?= selected($analisis_indikator['referensi'], $referensi) ?> data-tipe="<?= $data['tipe'] ?? 4; ?>"><?= $analisis_master['subjek_nama'] . ' : ' . $data['judul']; ?></option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
 											</select>
 										</div>
 									</div>
@@ -39,7 +39,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="id_tipe">Tipe Pertanyaan</label>
 										<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-											<label id="sx3" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'] == '1' OR $analisis_indikator['id_tipe'] == NULL, true, 'active') ?>">
+											<label id="sx3" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'] == '1' || $analisis_indikator['id_tipe'] == null, true, 'active') ?>">
 												<input id="group3" type="radio" name="id_tipe" class="form-check-input" type="radio" value="1" onclick="<?= $analisis_indikator['id_tipe']; ?>" autocomplete="off">Pilihan (Tunggal)
 											</label>
 											<label id="sx2" <?= jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?> class="tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'], '2', 'active') ?>">
@@ -76,9 +76,9 @@
 										<div class="col-sm-5">
 											<select class="form-control select2 required" id="id_kategori" name="id_kategori">
 												<option value="" selected="selected">-- Kategori Indikator --</option>
-												<?php foreach ($list_kategori AS $data): ?>
+												<?php foreach ($list_kategori as $data): ?>
 													<option value="<?= $data['id']?>" <?= selected($analisis_indikator['id_kategori'], $data['id']) ?>><?= $data['kategori']?></option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
 											</select>
 										</div>
 									</div>
@@ -98,8 +98,8 @@
 											<label id="aksi1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['act_analisis'], '1', 'active') ?>">
 												<input id="aksi1" type="radio" name="act_analisis" class="form-check-input" type="radio" value="1" <?= jecho($analisis_indikator['act_analisis'], '1', 'checked') ?> autocomplete="off"> Ya
 											</label>
-											<label id="aksi2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['act_analisis'] == '2' OR $analisis_indikator['act_analisis'] == NULL, true, 'active') ?>">
-												<input id="aksi2" type="radio" name="act_analisis" class="form-check-input" type="radio" value="2" <?= jecho($analisis_indikator['act_analisis'] == '2' OR $analisis_indikator['act_analisis'] == NULL, true, 'checked') ?> autocomplete="off"> Tidak
+											<label id="aksi2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['act_analisis'] == '2' || $analisis_indikator['act_analisis'] == null, true, 'active') ?>">
+												<input id="aksi2" type="radio" name="act_analisis" class="form-check-input" type="radio" value="2" <?= jecho($analisis_indikator['act_analisis'] == '2' || $analisis_indikator['act_analisis'] == null, true, 'checked') ?> autocomplete="off"> Tidak
 											</label>
 										</div>
 									</div>
@@ -111,8 +111,8 @@
 											<label id="ss1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['is_publik'], '1', 'active') ?>">
 												<input type="radio" name="is_publik" class="form-check-input" type="radio" value="1" <?= jecho($analisis_indikator['is_publik'], '1', 'checked') ?> autocomplete="off"> Ya
 											</label>
-											<label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['is_publik'] == '0' OR $analisis_indikator['is_publik'] == NULL, true, 'active') ?>">
-												<input type="radio" name="is_publik" class="form-check-input" type="radio" value="0" <?= jecho($analisis_indikator['is_publik'] == '0' OR $analisis_indikator['is_publik'] == NULL, true, 'checked') ?> autocomplete="off"> Tidak
+											<label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['is_publik'] == '0' || $analisis_indikator['is_publik'] == null, true, 'active') ?>">
+												<input type="radio" name="is_publik" class="form-check-input" type="radio" value="0" <?= jecho($analisis_indikator['is_publik'] == '0' || $analisis_indikator['is_publik'] == null, true, 'checked') ?> autocomplete="off"> Tidak
 											</label>
 										</div>
 										<label class="col-sm-3 control-label"></label>
@@ -135,7 +135,7 @@
 	function tampil_delik(tipe) {
 		(tipe == '1' || tipe == null) ? $('.delik').show() : $('.delik').hide();
 	}
-	
+
 	$(function() {
 		checked("<?= $analisis_indikator['id_tipe']; ?>");
 		tampil_delik($('input[name=id_tipe]:checked').val());
@@ -146,7 +146,7 @@
 		$("#referensi").change(function () {
 
 			let tipe = $("#referensi option:selected").data('tipe');
-			
+
 			if (tipe) {
 				$(".tipe").addClass('disabled');
 			} else {

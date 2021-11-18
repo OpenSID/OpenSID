@@ -60,7 +60,7 @@
 				<option value="">Pilih Tingkatan Keluarga Sejahtera</option>
 				<?php foreach ($keluarga_sejahtera as $data): ?>
 					<option value="<?= $data['id']?>" <?= selected($kk['kelas_sosial'], $data['id']); ?>><?= strtoupper($data['nama'])?></option>
-				<?php endforeach;?>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>

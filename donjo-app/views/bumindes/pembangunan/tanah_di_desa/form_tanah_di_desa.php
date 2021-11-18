@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Desa
  *
  * donjo-app/views/bumindes/pembangunan/tanah_di_desa/form_tanah_di_desa.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -66,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
 										<input type="radio" name="jenis_pemilik" class="form-check-input" value="1"
 											autocomplete="off"
-											<?php selected((empty($main) or $main->jenis_pemilik == 1), true, true)?>
+											<?php selected((empty($main) || $main->jenis_pemilik == 1), true, true)?>
 											onchange="pilih_pemilik(this.value);">Warga Desa
 									</label>
 									<label class="btn btn-info btn-flat btn-sm col-sm-3 form-check-label">
@@ -84,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										name="penduduk">
 										<option value="">-- Silakan Masukan Nama / NIK --</option>
 										<?php foreach ($penduduk as $item): ?>
-										<option value="<?= $item['id']?>" <?php selected($item['id'], $item['nama']) ?>><?= $item['nama']." [ NIK ".$item['nik']." ]"?></option>
+										<option value="<?= $item['id']?>" <?php selected($item['id'], $item['nama']) ?>><?= $item['nama'] . ' [ NIK ' . $item['nik'] . ' ]'?></option>
 										<?php endforeach ?>
 									</select>
 								</div>
@@ -474,7 +471,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		else
 		{
-			pilih_pemilik((<?=$main->jenis_pemilik? : 1?> ))
+			pilih_pemilik((<?=$main->jenis_pemilik ?: 1?> ))
 		}
 	});
 

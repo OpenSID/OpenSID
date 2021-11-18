@@ -43,7 +43,7 @@
 									<option value="-1">-- Tidak ada atasan (keluarkan dari bagan) --</option>
 									<?php foreach ($atasan as $data): ?>
 										<option value="<?= $data['id']?>" <?php selected($pamong['atasan'], $data['id']); ?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
-									<?php endforeach;?>
+									<?php endforeach; ?>
 								</select>
 							</div>
 						</div>

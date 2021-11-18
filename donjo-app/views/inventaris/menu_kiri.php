@@ -7,13 +7,13 @@
 	</div>
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
-			<?php if($this->controller == 'laporan_inventaris'):?>
+			<?php if ($this->controller == 'laporan_inventaris'):?>
 				<li <?= jecho($tip, 1, 'class="active"'); ?>><a href="<?= site_url('laporan_inventaris'); ?>"><i class="fa fa-list"></i> Laporan Semua Asset</a></li>
 				<li <?= jecho($tip, 2, 'class="active"'); ?>><a href="<?= site_url('laporan_inventaris/mutasi'); ?>"><i class="fa fa-list"></i> Laporan Asset Yang Dihapus</a></li>
 			<?php else: ?>
 				<li <?= jecho($tip, 1, 'class="active"'); ?>"><a href="<?=site_url($this->controller); ?>"><i class="fa fa-list"></i> Daftar Inventaris</a></li>
-				<?php if($this->controller != 'inventaris_kontruksi'): ?>
-					<li <?= jecho($tip, 2, 'class="active"'); ?>><a href="<?=site_url("$this->controller/mutasi"); ?>"><i class="fa fa-share"></i> Daftar Mutasi</a></li>
+				<?php if ($this->controller != 'inventaris_kontruksi'): ?>
+					<li <?= jecho($tip, 2, 'class="active"'); ?>><a href="<?=site_url("{$this->controller}/mutasi"); ?>"><i class="fa fa-share"></i> Daftar Mutasi</a></li>
 				<?php endif ?>
 			<?php endif ?>
 		</ul>

@@ -1,309 +1,357 @@
 <?php
 
-class Web_kategori_model extends CI_Model {
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
 
-	private $urut_model;
+class Web_kategori_model extends CI_Model
+{
+    private $urut_model;
 
-	public function __construct()
-	{
-		parent::__construct();
-	  require_once APPPATH.'/models/Urut_model.php';
-		$this->urut_model = new Urut_Model('kategori');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        require_once APPPATH . '/models/Urut_model.php';
+        $this->urut_model = new Urut_Model('kategori');
+    }
 
-	public function autocomplete()
-	{
-		$data = $this->db->distinct()->
-			select('kategori')->
-			where('parrent', 0)->
-			order_by('kategori')->
-			get('kategori')->result_array();
-		return autocomplete_data_ke_str($data);
-	}
+    public function autocomplete()
+    {
+        $data = $this->db->distinct()->
+            select('kategori')->
+            where('parrent', 0)->
+            order_by('kategori')->
+            get('kategori')->result_array();
 
-	private function search_sql()
-	{
-		if (isset($_SESSION['cari']))
-		{
-		$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (kategori LIKE '$kw')";
-			return $search_sql;
-		}
-	}
+        return autocomplete_data_ke_str($data);
+    }
 
-	private function filter_sql()
-	{
-		if (isset($_SESSION['filter']))
-		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND enabled = $kf";
-			return $filter_sql;
-		}
-	}
+    private function search_sql()
+    {
+        if (isset($_SESSION['cari'])) {
+            $cari       = $_SESSION['cari'];
+            $kw         = $this->db->escape_like_str($cari);
+            $kw         = '%' . $kw . '%';
+            $search_sql = " AND (kategori LIKE '{$kw}')";
 
-	public function paging($p=1, $o=0)
-	{
-		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jml'];
+            return $search_sql;
+        }
+    }
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
+    private function filter_sql()
+    {
+        if (isset($_SESSION['filter'])) {
+            $kf         = $_SESSION['filter'];
+            $filter_sql = " AND enabled = {$kf}";
 
-		return $this->paging;
-	}
+            return $filter_sql;
+        }
+    }
 
-	private function list_data_sql()
-	{
-		$sql = " FROM kategori k WHERE parrent = 0";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		return $sql;
-	}
+    public function paging($p = 1, $o = 0)
+    {
+        $sql      = 'SELECT COUNT(*) AS jml ' . $this->list_data_sql();
+        $query    = $this->db->query($sql);
+        $row      = $query->row_array();
+        $jml_data = $row['jml'];
 
-	public function list_data($o=0, $offset=0, $limit=500)
-	{
-		switch ($o)
-		{
-			case 1: $order_sql = ' ORDER BY kategori'; break;
-			case 2: $order_sql = ' ORDER BY kategori DESC'; break;
-			case 3: $order_sql = ' ORDER BY enabled'; break;
-			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
-			default:$order_sql = ' ORDER BY urut';
-		}
+        $this->load->library('paging');
+        $cfg['page']     = $p;
+        $cfg['per_page'] = $_SESSION['per_page'];
+        $cfg['num_rows'] = $jml_data;
+        $this->paging->init($cfg);
 
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT k.*, k.kategori AS kategori " . $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
+        return $this->paging;
+    }
 
-		$query = $this->db->query($sql);
-		$data =$query->result_array();
+    private function list_data_sql()
+    {
+        $sql = ' FROM kategori k WHERE parrent = 0';
+        $sql .= $this->search_sql();
+        $sql .= $this->filter_sql();
 
-		$j = $offset;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $j + 1;
+        return $sql;
+    }
 
-			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
+    public function list_data($o = 0, $offset = 0, $limit = 500)
+    {
+        switch ($o) {
+            case 1: $order_sql = ' ORDER BY kategori'; break;
 
-			$j++;
-		}
-		return $data;
-	}
+            case 2: $order_sql = ' ORDER BY kategori DESC'; break;
 
-	public function insert()
-	{
-		$this->session->unset_userdata('error_msg');
-		$this->session->set_userdata('success', 1);
-		$data = [];
-		$data['kategori'] = $this->input->post('kategori');
-		$this->sterilkan_kategori($data);
-		if (!$this->cek_nama($data['kategori']))
-			return;
-		$data['enabled'] = 1;
-		$data['urut'] = $this->urut_model->urut_max(array('parrent' => 0)) + 1;
-		$data['slug'] = url_title($data['kategori'], 'dash', TRUE);
-		$outp = $this->db->insert('kategori', $data);
+            case 3: $order_sql = ' ORDER BY enabled'; break;
 
-		status_sukses($outp); //Tampilkan Pesan
+            case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 
-	}
+            default:$order_sql = ' ORDER BY urut';
+        }
 
-	private function sterilkan_kategori(&$data)
-	{
-		unset($data['kategori_lama']);
-		$data['kategori'] = htmlentities($data['kategori']);
-	}
+        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
+        $sql        = 'SELECT k.*, k.kategori AS kategori ' . $this->list_data_sql();
+        $sql .= $order_sql;
+        $sql .= $paging_sql;
 
-	private function cek_nama($kategori)
-	{
-		$ada_nama = $this->db->where('kategori', $kategori)
-			->get('kategori')->num_rows();
-		if ($ada_nama)
-		{
-			$_SESSION['error_msg'].= " -> Nama kategori tidak boleh sama";
-		  $_SESSION['success'] = -1;
-		  return false;
-		}
-		return true;
-	}
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
 
-	public function update($id=0)
-	{
-		$this->session->unset_userdata('error_msg');
-		$this->session->set_userdata('success', 1);
-		$data = [];
-		$data['kategori'] = $this->input->post('kategori');
-		if ($data['kategori'] == $data['kategori_lama'])
-		{
-			return; // Tidak ada yg diubah
-		}
-		else
-		{
-			if (!$this->cek_nama($data['kategori']))
-				return;
-		}
-		$this->sterilkan_kategori($data);
-		$outp = $this->db->where('id', $id)
-			->update('kategori', $data);
+        $j = $offset;
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['no'] = $j + 1;
 
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
+            if ($data[$i]['enabled'] == 1) {
+                $data[$i]['aktif'] = 'Ya';
+            } else {
+                $data[$i]['aktif'] = 'Tidak';
+            }
 
-		$outp = $this->db->where('id', $id)->delete('kategori');
+            $j++;
+        }
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
+        return $data;
+    }
 
-	public function delete_all()
-	{
-		$this->session->success = 1;
+    public function insert()
+    {
+        $this->session->unset_userdata('error_msg');
+        $this->session->set_userdata('success', 1);
+        $data             = [];
+        $data['kategori'] = $this->input->post('kategori');
+        $this->sterilkan_kategori($data);
+        if (! $this->cek_nama($data['kategori'])) {
+            return;
+        }
+        $data['enabled'] = 1;
+        $data['urut']    = $this->urut_model->urut_max(['parrent' => 0]) + 1;
+        $data['slug']    = url_title($data['kategori'], 'dash', true);
+        $outp            = $this->db->insert('kategori', $data);
 
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-		}
-	}
+        status_sukses($outp); //Tampilkan Pesan
+    }
 
-	public function list_sub_kategori($kategori=1)
-	{
-		$sql = "SELECT * FROM kategori WHERE parrent = ? ORDER BY urut";
+    private function sterilkan_kategori(&$data)
+    {
+        unset($data['kategori_lama']);
+        $data['kategori'] = htmlentities($data['kategori']);
+    }
 
-		$query = $this->db->query($sql, $kategori);
-		$data = $query->result_array();
+    private function cek_nama($kategori)
+    {
+        $ada_nama = $this->db->where('kategori', $kategori)
+            ->get('kategori')->num_rows();
+        if ($ada_nama) {
+            $_SESSION['error_msg'] .= ' -> Nama kategori tidak boleh sama';
+            $_SESSION['success'] = -1;
 
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
+            return false;
+        }
 
-			if($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
-		}
-		return $data;
-	}
+        return true;
+    }
 
-	public function list_link()
-	{
-		$sql = "SELECT a.*
+    public function update($id = 0)
+    {
+        $this->session->unset_userdata('error_msg');
+        $this->session->set_userdata('success', 1);
+        $data             = [];
+        $data['kategori'] = $this->input->post('kategori');
+        if ($data['kategori'] == $data['kategori_lama']) {
+            return; // Tidak ada yg diubah
+        }
+
+        if (! $this->cek_nama($data['kategori'])) {
+            return;
+        }
+
+        $this->sterilkan_kategori($data);
+        $outp = $this->db->where('id', $id)
+            ->update('kategori', $data);
+
+        status_sukses($outp); //Tampilkan Pesan
+    }
+
+    public function delete($id = '', $semua = false)
+    {
+        if (! $semua) {
+            $this->session->success = 1;
+        }
+
+        $outp = $this->db->where('id', $id)->delete('kategori');
+
+        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+    }
+
+    public function delete_all()
+    {
+        $this->session->success = 1;
+
+        $id_cb = $_POST['id_cb'];
+
+        foreach ($id_cb as $id) {
+            $this->delete($id, $semua = true);
+        }
+    }
+
+    public function list_sub_kategori($kategori = 1)
+    {
+        $sql = 'SELECT * FROM kategori WHERE parrent = ? ORDER BY urut';
+
+        $query = $this->db->query($sql, $kategori);
+        $data  = $query->result_array();
+
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['no'] = $i + 1;
+
+            if ($data[$i]['enabled'] == 1) {
+                $data[$i]['aktif'] = 'Ya';
+            } else {
+                $data[$i]['aktif'] = 'Tidak';
+            }
+        }
+
+        return $data;
+    }
+
+    public function list_link()
+    {
+        $sql = "SELECT a.*
 			FROM artikel a
 			INNER JOIN kategori k ON a.id_kategori = k.id
 			WHERE tipe = '2'";
 
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
 
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-		}
-		return $data;
-	}
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['no'] = $i + 1;
+        }
 
-	public function list_kategori($o = "")
-	{
-		if (empty($o)) $urut = "urut";
-		else $urut = $o;
+        return $data;
+    }
 
-		$data = $this->db
-			->select('k.*')
-			->where('enabled', 1)
-			->order_by($urut)
-			->get('kategori k')
-			->result_array();
+    public function list_kategori($o = '')
+    {
+        if (empty($o)) {
+            $urut = 'urut';
+        } else {
+            $urut = $o;
+        }
 
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-			$data[$i]['judul'] = $data[$i]['kategori'];
-		}
-		return $data;
-	}
+        $data = $this->db
+            ->select('k.*')
+            ->where('enabled', 1)
+            ->order_by($urut)
+            ->get('kategori k')
+            ->result_array();
 
-	public function insert_sub_kategori($kategori=0)
-	{
-		$data = [];
-		$data['kategori'] = $this->input->post('kategori');
-		$this->sterilkan_kategori($data);
-		$data['parrent'] = $kategori;
-		$data['urut'] = $this->urut_model->urut_max(array('parrent' => $kategori)) + 1;
-		$data['slug'] = url_title($data['kategori'], 'dash', TRUE);
-		$data['enabled'] = 1;
-		$outp = $this->db->insert('kategori', $data);
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['no']    = $i + 1;
+            $data[$i]['judul'] = $data[$i]['kategori'];
+        }
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+        return $data;
+    }
 
-	public function update_sub_kategori($id=0)
-	{
-		$data = [];
-		$data['kategori'] = $this->input->post('kategori');
-		$this->sterilkan_kategori($data);
-		$this->db->where('id', $id);
-		$outp = $this->db->update('kategori', $data);
+    public function insert_sub_kategori($kategori = 0)
+    {
+        $data             = [];
+        $data['kategori'] = $this->input->post('kategori');
+        $this->sterilkan_kategori($data);
+        $data['parrent'] = $kategori;
+        $data['urut']    = $this->urut_model->urut_max(['parrent' => $kategori]) + 1;
+        $data['slug']    = url_title($data['kategori'], 'dash', true);
+        $data['enabled'] = 1;
+        $outp            = $this->db->insert('kategori', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+        status_sukses($outp); //Tampilkan Pesan
+    }
 
-	public function delete_sub_kategori($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
+    public function update_sub_kategori($id = 0)
+    {
+        $data             = [];
+        $data['kategori'] = $this->input->post('kategori');
+        $this->sterilkan_kategori($data);
+        $this->db->where('id', $id);
+        $outp = $this->db->update('kategori', $data);
 
-		$outp = $this->db->where('id', $id)->delete('kategori');
+        status_sukses($outp); //Tampilkan Pesan
+    }
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+    public function delete_sub_kategori($id = '', $semua = false)
+    {
+        if (! $semua) {
+            $this->session->success = 1;
+        }
 
-	public function delete_all_sub_kategori()
-	{
-		$this->session->success = 1;
+        $outp = $this->db->where('id', $id)->delete('kategori');
 
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete_sub_kategori($id, $semua=true);
-		}
-	}
+        status_sukses($outp); //Tampilkan Pesan
+    }
 
-	public function kategori_lock($id='', $val=0)
-	{
-		$sql = "UPDATE kategori SET enabled = ? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
+    public function delete_all_sub_kategori()
+    {
+        $this->session->success = 1;
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+        $id_cb = $_POST['id_cb'];
 
-	public function get_kategori($id=0)
-	{
-		$query = $this->db->where('id', $id)->or_where('slug', $id)->get('kategori');
-		$data  = $query->row_array();
-		return $data;
-	}
+        foreach ($id_cb as $id) {
+            $this->delete_sub_kategori($id, $semua = true);
+        }
+    }
 
-	// $arah:
-	//		1 - turun
-	// 		2 - naik
-	public function urut($id, $arah, $kategori='')
-	{
-  	$subset = !empty($kategori) ? array('parrent' => $kategori) : array('parrent' => 0);
-  	$this->urut_model->urut($id, $arah, $subset);
-	}
+    public function kategori_lock($id = '', $val = 0)
+    {
+        $sql  = 'UPDATE kategori SET enabled = ? WHERE id = ?';
+        $outp = $this->db->query($sql, [$val, $id]);
 
+        status_sukses($outp); //Tampilkan Pesan
+    }
+
+    public function get_kategori($id = 0)
+    {
+        $query = $this->db->where('id', $id)->or_where('slug', $id)->get('kategori');
+
+        return $query->row_array();
+    }
+
+    // $arah:
+    //		1 - turun
+    // 		2 - naik
+    public function urut($id, $arah, $kategori = '')
+    {
+        $subset = ! empty($kategori) ? ['parrent' => $kategori] : ['parrent' => 0];
+        $this->urut_model->urut($id, $arah, $subset);
+    }
 }
-?>

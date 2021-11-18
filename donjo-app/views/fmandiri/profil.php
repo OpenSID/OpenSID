@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View modul Layanan Mandiri > Profil
  *
  * donjo-app/views/fmandiri/profil.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -93,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<td>Nomor Kartu Keluarga</td><td >:</td>
 						<td>
 							<?= $penduduk['no_kk']; ?>
-							<?php if ($penduduk['status_dasar_id'] <> '1' AND $penduduk['no_kk'] <> $penduduk['log_no_kk']): ?>
+							<?php if ($penduduk['status_dasar_id'] != '1' && $penduduk['no_kk'] != $penduduk['log_no_kk']): ?>
 								(waktu peristiwa {<?= $penduduk['status_dasar']; ?>}: {<?= $penduduk['log_no_kk']; ?>})
 							<?php endif; ?>
 						</td>
@@ -209,7 +206,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<td>Status Kawin</td><td >:</td><td><?= strtoupper($penduduk['kawin']); ?></td>
 					</tr>
-					<?php if ($penduduk['status_kawin'] <> 1): ?>
+					<?php if ($penduduk['status_kawin'] != 1): ?>
 						<tr>
 							<td>Akta perkawinan</td><td >:</td><td><?= strtoupper($penduduk['akta_perkawinan']); ?></td>
 						</tr>
@@ -217,7 +214,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<td>Tanggal perkawinan</td><td >:</td><td><?= strtoupper($penduduk['tanggalperkawinan']); ?></td>
 						</tr>
 					<?php endif ?>
-					<?php if ($penduduk['status_kawin'] <> 1 and $penduduk['status_kawin'] <> 2): ?>
+					<?php if ($penduduk['status_kawin'] != 1 && $penduduk['status_kawin'] != 2): ?>
 						<tr>
 							<td>Akta perceraian</td><td >:</td><td><?= strtoupper($penduduk['akta_perceraian']); ?></td>
 						</tr>
@@ -250,7 +247,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<tr>
 						<td>Nama Asuransi</td><td >:</td><td><?= $penduduk['asuransi']; ?></td>
 					</tr>
-					<?php if ( ! empty($penduduk['id_asuransi']) and $penduduk['id_asuransi'] <> '1'): ?>
+					<?php if (! empty($penduduk['id_asuransi']) && $penduduk['id_asuransi'] != '1'): ?>
 						<tr>
 							<td><?= ($penduduk['id_asuransi'] == '99') ? 'Nama/nomor Asuransi' : 'No Asuransi' ?></td>
 							<td >:</td>
@@ -275,14 +272,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</thead>
 				<tbody>
 					<?php if ($kelompok):
-							foreach ($kelompok as $key => $data): ?>
+                            foreach ($kelompok as $key => $data): ?>
 							<tr>
 								<td><?= ($key + 1); ?></td>
 								<td><?= $data['nama']; ?></td>
 								<td ><?= $data['kategori']; ?></td>
 							</tr>
 						<?php endforeach;
-					else: ?>
+                    else: ?>
 						<tr>
 							<td class="text-center" colspan="3">Data tidak tersedia</td>
 						</tr>
@@ -306,17 +303,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</thead>
 				<tbody>
 					<?php if ($dokumen):
-						foreach ($dokumen as $key => $data): ?>
+                        foreach ($dokumen as $key => $data): ?>
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
-									<a href="<?= site_url("layanan-mandiri/unduh-berkas/$data[id]"); ?>" title="Unduh" class="btn bg-navy btn-sm"><i class="fa fa-download"></i></a>
+									<a href="<?= site_url("layanan-mandiri/unduh-berkas/{$data['id']}"); ?>" title="Unduh" class="btn bg-navy btn-sm"><i class="fa fa-download"></i></a>
 								</td>
 								<td><?= $data['nama']; ?></td>
 								<td nowrap><?= tgl_indo2($data['tgl_upload']); ?></td>
 							</tr>
 						<?php endforeach;
-					else: ?>
+                    else: ?>
 						<tr>
 							<td class="text-center" colspan="4">Data tidak tersedia</td>
 						</tr>

@@ -14,16 +14,16 @@
 		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<?php $this->load->view('analisis_master/left', $data);?>
+					<?php $this->load->view('analisis_master/left', $data); ?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
 							<?php if ($this->CI->cek_hak_akses('u') && ! $analisis_indikator['referensi']): ?>
-								<a href="<?= site_url("analisis_indikator/form_parameter/$analisis_indikator[id]") ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Ukuran Ukuran/Nilai Baru"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Parameter"><i class="fa fa-plus"></i> Tambah Ukuran Ukuran/Nilai Baru</a>
+								<a href="<?= site_url("analisis_indikator/form_parameter/{$analisis_indikator['id']}") ?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Ukuran Ukuran/Nilai Baru"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Data Parameter"><i class="fa fa-plus"></i> Tambah Ukuran Ukuran/Nilai Baru</a>
 							<?php endif; ?>
-							<?php if ($this->CI->cek_hak_akses('h')  && ! $analisis_indikator['referensi']): ?>
-								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("analisis_indikator/p_delete_all/$analisis_indikator[id]") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<?php if ($this->CI->cek_hak_akses('h') && ! $analisis_indikator['referensi']): ?>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("analisis_indikator/p_delete_all/{$analisis_indikator['id']}") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 							<a href="<?= site_url() ?>analisis_indikator" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Indikator Analisis</a>
 						</div>
@@ -47,7 +47,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<?php if($main): ?>
+												<?php if ($main): ?>
 													<?php foreach ($main as $key => $data): ?>
 														<tr>
 															<?php if ($analisis_master['lock'] == 1 && $this->CI->cek_hak_akses('u') && ! $analisis_indikator['referensi']): ?>
@@ -56,9 +56,9 @@
 															<td class="padat"><?= ($key + 1); ?></td>
 															<?php if ($analisis_master['lock'] == 1 && $this->CI->cek_hak_akses('u')): ?>
 																<td class="aksi">
-																	<a href="<?= site_url("analisis_indikator/form_parameter/$analisis_indikator[id]/$data[id]") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Parameter"><i class='fa fa-edit'></i></a>
-																	<?php if ($analisis_master['jenis'] != 1  && ! $analisis_indikator['referensi']): ?>
-																		<a href="#" data-href="<?= site_url("analisis_indikator/p_delete/$analisis_indikator[id]/$data[id]") ?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<a href="<?= site_url("analisis_indikator/form_parameter/{$analisis_indikator['id']}/{$data['id']}") ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Parameter"><i class='fa fa-edit'></i></a>
+																	<?php if ($analisis_master['jenis'] != 1 && ! $analisis_indikator['referensi']): ?>
+																		<a href="#" data-href="<?= site_url("analisis_indikator/p_delete/{$analisis_indikator['id']}/{$data['id']}") ?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																</td>
 															<?php endif; ?>
@@ -84,5 +84,5 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 

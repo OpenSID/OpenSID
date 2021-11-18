@@ -35,9 +35,9 @@ $(document).ready(function() {
 			<label for="nama_dokumen">Jenis Dokumen</label>
 			<select class="form-control required input-sm" name="id_syarat" id="id_syarat">
 				<option value=""> -- Pilih Jenis Dokumen -- </option>
-				<?php foreach ($jenis_syarat_surat AS $data): ?>
+				<?php foreach ($jenis_syarat_surat as $data): ?>
 					<option value="<?= $data['ref_syarat_id']?>" <?= selected($data['ref_syarat_id'], $dokumen['id_syarat']) ?>><?= $data['ref_syarat_nama']?></option>
-				<?php endforeach;?>
+				<?php endforeach; ?>
 			</select>
 		</div>
 		<div class="form-group">
@@ -58,7 +58,7 @@ $(document).ready(function() {
 				<label>Boleh diubah oleh warga melalui Layanan Mandiri</label>
 			</div>
 		</div>
-		<?php if (!empty($kk)): ?>
+		<?php if (! empty($kk)): ?>
 			<hr>
 			<p><strong>Centang jika dokumen yang diupload berlaku juga untuk anggota keluarga di bawah ini. </strong></p>
 			<div class="table-responsive">

@@ -1,10 +1,10 @@
 <?php
-	$tgl =  date('d_m_Y');
+    $tgl = date('d_m_Y');
 
-	header("Content-type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=statistik_analisis_jawaban_$tgl.xls");
-	header("Pragma: no-cache");
-	header("Expires: 0");
+    header('Content-type: application/octet-stream');
+    header("Content-Disposition: attachment; filename=statistik_analisis_jawaban_{$tgl}.xls");
+    header('Pragma: no-cache');
+    header('Expires: 0');
 ?>
 <!-- TODO: Pindahkan ke external css -->
 <style>

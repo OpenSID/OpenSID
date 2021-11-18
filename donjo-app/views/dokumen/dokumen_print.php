@@ -4,7 +4,7 @@
 		<title>Laporan Dokumen</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -26,7 +26,7 @@
 			<div id="body">
 				<div class="header" align="center">
 					<label align="left"><?= get_identitas()?></label>
-					<h3> DAFTAR <?= strtoupper($kategori) ?> <?= !empty($tahun) ? 'TAHUN '. $tahun : ''?></h3>
+					<h3> DAFTAR <?= strtoupper($kategori) ?> <?= ! empty($tahun) ? 'TAHUN ' . $tahun : ''?></h3>
 					<br>
 				</div>
 				<table class="border thick">
@@ -53,17 +53,17 @@
 							<?php if ($kat == 1): ?>
 								<td colspan="2" align="center"><?= $data['tahun']?></td>
 							<?php elseif ($kat == 2): ?>
-								<td><?= $data['attr']['no_kep_kades']." / ".$data['attr']['tgl_kep_kades']?></td>
+								<td><?= $data['attr']['no_kep_kades'] . ' / ' . $data['attr']['tgl_kep_kades']?></td>
 								<td><?= $data['attr']['uraian']?></td>
 							<?php elseif ($kat == 3): ?>
-								<td><?= $data['attr']['no_ditetapkan']." / ".$data['attr']['tgl_ditetapkan']?></td>
+								<td><?= $data['attr']['no_ditetapkan'] . ' / ' . $data['attr']['tgl_ditetapkan']?></td>
 								<td><?= $data['attr']['uraian']?></td>
 							<?php endif; ?>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2]); ?>
+				<?php $this->load->view('global/blok_ttd_pamong.php', ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2]); ?>
 			</div>
 		</div>
 	</body>

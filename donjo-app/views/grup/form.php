@@ -73,12 +73,12 @@
 														</tr>
 														<?php foreach ($list_akses_submodul[$akses_modul['id']] as $subkey => $akses_submodul) : ?>
 															<tr>
-																<td class="padat"><input id="m<?= ($key + 1).'.'.($subkey + 1)?>" class="m<?=$key + 1?>" type="checkbox" name="modul[id][]" value="<?= $akses_submodul['id']; ?>" <?= jecho($akses_submodul['ada_akses'], 1, 'checked'); ?>/></td>
+																<td class="padat"><input id="m<?= ($key + 1) . '.' . ($subkey + 1)?>" class="m<?=$key + 1?>" type="checkbox" name="modul[id][]" value="<?= $akses_submodul['id']; ?>" <?= jecho($akses_submodul['ada_akses'], 1, 'checked'); ?>/></td>
 																<td class="text-right">
-																	&nbsp;&nbsp;&nbsp;&nbsp;<?= ($key + 1).'.'.($subkey + 1); ?></td>
+																	&nbsp;&nbsp;&nbsp;&nbsp;<?= ($key + 1) . '.' . ($subkey + 1); ?></td>
 																<td>
 																	&nbsp;&nbsp;&nbsp;&nbsp;
-																	<?= '==> '.$akses_submodul['modul']; ?>
+																	<?= '==> ' . $akses_submodul['modul']; ?>
 																</td>
 																<td class="text-center">
 																	<input class="m<?=$key + 1?>" type="checkbox" name="modul[akses_baca][<?= $akses_submodul[id]?>]" value="1" <?= jecho($akses_submodul['akses_baca'], true, 'checked'); ?>/>
@@ -105,7 +105,7 @@
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
-								<?php if ( ! $view): ?>
+								<?php if (! $view): ?>
 									<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
 									<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 								<?php endif; ?>

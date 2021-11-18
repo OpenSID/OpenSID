@@ -1,5 +1,5 @@
 <!-- Perubahan script coding untuk bisa menampilkan modal bootstrap edit password pengguna login -->
-<form action="<?=site_url("user_setting/update/$main[id]")?>" method="POST" id="validasi" enctype="multipart/form-data">
+<form action="<?=site_url("user_setting/update/{$main['id']}")?>" method="POST" id="validasi" enctype="multipart/form-data">
 	<div class="modal-body">
 		<div class="row">
 			<div class="col-md-3">

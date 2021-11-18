@@ -14,7 +14,7 @@
 					<div class="col-md-12">
 						<div class='box box-primary'>
 							<div class="box-header with-border">
-								<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Penduduk">
+								<a href="<?=site_url('keluarga')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Penduduk">
 									<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
 								</a>
 							</div>
@@ -24,13 +24,13 @@
 										<div class='form-group'>
 											<label for="no_kk"> Nomor KK <code id="tampil_nokk" style="display: none;"> (Sementara) </code></label>
 											<?php
-												// $penduduk dipakai kalau validasi data gagal
-												if ($penduduk):
-													$no_kk = $penduduk['no_kk'];
-												else:
-													$no_kk = $kk['no_kk'];
-												endif;
-											?>
+                                                // $penduduk dipakai kalau validasi data gagal
+                                                if ($penduduk):
+                                                    $no_kk = $penduduk['no_kk'];
+                                                else:
+                                                    $no_kk = $kk['no_kk'];
+                                                endif;
+                                            ?>
 											<div class="input-group input-group-sm">
 												<span class="input-group-addon">
 													<input type="checkbox" title="Centang jika belum memiliki No. KK" id="nokk_sementara" <?= jecho($cek_nokk, '0', 'checked ="checked"') ?>>
@@ -48,7 +48,7 @@
 									<strong>DATA KEPALA KELUARGA :</strong>
 								</div>
 							</div>
-							<?php $this->load->view("sid/kependudukan/penduduk_form_isian"); ?>
+							<?php $this->load->view('sid/kependudukan/penduduk_form_isian'); ?>
 						</div>
 					</div>
 				</div>

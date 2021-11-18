@@ -57,40 +57,40 @@
 															<tr>
 																<td></td>
 																<td nowrap>
-																	<a href="<?= site_url('inventaris_kontruksi/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= site_url('inventaris_kontruksi/view/' . $data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
-																		<a href="<?= site_url('inventaris_kontruksi/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<a href="<?= site_url('inventaris_kontruksi/edit/' . $data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
 																	<?php if ($this->CI->cek_hak_akses('h')): ?>
-																		<a href="#" data-href="<?= site_url("api_inventaris_kontruksi/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="#" data-href="<?= site_url("api_inventaris_kontruksi/delete/{$data->id}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																</td>
-																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kondisi_bangunan;?></td>
+																<td><?= $data->nama_barang; ?></td>
+																<td><?= $data->kondisi_bangunan; ?></td>
 																<td>
-																	<?= (empty($data->luas_bangunan)) ? "-" : $data->luas_bangunan ?>
+																	<?= (empty($data->luas_bangunan)) ? '-' : $data->luas_bangunan ?>
 																</td>
 																<td>
-																	<?= (empty(date('d M Y',strtotime($data->tanggal_dokument)))) ? "-" : date('d M Y',strtotime($data->tanggal_dokument)) ?>
+																	<?= (empty(date('d M Y', strtotime($data->tanggal_dokument)))) ? '-' : date('d M Y', strtotime($data->tanggal_dokument)) ?>
 																</td>
 																<td>
-																	<?= (empty($data->no_dokument)) ? "-" : $data->no_dokument ?>
+																	<?= (empty($data->no_dokument)) ? '-' : $data->no_dokument ?>
 																</td>
 																<td nowrap>
-																	<?= (empty(date('d M Y',strtotime($data->tanggal)))) ? "-" : date('d M Y',strtotime($data->tanggal)) ?>
+																	<?= (empty(date('d M Y', strtotime($data->tanggal)))) ? '-' : date('d M Y', strtotime($data->tanggal)) ?>
 																</td>
 																<td>
-																	<?= (empty($data->status_tanah)) ? "-" : $data->status_tanah ?>
+																	<?= (empty($data->status_tanah)) ? '-' : $data->status_tanah ?>
 																</td>
-																<td><?= $data->asal;?></td>
-																<td class="text-right"><?= number_format($data->harga,0,".",".");?></td>
+																<td><?= $data->asal; ?></td>
+																<td class="text-right"><?= number_format($data->harga, 0, '.', '.'); ?></td>
 															</tr>
 														<?php endforeach; ?>
 													</tbody>
 													<tfoot>
 														<tr>
 															<th colspan="10" class="text-right">Total:</th>
-															<th class="text-right"><?= number_format($total,0,".","."); ?></th>
+															<th class="text-right"><?= number_format($total, 0, '.', '.'); ?></th>
 														</tr>
 													</tfoot>
 												</table>
@@ -108,17 +108,17 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 <script>
 
 	$("#form_cetak").click(function(event)
 	{
-		var link = '<?= site_url("inventaris_kontruksi/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
+		var link = '<?= site_url('inventaris_kontruksi/cetak'); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
   });
 	$("#form_download").click(function(event)
 	{
-		var link = '<?= site_url("inventaris_kontruksi/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
+		var link = '<?= site_url('inventaris_kontruksi/download'); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
   });
 </script>

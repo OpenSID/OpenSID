@@ -39,7 +39,7 @@
                       <div class="col-sm-2">
                         <select class="form-control input-sm required" name="tahun" onchange="formAction('mainform','<?= site_url('laporan/bulan')?>')" width="100%">
                           <option value="">Pilih tahun</option>
-                          <?php for ($t=$tahun_lengkap; $t<=date("Y"); $t++): ?>
+                          <?php for ($t = $tahun_lengkap; $t <= date('Y'); $t++): ?>
                             <option value=<?= $t ?> <?php selected($tahun, $t); ?>><?= $t ?></option>
                           <?php endfor; ?>
                         </select>
@@ -58,7 +58,7 @@
     									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
     										<div class="row">
     											<div class="col-sm-12">
-    												<?php include ("donjo-app/views/laporan/tabel_bulanan.php"); ?>
+    												<?php include 'donjo-app/views/laporan/tabel_bulanan.php'; ?>
     											</div>
     										</div>
     									</div>

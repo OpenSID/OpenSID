@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/css/screen.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/css/print-preview.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/css/print.css" type="text/css" media="print" />
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />

@@ -34,7 +34,7 @@
 										<option value=''>-- Pilih Jenis Peraturan --</option>
 										<?php foreach ($jenis_peraturan as $item): ?>
 											<option value="<?= $item ?>"><?= $item?></option>
-										<?php endforeach;?>
+										<?php endforeach; ?>
 									</select>
 							</div>
 						<?php endif; ?>
@@ -42,7 +42,7 @@
 							<label class="control-label">Pamong tertanda</label>
 							<select class="form-control input-sm jenis_link required" name="pamong_ttd">
 								<option value="">Pilih Staf Penandatangan</option>
-								<?php foreach ($pamong AS $data): ?>
+								<?php foreach ($pamong as $data): ?>
 									<option value="<?= $data['pamong_id']?>" <?= selected($pamong_ttd['pamong_id'], $data['pamong_id'])?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
 								<?php endforeach; ?>
 							</select>
@@ -51,9 +51,9 @@
 							<label class="control-label">Pamong mengetahui</label>
 							<select class="form-control input-sm jenis_link required" name="pamong_ketahui">
 								<option value="">Pilih Staf Mengetahui</option>
-								<?php foreach ($pamong AS $data): ?>
+								<?php foreach ($pamong as $data): ?>
 									<option value="<?= $data['pamong_id']?>" <?= selected($pamong_ketahui['pamong_id'], $data['pamong_id'])?>><?= $data['nama']?> (<?= $data['jabatan']?>)</option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>

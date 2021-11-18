@@ -16,7 +16,7 @@
 						<div class="form-group">
 							<label for="nama">Nama</label>
 							<select class="form-control input-sm select2 required"  id="id_pend" name="id_pend" style="width:100%;">
-								<?php foreach ($nama AS $data): ?>
+								<?php foreach ($nama as $data): ?>
 									<option value="<?=$data['id'] ?>" ><?= $data['nama']?></option>
 								<?php endforeach; ?>
 							</select>

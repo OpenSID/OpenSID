@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk modal form di modul Keuangan > Laporan APBDes
  *
  * donjo-app/views/opendk/modal_form_laporan_apbdes.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -51,17 +48,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="modal-body">
         <div class="form-group">
             <label for="judul">Judul</label>
-            <input type="text" class="form-control input-sm required" id="judul" name="judul" value="<?= $main->judul; ?>" placeholder="Judul"  <?= jecho($main->kirim, TRUE, 'disabled')?>/>
+            <input type="text" class="form-control input-sm required" id="judul" name="judul" value="<?= $main->judul; ?>" placeholder="Judul"  <?= jecho($main->kirim, true, 'disabled')?>/>
         </div>
 
         <div class="form-group">
             <label for="tahun">Tahun</label>
-            <input type="text" class="form-control input-sm required" id="tahun" name="tahun" value="<?= $main->tahun; ?>" placeholder="Tahun"  <?= jecho($main->kirim, TRUE, 'disabled')?>/>
+            <input type="text" class="form-control input-sm required" id="tahun" name="tahun" value="<?= $main->tahun; ?>" placeholder="Tahun"  <?= jecho($main->kirim, true, 'disabled')?>/>
         </div>
 
         <div class="form-group">
             <label for="semester">Semester</label>
-            <select class="form-control input-sm select2 required" id="semester" name="semester" <?= jecho($main->kirim, TRUE, 'disabled')?>>
+            <select class="form-control input-sm select2 required" id="semester" name="semester" <?= jecho($main->kirim, true, 'disabled')?>>
                 <option value="1" <?= selected(1, $main->semester); ?>>1</option>
                 <option value="2" <?= selected(2, $main->semester); ?>>2</option>
             </select>
@@ -71,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <label for="file" >File : <code>(.pdf)</code></label>
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control" id="file_path" name="satuan">
-                <input type="file" class="hidden <?= jecho($main, FALSE, 'required'); ?>" id="file" name="nama_file">
+                <input type="file" class="hidden <?= jecho($main, false, 'required'); ?>" id="file" name="nama_file">
                 <?php if ($main): ?>
                     <input type="hidden" name="old_file" id="old_file" value="<?= $main->nama_file; ?>">
                 <?php endif; ?>
@@ -82,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
         </div>
     </div>
-    
+
     <div class="modal-footer">
         <button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
         <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="aksi"><i class="fa fa-check"></i> Simpan</button>

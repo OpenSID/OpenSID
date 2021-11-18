@@ -6,11 +6,9 @@
  * View untuk modul Pemetaan di Halaman Admin
  *
  * /donjo-app/views/gis/maps.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -35,12 +33,11 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ *
+ * @see  https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -48,10 +45,10 @@
 		(function() {
 				var infoWindow;
 				window.onload = function() {
-						<?php if (!empty($desa['lat']) and !empty($desa['lng'])) : ?>
-								var posisi = [<?= $desa['lat'] . "," . $desa['lng'] ?>];
+						<?php if (! empty($desa['lat']) && ! empty($desa['lng'])) : ?>
+								var posisi = [<?= $desa['lat'] . ',' . $desa['lng'] ?>];
 								var zoom = <?= $desa['zoom'] ?: 10 ?>;
-						<?php elseif (!empty($desa['path'])) : ?>
+						<?php elseif (! empty($desa['path'])) : ?>
 								var wilayah_desa = <?= $desa['path'] ?>;
 								var posisi = wilayah_desa[0][0];
 								var zoom = <?= $desa['zoom'] ?: 10 ?>;
@@ -63,7 +60,7 @@
 						//Inisialisasi tampilan peta
 						var mymap = L.map('map').setView(posisi, zoom);
 
-						<?php if (!empty($desa['path'])) : ?>
+						<?php if (! empty($desa['path'])) : ?>
 								mymap.fitBounds(<?= $desa['path'] ?>);
 						<?php endif; ?>
 
@@ -75,25 +72,25 @@
 						var semua_marker = [];
 						var markers = new L.MarkerClusterGroup();
 						var markersList = [];
-					 
+
 
 						//OVERLAY WILAYAH DESA
-						<?php if (!empty($desa['path'])) : ?>
+						<?php if (! empty($desa['path'])) : ?>
 								set_marker_desa_content(marker_desa, <?= json_encode($desa) ?>, "<?= ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa'] ?>", "<?= favico_desa() ?>", '#isi_popup');
 						<?php endif; ?>
 
 						//OVERLAY WILAYAH DUSUN
-						<?php if (!empty($dusun_gis)) : ?>
+						<?php if (! empty($dusun_gis)) : ?>
 								set_marker_multi_content(marker_dusun, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa() ?>');
 						<?php endif; ?>
 
 						//OVERLAY WILAYAH RW
-						<?php if (!empty($rw_gis)) : ?>
+						<?php if (! empty($rw_gis)) : ?>
 								set_marker_content(marker_rw, '<?= addslashes(json_encode($rw_gis)) ?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa() ?>');
 						<?php endif; ?>
 
 						//OVERLAY WILAYAH RT
-						<?php if (!empty($rt_gis)) : ?>
+						<?php if (! empty($rt_gis)) : ?>
 								set_marker_content(marker_rt, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa() ?>');
 						<?php endif; ?>
 
@@ -168,13 +165,13 @@
 						var LOKASI_FOTO_GARIS = '<?= base_url() . LOKASI_FOTO_GARIS ?>';
 						var LOKASI_FOTO_LOKASI = '<?= base_url() . LOKASI_FOTO_LOKASI ?>';
 						var LOKASI_GALERI = '<?= base_url() . LOKASI_GALERI ?>';
-						var info_pembangunan = '<?= site_url("pembangunan/")?>';
-						
+						var info_pembangunan = '<?= site_url('pembangunan/')?>';
+
 						// Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan, persil
 						var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);
 
 						//PENDUDUK
-						<?php if ($layer_penduduk == 1 or $layer_keluarga == 1 and !empty($penduduk)) : ?>
+						<?php if ($layer_penduduk == 1 || $layer_keluarga == 1 && ! empty($penduduk)) : ?>
 								//Data penduduk
 								var penduduk = JSON.parse('<?= addslashes(json_encode($penduduk)) ?>');
 								var jml = penduduk.length;
@@ -196,7 +193,7 @@
 														'<td style="padding-left:2px"><font size="2.5" style="bold">' + penduduk[x].nama + '</font> - ' + penduduk[x].sex +
 														'<p>' + penduduk[x].umur + ' Tahun ' + penduduk[x].agama + '</p>' +
 														'<p>' + penduduk[x].alamat + '</p>' +
-														'<p><a href="<?= site_url("penduduk/detail/1/0/") ?>' + penduduk[x].id + '" target="ajax-modalx" rel="content" header="Rincian Data ' + penduduk[x].nama + '" >Data Rincian</a></p></td>' +
+														'<p><a href="<?= site_url('penduduk/detail/1/0/') ?>' + penduduk[x].id + '" target="ajax-modalx" rel="content" header="Rincian Data ' + penduduk[x].nama + '" >Data Rincian</a></p></td>' +
 														'</tr></table>';
 												//Menambahkan point ke marker
 												semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {
@@ -290,16 +287,16 @@
 				<div class="row">
 						<div class="col-md-12">
 								<div id="map">
-										<?php include("donjo-app/views/gis/cetak_peta.php"); ?>
+										<?php include 'donjo-app/views/gis/cetak_peta.php'; ?>
 										<div class="leaflet-top leaflet-right">
 												<div class="leaflet-control-layers leaflet-bar leaflet-control">
 														<a class="leaflet-control-control icos" href="#" title="Control Panel" role="button" aria-label="Control Panel" onclick="$('#target1').toggle();$('#target1').removeClass('hidden');$('#target2').hide();"><i class="fa fa-gears"></i></a>
 														<a class="leaflet-control-control icos" href="#" title="Legenda" role="button" aria-label="Legenda" onclick="$('#target2').toggle();$('#target2').removeClass('hidden');$('#target1').hide();"><i class="fa fa-list"></i></a>
 												</div>
-												<?php $this->load->view("gis/content_desa.php", array('desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']))) ?>
-												<?php $this->load->view("gis/content_dusun.php", array('dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' '))) ?>
-												<?php $this->load->view("gis/content_rw.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' '))) ?>
-												<?php $this->load->view("gis/content_rt.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' '))) ?>
+												<?php $this->load->view('gis/content_desa.php', ['desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])]) ?>
+												<?php $this->load->view('gis/content_dusun.php', ['dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
+												<?php $this->load->view('gis/content_rw.php', ['rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
+												<?php $this->load->view('gis/content_rt.php', ['rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
 												<div id="target1" class="leaflet-control-layers leaflet-control-layers-expanded leaflet-control hidden" aria-haspopup="true" style="max-width: 250px;">
 														<div class="leaflet-control-layers-overlays">
 																<div class="leaflet-control-layers-group" id="leaflet-control-layers-group-2">
@@ -359,19 +356,19 @@
 																						<label>Cari</label>
 																						<div class="box-tools">
 																								<div class="input-group input-group-sm pull-right">
-																										<input name="cari" id="cari" class="form-control" placeholder="cari..." type="text" value="<?= html_escape($cari) ?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '<?= site_url("gis/search") ?>');$('#'+'mainform_map').submit();endif">
+																										<input name="cari" id="cari" class="form-control" placeholder="cari..." type="text" value="<?= html_escape($cari) ?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '<?= site_url('gis/search') ?>');$('#'+'mainform_map').submit();endif">
 																										<div class="input-group-btn">
-																												<button type="submit" class="btn btn-default" onclick="$('#'+'mainform_map').attr('action', '<?= site_url("gis/search") ?>');$('#'+'mainform_map').submit();"><i class="fa fa-search"></i></button>
+																												<button type="submit" class="btn btn-default" onclick="$('#'+'mainform_map').attr('action', '<?= site_url('gis/search') ?>');$('#'+'mainform_map').submit();"><i class="fa fa-search"></i></button>
 																										</div>
 																								</div>
 																						</div>
 																				</div>
 																		</div>
 																		<div class="form-group">
-																				<a href="<?= site_url("gis/ajax_adv_search") ?>" class="btn btn-block btn-social bg-olive btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" title="Pencarian Spesifik">
+																				<a href="<?= site_url('gis/ajax_adv_search') ?>" class="btn btn-block btn-social bg-olive btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" title="Pencarian Spesifik">
 																						<i class="fa fa-search"></i> Pencarian Spesifik
 																				</a>
-																				<a href="<?= site_url("gis/clear") ?>" class="btn btn-block btn-social bg-orange btn-sm">
+																				<a href="<?= site_url('gis/clear') ?>" class="btn btn-block btn-social bg-orange btn-sm">
 																						<i class="fa fa-refresh"></i> Bersihkan
 																				</a>
 																		</div>

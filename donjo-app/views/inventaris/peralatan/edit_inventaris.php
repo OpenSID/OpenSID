@@ -10,16 +10,16 @@
 					<div class="col-sm-12">
 						<ul class="list-group">
 							<?php
-								foreach($kd_reg as $reg){
-									if(strlen($reg->register) == 21){
-										echo '<li class="list-group-item" data-position-id="123">
+                                foreach ($kd_reg as $reg) {
+                                    if (strlen($reg->register) == 21) {
+                                        echo '<li class="list-group-item" data-position-id="123">
 												<div class="companyPosItem">
-													<span class="companyPosLabel">'.substr($reg->register,-6).'</span>
+													<span class="companyPosLabel">' . substr($reg->register, -6) . '</span>
 												</div>
 											</li>';
-									}
-								}
-							?>
+                                    }
+                                }
+                            ?>
 						</ul>
 					</div>
 				</div>
@@ -37,7 +37,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= site_url("api_inventaris_peralatan/update/$main->id"); ?>">
+		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= site_url("api_inventaris_peralatan/update/{$main->id}"); ?>">
 			<div class="row">
 				<div class="col-md-3">
 					<?php $this->load->view('inventaris/menu_kiri'); ?>
@@ -55,12 +55,12 @@
 										<div class="col-sm-8">
 											<input maxlength="50" value="<?= $main->id; ?>" class="form-control input-sm required" name="id" id="id" type="hidden"/>
 											<input type="hidden" name="nama_barang_save" id="nama_barang_save" value="<?= $main->nama_barang; ?>">
-											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=kode_wilayah($get_kode["kode_desa"])?>">
+											<input type="hidden" name="kode_desa" id="kode_desa" value="<?=kode_wilayah($get_kode['kode_desa'])?>">
 											<!-- <input maxlength="50" value="<?= $main->nama_barang; ?>" class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text"/> -->
 											<select class="form-control input-sm select2" id="nama_barang" name="nama_barang" onchange="formAction('main')">
 												<option value="<?= $main->nama_barang; ?>"><?= $main->nama_barang; ?></option>
 												<?php foreach ($aset as $data): ?>
-													<option value="<?=  $data['nama']."_".$data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok'].".".$hasil?>">Kode Reg : <?= $data['golongan'].".".$data['bidang'].".".$data['kelompok'].".".$data['sub_kelompok'].".".$data['sub_sub_kelompok']." - ".$data['nama']?></option>
+													<option value="<?=  $data['nama'] . '_' . $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . '.' . $hasil?>">Kode Reg : <?= $data['golongan'] . '.' . $data['bidang'] . '.' . $data['kelompok'] . '.' . $data['sub_kelompok'] . '.' . $data['sub_sub_kelompok'] . ' - ' . $data['nama']?></option>
 												<?php endforeach; ?>
 											</select>
 										</div>
@@ -103,7 +103,7 @@
 										<div class="col-sm-4">
 											<select name="tahun_pengadaan" id="tahun_pengadaan" class="form-control input-sm required">
 												<option value="<?= $main->tahun_pengadaan; ?>"><?= $main->tahun_pengadaan; ?></option>
-												<?php for ($i=date("Y"); $i>=1900; $i--): ?>
+												<?php for ($i = date('Y'); $i >= 1900; $i--): ?>
 													<option value="<?= $i ?>"><?= $i ?></option>
 												<?php endfor; ?>
 											</select>
@@ -112,31 +112,31 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_pabrik">Nomor Pabrik</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_pabrik) ? $main->no_pabrik : '-'); ?>" class="form-control input-sm required" name="no_pabrik" id="no_pabrik" type="text"/>
+											<input maxlength="50" value="<?= (! empty($main->no_pabrik) ? $main->no_pabrik : '-'); ?>" class="form-control input-sm required" name="no_pabrik" id="no_pabrik" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_rangka">Nomor Rangka </label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_rangka) ? $main->no_rangka : '-'); ?>" class="form-control input-sm required" name="no_rangka" id="no_rangka" type="text"/>
+											<input maxlength="50" value="<?= (! empty($main->no_rangka) ? $main->no_rangka : '-'); ?>" class="form-control input-sm required" name="no_rangka" id="no_rangka" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_mesin">Nomor Mesin</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_mesin) ? $main->no_mesin : '-'); ?>" class="form-control input-sm required" name="no_mesin" id="no_mesin" type="text"/>
+											<input maxlength="50" value="<?= (! empty($main->no_mesin) ? $main->no_mesin : '-'); ?>" class="form-control input-sm required" name="no_mesin" id="no_mesin" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_polisi">Nomor Polisi </label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_polisi) ? $main->no_polisi : '-'); ?>" class="form-control input-sm required" name="no_polisi" id="no_polisi" type="text"/>
+											<input maxlength="50" value="<?= (! empty($main->no_polisi) ? $main->no_polisi : '-'); ?>" class="form-control input-sm required" name="no_polisi" id="no_polisi" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="bpkb">BPKB</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_bpkb) ? $main->no_bpkb : '-'); ?>" class="form-control input-sm required" name="no_bpkb" id="no_bpkb" type="text"/>
+											<input maxlength="50" value="<?= (! empty($main->no_bpkb) ? $main->no_bpkb : '-'); ?>" class="form-control input-sm required" name="no_bpkb" id="no_bpkb" type="text"/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -144,22 +144,22 @@
 										<div class="col-sm-4">
 											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah" required>
 											<?php
-												$value = '';
-												if(substr($main->kode_barang,-7,2)==01){
-													$value = 'Pemerintah Desa';
-												}elseif(substr($main->kode_barang,-7,2)==02){
-													$value = 'Badan Permusyawaratan Daerah';
-												}elseif(substr($main->kode_barang,-7,2)==03){
-													$value = 'PKK';
-												}elseif(substr($main->kode_barang,-7,2)==04){
-													$value = 'LKMD';
-												}elseif(substr($main->kode_barang,-7,2)==05){
-													$value = 'Karang Taruna';
-												}elseif(substr($main->kode_barang,-7,2)==07){
-													$value = 'RW';
-												}
-											?>
-												<option value="<?=substr($main->kode_barang,14,2);?>"><?=$value;?></option>
+                                                $value = '';
+                                                if (substr($main->kode_barang, -7, 2) == 01) {
+                                                    $value = 'Pemerintah Desa';
+                                                } elseif (substr($main->kode_barang, -7, 2) == 02) {
+                                                    $value = 'Badan Permusyawaratan Daerah';
+                                                } elseif (substr($main->kode_barang, -7, 2) == 03) {
+                                                    $value = 'PKK';
+                                                } elseif (substr($main->kode_barang, -7, 2) == 04) {
+                                                    $value = 'LKMD';
+                                                } elseif (substr($main->kode_barang, -7, 2) == 05) {
+                                                    $value = 'Karang Taruna';
+                                                } elseif (substr($main->kode_barang, -7, 2) == 07) {
+                                                    $value = 'RW';
+                                                }
+                                            ?>
+												<option value="<?=substr($main->kode_barang, 14, 2); ?>"><?=$value; ?></option>
 												<option value="01">Pemerintah Desa</option>
 												<option value="02">Badan Permusyawaratan Daerah</option>
 												<option value="03">PKK</option>

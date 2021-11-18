@@ -8,9 +8,9 @@
 	</url>
 
 	<!-- Sitemap -->
-	<?php foreach($artikel as $a): ?>
+	<?php foreach ($artikel as $a): ?>
 	<url>
-		<loc><?= base_url('index.php/artikel/'.buat_slug($a)); ?></loc>
+		<loc><?= base_url('index.php/artikel/' . buat_slug($a)); ?></loc>
 		<lastmod><?= date_format(date_create($a['tgl_upload']), 'Y-m-d') ?></lastmod>
 		<priority>0.5</priority>
 		<changefreq>weekly</changefreq>

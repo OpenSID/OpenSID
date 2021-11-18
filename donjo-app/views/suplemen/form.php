@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View form data suplemen untuk modul Suplemen
  *
  * donjo-app/views/suplemen/form.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -65,15 +62,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="id_master">Sasaran Data</label>
 						<div class="col-sm-7">
-							<?php if ($suplemen['jml'] <> 0): ?>
+							<?php if ($suplemen['jml'] != 0): ?>
 								<input type="hidden" name="sasaran" value="<?= $suplemen['sasaran']; ?>">
 								<select class="form-control input-sm" disabled>
 							<?php else: ?>
 								<select class="form-control input-sm required" name="sasaran">
-							<?php endif;?>
+							<?php endif; ?>
 							<option value="">Pilih Sasaran</option>
-							<?php foreach ($list_sasaran AS $key => $value): ?>
-								<?php if (in_array($key, ['1', '2'])) : ?>
+							<?php foreach ($list_sasaran as $key => $value): ?>
+								<?php if (in_array($key, ['1', '2'], true)) : ?>
 									<option value="<?= $key; ?>" <?= selected($suplemen['sasaran'], $key); ?>><?= $value?></option>
 								<?php endif; ?>
 							<?php endforeach; ?>

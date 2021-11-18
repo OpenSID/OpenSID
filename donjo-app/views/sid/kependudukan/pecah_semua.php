@@ -22,7 +22,7 @@
 						<tr>
 							<td>Kepala Keluarga</td>
 							<td>:</td>
-							<td><?= $kk['nik'] . ' - '. $kk['nama']?></td>
+							<td><?= $kk['nik'] . ' - ' . $kk['nama']?></td>
 						</tr>
 						<tr>
 							<td>Alamat</td>
@@ -48,7 +48,7 @@
 			<select name="nik_kepala" class="form-control input-sm required" style="width:100%;">
 				<option value=""> ----- Pilih Kepala Keluarga ----- </option>
 				<?php foreach ($anggota as $data): ?>
-					<option value="<?= $data['id']?>"><?= $data['nik'].' - '.$data['nama'].' ('.$data['hubungan'].')'?></option>
+					<option value="<?= $data['id']?>"><?= $data['nik'] . ' - ' . $data['nama'] . ' (' . $data['hubungan'] . ')'?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>

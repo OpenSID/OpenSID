@@ -31,15 +31,15 @@
                                             <td><?= $data; ?></td>
                                             <td class="padat">
                                                 <?php $slug = url_title($data, 'dash', true); ?>
-                                                <?php if (in_array($slug, ['penduduk'])): ?>
-                                                    <a href="<?= site_url("sinkronisasi/unduh/") . $slug ?>" title="Unduh Data" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-download"></i> Unduh Data</a>
-                                                    <?php if($this->setting->api_opendk_key): ?>
-                                                        <a href="#" data-href="<?= site_url("sinkronisasi/kirim/") . $slug ?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="kirim_data" title="Kirim Data" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin mengirim data <?= $data; ?> ke OpenDK?" data-backdrop="false" data-keyboard="false"><i class="fa fa-random"></i> Kirim Data</a>
+                                                <?php if (in_array($slug, ['penduduk'], true)): ?>
+                                                    <a href="<?= site_url('sinkronisasi/unduh/') . $slug ?>" title="Unduh Data" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-download"></i> Unduh Data</a>
+                                                    <?php if ($this->setting->api_opendk_key): ?>
+                                                        <a href="#" data-href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="kirim_data" title="Kirim Data" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin mengirim data <?= $data; ?> ke OpenDK?" data-backdrop="false" data-keyboard="false"><i class="fa fa-random"></i> Kirim Data</a>
                                                     <?php else: ?>
                                                         <a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Data</a>
                                                     <?php endif; ?>
                                                 <?php else: ?>
-                                                    <a href="<?= site_url("sinkronisasi/kirim/") . $slug ?>" class="btn btn-social btn-flat btn-warning btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Buka Modul"><i class="fa fa-link"></i> Buka Modul</a>
+                                                    <a href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-flat btn-warning btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Buka Modul"><i class="fa fa-link"></i> Buka Modul</a>
                                                 <?php endif; ?>
                                             </td>
                                         </tr>
@@ -118,7 +118,7 @@
             </div>
         </div>
     </div>
-    <?php if($notif = $this->session->flashdata("notif")): ?>
+    <?php if ($notif = $this->session->flashdata('notif')): ?>
         <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -142,7 +142,7 @@
 <script>
     $(document).ready(function() {
 		cek_input();
-        $('#response').modal({backdrop: 'static', keyboard: false}).show();   
+        $('#response').modal({backdrop: 'static', keyboard: false}).show();
 	});
 
     $('#ok-delete').on('click', function() {
@@ -177,11 +177,11 @@
                 'password': $('#api_opendk_password').val()
             }
         });
-        
+
         if(res.status == 200) {
             $('#api_opendk_key').val(res.data.access_token);
         }
-        
+
         return null;
 	}
 
