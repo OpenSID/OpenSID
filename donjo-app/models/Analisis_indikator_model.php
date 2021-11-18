@@ -634,7 +634,7 @@ class Analisis_indikator_model extends MY_Model
                 break;
 
             // Keluarga
-            default:
+            case 2:
                 $data = [
                     'nik_kepala' => [
                         'judul' => 'NIK Kepala KK',
@@ -651,6 +651,150 @@ class Analisis_indikator_model extends MY_Model
                     'wilayah' => [
                         'judul' => 'Wilayah (Dusun/RW/RT)',
                     ],
+                ];
+                break;
+
+            // Desa
+            default:
+
+            $desa   = $this->setting->sebutan_desa;
+            $kepala = $this->setting->sebutan_kepala_desa;
+
+                $data = [
+
+                    // IDENTITAS DESA
+                    'nama_desa' => [
+                        'judul' => 'Nama ' . $desa,
+                    ],
+                    'kode_desa' => [
+                        'judul' => 'Kode ' . $desa,
+                    ],
+                    'kode_pos' => [
+                        'judul' => 'Kode POS',
+                    ],
+                    'nama_kepala_desa' => [
+                        'judul' => 'Nama ' . $kepala,
+                    ],
+                    'nip_kepala_desa' => [
+                        'judul' => 'NIP ' . $kepala,
+                    ],
+                    'jk_kepala_desa' => [
+                        'judul'     => 'Jenis Kelamin ' . $kepala,
+                        'tipe'      => 1,
+                        'referensi' => $this->referensi_model->list_data('tweb_penduduk_sex'),
+                    ],
+                    'titik_koordinat_desa' => [
+                        'judul' => 'Titik Koordinat ' . $desa . ' (Lintang / Bujur)',
+                    ],
+                    'alamat_kantor' => [
+                        'judul' => 'Alamat Kantor',
+                    ],
+                    'no_telepon_kepala_desa' => [
+                        'judul' => 'Nomor Telepon Rumah / HP ' . $kepala,
+                    ],
+                    'no_telepon_kantor_desa' => [
+                        'judul' => 'Nomor Telepon Kantor ' . $desa,
+                    ],
+                    'email_desa' => [
+                        'judul' => 'Email ' . $desa,
+                    ],
+                    'pendidikan_kepala_desa' => [
+                        'judul' => 'Pendidikan Terakhir ' . $kepala,
+                    ],
+                    'nama_kecamatan' => [
+                        'judul' => 'Nama Kecamatan',
+                    ],
+                    'kode_kecamatan' => [
+                        'judul' => 'Kode Kecamatan',
+                    ],
+                    'nama_kepala_camat' => [
+                        'judul' => 'Nama Kepala Camat',
+                    ],
+                    'nip_kepala_camat' => [
+                        'judul' => 'NIP Kepala Camat',
+                    ],
+                    'kode_kabupaten' => [
+                        'judul' => 'Kode Kabupaten',
+                    ],
+                    'nama_propinsi' => [
+                        'judul' => 'Nama Provinsi',
+                    ],
+                    'kode_propinsi' => [
+                        'judul' => 'Kode Provinsi',
+                    ],
+
+                    // DEMOGRAFI
+                    // # Penduduk
+                    'jumlah_total_penduduk' => [
+                        'judul' => 'Jumlah Total Penduduk',
+                    ],
+                    'jumlah_penduduk_laki_laki' => [
+                        'judul' => 'Jumlah Penduduk Laki-laki',
+                    ],
+                    'jumlah_penduduk_perempuan' => [
+                        'judul' => 'Jumlah Penduduk Perempuan',
+                    ],
+                    'jumlah_penduduk_pedatang' => [
+                        'judul' => 'Jumlah Penduduk Pendatang',
+                    ],
+                    'jumlah_penduduk_yang_pergi' => [
+                        'judul' => 'Jumlah Penduduk Yang Pergi',
+                    ],
+
+                    // # Kepala Keluarga
+                    'jumlah_total_kepala_keluarga' => [
+                        'judul' => 'Jumlah Total Kepala Keluarga',
+                    ],
+                    'jumlah_kepala_keluarga_laki_laki' => [
+                        'judul' => 'Jumlah Kepala Keluarga Laki-laki',
+                    ],
+                    'jumlah_kepala_keluarga_perempuan' => [
+                        'judul' => 'Jumlah Kepala Keluarga Perempuan',
+                    ],
+                    // 'jumlah_keluarga_miskin' => [
+                    // 	'judul' => 'Jumlah Keluarga Miskin',
+                    // ],
+
+                    // # Jumlah Penduduk Berdasarkan Struktur Usia
+                    // 'jumlah_penduduk_kategori_usia' => [
+                    // 	'judul' => 'Jumlah Penduduk Berdasarkan Struktur Usia',
+                    // ],
+
+                    // # Jumlah Penduduk Berdasarkan Pekerjaan
+                    // 'jumlah_penduduk_kategori_pekerjaan' => [
+                    // 	'judul' => 'Jumlah Penduduk Berdasarkan Pekerjaan',
+                    // ],
+
+                    // # Jumlah Warga Penyandang Kebutuhan Khusus
+                    // 'jumlah_warga_kebutuhan_khusus' => [
+                    // 	'judul' => 'Jumlah Warga Penyandang Kebutuhan Khusus',
+                    // ],
+
+                    // Ketersediaan Saran Kesehatan
+                    // 'sarana_kesehatan' => [
+                    // 	'judul' => 'Sarana Kesehatan',
+                    // 	'tipe' => 1,
+                    // 	'referensi' => null, // Data diambil dari kategori  tipe lokasi
+                    // ],
+
+                    // Tingkat Kepesertaan BPJS (BPJS Kesehatan / JKN)
+                    'jumlah_peserta_bpjs' => [
+                        'judul' => 'Jumlah Penduduk Terdaftar BPJS Kesehatan / JKN',
+                    ],
+
+                    // Data Tingkat Pendidikan ???
+                    // 'pendidikan_penduduk_desa' => [
+                    // 	'judul' => 'Tingkat Pendidikan Sebagian Besar Penduduk ' . $desa,
+                    // 	'tipe' => 1,
+                    // 	'referensi' => $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk'),
+                    // ],
+
+                    // Data Keagamaan ???
+                    // 'agama_penduduk_desa' => [
+                    // 	'judul' => 'Agama Mayoritas',
+                    // 	'tipe' => 1,
+                    // 	'referensi' => $this->referensi_model->list_data('tweb_penduduk_agama'),
+                    // ],
                 ];
                 break;
         }

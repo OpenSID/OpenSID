@@ -875,7 +875,23 @@ class Analisis_respon_model extends CI_Model
             case 5:
                 $this->db
                     ->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
-                    ->from('config u');
+                    ->select("
+						u.nama_desa, u.kode_desa, u.kode_pos, u.alamat_kantor, u.telepon as no_telepon_kantor_desa, u.email_desa, CONCAT('Lintang : ', u.lat, ', ', 'Bujur : ', u.lng) as titik_koordinat_desa")
+                    ->select('
+						c.pamong_nip AS nip_kepala_desa,
+						(case when p.sex is not null then p.sex else c.pamong_sex end) as jk_kepala_desa,
+						(case when p.pendidikan_kk_id is not null then b.nama else c.pamong_pendidikan end) as pendidikan_kepala_desa,
+						(case when p.nama is not null then p.nama else c.pamong_nama end) AS nama_kepala_desa,
+						p.telepon as no_telepon_kepala_desa
+					')
+                    ->from('config u')
+                    ->join('tweb_desa_pamong c', 'u.pamong_id = c.pamong_id', 'left')
+                    ->join('tweb_penduduk p', 'c.id_pend = p.id', 'left')
+                    ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
+                    ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
+                    ->join('tweb_penduduk_pendidikan_kk b2', 'c.pamong_pendidikan = b2.id', 'LEFT')
+                    ->join('tweb_penduduk_sex x2', 'c.pamong_sex = x2.id', 'LEFT');
+
                 break;
 
             case 6:
@@ -909,6 +925,23 @@ class Analisis_respon_model extends CI_Model
             ->limit(1)
             ->get()
             ->row_array();
+
+        // Data tambahan subjek desa
+        if ($this->subjek == 5) {
+            $tambahan = [
+                'jumlah_total_penduduk'            => $this->db->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_laki_laki'        => $this->db->where('sex', 1)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_perempuan'        => $this->db->where('sex', 2)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_pedatang'         => $this->db->where('status', 2)->count_all_results('penduduk_hidup'),
+                'jumlah_penduduk_yang_pergi'       => $this->db->where('kode_peristiwa', 3)->count_all_results('log_penduduk'),
+                'jumlah_total_kepala_keluarga'     => $this->db->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->count_all_results('keluarga_aktif u'),
+                'jumlah_kepala_keluarga_laki_laki' => $this->db->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 1)->count_all_results('keluarga_aktif u'),
+                'jumlah_kepala_keluarga_perempuan' => $this->db->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'left')->where('sex', 2)->count_all_results('keluarga_aktif u'),
+                'jumlah_peserta_bpjs'              => $this->db->where('bpjs_ketenagakerjaan != ', null)->count_all_results('penduduk_hidup'),
+            ];
+
+            $data = array_merge($data, $tambahan);
+        }
 
         return $data;
     }
