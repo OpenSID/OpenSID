@@ -115,8 +115,8 @@ $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 //Gallery
 $route['gallery'] = 'first/gallery';
 $route['gallery/(:num)'] = 'first/gallery/$1';
-$route['sub_gallery'] = 'first/sub_gallery';
-$route['sub_gallery/(:any)/(:num)'] = 'first/sub_gallery/$1/$2';
+$route['sub-gallery'] = 'first/sub_gallery';
+$route['sub-gallery/(:any)/(:num)'] = 'first/sub_gallery/$1/$2';
 
 // URL Shortener
 $route['v/(:any)'] = 'first/redirect/$1';
