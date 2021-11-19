@@ -112,6 +112,12 @@ $route['peta'] = 'first/peta';
 $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 
+//Gallery
+$route['gallery'] = 'first/gallery';
+$route['gallery/(:num)'] = 'first/gallery/$1';
+$route['sub_gallery'] = 'first/sub_gallery';
+$route['sub_gallery/(:any)/(:num)'] = 'first/sub_gallery/$1/$2';
+
 // URL Shortener
 $route['v/(:any)'] = 'first/redirect/$1';
 $route['c1/(:any)'] = 'dokumen_web/check_surat1/$1';
