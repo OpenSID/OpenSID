@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Web_dokumen_model extends MY_Model
 {
     // Untuk datatables informasi publik

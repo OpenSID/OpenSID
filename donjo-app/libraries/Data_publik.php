@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Data_publik
 {
     /**

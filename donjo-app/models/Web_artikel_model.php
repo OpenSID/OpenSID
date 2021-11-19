@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Web_artikel_model extends MY_Model
 {
     public function __construct()

@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Laporan_sinkronisasi_model extends MY_Model
 {
     public const ORDER = [

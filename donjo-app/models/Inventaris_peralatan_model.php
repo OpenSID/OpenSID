@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Inventaris_peralatan_model extends CI_Model
 {
     protected $table        = 'inventaris_peralatan';

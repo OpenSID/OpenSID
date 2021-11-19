@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 define('KOLOM_IMPOR_KELUARGA', serialize([
     'alamat'               => '0',
     'dusun'                => '1',

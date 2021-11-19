@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Aset_model extends CI_Model
 {
     protected $table = 'tweb_aset';

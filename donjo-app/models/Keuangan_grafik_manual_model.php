@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Keuangan_grafik_manual_model extends CI_model
 {
     public function __construct()

@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Keuangan_model extends CI_model
 {
     private $zip_file = '';

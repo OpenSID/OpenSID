@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Bip2016_model extends Import_model
 {
     public function __construct()

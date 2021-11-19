@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Inventaris_laporan_model extends CI_Model
 {
     protected $table_pamong = 'tweb_desa_pamong';

@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Migrasi_1909_ke_1910 extends CI_model
 {
     public function up()

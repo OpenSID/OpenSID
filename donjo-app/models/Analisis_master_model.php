@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Analisis_master_model extends MY_Model
 {
     public $analisis_master;

@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Analisis_respon_model extends CI_Model
 {
     protected $per;

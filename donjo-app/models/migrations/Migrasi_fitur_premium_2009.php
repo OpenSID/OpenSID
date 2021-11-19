@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Migrasi_fitur_premium_2009 extends CI_model
 {
     public function up()

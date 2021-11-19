@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Statistik_penduduk_model extends Laporan_penduduk_model
 {
     /** Gunakan model ini untuk mulai refactor statistik penduduk

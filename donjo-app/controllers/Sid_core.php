@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Sid_core extends Admin_Controller
 {
     private $_set_page;

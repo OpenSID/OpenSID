@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Dpt_model extends Penduduk_model
 {
     public function __construct()

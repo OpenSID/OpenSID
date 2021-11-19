@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Web_gallery_model extends MY_Model
 {
     private $urut_model;

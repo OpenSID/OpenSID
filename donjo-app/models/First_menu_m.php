@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class First_menu_m extends MY_Model
 {
     public function __construct()

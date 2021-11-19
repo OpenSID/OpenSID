@@ -35,6 +35,8 @@
  *
  */
 
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class Web_kategori_model extends CI_Model
 {
     private $urut_model;
