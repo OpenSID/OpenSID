@@ -133,7 +133,6 @@ class Surat_model extends CI_Model {
 		if ($filter['bersurat']) $this->db->join('log_surat h', 'u.id = h.id_pend');
 		if ($cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->like('nik', $cari)

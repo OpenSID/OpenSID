@@ -43,6 +43,7 @@
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
+require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
 class First extends Web_Controller {
 
@@ -68,6 +69,9 @@ class First extends Web_Controller {
 				redirect('main/maintenance_mode');
 			}
 		}
+
+		// Load library statistik pengunjung
+		$this->load->library('statistik_pengunjung');
 
 		$this->load->model('config_model');
 		$this->load->model('first_artikel_m');
@@ -103,6 +107,7 @@ class First extends Web_Controller {
 		$this->load->model('pembangunan_dokumentasi_model');
 		$this->load->model('url_shortener_model');
 		$this->load->model('stat_shortener_model');
+		$this->load->model('analisis_import_model');
 	}
 
 	public function index($p=1)
@@ -275,6 +280,7 @@ class First extends Web_Controller {
 	{
 		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
 
+		$this->session->per_page = null;
 		$data = $this->includes;
 
 		$data['main'] = $this->suplemen_model->get_rincian(1, $id);
@@ -542,6 +548,12 @@ class First extends Web_Controller {
 
 	private function _get_common_data(&$data)
 	{
+		// Counter statistik pengunjung
+		$this->statistik_pengunjung->counter_visitor();
+
+		// Data statistik pengunjung
+		$data['statistik_pengunjung'] = $this->statistik_pengunjung->get_statistik();
+
 		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
@@ -658,7 +670,7 @@ class First extends Web_Controller {
 		{
 			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/" . date('Y'), "idm_$kode_desa")
 				->set_interval(7)
-				->set_cache_folder(FCPATH.'desa');
+				->set_cache_folder(FCPATH.'cache');
 
 			$idm = $this->data_publik->get_url_content();
 			if ($idm->body->error)
@@ -700,6 +712,47 @@ class First extends Web_Controller {
 			$this->stat_shortener_model->add_log($url_data->id);
 			header('Location: ' . $url_data->url, true, 302);
 			exit();
+		}
+	}
+
+	public function status_sdgs()
+	{
+		if (!$this->web_menu_model->menu_aktif('status_sdgs')) show_404();
+
+		$this->load->model('data_eksternal_model');
+		$data = $this->includes;
+		$this->_get_common_data($data);
+		$kode_desa = $data['desa']['kode_desa'];
+ 		$data ['evaluasi'] = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
+ 		$data['halaman_statis'] = '../../' . $this->theme_folder . '/'. $this->theme . '/partials/kemendes_sdgs.php';
+		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
+		$this->load->view($this->template, $data);
+	}
+
+	public function get_form_info()
+	{
+		$redirect_link = $this->input->get('redirectLink');
+
+		if ($this->session->inside_retry == false)
+		{
+			// Untuk kondisi SEBELUM autentikasi dan SETELAH RETRY hit API
+			if ($this->input->get('outsideRetry') == 'true')
+			{
+				$this->session->inside_retry = true;
+			}
+			$this->session->google_form_id = $this->input->get('formId');
+			$result = $this->analisis_import_model->import_gform($redirect_link);
+
+			echo json_encode($result);
+		}
+		else
+		{
+			// Untuk kondisi SESAAT setelah Autentikasi
+			$redirect_link = $this->session->inside_redirect_link;
+
+			$this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
+			
+			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code') . '&formId=' . $this->session->google_form_id);
 		}
 	}
 }

@@ -30,7 +30,7 @@
 		$kode_desa = kode_wilayah($desa->kode_desa);
 
 		$data = $this->db->select([
-			'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id"])
+			'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.status_dasar', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id"])
 			->from('tweb_penduduk p')
 			->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
 			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
@@ -130,7 +130,7 @@
 
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'setting_aplikasi_options', 'log_penduduk', 'agenda',
-			'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota');
+			'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota', 'log_keluarga', 'grup_akses');
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $ada_foreign_key,
@@ -169,7 +169,7 @@
 		// dihasilkan oleh dbutil->backup untuk view karena bermasalah
 		// pada waktu import dgn restore ataupun phpmyadmin
 		$backup = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /", "", $backup);
-		$backup = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $backup);
+		$backup = preg_replace("/utf8_general_ci;|cp850_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $backup);
 
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
 		$save = base_url().$db_name;
@@ -215,28 +215,35 @@
 
 	public function restore()
 	{
-		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename =='')
+		$this->load->library('upload');
+		$this->uploadConfig = array(
+			'upload_path' => sys_get_temp_dir(),
+			'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+			'file_ext' => 'sql',
+			'max_size' => max_upload() * 1024,
+		);
+		$this->upload->initialize($this->uploadConfig);
+		// Upload sukses
+		if (! $this->upload->do_upload('userfile'))
 		{
-			$this->session->success = -1;
-			switch ($_FILES['userfile']['error'])
-			{
-				case UPLOAD_ERR_INI_SIZE:
-					$this->session->error_msg = " --> File melebihi batas unggah. Ubah setting php.ini";
-					break;
-
-				default:
-					$this->session->error_msg = " --> Ada error sewaktu unggah file";
-					break;
-			}
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL) . ': ' . $this->upload->file_type;
+			return;
+		}
+		$uploadData = $this->upload->data();
+		$filename = $this->uploadConfig['upload_path'] . '/'. $uploadData['file_name'];
+		$lines = file($filename);
+		if (count($lines) < 20)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'Sepertinya bukan file backup';
 			return;
 		}
 
+		$_SESSION['success'] = 1;
 		$this->drop_views();
 		$this->drop_tables();
 
-		$_SESSION['success'] = 1;
-		$lines = file($filename);
 		$query = "";
 		foreach ($lines as $key => $sql_line)
 		{

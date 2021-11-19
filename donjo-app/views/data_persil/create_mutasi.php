@@ -83,7 +83,7 @@
 														<select class="form-control select2 input-sm" name="id_persil"  onchange="formAction('main')" style="width:100%" >
 															<option value='' selected="selected">-- Pilih Nomor Persil --</option>
 															<?php foreach ($list_persil as $data): ?>
-																<option value="<?= $data['id']?>" <?php selected($persil['id'], $data['id']); ?>> <?= $data['nomor']." : ".$data['nomor_urut_bidang']." - ".$data['lokasi']?></option>
+																<option value="<?= $data['id']?>" <?php selected($persil['id'], $data['id']); ?>> <?= $data['nomor']." : ".$data['nomor_urut_bidang']." - ".$data['alamat']?></option>
 															<?php endforeach;?>
 														</select>
 													</div>

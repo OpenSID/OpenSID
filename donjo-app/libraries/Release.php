@@ -203,7 +203,22 @@ class Release
 	 */
 	public function get_release_body()
 	{
-		return $this->resync()->body;
+		return $this->convert_markdown_link($this->resync()->body);
+	}
+
+	/**
+	 * Convert markdown link ke html.
+	 * 
+	 * @see https://stackoverflow.com/questions/24985530/parsing-a-markdown-style-link-safely
+	 * 
+	 * @param string $body
+	 * @return string
+	 */
+	protected function convert_markdown_link(string $body)
+	{
+		return preg_replace_callback('/\[(.*?)\]\((.*?)\)/', function ($matches) {
+			return '<a href="' . $matches[2] . '">' . $matches[1] . '</a>';
+		}, htmlspecialchars($body));
 	}
 
 	/**

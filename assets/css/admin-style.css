@@ -68,6 +68,10 @@
 }
 
 /* Modifikasi Sidabar menu */
+.main-sidebar:hover
+{
+	z-index: 1029;
+}
 .main-sidebar
 {
 	width: 270px;

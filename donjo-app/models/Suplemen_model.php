@@ -162,7 +162,7 @@ class Suplemen_model extends MY_Model {
 		if ($terdata) $this->db->where("p.id NOT IN ($terdata)");
 
 		$data = $this->db->select('p.id as id, p.nik as nik, p.nama, w.rt, w.rw, w.dusun')
-			->from('tweb_penduduk p')
+			->from('penduduk_hidup p')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->get()
 			->result_array();
@@ -271,49 +271,49 @@ class Suplemen_model extends MY_Model {
 		return $data;
 	}
 
-	private function paging($p, $get_terdata_sql)
+	private function paging($p)
 	{
-		$sql = "SELECT COUNT(*) as jumlah ".$get_terdata_sql;
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['jumlah'];
+		$jml_data = $this->db
+			->select('COUNT(s.id) as jumlah')
+			->get()
+			->row()->jumlah;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
-
 		return $this->paging;
 	}
 
 	private function get_penduduk_terdata_sql($suplemen_id)
 	{
-		# Data penduduk
-		$sql = " FROM suplemen_terdata s
-			LEFT JOIN tweb_penduduk o ON s.id_terdata = o.id
-			LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
-			WHERE s.id_suplemen=".$suplemen_id;
-		return $sql;
+		// Data Penduduk
+		$this->db
+			->from('suplemen_terdata s')
+			->join('tweb_penduduk o', ' s.id_terdata = o.id', 'left')
+			->join('tweb_keluarga k', 'k.id = o.id_kk', 'left')
+			->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left')
+			->where('s.id_suplemen', $suplemen_id);
 	}
 
 	public function get_penduduk_terdata($suplemen_id, $p=0)
 	{
 		$hasil = [];
-		$get_terdata_sql = $this->get_penduduk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun,
-			(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat
-		 ";
-		$sql = $select_sql.$get_terdata_sql;
-		$sql .= $this->search_sql('1');
-		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
+		// Paging
+		if ( ! empty($this->session->per_page) && $this->session->per_page > 0)
 		{
-			$hasil["paging"] = $this->paging($p, $get_terdata_sql.$this->search_sql('1'));
-			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
-			$sql .= $paging_sql;
+			$this->get_penduduk_terdata_sql($suplemen_id);
+			$hasil["paging"] = $this->paging($p);
+			$this->db->limit($hasil["paging"]->per_page, $hasil["paging"]->offset);
 		}
-		$query = $this->db->query($sql);
+
+		$this->get_penduduk_terdata_sql($suplemen_id);
+		$this->db
+			->select('s.*, s.id_terdata, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun')
+			->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat');
+		$this->search_sql('1');
+		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
 		{
@@ -337,29 +337,31 @@ class Suplemen_model extends MY_Model {
 	private function get_kk_terdata_sql($suplemen_id)
 	{
 		# Data KK
-		$sql = " FROM suplemen_terdata s
-			LEFT JOIN tweb_keluarga o ON s.id_terdata = o.id
-			LEFT JOIN tweb_penduduk q ON o.nik_kepala = q.id
-			LEFT JOIN tweb_wil_clusterdesa w ON w.id = q.id_cluster
-			WHERE s.id_suplemen=".$suplemen_id;
-		return $sql;
+		$this->db
+			->from('suplemen_terdata s')
+			->join('tweb_keluarga o', 's.id_terdata = o.id', 'left')
+			->join('tweb_penduduk q', 'o.nik_kepala = q.id', 'left')
+			->join('tweb_wil_clusterdesa w', 'w.id = q.id_cluster', 'left')
+			->where('s.id_suplemen', $suplemen_id);
 	}
 
 
 	public function get_kk_terdata($suplemen_id, $p=0)
 	{
 		$hasil = [];
-		$get_terdata_sql = $this->get_kk_terdata_sql($suplemen_id);
-		$select_sql = "SELECT s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun ";
-		$sql = $select_sql.$get_terdata_sql;
-		$sql .= $this->search_sql('2');
-		if ( ! empty($_SESSION['per_page']) and $_SESSION['per_page'] > 0)
+		// Paging
+		if ( ! empty($this->session->per_page) && $this->session->per_page > 0)
 		{
-			$hasil["paging"] = $this->paging($p, $get_terdata_sql.$this->search_sql('2'));
-			$paging_sql = ' LIMIT ' .$hasil["paging"]->offset. ',' .$hasil["paging"]->per_page;
-			$sql .= $paging_sql;
+			$this->get_kk_terdata_sql($suplemen_id);
+			$hasil["paging"] = $this->paging($p);
+			$this->db->limit($hasil["paging"]->per_page, $hasil["paging"]->offset);
 		}
-		$query = $this->db->query($sql);
+
+		$this->get_kk_terdata_sql($suplemen_id);
+		$this->db
+			->select('s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun');
+		$this->search_sql('2');
+		$query = $this->db->get();
 
 		if ($query->num_rows() > 0)
 		{
@@ -597,20 +599,28 @@ class Suplemen_model extends MY_Model {
 		if ( $this->session->cari)
 		{
 			$cari = $this->session->cari;
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
 			switch ($sasaran)
 			{
 				case '1':
 					## sasaran penduduk
-					$search_sql = " AND (o.nama LIKE '$kw' OR o.nik LIKE '$kw' OR k.no_kk like '$kw')";
+					$this->db
+						->group_start()
+							->like('o.nama', $cari)
+							->or_like('o.nik', $cari)
+							->or_like('k.no_kk', $cari)
+						->group_end();
 					break;
 				case '2':
 					## sasaran keluarga / KK
-					$search_sql = " AND (o.no_kk LIKE '$kw' OR o.nik_kepala LIKE '$kw' OR q.nik LIKE '$kw' OR q.nama LIKE '$kw')";
+					$this->db
+						->group_start()
+							->like('o.no_kk', $cari)
+							->or_like('o.nik_kepala', $cari)
+							->or_like('q.nik', $cari)
+							->or_like('q.nama ', $cari)
+						->group_end();
 					break;
 			}
-			return $search_sql;
 		}
 	}
 

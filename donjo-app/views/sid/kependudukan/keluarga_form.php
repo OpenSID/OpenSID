@@ -43,7 +43,7 @@
 									<strong>DATA KEPALA KELUARGA :</strong>
 								</div>
 							</div>
-							<?php include("donjo-app/views/sid/kependudukan/penduduk_form_isian.php"); ?>
+							<?php $this->load->view("sid/kependudukan/penduduk_form_isian"); ?>
 						</div>
 					</div>
 				</div>

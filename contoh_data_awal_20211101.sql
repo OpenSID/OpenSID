@@ -4,6 +4,8 @@ DROP VIEW IF EXISTS daftar_anggota_grup;
 DROP VIEW IF EXISTS dokumen_hidup;
 DROP VIEW IF EXISTS keluarga_aktif;
 DROP VIEW IF EXISTS penduduk_hidup;
+DROP TABLE IF EXISTS grup_akses;
+DROP TABLE IF EXISTS log_keluarga;
 DROP TABLE IF EXISTS kelompok_anggota;
 DROP TABLE IF EXISTS covid19_pantau;
 DROP TABLE IF EXISTS covid19_pemudik;
@@ -229,13 +231,16 @@ CREATE TABLE `analisis_master` (
   `id_child` smallint(4) DEFAULT NULL,
   `format_impor` tinyint(2) DEFAULT NULL,
   `jenis` tinyint(2) NOT NULL DEFAULT '2',
+  `gform_id` text,
+  `gform_nik_item_id` text,
+  `gform_last_sync` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
-INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES (1, 'Analisis Keahlian Individu', 1, 1, '<p>survey</p>', '00000', 0, '1', 0, 0, 2);
-INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES (2, 'AKP Lombok Tengah', 2, 1, '<p>keterangan</p>', '00000', 0, '1', 0, 0, 2);
-INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES (3, 'Data Dasar Keluarga (Prodeskel)', 2, 1, 'Pendataan Profil Desa', 'DDK02', 0, '', 0, 0, 1);
-INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`) VALUES (4, 'Data Anggota Keluarga (Prodeskel)', 1, 1, 'Pendataan Profil Desa', 'DAK02', 0, '', 0, 0, 1);
+INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`, `gform_id`, `gform_nik_item_id`, `gform_last_sync`) VALUES (1, 'Analisis Keahlian Individu', 1, 1, '<p>survey</p>', '00000', 0, '1', 0, 0, 2, NULL, NULL, NULL);
+INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`, `gform_id`, `gform_nik_item_id`, `gform_last_sync`) VALUES (2, 'AKP Lombok Tengah', 2, 1, '<p>keterangan</p>', '00000', 0, '1', 0, 0, 2, NULL, NULL, NULL);
+INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`, `gform_id`, `gform_nik_item_id`, `gform_last_sync`) VALUES (3, 'Data Dasar Keluarga (Prodeskel)', 2, 1, 'Pendataan Profil Desa', 'DDK02', 0, '', 0, 0, 1, NULL, NULL, NULL);
+INSERT INTO `analisis_master` (`id`, `nama`, `subjek_tipe`, `lock`, `deskripsi`, `kode_analisis`, `id_kelompok`, `pembagi`, `id_child`, `format_impor`, `jenis`, `gform_id`, `gform_nik_item_id`, `gform_last_sync`) VALUES (4, 'Data Anggota Keluarga (Prodeskel)', 1, 1, 'Pendataan Profil Desa', 'DAK02', 0, '', 0, 0, 1, NULL, NULL, NULL);
 
 
 #
@@ -7689,22 +7694,6 @@ CREATE TABLE `log_hapus_penduduk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
-# TABLE STRUCTURE FOR: log_keluarga
-#
-
-DROP TABLE IF EXISTS `log_keluarga`;
-
-CREATE TABLE `log_keluarga` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `id_kk` int(11) NOT NULL,
-  `kk_sex` tinyint(2) DEFAULT NULL,
-  `id_peristiwa` int(4) NOT NULL,
-  `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_kk` (`id_kk`,`id_peristiwa`,`tgl_peristiwa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
 # TABLE STRUCTURE FOR: log_perubahan_penduduk
 #
 
@@ -7888,7 +7877,11 @@ CREATE TABLE `migrasi` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `versi_database` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+========
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (1, '2020040102');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (2, '2020050101');
@@ -7903,6 +7896,7 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (10, '2020110101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (11, '2020110103');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (12, '2020120101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (13, '2021010101');
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (14, '2021020101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (15, '2021030101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (16, '2021050101');
@@ -7913,6 +7907,12 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (20, '2021080101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (21, '2021090101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (22, '2021100101');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (23, '2021110101');
+========
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (14, '2021020151');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (15, '2021030151');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (16, '2021040151');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (17, '2021050151');
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 
 
 #
@@ -8187,9 +8187,15 @@ CREATE TABLE `program_peserta` (
   `no_id_kartu` varchar(30) DEFAULT NULL,
   `kartu_nik` varchar(30) NOT NULL,
   `kartu_nama` varchar(100) NOT NULL,
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
   `kartu_tempat_lahir` varchar(100) NOT NULL,
   `kartu_tanggal_lahir` date NOT NULL,
   `kartu_alamat` varchar(200) NOT NULL,
+========
+  `kartu_tempat_lahir` varchar(100) NOT NULL DEFAULT '',
+  `kartu_tanggal_lahir` date NOT NULL,
+  `kartu_alamat` varchar(200) NOT NULL DEFAULT '',
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
   `kartu_peserta` varchar(100) DEFAULT NULL,
   `kartu_id_pend` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -8374,6 +8380,24 @@ INSERT INTO `ref_pindah` (`id`, `nama`) VALUES (4, 'Pindah keluar Provinsi');
 
 
 #
+# TABLE STRUCTURE FOR: ref_sinkronisasi
+#
+
+DROP TABLE IF EXISTS `ref_sinkronisasi`;
+
+CREATE TABLE `ref_sinkronisasi` (
+  `tabel` varchar(100) NOT NULL,
+  `server` varchar(255) DEFAULT NULL,
+  `jenis_update` tinyint(4) DEFAULT NULL,
+  `tabel_hapus` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`tabel`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `ref_sinkronisasi` (`tabel`, `server`, `jenis_update`, `tabel_hapus`) VALUES ('tweb_keluarga', '6', 1, 'log_keluarga');
+INSERT INTO `ref_sinkronisasi` (`tabel`, `server`, `jenis_update`, `tabel_hapus`) VALUES ('tweb_penduduk', '6', 1, 'log_hapus_penduduk');
+
+
+#
 # TABLE STRUCTURE FOR: ref_status_covid
 #
 
@@ -8467,7 +8491,11 @@ CREATE TABLE `setting_aplikasi` (
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1;
+========
+) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=latin1;
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (1, 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (2, 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -8482,11 +8510,20 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (11, 'web_theme', 'natra', 'Tema penampilan modul web', '', 'web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (12, 'offline_mode', '0', 'Apakah modul web akan ditampilkan atau tidak', 'option-kode', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (13, 'enable_track', '1', 'Apakah akan mengirimkan data statistik ke tracker', 'boolean', '');
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (16, 'google_key', '', 'Google API Key untuk Google Maps', '', 'web');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '2', 'Sumber gambar slider besar', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '21.11', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+========
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (14, 'dev_tracker', '', 'Host untuk tracker pada development', '', 'development');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (16, 'mapbox_key', '', 'Mapbox API Key untuk peta', '', 'web');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (17, 'libreoffice_path', '', 'Path tempat instal libreoffice di server SID', '', '');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (18, 'sumber_gambar_slider', '2', 'Sumber gambar slider besar', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (19, 'sebutan_singkatan_kadus', 'kawil', 'Sebutan singkatan jabatan kepala dusun', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (20, 'current_version', '21.05', 'Versi sekarang untuk migrasi', NULL, 'readonly');
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (21, 'timezone', 'Asia/Jakarta', 'Zona waktu perekaman waktu dan tanggal', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (23, 'web_artikel_per_page', '8', 'Jumlah artikel dalam satu halaman', 'int', 'web_theme');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (24, 'penomoran_surat', '2', 'Penomoran surat mulai dari satu (1) setiap tahun', 'option', NULL);
@@ -8509,6 +8546,7 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (43, 'token_opensid', '', 'Token OpenSID', '', 'sistem');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (44, 'layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (45, 'ukuran_lebar_bagan', '800', 'Ukuran Lebar Bagan (800 / 1200 / 1400)', 'int', 'conf_bagan');
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (48, 'layanan_opendesa_token', '', 'Token pelanggan Layanan OpenDESA', 'textarea', 'pelanggan');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (55, 'api_opendk_server', '', 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (56, 'api_opendk_key', '', 'OpenDK API Key untuk Sinkronisasi Data', NULL, NULL);
@@ -8517,6 +8555,19 @@ INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `ka
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (65, 'sebutan_kepala_desa', 'Kepala', 'Pengganti sebutan jabatan Kepala Desa', NULL, NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (66, 'tgl_data_lengkap', NULL, 'Atur data tanggal sudah lengkap', 'datetime', NULL);
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (67, 'tgl_data_lengkap_aktif', '0', 'Aktif / Non-aktif data tanggal sudah lengkap', 'boolean', NULL);
+========
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (46, 'api_key_opensid', '', 'Opensid API Key untuk Pelanggan OpenDesa', '', '');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (48, 'api_opendk_server', '', 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (49, 'api_opendk_key', '', 'OpenDK API Key untuk Sinkronisasi Data', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (50, 'api_opendk_user', '', 'Email Login Pengguna OpenDK', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (51, 'api_opendk_password', '', 'Password Login Pengguna OpenDK', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (52, 'sebutan_kepala_desa', 'Kepala', 'Pengganti sebutan jabatan Kepala Desa', NULL, NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (53, 'tgl_data_lengkap', NULL, 'Atur data tanggal sudah lengkap', 'datetime', NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (54, 'tgl_data_lengkap_aktif', '0', 'Aktif / Non-aktif data tanggal sudah lengkap', 'boolean', NULL);
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (113, 'api_gform_id_script', '', 'Script ID untuk Google API', NULL, 'setting_analisis');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (114, 'api_gform_credential', '', 'Credential untuk Google API', 'textarea', 'setting_analisis');
+INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (115, 'api_gform_redirect_uri', 'https://berputar.opensid.or.id/index.php/first/get_form_info', 'Redirecet URI untuk Google API', NULL, 'setting_analisis');
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 
 
 #
@@ -8530,29 +8581,33 @@ CREATE TABLE `setting_modul` (
   `modul` varchar(50) NOT NULL,
   `url` varchar(50) NOT NULL,
   `aktif` tinyint(1) NOT NULL DEFAULT '0',
-  `ikon` varchar(50) NOT NULL,
-  `urut` tinyint(4) NOT NULL,
+  `ikon` varchar(50) DEFAULT '',
+  `urut` int(4) DEFAULT NULL,
   `level` tinyint(1) NOT NULL DEFAULT '2',
   `hidden` tinyint(1) NOT NULL DEFAULT '0',
-  `ikon_kecil` varchar(50) NOT NULL,
+  `ikon_kecil` varchar(50) DEFAULT '',
   `parent` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 ) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8;
+========
+) ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8;
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 1, 2, 1, 'fa fa-home', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 3, 2, 0, 'fa fa-users', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (3, 'Statistik', 'statistik', 1, 'fa-line-chart', 4, 2, 0, 'fa fa-line-chart', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (4, 'Layanan Surat', 'surat', 1, 'fa-book', 5, 2, 0, 'fa fa-book', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (5, 'Analisis', 'analisis_master/clear', 1, '   fa-check-square-o', 6, 2, 0, 'fa fa-check-square-o', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (6, 'Bantuan', 'program_bantuan/clear', 1, 'fa-heart', 7, 2, 0, 'fa fa-heart', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (7, 'Pertanahan', 'cdesa/clear', 1, 'fa-map-signs', 8, 2, 0, 'fa fa-map-signs', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 10, 2, 1, 'fa fa-home', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 30, 2, 0, 'fa fa-users', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (3, 'Statistik', '', 1, 'fa-line-chart', 40, 2, 0, 'fa fa-line-chart', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (4, 'Layanan Surat', '', 1, 'fa-book', 50, 2, 0, 'fa fa-book', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (5, 'Analisis', '', 1, '   fa-check-square-o', 90, 2, 0, 'fa fa-check-square-o', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (6, 'Bantuan', 'program_bantuan/clear', 1, 'fa-heart', 100, 2, 0, 'fa fa-heart', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (7, 'Pertanahan', 'cdesa/clear', 1, 'fa-map-signs', 110, 2, 0, 'fa fa-map-signs', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (8, 'Pengaturan Peta', 'plan', 1, 'fa-location-arrow', 9, 2, 0, 'fa fa-location-arrow', 9);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (9, 'Pemetaan', 'gis', 1, 'fa-globe', 10, 2, 0, 'fa fa-globe', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (10, 'SMS', 'sms', 1, 'fa-envelope', 11, 2, 0, 'fa fa-envelope', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (11, 'Pengaturan', 'man_user/clear', 1, 'fa-users', 12, 1, 1, 'fa-users', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (13, 'Admin Web', 'web', 1, 'fa-desktop', 14, 4, 0, 'fa fa-desktop', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (14, 'Layanan Mandiri', '', 1, 'fa-inbox', 15, 2, 0, 'fa fa-inbox', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (15, 'Sekretariat', 'surat_keluar/clear', 1, 'fa-archive', 5, 2, 2, 'fa fa-archive', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (9, 'Pemetaan', '', 1, 'fa-globe', 130, 2, 0, 'fa fa-globe', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (10, 'SMS', '', 1, 'fa-envelope', 140, 2, 0, 'fa fa-envelope', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (11, 'Pengaturan', '', 1, 'fa-users', 150, 1, 1, 'fa-users', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (13, 'Admin Web', '', 1, 'fa-desktop', 160, 4, 0, 'fa fa-desktop', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (14, 'Layanan Mandiri', '', 1, 'fa-inbox', 170, 2, 0, 'fa fa-inbox', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (15, 'Sekretariat', '', 1, 'fa-archive', 60, 2, 0, 'fa fa-archive', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (17, 'Identitas [Desa]', 'identitas_desa', 1, 'fa-id-card', 2, 2, 0, '', 200);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (18, 'Pemerintahan [Desa]', 'pengurus/clear', 1, 'fa-sitemap', 3, 2, 0, '', 200);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (20, 'Wilayah Administratif', 'sid_core/clear', 1, 'fa-map', 2, 2, 0, '', 200);
@@ -8574,7 +8629,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (41, 'Pengaturan SMS', 'sms/setting', 1, 'fa-gear', 3, 2, 0, '', 10);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (42, 'Modul', 'modul/clear', 1, 'fa-tags', 1, 1, 0, '', 11);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (43, 'Aplikasi', 'setting', 1, 'fa-codepen', 2, 1, 0, '', 11);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (44, 'Pengguna', 'man_user', 1, 'fa-users', 3, 1, 0, '', 11);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (44, 'Pengguna', 'man_user/clear', 1, 'fa-users', 3, 1, 0, '', 11);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (45, 'Database', 'database', 1, 'fa-database', 4, 1, 0, '', 11);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (46, 'Info Sistem', 'setting/info_sistem', 1, 'fa-server', 5, 1, 0, '', 11);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (47, 'Artikel', 'web/clear', 1, 'fa-file-movie-o', 1, 4, 0, '', 13);
@@ -8602,7 +8657,6 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (71, 'analisis_respon', 'analisis_respon', 1, '', 0, 0, 2, '', 5);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (72, 'analisis_laporan', 'analisis_laporan', 1, '', 0, 0, 2, '', 5);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (73, 'analisis_statistik_jawaban', 'analisis_statistik_jawaban', 1, '', 0, 0, 2, '', 5);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (74, 'Wilayah', 'wilayah', 1, '', 0, 0, 2, '', 21);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (75, 'api_inventaris_asset', 'api_inventaris_asset', 1, '', 0, 0, 2, '', 61);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (76, 'api_inventaris_gedung', 'api_inventaris_gedung', 1, '', 0, 0, 2, '', 61);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (77, 'api_inventaris_gedung', 'api_inventaris_gedung', 1, '', 0, 0, 2, '', 61);
@@ -8628,12 +8682,15 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (97, 'Daftar Persyaratan', 'surat_mohon', 1, 'fa fa-book', 5, 2, 0, '', 4);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (98, 'Permohonan Surat', 'permohonan_surat_admin/clear', 1, 'fa-files-o', 0, 0, 0, '', 14);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (101, 'Status Desa', 'status_desa', 1, 'fa-dot-circle-o', 4, 0, 0, '', 200);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (200, 'Info [Desa]', 'identitas_desa', 1, 'fa-dashboard', 2, 2, 1, 'fa fa-home', 0);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (201, 'Keuangan', 'keuangan', 1, 'fa-balance-scale', 6, 2, 0, 'fa-balance-scale', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (102, 'Pengaturan Grup', 'grup/clear', 1, '', 0, 0, 2, '', 44);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (110, 'Master Analisis', 'analisis_master/clear', 1, 'fa-check-square-o', 1, 1, 0, 'fa-check-square-o', 5);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (111, 'Pengaturan', 'setting/analisis', 1, 'fa-gear', 2, 1, 0, 'fa-gear', 5);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (200, 'Info [Desa]', '', 1, 'fa-dashboard', 20, 2, 1, 'fa fa-home', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (201, 'Keuangan', '', 1, 'fa-balance-scale', 80, 2, 0, 'fa-balance-scale', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (202, 'Impor Data', 'keuangan/impor_data', 1, 'fa-cloud-upload', 1, 2, 0, 'fa-cloud-upload', 201);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (203, 'Laporan', 'keuangan/laporan', 1, 'fa-bar-chart', 2, 2, 0, 'fa-bar-chart', 201);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (205, 'Pengunjung', 'pengunjung/clear', 1, 'fa-bar-chart', 10, 4, 0, '', 13);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (206, 'Siaga Covid-19', '', 1, 'fa-heartbeat', 0, 2, 0, 'fa fa-heartbeat', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (206, 'Siaga Covid-19', '', 1, 'fa-heartbeat', 5, 2, 0, 'fa fa-heartbeat', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (207, 'Pendataan', 'covid19', 1, 'fa-list', 1, 2, 0, 'fa fa-list', 206);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (208, 'Pemantauan', 'covid19/pantau', 1, 'fa-check', 2, 2, 0, 'fa fa-check', 206);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (209, 'Input Data', 'keuangan_manual/manual_apbdes', 1, 'fa-keyboard-o', 3, 2, 0, 'fa-keyboard-o', 201);
@@ -8641,13 +8698,13 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (211, 'Pengaturan', 'setting/web', 1, 'fa-gear', 11, 4, 0, 'fa-gear', 13);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (212, 'QR Code', 'setting/qrcode/clear', 1, 'fa-qrcode', 6, 1, 0, 'fa-qrcode', 11);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (213, 'data_persil', 'data_persil', 1, '', 0, 2, 2, '', 7);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (220, 'Pembangunan', 'pembangunan', 1, 'fa-institution', 9, 2, 0, 'fa-institution', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (220, 'Pembangunan', 'pembangunan', 1, 'fa-institution', 120, 2, 0, 'fa-institution', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (221, 'Pembangunan Dokumentasi', 'pembangunan_dokumentasi', 1, '', 0, 0, 2, '', 220);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (301, 'Buku Administrasi Desa', '', 1, 'fa-paste', 6, 2, 0, 'fa fa-paste', 0);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (301, 'Buku Administrasi Desa', '', 1, 'fa-paste', 70, 2, 0, 'fa fa-paste', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (302, 'Administrasi Umum', 'bumindes_umum', 1, 'fa-bookmark', 1, 2, 0, 'fa fa-bookmark', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (303, 'Administrasi Penduduk', 'bumindes_penduduk_induk/clear', 1, 'fa-users', 2, 2, 0, 'fa fa-users', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (304, 'Administrasi Keuangan', 'bumindes_keuangan', 1, 'fa-money', 3, 2, 0, 'fa fa-money', 301);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (305, 'Administrasi Pembangunan', 'bumindes_pembangunan', 1, 'fa-university', 4, 2, 0, 'fa fa-university', 301);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (305, 'Administrasi Pembangunan', 'bumindes_tanah_desa/clear', 1, 'fa-university', 4, 2, 0, 'fa fa-university', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (306, 'Administrasi Lainnya', 'bumindes_lain', 1, 'fa-archive', 5, 2, 0, 'fa fa-archive', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (310, 'Buku Eskpedisi', 'ekspedisi/clear', 1, 'fa-files-o', 0, 0, 0, '', 302);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (311, 'Buku Lembaran Dan Berita Desa', 'lembaran_desa/clear', 1, 'fa-files-o', 0, 0, 0, '', 302);
@@ -8658,7 +8715,11 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (316, 'Buku Rekapitulasi Jumlah Penduduk', 'bumindes_penduduk_rekapitulasi/clear', 1, 'fa-files-o', 0, 0, 0, '', 303);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (317, 'Buku Penduduk Sementara', 'bumindes_penduduk_sementara/clear', 1, 'fa-files-o', 0, 0, 0, '', 303);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (318, 'Buku KTP dan KK', 'bumindes_penduduk_ktpkk/clear', 1, 'fa-files-o', 0, 0, 0, '', 303);
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (331, 'Pendaftaran Kerjasama', 'pendaftaran_kerjasama', 1, 'fa-list', 6, 2, 0, 'fa-list', 200);
+========
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (319, 'Buku Tanah Kas Desa', 'bumindes_tanah_kas_desa/clear', 1, 'fa-files-o', 0, 0, 0, '', 305);
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 
 
 #
@@ -8762,6 +8823,7 @@ CREATE TABLE `sys_traffic` (
   PRIMARY KEY (`Tanggal`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+<<<<<<<< HEAD:contoh_data_awal_20211101.sql
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-15', '::1{}', 1);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-16', '::1{}', 1);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-18', '', 3);
@@ -8846,7 +8908,178 @@ INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-11-29
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-12-31', '', 2);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2021-01-31', '127.0.0.1', 1);
 INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2021-05-01', '192.168.33.1', 1);
+========
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-15', '{\"ip_address\":[\"::1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-16', '{\"ip_address\":[\"::1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-18', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-21', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-11-26', '{\"ip_address\":[\"::1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-12-03', '{\"ip_address\":[\"127.0.0.1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-12-04', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-12-05', '{\"ip_address\":[\"\"]}', 5);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-12-06', '{\"ip_address\":[\"127.0.0.1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-12-08', '{\"ip_address\":[\"127.0.0.1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-12-09', '{\"ip_address\":[\"127.0.0.1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2014-12-10', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-05-25', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-05-26', '{\"ip_address\":[\"\"]}', 4);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-05-27', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-05-28', '{\"ip_address\":[\"10.0.2.2\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-05-29', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-05-30', '{\"ip_address\":[\"10.0.2.2\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-05-31', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-06-01', '{\"ip_address\":[\"10.0.2.2\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-23', '{\"ip_address\":[\"\"]}', 6);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-24', '{\"ip_address\":[\"\"]}', 7);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-26', '{\"ip_address\":[\"\"]}', 8);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-27', '{\"ip_address\":[\"192.168.1.66\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-28', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-29', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-30', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-08-31', '{\"ip_address\":[\"127.0.0.1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-02', '{\"ip_address\":[\"\"]}', 4);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-03', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-04', '{\"ip_address\":[\"10.0.2.2\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-05', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-07', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-08', '{\"ip_address\":[\"10.0.2.2\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-09', '{\"ip_address\":[\"\"]}', 4);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-10', '{\"ip_address\":[\"\"]}', 4);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-11', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-09-14', '{\"ip_address\":[\"\"]}', 4);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2016-12-02', '{\"ip_address\":[\"::1\"]}', 55);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2017-07-16', '{\"ip_address\":[\"10.0.2.2\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2017-12-02', '{\"ip_address\":[\"::1\"]}', 61);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2018-05-28', '{\"ip_address\":[\"\"]}', 3);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2018-05-29', '{\"ip_address\":[\"10.0.2.2\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2018-11-30', '{\"ip_address\":[\"192.168.33.1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2018-12-02', '{\"ip_address\":[\"::1\"]}', 79);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2019-01-02', '{\"ip_address\":[\"::1\"]}', 88);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2019-06-01', '{\"ip_address\":[\"::1\"]}', 76);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2019-12-01', '{\"ip_address\":[\"::1\"]}', 71);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-01-01', '{\"ip_address\":[\"::1\"]}', 102);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-01-08', '{\"ip_address\":[\"::1\"]}', 177);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-01-15', '{\"ip_address\":[\"::1\"]}', 154);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-01-31', '{\"ip_address\":[\"::1\"]}', 120);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-02', '{\"ip_address\":[\"::1\"]}', 67);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-03', '{\"ip_address\":[\"::1\"]}', 98);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-04', '{\"ip_address\":[\"::1\"]}', 201);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-05', '{\"ip_address\":[\"::1\"]}', 187);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-06', '{\"ip_address\":[\"::1\"]}', 177);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-07', '{\"ip_address\":[\"::1\"]}', 156);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-08', '{\"ip_address\":[\"::1\"]}', 145);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-09', '{\"ip_address\":[\"::1\"]}', 176);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-10', '{\"ip_address\":[\"::1\"]}', 101);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-11', '{\"ip_address\":[\"::1\"]}', 120);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-12', '{\"ip_address\":[\"::1\"]}', 123);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-13', '{\"ip_address\":[\"::1\"]}', 112);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-14', '{\"ip_address\":[\"::1\"]}', 113);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-15', '{\"ip_address\":[\"::1\"]}', 145);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-16', '{\"ip_address\":[\"::1\"]}', 122);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-17', '{\"ip_address\":[\"::1\"]}', 100);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-18', '{\"ip_address\":[\"::1\"]}', 237);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-19', '{\"ip_address\":[\"::1\"]}', 242);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-20', '{\"ip_address\":[\"::1\"]}', 210);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-21', '{\"ip_address\":[\"::1\"]}', 209);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-22', '{\"ip_address\":[\"::1\"]}', 201);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-23', '{\"ip_address\":[\"::1\"]}', 206);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-24', '{\"ip_address\":[\"::1\"]}', 190);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-25', '{\"ip_address\":[\"::1\"]}', 191);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-26', '{\"ip_address\":[\"::1\"]}', 154);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-27', '{\"ip_address\":[\"::1\"]}', 131);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-28', '{\"ip_address\":[\"::1\"]}', 98);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-02-29', '{\"ip_address\":[\"::1\"]}', 91);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-11-29', '{\"ip_address\":[\"::1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2020-12-31', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2021-02-01', '{\"ip_address\":[\"192.168.33.1\"]}', 1);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2021-02-28', '{\"ip_address\":[\"\"]}', 2);
+INSERT INTO `sys_traffic` (`Tanggal`, `ipAddress`, `Jumlah`) VALUES ('2021-04-01', '{\"ip_address\":[\"192.168.33.1\"]}', 1);
+>>>>>>>> v21.05-premium-clear:contoh_data_awal_premium_20210501.sql
 
+
+#
+# TABLE STRUCTURE FOR: tanah_desa
+#
+
+DROP TABLE IF EXISTS `tanah_desa`;
+
+CREATE TABLE `tanah_desa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_penduduk` int(10) NOT NULL,
+  `nik` decimal(16,0) DEFAULT NULL,
+  `jenis_pemilik` text,
+  `nama_pemilik_asal` varchar(200) NOT NULL,
+  `luas` int(10) NOT NULL,
+  `hak_milik` int(11) DEFAULT NULL,
+  `hak_guna_bangunan` int(11) DEFAULT NULL,
+  `hak_pakai` int(11) DEFAULT NULL,
+  `hak_guna_usaha` int(11) DEFAULT NULL,
+  `hak_pengelolaan` int(11) DEFAULT NULL,
+  `hak_milik_adat` int(11) DEFAULT NULL,
+  `hak_verponding` int(11) DEFAULT NULL,
+  `tanah_negara` int(11) DEFAULT NULL,
+  `perumahan` int(11) DEFAULT NULL,
+  `perdagangan_jasa` int(11) DEFAULT NULL,
+  `perkantoran` int(11) DEFAULT NULL,
+  `industri` int(11) DEFAULT NULL,
+  `fasilitas_umum` int(11) DEFAULT NULL,
+  `sawah` int(11) DEFAULT NULL,
+  `tegalan` int(11) DEFAULT NULL,
+  `perkebunan` int(11) DEFAULT NULL,
+  `peternakan_perikanan` int(11) DEFAULT NULL,
+  `hutan_belukar` int(11) DEFAULT NULL,
+  `hutan_lebat_lindung` int(11) DEFAULT NULL,
+  `tanah_kosong` int(11) DEFAULT NULL,
+  `lain` int(11) DEFAULT NULL,
+  `mutasi` text NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(10) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` int(10) NOT NULL,
+  `visible` tinyint(3) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `id_penduduk` (`id_penduduk`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: tanah_kas_desa
+#
+
+DROP TABLE IF EXISTS `tanah_kas_desa`;
+
+CREATE TABLE `tanah_kas_desa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_pemilik_asal` varchar(200) NOT NULL,
+  `letter_c` text NOT NULL,
+  `kelas` text NOT NULL,
+  `luas` int(10) NOT NULL,
+  `asli_milik_desa` int(11) DEFAULT NULL,
+  `pemerintah` int(11) DEFAULT NULL,
+  `provinsi` int(11) DEFAULT NULL,
+  `kabupaten_kota` int(11) DEFAULT NULL,
+  `lain_lain` int(11) DEFAULT NULL,
+  `sawah` int(11) DEFAULT NULL,
+  `tegal` int(11) DEFAULT NULL,
+  `kebun` int(11) DEFAULT NULL,
+  `tambak_kolam` int(11) DEFAULT NULL,
+  `tanah_kering_darat` int(11) DEFAULT NULL,
+  `ada_patok` int(11) DEFAULT NULL,
+  `tidak_ada_patok` int(11) DEFAULT NULL,
+  `ada_papan_nama` int(11) DEFAULT NULL,
+  `tidak_ada_papan_nama` int(11) DEFAULT NULL,
+  `tanggal_perolehan` date DEFAULT NULL,
+  `lokasi` text NOT NULL,
+  `peruntukan` text NOT NULL,
+  `mutasi` text NOT NULL,
+  `keterangan` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(10) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` int(10) NOT NULL,
+  `visible` tinyint(2) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: teks_berjalan
@@ -13274,47 +13507,49 @@ CREATE TABLE `tweb_keluarga` (
   `tgl_cetak_kk` datetime DEFAULT NULL,
   `alamat` varchar(200) DEFAULT NULL,
   `id_cluster` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `nik_kepala` (`nik_kepala`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (1, '5201140104126994', '1', '2016-09-14 13:28:03', NULL, NULL, NULL, 4);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (2, '5201140104126995', '5', '2016-09-14 13:28:03', NULL, NULL, NULL, 8);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (3, '5201140104166999', '9', '2016-09-14 13:28:03', NULL, NULL, NULL, 12);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (4, '5201140105136997', '12', '2016-09-14 13:28:03', NULL, NULL, NULL, 16);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (5, '5201140106166996', '16', '2016-09-14 13:28:03', NULL, NULL, NULL, 8);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (6, '5201140106167002', '17', '2016-09-14 13:28:03', NULL, NULL, NULL, 17);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (7, '5201140106167003', '19', '2016-09-14 13:28:03', NULL, NULL, NULL, 16);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (8, '5201140107126996', '21', '2016-09-14 13:28:03', NULL, NULL, NULL, 18);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (9, '5201140108146995', '25', '2016-09-14 13:28:03', NULL, NULL, NULL, 18);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (10, '5201140109126996', '26', '2016-09-14 13:28:03', NULL, NULL, NULL, 19);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (11, '5201140109156994', '30', '2016-09-14 13:28:03', NULL, NULL, NULL, 19);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (12, '5201140110137011', '32', '2016-09-14 13:28:03', NULL, NULL, NULL, 20);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (13, '5201140110137038', '35', '2016-09-14 13:28:03', NULL, NULL, NULL, 18);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (14, '5201140110156997', '37', '2016-09-14 13:28:03', NULL, NULL, NULL, 18);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (15, '5201140111126997', '38', '2016-09-14 13:28:03', NULL, NULL, NULL, 17);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (16, '5201140111126999', '39', '2016-09-14 13:28:03', NULL, NULL, NULL, 21);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (17, '5201140112107003', '42', '2016-09-14 13:28:03', NULL, NULL, NULL, 12);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (18, '5201140112126998', '45', '2016-09-14 13:28:03', NULL, NULL, NULL, 22);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (19, '5201140202167000', '51', '2016-09-14 13:28:03', NULL, NULL, NULL, 23);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (20, '5201140202167002', '52', '2016-09-14 13:28:03', NULL, NULL, NULL, 24);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (21, '5201140203136994', '55', '2016-09-14 13:28:03', NULL, NULL, NULL, 8);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (22, '5201140203136995', '56', '2016-09-14 13:28:03', NULL, NULL, NULL, 16);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (23, '5201140203167003', '59', '2016-09-14 13:28:03', NULL, NULL, NULL, 23);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (24, '5201140204166994', '61', '2016-09-14 13:28:03', NULL, NULL, NULL, 25);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (25, '5201140205156994', '62', '2016-09-14 13:28:03', NULL, NULL, NULL, 26);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (26, '5201140205156995', '65', '2016-09-14 13:28:03', NULL, NULL, NULL, 26);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (27, '5201140205156996', '68', '2016-09-14 13:28:03', NULL, NULL, NULL, 25);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (28, '5201140205156997', '71', '2016-09-14 13:28:03', NULL, NULL, NULL, 25);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (29, '5201140206157000', '74', '2016-09-14 13:28:03', NULL, NULL, NULL, 17);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (30, '5201140206157004', '76', '2016-09-14 13:28:03', NULL, NULL, NULL, 27);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (31, '5201140207156998', '77', '2016-09-14 13:28:03', NULL, NULL, NULL, 28);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (32, '5201140207157000', '80', '2016-09-14 13:28:03', NULL, NULL, NULL, 29);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (33, '5201140209156996', '83', '2016-09-14 13:28:03', NULL, NULL, NULL, 30);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (34, '5201140210137022', '84', '2016-09-14 13:28:03', NULL, NULL, NULL, 29);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (35, '5201140211117001', '88', '2016-09-14 13:28:03', NULL, NULL, NULL, 31);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (36, '5201140211117002', '91', '2016-09-14 13:28:03', NULL, NULL, NULL, 31);
-INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`) VALUES (37, '5201140211117003', '95', '2016-09-14 13:28:03', NULL, NULL, NULL, 31);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (1, '5201140104126994', '1', '2016-09-14 13:28:03', NULL, NULL, NULL, 4, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (2, '5201140104126995', '5', '2016-09-14 13:28:03', NULL, NULL, NULL, 8, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (3, '5201140104166999', '9', '2016-09-14 13:28:03', NULL, NULL, NULL, 12, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (4, '5201140105136997', '12', '2016-09-14 13:28:03', NULL, NULL, NULL, 16, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (5, '5201140106166996', '16', '2016-09-14 13:28:03', NULL, NULL, NULL, 8, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (6, '5201140106167002', '17', '2016-09-14 13:28:03', NULL, NULL, NULL, 17, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (7, '5201140106167003', '19', '2016-09-14 13:28:03', NULL, NULL, NULL, 16, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (8, '5201140107126996', '21', '2016-09-14 13:28:03', NULL, NULL, NULL, 18, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (9, '5201140108146995', '25', '2016-09-14 13:28:03', NULL, NULL, NULL, 18, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (10, '5201140109126996', '26', '2016-09-14 13:28:03', NULL, NULL, NULL, 19, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (11, '5201140109156994', '30', '2016-09-14 13:28:03', NULL, NULL, NULL, 19, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (12, '5201140110137011', '32', '2016-09-14 13:28:03', NULL, NULL, NULL, 20, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (13, '5201140110137038', '35', '2016-09-14 13:28:03', NULL, NULL, NULL, 18, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (14, '5201140110156997', '37', '2016-09-14 13:28:03', NULL, NULL, NULL, 18, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (15, '5201140111126997', '38', '2016-09-14 13:28:03', NULL, NULL, NULL, 17, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (16, '5201140111126999', '39', '2016-09-14 13:28:03', NULL, NULL, NULL, 21, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (17, '5201140112107003', '42', '2016-09-14 13:28:03', NULL, NULL, NULL, 12, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (18, '5201140112126998', '45', '2016-09-14 13:28:03', NULL, NULL, NULL, 22, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (19, '5201140202167000', '51', '2016-09-14 13:28:03', NULL, NULL, NULL, 23, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (20, '5201140202167002', '52', '2016-09-14 13:28:03', NULL, NULL, NULL, 24, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (21, '5201140203136994', '55', '2016-09-14 13:28:03', NULL, NULL, NULL, 8, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (22, '5201140203136995', '56', '2016-09-14 13:28:03', NULL, NULL, NULL, 16, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (23, '5201140203167003', '59', '2016-09-14 13:28:03', NULL, NULL, NULL, 23, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (24, '5201140204166994', '61', '2016-09-14 13:28:03', NULL, NULL, NULL, 25, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (25, '5201140205156994', '62', '2016-09-14 13:28:03', NULL, NULL, NULL, 26, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (26, '5201140205156995', '65', '2016-09-14 13:28:03', NULL, NULL, NULL, 26, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (27, '5201140205156996', '68', '2016-09-14 13:28:03', NULL, NULL, NULL, 25, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (28, '5201140205156997', '71', '2016-09-14 13:28:03', NULL, NULL, NULL, 25, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (29, '5201140206157000', '74', '2016-09-14 13:28:03', NULL, NULL, NULL, 17, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (30, '5201140206157004', '76', '2016-09-14 13:28:03', NULL, NULL, NULL, 27, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (31, '5201140207156998', '77', '2016-09-14 13:28:03', NULL, NULL, NULL, 28, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (32, '5201140207157000', '80', '2016-09-14 13:28:03', NULL, NULL, NULL, 29, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (33, '5201140209156996', '83', '2016-09-14 13:28:03', NULL, NULL, NULL, 30, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (34, '5201140210137022', '84', '2016-09-14 13:28:03', NULL, NULL, NULL, 29, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (35, '5201140211117001', '88', '2016-09-14 13:28:03', NULL, NULL, NULL, 31, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (36, '5201140211117002', '91', '2016-09-14 13:28:03', NULL, NULL, NULL, 31, '2021-05-01 01:45:37', 0);
+INSERT INTO `tweb_keluarga` (`id`, `no_kk`, `nik_kepala`, `tgl_daftar`, `kelas_sosial`, `tgl_cetak_kk`, `alamat`, `id_cluster`, `updated_at`, `updated_by`) VALUES (37, '5201140211117003', '95', '2016-09-14 13:28:03', NULL, NULL, NULL, 31, '2021-05-01 01:45:37', 0);
 
 
 #
@@ -14152,16 +14387,21 @@ INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `email`, `last_logi
 DROP TABLE IF EXISTS `user_grup`;
 
 CREATE TABLE `user_grup` (
-  `id` tinyint(4) NOT NULL,
+  `id` int(5) NOT NULL AUTO_INCREMENT,
   `nama` varchar(20) NOT NULL,
+  `jenis` tinyint(2) NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_by` int(11) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_by` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
-INSERT INTO `user_grup` (`id`, `nama`) VALUES (1, 'Administrator');
-INSERT INTO `user_grup` (`id`, `nama`) VALUES (2, 'Operator');
-INSERT INTO `user_grup` (`id`, `nama`) VALUES (3, 'Redaksi');
-INSERT INTO `user_grup` (`id`, `nama`) VALUES (4, 'Kontributor');
-INSERT INTO `user_grup` (`id`, `nama`) VALUES (5, 'Satgas Covid-19');
+INSERT INTO `user_grup` (`id`, `nama`, `jenis`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES (1, 'Administrator', 1, '2021-05-01 01:45:38', NULL, '2021-05-01 01:45:38', 0);
+INSERT INTO `user_grup` (`id`, `nama`, `jenis`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES (2, 'Operator', 1, '2021-05-01 01:45:38', NULL, '2021-05-01 01:45:38', 0);
+INSERT INTO `user_grup` (`id`, `nama`, `jenis`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES (3, 'Redaksi', 1, '2021-05-01 01:45:38', NULL, '2021-05-01 01:45:38', 0);
+INSERT INTO `user_grup` (`id`, `nama`, `jenis`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES (4, 'Kontributor', 1, '2021-05-01 01:45:38', NULL, '2021-05-01 01:45:38', 0);
+INSERT INTO `user_grup` (`id`, `nama`, `jenis`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES (5, 'Satgas Covid-19', 2, '2021-05-01 01:45:38', NULL, '2021-05-01 01:45:38', 0);
 
 
 #
@@ -14707,6 +14947,224 @@ CREATE TABLE `kelompok_anggota` (
   UNIQUE KEY `id_kelompok` (`id_kelompok`,`id_penduduk`),
   CONSTRAINT `kelompok_anggota_fk` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: log_keluarga
+#
+
+DROP TABLE IF EXISTS `log_keluarga`;
+
+CREATE TABLE `log_keluarga` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `id_kk` int(11) NOT NULL,
+  `kk_sex` tinyint(2) DEFAULT NULL,
+  `id_peristiwa` int(4) NOT NULL,
+  `tgl_peristiwa` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `id_pend` int(11) DEFAULT NULL,
+  `updated_by` int(11) NOT NULL,
+  `id_log_penduduk` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_kk` (`id_kk`,`id_peristiwa`,`tgl_peristiwa`),
+  KEY `log_penduduk_fk` (`id_log_penduduk`),
+  CONSTRAINT `log_penduduk_fk` FOREIGN KEY (`id_log_penduduk`) REFERENCES `log_penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (1, 1, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (2, 2, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (3, 3, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (4, 4, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (5, 5, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (6, 6, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (7, 7, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (8, 8, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (9, 9, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (10, 10, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (11, 11, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (12, 12, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (13, 13, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (14, 14, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (15, 15, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (16, 16, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (17, 17, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (18, 18, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (19, 19, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (20, 20, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (21, 21, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (22, 22, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (23, 23, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (24, 24, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (25, 25, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (26, 26, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (27, 27, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (28, 28, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (29, 29, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (30, 30, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (31, 31, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (32, 32, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (33, 33, 2, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (34, 34, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (35, 35, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (36, 36, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+INSERT INTO `log_keluarga` (`id`, `id_kk`, `kk_sex`, `id_peristiwa`, `tgl_peristiwa`, `id_pend`, `updated_by`, `id_log_penduduk`) VALUES (37, 37, 1, 1, '2016-09-14 13:28:03', NULL, 1, NULL);
+
+
+#
+# TABLE STRUCTURE FOR: grup_akses
+#
+
+DROP TABLE IF EXISTS `grup_akses`;
+
+CREATE TABLE `grup_akses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_grup` int(11) NOT NULL,
+  `id_modul` int(11) NOT NULL,
+  `akses` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_grup` (`id_grup`),
+  KEY `id_modul` (`id_modul`),
+  CONSTRAINT `fk_id_grup` FOREIGN KEY (`id_grup`) REFERENCES `user_grup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_id_modul` FOREIGN KEY (`id_modul`) REFERENCES `setting_modul` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=277 DEFAULT CHARSET=utf8;
+
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (139, 2, 1, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (140, 2, 2, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (141, 2, 3, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (142, 2, 4, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (143, 2, 5, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (144, 2, 6, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (145, 2, 7, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (146, 2, 8, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (147, 2, 9, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (148, 2, 10, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (149, 2, 11, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (150, 2, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (151, 2, 14, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (152, 2, 15, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (153, 2, 17, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (154, 2, 18, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (155, 2, 20, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (156, 2, 21, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (157, 2, 22, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (158, 2, 23, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (159, 2, 24, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (160, 2, 25, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (161, 2, 26, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (162, 2, 27, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (163, 2, 28, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (164, 2, 29, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (165, 2, 30, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (166, 2, 31, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (167, 2, 32, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (168, 2, 33, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (169, 2, 39, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (170, 2, 40, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (171, 2, 41, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (172, 2, 42, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (173, 2, 47, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (174, 2, 48, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (175, 2, 49, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (176, 2, 50, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (177, 2, 51, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (178, 2, 52, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (179, 2, 53, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (180, 2, 54, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (181, 2, 55, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (182, 2, 56, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (183, 2, 57, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (184, 2, 58, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (185, 2, 61, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (186, 2, 62, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (187, 2, 63, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (188, 2, 64, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (189, 2, 65, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (190, 2, 66, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (191, 2, 67, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (192, 2, 68, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (193, 2, 69, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (194, 2, 70, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (195, 2, 71, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (196, 2, 72, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (197, 2, 73, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (198, 2, 75, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (199, 2, 76, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (200, 2, 77, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (201, 2, 78, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (202, 2, 79, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (203, 2, 80, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (204, 2, 81, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (205, 2, 82, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (206, 2, 83, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (207, 2, 84, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (208, 2, 85, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (209, 2, 86, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (210, 2, 87, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (211, 2, 88, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (212, 2, 89, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (213, 2, 90, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (214, 2, 91, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (215, 2, 92, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (216, 2, 93, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (217, 2, 94, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (218, 2, 95, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (219, 2, 96, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (220, 2, 97, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (221, 2, 98, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (222, 2, 101, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (223, 2, 200, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (224, 2, 201, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (225, 2, 202, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (226, 2, 203, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (227, 2, 205, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (228, 2, 206, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (229, 2, 207, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (230, 2, 208, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (231, 2, 209, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (232, 2, 210, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (233, 2, 211, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (234, 2, 212, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (235, 2, 213, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (236, 2, 220, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (237, 2, 221, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (238, 2, 301, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (239, 2, 302, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (240, 2, 303, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (241, 2, 304, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (242, 2, 305, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (243, 2, 306, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (244, 2, 310, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (245, 2, 311, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (246, 2, 312, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (247, 2, 313, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (248, 2, 314, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (249, 2, 315, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (250, 2, 316, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (251, 2, 317, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (252, 2, 318, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (253, 3, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (254, 3, 47, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (255, 3, 48, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (256, 3, 49, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (257, 3, 50, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (258, 3, 51, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (259, 3, 53, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (260, 3, 54, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (261, 3, 64, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (262, 3, 205, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (263, 3, 211, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (264, 4, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (265, 4, 47, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (266, 4, 50, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (267, 4, 51, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (268, 4, 54, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (269, 5, 3, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (270, 5, 27, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (271, 5, 206, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (272, 5, 207, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (273, 5, 208, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (274, 2, 319, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (275, 2, 110, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (276, 2, 111, 3);
+
 
 #
 # TABLE STRUCTURE FOR: daftar_kontak

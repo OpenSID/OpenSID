@@ -165,7 +165,7 @@ class Klasifikasi extends Admin_Controller {
 	public function ekspor()
 	{
 		download_send_headers("klasifikasi_surat_" . date("Y-m-d") . ".csv");
-		echo get_csv('klasifikasi_surat');
+		echo tulis_csv('klasifikasi_surat');
 	}
 
 	public function impor()
