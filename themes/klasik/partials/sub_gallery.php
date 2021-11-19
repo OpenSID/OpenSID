@@ -4,7 +4,7 @@
 	<div class="box box-primary box-solid">
 		<div class="box-header">
 			<h3 class="box-title">
-				<a href="<?= site_url('first/gallery') ?>"><i class="fa fa-arrow-left"></i> Galeri Album:
+				<a href="<?= site_url('gallery') ?>"><i class="fa fa-arrow-left"></i> Galeri Album:
 					<?= $parrent['nama'] ?></a>
 			</h3>
 		</div>

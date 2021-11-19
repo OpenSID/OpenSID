@@ -35,6 +35,15 @@
                 </li>
                 <?php endforeach; ?>
                 <li class="dropdown" style="margin-right: 5px; margin-top: 0px">
+                    <a class="dropdown-toggle" href="<?= site_url('gallery'); ?>">Gallery <span class='caret'></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<?= site_url('gallery'); ?>" rel="noopener noreferrer" target="_blank">Gallery</a>
+                            <a href="<?= site_url('sub_gallery'); ?>" rel="noopener noreferrer">Sub Gallery</a>
+                        </li>
+                    </ul>
+                </li> 
+                <li class="dropdown" style="margin-right: 5px; margin-top: 0px">
                     <a class="dropdown-toggle" href="javascript:void(0);">Login <span class='caret'></span></a>
                     <ul class="dropdown-menu">
                         <li>

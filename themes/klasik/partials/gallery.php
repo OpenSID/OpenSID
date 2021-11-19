@@ -34,30 +34,30 @@
 			<ul class="pagination pagination-sm no-margin">
 				<?php if($paging->start_link) : ?>
 					<li>
-						<a href="<?= site_url("first/gallery/{$paging->start_link}") ?>" title="Halaman pertama">
+						<a href="<?= site_url("gallery/{$paging->start_link}") ?>" title="Halaman pertama">
 							<i class="fa fa-fast-backward"></i>&nbsp;</a>
 					</li>
 				<?php endif ?>
 				<?php if($paging->prev) : ?>
 					<li>
-						<a href="<?= site_url("first/gallery/{$paging->prev}") ?>" title="Halaman sebelumnya">
+						<a href="<?= site_url("gallery/{$paging->prev}") ?>" title="Halaman sebelumnya">
 							<i class="fa fa-fast-backward"></i>&nbsp;</a>
 					</li>
 				<?php endif ?>
 				<?php foreach($pages as $page) : ?>
 					<li class="<?php $p === $page and print('active') ?>">
-						<a class="page-link" href="<?= site_url("first/gallery/{$page}") ?>" title="Halaman <?= $page ?>"><?= $page ?></a>
+						<a class="page-link" href="<?= site_url("gallery/{$page}") ?>" title="Halaman <?= $page ?>"><?= $page ?></a>
 					</li>
 				<?php endforeach ?>
 				<?php if($paging->next) : ?>
 					<li>
-						<a href="<?= site_url("first/gallery/{$paging->next}") ?>" title="Halaman selanjutnya">
+						<a href="<?= site_url("gallery/{$paging->next}") ?>" title="Halaman selanjutnya">
 							<i class="fa fa-fast-backward"></i>&nbsp;</a>
 					</li>
 				<?php endif ?>
 				<?php if($paging->end_link) : ?>
 					<li>
-						<a href="<?= site_url("first/gallery/{$paging->prev}") ?>" title="Halaman terakhir">
+						<a href="<?= site_url("gallery/{$paging->prev}") ?>" title="Halaman terakhir">
 							<i class="fa fa-fast-forward"></i>&nbsp;</a>
 					</li>
 				<?php endif ?>

@@ -147,3 +147,9 @@ $route['layanan-mandiri/surat/buat'] = 'layanan_mandiri/surat/buat';
 $route['layanan-mandiri/surat/buat/(:num)'] = 'layanan_mandiri/surat/buat/$1';
 // Bantuan
 $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan';
+//Gallery
+$route['gallery'] = '';
+$route['gallery/(:num)'] = 'index/gallery/$1';
+$route['sub_gallery'] = '';
+$route['sub_gallery/(:any)/(:any)'] = 'index/sub_gallery/$1/$2';
+
