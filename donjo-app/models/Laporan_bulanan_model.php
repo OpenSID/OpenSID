@@ -46,55 +46,6 @@ class Laporan_bulanan_model extends CI_Model
     protected $mati;
     protected $hilang;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->tulis_log_bulanan();
-    }
-
-    public function tulis_log_bulanan()
-    {
-        // Jangan tulis kalau sudah pernah di sesi ini
-        if ($this->session->log_bulanan) {
-            return;
-        }
-
-        // Jangan hitung keluarga yang tidak ada Kepala Keluarga
-        // Anggap warganegara_id = 0, 1 atau 3 adalah WNI
-        $sql = 'SELECT
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1) AS pend,
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =1 AND warganegara_id <> 2) AS wni_lk,
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =2 AND warganegara_id <> 2) AS wni_pr,
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =1 AND warganegara_id = 2) AS wna_lk,
-			(SELECT COUNT(id) FROM tweb_penduduk WHERE status_dasar =1 AND sex =2 AND warganegara_id = 2) AS wna_pr,
-			(SELECT COUNT(p.id) FROM tweb_keluarga k
-				LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
-				WHERE p.status_dasar = 1
-					AND k.nik_kepala IS NOT NULL AND k.nik_kepala <> 0) AS kk,
-			(SELECT COUNT(k.id) FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
-				WHERE p.sex = 1 AND p.status_dasar = 1) AS kk_lk,
-			(SELECT COUNT(k.id) FROM tweb_keluarga k LEFT JOIN tweb_penduduk p ON k.nik_kepala = p.id
-				WHERE p.sex = 2  AND p.status_dasar = 1) AS kk_pr';
-        $query = $this->db->query($sql);
-        $data  = $query->row_array();
-
-        $bln = date('m');
-        $thn = date('Y');
-
-        $sql   = "SELECT * FROM log_bulanan WHERE month(tgl) = {$bln} AND year(tgl) = {$thn}";
-        $query = $this->db->query($sql);
-        $ada   = $query->result_array();
-
-        if (! $ada) {
-            $this->db->insert('log_bulanan', $data);
-        } else {
-            $this->db
-                ->where("month(tgl) = {$bln} AND year(tgl) = {$thn}")
-                ->update('log_bulanan', $data);
-        }
-        $this->session->log_bulanan = true;
-    }
-
     private function dusun_sql()
     {
         $dusun = $_SESSION['dusun'];
@@ -141,15 +92,18 @@ class Laporan_bulanan_model extends CI_Model
         return $data;
     }
 
-    /* KETERANGAN kode_peristiwa di log_penduduk
-       1 = insert penduduk baru dengan status lahir
-       2 = penduduk mati
-         3 = penduduk pindah keluar
-         4 = penduduk hilang
-         5 = insert penduduk baru pindah masuk
-         6 = penduduk tidak tetap pergi
-    */
-
+    /**
+     * KETERANGAN kode_peristiwa di log_penduduk
+     * 1 = insert penduduk baru dengan status lahir
+     * 2 = penduduk mati
+     * 3 = penduduk pindah keluar
+     * 4 = penduduk hilang
+     * 5 = insert penduduk baru pindah masuk
+     * 6 = penduduk tidak tetap pergi
+     *
+     * @param mixed|null $rincian
+     * @param mixed|null $tipe
+     */
     public function penduduk_awal($rincian = null, $tipe = null)
     {
         // Jika rincian dan tipe di definisikan, maka akan masuk kedetil laporan
@@ -389,7 +343,12 @@ class Laporan_bulanan_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    // Panggil setelah menghitung penduduk awal dan semua mutasi
+    /**
+     * Panggil setelah menghitung penduduk awal dan semua mutasi
+     *
+     * @param mixed|null $rincian
+     * @param mixed|null $tipe
+     */
     public function penduduk_akhir($rincian = null, $tipe = null)
     {
         // Jika rincian dan tipe di definisikan, maka akan masuk kedetil laporan
@@ -403,8 +362,8 @@ class Laporan_bulanan_model extends CI_Model
         foreach ($kategori as $k) {
             $data[$k] = $this->awal[$k] + $this->lahir[$k] + $this->datang[$k] - $this->mati[$k] - $this->pindah[$k] - $this->hilang[$k];
         }
-        $data['tahun'] = $thn;
-        $data['bulan'] = $bln;
+        $data['tahun'] = $this->session->bulanku;
+        $data['bulan'] = $this->session->tahunku;
 
         return $data;
     }
@@ -426,20 +385,23 @@ class Laporan_bulanan_model extends CI_Model
         return $this->db->get_compiled_select();
     }
 
-    /* 	Untuk statistik perkembangan keluarga
-            id_peristiwa:
-                 1 - keluarga baru
-                 2 - kepala keluarga status dasar 'mati'
-                 3 - kepala keluarga status dasar 'pindah'
-                 4 - kepala keluarga status dasar 'hilang'
-                 6 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
-                 11- kepala keluarga status dasar 'tidak valid' (seharusnya tidak ada)
-                 12- anggota keluarga keluar atau pecah dari keluarga
-                 13 - keluarga dihapus
-                 14 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
-    */
-
-    // Perubahan keluarga pada bulan laporan
+    /**
+     * Untuk statistik perkembangan keluarga
+     * id_peristiwa:
+     * 1 - keluarga baru
+     * 2 - kepala keluarga status dasar 'mati'
+     * 3 - kepala keluarga status dasar 'pindah'
+     * 4 - kepala keluarga status dasar 'hilang'
+     * 6 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
+     * 11- kepala keluarga status dasar 'tidak valid' (seharusnya tidak ada)
+     * 12- anggota keluarga keluar atau pecah dari keluarga
+     * 13 - keluarga dihapus
+     * 14 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
+     *
+     *  Perubahan keluarga pada bulan laporan
+     *
+     * @param mixed $kode_peristiwa
+     */
     private function mutasi_keluarga_bln_thn($kode_peristiwa)
     {
         $bln = $this->session->bulanku;

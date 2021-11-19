@@ -210,8 +210,6 @@ class User_model extends CI_Model
 
     public function logout()
     {
-        // Catat jumlah penduduk saat ini
-        $this->laporan_bulanan_model->tulis_log_bulanan();
         // Hapus session -- semua session variable akan terhapus
         $this->session->sess_destroy();
     }
