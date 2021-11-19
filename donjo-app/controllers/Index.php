@@ -213,19 +213,20 @@ class Index extends Web_Controller {
 	}
 
 	// halaman rincian tiap album galeri
-	public function sub_gallery($gal=0, $p=1)
+	public function sub_gallery($slug='nama', $p=1)
 	{
+		$slug = str_replace('-',' ',$slug);
 		$data = $this->includes;
 		$data['p'] = $p;
-		$data['gal'] = $gal;
-		$data['paging'] = $this->first_gallery_m->paging2($gal, $p);
+		$data['slug'] = $slug;
+		$data['paging'] = $this->first_gallery_m->paging2($slug, $p);
 		$data['paging_range'] = 3;
 		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
 		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
 		$data['pages'] = range($data['start_paging'], $data['end_paging']);
 
-		$data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal,$data['paging']->offset, $data['paging']->per_page);
-		$data['parrent'] = $this->first_gallery_m->get_parrent($gal);
+		$data['gallery'] = $this->first_gallery_m->sub_gallery_show($slug,$data['paging']->offset, $data['paging']->per_page);
+		$data['parrent'] = $this->first_gallery_m->get_parrent($slug);
 		$data['mode'] = 1;
 
 		$this->_get_common_data($data);

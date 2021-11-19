@@ -51,11 +51,12 @@ class First_gallery_m extends CI_Model {
 		return $data;
 	}
 
-	public function paging2($gal=0, $p=1)
+	public function paging2($nama, $p=1)
 	{
 		// di rincian, cover tetap diikutkan, jadi jangan lupa paging juga memperhitungkan kehadirannya :)
-		$sql = "SELECT COUNT(id) AS id FROM gambar_gallery WHERE enabled = 1 AND (id = '$gal' or parrent = '$gal')";
-		$query = $this->db->query($sql, $gal);
+		$sql = "SELECT COUNT(id) AS id FROM gambar_gallery WHERE enabled = 1 AND (id = '$gal' or nama = '$nama')";
+		
+		$query = $this->db->query($sql, $nama);
 		$row = $query->row_array();
 		$jml_data = $row['id'];
 
@@ -69,13 +70,14 @@ class First_gallery_m extends CI_Model {
 	}
 
 	// daftar gambar di tiap album
-	public function sub_gallery_show($gal=0, $offset=0, $limit=50)
+	public function sub_gallery_show($nama, $offset=0, $limit=50)
 	{
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-		$sql = "SELECT * FROM gambar_gallery
-			WHERE ((enabled = '1') AND (parrent = '".$gal."'))
-			ORDER BY urut
-			";
+			$sql = "SELECT * FROM gambar_gallery
+				WHERE ((enabled = '1') AND (nama = '".$nama."'))
+				ORDER BY urut
+				";
+		
 		$sql .= $paging_sql;
 
 		$query = $this->db->query($sql);
@@ -83,9 +85,9 @@ class First_gallery_m extends CI_Model {
 		return $data;
 	}
 
-	public function get_parrent($parrent)
+	public function get_parrent($nama)
 	{
-		$sql = "SELECT * FROM gambar_gallery WHERE id = '$parrent'";
+		$sql = "SELECT * FROM gambar_gallery WHERE nama = '$nama'";
 		$query = $this->db->query($sql);
 		$data  = $query->row_array();
 		return $data;

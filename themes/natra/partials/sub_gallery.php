@@ -44,22 +44,22 @@
 				<ul class=\"pagination pagination-sm no-margin\">";
 				// TODO : butuh helper untuk menggenerate html tag untuk paging
 				if($paging->start_link){
-					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->start_link")."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
+					echo "<li><a href=\"".site_url("sub_gallery/semua/$paging->start_link")."\" title=\"Halaman Pertama\"><i class=\"fa fa-fast-backward\"></i>&nbsp;</a></li>";
 				}
 				if($paging->prev){
-					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
+					echo "<li><a href=\"".site_url("sub_gallery/semua/$paging->prev")."\" title=\"Halaman Sebelumnya\"><i class=\"fa fa-backward\"></i>&nbsp;</a></li>";
 				}
 
 				foreach($pages as $i) {
 					$strC = ($p == $i)? "class=\"\"":"";
-					echo "<li ".$strC."><a href=\"".site_url("first/sub_gallery/$parrent[id]/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
+					echo "<li ".$strC."><a href=\"".site_url("sub_gallery/semua/$i")."\" title=\"Halaman ".$i."\">".$i."</a></li>";
 				}
 
 				if($paging->next){
-					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
+					echo "<li><a href=\"".site_url("sub_gallery/semua/$paging->next")."\" title=\"Halaman Selanjutnya\"><i class=\"fa fa-forward\"></i>&nbsp;</a></li>";
 				}
 				if($paging->end_link){
-					echo "<li><a href=\"".site_url("first/sub_gallery/$parrent[id]/$paging->end_link")."\" title=\"Halaman Terakhir\"><i class=\"fa fa-fast-forward\"></i>&nbsp;</a></li>";
+					echo "<li><a href=\"".site_url("sub_gallery/semua/$paging->end_link")."\" title=\"Halaman Terakhir\"><i class=\"fa fa-fast-forward\"></i>&nbsp;</a></li>";
 				}
 					echo "";
 				echo "

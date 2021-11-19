@@ -151,5 +151,5 @@ $route['layanan-mandiri/bantuan'] = 'layanan_mandiri/bantuan';
 $route['gallery'] = '';
 $route['gallery/(:num)'] = 'index/gallery/$1';
 $route['sub_gallery'] = '';
-$route['sub_gallery/(:any)/(:any)'] = 'index/sub_gallery/$1/$2';
+$route['sub_gallery/(:any)/(:num)'] = 'index/sub_gallery/$1/$2';
 
