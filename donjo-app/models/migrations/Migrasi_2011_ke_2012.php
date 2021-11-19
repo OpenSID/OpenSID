@@ -43,6 +43,9 @@ class Migrasi_2011_ke_2012 extends MY_model
     {
         $hasil = true;
 
+        // Migrasi fitur premium
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2012');
+
         // Tambah kolom masa_berlaku & satuan_masa_berlaku di tweb_surat_format
         if (! $this->db->field_exists('masa_berlaku', 'tweb_surat_format')) {
             $fields = [

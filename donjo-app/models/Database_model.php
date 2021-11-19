@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Database_model extends CI_Model
+class Database_model extends MY_Model
 {
     private $user   = 1;
     private $engine = 'InnoDB';
@@ -305,24 +305,6 @@ class Database_model extends CI_Model
         $this->migrasi_1909_ke_1910();
         $this->migrasi_1910_ke_1911();
         $this->migrasi_1911_ke_1912();
-        $this->jalankan_migrasi('migrasi_1912_ke_2001');
-        $this->jalankan_migrasi('migrasi_2001_ke_2002');
-        $this->jalankan_migrasi('migrasi_2002_ke_2003');
-        $this->jalankan_migrasi('migrasi_2003_ke_2004');
-        $this->jalankan_migrasi('migrasi_2004_ke_2005');
-        $this->jalankan_migrasi('migrasi_2005_ke_2006');
-        $this->jalankan_migrasi('migrasi_2006_ke_2007');
-        $this->jalankan_migrasi('migrasi_2007_ke_2008');
-        $this->jalankan_migrasi('migrasi_2008_ke_2009');
-        $this->jalankan_migrasi('migrasi_2009_ke_2010');
-        $this->jalankan_migrasi('migrasi_2010_ke_2011');
-        $this->jalankan_migrasi('migrasi_2101_ke_2102');
-    }
-
-    private function jalankan_migrasi($migrasi)
-    {
-        $this->load->model('migrations/' . $migrasi);
-        $this->{$migrasi}->up();
     }
 
     private function migrasi_1911_ke_1912()

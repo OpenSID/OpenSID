@@ -41,8 +41,12 @@ class Migrasi_fitur_premium_2105 extends MY_model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2104');
+
+        log_message('error', 'Jalankan ' . static::class);
 
         // Ubah kolom supaya ada nilai default
         $fields = [
@@ -69,8 +73,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = $hasil && $this->pengaturan_grup($hasil);
         $hasil = $hasil && $this->bumindes_updates($hasil);		//harus setelah fungsi pengaturan grup
         $hasil = $hasil && $this->impor_google_form($hasil);
-
-        status_sukses($hasil);
 
         return $hasil;
     }

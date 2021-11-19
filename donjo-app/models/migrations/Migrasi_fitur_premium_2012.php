@@ -41,8 +41,12 @@ class Migrasi_fitur_premium_2012 extends MY_model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2011');
+
+        log_message('error', 'Jalankan ' . static::class);
 
         // Tambah field keyboard
         if (! $this->db->field_exists('keyboard', 'anjungan')) {
@@ -57,8 +61,6 @@ class Migrasi_fitur_premium_2012 extends MY_model
 
             $hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
         }
-
-        status_sukses($hasil);
 
         return $hasil;
     }
