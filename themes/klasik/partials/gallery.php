@@ -6,36 +6,32 @@
 			<h3 class="box-title">Arsip Galeri <?= $desa['nama_desa'] ?></h3>
 		</div>
 		<div class="box-body">
-			<ul class="thumbnail">
-				<?php $i = 1 ?>
-				<?php foreach($gallery as $data) : ?>
-					<?php if(is_file(LOKASI_GALERI."sedang_{$data['gambar']}")) : ?>
-						<li>
-							<div class="entry">
+			<?php if ($gallery): ?>
+				<ul class="thumbnail">
+					<?php $i = 1 ?>
+					<?php foreach($gallery as $data) : ?>
+						<?php if(is_file(LOKASI_GALERI."sedang_{$data['gambar']}")) : ?>
+							<li>
 								<a href="<?= AmbilGaleri($data['gambar'], 'sedang') ?>" class="group2">
 									<img src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" alt="">
 								</a>
 								<div class="title">
-									<a href="<?= site_url("first/sub_gallery/{$data['id']}") ?>" title="<?= $data['nama'] ?>">
+									<a href="<?= site_url("galeri/{$data['id']}") ?>" title="<?= $data['nama'] ?>">
 										Album: <?= $data['nama'] ?>
 									</a>
 								</div>
-							</div>
-						</li>
-						<div class="<?php fmod($i, 2) == 0 and print('clearboth') ?>"></div>
-						<?php $i++ ?>
-					<?php endif ?>
-				<?php endforeach ?>
-			</ul>
+							</li>
+							<div class="<?php fmod($i, 2) == 0 and print('clearboth') ?>"></div>
+							<?php $i++ ?>
+						<?php endif ?>
+					<?php endforeach ?>
+				</ul>
+			<?php else: ?>
+				<p>Data tidak tersedia</p>
+			<?php endif; ?>
 			<div class="clearboth"></div>
 		</div>
 		
-		<?php
-
-			$data['paging_page'] = 'first/gallery';
-
-			$this->load->view("$folder_themes/commons/page", $data);
-
-		?>
+		<?php $this->load->view("$folder_themes/commons/page"); ?>
 	</div>
 </div>

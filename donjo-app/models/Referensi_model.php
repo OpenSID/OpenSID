@@ -134,6 +134,7 @@ define('STAT_LAINNYA', serialize([
     'status-sdgs'      => 'SDGs Desa',
     'lapak'            => 'Lapak Desa',
     'pembangunan'      => 'Pembangunan',
+    'galeri'           => 'Galeri',
 ]));
 
 // Jabatan Kelompok
