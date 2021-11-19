@@ -6,7 +6,6 @@
  *
  * /donjo-app/views/garis/maps.php
  */
-
 ?>
 
 <!-- TODO: Pindahkan ke external css -->

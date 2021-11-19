@@ -7,7 +7,6 @@
  *
  * donjo-app/views/kelompok/anggota/form.php
  */
-
 ?>
 
 <?= $tipe = ucfirst($this->controller); ?>

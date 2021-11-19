@@ -6,7 +6,6 @@
  *
  * /donjo-app/views/point/form_simbol.php
  */
-
 ?>
 
 <!-- TODO: Pindahkan ke external css -->

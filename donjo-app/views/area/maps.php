@@ -6,7 +6,6 @@
  *
  * /donjo-app/views/area/maps.php
  */
-
 ?>
 
 <!-- Menampilkan OpenStreetMap -->

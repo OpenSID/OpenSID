@@ -6,7 +6,6 @@
  *
  * /donjo-app/views/web/halaman_statis/peta.php
  */
-
 ?>
 
 <link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/font-awesome.min.css">

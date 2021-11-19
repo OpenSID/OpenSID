@@ -7,7 +7,6 @@
  *
  * /donjo-app/views/gis/maps.php
  */
-
 ?>
 
 <script>

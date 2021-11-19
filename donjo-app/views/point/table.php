@@ -6,7 +6,6 @@
  *
  * /donjo-app/views/point/table.php
  */
-
 ?>
 
 <script type="text/javascript">

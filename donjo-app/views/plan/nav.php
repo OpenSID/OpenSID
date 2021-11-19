@@ -6,7 +6,6 @@
  *
  * /donjo-app/views/plan/nav.php
  */
-
 ?>
 
 <div class="box box-info">

@@ -6,7 +6,6 @@
  *
  * donjo-app/views/kelompok/form.php
  */
-
 ?>
 
 <div class="content-wrapper">
