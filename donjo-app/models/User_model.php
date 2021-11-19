@@ -159,7 +159,7 @@ class User_model extends CI_Model {
 					try
 					{
 						$this->telegram->sendMessage([
-							"text" => sprintf("%s login Halaman Admin %s pada tanggal %s", $row->nama, APP_URL, tgl_indo2(date('Y-m-d h:i:s'))),
+							"text" => sprintf("%s login Halaman Admin %s pada tanggal %s", $row->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),
 							"parse_mode" => "Markdown",
 							"chat_id" => $this->setting->telegram_user_id,
 						]);
