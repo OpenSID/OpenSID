@@ -28,7 +28,6 @@
 	{
 		if ($cari = $this->session->cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->like('u.tujuan', $cari)

@@ -52,10 +52,15 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		// Hapus id_peristiwa = 1 lama di log_keluarga karena pengertiannya sudah tidak konsisten dengan penggunaan yg baru. Sekarang hanya terbatas pada keluarga baru yg dibentuk dari penduduk yg sudah ada.
 
-		$hasil = $hasil && $this->db
-			->where('id_peristiwa', 1)
-			->where("date(tgl_peristiwa) < '2021-03-04'")
-			->delete('log_keluarga');
+		// Jangan jalankan jika log_keluarga telah diisi ulang (di Migrasi_fitur_premium_2105.php)
+
+		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
+		{
+			$hasil =& $this->db
+				->where('id_peristiwa', 1)
+				->where("date(tgl_peristiwa) < '2021-03-04'")
+				->delete('log_keluarga');
+		}
 
 		// Buat tabel url shortener
 		$hasil = $hasil && $this->buat_tabel_url_shortener($hasil);
@@ -226,21 +231,21 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->select('k.*, p.nik, p.nama, p.tempatlahir, p.tanggallahir')
 			->select("concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
 			->from('program_peserta k')
-			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend')
+			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend', 'left')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->where("kartu_nik is NULL or kartu_nik = ''")
 			->or_where("kartu_nama is NULL or kartu_nama = ''")
 			->or_where("kartu_tempat_lahir is NULL or kartu_tempat_lahir = ''")
-			->or_where("kartu_tanggal_lahir is NULL or kartu_tanggal_lahir = ''")
+			->or_where("kartu_tanggal_lahir is NULL")
 			->or_where("kartu_alamat is NULL or kartu_alamat = ''")
 			->get()->result_array();
 		foreach ($kartu_kosong as $kartu)
 		{
-			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik']);
-			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama']);
-			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir']);
-			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir']);
-			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat']);
+			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik'] ?: 0);
+			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama'] ?: '');
+			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir'] ?: '');
+			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir'] ?: date('Y-m-d H:i:s'));
+			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat'] ?: '');
 			$hasil = $hasil && $this->db
 				->where('id', $kartu['id'])
 				->update('program_peserta');

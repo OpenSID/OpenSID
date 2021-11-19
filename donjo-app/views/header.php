@@ -98,6 +98,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/L.Control.Shapefile.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.groupedlayercontrol.min.css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/css/toastr.min.css">
 
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file("desa/css/siteman.css")): ?>
@@ -128,6 +129,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet.browser.print.utils.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.browser.print.sizes.js"></script>
 		<script src="<?= base_url()?>assets/js/dom-to-image.min.js"></script>
+		<script src="<?= base_url()?>assets/js/toastr.min.js"></script>
 
 		<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 		<script type="text/javascript">
@@ -159,6 +161,16 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<?php if ($notif_langganan): ?>
+								<li>
+									<a href="<?= site_url('pelanggan'); ?>">
+										<span><i class="fa <?= $notif_langganan['ikon'] ?> fa-lg" title="Status Langganan <?= $notif_langganan['masa'] ?> hari" style="color: <?= $notif_langganan['warna'] ?>;"></i>&nbsp;</span>
+										<?php if ($notif_langganan['status'] > 2) : ?>
+											<span class="badge" id="b_langganan">!</span>
+										<?php endif; ?>
+									</a>
+								</li>
+							<?php endif; ?>
 							<?php if ($notif_langganan): ?>
 								<li>
 									<a href="<?= site_url('pelanggan'); ?>">

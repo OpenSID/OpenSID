@@ -33,61 +33,66 @@
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if (isset($this->session->cari))
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (u.no_surat LIKE '$kw' OR n.nama LIKE '$kw' OR
-					s.pamong_nama like '$kw' OR p.nama like '$kw')";
-			return $search_sql;
+			$cari = $this->session->cari;
+ 			$this->db
+ 				->group_start()
+					->or_like('u.no_surat', $cari, 'BOTH')
+					->or_like('n.nama', $cari, 'BOTH')
+					->or_like('s.pamong_nama', $cari, 'BOTH')
+					->or_like('p.nama', $cari, 'BOTH')
+				->group_end();
 		}
 	}
 
-	private function filter_sql()
+	private function tahun_sql()
 	{
-		if (isset($_SESSION['filter']))
+		if (isset($this->session->tahun))
 		{
-			$kf = $_SESSION['filter'];
-			if ($kf == "0")
-				$filter_sql = "";
-			else
-				$filter_sql = " AND YEAR(u.tanggal) = '".$kf."'";
-			return $filter_sql;
+			$kf = $this->session->tahun;
+			if ($kf != "0")
+ 				$this->db->where('YEAR(u.tanggal)', $kf);
+		}
+	}
+
+	private function bulan_sql()
+	{
+
+		if (isset($this->session->bulan))
+		{
+			$kf = $this->session->bulan;
+			if ($kf != "0")
+ 				$this->db->where('MONTH(u.tanggal)', $kf);
 		}
 	}
 
 	private function jenis_sql()
 	{
-		if (isset($_SESSION['jenis']))
+		if (isset($this->session->jenis))
 		{
-			$kf = $_SESSION['jenis'];
-			if (empty($kf))
-				$sql = "";
-			else
-				$sql = " AND k.nama = '".$kf."'";
-			return $sql;
+			$kf = $this->session->jenis;
+			if (!empty($kf))
+ 				$this->db->where('k.nama', $kf);
 		}
 	}
 
 	private function filterku_sql($nik='')
 	{
-		if (empty($nik)) return "";
-		$kf = $nik;
-		$filterku_sql= " AND u.id_pend = '".$kf."'";
-		return $filterku_sql;
+		if (!empty($nik))
+			$this->db->where('u.id_pend', $nik);
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(*) AS jml " . $this->list_data_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
+		$this->db->select('COUNT(*) AS jml');
+
+ 		$row =  $this->list_data_sql()->row_array();
 		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -96,47 +101,41 @@
 
 	private function list_data_sql()
 	{
-		$sql = " FROM log_surat u
-			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
-			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
-			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
-			LEFT JOIN tweb_penduduk p ON s.id_pend = p.id
-			LEFT JOIN user w ON u.id_user = w.id
-			WHERE 1 ";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->jenis_sql();
-		return $sql;
+		$this->db
+			->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
+			->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
+			->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
+			->join('tweb_penduduk AS p', 's.id_pend = p.id', 'left')
+			->join('user AS w', 'u.id_user = w.id', 'left');
+		$this->search_sql();
+		$this->tahun_sql();
+		$this->bulan_sql();
+		$this->jenis_sql();
+		return $this->db->get('log_surat u');
 	}
 
 	// $limit = 0 mengambil semua
-	public function list_data($o=0, $offset=0, $limit=0)
+	public function list_data($o=0, $offset=0, $limit=Null)
 	{
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.no_surat * 1'; break;
-			case 2: $order_sql = ' ORDER BY u.no_surat * 1 DESC'; break;
-			case 3: $order_sql = ' ORDER BY nama'; break;
-			case 4: $order_sql = ' ORDER BY nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY u.tanggal'; break;
-			case 6: $order_sql = ' ORDER BY u.tanggal DESC'; break;
-
-			default:$order_sql = ' ORDER BY u.tanggal DESC';
+			case 1: $this->db->order_by('(u.no_surat) * 1'); break;
+			case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
+			case 3: $this->db->order_by('nama'); break;
+			case 4: $this->db->order_by('nama', 'DESC'); break;
+			case 5: $this->db->order_by('u.tanggal') ; break;
+			case 6: $this->db->order_by('u.tanggal','DESC'); break;
+			default:$this->db->order_by('u.tanggal','DESC');
 		}
 
-		//Paging SQL
-		$paging_sql = ($limit > 0 ) ? ' LIMIT ' .$offset. ',' .$limit : '';
+		// query select dan limit
+		$this->db
+			->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa')
+			->limit($limit,$offset);
 
-		//Main Query
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
 
-		$sql = $select_sql . $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->list_data_sql()->result_array();
 
 		//Formating Output
 		$j = $offset;
@@ -203,11 +202,10 @@
 
 	public function paging_perorangan($nik='', $p=1, $o=0)
 	{
-		if (!empty($nik))
+		if ( ! empty($nik))
 		{
-			$sql = "SELECT count(*) as jml " . $this->list_data_perorangan_sql($nik);
-			$query  = $this->db->query($sql);
-			$row = $query->row_array();
+			$this->db->select('count(*) as jml');
+			$row 	= $this->list_data_perorangan_sql($nik)->row_array();
 			$jml_data = $row['jml'];
 		}
 		else
@@ -215,7 +213,7 @@
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
+		$cfg['per_page'] = $this->session->per_page;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -224,14 +222,12 @@
 
 	private function list_data_perorangan_sql($nik)
 	{
-		$sql = " FROM log_surat u
-			LEFT JOIN tweb_penduduk n ON u.id_pend = n.id
-			LEFT JOIN tweb_surat_format k ON u.id_format_surat = k.id
-			LEFT JOIN tweb_desa_pamong s ON u.id_pamong = s.pamong_id
-			LEFT JOIN user w ON u.id_user = w.id
-			WHERE 1 ";
-		$sql .= $this->filterku_sql($nik);
-		return $sql;
+		$this->db->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
+			->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
+			->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
+			->join('user AS w', 'u.id_user = w.id', 'left');
+		$this->filterku_sql($nik);
+		return $this->db->get('log_surat u');
 	}
 
 	public function list_data_perorangan($nik='', $o=0, $offset=0, $limit=500)
@@ -241,32 +237,27 @@
 		//Ordering SQL
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.no_surat * 1'; break;
-			case 2: $order_sql = ' ORDER BY u.no_surat * 1 DESC'; break;
-			case 3: $order_sql = ' ORDER BY nama'; break;
-			case 4: $order_sql = ' ORDER BY nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY u.tanggal'; break;
-			case 6: $order_sql = ' ORDER BY u.tanggal DESC'; break;
+			case 1: $this->db->order_by('(u.no_surat) * 1');  break;
+			case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
+			case 3: $this->db->order_by('nama'); break;
+			case 4: $this->db->order_by('nama', 'DESC'); break;
+			case 5: $this->db->order_by('u.tanggal'); break;
+			case 6: $this->db->order_by('u.tanggal', 'DESC'); break;
 
-			default:$order_sql = ' ORDER BY u.tanggal DESC';
+			default:  $this->db->order_by('u.tanggal', 'DESC');
+
 		}
 
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+		$this->db->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong')
+			->limit($limit, $offset);
 
-		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, s.pamong_nama AS pamong ";
-
-		$sql = $select_sql . $this->list_data_perorangan_sql($nik);
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->list_data_perorangan_sql($nik)->result_array();
 
 		//Formating Output
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
-			$data[$i]['no']=$j+3;
+			$data[$i]['no'] = $j + 3;
 			$j++;
 		}
 		return $data;
@@ -412,10 +403,23 @@
 
 	public function list_tahun_surat()
 	{
-		$query = $this->db->distinct()->
-			select('YEAR(tanggal) AS tahun')->
-			order_by('YEAR(tanggal)','DESC')->
-			get('log_surat')->result_array();
+		$query = $this->db->distinct()
+			->select('YEAR(tanggal) AS tahun')
+			->order_by('YEAR(tanggal)','DESC')
+			->get('log_surat')
+			->result_array();
+		return $query;
+	}
+
+	public function list_bulan_surat()
+	{
+
+		$query = $this->db->distinct()
+			->select('MONTH(tanggal) AS bulan')
+			->where('YEAR(tanggal)', $this->session->tahun)
+			->order_by('MONTH(tanggal)','ASC')
+			->get('log_surat')
+			->result_array();
 		return $query;
 	}
 

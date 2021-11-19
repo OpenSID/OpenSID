@@ -152,7 +152,7 @@
     <?php endif; ?>
 
     //Menampilkan BaseLayers Peta
-    var baseLayers = getBaseLayers(peta_garis, '<?=$this->setting->google_key?>');
+    var baseLayers = getBaseLayers(peta_garis, '<?=$this->setting->mapbox_key?>');
 
     //Menampilkan Peta wilayah yg sudah ada
     <?php if (!empty($garis['path'])): ?>

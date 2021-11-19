@@ -197,7 +197,7 @@
 														</thead>
 														<tbody>
 														<?php $no = 1; ?>
-														<?php foreach ($main['pengunjung'] as $data):	?>
+														<?php foreach ($main['pengunjung'] as $data): ?>
 															<tr>
 																<td class="text-center"><?= $no++;?></td>
 																<td class="text-center">

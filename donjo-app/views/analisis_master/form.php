@@ -129,6 +129,24 @@
 										</div>
 									</div>
 								</div>
+								<?php if ($analisis_master['gform_id'] !== null) : ?>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-3 control-label" for="pembagi">ID Google Form</label>
+											<div class="col-sm-7">
+												<input readonly class="form-control input-sm" value="<?= $analisis_master['gform_id'] ?>">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label class="col-sm-3 control-label" for="pembagi">Sinkronasi Google Form</label>
+											<div class="col-sm-7">
+												<input readonly class="form-control input-sm" value="<?= tgl_indo($analisis_master['gform_last_sync']) ?>">
+											</div>
+										</div>
+									</div>
+								<?php endif ?>
 							</div>
 						</div>
 						<div class="box-footer">

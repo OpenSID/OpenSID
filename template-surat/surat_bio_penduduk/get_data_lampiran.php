@@ -5,5 +5,5 @@
 	$anggota = $this->keluarga_model->list_anggota($individu['id_kk']);
 
 	$id = $this->input->post('pamong_id');
-	$kepala_desa = $this->pamong_model->get_pamong($id);
+	$kepala_desa = $this->pamong_model->get_data($id);
 ?>

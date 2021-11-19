@@ -517,9 +517,14 @@
 	{
 		$per = $this->get_aktif_periode();
 
-		$sql = "SELECT u.id,u.id_kategori,u.nomor,u.id_tipe,u.pertanyaan,k.kategori FROM analisis_indikator u LEFT JOIN analisis_kategori_indikator k ON u.id_kategori = k.id WHERE u.id_master = ? ORDER BY u.id_kategori,u.nomor ASC";
-		$query = $this->db->query($sql,$_SESSION['analisis_master']);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('u.id, u.id_kategori, u.nomor, u.id_tipe, u.pertanyaan, k.kategori')
+			->from('analisis_indikator u')
+			->join('analisis_kategori_indikator k', 'u.id_kategori = k.id', 'left')
+			->where('u.id_master', $this->session->analisis_master)
+			->order_by("LPAD(u.nomor, 10, ' ') ASC")
+			->get()
+			->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
@@ -812,12 +817,12 @@
 	{
 		$master = $this->get_analisis_master();
 
-		$order_sql = ' ORDER BY u.nomor';
-
-		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
-		$sql .= $order_sql;
-		$query 	= $this->db->query($sql,$_SESSION['analisis_master']);
-		$data	= $query->result_array();
+		$data = $this->db
+			->select('u.*')
+			->where('u.id_master', $this->session->analisis_master)
+			->order_by('LPAD(u.nomor, 10, " ")')
+			->get('analisis_indikator u')
+			->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
@@ -826,9 +831,16 @@
 
 			if ($p == 2)
 			{
-				$sql2 = "SELECT * FROM analisis_parameter WHERE id_indikator = ? AND asign = 1 ";
-				$query2 = $this->db->query($sql2, $data[$i]['id']);
-				$par = $query2->result_array();
+				$par = $this->db
+					->select('*')
+					->where('id_indikator', $data[$i]['id'])
+					->where('asign', 1)
+					->get('analisis_parameter')
+					->result_array();
+
+				// $sql2 = "SELECT * FROM analisis_parameter WHERE id_indikator = ? AND asign = 1 ";
+				// $query2 = $this->db->query($sql2, $data[$i]['id']);
+				// $par = $query2->result_array();
 				$data[$i]['par'] = $par;
 			}
 		}
@@ -1114,6 +1126,41 @@
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		$data = $query->row_array();
 		return $data['nama'];
+	}
+
+	public function get_respon_by_id_periode($id_periode = 0, $subjek = 1)
+	{
+		$result = array();
+		if ($subjek == 1) // Untuk Subjek Penduduk
+		{
+			$list_penduduk = $this->db->select('r.*, p.nik')
+				->from('analisis_respon r')
+				->join('tweb_penduduk p', 'r.id_subjek = p.id')
+				->where('r.id_periode', $id_periode)
+				->get()
+				->result_array();
+
+			foreach ($list_penduduk as $penduduk)
+			{
+				$result[$penduduk['nik']][$penduduk['id_indikator']] = $penduduk;
+			}
+		}	
+		else // Untuk Subjek Keluarga
+		{
+			$list_keluarga = $this->db->select('r.*, k.no_kk')
+				->from('analisis_respon r')
+				->join('tweb_keluarga k', 'r.id_subjek = k.id')
+				->where('r.id_periode', $id_periode)
+				->get()
+				->result_array();
+
+			foreach ($list_keluarga as $keluarga)
+			{
+				$result[$keluarga['no_kk']][$keluarga['id_indikator']] = $keluarga;
+			}
+		}
+		
+		return $result;
 	}
 
 }

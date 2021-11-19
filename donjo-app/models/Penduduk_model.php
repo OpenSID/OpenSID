@@ -72,7 +72,6 @@ class Penduduk_model extends MY_Model {
 		if ($this->session->cari)
 		{
 			$cari = $this->session->cari;
-			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->like('u.nama', $cari)
@@ -289,9 +288,9 @@ class Penduduk_model extends MY_Model {
 
 	public function paging($page_number = 1)
 	{
-		$list_data_sql = $this->list_data_sql($paging = true);
-		$row_data = $this->temp_mode_get()->result_array();
-		$jml_data = count($row_data);
+		$this->db->select('COUNT(u.id) as jml');
+		$this->list_data_sql();
+		$jml_data = $this->db->get()->row()->jml;
 
 		return $this->paginasi($page_number, $jml_data);
 	}
@@ -304,8 +303,13 @@ class Penduduk_model extends MY_Model {
 			->join('tweb_keluarga d', 'u.id_kk = d.id', 'left')
 			->join('tweb_wil_clusterdesa a', 'd.id_cluster = a.id', 'left')
 			->join('tweb_wil_clusterdesa a2', 'u.id_cluster = a2.id', 'left')
-			->join('log_penduduk log', 'u.id = log.id_pend', 'left')
-			->group_by('u.id');
+			// Ambil log yg terakhir saja
+			->join('(
+              SELECT    MAX(id) max_id, id_pend
+              FROM      log_penduduk
+              GROUP BY  id_pend
+          ) log_max', 'log_max.id_pend = u.id')
+			->join('log_penduduk log', 'log_max.max_id = log.id');
 
 		// Yg berikut hanya untuk menampilkan peserta bantuan
 		if ($this->session->penerima_bantuan)
@@ -397,7 +401,6 @@ class Penduduk_model extends MY_Model {
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
-		$this->db->distinct();
 		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
 			(CASE
 				when u.status_kawin IS NULL then ''
@@ -514,12 +517,16 @@ class Penduduk_model extends MY_Model {
 			->join('tweb_cacat f', 'u.cacat_id = f.id', 'left')
 			->join('tweb_penduduk_hubungan hub', 'u.kk_level = hub.id', 'left')
 			->join('tweb_sakit_menahun j', 'u.sakit_menahun_id = j.id', 'left')
-			->join('log_penduduk log', 'u.id = log.id_pend', 'left')
+			// Ambil log yg terakhir saja
+			->join('(
+              SELECT    MAX(id) max_id, id_pend
+              FROM      log_penduduk
+              GROUP BY  id_pend
+          ) log_max', 'log_max.id_pend = u.id')
+			->join('log_penduduk log', 'log_max.max_id = log.id')
 			->join('ref_peristiwa ra', 'ra.id = log.kode_peristiwa', 'left')
 			->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
-			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left')
-			->join('program_peserta pp', 'u.nik = pp.peserta', 'left')
-			->group_by('u.id');
+			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left');
 	}
 
 	public function list_data_map()
@@ -624,6 +631,7 @@ class Penduduk_model extends MY_Model {
 
 		$data['tag_id_card'] = $data['tag_id_card'] ?: NULL;
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
+		$data['tag_id_card'] = $data['tag_id_card'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
 		$data['berat_lahir'] = $data['berat_lahir'] ?: NULL;
 		$data['tempat_dilahirkan'] = $data['tempat_dilahirkan'] ?: NULL;
@@ -740,8 +748,9 @@ class Penduduk_model extends MY_Model {
 			{
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
-			// Form menggunakan kolom id_sex = sex
+			// Form menggunakan kolom id_sex = sex dan id_status = status
 			$_POST['id_sex'] = $_POST['sex'];
+			$_POST['id_status'] = $_POST['status'];
 			// Tampilkan tanda kutip dalam nama
 			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
 			$_SESSION['post'] = $_POST;
@@ -824,8 +833,9 @@ class Penduduk_model extends MY_Model {
 			{
 				$_SESSION['error_msg'] .= ': ' . $error . '\n';
 			}
-			// Form menggunakan kolom id_sex = sex
+			// Form menggunakan kolom id_sex = sex dan id_status = status
 			$_POST['id_sex'] = $_POST['sex'];
+			$_POST['id_status'] = $_POST['status'];
 			// Tampilkan tanda kutip dalam nama
 			$_POST['nama'] =  str_replace ( "\"", "&quot;", $_POST['nama'] ) ;
 			$_SESSION['post'] = $_POST;
@@ -1002,14 +1012,15 @@ class Penduduk_model extends MY_Model {
 		$data['status_dasar'] = $_POST['status_dasar'];
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
-		$this->db->where('id',$id);
-		$this->db->update('tweb_penduduk', $data);
+		$this->db
+			->where('id',$id)
+			->update('tweb_penduduk', $data);
 		$penduduk = $this->get_penduduk($id);
 
 		// Tulis log_keluarga jika penduduk adalah kepala keluarga
 		if ($penduduk['kk_level'] == 1)
 		{
-			$id_peristiwa = $penduduk['status_dasar_id'] + 2; // lihat kode di keluarga_model
+			$id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
 			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa);
 		}
 
@@ -1026,11 +1037,17 @@ class Penduduk_model extends MY_Model {
 		];
 		if ($log['kode_peristiwa'] == 3)
 		{
-			$log['ref_pindah'] = !empty($_POST['ref_pindah']) ? $_POST['ref_pindah'] : 1;
+			$log['ref_pindah'] = ! empty($_POST['ref_pindah']) ? $_POST['ref_pindah'] : 1;
 			$log['alamat_tujuan'] = $_POST['alamat_tujuan'];
 		}
+		$id_log_penduduk = $this->tulis_log_penduduk_data($log);
 
-		$this->tulis_log_penduduk_data($log);
+		// Tulis log_keluarga jika penduduk adalah kepala keluarga
+		if ($penduduk['kk_level'] == 1)
+		{
+			$id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
+			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa, null, $id_log_penduduk);
+		}
 	}
 
 	/**
@@ -1416,9 +1433,10 @@ class Penduduk_model extends MY_Model {
 
 	public function tulis_log_penduduk_data($log)
 	{
-		unset($_SESSION['jenis_peristiwa']);
+		$this->session->unset_userdata('jenis_peristiwa');
 		$sql = $this->db->insert_string('log_penduduk', $log) . duplicate_key_update_str($log);
 		$this->db->query($sql);
+		return $this->db->insert_id();
 	}
 
 	public function tulis_log_penduduk($id_pend, $kode_peristiwa, $bulan, $tahun)

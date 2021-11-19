@@ -120,7 +120,7 @@
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="kades" name="pamong_id">
 										<option value="">--- Pilih <?= $this->setting->sebutan_kepala_desa; ?>  <?= ucwords($this->setting->sebutan_desa)?> ---</option>
-										<?php foreach ($pamong as $data): ?>
+										<?php foreach ($pamong AS $data): ?>
 											<option value="<?= $data['pamong_id']; ?>" data-nip="<?= $data['pamong_nip']; ?>" <?= selected($data['pamong_id'], $main['pamong_id']); ?> ><?= $data['nama'].' ('.$data['jabatan'].')'; ?></option>
 										<?php endforeach; ?>
 									</select>

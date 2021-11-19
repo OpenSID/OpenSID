@@ -36,7 +36,8 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
   "hamil" => "32",
   "ktp_el" => "33",
   "status_rekam" => "34",
-  "alamat_sekarang" => "35")));
+  "alamat_sekarang" => "35",
+  "status_dasar" => "36")));
 
   require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
   use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
@@ -54,6 +55,7 @@ class Import_model extends CI_Model {
 		$memory_limit = $matches[1] ?: 0;
 		if ($memory_limit < 512) ini_set('memory_limit', '512M');
 		set_time_limit(3600);
+		$this->load->model('referensi_model');
 		$this->load->library('Spreadsheet_Excel_Reader');
 		$this->kode_sex = array_change_key_case(unserialize(KODE_SEX));
 		$this->kode_hubungan = array_change_key_case(unserialize(KODE_HUBUNGAN));
@@ -65,16 +67,31 @@ class Import_model extends CI_Model {
 		$this->kode_wajib_ktp = array_change_key_case(unserialize(WAJIB_KTP));
 		$this->kode_ktp_el = array_change_key_case(unserialize(KTP_EL));
 		$this->kode_status_rekam = array_change_key_case(unserialize(STATUS_REKAM));
-		$this->kode_status_dasar = array_change_key_case(unserialize(STATUS_DASAR));
+		$this->kode_status_dasar = array_change_key_case($this->merge_kode_status_dasar());
 		$this->kode_cacat = array_change_key_case(unserialize(KODE_CACAT));
 		// Load model
 		$this->load->model('penduduk_model');
 	}
 
-/* 	========================================================
-		IMPORT EXCEL
-		========================================================
-*/
+	/**
+	 * Gabungkan kode status dasar untuk Siak dan OpenSID.
+	 *
+	 * @return array
+	 */
+	protected function merge_kode_status_dasar()
+	{
+		$tweb_status_dasar = $this->referensi_model->list_data('tweb_status_dasar');
+		$data = array_combine(array_column($tweb_status_dasar, 'nama'), array_column($tweb_status_dasar, 'id'));
+		$data['PINDAH DALAM NEGERI'] = 3;
+		$data['PINDAH LUAR NEGERI'] = 3;
+		return $data;
+	}
+
+	/**
+	 * ========================================================
+	 * IMPORT EXCEL
+	 * ========================================================
+	 */
 	private function file_import_valid()
 	{
 		// error 1 = UPLOAD_ERR_INI_SIZE; lihat Upload.php
@@ -123,7 +140,7 @@ class Import_model extends CI_Model {
 			return $this->get_kode($daftar_kode, $nilai);
 	}
 
-  protected function data_import_valid($isi_baris)
+	protected function data_import_valid($isi_baris)
 	{
 		// Kolom yang harus diisi
 		if ($isi_baris['nama'] == "" OR $isi_baris['nik'] == "" OR $isi_baris['dusun'] == "" OR $isi_baris['rt'] == "" OR $isi_baris['rw'] == "")
@@ -144,6 +161,7 @@ class Import_model extends CI_Model {
 		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
 		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
 		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
+		if ($isi_baris['status_dasar'] != "" AND ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) return 'kode status_dasar tidak dikenal';
 
 		// Validasi data lain
 		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
@@ -179,7 +197,7 @@ class Import_model extends CI_Model {
 
 	private function get_isi_baris($rowData)
 	{
-    $kolom_impor_keluarga = unserialize(KOLOM_IMPOR_KELUARGA);
+		$kolom_impor_keluarga = unserialize(KOLOM_IMPOR_KELUARGA);
 		$isi_baris['alamat'] = trim($rowData[$kolom_impor_keluarga['alamat']]);
 		$dusun = ltrim(trim($rowData[$kolom_impor_keluarga['dusun']]), "'");
 		$dusun = str_replace('_', ' ', $dusun);
@@ -246,7 +264,7 @@ class Import_model extends CI_Model {
 		$isi_baris['ayah_nik'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ayah_nik']]));
 		$isi_baris['ibu_nik'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ibu_nik']]));
 		$isi_baris['akta_perkawinan'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_perkawinan']]));
-	  $isi_baris['tanggalperkawinan'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperkawinan']]));
+		$isi_baris['tanggalperkawinan'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperkawinan']]));
 		$isi_baris['akta_perceraian'] = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_perceraian']]));
 		$isi_baris['tanggalperceraian'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperceraian']]));
 		// TODO: belum ada kode_cacat
@@ -256,7 +274,9 @@ class Import_model extends CI_Model {
 		$isi_baris['hamil'] = trim($rowData[$kolom_impor_keluarga['hamil']]);
 		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($rowData[$kolom_impor_keluarga['ktp_el']]));
 		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($rowData[$kolom_impor_keluarga['status_rekam']]));
-    $isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
+		$isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
+		$isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($rowData[$kolom_impor_keluarga['status_dasar']]));
+
 		return $isi_baris;
 	}
 
@@ -621,7 +641,7 @@ class Import_model extends CI_Model {
   				$upd['updated_by'] = $this->session->user;
 
   				$this->db->where('nik', $nik);
-  				$outp =& $this->db->update('tweb_penduduk', $upd);
+  				$outp = $outp && $this->db->update('tweb_penduduk', $upd);
   				$nama = $pdd['nama'];
 
   				echo "<a>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
@@ -637,7 +657,7 @@ class Import_model extends CI_Model {
   				$penduduk['rtm_level'] = $rtm_level;
   				$penduduk['created_by'] = $this->session->user;
 
-  				$outp =& $this->db->insert('tweb_penduduk', $penduduk);
+  				$outp = $outp && $this->db->insert('tweb_penduduk', $penduduk);
 
   				echo "<a style='color:#f00;'>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
 
@@ -656,7 +676,7 @@ class Import_model extends CI_Model {
  			$hasil_insert = $this->db
  				->insert_batch('tweb_rtm', $ketua_rtm);
 
-  		$outp =& $hasil_insert;
+  		$outp = $outp && $hasil_insert;
 
   		if (! $hasil_insert)
   		{

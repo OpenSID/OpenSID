@@ -55,15 +55,15 @@ class Migrasi_2012_ke_2101 extends MY_model {
 			('314', 'Pengaturan', 'setting/mandiri', '1', 'fa-gear', '6', '2', '14', '0', 'fa-gear')
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
-		$hasil =& $this->db->query($query);
+		$hasil = $hasil && $this->db->query($query);
 
 		// Tambahkan key layanan_mandiri
-		$hasil =& $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
+		$hasil = $hasil && $this->db->query("INSERT INTO setting_aplikasi (`key`, value, keterangan, jenis, kategori) VALUES ('layanan_mandiri', '1', 'Apakah layanan mandiri ditampilkan atau tidak', 'boolean', 'setting_mandiri')
 			ON DUPLICATE KEY UPDATE value = VALUES(value), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)");
 		// Ubah isi field pd tabel kelompok jd unik, kode = kode_id
-		$hasil =& $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
+		$hasil = $hasil && $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
 		// Field unik pd tabel kelompok
-		$hasil =& $this->tambah_indeks('kelompok', 'kode');
+		$hasil = $hasil && $this->tambah_indeks('kelompok', 'kode');
 
 		// Migrasi fitur premium
   	$daftar_migrasi_premium = ['2009'];
@@ -72,7 +72,7 @@ class Migrasi_2012_ke_2101 extends MY_model {
   		$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
   		$file_migrasi = 'migrations/'.$migrasi_premium;
 			$this->load->model($file_migrasi);
-			$hasil =& $this->$migrasi_premium->up();
+			$hasil = $hasil && $this->$migrasi_premium->up();
   	}
 
 		status_sukses($hasil);

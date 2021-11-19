@@ -83,12 +83,12 @@ class Siteman extends MY_Controller
 	{
 		$method = $this->input->method(TRUE);
 				$allow_method = ['POST'];
-		if(!in_array($method,$allow_method))
+		if ( ! in_array($method,$allow_method))
 		{
 			redirect('siteman/login');
 		}
 		$this->user_model->siteman();
-
+		
 		if ($_SESSION['siteman'] != 1)
 		{
 			// Gagal otentifikasi
@@ -107,7 +107,7 @@ class Siteman extends MY_Controller
 		{
 			// Lengkapi url supaya tidak diubah oleh redirect
 			$request_awal = $_SERVER['HTTP_ORIGIN'] . $_SESSION['request_uri'];
-			unset($_SESSION['request_uri']);
+			unset($_SESSION['request_uri']);	
 			redirect($request_awal);
 		}
 		else
