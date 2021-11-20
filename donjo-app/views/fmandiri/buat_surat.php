@@ -92,12 +92,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			</div>
 			<div class="box-body">
 				<div class="table-responsive">
-					<table class="table table-bordered table-hover table-data" id="syarat_surat">
+					<table class="table table-bordered table-hover table-data" id="syarat_surat" style="width: 100%;">
 						<thead>
 							<tr>
-								<th class="padat">No</center></th>
+								<th>No</th>
 								<th>Syarat</th>
-								<th class="padat">Dokumen Melengkapi Syarat</th>
+								<th>Dokumen Melengkapi Syarat</th>
 							</tr>
 						</thead>
 					</table>
@@ -119,7 +119,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<div class="box-body">
 		<button type="button" title="Tambah Dokumen" data-remote="false" data-toggle="modal" data-target="#modal" data-title="Tambah Dokumen" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="tambah_dokumen"><i class='fa fa-plus'></i>Tambah Dokumen</button>
 		<div class="table-responsive">
-			<table class="table table-bordered table-hover table-data" id="dokumen">
+			<table class="table table-bordered table-hover table-data" id="dokumen" style="width: 100%;">
 				<thead>
 					<tr>
 						<th class="padat">No</th>
