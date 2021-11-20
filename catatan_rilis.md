@@ -21,6 +21,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 12. [#4498](https://github.com/OpenSID/OpenSID/issues/4498)  Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4.
 13. [#4499](https://github.com/OpenSID/OpenSID/issues/4499) Perbaiki lampiran surat_ket_kelahiran (F-21.01).
 14. Perbaiki format waktu (jam) pesan yang dikirimkan lewat telegram.
+15. Perbaiki tampilan kelengkapan dokumen di layanan mandiri.
 
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.
