@@ -113,8 +113,8 @@ $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 
 //Gallery
-$route['gallery'] = 'first/gallery';
-$route['gallery/(:num)'] = 'first/gallery/$1';
+$route['web-gallery'] = 'first/gallery';
+$route['web-gallery/(:num)'] = 'first/gallery/$1';
 $route['sub-gallery'] = 'first/sub_gallery';
 $route['sub-gallery/(:any)/(:num)'] = 'first/sub_gallery/$1/$2';
 

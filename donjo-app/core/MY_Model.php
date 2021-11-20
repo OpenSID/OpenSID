@@ -39,6 +39,7 @@ class MY_Model extends CI_Model {
 			case 'load_apbdes':
 			case 'load_aparatur_wilayah':
 			case 'peta':
+			case 'web-gallery':
 			case 'data-suplemen':
 				break;
 
