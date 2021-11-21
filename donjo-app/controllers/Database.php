@@ -228,8 +228,6 @@ class Database extends Admin_Controller
             $writer->addRow($rowFromValues);
         }
         $writer->close();
-
-        redirect('database');
     }
 
     public function export_dasar()
