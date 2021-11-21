@@ -48,12 +48,8 @@ class Surat_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('surat_master_model');
         $this->load->model('penduduk_model');
         $this->load->model('penomoran_surat_model');
-        $this->load->model('config_model');
-        $this->load->model('url_shortener_model');
-        $this->load->model('stat_shortener_model');
     }
 
     public function list_surat()
@@ -1240,6 +1236,8 @@ class Surat_model extends CI_Model
 
     public function buat_qrcode($data, $nama_surat)
     {
+        $this->load->model('url_shortener_model');
+
         $surat         = $data['surat'];
         $input         = $data['input'];
         $config        = $data['config'];

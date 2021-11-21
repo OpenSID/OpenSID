@@ -109,8 +109,6 @@ class Database_model extends CI_Model
 
         $this->cek_engine_db();
         $this->load->dbforge();
-        $this->load->model('surat_master_model');
-        $this->load->model('analisis_import_model');
         $this->user = $this->session_user ?: 1;
     }
 
@@ -155,7 +153,7 @@ class Database_model extends CI_Model
 
     public function migrasi_db_cri()
     {
-
+        $this->load->model(['surat_master_model', 'folder_desa_model']);
         // Tunggu restore selesai sebelum migrasi
         if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) {
             return;
@@ -1731,6 +1729,8 @@ class Database_model extends CI_Model
 
     private function migrasi_210_ke_211()
     {
+        $this->load->model('analisis_import_model');
+
         // Tambah kolom jenis untuk analisis_master
         $fields = [];
         if (! $this->db->field_exists('jenis', 'analisis_master')) {
@@ -3550,6 +3550,8 @@ class Database_model extends CI_Model
 
     public function kosongkan_db()
     {
+        $this->load->model('analisis_import_model');
+
         // Views tidak perlu dikosongkan.
         $views        = $this->get_views();
         $table_lookup = [

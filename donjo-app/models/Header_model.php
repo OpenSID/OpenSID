@@ -42,7 +42,6 @@ class Header_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('config_model');
         $this->load->driver('cache');
     }
 
@@ -135,6 +134,7 @@ class Header_model extends CI_Model
             }
         }
 
+        $this->load->model('config_model');
         $outp['desa'] = $this->config_model->get_data();
 
         $sql           = 'SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel = 775 AND status = 2;';

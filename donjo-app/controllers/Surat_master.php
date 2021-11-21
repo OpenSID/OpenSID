@@ -42,7 +42,7 @@ class Surat_master extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['surat_master_model', 'klasifikasi_model', 'surat_model', 'referensi_model', 'lapor_model']);
+        $this->load->model(['surat_master_model', 'klasifikasi_model', 'surat_model', 'lapor_model']);
         $this->modul_ini     = 4;
         $this->sub_modul_ini = 30;
     }

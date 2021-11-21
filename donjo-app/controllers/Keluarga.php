@@ -45,7 +45,7 @@ class Keluarga extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model', 'referensi_model', 'config_model']);
+        $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model']);
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 22;
         $this->_set_page     = ['20', '50', '100'];

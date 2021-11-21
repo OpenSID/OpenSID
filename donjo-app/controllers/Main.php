@@ -42,7 +42,7 @@ class Main extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['config_model', 'pamong_model', 'track_model', 'grup_model']);
+        $this->load->model(['pamong_model', 'track_model', 'grup_model']);
     }
 
     public function maintenance_mode()

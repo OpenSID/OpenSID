@@ -42,7 +42,6 @@ class Man_user extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('referensi_model');
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 44;
     }

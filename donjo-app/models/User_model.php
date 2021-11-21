@@ -62,7 +62,7 @@ class User_model extends CI_Model
             'allowed_types' => 'gif|jpg|jpeg|png',
             'max_size'      => max_upload() * 1024,
         ];
-        $this->load->model(['laporan_bulanan_model', 'grup_model']);
+        $this->load->model('grup_model');
         // Untuk password hashing
         $this->load->helper('password');
         // Helper upload file
@@ -210,8 +210,6 @@ class User_model extends CI_Model
 
     public function logout()
     {
-        // Catat jumlah penduduk saat ini
-        $this->laporan_bulanan_model->tulis_log_bulanan();
         // Hapus session -- semua session variable akan terhapus
         $this->session->sess_destroy();
     }

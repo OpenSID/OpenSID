@@ -43,9 +43,7 @@ class Dokumen extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('web_dokumen_model');
-        $this->load->model('config_model');
         $this->load->model('pamong_model');
-        $this->load->model('referensi_model');
         $this->load->helper('download');
         $this->modul_ini     = 15;
         $this->sub_modul_ini = 52;
