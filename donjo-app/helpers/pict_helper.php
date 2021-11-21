@@ -137,7 +137,7 @@ function AmbilFoto($foto, $ukuran = 'kecil_', $sex = '1')
 
 function Foto_Default($foto, $sex = 1)
 {
-    if (! in_array($foto, ['kuser.png', 'wuser.png'], true) && ! empty($foto)) {
+    if (! in_array($foto, ['kuser.png', 'wuser.png']) && ! empty($foto)) {
         return $foto;
     }
     if (($foto == 'kuser.png') || $sex == 1) {
@@ -262,7 +262,7 @@ function CekGambar($file_upload, $tipe_file)
     $nama_file = $file_upload['name'];
     $ext       = get_extension($nama_file);
 
-    if (! in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR), true) || ! in_array($ext, unserialize(EXT_GAMBAR), true)) {
+    if (! in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR)) || ! in_array($ext, unserialize(EXT_GAMBAR))) {
         $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file . ' ' . $ext;
 
         return false;
@@ -550,7 +550,7 @@ function resizeImage($filepath_in, $tipe_file, $dimensi, $filepath_out = '')
 {
     // Hanya bisa resize jpeg atau png
     $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
-    if (! in_array($tipe_file, $mime_type_image, true)) {
+    if (! in_array($tipe_file, $mime_type_image)) {
         $_SESSION['error_msg'] .= ' -> Jenis file tidak bisa di-resize: ' . $tipe_file;
         $_SESSION['success'] = -1;
 
@@ -624,7 +624,7 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     $mime_type_image = ['image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png'];
     $ext_type_image  = ['.jpg', '.jpeg', '.png'];
     $ext             = get_extension($fupload_name);
-    if (! in_array($tipe_file, $mime_type_image, true) || ! in_array($ext, $ext_type_image, true)) {
+    if (! in_array($tipe_file, $mime_type_image) || ! in_array($ext, $ext_type_image)) {
         $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
         $_SESSION['success'] = -1;
 
@@ -783,7 +783,7 @@ function periksa_file($upload, $mime_types, $exts)
     $nama_file = str_replace(' ', '-', $nama_file);    // normalkan nama file
     $ext       = get_extension($nama_file);
 
-    if (! in_array($tipe_file, $mime_types, true) || ! in_array($ext, $exts, true)) {
+    if (! in_array($tipe_file, $mime_types) || ! in_array($ext, $exts)) {
         return ' -> Jenis file salah: ' . $tipe_file . ' ' . $ext;
     }
     if (isPHP($lokasi_file, $nama_file)) {

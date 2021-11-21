@@ -411,7 +411,7 @@ class User_model extends CI_Model
         }
 
         if (empty($data['username']) || empty($data['password'])
-        || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup(), true)) {
+        || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())) {
             $this->session->error_msg = ' -> Nama, Username dan Kata Sandi harus diisi';
             $this->session->success   = -1;
             redirect('man_user');
@@ -737,7 +737,7 @@ class User_model extends CI_Model
         $controller = explode('/', $url_modul);
         // Demo tidak boleh mengakses menu tertentu
         if (config_item('demo_mode')) {
-            if (in_array($akses, $this->larangan_demo[$controller[0]], true)) {
+            if (in_array($akses, $this->larangan_demo[$controller[0]])) {
                 log_message('error', '==Akses Demo Terlarang: ' . print_r($_SERVER, true));
 
                 return false;
@@ -751,7 +751,7 @@ class User_model extends CI_Model
         }
         // Controller yang boleh diakses oleh semua pengguna yg telah login
 
-        if ($group && in_array($controller[0], ['user_setting', 'wilayah', 'notif'], true)) {
+        if ($group && in_array($controller[0], ['user_setting', 'wilayah', 'notif'])) {
             return true;
         }
 

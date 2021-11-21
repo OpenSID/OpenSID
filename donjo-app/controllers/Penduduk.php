@@ -72,7 +72,7 @@ class Penduduk extends Admin_Controller
         $data['o'] = $o;
 
         foreach ($this->_list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'], true)) {
+            if (in_array($list, ['dusun', 'rw', 'rt'])) {
                 ${$list} = $this->session->{$list};
             } else {
                 $data[$list] = $this->session->{$list} ?: '';
@@ -251,7 +251,7 @@ class Penduduk extends Admin_Controller
                     }
 
                     foreach ($data['kk'] as $key => $value) {
-                        if (in_array($value['id'], $id_pend_anggota, true)) {
+                        if (in_array($value['id'], $id_pend_anggota)) {
                             $data['kk'][$key]['checked'] = 'checked';
                         }
                     }
@@ -600,7 +600,7 @@ class Penduduk extends Admin_Controller
             case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;
 
             case 'bantuan_penduduk':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL], true)) {
+                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_penduduk';
@@ -629,7 +629,7 @@ class Penduduk extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL], true)) {
+                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }

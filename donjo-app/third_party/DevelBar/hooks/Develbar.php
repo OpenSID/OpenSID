@@ -183,11 +183,7 @@ class Develbar
         }
 
         if ($this->default_options['enable_develbar'] == true && $this->CI->router->class != 'develbarprofiler'
-            && in_array(
-                $this->CI->output->get_content_type(),
-                $this->mimes,
-                true
-            )
+            && in_array($this->CI->output->get_content_type(), $this->mimes)
         ) {
             if (version_compare(CI_VERSION, self::SUPPORTED_CI_VERSION, '<')) {
                 $this->default_options['check_update'] = true;

@@ -71,7 +71,7 @@ class Keluarga extends Admin_Controller
         $data['o'] = $o;
 
         foreach ($this->_list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'], true)) {
+            if (in_array($list, ['dusun', 'rw', 'rt'])) {
                 ${$list} = $this->session->{$list};
             } else {
                 $data[$list] = $this->session->{$list} ?: '';
@@ -571,7 +571,7 @@ class Keluarga extends Admin_Controller
                 break;
 
             case $tipe == 'bantuan_keluarga':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL], true)) {
+                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_keluarga';
@@ -585,7 +585,7 @@ class Keluarga extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL], true)) {
+                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }

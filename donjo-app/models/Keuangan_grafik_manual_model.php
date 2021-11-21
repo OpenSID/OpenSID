@@ -322,7 +322,7 @@ class Keuangan_grafik_manual_model extends CI_model
             return null;
         }
 
-        if (! in_array($tahun, $thn, true)) {
+        if (! in_array($tahun, $thn)) {
             $tahun = $thn[0];
         }
         $raw_data = $this->data_keuangan_tema($tahun);

@@ -67,7 +67,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<select class="form-control input-sm" name="sasaran" onchange="formAction('mainform', '<?= site_url('suplemen'); ?>')">
 								<option value="">Pilih Sasaran</option>
 								<?php foreach ($list_sasaran as $key => $value): ?>
-									<?php if (in_array($key, ['1', '2'], true)) : ?>
+									<?php if (in_array($key, ['1', '2'])) : ?>
 										<option value="<?= $key; ?>" <?= selected($set_sasaran, $key); ?>><?= $value?></option>
 									<?php endif; ?>
 								<?php endforeach; ?>

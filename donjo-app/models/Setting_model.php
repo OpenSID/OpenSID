@@ -239,7 +239,7 @@ class Setting_model extends CI_Model
     public function load_options()
     {
         foreach ($this->list_setting as $i => $set) {
-            if (in_array($set->jenis, ['option', 'option-value', 'option-kode'], true)) {
+            if (in_array($set->jenis, ['option', 'option-value', 'option-kode'])) {
                 $this->list_setting[$i]->options = $this->get_options($set->id);
             }
         }

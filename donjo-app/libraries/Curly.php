@@ -127,7 +127,7 @@ class Curly
             throw new RuntimeException('cURL extension is not available.');
         }
 
-        if (! in_array($method, ['get', 'post', 'put', 'delete'], true)) {
+        if (! in_array($method, ['get', 'post', 'put', 'delete'])) {
             throw new Exception('Request method is not supported: ' . $method);
         }
 

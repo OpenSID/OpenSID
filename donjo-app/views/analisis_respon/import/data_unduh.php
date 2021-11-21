@@ -27,10 +27,10 @@
 			<th>No</th>
 			<th><?= $judul['nomor'] ?></th>
 			<th><?= $judul['nama'] ?></th>
-			<?php if (in_array($subjek_tipe, [1, 2, 3, 4], true)): ?>
+			<?php if (in_array($subjek_tipe, [1, 2, 3, 4])): ?>
 				<th>L/P</th>
 			<?php endif; ?>
-			<?php if (in_array($subjek_tipe, [1, 2, 3, 4, 7, 8], true)): ?>
+			<?php if (in_array($subjek_tipe, [1, 2, 3, 4, 7, 8])): ?>
 				<th>Dusun</th>
 				<?php if ($subjek_tipe != 6): ?>
 					<th>RW</th>
@@ -99,10 +99,10 @@
 			<td><?= $data['no']?></td>
 			<td><?= $data['nid']?></td>
 			<td><?= $data['nama']?></td>
-			<?php if (in_array($subjek_tipe, [1, 2, 3, 4], true)): ?>
+			<?php if (in_array($subjek_tipe, [1, 2, 3, 4])): ?>
 				<td><?= $data['jk']?></td>
 			<?php endif; ?>
-			<?php if (in_array($subjek_tipe, [1, 2, 3, 4, 7, 8], true)): ?>
+			<?php if (in_array($subjek_tipe, [1, 2, 3, 4, 7, 8])): ?>
 				<td><?= $data['dusun']?></td>
 				<?php if ($subjek_tipe != 6): ?>
 					<td><?= $data['rw']?></td>

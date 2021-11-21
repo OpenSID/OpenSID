@@ -85,11 +85,11 @@ class Statistik extends Admin_Controller
         }
 
         switch (true) {
-            case in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga'], true) || ($lap > 50 && $sasaran == 2):
+            case in_array($lap, [21, 22, 23, 24, 25, 26, 27, 'kelas_sosial', 'bantuan_keluarga']) || ($lap > 50 && $sasaran == 2):
                 $tautan = site_url("keluarga/statistik/{$lap}/");
                 break;
 
-            case in_array($lap, ['bdt'], true) || ($lap > 50 && $sasaran == 3):
+            case in_array($lap, ['bdt']) || ($lap > 50 && $sasaran == 3):
                 $tautan = site_url("rtm/statistik/{$lap}/");
                 break;
 
@@ -134,7 +134,7 @@ class Statistik extends Admin_Controller
                 $kategori               = 'bantuan';
                 break;
 
-            case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'], true):
+            case in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']):
                 // Kategori bantuan
                 $kategori = 'bantuan';
                 break;
@@ -145,7 +145,7 @@ class Statistik extends Admin_Controller
 
                 break;
 
-            case in_array($lap, ['bdt'], true):
+            case in_array($lap, ['bdt']):
                 // RTM
                 $kategori = 'rtm';
                 break;
@@ -297,7 +297,7 @@ class Statistik extends Admin_Controller
     private function get_cluster_session()
     {
         foreach ($this->_list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'], true)) {
+            if (in_array($list, ['dusun', 'rw', 'rt'])) {
                 ${$list} = $this->session->{$list};
             }
         }

@@ -87,7 +87,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<?php else: ?>
 											<a class="btn btn-social btn-danger btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
 										<?php endif; ?>
-										<?php if (in_array($data['status_id'], ['0', '1'], true)): ?>
+										<?php if (in_array($data['status_id'], ['0', '1'])): ?>
 											<a href="<?= site_url(MANDIRI . "/surat/proses/{$data['id']}"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 										<?php if ($data['no_antrian'] && $this->cek_anjungan && $printer) : ?>

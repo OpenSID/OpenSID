@@ -173,7 +173,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										</tbody>
 									</table>
 								</div>
-								<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'], true)):?>
+								<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'])):?>
 									<p class="text-muted text-justify text-red"><b>Catatan:</b>
 										<br>
 										1. Angka masing-masing program menghitung semua peserta, aktif maupun yang tidak
@@ -193,7 +193,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<?php endif; ?>
 							</div>
 
-							<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'], true)):?>
+							<?php if (in_array($lap, ['bantuan_keluarga', 'bantuan_penduduk'])):?>
 								<?php $this->load->view('statistik/peserta_bantuan'); ?>
 							<?php endif; ?>
 
@@ -249,7 +249,7 @@ foreach ($main as $data): $i++; ?>
 			border:1,
 			data: [
 			<?php foreach ($main as $data): ?>
-				<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'], true)): ?>
+				<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'])): ?>
 					<?php if ($data['jumlah'] != '-'): ?>
 						['<?= strtoupper($data['nama']); ?>',<?= $data['jumlah']; ?>],
 					<?php endif; ?>
@@ -297,7 +297,7 @@ foreach ($main as $data): $i++; ?>
 				name: 'Populasi',
 				data: [
 				<?php foreach ($main as $data): ?>
-					<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'], true)): ?>
+					<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'])): ?>
 						<?php if ($data['jumlah'] != '-'): ?>
 							["<?= strtoupper($data['nama']); ?>",<?= $data['jumlah']; ?>],
 						<?php endif; ?>

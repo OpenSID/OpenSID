@@ -1010,7 +1010,7 @@ class Surat_model extends CI_Model
 
             foreach ($input as $key => $entry) {
                 // Isian tanggal diganti dengan format tanggal standar
-                if (in_array($key, $isian_tanggal, true)) {
+                if (in_array($key, $isian_tanggal)) {
                     if (is_array($entry)) {
                         for ($i = 1; $i <= count($entry); $i++) {
                             $str = $key . $i;

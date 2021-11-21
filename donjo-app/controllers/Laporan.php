@@ -195,7 +195,7 @@ class Laporan extends Admin_Controller
 
             case 'lahir':
                     $data = [
-                        'title' => in_array($tipe, $keluarga, true) ? 'KELUARGA BARU BULAN INI' : 'KELAHIRAN BULAN INI',
+                        'title' => in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN INI' : 'KELAHIRAN BULAN INI',
                         'main'  => $this->laporan_bulanan_model->kelahiran($rincian, $tipe),
                     ];
                 break;

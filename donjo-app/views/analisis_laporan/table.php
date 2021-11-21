@@ -126,11 +126,11 @@
 												<th>No</th>
 												<th>Aksi</th>
 												<th><?= url_order($o, "{$this->controller}/{$func}/{$p}", 1, $judul['nomor']); ?></th>
-												<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3], true)): ?>
+												<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3])): ?>
 													<th><?= url_order($o, "{$this->controller}/{$func}/{$p}", 7, $judul['nomor_kk']); ?></th>
 												<?php endif; ?>
 												<th><?= url_order($o, "{$this->controller}/{$func}/{$p}", 3, $judul['nama']); ?></th>
-												<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4], true)): ?>
+												<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4])): ?>
 													<th>Jenis Kelamin</th>
 													<th>Alamat</th>
 												<?php endif; ?>
@@ -147,11 +147,11 @@
 															<a href="<?= site_url("analisis_laporan/kuisioner/{$p}/{$o}/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class='fa fa-list'></i></a>
 														</td>
 														<td><?= $data['uid']; ?></td>
-														<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3], true)): ?>
+														<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3])): ?>
 															<td><?= $data['kk']; ?></td>
 														<?php endif; ?>
 														<td nowrap><?= $data['nama']; ?></td>
-														<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4], true)): ?>
+														<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4])): ?>
 															<td><?= $data['jk']; ?></td>
 															<td><?= strtoupper($data['alamat'] . ' ' . 'RT/RW ' . $data['rt'] . '/' . $data['rw'] . ' - ' . $this->setting->sebutan_dusun . ' ' . $data['dusun']); ?></td>
 														<?php endif; ?>

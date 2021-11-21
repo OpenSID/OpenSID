@@ -891,7 +891,7 @@ function convertToBytes(string $from)
 
             return false;
         }
-        if (! in_array(explode(':', $url)[0], ['http', 'https'], true)) {
+        if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
             throw new Exception('URL harus http atau https');
 
             return false;

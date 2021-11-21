@@ -467,7 +467,7 @@ class Laporan_penduduk_model extends MY_Model
                 $this->db->where("(p.bpjs_ketenagakerjaan IS NOT NULL && p.bpjs_ketenagakerjaan != '')");
                 break;
 
-            case in_array($lap, array_keys($statistik_penduduk), true):
+            case in_array($lap, array_keys($statistik_penduduk)):
                 // Dengan tabel referensi
                 $this->select_jml_penduduk_per_kategori($statistik_penduduk["{$lap}"]['id_referensi'], $statistik_penduduk["{$lap}"]['tabel_referensi']);
                 break;
@@ -526,9 +526,9 @@ class Laporan_penduduk_model extends MY_Model
         if ($lap == 18) {
             $this->db->where("((DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(tanggallahir)), '%Y')+0)>=17 OR (status_kawin IS NOT NULL AND status_kawin <> 1))");
             $semua = $this->data_jml_semua_penduduk();
-        } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'], true)) {
+        } elseif (in_array($lap, ['kelas_sosial', 'bantuan_keluarga'])) {
             $semua = $this->data_jml_semua_keluarga();
-        } elseif (in_array($lap, ['bdt'], true)) {
+        } elseif (in_array($lap, ['bdt'])) {
             $semua = $this->data_jml_semua_rtm();
         } else {
             $semua = $this->data_jml_semua_penduduk();

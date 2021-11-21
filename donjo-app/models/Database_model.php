@@ -3618,7 +3618,7 @@ class Database_model extends CI_Model
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
 
         foreach ($semua_table as $table) {
-            if (! in_array($table, $jangan_kosongkan, true)) {
+            if (! in_array($table, $jangan_kosongkan)) {
                 $query = 'DELETE FROM ' . $table . ' WHERE 1';
                 $this->db->query($query);
             }

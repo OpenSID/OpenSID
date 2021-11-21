@@ -109,7 +109,7 @@
 										<?php if ($list_ref_syarat): ?>
 											<?php foreach ($list_ref_syarat as $key => $ref_syarat): ?>
 												<tr>
-													<td class="padat"><input type="checkbox" name="syarat[]" value="<?=$ref_syarat['ref_syarat_id']; ?>" <?php in_array($ref_syarat['ref_syarat_id'], array_column($syarat_surat, 'ref_syarat_id'), true) && print 'checked'; ?>/></td>
+													<td class="padat"><input type="checkbox" name="syarat[]" value="<?=$ref_syarat['ref_syarat_id']; ?>" <?php in_array($ref_syarat['ref_syarat_id'], array_column($syarat_surat, 'ref_syarat_id')) && print 'checked'; ?>/></td>
 													<td class="padat"><?= ($key + 1); ?></td>
 													<td><?= $ref_syarat['ref_syarat_nama']; ?></td>
 												</tr>

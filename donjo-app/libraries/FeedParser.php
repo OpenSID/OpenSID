@@ -299,7 +299,7 @@ class FeedParser
      */
     private function endElement($parser, $tagName)
     {
-        if (in_array($tagName, $this->itemTags, true)) {
+        if (in_array($tagName, $this->itemTags)) {
             $this->itemIndex++;
         }
 
@@ -320,13 +320,13 @@ class FeedParser
     private function characterData($parser, $data)
     {
         //Converting all date formats to timestamp
-        if (in_array($this->currentTag, $this->dateTags, true)) {
+        if (in_array($this->currentTag, $this->dateTags)) {
             $data = strtotime($data);
         }
 
         if ($this->inChannel()) {
             // If has subtag, make current element an array and assign subtags as it's element
-            if (in_array($this->getParentTag(), $this->hasSubTags, true)) {
+            if (in_array($this->getParentTag(), $this->hasSubTags)) {
                 if (! is_array($this->channels[$this->getParentTag()])) {
                     $this->channels[$this->getParentTag()] = [];
                 }
@@ -336,7 +336,7 @@ class FeedParser
                 return;
             }
 
-            if (! in_array($this->currentTag, $this->hasSubTags, true)) {
+            if (! in_array($this->currentTag, $this->hasSubTags)) {
                 $this->channels[$this->currentTag] .= strip_tags($this->unhtmlentities((trim($data))));
             }
 
@@ -359,7 +359,7 @@ class FeedParser
             }
         } elseif ($this->inItem()) {
             // If has subtag, make current element an array and assign subtags as it's elements
-            if (in_array($this->getParentTag(), $this->hasSubTags, true)) {
+            if (in_array($this->getParentTag(), $this->hasSubTags)) {
                 if (! is_array($this->items[$this->itemIndex][$this->getParentTag()])) {
                     $this->items[$this->itemIndex][$this->getParentTag()] = [];
                 }
@@ -369,7 +369,7 @@ class FeedParser
                 return;
             }
 
-            if (! in_array($this->currentTag, $this->hasSubTags, true)) {
+            if (! in_array($this->currentTag, $this->hasSubTags)) {
                 $this->items[$this->itemIndex][$this->currentTag] .= strip_tags($this->unhtmlentities((trim($data))));
             }
 
@@ -420,7 +420,7 @@ class FeedParser
         $namespace = array_values($attrs);
 
         foreach ($this->namespaces as $value => $version) {
-            if (in_array($value, $namespace, true)) {
+            if (in_array($value, $namespace)) {
                 $this->version = $version;
 
                 return;
@@ -441,15 +441,15 @@ class FeedParser
     private function inChannel()
     {
         if ($this->version == 'RSS 1.0') {
-            if (in_array('CHANNEL', $this->insideItem, true) && $this->currentTag != 'CHANNEL') {
+            if (in_array('CHANNEL', $this->insideItem) && $this->currentTag != 'CHANNEL') {
                 return true;
             }
         } elseif ($this->version == 'RSS 2.0') {
-            if (in_array('CHANNEL', $this->insideItem, true) && ! in_array('ITEM', $this->insideItem, true) && $this->currentTag != 'CHANNEL') {
+            if (in_array('CHANNEL', $this->insideItem) && ! in_array('ITEM', $this->insideItem) && $this->currentTag != 'CHANNEL') {
                 return true;
             }
         } elseif ($this->version == 'ATOM 1') {
-            if (in_array('FEED', $this->insideItem, true) && ! in_array('ENTRY', $this->insideItem, true) && $this->currentTag != 'FEED') {
+            if (in_array('FEED', $this->insideItem) && ! in_array('ENTRY', $this->insideItem) && $this->currentTag != 'FEED') {
                 return true;
             }
         }
@@ -465,11 +465,11 @@ class FeedParser
     private function inItem()
     {
         if ($this->version == 'RSS 1.0' || $this->version == 'RSS 2.0') {
-            if (in_array('ITEM', $this->insideItem, true) && $this->currentTag != 'ITEM') {
+            if (in_array('ITEM', $this->insideItem) && $this->currentTag != 'ITEM') {
                 return true;
             }
         } elseif ($this->version == 'ATOM 1') {
-            if (in_array('ENTRY', $this->insideItem, true) && $this->currentTag != 'ENTRY') {
+            if (in_array('ENTRY', $this->insideItem) && $this->currentTag != 'ENTRY') {
                 return true;
             }
         }

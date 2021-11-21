@@ -76,7 +76,7 @@ class Bdt_model extends CI_Model
         }
         $tipe_file       = TipeFile($_FILES['bdt']);
         $mime_type_excel = ['application/vnd.ms-excel', 'application/octet-stream'];
-        if (! in_array($tipe_file, $mime_type_excel, true)) {
+        if (! in_array($tipe_file, $mime_type_excel)) {
             $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
             $_SESSION['success'] = -1;
 
@@ -149,7 +149,7 @@ class Bdt_model extends CI_Model
                 continue; // Jangan impor jika NIK tidak ada di database
             }
             // Proses setiap subjek sekali saja
-            if (! in_array($data_sheet[$i][$this->kolom_subjek], $sudah_proses, true)) {
+            if (! in_array($data_sheet[$i][$this->kolom_subjek], $sudah_proses)) {
                 // $list_id_subjek[nik] = id-penduduk atau $list_id_subjek[id_rtm] = id-rumah-tangga
                 if ($_SESSION['subjek_tipe'] == 3) {
                     $this->list_id_subjek[$data_sheet[$i][$this->kolom_subjek]] = $rtm;

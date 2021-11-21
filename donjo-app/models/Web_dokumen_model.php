@@ -327,7 +327,7 @@ class Web_dokumen_model extends MY_Model
         $nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
         $ext       = get_extension($nama_file);
 
-        if (! in_array($tipe_file, $this->semua_mime_type(), true) || ! in_array($ext, $this->semua_ext(), true)) {
+        if (! in_array($tipe_file, $this->semua_mime_type()) || ! in_array($ext, $this->semua_ext())) {
             $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file . ' ' . $ext;
             $_SESSION['success'] = -1;
 

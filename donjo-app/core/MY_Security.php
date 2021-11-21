@@ -58,7 +58,7 @@ class MY_Security extends CI_Security
             return '&lt;' . $matches[1];
         }
         // Is the element that we caught naughty? If so, escape it
-        if (in_array(strtolower($matches['tagName']), $naughty_tags, true)) {
+        if (in_array(strtolower($matches['tagName']), $naughty_tags)) {
             return '&lt;' . $matches[1] . '&gt;';
         }
         // For other tags, see if their attributes are "evil" and strip those

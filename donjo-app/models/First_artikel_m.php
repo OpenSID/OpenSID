@@ -531,7 +531,7 @@ class First_artikel_m extends CI_Model
             ->row()->id;
 
         //membatasi hit hanya satu kali dalam setiap session
-        if (in_array($id, $_SESSION['artikel'], true) || $this->agent->is_robot() || crawler() === true) {
+        if (in_array($id, $_SESSION['artikel']) || $this->agent->is_robot() || crawler() === true) {
             return;
         }
 

@@ -92,7 +92,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<td class="text-right"><?= $data['persen2']; ?></td>
 									<?php endif; ?>
 									<td class="text-right">
-										<?php if (in_array($lap, [21, 22, 23, 24, 25, 26, 27], true)): ?>
+										<?php if (in_array($lap, [21, 22, 23, 24, 25, 26, 27])): ?>
 											<a href="<?= site_url("keluarga/statistik/{$lap}/{$data['id']}")?>"><?= $data['jumlah']?></a>
 										<?php else: ?>
 											<?php if ($lap < 50) {
@@ -164,7 +164,7 @@ foreach ($main as $data): $i++; ?>
 			border:1,
 			data: [
 			<?php foreach ($main as $data): ?>
-				<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'], true)): ?>
+				<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'])): ?>
 					<?php if ($data['jumlah'] != '-'): ?>
 						['<?= strtoupper($data['nama'])?>',<?= $data['jumlah']?>],
 					<?php endif; ?>
@@ -212,7 +212,7 @@ foreach ($main as $data): $i++; ?>
 				name: 'Populasi',
 				data: [
 				<?php foreach ($main as $data): ?>
-					<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'], true)): ?>
+					<?php if (! in_array($data['nama'], ['TOTAL', 'JUMLAH', 'PENERIMA'])): ?>
 						<?php if ($data['jumlah'] != '-'): ?>
 							["<?= strtoupper($data['nama'])?>",<?= $data['jumlah']?>],
 						<?php endif; ?>

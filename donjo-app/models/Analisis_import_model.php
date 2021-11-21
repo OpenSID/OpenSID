@@ -302,7 +302,7 @@ class Analisis_import_model extends CI_Model
         // Get Unique Value dari Kategori
         foreach ($list_kategori as $key => $val) {
             if ($this->input->post('is_selected')[$key] == 'true') {
-                if (! in_array($val, $temp_unique_kategori, true)) {
+                if (! in_array($val, $temp_unique_kategori)) {
                     $temp_unique_kategori[] = $val;
                 }
             }

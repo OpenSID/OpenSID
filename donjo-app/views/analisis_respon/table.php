@@ -131,10 +131,10 @@
 													<?php else: ?>
 														<th><a href="<?= site_url("analisis_respon/index/{$p}/3")?>"><?= $nama?> <i class='fa fa-sort fa-sm'></i></a></th>
 													<?php endif; ?>
-													<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4], true)): ?>
+													<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4])): ?>
 														<th>L/P</th>
 													<?php endif; ?>
-													<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4, 7, 8], true)): ?>
+													<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4, 7, 8])): ?>
 														<th><?= ucwords($this->setting->sebutan_dusun) ?></th>
 														<th>RW</th>
 														<?php if ($analisis_master['subjek_tipe'] != 7): ?>
@@ -157,10 +157,10 @@
 															</td>
 															<td nowrap><?= $data['nid']?></td>
 															<td nowrap><?= $data['nama']?></td>
-															<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4], true)): ?>
+															<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4])): ?>
 																<td align="center"><?= $data['jk']?></td>
 															<?php endif; ?>
-															<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4, 7, 8], true)): ?>
+															<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4, 7, 8])): ?>
 																<td><?= $data['dusun']?></td>
 																<td><?= $data['rw']?></td>
 																<?php if ($analisis_master['subjek_tipe'] != 7): ?>

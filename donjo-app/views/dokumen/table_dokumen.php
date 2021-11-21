@@ -21,7 +21,7 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" method="post">
 			<div class="row">
-        <?php if (in_array($kat, ['2', '3'], true)): ?>
+        <?php if (in_array($kat, ['2', '3'])): ?>
 					<?php $this->load->view('dokumen/menu_dokumen'); ?>
 					<div class="col-md-9">
 				<?php else: ?>

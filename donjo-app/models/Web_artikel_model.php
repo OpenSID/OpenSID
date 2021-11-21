@@ -250,7 +250,7 @@ class Web_artikel_model extends MY_Model
         $nama_file   = str_replace(' ', '-', $nama_file); // normalkan nama file
 
         if ($nama_file && ! empty($lokasi_file)) {
-            if (! in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN), true) || ! in_array($ext, unserialize(EXT_DOKUMEN), true)) {
+            if (! in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN), true) || ! in_array($ext, unserialize(EXT_DOKUMEN))) {
                 unset($data['link_dokumen']);
                 $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
                 $_SESSION['success'] = -1;
@@ -387,7 +387,7 @@ class Web_artikel_model extends MY_Model
         $nama_file   = str_replace(' ', '-', $nama_file); // normalkan nama file
 
         if ($nama_file && ! empty($lokasi_file)) {
-            if (! in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN), true) || ! in_array($ext, unserialize(EXT_DOKUMEN), true)) {
+            if (! in_array($tipe_file, unserialize(MIME_TYPE_DOKUMEN)) || ! in_array($ext, unserialize(EXT_DOKUMEN))) {
                 unset($data['link_dokumen']);
                 $_SESSION['error_msg'] .= ' -> Jenis file salah: ' . $tipe_file;
                 $_SESSION['success'] = -1;

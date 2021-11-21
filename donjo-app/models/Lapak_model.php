@@ -402,7 +402,7 @@ class Lapak_model extends MY_Model
             ->result();
 
         foreach ($data_array as $value) {
-            if (! in_array($value->satuan, $this->list_satuan, true)) {
+            if (! in_array($value->satuan, $this->list_satuan)) {
                 $this->list_satuan[] = $value->satuan;
             }
         }

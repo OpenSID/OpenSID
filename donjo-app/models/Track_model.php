@@ -172,7 +172,7 @@ class Track_model extends CI_Model
     {
         $aksi_valid = ['setting/aktifkan_tracking'];
 
-        return in_array($aksi, $aksi_valid, true) ? $aksi : '';
+        return in_array($aksi, $aksi_valid) ? $aksi : '';
     }
 
     /*

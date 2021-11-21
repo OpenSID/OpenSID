@@ -288,7 +288,7 @@ class Web_widget_model extends MY_Model
             $old_gambar              = $value['old_gambar'];
             $setting[$key]['gambar'] = $old_gambar;
             if (! empty($lokasi_file)) {
-                if (in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR), true)) {
+                if (in_array($tipe_file, unserialize(MIME_TYPE_GAMBAR))) {
                     UploadGambarWidget($nama_file, $lokasi_file, $old_gambar);
                     $setting[$key]['gambar'] = $nama_file;
                 } else {

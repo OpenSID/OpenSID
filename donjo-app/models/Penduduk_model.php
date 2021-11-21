@@ -190,7 +190,7 @@ class Penduduk_model extends MY_Model
     {
         $kf = $this->session->akta_kelahiran;
         if (isset($kf)) {
-            if (! in_array($kf, [JUMLAH, BELUM_MENGISI], true)) {
+            if (! in_array($kf, [JUMLAH, BELUM_MENGISI])) {
                 $this->session->umurx = $kf;
                 $this->db->where("u.akta_lahir <> '' ");
                 $this->umur_sql();
@@ -289,7 +289,7 @@ class Penduduk_model extends MY_Model
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
         $bantuan_penduduk = $this->session->bantuan_penduduk;
-        if (! in_array($bantuan_penduduk, [JUMLAH, BELUM_MENGISI, TOTAL], true)) {
+        if (! in_array($bantuan_penduduk, [JUMLAH, BELUM_MENGISI, TOTAL])) {
             // Salin program_id
             $this->session->program_bantuan = $bantuan_penduduk;
         }
@@ -475,7 +475,7 @@ class Penduduk_model extends MY_Model
 
         for ($i = 0; $i < count($data); $i++) {
             // Untuk penduduk mati atau hilang, gunakan umur pada tgl peristiwa
-            if (in_array($data[$i]['status_dasar'], ['2', '4'], true)) {
+            if (in_array($data[$i]['status_dasar'], ['2', '4'])) {
                 $data[$i]['umur'] = $data[$i]['umur_pada_peristiwa'];
             }
             // Ubah alamat penduduk lepas
@@ -703,7 +703,7 @@ class Penduduk_model extends MY_Model
         } //default WNI
 
         // Hanya status 'kawin' yang boleh jadi akseptor kb
-        if ($data['status_kawin'] != 2 || ! in_array($data['cara_kb_id'], [1, 2, 3, 4, 5, 6, 7, 99], true)) {
+        if ($data['status_kawin'] != 2 || ! in_array($data['cara_kb_id'], [1, 2, 3, 4, 5, 6, 7, 99])) {
             $data['cara_kb_id'] = null;
         }
         // Status hamil tidak berlaku bagi laki-laki

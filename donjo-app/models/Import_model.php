@@ -157,7 +157,7 @@ class Import_model extends CI_Model
         }
 
         $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12'];
-        if (! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel, true)) {
+        if (! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel)) {
             $this->session->error_msg .= ' -> Jenis file salah: ' . $_FILES['userfile']['type'];
             $this->session->success = -1;
 
@@ -246,7 +246,7 @@ class Import_model extends CI_Model
         if ($isi_baris['status_rekam'] != '' && ! ($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) {
             return 'kode status_rekam ' . $isi_baris['status_rekam'] . ' tidak dikenal';
         }
-        if ($isi_baris['status_dasar'] != '' && ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9], true)) {
+        if ($isi_baris['status_dasar'] != '' && ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) {
             return 'kode status_dasar ' . $isi_baris['status_dasar'] . ' tidak dikenal';
         }
 

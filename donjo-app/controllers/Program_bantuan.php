@@ -381,17 +381,17 @@ class Program_bantuan extends Admin_Controller
                              * id bernilai NULL/Kosong( )/Strip(-)/tdk valid, buat program baru dan tampilkan notifkasi tambah program
                              * id bernilai id dan valid, update data program dan tampilkan notifkasi update program
                              */
-                            case $no_baris == 0 && in_array($value, $daftar_program, true) && $ganti_program == 1:
+                            case $no_baris == 0 && in_array($value, $daftar_program) && $ganti_program == 1:
                                 $program_id = $value;
                                 $pesan .= '- Data program dengan <b> id = ' . ($value) . '</b> ditemukan, data lama diganti dengan data baru <br>';
                                 break;
 
-                            case $no_baris == 0 && in_array($value, $daftar_program, true) && $ganti_program != 1:
+                            case $no_baris == 0 && in_array($value, $daftar_program) && $ganti_program != 1:
                                 $program_id = $value;
                                 $pesan .= '- Data program dengan <b> id = ' . ($value) . '</b> ditemukan, data lama tetap digunakan <br>';
                                 break;
 
-                            case $no_baris == 0 && ! in_array($value, $daftar_program, true):
+                            case $no_baris == 0 && ! in_array($value, $daftar_program):
                                 $program_id = null;
                                 $pesan .= '- Data program dengan <b> id = ' . ($value) . '</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>';
                                 break;
@@ -436,7 +436,7 @@ class Program_bantuan extends Admin_Controller
 
                         // Cek valid data peserta sesuai sasaran
                         $cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
-                        if (! in_array($nik, $cek_peserta['valid'], true)) {
+                        if (! in_array($nik, $cek_peserta['valid'])) {
                             $no_gagal++;
                             $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
@@ -453,14 +453,14 @@ class Program_bantuan extends Admin_Controller
                         }
 
                         // Cek data peserta yg akan dimpor dan yg sudah ada
-                        if (in_array($peserta, $terdaftar_peserta, true) && $ganti_peserta != 1) {
+                        if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta != 1) {
                             $no_gagal++;
                             $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> sudah ada <br>';
 
                             continue;
                         }
 
-                        if (in_array($peserta, $terdaftar_peserta, true) && $ganti_peserta == 1) {
+                        if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta == 1) {
                             $data_diubah .= ', ' . $peserta;
                             $pesan       .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> ditambahkan menggantikan data lama <br>';
                         }

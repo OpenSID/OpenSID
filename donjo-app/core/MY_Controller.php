@@ -266,7 +266,7 @@ class Premium extends MY_Controller
     public function validasi()
     {
         // Jangan jalankan validasi akses untuk spesifik controller.
-        if (in_array($this->router->class, $this->kecuali, true)) {
+        if (in_array($this->router->class, $this->kecuali)) {
             return;
         }
 

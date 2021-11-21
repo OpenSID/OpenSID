@@ -228,7 +228,7 @@ class Siak_model extends Import_model
                 if ($penduduk_baru) {
                     $total_penduduk++;
                     // Tulis log kalau status dasar MATI, HILANG atau PINDAH
-                    if (in_array($isi_baris['status_dasar'], ['2', '3', '4'], true)) {
+                    if (in_array($isi_baris['status_dasar'], ['2', '3', '4'])) {
                         $this->tulis_log_penduduk($isi_baris, $penduduk_baru);
                     }
                 }

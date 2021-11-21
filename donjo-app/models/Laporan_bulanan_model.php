@@ -227,7 +227,7 @@ class Laporan_bulanan_model extends CI_Model
         $pad_bln  = str_pad($bln, 2, '0', STR_PAD_LEFT); // Untuk membandingkan dengan tgl mysql
 
         switch (true) {
-            case in_array($tipe, $penduduk, true):
+            case in_array($tipe, $penduduk):
                 // Perubahan penduduk sebelum bulan laporan
                 $this->db
                     ->select('p.*, l.kode_peristiwa')
@@ -236,7 +236,7 @@ class Laporan_bulanan_model extends CI_Model
                     ->where("DATE_FORMAT(l.tgl_lapor, '%Y-%m') < '{$thn}-{$pad_bln}'");
                 break;
 
-            case in_array($tipe, $keluarga, true):
+            case in_array($tipe, $keluarga):
                 // Perubahan penduduk sebelum bulan laporan
                 $this->db
                     ->select('p.*, l.id_peristiwa')
@@ -255,11 +255,11 @@ class Laporan_bulanan_model extends CI_Model
         $this->rincian_dasar($tipe);
 
         switch (true) {
-            case in_array($tipe, $penduduk, true):
+            case in_array($tipe, $penduduk):
                 $this->db->where('kode_peristiwa in (1,5)');
                 break;
 
-            case in_array($tipe, $keluarga, true):
+            case in_array($tipe, $keluarga):
                 $this->db->where('id_peristiwa in (1)');
                 break;
         }
@@ -271,11 +271,11 @@ class Laporan_bulanan_model extends CI_Model
         $this->rincian_dasar($tipe);
 
         switch (true) {
-            case in_array($tipe, $penduduk, true):
+            case in_array($tipe, $penduduk):
                 $this->db->where('kode_peristiwa in (2, 3, 4)');
                 break;
 
-            case in_array($tipe, $keluarga, true):
+            case in_array($tipe, $keluarga):
                 $this->db->where('id_peristiwa in (2, 3, 4)');
                 break;
         }
@@ -326,7 +326,7 @@ class Laporan_bulanan_model extends CI_Model
         $pad_bln  = str_pad($bln, 2, '0', STR_PAD_LEFT); // Untuk membandingkan dengan tgl mysql
 
         switch (true) {
-            case in_array($tipe, $penduduk, true):
+            case in_array($tipe, $penduduk):
                 // Perubahan penduduk sebelum bulan laporan
                 $this->db
                     ->select('p.*, l.kode_peristiwa')
@@ -335,7 +335,7 @@ class Laporan_bulanan_model extends CI_Model
                     ->where("DATE_FORMAT(l.tgl_lapor, '%Y-%m') <= '{$thn}-{$pad_bln}'");
                 break;
 
-            case in_array($tipe, $keluarga, true):
+            case in_array($tipe, $keluarga):
                 // Perubahan penduduk sebelum bulan laporan
                 $this->db
                     ->select('p.*, l.id_peristiwa')
@@ -353,11 +353,11 @@ class Laporan_bulanan_model extends CI_Model
         $this->rincian_dasar($tipe);
 
         switch (true) {
-            case in_array($tipe, $penduduk, true):
+            case in_array($tipe, $penduduk):
                 $this->db->where('kode_peristiwa in (1,5)');
                 break;
 
-            case in_array($tipe, $keluarga, true):
+            case in_array($tipe, $keluarga):
                 $this->db->where('id_peristiwa in (1)');
                 break;
         }
@@ -368,11 +368,11 @@ class Laporan_bulanan_model extends CI_Model
         $this->rincian_dasar($tipe);
 
         switch (true) {
-            case in_array($tipe, $penduduk, true):
+            case in_array($tipe, $penduduk):
                 $this->db->where('kode_peristiwa in (2, 3, 4)');
                 break;
 
-            case in_array($tipe, $keluarga, true):
+            case in_array($tipe, $keluarga):
                 $this->db->where('id_peristiwa in (2, 3, 4)');
                 break;
         }
@@ -471,7 +471,7 @@ class Laporan_bulanan_model extends CI_Model
         $penduduk = ['wni_l', 'wni_p', 'wna_l', 'wna_p', 'jml', 'jml_l', 'jml_p'];
         $keluarga = ['kk', 'kk_l', 'kk_p'];
 
-        if (in_array($tipe, $penduduk, true)) {
+        if (in_array($tipe, $penduduk)) {
             $mutasi_pada_bln_thn = $this->mutasi_pada_bln_thn($peristiwa);
             $data                = $this->db
                 ->select('*')
@@ -492,7 +492,7 @@ class Laporan_bulanan_model extends CI_Model
 
                 case 'jml_p': $this->db->where('sex = 2'); break;
             }
-        } elseif (in_array($tipe, $keluarga, true)) {
+        } elseif (in_array($tipe, $keluarga)) {
             $mutasi_keluarga_bln_thn = $this->mutasi_keluarga_bln_thn($peristiwa);
             $data                    = $this->db
                 ->select('*')

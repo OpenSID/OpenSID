@@ -110,6 +110,6 @@
 	}
 
 	$(document).ready(function() {
-		pilih_persentase(<?= in_array($main->persentase, $persentase, true) ? 1 : 2 ?>);
+		pilih_persentase(<?= in_array($main->persentase, $persentase) ? 1 : 2 ?>);
 	});
 </script>

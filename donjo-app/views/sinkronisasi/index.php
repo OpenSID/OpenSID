@@ -31,7 +31,7 @@
                                             <td><?= $data; ?></td>
                                             <td class="padat">
                                                 <?php $slug = url_title($data, 'dash', true); ?>
-                                                <?php if (in_array($slug, ['penduduk'], true)): ?>
+                                                <?php if (in_array($slug, ['penduduk'])): ?>
                                                     <a href="<?= site_url('sinkronisasi/unduh/') . $slug ?>" title="Unduh Data" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-download"></i> Unduh Data</a>
                                                     <?php if ($this->setting->api_opendk_key): ?>
                                                         <a href="#" data-href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="kirim_data" title="Kirim Data" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin mengirim data <?= $data; ?> ke OpenDK?" data-backdrop="false" data-keyboard="false"><i class="fa fa-random"></i> Kirim Data</a>

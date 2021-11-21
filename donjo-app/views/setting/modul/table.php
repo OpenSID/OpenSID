@@ -77,7 +77,7 @@
 									<option value="2" <?php selected($this->setting->penggunaan_server, '2')?>>
 										Online saja di hosting
 									</option>
-									<option value="3" <?php in_array($this->setting->penggunaan_server, ['3', '5', '6'], true) && print 'selected' ?>>
+									<option value="3" <?php in_array($this->setting->penggunaan_server, ['3', '5', '6']) && print 'selected' ?>>
 										Offline di kantor desa dan online di hosting
 									</option>
 									<option value="4" <?php selected($this->setting->penggunaan_server, '4')?>>
@@ -86,7 +86,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" id="offline_online_hosting" style="<?php ! in_array($this->setting->penggunaan_server, ['3', '5', '6'], true) && print 'display: none;' ?>">
+						<div class="form-group" id="offline_online_hosting" style="<?php ! in_array($this->setting->penggunaan_server, ['3', '5', '6']) && print 'display: none;' ?>">
 							<label class="col-sm-3 control-label">Server ini digunakan sebagai</label>
 							<div class="col-sm-9 col-lg-4">
 								<select class="form-control input-sm" name="server_mana" onchange="ubah_server($(this).val())">
@@ -100,7 +100,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" id="offline_ada_hosting" style="<?php ! in_array($this->setting->penggunaan_server, ['5'], true) && print 'display: none;' ?>">
+						<div class="form-group" id="offline_ada_hosting" style="<?php ! in_array($this->setting->penggunaan_server, ['5']) && print 'display: none;' ?>">
 							<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
 							<div class="col-sm-6 col-lg-4">
 								<select class="form-control input-sm" name="offline_mode">
@@ -114,7 +114,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group" id="offline_saja" style="<?php ! in_array($this->setting->penggunaan_server, ['1'], true) && print 'display: none;' ?>">
+						<div class="form-group" id="offline_saja" style="<?php ! in_array($this->setting->penggunaan_server, ['1']) && print 'display: none;' ?>">
 							<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
 							<div class="col-sm-9 col-lg-4">
 								<select class="form-control input-sm" name="offline_mode_saja">

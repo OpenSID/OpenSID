@@ -75,7 +75,7 @@ class Analisis_laporan extends Admin_Controller
         $data['o'] = $o;
 
         foreach ($this->_list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'], true)) {
+            if (in_array($list, ['dusun', 'rw', 'rt'])) {
                 ${$list} = $this->session->{$list};
             } else {
                 $data[$list] = $this->session->{$list} ?: '';

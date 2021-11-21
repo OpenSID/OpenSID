@@ -758,7 +758,7 @@ class Parsedown
         if (preg_match('/^<(\w[\w-]*)(?:[ ]*' . $this->regexHtmlAttribute . ')*[ ]*(\/)?>/', $Line['text'], $matches)) {
             $element = strtolower($matches[1]);
 
-            if (in_array($element, $this->textLevelElements, true)) {
+            if (in_array($element, $this->textLevelElements)) {
                 return;
             }
 
@@ -773,13 +773,13 @@ class Parsedown
             $remainder = substr($Line['text'], $length);
 
             if (trim($remainder) === '') {
-                if (isset($matches[2]) || in_array($matches[1], $this->voidElements, true)) {
+                if (isset($matches[2]) || in_array($matches[1], $this->voidElements)) {
                     $Block['closed'] = true;
 
                     $Block['void'] = true;
                 }
             } else {
-                if (isset($matches[2]) || in_array($matches[1], $this->voidElements, true)) {
+                if (isset($matches[2]) || in_array($matches[1], $this->voidElements)) {
                     return;
                 }
 
@@ -1029,7 +1029,7 @@ class Parsedown
             foreach ($this->InlineTypes[$marker] as $inlineType) {
                 // check to see if the current inline type is nestable in the current context
 
-                if (! empty($nonNestables) && in_array($inlineType, $nonNestables, true)) {
+                if (! empty($nonNestables) && in_array($inlineType, $nonNestables)) {
                     continue;
                 }
 
@@ -1158,7 +1158,7 @@ class Parsedown
 
     protected function inlineEscapeSequence($Excerpt)
     {
-        if (isset($Excerpt['text'][1]) && in_array($Excerpt['text'][1], $this->specialCharacters, true)) {
+        if (isset($Excerpt['text'][1]) && in_array($Excerpt['text'][1], $this->specialCharacters)) {
             return [
                 'markup' => $Excerpt['text'][1],
                 'extent' => 2,
@@ -1458,7 +1458,7 @@ class Parsedown
 
         $trimmedMarkup = trim($markup);
 
-        if (! in_array('', $lines, true) && substr($trimmedMarkup, 0, 3) === '<p>') {
+        if (! in_array('', $lines) && substr($trimmedMarkup, 0, 3) === '<p>') {
             $markup = $trimmedMarkup;
             $markup = substr($markup, 3);
 

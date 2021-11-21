@@ -808,7 +808,7 @@ class Suplemen_model extends MY_Model
 
                     // Cek valid data peserta sesuai sasaran
                     $cek_peserta = $this->cek_peserta($peserta, $sasaran);
-                    if (! in_array($peserta, $cek_peserta['valid'], true)) {
+                    if (! in_array($peserta, $cek_peserta['valid'])) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
@@ -825,7 +825,7 @@ class Suplemen_model extends MY_Model
                     $id_terdata = $penduduk_sasaran['id_terdata'];
 
                     // Cek data peserta yg akan dimpor dan yg sudah ada
-                    if (in_array($peserta, $terdaftar_peserta, true)) {
+                    if (in_array($peserta, $terdaftar_peserta)) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . '</b> sudah ada <br>';
 
@@ -902,7 +902,7 @@ class Suplemen_model extends MY_Model
 
     public function cek_peserta($peserta = '', $sasaran = 1)
     {
-        if (in_array($peserta, [null, '-', ' ', '0'], true)) {
+        if (in_array($peserta, [null, '-', ' ', '0'])) {
             return false;
         }
 

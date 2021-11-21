@@ -17,7 +17,7 @@
   <tr>
     <?php if ($wilayah == $nama_wilayah): ?>
       <td align="center"><img src="<?= gambar_desa($wil_atas['logo']); ?>" alt="logo"  class="logo_mandiri"></td>
-    <?php elseif (in_array($wilayah, [ucwords($this->setting->sebutan_dusun), 'RW', 'RT'], true)): ?>
+    <?php elseif (in_array($wilayah, [ucwords($this->setting->sebutan_dusun), 'RW', 'RT'])): ?>
       <td align="center"><img src="<?= gambar_desa($logo['logo']); ?>" alt="logo"  class="logo_mandiri"></td>
     <?php else: ?>
       <td align="center"><img src="<?= gambar_desa($desa['logo']); ?>" alt="logo"  class="logo_mandiri"></td>

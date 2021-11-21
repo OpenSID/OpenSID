@@ -108,7 +108,7 @@ class Lembaran_desa extends Admin_Controller
         if ($id) {
             $data['dokumen']     = $this->web_dokumen_model->get_dokumen($id);
             $data['form_action'] = site_url("lembaran_desa/update/{$id}/{$p}/{$o}");
-            if ($jenis_peraturan = $data['dokumen']['attr']['jenis_peraturan'] && ! in_array($jenis_peraturan, $data['jenis_peraturan'], true)) {
+            if ($jenis_peraturan = $data['dokumen']['attr']['jenis_peraturan'] && ! in_array($jenis_peraturan, $data['jenis_peraturan'])) {
                 $data['jenis_peraturan'][] = $jenis_peraturan;
             }
         }

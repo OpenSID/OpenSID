@@ -58,7 +58,7 @@ class Export_model extends CI_Model
         }
         // Kode yang tersimpan sebagai '0' harus '' untuk dibaca oleh Import Excel
         $kecuali = ['nik', 'no_kk'];
-        if ($str == '0' && ! in_array($key, $kecuali, true)) {
+        if ($str == '0' && ! in_array($key, $kecuali)) {
             $str = '';
         }
     }

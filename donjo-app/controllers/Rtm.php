@@ -64,7 +64,7 @@ class Rtm extends Admin_Controller
     public function index($page = 1, $order_by = 0)
     {
         foreach ($this->_list_session as $list) {
-            if (in_array($list, ['dusun', 'rw', 'rt'], true)) {
+            if (in_array($list, ['dusun', 'rw', 'rt'])) {
                 ${$list} = $this->session->{$list};
             } else {
                 $data[$list] = $this->session->{$list} ?: '';
@@ -376,7 +376,7 @@ class Rtm extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL], true)) {
+                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }

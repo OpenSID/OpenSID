@@ -475,7 +475,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan penduduk yang sudah terdaftar pada program
-                if (! in_array($data[$i]['nik'], $filter, true)) {
+                if (! in_array($data[$i]['nik'], $filter)) {
                     if ($data[$i]['nik'] != '') {
                         $data1[$j]['id']   = $data[$i]['nik'];
                         $data1[$j]['nik']  = $data[$i]['nik'];
@@ -515,7 +515,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan keluarga yang sudah terdaftar pada program
-                if (! in_array($data[$i]['no_kk'], $filter, true)) {
+                if (! in_array($data[$i]['no_kk'], $filter)) {
                     $hasil2[$j]['id']   = $data[$i]['nik'];
                     $hasil2[$j]['nik']  = $data[$i]['nik'];
                     $hasil2[$j]['nama'] = strtoupper('KK[' . $data[$i]['no_kk'] . '] - [' . $data[$i]['kk_level'] . '] ' . $data[$i]['nama'] . ' [' . $data[$i]['nik'] . ']');
@@ -547,7 +547,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan RTM yang sudah terdaftar pada program
-                if (! in_array($data[$i]['id'], $filter, true)) {
+                if (! in_array($data[$i]['id'], $filter)) {
                     $hasil2[$j]['id']   = $data[$i]['id'];
                     $hasil2[$j]['nik']  = $data[$i]['id'];
                     $hasil2[$j]['nama'] = strtoupper($data[$i]['nama']) . ' [' . $data[$i]['id'] . ']';
@@ -577,7 +577,7 @@ class Program_bantuan_model extends MY_Model
 
             for ($i = 0; $i < count($data); $i++) {
                 // Abaikan kelompok yang sudah terdaftar pada program
-                if (! in_array($data[$i]['id'], $filter, true)) {
+                if (! in_array($data[$i]['id'], $filter)) {
                     $hasil2[$j]['id']   = $data[$i]['id'];
                     $hasil2[$j]['nik']  = $data[$i]['nama_kelompok'];
                     $hasil2[$j]['nama'] = strtoupper($data[$i]['nama']) . ' [' . $data[$i]['nama_kelompok'] . ']';
@@ -1164,7 +1164,7 @@ class Program_bantuan_model extends MY_Model
     // TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
     public function cek_peserta($peserta = '', $sasaran = 1)
     {
-        if (in_array($peserta, [null, '-', ' ', '0'], true)) {
+        if (in_array($peserta, [null, '-', ' ', '0'])) {
             return false;
         }
 

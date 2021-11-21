@@ -77,7 +77,7 @@ class Siteman extends MY_Controller
     {
         $method       = $this->input->method(true);
         $allow_method = ['POST'];
-        if (! in_array($method, $allow_method, true)) {
+        if (! in_array($method, $allow_method)) {
             redirect('siteman/login');
         }
         $this->user_model->siteman();

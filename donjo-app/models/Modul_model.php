@@ -269,7 +269,7 @@ class Modul_model extends CI_Model
     public function modul_aktif($controller)
     {
         $selalu_aktif = ['hom_sid', 'user_setting', 'notif', 'wilayah'];
-        if (in_array($controller, $selalu_aktif, true)) {
+        if (in_array($controller, $selalu_aktif)) {
             return true;
         }
 
@@ -284,7 +284,7 @@ class Modul_model extends CI_Model
             $aktif[$key] = explode('/', $modul['url'])[0];
         }
 
-        return in_array($controller, $aktif, true);
+        return in_array($controller, $aktif);
     }
 
     /**

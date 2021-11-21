@@ -90,7 +90,7 @@ class Statistik_web extends Web_Controller
             $data['program']        = $this->program_bantuan_model->get_sasaran($program_id);
             $data['judul_kelompok'] = $data['program']['judul_sasaran'];
             $data['kategori']       = 'bantuan';
-        } elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'], true)) {
+        } elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga'])) {
             $data['kategori'] = 'bantuan';
         } elseif ($lap > 20 || "{$lap}" == 'kelas_sosial') {
             $data['kategori'] = 'keluarga';
