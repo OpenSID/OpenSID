@@ -205,49 +205,49 @@ class Import_model extends CI_Model
         }
         // Validasi data setiap kolom ber-kode
         if ($isi_baris['sex'] != '' && ! ($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) {
-            return 'kode jenis kelamin tidak dikenal';
+            return 'kode jenis kelamin ' . $isi_baris['sex'] . '  tidak dikenal';
         }
         if ($isi_baris['agama_id'] != '' && ! ($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) {
-            return 'kode agama tidak dikenal';
+            return 'kode agama ' . $isi_baris['agama_id'] . '  tidak dikenal';
         }
         if ($isi_baris['pendidikan_kk_id'] != '' && ! ($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) {
-            return 'kode pendidikan tidak dikenal';
+            return 'kode pendidikan ' . $isi_baris['pendidikan_kk_id'] . '  tidak dikenal';
         }
         if ($isi_baris['pendidikan_sedang_id'] != '' && ! ($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) {
-            return 'kode pendidikan_sedang tidak dikenal';
+            return 'kode pendidikan_sedang ' . $isi_baris['pendidikan_sedang_id'] . '  tidak dikenal';
         }
         if ($isi_baris['pekerjaan_id'] != '' && ! ($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) {
-            return 'kode pekerjaan tidak dikenal';
+            return 'kode pekerjaan ' . $isi_baris['pekerjaan_id'] . '  tidak dikenal';
         }
         if ($isi_baris['status_kawin'] != '' && ! ($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) {
-            return 'kode status_kawin tidak dikenal';
+            return 'kode status_kawin ' . $isi_baris['status_kawin'] . ' tidak dikenal';
         }
         if ($isi_baris['kk_level'] != '' && ! ($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) {
-            return 'kode status hubungan tidak dikenal';
+            return 'kode status hubungan ' . $isi_baris['kk_level'] . '  tidak dikenal';
         }
         if ($isi_baris['warganegara_id'] != '' && ! ($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) {
-            return 'kode warganegara tidak dikenal';
+            return 'kode warganegara ' . $isi_baris['warganegara_id'] . '  tidak dikenal';
         }
         if ($isi_baris['golongan_darah_id'] != '' && ! ($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) {
-            return 'kode golongan_darah tidak dikenal';
+            return 'kode golongan_darah ' . $isi_baris['golongan_darah_id'] . '  tidak dikenal';
         }
         if ($isi_baris['cacat_id'] != '' && ! ($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) {
-            return 'kode cacat tidak dikenal';
+            return 'kode cacat ' . $isi_baris['cacat_id'] . '  tidak dikenal';
         }
         if ($isi_baris['cara_kb_id'] != '' && ! ($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) && $isi_baris['cara_kb_id'] != '99') {
-            return 'kode cara_kb tidak dikenal';
+            return 'kode cara_kb ' . $isi_baris['cara_kb_id'] . '  tidak dikenal';
         }
         if ($isi_baris['hamil'] != '' && ! ($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) {
-            return 'kode hamil tidak dikenal';
+            return 'kode hamil ' . $isi_baris['hamil'] . '  tidak dikenal';
         }
         if ($isi_baris['ktp_el'] != '' && ! ($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) {
-            return 'kode ktp_el tidak dikenal';
+            return 'kode ktp_el ' . $isi_baris['ktp_el'] . ' tidak dikenal';
         }
         if ($isi_baris['status_rekam'] != '' && ! ($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) {
-            return 'kode status_rekam tidak dikenal';
+            return 'kode status_rekam ' . $isi_baris['status_rekam'] . ' tidak dikenal';
         }
-        if ($isi_baris['status_dasar'] != '' && ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9], true)) {
-            return 'kode status_dasar tidak dikenal';
+        if ($isi_baris['status_dasar'] != '' && ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) {
+            return 'kode status_dasar ' . $isi_baris['status_dasar'] . ' tidak dikenal';
         }
 
         // Validasi data lain
@@ -583,11 +583,11 @@ class Import_model extends CI_Model
                     $this->tulis_tweb_penduduk($isi_baris);
                     if ($error = $this->error_tulis_penduduk) {
                         $gagal++;
-                        $baris_gagal .= $nomor_baris . ' (' . $error['message'] . ')<br>';
+                        $baris_gagal .= $nomor_baris . ') ' . $error['message'] . '<br>';
                     }
                 } else {
                     $gagal++;
-                    $baris_gagal .= $nomor_baris . ' (' . $error_validasi . ')<br>';
+                    $baris_gagal .= $nomor_baris . ') ' . $error_validasi . '<br>';
                 }
             }
 
