@@ -217,25 +217,28 @@ class First extends Web_Controller {
 	{
 		if ($p == '') {
 			$p=1;
+		}
+		if ($gal == '') {
 			$gal=0;
 		}
-		$data = $this->includes;
-		$data['p'] = $p;
-		$data['gal'] = $gal;
-		$data['paging'] = $this->first_gallery_m->paging2($gal, $p);
-		$data['paging_range'] = 3;
-		$data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
-		$data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
-		$data['pages'] = range($data['start_paging'], $data['end_paging']);
+		echo 'gal = '.$gal.' dan p = '.$p;
+		// $data = $this->includes;
+		// $data['p'] = $p;
+		// $data['gal'] = $gal;
+		// $data['paging'] = $this->first_gallery_m->paging2($gal, $p);
+		// $data['paging_range'] = 3;
+		// $data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
+		// $data['end_paging'] = min($data['paging']->end_link, $p + $data['paging_range']);
+		// $data['pages'] = range($data['start_paging'], $data['end_paging']);
 
-		$data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal,$data['paging']->offset, $data['paging']->per_page);
-		$data['parrent'] = $this->first_gallery_m->get_parrent($gal);
-		$data['mode'] = 1;
+		// $data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal,$data['paging']->offset, $data['paging']->per_page);
+		// $data['parrent'] = $this->first_gallery_m->get_parrent($gal);
+		// $data['mode'] = 1;
 
-		$this->_get_common_data($data);
+		// $this->_get_common_data($data);
 
-		$this->set_template('layouts/sub_gallery.tpl.php');
-		$this->load->view($this->template, $data);
+		// $this->set_template('layouts/sub_gallery.tpl.php');
+		// $this->load->view($this->template, $data);
 	}
 
 	public function statistik($stat=0, $tipe=0)
