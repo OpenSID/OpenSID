@@ -216,7 +216,7 @@ class First extends Web_Controller {
 	public function sub_gallery($gal=0, $p=1)
 	{
 		if ($p == '') {
-			$p=$gal;
+			$p=1;
 			$gal=0;
 		}
 		$data = $this->includes;

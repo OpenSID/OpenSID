@@ -117,7 +117,7 @@ $route['web-gallery'] = 'first/gallery';
 $route['web-gallery/(:num)'] = 'first/gallery/$1';
 $route['sub-gallery'] = 'first/sub_gallery';
 $route['sub-gallery/(:any)/(:num)'] = 'first/sub_gallery/$1/$2';
-$route['sub-gallery/(:any)'] = 'first/sub_gallery/$1/$2';
+$route['sub-gallery/(:any)'] = 'first/sub_gallery/$1';
 
 // URL Shortener
 $route['v/(:any)'] = 'first/redirect/$1';
