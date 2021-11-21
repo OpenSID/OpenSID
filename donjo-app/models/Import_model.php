@@ -246,7 +246,7 @@ class Import_model extends CI_Model
         if ($isi_baris['status_rekam'] != '' && ! ($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) {
             return 'kode status_rekam ' . $isi_baris['status_rekam'] . ' tidak dikenal';
         }
-        if ($isi_baris['status_dasar'] != '' && ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) {
+        if ($isi_baris['status_dasar'] != '' && ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9], true)) {
             return 'kode status_dasar ' . $isi_baris['status_dasar'] . ' tidak dikenal';
         }
 
