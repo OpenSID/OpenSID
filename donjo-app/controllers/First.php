@@ -215,6 +215,10 @@ class First extends Web_Controller {
 	// halaman rincian tiap album galeri
 	public function sub_gallery($gal=0, $p=1)
 	{
+		if ($p == '') {
+			$p=$gal;
+			$gal=0;
+		}
 		$data = $this->includes;
 		$data['p'] = $p;
 		$data['gal'] = $gal;
