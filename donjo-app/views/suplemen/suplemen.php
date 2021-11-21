@@ -59,7 +59,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<a href="<?=site_url("{$this->controller}/form"); ?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Suplemen Baru"><i class="fa fa-plus"></i> Tambah Suplemen Baru</a>
 					<?php endif; ?>
 					<a href="<?=site_url("{$this->controller}/panduan"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Program Bantuan Baru"><i class="fa fa-question-circle"></i> Panduan</a>
-					<a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Filter"><i class="fa fa-refresh"></i>Bersihkan</a>
+					<a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan"><i class="fa fa-refresh"></i>Bersihkan</a>
 				</div>
 				<div class="box-body">
 					<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

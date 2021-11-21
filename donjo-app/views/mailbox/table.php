@@ -19,7 +19,7 @@
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Arsipkan Data" <?php if (! $filter_archived) : ?>onclick="deleteAllBox('mainform','<?=site_url("mailbox/archive_all/{$kat}/{$p}/{$o}")?>')"<?php endif; ?> class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih" <?php $filter_archived && print 'disabled' ?>><i class='fa fa-file-archive-o'></i> Arsipkan Data Terpilih</a>
 							<?php endif; ?>
-							<a href="<?= site_url("mailbox/clear/{$kat}/{$p}/{$o}") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+							<a href="<?= site_url("mailbox/clear/{$kat}/{$p}/{$o}") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
