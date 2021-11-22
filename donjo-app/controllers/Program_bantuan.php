@@ -711,4 +711,15 @@ class Program_bantuan extends Admin_Controller
 
         return $invalid;
     }
+
+		protected function cek_is_date($cells)
+		{
+			if ($cells->isDate()) {
+				$value = $cells->getValue()->format('Y-m-d');
+			} else {
+				$value = (string) $cells;
+			}
+
+			return $value;
+		}
 }
