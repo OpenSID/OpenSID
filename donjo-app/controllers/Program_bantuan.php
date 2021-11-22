@@ -389,7 +389,7 @@ class Program_bantuan extends Admin_Controller {
 					{
 						$cells = $row->getCells();
 						$title = (string) $cells[0];
-						$value = (string) $cells[1];
+						$value = $this->cek_is_date($cells[1]);
 
 						// Data terakhir
 						if ($title == '###') break;
@@ -500,7 +500,7 @@ class Program_bantuan extends Admin_Controller {
 							'kartu_nik' => $nik,
 							'kartu_nama' => ((string) $cells[3]) ? $cells[3] : $cek_penduduk['nama'],
 							'kartu_tempat_lahir' => ((string) $cells[4]) ? $cells[4] : $cek_penduduk['tempatlahir'],
-							'kartu_tanggal_lahir' => ((string) $cells[5]) ? $cells[5] : $cek_penduduk['tanggallahir'],
+							'kartu_tanggal_lahir' => ($cells[5]) ? $this->cek_is_date($cells[5]) : $cek_penduduk['tanggallahir'],
 							'kartu_alamat' => ((string) $cells[6]) ? $cells[6] : $cek_penduduk['alamat_wilayah'],
 							'kartu_id_pend' => $cek_penduduk['id'],
 						];
@@ -721,5 +721,16 @@ class Program_bantuan extends Admin_Controller {
 			->delete('program_peserta');
 		status_sukses($hasil, $gagal_saja = true);
 		return $invalid;
+	}
+
+	protected function cek_is_date($cells)
+	{
+		if ($cells->isDate()) {
+			$value = $cells->getValue()->format('Y-m-d');
+		} else {
+			$value = (string) $cells;
+		}
+
+		return $value;
 	}
 }
