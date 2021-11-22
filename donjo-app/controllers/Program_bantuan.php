@@ -375,13 +375,13 @@ class Program_bantuan extends Admin_Controller {
 				$no_baris = 0;
 				$no_gagal = 0;
 				$no_sukses = 0;
-				$pesan ='';
 
 				// Sheet Program
 				if ($sheet->getName() == 'Program')
 				{
+					$pesan_program ='';
 					$ambil_program = $this->program_bantuan_model->get_program(1, FALSE);
-					$daftar_program = str_replace("'", "", explode (", ", sql_in_list(array_column($ambil_program['program'], 'id'))));
+					$daftar_program = array_column($ambil_program['program'], 'id');
 
 					$field = ['id', 'nama', 'sasaran', 'ndesc', 'asaldana', 'sdate', 'edate'];
 
@@ -401,19 +401,19 @@ class Program_bantuan extends Admin_Controller {
 							 * id bernilai NULL/Kosong( )/Strip(-)/tdk valid, buat program baru dan tampilkan notifkasi tambah program
 							 * id bernilai id dan valid, update data program dan tampilkan notifkasi update program
 							 */
-							case ($no_baris == 0 && in_array($value, $daftar_program) && $ganti_program == 1):
+							case ($no_baris == 0 && (in_array($value, $daftar_program) && $ganti_program == 1)):
 								$program_id = $value;
-								$pesan .= "- Data program dengan <b> id = " . ($value) . "</b> ditemukan, data lama diganti dengan data baru <br>";
+								$pesan_program .= "Data program dengan <b> id = " . ($value) . "</b> ditemukan, data lama diganti dengan data baru <br>";
 								break;
 
-							case ($no_baris == 0 && in_array($value, $daftar_program) && $ganti_program != 1):
+							case ($no_baris == 0 && (in_array($value, $daftar_program) && $ganti_program != 1)):
 								$program_id = $value;
-								$pesan .= "- Data program dengan <b> id = " . ($value) . "</b> ditemukan, data lama tetap digunakan <br>";
+								$pesan_program .= "Data program dengan <b> id = " . ($value) . "</b> ditemukan, data lama tetap digunakan <br>";
 								break;
 
 							case ($no_baris == 0 && ! in_array($value, $daftar_program)):
 								$program_id = NULL;
-								$pesan .= "- Data program dengan <b> id = " . ($value) . "</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>";
+								$pesan_program .= "Data program dengan <b> id = " . ($value) . "</b> tidak ditemukan, program baru ditambahkan secara otomatis) <br>";
 								break;
 
 							default:
@@ -430,13 +430,14 @@ class Program_bantuan extends Admin_Controller {
 				// Sheet Peserta
 				else
 				{
+					$pesan_peserta = '';
 					$ambil_peserta = $this->program_bantuan_model->get_program(1, $program_id);
 					$sasaran = $ambil_peserta[0]['sasaran'];
-					$terdaftar_peserta = str_replace("'", "", explode (", ", sql_in_list(array_column($ambil_peserta[1], 'peserta'))));
+					$terdaftar_peserta = array_column($ambil_peserta[1], 'peserta');
 
 					if ($kosongkan_peserta == 1)
 					{
-						$pesan .= "- Data peserta " . ($ambil_peserta[0]['nama']) . " sukses dikosongkan<br>";
+						$pesan_peserta .= "- Data peserta " . ($ambil_peserta[0]['nama']) . " sukses dikosongkan<br>";
 						$terdaftar_peserta = NULL;
 					}
 
@@ -458,7 +459,7 @@ class Program_bantuan extends Admin_Controller {
 						if ( ! in_array($nik, $cek_peserta['valid']))
 						{
 							$no_gagal++;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / " . $cek_peserta['sasaran_peserta'] . " = " . $peserta . "</b> tidak ditemukan <br>";
+							$pesan_peserta .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / " . $cek_peserta['sasaran_peserta'] . " = " . $peserta . "</b> tidak ditemukan <br>";
 							continue;
 						}
 
@@ -467,7 +468,7 @@ class Program_bantuan extends Admin_Controller {
 						if ( ! $cek_penduduk['id'])
 						{
 							$no_gagal++;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / NIK = " . $nik . "</b> yang terdaftar tidak ditemukan <br>";
+							$pesan_peserta .= "- Data peserta baris <b> Ke-" . ($no_baris) . " / NIK = " . $nik . "</b> yang terdaftar tidak ditemukan <br>";
 							continue;
 						}
 
@@ -475,18 +476,18 @@ class Program_bantuan extends Admin_Controller {
 						if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta != 1)
 						{
 							$no_gagal++;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . "</b> sudah ada <br>";
+							$pesan_peserta .= "- Data peserta baris <b> Ke-" . ($no_baris) . "</b> sudah ada <br>";
 							continue;
 						}
 
 						if (in_array($peserta, $terdaftar_peserta) && $ganti_peserta == 1)
 						{
 							$data_diubah .= ", " . $peserta;
-							$pesan .= "- Data peserta baris <b> Ke-" . ($no_baris) . "</b> ditambahkan menggantikan data lama <br>";
+							$pesan_peserta .= "- Data peserta baris <b> Ke-" . ($no_baris) . "</b> ditambahkan menggantikan data lama <br>";
 						}
 
 						// Random no. kartu peserta
-						if ($rand_kartu == 1) $no_id_kartu = 'acak_' . random_int(1, 1000);
+						if ($rand_kartu_peserta == 1) $no_id_kartu = 'acak_' . random_int(1, 1000);
 
 						// Ubaha data peserta menjadi id (untuk saat ini masih data kelompok yg menggunakan id)
 						// Berkaitan dgn issue #3417
@@ -512,7 +513,7 @@ class Program_bantuan extends Admin_Controller {
 					// Proses impor peserta
 					if ($no_baris <= 0)
 					{
-						$pesan .= "- Data peserta tidak tersedia<br>";
+						$pesan_peserta .= "- Data peserta tidak tersedia<br>";
 					}
 					else
 					{
@@ -524,23 +525,22 @@ class Program_bantuan extends Admin_Controller {
 			unlink($file);
 
 			$notif = [
+				'program' => $pesan_program,
 				'gagal' => $no_gagal,
 				'sukses' => $no_sukses,
-				'pesan' => $pesan,
-				'total' => $total,
+				'peserta' => $pesan_peserta,
 			];
 
 			$this->session->set_flashdata('notif', $notif);
 			$this->session->per_page = $temp;
 
-			redirect("program_bantuan/detail/$program_id");
+			redirect("{$this->controller}/detail/$program_id");
 		}
 		else
 		{
 			$this->session->error_msg = $this->upload->display_errors();
 			$this->session->success = -1;
 		}
-
 	}
 
 	// TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
