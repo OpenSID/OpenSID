@@ -162,20 +162,23 @@
 						<table class="table table-bordered table-striped table-hover tabel-rincian">
 							<tbody>
 								<tr>
-									<td width="30%">Data Peserta Gagal</td>
+									<td width="30%">Program Bantuan</td>
 									<td width="1">:</td>
-									<td><?= $data['gagal']; ?></td>
+									<td><?= $data['program']; ?></td>
 								</tr>
 								<tr>
-									<td>Data Peserta Sukses</td>
-									<td> : </td>
-									<td><?= $data['sukses']; ?></td>
+									<td>Peserta Bantuan</td>
+									<td>:</td>
+									<td>
+										- Impor Sukses : <?= $data['sukses']; ?><br/>
+										- Impor Gagal : <?= $data['gagal']; ?><br/>
+									</td>
 								</tr>
-								<?php if ($data['pesan']): ?>
+								<?php if ($data['peserta']): ?>
 									<tr>
-										<td>Informasi Tambahan </td>
-										<td> : </td>
-										<td><?= $data['pesan']; ?></td>
+										<td>Detail Data Gagal</td>
+										<td>:</td>
+										<td><?= $data['peserta']; ?></td>
 									</tr>
 								<?php endif; ?>
 							</tbody>

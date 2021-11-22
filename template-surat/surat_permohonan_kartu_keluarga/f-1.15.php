@@ -1,60 +1,7 @@
-<?php if (!defined('BASEPATH')) exit ('No direct script access allowed');?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+
 <style type="text/css">
-	table.disdukcapil
-	{
-		width: 100%;
-		border: solid 1px #000000;
-		/*border-collapse: collapse;*/
-	}
-	table.disdukcapil td
-	{
-		padding: 1px 1px 1px 3px;
-	}
-	table.disdukcapil td.padat
-	{
-		padding: 0px;
-		margin: 0px;
-	}
-	table.disdukcapil td.anggota
-	{
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-top: dashed 1px #000000;
-		border-bottom: dashed 1px #000000;
-	}
-	table.disdukcapil td.judul
-	{
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-top: double 1px #000000;
-		border-bottom: double 1px #000000;
-	}
-	table.disdukcapil td.bawah {border-bottom: solid 1px #000000;}
-	table.disdukcapil td.atas {border-top: solid 1px #000000;}
-	table.disdukcapil td.tengah_blank
-	{
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-	}
-	table.disdukcapil td.pinggir_kiri {border-left: solid 1px #000000;}
-	table.disdukcapil td.pinggir_kanan {border-right: solid 1px #000000;}
-	table.disdukcapil td.kotak {border: solid 1px #000000;}
-	table.disdukcapil td.abu {background-color: lightgrey;}
-	table.disdukcapil td.kode {background-color: lightgrey;}
-	table.disdukcapil td.kode div
-	{
-		margin: 0px 15px 0px 15px;
-		border: solid 1px black;
-		background-color: white;
-		text-align: center;
-	}
-	table.disdukcapil td.pakai-padding
-	{
-		padding-left: 20px;
-		padding-right: 2px;
-	}
-	table.disdukcapil td.kanan { text-align: right; }
-	table.disdukcapil td.tengah { text-align: center; }
+	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
 </style>
 <page orientation="portrait" format="210x330" style="font-size: 8pt">
 	<table align="right" style="padding: 5px 20px; border: solid 1px black;">
@@ -106,7 +53,7 @@
 			<td colspan=12>&nbsp;</td>
 		</tr>
 
-		 <tr>
+		<tr>
 			<td colspan="13" class=" left"><strong>KECAMATAN</strong></td>
 			<td>:</td>
 			<?php for ($i=0; $i<2; $i++): ?>
@@ -139,8 +86,8 @@
 			<td colspan="17" class="kotak"><?= $config['nama_desa'];?></td>
 			<td colspan=12>&nbsp;</td>
 		</tr>
-		<tr><td colspan=48 class="bawah">&nbsp;</td></tr>
-		<tr><td colspan=48>&nbsp;</td></tr>
+		<tr><td colspan="48" class="bawah">&nbsp;</td></tr>
+		<tr><td colspan="48">&nbsp;</td></tr>
 
 		<tr>
 			<td colspan="10" class="kotak">1. Nama Lengkap Pemohon</td>

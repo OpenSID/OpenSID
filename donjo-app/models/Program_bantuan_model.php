@@ -1119,29 +1119,28 @@ class Program_bantuan_model extends MY_Model
             ->row_array();
     }
 
-    public function impor_program($program_id = null, $data_program = [], $ganti_program = 0)
-    {
-        $this->session->success = 1;
-        $sekarang               = date('Y m d');
-        $data_tambahan          = [
-            'userid' => $this->session->user,
-            'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
-        ];
+    public function impor_program($program_id = NULL, $data_program = [], $ganti_program = 0)
+	{
+		$this->session->success = 1;
+		$sekarang = $data_program['sdate'] ?? date('Y m d');
+		$data_tambahan = [
+			'userid' => $this->session->user,
+			'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
+		];
 
-        $data_program = array_merge($data_program, $data_tambahan);
+		$data_program = array_merge($data_program, $data_tambahan);
 
-        if ($program_id == null) {
-            $this->db->insert('program', $data_program);
+		if ($program_id == NULL)
+		{
+			$this->db->insert('program', $data_program);
 
-            return $this->db->insert_id();
-        }
+			return $this->db->insert_id();
+		}
 
-        if ($ganti_program == 1) {
-            $this->db->where('id', $program_id)->update('program', $data_program);
-        }
+		if ($ganti_program == 1) $this->db->where('id', $program_id)->update('program', $data_program);
 
-        return $program_id;
-    }
+		return $program_id;
+	}
 
     public function impor_peserta($program_id = '', $data_peserta = [], $kosongkan_peserta = 0, $data_diubah = '')
     {
