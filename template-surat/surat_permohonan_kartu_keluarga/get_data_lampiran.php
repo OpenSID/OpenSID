@@ -1,4 +1,6 @@
-<?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
+<?php
+
+	defined('BASEPATH') or exit('No direct script access allowed');
 	define('MAX_ANGGOTA_F115', 10);
 	define('MAX_ANGGOTA_F101', 10);
 
@@ -9,4 +11,5 @@
 
 	$id = $this->input->post('pamong_id');
 	$kepala_desa = $this->pamong_model->get_data($id);
+	
 ?>

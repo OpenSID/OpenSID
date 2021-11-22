@@ -23,6 +23,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 14. Perbaiki format waktu (jam) pesan yang dikirimkan lewat telegram.
 15. Perbaiki tampilan kelengkapan dokumen di layanan mandiri.
 16. [#4538](https://github.com/OpenSID/OpenSID/issues/4538) Perbaiki error impor program bantuan untuk kasus template menggunakan format date untuk tanggal.
+17. [#4535](https://github.com/OpenSID/OpenSID/issues/4535) Perbaiki NIK dan No KK Sementara pada Surat Permohonan Kartu Keluarga Baru.
 
 #### Perubahan Teknis
 1. Tambahkan define DESAPATH pada filemanager.
