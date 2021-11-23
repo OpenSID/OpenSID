@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * File ini:
@@ -131,7 +131,8 @@ define("STAT_LAINNYA", serialize([
 	'informasi_publik' => 'Informasi Publik',
 	'peta' => 'Peta',
 	'status_idm' => 'Status IDM',
-	'data_analisis' => 'Data Analisis'
+	'data_analisis' => 'Data Analisis',
+	'gallery ' => 'Gallery',
 ]));
 
 // Jabatan Kelompok
@@ -207,12 +208,13 @@ define("STATUS_PEMBANGUNAN", serialize([
 ]));
 
 define("ISI_QR", serialize([
- 1 => 'Konfirmasi Validitasi Surat',
- 2 => 'Pilih Isi Data',
- 3 => 'Ketik Isi Manual',
+	1 => 'Konfirmasi Validitasi Surat',
+	2 => 'Pilih Isi Data',
+	3 => 'Ketik Isi Manual',
 ]));
 
-class Referensi_model extends CI_Model {
+class Referensi_model extends CI_Model
+{
 
 	public function __construct()
 	{
@@ -223,14 +225,13 @@ class Referensi_model extends CI_Model {
 	{
 		$data = $this->list_data($tabel);
 		$list = [];
-		foreach ($data as $key => $value)
-		{
+		foreach ($data as $key => $value) {
 			$list[$value['id']] = $value['nama'];
 		}
 		return $list;
 	}
 
-	public function list_data($tabel, $kecuali='', $termasuk=null)
+	public function list_data($tabel, $kecuali = '', $termasuk = null)
 	{
 		if ($kecuali) $this->db->where("id NOT IN ($kecuali)");
 
