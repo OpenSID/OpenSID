@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -55,7 +55,7 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['sitemap\.xml'] = "Sitemap/index";
 $route['feed\.xml'] = "Feed/index";
-$route ['ppid'] = "Api_informasi_publik/ppid";
+$route['ppid'] = "Api_informasi_publik/ppid";
 
 // Artikel
 $route['artikel/(:num)'] = 'first/artikel/$1'; // Contoh : artikel/1
@@ -70,8 +70,7 @@ $route['bumindes_umum/([a-z_]+)'] = "buku_umum/bumindes_umum/$1";
 $route['bumindes_umum'] = "buku_umum/bumindes_umum";
 
 $buku_umum = ['ekspedisi', 'lembaran_desa', 'pengurus', 'surat_keluar', 'surat_masuk'];
-foreach ($buku_umum as $menu)
-{
+foreach ($buku_umum as $menu) {
 	$route["{$menu}/([a-z_]+)/(:any)/(:any)/(:any)"] = "buku_umum/{$menu}/$1/$2/$3/$4";
 	$route["{$menu}/([a-z_]+)/(:any)/(:any)"] = "buku_umum/{$menu}/$1/$2/$3";
 	$route["{$menu}/([a-z_]+)/(:any)"] = "buku_umum/{$menu}/$1/$2";
@@ -111,6 +110,7 @@ $route['data_analisis/(.+)'] = 'first/data_analisis/$1';
 $route['peta'] = 'first/peta';
 $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
+$route['gallery'] = 'first/gallery';
 
 // URL Shortener
 $route['v/(:any)'] = 'first/redirect/$1';
