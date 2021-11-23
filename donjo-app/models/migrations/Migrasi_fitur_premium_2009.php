@@ -41,9 +41,10 @@ class Migrasi_fitur_premium_2009 extends CI_model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
-        // Menu baru -FITUR PREMIUM-
+
+        log_message('error', 'Jalankan ' . static::class);
+
         $hasil = $hasil && $this->buku_administrasi_desa($hasil);
         $hasil = $hasil && $this->tambah_kolom_pemerintahan_desa($hasil);
 

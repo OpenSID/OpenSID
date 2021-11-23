@@ -41,8 +41,12 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2107');
+
+        log_message('error', 'Jalankan ' . static::class);
 
         $hasil = $hasil && $this->migrasi_2021070271($hasil);
         $hasil = $hasil && $this->migrasi_2021071251($hasil);
@@ -51,8 +55,6 @@ class Migrasi_fitur_premium_2108 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021072971($hasil);
         $hasil = $hasil && $this->migrasi_2021072972($hasil);
         $hasil = $hasil && $this->migrasi_2021072951($hasil);
-
-        status_sukses($hasil);
 
         return $hasil;
     }

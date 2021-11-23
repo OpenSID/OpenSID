@@ -41,8 +41,13 @@ class Migrasi_fitur_premium_2101 extends MY_model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2012');
+
+        log_message('error', 'Jalankan ' . static::class);
+
         $this->log_hapus_penduduk();
 
         // Tambahkan key sebutan_nip_desa
@@ -86,8 +91,6 @@ class Migrasi_fitur_premium_2101 extends MY_model
             ],
         ];
         $hasil = $hasil && $this->dbforge->modify_column('setting_aplikasi', $field);
-
-        status_sukses($hasil);
 
         return $hasil;
     }

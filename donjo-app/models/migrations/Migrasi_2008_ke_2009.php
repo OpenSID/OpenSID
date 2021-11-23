@@ -37,10 +37,15 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2008_ke_2009 extends CI_model
+class Migrasi_2008_ke_2009 extends MY_model
 {
     public function up()
     {
+        $hasil = true;
+
+        // Migrasi fitur premium
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2009');
+
         // Hapus url parrent menu layanan mandiri
         $this->db->where('id', 14)
             ->set('url', '')
@@ -101,5 +106,9 @@ class Migrasi_2008_ke_2009 extends CI_model
                 'CONSTRAINT `kelompok_anggota_fk` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
             ]);
         }
+
+        status_sukses($hasil);
+
+        return $hasil;
     }
 }

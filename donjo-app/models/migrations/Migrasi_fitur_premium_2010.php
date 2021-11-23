@@ -41,11 +41,15 @@ class Migrasi_fitur_premium_2010 extends MY_model
 {
     public function up()
     {
+        $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2009');
+
         log_message('error', 'Jalankan ' . static::class);
-        // Menu baru -FITUR PREMIUM-
 
         // Ubah judul setting ukuran lebar bagan
-        $this->db->where('key', 'ukuran_lebar_bagan')
+        $hasil = $hasil && $this->db->where('key', 'ukuran_lebar_bagan')
             ->set('keterangan', 'Ukuran Lebar Bagan (800 / 1200 / 1400)')
             ->set('kategori', 'conf_bagan')
             ->update('setting_aplikasi');
@@ -70,16 +74,19 @@ class Migrasi_fitur_premium_2010 extends MY_model
                 ],
             ];
 
-            $this->dbforge->add_column('kelompok_anggota', $fields);
+            $hasil = $hasil && $this->dbforge->add_column('kelompok_anggota', $fields);
+
             // Sesuaikan jabatan ketua yg sudah ada
             $list_kelompok = $this->db->get('kelompok')->result_array();
 
-            foreach ($list_kelompok as $kelompok) {
-                $this->db
-                    ->set('jabatan', 1)
-                    ->where('id_kelompok', $kelompok['id'])
-                    ->where('id_penduduk', $kelompok['id_ketua'])
-                    ->update('kelompok_anggota');
+            if ($list_kelompok) {
+                foreach ($list_kelompok as $kelompok) {
+                    $hasil = $hasil && $this->db
+                        ->set('jabatan', 1)
+                        ->where('id_kelompok', $kelompok['id'])
+                        ->where('id_penduduk', $kelompok['id_ketua'])
+                        ->update('kelompok_anggota');
+                }
             }
         }
 
@@ -92,7 +99,7 @@ class Migrasi_fitur_premium_2010 extends MY_model
                 'default'    => null,
             ],
         ];
-        $this->dbforge->modify_column('kelompok', $field);
+        $hasil = $hasil && $this->dbforge->modify_column('kelompok', $field);
 
         // Tambah menu IDM
         $modul = [
@@ -107,7 +114,7 @@ class Migrasi_fitur_premium_2010 extends MY_model
             'hidden'     => '0',
             'ikon_kecil' => '',
         ];
-        $this->tambah_modul($modul);
+        $hasil = $hasil && $this->tambah_modul($modul);
 
         // Tambah modul Lembaran Desa
         $modul = [
@@ -122,6 +129,8 @@ class Migrasi_fitur_premium_2010 extends MY_model
             'hidden'     => '0',
             'ikon_kecil' => '',
         ];
-        $this->tambah_modul($modul);
+        $hasil = $hasil && $this->tambah_modul($modul);
+
+        return $hasil;
     }
 }
