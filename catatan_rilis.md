@@ -46,3 +46,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 10. Sederhanakan kondisi menyisipkan gambar pada surat.
 11. Gunakan composer untuk mengelola package library.
 12. Implementasi Coding Style Standard (php-cs-fixer) meggunakan syle Codeigniter 4.
+13. Hapus laporan bulanan lama yang tidak digunakan.

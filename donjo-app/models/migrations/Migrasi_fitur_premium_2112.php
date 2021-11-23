@@ -54,6 +54,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021111551($hasil);
         $hasil = $hasil && $this->migrasi_2021111552($hasil);
         $hasil = $hasil && $this->migrasi_2021111571($hasil);
+        $hasil = $hasil && $this->migrasi_2021112051($hasil);
 
         return $hasil;
     }
@@ -316,5 +317,10 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2021112051($hasil)
+    {
+        return $hasil && $this->dbforge->drop_table('log_bulanan', true);
     }
 }
