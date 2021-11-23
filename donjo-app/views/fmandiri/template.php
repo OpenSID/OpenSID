@@ -78,7 +78,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
 	<!-- Style Mandiri Modification CSS -->
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/mandiri-style.css">
-
+	
 	<!-- Jquery Confirm -->
 	<link rel="stylesheet" href="<?= base_url()?>assets/front/css/jquery-confirm.min.css">
 	<!-- Jquery UI -->
@@ -239,24 +239,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</div>
 						<div class="col-md-9">
 							<?php
-                                $this->load->view(MANDIRI . '/' . $konten);
+								$this->load->view(MANDIRI . '/' . $konten);
 
-                                if ($this->is_login->ganti_pin === '1' && $this->uri->segment(2) != 'ganti-pin'):
+								if ($this->is_login->ganti_pin === '1' && $this->uri->segment(2) != 'ganti-pin'):
 
-                                        $data = [
-                                            'pesan' => 'Selamat datang pengguna layanan mandiri <b> ' . ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) . ' </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.',
-                                            'aksi'  => site_url('layanan-mandiri/ganti-pin'),
-                                        ];
+										$data = [
+											'pesan' => 'Selamat datang pengguna layanan mandiri <b> ' . ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) . ' </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.',
+											'aksi'  => site_url('layanan-mandiri/ganti-pin'),
+										];
 
-                                        $this->load->view(MANDIRI . '/notif', $data);
-                                endif;
+										$this->load->view(MANDIRI . '/notif', $data);
+								endif;
 
-                                $data = $this->session->flashdata('notif');
+								$data = $this->session->flashdata('notif');
 
-                                if ($data['status'] == 1):
-                                    $this->load->view(MANDIRI . '/notif', $data);
-                                endif;
-                            ?>
+								if ($data['status'] == 1):
+									$this->load->view(MANDIRI . '/notif', $data);
+								endif;
+							?>
 						</div>
 					</div>
 				</section>
