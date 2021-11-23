@@ -53,6 +53,14 @@
 	font-size: 1.4em;
 }
 
+.user-panel {
+	padding: 5%;
+}
+
+.user-panel > .info {
+	font-size: 12px;
+}
+
 /* Modifikasi size gambar mini */
 .user-panel > .image2 > img
 {
@@ -87,14 +95,6 @@
 .content-wrapper, .main-footer
 {
 	margin-left: 270px;
-}
-.user-panel
-{
-	padding: 5px 0px 0px 0px;
-}
-.user-panel > .info
-{
-	font-size: 12px;
 }
 .sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header
 {
@@ -348,6 +348,12 @@ table.head
 }
 img { margin-bottom: 5px; }
 .no-padding { padding: 0px; }
+
+/* User Header */
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
+	border-color: transparent;
+	height: auto;
+}
 
 /* Notif */
 .badge {

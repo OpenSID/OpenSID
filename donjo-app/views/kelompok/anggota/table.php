@@ -154,13 +154,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 															<a href="#" data-href="<?= site_url("{$this->controller}/delete_anggota/{$kelompok['id']}/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<?php endif; ?>
 													</td>
-													<td class="text-center">
-														<div class="user-panel">
-															<div class="image2">
-																<img src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" class="img-circle" alt="User Image" />
+													<td class="padat">
+															<div class="user-panel">
+																<div class="image2">
+																	<img class="img-circle" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
+																</div>
 															</div>
-														</div>
-													</td>
+														</td>
 													<td class="padat"><?= $data['no_anggota'] ?></td>
 													<td><?= $data['nik']; ?></td>
 													<td nowrap><?= $data['nama']; ?></td>
