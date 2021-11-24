@@ -46,17 +46,14 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2111');
 
-        log_message('error', 'Jalankan ' . static::class);
-
         $hasil = $hasil && $this->migrasi_2021110571($hasil);
         $hasil = $hasil && $this->migrasi_2021111251($hasil);
         $hasil = $hasil && $this->migrasi_2021111451($hasil);
         $hasil = $hasil && $this->migrasi_2021111551($hasil);
         $hasil = $hasil && $this->migrasi_2021111552($hasil);
         $hasil = $hasil && $this->migrasi_2021111571($hasil);
-        $hasil = $hasil && $this->migrasi_2021112051($hasil);
 
-        return $hasil;
+        return $hasil && $this->migrasi_2021112051($hasil);
     }
 
     // Tambah modul kader pemberdayaan masyarakat

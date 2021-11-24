@@ -46,8 +46,6 @@ class Migrasi_fitur_premium_2012 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2011');
 
-        log_message('error', 'Jalankan ' . static::class);
-
         // Tambah field keyboard
         if (! $this->db->field_exists('keyboard', 'anjungan')) {
             $fields = [

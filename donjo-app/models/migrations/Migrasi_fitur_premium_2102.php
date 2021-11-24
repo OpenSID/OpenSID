@@ -46,8 +46,6 @@ class Migrasi_fitur_premium_2102 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2101');
 
-        log_message('error', 'Jalankan ' . static::class);
-
         $hasil = $hasil && $this->pengaturan_latar($hasil);
 
         //tambah kolom urut di tabel tweb_wil_clusterdesa
