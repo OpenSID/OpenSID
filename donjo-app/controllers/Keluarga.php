@@ -394,7 +394,7 @@ class Keluarga extends Admin_Controller
     public function delete($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('h');
-        $this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
+        $this->redirect_tidak_valid($this->keluarga_model->cek_boleh_hapus($id));
         $this->keluarga_model->delete($id);
         redirect('keluarga');
     }
