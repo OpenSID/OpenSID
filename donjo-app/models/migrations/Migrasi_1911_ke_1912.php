@@ -43,7 +43,7 @@ class Migrasi_1911_ke_1912 extends CI_model
     {
         $this->load->model('migrations/migrasi_default_value');
         $this->migrasi_default_value->up();
-        
+
         // Perbaiki form admin data keuangan
         $this->db->where('isi', 'keuangan.php')->update('widget', ['form_admin' => 'keuangan/impor_data']);
         // Buat kolom tweb_rtm.no_kk menjadi unique
