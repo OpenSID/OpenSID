@@ -140,7 +140,6 @@ $route['auth']               = 'first/auth';
 
 // Halaman statis
 $route['data-wilayah']               = 'first/wilayah';
-$route['data-suplemen/(:num)']       = 'first/suplemen/$1';
 $route['data-kelompok/(:num)']       = 'first/kelompok/$1';
 $route['informasi_publik']           = 'first/informasi_publik';
 $route['peraturan_desa']             = 'first/peraturan_desa';
@@ -173,6 +172,9 @@ $route['galeri/(:any)/index/(:num)'] = 'first/sub_gallery/$1/$2';
 $route['galeri/(:num)']              = 'first/sub_gallery/$1';
 $route['galeri/index/(:num)']        = 'first/gallery/$1';
 $route['galeri']                     = 'first/gallery';
+
+// Suplemen
+$route['data-suplemen/(:any)'] = WEB . '/suplemen/detail/$1';
 
 // Halaman Layanan Mandiri
 // Auth

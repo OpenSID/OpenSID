@@ -941,4 +941,21 @@ class Suplemen_model extends MY_Model
             'valid'           => str_replace("'", '', explode(', ', sql_in_list(array_column($data, 'no')))), // untuk daftar valid anggota keluarga
         ];
     }
+
+    public function slug($slug = null)
+    {
+        return $this->db
+            ->select('id')
+            ->get_where('suplemen', ['slug' => $slug])
+            ->row()
+            ->id;
+    }
+
+    public function str_slug($data = null)
+    {
+        $slug     = url_title($data['nama'], 'dash', true);
+        $cek_slug = $this->db->get_where('suplemen', ['slug' => $slug, 'id !=' => $data['id']])->row();
+
+        return $slug . ($cek_slug ? '-' . ($data['id'] ?? 1) : '');
+    }
 }
