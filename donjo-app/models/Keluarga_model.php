@@ -841,6 +841,15 @@ class Keluarga_model extends MY_Model
 
         $data = $this->db->get()->row_array();
 
+        // Untuk keluarga kosong
+        if (empty($data)) {
+            $no_kk = $this->db
+                ->select('no_kk')
+                ->from('tweb_keluarga')
+                ->get()->row()->no_kk;
+            $data['no_kk'] = $no_kk;
+        }
+
         if ($data['dusun'] != '-' && $data['dusun'] != '') {
             $data['alamat_plus_dusun'] = trim($data['alamat'] . ' ' . ucwords($this->setting->sebutan_dusun) . ' ' . $data['dusun']);
         } elseif ($data['alamat']) {
