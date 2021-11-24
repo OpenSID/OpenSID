@@ -116,7 +116,7 @@ class Database_model extends MY_Model
 
     private function cek_engine_db()
     {
-        $db_debug           = $this->db->db_debug;
+        $db_debug = $this->db->db_debug;
         $this->db->db_debug = false; //disable debugging for queries
 
         $query = $this->db->query("SELECT `engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '" . $this->db->database . "' AND table_name = 'user'");
@@ -168,7 +168,7 @@ class Database_model extends MY_Model
         $versionMigrate      = $this->versionMigrate;
         if (isset($versionMigrate[$versi])) {
             while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
-                $migrate     = $versionMigrate[$nextVersion]['migrate'];
+                $migrate = $versionMigrate[$nextVersion]['migrate'];
                 $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
                 if (method_exists($this, $migrate)) {
                     log_message('error', 'Jalankan ' . $migrate);
