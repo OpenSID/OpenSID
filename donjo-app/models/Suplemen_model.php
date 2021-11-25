@@ -46,14 +46,13 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class Suplemen_model extends MY_Model
 {
-
     protected $table = 'suplemen';
 
     public function create()
     {
-        $data = $this->validasi($this->input->post());
+        $data  = $this->validasi($this->input->post());
         $hasil = $this->db->insert($this->table, $data);
-        
+
         status_sukses($hasil); //Tampilkan Pesan
     }
 
@@ -61,14 +60,12 @@ class Suplemen_model extends MY_Model
     {
         $nama = nomor_surat_keputusan($post['nama']);
 
-        $data = [
-            'sasaran' =>  $post['sasaran'],
-            'nama' => $nama,
-            'slug' =>  unique_slug($this->table, $nama),
+        return [
+            'sasaran'    => $post['sasaran'],
+            'nama'       => $nama,
+            'slug'       => unique_slug($this->table, $nama),
             'keterangan' => htmlentities($post['keterangan']),
         ];
-
-        return $data;
     }
 
     public function paging_suplemen($page_number = 1)
@@ -265,7 +262,7 @@ class Suplemen_model extends MY_Model
         }
 
         $data[$this->table] = $suplemen;
-        $data['keyword']  = $this->autocomplete($suplemen['sasaran']);
+        $data['keyword']    = $this->autocomplete($suplemen['sasaran']);
 
         return $data;
     }

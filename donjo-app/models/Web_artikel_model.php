@@ -287,7 +287,6 @@ class Web_artikel_model extends MY_Model
             $_SESSION['success'] = -1;
         }
     }
-    
 
     private function ambil_data_agenda(&$data)
     {

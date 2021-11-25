@@ -156,7 +156,7 @@ class Pembangunan_model extends MY_Model
 
     private function validasi($post)
     {
-        $data = [
+        return [
             'sumber_dana'             => $post['sumber_dana'],
             'judul'                   => $post['judul'],
             'slug'                    => unique_slug($this->table, $post['judul']),
@@ -177,8 +177,6 @@ class Pembangunan_model extends MY_Model
             'manfaat'                 => $post['manfaat'],
             'sifat_proyek'            => $post['sifat_proyek'],
         ];
-
-        return $data;
     }
 
     private function upload_gambar_pembangunan($jenis)
