@@ -380,7 +380,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         ];
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('email', true);
-        
+
         return $hasil && $this->dbforge->create_table('password_resets', true);
     }
 }
