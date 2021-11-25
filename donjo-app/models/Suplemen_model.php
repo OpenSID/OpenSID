@@ -535,7 +535,7 @@ class Suplemen_model extends MY_Model
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
-                        'id'    => $id,
+                        'id'    => $id_terdata,
                         'nama'  => $row['nama'] . ' - ' . $row['nik'],
                         'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
                         'foto'  => $row['foto'],
@@ -555,7 +555,7 @@ class Suplemen_model extends MY_Model
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
-                        'id'    => $id,
+                        'id'    => $id_terdata,
                         'nama'  => 'Kepala KK : ' . $row['nama'] . ', NO KK: ' . $row['no_kk'],
                         'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
                         'foto'  => '',
@@ -862,7 +862,6 @@ class Suplemen_model extends MY_Model
             'gagal'  => $no_gagal,
             'sukses' => $no_sukses,
             'pesan'  => $pesan,
-            'total'  => $total,
         ];
 
         $this->session->set_flashdata('notif', $notif);
