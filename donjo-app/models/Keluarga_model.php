@@ -920,10 +920,11 @@ class Keluarga_model extends MY_Model
 
         if ($data['kk_level'] == 1) {
             $tambah_kk = true;
-            $kel = $this->get_raw_keluarga($data['id_kk']);
+            $kel       = $this->get_raw_keluarga($data['id_kk']);
             if ($kel['nik_kepala']) {
                 $_SESSION['success'] = -1;
                 $_SESSION['error_msg'] .= 'Tidak bisa tambah kepala keluarga';
+
                 return;
             }
         }
