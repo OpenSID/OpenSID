@@ -13,6 +13,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 6. [#4405](https://github.com/OpenSID/OpenSID/issues/4405) Kaitkan indikator/pertanyaan analisis dengan perhitungan berdasarkan data kependudukan.
 7. [#4541](https://github.com/OpenSID/OpenSID/issues/4541) Perketat penghapusan keluarga. Sekarang hanya keluarga kosong yang dapat dihapus.
 8. [#3811](https://github.com/OpenSID/OpenSID/issues/3811) Tampilkan pilihan link galeri pada saat membuat menu statis.
+9. [#4351](https://github.com/OpenSID/OpenSID/issues/4351) Buat slug untuk data suplemen.
 
 
 #### Perbaikan BUG
