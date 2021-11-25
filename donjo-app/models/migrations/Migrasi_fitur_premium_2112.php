@@ -53,8 +53,9 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021111552($hasil);
         $hasil = $hasil && $this->migrasi_2021111571($hasil);
         $hasil = $hasil && $this->migrasi_2021112051($hasil);
+        $hasil = $hasil && $this->migrasi_2021112171($hasil);
 
-        return $hasil && $this->migrasi_2021112171($hasil);
+        return $hasil && $this->migrasi_2021112571($hasil);
     }
 
     // Tambah modul kader pemberdayaan masyarakat
@@ -382,5 +383,31 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         $this->dbforge->add_key('email', true);
 
         return $hasil && $this->dbforge->create_table('password_resets', true);
+    }
+
+    protected function migrasi_2021112571($hasil)
+    {
+        if (! $this->db->field_exists('slug', 'suplemen')) {
+            $fields = [
+                'slug' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                    'unique'     => true,
+                    'after'      => 'nama',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('suplemen', $fields);
+        }
+
+        $this->load->model('suplemen_model');
+
+        if ($data_suplemen = $this->suplemen_model->list_data()) {
+            foreach ($data_suplemen as $suplemen) {
+                $slug  = $this->suplemen_model->str_slug($suplemen);
+                $hasil = $hasil && $this->db->where('id', $suplemen['id'])->update('suplemen', ['slug' => $slug]);
+            }
+        }
+
+        return $hasil;
     }
 }

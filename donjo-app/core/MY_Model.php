@@ -50,7 +50,7 @@ class MY_Model extends CI_Model
     // Konversi url menu menjadi slug tanpa mengubah data
     public function menu_slug($url)
     {
-        $this->load->model('first_artikel_m');
+        $this->load->model(['first_artikel_m', 'suplemen_model']);
 
         $cut = explode('/', $url);
 
@@ -64,6 +64,11 @@ class MY_Model extends CI_Model
             case 'kategori':
                 $data = $this->first_artikel_m->get_kategori($cut[1]);
                 $url  = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
+                break;
+
+            case 'data-suplemen':
+                $data = $this->suplemen_model->get_suplemen($cut[1]);
+                $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
                 break;
 
             /*
@@ -81,7 +86,6 @@ class MY_Model extends CI_Model
             case 'load_aparatur_wilayah':
             case 'peta':
             case 'data-wilayah':
-            case 'data-suplemen':
             case 'data-kelompok':
             case 'status-idm':
             case 'status-sdgs':

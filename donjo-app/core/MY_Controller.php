@@ -100,6 +100,8 @@ class Web_Controller extends MY_Controller
         // Variabel untuk tema
         $this->template                  = "../../{$this->theme_folder}/{$this->theme}/template.php";
         $this->includes['folder_themes'] = '../../' . $this->theme_folder . '/' . $this->theme;
+
+        $this->load->model('web_menu_model');
     }
 
     /*
