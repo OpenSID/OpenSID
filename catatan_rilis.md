@@ -15,6 +15,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 8. [#3811](https://github.com/OpenSID/OpenSID/issues/3811) Tampilkan pilihan link galeri pada saat membuat menu statis.
 9. [#4351](https://github.com/OpenSID/OpenSID/issues/4351) Buat slug untuk data suplemen.
 10. [#4369](https://github.com/OpenSID/OpenSID/issues/4369) Sesuaikan format impor dan ekspor penduduk untuk data suku.
+11. [#4544](https://github.com/OpenSID/OpenSID/issues/4544) Buat slug untuk data kelompok.
 
 
 #### Perbaikan BUG

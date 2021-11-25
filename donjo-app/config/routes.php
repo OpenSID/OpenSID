@@ -176,6 +176,9 @@ $route['galeri']                     = 'first/gallery';
 // Suplemen
 $route['data-suplemen/(:any)'] = WEB . '/suplemen/detail/$1';
 
+// Kelompok
+$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
+
 // Halaman Layanan Mandiri
 // Auth
 $mandiri                         = 'layanan-mandiri';

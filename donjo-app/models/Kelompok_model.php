@@ -45,7 +45,7 @@ class Kelompok_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('wilayah_model');
+        $this->load->model(['wilayah_model', 'referensi_model']);
     }
 
     public function set_tipe(string $tipe)
@@ -203,6 +203,7 @@ class Kelompok_model extends MY_Model
 
         $data['id_master']  = bilangan($post['id_master']);
         $data['nama']       = nama_terbatas($post['nama']);
+        $data['slug']       = unique_slug($data['nama']);
         $data['keterangan'] = htmlentities($post['keterangan']);
         $data['kode']       = nomor_surat_keputusan($post['kode']);
         $data['tipe']       = $this->tipe;
@@ -582,5 +583,14 @@ class Kelompok_model extends MY_Model
         }
 
         return $judul;
+    }
+
+    public function slug($slug = null)
+    {
+        return $this->db
+            ->select('id')
+            ->get_where($this->table, ['slug' => $slug])
+            ->row()
+            ->id;
     }
 }

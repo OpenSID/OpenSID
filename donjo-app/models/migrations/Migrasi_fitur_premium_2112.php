@@ -54,8 +54,9 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021111571($hasil);
         $hasil = $hasil && $this->migrasi_2021112051($hasil);
         $hasil = $hasil && $this->migrasi_2021112171($hasil);
+        $hasil = $hasil && $this->migrasi_2021112571($hasil);
 
-        return $hasil && $this->migrasi_2021112571($hasil);
+        return $hasil && $this->migrasi_2021112572($hasil);
     }
 
     // Tambah modul kader pemberdayaan masyarakat
@@ -405,6 +406,32 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             foreach ($data_suplemen as $suplemen) {
                 $slug  = unique_slug('suplemen', $suplemen['nama']);
                 $hasil = $hasil && $this->db->where('id', $suplemen['id'])->update('suplemen', ['slug' => $slug]);
+            }
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2021112572($hasil)
+    {
+        if (! $this->db->field_exists('slug', 'kelompok')) {
+            $fields = [
+                'slug' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                    'unique'     => true,
+                    'after'      => 'nama',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('kelompok', $fields);
+        }
+
+        $this->load->model('kelompok_model');
+
+        if ($data_kelompok = $this->kelompok_model->list_data()) {
+            foreach ($data_kelompok as $kelompok) {
+                $slug  = unique_slug('kelompok', $kelompok['nama']);
+                $hasil = $hasil && $this->db->where('id', $kelompok['id'])->update('kelompok', ['slug' => $slug]);
             }
         }
 
