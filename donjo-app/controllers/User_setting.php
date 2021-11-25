@@ -43,7 +43,6 @@ class User_setting extends Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model('config_model');
         $this->load->model('user_model');
     }
 

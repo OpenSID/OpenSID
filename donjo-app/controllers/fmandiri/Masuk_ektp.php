@@ -46,7 +46,7 @@ class Masuk_ektp extends Web_Controller
         parent::__construct();
         mandiri_timeout();
         $this->session->login_ektp = true;
-        $this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
+        $this->load->model(['anjungan_model', 'mandiri_model', 'theme_model']);
         if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
             show_404();
         }

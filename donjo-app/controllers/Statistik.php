@@ -44,7 +44,7 @@ class Statistik extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'referensi_model']);
+        $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
         $this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
         $this->modul_ini     = 3;
         $this->sub_modul_ini = 27;

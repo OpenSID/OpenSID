@@ -43,7 +43,6 @@ class Covid19 extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('covid19_model');
-        $this->load->model('referensi_model');
         $this->load->model('wilayah_model');
         $this->load->model('penduduk_model');
         $this->modul_ini = 206;

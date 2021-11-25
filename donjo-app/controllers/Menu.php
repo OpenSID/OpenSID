@@ -49,15 +49,11 @@ class Menu extends Admin_Controller
         $this->load->model('web_menu_model');
         $this->load->model('web_artikel_model');
         $this->load->model('web_kategori_model');
-        $this->load->model('referensi_model');
         $this->load->model('kelompok_model');
         $this->load->model('suplemen_model');
-        $this->load->model('laporan_penduduk_model');
         $this->load->model('program_bantuan_model');
-        $this->load->model('web_dokumen_model');
         $this->load->model('keuangan_model');
         $this->load->model('kelompok_model');
-        $this->load->model('laporan_penduduk_model');
         $this->modul_ini     = 13;
         $this->sub_modul_ini = 49;
     }

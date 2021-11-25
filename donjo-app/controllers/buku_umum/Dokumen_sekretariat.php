@@ -47,7 +47,6 @@ class Dokumen_sekretariat extends Admin_Controller
         parent::__construct();
 
         $this->load->model('web_dokumen_model');
-        $this->load->model('referensi_model');
         $this->_set_page     = ['50', '100', '200'];
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 302;

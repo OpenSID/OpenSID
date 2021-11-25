@@ -56,7 +56,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
         $this->modul_ini     = 200;
         $this->sub_modul_ini = 331;
 
-        $this->load->model(['setting_model', 'surat_model', 'pamong_model']);
+        $this->load->model(['surat_model', 'pamong_model']);
         $this->client = new Client();
         $this->server = config_item('server_layanan');
     }

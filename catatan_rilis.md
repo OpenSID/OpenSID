@@ -11,6 +11,8 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 4. [#4495](https://github.com/OpenSID/OpenSID/issues/4495) Sesuaikan input data pembangunan.
 5. [#4486](https://github.com/OpenSID/OpenSID/issues/4486) Penyesuaian impor data penduduk berupa huruf untuk pendidikan_sedang, cacat, dll.
 6. [#4405](https://github.com/OpenSID/OpenSID/issues/4405) Kaitkan indikator/pertanyaan analisis dengan perhitungan berdasarkan data kependudukan.
+7. [#4541](https://github.com/OpenSID/OpenSID/issues/4541) Perketat penghapusan keluarga. Sekarang hanya keluarga kosong yang dapat dihapus.
+8. [#3811](https://github.com/OpenSID/OpenSID/issues/3811) Tampilkan pilihan link galeri pada saat membuat menu statis.
 
 
 #### Perbaikan BUG
@@ -31,6 +33,7 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 15. Perbaiki tampilan kelengkapan dokumen di layanan mandiri.
 16. [#4538](https://github.com/OpenSID/OpenSID/issues/4538) Perbaiki error impor program bantuan untuk kasus template menggunakan format date untuk tanggal.
 17. [#4535](https://github.com/OpenSID/OpenSID/issues/4535) Perbaiki NIK dan No KK Sementara pada Surat Permohonan Kartu Keluarga Baru.
+18. Sekarang pembuatan keluarga baru dari penduduk masuk tercatat secara benar di laporan bulanan.
 
 
 #### Perubahan Teknis
@@ -48,3 +51,6 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 12. Implementasi Coding Style Standard (php-cs-fixer) meggunakan syle Codeigniter 4.
 13. Hapus laporan bulanan lama yang tidak digunakan.
 14. Penyerdahanaan proses migrasi.
+15. Pindahkan migrasi opensid-api ke opensid.
+16. Load model ketika dibutuhkan saja untuk mempercepat.
+17. Hapus duplikasi assets print preview.

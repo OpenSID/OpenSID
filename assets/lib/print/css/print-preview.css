@@ -46,11 +46,10 @@ hr { border:2px; color:#000; background:#000; height:1px;}
     #print-modal-controls a:hover {
         opacity: 0.75;
     }
-   
 			
     #print-modal-controls a.print {
-        background: url(images/icon-print.png) no-repeat 50% 50%;
+        background: url(../images/icon-print.png) no-repeat 50% 50%;
     }
     #print-modal-controls a.close {
-        background: url(images/icon-close.png) no-repeat 50% 50%;
+        background: url(../images/icon-close.png) no-repeat 50% 50%;
     }

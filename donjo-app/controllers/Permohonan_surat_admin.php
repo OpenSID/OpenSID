@@ -42,7 +42,7 @@ class Permohonan_surat_admin extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'pamong_model', 'referensi_model', 'mailbox_model', 'surat_master_model']);
+        $this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'pamong_model', 'mailbox_model', 'surat_master_model']);
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 98;
     }
@@ -144,6 +144,8 @@ class Permohonan_surat_admin extends Admin_Controller
 
     private function get_data_untuk_form($url, &$data)
     {
+        $this->load->model('penomoran_surat_model');
+
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['surat']              = $this->surat_model->get_surat($url);
         $data['input']              = $this->input->post();

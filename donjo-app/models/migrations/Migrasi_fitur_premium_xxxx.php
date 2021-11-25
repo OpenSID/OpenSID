@@ -46,11 +46,7 @@ class Migrasi_fitur_premium_xxxx extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_xxxx');
 
-        log_message('error', 'Jalankan ' . static::class);
-
-        $hasil = $hasil && $this->migrasi_xxxxxxxxxx($hasil);
-
-        return $hasil;
+        return $hasil && $this->migrasi_xxxxxxxxxx($hasil);
     }
 
     protected function migrasi_xxxxxxxxxx($hasil)

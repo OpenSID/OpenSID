@@ -87,6 +87,7 @@ class MY_Model extends CI_Model
             case 'status-sdgs':
             case 'lapak':
             case 'pembangunan':
+            case 'galeri':
                 break;
 
             default:
@@ -238,6 +239,12 @@ class MY_Model extends CI_Model
     {
         $this->load->model('migrations/' . $migrasi);
 
-        return $this->{$migrasi}->up();
+        if ($this->{$migrasi}->up()) {
+            log_message('error', 'Jalankan ' . $migrasi);
+
+            return true;
+        }
+
+        return false;
     }
 }

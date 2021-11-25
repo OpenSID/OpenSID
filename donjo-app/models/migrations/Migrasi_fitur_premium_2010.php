@@ -46,8 +46,6 @@ class Migrasi_fitur_premium_2010 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2009');
 
-        log_message('error', 'Jalankan ' . static::class);
-
         // Ubah judul setting ukuran lebar bagan
         $hasil = $hasil && $this->db->where('key', 'ukuran_lebar_bagan')
             ->set('keterangan', 'Ukuran Lebar Bagan (800 / 1200 / 1400)')
@@ -129,8 +127,7 @@ class Migrasi_fitur_premium_2010 extends MY_model
             'hidden'     => '0',
             'ikon_kecil' => '',
         ];
-        $hasil = $hasil && $this->tambah_modul($modul);
 
-        return $hasil;
+        return $hasil && $this->tambah_modul($modul);
     }
 }

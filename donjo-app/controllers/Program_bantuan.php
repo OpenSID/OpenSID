@@ -49,7 +49,7 @@ class Program_bantuan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['program_bantuan_model', 'config_model']);
+        $this->load->model(['program_bantuan_model']);
         $this->modul_ini = 6;
         $this->_set_page = ['20', '50', '100'];
     }

@@ -45,7 +45,7 @@ class Keluarga extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model', 'referensi_model', 'config_model']);
+        $this->load->model(['keluarga_model', 'penduduk_model', 'wilayah_model', 'program_bantuan_model']);
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 22;
         $this->_set_page     = ['20', '50', '100'];
@@ -394,7 +394,7 @@ class Keluarga extends Admin_Controller
     public function delete($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('h');
-        $this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
+        $this->redirect_tidak_valid($this->keluarga_model->cek_boleh_hapus($id));
         $this->keluarga_model->delete($id);
         redirect('keluarga');
     }

@@ -61,7 +61,6 @@ class First extends Web_Controller
         // Load library statistik pengunjung
         $this->load->library('statistik_pengunjung');
 
-        $this->load->model('config_model');
         $this->load->model('first_artikel_m');
         $this->load->model('first_gallery_m');
         $this->load->model('web_menu_model');
@@ -74,7 +73,6 @@ class First extends Web_Controller
         $this->load->model('laporan_penduduk_model');
         $this->load->model('track_model');
         $this->load->model('keluar_model');
-        $this->load->model('referensi_model');
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_manual_model');
         $this->load->model('web_dokumen_model');
@@ -191,6 +189,7 @@ class First extends Web_Controller
         $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
         $data['pages']        = range($data['start_paging'], $data['end_paging']);
         $data['gallery']      = $this->first_gallery_m->gallery_show($data['paging']->offset, $data['paging']->per_page);
+        $data['paging_page']  = 'index';
 
         $this->_get_common_data($data);
 
@@ -199,20 +198,19 @@ class First extends Web_Controller
     }
 
     // halaman rincian tiap album galeri
-    public function sub_gallery($gal = 0, $p = 1)
+    public function sub_gallery($parent = 0, $p = 1)
     {
         $data                 = $this->includes;
         $data['p']            = $p;
-        $data['gal']          = $gal;
-        $data['paging']       = $this->first_gallery_m->paging2($gal, $p);
+        $data['paging']       = $this->first_gallery_m->paging2($parent, $p);
         $data['paging_range'] = 3;
         $data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
         $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
         $data['pages']        = range($data['start_paging'], $data['end_paging']);
 
-        $data['gallery'] = $this->first_gallery_m->sub_gallery_show($gal, $data['paging']->offset, $data['paging']->per_page);
-        $data['parrent'] = $this->first_gallery_m->get_parrent($gal);
-        $data['mode']    = 1;
+        $data['gallery']     = $this->first_gallery_m->sub_gallery_show($parent, $data['paging']->offset, $data['paging']->per_page);
+        $data['parent']      = $this->first_gallery_m->get_parent($parent);
+        $data['paging_page'] = "{$parent}/index";
 
         $this->_get_common_data($data);
 

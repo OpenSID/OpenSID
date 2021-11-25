@@ -46,8 +46,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2104');
 
-        log_message('error', 'Jalankan ' . static::class);
-
         // Ubah kolom supaya ada nilai default
         $fields = [
             'kartu_tempat_lahir' => ['type' => 'VARCHAR', 'constraint' => 100, 'null' => false, 'default' => ''],
@@ -72,9 +70,8 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = $hasil && $this->tambah_kolom_tanah_kas_desa();
         $hasil = $hasil && $this->pengaturan_grup($hasil);
         $hasil = $hasil && $this->bumindes_updates($hasil);		//harus setelah fungsi pengaturan grup
-        $hasil = $hasil && $this->impor_google_form($hasil);
 
-        return $hasil;
+        return $hasil && $this->impor_google_form($hasil);
     }
 
     protected function server_publik()
@@ -143,20 +140,22 @@ class Migrasi_fitur_premium_2105 extends MY_model
             ->get('sys_traffic')
             ->result();
 
-        $batch = [];
+        if ($data) {
+            $batch = [];
 
-        foreach ($data as $sys_traffic) {
-            $remove_character = str_replace('{}', '', $sys_traffic->ipAddress);
+            foreach ($data as $sys_traffic) {
+                $remove_character = str_replace('{}', '', $sys_traffic->ipAddress);
 
-            $batch[] = [
-                'ipAddress' => json_encode(['ip_address' => [$remove_character]]),
-                'Tanggal'   => $sys_traffic->Tanggal,
-            ];
+                $batch[] = [
+                    'ipAddress' => json_encode(['ip_address' => [$remove_character]]),
+                    'Tanggal'   => $sys_traffic->Tanggal,
+                ];
+            }
+
+            $hasil = $hasil && $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
         }
 
-        $hasil = $hasil && $this->db->update_batch('sys_traffic', $batch, 'Tanggal');
-
-        return $hasil >= 0;
+        return $hasil;
     }
 
     protected function setting_script_id_gform($hasil)

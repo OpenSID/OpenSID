@@ -44,7 +44,6 @@ class Plan extends Admin_Controller
         parent::__construct();
 
         $this->load->model('wilayah_model');
-        $this->load->model('config_model');
         $this->load->model('plan_lokasi_model');
         $this->load->model('plan_area_model');
         $this->load->model('plan_garis_model');
