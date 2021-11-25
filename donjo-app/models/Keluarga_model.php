@@ -466,7 +466,7 @@ class Keluarga_model extends MY_Model
             return false;
         }
         $kepala_keluarga = $this->keluarga_model->get_kepala_a($id);
-        if ($kepala_keluarga && $kepala_keluarga['status_dasar'] != 1) {
+        if ($kepala_keluarga['id'] && $kepala_keluarga['status_dasar'] != 1) {
             return false;
         }
         $bantuan = $this->db
@@ -848,6 +848,7 @@ class Keluarga_model extends MY_Model
                 ->from('tweb_keluarga')
                 ->get()->row()->no_kk;
             $data['no_kk'] = $no_kk;
+            $data['id_kk'] = $id;
         }
 
         if ($data['dusun'] != '-' && $data['dusun'] != '') {
@@ -862,11 +863,12 @@ class Keluarga_model extends MY_Model
 
     public function get_kepala_a($id)
     {
-        $sql = 'SELECT u.*, c.*, k.no_kk, k.alamat
-			FROM tweb_penduduk u
-			LEFT JOIN tweb_keluarga k ON k.id = ?
-			LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = (SELECT nik_kepala FROM tweb_keluarga WHERE id = ?) ';
-        $query = $this->db->query($sql, [$id, $id]);
+        $sql = 'SELECT u.*, c.*, u.id as id, k.no_kk, k.alamat, k.id_cluster as id_cluster
+            FROM tweb_keluarga k
+			LEFT JOIN tweb_penduduk u ON k.nik_kepala = u.id
+			LEFT JOIN tweb_wil_clusterdesa c ON k.id_cluster = c.id
+            WHERE k.id = ?';
+        $query = $this->db->query($sql, [$id]);
 
         return $query->row_array();
     }
@@ -916,6 +918,16 @@ class Keluarga_model extends MY_Model
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
 
+        if ($data['kk_level'] == 1) {
+            $tambah_kk = true;
+            $kel = $this->get_raw_keluarga($data['id_kk']);
+            if ($kel['nik_kepala']) {
+                $_SESSION['success'] = -1;
+                $_SESSION['error_msg'] .= 'Tidak bisa tambah kepala keluarga';
+                return;
+            }
+        }
+
         if (! $this->validasi_data_keluarga($data)) {
             return;
         }
@@ -939,6 +951,14 @@ class Keluarga_model extends MY_Model
         }
 
         $id_pend = $this->db->insert_id();
+        // Jika anggota yang ditambah adalah kepala keluarga untuk kk kosong
+        if ($tambah_kk) {
+            $this->db
+                ->set('nik_kepala', $id_pend)
+                ->set('updated_by', $this->session->user)
+                ->where('id', $kel['id'])
+                ->update('tweb_keluarga');
+        }
 
         // Jenis peristiwa didapat dari form yang berbeda
         // Jika peristiwa lahir akan mengambil data dari field tanggal lahir
@@ -951,6 +971,14 @@ class Keluarga_model extends MY_Model
             'maksud_tujuan_kedatangan' => $maksud_tujuan,
         ];
         $this->penduduk_model->tulis_log_penduduk_data($x);
+    }
+
+    public function get_raw_keluarga($id)
+    {
+        return $this->db
+            ->where('id', $id)
+            ->get('tweb_keluarga')
+            ->row_array();
     }
 
     public function get_nokk($id)

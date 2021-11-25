@@ -221,10 +221,12 @@ class Keluarga extends Admin_Controller
     }
 
     // Tambah anggota keluarga dari penduduk baru
+    // Tidak boleh tambah anggota bagi kasus kepala keluarga mati/hilang/pindah
     public function form_a($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('u');
-        $this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
+        $kepala = $this->keluarga_model->get_kepala_a($id);
+        $this->redirect_tidak_valid(empty($kepala['id']) || $kepala['status_dasar'] == 1);
 
         if (empty($_POST) && ! $_SESSION['dari_internal']) {
             unset($_SESSION['validation_error']);
@@ -509,10 +511,12 @@ class Keluarga extends Admin_Controller
         $this->keluarga_model->unduh_kk();
     }
 
+    // Tidak boleh tambah anggota bagi kasus kepala keluarga mati/hilang/pindah
     public function add_anggota($p = 1, $o = 0, $id = 0)
     {
         $this->redirect_hak_akses('u');
-        $this->redirect_tidak_valid($this->keluarga_model->get_kepala_a($id)['status_dasar'] == 1);
+        $kepala = $this->keluarga_model->get_kepala_a($id);
+        $this->redirect_tidak_valid(empty($kepala['id']) || $kepala['status_dasar'] == 1);
         $this->keluarga_model->add_anggota($id);
         redirect("keluarga/anggota/{$p}/{$o}/{$id}");
     }
