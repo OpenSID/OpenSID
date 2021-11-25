@@ -42,7 +42,6 @@ class Bumindes_keuangan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('header_model');
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 304;
     }

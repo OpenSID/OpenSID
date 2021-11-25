@@ -41,8 +41,10 @@ class Migrasi_fitur_premium_2102 extends MY_model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2101');
 
         $hasil = $hasil && $this->pengaturan_latar($hasil);
 
@@ -85,7 +87,6 @@ class Migrasi_fitur_premium_2102 extends MY_model
 
         // Perbaiki jenis untuk key 'offline_mode'
         $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-value']);
-        status_sukses($hasil);
 
         return $hasil;
     }

@@ -49,7 +49,6 @@ class Keluar extends Admin_Controller
 
         $this->load->helper('download');
         $this->load->model('pamong_model');
-        $this->load->model('config_model');
         $this->modul_ini     = 4;
         $this->sub_modul_ini = 32;
     }

@@ -233,4 +233,17 @@ class MY_Model extends CI_Model
 
         return $hasil;
     }
+
+    public function jalankan_migrasi($migrasi)
+    {
+        $this->load->model('migrations/' . $migrasi);
+
+        if ($this->{$migrasi}->up()) {
+            log_message('error', 'Jalankan ' . $migrasi);
+
+            return true;
+        }
+
+        return false;
+    }
 }

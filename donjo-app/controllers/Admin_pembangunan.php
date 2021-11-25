@@ -46,7 +46,6 @@ class Admin_pembangunan extends Admin_Controller
         $this->load->library('upload');
         $this->load->model('pembangunan_model', 'model');
         $this->load->model('pembangunan_dokumentasi_model');
-        $this->load->model('referensi_model');
         $this->load->model('wilayah_model');
         $this->load->model('pamong_model');
         $this->load->model('plan_lokasi_model');

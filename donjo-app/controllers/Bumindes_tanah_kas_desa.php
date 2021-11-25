@@ -42,9 +42,7 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->library('session');
-        $this->load->model(['header_model', 'tanah_kas_desa_model', 'pamong_model', 'data_persil_model']);
+        $this->load->model(['tanah_kas_desa_model', 'pamong_model', 'data_persil_model']);
         $this->controller    = 'bumindes_tanah_kas_desa';
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 302;

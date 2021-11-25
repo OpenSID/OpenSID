@@ -41,8 +41,10 @@ class Migrasi_fitur_premium_2104 extends MY_model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2103');
 
         // Hapus id_peristiwa = 1 lama di log_keluarga karena pengertiannya sudah tidak konsisten dengan penggunaan yg baru. Sekarang hanya terbatas pada keluarga baru yg dibentuk dari penduduk yg sudah ada.
 
@@ -72,11 +74,7 @@ class Migrasi_fitur_premium_2104 extends MY_model
         // Sesuaikan data kartu peserta bantuan
         $hasil = $hasil && $this->kartu_bantuan($hasil);
         // Sesuaikan key offline mode
-        $hasil = $hasil && $this->ubah_setting_offline_mode($hasil);
-
-        status_sukses($hasil);
-
-        return $hasil;
+        return $hasil && $this->ubah_setting_offline_mode($hasil);
     }
 
     // Buat tabel url shortener

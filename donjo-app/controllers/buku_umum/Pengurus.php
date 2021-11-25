@@ -45,7 +45,7 @@ class Pengurus extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['pamong_model', 'penduduk_model', 'config_model', 'referensi_model', 'wilayah_model']);
+        $this->load->model(['pamong_model', 'penduduk_model', 'wilayah_model']);
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 302;
         $this->_set_page     = ['20', '50', '100'];

@@ -52,7 +52,6 @@ class Gis extends Admin_Controller
         $this->load->model('data_persil_model');
 
         $this->load->model('wilayah_model');
-        $this->load->model('referensi_model');
         $this->modul_ini     = 9;
         $this->sub_modul_ini = 62;
     }

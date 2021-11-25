@@ -1122,7 +1122,7 @@ class Program_bantuan_model extends MY_Model
     public function impor_program($program_id = null, $data_program = [], $ganti_program = 0)
     {
         $this->session->success = 1;
-        $sekarang               = date('Y m d');
+        $sekarang               = $data_program['sdate'] ?? date('Y m d');
         $data_tambahan          = [
             'userid' => $this->session->user,
             'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,

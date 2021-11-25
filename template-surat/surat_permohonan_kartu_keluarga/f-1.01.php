@@ -1,82 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
+<?php defined('BASEPATH') or exit('No direct script access allowed') ?>
+
 <style type="text/css">
-	table.disdukcapil
-	{
-		width: 100%;
-		/*border-collapse: collapse;*/
-	}
-	table.disdukcapil td
-	{
-		padding: 1px 1px 1px 3px;
-	}
-	table.disdukcapil td.padat
-	{
-		padding: 0px;
-		margin: 0px;
-	}
-	table.disdukcapil td.kotak
-	{
-		border: solid 1px #000000;
-	}
-	table.disdukcapil td.anggota
-	{
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-top: dashed 1px #000000;
-		border-bottom: dashed 1px #000000;
-	}
-	table.disdukcapil td.judul
-	{
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-top: double 1px #000000;
-		border-bottom: double 1px #000000;
-	}
-	table.disdukcapil td.bawah
-	{
-		border-left: solid 1px #000000;
-		border-right: solid 1px #000000;
-		border-top: dashed 1px #000000;
-		border-bottom: double 1px #000000;
-	}
-	table.disdukcapil td.abu
-	{
-		background-color: lightgrey;
-	}
-	table.disdukcapil td.kode
-	{
-		background-color: lightgrey;
-	}
-	table.disdukcapil td.kode div
-	{
-		margin: 0px 15px 0px 15px;
-		border: solid 1px black;
-		background-color: white;
-		text-align: center;
-	}
-	table.disdukcapil td.pakai-padding
-	{
-		padding-left: 20px;
-		padding-right: 2px;
-	}
-	table.disdukcapil td.kanan { text-align: right; }
-	table.disdukcapil td.tengah { text-align: center; }
-
-	table.ttd
-	{
-		margin-top: 20px;
-		width: 100%;
-	}
-
-	table.ttd td { text-align: center; }
-	table.ttd td.left { text-align: left;  }
-	table.ttd td div
-	{
-		display: inline-block;
-		width: auto;
-		border-bottom: 1px solid black;
-		padding-bottom: 3px;
-	}
+	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
 </style>
 <page orientation="landscape" format="A3" style="font-size: 8pt">
 	<table align="right" style="padding: 5px 20px; border: solid 1px black;">
@@ -145,7 +70,7 @@
 			<td class="kotak"><?= $config['nama_kabupaten'];?></td>
 		</tr>
 
-		 <tr>
+		<tr>
 			<td class="pakai-padding">Alamat</td>
 			<td>:</td>
 			<td colspan="20" class="kotak"><div><?= $individu['alamat_wilayah']; ?></div></td>
@@ -257,7 +182,7 @@
 			<td class="judul tengah">Nomor Paspor</td>
 			<td class="judul tengah">Tanggal Berakhir Paspor</td>
 		</tr>
-		 <tr>
+		<tr>
 			<td class="judul abu tengah">1</td>
 			<td class="judul abu tengah">2</td>
 			<td class="judul abu tengah">3</td>
@@ -319,7 +244,7 @@
 			<td class="judul tengah">Nomor Akta Perceraian/Surat Cerai*)</td>
 			<td class="judul tengah">Tanggal Perceraian*)</td>
 		</tr>
-		 <tr>
+		<tr>
 			<td class="judul abu tengah"></td>
 			<td class="judul abu tengah">7</td>
 			<td class="judul abu tengah">8</td>
@@ -389,7 +314,7 @@
 			<td class="judul tengah">NIK Ayah</td>
 			<td class="judul tengah">Nama Lengkap Ayah</td>
 		</tr>
-		 <tr>
+		<tr>
 			<td class="judul abu tengah"></td>
 			<td class="judul abu tengah">22</td>
 			<td class="judul abu tengah">23</td>

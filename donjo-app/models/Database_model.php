@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Database_model extends CI_Model
+class Database_model extends MY_Model
 {
     private $user   = 1;
     private $engine = 'InnoDB';
@@ -109,13 +109,12 @@ class Database_model extends CI_Model
 
         $this->cek_engine_db();
         $this->load->dbforge();
-        $this->load->model('surat_master_model');
-        $this->load->model('analisis_import_model');
         $this->user = $this->session_user ?: 1;
     }
 
     private function cek_engine_db()
     {
+        $db_debug           = $this->db->db_debug;
         $this->db->db_debug = false; //disable debugging for queries
 
         $query = $this->db->query("SELECT `engine` FROM INFORMATION_SCHEMA.TABLES WHERE table_schema= '" . $this->db->database . "' AND table_name = 'user'");
@@ -155,7 +154,7 @@ class Database_model extends CI_Model
 
     public function migrasi_db_cri()
     {
-
+        $this->load->model(['surat_master_model', 'folder_desa_model']);
         // Tunggu restore selesai sebelum migrasi
         if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) {
             return;
@@ -167,10 +166,10 @@ class Database_model extends CI_Model
         $versionMigrate      = $this->versionMigrate;
         if (isset($versionMigrate[$versi])) {
             while (! empty($nextVersion) && ! empty($versionMigrate[$nextVersion]['migrate'])) {
-                $migrate = $versionMigrate[$nextVersion]['migrate'];
-                log_message('error', 'Jalankan ' . $migrate);
+                $migrate     = $versionMigrate[$nextVersion]['migrate'];
                 $nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
                 if (method_exists($this, $migrate)) {
+                    log_message('error', 'Jalankan ' . $migrate);
                     call_user_func(__NAMESPACE__ . '\\Database_model::' . $migrate);
                 } else {
                     $this->jalankan_migrasi($migrate);
@@ -179,8 +178,8 @@ class Database_model extends CI_Model
         } else {
             $this->_migrasi_db_cri();
         }
-        // Jalankan migrasi untuk fitur premium
-        $this->jalankan_migrasi('migrasi_fitur_premium');
+        // Migrasi ini belum digunakan (Migrasi Kosong)
+        // $this->jalankan_migrasi('migrasi_fitur_premium');
 
         $this->folder_desa_model->amankan_folder_desa();
         $this->surat_master_model->impor_surat_desa();
@@ -251,6 +250,7 @@ class Database_model extends CI_Model
         }
     }
 
+    // Migrasi dengan fuction
     private function _migrasi_db_cri()
     {
         $this->migrasi_cri_lama();
@@ -299,68 +299,6 @@ class Database_model extends CI_Model
         $this->migrasi_1903_ke_1904();
         $this->migrasi_1904_ke_1905();
         $this->migrasi_1905_ke_1906();
-        $this->migrasi_1906_ke_1907();
-        $this->migrasi_1907_ke_1908();
-        $this->migrasi_1908_ke_1909();
-        $this->migrasi_1909_ke_1910();
-        $this->migrasi_1910_ke_1911();
-        $this->migrasi_1911_ke_1912();
-        $this->jalankan_migrasi('migrasi_1912_ke_2001');
-        $this->jalankan_migrasi('migrasi_2001_ke_2002');
-        $this->jalankan_migrasi('migrasi_2002_ke_2003');
-        $this->jalankan_migrasi('migrasi_2003_ke_2004');
-        $this->jalankan_migrasi('migrasi_2004_ke_2005');
-        $this->jalankan_migrasi('migrasi_2005_ke_2006');
-        $this->jalankan_migrasi('migrasi_2006_ke_2007');
-        $this->jalankan_migrasi('migrasi_2007_ke_2008');
-        $this->jalankan_migrasi('migrasi_2008_ke_2009');
-        $this->jalankan_migrasi('migrasi_2009_ke_2010');
-        $this->jalankan_migrasi('migrasi_2010_ke_2011');
-        $this->jalankan_migrasi('migrasi_2101_ke_2102');
-    }
-
-    private function jalankan_migrasi($migrasi)
-    {
-        $this->load->model('migrations/' . $migrasi);
-        $this->{$migrasi}->up();
-    }
-
-    private function migrasi_1911_ke_1912()
-    {
-        $this->load->model('migrations/migrasi_default_value');
-        $this->migrasi_default_value->up();
-        $this->load->model('migrations/migrasi_1911_ke_1912');
-        $this->migrasi_1911_ke_1912->up();
-    }
-
-    private function migrasi_1910_ke_1911()
-    {
-        $this->load->model('migrations/migrasi_1910_ke_1911');
-        $this->migrasi_1910_ke_1911->up();
-    }
-
-    private function migrasi_1909_ke_1910()
-    {
-        $this->load->model('migrations/migrasi_1909_ke_1910');
-        $this->migrasi_1909_ke_1910->up();
-    }
-
-    private function migrasi_1908_ke_1909()
-    {
-        $this->load->model('migrations/migrasi_1908_ke_1909');
-        $this->migrasi_1908_ke_1909->up();
-    }
-
-    private function migrasi_1907_ke_1908()
-    {
-        $this->load->model('migrations/migrasi_1907_ke_1908');
-        $this->migrasi_1907_ke_1908->up();
-    }
-
-    private function migrasi_1906_ke_1907()
-    {
-        $this->load->model('migrations/migrasi_1906_ke_1907');
-        $this->migrasi_1906_ke_1907->up();
     }
 
     private function migrasi_1905_ke_1906()
@@ -667,7 +605,7 @@ class Database_model extends CI_Model
         if (! $query->result()) {
             $data = [
                 'key'        => 'warna_tema_admin',
-                'value'      => $setting->value ?: 'skin-purple',
+                'value'      => $query->value ?? 'skin-purple',
                 'jenis'      => 'option-value',
                 'keterangan' => 'Warna dasar tema komponen Admin',
             ];
@@ -691,6 +629,11 @@ class Database_model extends CI_Model
                 ]
             );
         }
+    }
+
+    private function nop()
+    {
+        // Migrasi kosong
     }
 
     private function migrasi_1901_ke_1902()
@@ -1731,6 +1674,8 @@ class Database_model extends CI_Model
 
     private function migrasi_210_ke_211()
     {
+        $this->load->model('analisis_import_model');
+
         // Tambah kolom jenis untuk analisis_master
         $fields = [];
         if (! $this->db->field_exists('jenis', 'analisis_master')) {
@@ -1969,7 +1914,7 @@ class Database_model extends CI_Model
         if (! $this->db->field_exists('ktp_el', 'tweb_penduduk')) {
             $fields = [
                 'ktp_el' => [
-                    'type'       => tinyint,
+                    'type'       => 'TINYINT',
                     'constraint' => 4,
                 ],
             ];
@@ -1978,7 +1923,7 @@ class Database_model extends CI_Model
         if (! $this->db->field_exists('status_rekam', 'tweb_penduduk')) {
             $fields = [
                 'status_rekam' => [
-                    'type'       => tinyint,
+                    'type'       => 'TINYINT',
                     'constraint' => 4,
                     'null'       => false,
                     'default'    => 0,
@@ -3550,6 +3495,8 @@ class Database_model extends CI_Model
 
     public function kosongkan_db()
     {
+        $this->load->model('analisis_import_model');
+
         // Views tidak perlu dikosongkan.
         $views        = $this->get_views();
         $table_lookup = [
