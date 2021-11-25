@@ -108,7 +108,6 @@ class Laporan extends Admin_Controller
         $data['hilang']             = $this->laporan_bulanan_model->hilang();
         $data['penduduk_awal']      = $this->laporan_bulanan_model->penduduk_awal();
         $data['penduduk_akhir']     = $this->laporan_bulanan_model->penduduk_akhir();
-        $data['lap']                = $lap;
 
         $this->render('laporan/bulanan', $data);
     }

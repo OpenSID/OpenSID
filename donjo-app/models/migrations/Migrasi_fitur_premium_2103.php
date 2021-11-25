@@ -41,17 +41,15 @@ class Migrasi_fitur_premium_2103 extends MY_model
 {
     public function up()
     {
-        log_message('error', 'Jalankan ' . static::class);
         $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2102');
 
         // Updates for issues #2834
         $hasil = $hasil && $this->penduduk_sementara($hasil);
         // Updates for issues #2835
-        $hasil = $hasil && $this->ktp_kk($hasil);
-
-        status_sukses($hasil);
-
-        return $hasil;
+        return $hasil && $this->ktp_kk($hasil);
     }
 
     protected function penduduk_sementara($hasil)

@@ -44,14 +44,7 @@ class Migrasi_2102_ke_2103 extends MY_model
         $hasil = true;
 
         // Migrasi fitur premium
-        $daftar_migrasi_premium = ['2011', '2012', '2101', '2102', '2103'];
-
-        foreach ($daftar_migrasi_premium as $migrasi) {
-            $migrasi_premium = 'migrasi_fitur_premium_' . $migrasi;
-            $file_migrasi    = 'migrations/' . $migrasi_premium;
-            $this->load->model($file_migrasi);
-            $hasil = $hasil && $this->{$migrasi_premium}->up();
-        }
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2103');
 
         status_sukses($hasil);
 
