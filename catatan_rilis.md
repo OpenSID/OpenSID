@@ -52,3 +52,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 14. Penyerdahanaan proses migrasi.
 15. Pindahkan migrasi opensid-api ke opensid.
 16. Load model ketika dibutuhkan saja untuk mempercepat.
+17. Hapus duplikasi assets print preview.
