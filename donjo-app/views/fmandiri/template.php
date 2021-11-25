@@ -78,6 +78,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
 	<!-- Style Mandiri Modification CSS -->
 	<link rel="stylesheet" href="<?= base_url()?>assets/css/mandiri-style.css">
+
 	<!-- Jquery Confirm -->
 	<link rel="stylesheet" href="<?= base_url()?>assets/front/css/jquery-confirm.min.css">
 	<!-- Jquery UI -->
@@ -141,14 +142,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									<img class="user-image" src="<?= AmbilFoto($this->is_login->foto)?>" alt="Foto">
+									<img class="user-image" src="<?= AmbilFoto($this->is_login->foto, '', $this->is_login->sex); ?>" alt="Foto Penduduk">
 									<span class="hidden-xs"><?= $this->is_login->nama; ?></span>
 								</a>
 								<ul class="dropdown-menu">
 									<li class="user-header">
-										<img class="img-circle" src="<?= AmbilFoto($this->is_login->foto); ?>" alt="Foto Penduduk">
+										<img class="img-circle" src="<?= AmbilFoto($this->is_login->foto, '', $this->is_login->sex); ?>" alt="Foto Penduduk">
 										<p><?= $this->is_login->nama; ?>
-										<small><b>NIK : <?= $this->is_login->nik; ?> | No.KK : <?= $this->is_login->no_kk; ?></b></small>
+										<small><b>NIK : <?= $this->is_login->nik; ?></b></small>
 									</li>
 									<li class="user-footer">
 										<div class="pull-left">
@@ -242,12 +243,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
                                 if ($this->is_login->ganti_pin === '1' && $this->uri->segment(2) != 'ganti-pin'):
 
-                                    $data = [
-                                        'pesan' => 'Selamat datang pengguna layanan mandiri <b> ' . ucwords($this->setting->sebutan_desa . ' ' . $desa[nama_desa]) . ' </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.',
-                                        'aksi'  => site_url('layanan-mandiri/ganti-pin'),
-                                    ];
+                                        $data = [
+                                            'pesan' => 'Selamat datang pengguna layanan mandiri <b> ' . ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) . ' </b>, <br>Untuk keamanan akun anda, silahkan ganti <b>PIN</b> anda terlebih dahulu sebelum melanjutkan menggunakan layanan mandiri.',
+                                            'aksi'  => site_url('layanan-mandiri/ganti-pin'),
+                                        ];
 
-                                    $this->load->view(MANDIRI . '/notif', $data);
+                                        $this->load->view(MANDIRI . '/notif', $data);
                                 endif;
 
                                 $data = $this->session->flashdata('notif');

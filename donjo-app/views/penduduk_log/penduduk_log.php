@@ -226,10 +226,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
                                                                             }
                                                                         ?>
 																	</td>
-																	<td nowrap>
+																	<td class="padat">
 																		<div class="user-panel">
 																			<div class="image2">
-																				<img src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>" class="img-circle" alt="Foto Penduduk"/>
+																				<img class="img-circle" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
 																			</div>
 																		</div>
 																	</td>
@@ -259,10 +259,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 																		<input type="checkbox" name="id_cb[]" value="<?= $data['id_log']?>" />
 																	</td>
 																	<td class="aksi"></td>
-																	<td nowrap>
+																	<td class="padat">
 																		<div class="user-panel">
 																			<div class="image2">
-																				<img src="<?= ! empty($data['foto']) ? AmbilFoto($data['foto']) : base_url('assets/files/user_pict/kuser.png') ?>" class="img-circle" alt="Foto Penduduk"/>
+																				<img class="img-circle" alt="Foto Penduduk" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>"/>
 																			</div>
 																		</div>
 																	</td>

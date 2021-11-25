@@ -241,9 +241,7 @@ $( function() {
 														<td class="padat">
 															<div class="user-panel">
 																<div class="image2">
-																	<img class="img-circle" alt="Foto Penduduk"
-																		src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>"
-																	/>
+																	<img class="img-circle" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
 																</div>
 															</div>
 														</td>

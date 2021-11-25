@@ -153,15 +153,18 @@
 								});
 								for (var x = 0; x < jml; x++) {
 										if (penduduk[x].lat || penduduk[x].lng) {
-												foto = '<td><img src="' + AmbilFoto(penduduk[x].foto, "kecil_", penduduk[x].id_sex) + '" class="foto_pend"/></td>';
+												foto = '<td style="text-align: center;"><img class="foto_pend" src="' + AmbilFoto(penduduk[x].foto, "kecil_", penduduk[x].id_sex) + '" alt="Foto Penduduk"/></td>';
 
 												//Konten yang akan ditampilkan saat marker diklik
 												content =
-														'<table border=0><tr>' + foto +
-														'<td style="padding-left:2px"><font size="2.5" style="bold">' + penduduk[x].nama + '</font> - ' + penduduk[x].sex +
-														'<p>' + penduduk[x].umur + ' Tahun ' + penduduk[x].agama + '</p>' +
-														'<p>' + penduduk[x].alamat + '</p>' +
-														'<p><a href="<?= site_url('penduduk/detail/1/0/') ?>' + penduduk[x].id + '" target="ajax-modalx" rel="content" header="Rincian Data ' + penduduk[x].nama + '" >Data Rincian</a></p></td>' +
+														'<table border=0 style="width:150px;max-width:200px"><tr>' + foto + '</tr>' +
+														'<tr><td style="text-align: center;">' +
+														'<p size="2.5" style="margin: 5px 0;">' + penduduk[x].nama +
+														'<br/>' + penduduk[x].sex +
+														'<br/>' + penduduk[x].umur + ' Tahun ' +
+														'<br/>' + penduduk[x].agama +
+														'<br/>' + penduduk[x].alamat + '</p>' +
+														'<a class="btn btn-sm btn-primary" href="<?= site_url('penduduk/detail/1/0/') ?>' + penduduk[x].id + '" style="color:black;" target="ajax-modalx" rel="content" header="Rincian Data ' + penduduk[x].nama + '" >Data Rincian</a></td>' +
 														'</tr></table>';
 												//Menambahkan point ke marker
 												semua_marker.push(turf.point([Number(penduduk[x].lng), Number(penduduk[x].lat)], {

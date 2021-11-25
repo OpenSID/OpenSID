@@ -35,8 +35,8 @@
  *
  */
 
-define('FOTO_DEFAULT_PRIA', base_url() . 'assets/files/user_pict/kuser.png');
-define('FOTO_DEFAULT_WANITA', base_url() . 'assets/files/user_pict/wuser.png');
+define('FOTO_DEFAULT_PRIA', base_url() . 'assets/images/pengguna/kuser.png');
+define('FOTO_DEFAULT_WANITA', base_url() . 'assets/images/pengguna/wuser.png');
 
 define('MIME_TYPE_SIMBOL', serialize([
     'image/png',  'image/x-png', ]));

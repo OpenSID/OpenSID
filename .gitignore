@@ -9,9 +9,10 @@ assets/files/logo/*
 !assets/files/logo/opensid_kantor.*
 # Jangan simpan isi folder foto pengguna. Isinya khusus desa, kecuali
 # file foto contoh yg tersedia dalam release sid304 inti.
-assets/files/user_pict/*
-!assets/files/user_pict/index.html
-!assets/files/user_pict/kuser.png
+assets/images/pengguna/*
+!assets/images/pengguna/index.html
+!assets/images/pengguna/kuser.png
+!assets/images/pengguna/wuser.png
 # Jangan simpan isi folder galeri.
 assets/files/galeri/*
 !assets/files/galeri/index.html

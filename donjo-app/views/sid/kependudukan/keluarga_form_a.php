@@ -15,11 +15,7 @@
 						<div class="col-md-3">
 							<div class="box box-primary">
 								<div class="box-body box-profile">
-									<?php if ($penduduk['foto']): ?>
-										<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
-									<?php else: ?>
-										<img class="penduduk profile-user-img img-responsive img-circle" src="<?= base_url()?>assets/files/user_pict/kuser.png" alt="Foto">
-									<?php endif; ?>
+									<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto']); ?>" alt="Foto">
 									<br/>
 									<p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
 									<br/>
@@ -37,10 +33,10 @@
 						<div class="col-md-9">
 							<div class='box box-primary'>
 								<div class="box-header with-border">
-									<a href="<?=site_url('keluarga')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
+									<a href="<?= site_url('keluarga')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
 										<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Keluarga
 									</a>
-									<a href="<?=site_url("keluarga/anggota/1/0/{$id_kk}")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
+									<a href="<?= site_url("keluarga/anggota/1/0/{$id_kk}")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
 										<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Anggota Keluarga
 									</a>
 								</div>
