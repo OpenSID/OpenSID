@@ -168,4 +168,4 @@ $autoload['language'] = [];
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = ['folder_desa_model'];
+$autoload['model'] = ['config_model', 'setting_model'];

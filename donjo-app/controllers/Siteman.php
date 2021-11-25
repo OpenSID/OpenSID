@@ -43,7 +43,6 @@ class Siteman extends MY_Controller
     {
         parent::__construct();
         siteman_timeout();
-        $this->load->model('config_model');
         $this->load->model('user_model');
         $this->load->model('theme_model');
     }

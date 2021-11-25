@@ -52,7 +52,6 @@ class Analisis_master extends Admin_Controller
         $this->load->model('analisis_indikator_model');
         $this->load->model('analisis_parameter_model');
         $this->load->model('analisis_klasifikasi_model');
-        $this->load->model('referensi_model');
         $this->session->unset_userdata(['submenu', 'asubmenu']);
         $this->modul_ini     = 5;
         $this->sub_modul_ini = 110;

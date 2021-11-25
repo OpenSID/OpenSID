@@ -46,8 +46,6 @@ class Surat extends Admin_Controller
         $this->load->model('keluarga_model');
         $this->load->model('surat_model');
         $this->load->model('keluar_model');
-        $this->load->model('config_model');
-        $this->load->model('referensi_model');
         $this->load->model('penomoran_surat_model');
         $this->load->model('permohonan_surat_model');
         $this->modul_ini     = 4;

@@ -47,7 +47,6 @@ class Cdesa extends Admin_Controller
         parent::__construct();
         $this->load->model('data_persil_model');
         $this->load->model('cdesa_model');
-        $this->load->model('referensi_model');
         $this->load->model('wilayah_model');
         $this->modul_ini    = 7;
         $this->set_page     = ['20', '50', '100'];

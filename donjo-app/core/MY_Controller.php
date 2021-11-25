@@ -53,8 +53,8 @@ class MY_Controller extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['config_model', 'setting_model']);
-        $this->header = $this->config_model->get_data();
+        $this->controller = strtolower($this->router->fetch_class());
+        $this->header     = $this->config_model->get_data();
         $this->setting_model->init();
     }
 
@@ -86,7 +86,6 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->controller = strtolower($this->router->fetch_class());
         // Gunakan tema klasik kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
         // if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
         $theme        = preg_replace('/desa\\//', '', strtolower($this->setting->web_theme));
@@ -334,9 +333,8 @@ class Admin_Controller extends Premium
     {
         parent::__construct();
         $this->validasi();
-        $this->CI         = CI_Controller::get_instance();
-        $this->controller = strtolower($this->router->fetch_class());
-        $this->load->model(['header_model', 'user_model', 'notif_model']);
+        $this->CI = CI_Controller::get_instance();
+        $this->load->model(['header_model', 'user_model', 'notif_model', 'referensi_model']);
         $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 
         $this->load->model('modul_model');

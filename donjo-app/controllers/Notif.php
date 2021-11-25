@@ -39,12 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Notif extends Admin_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('notif_model');
-    }
-
     public function update_pengumuman()
     {
         $this->notif_model->update_notifikasi($this->input->post('kode'), $this->input->post('non_aktifkan'));

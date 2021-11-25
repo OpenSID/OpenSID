@@ -45,7 +45,6 @@ class Mailbox extends Admin_Controller
         $this->load->model('web_komentar_model');
         $this->load->model('mandiri_model');
         $this->load->model('mailbox_model');
-        $this->load->model('config_model');
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 55;
     }

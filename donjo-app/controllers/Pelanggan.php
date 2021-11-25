@@ -42,7 +42,6 @@ class Pelanggan extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['notif_model', 'setting_model']);
         $this->modul_ini     = 200;
         $this->sub_modul_ini = 313;
     }
