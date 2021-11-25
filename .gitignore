@@ -12,6 +12,7 @@ assets/files/logo/*
 assets/images/pengguna/*
 !assets/images/pengguna/index.html
 !assets/images/pengguna/kuser.png
+!assets/images/pengguna/wuser.png
 # Jangan simpan isi folder galeri.
 assets/files/galeri/*
 !assets/files/galeri/index.html
