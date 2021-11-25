@@ -75,6 +75,7 @@ define('KOLOM_IMPOR_KELUARGA', serialize([
     'status_rekam'         => '34',
     'alamat_sekarang'      => '35',
     'status_dasar'         => '36',
+    'suku'                 => '37',
 ]));
 
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
@@ -190,6 +191,8 @@ class Import_model extends CI_Model
 
     protected function get_konversi_kode($daftar_kode, $nilai)
     {
+        $nilai = trim($nilai);
+
         if (ctype_digit($nilai)) {
             return $nilai;
         }
@@ -279,7 +282,9 @@ class Import_model extends CI_Model
 
     private function cek_kosong($isi)
     {
-        return ($isi == '-') ? '' : $isi;
+        $isi = trim($isi);
+
+        return (in_array($isi, ['', '-'])) ? null : $isi;
     }
 
     private function get_isi_baris($rowData)
@@ -310,36 +315,37 @@ class Import_model extends CI_Model
         $nik              = preg_replace('/[^0-9]/', '', $nik);
         $isi_baris['nik'] = $nik;
 
-        $isi_baris['sex']                  = $this->get_konversi_kode($this->kode_sex, trim($rowData[$kolom_impor_keluarga['sex']]));
-        $isi_baris['tempatlahir']          = trim($rowData[$kolom_impor_keluarga['tempatlahir']]);
+        $isi_baris['sex']                  = $this->get_konversi_kode($this->kode_sex, $rowData[$kolom_impor_keluarga['sex']]);
+        $isi_baris['tempatlahir']          = $this->cek_kosong($rowData[$kolom_impor_keluarga['tempatlahir']]);
         $isi_baris['tanggallahir']         = $this->format_tanggal($rowData[$kolom_impor_keluarga['tanggallahir']]);
-        $isi_baris['agama_id']             = $this->get_konversi_kode($this->kode_agama, trim($rowData[$kolom_impor_keluarga['agama_id']]));
-        $isi_baris['pendidikan_kk_id']     = $this->get_konversi_kode($this->kode_pendidikan_kk, trim($rowData[$kolom_impor_keluarga['pendidikan_kk_id']]));
-        $isi_baris['pendidikan_sedang_id'] = $this->get_konversi_kode($this->kode_pendidikan_sedang, trim($rowData[$kolom_impor_keluarga['pendidikan_sedang_id']]));
-        $isi_baris['pekerjaan_id']         = $this->get_konversi_kode($this->kode_pekerjaan, trim($rowData[$kolom_impor_keluarga['pekerjaan_id']]));
-        $isi_baris['status_kawin']         = $this->get_konversi_kode($this->kode_status, trim($rowData[$kolom_impor_keluarga['status_kawin']]));
-        $isi_baris['kk_level']             = $this->get_konversi_kode($this->kode_hubungan, trim($rowData[$kolom_impor_keluarga['kk_level']]));
-        $isi_baris['warganegara_id']       = $this->get_konversi_kode($this->kode_warganegara, trim($rowData[$kolom_impor_keluarga['warganegara_id']]));
-        $isi_baris['nama_ayah']            = trim($rowData[$kolom_impor_keluarga['nama_ayah']]) ?? '-';
-        $isi_baris['nama_ibu']             = trim($rowData[$kolom_impor_keluarga['nama_ibu']]) ?? '-';
-        $isi_baris['golongan_darah_id']    = $this->get_konversi_kode($this->kode_golongan_darah, trim($rowData[$kolom_impor_keluarga['golongan_darah_id']]));
-        $isi_baris['akta_lahir']           = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_lahir']]));
-        $isi_baris['dokumen_pasport']      = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['dokumen_pasport']]));
+        $isi_baris['agama_id']             = $this->get_konversi_kode($this->kode_agama, $rowData[$kolom_impor_keluarga['agama_id']]);
+        $isi_baris['pendidikan_kk_id']     = $this->get_konversi_kode($this->kode_pendidikan_kk, $rowData[$kolom_impor_keluarga['pendidikan_kk_id']]);
+        $isi_baris['pendidikan_sedang_id'] = $this->get_konversi_kode($this->kode_pendidikan_sedang, $rowData[$kolom_impor_keluarga['pendidikan_sedang_id']]);
+        $isi_baris['pekerjaan_id']         = $this->get_konversi_kode($this->kode_pekerjaan, $rowData[$kolom_impor_keluarga['pekerjaan_id']]);
+        $isi_baris['status_kawin']         = $this->get_konversi_kode($this->kode_status, $rowData[$kolom_impor_keluarga['status_kawin']]);
+        $isi_baris['kk_level']             = $this->get_konversi_kode($this->kode_hubungan, $rowData[$kolom_impor_keluarga['kk_level']]);
+        $isi_baris['warganegara_id']       = $this->get_konversi_kode($this->kode_warganegara, $rowData[$kolom_impor_keluarga['warganegara_id']]);
+        $isi_baris['nama_ayah']            = $this->cek_kosong($rowData[$kolom_impor_keluarga['nama_ayah']]);
+        $isi_baris['nama_ibu']             = $this->cek_kosong($rowData[$kolom_impor_keluarga['nama_ibu']]);
+        $isi_baris['golongan_darah_id']    = $this->get_konversi_kode($this->kode_golongan_darah, $rowData[$kolom_impor_keluarga['golongan_darah_id']]);
+        $isi_baris['akta_lahir']           = $this->cek_kosong($rowData[$kolom_impor_keluarga['akta_lahir']]);
+        $isi_baris['dokumen_pasport']      = $this->cek_kosong($rowData[$kolom_impor_keluarga['dokumen_pasport']]);
         $isi_baris['tanggal_akhir_paspor'] = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggal_akhir_paspor']]));
-        $isi_baris['dokumen_kitas']        = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['dokumen_kitas']]));
-        $isi_baris['ayah_nik']             = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ayah_nik']]));
-        $isi_baris['ibu_nik']              = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['ibu_nik']]));
-        $isi_baris['akta_perkawinan']      = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_perkawinan']]));
+        $isi_baris['dokumen_kitas']        = $this->cek_kosong($rowData[$kolom_impor_keluarga['dokumen_kitas']]);
+        $isi_baris['ayah_nik']             = $this->cek_kosong($rowData[$kolom_impor_keluarga['ayah_nik']]);
+        $isi_baris['ibu_nik']              = $this->cek_kosong($rowData[$kolom_impor_keluarga['ibu_nik']]);
+        $isi_baris['akta_perkawinan']      = $this->cek_kosong($rowData[$kolom_impor_keluarga['akta_perkawinan']]);
         $isi_baris['tanggalperkawinan']    = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperkawinan']]));
-        $isi_baris['akta_perceraian']      = $this->cek_kosong(trim($rowData[$kolom_impor_keluarga['akta_perceraian']]));
+        $isi_baris['akta_perceraian']      = $this->cek_kosong($rowData[$kolom_impor_keluarga['akta_perceraian']]);
         $isi_baris['tanggalperceraian']    = $this->cek_kosong($this->format_tanggal($rowData[$kolom_impor_keluarga['tanggalperceraian']]));
-        $isi_baris['cacat_id']             = $this->get_konversi_kode($this->kode_cacat, trim($rowData[$kolom_impor_keluarga['cacat_id']]));
-        $isi_baris['cara_kb_id']           = $this->get_konversi_kode($this->kode_cara_kb, trim($rowData[$kolom_impor_keluarga['cara_kb_id']]));
-        $isi_baris['hamil']                = $this->get_konversi_kode($this->kode_hamil, trim($rowData[$kolom_impor_keluarga['hamil']]));
-        $isi_baris['ktp_el']               = $this->get_konversi_kode($this->kode_ktp_el, trim($rowData[$kolom_impor_keluarga['ktp_el']]));
-        $isi_baris['status_rekam']         = $this->get_konversi_kode($this->kode_status_rekam, trim($rowData[$kolom_impor_keluarga['status_rekam']]));
-        $isi_baris['alamat_sekarang']      = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
-        $isi_baris['status_dasar']         = $this->get_konversi_kode($this->kode_status_dasar, trim($rowData[$kolom_impor_keluarga['status_dasar']]));
+        $isi_baris['cacat_id']             = $this->get_konversi_kode($this->kode_cacat, $rowData[$kolom_impor_keluarga['cacat_id']]);
+        $isi_baris['cara_kb_id']           = $this->get_konversi_kode($this->kode_cara_kb, $rowData[$kolom_impor_keluarga['cara_kb_id']]);
+        $isi_baris['hamil']                = $this->get_konversi_kode($this->kode_hamil, $rowData[$kolom_impor_keluarga['hamil']]);
+        $isi_baris['ktp_el']               = $this->get_konversi_kode($this->kode_ktp_el, $rowData[$kolom_impor_keluarga['ktp_el']]);
+        $isi_baris['status_rekam']         = $this->get_konversi_kode($this->kode_status_rekam, $rowData[$kolom_impor_keluarga['status_rekam']]);
+        $isi_baris['alamat_sekarang']      = $this->cek_kosong($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
+        $isi_baris['status_dasar']         = $this->get_konversi_kode($this->kode_status_dasar, $rowData[$kolom_impor_keluarga['status_dasar']]);
+        $isi_baris['suku']                 = $this->cek_kosong($rowData[$kolom_impor_keluarga['suku']]);
 
         return $isi_baris;
     }
@@ -429,7 +435,7 @@ class Import_model extends CI_Model
         $this->error_tulis_penduduk = null;
 
         // Siapkan data penduduk
-        $kolom_baris = ['nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar'];
+        $kolom_baris = ['nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar', 'suku'];
 
         foreach ($kolom_baris as $kolom) {
             $data[$kolom] = $isi_baris[$kolom];
