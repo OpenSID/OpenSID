@@ -353,6 +353,10 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if (! $this->db->field_exists('updated_at', $table)) {
             $hasil = $hasil && $this->dbforge->add_column($table, 'updated_at TIMESTAMP');
+        }
+
+        return $hasil;
+    }
 
     protected function hapus_tabel_migrations($hasil)
     {
