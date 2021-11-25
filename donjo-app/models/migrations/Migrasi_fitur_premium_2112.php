@@ -310,7 +310,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_pembangunan = $this->pembangunan_model->get_data()->get()->result_array()) {
             foreach ($data_pembangunan as $pembangunan) {
-                $slug  = $this->pembangunan_model->str_slug($pembangunan);
+                $slug  = unique_slug('pembangunan', $pembangunan['judul']);
                 $hasil = $hasil && $this->db->where('id', $pembangunan['id'])->update('pembangunan', ['slug' => $slug]);
             }
         }
@@ -403,7 +403,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_suplemen = $this->suplemen_model->list_data()) {
             foreach ($data_suplemen as $suplemen) {
-                $slug  = $this->suplemen_model->str_slug($suplemen);
+                $slug  = unique_slug('suplemen', $suplemen['nama']);
                 $hasil = $hasil && $this->db->where('id', $suplemen['id'])->update('suplemen', ['slug' => $slug]);
             }
         }

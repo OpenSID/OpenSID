@@ -159,6 +159,7 @@ class Pembangunan_model extends MY_Model
         $data = [
             'sumber_dana'             => $post['sumber_dana'],
             'judul'                   => $post['judul'],
+            'slug'                    => unique_slug($this->table, $post['judul']),
             'volume'                  => $post['volume'],
             'waktu'                   => $post['waktu'],
             'tahun_anggaran'          => $post['tahun_anggaran'],
@@ -176,8 +177,6 @@ class Pembangunan_model extends MY_Model
             'manfaat'                 => $post['manfaat'],
             'sifat_proyek'            => $post['sifat_proyek'],
         ];
-
-        $data['slug'] = $this->str_slug($data);
 
         return $data;
     }
@@ -326,13 +325,5 @@ class Pembangunan_model extends MY_Model
 				w.dusun
 			) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat"
         );
-    }
-
-    public function str_slug($data = null)
-    {
-        $slug     = url_title($data['judul'], 'dash', true);
-        $cek_slug = $this->db->get_where($this->table, ['slug' => $slug, 'id !=' => $data['id']])->row();
-
-        return $slug . ($cek_slug ? '-' . ($data['id'] ?? 1) : '');
     }
 }

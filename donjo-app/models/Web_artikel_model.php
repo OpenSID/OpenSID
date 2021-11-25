@@ -216,9 +216,6 @@ class Web_artikel_model extends MY_Model
         // Batasi judul menggunakan teks polos
         $data['judul'] = strip_tags($data['judul']);
 
-        // Gunakan judul untuk url artikel
-        $slug = $this->str_slug($data['judul']);
-
         $fp          = time();
         $list_gambar = ['gambar', 'gambar1', 'gambar2', 'gambar3'];
 
@@ -279,7 +276,8 @@ class Web_artikel_model extends MY_Model
             $data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
         }
 
-        $data['slug'] = $slug; // insert slug
+        $data['slug'] = unique_slug('artikel', $data['judul']);
+
         if ($cat == AGENDA) {
             $outp = $this->insert_agenda($data);
         } else {
@@ -289,24 +287,7 @@ class Web_artikel_model extends MY_Model
             $_SESSION['success'] = -1;
         }
     }
-
-    //Buat slug unik
-    private function str_slug($str)
-    {
-        $slug      = url_title($str, 'dash', $lowercase = true);
-        $cek_slug  = true;
-        $n         = 1;
-        $slug_unik = $slug;
-
-        while ($cek_slug) {
-            $cek_slug = $this->db->where('slug', $slug_unik)->get('artikel')->num_rows();
-            if ($cek_slug) {
-                $slug_unik = $slug . '-' . $n++;
-            }
-        }
-
-        return $slug_unik;
-    }
+    
 
     private function ambil_data_agenda(&$data)
     {
@@ -415,6 +396,8 @@ class Web_artikel_model extends MY_Model
             $tempTgl            = date_create_from_format('d-m-Y H:i:s', $data['tgl_agenda']);
             $data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
         }
+
+        $data['slug'] = unique_slug('artikel', $data['judul']);
 
         if ($cat == AGENDA) {
             $outp = $this->update_agenda($id, $data);
