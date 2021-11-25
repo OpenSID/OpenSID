@@ -335,7 +335,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         $table = 'tweb_penduduk_mandiri';
 
         if (! $this->db->field_exists('email_verified_at', $table)) {
-            $hasil = $hasil && $this->dbforge->add_column($table, 'email_verified_at TIMESTAMP NOT NULL');
+            $hasil = $hasil && $this->dbforge->add_column($table, 'email_verified_at TIMESTAMP');
         }
 
         if (! $this->db->field_exists('remember_token', $table)) {
@@ -351,7 +351,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         }
 
         if (! $this->db->field_exists('updated_at', $table)) {
-            $hasil = $hasil && $this->dbforge->add_column($table, 'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
+            $hasil = $hasil && $this->dbforge->add_column($table, 'updated_at TIMESTAMP');
         }
 
         return $hasil;
@@ -370,17 +370,17 @@ class Migrasi_fitur_premium_2112 extends MY_Model
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
                 'null'       => false,
-                'unique'     => true,
             ],
             'token' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
                 'null'       => false,
             ],
-            'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+            'updated_at TIMESTAMP',
         ];
         $this->dbforge->add_field($fields);
-
+        $this->dbforge->add_key('email', true);
+        
         return $hasil && $this->dbforge->create_table('password_resets', true);
     }
 }
