@@ -87,6 +87,7 @@ class MY_Model extends CI_Model
             case 'status-sdgs':
             case 'lapak':
             case 'pembangunan':
+            case 'galeri':
                 break;
 
             default:

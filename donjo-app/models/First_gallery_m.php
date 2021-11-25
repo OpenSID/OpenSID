@@ -89,8 +89,7 @@ class First_gallery_m extends CI_Model
 
     public function paging2($gal = 0, $p = 1)
     {
-        // di rincian, cover tetap diikutkan, jadi jangan lupa paging juga memperhitungkan kehadirannya :)
-        $sql      = "SELECT COUNT(id) AS id FROM gambar_gallery WHERE enabled = 1 AND (id = '{$gal}' or parrent = '{$gal}')";
+        $sql      = "SELECT COUNT(id) AS id FROM gambar_gallery WHERE enabled = 1 AND (parrent = '{$gal}')";
         $query    = $this->db->query($sql, $gal);
         $row      = $query->row_array();
         $jml_data = $row['id'];
