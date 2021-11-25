@@ -61,7 +61,6 @@ class First extends Web_Controller
         // Load library statistik pengunjung
         $this->load->library('statistik_pengunjung');
 
-        $this->load->model('config_model');
         $this->load->model('first_artikel_m');
         $this->load->model('first_gallery_m');
         $this->load->model('web_menu_model');
@@ -74,7 +73,6 @@ class First extends Web_Controller
         $this->load->model('laporan_penduduk_model');
         $this->load->model('track_model');
         $this->load->model('keluar_model');
-        $this->load->model('referensi_model');
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_manual_model');
         $this->load->model('web_dokumen_model');

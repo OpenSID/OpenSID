@@ -46,15 +46,12 @@ class Migrasi_fitur_premium_2110 extends MY_Model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2109');
 
-        log_message('error', 'Jalankan ' . static::class);
-
         $hasil = $hasil && $this->migrasi_2021090971($hasil);
         $hasil = $hasil && $this->migrasi_2021091771($hasil);
         $hasil = $hasil && $this->migrasi_2021091751($hasil);
         $hasil = $hasil && $this->migrasi_2021092071($hasil);
-        $hasil = $hasil && $this->migrasi_2021092171($hasil);
 
-        return $hasil;
+        return $hasil && $this->migrasi_2021092171($hasil);
     }
 
     protected function migrasi_2021090971($hasil)

@@ -53,7 +53,7 @@ class Area extends Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model(['wilayah_model', 'config_model', 'plan_lokasi_model', 'plan_area_model', 'plan_garis_model', 'pembangunan_model', 'pembangunan_dokumentasi_model']);
+        $this->load->model(['wilayah_model', 'plan_lokasi_model', 'plan_area_model', 'plan_garis_model', 'pembangunan_model', 'pembangunan_dokumentasi_model']);
         $this->modul_ini     = 9;
         $this->sub_modul_ini = 8;
         $this->list_session;

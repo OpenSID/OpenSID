@@ -45,7 +45,7 @@ class Dpt extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'dpt_model', 'referensi_model', 'wilayah_model']);
+        $this->load->model(['penduduk_model', 'dpt_model', 'wilayah_model']);
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 26;
         $this->set_page      = ['20', '50', '100'];

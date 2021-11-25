@@ -44,7 +44,6 @@ class Pembangunan_dokumentasi extends Admin_Controller
         parent::__construct();
         $this->modul_ini = 220;
         $this->load->library('upload');
-        $this->load->model('referensi_model');
         $this->load->model('pembangunan_model');
         $this->load->model('pembangunan_dokumentasi_model', 'model');
     }

@@ -46,7 +46,7 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model(['pamong_model', 'penduduk_model', 'referensi_model']);
+        $this->load->model(['pamong_model', 'penduduk_model']);
 
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 303;

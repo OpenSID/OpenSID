@@ -46,9 +46,7 @@ class Ekspedisi extends Admin_Controller
         $this->load->model('surat_keluar_model');
         $this->load->model('ekspedisi_model');
         $this->load->model('klasifikasi_model');
-        $this->load->model('config_model');
         $this->load->model('pamong_model');
-        $this->load->model('header_model');
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 302;
     }

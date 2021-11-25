@@ -37,18 +37,15 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_fitur_premium_2009 extends CI_model
+class Migrasi_fitur_premium_2009 extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        log_message('error', 'Jalankan ' . static::class);
-
         $hasil = $hasil && $this->buku_administrasi_desa($hasil);
-        $hasil = $hasil && $this->tambah_kolom_pemerintahan_desa($hasil);
 
-        return $hasil;
+        return $hasil && $this->tambah_kolom_pemerintahan_desa($hasil);
     }
 
     private function buku_administrasi_desa($hasil)

@@ -260,6 +260,7 @@ class Keluarga_model extends MY_Model
             } else {
                 $data[$i]['sex'] = 'PEREMPUAN';
             }
+            $data[$i]['boleh_hapus'] = $this->cek_boleh_hapus($data[$i]['id']);
             $j++;
         }
 
@@ -444,7 +445,57 @@ class Keluarga_model extends MY_Model
         $log['tanggal']    = date('Y-m-d H:i:s');
         $outp              = $this->db->insert('log_perubahan_penduduk', $log);
 
+        // Untuk statistik perkembangan keluarga
+        $this->log_keluarga($kk_id, $data2['nik_kepala'], 1);
+
         status_sukses($outp); //Tampilkan Pesan
+    }
+
+    /* Keluarga tidak boleh dihapus, jika:
+        (1) masih ada anggota keluarga
+        (2) kepala keluarga sebelumnya mati/pindah/hilang
+        (3) digunakan di bantuan, data suplemen atau analisis
+    */
+    public function cek_boleh_hapus($id)
+    {
+        $jml_anggota = $this->db
+            ->from('tweb_penduduk')
+            ->where('id_kk', $id)
+            ->count_all_results();
+        if ($jml_anggota > 0) {
+            return false;
+        }
+        $kepala_keluarga = $this->keluarga_model->get_kepala_a($id);
+        if ($kepala_keluarga && $kepala_keluarga['status_dasar'] != 1) {
+            return false;
+        }
+        $bantuan = $this->db
+            ->from('program_peserta pp')
+            ->join('tweb_keluarga k', 'k.no_kk = pp.peserta')
+            ->join('program p', 'pp.program_id = p.id')
+            ->where('p.sasaran', 2)
+            ->where('k.id', $id)
+            ->count_all_results();
+        if ($bantuan > 0) {
+            return false;
+        }
+        $suplemen = $this->db
+            ->from('suplemen_terdata')
+            ->where('id_terdata', $id)
+            ->where('sasaran', 2)
+            ->count_all_results();
+        if ($suplemen > 0) {
+            return false;
+        }
+        $analisis = $this->db
+            ->from('analisis_respon r')
+            ->join('analisis_indikator i', 'i.id = r.id_indikator')
+            ->join('analisis_master m', 'm.id = i.id_master')
+            ->where('r.id_subjek', $id)
+            ->where('m.jenis', 2)
+            ->count_all_results();
+
+        return ! ($analisis > 0);
     }
 
     /* 	Hapus keluarga:
@@ -458,9 +509,9 @@ class Keluarga_model extends MY_Model
             $this->session->success = 1;
         }
 
-        if ($this->keluarga_model->get_kepala_a($id)['status_dasar'] != 1) {
+        if (! $this->cek_boleh_hapus($id)) {
             $this->session->success   = -1;
-            $this->session->error_msg = "Keluarga {$id} tidak diperbolehkan dihapus";
+            $this->session->error_msg = "Keluarga ini (id = {$id} ) tidak diperbolehkan dihapus";
 
             return;
         }
@@ -789,6 +840,15 @@ class Keluarga_model extends MY_Model
             ->where('u.id = (' . $nik_kepala . ')');
 
         $data = $this->db->get()->row_array();
+
+        // Untuk keluarga kosong
+        if (empty($data)) {
+            $no_kk = $this->db
+                ->select('no_kk')
+                ->from('tweb_keluarga')
+                ->get()->row()->no_kk;
+            $data['no_kk'] = $no_kk;
+        }
 
         if ($data['dusun'] != '-' && $data['dusun'] != '') {
             $data['alamat_plus_dusun'] = trim($data['alamat'] . ' ' . ucwords($this->setting->sebutan_dusun) . ' ' . $data['dusun']);

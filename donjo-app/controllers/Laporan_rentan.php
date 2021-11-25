@@ -44,7 +44,6 @@ class Laporan_rentan extends Admin_Controller
         parent::__construct();
 
         $this->load->model('laporan_bulanan_model');
-        $this->load->model('config_model');
         $this->load->model('wilayah_model');
 
         //Initialize Session ------------

@@ -46,8 +46,6 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2111');
 
-        log_message('error', 'Jalankan ' . static::class);
-
         $hasil = $hasil && $this->migrasi_2021110571($hasil);
         $hasil = $hasil && $this->migrasi_2021111251($hasil);
         $hasil = $hasil && $this->migrasi_2021111451($hasil);
@@ -56,7 +54,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021111571($hasil);
         $hasil = $hasil && $this->migrasi_2021112051($hasil);
 
-        return $hasil;
+        return $hasil && $this->migrasi_2021112171($hasil);
     }
 
     // Tambah modul kader pemberdayaan masyarakat
@@ -322,5 +320,67 @@ class Migrasi_fitur_premium_2112 extends MY_Model
     protected function migrasi_2021112051($hasil)
     {
         return $hasil && $this->dbforge->drop_table('log_bulanan', true);
+    }
+
+    protected function migrasi_2021112171($hasil)
+    {
+        $hasil = $hasil && $this->tambah_kolom($hasil);
+        $hasil = $hasil && $this->hapus_tabel_migrations($hasil);
+
+        return $hasil && $this->tambah_tabel($hasil);
+    }
+
+    protected function tambah_kolom($hasil)
+    {
+        $table = 'tweb_penduduk_mandiri';
+
+        if (! $this->db->field_exists('email_verified_at', $table)) {
+            $hasil = $hasil && $this->dbforge->add_column($table, 'email_verified_at TIMESTAMP');
+        }
+
+        if (! $this->db->field_exists('remember_token', $table)) {
+            $fields = [
+                'remember_token' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'default'    => null,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column($table, $fields);
+        }
+
+        if (! $this->db->field_exists('updated_at', $table)) {
+            $hasil = $hasil && $this->dbforge->add_column($table, 'updated_at TIMESTAMP');
+        }
+
+        return $hasil;
+    }
+
+    protected function hapus_tabel_migrations($hasil)
+    {
+        // Hapus tabel migrations bagi yang terlanjur menjalankan php artisan migrate di api
+        return $hasil && $this->dbforge->drop_table('migrations', true);
+    }
+
+    protected function tambah_tabel($hasil)
+    {
+        $fields = [
+            'email' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => false,
+            ],
+            'token' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => false,
+            ],
+            'updated_at TIMESTAMP',
+        ];
+        $this->dbforge->add_field($fields);
+        $this->dbforge->add_key('email', true);
+
+        return $hasil && $this->dbforge->create_table('password_resets', true);
     }
 }

@@ -45,7 +45,6 @@ class Laporan extends Admin_Controller
 
         $this->load->model('laporan_bulanan_model');
         $this->load->model('pamong_model');
-        $this->load->model('config_model');
         $this->controller = 'laporan';
 
         //Initialize Session ------------
