@@ -167,11 +167,11 @@ $route['v/(:any)']                = WEB . '/verifikasi_surat/cek/$1';
 $route['c1/(:any)']               = WEB . '/verifikasi_surat/encode/$1';
 $route['verifikasi-surat/(:any)'] = WEB . '/verifikasi_surat/decode/$1';
 
-// Halaman Galeri
-$route['galeri/(:any)/index/(:num)'] = 'first/sub_gallery/$1/$2';
-$route['galeri/(:num)']              = 'first/sub_gallery/$1';
-$route['galeri/index/(:num)']        = 'first/gallery/$1';
-$route['galeri']                     = 'first/gallery';
+// Galeri
+$route['galeri/(:num)/index/(:num)'] = WEB . '/galeri/detail/$1/$2';
+$route['galeri/(:num)']              = WEB . '/galeri/detail/$1';
+$route['galeri/index/(:num)']        = WEB . '/galeri/index/$1';
+$route['galeri']                     = WEB . '/galeri';
 
 // Suplemen
 $route['data-suplemen/(:any)'] = WEB . '/suplemen/detail/$1';
