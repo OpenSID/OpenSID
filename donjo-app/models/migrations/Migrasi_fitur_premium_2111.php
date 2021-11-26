@@ -51,7 +51,6 @@ class Migrasi_fitur_premium_2111 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021101572($hasil);
         $hasil = $hasil && $this->migrasi_2021101351($hasil);
         $hasil = $hasil && $this->migrasi_2021101871($hasil);
-        $hasil = $hasil && $this->migrasi_2021101671($hasil);
         $hasil = $hasil && $this->migrasi_2021101872($hasil);
         $hasil = $hasil && $this->migrasi_2021102071($hasil);
         $hasil = $hasil && $this->migrasi_2021102271($hasil);
@@ -192,28 +191,6 @@ class Migrasi_fitur_premium_2111 extends MY_Model
     protected function migrasi_2021102071($hasil)
     {
         return $hasil && $this->db->where('link', 'wilayah')->update('menu', ['link' => 'data-wilayah']);
-    }
-
-    protected function migrasi_2021101671($hasil)
-    {
-        $hasil = $hasil && $this->tambah_modul([
-            'id'         => 331,
-            'modul'      => 'Pendaftaran Kerjasama',
-            'url'        => 'pendaftaran_kerjasama',
-            'aktif'      => 1,
-            'ikon'       => 'fa-list',
-            'urut'       => 6,
-            'level'      => 2,
-            'hidden'     => 0,
-            'ikon_kecil' => 'fa-list',
-            'parent'     => 200,
-        ]);
-
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
     }
 
     protected function migrasi_2021102271($hasil)

@@ -51,7 +51,6 @@ class Migrasi_fitur_premium_2108 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021071551($hasil);
         $hasil = $hasil && $this->migrasi_2021072672($hasil);
         $hasil = $hasil && $this->migrasi_2021072971($hasil);
-        $hasil = $hasil && $this->migrasi_2021072972($hasil);
 
         return $hasil && $this->migrasi_2021072951($hasil);
     }
@@ -204,14 +203,6 @@ class Migrasi_fitur_premium_2108 extends MY_Model
         return $hasil && $this->db
             ->where_in('key', ['api_opendk_server', 'api_opendk_key', 'api_opendk_user', 'api_opendk_password'])
             ->update('setting_aplikasi', ['kategori' => 'opendk']);
-    }
-
-    protected function migrasi_2021072972($hasil)
-    {
-        // Hapus key layanan_opendesa_server, layanan_opendesa_dev_server dan dev_tracker
-        return $hasil && $this->db
-            ->where_in('key', ['layanan_opendesa_server', 'layanan_opendesa_dev_server', 'dev_tracker'])
-            ->delete('setting_aplikasi');
     }
 
     // Sesuaikan tabel menu
