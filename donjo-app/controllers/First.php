@@ -64,17 +64,14 @@ class First extends Web_Controller
         $this->load->model('first_artikel_m');
         $this->load->model('first_penduduk_m');
         $this->load->model('penduduk_model');
-        $this->load->model('suplemen_model');
         $this->load->model('surat_model');
         $this->load->model('keluarga_model');
-        $this->load->model('web_gallery_model');
         $this->load->model('laporan_penduduk_model');
         $this->load->model('track_model');
         $this->load->model('keluar_model');
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_manual_model');
         $this->load->model('web_dokumen_model');
-        $this->load->model('lapor_model');
         $this->load->model('program_bantuan_model');
         $this->load->model('keuangan_manual_model');
         $this->load->model('keuangan_grafik_model');
@@ -218,6 +215,16 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
+    public function kelompok($slug = '')
+    {
+        redirect('data-kelompok/' . $slug);
+    }
+
+    public function suplemen($slug = '')
+    {
+        redirect('data-suplemen/' . $slug);
+    }
+
     public function ajax_peserta_program_bantuan()
     {
         $peserta = $this->program_bantuan_model->get_peserta_bantuan();
@@ -321,7 +328,6 @@ class First extends Web_Controller
         $this->load->model('web_dokumen_model');
         $data = $this->includes;
 
-        $data['cek']            = $cek;
         $data['kategori']       = $this->referensi_model->list_data('ref_dokumen', 1);
         $data['tahun']          = $this->web_dokumen_model->tahun_dokumen();
         $data['heading']        = 'Produk Hukum';
