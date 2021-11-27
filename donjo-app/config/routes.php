@@ -112,6 +112,9 @@ $route['load_aparatur_desa'] = 'first/load_aparatur_desa';
 $route['load_aparatur_wilayah/(.+)'] = 'first/load_aparatur_wilayah/$1';
 $route['gallery'] = 'first/gallery';
 
+//Admin Gallery
+$route['web-gallery'] = 'gallery';
+
 // URL Shortener
 $route['v/(:any)'] = 'first/redirect/$1';
 $route['c1/(:any)'] = 'dokumen_web/check_surat1/$1';
