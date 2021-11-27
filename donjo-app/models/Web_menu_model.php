@@ -194,9 +194,13 @@ class Web_menu_model extends MY_Model
 
     public function get_menu($id = 0)
     {
-        return $this->db
+        $data = $this->db
             ->get_where($this->table, ['id' => $id])
             ->row_array();
+
+        $data['link'] = $this->menu_slug($data['link']);
+
+        return $data;
     }
 
     // $arah:

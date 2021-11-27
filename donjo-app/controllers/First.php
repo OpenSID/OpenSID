@@ -62,20 +62,16 @@ class First extends Web_Controller
         $this->load->library('statistik_pengunjung');
 
         $this->load->model('first_artikel_m');
-        $this->load->model('first_gallery_m');
         $this->load->model('first_penduduk_m');
         $this->load->model('penduduk_model');
-        $this->load->model('suplemen_model');
         $this->load->model('surat_model');
         $this->load->model('keluarga_model');
-        $this->load->model('web_gallery_model');
         $this->load->model('laporan_penduduk_model');
         $this->load->model('track_model');
         $this->load->model('keluar_model');
         $this->load->model('keuangan_model');
         $this->load->model('keuangan_manual_model');
         $this->load->model('web_dokumen_model');
-        $this->load->model('lapor_model');
         $this->load->model('program_bantuan_model');
         $this->load->model('keuangan_manual_model');
         $this->load->model('keuangan_grafik_model');
@@ -177,44 +173,26 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    // Halaman arsip album galeri
     public function gallery($p = 1)
     {
-        $data                 = $this->includes;
-        $data['p']            = $p;
-        $data['paging']       = $this->first_gallery_m->paging($p);
-        $data['paging_range'] = 3;
-        $data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
-        $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
-        $data['pages']        = range($data['start_paging'], $data['end_paging']);
-        $data['gallery']      = $this->first_gallery_m->gallery_show($data['paging']->offset, $data['paging']->per_page);
-        $data['paging_page']  = 'index';
+        if ($p > 1) {
+            $index = '/index/' . $p;
+        }
 
-        $this->_get_common_data($data);
-
-        $this->set_template('layouts/gallery.tpl.php');
-        $this->load->view($this->template, $data);
+        redirect('galeri' . $index);
     }
 
-    // halaman rincian tiap album galeri
     public function sub_gallery($parent = 0, $p = 1)
     {
-        $data                 = $this->includes;
-        $data['p']            = $p;
-        $data['paging']       = $this->first_gallery_m->paging2($parent, $p);
-        $data['paging_range'] = 3;
-        $data['start_paging'] = max($data['paging']->start_link, $p - $data['paging_range']);
-        $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
-        $data['pages']        = range($data['start_paging'], $data['end_paging']);
+        if ($parent) {
+            $index = '/' . $parent;
 
-        $data['gallery']     = $this->first_gallery_m->sub_gallery_show($parent, $data['paging']->offset, $data['paging']->per_page);
-        $data['parent']      = $this->first_gallery_m->get_parent($parent);
-        $data['paging_page'] = "{$parent}/index";
+            if ($p > 1) {
+                $index .= '/index/' . $p;
+            }
+        }
 
-        $this->_get_common_data($data);
-
-        $this->set_template('layouts/sub_gallery.tpl.php');
-        $this->load->view($this->template, $data);
+        redirect('galeri' . $index);
     }
 
     public function statistik($stat = 0, $tipe = 0)
@@ -237,27 +215,14 @@ class First extends Web_Controller
         $this->load->view($this->template, $data);
     }
 
-    public function kelompok($id)
+    public function kelompok($slug = '')
     {
-        if (! $this->web_menu_model->menu_aktif('data-kelompok/' . $id)) {
-            show_404();
-        }
+        redirect('data-kelompok/' . $slug);
+    }
 
-        $data = $this->includes;
-
-        $data['detail']   = $this->kelompok_model->get_kelompok($id);
-        $data['title']    = 'Data Kelompok ' . $data['detail']['nama'];
-        $data['pengurus'] = $this->kelompok_model->list_pengurus($id);
-        $data['anggota']  = $this->kelompok_model->list_anggota($id, $sub = 'anggota');
-
-        // Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
-        if ($data['detail'] == null) {
-            show_404();
-        }
-
-        $this->_get_common_data($data);
-        $this->set_template('layouts/kelompok.tpl.php');
-        $this->load->view($this->template, $data);
+    public function suplemen($slug = '')
+    {
+        redirect('data-suplemen/' . $slug);
     }
 
     public function ajax_peserta_program_bantuan()
@@ -363,7 +328,6 @@ class First extends Web_Controller
         $this->load->model('web_dokumen_model');
         $data = $this->includes;
 
-        $data['cek']            = $cek;
         $data['kategori']       = $this->referensi_model->list_data('ref_dokumen', 1);
         $data['tahun']          = $this->web_dokumen_model->tahun_dokumen();
         $data['heading']        = 'Produk Hukum';

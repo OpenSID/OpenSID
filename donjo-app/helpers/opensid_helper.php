@@ -51,7 +51,7 @@ define('VERSION', '21.11-premium-beta02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2021112571');
+define('VERSI_DATABASE', '2021112572');
 define('LOKASI_LOGO_DESA', 'desa/logo/');
 define('LOKASI_ARSIP', 'desa/arsip/');
 define('LOKASI_CONFIG_DESA', 'desa/config/');
@@ -1016,4 +1016,27 @@ function isLocalIPAddress($IPAddress)
     }
 
     return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+}
+
+function unique_slug($tabel = null, $str = null)
+{
+    if ($tabel && $str) {
+        $CI = &get_instance();
+
+        $slug      = url_title($str, 'dash', true);
+        $cek_slug  = true;
+        $n         = 1;
+        $slug_unik = $slug;
+
+        while ($cek_slug) {
+            $cek_slug = $CI->db->get_where($tabel, ['slug' => $slug_unik])->num_rows();
+            if ($cek_slug) {
+                $slug_unik = $slug . '-' . $n++;
+            }
+        }
+
+        return $slug_unik;
+    }
+
+    return null;
 }

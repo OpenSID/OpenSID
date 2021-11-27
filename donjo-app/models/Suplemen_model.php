@@ -46,27 +46,26 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class Suplemen_model extends MY_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $table = 'suplemen';
 
     public function create()
     {
-        $data                = $this->validasi($this->input->post());
-        $hasil               = $this->db->insert('suplemen', $data);
-        $_SESSION['success'] = $hasil ? 1 : -1;
+        $data  = $this->validasi($this->input->post());
+        $hasil = $this->db->insert($this->table, $data);
+
+        status_sukses($hasil); //Tampilkan Pesan
     }
 
     private function validasi($post)
     {
-        $data = [];
-        // Ambil dan bersihkan data input
-        $data['sasaran']    = $post['sasaran'];
-        $data['nama']       = nomor_surat_keputusan($post['nama']);
-        $data['keterangan'] = htmlentities($post['keterangan']);
+        $nama = nomor_surat_keputusan($post['nama']);
 
-        return $data;
+        return [
+            'sasaran'    => $post['sasaran'],
+            'nama'       => $nama,
+            'slug'       => unique_slug($this->table, $nama),
+            'keterangan' => htmlentities($post['keterangan']),
+        ];
     }
 
     public function paging_suplemen($page_number = 1)
@@ -236,7 +235,7 @@ class Suplemen_model extends MY_Model
 
     public function get_rincian($p, $suplemen_id)
     {
-        $suplemen = $this->db->where('id', $suplemen_id)->get('suplemen')->row_array();
+        $suplemen = $this->db->where('id', $suplemen_id)->get($this->table)->row_array();
 
         switch ($suplemen['sasaran']) {
             // Sasaran Penduduk
@@ -262,8 +261,8 @@ class Suplemen_model extends MY_Model
                 break;
         }
 
-        $data['suplemen'] = $suplemen;
-        $data['keyword']  = $this->autocomplete($suplemen['sasaran']);
+        $data[$this->table] = $suplemen;
+        $data['keyword']    = $this->autocomplete($suplemen['sasaran']);
 
         return $data;
     }
@@ -433,7 +432,7 @@ class Suplemen_model extends MY_Model
 
             return;
         }
-        $hasil = $this->db->where('id', $id)->delete('suplemen');
+        $hasil = $this->db->where('id', $id)->delete($this->table);
 
         status_sukses($hasil); //Tampilkan Pesan
     }
@@ -441,7 +440,7 @@ class Suplemen_model extends MY_Model
     public function update($id)
     {
         $data  = $this->validasi($this->input->post());
-        $hasil = $this->db->where('id', $id)->update('suplemen', $data);
+        $hasil = $this->db->where('id', $id)->update($this->table, $data);
 
         status_sukses($hasil); //Tampilkan Pesan
     }
@@ -449,7 +448,7 @@ class Suplemen_model extends MY_Model
     public function add_terdata($post, $id)
     {
         $id_terdata = $post['id_terdata'];
-        $sasaran    = $this->db->select('sasaran')->where('id', $id)->get('suplemen')->row()->sasaran;
+        $sasaran    = $this->db->select('sasaran')->where('id', $id)->get($this->table)->row()->sasaran;
         $hasil      = $this->db->where('id_suplemen', $id)->where('id_terdata', $id_terdata)->get('suplemen_terdata');
         if ($hasil->num_rows() > 0) {
             return false;
@@ -533,7 +532,7 @@ class Suplemen_model extends MY_Model
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
-                        'id'    => $id,
+                        'id'    => $id_terdata,
                         'nama'  => $row['nama'] . ' - ' . $row['nik'],
                         'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
                         'foto'  => $row['foto'],
@@ -553,7 +552,7 @@ class Suplemen_model extends MY_Model
                 if ($query->num_rows() > 0) {
                     $row         = $query->row_array();
                     $data_profil = [
-                        'id'    => $id,
+                        'id'    => $id_terdata,
                         'nama'  => 'Kepala KK : ' . $row['nama'] . ', NO KK: ' . $row['no_kk'],
                         'ndesc' => 'Alamat: ' . $row['alamat'] . ' RT ' . strtoupper($row['rt']) . ' / RW ' . strtoupper($row['rw']) . ' ' . strtoupper($row['dusun']),
                         'foto'  => '',
@@ -642,7 +641,7 @@ class Suplemen_model extends MY_Model
         $data_suplemen = $this->get_rincian(0, $id);
         // print_r($data_anggota);
         $writer    = WriterEntityFactory::createXLSXWriter();
-        $file_name = namafile($data_suplemen['suplemen']['nama']) . '.xlsx';
+        $file_name = namafile($data_suplemen[$this->table]['nama']) . '.xlsx';
         // $writer->openToFile($filePath);
         $writer->openToBrowser($file_name);
 
@@ -860,7 +859,6 @@ class Suplemen_model extends MY_Model
             'gagal'  => $no_gagal,
             'sukses' => $no_sukses,
             'pesan'  => $pesan,
-            'total'  => $total,
         ];
 
         $this->session->set_flashdata('notif', $notif);
@@ -946,16 +944,8 @@ class Suplemen_model extends MY_Model
     {
         return $this->db
             ->select('id')
-            ->get_where('suplemen', ['slug' => $slug])
+            ->get_where($this->table, ['slug' => $slug])
             ->row()
             ->id;
-    }
-
-    public function str_slug($data = null)
-    {
-        $slug     = url_title($data['nama'], 'dash', true);
-        $cek_slug = $this->db->get_where('suplemen', ['slug' => $slug, 'id !=' => $data['id']])->row();
-
-        return $slug . ($cek_slug ? '-' . ($data['id'] ?? 1) : '');
     }
 }
