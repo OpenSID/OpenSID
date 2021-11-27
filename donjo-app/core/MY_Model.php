@@ -41,9 +41,6 @@ class MY_Model extends CI_Model
 			case 'peta':
 			case 'data-suplemen':
 			case 'web-gallery ':
-			case 'sub-gallery':
-			case 'sub-gallery/$1':
-			case 'sub_gallery/$1/$2':
 
 				break;
 
