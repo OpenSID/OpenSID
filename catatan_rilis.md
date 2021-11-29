@@ -57,4 +57,4 @@ Terima kasih pada [untuk_diisi] yang terus berkontribusi.
 15. Pindahkan migrasi opensid-api ke opensid.
 16. Load model ketika dibutuhkan saja untuk mempercepat.
 17. Hapus duplikasi assets print preview.
-18. Seramkan gambar pengguna, buat lebih jelas.
+18. Seragamkan gambar pengguna, supaya lebih jelas.
