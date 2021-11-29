@@ -378,7 +378,9 @@ class Migrasi_fitur_premium_2112 extends MY_Model
                 'constraint' => 255,
                 'null'       => false,
             ],
-            'updated_at TIMESTAMP',
+            'created_at' => [
+                'type' => 'TIMESTAMP',
+            ],
         ];
         $this->dbforge->add_field($fields);
         $this->dbforge->add_key('email', true);
