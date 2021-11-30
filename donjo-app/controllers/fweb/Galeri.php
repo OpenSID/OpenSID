@@ -43,6 +43,9 @@ class Galeri extends Web_Controller
     {
         parent::__construct();
         $this->load->model('first_gallery_m');
+        if (! $this->web_menu_model->menu_aktif('galeri')) {
+            show_404();
+        }
     }
 
     public function index($p = 1)
