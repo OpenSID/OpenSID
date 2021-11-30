@@ -118,9 +118,9 @@ class First_gallery_m extends CI_Model
         return $query->result_array();
     }
 
-    public function get_parrent($parrent)
+    public function get_parent($parent)
     {
-        $sql   = "SELECT * FROM gambar_gallery WHERE id = '{$parrent}'";
+        $sql   = "SELECT * FROM gambar_gallery WHERE id = '{$parent}'";
         $query = $this->db->query($sql);
 
         return $query->row_array();

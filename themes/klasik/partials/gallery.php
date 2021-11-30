@@ -17,7 +17,7 @@
 								</a>
 								<div class="title">
 									<a href="<?= site_url("galeri/{$data['id']}") ?>" title="<?= $data['nama'] ?>">
-										Album: <?= $data['nama'] ?>
+										Album : <?= $data['nama'] ?>
 									</a>
 								</div>
 							</li>
@@ -26,12 +26,13 @@
 						<?php endif ?>
 					<?php endforeach ?>
 				</ul>
+
+				<?php $this->load->view("$folder_themes/commons/page"); ?>
+
 			<?php else: ?>
 				<p>Data tidak tersedia</p>
 			<?php endif; ?>
 			<div class="clearboth"></div>
 		</div>
-		
-		<?php $this->load->view("$folder_themes/commons/page"); ?>
 	</div>
 </div>

@@ -1,3 +1,5 @@
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <link type='text/css' href="<?= base_url()?>assets/front/css/slider.css" rel='Stylesheet' />
 <script src="<?= base_url()?>assets/front/js/jquery.cycle2.caption2.min.js"></script>
 <style type="text/css">

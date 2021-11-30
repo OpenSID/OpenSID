@@ -1,8 +1,8 @@
-<!-- widget Arsip Artikel -->
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_bottom_rightbar">
 	<h2>
-		<i class="fa fa-archive"></i> <a href="<?= site_url();?>arsip">Arsip Artikel</a>
+		<i class="fa fa-archive"></i> <a href="<?= site_url(); ?>arsip">Arsip Artikel</a>
 	</h2>
 		<ul role="tablist" class="nav nav-tabs custom-tabs">
 			<li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#terkini">Terbaru</a></li>
@@ -16,7 +16,7 @@
 						<?php foreach ($$jenis_arsip as $arsip): ?>
 							<tr>
 								<td colspan="2">
-								<span class="meta_date"><?= tgl_indo($arsip['tgl_upload']);?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']);?></span>
+								<span class="meta_date"><?= tgl_indo($arsip['tgl_upload']); ?> | <i class="fa fa-eye"></i> <?= hit($arsip['hit']); ?></span>
 								</td>
 							</tr>
 							<tr>

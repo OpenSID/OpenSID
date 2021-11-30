@@ -203,7 +203,7 @@ class Kelompok_model extends MY_Model
 
         $data['id_master']  = bilangan($post['id_master']);
         $data['nama']       = nama_terbatas($post['nama']);
-        $data['slug']       = unique_slug($data['nama']);
+        $data['slug']       = unique_slug($this->table, $data['nama']);
         $data['keterangan'] = htmlentities($post['keterangan']);
         $data['kode']       = nomor_surat_keputusan($post['kode']);
         $data['tipe']       = $this->tipe;

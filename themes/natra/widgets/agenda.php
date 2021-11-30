@@ -1,4 +1,4 @@
-<!-- Widget Agenda -->
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
 	#agenda .tab-content { margin-top: 0px; }

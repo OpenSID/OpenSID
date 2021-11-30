@@ -1,4 +1,4 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="archive_style_1" style="font-family: Oswald">
 	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Statistik COVID-19</span></h2>

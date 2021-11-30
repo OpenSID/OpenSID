@@ -4,8 +4,8 @@
 	<div class="box box-primary box-solid">
 		<div class="box-header">
 			<h3 class="box-title">
-				<a href="<?= site_url('galeri'); ?>"><i class="fa fa-arrow-left"></i> Galeri Album:
-					<?= $parrent['nama'] ?></a>
+				<a href="<?= site_url('galeri'); ?>"><i class="fa fa-arrow-left"></i> Galeri Album :
+					<?= $parent['nama'] ?></a>
 			</h3>
 		</div>
 		<div class="box-body">
@@ -16,12 +16,10 @@
 						<?php if (is_file(LOKASI_GALERI."sedang_{$data['gambar']}")) : ?>
 							<li>
 								<div class="entry">
-									<a href="<?= AmbilGaleri($data['gambar'],'sedang') ?>" class="group2">
-										<img src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" alt="">
-									</a>
+									<img src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" alt="<?= $data['nama']; ?>">
 								</div>
 								<div class="title">
-									<?= $data['nama'] ?>
+									<?= $data['nama']; ?>
 								</div>
 							</li>
 						<?php endif ?>
@@ -29,12 +27,13 @@
 						<?php $i++ ?>
 					<?php endforeach ?>
 				</ul>
+
+				<?php $this->load->view("$folder_themes/commons/page"); ?>
+				
 			<?php else: ?>
 				<p>Data tidak tersedia</p>
 			<?php endif; ?>
 			<div class="clearboth"></div>
 		</div>
-
-		<?php $this->load->view("$folder_themes/commons/page"); ?>
 	</div>
 </div>

@@ -1,4 +1,5 @@
-<!-- widget Sinergi Program-->
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <!-- TODO: Pindahkan ke external css -->
 <style>
 	#sinergi_program

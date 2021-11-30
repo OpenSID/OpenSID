@@ -1,4 +1,5 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
@@ -25,7 +26,7 @@
 				<div class="col-lg-9 col-md-9">
 					<div class="content_left">
 						<?php if ($halaman_statis == 'informasi_publik'): ?>
-							<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/informasi_publik.php'));?>
+							<?php $this->load->view("$folder_themes/partials/informasi_publik"); ?>
 						<?php else: ?>
 							<?php $this->load->view($halaman_statis); ?>
 						<?php endif; ?>

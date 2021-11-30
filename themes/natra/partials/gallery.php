@@ -1,32 +1,30 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_category wow fadeInDown">
-	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Galeri <?= $desa["nama_desa"] ?></span></h2>
+	<h2><span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Galeri <?= $desa["nama_desa"] ?></span></h2>
 </div>
 
 <div style="content_left">
-	<ul>
-	<?php $i = 1; ?>
-	<?php foreach($gallery AS $data): ?>
-		<?php if(is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>
-			<li>
-				<div class="single_page_content">
-				<a class="group2" href="<?= site_url() . "galeri/" . $data['id'] ?>">
-					<img class='img-fluid img-thumbnail' src="<?= AmbilGaleri($data['gambar'],'kecil') ?>" />
-				</a>
-				</div>
-				<div class="title">
-					<a href="<?= site_url() . "galeri/" . $data['id'] ?>"
-					title="<?= $data["nama"] ?>" > Album : <?= $data["nama"] ?></a>
-				</div>
-			</li>
-			<?php if (fmod($i,2) == 0): ?>
-				<br class="clearboth">
-			<?php endif ?>
-		<?php endif ?>
-	<?php endforeach ?>
-	</ul>
-	<br class="clearboth">
+	<?php if ($gallery): ?>
+		<div class="row">
+			<?php foreach ($gallery as $data): ?>
+				<?php if (is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>
+					<a href="<?= site_url() . "galeri/" . $data['id'] ?>">
+						<div class="col-sm-6">
+							<div class="card">
+								<img width="auto" class="img-fluid img-thumbnail" src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" alt="<?= $data['nama']; ?>"/>
+								<p align="center"><b>Album : <?= $data['nama']; ?></b></p>
+								<hr/>
+							</div>
+						</div>
+					</a>
+				<?php endif ?>
+			<?php endforeach ?>
+		</div>
 
 	<?php $this->load->view("$folder_themes/commons/page"); ?>
+
+	<?php else: ?>
+		<p>Data tidak tersedia</p>
+	<?php endif; ?>
 </div>
