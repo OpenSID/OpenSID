@@ -93,7 +93,7 @@
 													<th class="padat">Aksi</th>
 												<?php endif; ?>
 												<th class="text-center">Foto</th>
-												<th>Nama, NIP/<?= $this->setting->sebutan_nip_desa  ?>, NIK</th>
+												<th>Nama, NIP/<?= $this->setting->sebutan_nip_desa; ?>, NIK</th>
 												<th nowrap>Tempat, <p>Tanggal Lahir</p></th>
 												<th>Jenis Kelamin</th>
 												<th>Agama</th>
@@ -126,9 +126,9 @@
 															<?php endif; ?>
 															<?php if ($this->CI->cek_hak_akses('u')): ?>
 																<?php if ($data['pamong_status'] == '1'): ?>
-																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																<?php else: ?>
-																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
+																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/1")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a>
 																<?php endif ?>
 																<?php if ($data['pamong_ttd'] == '1'): ?>
 																	<a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
@@ -143,12 +143,8 @@
 															<?php endif; ?>
 														</td>
 													<?php endif; ?>
-													<td class="text-center">
-														<div class="user-panel">
-															<div class="image2">
-																<img src="<?=AmbilFoto($data['foto'], '', $data['id_sex'])?>" class="img-circle" alt="Foto pamong"/>
-															</div>
-														</div>
+													<td class="padat">
+														<img class="penduduk_kecil" src="<?=AmbilFoto($data['foto'], '', $data['id_sex'])?>" class="img-circle" alt="Foto Penduduk"/>
 													</td>
 													<td nowrap>
 														<?= $data['nama']?>
@@ -156,7 +152,7 @@
 															<?php if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-'): ?>
 																<i>NIP :<?=$data['pamong_nip']?></i></br>
 															<?php else: ?>
-																<i><?= $this->setting->sebutan_nip_desa  ?> :<?=$data['pamong_niap']?></i></br>
+																<i><?= $this->setting->sebutan_nip_desa; ?> :<?=$data['pamong_niap']?></i></br>
 															<?php endif; ?>
 															<i>NIK :<?=$data['nik']?></i>
 														</p>

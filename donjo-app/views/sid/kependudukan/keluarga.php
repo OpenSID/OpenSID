@@ -42,7 +42,7 @@
 						</ul>
 					</div>
 				<?php endif; ?>
-				<a href="<?= site_url("keluarga/ajax_cetak/{$o}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data"  data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+				<a href="<?= site_url("keluarga/ajax_cetak/{$o}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" target="_blank"><i class="fa fa-print"></i> Cetak</a>
 				<a href="<?= site_url("keluarga/ajax_cetak/{$o}/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 				<div class="btn-group btn-group-vertical">
 					<a class="btn btn-social btn-flat bg-maroon btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
@@ -201,11 +201,7 @@
 												<?php endif; ?>
 											</td>
 											<td class="padat">
-												<div class="user-panel">
-													<div class="image2">
-														<img src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" class="img-circle" alt="Foto Penduduk"/>
-													</div>
-												</div>
+												<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
 											</td>
 											<td><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id']}")?>"><?= $data['no_kk']?></a></td>
 											<td nowrap><?= strtoupper($data['kepala_kk'])?></td>

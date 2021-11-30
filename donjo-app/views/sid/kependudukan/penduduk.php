@@ -239,11 +239,7 @@ $( function() {
 															</div>
 														</td>
 														<td class="padat">
-															<div class="user-panel">
-																<div class="image2">
-																	<img class="img-circle" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
-																</div>
-															</div>
+															<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
 														</td>
 														<td>
 															<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a>

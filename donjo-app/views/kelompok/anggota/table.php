@@ -35,8 +35,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  *
  * @see 	https://github.com/OpenSID/OpenSID
@@ -155,12 +155,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 														<?php endif; ?>
 													</td>
 													<td class="padat">
-															<div class="user-panel">
-																<div class="image2">
-																	<img class="img-circle" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
-																</div>
-															</div>
-														</td>
+														<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
+													</td>
 													<td class="padat"><?= $data['no_anggota'] ?></td>
 													<td><?= $data['nik']; ?></td>
 													<td nowrap><?= $data['nama']; ?></td>

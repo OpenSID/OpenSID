@@ -80,7 +80,7 @@
 																	<td nowrap>
 																		<a href="<?=site_url("sms/form_kontak/{$data['id_kontak']}")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																		<?php if ($this->CI->cek_hak_akses('h', '', 'sms/kontak')): ?>
-																			<a href="#" data-href="<?=site_url("sms/kontak_delete/{$data['id_kontak']}")?>" class="btn bg-maroon btn-flat btn-sm"title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?=site_url("sms/kontak_delete/{$data['id_kontak']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																	</td>
 																<?php endif; ?>

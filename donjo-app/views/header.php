@@ -169,8 +169,8 @@
 									<li class="user-header">
 										<img src="<?= AmbilFoto($foto); ?>" class="img-circle" alt="User Image"/>
 										<p>
-											Anda Login Sebagai
-											<strong><?=$nama?></strong>
+											<small>Anda Masuk Sebagai</small>
+											<?= $nama; ?>
 										</p>
 									</li>
 									<li class="user-footer">

@@ -15,7 +15,7 @@
 						<div class="col-md-3">
 							<div class="box box-primary">
 								<div class="box-body box-profile">
-									<img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto']); ?>" alt="Foto">
+									<img class="penduduk" src="<?= AmbilFoto($penduduk['foto']); ?>" alt="Foto Penduduk">
 									<br/>
 									<p class="text-muted text-center"> (Kosongkan jika tidak ingin mengubah foto)</p>
 									<br/>

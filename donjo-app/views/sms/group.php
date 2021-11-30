@@ -77,7 +77,7 @@
 																		<a href="<?=site_url("sms/form_grup/{$data['id_grup']}")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
 																	<?php if ($this->CI->cek_hak_akses('h', '', 'sms/group')): ?>
-																	<a href="#" data-href="<?=site_url("sms/grup_delete/{$data['id_grup']}")?>" class="btn bg-maroon btn-flat btn-sm"title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<a href="#" data-href="<?=site_url("sms/grup_delete/{$data['id_grup']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																	<a href="<?=site_url("sms/anggota/{$data['id_grup']}")?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Anggota"><i class="fa fa-list"></i></a>
 																</td>
