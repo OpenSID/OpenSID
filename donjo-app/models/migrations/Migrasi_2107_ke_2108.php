@@ -58,19 +58,7 @@ class Migrasi_2107_ke_2108 extends MY_model
 				$hasil = $hasil && $this->$migrasi_premium->up();
 		}
 
-		$hasil = $hasil && $this->migrasi_2021072571($hasil);
-
 		status_sukses($hasil);
-		return $hasil;
-	}
-
-	protected function migrasi_2021072571($hasil)
-	{
-		// Hapus key layanan_opendesa_server, layanan_opendesa_dev_server dan dev_tracker
-		$hasil = $hasil && $this->db
-			->where_in('key', ['layanan_opendesa_server', 'layanan_opendesa_dev_server', 'dev_tracker'])
-			->delete('setting_aplikasi');
-
 		return $hasil;
 	}
 }

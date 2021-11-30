@@ -187,8 +187,8 @@ class Database_model extends CI_Model {
 		{
 			$this->_migrasi_db_cri();
 		}
-		// Jalankan migrasi untuk fitur premium
-		$this->jalankan_migrasi('migrasi_fitur_premium');
+		// Jalankan migrasi layanan
+		$this->jalankan_migrasi('migrasi_layanan');
 
 		$this->folder_desa_model->amankan_folder_desa();
 		$this->surat_master_model->impor_surat_desa();

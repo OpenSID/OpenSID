@@ -85,7 +85,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 		}
 		catch (ClientException $e)
 		{
-			log_message('error', $e);
+			// log_message('error', $e);
 			$this->session->set_userdata(['response' => json_decode($e->getResponse()->getBody())]);
 
 			redirect('pendaftaran_kerjasama/form');
