@@ -1,10 +1,10 @@
-#### [v21.11-pasca - 2021-11-19](https://github.com/OpenSID/premium/compare/v21.04-premium...v21.05-premium)
+#### [OpenSID v21.12](https://github.com/OpenSID/OpenSID/releases/tag/v21.12)
 
-Di rilis ini, versi 21.11-pasca, menyediakan Impor Survei Google Form ke Master Analisis. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.12, menyediakan Impor Survei Google Form ke Master Analisis. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Mokhamad Afila yang baru mulai berkontribusi.
 
-Lengkapnya, isi rilis versi v21.11-pasca - 2021-11-19 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.12 adalah sebagai berikut:
 
 #### Penambahan Fitur
 1. [#4108](https://github.com/OpenSID/OpenSID/issues/4108) - Filter arsip surat menurut bulan.
