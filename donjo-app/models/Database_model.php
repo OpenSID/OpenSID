@@ -95,7 +95,8 @@ class Database_model extends MY_Model
         '21.08'   => ['migrate' => 'migrasi_2108_ke_2109', 'nextVersion' => '21.09'],
         '21.09'   => ['migrate' => 'migrasi_2109_ke_2110', 'nextVersion' => '21.10'],
         '21.10'   => ['migrate' => 'migrasi_2110_ke_2111', 'nextVersion' => '21.11'],
-        '21.11'   => ['migrate' => 'migrasi_2111_ke_2112', 'nextVersion' => null],
+        '21.11'   => ['migrate' => 'migrasi_2111_ke_2112', 'nextVersion' => '21.12'],
+        '21.12'   => ['migrate' => 'migrasi_2112_ke_2201', 'nextVersion' => null],
     ];
 
     public function __construct()

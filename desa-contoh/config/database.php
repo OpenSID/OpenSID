@@ -16,7 +16,7 @@ $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['port']     = 3306;
-$db['default']['database'] = 'bug-fix';
+$db['default']['database'] = 'premium';
 
 /*
 | Untuk setting koneksi database 'Strict Mode'

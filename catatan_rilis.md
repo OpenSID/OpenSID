@@ -1,8 +1,8 @@
-#### [21.11-premium-beta02]
+#### [21.12-premium]
 
-Di rilis ini, versi 21.11-premium-beta02, menyediakan [untuk_diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.12-premium, menyediakan Buku Kader Pemberdayaan Masyarakat di Buku Administrasi Pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk_diisi] yang terus berkontribusi.
+Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi. Terima kasih pula pada Faisyal Rachman dan Firliani Fauziah yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#4435](https://github.com/OpenSID/OpenSID/issues/4181) Tambahkan Buku Kader Pemberdayaan Masyarakat di Buku Administrasi Pembangunan.
