@@ -67,7 +67,7 @@ class User_model extends CI_Model {
 			'allowed_types' => 'gif|jpg|jpeg|png',
 			'max_size' => max_upload()*1024,
 		);
-		$this->load->model('laporan_bulanan_model');
+		$this->load->model(['laporan_bulanan_model', 'grup_model']);
 		// Untuk password hashing
 		$this->load->helper('password');
         // Helper upload file
@@ -104,7 +104,7 @@ class User_model extends CI_Model {
 
 		// Login gagal: user tidak ada atau tidak lolos verifikasi
 		if ($userAda === FALSE || $authLolos === FALSE)
-		{
+		{			
 			$this->session->siteman= -1;
 			if ($this->session->siteman_try > 2)
 			{
@@ -137,7 +137,7 @@ class User_model extends CI_Model {
 			}
 			// Lanjut set session
 			if (($row->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2))
-			{
+			{				
 				$this->session->siteman= -2;
 			}
 			else
@@ -380,7 +380,6 @@ class User_model extends CI_Model {
 		$this->session->success = 1;
 
 		$data = $this->sterilkan_input($this->input->post());
-
 		if (empty($idUser))
 		{
 			$this->session->error_msg = ' -> Pengguna tidak ditemukan datanya.';
@@ -389,7 +388,7 @@ class User_model extends CI_Model {
 		}
 
 		if (empty($data['username']) || empty($data['password'])
-		|| empty($data['nama']) || !in_array(intval($data['id_grup']), range(1, 4)))
+		|| empty($data['nama']) || !in_array(intval($data['id_grup']), $this->grup_model->list_id_grup()))
 		{
 			$this->session->error_msg = ' -> Nama, Username dan Kata Sandi harus diisi';
 			$this->session->success = -1;
@@ -399,7 +398,7 @@ class User_model extends CI_Model {
 		// radiisi menandakan password tidak diubah
 		if ($data['password'] == 'radiisi') unset($data['password']);
 		// Untuk demo jangan ubah username atau password
-		if ($idUser == 1 && $this->setting->demo_mode)
+		if ($idUser == 1 && config_item('demo_mode'))
 		{
 			unset($data['username'], $data['password']);
 		}
@@ -508,7 +507,7 @@ class User_model extends CI_Model {
 		$data = [];
 
 		// Jangan edit password admin apabila di situs demo
-		if ($id == 1 && $this->setting->demo_mode)
+		if ($id == 1 && config_item('demo_mode'))
 		{
 		  unset($data['password']);
 		  return $data;
@@ -705,13 +704,12 @@ class User_model extends CI_Model {
 
 	/*
 	 * Hak akses setiap controller.
-	 * TODO: pindahkan menggunakan authentication/authorisation library
 	*/
-	public function hak_akses($group, $controller, $akses)
+	public function hak_akses($group, $url_modul, $akses, $pakai_url = false)
 	{
-		$controller = explode('/', $controller);
+		$controller = explode('/', $url_modul);
 		// Demo tidak boleh mengakses menu tertentu
-		if ($this->setting->demo_mode)
+		if (config_item('demo_mode'))
 		{
 			if (in_array($akses, $this->larangan_demo[$controller[0]]))
 			{
@@ -719,191 +717,20 @@ class User_model extends CI_Model {
 				return false;
 			}
 		}
+
 		// Group admin punya akses global
 		// b = baca; u = ubah; h= hapus
 		if ($group == 1) return true;
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
-		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
-		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul
-		// pada komponen Admin.
-		$hak_akses = array(
-			// Operator
-			2 => array(
-				// covid-19
-				'covid19' => array('b','u','h'),
+		if ($group and in_array($controller[0], ['user_setting', 'wilayah', 'notif'])) return true;
 
-				// home
-				'hom_sid' => array('b','u'),
+		if ($pakai_url)
+			$ada_akses = $this->grup_model->ada_akses_url($group, $url_modul, $akses);
+		else
+			$ada_akses = $this->grup_model->ada_akses($group, $controller[0], $akses);
 
-				// info desa
-				'identitas_desa' => array('b','u'),
-				'sid_core' => array('b','u'),
-				'pengurus' => array('b','u'),
-
-				// kependudukan
-				'penduduk' => array('b','u'),
-
-				// Penduduk
-				'penduduk_log' => array('b','u'),
-				'keluarga' => array('b','u'),
-				'rtm' => array('b','u'),
-				'kelompok' => array('b','u'),
-
-				// kelompok
-				'kelompok_master' => array('b','u'),
-				'suplemen' => array('b','u'),
-				'dpt' => array('b','u'),
-
-				// statistik
-				'statistik' => array('b','u'),
-				'laporan' => array('b','u'),
-				'laporan_rentan' => array('b','u'),
-
-				// layanan surat
-				'surat_master' => array('b','u'),
-				'surat' => array('b','u'),
-				'keluar' => array('b','u'),
-				'surat_mohon' => array('b','u'),
-
-				// sekretariat
-				'sekretariat' => array('b','u'),
-				'surat_masuk' => array('b','u'),
-				'surat_keluar' => array('b','u'),
-				'dokumen_sekretariat' => array('b','u'),
-				'dokumen' => array('b','u'),
-
-				// inventaris
-				'api_inventaris_asset' => array('b','u'),
-				'api_inventaris_gedung' => array('b','u'),
-				'api_inventaris_jalan' => array('b','u'),
-				'api_inventaris_kontruksi' => array('b','u'),
-				'api_inventaris_peralatan' => array('b','u'),
-				'api_inventaris_tanah' => array('b','u'),
-				'inventaris_asset' => array('b','u'),
-				'inventaris_gedung' => array('b','u'),
-				'inventaris_jalan' => array('b','u'),
-				'inventaris_kontruksi' => array('b','u'),
-				'inventaris_peralatan' => array('b','u'),
-				'inventaris_tanah' => array('b','u'),
-				'laporan_inventaris' => array('b','u'),
-				'klasifikasi' => array('b','u'),
-
-				// buku administrasi
-				'buku_umum' => ['b', 'u'],
-				'bumindes_umum' => ['b', 'u'],
-				'ekspedisi' => ['b', 'u'],
-				'lembaran_desa' => ['b', 'u'],
-
-				// keuangan
-				'keuangan' => array('b','u'),
-				'keuangan_manual' => array('b','u'),
-
-				// keuangan
-				'bumindes_umum' => array('b','u'),
-				'bumindes_penduduk' => array('b','u'),
-				'bumindes_keuangan' => array('b','u'),
-				'bumindes_pembangunan' => array('b','u'),
-				'bumindes_lain' => array('b','u'),
-				'ekspedisi' => array('b','u'),
-
-				// analisis
-				'analisis_master' => array('b','u'),
-
-				// pengaturan analisis
-				'analisis_kategori' => array('b','u'),
-				'analisis_indikator' => array('b','u'),
-				'analisis_klasifikasi' => array('b','u'),
-				'analisis_periode' => array('b','u'),
-
-				// input data analisis
-				'analisis_respon' => array('b','u'),
-
-				// laporan analisis
-				'analisis_laporan' => array('b','u'),
-				'analisis_statistik_jawaban' => array('b','u'),
-
-				// bantuan
-				'program_bantuan' => array('b','u'),
-
-				// pertanahan
-				'data_persil' => array('b','u'),
-
-				// pemetaan
-				'gis' => array('b','u'),
-
-				//pengaturan peta
-				'plan' => array('b','u'),
-				'point' => array('b','u'),
-				'garis' => array('b','u'),
-				'line' => array('b','u'),
-				'area' => array('b','u'),
-				'polygon' => array('b','u'),
-
-				// sms
-				'sms' => array('b','u'),
-
-				// pengaturan
-				'modul' => array('b','u'),
-
-				// admin web
-				'web' => array('b','u'),
-				'web_widget' => array('b','u'),
-				'menu' => array('b','u'),
-
-				// menu
-				'kategori' => array('b','u'),
-				'komentar' => array('b','u'),
-				'gallery' => array('b','u'),
-				'sosmed' => array('b','u'),
-				'teks_berjalan' => array('b','u'),
-				'pengunjung' => array('b','u'),
-
-				// layanan mandiri
-				'permohonan_surat_admin' => array('b', 'u'),
-				'mailbox' => array('b','u'),
-				'mandiri' => array('b','u'),
-
-				// --- Controller berikut diakses di luar menu navigasi modul
-
-				// notifikasi
-				'notif' => array('b','u'),
-
-				// wilayah
-				'wilayah' => array('b')
-			),
-			// Redaktur
-			3 => array(
-				// admin web
-				'web' => array('b','u'),
-				'komentar' => array('b','u'),
-
-				// notifikasi
-				'notif' => array('b','u')
-			),
-			// Kontributor
-			4 => array(
-				// admin web
-				'web' => array('b','u'),
-				'komentar' => array('b','u'),
-
-				// notifikasi
-				'notif' => array('b','u')
-			),
-			// Satgas Covid-19
-			5 => array(
-				// sementara khusus masa pandemi satgas covid-19
-				// covid-19
-				'covid19' => array('b','u','h'),
-				// statistik
-				'statistik' => array('b','u'),
-				// notifikasi
-				'notif' => array('b','u'),
-				// wilayah
-				'wilayah' => array('b')
-			)
-		);
-		return in_array($akses, $hak_akses[$group][$controller[0]]);
+		return $ada_akses;
 	}
 
 	// RFM Key - disimpan dalam file di folder sementara sys_get_temp_dir() yg kemudian

@@ -244,7 +244,7 @@ td {
     var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
 
     //Menampilkan BaseLayers Peta
-    var baseLayers = getBaseLayers(mymap, '<?=$this->setting->google_key?>');
+    var baseLayers = getBaseLayers(mymap, '<?=$this->setting->mapbox_key?>');
 
     //Geolocation IP Route/GPS
   	geoLocation(mymap);
@@ -336,7 +336,7 @@ td {
     });
 
     //loading Peta Desa Pengguna OpenSID (Data dari API Server)
-    pantau_desa(layer_desa, '<?= $this->setting->tracker ?>', <?=json_encode($desa['kode_desa'])?>, "<?= base_url()?>favicon.ico", "<?= config_item('token_tracksid')?>");
+    pantau_desa(layer_desa, '<?= config_item('server_pantau'); ?>', <?=json_encode($desa['kode_desa'])?>, "<?= base_url()?>favicon.ico", "<?= config_item('token_pantau'); ?>");
 
     layer_desa.on('add', function () {
       setTimeout(function () {

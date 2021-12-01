@@ -25,7 +25,7 @@
 			</div>
 		<?php else : ?>
 			<div class="row">
-				<div class="col-lg-3 col-xs-12">
+				<div class="col-md-3 col-sm-6 col-xs-12">
 					<div class="small-box bg-blue">
 						<div class="inner">
 							<h4>PEMESANAN LAYANAN</h4>
@@ -42,7 +42,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-xs-12">
+				<div class="col-md-3 col-sm-6 col-xs-12">
 					<div class="small-box bg-yellow">
 						<div class="inner">
 							<h4>STATUS PELANGGAN</h4>
@@ -53,7 +53,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-xs-12">
+				<div class="col-md-3 col-sm-6 col-xs-12">
 					<div class="small-box bg-green">
 						<div class="inner">
 							<h4>MULAI BERLANGGANAN</h4>
@@ -64,7 +64,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-xs-12">
+				<div class="col-md-3 col-sm-6 col-xs-12">
 					<div class="small-box bg-red">
 						<div class="inner">
 							<h4>AKHIR BERLANGGANAN</h4>
@@ -137,10 +137,10 @@
 												<td class="padat"><?= ($number + 1) ?></td>
 												<td class="aksi">
 													<?php
-														$host = $this->setting->layanan_opendesa_server;
+														$server = config_item('server_layanan');
 														$token = $this->setting->layanan_opendesa_token;
 													?>
-													<a target="_blank" href="<?= "{$host}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
+													<a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
 													<a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
 												</td>
 												<td>

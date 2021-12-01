@@ -182,7 +182,8 @@ class Database extends Admin_Controller {
 			['Hamil', 'hamil'],
 			['KTP-el', 'ktp_el'],
 			['Status Rekam', 'status_rekam'],
-			['Alamat Sekarang', 'alamat_sekarang']
+			['Alamat Sekarang', 'alamat_sekarang'],
+			['Status Dasar', 'status_dasar'],
 		];
 		if ($opendk)
 		{
@@ -309,7 +310,8 @@ class Database extends Admin_Controller {
 					$row->hamil,
 					$row->ktp_el,
 					$row->status_rekam,
-					$row->alamat_sekarang
+					$row->alamat_sekarang,
+					$row->status_dasar,
 				);
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
@@ -341,6 +343,8 @@ class Database extends Admin_Controller {
 
 	public function migrasi_db_cri()
 	{
+		$this->session->unset_userdata('success');
+		$this->session->unset_userdata('error_msg');
 		$this->database_model->migrasi_db_cri();
 		redirect('database/migrasi_cri/1');
 	}
@@ -372,11 +376,24 @@ class Database extends Admin_Controller {
 
 	public function restore()
 	{
-		$this->session->sedang_restore = 1;
 		$this->redirect_hak_akses('h', "database/backup");
-		$this->export_model->restore();
-		redirect('database/backup');
-		$this->session->sedang_restore = 0;
+		try
+		{
+			$this->session->success = 1;
+			$this->session->error_msg = '';
+			$this->session->sedang_restore = 1;
+			$this->export_model->restore();
+		}
+		catch (Exception $e)
+		{
+			$this->session->success = -1;
+			$this->session->error_msg = $e->getMessage();
+		}
+		finally
+		{
+			$this->session->sedang_restore = 0;
+			redirect('database/backup');
+		}
 	}
 
 	public function export_csv()
@@ -596,5 +613,50 @@ class Database extends Admin_Controller {
 		curl_close($curl);
 
 		redirect('database/sinkronasi_opendk');
+	}
+
+	// Dikhususkan untuk server yg hanya digunakan untuk web publik
+	public function acak()
+	{
+		if ($this->setting->penggunaan_server != 6) return;
+
+		$this->load->model('acak_model');
+		echo $this->load->view('database/hasil_acak', '', true);
+		$hasil = $this->acak_model->acak_penduduk();
+		$hasil = $hasil && $this->acak_model->acak_keluarga();
+		echo $this->load->view('database/hasil_acak', '', true);
+	}
+
+	// Digunakan untuk server yg hanya digunakan untuk web publik
+	public function mutakhirkan_data_server()
+	{
+		$this->session->error_msg = null;
+		if ($this->setting->penggunaan_server != 6) return;
+		$this->load->view('database/ajax_sinkronkan', $data);
+	}
+
+	public function proses_sinkronkan()
+	{
+		$this->load->model('sinkronisasi_model');
+
+		$this->load->library('upload');
+
+		$config['upload_path']		= LOKASI_SINKRONISASI_ZIP;
+		$config['allowed_types']	= 'zip';
+		$config['overwrite'] 			= TRUE;
+		//$config['max_size']				= max_upload() * 1024;
+		$config['file_name']			= namafile('sinkronisasi');
+
+		$this->upload->initialize($config);
+
+		if ( ! $this->upload->do_upload('sinkronkan'))
+		{
+			status_sukses(false, false, $this->upload->display_errors());
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+
+		$hasil = $this->sinkronisasi_model->sinkronkan();
+		status_sukses($hasil);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 }

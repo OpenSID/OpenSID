@@ -119,6 +119,21 @@ class Setting extends Admin_Controller {
 		$this->render('setting/setting_form', $data);
 	}
 
+	/* Pengaturan analisis */
+	public function analisis()
+	{
+		$this->modul_ini = 5;
+		$this->sub_modul_ini = 111;
+
+		$data = [
+			'judul' => 'Pengaturan Analisis',
+			'kategori' => ['setting_analisis'],
+			'demo_mode' => $this->setting->demo_mode,
+		];
+
+		$this->render('setting/setting_form', $data);
+	}
+
 	public function qrcode($aksi = '', $file = '')
 	{
 		switch ($aksi)

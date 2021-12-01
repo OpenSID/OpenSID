@@ -52,10 +52,15 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 
 		// Hapus id_peristiwa = 1 lama di log_keluarga karena pengertiannya sudah tidak konsisten dengan penggunaan yg baru. Sekarang hanya terbatas pada keluarga baru yg dibentuk dari penduduk yg sudah ada.
 
-		$hasil = $hasil && $this->db
-			->where('id_peristiwa', 1)
-			->where("date(tgl_peristiwa) < '2021-03-04'")
-			->delete('log_keluarga');
+		// Jangan jalankan jika log_keluarga telah diisi ulang (di Migrasi_fitur_premium_2105.php)
+
+		if (! $this->db->field_exists('id_pend', 'log_keluarga'))
+		{
+			$hasil =& $this->db
+				->where('id_peristiwa', 1)
+				->where("date(tgl_peristiwa) < '2021-03-04'")
+				->delete('log_keluarga');
+		}
 
 		// Buat tabel url shortener
 		$hasil = $hasil && $this->buat_tabel_url_shortener($hasil);
@@ -75,8 +80,6 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil = $hasil && $this->kartu_bantuan($hasil);
 		// Sesuaikan key offline mode
 		$hasil = $hasil && $this->ubah_setting_offline_mode($hasil);
-
-		$hasil = $hasil && $this->migrasi_2021110171($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -226,21 +229,21 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 			->select('k.*, p.nik, p.nama, p.tempatlahir, p.tanggallahir')
 			->select("concat('RT ', w.rt, ' / RW ', w.rw, ' DUSUN ', w.dusun) AS alamat")
 			->from('program_peserta k')
-			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend')
+			->join('tweb_penduduk p', 'p.id = k.kartu_id_pend', 'left')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->where("kartu_nik is NULL or kartu_nik = ''")
 			->or_where("kartu_nama is NULL or kartu_nama = ''")
 			->or_where("kartu_tempat_lahir is NULL or kartu_tempat_lahir = ''")
-			->or_where("kartu_tanggal_lahir is NULL or kartu_tanggal_lahir = ''")
+			->or_where("kartu_tanggal_lahir is NULL")
 			->or_where("kartu_alamat is NULL or kartu_alamat = ''")
 			->get()->result_array();
 		foreach ($kartu_kosong as $kartu)
 		{
-			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik']);
-			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama']);
-			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir']);
-			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir']);
-			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat']);
+			if (empty($kartu['kartu_nik'])) $this->db->set('kartu_nik', $kartu['nik'] ?: 0);
+			if (empty($kartu['kartu_nama'])) $this->db->set('kartu_nama', $kartu['nama'] ?: '');
+			if (empty($kartu['kartu_tempat_lahir'])) $this->db->set('kartu_tempat_lahir', $kartu['tempatlahir'] ?: '');
+			if (empty($kartu['kartu_tanggal_lahir'])) $this->db->set('kartu_tanggal_lahir', $kartu['tanggallahir'] ?: date('Y-m-d H:i:s'));
+			if (empty($kartu['kartu_alamat'])) $this->db->set('kartu_alamat', $kartu['alamat'] ?: '');
 			$hasil = $hasil && $this->db
 				->where('id', $kartu['id'])
 				->update('program_peserta');
@@ -263,28 +266,6 @@ class Migrasi_fitur_premium_2104 extends MY_model {
 		$hasil = $hasil && $this->db->where('value', 'Web hanya bisa diakses petugas web')->update('setting_aplikasi', ['value' => 1]);
 		$hasil = $hasil && $this->db->where('value', 'Web non-aktif sama sekali')->update('setting_aplikasi', ['value' => 2]);
 		$hasil = $hasil && $this->db->where('key', 'offline_mode')->update('setting_aplikasi', ['jenis' => 'option-kode']);
-
-		return $hasil;
-	}
-
-	protected function migrasi_2021110171($hasil)
-	{
-		$hasil = $hasil && $this->tambah_modul([
-			'id'         => 331,
-			'modul'      => 'Pendaftaran Kerjasama',
-			'url'        => 'pendaftaran_kerjasama',
-			'aktif'      => 1,
-			'ikon'       => 'fa-list',
-			'urut'       => 6,
-			'level'      => 2,
-			'hidden'     => 0,
-			'ikon_kecil' => 'fa-list',
-			'parent'     => 200
-		]);
-
-		// Hapus cache menu navigasi
-		$this->load->driver('cache');
-		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 
 		return $hasil;
 	}

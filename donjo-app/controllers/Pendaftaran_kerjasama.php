@@ -2,7 +2,6 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once APPPATH . '/libraries/Curly.php';
 require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
 use GuzzleHttp\Client;
@@ -56,6 +55,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
 	/** @var Client HTTP Client */
 	protected $client;
+	protected $server;
 
 	public function __construct()
 	{
@@ -65,13 +65,14 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
 		$this->load->model(['setting_model', 'surat_model', 'pamong_model']);
 		$this->client = new Client();
+		$this->server = config_item('server_layanan');
 	}
 
 	public function index()
 	{
 		try
 		{
-			$response = $this->client->get("{$this->setting->layanan_opendesa_server}/api/v1/pelanggan/terdaftar", [
+			$response = $this->client->get("{$this->server}/api/v1/pelanggan/terdaftar", [
 				'headers' => [
 					'X-Requested-With' => 'XMLHttpRequest',
 					'Authorization' => "Bearer {$this->setting->layanan_opendesa_token}"
@@ -84,7 +85,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 		}
 		catch (ClientException $e)
 		{
-			log_message('error', $e);
+			// log_message('error', $e);
 			$this->session->set_userdata(['response' => json_decode($e->getResponse()->getBody())]);
 
 			redirect('pendaftaran_kerjasama/form');
@@ -97,7 +98,7 @@ class Pendaftaran_kerjasama extends Admin_Controller
 	{
 		try
 		{
-			$response = $this->client->get("{$this->setting->layanan_opendesa_server}/api/v1/pelanggan/form-register", [
+			$response = $this->client->get("{$this->server}/api/v1/pelanggan/form-register", [
 				'headers' => [
 					'X-Requested-With' => 'XMLHttpRequest',
 					'Authorization' => "Bearer {$this->setting->layanan_opendesa_token}"
@@ -120,11 +121,12 @@ class Pendaftaran_kerjasama extends Admin_Controller
 		$config['file_name']     = 'dokumen-permohonan.pdf';
 		$config['allowed_types'] = 'pdf';
 		$config['max_size']      = 1024;
+		$config['overwrite']     = true;
 		$this->upload->initialize($config);
 
 		try {
 			$this->upload->do_upload('permohonan');
-			$response = $this->client->post("{$this->setting->layanan_opendesa_server}/api/v1/pelanggan/register", [
+			$response = $this->client->post("{$this->server}/api/v1/pelanggan/register", [
 				'headers' => ['X-Requested-With' => 'XMLHttpRequest'],
 				'multipart' => [
 					['name' => 'user_id', 'contents' => $this->input->post('user_id')],
@@ -166,26 +168,22 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
 	public function dokumen_template()
 	{
-		$this->load->helper('download');
 		$date = new \DateTime();
 		$desa = $this->header['desa'];
 
-		$handle = fopen($template = 'donjo-app/views/pendaftaran_kerjasama/KESEPAKATAN_MENJADI_DESA_DIGITAL_OPENDESA.rtf', 'r');
-		$content = fread($handle, filesize($template));
+		$data['desa'] = $desa['nama_desa'];
+		$data['logo'] = $desa['logo'];
+		$data['random'] = substr(str_shuffle("0123456789"), 0, 4);
+		$data['hari'] = $date->format('d');
+		$data['nama_hari'] = ucwords(hari($date->getTimestamp()));
+		$data['nama_tanggal'] = ucwords(to_word($date->format('d')));
+		$data['bulan'] = $date->format('m');
+		$data['nama_bulan'] = ucwords(getBulan($date->format('m')));
+		$data['tahun'] = $date->format('Y');
+		$data['nama_tahun'] = ucwords(to_word($date->format('Y')));
+		$data['kepala_desa'] = strtoupper($this->pamong_model->get_ttd()['pamong_nama']);
+		$data['alamat'] = $desa['alamat_kantor'];
 
-		$content = str_replace('[desa]', $desa['nama_desa'], $content);
-		$content = str_replace('[random]', substr(str_shuffle("0123456789"), 0, 4), $content);
-		$content = str_replace('[hari]', $date->format('d'), $content);
-		$content = str_replace('[nama_hari]', ucwords(hari($date->format('dmY'))), $content);
-		$content = str_replace('[nama_tanggal]', ucwords(to_word($date->format('d'))), $content);
-		$content = str_replace('[bulan]', $date->format('m'), $content);
-		$content = str_replace('[nama_bulan]', ucwords(getBulan($date->format('m'))), $content);
-		$content = str_replace('[tahun]', $date->format('Y'), $content);
-		$content = str_replace('[nama_tahun]', ucwords(to_word($date->format('Y'))), $content);
-		$content = str_replace('[kepala_desa]', strtoupper($this->pamong_model->get_ttd()['pamong_nama']), $content);
-		$content = str_replace('[alamat]', $desa['alamat_kantor'], $content);
-
-		fclose($handle);
-		force_download('KESEPAKATAN_MENJADI_DESA_DIGITAL_OPENDESA.rtf', $content);
+		$this->load->view('pendaftaran_kerjasama/template', $data);
 	}
 }

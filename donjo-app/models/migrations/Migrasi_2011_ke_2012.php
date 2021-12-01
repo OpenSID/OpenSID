@@ -75,7 +75,7 @@ class Migrasi_2011_ke_2012 extends MY_model {
 				INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
 				(43, 'token_opensid', '', 'Token OpenSID', '', 'sistem')
 				ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
-			$hasil =& $this->db->query($query);
+			$hasil = $hasil && $this->db->query($query);
   	}
 
 		status_sukses($hasil);

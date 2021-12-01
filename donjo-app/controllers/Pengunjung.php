@@ -46,7 +46,7 @@ class Pengunjung extends Admin_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model('web_pengunjung_model');
+		$this->load->library('statistik_pengunjung');
 		$this->load->model('config_model');
 		$this->modul_ini = 13;
 		$this->sub_modul_ini = 205;
@@ -54,34 +54,35 @@ class Pengunjung extends Admin_Controller {
 
 	public function index()
 	{
-		$data['hari_ini'] = $this->web_pengunjung_model->get_count('1');
-		$data['kemarin'] = $this->web_pengunjung_model->get_count('2');
-		$data['minggu_ini'] = $this->web_pengunjung_model->get_count('3');
-		$data['bulan_ini'] = $this->web_pengunjung_model->get_count('4');
-		$data['tahun_ini'] = $this->web_pengunjung_model->get_count('5');
-		$data['jumlah'] = $this->web_pengunjung_model->get_count('');
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung($_SESSION['id']);
+		$data['hari_ini'] = $this->statistik_pengunjung->get_pengunjung_total('1');
+		$data['kemarin'] = $this->statistik_pengunjung->get_pengunjung_total('2');
+		$data['minggu_ini'] = $this->statistik_pengunjung->get_pengunjung_total('3');
+		$data['bulan_ini'] = $this->statistik_pengunjung->get_pengunjung_total('4');
+		$data['tahun_ini'] = $this->statistik_pengunjung->get_pengunjung_total('5');
+		$data['jumlah'] = $this->statistik_pengunjung->get_pengunjung_total(null);
+		$data['main'] = $this->statistik_pengunjung->get_pengunjung($this->session->id);
 
 		$this->render('pengunjung/table', $data);
 	}
 
-	public function detail($id='')
+	public function detail($id = null)
 	{
-		$_SESSION['id'] = $id;
+		$this->session->set_userdata('id', $id);
 
 		redirect('pengunjung');
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['id']);
+		$this->session->unset_userdata('id');
+
 		redirect('pengunjung');
 	}
 
 	public function cetak()
 	{
 		$data['config'] = $this->config_model->get_data();
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung(($_SESSION['id']));
+		$data['main'] = $this->statistik_pengunjung->get_pengunjung($this->session->id);
 		$this->load->view('pengunjung/print', $data);
 	}
 
@@ -90,7 +91,7 @@ class Pengunjung extends Admin_Controller {
 		$data['aksi'] = 'unduh';
 		$data['config'] = $this->config_model->get_data();
 		$data['filename'] = underscore('Laporan Data Statistik Pengunjung Website');
-		$data['main'] = $this->web_pengunjung_model->get_pengunjung(($_SESSION['id']));
+		$data['main'] = $this->statistik_pengunjung->get_pengunjung($this->session->id);
 		$this->load->view('pengunjung/excel', $data);
 	}
 }

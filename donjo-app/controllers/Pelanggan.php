@@ -64,7 +64,6 @@ class Pelanggan extends Admin_Controller {
 		{
 			$post['layanan_opendesa_token'] = $response->body->token;
 			$this->setting_model->update_setting($post);
-			redirect($this->controller);
 		}
 
 		$this->render('pelanggan/index', ['response' => $response]);

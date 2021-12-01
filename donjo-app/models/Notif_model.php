@@ -180,7 +180,7 @@ class Notif_model extends CI_Model {
 			return null;
 		}
 
-		$host = $this->setting->layanan_opendesa_server;
+		$host = config_item('server_layanan');
 
 		// simpan cache
 		$response = $this->cache->pakai_cache(function () use ($host, $token) {

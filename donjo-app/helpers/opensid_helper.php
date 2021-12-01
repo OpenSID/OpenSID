@@ -44,12 +44,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-define("VERSION", '21.11');
+define("VERSION", '21.12');
 /**
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
-define('VERSI_DATABASE', '2021110101');
+define('VERSI_DATABASE', '2021120101');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -72,6 +72,7 @@ define("LOKASI_MEDIA", 'desa/upload/media/');
 define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
 define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
 define("LOKASI_SISIPAN_DOKUMEN", 'assets/files/sisipan/');
+define("LOKASI_SINKRONISASI_ZIP", 'desa/upload/sinkronisasi/');
 
 // Pengaturan Latar
 define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');
@@ -91,15 +92,6 @@ define('AGENDA', 1000);
 define("MAX_PINDAH", 7);
 define("MAX_ANGGOTA", 7);
 
-// Konversi tulisan kode Buku Induk Penduduk ke kode SID
-define("STATUS_DASAR", serialize(array(
-    strtolower("HIDUP") => "1",
-    strtolower("MATI") => "2",
-    strtolower("PINDAH") => "3",
-    strtolower("PINDAH DALAM NEGERI") => "3",
-    strtolower("PINDAH LUAR NEGERI") => "3",
-    strtolower("HILANG") => "4"
-)));
 define("KODE_SEX", serialize(array(
     "L" => "1",
     "Lk" => "1",

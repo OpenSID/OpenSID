@@ -64,12 +64,8 @@ class MY_Controller extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
-		// Tampilkan profiler untuk development
-		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
-
 		$this->load->model(['setting_model']);
-        $this->setting_model->init();
+		$this->setting_model->init();
 	}
 
 	/*
@@ -228,12 +224,12 @@ class Admin_Controller extends MY_Controller {
 		$this->grup	= $this->user_model->sesi_grup($_SESSION['sesi']);
 
 		$this->load->model('modul_model');
-		if (!$this->modul_model->modul_aktif($this->controller))
+		if ( ! $this->modul_model->modul_aktif($this->controller))
 		{
 			session_error("Fitur ini tidak aktif");
-			redirect('/');
+			redirect($_SERVER['HTTP_REFERER']);
 		}
-		if (!$this->user_model->hak_akses($this->grup, $this->controller, 'b'))
+		if ( ! $this->user_model->hak_akses($this->grup, $this->controller, 'b'))
 		{
 			if (empty($this->grup))
 			{
@@ -242,9 +238,9 @@ class Admin_Controller extends MY_Controller {
 			}
 			else
 			{
-				session_error("Anda tidak mempunyai akses pada fitur ini");
+				session_error("Anda tidak mempunyai akses pada fitur itu");
 				unset($_SESSION['request_uri']);
-				redirect('/');
+				redirect('main');
 			}
 		}
 		$this->cek_pengumuman();

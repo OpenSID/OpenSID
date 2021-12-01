@@ -88,13 +88,13 @@
 	{
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.nomor'; break;
-			case 2: $order_sql = ' ORDER BY u.nomor DESC'; break;
+			case 1: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")'; break;
+			case 2: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ") DESC'; break;
 			case 3: $order_sql = ' ORDER BY u.pertanyaan'; break;
 			case 4: $order_sql = ' ORDER BY u.pertanyaan DESC'; break;
 			case 5: $order_sql = ' ORDER BY u.id_kategori'; break;
 			case 6: $order_sql = ' ORDER BY u.id_kategori DESC'; break;
-			default:$order_sql = ' ORDER BY u.nomor';
+			default:$order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")';
 		}
 
 		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
@@ -314,6 +314,39 @@
 		$sql .= $this->master_sql();
 		$query = $this->db->query($sql);
 		return $query->result_array();
+	}
+
+	public function get_analisis_indikator_by_id_master($id='')
+	{
+		$result = array();
+		$list_indikator = array();
+		$list_parameter = array();
+
+		$raw_indikator = $this->db->where('id_master', $id)->get('analisis_indikator')->result_array();
+
+		// Setting key array sesuai id
+		foreach ($raw_indikator as $val_indikator)
+		{
+			$list_indikator[$val_indikator['id']] = $val_indikator['pertanyaan'];
+
+			$temp_parameter = array();
+
+			$raw_parameter = $this->db->where('id_indikator', $val_indikator['id'])->get('analisis_parameter')->result_array();
+
+			foreach ($raw_parameter as $val_parameter)
+			{
+				$temp_parameter[$val_parameter['id']] = $val_parameter['jawaban'];
+			}
+
+			$list_parameter[$val_indikator['id']] = $temp_parameter;
+		}
+
+		$result = [
+			'indikator' => $list_indikator,
+			'parameter' => $list_parameter
+		];
+
+		return $result;
 	}
 }
 ?>

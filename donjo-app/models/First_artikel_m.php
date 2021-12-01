@@ -131,7 +131,6 @@ class First_artikel_m extends CI_Model {
 		$cari = trim($this->input->get('cari'));
 		if ( ! empty($cari))
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->like('a.judul', $cari)
@@ -364,7 +363,7 @@ class First_artikel_m extends CI_Model {
 	public function komentar_show()
 	{
 		$this->for_slug();
-		
+
 		$data = $this->db
 			->select('k.*')
 			->from('komentar k')

@@ -54,7 +54,6 @@ class MY_Model extends CI_Model {
 	{
 		if ($cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db->like($kolom, $cari);
 		}
 		$data = $this->db->distinct()->
@@ -79,7 +78,7 @@ class MY_Model extends CI_Model {
 				->select($kolom)
 				->from($tabel)
 				->where($where)
-				->like($kolom, $cara)
+				->like($kolom, $cari)
 				->order_by($kolom, DESC)
 				->get_compiled_select()
 				.')';
@@ -143,7 +142,7 @@ class MY_Model extends CI_Model {
 
 	public function tambah_setting($setting)
 	{
-		$sql = $this->db->insert_string('setting_aplikasi', $setting) . " ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan)";
+		$sql = $this->db->insert_string('setting_aplikasi', $setting) . " ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
 		return $this->db->query($sql);
 	}
 
@@ -153,6 +152,7 @@ class MY_Model extends CI_Model {
 		$this->load->library('paging');
 		$cfg['page'] = $page;
 		$cfg['per_page'] = $this->session->per_page;
+		$cfg['num_links'] = 10;
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 

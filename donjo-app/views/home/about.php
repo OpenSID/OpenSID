@@ -1,4 +1,10 @@
 <!-- Perubahan script coding untuk bisa menampilkan about dalam bentuk tampilan bootstrap (AdminLTE)  -->
+<style>
+	.catatan-scroll {
+		height: 400px;
+		overflow-y: scroll;
+	}
+</style>
 <div class="box-header with-border">
 	<h3 class="box-title"><strong>Anda sedang menggunakan aplikasi OpenSID <?= AmbilVersi()?></strong></h3>
 </div>
@@ -13,6 +19,20 @@
 			<div id="collapse1" class="panel-collapse collapse in">
 				<div class="box-body">
 					<p>OpenSID adalah aplikasi Sistem Informasi Desa (SID) yang dikembangkan sejak Mei 2016. OpenSID dirancang dan dikelola supaya terbuka dan dapat dikembangkan bersama-sama oleh komunitas peduli SID. Informasi lebih lanjut dapat dilihat di <a href= https://github.com/OpenSID/opensid>https://github.com/OpenSID/OpenSID</a>.</p>
+				</div>
+			</div>
+		</div>
+		<div class="panel box box-default">
+			<div class="box-header with-border">
+				<h4 class="box-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#catatan-rilis">Catatan Rilis </a>
+				</h4>
+			</div>
+			<div id="catatan-rilis" class="panel-collapse collapse">
+				<div class="box-body">
+					<div class="catatan-scroll">
+						<?= $catatan_rilis ?>
+					</div>
 				</div>
 			</div>
 		</div>

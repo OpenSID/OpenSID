@@ -3,9 +3,7 @@
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('penduduk_model');
-    $this->load->model('web_artikel_model');
-    $this->load->model('keluar_model');
+    $this->load->model(['penduduk_model', 'web_artikel_model', 'keluar_model', 'data_persil_model', 'user_model', 'mandiri_model', 'program_bantuan_model', 'web_dokumen_model']);
   }
 
   public function track_desa($dari)
@@ -27,19 +25,20 @@
 
   public function kirim_data()
   {
+    // Jangan kirim data ke pantau jika versi demo
+    if (config_item('demo_mode')) return;
+
     if (defined('ENVIRONMENT'))
     {
       switch (ENVIRONMENT)
       {
         case 'development':
-          // Di development, panggil tracker hanya jika terinstal
-          if (empty($this->setting->tracker)) return;
-          $tracker = $this->setting->tracker;
-        break;
+          // Jangan kirim data ke pantau jika versi development
+          return;
 
         case 'testing':
         case 'production':
-          $tracker = $this->setting->tracker;
+          $tracker = config_item('server_pantau');
         break;
 
         default:
@@ -50,27 +49,33 @@
     $query = $this->db->get('config');
     $config = $query->row_array();
     $desa = array(
-     "nama_desa" => $config['nama_desa'],
-     "kode_desa" => $config['kode_desa'],
-     "kode_pos" => $config['kode_pos'],
-     "nama_kecamatan" => $config['nama_kecamatan'],
-     "kode_kecamatan" => $config['kode_kecamatan'],
-     "nama_kabupaten" => $config['nama_kabupaten'],
-     "kode_kabupaten" => $config['kode_kabupaten'],
-     "nama_provinsi" => $config['nama_propinsi'],
-     "kode_provinsi" => $config['kode_propinsi'],
-     "lat" => $config['lat'],
-     "lng" => $config['lng'],
-     "alamat_kantor" => $config['alamat_kantor'],
-     "email_desa" => $config['email_desa'],
-     "telepon" => $config['telepon'],
-     "url" => current_url(),
-     "ip_address" => $_SERVER['SERVER_ADDR'],
-     "external_ip" => get_external_ip(),
-     "version" => AmbilVersi(),
-     "jml_penduduk" => $this->penduduk_model->jml_penduduk(),
-     "jml_artikel" => $this->web_artikel_model->jml_artikel(),
-     "jml_surat_keluar" => $this->keluar_model->jml_surat_keluar()
+      "nama_desa" => $config['nama_desa'],
+      "kode_desa" => $config['kode_desa'],
+      "kode_pos" => $config['kode_pos'],
+      "nama_kecamatan" => $config['nama_kecamatan'],
+      "kode_kecamatan" => $config['kode_kecamatan'],
+      "nama_kabupaten" => $config['nama_kabupaten'],
+      "kode_kabupaten" => $config['kode_kabupaten'],
+      "nama_provinsi" => $config['nama_propinsi'],
+      "kode_provinsi" => $config['kode_propinsi'],
+      "lat" => $config['lat'],
+      "lng" => $config['lng'],
+      "alamat_kantor" => $config['alamat_kantor'],
+      "email_desa" => $config['email_desa'],
+      "telepon" => $config['telepon'],
+      "url" => current_url(),
+      "ip_address" => $_SERVER['SERVER_ADDR'],
+      "external_ip" => get_external_ip(),
+      "version" => AmbilVersi(),
+      "jml_penduduk" => $this->penduduk_model->jml_penduduk(),
+      "jml_artikel" => $this->web_artikel_model->jml_artikel(),
+      "jml_surat_keluar" => $this->keluar_model->jml_surat_keluar(),
+      "jml_peserta_bantuan" => $this->program_bantuan_model->jml_peserta_program(),
+      "jml_mandiri" => $this->mandiri_model->jml_mandiri(),
+      "jml_pengguna" => $this->user_model->jml_pengguna(),
+      "jml_unsur_peta" => $this->jml_unsur_peta(),
+      "jml_persil" => $this->data_persil_model->jml_persil(),
+      "jml_dokumen" => $this->web_dokumen_model->jml_dokumen()
     );
 
     if ($this->abaikan($desa)) return;
@@ -151,11 +156,19 @@
         preg_match($regex, $kec) OR
         preg_match($regex, $kab) OR
         preg_match($regex, $prov)
-       )
+      )
     {
       $abaikan = true;
     }
     return $abaikan;
+  }
+
+  private function jml_unsur_peta()
+  {
+    $jml = $this->db->get('area')->num_rows() +
+      $this->db->get('garis')->num_rows() +
+      $this->db->get('lokasi')->num_rows();
+    return $jml;
   }
 
 }

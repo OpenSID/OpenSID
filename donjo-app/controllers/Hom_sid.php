@@ -54,6 +54,7 @@ class Hom_sid extends Admin_Controller {
 
 	public function index()
 	{
+		$this->load->library('parsedown');
 		$this->load->model('surat_model');
 
 		if (cek_koneksi_internet())
@@ -62,7 +63,7 @@ class Hom_sid extends Admin_Controller {
 
 			$this->release->set_api_url('https://api.github.com/repos/opensid/opensid/releases/latest')
 				->set_interval(7)
-				->set_cache_folder(FCPATH.'desa');
+				->set_cache_folder(FCPATH.'cache');
 
 			$data['update_available'] = $this->release->is_available();
 			$data['current_version'] = $this->release->get_current_version();
@@ -70,6 +71,10 @@ class Hom_sid extends Admin_Controller {
 			$data['release_name'] = $this->release->get_release_name();
 			$data['release_body'] = $this->release->get_release_body();
 		}
+
+		// Catatan rilis
+		$konten = file_get_contents('catatan_rilis.md');
+		$data['catatan_rilis'] = $this->parsedown->text($konten);
 
 		// Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
 		$data['penduduk'] = $this->header_model->penduduk_total();

@@ -45,7 +45,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="nomor">Kode Pertanyaan</label>
 										<div class="col-sm-2">
-											<input id="nomor" class="form-control input-sm nomor_sk" type="text" placeholder="Kode Pertanyaan" name="nomor" value="<?= $analisis_indikator['nomor']?>" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>>
+											<input id="nomor" class="form-control input-sm nomor_sk required" type="text" maxlength="10" placeholder="Kode Pertanyaan" name="nomor" value="<?= $analisis_indikator['nomor']?>" <?= jecho($analisis_master['jenis'], 1, 'readonly="readonly"') ?>>
 										</div>
 									</div>
 								</div>
