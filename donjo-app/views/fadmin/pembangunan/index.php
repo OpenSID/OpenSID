@@ -176,11 +176,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				},
 				{
 					'data': function (data) {
-						return `<div class="user-panel">
-									<div class="image2">
-										<img src="<?= base_url(LOKASI_GALERI) ?>${data.foto}" class="img-circle" alt="Gambar Dokumentasi">
-									</div>
-								</div>`
+						return `<img src="<?= base_url(LOKASI_GALERI) ?>${data.foto}" class="penduduk_kecil text-center" alt="Gambar Dokumentasi">`
 					}
 				},
 			],
