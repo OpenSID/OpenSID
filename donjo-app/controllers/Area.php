@@ -42,29 +42,29 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-class Area extends Admin_Controller {
+class Area extends Admin_Controller
+{
+	/** @var array */
+	protected $list_session = ['cari', 'filter', 'polygon', 'subpolygon'];
+
+	/** @var array */
+	protected $set_page = ['50', '100', '200'];
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->load->model('wilayah_model');
-		$this->load->model('config_model');
-		$this->load->model('plan_lokasi_model');
-		$this->load->model('plan_area_model');
-		$this->load->model('plan_garis_model');
-		$this->load->model('pembangunan_model');
-		$this->load->model('pembangunan_dokumentasi_model');
+		$this->load->model(['wilayah_model', 'config_model', 'plan_lokasi_model', 'plan_area_model', 'plan_garis_model', 'pembangunan_model', 'pembangunan_dokumentasi_model']);
 		$this->modul_ini = 9;
 		$this->sub_modul_ini = 8;
+		$this->list_session;
+		$this->set_page;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		unset($_SESSION['polygon']);
-		unset($_SESSION['subpolygon']);
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = $this->set_page[0];
 		redirect('area');
 	}
 
@@ -73,27 +73,21 @@ class Area extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		foreach ($this->list_session as $list)
+		{
+			$data[$list] = $this->session->{$list} ?: '';
+		}
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		$per_page = $this->input->post('per_page');
+		if (isset($per_page))
+		{
+			$this->session->per_page = $per_page;
+		}
 
-		if (isset($_SESSION['polygon']))
-			$data['polygon'] = $_SESSION['polygon'];
-		else $data['polygon'] = '';
-
-		if (isset($_SESSION['subpolygon']))
-			$data['subpolygon'] = $_SESSION['subpolygon'];
-		else $data['subpolygon'] = '';
-
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
-		$data['paging'] = $this->plan_area_model->paging($p,$o);
+		$data['func'] = 'index';
+		$data['set_page'] = $this->set_page;
+		$data['per_page'] = $this->session->per_page;
+		$data['paging'] = $this->plan_area_model->paging($p, $o);
 		$data['main'] = $this->plan_area_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->plan_area_model->autocomplete();
 		$data['list_polygon'] = $this->plan_area_model->list_polygon();
@@ -137,7 +131,6 @@ class Area extends Admin_Controller {
 			$data['area'] = null;
 
 		$data['desa'] = $this->config_model->get_data();
-		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
@@ -161,8 +154,8 @@ class Area extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+			$this->session->cari = $cari;
+		else $this->session->unset_userdata('cari');
 		redirect('area');
 	}
 
@@ -170,8 +163,8 @@ class Area extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+			$this->session->filter = $filter;
+		else $this->session->unset_userdata('filter');
 		redirect('area');
 	}
 
@@ -179,18 +172,18 @@ class Area extends Admin_Controller {
 	{
 		$polygon = $this->input->post('polygon');
 		if ($polygon != 0)
-			$_SESSION['polygon'] = $polygon;
-		else unset($_SESSION['polygon']);
+			$this->session->polygon = $polygon;
+		else $this->session->unset_userdata('polygon');
 		redirect('area');
 	}
 
 	public function subpolygon()
 	{
-		unset($_SESSION['polygon']);
+		$this->session->unset_userdata('polygon');
 		$subpolygon = $this->input->post('subpolygon');
 		if ($subpolygon != 0)
-			$_SESSION['subpolygon'] = $subpolygon;
-		else unset($_SESSION['subpolygon']);
+			$this->session->subpolygon = $subpolygon;
+		else $this->session->unset_userdata('subpolygon');
 		redirect('area');
 	}
 

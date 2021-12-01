@@ -19,7 +19,10 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-3">
+				<?php $this->load->view('man_user/menu_kiri.php')?>
+			</div>
+			<div class="col-md-9">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url('man_user/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Pengguna Baru</a>

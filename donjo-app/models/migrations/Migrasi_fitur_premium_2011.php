@@ -125,21 +125,6 @@ class Migrasi_fitur_premium_2011 extends MY_model {
 		];
 		$hasil = $hasil && $this->dbforge->modify_column('komentar', $field);
 
-		// Tambah menu layanan pelanggan
-		$modul = array(
-			'id' => '313',
-			'modul' => 'Layanan Pelanggan',
-			'url' => 'pelanggan',
-			'aktif' => '1',
-			'ikon' => 'fa-credit-card',
-			'urut' => '5',
-			'level' => '0',
-			'parent' => '200',
-			'hidden' => '0',
-			'ikon_kecil' => 'fa-credit-card'
-		);
-		$hasil = $hasil && $this->tambah_modul($modul);
-
 		// Pengaturan API Key
 		if ( ! $this->db->field_exists('api_key_opensid', 'setting_aplikasi'))
 		{

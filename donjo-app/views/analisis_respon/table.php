@@ -66,6 +66,13 @@
 									<td>:</td>
 									<td><?= $analisis_periode?></td>
 								</tr>
+								<?php if ($analisis_master['gform_id'] != null && $analisis_master['gform_id'] != ""): ?>
+								<tr>
+									<td>Sinkronisasi Terakhir</td>
+									<td>:</td>
+									<td><?= tgl_indo2($analisis_master['gform_last_sync']) ?></td>
+								</tr>
+								<?php endif; ?>
 							</table>
 						</div>
 					</div>

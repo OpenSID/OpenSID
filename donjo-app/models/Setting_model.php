@@ -41,7 +41,7 @@ class Setting_model extends CI_Model {
 
 			foreach ($pr as $p)
 			{
-				$pre[addslashes($p->key)] = addslashes($p->value);
+				$pre[addslashes($p->key)] = trim(addslashes($p->value));
 			}
 		}
 		else
@@ -59,20 +59,22 @@ class Setting_model extends CI_Model {
 		//  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
 		date_default_timezone_set($this->setting->timezone);//ganti ke timezone lokal
 		// Ambil google api key dari desa/config/config.php kalau tidak ada di database
-		if (empty($this->setting->google_key))
+		if (empty($this->setting->mapbox_key))
 		{
-			$this->setting->google_key = config_item('google_key');
+			$this->setting->mapbox_key = config_item('mapbox_key');
 		}
 		// Ambil token tracksid dari desa/config/config.php kalau tidak ada di database
 		if (empty($this->setting->token_opensid))
 		{
 			$this->setting->token_opensid = config_item('token_opensid');
 		}
-		// Server Pantau
-		$this->setting->tracker = (ENVIRONMENT == 'development' && ! empty(config_item('dev_tracker'))) ? config_item('dev_tracker') : "https://pantau.opensid.my.id";
 		
-		// Server Layanan
-		$this->setting->layanan_opendesa_server = (ENVIRONMENT == 'development' || ! empty(config_item('layanan_opendesa_dev_server'))) ? config_item('layanan_opendesa_dev_server') : "https://layanan.opendesa.id/";
+		// Ganti token_layanan sesuai config untuk development untuk mempermudah rilis
+		if ((ENVIRONMENT == 'development') && ! empty(config_item('token_layanan')))
+		{
+			$this->setting->layanan_opendesa_token = config_item('token_layanan');
+		}
+
 		$this->setting->user_admin = config_item('user_admin');
 		// Kalau folder tema ubahan tidak ditemukan, ganti dengan tema default
 		$pos = strpos($this->setting->web_theme, 'desa/');
@@ -84,7 +86,6 @@ class Setting_model extends CI_Model {
 				$this->setting->web_theme = "default";
 			}
 		}
-		$this->setting->demo_mode = config_item('demo_mode');
 		$this->load->model('database_model');
 		$this->database_model->cek_migrasi();
 	}

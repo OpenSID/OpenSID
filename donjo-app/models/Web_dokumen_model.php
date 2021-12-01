@@ -123,7 +123,6 @@ class Web_dokumen_model extends MY_Model {
 	{
 		if ($cari = $this->session->cari)
 		{
-			$cari = $this->db->escape_like_str($cari);
 			$this->db
 				->group_start()
 					->like('satuan', $cari)
@@ -688,5 +687,9 @@ class Web_dokumen_model extends MY_Model {
 		return $data;
 	}
 
+	public function jml_dokumen()
+	{
+		return $this->db->get('dokumen_hidup')->num_rows();
+	}
 }
 ?>

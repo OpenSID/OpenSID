@@ -1,15 +1,6 @@
 <?php
 
 /**
- * File ini:
- *
- * Model untuk modul database
- *
- * Migrasi_fitur_premium.php
- *
- */
-
-/**
  *
  * File ini bagian dari:
  *
@@ -35,19 +26,31 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
  */
-
-class Migrasi_fitur_premium extends CI_model {
-
+class Migrasi_2112_ke_2201 extends MY_model
+{
 	public function up()
 	{
-		// Menu baru -FITUR PREMIUM-
-	}
+		$hasil = true;
+    
+    // Migrasi fitur premium
+    // Jalankan migrasi fitur premium yg digabungkan sejak rilis sebelumnya
+    $daftar_migrasi_premium = ['2012', '2101', '2102', '2103', '2104', '2105'];
+    foreach ($daftar_migrasi_premium as $migrasi)
+    {
+      $migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+      $file_migrasi = 'migrations/'.$migrasi_premium;
+      $this->load->model($file_migrasi);
+      $hasil = $hasil && $this->$migrasi_premium->up();
+    }
 
+		status_sukses($hasil);
+		return $hasil;
+	}
 }

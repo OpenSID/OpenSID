@@ -58,3 +58,4 @@ make_obfuscate.php
 cache/*
 vendor/libreoffice/*
 .htaccess
+test/

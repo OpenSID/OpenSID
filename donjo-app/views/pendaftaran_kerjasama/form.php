@@ -14,10 +14,10 @@
 			<div class="box-body">
 				<p>OpenDesa (lembaga hukum dikukuhkan Keputusan Menteri Hukum dan Hak Asasi Manusia Nomor AHU-0001417.AH.01.08.Tahun 2021) menyediakan aplikasi dan layanan yang memerlukan kontribusi yang perlu dianggarkan Desa. Untuk memenuhi peraturan pengadaan yang berlaku, Desa perlu memiliki kerjasama pengadaan dengan OpenDesa sebelum dapat menggunakan aplikasi dan layanan OpenDesa berbayar tersebut.</p>
 				<p>Gunakan fitur ini untuk mendaftarkan dan mengeksekusi kerjasama resmi dengan OpenDesa. Setelah Kesepakatan Kerjasama antara Desa dan OpenDesa berlaku, Desa akan terdaftar sebagai Desa Digital OpenDesa dan berhak mengakses aplikasi dan layanan OpenDesa berbayar dan program-program peningkatan desa digital lainnya.</p>
-				<p>Unduh dokumen Kesepakatan Kerjasama menggunakan tombol yang disediakan. Langkah untuk melengkapi pendaftaran adalah sebagai berikut:</p>
+				<p>Cetak dokumen Kesepakatan Kerjasama menggunakan tombol yang disediakan. Langkah untuk melengkapi pendaftaran adalah sebagai berikut:</p>
 				<p>
 				<ol>
-					<li>Unduh dan cetak dokumen Kesepakatan Kerjasama.</li>
+					<li>Cetak dokumen Kesepakatan Kerjasama (Pada pengaturan cetak, Option : Headers and Footers jangan di centang).</li>
 					<li>Isi tanggal penandatanganan.</li>
 					<li>Tandatangani oleh Kades sebagai PIHAK KESATU di atas meterai Rp10.000</li>
 					<li>Scan dokumen yang telah ditandatangani.</li>
@@ -25,7 +25,6 @@
 					<li>Simpan dokumen asli di arsip kantor desa.</li>
 					<li>Cek email inbox/pesan yang Anda gunakan untuk memverifikasi.</li>
 					<li>Setelah pendaftaran diverifikasi dan kerjasama diaktifkan oleh OpenDesa, email pemberitahuan akan dikirim ke alamat email terdaftar.</li>
-					<li>Setelah kerjasama aktif, unduh dan pasang token OpenSID menggunakan tombol yang disediakan.</li>
 				</ol>
 			</div>
 		</div>

@@ -1,5 +1,7 @@
-<?php class Dpt_model extends Penduduk_model {
+<?php
 
+class Dpt_model extends Penduduk_model
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,7 +36,7 @@
 		$kf = $this->session->umur_max;
 		if (isset($kf))
 		{
-      $tanggal_pemilihan = $this->tanggal_pemilihan();
+			$tanggal_pemilihan = $this->tanggal_pemilihan();
 			$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) <= $kf");
 		}
 	}
@@ -44,7 +46,7 @@
 		$kf = $this->session->umur_min;
 		if (isset($kf))
 		{
-      $tanggal_pemilihan = $this->tanggal_pemilihan();
+			$tanggal_pemilihan = $this->tanggal_pemilihan();
 			$this->db->where("(SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(STR_TO_DATE('$tanggal_pemilihan','%d-%m-%Y'))-TO_DAYS(`tanggallahir`)), '%Y')+0 FROM tweb_penduduk WHERE id = u.id) >= $kf");
 		}
 	}
@@ -66,7 +68,7 @@
 			$tanggal_pemilihan = $this->input->post('tanggal_pemilihan');
 			$_SESSION['tanggal_pemilihan'] = $tanggal_pemilihan;
 		}
-		elseif(isset($_SESSION['tanggal_pemilihan']))
+		elseif (isset($_SESSION['tanggal_pemilihan']))
 		{
 			$tanggal_pemilihan = $_SESSION['tanggal_pemilihan'];
 		}
@@ -78,14 +80,15 @@
 		return $tanggal_pemilihan;
 	}
 
-	/*
-		Syarat calon pemilih:
-		1. Status dasar = HIDUP
-		2. Status penduduk = TETAP
-		3. Warganegara = WNI
-		4. Umur >= 17 tahun pada tanggal pemilihan ATAU sudah/pernah kawin (status kawin = KAWIN, CERAI HIDUP atau CERAI MATI)
-		5. Pekerjaan bukan TNI atau POLRI
-	*/
+	/**
+	 * Syarat calon pemilih:
+	 *
+	 * 1. Status dasar = HIDUP
+	 * 2. Status penduduk = TETAP
+	 * 3. Warganegara = WNI
+	 * 4. Umur >= 17 tahun pada tanggal pemilihan ATAU sudah/pernah kawin (status kawin = KAWIN, CERAI HIDUP atau CERAI MATI)
+	 * 5. Pekerjaan bukan TNI atau POLRI
+	 */
 	private function syarat_dpt_sql()
 	{
 		$tanggal_pemilihan = $this->tanggal_pemilihan();
@@ -202,22 +205,21 @@
 		for ($i=0; $i<count($data); $i++)
 		{
 			// Ubah alamat penduduk lepas
-			if (!$data[$i]['id_kk'] OR $data[$i]['id_kk'] == 0)
+			if ( ! $data[$i]['id_kk'] OR $data[$i]['id_kk'] == 0)
 			{
-				// Ambil alamat penduduk
-				$sql = "SELECT p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt
-					FROM tweb_penduduk p
-					LEFT JOIN tweb_wil_clusterdesa c on p.id_cluster = c.id
-					WHERE p.id = ?
-					";
-				$query = $this->db->query($sql, $data[$i]['id']);
-				$penduduk = $query->row_array();
+				$penduduk = $this->db->select('p.id_cluster, p.alamat_sekarang, c.dusun, c.rw, c.rt')
+					->from('tweb_penduduk p')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+					->where('p.id', $data[$i]['id'])
+					->get()
+					->row_array();
+
 				$data[$i]['alamat'] = $penduduk['alamat_sekarang'];
 				$data[$i]['dusun'] = $penduduk['dusun'];
 				$data[$i]['rw'] = $penduduk['rw'];
 				$data[$i]['rt'] = $penduduk['rt'];
 			}
-			$data[$i]['no']=$j+1;
+			$data[$i]['no'] = $j + 1;
 			$j++;
 		}
 		return $data;
@@ -271,37 +273,39 @@
 
 	public function statistik_wilayah()
 	{
-		$sql = "SELECT dusun, rw,
-			count(*) as jumlah_warga,
-      sum(case when sex = 1 then 1 else 0 end) jumlah_warga_l,
-      sum(case when sex = 2 then 1 else 0 end) jumlah_warga_p
-			FROM tweb_penduduk u
-			LEFT JOIN tweb_wil_clusterdesa w ON u.id_cluster = w.id
-			WHERE 1 ";
-		$sql .= $this->syarat_dpt_sql();
-		$sql .= " GROUP BY dusun,rw";
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$this->db->select([
+			"dusun", "rw", "count('*') as jumlah_warga",
+			"SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) as jumlah_warga_l",
+			"SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) as jumlah_warga_p"
+			])
+			->from('tweb_penduduk u')
+			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left');
+
+		$this->syarat_dpt_sql();
+		$this->db->group_by(['dusun', 'rw']);
+
+		$data = $this->db->get()->result_array();
 
 		//Formating Output
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
 		}
+
 		return $data;
 	}
 
 	public function statistik_total()
 	{
-		$sql = "SELECT
-			count(*) as total_warga,
-      sum(case when sex = 1 then 1 else 0 end) total_warga_l,
-      sum(case when sex = 2 then 1 else 0 end) total_warga_p
-			FROM tweb_penduduk u
-			WHERE 1 ";
-		$sql .= $this->syarat_dpt_sql();
-		$query = $this->db->query($sql);
-		return $query->row_array();
-	}
+		$this->db->select([
+			"count('*') as total_warga",
+			"SUM(CASE WHEN sex = 1 THEN 1 ELSE 0 END) as total_warga_l",
+			"SUM(CASE WHEN sex = 2 THEN 1 ELSE 0 END) as total_warga_p"
+			])
+			->from('tweb_penduduk u');
 
+		$this->syarat_dpt_sql();
+
+		return $this->db->get()->row_array();
+	}
 }

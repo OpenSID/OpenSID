@@ -217,4 +217,16 @@
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+
+	public function get_id_periode_aktif($id = 0)
+	{
+		$data = $this->db->where([
+			'aktif' => 1,
+			'id_master' => $id
+		])
+		->get('analisis_periode')
+		->row_array();
+
+		return $data['id'];
+	}
 }

@@ -138,7 +138,7 @@ class Inventaris_tanah extends Admin_Controller {
 	public function cetak($tahun, $penandatangan)
 	{
 		$data['header'] = $this->header['desa'];
-		$data['total'] = $this->inventaris_tanah_model->sum_print($tahun);
+		// $data['total'] = $this->inventaris_tanah_model->sum_print($tahun);
 		$data['print'] = $this->inventaris_tanah_model->cetak($tahun);
 		$data['pamong'] = $this->pamong_model->get_data($penandatangan);
 		$this->load->view('inventaris/tanah/inventaris_print', $data);

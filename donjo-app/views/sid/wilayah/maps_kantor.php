@@ -96,7 +96,7 @@ window.onload = function()
   <?php endif; ?>
 
 	//Menampilkan BaseLayers Peta
-  var baseLayers = getBaseLayers(peta_kantor, '<?=$this->setting->google_key?>');
+  var baseLayers = getBaseLayers(peta_kantor, '<?=$this->setting->mapbox_key?>');
 
 	//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
 	showCurrentPoint(posisi, peta_kantor);

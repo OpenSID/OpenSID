@@ -1,7 +1,7 @@
 ---
 name: Laporan Bug
 about: Laporan bug atau error
-title: "[BUG] "
+title: "[Nama Modul]"
 labels: bug
 assignees: ''
 

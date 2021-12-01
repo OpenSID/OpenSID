@@ -58,8 +58,6 @@ class Program_bantuan_model extends MY_Model {
 
 	public function autocomplete($id, $cari)
 	{
-		$cari = $this->db->escape_like_str($cari);
-
 		// Jika parameter yg digunakan sama
 		$tabel = "program_peserta";
 		$where = "program_id = $id";
@@ -1030,13 +1028,20 @@ class Program_bantuan_model extends MY_Model {
 		}
 	}
 
-	public function jml_peserta_program($id)
+	public function jml_peserta_program($id = null)
 	{
-		$jml_peserta = $this->db->select('count(v.program_id) as jml')->
-			from('program p')->
-			join('program_peserta v', 'p.id = v.program_id', 'left')->
-			where('p.id', $id)->
-			get()->row()->jml;
+		if ($id) {
+			$jml_peserta = $this->db
+				->select('count(v.program_id) as jml')
+				->from('program p')
+				->join('program_peserta v', 'p.id = v.program_id', 'left')
+				->where('p.id', $id)
+				->get()
+				->row()
+				->jml;
+		} else {
+				$jml_peserta = $this->db->get('program_peserta')->num_rows();
+		}
 
 		return $jml_peserta;
 	}

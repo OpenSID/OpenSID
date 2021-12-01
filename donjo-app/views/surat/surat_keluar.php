@@ -25,15 +25,25 @@
 										<div class="row">
 											<div class="col-sm-9">
 												<div class="form-group">
-													<select class="form-control input-sm " name="filter" onchange="formAction('mainform','<?= site_url($this->controller.'/filter')?>')">
+													<select class="form-control input-sm " name="tahun" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
 														<option value="">Tahun</option>
-														<?php foreach ($tahun_surat as $tahun): ?>
-															<option value="<?= $tahun['tahun']?>" <?php selected($filter, $tahun['tahun']) ?>><?= $tahun['tahun']?></option>
+														<?php foreach ($tahun_surat as $thn): ?>
+															<option value="<?= $thn['tahun']?>" <?php selected($tahun, $thn['tahun']) ?>><?= $thn['tahun']?></option>
 														<?php endforeach; ?>
 													</select>
 												</div>
+
 												<div class="form-group">
-													<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/jenis')?>')" style="width: 100%;">
+													<select class="form-control input-sm " name="bulan" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/bulan')?>')" <?= ($tahun != 0) ? '' : 'disabled'; ?> >
+														<option value="">Bulan</option>
+														<?php foreach ($bulan_surat as $bln): ?>
+															<option value="<?= $bln['bulan']?>" <?php selected($bulan, $bln['bulan']) ?>><?= getBulan($bln['bulan'])?></option>
+														<?php endforeach; ?>
+													</select>
+												</div>
+
+												<div class="form-group">
+													<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/jenis')?>')" style="width: 100%;">
 														<option value="">Pilih Jenis Surat</option>
 														<?php foreach ($jenis_surat as $data): ?>
 															<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
@@ -44,9 +54,9 @@
 											<div class="col-sm-3">
 												<div class="box-tools">
 													<div class="input-group input-group-sm pull-right">
-														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();}">
+														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/filter/cari")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
