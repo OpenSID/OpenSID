@@ -219,7 +219,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<div class="col-md-3">
 							<div class="box box-solid">
 								<div class="box-body box-line">
-									<img class="img-circle" src="<?= AmbilFoto($this->is_login->foto)?>" alt="Foto" width="100%">
+									<img class="img-circle" src="<?= AmbilFoto($this->is_login->foto, '', $this->is_login->sex); ?>" alt="Foto" width="100%">
 								</div>
 								<div class="box-body">
 									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-biodata'); ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
