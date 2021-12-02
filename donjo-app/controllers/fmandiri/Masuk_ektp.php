@@ -78,7 +78,7 @@ class Masuk_ektp extends Web_Controller
             'header'              => $this->config_model->get_data(),
             'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
             'cek_anjungan'        => $this->anjungan_model->cek_anjungan($this->session->mac_address),
-            'form_action'         => site_url('layanan-mandiri/cek_ektp'),
+            'form_action'         => site_url('layanan-mandiri/cek-ektp'),
         ];
 
         $this->load->view(MANDIRI . '/masuk', $data);
