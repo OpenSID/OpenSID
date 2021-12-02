@@ -69,5 +69,4 @@ class Migrasi_2112_ke_2201 extends MY_Model
 
         return $hasil;
     }
-
 }
