@@ -482,6 +482,7 @@ class Surat_master_model extends MY_Model
             ->from('syarat_surat s')
             ->join('ref_syarat_surat r', 's.ref_syarat_id = r.ref_syarat_id')
             ->order_by('ref_syarat_id')
-            ->get()->result_array();
+            ->get()
+            ->result_array();
     }
 }
