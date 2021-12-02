@@ -189,6 +189,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<td>Alamat Email</td><td >:</td><td><?= strtoupper($penduduk['email']); ?></td>
 					</tr>
 					<tr>
+						<td>Telegram</td><td >:</td><td><?= $penduduk['telegram']?></td>
+					</tr>
+					<tr>
 						<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat']); ?></td>
 					</tr>
 					<tr>

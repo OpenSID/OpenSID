@@ -695,6 +695,7 @@ class Penduduk_model extends MY_Model
         $data['sakit_menahun_id']   = $data['sakit_menahun_id'] ?: null;
         $data['kk_level']           = $data['kk_level'];
         $data['email']              = strip_tags($data['email']);
+        $data['telegram']           = strip_tags($data['telegram']);
         if (empty($data['id_asuransi']) || $data['id_asuransi'] == 1) {
             $data['no_asuransi'] = null;
         }

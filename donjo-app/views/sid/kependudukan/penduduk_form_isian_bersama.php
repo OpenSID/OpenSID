@@ -470,10 +470,16 @@
 						<input id="telepon" name="telepon" class="form-control input-sm number" type="text" maxlength="20"placeholder="Nomor Telepon" value="<?= $penduduk['telepon']?>"></input>
 					</div>
 				</div>
-					<div class='col-sm-12'>
+				<div class='col-sm-4'>
 					<div class='form-group'>
 						<label for="email"> Alamat Email </label>
 						<input id="email" name="email" class="form-control input-sm email" maxlength="50" placeholder="Alamat Email" value="<?= $penduduk['email']?>"></input>
+					</div>
+				</div>
+				<div class='col-sm-8'>
+					<div class='form-group'>
+						<label for="nama_ibu">Telegram </label>
+						<input name="telegram" class="form-control input-sm telegram" maxlength="100" type="text" placeholder="Akun Telegram (contoh: @akun_saya)" value="<?= $penduduk['telegram']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>

@@ -239,6 +239,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
 
+	jQuery.validator.addMethod("telegram", function(value, element) {
+		valid = /^@[a-zA-Z0-9\_]{5,100}$/.test(value);
+		return this.optional(element) || valid;
+	}, "Username Telegram diawali @ dan berisi minimal 5 karakter alpha, numerik dan garis bawah");
+
 	jQuery.validator.addMethod("pin_mandiri", function(value, element) {
 		angka_valid = /^(?=.*\d).{6,6}$/.test(value);
 		return this.optional(element) || angka_valid;
