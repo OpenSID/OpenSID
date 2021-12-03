@@ -39,11 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluar_model extends CI_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function autocomplete()
     {
         $sql   = [];
@@ -136,9 +131,10 @@ class Keluar_model extends CI_Model
 
         return $this->paging;
     }
-
+    
     private function list_data_sql()
     {
+        // TODO : Sederhanakan, ini berulang
         $this->db
             ->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
             ->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
@@ -173,9 +169,10 @@ class Keluar_model extends CI_Model
             default:$this->db->order_by('u.tanggal', 'DESC');
         }
 
-        // query select dan limit
+        // TODO : Sederhanakan, ini berulang
         $this->db
-            ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa')
+            ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend')
+            ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
             ->limit($limit, $offset);
 
         $data = $this->list_data_sql()->result_array();
@@ -192,10 +189,6 @@ class Keluar_model extends CI_Model
             } else {
                 $data[$i]['id_pend'] = 'Keluar';
                 $this->rincian_file($data, $i);
-            }
-            if (! empty($data[$i]['pamong_id_pend'])) {
-                // Pamong desa
-                $data[$i]['pamong'] = $data[$i]['nama_pamong_desa'];
             }
 
             $j++;
@@ -257,9 +250,12 @@ class Keluar_model extends CI_Model
 
     private function list_data_perorangan_sql($nik)
     {
-        $this->db->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
+        // TODO : Sederhanakan, ini berulang
+        $this->db
+            ->join('tweb_penduduk AS n', 'u.id_pend = n.id', 'left')
             ->join('tweb_surat_format AS k', 'u.id_format_surat = k.id', 'left')
             ->join('tweb_desa_pamong AS s', 'u.id_pamong = s.pamong_id', 'left')
+            ->join('tweb_penduduk AS p', 's.id_pend = p.id', 'left')
             ->join('user AS w', 'u.id_user = w.id', 'left');
         $this->filterku_sql($nik);
 
@@ -290,7 +286,9 @@ class Keluar_model extends CI_Model
 
         }
 
-        $this->db->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.pamong_nama AS pamong')
+        // TODO : Sederhanakan, ini berulang
+        $this->db->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat')
+            ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
             ->limit($limit, $offset);
 
         $data = $this->list_data_perorangan_sql($nik)->result_array();
@@ -461,12 +459,15 @@ class Keluar_model extends CI_Model
     {
         $this->load->model('penomoran_surat_model');
 
+        // TODO : Sederhanakan, ini berulang
         $data = $this->db
-            ->select('l.*, k.nama AS perihal, k.kode_surat, p.nama AS nama_penduduk, s.pamong_nama AS pamong_nama, s.jabatan AS pamong_jabatan')
+            ->select('l.*, k.nama AS perihal, k.kode_surat, n.nama AS nama_penduduk, s.jabatan AS pamong_jabatan')
+            ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
             ->from('log_surat l')
+            ->join('tweb_penduduk n', 'l.id_pend = n.id', 'left')
             ->join('tweb_surat_format k', 'l.id_format_surat = k.id', 'left')
             ->join('tweb_desa_pamong s', 'l.id_pamong = s.pamong_id', 'left')
-            ->join('tweb_penduduk p', 'l.id_pend = p.id', 'left')
+            ->join('tweb_penduduk p', 's.id_pend = p.id', 'left')
             ->where('l.id', $id)
             ->get()
             ->row();
