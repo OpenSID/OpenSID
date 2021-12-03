@@ -131,7 +131,7 @@ class Keluar_model extends CI_Model
 
         return $this->paging;
     }
-    
+
     private function list_data_sql()
     {
         // TODO : Sederhanakan, ini berulang
