@@ -5,7 +5,7 @@ Di rilis ini, versi 21.12-premium, menyediakan Buku Kader Pemberdayaan Masyaraka
 Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi. Terima kasih pula pada Faisyal Rachman dan Firliani Fauziah yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
-1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.
 
 #### Perbaikan BUG
+1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.
 #### Perubahan Teknis
