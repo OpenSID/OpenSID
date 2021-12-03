@@ -1667,7 +1667,7 @@ class Penduduk_model extends MY_Model
             ->like('nik', '0', 'after')
             ->where('nik !=', '0')
             ->get('tweb_penduduk')
-            ->row()->digit ?? 0;;
+            ->row()->digit ?? 0;
 
         // NIK Sementara menggunakan format 0[kode-desa][nomor-urut]
         $desa = $this->config_model->get_data();
