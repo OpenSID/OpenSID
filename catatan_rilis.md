@@ -7,10 +7,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 #### Penambahan Fitur
 1. [#4556](https://github.com/OpenSID/OpenSID/issues/4556) Tambahkan akun Telegram ke data penduduk.
 
-
-#### Perbaikan Bug
-1. [#] Belum ada.
-
-
+#### Perbaikan BUG
+1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.
 #### Perubahan Teknis
-1. [#] Belum ada.
