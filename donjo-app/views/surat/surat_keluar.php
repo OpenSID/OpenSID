@@ -134,7 +134,7 @@
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['keterangan']?></td>
-																	<td><?= $data['pamong']?></td>
+																	<td><?= $data['pamong_nama']?></td>
 																	<td class="padat"><?= tgl_indo2($data['tanggal'])?></td>
 																	<td><?= $data['nama_user']?></td>
 																</tr>

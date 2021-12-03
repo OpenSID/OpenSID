@@ -124,7 +124,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td class="padat"><?= $data['no_surat']; ?></td>
 									<td class="padat"><?= $data['format']; ?></td>
-									<td><?= $data['pamong']; ?></td>
+									<td><?= $data['pamong_nama']; ?></td>
 									<td class="padat"><?= tgl_indo2($data['tanggal']); ?></td>
 								</tr>
 							<?php endforeach;
