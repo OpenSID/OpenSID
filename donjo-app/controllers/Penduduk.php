@@ -114,7 +114,6 @@ class Penduduk extends Admin_Controller
         $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
         $data['list_jenis_kelamin']   = $this->referensi_model->list_data('tweb_penduduk_sex');
 
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/penduduk', $data);
     }
 
@@ -202,7 +201,6 @@ class Penduduk extends Admin_Controller
 
         $this->session->unset_userdata(['dari_internal']);
 
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/penduduk_form', $data);
     }
 
@@ -213,7 +211,6 @@ class Penduduk extends Admin_Controller
         $data['list_dokumen'] = $this->penduduk_model->list_dokumen($id);
         $data['penduduk']     = $this->penduduk_model->get_penduduk($id);
         $data['program']      = $this->program_bantuan_model->get_peserta_program(1, $data['penduduk']['nik']);
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/penduduk_detail', $data);
     }
 

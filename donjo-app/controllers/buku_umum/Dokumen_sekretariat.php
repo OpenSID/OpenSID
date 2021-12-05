@@ -92,7 +92,6 @@ class Dokumen_sekretariat extends Admin_Controller
             }
         }
 
-        $this->set_minsidebar(1);
         $data['main_content'] = 'dokumen/table_buku_umum';
         $data['subtitle']     = ($kat == '3') ? 'Buku Peraturan ' . ucwords($this->setting->sebutan_desa) : 'Buku Keputusan ' . ucwords($this->setting->sebutan_kepala_desa);
         $data['selected_nav'] = ($kat == '3') ? 'peraturan' : 'keputusan';

@@ -84,7 +84,6 @@ class Mailbox extends Admin_Controller
         $data['submenu']     = $this->mailbox_model->list_menu();
         $_SESSION['submenu'] = $kat;
 
-        $this->set_minsidebar(1);
         $this->render('mailbox/table', $data);
     }
 

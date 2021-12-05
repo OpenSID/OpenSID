@@ -87,7 +87,6 @@ class Lembaran_desa extends Admin_Controller
         $data['subtitle']     = 'Buku Lembaran Desa Dan Berita Desa';
         $data['selected_nav'] = 'lembaran';
 
-        $this->set_minsidebar(1);
         $this->render('bumindes/umum/main', $data);
     }
 

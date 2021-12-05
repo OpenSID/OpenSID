@@ -93,7 +93,6 @@ class Bumindes_penduduk_mutasi extends Admin_Controller
             $this->session->tgl_lengkap = $data['tgl_lengkap'];
         }
 
-        $this->set_minsidebar(1);
         $this->render('bumindes/penduduk/main', $data);
     }
 

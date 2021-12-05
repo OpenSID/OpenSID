@@ -76,7 +76,6 @@ class Cdesa extends Admin_Controller
     public function index($page = 1, $o = 0)
     {
         $this->tab_ini = 12;
-        $this->set_minsidebar(1);
 
         $data['cari']         = $_SESSION['cari'] ?? '';
         $_SESSION['per_page'] = $_POST['per_page'] ?: null;
@@ -124,7 +123,6 @@ class Cdesa extends Admin_Controller
         $this->load->library('form_validation');
         $this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
-        $this->set_minsidebar(1);
         $this->tab_ini = empty($mode) ? 10 : 12;
 
         $post             = $this->input->post();
@@ -228,7 +226,6 @@ class Cdesa extends Admin_Controller
         $this->session->unset_userdata('cari'); // Area menggunakan session cari, jadi perlu dihapus terlebih dahulu
 
         $this->tab_ini = 12;
-        $this->set_minsidebar(1);
         if (empty($id_persil)) {
             $id_persil = $this->input->post('id_persil');
         }
@@ -305,7 +302,6 @@ class Cdesa extends Admin_Controller
         $this->load->helper('form');
         $this->load->library('form_validation');
 
-        $this->set_minsidebar(1);
         $this->tab_ini = 15;
         $nav['act']    = 7;
         $this->render('data_persil/panduan');

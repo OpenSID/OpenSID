@@ -81,7 +81,6 @@ class Surat_master extends Admin_Controller
         $data['paging']   = $this->surat_master_model->paging($p, $o);
         $data['main']     = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
         $data['keyword']  = $this->surat_master_model->autocomplete();
-        $this->set_minsidebar(1);
         $this->render('surat_master/table', $data);
     }
 
@@ -106,7 +105,6 @@ class Surat_master extends Admin_Controller
             $data['sisipan_qrcode'] = false;
         }
 
-        $this->set_minsidebar(1);
         $this->render('surat_master/form', $data);
     }
 
@@ -192,7 +190,6 @@ class Surat_master extends Admin_Controller
             $data['inputs']       = $this->surat_master_model->get_kode_isian($data['surat_master']);
         }
 
-        $this->set_minsidebar(1);
         $this->render('surat_master/kode_isian', $data);
     }
 
