@@ -44,7 +44,25 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
 
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
+        return $hasil && $this->migrasi_2021120271($hasil);
+    }
+
+    protected function migrasi_2021120271($hasil)
+    {
+        if (! $this->db->field_exists('telegram', 'tweb_penduduk')) {
+            $fields = [
+                'telegram' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'unique'     => true,
+                    'after'      => 'email',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', $fields);
+        }
+
+        return $hasil;
     }
 }
