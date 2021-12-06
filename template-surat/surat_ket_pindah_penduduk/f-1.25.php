@@ -1,70 +1,10 @@
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
+<style type="text/css">
+	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
+</style>
+
 <?php if ($input['kode_format'] == 'F-1.23' OR $input['kode_format'] == 'F-1.25' OR $input['kode_format'] == 'F-1.29' OR $input['kode_format'] == 'F-1.34') : ?>
-	<style type="text/css">
-		table.disdukcapil {
-			font-size: 10pt;
-			width: 100%;
-			/*border-collapse: collapse;*/
-		}
-
-		table.disdukcapil td {
-			padding: 1px 1px 1px 3px;
-		}
-
-		table.disdukcapil td.satu {
-			width: 10px;
-			text-align: center;
-		}
-
-		table.disdukcapil td.padat {
-			padding: 0px;
-			margin: 0px;
-			font-size: 9.5pt;
-		}
-
-		table.disdukcapil td.kotak {
-			border: solid 1px #000000;
-		}
-
-		table.disdukcapil td.kanan {
-			text-align: right;
-		}
-
-		table.disdukcapil td.tengah {
-			text-align: center;
-		}
-
-		table.pengikut {
-			font-size: 10pt;
-			margin-top: 25px;
-			border-collapse: collapse;
-			border: solid 1px black;
-			width: 100%;
-		}
-
-		table.pengikut td,
-		th {
-			border: solid 1px black;
-			padding: 1px 1px 1px 3px;
-		}
-
-		table.pengikut th {
-			text-align: center;
-			vertical-align: middle;
-		}
-
-		table.pengikut td.tengah {
-			text-align: center;
-		}
-
-		table.ttd {
-			margin-top: 20px;
-			width: 100%;
-		}
-
-		table.ttd td {
-			text-align: center;
-		}
-	</style>
 
 	<page orientation="portrait" format="210x330" style="font-size: 10pt">
 		<table align="right" style="padding: 5px 20px; border: solid 1px black;">
@@ -503,73 +443,8 @@
 		</p>
 
 	</page>
+
 <?php else : ?>
-	<style type="text/css">
-		table.disdukcapil {
-			font-size: 10pt;
-			width: 100%;
-			/*border-collapse: collapse;*/
-		}
-
-		table.disdukcapil td {
-			padding: 1px 1px 1px 3px;
-		}
-
-		table.disdukcapil td.satu {
-			width: 10px;
-			text-align: center;
-		}
-
-		table.disdukcapil td.padat {
-			padding: 0px;
-			margin: 0px;
-			font-size: 9.5pt;
-		}
-
-		table.disdukcapil td.kotak {
-			border: solid 1px #000000;
-		}
-
-		table.disdukcapil td.kanan {
-			text-align: right;
-		}
-
-		table.disdukcapil td.tengah {
-			text-align: center;
-		}
-
-		table.pengikut {
-			font-size: 10pt;
-			margin-top: 25px;
-			border-collapse: collapse;
-			border: solid 1px black;
-			width: 100%;
-		}
-
-		table.pengikut td,
-		th {
-			border: solid 1px black;
-			padding: 1px 1px 1px 3px;
-		}
-
-		table.pengikut th {
-			text-align: center;
-			vertical-align: middle;
-		}
-
-		table.pengikut td.tengah {
-			text-align: center;
-		}
-
-		table.ttd {
-			margin-top: 20px;
-			width: 100%;
-		}
-
-		table.ttd td {
-			text-align: center;
-		}
-	</style>
 
 	<page orientation="portrait" format="210x330" style="font-size: 10pt">
 		<table align="right" style="padding: 5px 20px; border: solid 1px black;">
