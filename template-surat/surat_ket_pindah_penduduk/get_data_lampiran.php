@@ -23,6 +23,18 @@
 	{
 		$input['judul_format'] = "Antar Kabupaten/Kota atau Antar Provinsi";
 	}
+	elseif ($input['kode_format'] == 'F-1.27')
+	{
+		$input['judul_format'] = "Antar Desa/Kelurahan Dalam Satu Kecamatan";
+	}
+	elseif ($input['kode_format'] == 'F-1.31')
+	{
+		$input['judul_format'] = "Antar Kecamatan Dalam Satu Kabupaten/Kota";
+	}
+	elseif ($input['kode_format'] == 'F-1.39')
+	{
+		$input['judul_format'] = "Antar Kabupaten/Kota atau Antar Provinsi";
+	}
 
 	if ($input['kode_format'] == "f108")
 		$daftar_lampiran = array($daftar_lampiran[0]);

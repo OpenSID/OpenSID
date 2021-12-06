@@ -161,28 +161,48 @@
 		if (klasifikasi_pindah > 1)
 		{
 			$('#kode_format').val('F-1.25');
+			if ($('#pakai_format').val() == 'f127')
+			{
+				$('#kode_format').val('F-1.27');
+			}
 			$('#desa_tujuan_show').removeAttr('disabled');
 			$('#desa_tujuan-opener').show();
 		}
 		else
 		{
 			$('#kode_format').val('F-1.23');
+			if ($('#pakai_format').val() == 'f127')
+			{
+				$('#kode_format').val('F-1.27');
+			}
 		}
 		if (klasifikasi_pindah > 2)
 		{
 			$('#kode_format').val('F-1.29');
+			if ($('#pakai_format').val() == 'f127')
+			{
+				$('#kode_format').val('F-1.31');
+			}
 			$('#kecamatan_tujuan_show').removeAttr('disabled');
 			$('#kecamatan_tujuan-opener').show();
 		}
 		if (klasifikasi_pindah > 3)
 		{
 			$('#kode_format').val('F-1.34');
+			if ($('#pakai_format').val() == 'f127')
+			{
+				$('#kode_format').val('F-1.39');
+			}
 			$('#kabupaten_tujuan_show').removeAttr('disabled');
 			$('#kabupaten_tujuan-opener').show();
 		}
 		if (klasifikasi_pindah > 4)
 		{
 			$('#kode_format').val('F-1.34');
+			if ($('#pakai_format').val() == 'f127')
+			{
+				$('#kode_format').val('F-1.39');
+			}
 			$('#provinsi_tujuan_show').removeAttr('disabled');
 			$('#provinsi_tujuan-opener').show();
 		}
@@ -236,6 +256,7 @@
 										<option value="">-- Pilih Format Lampiran Surat --</option>
 										<option value="f108">F-1.08</option>
 										<option value="bukan_f108" selected>F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)</option>
+										<option value="f127">F-1.27, F-1.31, F-1.39 (sesuai tujuan)</option>
 									</select>
 								</div>
 							</div>
@@ -368,6 +389,14 @@
 											<option value="<?= $key?>"><?= strtoupper($value)?></option>
 										<?php endforeach;?>
 									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="no_kk_baru" class="col-sm-3 control-label">Nomor Kartu Keluarga Bagi Yang Pindah</label>
+								<div class="input-group col-sm-8">
+									<div class="col-sm-12">
+										<input id="no_kk_baru" name="no_kk_baru" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nomor Kartu Keluarga Bagi Yang Pindah"></input>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">
