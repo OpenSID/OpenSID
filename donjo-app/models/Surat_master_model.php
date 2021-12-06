@@ -260,7 +260,7 @@ class Surat_master_model extends MY_Model
             return;
         }
 
-        // $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+        // $lampiran_surat dalam bentuk seperti "f-1.08.php, f-1.25.php, f-1.27.php"
         $daftar_lampiran = explode(',', $surat['lampiran']);
 
         foreach ($daftar_lampiran as $lampiran) {
