@@ -249,6 +249,8 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
     protected function migrasi_2021102451($hasil)
     {
+        $this->load->model('keluarga_model');
+
         // Sesuaikan struktur kolom no_kk untuk No KK Sementara
         $fields = [
             'no_kk' => [

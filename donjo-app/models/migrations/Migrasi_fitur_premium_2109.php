@@ -108,6 +108,8 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
     protected function migrasi_2021082151($hasil)
     {
+        $this->load->model('penduduk_model');
+
         // Sesuaikan struktur kolom nik di table tweb_penduduk
         $fields = [
             'nik' => [

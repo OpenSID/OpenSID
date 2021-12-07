@@ -307,9 +307,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_column('pembangunan', $fields);
         }
 
-        $this->load->model('pembangunan_model');
-
-        if ($data_pembangunan = $this->pembangunan_model->get_data()->get()->result_array()) {
+        if ($data_pembangunan = $this->db->get('pembangunan')->result_array()) {
             foreach ($data_pembangunan as $pembangunan) {
                 $slug  = unique_slug('pembangunan', $pembangunan['judul']);
                 $hasil = $hasil && $this->db->where('id', $pembangunan['id'])->update('pembangunan', ['slug' => $slug]);
