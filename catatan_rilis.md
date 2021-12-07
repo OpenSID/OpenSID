@@ -15,6 +15,7 @@ Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi. 
 5. [#4566](https://github.com/OpenSID/OpenSID/issues/4566) Perbaiki login ektp dan persuratan di layanan mandiri.
 6. [#4554](https://github.com/OpenSID/OpenSID/issues/4554) Sesuaikan view verifikasi surat berdasarkan tema yang digunakan.
 7. [#4568](https://github.com/OpenSID/OpenSID/issues/4568) Perbaiki error saat mengakses modul rekapitulasi jumlah penduduk.
+8. [#4549](https://github.com/OpenSID/OpenSID/issues/4549) Perbaiki error di penduduk penerima bantuan, tidak kompatibel.
 
 
 #### Perubahan Teknis
