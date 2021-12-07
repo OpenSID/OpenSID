@@ -11,5 +11,6 @@ Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi. 
 2. [#463](https://github.com/OpenSID/premium/issues/463) Perbaiki develbar agar tidak menggangu proses compress saat cetak surat.
 3. [#4565](https://github.com/OpenSID/OpenSID/issues/4565) Perbaiki foto pembangunan terlihat besar.
 4. [#4567](https://github.com/OpenSID/OpenSID/issues/4567) Perbaiki migrasi slug pembangunan tidak berjalan keseluruhan.
+5. [#4566](https://github.com/OpenSID/OpenSID/issues/4566) Perbaiki login ektp dan persuratan di layanan mandiri.
 
 #### Perubahan Teknis
