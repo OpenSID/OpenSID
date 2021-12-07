@@ -45,7 +45,7 @@ class Surat extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'lapor_model', 'penduduk_model']);
+        $this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'surat_master_model', 'lapor_model', 'penduduk_model']);
     }
 
     // Kat 1 = Permohonan
@@ -104,15 +104,17 @@ class Surat extends Mandiri_Controller
         $data              = [];
         $no                = $_POST['start'];
 
-        foreach ($syarat_surat as $no_syarat => $baris) {
-            $no++;
-            $row   = [];
-            $row[] = $no;
-            $row[] = $baris['ref_syarat_nama'];
-            // Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-            $pilihan_dokumen = $this->load->view(MANDIRI . '/pilihan_syarat', ['dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan], true);
-            $row[]           = $pilihan_dokumen;
-            $data[]          = $row;
+        if ($syarat_surat) {
+            foreach ($syarat_surat as $no => $baris) {
+                $no++;
+                $row   = [];
+                $row[] = $no;
+                $row[] = $baris['ref_syarat_nama'];
+                // Gunakan view sebagai string untuk mempermudah pembuatan pilihan
+                $pilihan_dokumen = $this->load->view(MANDIRI . '/pilihan_syarat', ['dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan], true);
+                $row[]           = $pilihan_dokumen;
+                $data[]          = $row;
+            }
         }
 
         $output = [
