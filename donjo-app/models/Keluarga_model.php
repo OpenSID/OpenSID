@@ -1249,7 +1249,7 @@ class Keluarga_model extends MY_Model
             ->like('no_kk', '0', 'after')
             ->where('no_kk !=', '0')
             ->get('tweb_keluarga')
-            ->row()->digit;
+            ->row()->digit ?? 0;
 
         // No_kk Sementara menggunakan format 0[kode-desa][nomor-urut]
         $desa = $this->config_model->get_data();
