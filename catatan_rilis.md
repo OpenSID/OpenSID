@@ -8,9 +8,12 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. [#4556](https://github.com/OpenSID/OpenSID/issues/4556) Tambahkan akun Telegram ke data penduduk.
 
 #### Perbaikan BUG
+
 1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.
 2. [#463](https://github.com/OpenSID/premium/issues/463) Perbaiki develbar agar tidak menggangu proses compress saat cetak surat.
 3. [#4565](https://github.com/OpenSID/OpenSID/issues/4565) Perbaiki foto pembangunan terlihat besar.
 4. [#4567](https://github.com/OpenSID/OpenSID/issues/4567) Perbaiki migrasi slug pembangunan tidak berjalan keseluruhan.
+5. [#4566](https://github.com/OpenSID/OpenSID/issues/4566) Perbaiki login ektp dan persuratan di layanan mandiri.
+6. [#4554](https://github.com/OpenSID/OpenSID/issues/4554) Sesuaikan view verifikasi surat berdasarkan tema yang digunakan.
 
 #### Perubahan Teknis
