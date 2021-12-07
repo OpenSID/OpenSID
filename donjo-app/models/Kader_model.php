@@ -120,16 +120,18 @@ class Kader_model extends MY_Model
 
         $kursus = array_column($this->referensi_model->list_data('ref_penduduk_kursus'), 'nama');
 
+        $new = [];
         if ($list_data = $this->db->select('kursus')->get($this->table)->result_array()) {
-            $data = [];
+            $data = '';
 
             foreach ($list_data as $value) {
                 if ($value) {
-                    $data = array_merge($data, json_decode($value['kursus']));
+                    $data .= $value['kursus'];
                 }
             }
 
-            $new = [];
+            $data = explode(', ', $data);
+
             if ($nama) {
                 foreach (array_unique($data) as $value) {
                     if (preg_match("/{$nama}/i", $value)) {
@@ -152,16 +154,18 @@ class Kader_model extends MY_Model
 
         $bidang = array_column($this->referensi_model->list_data('ref_penduduk_bidang'), 'nama');
 
+        $new = [];
         if ($list_data = $this->db->select('bidang')->get($this->table)->result_array()) {
-            $data = [];
+            $data = '';
 
             foreach ($list_data as $value) {
                 if ($value) {
-                    $data = array_merge($data, json_decode($value['bidang']));
+                    $data .= $value['bidang'];
                 }
             }
 
-            $new = [];
+            $data = explode(', ', $data);
+
             if ($nama) {
                 foreach (array_unique($data) as $value) {
                     if (preg_match("/{$nama}/i", $value)) {
@@ -215,8 +219,8 @@ class Kader_model extends MY_Model
 
         return [
             'penduduk_id' => bilangan($post['penduduk_id']),
-            'kursus'      => json_encode($post['kursus']),
-            'bidang'      => json_encode($post['bidang']),
+            'kursus'      => $post['kursus'],
+            'bidang'      => $post['bidang'],
             'keterangan'  => $post['keterangan'],
         ];
     }
