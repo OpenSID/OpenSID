@@ -1,13 +1,12 @@
-<?php
-/**
- * File ini:
- *
- * Form kelompok di modul Kelompok
- *
- * donjo-app/views/pembangunan/form.php
- */
-?>
-
+<style>
+	.ui-autocomplete {
+    max-height: 200px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden;
+    border:1px solid #222;
+    position:absolute;
+  }
+</style>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Master Kader Pemberdayaan</h1>
@@ -38,19 +37,19 @@
 					<div class="form-group">
 						<label  class="col-sm-3 control-label" for="kursus">Kursus</label>
 						<div class="col-sm-6">
-							<input type="text" name="kursus[]" id="kursus" class="form-control required" placeholder="Pilih Kursus" value="<?= str_replace(',', ', ', preg_replace('/[^a-zA-Z, ]/', '', $main['kursus'])); ?>"/>
+							<input type="text" name="kursus" id="kursus" class="form-control ui-autocomplete required" placeholder="Pilih Kursus" value="<?= $main['kursus']; ?>"/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label  class="col-sm-3 control-label" for="bidang">Bidang Keahlian</label>
 						<div class="col-sm-6">
-							<input type="text" name="bidang[]" id="bidang" class="form-control required" placeholder="Pilih Bidang Keahlian" value="<?= str_replace(',', ', ', preg_replace('/[^a-zA-Z, ]/', '', $main['bidang'])); ?>"/>
+							<input type="text" name="bidang" id="bidang" class="form-control ui-autocomplete required" placeholder="Pilih Bidang Keahlian" value="<?= $main['bidang']; ?>"/>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 						<div class="col-sm-6">
-							<textarea name="keterangan" id="keterangan" class="form-control input-sm" maxlength="100" placeholder="Keterangan" rows="5"><?= $main['keterangan']; ?></textarea>
+							<textarea name="keterangan" id="keterangan" class="form-control input-sm required" maxlength="100" placeholder="Keterangan" rows="5"><?= $main['keterangan']; ?></textarea>
 						</div>
 					</div>
 				</div>
@@ -65,7 +64,7 @@
 <script>
 	$(document).ready(function(){
 
-		var url = BASE_URL + '/bumindes_kader/';
+		var url = SITE_URL + '/bumindes_kader/';
 
 		$('#kursus').tokenfield({
 			autocomplete: {

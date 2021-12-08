@@ -125,15 +125,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				{ 'data': 'jk' },
 				{
 					'data': function(data) {
-						return (data.pendidikan_sedang + ',' + data.kursus.replaceAll(/(["|\[\]\/\\])/g, '')).replaceAll(',', ', ');
+						return (data.pendidikan_sedang + ', ' + data.kursus);
 					}
 				},
-				{
-					'data': 'bidang',
-						render: function (data) {
-							return (data.replaceAll(/(["|\[\]\/\\])/g, '')).replaceAll(',', ', ');
-					},
-				},
+				{ 'data': 'bidang' },
 				{ 'data': 'alamat' },
 				{ 'data': 'keterangan' },
 			],
