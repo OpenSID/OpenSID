@@ -71,6 +71,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')): ?>
 		<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman_mandiri.css" rel='Stylesheet' />
 	<?php endif; ?>
+	<link rel="stylesheet" type="text/css" href="<?= base_url()?>desa/mandiri_video/mandiri_video.css">
+
 	<!-- Google Font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 	<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
@@ -90,6 +92,39 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</style>
 	<?php endif; ?>
 </head>
+
+<div class="video-internal" id="videov" style="display: none;">
+	<video loop muted autoplay poster="poster.jpg" class="video-internal-bg">
+		<source src="<?= base_url()?>desa/mandiri_video/pesona.mp4" type="video/mp4">
+		<!-- Ganti nama video sesuai nama video yang anda masukkan di folder mandiri_video -->
+	</video>
+</div>
+<script type="text/javascript">
+	var IDLE_TIMEOUT = 10; //seconds
+	var _idleSecondsCounter = 0;
+	document.onclick = function() {
+	   	_idleSecondsCounter = 0;
+	};
+	document.onmousemove = function() {
+	    _idleSecondsCounter = 0;
+	};
+	document.onkeypress = function() {
+	    _idleSecondsCounter = 0;
+	};
+	window.setInterval(CheckIdleTime, 500);
+
+	function CheckIdleTime() {
+	    _idleSecondsCounter++;
+        var video = document.getElementById("videov");
+	    if (_idleSecondsCounter >= IDLE_TIMEOUT) {
+        {
+          video.style.display = "block";
+        }
+	    }else{
+          video.style.display = "none";
+        }
+	}
+</script>
 <body class="login">
 	<div class="top-content">
 		<div class="inner-bg">
