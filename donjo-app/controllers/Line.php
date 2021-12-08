@@ -93,7 +93,7 @@ class Line extends Admin_Controller
         $data['o'] = $o;
 
         if ($id) {
-            $data['line']        = $this->plan_line_model->get_line($id);
+            $data['line']        = $this->plan_line_model->get_line($id) ?? show_404();
             $data['form_action'] = site_url("line/update/{$id}/{$p}/{$o}");
         } else {
             $data['line']        = null;
@@ -119,7 +119,7 @@ class Line extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         if ($id) {
-            $data['line']        = $this->plan_line_model->get_line($id);
+            $data['line']        = $this->plan_line_model->get_line($id) ?? show_404();
             $data['form_action'] = site_url("line/update_sub_line/{$line}/{$id}");
         } else {
             $data['line']        = null;
@@ -167,14 +167,14 @@ class Line extends Admin_Controller
 
     public function delete($p = 1, $o = 0, $id = '')
     {
-        $this->redirect_hak_akses('h', "line/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h');
         $this->plan_line_model->delete($id);
         redirect("line/index/{$p}/{$o}");
     }
 
     public function delete_all($p = 1, $o = 0)
     {
-        $this->redirect_hak_akses('h', "line/index/{$p}/{$o}");
+        $this->redirect_hak_akses('h');
         $this->plan_line_model->delete_all();
         redirect("line/index/{$p}/{$o}");
     }
