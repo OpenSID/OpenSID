@@ -759,15 +759,16 @@ class Keluarga_model extends MY_Model
     public function list_anggota($id = 0, $options = ['dengan_kk' => true], $nik_sementara = false)
     {
         $sql = "SELECT u.*, u.sex as sex_id, u.status_kawin as status_kawin_id,
-			DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
-			(CASE when u.status_kawin <> 2
-				then w.nama
-				else
-					case when u.akta_perkawinan = ''
-						then 'KAWIN BELUM TERCATAT'
-						else 'KAWIN TERCATAT'
-					end
-				end) as status_kawin,
+            DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
+            (CASE
+                WHEN u.status_kawin IS NULL THEN ''
+				WHEN u.status_kawin <> 2 THEN w.nama
+				ELSE
+					CASE
+                        WHEN u.akta_perkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
+						ELSE 'KAWIN TERCATAT'
+					END
+				END) AS status_kawin,
 			b.dusun, b.rw, b.rt, x.nama as sex, u.kk_level, a.nama as agama, d.nama as pendidikan,j.nama as pekerjaan, f.nama as warganegara, g.nama as golongan_darah, h.nama AS hubungan, k.alamat
 			FROM tweb_penduduk u
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
