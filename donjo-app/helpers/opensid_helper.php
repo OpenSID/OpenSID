@@ -777,9 +777,9 @@ function alamat_web($str)
 
 // Format wanrna #803c3c
 if (! function_exists('warna')) {
-    function warna($length = 32)
+    function warna($str)
     {
-        return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str);
+        return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str ?? '#000000');
     }
 }
 
