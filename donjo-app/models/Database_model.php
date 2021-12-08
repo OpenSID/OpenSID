@@ -155,7 +155,7 @@ class Database_model extends MY_Model
 
     public function migrasi_db_cri()
     {
-        $this->load->model(['surat_master_model', 'folder_desa_model']);
+        $this->load->model('folder_desa_model');
         // Tunggu restore selesai sebelum migrasi
         if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) {
             return;
@@ -184,7 +184,6 @@ class Database_model extends MY_Model
         $this->jalankan_migrasi('migrasi_layanan');
 
         $this->folder_desa_model->amankan_folder_desa();
-        $this->surat_master_model->impor_surat_desa();
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
         /*
          * Update current_version di db.
