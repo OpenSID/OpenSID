@@ -42,15 +42,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 ?>
-
-<style type="text/css">
-	<?php if ($latar_login): ?>
-		body.login {
-			background: url('<?= base_url($latar_login) ?>');
-		}
-	<?php endif; ?>
-</style>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -75,6 +66,15 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+
+		<style type="text/css">
+			<?php if ($latar_login): ?>
+				body.login {
+					background: url('<?= base_url($latar_login) ?>');
+				}
+			<?php endif; ?>
+		</style>
+
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
