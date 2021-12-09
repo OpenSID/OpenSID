@@ -39,9 +39,12 @@ require_once 'vendor/simplehtmldom/simplehtmldom/simple_html_dom.php';
 
 class Surat_master_model extends MY_Model
 {
+    protected $table = 'tweb_surat_format';
+
     public function __construct()
     {
         parent::__construct();
+        $this->impor_surat_desa();
     }
 
     public function autocomplete()
@@ -398,6 +401,7 @@ class Surat_master_model extends MY_Model
     public function impor_surat_desa()
     {
         $folder_surat_desa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
+        $daftar_surat      = [];
 
         foreach ($folder_surat_desa as $surat) {
             $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
@@ -410,7 +414,15 @@ class Surat_master_model extends MY_Model
                 $sql               = $this->db->insert_string('tweb_surat_format', $data) . ' ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)';
                 $this->db->query($sql);
             }
+
+            $daftar_surat[] = $surat;
         }
+
+        // Hapus surat ubahan desa yg sudah tidak ada
+        $this->db
+            ->where('jenis', 2)
+            ->where_not_in('url_surat', $daftar_surat)
+            ->delete($this->table);
     }
 
     /**

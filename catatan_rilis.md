@@ -18,6 +18,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. [#4568](https://github.com/OpenSID/OpenSID/issues/4568) Perbaiki error saat mengakses modul rekapitulasi jumlah penduduk.
 8. [#4549](https://github.com/OpenSID/OpenSID/issues/4549) Perbaiki error di penduduk penerima bantuan, tidak kompatibel.
 9. [#4570](https://github.com/OpenSID/OpenSID/issues/4570) Perbaiki error tambah / ubah kader dengan menggunakan .htaccess.
-
+10. [#4378](https://github.com/OpenSID/OpenSID/issues/4378) Penyesuaian daftar surat ubahan desa secara otomatis.
+11. [#4392](https://github.com/OpenSID/OpenSID/issues/4392) Perbaiki status perkwinan modul penduduk dan keluarga.
+11. [#4564](https://github.com/OpenSID/OpenSID/issues/4564) Perbaiki pengaturan peta yang tidak dapat menyimpan warna.
 
 #### Perubahan Teknis
