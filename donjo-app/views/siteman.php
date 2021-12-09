@@ -70,7 +70,7 @@
 		<style type="text/css">
 			<?php if ($latar_login): ?>
 				body.login {
-					background: url('<?= base_url($latar_login) ?>');
+					background-image: url('<?= base_url($latar_login) ?>');
 				}
 			<?php endif; ?>
 		</style>
