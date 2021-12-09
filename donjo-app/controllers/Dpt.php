@@ -56,7 +56,8 @@ class Dpt extends Admin_Controller
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
-        redirect('dpt');
+
+        redirect($this->controller);
     }
 
     public function index($p = 1, $o = 0)
@@ -125,7 +126,8 @@ class Dpt extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
-        redirect('dpt');
+
+        redirect($this->controller);
     }
 
     public function ajax_adv_search()
@@ -140,7 +142,7 @@ class Dpt extends Admin_Controller
         $data['list_pekerjaan']       = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
         $data['list_status_kawin']    = $this->referensi_model->list_data('tweb_penduduk_kawin');
         $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
-        $data['form_action']          = site_url('dpt/adv_search_proses');
+        $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);
     }
@@ -164,7 +166,7 @@ class Dpt extends Admin_Controller
             }
         }
 
-        redirect("dpt/index/1/{$o}");
+        redirect($this->controller);
     }
 
     public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
@@ -181,8 +183,9 @@ class Dpt extends Admin_Controller
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("dpt/cetak/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("dpt/cetak/{$o}/{$aksi}/1");
+        $data['form_action']         = site_url("{$this->controller}/cetak/{$o}/{$aksi}");
+        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
+
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
 }

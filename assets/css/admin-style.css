@@ -615,3 +615,7 @@ div.form-surat .content-header {
 .tokenfield .token .close {
 	font-size: 12px;
 }
+
+#dok_warga label {
+	padding-left: 10px;
+}
