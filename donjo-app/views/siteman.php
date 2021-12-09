@@ -1,64 +1,8 @@
-<?php
-/**
- * File ini:
- *
- * Form login modul Admin
- *
- * donjo-app/views/siteman.php
- */
-
-/*
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- *
- * @see 	https://github.com/OpenSID/OpenSID
- */
-?>
-
-<style type="text/css">
-	<?php if ($latar_login): ?>
-		body.login {
-			background: url('<?= base_url($latar_login) ?>');
-		}
-	<?php endif; ?>
-</style>
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>
-			<?=$this->setting->login_title
-                . ' ' . ucwords($this->setting->sebutan_desa)
-                . (($header['nama_desa']) ? ' ' . $header['nama_desa'] : '')
-                . get_dynamic_title_page_from_path();
-            ?>
-		</title>
+		<title><?= $this->setting->login_title . ' ' . ucwords($this->setting->sebutan_desa) . (($header['nama_desa']) ? ' ' . $header['nama_desa'] : '') . get_dynamic_title_page_from_path(); ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="robots" content="noindex">
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
@@ -72,6 +16,14 @@
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
 		<?php endif; ?>
+
+		<style type="text/css">
+			<?php if ($latar_login): ?>
+				body.login {
+					background-image: url('<?= base_url($latar_login) ?>');
+				}
+			<?php endif; ?>
+		</style>
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
@@ -127,7 +79,7 @@
 									<?php endif; ?>
 								</form>
 								<hr/>
-								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= substr(AmbilVersi(), 0, 20)?></div>
+								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= AmbilVersi(); ?></div>
 							</div>
 						</div>
 					</div>
@@ -137,41 +89,38 @@
 	</body>
 </html>
 <script>
-
-	function start_countdown(){
+	function start_countdown() {
 		var times = eval(<?= json_encode($this->session->siteman_timeout)?>) - eval(<?= json_encode(time())?>);
 		var menit = Math.floor(times / 60);
 		var detik = times % 60;
 		timer = setInterval(function(){
 			detik--;
-			if (detik <= 0 && menit >=1){
+			if (detik <= 0 && menit >=1) {
 				detik = 60;
 				menit--;
 			}
-			if (menit <= 0 && detik <= 0){
+
+			if (menit <= 0 && detik <= 0) {
 				clearInterval(timer);
 				location.reload();
 			} else {
-				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam "+menit+" MENIT "+detik+" DETIK </b>";
+				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
 			}
 		}, 1000)
 	}
 
-	$('document').ready(function()
-	{
+	$('document').ready(function() {
 		var pass = $("#password");
-		$('#checkbox').click(function(){
-			if (pass.attr('type') === "password"){
+		$('#checkbox').click(function() {
+			if (pass.attr('type') === "password") {
 				pass.attr('type', 'text');
 			} else {
 				pass.attr('type', 'password')
 			}
 		});
 
-		if ($('#countdown').length)
-		{
+		if ($('#countdown').length) {
 			start_countdown();
 		}
 	});
-
 </script>
