@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2201 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
+        $hasil = $hasil && $this->migrasi_2021120271($hasil);
 
-        return $hasil && $this->migrasi_2021120271($hasil);
+        return $hasil && $this->migrasi_2021120371($hasil);
     }
 
     protected function migrasi_2021120271($hasil)
@@ -64,5 +65,10 @@ class Migrasi_fitur_premium_2201 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2021120371($hasil)
+    {
+        return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.08.php,f-1.25.php,f-1.27.php']);
     }
 }

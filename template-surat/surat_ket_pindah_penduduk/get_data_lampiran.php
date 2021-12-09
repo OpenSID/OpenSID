@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') || exit('No direct script access allowed');
 
 	$this->load->model('pamong_model');
 
@@ -7,29 +7,25 @@
 	* Surat Keterangan Pindah Penduduk ada beberapa pilihan format dan
 	* pengguna bisa memilih format mana yang akan digunakan.
 	*/
-	if ($input['kode_format'] == 'F-1.23')
-	{
-		$input['judul_format'] = "Dalam Satu Desa/Kelurahan";
+
+	if (in_array($input['kode_format'], ['F-1.25', 'F-1.27'])) {
+		$judul = 'Antar Desa/Kelurahan Dalam Satu Kecamatan';
+	} else if (in_array($input['kode_format'], ['F-1.29', 'F-1.31'])) {
+		$judul = 'Antar Kecamatan Dalam Satu Kabupaten/Kota';
+	} else if (in_array($input['kode_format'], ['F-1.34', 'F-1.39'])) {
+		$judul = 'Antar Kabupaten/Kota atau Antar Provinsi';
+	} else {
+		// F-1.23
+		$judul = 'Dalam Satu Desa/Kelurahan';
 	}
-	elseif ($input['kode_format'] == 'F-1.25')
-	{
-		$input['judul_format'] = "Antar Desa/Kelurahan Dalam Satu Kecamatan";
-	}
-	elseif ($input['kode_format'] =='F-1.29')
-	{
-		$input['judul_format'] = "Antar Kecamatan Dalam Satu Kabupaten/Kota";
-	}
-	elseif ($input['kode_format'] == 'F-1.34')
-	{
-		$input['judul_format'] = "Antar Kabupaten/Kota atau Antar Provinsi";
+	$input['judul_format'] = $judul;
+
+	if ($input['pakai_format'] == 'f108') {
+		$daftar_lampiran = [$daftar_lampiran[0]];
+	} elseif ($input['pakai_format'] == 'f125') {
+		$daftar_lampiran = [$daftar_lampiran[1]];
+	} else {
+		$daftar_lampiran = [$daftar_lampiran[2]];
 	}
 
-	if ($input['kode_format'] == "f108")
-		$daftar_lampiran = array($daftar_lampiran[0]);
-	else
-		$daftar_lampiran = array($daftar_lampiran[1]);
-
-	$id = $this->input->post('pamong_id');
-	$kepala_desa = $this->pamong_model->get_pamong($id);
-
-?>
+	$kepala_desa = $this->pamong_model->get_pamong($this->input->post('pamong_id'));

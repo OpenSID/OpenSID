@@ -1,7 +1,68 @@
-<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
-
+<!-- TODO : CSS ini berbeda dengan lampiran yang lain, perlu disesuaikan -->
 <style type="text/css">
-	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
+	table.disdukcapil {
+		font-size: 10pt;
+		width: 100%;
+	}
+
+	table.disdukcapil td {
+		padding: 1px 1px 1px 3px;
+	}
+
+	table.disdukcapil td.satu {
+		width: 10px;
+		text-align: center;
+	}
+
+	table.disdukcapil td.padat {
+		padding: 0px;
+		margin: 0px;
+		font-size: 9.5pt;
+	}
+
+	table.disdukcapil td.kotak {
+		border: solid 1px #000000;
+	}
+
+	table.disdukcapil td.kanan {
+		text-align: right;
+	}
+
+	table.disdukcapil td.tengah {
+		text-align: center;
+	}
+
+	table.pengikut {
+		font-size: 10pt;
+		margin-top: 25px;
+		border-collapse: collapse;
+		border: solid 1px black;
+		width: 100%;
+	}
+
+	table.pengikut td,
+	th {
+		border: solid 1px black;
+		padding: 1px 1px 1px 3px;
+	}
+
+	table.pengikut th {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	table.pengikut td.tengah {
+		text-align: center;
+	}
+
+	table.ttd {
+		margin-top: 20px;
+		width: 100%;
+	}
+
+	table.ttd td {
+		text-align: center;
+	}
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 10pt">
@@ -84,8 +145,8 @@
 		</tr>
 	</table>
 	<p style="text-align: center;">
-		<strong style="font-size: 12pt;">FORMULIR PERMOHONAN PINDAH WNI</strong><br>
-		<?= $input['judul_format'] ?><br>
+		<strong style="font-size: 12pt;">FORMULIR PERMOHONAN PINDAH DATANG WNI</strong><br>
+		<strong><?= $input['judul_format'] ?></strong><br>
 		No. .................................
 	</p>
 
@@ -212,37 +273,93 @@
 			<td colspan=24>&nbsp;</td>
 		</tr>
 		<tr>
-			<td colspan=2><strong>DATA KEPINDAHAN</strong></td>
+			<td colspan=2><strong>DATA DAERAH TUJUAN</strong></td>
 			<td colspan=22>&nbsp;</td>
 		</tr>
 
 		<tr>
-			<td rowspan="2">1.</td>
-			<td rowspan="2">Alasan Pindah</td>
-			<td rowspan="2" class="kotak satu"><?= trim($input['alasan_pindah_id'], "'"); ?></td>
-			<td rowspan="2">&nbsp;</td>
-			<td colspan=4 class="padat">1. Pekerjaan</td>
-			<td colspan=4 class="padat">3. Keamanan</td>
-			<td colspan=4 class="padat">5. Perumahan</td>
-			<td colspan=8 class="padat">7. Lainnya (sebutkan)</td>
-		</tr>
-
-		<tr>
-			<td colspan=4 class="padat">2. Pendidikan</td>
-			<td colspan=4 class="padat">4. Kesehatan</td>
-			<td colspan=4 class="padat">6. Keluarga</td>
-			<td colspan=8 class="padat">
-				<?php if ($input['sebut_alasan']) : ?>
-					<span style='text-decoration: none; border-bottom: 1px dotted black;'><?= $input['sebut_alasan']; ?></span>
-				<?php else : ?>
-					..............................
-				<?php endif; ?>
-			</td>
+			<td>1.</td>
+			<td>Status Nomor KK <br> Bagi Yang Pindah</td>
+			<td class="kotak satu"><?= $input['status_kk_pindah_id']; ?></td>
+			<td colspan=5 class="padat">1. Numpang KK</td>
+			<td colspan=6 class="padat">2. Membuat KK Baru</td>
+			<td colspan=7 class="padat">3. Nomor KK Tetap</td>
 		</tr>
 
 		<tr>
 			<td>2.</td>
-			<td>Alamat Tujuan Pindah</td>
+			<td>Nomor Kartu Keluarga</td>
+			<?php for ($i = 0; $i < 16; $i++) : ?>
+				<td class="kotak satu">
+					<?php if (isset($input['no_kk_baru'][$i])) : ?>
+						<?= $input['no_kk_baru'][$i]; ?>
+					<?php else : ?>
+						&nbsp;
+					<?php endif; ?>
+				</td>
+			<?php endfor; ?>
+			<td colspan=6>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td>3.</td>
+			<td>NIK Kepala Keluarga</td>
+			<?php for ($i = 0; $i < 16; $i++) : ?>
+				<td class="kotak satu">
+					<?php if (isset($individu['nik_kk'][$i])) : ?>
+						<?= $individu['nik_kk'][$i]; ?>
+					<?php else : ?>
+						&nbsp;
+					<?php endif; ?>
+				</td>
+			<?php endfor; ?>
+			<td colspan=6>&nbsp;</td>
+		</tr>
+
+		<tr>
+			<td>4.</td>
+			<td>Nama Kepala Keluarga</td>
+			<td colspan=22 class="kotak"><?= $individu['kepala_kk']; ?></td>
+		</tr>
+
+		<tr>
+			<td>5.</td>
+			<td>Tanggal Kedatangan</td>
+			<!-- <td colspan=22 class="kotak"><?= $input['tanggal_pindah']; ?></td> -->
+			<?php for ($i = 0; $i < 2; $i++) : ?>
+				<td class="kotak satu">
+					<?php if (isset($input['tanggal_pindah'][$i])) : ?>
+						<?= $input['tanggal_pindah'][$i]; ?>
+					<?php else : ?>
+						&nbsp;
+					<?php endif; ?>
+				</td>
+			<?php endfor; ?>
+			<td colspan=2 style="text-align: center;"></td>
+			<?php for ($i = 3; $i < 5; $i++) : ?>
+				<td class="kotak satu">
+					<?php if (isset($input['tanggal_pindah'][$i])) : ?>
+						<?= $input['tanggal_pindah'][$i]; ?>
+					<?php else : ?>
+						&nbsp;
+					<?php endif; ?>
+				</td>
+			<?php endfor; ?>
+			<td colspan=2 style="text-align: center;"></td>
+			<?php for ($i = 6; $i < 10; $i++) : ?>
+				<td class="kotak satu">
+					<?php if (isset($input['tanggal_pindah'][$i])) : ?>
+						<?= $input['tanggal_pindah'][$i]; ?>
+					<?php else : ?>
+						&nbsp;
+					<?php endif; ?>
+				</td>
+			<?php endfor; ?>
+		</tr>
+
+		<tr>
+			<td>6.</td>
+			<td>Alamat</td>
 			<td colspan=12 class="kotak"><?= $input['alamat_tujuan']; ?></td>
 			<td colspan=2 style="text-align: center;">RT</td>
 			<?php for ($i = 0; $i < 3; $i++) : ?>
@@ -287,61 +404,8 @@
 			<td colspan=10 class="kotak"><?= $input['provinsi_tujuan']; ?></td>
 		</tr>
 		<tr>
-			<td colspan=2>&nbsp;</td>
-			<td colspan=3>Kode Pos</td>
-			<?php for ($i = 0; $i < 5; $i++) : ?>
-				<td class="kotak satu">
-					<?php if (isset($input['kode_pos_tujuan'][$i])) : ?>
-						<?= $input['kode_pos_tujuan'][$i]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
-				</td>
-			<?php endfor; ?>
-			<td colspan=2 style="padding-left: -2px;">Telepon</td>
-			<?php for ($i = 0; $i < 12; $i++) : ?>
-				<td class="kotak satu">
-					<?php if (isset($input['telepon_tujuan'][$i])) : ?>
-						<?= trim($input['telepon_tujuan'][$i]); ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
-				</td>
-			<?php endfor; ?>
-		</tr>
-
-		<tr>
-			<td rowspan="2">3.</td>
-			<td rowspan="2">Jenis Kepindahan</td>
-			<td rowspan="2" class="kotak satu"><?= trim($input['jenis_kepindahan_id'], "'"); ?></td>
-			<td colspan=11 class="padat">1. Kep. Keluarga</td>
-			<td colspan=10 class="padat">3. Kep. Keluarga dan Sbg. Angg. Keluarga</td>
-		</tr>
-		<tr>
-			<td colspan=11 class="padat">2. Kep. Keluarga dan Seluruh Angg. Keluarga</td>
-			<td colspan=10 class="padat">4. Angg. Keluarga</td>
-		</tr>
-
-		<tr>
-			<td>4.</td>
-			<td>Status KK Bagi Yang Tidak Pindah</td>
-			<td class="kotak satu"><?= ($input['status_kk_tidak_pindah_id']) ? $input['status_kk_tidak_pindah_id'] : "-"; ?></td>
-			<td colspan=5 class="padat">1. Numpang KK</td>
-			<td colspan=6 class="padat">2. Membuat KK Baru</td>
-			<td colspan=7 class="padat">3. Nomor KK Tetap</td>
-		</tr>
-
-		<tr>
-			<td>5.</td>
-			<td>Status KK Bagi Yang Pindah</td>
-			<td class="kotak satu"><?= $input['status_kk_pindah_id']; ?></td>
-			<td colspan=5 class="padat">1. Numpang KK</td>
-			<td colspan=6 class="padat">2. Membuat KK Baru</td>
-			<td colspan=7 class="padat">3. Nomor KK Tetap</td>
-		</tr>
-		<tr>
-			<td>6.</td>
-			<td>Keluarga Yang Pindah</td>
+			<td>7.</td>
+			<td>Keluarga Yang Datang</td>
 			<td colspan=20>&nbsp;</td>
 		</tr>
 	</table>
@@ -400,43 +464,132 @@
 
 	</table>
 
-	<table class="ttd">
-		<col style="width:35%">
-		<col style="width:30%">
-		<col style="width:35%">
-		<tr>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
-		</tr>
-		<tr>
-			<td>Mengetahui,</td>
-			<td>Mengetahui,</td>
-			<td>Pemohon,</td>
-		</tr>
-		<tr>
-			<td>Camat <?= $config['nama_kecamatan']; ?></td>
-			<td><?= $this->penandatangan_lampiran($data); ?></td>
-			<td></td>
-		</tr>
-		<tr style="font-size: 20mm; line-height: normal;">
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
-			<td><?= $config['nama_kepala_camat']; ?></td>
-			<td><?= $input['pamong'] ?></td>
-			<td><?= $individu['nama'] ?></td>
-		</tr>
-		<tr>
-			<td>NIP : <?= $config['nip_kepala_camat']; ?></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
-	<p>
-		<strong>Keterangan:</strong><br>
-		*) Diisi Oleh Petugas
-	</p>
+	<?php if ($input['kode_format'] == 'F-1.31') : ?>
+		<table class="ttd">
+			<col style="width:35%">
+			<col style="width:30%">
+			<col style="width:35%">
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Mengetahui,</td>
+				<td>Pemohon,</td>
+			</tr>
+			<tr>
+				<td>Petugas Registrasi</td>
+				<td><?= $this->penandatangan_lampiran($data); ?></td>
+				<td></td>
+			</tr>
+			<tr style="font-size: 20mm; line-height: normal;">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><?= $input['pamong'] ?></td>
+				<td><?= $individu['nama'] ?></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<p>
+			<strong>Keterangan:</strong><br>
+			*) Diisi Oleh Petugas<br>
+				<p> - Untuk klasifikasi 3 (antar kecamatan dalam satu Kabupaten/Kota) selain ditandatangani oleh Pemohon juga diketahui oleh Kepala Desa/Lurah</p>
+		</p>
+	<?php endif;?>
+	<?php if ($input['kode_format'] == 'F-1.27') : ?>
+		<table class="ttd">
+			<col style="width:35%">
+			<col style="width:30%">
+			<col style="width:35%">
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Petugas Registrasi</td>
+				<td></td>
+				<td>Pemohon</td>
+			</tr>
+			<tr style="font-size: 20mm; line-height: normal;">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td><?= $individu['nama'] ?></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<p>
+			<strong>Keterangan:</strong><br>
+			*) Diisi Oleh Petugas
+		</p>
+	<?php endif;?>
+	<?php if ($input['kode_format'] == 'F-1.39') : ?>
+		<table class="ttd">
+			<col style="width:35%">
+			<col style="width:30%">
+			<col style="width:35%">
+			<tr>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td><?= $config['nama_desa'] ?>, <?= tgl_indo(date("Y m d")); ?></td>
+			</tr>
+			<tr>
+				<td>Petugas Registrasi</td>
+				<td>Mengetahui:</td>
+				<td>Pemohon</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Camat <?= $config['nama_kecamatan']; ?></td>
+				<td></td>
+			</tr>
+			<tr style="font-size: 20mm; line-height: normal;">
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><?= $config['nama_kepala_camat']; ?></td>
+				<td><?= $individu['nama'] ?></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>NIP : <?= $config['nip_kepala_camat']; ?></td>
+				<td></td>
+			</tr>
+		</table>
+		<p>
+			<strong>Keterangan:</strong><br>
+			*) Diisi Oleh Petugas<br>
+					- Lembar 1 dibawa dan diarsipkan di Dinas Kependudukan dan Pencatatan Sipil.<br>
+					- Lembar 2 untuk pemohon.<br>
+					- Lembar 3 diarsipkan di Kecamatan.
+		</p>
+	<?php endif;?>
+
 </page>

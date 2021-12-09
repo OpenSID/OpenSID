@@ -6,6 +6,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 #### Penambahan Fitur
 1. [#4556](https://github.com/OpenSID/OpenSID/issues/4556) Tambahkan akun Telegram ke data penduduk.
+2. [#4518](https://github.com/OpenSID/OpenSID/issues/4518) Tambahkan lampiran Surat Keterangan Pindah Datang Penduduk F-1.27, F-1.31, F-1.39.
 
 #### Perbaikan BUG
 

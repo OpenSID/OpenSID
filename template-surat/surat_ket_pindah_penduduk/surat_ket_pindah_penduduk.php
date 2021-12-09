@@ -1,154 +1,125 @@
 <script>
-	function pilih_format_surat(kode_format)
-	{
+	function pilih_format_surat(kode_format) {
 		$('#kode_format').val(kode_format);
-		if (kode_format == 'f108')
-		{
+		if (kode_format == 'F-1.08') {
 			$('#status_kk_tidak_pindah_f108_show').show();
 			$('#status_kk_tidak_pindah_show').hide();
-		}
-		else
-		{
+		} else {
 			$('#status_kk_tidak_pindah_f108_show').hide();
 			$('#status_kk_tidak_pindah_show').show();
 		}
 		// Reset klasifikasi pindah
 		$('#klasifikasi_pindah_id').val('');
 	}
-	function get_alasan(alasan)
-	{
-		if (alasan == 7)
-		{
+
+	function get_alasan(alasan) {
+		if (alasan == 7) {
 			$('#sebut_alasan').show();
-		}
-		else
-		{
+		} else {
 			$('#sebut_alasan').hide();
 		}
 	}
-	function enable_anggota()
-	{
+
+	function enable_anggota() {
 		jumlah_anggota = $("#jumlah_anggota").val();
-		for (i = 1; i <= jumlah_anggota; i++)
-		{
+		for (i = 1; i <= jumlah_anggota; i++) {
 			anggota = $("#anggota_show"+i);
-			if (anggota.length > 0)
-			{
+			if (anggota.length > 0) {
 				anggota.removeAttr('disabled');
 			}
 		}
 	}
-	function anggota_pindah(ya_atau_tidak)
-	{
+
+	function anggota_pindah(ya_atau_tidak) {
 		jumlah_anggota = $("#jumlah_anggota").val();
-		for (i = 1; i <= jumlah_anggota; i++)
-		{
+		for (i = 1; i <= jumlah_anggota; i++) {
 			anggota = $("#anggota_show"+i);
-			if (anggota.length > 0)
-			{
+			if (anggota.length > 0) {
 				anggota.attr("checked", ya_atau_tidak);
 				anggota.trigger("onchange");
 				anggota.attr('disabled', 'disabled');
 			}
 		}
 	}
-	function urus_anggota(jenis_pindah)
-	{
-		if ($('#kode_format').val() == "f108")
-		{
+
+	function urus_anggota(jenis_pindah) {
+		if ($('#kode_format').val() == "F-1.08") {
 			status_kk_tidak_pindah = "#status_kk_tidak_pindah_f108_show";
-		}
-		else
-		{
+		} else {
 			status_kk_tidak_pindah = "#status_kk_tidak_pindah_show";
 		}
+
 		// Hanya anggota yang pindah
-		if (jenis_pindah == 4)
-		{
+		if (jenis_pindah == 4) {
 			$('#kk_show').attr("checked", false);
 			$("#kk").attr('disabled', 'disabled');
-			if ($('#kode_format').val() == "f108")
-			{
+			if ($('#kode_format').val() == "F-1.08") {
 				$(status_kk_tidak_pindah).val("4");
-			}
-			else
-			{
+			} else {
 				$(status_kk_tidak_pindah).val("3");
 			}
 			$(status_kk_tidak_pindah).trigger("onchange");
 			$(status_kk_tidak_pindah).attr('disabled', 'disabled');
 			$("#status_kk_pindah_show").removeAttr('disabled');
 			enable_anggota();
-		}
-		else
-		{
+		} else {
 			$('#kk_show').attr("checked", true);
 			$("#kk").removeAttr('disabled');
-			if ($('#klasifikasi_pindah_id').val() < 3)
-			{
+			if ($('#klasifikasi_pindah_id').val() < 3) {
 				// Jika pindah di satu kecamatan, nomor KK tetap.
 				// Jika pindah ke luar kecamatan, nomor KK ganti.
 				$("#status_kk_pindah_show").val("3");
 				$("#status_kk_pindah_show").trigger("onchange");
 				$("#status_kk_pindah_show").attr('disabled', 'disabled');
-			}
-			else
-			{
+			} else {
 				$("#status_kk_pindah_show").removeAttr('disabled');
 			}
+
 			$(status_kk_tidak_pindah).removeAttr('disabled');
 			// KK and semua anggota pindah
-			if (jenis_pindah == 2)
-			{
-				if ($('#kode_format').val() == "f108")
-				{
+			if (jenis_pindah == 2) {
+				if ($('#kode_format').val() == "F-1.08") {
 					$(status_kk_tidak_pindah).val("3");
-				}
-				else
-				{
+				} else {
 					$(status_kk_tidak_pindah).val(" ");
 				}
 				$(status_kk_tidak_pindah).trigger("onchange");
 				$(status_kk_tidak_pindah).attr('disabled', 'disabled');
 				anggota_pindah(true);
 			}
+
 			// KK dan sebagian anggota pindah
-			if (jenis_pindah == 3)
-			{
+			if (jenis_pindah == 3) {
 				enable_anggota();
 			}
+
 			// Hanya KK yang pindah
-			if (jenis_pindah == 1)
-			{
+			if (jenis_pindah == 1) {
 				anggota_pindah(false);
 			}
 		};
+
 		$('#kk_show').trigger("onchange");
 	}
-	function urus_masa_ktp(centang, urut)
-	{
+	function urus_masa_ktp(centang, urut) {
 		// ktp_berlaku sekarang selalu 'Seumur Hidup' dan tidak diubah
-		if (centang)
-		{
+		if (centang) {
 			$('#anggota' + urut).attr('disabled', 'disabled');
-		}
-		else
-		{
+		} else {
 			$('#anggota' + urut).removeAttr('disabled');
 		}
 	}
-	function set_wilayah(tingkat_wilayah)
-	{
+
+	function set_wilayah(tingkat_wilayah) {
 		wilayah = $('#' + tingkat_wilayah);
 		wilayah_show = $('#' + tingkat_wilayah + '_show');
 		wilayah.val(wilayah.attr('data-awal'));
 		wilayah_show.val(wilayah.attr('data-awal'));
 		wilayah_show.attr('disabled', 'disabled');
 	}
-	function urus_klasifikasi_pindah(klasifikasi_pindah)
-	{
-		if (klasifikasi_pindah >= 1)
-		{
+	
+	function urus_klasifikasi_pindah(klasifikasi_pindah) {
+		if (klasifikasi_pindah >= 1) {
 			set_wilayah('desa_tujuan');
 			set_wilayah('kecamatan_tujuan');
 			set_wilayah('kabupaten_tujuan');
@@ -158,38 +129,52 @@
 			$('#kabupaten_tujuan-opener').hide();
 			$('#provinsi_tujuan-opener').hide();
 		}
-		if (klasifikasi_pindah > 1)
-		{
+
+		if (klasifikasi_pindah > 1) {
 			$('#kode_format').val('F-1.25');
+			if ($('#pakai_format').val() == 'f127') {
+				$('#kode_format').val('F-1.27');
+			}
 			$('#desa_tujuan_show').removeAttr('disabled');
 			$('#desa_tujuan-opener').show();
-		}
-		else
-		{
+		} else {
 			$('#kode_format').val('F-1.23');
+			if ($('#pakai_format').val() == 'f127') {
+				$('#kode_format').val('F-1.27');
+			}
 		}
-		if (klasifikasi_pindah > 2)
-		{
+
+		if (klasifikasi_pindah > 2) {
 			$('#kode_format').val('F-1.29');
+			if ($('#pakai_format').val() == 'f127') {
+				$('#kode_format').val('F-1.31');
+			}
 			$('#kecamatan_tujuan_show').removeAttr('disabled');
 			$('#kecamatan_tujuan-opener').show();
 		}
-		if (klasifikasi_pindah > 3)
-		{
+
+		if (klasifikasi_pindah > 3) {
 			$('#kode_format').val('F-1.34');
+			if ($('#pakai_format').val() == 'f127') {
+				$('#kode_format').val('F-1.39');
+			}
 			$('#kabupaten_tujuan_show').removeAttr('disabled');
 			$('#kabupaten_tujuan-opener').show();
 		}
-		if (klasifikasi_pindah > 4)
-		{
+
+		if (klasifikasi_pindah > 4) {
 			$('#kode_format').val('F-1.34');
+			if ($('#pakai_format').val() == 'f127') {
+				$('#kode_format').val('F-1.39');
+			}
 			$('#provinsi_tujuan_show').removeAttr('disabled');
 			$('#provinsi_tujuan-opener').show();
 		}
-		if ($('#pakai_format').val() == 'f108')
-		{
-			$('#kode_format').val('f108');
+
+		if ($('#pakai_format').val() == 'f108') {
+			$('#kode_format').val('F-1.08');
 		}
+
 		$('#jenis_kepindahan_id').trigger('onchange');
 	}
 </script>
@@ -217,7 +202,7 @@
 									<input class="required" type="hidden" name="nik" value="<?= $individu['id']?>">
 								</div>
 							</div>
-							<input id="kode_format" type="hidden" name="kode_format" value="bukan_f108">
+							<input id="kode_format" type="hidden" name="kode_format" value="f125">
 							<?php if ($individu): ?>
 								<?php include("donjo-app/views/surat/form/konfirmasi_pemohon.php"); ?>
 							<?php	endif; ?>
@@ -235,7 +220,8 @@
 									<select class="form-control input-sm" id="pakai_format" name="pakai_format" style ="width:100%;" onchange="pilih_format_surat($(this).val());">
 										<option value="">-- Pilih Format Lampiran Surat --</option>
 										<option value="f108">F-1.08</option>
-										<option value="bukan_f108" selected>F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)</option>
+										<option value="f125" selected>F-1.23, F-1.25, F-1.29, F-1.34 (sesuai tujuan)</option>
+										<option value="f127">F-1.27, F-1.31, F-1.39 (sesuai tujuan)</option>
 									</select>
 								</div>
 							</div>
@@ -368,6 +354,14 @@
 											<option value="<?= $key?>"><?= strtoupper($value)?></option>
 										<?php endforeach;?>
 									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="no_kk_baru" class="col-sm-3 control-label">Nomor Kartu Keluarga Bagi Yang Pindah</label>
+								<div class="input-group col-sm-8">
+									<div class="col-sm-12">
+										<input id="no_kk_baru" name="no_kk_baru" class="form-control input-sm required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvtext'); ?>" type="text" placeholder="Nomor Kartu Keluarga Bagi Yang Pindah"></input>
+									</div>
 								</div>
 							</div>
 							<div class="form-group">

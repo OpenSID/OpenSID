@@ -1078,7 +1078,7 @@ class Surat_model extends CI_Model
         $config   = $data['config'];
         $individu = $data['individu'];
         $input    = $data['input'];
-        // $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+        // $lampiran_surat dalam bentuk seperti "f-1.08.php, f-1.25.php, f-1.27.php"
         $daftar_lampiran = explode(',', $surat['lampiran']);
         include $this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']);
         $lampiran = pathinfo($nama_surat, PATHINFO_FILENAME) . '_lampiran.pdf';
