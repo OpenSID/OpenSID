@@ -538,7 +538,8 @@ class Database_model extends MY_Model
             'nama'       => 'Keterangan Penghasilan Orangtua',
             'url_surat'  => 'surat_ket_penghasilan_orangtua',
             'kode_surat' => 'S-42',
-            'jenis'      => 1, ];
+            'jenis'      => 1,
+        ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
 				nama = VALUES(nama),
@@ -701,7 +702,8 @@ class Database_model extends MY_Model
         // Tambah status dasar 'Tidak Valid'
         $data = [
             'id'   => 9,
-            'nama' => 'TIDAK VALID', ];
+            'nama' => 'TIDAK VALID',
+        ];
         $sql = $this->db->insert_string('tweb_status_dasar', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
 				id = VALUES(id),
@@ -826,7 +828,8 @@ class Database_model extends MY_Model
             'nama'       => 'Keterangan Domisili',
             'url_surat'  => 'surat_ket_domisili',
             'kode_surat' => 'S-41',
-            'jenis'      => 1, ];
+            'jenis'      => 1,
+        ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
 				nama = VALUES(nama),
@@ -933,7 +936,7 @@ class Database_model extends MY_Model
             // Tambahkan relational constraint
             $this->dbforge->modify_column(
                 'data_persil',
-                ['nik' => ['name' => 'id_pend',	'type' => 'int', 'constraint' => 11]]
+                ['nik' => ['name' => 'id_pend',    'type' => 'int', 'constraint' => 11]]
             );
             $this->db->query('ALTER TABLE `data_persil` ADD INDEX `id_pend` (`id_pend`)');
             $this->dbforge->add_column('data_persil', [
@@ -2001,7 +2004,8 @@ class Database_model extends MY_Model
             'url_surat'  => 'surat_permohonan_perubahan_kartu_keluarga',
             'kode_surat' => 'S-41',
             'lampiran'   => 'f-1.16.php,f-1.01.php',
-            'jenis'      => 1, ];
+            'jenis'      => 1,
+        ];
         $hasil = $this->db->where('url_surat', 'surat_permohonan_perubahan_kk')->get('tweb_surat_format');
         if ($hasil->num_rows() > 0) {
             $this->db->where('url_surat', 'surat_permohonan_perubahan_kk')->update('tweb_surat_format', $data);
@@ -2082,7 +2086,8 @@ class Database_model extends MY_Model
             'nama'       => 'Keterangan Izin Orang Tua/Suami/Istri',
             'url_surat'  => 'surat_izin_orangtua_suami_istri',
             'kode_surat' => 'S-39',
-            'jenis'      => 1, ];
+            'jenis'      => 1,
+        ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
 				nama = VALUES(nama),
@@ -2095,7 +2100,8 @@ class Database_model extends MY_Model
             'nama'       => 'Pernyataan Penguasaan Fisik Bidang Tanah (SPORADIK)',
             'url_surat'  => 'surat_sporadik',
             'kode_surat' => 'S-40',
-            'jenis'      => 1, ];
+            'jenis'      => 1,
+        ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
 				nama = VALUES(nama),
@@ -2196,7 +2202,8 @@ class Database_model extends MY_Model
             '11' => 12,   // Pengguna
             '12' => 13,   // Database
             '13' => 14,   // Admin Web
-            '14' => 15, ];  // Laporan
+            '14' => 15,
+        ];  // Laporan
 
         foreach ($list_modul as $key => $value) {
             $this->db->where('id', $key)->update('setting_modul', ['urut' => $value]);
@@ -2271,7 +2278,8 @@ class Database_model extends MY_Model
                 '11' => 'fa fa-user-plus fa-lg',   // Pengguna
                 '12' => 'fa fa-database fa-lg',    // Database
                 '13' => 'fa fa-cloud fa-lg',       // Admin Web
-                '14' => 'fa fa-comments fa-lg', ];   // Laporan
+                '14' => 'fa fa-comments fa-lg',
+            ];   // Laporan
 
             foreach ($list_modul as $key => $value) {
                 $this->db->where('id', $key)->update('setting_modul', ['ikon_kecil' => $value]);
@@ -2334,7 +2342,8 @@ class Database_model extends MY_Model
             'nama'       => 'Keterangan Beda Identitas KIS',
             'url_surat'  => 'surat_ket_beda_identitas_kis',
             'kode_surat' => 'S-38',
-            'jenis'      => 1, ];
+            'jenis'      => 1,
+        ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
 				nama = VALUES(nama),

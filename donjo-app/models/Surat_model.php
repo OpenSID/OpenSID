@@ -67,50 +67,28 @@ class Surat_model extends CI_Model
 
     public function list_surat2()
     {
-        $data = $this->db->where('kunci', 0)->
-            get('tweb_surat_format')->
-            result_array();
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['nama_lampiran'] = $this->nama_lampiran($data[$i]['lampiran']);
-        }
-
-        return $data;
+        return $this->db
+            ->where('kunci', 0)
+            ->get('tweb_surat_format')
+            ->result_array();
     }
 
     public function list_surat_mandiri()
     {
-        $data = $this->db->where('kunci', 0)->
-            where('mandiri', 1)->
-            get('tweb_surat_format')->
-            result_array();
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['nama_lampiran'] = $this->nama_lampiran($data[$i]['lampiran']);
-        }
-
-        return $data;
+        return $this->db
+            ->where('kunci', 0)
+            ->where('mandiri', 1)
+            ->get('tweb_surat_format')
+            ->result_array();
     }
 
     public function list_surat_fav()
     {
-        $data = $this->db->where('kunci', 0)->
-            where('favorit', 1)->
-            get('tweb_surat_format')->
-            result_array();
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['nama_lampiran'] = $this->nama_lampiran($data[$i]['lampiran']);
-        }
-
-        return $data;
-    }
-
-    private function nama_lampiran($lampiran)
-    {
-        $str = strtoupper(str_replace('.php', '', $lampiran));
-
-        return str_replace(',', ', ', $str);
+        return $this->db
+            ->where('kunci', 0)
+            ->where('favorit', 1)
+            ->get('tweb_surat_format')
+            ->result_array();
     }
 
     private function list_penduduk_ajax_sql($cari = '', $filter = [])

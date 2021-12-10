@@ -7,9 +7,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 #### Penambahan Fitur
 1. [#4556](https://github.com/OpenSID/OpenSID/issues/4556) Tambahkan akun Telegram ke data penduduk.
 2. [#4518](https://github.com/OpenSID/OpenSID/issues/4518) Tambahkan lampiran Surat Keterangan Pindah Datang Penduduk F-1.27, F-1.31, F-1.39.
+3. [#4226](https://github.com/OpenSID/OpenSID/issues/4226) Perbaharui Versi Terbaru Blanko Pindah Datang F.1.03.
+
 
 #### Perbaikan BUG
-
 1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.
 2. [#463](https://github.com/OpenSID/premium/issues/463) Perbaiki develbar agar tidak menggangu proses compress saat cetak surat.
 3. [#4565](https://github.com/OpenSID/OpenSID/issues/4565) Perbaiki foto pembangunan terlihat besar.
@@ -22,5 +23,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 10. [#4378](https://github.com/OpenSID/OpenSID/issues/4378) Penyesuaian daftar surat ubahan desa secara otomatis.
 11. [#4392](https://github.com/OpenSID/OpenSID/issues/4392) Perbaiki status perkwinan modul penduduk dan keluarga.
 11. [#4564](https://github.com/OpenSID/OpenSID/issues/4564) Perbaiki pengaturan peta yang tidak dapat menyimpan warna.
+
 
 #### Perubahan Teknis

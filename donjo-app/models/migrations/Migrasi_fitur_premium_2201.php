@@ -69,6 +69,6 @@ class Migrasi_fitur_premium_2201 extends MY_model
 
     protected function migrasi_2021120371($hasil)
     {
-        return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.08.php,f-1.25.php,f-1.27.php']);
+        return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.03.php,f-1.08.php,f-1.25.php,f-1.27.php']);
     }
 }

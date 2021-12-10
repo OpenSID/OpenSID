@@ -1040,3 +1040,11 @@ function unique_slug($tabel = null, $str = null)
 
     return null;
 }
+
+// Kode format lampiran surat
+function kode_format($lampiran = '')
+{
+    $str = strtoupper(str_replace('.php', '', $lampiran));
+
+    return str_replace(',', ', ', $str);
+}

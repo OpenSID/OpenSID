@@ -1,7 +1,78 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
-	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
+	table.disdukcapil {
+		font-size: 9pt;
+		width: 100%;
+	}
+
+	table.disdukcapil td {
+		padding: 1px 1px 1px 3px;
+	}
+
+	table.disdukcapil td.satu {
+		width: 10px;
+		text-align: center;
+	}
+
+	table.disdukcapil td.padat {
+		padding: 0px;
+		margin: 0px;
+		font-size: 9pt;
+	}
+
+	table.disdukcapil td.kotak {
+		border: solid 1px #000000;
+	}
+
+	table.disdukcapil td.kanan {
+		text-align: right;
+	}
+
+	table.disdukcapil td.tengah {
+		text-align: center;
+	}
+
+	table.pengikut {
+		margin-left: 28px;
+		font-size: 9pt;
+		border-collapse: collapse;
+		border: solid 1px black;
+		width: 96%;
+	}
+
+	table.pengikut td,
+	th {
+		border: solid 1px black;
+		padding: 1px 1px 1px 3px;
+	}
+
+	table.pengikut th {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	table.pengikut td.tengah {
+		text-align: center;
+	}
+
+	table.kode_format {
+		font-size: 12pt;
+		padding: 5px 20px;
+		border: solid 1px black;
+	}
+
+	table.ttd {
+		font-size: 8.5pt;
+		margin-top: 5px;
+		width: 100%;
+		border-collapse: collapse;
+		padding: 0px;
+	}
+
+	table.ttd td {
+		text-align: center;
+	}
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 10pt">

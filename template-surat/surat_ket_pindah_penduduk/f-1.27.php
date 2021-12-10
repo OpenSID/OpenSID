@@ -1,4 +1,5 @@
-<!-- TODO : CSS ini berbeda dengan lampiran yang lain, perlu disesuaikan -->
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <style type="text/css">
 	table.disdukcapil {
 		font-size: 10pt;
@@ -306,8 +307,8 @@
 			<td>NIK Kepala Keluarga</td>
 			<?php for ($i = 0; $i < 16; $i++) : ?>
 				<td class="kotak satu">
-					<?php if (isset($individu['nik_kk'][$i])) : ?>
-						<?= $individu['nik_kk'][$i]; ?>
+					<?php if (isset($input['nik_kk_baru'][$i])) : ?>
+						<?= $input['nik_kk_baru'][$i]; ?>
 					<?php else : ?>
 						&nbsp;
 					<?php endif; ?>
@@ -319,7 +320,7 @@
 		<tr>
 			<td>4.</td>
 			<td>Nama Kepala Keluarga</td>
-			<td colspan=22 class="kotak"><?= $individu['kepala_kk']; ?></td>
+			<td colspan=22 class="kotak"><?= $input['nama_kk_baru']; ?></td>
 		</tr>
 
 		<tr>
