@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. [#4556](https://github.com/OpenSID/OpenSID/issues/4556) Tambahkan akun Telegram ke data penduduk.
 2. [#4518](https://github.com/OpenSID/OpenSID/issues/4518) Tambahkan lampiran Surat Keterangan Pindah Datang Penduduk F-1.27, F-1.31, F-1.39.
 3. [#4226](https://github.com/OpenSID/OpenSID/issues/4226) Perbaharui Versi Terbaru Blanko Pindah Datang F.1.03.
+4. [#4553](https://github.com/OpenSID/OpenSID/issues/4553) Tampilkan lapak di layanan mandiri/anjungan.
 
 
 #### Perbaikan BUG

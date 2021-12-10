@@ -211,6 +211,10 @@ $route[$mandiri . '/surat/buat']        = MANDIRI . '/surat/buat';
 $route[$mandiri . '/surat/buat/(:num)'] = MANDIRI . '/surat/buat/$1';
 $route[$mandiri . '/surat/form']        = MANDIRI . '/surat/form';
 $route[$mandiri . '/surat/form/(:num)'] = MANDIRI . '/surat/form/$1';
+// Lapak
+$route[$mandiri . '/lapak']        = MANDIRI . '/lapak';
+$route[$mandiri . '/lapak/(:num)'] = MANDIRI . '/lapak/index/$1';
+
 // Bantuan
 $route[$mandiri . '/bantuan'] = MANDIRI . '/bantuan';
 

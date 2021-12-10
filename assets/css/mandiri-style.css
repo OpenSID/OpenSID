@@ -39,7 +39,7 @@ body {
 	border-bottom-left-radius: 5px;
 }
 
-.info-box-text {
+.info-box-text-widget {
 	display: block;
 	float: left;
 	text-align: left;
@@ -65,7 +65,7 @@ body {
 	padding: 10px;
 	margin: 10px;
 	font-size: 13px;
-	text-transform:
+	text-transform: uppercase;
 	text-align: left;
 	vertical-align: middle;
 	background-color: #d2d6de !important;
@@ -377,6 +377,18 @@ a.btn {
 	border:2px solid black;
 }
 
+/* Modal Dialog Map Lokasi Lapak Layanan Mandiri */
+.box-map {
+	background: rgb(0 0 0 / 0%);
+	top: 15%;
+	padding: 5px;
+}
+
+.modal-content-map{
+	border-radius: 5px;
+	background: #fff;
+}
+
 /* pendapat */
 .pendapat {
 	width: 100px;
@@ -402,4 +414,27 @@ a.pendapat > p {
 .navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
 	border-color: transparent;
 	height: auto;
+}
+
+/* Lapak */
+.image-produk {
+	max-height: 170px;
+	width: 100%;
+	background-color: #fff;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.carousel-indicators li,
+.carousel-indicators .active {
+	height: 10px;
+	width: 10px;
+	margin: 0 5px;
+	border-radius: 50%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+	width: 5%;
 }
