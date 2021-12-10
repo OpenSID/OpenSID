@@ -78,10 +78,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<!-- AdminLTE Skins. -->
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/skins/_all-skins.min.css">
 
-	<!-- Map -->
-	<link rel="stylesheet" href="<?= base_url('assets/css/leaflet.css'); ?>" />
-	<link rel="stylesheet" href="<?= base_url('assets/css/mapbox-gl.css'); ?>" />
-	<link rel="stylesheet" href="<?= base_url('assets/css/peta.css'); ?>">
+	<?php if ($this->controller == 'lapak'): ?>
+		<!-- Map -->
+		<link rel="stylesheet" href="<?= base_url('assets/css/leaflet.css'); ?>" />
+		<link rel="stylesheet" href="<?= base_url('assets/css/mapbox-gl.css'); ?>" />
+		<link rel="stylesheet" href="<?= base_url('assets/css/peta.css'); ?>">
+	<?php endif; ?>
 
 	<!-- Style Mandiri Modification CSS -->
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/mandiri-style.css">
