@@ -172,27 +172,19 @@ class Surat extends Admin_Controller
             $log_surat['lampiran'] = $lampiran;
         }
         $this->keluar_model->log_surat($log_surat);
-        $this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 
-        if ($this->input->post('submit_cetak') == 'cetak_pdf') {
-            $nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME) . '.pdf';
-        } else {
-            $nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME) . '.rtf';
+        $nama_surat = $this->surat_model->buat_surat($url, $nama_surat, $lampiran);
+
+        if (function_exists('exec') && $this->input->post('submit_cetak') == 'cetak_pdf') {
+            $nama_surat = $this->surat_model->rtf_to_pdf($nama_surat);
         }
 
         if ($lampiran) {
-            // TO DO : Gunakan library CI3
-            $nama_file    = pathinfo($nama_surat, PATHINFO_FILENAME) . '.zip';
-            $berkas_zip   = [];
-            $berkas_zip[] = LOKASI_ARSIP . $nama_surat;
-            $berkas_zip[] = LOKASI_ARSIP . $lampiran;
-            // Masukkan semua berkas ke dalam zip
-            $berkas_zip = masukkan_zip($berkas_zip);
-            // Unduh berkas zip
-            header('Content-disposition: attachment; filename=' . $nama_file);
-            header('Content-type: application/zip');
-            header($this->security->get_csrf_token_name() . ':' . $this->security->get_csrf_hash());
-            readfile($berkas_zip);
+            $this->load->library('zip');
+
+            $this->zip->read_file(LOKASI_ARSIP . $nama_surat);
+            $this->zip->read_file(LOKASI_ARSIP . $lampiran);
+            $this->zip->download(pathinfo($nama_surat, PATHINFO_FILENAME) . '.zip');
         } else {
             ambilBerkas($nama_surat, $this->controller);
         }

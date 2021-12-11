@@ -142,25 +142,41 @@
 									<p>Update versi PHP supaya minimal <?= $php['versi_minimal'] ?>.</p>
 								</div>
 							<?php endif; ?>
-							<?php if (! $ekstensi['lengkap']) : ?>
+							<?php if (! $ekstensi['lengkap'] || ! $disable_functions['lengkap']) : ?>
 								<div class="alert alert-danger" role="alert">
-									<p>Ada beberapa ekstensi PHP wajib yang tidak tersedia di sistem anda.
+									<p>Ada beberapa ekstensi dan fungsi PHP wajib yang tidak tersedia di sistem anda.
 										Karena itu, mungkin ada fungsi yang akan bermasalah.</p>
-									<p>Aktifkan ekstensi PHP yang belum ada di sistem anda.</p>
+									<p>Aktifkan ekstensi dan fungsi PHP yang belum ada di sistem anda.</p>
 								</div>
 							<?php else : ?>
 								<p>
 									Semua ekstensi PHP yang diperlukan sudah aktif di sistem anda.
 								</p>
 							<?php endif; ?>
-							<?php foreach ($ekstensi['ekstensi'] as $key => $value) : ?>
-								<div class="input-group">
-									<span class="input-group-btn">
-										<button type="button" class="btn btn-flat <?= $value ? 'btn-success' : 'btn-danger' ?>"><i class="fa fa-<?= $value ? 'check' : 'times' ?>"></i></button>
-									</span>
-									<span class="form-control" style="border: 0px;"><?= $key ?></span>
+							<div class="row">
+								<div class="col-sm-6">
+									<h4>EKSTENSI</h4>
+									<?php foreach ($ekstensi['ekstensi'] as $key => $value) : ?>
+										<div class="input-group">
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-flat <?= $value ? 'btn-success' : 'btn-danger' ?>"><i class="fa fa-<?= $value ? 'check' : 'times' ?>"></i></button>
+											</span>
+											<span class="form-control" style="border: 0px;"><?= $key ?></span>
+										</div>
+									<?php endforeach; ?>
 								</div>
-							<?php endforeach; ?>
+								<div class="col-sm-6">
+									<h4>FUNGSI</h4>
+									<?php foreach ($disable_functions['functions'] as $func => $val) : ?>
+										<div class="input-group">
+											<span class="input-group-btn">
+												<button type="button" class="btn btn-flat <?= $val ? 'btn-success' : 'btn-danger' ?>"><i class="fa fa-<?= $val ? 'check' : 'times' ?>"></i></button>
+											</span>
+											<span class="form-control" style="border: 0px;"><?= $func ?></span>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
 						</div>
 						<div id="info_sistem" class="tab-pane fade in">
 							<?php
