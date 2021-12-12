@@ -113,6 +113,7 @@ class Pesan extends Mandiri_Controller
     {
         $data = [
             'tujuan' => ($kat == 2) ? 'pesan-masuk' : 'pesan-keluar',
+            'kat'    => $kat,
             'subjek' => $this->input->post('subjek'),
         ];
 

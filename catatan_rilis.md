@@ -10,7 +10,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 3. [#4226](https://github.com/OpenSID/OpenSID/issues/4226) Perbaharui Versi Terbaru Blanko Pindah Datang F.1.03.
 4. [#4553](https://github.com/OpenSID/OpenSID/issues/4553) Tampilkan lapak di layanan mandiri/anjungan.
 5. [#4506](https://github.com/OpenSID/OpenSID/issues/4506) Tambah tampilan slides/video di anjungan pada sast tidak digunakan.
-
+6. [#3947](https://github.com/OpenSID/OpenSID/issues/3947) Saat mesuk layanan mandiri diarahkan ke halaman buat surat (default) atau ke halaman daftar pesan masuk jika terdapat pesan masuk yg belum dibaca.
 
 #### Perbaikan BUG
 1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.

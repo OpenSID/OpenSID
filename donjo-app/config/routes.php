@@ -200,8 +200,8 @@ $route[$mandiri . '/keluar']              = MANDIRI . '/beranda/keluar';
 // Pesan
 $route[$mandiri . '/pesan-masuk']              = MANDIRI . '/pesan/index/2';
 $route[$mandiri . '/pesan-keluar']             = MANDIRI . '/pesan/index/1';
-$route[$mandiri . '/pesan/tulis']              = MANDIRI . '/pesan/tulis';
-$route[$mandiri . '/pesan/balas']              = MANDIRI . '/pesan/tulis';
+$route[$mandiri . '/pesan/tulis']              = MANDIRI . '/pesan/tulis/1';
+$route[$mandiri . '/pesan/balas']              = MANDIRI . '/pesan/tulis/2';
 $route[$mandiri . '/pesan/kirim']              = MANDIRI . '/pesan/kirim';
 $route[$mandiri . '/pesan/baca/(:num)/(:num)'] = MANDIRI . '/pesan/baca/$1/$2';
 // Surat

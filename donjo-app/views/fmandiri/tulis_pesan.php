@@ -53,13 +53,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</div>
 	<div class="box-body box-line">
-		<h4><b>TULIS PESAN</b></h4>
+		<h4><b><?= ($kat == 2) ? 'BALAS' : 'TULIS'; ?> PESAN</b></h4>
 	</div>
 	<div class="box-body">
 		<form id="validasi" action="<?= site_url('layanan-mandiri/pesan/kirim'); ?>" method="post">
 			<div class="form-group">
 				<label for="subjek">Subjek</label>
-				<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" name="subjek" placeholder="Subjek" value="<?= $subjek; ?>">
+				<input type="text" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" name="subjek" placeholder="Subjek" value="<?= $subjek; ?>" <?= jecho($kat, 2, 'readonly'); ?>>
 			</div>
 			<div class="form-group">
 				<label for="pesan">Isi Pesan</label>
