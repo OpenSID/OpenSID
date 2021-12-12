@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4518](https://github.com/OpenSID/OpenSID/issues/4518) Tambahkan lampiran Surat Keterangan Pindah Datang Penduduk F-1.27, F-1.31, F-1.39.
 3. [#4226](https://github.com/OpenSID/OpenSID/issues/4226) Perbaharui Versi Terbaru Blanko Pindah Datang F.1.03.
 4. [#4553](https://github.com/OpenSID/OpenSID/issues/4553) Tampilkan lapak di layanan mandiri/anjungan.
+5. [#4506](https://github.com/OpenSID/OpenSID/issues/4506) Tambah tampilan slides/video di anjungan pada sast tidak digunakan.
 
 
 #### Perbaikan BUG

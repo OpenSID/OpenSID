@@ -81,6 +81,12 @@ class Masuk extends Web_Controller
             'form_action'         => site_url('layanan-mandiri/cek'),
         ];
 
+        if ($this->setting->tampilan_anjungan == '0') {
+            $this->load->model('first_gallery_m');
+
+            $data['daftar_album'] = $this->first_gallery_m->sub_gallery_show($this->setting->tampilan_anjungan_slider);
+        }
+
         $this->load->view(MANDIRI . '/masuk', $data);
     }
 
