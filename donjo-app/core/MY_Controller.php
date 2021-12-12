@@ -267,7 +267,7 @@ class Premium extends MY_Controller
     public function validasi()
     {
         // Jangan jalankan validasi akses untuk spesifik controller.
-        if (in_array($this->router->class, $this->kecuali)) {
+        if (in_array($this->router->class, $this->kecuali) || config_item('demo_mode')) {
             return;
         }
 
@@ -310,7 +310,7 @@ class Premium extends MY_Controller
             return false;
         }
 
-        if (isLocalIPAddress($_SERVER['REMOTE_ADDR']) || config_item('demo_mode')) {
+        if (isLocalIPAddress($_SERVER['REMOTE_ADDR'])) {
             return true;
         }
 
