@@ -52,49 +52,37 @@
 			<script src="<?= base_url('assets/bootstrap/js/bootstrap-tokenfield.min.js'); ?>"></script>
 		<?php endif; ?>
 
+		<?php if (config_item('demo_mode')): ?>
+			<script src="<?= base_url('assets/js/demo.js'); ?>"></script>
+		<?php endif; ?>
+
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
 
-			$('document').ready(function()
-			{
-				if ($('#success-code').val() == 1)
-				{
+			$('document').ready(function() {
+				if ($('#success-code').val() == 1) {
 					notify = 'success';
 					notify_msg = 'Data berhasil disimpan';
-				}
-				else if ($('#success-code').val() == -1)
-				{
+				} else if ($('#success-code').val() == -1) {
 					notify = 'error';
 					notify_msg = 'Data gagal disimpan <?= addslashes($this->session->error_msg) ?>';
-				}
-				else if ($('#success-code').val() == -2)
-				{
+				} else if ($('#success-code').val() == -2) {
 					notify = 'error';
 					notify_msg = 'Data gagal disimpan, nama id sudah ada!';
-				}
-				else if ($('#success-code').val() == -3)
-				{
+				} else if ($('#success-code').val() == -3) {
 					notify = 'error';
 					notify_msg = 'Data gagal disimpan, nama id sudah ada!';
-				}
-				else if ($('#success-code').val() == 4)
-				{
+				} else if ($('#success-code').val() == 4) {
 					notify = 'success';
 					notify_msg = 'Data berhasil dihapus';
-				}
-				else if ($('#success-code').val() == -4)
-				{
+				} else if ($('#success-code').val() == -4) {
 					notify = 'error';
 					notify_msg = 'Data gagal dihapus';
-				}
-				else if ($('#success-code').val() == 5)
-				{
+				} else if ($('#success-code').val() == 5) {
 					notify = 'success';
 					notify_msg = 'Data berhasil diunggah';
-				}
-				else
-				{
+				} else {
 					notify = '';
 					notify_msg = '';
 				}
