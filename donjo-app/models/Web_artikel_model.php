@@ -307,7 +307,7 @@ class Web_artikel_model extends MY_Model
     private function insert_agenda($data)
     {
         $this->group_akses();
-        
+
         $agenda = $this->ambil_data_agenda($data);
         unset($data['id_agenda']);
         $outp = $this->db->insert('artikel a', $data);
@@ -448,7 +448,7 @@ class Web_artikel_model extends MY_Model
         }
 
         $this->group_akses();
-        
+
         $list_gambar = $this->db
             ->select('gambar, gambar1, gambar2, gambar3')
             ->where('a.id', $id)
@@ -492,7 +492,7 @@ class Web_artikel_model extends MY_Model
     public function artikel_lock($id = 0, $val = 1)
     {
         $this->group_akses();
-        
+
         $outp = $this->db->where('id', $id)->update('artikel a', ['a.enabled' => $val]);
 
         status_sukses($outp); //Tampilkan Pesan
@@ -508,7 +508,7 @@ class Web_artikel_model extends MY_Model
     public function get_artikel($id = 0)
     {
         $this->group_akses();
-        
+
         $data = $this->db
             ->select('a.*, g.*, g.id as id_agenda, u.nama AS owner')
             ->select('YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
