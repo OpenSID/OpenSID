@@ -47,9 +47,11 @@ class Web_artikel_model extends MY_Model
 
     public function autocomplete($cat)
     {
-        $this->db->where('id_kategori', $cat);
+        $this->group_akses();
 
-        return $this->autocomplete_str('judul', 'artikel');
+        $this->db->where('a.id_kategori', $cat);
+
+        return $this->autocomplete_str('a.judul', 'artikel a');
     }
 
     private function search_sql()
@@ -73,13 +75,12 @@ class Web_artikel_model extends MY_Model
         }
     }
 
+    // TODO : Gunakan $this->group_akses(); jika sudah menggunakan query builder
     private function grup_sql()
     {
-        // Kontributor hanya dapat melihat artikel yg dibuatnya sendiri
-        if ($this->session->grup == 4) {
-            $kf = $this->session->user;
-
-            return " AND a.id_user = {$kf}";
+        // Kontributor dan lainnya (group yg dibuat sendiri) hanya dapat melihat artikel yg dibuatnya sendiri
+        if (! in_array($this->session->grup, [1, 2, 3, 4])) {
+            return " AND a.id_user = {$this->session->user}";
         }
     }
 
@@ -204,6 +205,8 @@ class Web_artikel_model extends MY_Model
 
     public function insert($cat = 1)
     {
+        $this->group_akses();
+
         $_SESSION['success']   = 1;
         $_SESSION['error_msg'] = '';
         $data                  = $_POST;
@@ -281,7 +284,7 @@ class Web_artikel_model extends MY_Model
         if ($cat == AGENDA) {
             $outp = $this->insert_agenda($data);
         } else {
-            $outp = $this->db->insert('artikel', $data);
+            $outp = $this->db->insert('artikel a', $data);
         }
         if (! $outp) {
             $_SESSION['success'] = -1;
@@ -303,9 +306,11 @@ class Web_artikel_model extends MY_Model
 
     private function insert_agenda($data)
     {
+        $this->group_akses();
+        
         $agenda = $this->ambil_data_agenda($data);
         unset($data['id_agenda']);
-        $outp = $this->db->insert('artikel', $data);
+        $outp = $this->db->insert('artikel a', $data);
         if ($outp) {
             $insert_id            = $this->db->insert_id();
             $agenda['id_artikel'] = $insert_id;
@@ -317,6 +322,8 @@ class Web_artikel_model extends MY_Model
 
     public function update($cat, $id = 0)
     {
+        $this->group_akses();
+
         $_SESSION['success']   = 1;
         $_SESSION['error_msg'] = '';
         $data                  = $_POST;
@@ -401,8 +408,8 @@ class Web_artikel_model extends MY_Model
         if ($cat == AGENDA) {
             $outp = $this->update_agenda($id, $data);
         } else {
-            $this->db->where('id', $id);
-            $outp = $this->db->update('artikel', $data);
+            $this->db->where('a.id', $id);
+            $outp = $this->db->update('artikel a', $data);
         }
         if (! $outp) {
             $_SESSION['success'] = -1;
@@ -411,10 +418,12 @@ class Web_artikel_model extends MY_Model
 
     private function update_agenda($id_artikel, $data)
     {
+        $this->group_akses();
+
         $agenda = $this->ambil_data_agenda($data);
         $id     = $data['id_agenda'];
         unset($data['id_agenda']);
-        $outp = $this->db->where('id', $id_artikel)->update('artikel', $data);
+        $outp = $this->db->where('a.id', $id_artikel)->update('artikel a', $data);
         if ($outp) {
             if (empty($id)) {
                 $agenda['id_artikel'] = $id_artikel;
@@ -438,17 +447,20 @@ class Web_artikel_model extends MY_Model
             $this->session->success = 1;
         }
 
+        $this->group_akses();
+        
         $list_gambar = $this->db
             ->select('gambar, gambar1, gambar2, gambar3')
-            ->where('id', $id)
-            ->get('artikel')
+            ->where('a.id', $id)
+            ->where()
+            ->get('artikel a')
             ->row_array();
 
         foreach ($list_gambar as $key => $gambar) {
             HapusArtikel($gambar);
         }
 
-        $outp = $this->db->where('id', $id)->delete('artikel');
+        $outp = $this->db->where('a.id', $id)->delete('artikel a');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -472,7 +484,6 @@ class Web_artikel_model extends MY_Model
         if (! $semua) {
             $this->session->success = 1;
         }
-
         $outp = $this->db->where('id', $id)->delete('kategori');
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
@@ -480,7 +491,9 @@ class Web_artikel_model extends MY_Model
 
     public function artikel_lock($id = 0, $val = 1)
     {
-        $outp = $this->db->where('id', $id)->update('artikel', ['enabled' => $val]);
+        $this->group_akses();
+        
+        $outp = $this->db->where('id', $id)->update('artikel a', ['a.enabled' => $val]);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -494,6 +507,8 @@ class Web_artikel_model extends MY_Model
 
     public function get_artikel($id = 0)
     {
+        $this->group_akses();
+        
         $data = $this->db
             ->select('a.*, g.*, g.id as id_agenda, u.nama AS owner')
             ->select('YEAR(tgl_upload) as thn, MONTH(tgl_upload) as bln, DAY(tgl_upload) as hri')
@@ -633,10 +648,20 @@ class Web_artikel_model extends MY_Model
     public function list_artikel_statis()
     {
         // '999' adalah id_kategori untuk artikel statis
+        $this->group_akses();
+
         return $this->db
-            ->select('id, judul')
-            ->where('id_kategori', '999')
-            ->get('artikel')
+            ->select('a.id, judul')
+            ->where('a.id_kategori', '999')
+            ->get('artikel a')
             ->result_array();
+    }
+
+    private function group_akses()
+    {
+        // Kontributor dan lainnya (group yg dibuat sendiri) hanya dapat melihat artikel yg dibuatnya sendiri
+        if (! in_array($this->session->grup, [1, 2, 3, 4])) {
+            $this->db->where('a.id_user', $this->session->user);
+        }
     }
 }
