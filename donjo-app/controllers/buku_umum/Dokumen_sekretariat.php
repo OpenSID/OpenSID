@@ -228,4 +228,34 @@ class Dokumen_sekretariat extends Admin_Controller {
 				break;
 		}
 	}
+
+	// Melihat Dokumen Sekretariat
+	// Bug : Hanya bisa menampilkan file dengan ekstensi pdf dan file image
+	public function lihat_dokumen($id = '')
+	{
+		$dokumen = $this->web_dokumen_model->get_dokumen($id);
+		$nama_file = $dokumen['satuan'];
+		$pathBerkas = FCPATH . LOKASI_DOKUMEN . $nama_file;
+		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+		$file_extension = strtolower(substr(strrchr($nama_file,"."),1));
+
+		if (!file_exists($pathBerkas)) {
+			http_response_code(404);
+            include(FCPATH . 'donjo-app/views/errors/html/error_404.php');
+            die();
+		}else{
+			switch( $file_extension ) {
+				case "gif": $ctype="image/gif"; break;
+				case "png": $ctype="image/png"; break;
+				case "jpeg": $ctype="image/jpeg"; break;
+				case "jpg": $ctype="image/jpeg"; break;
+				case "svg": $ctype="image/svg+xml"; break;
+				case "pdf" : $ctype="application/pdf"; break;
+				default: 
+			}
+			$tofile = realpath($pathBerkas);
+        	header('Content-Type: ' . $ctype);
+        	return readfile($tofile);
+		}
+	}
 }

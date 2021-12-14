@@ -126,6 +126,7 @@ $(document).ready(function()
 													<td><?=$data['no']?></td>
 													<td nowrap>
 														<a href="<?= site_url("{$this->controller}/form/$kat/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+														<a href="<?= site_url("{$this->controller}/lihat_dokumen/$data[id]")?>" target="_blank" class="btn btn-info btn-flat btn-sm"  title="Lihat Dokumen"><i class="fa fa-eye"></i></a>
 														<?php if ($data['enabled'] == '2'): ?>
 															<a href="<?= site_url($this->controller.'/dokumen_lock/'.$kat.'/'.$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 														<?php elseif ($data['enabled'] == '1'): ?>

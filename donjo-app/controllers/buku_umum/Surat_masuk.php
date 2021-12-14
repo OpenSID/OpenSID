@@ -269,4 +269,34 @@ class Surat_masuk extends Admin_Controller {
 			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_masuk', $_POST['nomor_urut']);
    	echo $hasil ? 'false' : 'true';
 	}
+
+	// Melihat Dokumen Surat Masuk
+	// Bug : Hanya bisa menampilkan file dengan ekstensi pdf dan file image
+	public function lihat_dokumen($id = '')
+	{
+		$dokumen = $this->surat_masuk_model->getNamaBerkasScan($id);
+		$nama_file = $dokumen;
+		$pathBerkas = FCPATH . LOKASI_ARSIP . $nama_file;
+		$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+		$file_extension = strtolower(substr(strrchr($nama_file,"."),1));
+
+		if (!file_exists($pathBerkas)) {
+			http_response_code(404);
+            include(FCPATH . 'donjo-app/views/errors/html/error_404.php');
+            die();
+		}else{
+			switch( $file_extension ) {
+				case "gif": $ctype="image/gif"; break;
+				case "png": $ctype="image/png"; break;
+				case "jpeg": $ctype="image/jpeg"; break;
+				case "jpg": $ctype="image/jpeg"; break;
+				case "svg": $ctype="image/svg+xml"; break;
+				case "pdf" : $ctype="application/pdf"; break;
+				default: 
+			}
+			$tofile = realpath($pathBerkas);
+        	header('Content-Type: ' . $ctype);
+        	return readfile($tofile);
+		}
+	}
 }

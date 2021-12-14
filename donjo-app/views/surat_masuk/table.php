@@ -93,6 +93,7 @@
 													<td><?= $data['nomor_urut']?></td>
 													<td class="nostretch">
 														<a href="<?= site_url("surat_masuk/form/$p/$o/$data[id]")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
+														<a href="<?= site_url("surat_masuk/lihat_dokumen/$data[id]")?>" target="_blank" class="btn btn-info btn-flat btn-sm"  title="Lihat Dokumen"><i class="fa fa-eye"></i></a>
 														<?php if ($data['berkas_scan']): ?>
 															<a href="<?= base_url(LOKASI_ARSIP.$data['berkas_scan'])?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
 														<?php endif; ?>
