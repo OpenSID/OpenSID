@@ -54,26 +54,6 @@
 		$('input[name=anchor').val('pelapor');
 	}
 
-	function ubah_bayi(asal)
-	{
-		$('#bayi').val(asal);
-		if (asal == 1)
-		{
-			$('.bayi_desa').show();
-			$('.bayi_luar_desa').hide();
-		}
-		else
-		{
-			$('.bayi_desa').hide();
-			$('.bayi_luar_desa').show();
-			$('#id_bayi').val('*'); // Hapus $id_bayi
-			// Hapus data kelahiran
-			$('.data_lahir').val('');
-			submit_form_ambil_data();
-		}
-		$('input[name=anchor').val('bayi');
-	}
-
 	function ubah_ibu(asal)
 	{
 		$('#ibu').val(asal);
@@ -102,18 +82,6 @@
 	{
 		$('input').removeClass('required');
 		$('select').removeClass('required');
-		$('#'+'validasi').attr('action','');
-		$('#'+'validasi').attr('target','');
-		$('#'+'validasi').submit();
-	}
-
-	function buat_penduduk_baru()
-	{
-		$('input[name=penduduk_baru]').val('1');
-		$('input').removeClass('required');
-		$('select').removeClass('required');
-		$('.data_lahir').addClass('required');
-		$('.data_lahir').addClass('required');
 		$('#'+'validasi').attr('action','');
 		$('#'+'validasi').attr('target','');
 		$('#'+'validasi').submit();
@@ -368,19 +336,11 @@
 								<?php endif; ?>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 control-label" for="status">DATA KELAHIRAN </label>
-									<div class="btn-group col-sm-8" data-toggle="buttons">
-										<label class="btn btn-info btn-flat btn-sm col-sm-4 col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (!empty($bayi)): ?>active<?php endif ?>">
-											<input id="bayi_1" type="radio" name="bayi" class="form-check-input" type="radio" value="1" <?php if (!empty($bayi)): ?>checked<?php endif; ?> autocomplete="off" onchange="ubah_bayi(this.value);"> Dari Database Penduduk
-										</label>
-										<label id="label_bayi_2" class="btn btn-info btn-flat btn-sm col-sm-4 col-md-4 col-lg-3 form-check-label <?php if (empty($bayi)): ?>active<?php endif; ?>">
-											<input id="bayi_2" type="radio" name="bayi" class="form-check-input" type="radio" value="2" <?php if (empty($bayi)): ?>checked<?php endif; ?> autocomplete="off" onchange="ubah_bayi(this.value);"> Belum Terdata
-										</label>
-									</div>
 								</div>
-								<div class="form-group bayi_desa" <?php if (empty($bayi)): ?>style="display: none;"<?php endif; ?>>
+								<div class="form-group">
 									<label class="col-xs-12 col-sm-3 col-lg-3 control-label bg-maroon" style="margin-top:-10px;padding-top:10px;padding-bottom:10px"><strong>DATA KELAHIRAN DARI DATABASE</strong></label>
 								</div>
-								<div class="form-group bayi_desa" <?php if (empty($bayi)): ?>style="display: none;"<?php endif; ?>>
+								<div class="form-group">
 									<label for="ibu_desa" class="col-sm-3 control-label" ><strong>NIK / Nama</strong></label>
 									<div class="col-sm-6 col-lg-4">
 										<select class="form-control  input-sm select2" id="id_bayi" name="id_bayi" style ="width:100%;"  onchange="submit_form_ambil_data(this.id);">
@@ -468,7 +428,7 @@
 								<div class="form-group">
 									<label for="jenis_kelahiran"  class="col-sm-3 control-label">Jenis Kelahiran</label>
 									<div class="col-sm-4">
-										<select name="jenis_kelahiran" class="form-control input-sm required data_lahir" id="jenis_kelahiran">
+										<select name="jenis_kelahiran" class="form-control input-sm required data_lahir" id="jenis_kelahiran" readonly>
 											<option value="">Pilih Jenis Kelahiran</option>
 											<?php foreach ($jenis_kelahiran as $id => $nama): ?>
 												<option value="<?= $id?>" <?php if ($_SESSION['post']['jenis_kelahiran']==$id): ?>selected<?php endif; ?>><?= $nama?></option>
@@ -511,15 +471,6 @@
 										</div>
 									</div>
 								</div>
-								<?php if ($ibu and !$bayi): ?>
-									<div class="form-group">
-										<label class="col-sm-3 control-label">&nbsp;</label>
-										<input name="penduduk_baru" type="hidden" value="">
-										<div class="col-sm-2">
-										<button type="button" onclick="buat_penduduk_baru();" class="btn btn-social btn-flat btn-danger btn-sm"><span class="fa fa-download">&nbsp;</span>Buat Penduduk Baru</button>
-										</div>
-									</div>
-								<?php endif; ?>
 								<div class="form-group subtitle_head">
 									<label class="col-sm-3 control-label" for="status">PELAPOR </label>
 									<div class="btn-group col-sm-8" data-toggle="buttons">

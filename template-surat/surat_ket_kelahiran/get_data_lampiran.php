@@ -61,6 +61,19 @@
 		$input['hari']	  		= hari(strtotime($bayi['tanggallahir']));
 		$input['tanggal']	  	= $bayi['tanggallahir'];
 	}
+
+	/*
+	Tulis perubahan data kelahiran di form surat ke database
+	*/
+	$kolom = array('waktu_lahir','tempat_dilahirkan','tempatlahir','jenis_kelahiran','kelahiran_anak_ke','penolong_kelahiran','berat_lahir','panjang_lahir');
+	foreach ($kolom as $item) {
+		if ($_POST[$item] != $bayi[$item]) {
+			$data[$item] = $_POST[$item];
+		}
+	}
+	$data['tanggallahir'] = tgl_indo_in($_POST['tanggallahir']);
+	$this->db->where('id',$_SESSION['id_bayi'])->update('tweb_penduduk', $data);
+	
 	// Jika ibu dari database, gunakan data ibu untuk info kepala keluarga.
 	// Kalau tidak, gunakan data yang lahir. Salah satu harus dari database.
 	if ($ibu)
