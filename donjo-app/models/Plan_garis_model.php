@@ -162,14 +162,12 @@ class Plan_garis_model extends MY_Model
 
     private function validasi($post)
     {
-        $data = [
+        return [
             'nama'     => nomor_surat_keputusan($post['nama']),
             'ref_line' => $post['ref_line'],
             'desk'     => htmlentities($post['desk']),
             'enabled'  => bilangan($post['enabled']),
         ];
-
-        return $data;
     }
 
     public function insert()
