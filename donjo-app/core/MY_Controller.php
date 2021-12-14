@@ -250,6 +250,12 @@ class Api_Controller extends MY_Controller
 
 class Premium extends MY_Controller
 {
+    // Hanya domain terdaftar yg bisa melewati validasi premium dengan mode demo
+    protected $domain = [
+        'demo.opensid.or.id',
+        'berputar.opensid.or.id',
+    ];
+
     /**
      * TODO :
      * Controller main exted ke CI_Controller bukan ke Admin_controller tp masih berpengaruh pada validasi pengguna premium
@@ -267,7 +273,7 @@ class Premium extends MY_Controller
     public function validasi()
     {
         // Jangan jalankan validasi akses untuk spesifik controller.
-        if (in_array($this->router->class, $this->kecuali) || config_item('demo_mode')) {
+        if (in_array($this->router->class, $this->kecuali) || (config_item('demo_mode') && (in_array(get_domain(APP_URL), $this->domain)))) {
             return;
         }
 
