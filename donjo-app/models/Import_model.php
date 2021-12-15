@@ -189,7 +189,7 @@ class Import_model extends CI_Model
          * Hapus spasi pada daftar kode
          * Contoh:
          * SLTA / SEDERAJAT => SLTA/SEDERAJAT
-         * 
+         *
          */
         $daftar_kode = array_combine(str_replace(' ', '', array_keys($daftar_kode)), array_values($daftar_kode));
 
