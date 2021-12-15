@@ -44,7 +44,24 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
 
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
+        return $hasil && $this->migrasi_2021121651($hasil);
+    }
+
+    protected function migrasi_2021121651($hasil)
+    {
+        // Ubah panjang kolom tag_id_card
+        $fields = [
+            'tag_id_card' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 17,
+                'null'       => true,
+                'default'    => null,
+            ],
+        ];
+        $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
+
+        return $hasil;
     }
 }
