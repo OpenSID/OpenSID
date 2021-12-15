@@ -60,8 +60,7 @@ class Migrasi_fitur_premium_2201 extends MY_model
                 'default'    => null,
             ],
         ];
-        $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
 
-        return $hasil;
+        return $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
     }
 }
