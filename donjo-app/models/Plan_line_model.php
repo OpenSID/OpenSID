@@ -138,10 +138,12 @@ class Plan_line_model extends MY_Model
 
     private function validasi($post)
     {
-        $data['nama']  = nomor_surat_keputusan($post['nama']);
-        $data['color'] = warna($post['color']);
-
-        return $data;
+        return [
+            'nama'  => nomor_surat_keputusan($post['nama']),
+            'jenis' => nomor_surat_keputusan($post['jenis']),
+            'tebal' => bilangan($post['tebal']),
+            'color' => warna($post['color']),
+        ];
     }
 
     public function insert()
@@ -306,7 +308,7 @@ class Plan_line_model extends MY_Model
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $id) {
-            $this->delete_sub_line($id, $semua = true);
+            $this->delete_sub_line($id, true);
         }
     }
 

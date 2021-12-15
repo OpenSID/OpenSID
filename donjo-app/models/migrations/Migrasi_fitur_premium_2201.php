@@ -47,8 +47,9 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
         $hasil = $hasil && $this->migrasi_2021120271($hasil);
         $hasil = $hasil && $this->migrasi_2021120371($hasil);
+        $hasil = $hasil && $this->migrasi_2021120971($hasil);
 
-        return $hasil && $this->migrasi_2021120971($hasil);
+        return $hasil && $this->migrasi_2021121571($hasil);
     }
 
     protected function migrasi_2021120271($hasil)
@@ -121,5 +122,30 @@ class Migrasi_fitur_premium_2201 extends MY_model
     protected function migrasi_2021120371($hasil)
     {
         return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.03.php,f-1.08.php,f-1.25.php,f-1.27.php']);
+    }
+
+    protected function migrasi_2021121571($hasil)
+    {
+        if (! $this->db->field_exists('tebal', 'line')) {
+            $fields = [
+                'tebal' => [
+                    'type'       => 'INT',
+                    'constraint' => 2,
+                    'null'       => true,
+                    'default'    => '3',
+                    'after'      => 'tipe',
+                ],
+                'jenis' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => 'solid',
+                    'after'      => 'tebal',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('line', $fields);
+        }
+
+        return $hasil;
     }
 }
