@@ -205,8 +205,6 @@ class Web_artikel_model extends MY_Model
 
     public function insert($cat = 1)
     {
-        $this->group_akses();
-
         $_SESSION['success']   = 1;
         $_SESSION['error_msg'] = '';
         $data                  = $_POST;
@@ -284,7 +282,7 @@ class Web_artikel_model extends MY_Model
         if ($cat == AGENDA) {
             $outp = $this->insert_agenda($data);
         } else {
-            $outp = $this->db->insert('artikel a', $data);
+            $outp = $this->db->insert('artikel', $data);
         }
         if (! $outp) {
             $_SESSION['success'] = -1;
@@ -306,11 +304,9 @@ class Web_artikel_model extends MY_Model
 
     private function insert_agenda($data)
     {
-        $this->group_akses();
-
         $agenda = $this->ambil_data_agenda($data);
         unset($data['id_agenda']);
-        $outp = $this->db->insert('artikel a', $data);
+        $outp = $this->db->insert('artikel', $data);
         if ($outp) {
             $insert_id            = $this->db->insert_id();
             $agenda['id_artikel'] = $insert_id;
