@@ -143,7 +143,7 @@ class Telegram
     /**
      * Send text message.
      *
-     * <code>
+     * ```php
      * $params = [
      *   'chat_id'                  => '',
      *   'text'                     => '',
@@ -153,7 +153,7 @@ class Telegram
      *   'reply_to_message_id'      => '',
      *   'reply_markup'             => '',
      * ];
-     * </code>
+     * ```
      *
      * @see https://core.telegram.org/bots/api#sendmessage
      *

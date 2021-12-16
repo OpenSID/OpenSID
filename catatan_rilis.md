@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. [#3947](https://github.com/OpenSID/OpenSID/issues/3947) Saat mesuk layanan mandiri diarahkan ke halaman buat surat (default) atau ke halaman daftar pesan masuk jika terdapat pesan masuk yg belum dibaca.
 7. [#4507](https://github.com/OpenSID/OpenSID/issues/4507) Bisa atur jenis garis dan ketebalan tipe garis di pengaturan peta.
 8. [#4588](https://github.com/OpenSID/OpenSID/issues/4588) Loloskan pemeriksaan token di setting demo.
+9. [#4558](https://github.com/OpenSID/OpenSID/issues/4558) Verifikasi akun Telegram di layanan mandiri.
 
 #### Perbaikan BUG
 1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.

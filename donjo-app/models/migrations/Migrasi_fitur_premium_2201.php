@@ -48,6 +48,7 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = $hasil && $this->migrasi_2021120271($hasil);
         $hasil = $hasil && $this->migrasi_2021120371($hasil);
         $hasil = $hasil && $this->migrasi_2021120971($hasil);
+        $hasil = $hasil && $this->migrasi_2021121371($hasil);
 
         return $hasil && $this->migrasi_2021121571($hasil);
     }
@@ -122,6 +123,32 @@ class Migrasi_fitur_premium_2201 extends MY_model
     protected function migrasi_2021120371($hasil)
     {
         return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.03.php,f-1.08.php,f-1.25.php,f-1.27.php']);
+    }
+
+    protected function migrasi_2021121371($hasil)
+    {
+        if (! $this->db->field_exists('telegram_token', 'tweb_penduduk')) {
+            $fields = [
+                'telegram_token' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'unique'     => true,
+                    'null'       => true,
+                    'after'      => 'telegram',
+                ],
+                'telegram_tgl_kadaluarsa' => [
+                    'type'  => 'DATETIME',
+                    'null'  => true,
+                    'after' => 'telegram_token',
+                ],
+                'telegram_tgl_verifikasi' => [
+                    'type'  => 'DATETIME',
+                    'null'  => true,
+                    'after' => 'telegram_tgl_kadaluarsa',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', $fields);
+        }
     }
 
     protected function migrasi_2021121571($hasil)
