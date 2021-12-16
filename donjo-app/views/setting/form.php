@@ -3,15 +3,23 @@
 	<?php if ($setting->key != 'penggunaan_server' && $setting->jenis != 'upload' && in_array($setting->kategori, $kategori) && ($setting->key != 'token_opensid')): ?>
 		<?php $setting->kategori = ($setting->kategori == 'setting_analisis' && config_item('demo_mode')) ? 'readonly' : $setting->kategori; ?>
 		<?php $setting->value    = ($setting->key == 'layanan_opendesa_token' && config_item('demo_mode')) ? '' : $setting->value; ?>
-		<div class="form-group">
+		<div class="form-group" id="form_<?= $setting->key ?>">
 			<label class="col-sm-12 col-md-3" for="nama"><?= $key; ?></label>
 			<?php if ($setting->jenis == 'option'): ?>
 				<div class="col-sm-12 col-md-4">
-					<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
-						<?php foreach ($setting->options as $option): ?>
-						<option value="<?= $option->id ?>" <?= selected($setting->value, $option->id); ?>><?= $option->value ?></option>
-						<?php endforeach ?>
-					</select>
+					<?php if ($setting->key == 'tampilan_anjungan_slider'): ?>
+						<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
+							<?php foreach ($daftar_album as $option): ?>
+							<option value="<?= $option['id']; ?>" <?= selected($setting->value, $option['id']); ?>><?= $option['nama']; ?></option>
+							<?php endforeach ?>
+						</select>
+					<?php else: ?>
+						<select class="form-control input-sm" id="<?= $setting->key ?>" name="<?= $setting->key?>">
+							<?php foreach ($setting->options as $option): ?>
+							<option value="<?= $option->id ?>" <?= selected($setting->value, $option->id); ?>><?= $option->value ?></option>
+							<?php endforeach ?>
+						</select>
+					<?php endif; ?>
 				</div>
 			<?php elseif ($setting->jenis == 'option-kode'): ?>
 				<div class="col-sm-12 col-md-4">

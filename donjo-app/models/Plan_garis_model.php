@@ -132,7 +132,7 @@ class Plan_garis_model extends MY_Model
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
 
-        $select_sql = 'SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color ';
+        $select_sql = 'SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol, p.color, p.tebal, p.jenis AS jenis_garis ';
         $sql        = $select_sql . $this->list_data_sql();
 
         $sql .= $order_sql;
@@ -160,12 +160,12 @@ class Plan_garis_model extends MY_Model
 
     private function validasi($post)
     {
-        $data['nama']     = nomor_surat_keputusan($post['nama']);
-        $data['ref_line'] = $post['ref_line'];
-        $data['desk']     = htmlentities($post['desk']);
-        $data['enabled']  = $post['enabled'];
-
-        return $data;
+        return [
+            'nama'     => nomor_surat_keputusan($post['nama']),
+            'ref_line' => $post['ref_line'],
+            'desk'     => htmlentities($post['desk']),
+            'enabled'  => bilangan($post['enabled']),
+        ];
     }
 
     public function insert()
@@ -274,10 +274,14 @@ class Plan_garis_model extends MY_Model
 
     public function get_garis($id = 0)
     {
-        $sql   = 'SELECT * FROM garis WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->db
+            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol, p.color, p.tebal, p.jenis AS jenis_garis')
+            ->from('garis l')
+            ->join('line p', 'l.ref_line = p.id', 'left')
+            ->join('line m', ' p.parrent = m.id')
+            ->where('l.id', $id)
+            ->get()
+            ->row_array();
     }
 
     public function update_position($id = 0)
@@ -292,7 +296,7 @@ class Plan_garis_model extends MY_Model
     public function list_garis()
     {
         return $this->db
-            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color')
+            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color, p.tebal AS tebal, p.jenis AS jenis_garis')
             ->from('garis l')
             ->join('line p', 'l.ref_line = p.id', 'left')
             ->join('line m', ' p.parrent = m.id')

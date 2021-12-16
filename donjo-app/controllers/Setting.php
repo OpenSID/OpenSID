@@ -50,15 +50,15 @@ class Setting extends Admin_Controller
     public function index()
     {
         $data = [
-            'judul'               => 'Pengaturan Aplikasi',
-            'kategori'            => [null, '', 'sistem', 'web_theme', 'readonly', 'web'],
-            'atur_latar'          => true,
-            'latar_website'       => $this->theme_model->latar_website(),
-            'latar_login'         => $this->theme_model->latar_login(),
-            'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
-            'list_tema'           => $this->theme_model->list_all(),
+            'judul'         => 'Pengaturan Aplikasi',
+            'kategori'      => [null, '', 'sistem', 'web_theme', 'readonly', 'web'],
+            'atur_latar'    => true,
+            'latar_website' => $this->theme_model->latar_website(),
+            'latar_login'   => $this->theme_model->latar_login(),
+            'list_tema'     => $this->theme_model->list_all(),
         ];
         $this->setting_model->load_options();
+
         $this->render('setting/setting_form', $data);
     }
 
@@ -99,12 +99,17 @@ class Setting extends Admin_Controller
     {
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 314;
+        $this->load->model('first_gallery_m');
 
         $data = [
-            'judul'           => 'Pengaturan Layanan Mandiri',
-            'kategori'        => ['setting_mandiri'],
-            'aksi_controller' => 'setting/mandiri',
+            'judul'               => 'Pengaturan Layanan Mandiri',
+            'kategori'            => ['setting_mandiri'],
+            'atur_latar'          => true,
+            'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
+            'daftar_album'        => $this->first_gallery_m->gallery_show(),
+            'aksi_controller'     => 'setting/mandiri',
         ];
+        $this->setting_model->load_options();
 
         $this->render('setting/setting_form', $data);
     }

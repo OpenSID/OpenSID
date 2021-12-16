@@ -71,7 +71,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')): ?>
 		<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman_mandiri.css" rel='Stylesheet' />
 	<?php endif; ?>
-	<link rel="stylesheet" type="text/css" href="<?= base_url()?>desa/mandiri_video/mandiri_video.css">
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/mandiri_video.css')?>">
 
 	<!-- Google Font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -87,44 +87,34 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<?php if ($latar_login_mandiri): ?>
 		<style type="text/css">
 			body.login {
-				background: url('<?= base_url($latar_login_mandiri) ?>');
+				background: url('<?= base_url($latar_login_mandiri); ?>');
 			}
 		</style>
 	<?php endif; ?>
 </head>
 
-<div class="video-internal" id="videov" style="display: none;">
-	<video loop muted autoplay poster="poster.jpg" class="video-internal-bg">
-		<source src="<?= base_url()?>desa/mandiri_video/pesona.mp4" type="video/mp4">
-		<!-- Ganti nama video sesuai nama video yang anda masukkan di folder mandiri_video -->
-	</video>
-</div>
-<script type="text/javascript">
-	var IDLE_TIMEOUT = 10; //seconds
-	var _idleSecondsCounter = 0;
-	document.onclick = function() {
-	   	_idleSecondsCounter = 0;
-	};
-	document.onmousemove = function() {
-	    _idleSecondsCounter = 0;
-	};
-	document.onkeypress = function() {
-	    _idleSecondsCounter = 0;
-	};
-	window.setInterval(CheckIdleTime, 500);
+<?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_video)): ?>
+	<div class="video-internal" id="videov" style="display: none;">
+		<video loop muted autoplay poster="<?= base_url($latar_login_mandiri); ?>" class="video-internal-bg">
+			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
+		</video>
+	</div>
+<?php endif; ?>
 
-	function CheckIdleTime() {
-	    _idleSecondsCounter++;
-        var video = document.getElementById("videov");
-	    if (_idleSecondsCounter >= IDLE_TIMEOUT) {
-        {
-          video.style.display = "block";
-        }
-	    }else{
-          video.style.display = "none";
-        }
-	}
-</script>
+<?php if ($this->setting->tampilan_anjungan == 0 && ! empty($this->setting->tampilan_anjungan_slider)): ?>
+	<div id="sliderv" class="video-internal" style="display: none;">
+		<div id="myCarousel" class="carousel slide" data-ride="carousel">
+			<div class="carousel-inner">
+				<?php foreach ($daftar_album as $key => $data): ?>
+					<div class="item <?= jecho($key, 0, 'active'); ?> ">
+						<img src="<?= AmbilGaleri($data['gambar'], 'sedang') ?>" alt="Los Angeles" style="width:100%;">
+					</div>
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
+
 <body class="login">
 	<div class="top-content">
 		<div class="inner-bg">
@@ -133,7 +123,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<div class="col-sm-6 col-sm-offset-4 form-box">
 						<div class="form-top">
 							<a href="<?=site_url(); ?>"><img src="<?= gambar_desa($header['logo']); ?>" alt="Lambang Desa" class="img-responsive"/></a>
-							<div class="login-footer-top"><h1>LAYANAN MANDIRI<br/><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
+							<div class="login-footer-top">
+								<h1>LAYANAN MANDIRI<br/>
+								<?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 								<h3>
 									<br/><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?>
 									<br/><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
@@ -174,7 +166,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 												<input type="password" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
 											</div>
 											<div class="form-group">
-												<center><input type="checkbox" id="checkbox"> Tampilkan PIN</center>
+												<center><input type="checkbox" id="checkbox" style="display: initial;"> Tampilkan PIN</center>
 											</div>
 											<div class="form-group">
 												<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
@@ -254,6 +246,41 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<?php endif; ?>
 	<script type="text/javascript">
 	$('document').ready(function() {
+
+		var IDLE_TIMEOUT = <?= $this->setting->waktu_tampilan_anjungan; ?>; //seconds
+		var _idleSecondsCounter = 0;
+		document.onclick = function() {
+			_idleSecondsCounter = 0;
+		};
+		document.onmousemove = function() {
+			_idleSecondsCounter = 0;
+		};
+		document.onkeypress = function() {
+			_idleSecondsCounter = 0;
+		};
+		window.setInterval(CheckIdleTime, 500);
+
+		function CheckIdleTime() {
+			_idleSecondsCounter++;
+			var video = document.getElementById("videov");
+			var slider = document.getElementById("sliderv");
+			var tampil_anjungan  = '<?= $this->setting->tampilan_anjungan; ?>';
+			var tampil_anjungan_video  = '<?= $this->setting->tampilan_anjungan_video; ?>';
+			var tampil_anjungan_slider  = '<?= $this->setting->tampilan_anjungan_slider; ?>';
+			if (_idleSecondsCounter >= IDLE_TIMEOUT) {
+				if (tampil_anjungan == 1 && tampil_anjungan_video != '') {
+					video.style.display = "block";
+				} else if(tampil_anjungan == 0 && tampil_anjungan_slider != '') {
+							slider.style.display = "block";
+				}
+			} else {
+				if (tampil_anjungan == 1 && tampil_anjungan_video != '') {
+					video.style.display = "none";
+				} else if(tampil_anjungan == 0 && tampil_anjungan_slider != '') {
+					slider.style.display = "none";
+				}
+			}
+		}
 
 		<?php if ($this->session->login_ektp): ?>
 			<?php if (! $cek_anjungan): ?>

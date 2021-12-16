@@ -42,13 +42,18 @@ class Beranda extends Mandiri_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model', 'pendapat_model']);
+        $this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model', 'pendapat_model', 'mailbox_model']);
         $this->load->helper('download');
     }
 
     public function index()
     {
-        $this->profil();
+        $inbox = $this->mailbox_model->count_inbox_pesan($this->is_login->nik);
+        if ($inbox) {
+            redirect('layanan-mandiri/pesan-masuk');
+        } else {
+            redirect('layanan-mandiri/permohonan-surat');
+        }
     }
 
     public function profil()

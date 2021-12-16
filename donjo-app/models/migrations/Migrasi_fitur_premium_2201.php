@@ -46,8 +46,10 @@ class Migrasi_fitur_premium_2201 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
         $hasil = $hasil && $this->migrasi_2021120271($hasil);
+        $hasil = $hasil && $this->migrasi_2021120371($hasil);
+        $hasil = $hasil && $this->migrasi_2021120971($hasil);
 
-        return $hasil && $this->migrasi_2021120371($hasil);
+        return $hasil && $this->migrasi_2021121571($hasil);
     }
 
     protected function migrasi_2021120271($hasil)
@@ -67,8 +69,83 @@ class Migrasi_fitur_premium_2201 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2021120971($hasil)
+    {
+        $list_setting = [
+            [
+                'key'        => 'tampilan_anjungan',
+                'value'      => 0,
+                'keterangan' => 'Pilih tampilan di anjungan pada saat tidak ada aktifitas pada halaman login.',
+                'jenis'      => 'option-kode',
+                'kategori'   => 'setting_mandiri',
+            ],
+            [
+                'key'        => 'waktu_tampilan_anjungan',
+                'value'      => 30,
+                'keterangan' => 'Atur waktu (detik) kapan tampilan di anjungan akan muncul pada saat tidak ada aktifitas di halaman login.',
+                'jenis'      => 'int',
+                'kategori'   => 'setting_mandiri',
+            ],
+            [
+                'key'        => 'tampilan_anjungan_slider',
+                'keterangan' => 'Pilih album yang akan ditampilkan pada anjungan.',
+                'jenis'      => 'option',
+                'kategori'   => 'setting_mandiri',
+            ],
+            [
+                'key'        => 'tampilan_anjungan_video',
+                'keterangan' => 'Masukan link video dengan format <code>.mp4</code> yang akan ditampilkan pada anjungan',
+                'kategori'   => 'setting_mandiri',
+            ],
+        ];
+
+        foreach ($list_setting as $setting) {
+            $hasil = $hasil && $this->tambah_setting($setting);
+        }
+
+        $id_setting = $this->db->get_where('setting_aplikasi', ['key' => 'tampilan_anjungan'])->row()->id;
+        if ($id_setting) {
+            $this->db->where('id_setting', $id_setting)->delete('setting_aplikasi_options');
+
+            $hasil = $hasil && $this->db->insert_batch(
+                'setting_aplikasi_options',
+                [
+                    ['id_setting' => $id_setting, 'kode' => '0', 'value' => 'Slider'],
+                    ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'Video'],
+                ]
+            );
+        }
+
+        return $hasil;
+    }
+
     protected function migrasi_2021120371($hasil)
     {
         return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.03.php,f-1.08.php,f-1.25.php,f-1.27.php']);
+    }
+
+    protected function migrasi_2021121571($hasil)
+    {
+        if (! $this->db->field_exists('tebal', 'line')) {
+            $fields = [
+                'tebal' => [
+                    'type'       => 'INT',
+                    'constraint' => 2,
+                    'null'       => true,
+                    'default'    => '3',
+                    'after'      => 'tipe',
+                ],
+                'jenis' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 10,
+                    'null'       => true,
+                    'default'    => 'solid',
+                    'after'      => 'tebal',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('line', $fields);
+        }
+
+        return $hasil;
     }
 }
