@@ -76,40 +76,43 @@ class Suplemen extends Admin_Controller
 
     public function form($id = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         if ($id) {
             $data['suplemen']    = $this->suplemen_model->get_suplemen($id);
-            $data['form_action'] = site_url("suplemen/ubah/{$id}");
+            $data['form_action'] = site_url("{$this->controller}/ubah/{$id}");
         } else {
             $data['suplemen']    = null;
-            $data['form_action'] = site_url('suplemen/tambah');
+            $data['form_action'] = site_url("{$this->controller}/tambah");
         }
 
         $data['list_sasaran'] = unserialize(SASARAN);
-        $this->set_minsidebar(1);
 
+        $this->set_minsidebar(1);
         $this->render('suplemen/form', $data);
     }
 
     public function tambah()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->suplemen_model->create();
-        redirect('suplemen');
+
+        redirect($this->controller);
     }
 
     public function ubah($id)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->suplemen_model->update($id);
-        redirect('suplemen');
+
+        redirect($this->controller);
     }
 
     public function hapus($id)
     {
         $this->redirect_hak_akses('h');
         $this->suplemen_model->hapus($id);
-        redirect('suplemen');
+
+        redirect($this->controller);
     }
 
     public function panduan()
@@ -127,7 +130,7 @@ class Suplemen extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
-        redirect("suplemen/rincian/{$id_rincian}");
+        redirect("{$this->controller}/rincian/{$id_rincian}");
     }
 
     public function clear($id = 0)
@@ -137,13 +140,13 @@ class Suplemen extends Admin_Controller
         if ($id) {
             $this->session->id_rincian = $id;
             $this->session->unset_userdata('cari');
-            redirect("suplemen/rincian/{$id}");
+            redirect("{$this->controller}/rincian/{$id}");
         }
         //Untuk index Suplemen
         else {
             $this->session->unset_userdata($this->_list_session);
 
-            redirect('suplemen');
+            redirect($this->controller);
         }
     }
 
@@ -167,7 +170,7 @@ class Suplemen extends Admin_Controller
 
     public function form_terdata($id)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $data['sasaran']      = unserialize(SASARAN);
         $data['suplemen']     = $this->suplemen_model->get_suplemen($id);
         $sasaran              = $data['suplemen']['sasaran'];
@@ -178,7 +181,7 @@ class Suplemen extends Admin_Controller
             $data['individu'] = null;
         }
 
-        $data['form_action'] = site_url('suplemen/add_terdata');
+        $data['form_action'] = site_url("{$this->controller}/add_terdata");
 
         $this->render('suplemen/form_terdata', $data);
     }
@@ -201,33 +204,36 @@ class Suplemen extends Admin_Controller
 
     public function edit_terdata_form($id = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $data                = $this->suplemen_model->get_suplemen_terdata_by_id($id);
-        $data['form_action'] = site_url("suplemen/edit_terdata/{$id}");
+        $data['form_action'] = site_url("{$this->controller}/edit_terdata/{$id}");
 
         $this->load->view('suplemen/edit_terdata', $data);
     }
 
     public function add_terdata($id)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->suplemen_model->add_terdata($_POST, $id);
-        redirect("suplemen/rincian/{$id}");
+
+        redirect("{$this->controller}/rincian/{$id}");
     }
 
     public function edit_terdata($id)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->suplemen_model->edit_terdata($_POST, $id);
         $id_suplemen = $_POST['id_suplemen'];
-        redirect("suplemen/rincian/{$id_suplemen}");
+
+        redirect("{$this->controller}/rincian/{$id_suplemen}");
     }
 
     public function hapus_terdata($id_suplemen, $id_terdata)
     {
         $this->redirect_hak_akses('h');
         $this->suplemen_model->hapus_terdata($id_terdata);
-        redirect("suplemen/rincian/{$id_suplemen}");
+
+        redirect("{$this->controller}/rincian/{$id_suplemen}");
     }
 
     // $aksi = cetak/unduh
@@ -237,7 +243,7 @@ class Suplemen extends Admin_Controller
         $data['pamong']         = $this->pamong_model->list_data();
         $data['pamong_ttd']     = $this->pamong_model->get_ub();
         $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
-        $data['form_action']    = site_url("suplemen/daftar/{$id}/{$aksi}");
+        $data['form_action']    = site_url("{$this->controller}/daftar/{$id}/{$aksi}");
 
         $this->load->view('global/ttd_pamong', $data);
     }
@@ -268,10 +274,11 @@ class Suplemen extends Admin_Controller
 
     public function impor()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $suplemen_id = $this->input->post('id_suplemen');
         $this->suplemen_model->impor();
-        redirect("suplemen/rincian/{$suplemen_id}");
+
+        redirect("{$this->controller}/rincian/{$suplemen_id}");
     }
 
     public function ekspor($id = 0)

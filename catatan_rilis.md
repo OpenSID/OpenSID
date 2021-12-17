@@ -30,6 +30,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 13. [#4585](https://github.com/OpenSID/OpenSID/issues/4585) Perbaiki tampilkan notifikasi error, jika widget gagal disimpan beserta penyebabnya.
 14. [#4598](https://github.com/OpenSID/OpenSID/issues/4598) Perbaiki Error impor SIAK.
 15. [#4542](https://github.com/OpenSID/OpenSID/issues/4542) Perbaiki Cetak Surat Kelahiran
+16. [#4576](https://github.com/OpenSID/OpenSID/issues/4576) Perbaiki Grup Pengguna
 
 
 #### Perubahan Teknis
