@@ -1,72 +1,26 @@
-<?php
-
-defined('BASEPATH') || exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * View Penduduk untuk modul Kependudukan > Penduduk
- *
- * donjo-app/views/sid/kependudukan/penduduk.php
- */
-
-/*
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- *
- * @see 	https://github.com/OpenSID/OpenSID
- */
-?>
-
 <script>
-$(document).ready(function()
-{
-	$('#cari').focus();
-});
+	$(document).ready(function() {
+		$('#cari').focus();
+	});
 
-$( function() {
-	$( "#cari" ).autocomplete( {
-		source: function( request, response ) {
-			$.ajax( {
-				type: "POST",
-				url: '<?= site_url('penduduk/autocomplete'); ?>',
-				dataType: "json",
-				data: {
-					cari: request.term
-				},
-				success: function( data ) {
-					response( JSON.parse( data ));
-				}
-			} );
-		},
-		minLength: 2,
-	} );
-} );
+	$( function() {
+		$( "#cari" ).autocomplete( {
+			source: function( request, response ) {
+				$.ajax( {
+					type: "POST",
+					url: '<?= site_url('penduduk/autocomplete'); ?>',
+					dataType: "json",
+					data: {
+						cari: request.term
+					},
+					success: function( data ) {
+						response( JSON.parse( data ));
+					}
+				});
+			},
+			minLength: 2,
+		} );
+	});
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -204,7 +158,7 @@ $( function() {
 																	<li>
 																		<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
 																	</li>
-																	<?php if ($data['status_dasar'] == 9): ?>
+																	<?php if ($data['status_dasar'] == 9 && $this->CI->cek_hak_akses('u')): ?>
 																		<li>
 																			<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?"><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
 																		</li>
@@ -214,18 +168,16 @@ $( function() {
 																			<li>
 																				<a href="<?= site_url("penduduk/form/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
 																			</li>
-																		<?php endif; ?>
-																		<li>
-																			<a href="<?= site_url("penduduk/ajax_penduduk_maps/{$p}/{$o}/{$data['id']}/0"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
-																		</li>
-																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<li>
+																				<a href="<?= site_url("penduduk/ajax_penduduk_maps/{$p}/{$o}/{$data['id']}/0"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
+																			</li>
 																			<li>
 																				<a href="<?= site_url("penduduk/edit_status_dasar/{$p}/{$o}/{$data['id']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
 																			</li>
-																			<li>
-																				<a href="<?= site_url("penduduk/dokumen/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
-																			</li>
 																		<?php endif; ?>
+																		<li>
+																			<a href="<?= site_url("penduduk/dokumen/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
+																		</li>
 																		<li>
 																			<a href="<?= site_url("penduduk/cetak_biodata/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
 																		</li>
@@ -246,7 +198,7 @@ $( function() {
 														</td>
 														<td nowrap><?= $data['tag_id_card']; ?></td>
 														<td nowrap><?= strtoupper($data['nama']); ?></td>
-														<td><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}"); ?>"><?= $data['no_kk']; ?> </a></td>
+														<td class="padat"><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}"); ?>"><?= $data['no_kk']; ?> </a></td>
 														<!-- tambah kolom orang tua-->
 														<td nowrap><?= $data['nama_ayah']; ?></td>
 														<td nowrap><?= $data['nama_ibu']; ?></td>

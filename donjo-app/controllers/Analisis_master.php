@@ -102,7 +102,6 @@ class Analisis_master extends Admin_Controller
 
         $this->session->unset_userdata('list_error');
 
-        $this->set_minsidebar(1);
         $this->render('analisis_master/table', $data);
     }
 
@@ -125,20 +124,17 @@ class Analisis_master extends Admin_Controller
         $data['list_kelompok']     = $this->analisis_master_model->list_kelompok();
         $data['list_analisis']     = $this->analisis_master_model->list_analisis_child();
 
-        $this->set_minsidebar(1);
         $this->render('analisis_master/form', $data);
     }
 
     public function panduan()
     {
-        $this->set_minsidebar(1);
         $this->render('analisis_master/panduan');
     }
 
     public function import_analisis()
     {
         $this->redirect_hak_akses('u');
-        $this->set_minsidebar(1);
         $data['form_action'] = site_url("{$this->controller}/import");
 
         $this->load->view('analisis_master/import', $data);
@@ -302,7 +298,6 @@ class Analisis_master extends Admin_Controller
     public function import_gform()
     {
         $this->redirect_hak_akses('u');
-        $this->set_minsidebar(1);
         $data['form_action'] = site_url("{$this->controller}/exec_import_gform");
 
         $this->load->view('analisis_master/import_gform', $data);
@@ -331,7 +326,6 @@ class Analisis_master extends Admin_Controller
         // $this->load->model('analisis_respon_model');
         // $this->analisis_respon_model->pre_update();
 
-        $this->set_minsidebar(1);
         $this->render('analisis_master/menu', $data);
     }
 

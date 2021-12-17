@@ -201,18 +201,14 @@ class Web_widget_model extends MY_Model
 
     public function insert()
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-
         $data            = $this->validasi($_POST);
         $data['enabled'] = 2;
         // Widget diberi urutan terakhir
         $data['urut'] = $this->urut_model->urut_max() + 1;
 
         $outp = $this->db->insert('widget', $data);
-        if (! $outp) {
-            $_SESSION['success'] = -1;
-        }
+
+        status_sukses($outp);
     }
 
     private function validasi($post)
@@ -231,16 +227,12 @@ class Web_widget_model extends MY_Model
 
     public function update($id = 0)
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-
         $data = $this->validasi($_POST);
 
         $this->db->where('id', $id);
         $outp = $this->db->update('widget', $data);
-        if (! $outp) {
-            $_SESSION['success'] = -1;
-        }
+
+        status_sukses($outp);
     }
 
     public function get_setting($widget, $opsi = '')
@@ -320,9 +312,8 @@ class Web_widget_model extends MY_Model
         $setting = json_encode($setting);
         $data    = ['setting' => $setting];
         $outp    = $this->db->where('isi', $widget . '.php')->update('widget', $data);
-        if (! $outp) {
-            $_SESSION['success'] = -1;
-        }
+
+        status_sukses($outp);
     }
 
     public function delete($id = '', $semua = false)
@@ -333,7 +324,7 @@ class Web_widget_model extends MY_Model
 
         $outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_all()
@@ -343,7 +334,7 @@ class Web_widget_model extends MY_Model
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
+            $this->delete($id, true);
         }
     }
 

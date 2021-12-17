@@ -93,7 +93,7 @@
 													</select>
 												</td>
 												<td width='25%'>
-													<input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="15" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
+													<input id="tag_id_card" name="tag_id_card" class="form-control input-sm digits" type="text" minlength="10" maxlength="17" placeholder="Tag Id Card" value="<?= $penduduk['tag_id_card']?>"></input>
 												</td>
 											</tr>
 										</tbody>

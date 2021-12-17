@@ -117,7 +117,6 @@ class Gis extends Admin_Controller
         $data['rt_gis']               = $this->wilayah_model->list_rt();
         $data['list_ref']             = $this->referensi_model->list_ref(STAT_PENDUDUK);
         $data['persil']               = $this->data_persil_model->list_data();
-        $this->set_minsidebar(1);
         $this->render('gis/maps', $data);
     }
 

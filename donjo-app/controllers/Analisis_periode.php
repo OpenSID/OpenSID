@@ -84,7 +84,6 @@ class Analisis_periode extends Admin_Controller
         $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
         $data['list_state']      = $this->analisis_periode_model->list_state();
 
-        $this->set_minsidebar(1);
         $this->render('analisis_periode/table', $data);
     }
 
@@ -104,7 +103,6 @@ class Analisis_periode extends Admin_Controller
 
         $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 
-        $this->set_minsidebar(1);
         $this->render('analisis_periode/form', $data);
     }
 
