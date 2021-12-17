@@ -64,33 +64,32 @@
 								</div>
 							</div>
 						</div>
-					<?php endif; ?>
-
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<b>Pintasan</b>
-						</div>
-						<div class="box-body box-profile">
-							<div class="small-box bg-aqua">
-								<div class="inner">
-									<h4>Pengaturan Surat</h4><br>
-								</div>
-								<div class="icon">
-									<i class="ion-ios-paper"></i>
-								</div>
-								<a href="<?=site_url('surat_master')?>" class="small-box-footer">Lihat Pengaturan <i class="fa fa-arrow-circle-right"></i></a>
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<b>Pintasan</b>
 							</div>
-							<div class="small-box bg-blue">
-								<div class="inner">
-									<h4>Syarat Surat</h4><br>
+							<div class="box-body box-profile">
+								<div class="small-box bg-aqua">
+									<div class="inner">
+										<h4>Pengaturan Surat</h4><br>
+									</div>
+									<div class="icon">
+										<i class="ion-ios-paper"></i>
+									</div>
+									<a href="<?=site_url('surat_master')?>" class="small-box-footer">Lihat Pengaturan <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
-								<div class="icon">
-									<i class="ion-ios-paper"></i>
+								<div class="small-box bg-blue">
+									<div class="inner">
+										<h4>Syarat Surat</h4><br>
+									</div>
+									<div class="icon">
+										<i class="ion-ios-paper"></i>
+									</div>
+									<a href="<?=site_url('surat_mohon')?>" class="small-box-footer">Lihat Pengaturan <i class="fa fa-arrow-circle-right"></i></a>
 								</div>
-								<a href="<?=site_url('surat_mohon')?>" class="small-box-footer">Lihat Pengaturan <i class="fa fa-arrow-circle-right"></i></a>
 							</div>
 						</div>
-					</div>
+						<?php endif; ?>
 				</div>
 				<div class="col-md-9">
 				<?php else: ?>
