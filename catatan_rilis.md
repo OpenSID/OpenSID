@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 12. [#4564](https://github.com/OpenSID/OpenSID/issues/4564) Perbaiki pengaturan peta yang tidak dapat menyimpan warna.
 13. [#4585](https://github.com/OpenSID/OpenSID/issues/4585) Perbaiki tampilkan notifikasi error, jika widget gagal disimpan beserta penyebabnya.
 14. [#4598](https://github.com/OpenSID/OpenSID/issues/4598) Perbaiki Error impor SIAK.
+15. [#4542](https://github.com/OpenSID/OpenSID/issues/4542) Perbaiki Cetak Surat Kelahiran
 
 
 #### Perubahan Teknis
