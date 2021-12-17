@@ -1,13 +1,3 @@
-<?php
-/**
- * File ini:
- *
- * View untuk modul Pemetaan (Garis)
- *
- * /donjo-app/views/garis/form.php
- */
-?>
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Pengaturan Garis</h1>
@@ -40,10 +30,10 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3">Kategori</label>
 								<div class="col-sm-7">
-									<select class="form-control input-sm" id="ref_line" name="ref_line" style="width:100%;">
-									<option value="">Kategori</option>
+									<select class="form-control input-sm required" id="ref_line" name="ref_line">
+									<option value="">Pilih Kategori</option>
 									<?php foreach ($list_subline as $data): ?>
-										<option <?php if ($garis['ref_line'] == $data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
+										<option value="<?= $data['id']; ?>" <?= selected($garis['ref_line'], $data['id']); ?>><?= $data['nama']; ?></option>
 									<?php endforeach; ?>
 									</select>
 								</div>
@@ -52,7 +42,7 @@
 								<div class="form-group">
 									<label class="control-label col-sm-3"></label>
 									<div class="col-sm-7">
-									  <img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_FOTO_GARIS?>kecil_<?= $garis['foto']?>" alt="Foto">
+										<img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_FOTO_GARIS?>kecil_<?= $garis['foto']?>" alt="Foto">
 									</div>
 								</div>
 							<?php endif; ?>
@@ -88,10 +78,8 @@
 							</div>
 						</div>
 						<div class='box-footer'>
-							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
-							</div>
+							<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+							<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 						</div>
 					</div>
 				</div>
@@ -100,15 +88,15 @@
 	</section>
 </div>
 <script>
-	function reset_form()
-	{
-		<?php if ($lokasi['enabled'] == '1' || $lokasi['enabled'] == null): ?>
-			$("#sx3").addClass('active');
-			$("#sx4").removeClass("active");
-		<?php endif ?>
-		<?php if ($lokasi['enabled'] == '2'): ?>
+	function reset_form() {
+		var enabled = '<?= $lokasi['enabled']; ?>';
+
+		if (enabled == 2) {
 			$("#sx4").addClass('active');
 			$("#sx3").removeClass("active");
-		<?php endif ?>
+		} else {
+			$("#sx3").addClass('active');
+			$("#sx4").removeClass("active");
+		}
 	};
 </script>
