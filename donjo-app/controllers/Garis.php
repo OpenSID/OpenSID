@@ -100,7 +100,7 @@ class Garis extends Admin_Controller
         $data['list_line']    = $this->plan_garis_model->list_line();
         $data['list_subline'] = $this->plan_garis_model->list_subline();
         $data['tip']          = 1;
-        
+
         $this->render('garis/table', $data);
     }
 
