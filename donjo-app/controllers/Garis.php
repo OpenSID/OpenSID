@@ -48,7 +48,6 @@ class Garis extends Admin_Controller
         $this->load->model('plan_area_model');
         $this->load->model('plan_garis_model');
         $this->load->model('pembangunan_model');
-        $this->load->model('pembangunan_dokumentasi_model');
         $this->modul_ini     = 9;
         $this->sub_modul_ini = 8;
     }
@@ -217,6 +216,7 @@ class Garis extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->update($id);
+        
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
