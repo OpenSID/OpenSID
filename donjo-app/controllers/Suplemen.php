@@ -130,7 +130,7 @@ class Suplemen extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
-        
+
         redirect("{$this->controller}/rincian/{$id_rincian}");
     }
 
@@ -141,7 +141,7 @@ class Suplemen extends Admin_Controller
         if ($id) {
             $this->session->id_rincian = $id;
             $this->session->unset_userdata('cari');
-            
+
             redirect("{$this->controller}/rincian/{$id}");
         }
         //Untuk index Suplemen
