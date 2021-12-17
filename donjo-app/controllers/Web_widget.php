@@ -64,7 +64,8 @@ class Web_widget extends Admin_Controller
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
-        redirect('web_widget');
+
+        redirect($this->controller);
     }
 
     public function index($page = 0, $o = 0)
@@ -97,7 +98,7 @@ class Web_widget extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $data['p'] = $p;
         $data['o'] = $o;
 
@@ -105,10 +106,10 @@ class Web_widget extends Admin_Controller
 
         if ($id) {
             $data['widget']      = $this->web_widget_model->get_widget($id);
-            $data['form_action'] = site_url("web_widget/update/{$id}/{$p}/{$o}");
+            $data['form_action'] = site_url("{$this->controller}/update/{$id}/{$p}/{$o}");
         } else {
             $data['widget']      = null;
-            $data['form_action'] = site_url('web_widget/insert');
+            $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
         $this->render('web/artikel/widget-form', $data);
@@ -122,13 +123,14 @@ class Web_widget extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
-        redirect('web_widget');
+
+        redirect($this->controller);
     }
 
     public function admin($widget)
     {
         $this->set_minsidebar(1);
-        $data['form_action'] = site_url('web_widget/update_setting/' . $widget);
+        $data['form_action'] = site_url("{$this->controller}/update_setting/{$widget}");
         $data['setting']     = $this->web_widget_model->get_setting($widget);
 
         $this->render('widgets/admin_' . $widget, $data);
@@ -136,43 +138,50 @@ class Web_widget extends Admin_Controller
 
     public function update_setting($widget)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
+        $this->cek_tidy();
         $setting = $this->input->post('setting');
         $this->web_widget_model->update_setting($widget, $setting);
-        redirect("web_widget/admin/{$widget}");
+
+        redirect("{$this->controller}/admin/{$widget}");
     }
 
     public function insert()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->web_widget_model->insert();
-        redirect('web_widget');
+
+        redirect($this->controller);
     }
 
     public function update($id = '', $p = 1, $o = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
+        $this->cek_tidy();
         $this->web_widget_model->update($id);
-        redirect('web_widget');
+
+        redirect($this->controller);
     }
 
     public function delete($p = 1, $o = 0, $id = '')
     {
-        $this->redirect_hak_akses('h', 'web_widget');
+        $this->redirect_hak_akses('h');
         $this->web_widget_model->delete($id);
-        redirect('web_widget');
+
+        redirect($this->controller);
     }
 
     public function delete_all($p = 1, $o = 0)
     {
-        $this->redirect_hak_akses('h', 'web_widget');
+        $this->redirect_hak_akses('h');
         $this->web_widget_model->delete_all();
-        redirect('web_widget');
+
+        redirect($this->controller);
     }
 
     public function urut($id = 0, $arah = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $urut  = $this->web_widget_model->urut($id, $arah);
         $range = $this->session->urut_range;
         $page  = $this->session->page;
@@ -183,20 +192,32 @@ class Web_widget extends Admin_Controller
             $page++;
         }
 
-        redirect("web_widget/index/{$page}");
+        redirect("{$this->controller}/index/{$page}");
     }
 
     public function lock($id = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->web_widget_model->lock($id, 1);
-        redirect('web_widget');
+
+        redirect($this->controller);
     }
 
     public function unlock($id = 0)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->web_widget_model->lock($id, 2);
-        redirect('web_widget');
+
+        redirect($this->controller);
+    }
+
+    private function cek_tidy()
+    {
+        if (! in_array('tidy', get_loaded_extensions())) {
+            $this->session->success   = -1;
+            $this->session->error_msg = '<br/>Ektensi <code>tidy</code> tidak aktif. Silahkan cek <a href="' . site_url('info_sistem') . '"><b>Pengaturan > Info Sistem > Kebutuhan Sistem.</a></b>';
+
+            redirect($this->controller);
+        }
     }
 }

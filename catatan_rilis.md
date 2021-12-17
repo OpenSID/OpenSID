@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 10. [#4378](https://github.com/OpenSID/OpenSID/issues/4378) Penyesuaian daftar surat ubahan desa secara otomatis.
 11. [#4392](https://github.com/OpenSID/OpenSID/issues/4392) Perbaiki status perkwinan modul penduduk dan keluarga.
 12. [#4564](https://github.com/OpenSID/OpenSID/issues/4564) Perbaiki pengaturan peta yang tidak dapat menyimpan warna.
-13. [#4598](https://github.com/OpenSID/OpenSID/issues/4598) Perbaiki Error impor SIAK
+13. [#4585](https://github.com/OpenSID/OpenSID/issues/4585) Perbaiki tampilkan notifikasi error, jika widget gagal disimpan beserta penyebabnya.
+14. [#4598](https://github.com/OpenSID/OpenSID/issues/4598) Perbaiki Error impor SIAK.
 
 #### Perubahan Teknis
