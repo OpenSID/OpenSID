@@ -1110,7 +1110,8 @@ class Surat_model extends CI_Model
             $this->buat_qrcode($data, $nama_surat);
         }
         $this->lampiran($data, $nama_surat, $lampiran);
-        $this->surat_utama($data, $nama_surat);
+
+        return $this->surat_utama($data, $nama_surat);
     }
 
     public function surat_utama($data, &$nama_surat)
@@ -1122,31 +1123,39 @@ class Surat_model extends CI_Model
         $handle       = fopen($berkas_arsip, 'w+b');
         fwrite($handle, $rtf);
         fclose($handle);
+
+        return $nama_surat;
+    }
+
+    public function rtf_to_pdf($nama_surat)
+    {
+        $lokasi_arsip = FCPATH . LOKASI_ARSIP;
+        $berkas_arsip = $lokasi_arsip . $nama_surat;
+
         if (! empty($this->setting->libreoffice_path)) {
             // Untuk konversi rtf ke pdf, libreoffice harus terinstall
             if (strpos(strtoupper(php_uname('s')), 'WIN') !== false) {
                 // Windows O/S
                 $berkas_arsip_win = str_replace('/', '\\', $berkas_arsip);
-                $fcpath           = str_replace('/', '\\', FCPATH);
-                $outdir           = rtrim(str_replace('/', '\\', FCPATH . LOKASI_ARSIP), '/\\');
-                $cmd              = 'cd ' . $this->setting->libreoffice_path;
-                $cmd              = $cmd . ' && soffice --headless --convert-to pdf:writer_pdf_Export --outdir ' . $outdir . ' ' . $fcpath . $berkas_arsip_win;
+                $outdir           = rtrim(str_replace('/', '\\', $lokasi_arsip), '/\\');
+                $cmd              = '"' . $this->setting->libreoffice_path . '\\soffice.exe"';
+                $cmd              = $cmd . ' --headless --convert-to pdf:writer_pdf_Export --outdir "' . $outdir . '" "' . $berkas_arsip_win . '"';
             } elseif ($this->setting->libreoffice_path == '/') {
                 // Linux menggunakan stand-alone LibreOffice
-                $cmd = '' . FCPATH . 'vendor/libreoffice/opt/libreoffice/program/soffice --headless --norestore --convert-to pdf --outdir ' . FCPATH . LOKASI_ARSIP . ' ' . FCPATH . $berkas_arsip;
+                $cmd = '' . FCPATH . 'vendor/libreoffice/opt/libreoffice/program/soffice --headless --norestore --convert-to pdf --outdir ' . $lokasi_arsip . ' ' . $berkas_arsip;
             } else {
                 // Linux menggunakan LibreOffice yg dipasang menggunakan 'sudo apt-get'
-                $cmd = 'libreoffice --headless --norestore --convert-to pdf --outdir ' . FCPATH . LOKASI_ARSIP . ' ' . FCPATH . $berkas_arsip;
+                $cmd = 'libreoffice --headless --norestore --convert-to pdf --outdir ' . $lokasi_arsip . ' ' . $berkas_arsip;
             }
             exec($cmd, $output, $return);
             // Kalau berhasil, pakai pdf
             if ($return == 0) {
-                $nama_surat   = pathinfo($nama_surat, PATHINFO_FILENAME) . '.pdf';
-                $berkas_arsip = $path_arsip . $nama_surat;
+                return pathinfo($nama_surat, PATHINFO_FILENAME) . '.pdf';
             }
         }
 
-        $_SESSION['success'] = 8;
+        // Kembalikan surat .rtf
+        return $nama_surat;
     }
 
     public function get_last_nosurat_log($url)

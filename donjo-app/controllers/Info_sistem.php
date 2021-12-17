@@ -52,10 +52,11 @@ class Info_sistem extends Admin_Controller
         // Logs viewer
         $this->load->library('Log_Viewer');
 
-        $data             = $this->log_viewer->showLogs();
-        $data['ekstensi'] = $this->setting_model->cek_ekstensi();
-        $data['php']      = $this->setting_model->cek_php();
-        $data['mysql']    = $this->setting_model->cek_mysql();
+        $data                      = $this->log_viewer->showLogs();
+        $data['ekstensi']          = $this->setting_model->cek_ekstensi();
+        $data['php']               = $this->setting_model->cek_php();
+        $data['mysql']             = $this->setting_model->cek_mysql();
+        $data['disable_functions'] = $this->setting_model->disable_functions();
 
         $this->render('setting/info_sistem/index', $data);
     }

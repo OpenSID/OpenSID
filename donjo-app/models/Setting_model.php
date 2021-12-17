@@ -273,6 +273,25 @@ class Setting_model extends CI_Model
         return $data;
     }
 
+    public function disable_functions()
+    {
+        $wajib    = ['exec'];
+        $disabled = explode(',', ini_get('disable_functions'));
+
+        $functions = [];
+        $lengkap   = true;
+
+        foreach ($wajib as $fuc) {
+            $functions[$fuc] = (in_array($fuc, $disabled)) ? false : true;
+            $lengkap         = $lengkap && $functions[$fuc];
+        }
+
+        $data['lengkap']   = $lengkap;
+        $data['functions'] = $functions;
+
+        return $data;
+    }
+
     public function cek_php()
     {
         $data['versi']         = PHP_VERSION;
