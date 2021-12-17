@@ -39,6 +39,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 18. [#4596](https://github.com/OpenSID/OpenSID/issues/4596) Perbaiki Suplemen Tidak dapat impor data suplemen sasaran keluarga
 19. [#4595](https://github.com/OpenSID/OpenSID/issues/4595) Perbaiki Ubah panjang value pada kolom tag_id_card.
 20. [#4593](https://github.com/OpenSID/OpenSID/issues/4593) Error saat menyimpan peta, dengan data yg tidak lengkap.
+21. [#4574](https://github.com/OpenSID/OpenSID/issues/4574) Tampilkan data artikel sesuai dengan pengaturan Grup dan Pengguna.
 
 #### Perubahan Teknis
+
 1. [#4583](https://github.com/OpenSID/OpenSID/issues/4583) Perbaiki .htaccess untuk file zip dan rar / Backup folder desa lewat hosting.
