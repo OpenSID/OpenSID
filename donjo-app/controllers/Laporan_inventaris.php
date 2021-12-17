@@ -47,7 +47,6 @@ class Laporan_inventaris extends Admin_Controller
         $this->load->model(['inventaris_laporan_model', 'pamong_model', 'surat_model']);
         $this->modul_ini     = 15;
         $this->sub_modul_ini = 61;
-        $this->set_minsidebar(1);
     }
 
     public function index()

@@ -82,7 +82,15 @@ class Line extends Admin_Controller
         $data['keyword']  = $this->plan_line_model->autocomplete();
         $data['tip']      = 2;
 
+<<<<<<< HEAD
         $this->set_minsidebar(1);
+=======
+        $data['paging']  = $this->plan_line_model->paging($p, $o);
+        $data['main']    = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword'] = $this->plan_line_model->autocomplete();
+        $data['tip']     = 2;
+
+>>>>>>> bug-fix
         $this->render('line/table', $data);
     }
 
@@ -102,7 +110,6 @@ class Line extends Admin_Controller
 
         $data['tip'] = 2;
 
-        $this->set_minsidebar(1);
         $this->render('line/form', $data);
     }
 
@@ -111,8 +118,11 @@ class Line extends Admin_Controller
         $data['subline'] = $this->plan_line_model->list_sub_line($line);
         $data['line']    = $this->plan_line_model->get_line($line);
         $data['tip']     = 2;
+<<<<<<< HEAD
 
         $this->set_minsidebar(1);
+=======
+>>>>>>> bug-fix
         $this->render('line/sub_line_table', $data);
     }
 

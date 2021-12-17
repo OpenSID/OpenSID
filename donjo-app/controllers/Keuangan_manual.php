@@ -86,7 +86,6 @@ class Keuangan_manual extends Admin_Controller
         ];
         $this->session->set_userdata($sess_manual);
         $this->load->model('keuangan_grafik_manual_model');
-        $this->set_minsidebar(1);
         $thn = $this->session->set_tahun;
 
         switch ($jenis) {

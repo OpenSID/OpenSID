@@ -111,7 +111,6 @@ class Keluarga extends Admin_Controller
         $data['list_sex']   = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['list_dusun'] = $this->wilayah_model->list_dusun();
 
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/keluarga', $data);
     }
 
@@ -273,7 +272,6 @@ class Keluarga extends Admin_Controller
             $data['penduduk'] = $_SESSION['post'];
         }
 
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/keluarga_form_a', $data);
     }
 
@@ -427,7 +425,6 @@ class Keluarga extends Admin_Controller
         $data['kepala_kk'] = $this->keluarga_model->get_kepala_kk($id);
         $data['program']   = $this->program_bantuan_model->get_peserta_program(2, $data['kepala_kk']['no_kk']);
 
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/keluarga_anggota', $data);
     }
 

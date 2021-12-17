@@ -46,7 +46,6 @@ class Bumindes_tanah_kas_desa extends Admin_Controller
         $this->controller    = 'bumindes_tanah_kas_desa';
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 302;
-        $this->set_minsidebar(1);
     }
 
     public function index()

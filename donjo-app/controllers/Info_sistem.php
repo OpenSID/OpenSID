@@ -44,7 +44,6 @@ class Info_sistem extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 46;
-        $this->set_minsidebar(1);
     }
 
     public function index()

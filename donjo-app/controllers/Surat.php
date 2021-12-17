@@ -88,7 +88,6 @@ class Surat extends Admin_Controller
         $data['form_action']  = site_url("surat/doc/{$url}");
         $data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
 
-        $this->set_minsidebar(1);
         $this->render('surat/form_surat', $data);
     }
 

@@ -45,6 +45,7 @@ class Migrasi_fitur_premium_2201 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2112');
+<<<<<<< HEAD
         $hasil = $hasil && $this->migrasi_2021120271($hasil);
         $hasil = $hasil && $this->migrasi_2021120371($hasil);
         $hasil = $hasil && $this->migrasi_2021120971($hasil);
@@ -176,5 +177,24 @@ class Migrasi_fitur_premium_2201 extends MY_model
         }
 
         return $hasil;
+=======
+
+        return $hasil && $this->migrasi_2021121651($hasil);
+    }
+
+    protected function migrasi_2021121651($hasil)
+    {
+        // Ubah panjang kolom tag_id_card
+        $fields = [
+            'tag_id_card' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 17,
+                'null'       => true,
+                'default'    => null,
+            ],
+        ];
+
+        return $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
+>>>>>>> bug-fix
     }
 }

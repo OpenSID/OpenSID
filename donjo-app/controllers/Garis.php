@@ -101,7 +101,11 @@ class Garis extends Admin_Controller
         $data['list_subline'] = $this->plan_garis_model->list_subline();
         $data['tip']          = 1;
 
+<<<<<<< HEAD
         $this->set_minsidebar(1);
+=======
+        $data['tip'] = 1;
+>>>>>>> bug-fix
         $this->render('garis/table', $data);
     }
 
@@ -122,7 +126,6 @@ class Garis extends Admin_Controller
         $data['list_subline'] = $this->plan_garis_model->list_subline();
         $data['tip']          = 1;
 
-        $this->set_minsidebar(1);
         $this->render('garis/form', $data);
     }
 

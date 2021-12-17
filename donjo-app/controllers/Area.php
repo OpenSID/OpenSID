@@ -91,7 +91,6 @@ class Area extends Admin_Controller
         $data['list_subpolygon'] = $this->plan_area_model->list_subpolygon();
 
         $data['tip'] = 4;
-        $this->set_minsidebar(1);
         $this->render('area/table', $data);
     }
 
@@ -112,7 +111,6 @@ class Area extends Admin_Controller
         $data['list_polygon'] = $this->plan_area_model->list_polygon();
         $data['tip']          = 4;
 
-        $this->set_minsidebar(1);
         $this->render('area/form', $data);
     }
 

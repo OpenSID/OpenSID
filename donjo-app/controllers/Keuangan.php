@@ -84,7 +84,6 @@ class Keuangan extends Admin_Controller
         ];
         $this->session->set_userdata($sess);
         $this->load->model('keuangan_grafik_model');
-        $this->set_minsidebar(1);
 
         $smt = $this->session->userdata('set_semester');
         $thn = $this->session->userdata('set_tahun');
