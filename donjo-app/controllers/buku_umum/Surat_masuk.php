@@ -94,7 +94,6 @@ class Surat_masuk extends Admin_Controller
         $data['subtitle']         = 'Buku Agenda - Surat Masuk';
         $data['selected_nav']     = 'agenda_masuk';
 
-        $this->set_minsidebar(1);
         $this->render('bumindes/umum/main', $data);
     }
 
@@ -124,7 +123,6 @@ class Surat_masuk extends Admin_Controller
         $ekstensiFile                       = explode('.', end($berkas));
         $ekstensiFile                       = end($ekstensiFile);
         $data['surat_masuk']['berkas_scan'] = $namaFile . '.' . $ekstensiFile;
-        $this->set_minsidebar(1);
 
         $this->render('surat_masuk/form', $data);
     }

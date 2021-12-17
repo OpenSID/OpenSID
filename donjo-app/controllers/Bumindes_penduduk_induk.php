@@ -89,7 +89,6 @@ class Bumindes_penduduk_induk extends Admin_Controller
         // TODO : Cari cara agar bisa digabungkan ke array $data = [] (tdk terpisah)
         $data['main'] = $list_data['main'];
 
-        $this->set_minsidebar(1);
         $this->render('bumindes/penduduk/main', $data);
     }
 

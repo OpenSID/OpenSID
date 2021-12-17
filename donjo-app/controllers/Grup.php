@@ -59,7 +59,6 @@ class Grup extends Admin_Controller
 
     public function index($p = 1, $o = 0)
     {
-        $this->set_minsidebar(1);
         $this->tab_ini = 11;
         $data['p']     = $p;
         $data['o']     = $o;
