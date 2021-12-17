@@ -170,6 +170,8 @@ define('NILAI_PENDAPAT', serialize([
  */
 function AmbilVersi()
 {
+    define('PREMIUM', preg_match('/-premium.*/', VERSION) ? true : false);
+
     return VERSION;
 }
 
@@ -452,9 +454,10 @@ function max_upload()
 function get_external_ip()
 {
     // Batasi waktu mencoba
-    $options = stream_context_create(['http' => [
-        'timeout' => 2, //2 seconds
-    ],
+    $options = stream_context_create([
+        'http' => [
+            'timeout' => 2, //2 seconds
+        ],
     ]);
     $externalContent = file_get_contents('http://checkip.dyndns.com/', false, $options);
     preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
@@ -875,50 +878,50 @@ function convertToBytes(string $from)
     return $number * (1024 ** $exponent);
 }
 
-    /**
-     * Disalin dari FeedParser.php
-     * Load the whole contents of a web page
-     *
-     * @param    string
-     * @param mixed $url
-     *
-     * @return string
-     */
-    function getUrlContent($url)
-    {
-        if (empty($url)) {
-            throw new Exception('URL to parse is empty!.');
-
-            return false;
-        }
-        if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
-            throw new Exception('URL harus http atau https');
-
-            return false;
-        }
-        if ($content = @file_get_contents($url)) {
-            return $content;
-        }
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $content = curl_exec($ch);
-        $error   = curl_error($ch);
-
-        curl_close($ch);
-
-        if (empty($error)) {
-            return $content;
-        }
-
-        log_message('error', "Error occured while loading url by cURL. <br />\n" . $error);
+/**
+ * Disalin dari FeedParser.php
+ * Load the whole contents of a web page
+ *
+ * @param    string
+ * @param mixed $url
+ *
+ * @return string
+ */
+function getUrlContent($url)
+{
+    if (empty($url)) {
+        throw new Exception('URL to parse is empty!.');
 
         return false;
     }
+    if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
+        throw new Exception('URL harus http atau https');
+
+        return false;
+    }
+    if ($content = @file_get_contents($url)) {
+        return $content;
+    }
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $content = curl_exec($ch);
+    $error   = curl_error($ch);
+
+    curl_close($ch);
+
+    if (empty($error)) {
+        return $content;
+    }
+
+    log_message('error', "Error occured while loading url by cURL. <br />\n" . $error);
+
+    return false;
+}
 
 function crawler()
 {

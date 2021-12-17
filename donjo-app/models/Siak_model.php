@@ -121,7 +121,8 @@ class Siak_model extends Import_model
         $isi_baris['nama'] = $nama;
 
         // Konversi status dasar dari string / integer.
-        $isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($data->val($i, $kolom_impor['status_dasar'])));
+
+        $isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, $data->val($i, $kolom_impor['status_dasar']));
 
         // Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
         // yang tidak tampak (non-printable characters),
@@ -130,20 +131,16 @@ class Siak_model extends Import_model
         $no_kk              = preg_replace('/[^0-9]/', '', $no_kk);
         $isi_baris['no_kk'] = $no_kk;
 
-        $isi_baris['nik']         = buang_nondigit($data->val($i, $kolom_impor['nik']));
-        $isi_baris['sex']         = $this->get_konversi_kode($this->kode_sex, trim($data->val($i, $kolom_impor['sex'])));
-        $isi_baris['tempatlahir'] = trim($data->val($i, $kolom_impor['tempatlahir']));
-
-        $isi_baris['tanggallahir'] = $this->format_tanggal($data->val($i, $kolom_impor['tanggallahir']));
-
-        $isi_baris['agama_id']         = $this->get_konversi_kode($this->kode_agama, trim($data->val($i, $kolom_impor['agama_id'])));
-        $isi_baris['pendidikan_kk_id'] = $this->get_konversi_kode($this->kode_pendidikan, $this->normalkan_data(trim($data->val($i, $kolom_impor['pendidikan_kk_id']))));
-
-        $isi_baris['pekerjaan_id'] = $this->get_konversi_kode($this->kode_pekerjaan, $this->normalkan_data(trim($data->val($i, $kolom_impor['pekerjaan_id']))));
-        $isi_baris['status_kawin'] = $this->get_konversi_kode($this->kode_status, trim($data->val($i, $kolom_impor['status_kawin'])));
-        $isi_baris['kk_level']     = $this->get_konversi_kode($this->kode_hubungan, trim($data->val($i, $kolom_impor['kk_level'])));
-        // TODO: belum ada kode_warganegara
-        $isi_baris['warganegara_id'] = trim($data->val($i, $kolom_impor['warganegara_id']));
+        $isi_baris['nik']              = buang_nondigit($data->val($i, $kolom_impor['nik']));
+        $isi_baris['sex']              = $this->get_konversi_kode($this->kode_sex, $data->val($i, $kolom_impor['sex']));
+        $isi_baris['tempatlahir']      = trim($data->val($i, $kolom_impor['tempatlahir']));
+        $isi_baris['tanggallahir']     = $this->format_tanggal($data->val($i, $kolom_impor['tanggallahir']));
+        $isi_baris['agama_id']         = $this->get_konversi_kode($this->kode_agama, $data->val($i, $kolom_impor['agama_id']));
+        $isi_baris['pendidikan_kk_id'] = $this->get_konversi_kode($this->kode_pendidikan_kk, $data->val($i, $kolom_impor['pendidikan_kk_id']));
+        $isi_baris['pekerjaan_id']     = $this->get_konversi_kode($this->kode_pekerjaan, $this->normalkan_data($data->val($i, $kolom_impor['pekerjaan_id'])));
+        $isi_baris['status_kawin']     = $this->get_konversi_kode($this->kode_status, $data->val($i, $kolom_impor['status_kawin']));
+        $isi_baris['kk_level']         = $this->get_konversi_kode($this->kode_hubungan, $data->val($i, $kolom_impor['kk_level']));
+        $isi_baris['warganegara_id']   = $this->get_konversi_kode($this->kode_warganegara, $data->val($i, $kolom_impor['warganegara_id']));
 
         $nama_ayah = trim($data->val($i, $kolom_impor['nama_ayah']));
         if ($nama_ayah == '') {
@@ -157,7 +154,7 @@ class Siak_model extends Import_model
         }
         $isi_baris['nama_ibu'] = $nama_ibu;
 
-        $isi_baris['golongan_darah_id'] = $this->get_konversi_kode($this->kode_golongan_darah, trim($data->val($i, $kolom_impor['golongan_darah_id'])));
+        $isi_baris['golongan_darah_id'] = $this->get_konversi_kode($this->kode_golongan_darah, $data->val($i, $kolom_impor['golongan_darah_id']));
         $isi_baris['akta_lahir']        = trim($data->val($i, $kolom_impor['akta_lahir']));
         $isi_baris['dokumen_pasport']   = trim($data->val($i, $kolom_impor['dokumen_pasport']));
 
@@ -167,7 +164,7 @@ class Siak_model extends Import_model
         $isi_baris['tanggalperkawinan'] = $this->format_tanggal($data->val($i, $kolom_impor['tanggalperkawinan']));
         $isi_baris['akta_perceraian']   = trim($data->val($i, $kolom_impor['akta_perceraian']));
         $isi_baris['tanggalperceraian'] = $this->format_tanggal($data->val($i, $kolom_impor['tanggalperceraian']));
-        $isi_baris['cacat_id']          = $this->get_konversi_kode($this->kode_cacat, trim($data->val($i, $kolom_impor['cacat_id'])));
+        $isi_baris['cacat_id']          = $this->get_konversi_kode($this->kode_cacat, $data->val($i, $kolom_impor['cacat_id']));
 
         // Untuk tulis ke log_penduduk
         $isi_baris['status_dasar_orig'] = trim($data->val($i, $kolom_impor['status_dasar']));

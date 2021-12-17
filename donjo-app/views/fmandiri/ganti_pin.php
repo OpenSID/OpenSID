@@ -54,7 +54,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<form action="<?= $form_action; ?>" method="POST" id="validasi">
 					<div class="box-body">
 						<?php $gagal = $data = $this->session->flashdata('notif'); ?>
-						<?php if ($data['status'] == -1): ?>
+						<?php if ($data['status'] == -1) : ?>
 							<div class="callout callout-danger">
 								<?= $gagal['pesan']; ?>
 							</div>
@@ -93,18 +93,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(document).ready(function() {
 		setTimeout(function() {
 			$('#pin_baru2').rules('add', {
 				equalTo: '#pin_baru1'
 			});
 		}, 500);
-
-		window.setTimeout(function() {
-			$(".callout").fadeTo(500, 0).slideUp(500, function(){
-				$(this).remove();
-			});
-		}, 5000);
 	});
 
 	function show(elem) {

@@ -214,6 +214,10 @@ $route[$mandiri . '/surat/form/(:num)'] = MANDIRI . '/surat/form/$1';
 // Lapak
 $route[$mandiri . '/lapak']        = MANDIRI . '/lapak';
 $route[$mandiri . '/lapak/(:num)'] = MANDIRI . '/lapak/index/$1';
+//Verifikasi
+$route[$mandiri . '/verifikasi/telegram']              = MANDIRI . '/verifikasi/telegram';
+$route[$mandiri . '/verifikasi/telegram/kirim-userid'] = MANDIRI . '/verifikasi/kirim_otp_telegram';
+$route[$mandiri . '/verifikasi/telegram/kirim-otp']    = MANDIRI . '/verifikasi/verifikasi_telegram';
 
 // Bantuan
 $route[$mandiri . '/bantuan'] = MANDIRI . '/bantuan';

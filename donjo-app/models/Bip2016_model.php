@@ -165,7 +165,7 @@ class Bip2016_model extends Import_model
         $data_anggota['sex']              = $this->get_kode($this->kode_sex, trim($data_sheet[$i][6]));
         $data_anggota['kk_level']         = $this->get_kode($this->kode_hubungan, strtolower(trim($data_sheet[$i][7])));
         $data_anggota['agama_id']         = $this->get_kode($this->kode_agama, strtolower(trim($data_sheet[$i][8])));
-        $data_anggota['pendidikan_kk_id'] = $this->get_kode($this->kode_pendidikan, strtolower(trim($data_sheet[$i][9])));
+        $data_anggota['pendidikan_kk_id'] = $this->get_kode($this->kode_pendidikan_kk, strtolower(trim($data_sheet[$i][9])));
         $data_anggota['pekerjaan_id']     = $this->get_kode($this->kode_pekerjaan, strtolower(trim($data_sheet[$i][10])));
         $nama_ibu                         = trim($data_sheet[$i][11]);
         $data_anggota['nama_ibu']         = ($nama_ibu == '') ? '-' : $nama_ibu;

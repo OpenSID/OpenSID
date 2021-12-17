@@ -64,6 +64,13 @@ class Release
     protected $interval;
 
     /**
+     * Version
+     *
+     * @var string
+     */
+    protected $version;
+
+    /**
      * Konstruktor
      */
     public function __construct()
@@ -149,14 +156,26 @@ class Release
     }
 
     /**
-     * Ambil versi rilis saat ini igunakan user.
-     * Contoh return value: 'v20.06-parsca'
+     * Atur versi yang digunakan saat ini
+     * Contoh return value: 'v20.06-pasca'
+     *
+     * @param string $version
+     */
+    public function set_current_version($version)
+    {
+        $this->version = 'v' . ltrim($version ?? VERSION, 'v');
+
+        return $this;
+    }
+
+    /**
+     * Ambil versi
      *
      * @return string
      */
     public function get_current_version()
     {
-        return 'v' . ltrim(VERSION, 'v');
+        return $this->version;
     }
 
     /**
@@ -180,6 +199,19 @@ class Release
     public function get_release_name()
     {
         return $this->resync()->name;
+    }
+
+    /**
+     * Ambil url download rilis
+     *
+     * @return string
+     */
+    public function get_release_download()
+    {
+        // Bisa menggunakan zipball_url, tapi penamaan file dan foldernya tidak sesuai rilis.
+        // Jadi digunakan html_url dengan penyesuaian.
+
+        return str_replace('releases/tag', 'archive/refs/tags', $this->resync()->html_url) . '.zip';
     }
 
     /**
@@ -234,6 +266,7 @@ class Release
                     'name'         => $response->body->name,
                     'zipball_url'  => $response->body->zipball_url,
                     'tarball_url'  => $response->body->tarball_url,
+                    'html_url'     => $response->body->html_url,
                     'body'         => $response->body->body,
                     'created_at'   => $response->body->created_at,
                     'published_at' => $response->body->published_at,
