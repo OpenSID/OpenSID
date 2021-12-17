@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan_garis_model extends MY_Model
 {
+    protected $table = 'garis';
+
     public function __construct()
     {
         parent::__construct();
@@ -46,7 +48,7 @@ class Plan_garis_model extends MY_Model
 
     public function autocomplete()
     {
-        return $this->autocomplete_str('nama', 'garis');
+        return $this->autocomplete_str('nama', $this->table);
     }
 
     private function search_sql()
@@ -160,12 +162,12 @@ class Plan_garis_model extends MY_Model
 
     private function validasi($post)
     {
-        $data['nama']     = nomor_surat_keputusan($post['nama']);
-        $data['ref_line'] = $post['ref_line'];
-        $data['desk']     = htmlentities($post['desk']);
-        $data['enabled']  = $post['enabled'];
-
-        return $data;
+        return [
+            'nama'     => nomor_surat_keputusan($post['nama']),
+            'ref_line' => $post['ref_line'],
+            'desk'     => htmlentities($post['desk']),
+            'enabled'  => bilangan($post['enabled']),
+        ];
     }
 
     public function insert()
@@ -179,11 +181,11 @@ class Plan_garis_model extends MY_Model
             if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
                 Uploadgaris($nama_file);
                 $data['foto'] = $nama_file;
-                $outp         = $this->db->insert('garis', $data);
+                $outp         = $this->db->insert($this->table, $data);
             }
         } else {
             unset($data['foto']);
-            $outp = $this->db->insert('garis', $data);
+            $outp = $this->db->insert($this->table, $data);
         }
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -200,12 +202,12 @@ class Plan_garis_model extends MY_Model
                 Uploadgaris($nama_file);
                 $data['foto'] = $nama_file;
                 $this->db->where('id', $id);
-                $outp = $this->db->update('garis', $data);
+                $outp = $this->db->update($this->table, $data);
             }
         } else {
             unset($data['foto']);
             $this->db->where('id', $id);
-            $outp = $this->db->update('garis', $data);
+            $outp = $this->db->update($this->table, $data);
         }
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -216,9 +218,9 @@ class Plan_garis_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->delete('garis');
+        $outp = $this->db->where('id', $id)->delete($this->table);
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_all()
@@ -228,7 +230,7 @@ class Plan_garis_model extends MY_Model
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
+            $this->delete($id, true);
         }
     }
 
@@ -247,6 +249,7 @@ class Plan_garis_model extends MY_Model
         return $data;
     }
 
+    // TODO: Pindahkan ke Plan_line_model
     public function list_subline()
     {
         $sql = 'SELECT * FROM line WHERE tipe = 2 ';
@@ -284,7 +287,7 @@ class Plan_garis_model extends MY_Model
     {
         $data = $_POST;
         $this->db->where('id', $id);
-        $outp = $this->db->update('garis', $data);
+        $outp = $this->db->update($this->table, $data);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -299,6 +302,7 @@ class Plan_garis_model extends MY_Model
             ->where('l.enabled', 1)
             ->where('p.enabled', 1)
             ->where('m.enabled', 1)
-            ->get()->result_array();
+            ->get()
+            ->result_array();
     }
 }
