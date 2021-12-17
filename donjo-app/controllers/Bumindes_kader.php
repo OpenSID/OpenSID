@@ -45,7 +45,6 @@ class Bumindes_kader extends Admin_Controller
         $this->load->model(['kader_model', 'pamong_model', 'penduduk_model']);
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 305;
-        $this->set_minsidebar(1);
     }
 
     public function index()

@@ -51,7 +51,6 @@ class Kelompok_master extends Admin_Controller
         $this->sub_modul_ini = 24;
         $this->_set_page     = ['20', '50', '100'];
         $this->_list_session = ['cari', 'filter'];
-        $this->set_minsidebar(1);
         $this->kelompok_master_model->set_tipe($this->tipe);
     }
 

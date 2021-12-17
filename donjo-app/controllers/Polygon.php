@@ -81,7 +81,6 @@ class Polygon extends Admin_Controller
         $data['main']     = $this->plan_polygon_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
         $data['keyword']  = $this->plan_polygon_model->autocomplete();
 
-        $this->set_minsidebar(1);
         $data['tip'] = 5;
         $this->render('polygon/table', $data);
     }
@@ -100,7 +99,6 @@ class Polygon extends Admin_Controller
             $data['form_action'] = site_url('polygon/insert');
         }
 
-        $this->set_minsidebar(1);
         $data['tip'] = 5;
         $this->render('polygon/form', $data);
     }
@@ -109,8 +107,7 @@ class Polygon extends Admin_Controller
     {
         $data['subpolygon'] = $this->plan_polygon_model->list_sub_polygon($polygon);
         $data['polygon']    = $this->plan_polygon_model->get_polygon($polygon);
-        $this->set_minsidebar(1);
-        $data['tip'] = 5;
+        $data['tip']        = 5;
         $this->render('polygon/sub_polygon_table', $data);
     }
 

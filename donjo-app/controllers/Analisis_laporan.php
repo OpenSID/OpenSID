@@ -118,7 +118,6 @@ class Analisis_laporan extends Admin_Controller
         $data['analisis_master']  = $this->analisis_master_model->analisis_master;
         $data['analisis_periode'] = $this->analisis_master_model->periode;
 
-        $this->set_minsidebar(1);
         $this->render('analisis_laporan/table', $data);
     }
 
@@ -143,7 +142,6 @@ class Analisis_laporan extends Admin_Controller
             $data['asubjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
         }
 
-        $this->set_minsidebar(1);
         $this->render('analisis_laporan/form', $data);
     }
 

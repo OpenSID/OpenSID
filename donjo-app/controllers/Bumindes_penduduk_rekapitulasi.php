@@ -82,7 +82,6 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller
 
         $data['main'] = $this->laporan_bulanan_model->rekapitulasi_list($data['paging']->offset, $data['paging']->per_page);
 
-        $this->set_minsidebar(1);
         $this->render('bumindes/penduduk/main', $data);
     }
 

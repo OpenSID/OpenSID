@@ -94,7 +94,6 @@ class Web extends Admin_Controller
         $data                  = $this->security->xss_clean($data);
         $data['paging']        = $paging;
 
-        $this->set_minsidebar(1);
         $this->render('web/artikel/table', $data);
     }
 
@@ -131,7 +130,6 @@ class Web extends Admin_Controller
         $data['cat']      = $cat;
         $data['kategori'] = $this->web_artikel_model->get_kategori($cat);
 
-        $this->set_minsidebar(1);
         $this->render('web/artikel/form', $data);
     }
 

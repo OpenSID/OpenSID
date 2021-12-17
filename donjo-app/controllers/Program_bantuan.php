@@ -134,7 +134,6 @@ class Program_bantuan extends Admin_Controller
         $data['func']     = "detail/{$program_id}";
         $data['per_page'] = $this->session->per_page;
         $data['set_page'] = $this->_set_page;
-        $this->set_minsidebar(1);
 
         $this->render('program_bantuan/detail', $data);
     }
@@ -166,7 +165,6 @@ class Program_bantuan extends Admin_Controller
         $data['individu']            = $this->program_bantuan_model->get_peserta($peserta_id, $data['peserta']['sasaran']);
         $data['individu']['program'] = $this->program_bantuan_model->get_peserta_program($data['peserta']['sasaran'], $data['peserta']['peserta']);
         $data['detail']              = $this->program_bantuan_model->get_data_program($data['peserta']['program_id']);
-        $this->set_minsidebar(1);
 
         $this->render('program_bantuan/data_peserta', $data);
     }
