@@ -85,7 +85,6 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller
 
         $data['main'] = $list_data['main'];
 
-        $this->set_minsidebar(1);
         $this->render('bumindes/penduduk/main', $data);
     }
 

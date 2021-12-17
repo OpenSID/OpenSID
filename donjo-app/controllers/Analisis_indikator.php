@@ -94,7 +94,6 @@ class Analisis_indikator extends Admin_Controller
         $data['list_tipe']       = $this->analisis_indikator_model->list_tipe();
         $data['list_kategori']   = $this->analisis_indikator_model->list_kategori();
 
-        $this->set_minsidebar(1);
         $this->render('analisis_indikator/table', $data);
     }
 
@@ -116,7 +115,6 @@ class Analisis_indikator extends Admin_Controller
         $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
         $data['data_tabel']      = $this->analisis_indikator_model->data_tabel($this->session->subjek_tipe);
 
-        $this->set_minsidebar(1);
         $this->render('analisis_indikator/form', $data);
     }
 
@@ -131,7 +129,6 @@ class Analisis_indikator extends Admin_Controller
         $data['analisis_master']    = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
         $data['main']               = $this->analisis_indikator_model->list_indikator($id);
 
-        $this->set_minsidebar(1);
         $this->render('analisis_indikator/parameter/table', $data);
     }
 

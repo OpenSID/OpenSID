@@ -107,7 +107,7 @@
 
 		<?php require __DIR__ . '/head_tags.php' ?>
 	</head>
-	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar == 1): ?>sidebar-collapse<?php endif ?>">
+	<body id="sidebar_collapse" class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?= site_url(); ?>" target="_blank" class="logo">

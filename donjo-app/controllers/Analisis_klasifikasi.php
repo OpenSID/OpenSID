@@ -78,7 +78,6 @@ class Analisis_klasifikasi extends Admin_Controller
         $data['keyword']         = $this->analisis_klasifikasi_model->autocomplete();
         $data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 
-        $this->set_minsidebar(1);
         $this->render('analisis_klasifikasi/table', $data);
     }
 

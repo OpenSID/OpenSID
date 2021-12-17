@@ -19,6 +19,11 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 9. [#4570](https://github.com/OpenSID/OpenSID/issues/4570) Perbaiki error tambah / ubah kader dengan menggunakan .htaccess.
 10. [#4378](https://github.com/OpenSID/OpenSID/issues/4378) Penyesuaian daftar surat ubahan desa secara otomatis.
 11. [#4392](https://github.com/OpenSID/OpenSID/issues/4392) Perbaiki status perkwinan modul penduduk dan keluarga.
-11. [#4564](https://github.com/OpenSID/OpenSID/issues/4564) Perbaiki pengaturan peta yang tidak dapat menyimpan warna.
+12. [#4564](https://github.com/OpenSID/OpenSID/issues/4564) Perbaiki pengaturan peta yang tidak dapat menyimpan warna.
+13. [#4585](https://github.com/OpenSID/OpenSID/issues/4585) Perbaiki tampilkan notifikasi error, jika widget gagal disimpan beserta penyebabnya.
+14. [#4598](https://github.com/OpenSID/OpenSID/issues/4598) Perbaiki Error impor SIAK.
+15. [#4542](https://github.com/OpenSID/OpenSID/issues/4542) Perbaiki Cetak Surat Kelahiran
+16. [#4576](https://github.com/OpenSID/OpenSID/issues/4576) Perbaiki Grup Pengguna
+17. [#2767](https://github.com/OpenSID/OpenSID/issues/2767) Perbaiki Menu Sidebar,collapse ketika kita pilih menu.
 
 #### Perubahan Teknis

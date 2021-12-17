@@ -51,7 +51,6 @@ class Kelompok extends Admin_Controller
         $this->sub_modul_ini = 24;
         $this->_set_page     = ['20', '50', '100'];
         $this->_list_session = ['cari', 'filter', 'penerima_bantuan', 'sex'];
-        $this->set_minsidebar(1);
         $this->kelompok_model->set_tipe($this->tipe);
     }
 
@@ -135,20 +134,18 @@ class Kelompok extends Admin_Controller
     public function form_anggota($id = 0, $id_a = 0)
     {
         $this->redirect_hak_akses('u');
-        if ($id_a == 0) {
-            $data['kelompok']      = $id;
-            $data['pend']          = null;
-            $data['list_penduduk'] = $this->kelompok_model->list_penduduk($ex_kelompok = $id);
-            $data['form_action']   = site_url("{$this->controller}/insert_a/{$id}");
-        } else {
-            $data['kelompok']      = $id;
-            $data['pend']          = $this->kelompok_model->get_anggota($id, $id_a);
-            $data['list_penduduk'] = $this->kelompok_model->list_penduduk();
-            $data['form_action']   = site_url("{$this->controller}/update_a/{$id}/{$id_a}");
-        }
-
+        $data['kelompok']      = $id;
+        $data['list_penduduk'] = $this->kelompok_model->list_penduduk($id);
         $data['list_jabatan1'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
         $data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
+
+        if ($id_a == 0) {
+            $data['pend']        = null;
+            $data['form_action'] = site_url("{$this->controller}/insert_a/{$id}");
+        } else {
+            $data['pend']        = $this->kelompok_model->get_anggota($id, $id_a);
+            $data['form_action'] = site_url("{$this->controller}/update_a/{$id}/{$id_a}");
+        }
 
         $this->render('kelompok/anggota/form', $data);
     }
@@ -173,10 +170,9 @@ class Kelompok extends Admin_Controller
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
         $data['main']           = $this->kelompok_model->list_data();
-
-        $data['file']      = "Data {$this->tipe}"; // nama file
-        $data['isi']       = 'kelompok/cetak';
-        $data['letak_ttd'] = ['1', '1', '1'];
+        $data['file']           = "Data {$this->tipe}"; // nama file
+        $data['isi']            = 'kelompok/cetak';
+        $data['letak_ttd']      = ['1', '1', '1'];
 
         $this->load->view('global/format_cetak', $data);
     }
@@ -200,13 +196,11 @@ class Kelompok extends Admin_Controller
         $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-
-        $data['main']     = $this->kelompok_model->list_anggota($id);
-        $data['kelompok'] = $this->kelompok_model->get_kelompok($id);
-
-        $data['file']      = "Laporan Data {$this->tipe} " . $data['kelompok']['nama']; // nama file
-        $data['isi']       = 'kelompok/anggota/cetak';
-        $data['letak_ttd'] = ['2', '3', '2'];
+        $data['main']           = $this->kelompok_model->list_anggota($id);
+        $data['kelompok']       = $this->kelompok_model->get_kelompok($id);
+        $data['file']           = "Laporan Data {$this->tipe} " . $data['kelompok']['nama']; // nama file
+        $data['isi']            = 'kelompok/anggota/cetak';
+        $data['letak_ttd']      = ['2', '3', '2'];
 
         $this->load->view('global/format_cetak', $data);
     }
@@ -257,6 +251,7 @@ class Kelompok extends Admin_Controller
 
     public function insert_a($id = 0)
     {
+        $this->redirect_hak_akses('u');
         $this->kelompok_model->insert_a($id);
         $redirect = ($this->session->aksi != 1) ? $_SERVER['HTTP_REFERER'] : "{$this->controller}/anggota/{$id}";
 

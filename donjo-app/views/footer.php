@@ -100,6 +100,17 @@
 				}
 				notification(notify, notify_msg);
 				$('#success-code').val('');
+
+				// Sidebar
+				if (localStorage.getItem('sidebar') === 'true') {
+					$('#sidebar_collapse').removeClass('sidebar-collapse');
+				} else {
+					$("#sidebar_collapse").addClass('sidebar-collapse');
+				}
+
+				$('.sidebar-toggle').on('click', function() {
+					localStorage.setItem('sidebar', $("#sidebar_collapse").hasClass('sidebar-collapse'));
+				});
 			});
 		</script>
 		<?php $_SESSION['success'] = 0; ?>

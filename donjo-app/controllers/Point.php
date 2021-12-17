@@ -87,7 +87,6 @@ class Point extends Admin_Controller
         $data['keyword'] = $this->plan_point_model->autocomplete();
 
         $data['tip'] = 0;
-        $this->set_minsidebar(1);
         $this->render('point/table', $data);
     }
 
@@ -106,8 +105,7 @@ class Point extends Admin_Controller
         }
 
         $data['simbol'] = $this->plan_point_model->list_simbol();
-        $this->set_minsidebar(1);
-        $data['tip'] = 0;
+        $data['tip']    = 0;
 
         $this->render('point/form', $data);
     }
@@ -116,8 +114,7 @@ class Point extends Admin_Controller
     {
         $data['subpoint'] = $this->plan_point_model->list_sub_point($point);
         $data['point']    = $this->plan_point_model->get_point($point);
-        $this->set_minsidebar(1);
-        $data['tip'] = 0;
+        $data['tip']      = 0;
 
         $this->render('point/sub_point_table', $data);
     }
@@ -253,8 +250,7 @@ class Point extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['simbol'] = $this->plan_point_model->list_simbol();
-        $this->set_minsidebar(1);
-        $data['tip'] = 6;
+        $data['tip']    = 6;
 
         $this->render('point/form_simbol', $data);
     }

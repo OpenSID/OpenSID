@@ -45,9 +45,7 @@ class Penduduk_log extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('penduduk_model');
-        $this->load->model('penduduk_log_model');
-
+        $this->load->model(['penduduk_model', 'penduduk_log_model']);
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 21;
         $this->set_page      = ['20', '50', '100'];
@@ -60,7 +58,8 @@ class Penduduk_log extends Admin_Controller
         $this->session->filter_bulan = date('n');
         $this->session->filter_tahun = date('Y');
         $this->session->per_page     = 20;
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function index($p = 1, $o = 0)
@@ -114,7 +113,7 @@ class Penduduk_log extends Admin_Controller
         $data['list_sex']             = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['list_agama']           = $this->referensi_model->list_data('tweb_penduduk_agama');
         $data['list_dusun']           = $this->wilayah_model->list_dusun();
-        $this->set_minsidebar(1);
+
         $this->render('penduduk_log/penduduk_log', $data);
     }
 
@@ -126,7 +125,8 @@ class Penduduk_log extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function dusun()
@@ -138,7 +138,8 @@ class Penduduk_log extends Admin_Controller
         } else {
             $this->session->unset_userdata('dusun');
         }
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function rw()
@@ -150,7 +151,8 @@ class Penduduk_log extends Admin_Controller
         } else {
             $this->session->unset_userdata('rw');
         }
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function rt()
@@ -161,7 +163,8 @@ class Penduduk_log extends Admin_Controller
         } else {
             $this->session->unset_userdata('rt');
         }
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function tahun_bulan()
@@ -178,48 +181,61 @@ class Penduduk_log extends Admin_Controller
             $this->session->unset_userdata('filter_tahun');
             $this->session->unset_userdata('filter_bulan');
         }
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function edit($p = 1, $o = 0, $id = 0)
     {
+        $this->redirect_hak_akses('u');
         $data['log_status_dasar'] = $this->penduduk_log_model->get_log($id);
         $data['list_ref_pindah']  = $this->referensi_model->list_data('ref_pindah');
-        $data['form_action']      = site_url("penduduk_log/update/{$p}/{$o}/{$id}");
+        $data['form_action']      = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
+
         $this->load->view('penduduk_log/ajax_edit', $data);
     }
 
     public function update($p = 1, $o = 0, $id = '')
     {
+        $this->redirect_hak_akses('u');
         $this->penduduk_log_model->update($id);
-        redirect("penduduk_log/index/{$p}/{$o}");
+
+        redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
     public function kembalikan_status($id_log)
     {
+        $this->redirect_hak_akses('u');
         unset($_SESSION['success']);
         $this->penduduk_log_model->kembalikan_status($id_log);
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function ajax_kembalikan_status_pergi($id = 0)
     {
+        $this->redirect_hak_akses('u');
         $data['nik']         = $this->penduduk_model->get_penduduk($id);
-        $data['form_action'] = site_url("penduduk_log/kembalikan_status_pergi/{$id}");
+        $data['form_action'] = site_url("{$this->controller}/kembalikan_status_pergi/{$id}");
+
         $this->load->view('sid/kependudukan/ajax_edit_status_dasar_pergi', $data);
     }
 
     public function kembalikan_status_pergi($id_log = 0)
     {
+        $this->redirect_hak_akses('u');
         unset($_SESSION['success']);
         $this->penduduk_log_model->kembalikan_status_pergi($id_log);
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function kembalikan_status_all()
     {
+        $this->redirect_hak_akses('u');
         $this->penduduk_log_model->kembalikan_status_all();
-        redirect('penduduk_log');
+
+        redirect($this->controller);
     }
 
     public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
@@ -228,6 +244,7 @@ class Penduduk_log extends Admin_Controller
         if ($privasi_nik == 1) {
             $data['privasi_nik'] = true;
         }
+
         $this->load->view("penduduk_log/penduduk_log_{$aksi}", $data);
     }
 
@@ -235,8 +252,9 @@ class Penduduk_log extends Admin_Controller
     {
         $data['o']                   = $o;
         $data['aksi']                = $aksi;
-        $data['form_action']         = site_url("penduduk_log/cetak/{$o}/{$aksi}");
-        $data['form_action_privasi'] = site_url("penduduk_log/cetak/{$o}/{$aksi}/1");
+        $data['form_action']         = site_url("{$this->controller}/cetak/{$o}/{$aksi}");
+        $data['form_action_privasi'] = site_url("{$this->controller}/cetak/{$o}/{$aksi}/1");
+
         $this->load->view('sid/kependudukan/ajax_cetak_bersama', $data);
     }
 }

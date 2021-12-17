@@ -124,6 +124,10 @@ class Import_model extends CI_Model
             'PINDAH LUAR NEGERI'  => 3,
         ];
 
+        $golongan_darah = [
+            'Tdk Th' => 13,
+        ];
+
         $this->kode_sex               = $this->referensi_model->impor_list_data('tweb_penduduk_sex', $sex);
         $this->kode_hubungan          = $this->referensi_model->impor_list_data('tweb_penduduk_hubungan');
         $this->kode_agama             = $this->referensi_model->impor_list_data('tweb_penduduk_agama');
@@ -131,7 +135,7 @@ class Import_model extends CI_Model
         $this->kode_pendidikan_sedang = $this->referensi_model->impor_list_data('tweb_penduduk_pendidikan');
         $this->kode_pekerjaan         = $this->referensi_model->impor_list_data('tweb_penduduk_pekerjaan');
         $this->kode_status            = $this->referensi_model->impor_list_data('tweb_penduduk_kawin', $status);
-        $this->kode_golongan_darah    = $this->referensi_model->impor_list_data('tweb_golongan_darah');
+        $this->kode_golongan_darah    = $this->referensi_model->impor_list_data('tweb_golongan_darah', $golongan_darah);
         $this->kode_ktp_el            = array_change_key_case(unserialize(KTP_EL));
         $this->kode_status_rekam      = array_flip($this->referensi_model->list_status_rekam());
         $this->kode_status_dasar      = $this->referensi_model->impor_list_data('tweb_status_dasar', $status_dasar);
@@ -180,8 +184,22 @@ class Import_model extends CI_Model
      */
     protected function get_kode($daftar_kode, $nilai)
     {
-        $nilai = strtolower($nilai);
+        /*
+         *
+         * Hapus spasi pada daftar kode
+         * Contoh:
+         * SLTA / SEDERAJAT => SLTA/SEDERAJAT
+         *
+         */
+        $daftar_kode = array_combine(str_replace(' ', '', array_keys($daftar_kode)), array_values($daftar_kode));
+
+        $nilai = str_replace(' ', '', strtolower($nilai));
         $nilai = preg_replace('/\\s*\\/\\s*/', '/', $nilai);
+        if ($nilai == 'slta/sederajat') {
+            log_message('error', 'daftar kode : ' . json_encode($daftar_kode));
+            log_message('error', $daftar_kode[$nilai] . ' => ' . $nilai);
+        }
+
         if (! empty($nilai) && $nilai != '-' && ! array_key_exists($nilai, $daftar_kode)) {
             return -1;
         } // kode salah

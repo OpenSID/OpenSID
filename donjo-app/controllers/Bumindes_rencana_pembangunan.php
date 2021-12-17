@@ -48,7 +48,6 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         $this->load->model('pamong_model');
         $this->modul_ini     = 301;
         $this->sub_modul_ini = 305;
-        $this->set_minsidebar(1);
         $this->model->set_tipe($this->tipe);
     }
 

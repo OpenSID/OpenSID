@@ -126,8 +126,6 @@ class Admin_pembangunan extends Admin_Controller
 
     public function lokasi_maps($id)
     {
-        $this->set_minsidebar(0);
-
         $data = $this->model->find($id);
 
         if (null === $data) {
