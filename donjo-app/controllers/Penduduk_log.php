@@ -113,7 +113,7 @@ class Penduduk_log extends Admin_Controller
         $data['list_sex']             = $this->referensi_model->list_data('tweb_penduduk_sex');
         $data['list_agama']           = $this->referensi_model->list_data('tweb_penduduk_agama');
         $data['list_dusun']           = $this->wilayah_model->list_dusun();
-        
+
         $this->render('penduduk_log/penduduk_log', $data);
     }
 
