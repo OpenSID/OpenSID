@@ -149,6 +149,8 @@ class Migrasi_fitur_premium_2201 extends MY_model
             ];
             $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', $fields);
         }
+
+        return $hasil;
     }
 
     protected function migrasi_2021121571($hasil)
