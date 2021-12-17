@@ -729,7 +729,7 @@ class Suplemen_model extends MY_Model
         $writer->close();
     }
 
-    public function impor()
+    public function impor($suplemen_id)
     {
         $this->load->library('upload');
 
@@ -746,13 +746,9 @@ class Suplemen_model extends MY_Model
             return;
         }
 
-        $suplemen_id = $this->input->post('id_suplemen');
         // Data Suplemen
         $temp                    = $this->session->per_page;
         $this->session->per_page = 1000000000;
-
-        $ganti_suplemen    = $this->input->post('ganti_suplemen');
-        $kosongkan_peserta = $this->input->post('kosongkan_peserta');
 
         $upload = $this->upload->data();
         $file   = LOKASI_DOKUMEN . $upload['file_name'];
@@ -760,9 +756,7 @@ class Suplemen_model extends MY_Model
         $reader = ReaderEntityFactory::createXLSXReader();
         $reader->open($file);
 
-        $data_suplemen = [];
-        $data_peserta  = [];
-        $data_diubah   = '';
+        $data_peserta = [];
 
         foreach ($reader->getSheetIterator() as $sheet) {
             $no_baris  = 0;
@@ -779,21 +773,16 @@ class Suplemen_model extends MY_Model
 
                 if ($sasaran == '1') {
                     $ambil_peserta     = $this->get_penduduk_terdata($suplemen_id);
-                    $terdaftar_peserta = str_replace("'", '', explode(', ', sql_in_list(array_column($ambil_peserta['terdata'], 'nik'))));
+                    $terdaftar_peserta = array_column($ambil_peserta['terdata'], 'nik');
                 } elseif ($sasaran == '2') {
                     $ambil_peserta     = $this->get_kk_terdata($suplemen_id);
-                    $terdaftar_peserta = str_replace("'", '', explode(', ', sql_in_list(array_column($ambil_peserta['terdata'], 'no_kk'))));
-                }
-
-                if ($kosongkan_peserta == 1) {
-                    $pesan .= '- Data peserta ' . ($field['nama']) . ' sukses dikosongkan<br>';
-                    $terdaftar_peserta = null;
+                    $terdaftar_peserta = array_column($ambil_peserta['terdata'], 'no_kk');
                 }
 
                 foreach ($sheet->getRowIterator() as $row) {
                     $no_baris++;
                     $cells   = $row->getCells();
-                    $peserta = trim((string) $cells[0]);
+                    $peserta = trim((string) $cells[0]); // NIK atau No_kk sesuai sasaran
 
                     // Data terakhir
                     if ($peserta == '###') {
@@ -835,8 +824,8 @@ class Suplemen_model extends MY_Model
                     $simpan = [
                         'id_suplemen' => $suplemen_id,
                         'id_terdata'  => $id_terdata,
-                        'sasaran'     => $sasaran,
-                        'keterangan'  => (string) $cells[5],
+                        'sasaran'     => $sasaran, // Duplikasi
+                        'keterangan'  => (string) $cells[1],
                     ];
 
                     $data_peserta[] = $simpan;
@@ -847,7 +836,7 @@ class Suplemen_model extends MY_Model
                 if ($no_baris <= 0) {
                     $pesan .= '- Data peserta tidak tersedia<br>';
                 } else {
-                    $this->impor_peserta($suplemen_id, $data_peserta, $kosongkan_peserta);
+                    $this->impor_peserta($suplemen_id, $data_peserta);
                 }
             }
         }
@@ -879,22 +868,21 @@ class Suplemen_model extends MY_Model
             $terdata['id_sasaran'] = 'KK';
             $kepala_kk             = $this->keluarga_model->get_kepala_kk($peserta, true);
             if ($kepala_kk['nik']) {
-                $id_terdata = $kepala_kk['id_kk'];
+                $terdata['id_terdata'] = $kepala_kk['id_kk'];
             }
         }
 
         return $terdata;
     }
 
-    public function impor_peserta($suplemen_id = '', $data_peserta = [], $kosongkan_peserta = 0)
+    public function impor_peserta($suplemen_id = '', $data_peserta = [])
     {
         $this->session->success = 1;
 
-        if ($kosongkan_peserta == 1) {
-            $this->db->where('id_suplemen', $suplemen_id)->delete('suplemen_terdata');
+        if ($data_peserta) {
+            $outp = $this->db->insert_batch('suplemen_terdata', $data_peserta);
         }
 
-        $outp = $this->db->insert_batch('suplemen_terdata', $data_peserta);
         status_sukses($outp, true);
     }
 
@@ -936,7 +924,7 @@ class Suplemen_model extends MY_Model
         return [
             'id'              => $data[0]['id'], // untuk nik, no_kk, no_rtm, kode konversi menjadi id issue #3417
             'sasaran_peserta' => $sasaran_peserta,
-            'valid'           => str_replace("'", '', explode(', ', sql_in_list(array_column($data, 'no')))), // untuk daftar valid anggota keluarga
+            'valid'           => array_column($data, 'no'), // untuk daftar valid anggota keluarga
         ];
     }
 

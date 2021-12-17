@@ -130,6 +130,7 @@ class Suplemen extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
+
         redirect("{$this->controller}/rincian/{$id_rincian}");
     }
 
@@ -140,6 +141,7 @@ class Suplemen extends Admin_Controller
         if ($id) {
             $this->session->id_rincian = $id;
             $this->session->unset_userdata('cari');
+
             redirect("{$this->controller}/rincian/{$id}");
         }
         //Untuk index Suplemen
@@ -164,6 +166,7 @@ class Suplemen extends Admin_Controller
         $data['set_page'] = ['20', '50', '100'];
         $data['cari']     = $this->session->cari;
 
+        $this->set_minsidebar(1);
         $this->render('suplemen/suplemen_anggota', $data);
     }
 
@@ -274,10 +277,10 @@ class Suplemen extends Admin_Controller
     public function impor()
     {
         $this->redirect_hak_akses('u');
-        $suplemen_id = $this->input->post('id_suplemen');
-        $this->suplemen_model->impor();
+        $id = $this->input->post('id_suplemen');
+        $this->suplemen_model->impor($id);
 
-        redirect("{$this->controller}/rincian/{$suplemen_id}");
+        redirect("{$this->controller}/rincian/{$id}");
     }
 
     public function ekspor($id = 0)
