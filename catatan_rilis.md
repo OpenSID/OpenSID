@@ -1,9 +1,9 @@
-
 Di rilis ini, versi 21.12-premium-beta01 menyediakan [untuk diisi] Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
+
 1. [#4556](https://github.com/OpenSID/OpenSID/issues/4556) Tambahkan akun Telegram ke data penduduk.
 2. [#4518](https://github.com/OpenSID/OpenSID/issues/4518) Tambahkan lampiran Surat Keterangan Pindah Datang Penduduk F-1.27, F-1.31, F-1.39.
 3. [#4226](https://github.com/OpenSID/OpenSID/issues/4226) Perbaharui Versi Terbaru Blanko Pindah Datang F.1.03.
@@ -13,8 +13,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. [#4507](https://github.com/OpenSID/OpenSID/issues/4507) Bisa atur jenis garis dan ketebalan tipe garis di pengaturan peta.
 8. [#4588](https://github.com/OpenSID/OpenSID/issues/4588) Loloskan pemeriksaan token di setting demo.
 9. [#4558](https://github.com/OpenSID/OpenSID/issues/4558) Verifikasi akun Telegram di layanan mandiri.
+10. [#4561](https://github.com/OpenSID/OpenSID/issues/4561) Notifikasi Sesuaikan pemberitahuan adanya rilis baru.
 
 #### Perbaikan BUG
+
 1. [#4560](https://github.com/OpenSID/OpenSID/issues/4560) Migrasi untuk nik dan no_kk sementara kadang error untuk kasus tertentu.
 2. [#463](https://github.com/OpenSID/premium/issues/463) Perbaiki develbar agar tidak menggangu proses compress saat cetak surat.
 3. [#4565](https://github.com/OpenSID/OpenSID/issues/4565) Perbaiki foto pembangunan terlihat besar.
@@ -31,6 +33,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 14. [#4598](https://github.com/OpenSID/OpenSID/issues/4598) Perbaiki Error impor SIAK.
 15. [#4542](https://github.com/OpenSID/OpenSID/issues/4542) Perbaiki Cetak Surat Kelahiran
 16. [#4576](https://github.com/OpenSID/OpenSID/issues/4576) Perbaiki Grup Pengguna
-
 
 #### Perubahan Teknis

@@ -255,6 +255,7 @@ class Premium extends MY_Controller
         'demo.opensid.or.id',
         'berputar.opensid.or.id',
     ];
+    protected $versi_setara;
 
     /**
      * TODO :
@@ -264,6 +265,13 @@ class Premium extends MY_Controller
     protected $kecuali = [
         'hom_sid', 'identitas_desa', 'pelanggan', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
     ];
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model(['header_model']);
+        $this->header = $this->header_model->get_data();
+    }
 
     /**
      * Validasi akses.
@@ -281,6 +289,8 @@ class Premium extends MY_Controller
         if (! $this->validasi_akses()) {
             redirect('peringatan');
         }
+
+        $this->session->unset_userdata('error_premium');
     }
 
     /**
@@ -304,13 +314,19 @@ class Premium extends MY_Controller
         $date         = new DateTime('20' . str_replace('.', '-', $this->setting->current_version) . '-01');
         $version      = $date->format('Y-m-d');
 
-        if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['kode_desa']), '!=')) {
-            $this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
+        if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['desa']['kode_desa']), '!=')) {
+            $this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
             return false;
         }
 
-        if ($version > $jwtPayload->tanggal_berlangganan->akhir) {
+        $berakhir = $jwtPayload->tanggal_berlangganan->akhir;
+
+        if ($version > $berakhir) {
+            // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
+            // Misalnya 21.05-premium setara dengan 21.12-umum, notifikasi tampil jika ada umum di atas 21.12-umum
+            $this->versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
+            $this->versi_setara = str_replace('-', '.', substr($this->versi_setara, 2, 5));
             $this->session->set_userdata('error_premium', 'Masa aktif berlangganan fitur premium sudah berakhir.');
 
             return false;
@@ -342,7 +358,7 @@ class Admin_Controller extends Premium
         parent::__construct();
         $this->validasi();
         $this->CI = CI_Controller::get_instance();
-        $this->load->model(['header_model', 'user_model', 'notif_model', 'referensi_model']);
+        $this->load->model(['user_model', 'notif_model', 'referensi_model']);
         $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 
         $this->load->model('modul_model');

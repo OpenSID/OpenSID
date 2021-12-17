@@ -170,6 +170,8 @@ define('NILAI_PENDAPAT', serialize([
  */
 function AmbilVersi()
 {
+    define('PREMIUM', preg_match('/-premium.*/', VERSION) ? true : false);
+
     return VERSION;
 }
 

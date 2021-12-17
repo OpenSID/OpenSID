@@ -589,3 +589,12 @@ $config['token_pantau']  = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6bnVsbCw
 |
 */
 $config['server_layanan'] = 'https://layanan.opendesa.id';
+
+/*
+|--------------------------------------------------------------------------
+| URL Rilis
+|--------------------------------------------------------------------------
+|
+*/
+$config['rilis_umum']    = 'https://api.github.com/repos/opensid/opensid/releases/latest';
+$config['rilis_premium'] = 'https://api.github.com/repos/opensid/berputar/releases/latest';
