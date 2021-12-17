@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. [#4588](https://github.com/OpenSID/OpenSID/issues/4588) Loloskan pemeriksaan token di setting demo.
 9. [#4558](https://github.com/OpenSID/OpenSID/issues/4558) Verifikasi akun Telegram di layanan mandiri.
 10. [#4561](https://github.com/OpenSID/OpenSID/issues/4561) Notifikasi Sesuaikan pemberitahuan adanya rilis baru.
+11. [#4584](https://github.com/OpenSID/OpenSID/issues/4584) Laporkan jika exec tidak tersedia pada waktu mencetak PDF.
 
 #### Perbaikan BUG
 
