@@ -214,7 +214,7 @@ class Release
 	 * @param string $body
 	 * @return string
 	 */
-	protected function convert_markdown_link(string $body)
+	protected function convert_markdown_link(?string $body = null)
 	{
 		return preg_replace_callback('/\[(.*?)\]\((.*?)\)/', function ($matches) {
 			return '<a href="' . $matches[2] . '">' . $matches[1] . '</a>';
