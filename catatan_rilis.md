@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. [#4588](https://github.com/OpenSID/OpenSID/issues/4588) Loloskan pemeriksaan token di setting demo.
 9. [#4558](https://github.com/OpenSID/OpenSID/issues/4558) Verifikasi akun Telegram di layanan mandiri.
 10. [#4561](https://github.com/OpenSID/OpenSID/issues/4561) Notifikasi Sesuaikan pemberitahuan adanya rilis baru.
+11. [#3876](https://github.com/OpenSID/OpenSID/issues/3876) Tambahkan menu "shortcut" pengaturan / informasi untuk pengaturan surat layanan mandiri dan syarat surat.
 
 #### Perbaikan BUG
 
