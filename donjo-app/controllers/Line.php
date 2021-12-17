@@ -81,7 +81,7 @@ class Line extends Admin_Controller
         $data['main']     = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
         $data['keyword']  = $this->plan_line_model->autocomplete();
         $data['tip']      = 2;
-        $this->set_minsidebar(1);
+        
         $this->render('line/table', $data);
     }
 

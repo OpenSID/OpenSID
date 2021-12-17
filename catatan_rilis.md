@@ -36,7 +36,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 15. [#4542](https://github.com/OpenSID/OpenSID/issues/4542) Perbaiki Cetak Surat Kelahiran
 16. [#4576](https://github.com/OpenSID/OpenSID/issues/4576) Perbaiki Grup Pengguna
 17. [#2767](https://github.com/OpenSID/OpenSID/issues/2767) Perbaiki Menu Sidebar,collapse ketika kita pilih menu.
-18. [#4595](https://github.com/OpenSID/OpenSID/issues/4595) Perbaiki Ubah panjang value pada kolom tag_id_card.
+18. [#4596](https://github.com/OpenSID/OpenSID/issues/4596) Perbaiki Suplemen Tidak dapat impor data suplemen sasaran keluarga.
+19. [#4595](https://github.com/OpenSID/OpenSID/issues/4595) Perbaiki Ubah panjang value pada kolom tag_id_card.
 
 #### Perubahan Teknis
 1. [#4583](https://github.com/OpenSID/OpenSID/issues/4583) Perbaiki .htaccess untuk file zip dan rar / Backup folder desa lewat hosting.
