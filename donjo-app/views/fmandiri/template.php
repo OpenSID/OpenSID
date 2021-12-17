@@ -78,7 +78,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<!-- AdminLTE Skins. -->
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/skins/_all-skins.min.css">
 
-	<?php if ($this->controller == 'lapak'): ?>
+	<!-- Form Wizard - smartWizard -->
+	<link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css">
+
+	<?php if ($this->controller == 'lapak') : ?>
 		<!-- Map -->
 		<link rel="stylesheet" href="<?= base_url('assets/css/leaflet.css'); ?>" />
 		<link rel="stylesheet" href="<?= base_url('assets/css/mapbox-gl.css'); ?>" />
@@ -246,6 +249,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<a href="<?= site_url('layanan-mandiri/ganti-pin'); ?>" class="btn btn-block btn-social bg-navy">
 										<i class="fa fa-key"></i> Ganti PIN
 									</a>
+									<a href="<?= site_url('layanan-mandiri/verifikasi/telegram'); ?>" class="btn btn-block btn-social bg-purple">
+										<i class="fa fa-key"></i> Verifikasi
+									</a>
 									<button type="button" class="btn btn-block btn-social bg-red" data-toggle="modal" data-target="#pendapat"><i class="fa fa-sign-out"></i>Keluar</button>
 								</div>
 							</div>
@@ -338,12 +344,22 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		});
 
 		$('document').ready(function() {
+
+			window.setTimeout(function() {
+				$(".callout").fadeTo(500, 0).slideUp(500, function() {
+					$(this).remove();
+				});
+			}, 5000);
+
 			setTimeout(function() {
 				refresh_badge($("#b_pesan"), "<?= site_url('notif_web/inbox'); ?>");
 				refresh_badge($("#b_surat"), "<?= site_url('notif_web/surat_perlu_perhatian'); ?>");
 			}, 500);
 		});
 	</script>
+
+	<!-- Form Wizard - jquery.smartWizard -->
+	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 </body>
 
 </html>

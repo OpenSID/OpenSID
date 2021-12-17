@@ -250,6 +250,13 @@ class Api_Controller extends MY_Controller
 
 class Premium extends MY_Controller
 {
+    // Hanya domain terdaftar yg bisa melewati validasi premium dengan mode demo
+    protected $domain = [
+        'demo.opensid.or.id',
+        'berputar.opensid.or.id',
+    ];
+    protected $versi_setara;
+
     /**
      * TODO :
      * Controller main exted ke CI_Controller bukan ke Admin_controller tp masih berpengaruh pada validasi pengguna premium
@@ -259,6 +266,13 @@ class Premium extends MY_Controller
         'hom_sid', 'identitas_desa', 'pelanggan', 'pendaftaran_kerjasama', 'setting', 'notif', 'user_setting', 'main', 'info_sistem',
     ];
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model(['header_model']);
+        $this->header = $this->header_model->get_data();
+    }
+
     /**
      * Validasi akses.
      *
@@ -267,7 +281,7 @@ class Premium extends MY_Controller
     public function validasi()
     {
         // Jangan jalankan validasi akses untuk spesifik controller.
-        if (in_array($this->router->class, $this->kecuali)) {
+        if (in_array($this->router->class, $this->kecuali) || (config_item('demo_mode') && (in_array(get_domain(APP_URL), $this->domain)))) {
             return;
         }
 
@@ -275,6 +289,8 @@ class Premium extends MY_Controller
         if (! $this->validasi_akses()) {
             redirect('peringatan');
         }
+
+        $this->session->unset_userdata('error_premium');
     }
 
     /**
@@ -298,19 +314,25 @@ class Premium extends MY_Controller
         $date         = new DateTime('20' . str_replace('.', '-', $this->setting->current_version) . '-01');
         $version      = $date->format('Y-m-d');
 
-        if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['kode_desa']), '!=')) {
-            $this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
+        if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['desa']['kode_desa']), '!=')) {
+            $this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
             return false;
         }
 
-        if ($version > $jwtPayload->tanggal_berlangganan->akhir) {
+        $berakhir = $jwtPayload->tanggal_berlangganan->akhir;
+
+        if ($version > $berakhir) {
+            // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
+            // Misalnya 21.05-premium setara dengan 21.12-umum, notifikasi tampil jika ada umum di atas 21.12-umum
+            $this->versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
+            $this->versi_setara = str_replace('-', '.', substr($this->versi_setara, 2, 5));
             $this->session->set_userdata('error_premium', 'Masa aktif berlangganan fitur premium sudah berakhir.');
 
             return false;
         }
 
-        if (isLocalIPAddress($_SERVER['REMOTE_ADDR']) || config_item('demo_mode')) {
+        if (isLocalIPAddress($_SERVER['REMOTE_ADDR'])) {
             return true;
         }
 
@@ -336,7 +358,7 @@ class Admin_Controller extends Premium
         parent::__construct();
         $this->validasi();
         $this->CI = CI_Controller::get_instance();
-        $this->load->model(['header_model', 'user_model', 'notif_model', 'referensi_model']);
+        $this->load->model(['user_model', 'notif_model', 'referensi_model']);
         $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 
         $this->load->model('modul_model');
@@ -379,53 +401,35 @@ class Admin_Controller extends Premium
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
     {
-        $kembali = $_SERVER['HTTP_REFERER'];
-
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-        if (! $this->user_model->hak_akses_url($this->grup, $controller, $akses)) {
+        if (! $this->user_model->hak_akses_url($this->grup, $controller ?? $this->controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
             if (empty($this->grup)) {
                 redirect('siteman');
             }
-            empty($redirect) ? redirect($kembali) : redirect($redirect);
+            redirect($redirect ?? $_SERVER['HTTP_REFERER']);
         }
     }
 
     protected function redirect_hak_akses($akses, $redirect = '', $controller = '')
     {
-        $kembali = $_SERVER['HTTP_REFERER'];
-
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-        if (! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
+        if (! $this->user_model->hak_akses($this->grup, $controller ?? $this->controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
             if (empty($this->grup)) {
                 redirect('siteman');
             }
-            empty($redirect) ? redirect($kembali) : redirect($redirect);
+            redirect($redirect ?? $_SERVER['HTTP_REFERER']);
         }
     }
 
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     public function cek_hak_akses_url($akses, $controller = '')
     {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
+        return $this->user_model->hak_akses_url($this->grup, $controller ?? $this->controller, $akses);
     }
 
     public function cek_hak_akses($akses, $controller = '')
     {
-        if (empty($controller)) {
-            $controller = $this->controller;
-        }
-
-        return $this->user_model->hak_akses($this->grup, $controller, $akses);
+        return $this->user_model->hak_akses($this->grup, $controller ?? $this->controller, $akses);
     }
 
     public function redirect_tidak_valid($valid)
@@ -434,8 +438,7 @@ class Admin_Controller extends Premium
             return;
         }
 
-        $this->session->success   = -1;
-        $this->session->error_msg = 'Aksi ini tidak diperbolehkan';
+        session_error('Aksi ini tidak diperbolehkan');
         redirect($_SERVER['HTTP_REFERER']);
     }
 

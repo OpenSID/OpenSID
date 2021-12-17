@@ -60,7 +60,7 @@
 						<button class="btn btn-social btn-flat btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
 							<i class="fa fa-book"></i> Catatan Rilis
 						</button>
-						<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-social btn-flat bg-navy btn-sm" style="text-decoration: none">
+						<a href="<?= $url_download; ?>" class="btn btn-social btn-flat bg-navy btn-sm" style="text-decoration: none">
 							<i class="fa fa-download none"></i> Unduh
 						</a>
 					</div>
