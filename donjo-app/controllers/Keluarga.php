@@ -215,7 +215,6 @@ class Keluarga extends Admin_Controller
 
         $this->session->unset_userdata(['dari_internal']);
 
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/keluarga_form', $data);
     }
 
@@ -490,7 +489,6 @@ class Keluarga extends Admin_Controller
         $data['penduduk']    = $this->keluarga_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/print");
 
-        $this->set_minsidebar(1);
         $this->render('sid/kependudukan/kartu_keluarga', $data);
     }
 

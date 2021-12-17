@@ -109,11 +109,7 @@ class Line extends Admin_Controller
         $data['subline'] = $this->plan_line_model->list_sub_line($line);
         $data['line']    = $this->plan_line_model->get_line($line);
         $data['tip']     = 2;
-<<<<<<< HEAD
-
-        $this->set_minsidebar(1);
-=======
->>>>>>> bug-fix
+        
         $this->render('line/sub_line_table', $data);
     }
 
