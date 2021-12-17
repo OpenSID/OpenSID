@@ -130,7 +130,6 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $data['list_kategori']   = $this->analisis_statistik_jawaban_model->list_kategori();
         $data['list_dusun']      = $this->wilayah_model->list_dusun();
 
-        $this->set_minsidebar(1);
         $this->render('analisis_statistik_jawaban/table', $data);
     }
 
@@ -162,7 +161,6 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $data['analisis_master']            = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
         $data['main']                       = $this->analisis_statistik_jawaban_model->list_indikator($id);
 
-        $this->set_minsidebar(1);
         $this->render('analisis_statistik_jawaban/parameter/grafik_table', $data);
     }
 
@@ -196,7 +194,6 @@ class Analisis_statistik_jawaban extends Admin_Controller
         $data['analisis_master']               = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
         $data['main']                          = $this->analisis_statistik_jawaban_model->list_subjek($par);
 
-        $this->set_minsidebar(1);
         $this->render('analisis_statistik_jawaban/parameter/subjek_table', $data);
     }
 

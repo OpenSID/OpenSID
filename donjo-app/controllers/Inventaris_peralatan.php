@@ -45,7 +45,6 @@ class Inventaris_peralatan extends Admin_Controller
         $this->load->model(['inventaris_peralatan_model', 'pamong_model', 'aset_model']);
         $this->modul_ini     = 15;
         $this->sub_modul_ini = 61;
-        $this->set_minsidebar(1);
     }
 
     public function index()
