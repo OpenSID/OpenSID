@@ -107,7 +107,6 @@ class Dpt extends Admin_Controller
         $data['paging']             = $this->dpt_model->paging($p, $o);
         $data['main']               = $this->dpt_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 
-        $this->set_minsidebar(1);
         $this->render('dpt/dpt', $data);
     }
 

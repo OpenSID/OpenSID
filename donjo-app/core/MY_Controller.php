@@ -351,7 +351,6 @@ class Admin_Controller extends Premium
     public $grup;
     public $CI;
     public $pengumuman;
-    protected $minsidebar = 0;
 
     public function __construct()
     {
@@ -444,33 +443,9 @@ class Admin_Controller extends Premium
 
     public function render($view, ?array $data = null)
     {
-        $this->header['minsidebar'] = $this->get_minsidebar();
         $this->load->view('header', $this->header);
         $this->load->view('nav');
         $this->load->view($view, $data);
         $this->load->view('footer');
-    }
-
-    /**
-     * Get the value of minsidebar
-     */
-    public function get_minsidebar()
-    {
-        return $this->minsidebar;
-    }
-
-    /**
-     * Set the value of minsidebar
-     *
-     * @param mixed $minsidebar
-     *
-     * @return self
-     */
-    public function set_minsidebar($minsidebar)
-    {
-        $this->minsidebar           = $minsidebar;
-        $this->header['minsidebar'] = $this->get_minsidebar();
-
-        return $this;
     }
 }

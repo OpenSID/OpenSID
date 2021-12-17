@@ -76,7 +76,6 @@ class Ekspedisi extends Admin_Controller
         $data['main_content'] = 'ekspedisi/table';
         $data['subtitle']     = 'Buku Ekspedisi';
         $data['selected_nav'] = 'ekspedisi';
-        $this->set_minsidebar(1);
 
         $this->render('bumindes/umum/main', $data);
     }
@@ -99,7 +98,6 @@ class Ekspedisi extends Admin_Controller
         $ekstensiFile                         = explode('.', end($berkas));
         $ekstensiFile                         = end($ekstensiFile);
         $data['surat_keluar']['tanda_terima'] = $namaFile . '.' . $ekstensiFile;
-        $this->set_minsidebar(1);
         $this->render('ekspedisi/form', $data);
     }
 

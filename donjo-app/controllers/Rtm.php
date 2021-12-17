@@ -50,7 +50,6 @@ class Rtm extends Admin_Controller
         $this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan']; // Session id_bos
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 23;
-        $this->set_minsidebar(1);
     }
 
     public function clear()

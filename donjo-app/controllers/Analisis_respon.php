@@ -116,7 +116,6 @@ class Analisis_respon extends Admin_Controller
         $data['analisis_periode'] = $this->analisis_master_model->periode;
         $data                     = array_merge($data, $this->judul_subjek($data['analisis_master']['subjek_tipe']));
 
-        $this->set_minsidebar(1);
         $this->render('analisis_respon/table', $data);
     }
 
@@ -218,7 +217,6 @@ class Analisis_respon extends Admin_Controller
         $data['form_action']     = site_url("{$this->controller}/update_kuisioner/{$p}/{$o}/{$id}");
         $data['perbaharui']      = site_url("{$this->controller}/perbaharui/{$p}/{$o}/{$id}");
 
-        $this->set_minsidebar(1);
         $this->render('analisis_respon/form', $data);
     }
 

@@ -77,8 +77,7 @@ class Bumindes_umum extends Admin_Controller
         // load data for displaying at tables
         $data = array_merge($data, $this->load_data_tables($page, $page_number, $offset));
 
-        $header               = $this->header_model->get_data();
-        $header['minsidebar'] = 1;
+        $header = $this->header_model->get_data();
 
         $this->load->view('header', $header);
         $this->load->view('nav');
@@ -132,8 +131,7 @@ class Bumindes_umum extends Admin_Controller
         $data = [];
         $data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));
 
-        $header               = $this->header_model->get_data();
-        $header['minsidebar'] = 1;
+        $header = $this->header_model->get_data();
 
         $this->load->view('header', $header);
         $this->load->view('nav', $nav);
