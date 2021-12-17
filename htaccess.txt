@@ -29,6 +29,10 @@ RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+<FilesMatch "(?i)\.(zip|rar)$">
+  Deny from all
+</FilesMatch>
+
 # Periksa apakah full-path perlu disesuaikan untuk server anda
 # Contoh berikut untuk path seperti /home/opensidm/demo.opensid.my.id/desa/upload
 <Directory /home/*/*/desa/upload>
