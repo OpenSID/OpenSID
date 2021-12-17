@@ -216,7 +216,7 @@ class Garis extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->plan_garis_model->update($id);
-        
+
         redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
