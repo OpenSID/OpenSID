@@ -8,7 +8,7 @@
 | This option allows you to enable the developer's Toolbar
 |
 */
-$config['enable_develbar'] = TRUE;
+$config['enable_develbar'] = DEV_TOOLS_BAR;
 
 /*
 |--------------------------------------------------------------------------
