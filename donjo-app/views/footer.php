@@ -90,9 +90,7 @@
 				$('#success-code').val('');
 
 				// Sidebar
-				if (localStorage.getItem('sidebar') === 'true') {
-					$('#sidebar_collapse').removeClass('sidebar-collapse');
-				} else {
+				if (typeof (Storage) !== 'undefined' && localStorage.getItem('sidebar') === 'false') {
 					$("#sidebar_collapse").addClass('sidebar-collapse');
 				}
 
