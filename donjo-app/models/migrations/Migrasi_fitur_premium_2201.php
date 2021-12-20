@@ -113,8 +113,9 @@ class Migrasi_fitur_premium_2201 extends MY_model
             $hasil = $hasil && $this->db->insert_batch(
                 'setting_aplikasi_options',
                 [
-                    ['id_setting' => $id_setting, 'kode' => '0', 'value' => 'Slider'],
-                    ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'Video'],
+                    ['id_setting' => $id_setting, 'kode' => '0', 'value' => 'Tidak Aktif'],
+                    ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'Slider'],
+                    ['id_setting' => $id_setting, 'kode' => '2', 'value' => 'Video'],
                 ]
             );
         }

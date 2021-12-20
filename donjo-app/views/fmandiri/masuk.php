@@ -93,15 +93,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<?php endif; ?>
 </head>
 
-<?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_video)): ?>
-	<div class="video-internal" id="videov" style="display: none;">
-		<video loop muted autoplay poster="<?= base_url($latar_login_mandiri); ?>" class="video-internal-bg">
-			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
-		</video>
-	</div>
-<?php endif; ?>
-
-<?php if ($this->setting->tampilan_anjungan == 0 && ! empty($this->setting->tampilan_anjungan_slider)): ?>
+<?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_slider)): ?>
 	<div id="sliderv" class="video-internal" style="display: none;">
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner">
@@ -112,6 +104,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<?php endforeach; ?>
 			</div>
 		</div>
+	</div>
+<?php endif; ?>
+
+<?php if ($this->setting->tampilan_anjungan == 2 && ! empty($this->setting->tampilan_anjungan_video)): ?>
+	<div class="video-internal" id="videov" style="display: none;">
+		<video loop muted autoplay poster="<?= base_url($latar_login_mandiri); ?>" class="video-internal-bg">
+			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
+		</video>
 	</div>
 <?php endif; ?>
 
@@ -246,7 +246,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<?php endif; ?>
 	<script type="text/javascript">
 	$('document').ready(function() {
-
 		var IDLE_TIMEOUT = <?= $this->setting->waktu_tampilan_anjungan; ?>; //seconds
 		var _idleSecondsCounter = 0;
 		document.onclick = function() {
@@ -268,15 +267,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			var tampil_anjungan_video  = '<?= $this->setting->tampilan_anjungan_video; ?>';
 			var tampil_anjungan_slider  = '<?= $this->setting->tampilan_anjungan_slider; ?>';
 			if (_idleSecondsCounter >= IDLE_TIMEOUT) {
-				if (tampil_anjungan == 1 && tampil_anjungan_video != '') {
+				if (tampil_anjungan == 2 && tampil_anjungan_video) {
 					video.style.display = "block";
-				} else if(tampil_anjungan == 0 && tampil_anjungan_slider != '') {
-							slider.style.display = "block";
+				} else if(tampil_anjungan == 1 && tampil_anjungan_slider) {
+					slider.style.display = "block";
 				}
 			} else {
-				if (tampil_anjungan == 1 && tampil_anjungan_video != '') {
+				if (tampil_anjungan == 2 && tampil_anjungan_video) {
 					video.style.display = "none";
-				} else if(tampil_anjungan == 0 && tampil_anjungan_slider != '') {
+				} else if(tampil_anjungan == 1 && tampil_anjungan_slider) {
 					slider.style.display = "none";
 				}
 			}

@@ -121,12 +121,16 @@
 	function show() {
 		var as = document.forms[0].tampilan_anjungan.value;
 		var strUser = e.options[e.selectedIndex].value;
-		if (as == '1') {
-			$('#form_tampilan_anjungan_video').show();
-			$('#form_tampilan_anjungan_slider').hide();
-		} else {
-			$('#form_tampilan_anjungan_video').hide();
+		if (as == 1) {
 			$('#form_tampilan_anjungan_slider').show();
+			$('#form_tampilan_anjungan_video').hide();
+		} else if (as == 2) {
+			$('#form_tampilan_anjungan_slider').hide();
+			$('#form_tampilan_anjungan_video').show();
+		} else {
+			$('#form_tampilan_anjungan_slider').hide();
+			$('#form_tampilan_anjungan_video').hide();
+			$('#form_waktu_tampilan_anjungan').hide();
 		}
 	}
 	e.onchange=show;
