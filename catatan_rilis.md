@@ -41,6 +41,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 20. [#4593](https://github.com/OpenSID/OpenSID/issues/4593) Error saat menyimpan peta, dengan data yg tidak lengkap.
 21. [#4574](https://github.com/OpenSID/OpenSID/issues/4574) Tampilkan data artikel sesuai dengan pengaturan Grup dan Pengguna.
 22. [#4600](https://github.com/OpenSID/OpenSID/issues/4600) Perbaiki import data penduduk berulang.
+23. [#4602](https://github.com/OpenSID/OpenSID/issues/4602) Tampilkan Status Desa Terdaftar pada Layanan Pelanggan.
 
 #### Perubahan Teknis
 
