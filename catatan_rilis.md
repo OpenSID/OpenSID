@@ -46,4 +46,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 1. [#4583](https://github.com/OpenSID/OpenSID/issues/4583) Perbaiki .htaccess untuk file zip dan rar / Backup folder desa lewat hosting.
 2. Pindahkan style css kedalam HEAD di login Admin.
-3. Pisahkan Konfigurasi DevToolBar
+3. Pisahkan Konfigurasi DevToolBar.
