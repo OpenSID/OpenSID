@@ -87,7 +87,6 @@ class Suplemen extends Admin_Controller
 
         $data['list_sasaran'] = unserialize(SASARAN);
 
-        $this->set_minsidebar(1);
         $this->render('suplemen/form', $data);
     }
 
@@ -166,7 +165,6 @@ class Suplemen extends Admin_Controller
         $data['set_page'] = ['20', '50', '100'];
         $data['cari']     = $this->session->cari;
 
-        $this->set_minsidebar(1);
         $this->render('suplemen/suplemen_anggota', $data);
     }
 
