@@ -195,10 +195,6 @@ class Import_model extends CI_Model
 
         $nilai = str_replace(' ', '', strtolower($nilai));
         $nilai = preg_replace('/\\s*\\/\\s*/', '/', $nilai);
-        if ($nilai == 'slta/sederajat') {
-            log_message('error', 'daftar kode : ' . json_encode($daftar_kode));
-            log_message('error', $daftar_kode[$nilai] . ' => ' . $nilai);
-        }
 
         if (! empty($nilai) && $nilai != '-' && ! array_key_exists($nilai, $daftar_kode)) {
             return -1;
@@ -420,27 +416,31 @@ class Import_model extends CI_Model
         }
         // Masukkan keluarga ke tabel tweb_keluarga apabila
         // keluarga ini belum ada
-        $keluarga_baru      = false;
-        $query              = 'SELECT id from tweb_keluarga WHERE no_kk=?';
-        $hasil              = $this->db->query($query, $isi_baris['no_kk']);
-        $res                = $hasil->row_array();
+        $keluarga_baru = false;
+
+        $keluarga_id = $this->db
+            ->select('id')
+            ->get_where('tweb_keluarga', ['no_kk' => $isi_baris['no_kk']])
+            ->row()
+            ->id;
+
         $data['updated_by'] = $this->session->user;
         $data['id_cluster'] = $isi_baris['id_cluster'];
 
-        if (! empty($res)) {
+        if ($keluarga_id) {
             // Update keluarga apabila sudah ada
-            $isi_baris['id_kk'] = $res['id'];
-            $id                 = $res['id'];
-            $this->db->where('id', $id);
+            $isi_baris['id_kk'] = $keluarga_id;
+            $this->db->where('id', $keluarga_id);
             // Hanya update apabila alamat kosong
             // karena alamat keluarga akan diupdate menggunakan data kepala keluarga di tulis_tweb_pendududk
             $this->db->where('alamat', null);
             $data['alamat'] = $isi_baris['alamat'];
-            $hasil          = $this->db->update('tweb_keluarga', $data);
+            $this->db->update('tweb_keluarga', $data);
         } else {
-            $data['no_kk']      = $isi_baris['no_kk'];
-            $data['alamat']     = $isi_baris['alamat'];
-            $hasil              = $this->db->insert('tweb_keluarga', $data);
+            $data['no_kk']  = $isi_baris['no_kk'];
+            $data['alamat'] = $isi_baris['alamat'];
+
+            $this->db->insert('tweb_keluarga', $data);
             $isi_baris['id_kk'] = $this->db->insert_id();
             $keluarga_baru      = true;
         }
@@ -495,6 +495,8 @@ class Import_model extends CI_Model
                     $this->error_tulis_penduduk = $this->db->error();
                 }
             }
+
+            $penduduk_baru = $res['id'];
         } else {
             // Konfersi nik 0 sesuai format nik sementara
             $data['nik'] = $isi_baris['nik'];
@@ -521,8 +523,13 @@ class Import_model extends CI_Model
         // Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
         // dan sudah ada NIK
         if ($data['kk_level'] == 1) {
-            $this->db->where('id', $data['id_kk']);
-            $this->db->update('tweb_keluarga', ['nik_kepala' => $penduduk_baru, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']]);
+            $this->db
+                ->where('id', $data['id_kk'])
+                ->update('tweb_keluarga', [
+                    'nik_kepala' => $penduduk_baru,
+                    'id_cluster' => $isi_baris['id_cluster'],
+                    'alamat'     => $isi_baris['alamat'],
+                ]);
         }
 
         return $penduduk_baru;

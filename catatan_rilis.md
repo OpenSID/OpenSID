@@ -40,6 +40,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 19. [#4595](https://github.com/OpenSID/OpenSID/issues/4595) Perbaiki Ubah panjang value pada kolom tag_id_card.
 20. [#4593](https://github.com/OpenSID/OpenSID/issues/4593) Error saat menyimpan peta, dengan data yg tidak lengkap.
 21. [#4574](https://github.com/OpenSID/OpenSID/issues/4574) Tampilkan data artikel sesuai dengan pengaturan Grup dan Pengguna.
+21. [#4600](https://github.com/OpenSID/OpenSID/issues/4600) Perbaiki Import data penduduk.
 
 #### Perubahan Teknis
 
