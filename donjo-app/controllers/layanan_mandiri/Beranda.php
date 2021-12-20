@@ -51,36 +51,24 @@ class Beranda extends Mandiri_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model']);
+		$this->load->model(['mandiri_model', 'penduduk_model', 'kelompok_model', 'web_dokumen_model', 'pendapat_model']);
 		$this->load->helper('download');
 	}
 
 	public function index()
 	{
-		/**
-		 * krn view index belum tersedia
-		$data = [
-			'desa' => $this->header,
-			'konten' => 'index'
-		];
-
-		$this->load->view('layanan_mandiri/template', $data);
-		*/
-
 		$this->profil();
 	}
 
 	public function profil()
 	{
 		$data = [
-			'desa' => $this->header,
 			'penduduk' => $this->penduduk_model->get_penduduk($this->is_login->id_pend),
 			'kelompok' => $this->penduduk_model->list_kelompok($this->is_login->id_pend),
 			'dokumen' => $this->penduduk_model->list_dokumen($this->is_login->id_pend),
-			'konten' => 'profil'
 		];
 
-		$this->load->view('layanan_mandiri/template', $data);
+		$this->render('profil', $data);
 	}
 
 	public function cetak_biodata()
@@ -115,13 +103,11 @@ class Beranda extends Mandiri_Controller
 	public function ganti_pin()
 	{
 		$data = [
-			'desa' => $this->header,
 			'cek_anjungan' => $this->cek_anjungan,
 			'form_action' => site_url('layanan-mandiri/proses-ganti-pin'),
-			'konten' => 'ganti_pin'
 		];
 
-		$this->load->view('layanan_mandiri/template', $data);
+		$this->render('ganti_pin', $data);
 	}
 
 	public function proses_ganti_pin()
@@ -136,7 +122,6 @@ class Beranda extends Mandiri_Controller
 		redirect('layanan-mandiri');
 	}
 
-	// Belum dipakai
 	/**
 	 * Unduh berkas berdasarkan kolom dokumen.id
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
@@ -150,6 +135,17 @@ class Beranda extends Mandiri_Controller
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else
 			$this->output->set_status_header('404');
+	}
+
+	public function pendapat(int $pilihan = 1)
+	{
+		$data = [
+			'pengguna' => $this->is_login->id_pend,
+			'pilihan' => $pilihan
+		];
+
+		$this->pendapat_model->insert($data);
+		redirect('layanan-mandiri/keluar');
 	}
 
 }

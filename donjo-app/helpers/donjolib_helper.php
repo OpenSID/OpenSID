@@ -225,6 +225,18 @@
 		return $bulan[(int)$bln];
 	}
 
+	function tahun(int $awal = 2018)
+	{
+		$akhir = date('Y');
+		$tahun = [];
+		for ($i = $awal; $i <= $akhir; $i++)
+		{
+			$tahun[] = $i;
+		}
+
+		return $tahun;
+	}
+
 	function nama_bulan($tgl)
 	{
 		$ar = explode('-', $tgl);
@@ -622,7 +634,9 @@ function set_ucwords($data)
 
 function persen($data)
 {
-	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
+	$str = is_nan($data) ? '0%' : number_format($data*100, 2, '.', '') . '%';
+
+	return str_replace(".",",", $str);
 }
 
 function sensor_nik_kk($data)

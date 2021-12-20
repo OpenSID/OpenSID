@@ -64,6 +64,10 @@ class MY_Controller extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+
+		// Tampilkan profiler untuk development
+		if (defined('ENVIRONMENT') && ENVIRONMENT == 'development')	$this->output->enable_profiler(TRUE);
+
 		$this->load->model(['setting_model']);
 		$this->setting_model->init();
 	}
@@ -78,6 +82,16 @@ class MY_Controller extends CI_Controller {
 		{
 			$this->session->unset_userdata($session);
 		}
+	}
+
+	public function json_output($parm, $header = 200)
+	{
+		$this->output
+			->set_status_header($header)
+			->set_content_type('application/json', 'utf-8')
+			->set_output(json_encode($parm))
+			->_display();
+		exit();
 	}
 
 }
@@ -173,7 +187,7 @@ class Mandiri_Controller extends MY_Controller {
 
 		if ($this->session->mandiri != 1)
 		{
-			if (! $this->session->login_ektp)
+			if ( ! $this->session->login_ektp)
 			{
 				redirect('layanan-mandiri/masuk');
 			}
@@ -182,6 +196,14 @@ class Mandiri_Controller extends MY_Controller {
 				redirect('layanan-mandiri/masuk_ektp');
 			}
 		}
+	}
+
+	public function render($view, Array $data = NULL)
+	{
+		$data['desa'] = $this->header;
+		$data['cek_anjungan'] = $this->cek_anjungan;
+		$data['konten'] = $view;
+		$this->load->view('layanan_mandiri/template', $data);
 	}
 
 }

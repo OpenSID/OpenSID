@@ -275,17 +275,6 @@ class Penduduk_model extends MY_Model {
 		return $alamat_wilayah;
 	}
 
-	// Masalah sql_mode ONLY_FULL_GROUP_BY diperbaiki di rilis v21.05-premium. Setelah rilis itu digabung, method ini tidak diperlukan lagi
-	private function temp_mode_get()
-	{
-		$sql_mode = $this->db->query('SELECT @@sql_mode')->row_array()['@@sql_mode'];
-		$temp_mode = preg_replace('/\,*ONLY_FULL_GROUP_BY/', '', $sql_mode);
-		$this->db->query("SET sql_mode='{$temp_mode}'");
-		$get = $this->db->get();
-		$this->db->query("SET sql_mode='{$sql_mode}'");
-		return $get;
-	}
-
 	public function paging($page_number = 1)
 	{
 		$this->db->select('COUNT(u.id) as jml');
@@ -420,7 +409,7 @@ class Penduduk_model extends MY_Model {
 		$this->lookup_ref_penduduk();
 		$this->order_by_list($order_by);
 
-		$data = $this->temp_mode_get()->result_array();
+		$data = $this->db->get()->result_array();
 
 		//Formating Output
 		$j = $offset;
@@ -629,7 +618,6 @@ class Penduduk_model extends MY_Model {
 		$data['id_asuransi'] = $data['id_asuransi'] ?: NULL;
 		$data['hamil'] = $data['hamil'] ?: NULL;
 
-		$data['tag_id_card'] = $data['tag_id_card'] ?: NULL;
 		$data['ktp_el'] = $data['ktp_el'] ?: NULL;
 		$data['tag_id_card'] = $data['tag_id_card'] ?: NULL;
 		$data['status_rekam'] = $data['status_rekam'] ?: NULL;
@@ -712,6 +700,7 @@ class Penduduk_model extends MY_Model {
 						array_push($valid, "NIK {$data['nik']} terdaftar Penduduk PERGI. Ubah Status di Menu Log Penduduk");
 				}
 			}
+
 		}
 		if ($error_nik = $this->nik_error($data['ayah_nik'], 'NIK Ayah'))
 			array_push($valid, $error_nik);
@@ -769,7 +758,7 @@ class Penduduk_model extends MY_Model {
 		$maksud_tujuan = $data['maksud_tujuan_kedatangan'];
 		unset($data['maksud_tujuan_kedatangan']);
 
-		$tgl_lapor = rev_tgl($_POST['tgl_lapor']);
+		$tgl_lapor = rev_tgl($_POST['tgl_lapor'], date('Y-m-d H:i:s'));
 		if ($_POST['tgl_peristiwa'])
 			$tgl_peristiwa = rev_tgl($_POST['tgl_peristiwa']);
 		else
@@ -786,8 +775,7 @@ class Penduduk_model extends MY_Model {
 		$idku = $this->db->insert_id();
 
 		// Upload foto dilakukan setelah ada id, karena nama foto berisi id pend
-		if ($foto = $this->upload_foto_penduduk($idku))
-			$this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
+		if ($foto = upload_foto_penduduk($idku, $this->input->post('nik'))) $this->db->where('id', $idku)->update('tweb_penduduk', ['foto' => $foto]);
 
 		// Jenis peristiwa didapat dari form yang berbeda
 		// Jika peristiwa lahir akan mengambil data dari field tanggal lahir
@@ -869,7 +857,8 @@ class Penduduk_model extends MY_Model {
 			}
 			unset($data['alamat']);
 		}
-		if ($foto = $this->upload_foto_penduduk($id))
+
+		if ($foto = upload_foto_penduduk($id, $this->input->post('nik')))
 			$data['foto'] = $foto;
 		else
 			unset($data['foto']);
@@ -924,46 +913,10 @@ class Penduduk_model extends MY_Model {
 
 		$data['updated_at'] = date('Y-m-d H:i:s');
 		$data['updated_by'] = $this->session->user;
-		$data['tag_id_card'] = empty($data['tag_id_card']) ? null : $data['tag_id_card'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_penduduk', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
-	}
-
-	private function upload_foto_penduduk($id)
-	{
-		$post = $this->input->post();
-		$foto = $post['foto'];
-		$old_foto = $post['old_foto'];
-		$nama_file = ($post['nik'] ?: '0') . '-' . $id;
-
-		if ($_FILES['foto']['tmp_name'])
-		{
-			$nama_file = $nama_file . get_extension($_FILES['foto']['name']);
-			UploadFoto($nama_file, $old_foto);
-		}
-		elseif ($foto)
-		{
-			$nama_file = $nama_file . '.png';
-			$foto = str_replace('data:image/png;base64,', '', $foto);
-			$foto = base64_decode($foto, true);
-
-			if ($old_foto != '')
-			{
-				// Hapus old_foto
-				unlink(LOKASI_USER_PICT . $old_foto);
-				unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);
-			}
-
-			file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
-			file_put_contents(LOKASI_USER_PICT . 'kecil_' . $nama_file, $foto);
-		}
-		else {
-			$nama_file = null;
-		}
-
-		return $nama_file;
 	}
 
 
@@ -1016,13 +969,6 @@ class Penduduk_model extends MY_Model {
 			->where('id',$id)
 			->update('tweb_penduduk', $data);
 		$penduduk = $this->get_penduduk($id);
-
-		// Tulis log_keluarga jika penduduk adalah kepala keluarga
-		if ($penduduk['kk_level'] == 1)
-		{
-			$id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
-			$this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa);
-		}
 
 		// Tulis log_penduduk
 		$log = [

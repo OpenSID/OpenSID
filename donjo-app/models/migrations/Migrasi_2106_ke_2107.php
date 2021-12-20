@@ -3,7 +3,7 @@
 /**
  * File ini:
  *
- * Model untuk migrasi database
+ * Model untuk modul database
  *
  * donjo-app/models/migrations/Migrasi_2106_ke_2107.php
  *
@@ -20,7 +20,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -42,14 +42,14 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2106_ke_2107 extends MY_model
+class Migrasi_2106_ke_2107 extends MY_Model
 {
 	public function up()
 	{
 		$hasil = true;
+		
 		// Migrasi fitur premium
-		// Jalankan juga migrasi versi-versi sebelumnya, karena migrasi dari rllis umum belum menjalankan
-		$daftar_migrasi_premium = ['2012', '2101', '2102', '2103',];
+		$daftar_migrasi_premium = ['2012', '2101', '2102', '2103', '2104', '2105', '2106', '2107'];
 		foreach ($daftar_migrasi_premium as $migrasi)
 		{
 			$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
@@ -58,17 +58,7 @@ class Migrasi_2106_ke_2107 extends MY_model
 				$hasil = $hasil && $this->$migrasi_premium->up();
 		}
 
-		$hasil = $hasil && $this->migrasi_2021062701($hasil);
-
 		status_sukses($hasil);
-		return $hasil;
-	}
-
-	protected function migrasi_2021062701($hasil)
-	{
-		// Buat folder untuk cache - 'cache\';
-		mkdir(config_item('cache_path'), 0775, true);
-
 		return $hasil;
 	}
 }

@@ -1,53 +1,60 @@
-#### [OpenSID v21.12](https://github.com/OpenSID/OpenSID/releases/tag/v21.12)
+#### [v21.12-pasca]
 
-Di rilis ini, versi 21.12, menyediakan Impor Survei Google Form ke Master Analisis. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 21.06-premium, menyediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada Mochamad Arifin dan Ariandi Ryan Kahfi yang terus berkontribusi. Terima kasih pula pada Mokhamad Afila yang baru mulai berkontribusi.
+Terima kasih pada afa28 yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi v21.12 adalah sebagai berikut:
+Lengkapnya, isi rilis versi v21.12-pasca adalah sebagai berikut:
+
 
 #### Penambahan Fitur
-1. [#4108](https://github.com/OpenSID/OpenSID/issues/4108) - Filter arsip surat menurut bulan.
-2. [#3986](https://github.com/OpenSID/OpenSID/issues/3986) - Samarkan data penduduk di server yang khusus digunakan untuk data publik saja, tidak untuk pengelolaan data penduduk.
-3. [#3986](https://github.com/OpenSID/OpenSID/issues/3986) - Sinkronkan data penduduk dan keluarga dari offline ke server data publik melalui impor file.
-4. [#4121](https://github.com/OpenSID/OpenSID/issues/4121) - Tampilkan evaluasi SDGs Kemendesa di web.
-5. [#1994](https://github.com/OpenSID/OpenSID/issues/1994) - Sediakan fitur untuk membuat grup pengguna tambahan yg bisa diatur hak aksesnya.
-6. Tampilkan catatan rilis di Dashboard Admin.
-7. [#4054](https://github.com/OpenSID/OpenSID/issues/4054) - Bisa impor survei Google Form ke master Analisis.
-8. [#2836](https://github.com/OpenSID/OpenSID/issues/2836) - Sediakan Buku Tanah Desa sesuai Permendagri 47/2016.
-9. [#2837](https://github.com/OpenSID/OpenSID/issues/2837) - Sediakan Buku Tanah Kas Desa sesuai Permendagri 47/2016.
+1. [#4137](https://github.com/OpenSID/OpenSID/issues/4137) Sekarang Status IDM Desa bisa ditampilkan untuk tahun pilihan.
+2. [#4171](https://github.com/OpenSID/OpenSID/issues/4171) Di Pengaturan > QR Code scan tombol Kunjungi Website sekarang hanya tampil jika ada url valid di isi QR Code yg di-scan.
+3. [#4183](https://github.com/OpenSID/OpenSID/issues/4183) Tampilkan / Sembunyikan PIN saat Ganti PIN Layanan Mandiri.
+4. [#3918](https://github.com/OpenSID/OpenSID/issues/3918) Sekarang bisa kirim pesan belum lengkap pada waktu memeriksa permohonan surat layanan mandiri.
+5. [#4124](https://github.com/OpenSID/OpenSID/issues/4124) Sekarang jabatan Kependudukan > Kelompok dapat diisi secara manual.
+6. [#4055](https://github.com/OpenSID/OpenSID/issues/4055) Sekarang bisa ambil foto penduduk anggota kelompok dan Pemerintahan Desa menggunakan kamera HP/webcam.
+7. [#4037](https://github.com/OpenSID/OpenSID/issues/4037) Pengguna Layanan Mandiri sekarang dapat memberi penilaian kepuasan pelayanan.
+8. Tampilkan isi logs di Pengaturan > Info Sistem, untuk memudahkan pengguna melaporkan masalah.
+9. [#4200](https://github.com/OpenSID/OpenSID/issues/4200) Sediakan tombol untuk memperbaharui data status IDM, mengganti yg tersimpan di cache.
+10. [#3875](https://github.com/OpenSID/OpenSID/issues/3875) Sembunyikan Dokumen Persyaratan Surat pada permohonan surat Layanan Mandiri jika syarat surat tidak diperlukan.
+11. [#4202](https://github.com/OpenSID/OpenSID/issues/4202) Sediakan tombol untuk menampilkan dokumen kelengkapan pada waktu memeriksa permohonan surat Layanan Mandiri.
+12. [#4210](https://github.com/OpenSID/OpenSID/issues/4210) Di form ubah biodata penduduk, sediakan tombol kembali ke Daftar Anggota Keluarga jika dibuka dari situ.
+13. [#2838](https://github.com/OpenSID/OpenSID/issues/2838) Sediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016.
+
 
 #### Perbaikan BUG
-1. Perketat pemeriksaan file pada Database > Restore.
-2. Daftar penduduk tampil normal pada sql_mode = ONLY_FULL_GROUP_BY.
-3. Modul Pertanahan sekarang menampilkan penjelasan kalau lokasi persil tidak ditemukan.
-4. [#4091](https://github.com/OpenSID/OpenSID/issues/4091) - Sekarang menu navigasi tampil di atas tombol peta pada waktu hover mouse.
-5. [#4123](https://github.com/OpenSID/OpenSID/issues/4123) - Sekarang penandatangan lampiran Surat Biodata Penduduk, Surat Permohonan Kartu Keluarga dan Surat Permohonan Perubahan Kartu Keluarga tampil benar.
-6. [#4118](https://github.com/OpenSID/OpenSID/issues/4118) - Sekarang urut pertanyaan/indikator analisis berdasarkan kode lebih konsisten.
-7. [#4113](https://github.com/OpenSID/OpenSID/issues/4113) - Perbaiki bisa cari nama penduduk atau nama lain yg berisi tanda kutip (').
-8. [#4129](https://github.com/OpenSID/OpenSID/issues/4129) - Sekarang menambah anggota keluarga sudah normal kembali.
-9. [#1486](https://github.com/OpenSID/OpenSID/issues/1486) - Hapus isian yg tidak digunakan di form Surat Pernyataan Belum Memiliki Akta Lahir.
-10. [#3352](https://github.com/OpenSID/OpenSID/issues/3352) - Perbaiki pencatatan data pengunjung web.
-11. [#4131](https://github.com/OpenSID/OpenSID/issues/4131) - Sekarang tidak tampil penduduk duplikat setelah pecah atau keluarkan anggota keluarga.
-12. [#4130](https://github.com/OpenSID/OpenSID/issues/4130) - Sekarang pilihan huruf yg dapat dibaca penduduk tampil pada waktu menambah KK dan anggota keluarga.
-13. Tampilkan status IDM untuk tahun 2021.
-14. [#3593](https://github.com/OpenSID/OpenSID/issues/3593) - Tambahkan kolom status_dasar di file impor/ekspor data penduduk.
-15. [#4135](https://github.com/OpenSID/OpenSID/issues/4135) - Sekarang halaman statis Daftar Calon Pemilih tampil normal kembali di web.
-16. [#4133](https://github.com/OpenSID/OpenSID/issues/4133) - Sekarang peta tidak membatasi jumlah area yg dapat ditampilkan.
-17. [#4136](https://github.com/OpenSID/OpenSID/issues/4136) - Sekarang penduduk dengan status dasar selain hidup tidak lagi tampil duplikat.
-18. [#4140](https://github.com/OpenSID/OpenSID/issues/4140) - Sekarang jumlah rincian data suplemen yang tampil melalui menu statis web tidak dibatasi.
-19. [#4143](https://github.com/OpenSID/OpenSID/issues/4143) - Kurangi jumlah link halaman pada paginasi Pengaturan Peta > Area supaya terlihat lebih rapi.
-20. [#4148](https://github.com/OpenSID/OpenSID/issues/4148) - Sekarang bisa cari arsip layanan surat menggunakan nama penduduk berisi tanda petik (').
-21. [#4150](https://github.com/OpenSID/OpenSID/issues/4150) - Sekarang NIK ganda tidak bisa dimasukkan lagi.
-22. [#4152](https://github.com/OpenSID/OpenSID/issues/4152) - Sekarang penduduk mati/pindah/hilang yg belum kawin tidak lagi muncul di daftar penduduk lepas pada waktu menambah anggota keluarga dari penduduk yg ada.
-23. Sekarang penduduk mati/pindah/hilang tidak lagi muncul di daftar pilihan terdata data suplemen.
-24. Tulis ulang log_keluarga dan tulis ulang penghitungan statistik laporan kependudukan bulanan.
-25. [#4154](https://github.com/OpenSID/OpenSID/issues/4154) - Sekarang urut pertanyaan/indikator di unduh data sensus/survei analisis lebih konsisten.
-26. Ubah keterangan Google Key menjadi Mapbox Key di pengaturan aplikasi.
-27. Sekarang bisa kembali tambah penduduk dengan NIK 0. [bug-fix]
-28. Tampilkan penandatangan yg benar di Laporan Penduduk per Wilayah, Surat Keluar dan Buku Data Aparat Pemerintahan Desa. [bug-fix]
-29. Sekarang penduduk tidak tampil ganda di Kependudukan > Penduduk jika menjadi peserta di lebih dari satu program bantuan. [bug-fix]
+1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa, Admin Web, Layanan Mandiri, Bantuan, Sekretariat, Pembangunan, Pertanahan dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
+2. [#4170](https://github.com/OpenSID/OpenSID/issues/4170) Sekarang data keluarga tersimpan normal pada impor data penduduk.
+3. [#4165](https://github.com/OpenSID/OpenSID/issues/4165) Sekarang penandatangan tampil benar di cetak/unduh Buku Agenda - Surat Masuk dan Buku Ekspedisi.
+4. [#4167](https://github.com/OpenSID/OpenSID/issues/4167) Sekarang laporan cetak/unduh Sekretariat > Informasi Publik ada blok penandatangan.
+5. [#4172](https://github.com/OpenSID/OpenSID/issues/4172) Data rincian peserta bantuan sekarang tampil benar di Layanan Mandiri.
+6. [#4168](https://github.com/OpenSID/OpenSID/issues/4168) Pindahkan Buku Tanah di Desa dan Buku Tanah Kas Desa ke Buku Administrasi Umum.
+7. Perbaiki jumlah luas total dan pemeriksaan rincian luas di Buku Tanah di Desa.
+8. [#4184](https://github.com/OpenSID/OpenSID/issues/4184) Nama desa sekarang tampil di cetak laporan Sekretariat > Informasi Publik.
+9. [#4186](https://github.com/OpenSID/OpenSID/issues/4186) Munculkan keyboard virtual di anjungan bagi semua surat bawaan sistem yang tersedia di Layanan Mandiri.
+10. [#4191](https://github.com/OpenSID/OpenSID/issues/4191) Sesuaikan keyboard virtual di anjungan supaya tidak menutup keseluruhan form.
+11. [#4193](https://github.com/OpenSID/OpenSID/issues/4193) Sekarang Pamong di Pemerintahan Desa bisa diubah dari Database Penduduk menjadi Tidak Terdata.
+12. Sekarang tidak menggantung jika gagal koneksi ke website eksternal, seperti ke https://pantau.opensid.or.id.
+13. Sekarang pilihan pendaftar layanan mandiri tetap tampil di form tulis pesan jika setting database sql_mode termasuk only_full_group_by.
+14. Tampilkan foto perangkat desa di widget Aparatur Desa dan Bagan bagi perangkat dari penduduk desa.
+15. [#4175](https://github.com/OpenSID/OpenSID/issues/4175) Perbaiki centang entri input manual data keuangan sesuai jenis anggaran.
+16. Perbaiki migrasi kalau grup pengguna Satgas Covid dihapus.
+17. [#4203](https://github.com/OpenSID/OpenSID/issues/4203) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Peraturan Desa.
+18. [#4204](https://github.com/OpenSID/OpenSID/issues/4204) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Keputusan Kepala Desa.
+19. [#4205](https://github.com/OpenSID/OpenSID/issues/4205) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Buku Lembaran Desa Dan Berita Desa.
+20. [#4206](https://github.com/OpenSID/OpenSID/issues/4206) Sekarang blok tandatangan tampil benar di laporan cetak/unduh Statistik Laporan Bulanan.
+21. [#4201](https://github.com/OpenSID/OpenSID/issues/4201) Sekarang penduduk tidak tetap yang ditambahkan melalui Satgas Covid-19 > Pendataan tersimpan dengan benar.
+22. [#4207](https://github.com/OpenSID/OpenSID/issues/4207) Sekarang kembalikan status dasar kepala keluarga mati/hilang/pindah terhitung benar di Statistik > Laporan Bulanan.
 
 
 #### Perubahan Teknis
-1. Pindahkan folder cache ambil status release dan status IDM ke folder 'cache'.
+1. Perbaiki penulisan script Buku Tanah di Desa dan Buku Kas Tanah Desa.
+2. Gunakan modal cetak global.
+3. Sesuaikan migrasi dengan versi database.
+4. Sederhanakan query modul Pembangunan.
+5. Sesuaikan link status SDGs Desa supaya menggunakan format slug menu lainnya dan tidak perlu diawali 'first'.
+6. Sederhanakan dan mengurangi duplikasi script pada Layanan Mandiri.
+7. Hapus script tidak digunakan di modul Layanan Surat.
+8. Sediakan opsi memanggil data eksternal tanpa menggunakan SSL. Ambil data SDGs tanpa menggunakan SSL, karena sertifikat portal Kemendesa yg bermasalah. Data SDGs tidak dirahasiakan, dan aman diambil tanpa SSL.
+9. Kirim statistik tambahan ke TrackSID.

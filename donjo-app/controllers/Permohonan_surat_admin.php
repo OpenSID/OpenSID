@@ -49,7 +49,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'pamong_model', 'referensi_model']);
+		$this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'pamong_model', 'referensi_model', 'mailbox_model', 'surat_master_model']);
 		$this->modul_ini = 14;
 		$this->sub_modul_ini = 98;
 	}
@@ -165,7 +165,7 @@ class Permohonan_surat_admin extends Admin_Controller {
 		return $isian_form;
 	}
 
-	public function delete($id_permohonan)
+	public function delete($id_permohonan = 0)
 	{
 		// Hanya status 0 dan 1 yang boleh dihapus
 		if (in_array($id_permohonan, [0, 1])) $this->permohonan_surat_model->delete($id_permohonan);
@@ -173,4 +173,47 @@ class Permohonan_surat_admin extends Admin_Controller {
 		redirect('permohonan_surat_admin');
 	}
 
+	public function belum_lengkap($id_permohonan = 0)
+	{
+		$data['form_action'] = site_url("permohonan_surat_admin/kirim_pesan/$id_permohonan");
+
+		$this->load->view('surat/form/belum_lengkap', $data);
+	}
+
+	public function kirim_pesan($id_permohonan = 0)
+	{
+		$periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id_permohonan, 'status' => 1]);
+		$pemohon = $this->surat_model->get_penduduk($periksa['id_pemohon']);
+		$surat = $this->surat_master_model->get_surat_format($periksa['id_surat']);
+		$post = $this->input->post();
+		$data = [
+			'subjek' => 'Permohonan Surat ' . $surat['nama'] . ' Perlu Dilengkapi',
+			'komentar' => $post['pesan'],
+			'owner' => $pemohon['nama'], // TODO : Gunakan id_pend
+			'email' => $pemohon['nik'], // TODO : Gunakan id_pend
+			'permohonan' => $id_permohonan, // Menyimpan id_permohonan untuk link
+			'tipe' => 2,
+			'status' => 2
+		];
+
+		$this->mailbox_model->insert($data);
+		$this->proses($id_permohonan, 0);
+
+		redirect('permohonan_surat_admin');
+	}
+
+	public function tampilkan($id_dokumen, $id_pend = 0)
+	{
+		$this->load->model('Web_dokumen_model');
+
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
+
+		$data = [
+			'berkas' => base_url(LOKASI_DOKUMEN . $berkas),
+			'tipe' => get_extension($berkas),
+			'link' => site_url("dokumen/unduh_berkas/$id_dokumen/$id_pend")
+		];
+
+		$this->load->view('global/tampilkan', $data);
+	}
 }

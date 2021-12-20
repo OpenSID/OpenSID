@@ -24,9 +24,11 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("gallery/form_sub_gallery/$gallery")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Album">
-								<i class="fa fa-plus"></i> Tambah Gambar Baru
-            	</a>
+							<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<a href="<?= site_url("gallery/form_sub_gallery/$gallery")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Album">
+									<i class="fa fa-plus"></i> Tambah Gambar Baru
+	            	</a>
+	            <?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("gallery/delete_all_sub_gallery/$gallery")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
@@ -67,9 +69,13 @@
 														<table class="table table-bordered table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
+																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																		<th><input type="checkbox" id="checkall"/></th>
+																	<?php endif; ?>
 																	<th>No</th>
-																	<th>Aksi</th>
+																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<th>Aksi</th>
+																	<?php endif; ?>
 																	<?php if ($o==2): ?>
                                     <th><a href="<?= site_url("gallery/sub_gallery/$gallery/$p/1")?>">Nama Gambar <i class='fa fa-sort-asc fa-sm'></i></a></th>
                                   <?php elseif ($o==1): ?>
@@ -96,21 +102,27 @@
 															<tbody>
 																<?php foreach ($sub_gallery as $data): ?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<?php endif; ?>
 																		<td><?=$data['no']?></td>
-																		<td nowrap>
-																			<a href="<?=site_url("gallery/urut/$data[id]/1/$sub[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-                    									<a href="<?=site_url("gallery/urut/$data[id]/2/$sub[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
-																			<a href="<?= site_url("gallery/form_sub_gallery/$gallery/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php if ($this->CI->cek_hak_akses('h')): ?>
-                                        <?php if ($data['enabled'] == '2'): ?>
-                                          <a href="<?= site_url("gallery/gallery_lock/".$data['id']."/$gallery")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Gambar"><i class="fa fa-lock">&nbsp;</i></a>
-                                        <?php elseif ($data['enabled'] == '1'): ?>
-                                          <a href="<?= site_url("gallery/gallery_unlock/".$data['id']."/$gallery")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Gambar"><i class="fa fa-unlock"></i></a>
-                                        <?php endif ?>
-																				<a href="#" data-href="<?= site_url("gallery/delete_sub_gallery/$gallery/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-                                      <?php endif; ?>
-                                    </td>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<td nowrap>
+																				<?php if ($this->CI->cek_hak_akses('u')): ?>
+																					<a href="<?=site_url("gallery/urut/$data[id]/1/$sub[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+		                    									<a href="<?=site_url("gallery/urut/$data[id]/2/$sub[id]")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																					<a href="<?= site_url("gallery/form_sub_gallery/$gallery/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+	                                        <?php if ($data['enabled'] == '2'): ?>
+	                                          <a href="<?= site_url("gallery/gallery_lock/".$data['id']."/$gallery")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan Gambar"><i class="fa fa-lock">&nbsp;</i></a>
+	                                        <?php elseif ($data['enabled'] == '1'): ?>
+	                                          <a href="<?= site_url("gallery/gallery_unlock/".$data['id']."/$gallery")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan Gambar"><i class="fa fa-unlock"></i></a>
+	                                        <?php endif; ?>
+	                                      <?php endif; ?>
+																				<?php if ($this->CI->cek_hak_akses('h')): ?>
+																					<a href="#" data-href="<?= site_url("gallery/delete_sub_gallery/$gallery/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+	                                      <?php endif; ?>
+	                                    </td>
+	                                  <?php endif; ?>
                                     <td width="60%">
 																			<label data-rel="popover" data-content="<img width=200 height=134 src=<?= AmbilGaleri($data['gambar'], 'kecil') ?>>"><?= $data['nama']?></label>
 																		</td>

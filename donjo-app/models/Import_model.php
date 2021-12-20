@@ -1,51 +1,53 @@
 <?php
 
 define("KOLOM_IMPOR_KELUARGA", serialize(array(
-  "alamat" => "0",
-  "dusun" => "1",
-  "rw"  => "2",
-  "rt" => "3",
-  "nama" => "4",
-  "no_kk" => "5",
-  "nik"  => "6",
-  "sex" => "7",
-  "tempatlahir" => "8",
-  "tanggallahir"  => "9",
-  "agama_id" => "10",
-  "pendidikan_kk_id" => "11",
-  "pendidikan_sedang_id" => "12",
-  "pekerjaan_id" => "13",
-  "status_kawin"  => "14",
-  "kk_level" => "15",
-  "warganegara_id" => "16",
-  "nama_ayah"  => "17",
-  "nama_ibu" => "18",
-  "golongan_darah_id" => "19",
-  "akta_lahir" => "20",
-  "dokumen_pasport" => "21",
-  "tanggal_akhir_paspor" => "22",
-  "dokumen_kitas" => "23",
-  "ayah_nik" => "24",
-  "ibu_nik" => "25",
-  "akta_perkawinan" => "26",
-  "tanggalperkawinan" => "27",
-  "akta_perceraian" => "28",
-  "tanggalperceraian" => "29",
-  "cacat_id" => "30",
-  "cara_kb_id" => "31",
-  "hamil" => "32",
-  "ktp_el" => "33",
-  "status_rekam" => "34",
-  "alamat_sekarang" => "35",
-  "status_dasar" => "36")));
+	"alamat" => "0",
+	"dusun" => "1",
+	"rw"  => "2",
+	"rt" => "3",
+	"nama" => "4",
+	"no_kk" => "5",
+	"nik"  => "6",
+	"sex" => "7",
+	"tempatlahir" => "8",
+	"tanggallahir"  => "9",
+	"agama_id" => "10",
+	"pendidikan_kk_id" => "11",
+	"pendidikan_sedang_id" => "12",
+	"pekerjaan_id" => "13",
+	"status_kawin"  => "14",
+	"kk_level" => "15",
+	"warganegara_id" => "16",
+	"nama_ayah"  => "17",
+	"nama_ibu" => "18",
+	"golongan_darah_id" => "19",
+	"akta_lahir" => "20",
+	"dokumen_pasport" => "21",
+	"tanggal_akhir_paspor" => "22",
+	"dokumen_kitas" => "23",
+	"ayah_nik" => "24",
+	"ibu_nik" => "25",
+	"akta_perkawinan" => "26",
+	"tanggalperkawinan" => "27",
+	"akta_perceraian" => "28",
+	"tanggalperceraian" => "29",
+	"cacat_id" => "30",
+	"cara_kb_id" => "31",
+	"hamil" => "32",
+	"ktp_el" => "33",
+	"status_rekam" => "34",
+	"alamat_sekarang" => "35",
+	"status_dasar" => "36"
+)));
 
-  require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
-  use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 
 class Import_model extends CI_Model {
 
-  public $error_tulis_penduduk; // error pada pemanggilan terakhir tulis_tweb_penduduk()
+	public $error_tulis_penduduk; // error pada pemanggilan terakhir tulis_tweb_penduduk()
 
 	public function __construct()
 	{
@@ -101,6 +103,7 @@ class Import_model extends CI_Model {
 			$upload_mb = max_upload();
 			$_SESSION['error_msg'] .= " -> Ukuran file melebihi batas " . $upload_mb . " MB";
 			$_SESSION['success'] = -1;
+
 			return false;
 		}
 
@@ -109,6 +112,7 @@ class Import_model extends CI_Model {
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $_FILES['userfile']['type'];
 			$_SESSION['success'] = -1;
+
 			return false;
 		}
 
@@ -127,7 +131,7 @@ class Import_model extends CI_Model {
 	{
 		$nilai = strtolower($nilai);
 		$nilai = preg_replace("/\s*\/\s*/", '/', $nilai);
-		if (!empty($nilai) and $nilai != '-' and !array_key_exists($nilai, $daftar_kode))
+		if ( ! empty($nilai) and $nilai != '-' and !array_key_exists($nilai, $daftar_kode))
 			return -1; // kode salah
 		return $daftar_kode[$nilai];
 	}
@@ -143,28 +147,28 @@ class Import_model extends CI_Model {
 	protected function data_import_valid($isi_baris)
 	{
 		// Kolom yang harus diisi
-		if ($isi_baris['nama'] == "" OR $isi_baris['nik'] == "" OR $isi_baris['dusun'] == "" OR $isi_baris['rt'] == "" OR $isi_baris['rw'] == "")
+		if ($isi_baris['nama'] == "" or $isi_baris['nik'] == "" or $isi_baris['dusun'] == "" or $isi_baris['rt'] == "" or $isi_baris['rw'] == "")
 			return 'nama/nik/dusun/rt/rw kosong';
 		// Validasi data setiap kolom ber-kode
-		if ($isi_baris['sex'] != "" AND !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return 'kode sex tidak dikenal';
-		if ($isi_baris['agama_id'] != "" AND !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return 'kode agama tidak dikenal';
-		if ($isi_baris['pendidikan_kk_id'] != "" AND !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return 'kode pendidikan tidak dikenal';
-		if ($isi_baris['pendidikan_sedang_id'] != "" AND !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return 'kode pendidikan_sedang tidak dikenal';
-		if ($isi_baris['pekerjaan_id'] != "" AND !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) return 'kode pekerjaan tidak dikenal';
-		if ($isi_baris['status_kawin'] != "" AND !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) return 'kode status_kawin tidak dikenal';
-		if ($isi_baris['kk_level'] != "" AND !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return 'kode status hubungan tidak dikenal';
-		if ($isi_baris['warganegara_id'] != "" AND !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return 'kode warganegara tidak dikenal';
-		if ($isi_baris['golongan_darah_id'] != "" AND !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return 'kode golongan_darah tidak dikenal';
+		if ($isi_baris['sex'] != "" and !($isi_baris['sex'] >= 1 && $isi_baris['sex'] <= 2)) return 'kode sex tidak dikenal';
+		if ($isi_baris['agama_id'] != "" and !($isi_baris['agama_id'] >= 1 && $isi_baris['agama_id'] <= 7)) return 'kode agama tidak dikenal';
+		if ($isi_baris['pendidikan_kk_id'] != "" and !($isi_baris['pendidikan_kk_id'] >= 1 && $isi_baris['pendidikan_kk_id'] <= 10)) return 'kode pendidikan tidak dikenal';
+		if ($isi_baris['pendidikan_sedang_id'] != "" and !($isi_baris['pendidikan_sedang_id'] >= 1 && $isi_baris['pendidikan_sedang_id'] <= 18)) return 'kode pendidikan_sedang tidak dikenal';
+		if ($isi_baris['pekerjaan_id'] != "" and !($isi_baris['pekerjaan_id'] >= 1 && $isi_baris['pekerjaan_id'] <= 89)) return 'kode pekerjaan tidak dikenal';
+		if ($isi_baris['status_kawin'] != "" and !($isi_baris['status_kawin'] >= 1 && $isi_baris['status_kawin'] <= 4)) return 'kode status_kawin tidak dikenal';
+		if ($isi_baris['kk_level'] != "" and !($isi_baris['kk_level'] >= 1 && $isi_baris['kk_level'] <= 11)) return 'kode status hubungan tidak dikenal';
+		if ($isi_baris['warganegara_id'] != "" and !($isi_baris['warganegara_id'] >= 1 && $isi_baris['warganegara_id'] <= 3)) return 'kode warganegara tidak dikenal';
+		if ($isi_baris['golongan_darah_id'] != "" and !($isi_baris['golongan_darah_id'] >= 1 && $isi_baris['golongan_darah_id'] <= 13)) return 'kode golongan_darah tidak dikenal';
 
-		if ($isi_baris['cacat_id'] != "" AND !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return 'kode cacat tidak dikenal';
-		if ($isi_baris['cara_kb_id'] != "" AND !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) AND $isi_baris['cara_kb_id']!="99") return 'kode cara_kb tidak dikenal';
-		if ($isi_baris['hamil'] != "" AND !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
-		if ($isi_baris['ktp_el'] != "" AND !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
-		if ($isi_baris['status_rekam'] != "" AND !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
-		if ($isi_baris['status_dasar'] != "" AND ! in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) return 'kode status_dasar tidak dikenal';
+		if ($isi_baris['cacat_id'] != "" and !($isi_baris['cacat_id'] >= 1 && $isi_baris['cacat_id'] <= 7)) return 'kode cacat tidak dikenal';
+		if ($isi_baris['cara_kb_id'] != "" and !($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) and $isi_baris['cara_kb_id'] != "99") return 'kode cara_kb tidak dikenal';
+		if ($isi_baris['hamil'] != "" and !($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) return 'kode hamil tidak dikenal';
+		if ($isi_baris['ktp_el'] != "" and !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
+		if ($isi_baris['status_rekam'] != "" and !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
+		if ($isi_baris['status_dasar'] != "" and !in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) return 'kode status_dasar tidak dikenal';
 
 		// Validasi data lain
-		if (!ctype_digit($isi_baris['nik']) OR (strlen($isi_baris['nik']) != 16 AND $isi_baris['nik'] != '0')) return 'nik salah';
+		if ( ! ctype_digit($isi_baris['nik']) or (strlen($isi_baris['nik']) != 16 and $isi_baris['nik'] != '0')) return 'nik salah';
 
 		return '';
 	}
@@ -176,7 +180,7 @@ class Import_model extends CI_Model {
 		{
 			return $kolom_tanggal->format("Y-m-d");
 		}
-		$tanggal = ltrim(trim($kolom_tanggal),"'");
+		$tanggal = ltrim(trim($kolom_tanggal), "'");
 		if (strlen($tanggal) == 0)
 		{
 			return $tanggal;
@@ -215,7 +219,7 @@ class Import_model extends CI_Model {
 		// Data Disdukcapil adakalanya berisi karakter tambahan pada no_kk dan nik
 		// yang tidak tampak (non-printable characters),
 		// jadi perlu dibuang
-		$no_kk= trim($rowData[$kolom_impor_keluarga['no_kk']]);
+		$no_kk = trim($rowData[$kolom_impor_keluarga['no_kk']]);
 		$no_kk = preg_replace('/[^0-9]/', '', $no_kk);
 		$isi_baris['no_kk'] = $no_kk;
 
@@ -224,22 +228,22 @@ class Import_model extends CI_Model {
 		$isi_baris['nik'] = $nik;
 
 		$isi_baris['sex'] = $this->get_konversi_kode($this->kode_sex, trim($rowData[$kolom_impor_keluarga['sex']]));
-		$isi_baris['tempatlahir']= trim($rowData[$kolom_impor_keluarga['tempatlahir']]);
+		$isi_baris['tempatlahir'] = trim($rowData[$kolom_impor_keluarga['tempatlahir']]);
 		$isi_baris['tanggallahir'] = $this->format_tanggal($rowData[$kolom_impor_keluarga['tanggallahir']]);
 
-		$isi_baris['agama_id']= $this->get_konversi_kode($this->kode_agama, trim($rowData[$kolom_impor_keluarga['agama_id']]));
-		$isi_baris['pendidikan_kk_id']= $this->get_konversi_kode($this->kode_pendidikan, trim($rowData[$kolom_impor_keluarga['pendidikan_kk_id']]));
+		$isi_baris['agama_id'] = $this->get_konversi_kode($this->kode_agama, trim($rowData[$kolom_impor_keluarga['agama_id']]));
+		$isi_baris['pendidikan_kk_id'] = $this->get_konversi_kode($this->kode_pendidikan, trim($rowData[$kolom_impor_keluarga['pendidikan_kk_id']]));
 		// TODO: belum ada kode_pendudukan_sedang
-		$pendidikan_sedang_id= trim($rowData[$kolom_impor_keluarga['pendidikan_sedang_id']]);
+		$pendidikan_sedang_id = trim($rowData[$kolom_impor_keluarga['pendidikan_sedang_id']]);
 		if ($pendidikan_sedang_id == "")
 			$pendidikan_sedang_id = 18;
 		$isi_baris['pendidikan_sedang_id'] = $pendidikan_sedang_id;
 
-		$isi_baris['pekerjaan_id']= $this->get_konversi_kode($this->kode_pekerjaan, trim($rowData[$kolom_impor_keluarga['pekerjaan_id']]));
-		$isi_baris['status_kawin']= $this->get_konversi_kode($this->kode_status, trim($rowData[$kolom_impor_keluarga['status_kawin']]));
-		$isi_baris['kk_level']= $this->get_konversi_kode($this->kode_hubungan, trim($rowData[$kolom_impor_keluarga['kk_level']]));
+		$isi_baris['pekerjaan_id'] = $this->get_konversi_kode($this->kode_pekerjaan, trim($rowData[$kolom_impor_keluarga['pekerjaan_id']]));
+		$isi_baris['status_kawin'] = $this->get_konversi_kode($this->kode_status, trim($rowData[$kolom_impor_keluarga['status_kawin']]));
+		$isi_baris['kk_level'] = $this->get_konversi_kode($this->kode_hubungan, trim($rowData[$kolom_impor_keluarga['kk_level']]));
 		// TODO: belum ada kode_warganegara
-		$isi_baris['warganegara_id']= trim($rowData[$kolom_impor_keluarga['warganegara_id']]);
+		$isi_baris['warganegara_id'] = trim($rowData[$kolom_impor_keluarga['warganegara_id']]);
 
 		$nama_ayah = trim($rowData[$kolom_impor_keluarga['nama_ayah']]);
 		if ($nama_ayah == "")
@@ -273,7 +277,7 @@ class Import_model extends CI_Model {
 		$isi_baris['cara_kb_id'] = trim($rowData[$kolom_impor_keluarga['cara_kb_id']]);
 		$isi_baris['hamil'] = trim($rowData[$kolom_impor_keluarga['hamil']]);
 		$isi_baris['ktp_el'] = $this->get_konversi_kode($this->kode_ktp_el, trim($rowData[$kolom_impor_keluarga['ktp_el']]));
-		$isi_baris['status_rekam']= $this->get_konversi_kode($this->kode_status_rekam, trim($rowData[$kolom_impor_keluarga['status_rekam']]));
+		$isi_baris['status_rekam'] = $this->get_konversi_kode($this->kode_status_rekam, trim($rowData[$kolom_impor_keluarga['status_rekam']]));
 		$isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
 		$isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($rowData[$kolom_impor_keluarga['status_dasar']]));
 
@@ -291,11 +295,11 @@ class Import_model extends CI_Model {
 		$res = $hasil->row_array();
 		if (empty($res))
 		{
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt, rw, dusun) VALUES (0, 0, '".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt, rw, dusun) VALUES (0, 0, '" . $isi_baris['dusun'] . "')";
 			$hasil = $this->db->query($query);
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt, rw, dusun) VALUES (0, '-', '".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt, rw, dusun) VALUES (0, '-', '" . $isi_baris['dusun'] . "')";
 			$hasil = $this->db->query($query);
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt, rw, dusun) VALUES ('-','-','".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt, rw, dusun) VALUES ('-','-','" . $isi_baris['dusun'] . "')";
 			$hasil = $this->db->query($query);
 		}
 
@@ -305,16 +309,16 @@ class Import_model extends CI_Model {
 		$res = $hasil->row_array();
 		if (empty($res))
 		{
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0, '".$isi_baris['rw']."', '".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES (0, '" . $isi_baris['rw'] . "', '" . $isi_baris['dusun'] . "')";
 			$hasil = $this->db->query($query);
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-', '".$isi_baris['rw']."', '".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('-', '" . $isi_baris['rw'] . "', '" . $isi_baris['dusun'] . "')";
 			$hasil = $this->db->query($query);
 			$isi_baris['id_cluster'] = $this->db->insert_id();
 		}
 
 		// --- Masukkan rt apabila belum ada
 		$query = "SELECT id FROM tweb_wil_clusterdesa WHERE
-							dusun = '".$isi_baris['dusun']."' AND rw='".$isi_baris['rw']."' AND rt='".$isi_baris['rt']."'";
+							dusun = '" . $isi_baris['dusun'] . "' AND rw='" . $isi_baris['rw'] . "' AND rt='" . $isi_baris['rt'] . "'";
 		$hasil = $this->db->query($query);
 		$res = $hasil->row_array();
 		if ( ! empty($res))
@@ -323,7 +327,7 @@ class Import_model extends CI_Model {
 		}
 		else
 		{
-			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('".$isi_baris['rt']."', '".$isi_baris['rw']."', '".$isi_baris['dusun']."')";
+			$query = "INSERT INTO tweb_wil_clusterdesa(rt,rw,dusun) VALUES ('" . $isi_baris['rt'] . "', '" . $isi_baris['rw'] . "', '" . $isi_baris['dusun'] . "')";
 			$hasil = $this->db->query($query);
 			$isi_baris['id_cluster'] = $this->db->insert_id();
 		}
@@ -342,6 +346,8 @@ class Import_model extends CI_Model {
 		$query = "SELECT id from tweb_keluarga WHERE no_kk=?";
 		$hasil = $this->db->query($query, $isi_baris['no_kk']);
 		$res = $hasil->row_array();
+		$data['updated_by'] = $this->session->user;
+
 		if ( ! empty($res))
 		{
 			// Update keluarga apabila sudah ada
@@ -362,6 +368,7 @@ class Import_model extends CI_Model {
 			$isi_baris['id_kk'] = $this->db->insert_id();
 			$keluarga_baru = true;
 		}
+
 		return $keluarga_baru;
 	}
 
@@ -394,7 +401,7 @@ class Import_model extends CI_Model {
 			$query = "SELECT id from tweb_penduduk WHERE nik = ?";
 			$hasil = $this->db->query($query, $isi_baris['nik']);
 			$res = $hasil->row_array();
-			if (!empty($res))
+			if ( ! empty($res))
 			{
 				if ($data['status_dasar'] != -1)
 				{
@@ -402,7 +409,7 @@ class Import_model extends CI_Model {
 					$data['updated_at'] = date('Y-m-d H:i:s');
 					$data['updated_by'] = $this->session->user;
 					$id = $res['id'];
-					$this->db->where('id',$id);
+					$this->db->where('id', $id);
 					if ( ! $this->db->update('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();
 				}
 			}
@@ -412,7 +419,8 @@ class Import_model extends CI_Model {
 				$data['created_at'] = date('Y-m-d H:i:s');
 				$data['created_by'] = $this->session->user;
 				if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
-				$penduduk_baru = $this->db->insert_id();
+				$id = $this->db->insert_id();
+				$penduduk_baru = $id;
 
 				// Insert ke log_penduduk pada penduduk baru
 				$log['tgl_peristiwa'] = $data['created_at'];
@@ -427,9 +435,10 @@ class Import_model extends CI_Model {
 		{
 			if ($data['status_dasar'] == -1) $data['status_dasar'] = 9; // Tidak Valid
 			$data['created_by'] = $this->session->user;
-			if (! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
+			if ( ! $this->db->insert('tweb_penduduk', $data)) $this->error_tulis_penduduk = $this->db->error();;
 
-			$penduduk_baru = $this->db->insert_id();
+			$id = $this->db->insert_id();
+			$penduduk_baru = $id;
 		}
 
 		// Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
@@ -437,8 +446,9 @@ class Import_model extends CI_Model {
 		if ($data['kk_level'] == 1)
 		{
 			$this->db->where('id', $data['id_kk']);
-			$this->db->update('tweb_keluarga', array('nik_kepala' => $penduduk_baru, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
+			$this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
 		}
+
 		return $penduduk_baru;
 	}
 
@@ -451,112 +461,112 @@ class Import_model extends CI_Model {
 		}
 	}
 
-  public function import_excel($hapus=false)
+	public function import_excel($hapus = false)
 	{
-    $_SESSION['error_msg'] = '';
+		$_SESSION['error_msg'] = '';
 		$_SESSION['success'] = 1;
 		if ($this->file_import_valid() == false)
 		{
 			return;
 		}
 
-    // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
-    // atau tidak sebelum melakukan impor
-    // Tidak boleh menghapus jika dalam demo_mode
-    if ($hapus) $this->hapus_data_penduduk();
+		// Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+		// atau tidak sebelum melakukan impor
+		// Tidak boleh menghapus jika dalam demo_mode
+		if ($hapus && !$this->setting->demo_mode)
+		{
+			$this->hapus_data_penduduk();
+		}
 
-    $numRows = 0;
+		$numRows = 0;
 
-    $reader = ReaderEntityFactory::createXLSXReader();
+		$reader = ReaderEntityFactory::createXLSXReader();
 		$reader->setShouldPreserveEmptyRows(true);
-    $reader->open($_FILES['userfile']['tmp_name']);
+		$reader->open($_FILES['userfile']['tmp_name']);
 
-    foreach ($reader->getSheetIterator() as $sheet)
-    {
-      $gagal = 0;
-      $baris_gagal = "";
-      $baris_data = 0;
-      $baris_pertama = false;
-      $nomor_baris = 0;
+		foreach ($reader->getSheetIterator() as $sheet)
+		{
+			$gagal = 0;
+			$baris_gagal = "";
+			$baris_data = 0;
+			$baris_pertama = false;
+			$nomor_baris = 0;
 
-      if ( $sheet->getName() == 'Kode Data') continue;
+			if ($sheet->getName() == 'Kode Data') continue;
 
-      foreach ($sheet->getRowIterator() as $row)
-      {
-      	$nomor_baris++;
-        $rowData = [];
-        $cells = $row->getCells();
+			foreach ($sheet->getRowIterator() as $row)
+			{
+				$nomor_baris++;
+				$rowData = [];
+				$cells = $row->getCells();
 
-        foreach ($cells as $cell)
-        {
-        	$rowData[] = $cell->getValue();
-        }
+				foreach ($cells as $cell)
+				{
+					$rowData[] = $cell->getValue();
+				}
 
-	      // Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
-	      if ($rowData[1] == '###') break;
+				// Baris dengan kolom dusun = '###' menunjukkan telah sampai pada baris data terakhir
+				if ($rowData[1] == '###') break;
 
-	      // Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
-	      if ($rowData[1] == '' AND $rowData[2] == '' AND $rowData[3] == '') continue;
+				// Baris dengan dusun/rw/rt kosong menandakan baris tanpa data
+				if ($rowData[1] == '' and $rowData[2] == '' and $rowData[3] == '') continue;
 
-	      // Baris pertama diabaikan, berisi nama kolom
-	      if (! $baris_pertama)
-	      {
-	      	$baris_pertama = true;
-	      	continue;
-	      }
+				// Baris pertama diabaikan, berisi nama kolom
+				if ( ! $baris_pertama)
+				{
+					$baris_pertama = true;
+					continue;
+				}
 
-        $baris_data++;
+				$baris_data++;
 
-        $this->db->query("SET character_set_connection = utf8");
-        $this->db->query("SET character_set_client = utf8");
+				$this->db->query("SET character_set_connection = utf8");
+				$this->db->query("SET character_set_client = utf8");
 
-        $isi_baris = $this->get_isi_baris($rowData);
-        $error_validasi = $this->data_import_valid($isi_baris);
-        if (empty($error_validasi))
-        {
-          $this->tulis_tweb_wil_clusterdesa($isi_baris);
-          $this->tulis_tweb_keluarga($isi_baris);
-          $this->tulis_tweb_penduduk($isi_baris);
-          if ($error = $this->error_tulis_penduduk)
-          {
-	          $gagal++;
-	          $baris_gagal .= $nomor_baris." (".$error['message'].")<br>";
-          }
-        }
-        else
-        {
-          $gagal++;
-          $baris_gagal .= $nomor_baris." (".$error_validasi.")<br>";
-        }
+				$isi_baris = $this->get_isi_baris($rowData);
+				$error_validasi = $this->data_import_valid($isi_baris);
+				if (empty($error_validasi))
+				{
+					$this->tulis_tweb_wil_clusterdesa($isi_baris);
+					$this->tulis_tweb_keluarga($isi_baris);
+					$this->tulis_tweb_penduduk($isi_baris);
+					if ($error = $this->error_tulis_penduduk)
+					{
+						$gagal++;
+						$baris_gagal .= $nomor_baris . " (" . $error['message'] . ")<br>";
+					}
+				}
+				else
+				{
+					$gagal++;
+					$baris_gagal .= $nomor_baris . " (" . $error_validasi . ")<br>";
+				}
+			}
 
-      }
+			if ($baris_data <= 0)
+			{
+				$_SESSION['error_msg'] .= " -> Tidak ada data";
+				$_SESSION['success'] = -1;
+				return;
+			}
 
-      if ($baris_data <= 0)
-      {
-        $_SESSION['error_msg'] .= " -> Tidak ada data";
-        $_SESSION['success'] = -1;
-        return;
-      }
-
-      $sukses = $baris_data - $gagal;
-      if ($gagal == 0)
-        $baris_gagal = "tidak ada data yang gagal di import.";
-      else $_SESSION['success'] = -1;
-      $_SESSION['gagal'] = $gagal;
-      $_SESSION['sukses'] = $sukses;
-      $_SESSION['baris'] = $baris_gagal;
-
-    }
-    $reader->close();
-
-  }
+			$sukses = $baris_data - $gagal;
+			if ($gagal == 0)
+				$baris_gagal = "tidak ada data yang gagal di import.";
+			else $_SESSION['success'] = -1;
+			$_SESSION['gagal'] = $gagal;
+			$_SESSION['sukses'] = $sukses;
+			$_SESSION['baris'] = $baris_gagal;
+		}
+		$reader->close();
+	}
 
 	/* 	====================
 			Selesai IMPORT EXCEL
 			====================
 	*/
 
-	public function import_bip($hapus=false)
+	public function import_bip($hapus = false)
 	{
 		$_SESSION['error_msg'] = '';
 		$_SESSION['success'] = 1;
@@ -572,131 +582,131 @@ class Import_model extends CI_Model {
 
 		// Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
 		// atau tidak sebelum melakukan impor
-		if ($hapus) { $this->hapus_data_penduduk(); }
+		if ($hapus)
+		{
+			$this->hapus_data_penduduk();
+		}
 
-	  require_once APPPATH.'/models/Bip_model.php';
+		require_once APPPATH . '/models/Bip_model.php';
 		$bip = new BIP_Model($data);
 		$bip->impor_bip();
 	}
 
 	private function hapus_rtm_penduduk()
 	{
- 		// Hapus status rtm di tabel tweb_penduduk
-  		$this->db->set('id_rtm', '0')
-  			->set('rtm_level', '0')
-  			->where('id_rtm <>', '0')->or_where('rtm_level <>', '0')
-  			->update('tweb_penduduk');
+		// Hapus status rtm di tabel tweb_penduduk
+		$this->db->set('id_rtm', '0')
+			->set('rtm_level', '0')
+			->where('id_rtm <>', '0')->or_where('rtm_level <>', '0')
+			->update('tweb_penduduk');
 	}
 
 	// Impor Pengelompokan Data Rumah Tangga
 	// Data rumah tangga sebelumnya dihapus dan digantikan dengan data impor
 	public function pbdt_individu()
 	{
-    $reader = ReaderEntityFactory::createXLSXReader();
-    $reader->open($_FILES['userfile']['tmp_name']);
-    $outp = true;
-    foreach ($reader->getSheetIterator() as $sheet)
-    {
-    	$baris_pertama = false;
-  		$gg = 0;
+		$reader = ReaderEntityFactory::createXLSXReader();
+		$reader->open($_FILES['userfile']['tmp_name']);
+		$outp = true;
+		foreach ($reader->getSheetIterator() as $sheet)
+		{
+			$baris_pertama = false;
+			$gg = 0;
 
-  		$this->hapus_rtm_penduduk();
+			$this->hapus_rtm_penduduk();
 
-      foreach ($sheet->getRowIterator() as $row)
-      {
-      	// Abaikan baris pertama yg berisi nama kolom
-      	if ( ! $baris_pertama)
-      	{
-      		$baris_pertama = true;
-      		continue;
-      	}
-        $rowData = [];
-        $cells = $row->getCells();
+			foreach ($sheet->getRowIterator() as $row)
+			{
+				// Abaikan baris pertama yg berisi nama kolom
+				if ( ! $baris_pertama)
+				{
+					$baris_pertama = true;
+					continue;
+				}
+				$rowData = [];
+				$cells = $row->getCells();
 
-        foreach ($cells as $cell)
-        {
-        	$rowData[] = $cell->getValue();
-        }
-  			//ID RuTa
-  			$id_rtm	= $rowData[1];
+				foreach ($cells as $cell)
+				{
+					$rowData[] = $cell->getValue();
+				}
+				//ID RuTa
+				$id_rtm	= $rowData[1];
 
-  			//Level
-  			$rtm_level = $rowData[2];
-  			if ($rtm_level > 1) $rtm_level = 2;
+				//Level
+				$rtm_level = $rowData[2];
+				if ($rtm_level > 1) $rtm_level = 2;
 
-  			//NIK
-  			$nik = $rowData[0];
+				//NIK
+				$nik = $rowData[0];
 
-  			$pdd = $this->db->select('nama')
-  				->where('nik', $nik)
-  				->get('tweb_penduduk')
-  				->row_array();
+				$pdd = $this->db->select('nama')
+					->where('nik', $nik)
+					->get('tweb_penduduk')
+					->row_array();
 
-  			$nama = "--> GAGAL";
-  			if ($pdd)
-  			{
-  				$upd['id_rtm'] = $id_rtm;
-  				$upd['rtm_level'] = $rtm_level;
-  				$upd['updated_at'] = date('Y-m-d H:i:s');
-  				$upd['updated_by'] = $this->session->user;
+				$nama = "--> GAGAL";
+				if ($pdd)
+				{
+					$upd['id_rtm'] = $id_rtm;
+					$upd['rtm_level'] = $rtm_level;
+					$upd['updated_at'] = date('Y-m-d H:i:s');
+					$upd['updated_by'] = $this->session->user;
 
-  				$this->db->where('nik', $nik);
-  				$outp = $outp && $this->db->update('tweb_penduduk', $upd);
-  				$nama = $pdd['nama'];
+					$this->db->where('nik', $nik);
+					$outp = $outp && $this->db->update('tweb_penduduk', $upd);
+					$nama = $pdd['nama'];
 
-  				echo "<a>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
-  			}
-  			else
-  			{
-  				$penduduk = "";
-  				$penduduk['id_cluster']	= 0;
-  				$penduduk['status']	= 2;
-  				$penduduk['nama']	= $rowData[3];
-  				$penduduk['nik'] = $nik;
-  				$penduduk['id_rtm']	= $id_rtm;
-  				$penduduk['rtm_level'] = $rtm_level;
-  				$penduduk['created_by'] = $this->session->user;
+					echo "<a>" . $id_rtm . " " . $rtm_level . " " . $nik . " " . $nama . "</a><br>";
+				}
+				else
+				{
+					$penduduk = "";
+					$penduduk['id_cluster']	= 0;
+					$penduduk['status']	= 2;
+					$penduduk['nama']	= $rowData[3];
+					$penduduk['nik'] = $nik;
+					$penduduk['id_rtm']	= $id_rtm;
+					$penduduk['rtm_level'] = $rtm_level;
+					$penduduk['created_by'] = $this->session->user;
 
-  				$outp = $outp && $this->db->insert('tweb_penduduk', $penduduk);
+					$outp = $outp && $this->db->insert('tweb_penduduk', $penduduk);
 
-  				echo "<a style='color:#f00;'>".$id_rtm." ".$rtm_level." ".$nik." ".$nama."</a><br>";
+					echo "<a style='color:#f00;'>" . $id_rtm . " " . $rtm_level . " " . $nik . " " . $nama . "</a><br>";
 
-  				$gg++;
-  			}
-      }
+					$gg++;
+				}
+			}
 
-      $this->db->truncate('tweb_rtm');
+			$this->db->truncate('tweb_rtm');
 
- 			$ketua_rtm = $this->db->select('id_rtm as no_kk, id as nik_kepala')
- 				->from('tweb_penduduk')
- 				->where('id_rtm >', 0)
- 				->where('rtm_level', 1)
- 				->get()->result_array();
+			$ketua_rtm = $this->db->select('id_rtm as no_kk, id as nik_kepala')
+				->from('tweb_penduduk')
+				->where('id_rtm >', 0)
+				->where('rtm_level', 1)
+				->get()->result_array();
 
- 			$hasil_insert = $this->db
- 				->insert_batch('tweb_rtm', $ketua_rtm);
+			$hasil_insert = $this->db
+				->insert_batch('tweb_rtm', $ketua_rtm);
 
-  		$outp = $outp && $hasil_insert;
+			$outp = $outp && $hasil_insert;
 
-  		if (! $hasil_insert)
-  		{
-  			$error = $this->db->error();
-  			echo "<a style='color:#f00;'> Ada rumah tangga dengan kepala ganda. ".$error['code'].': '.$error['message']."</a><br><br>";
-	  		$this->hapus_rtm_penduduk();
-  		}
+			if ( ! $hasil_insert)
+			{
+				$error = $this->db->error();
+				echo "<a style='color:#f00;'> Ada rumah tangga dengan kepala ganda. " . $error['code'] . ': ' . $error['message'] . "</a><br><br>";
+				$this->hapus_rtm_penduduk();
+			}
 
-  		$_SESSION['ggl'] = $gg;
+			$_SESSION['ggl'] = $gg;
 
-  		status_sukses($outp); //Tampilkan Pesan
+			status_sukses($outp); //Tampilkan Pesan
 
-  		if ($hasil_insert) echo "<br>JUMLAH GAGAL : $gg</br>";
-  		echo "<a href='".site_url()."database/import'>LANJUT</a>";
+			if ($hasil_insert) echo "<br>JUMLAH GAGAL : $gg</br>";
+			echo "<a href='" . site_url() . "database/import'>LANJUT</a>";
 
-      exit;
-    }
-    $reader->close();
+			exit;
+		}
+		$reader->close();
 	}
-
 }
-
-?>

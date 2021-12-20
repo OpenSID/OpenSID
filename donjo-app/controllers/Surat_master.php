@@ -89,6 +89,7 @@ class Surat_master extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
@@ -116,6 +117,7 @@ class Surat_master extends Admin_Controller {
 
 	public function form_upload($p = 1, $o = 0, $url = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['form_action'] = site_url("surat_master/upload/$p/$o/$url");
 		$this->load->view('surat_master/ajax-upload', $data);
 	}
@@ -140,6 +142,7 @@ class Surat_master extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$syarat = $this->input->post('syarat');
 		$mandiri = $this->input->post('mandiri');
 		unset($_POST['syarat']);
@@ -151,6 +154,7 @@ class Surat_master extends Admin_Controller {
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$syarat = $this->input->post('syarat');
 		$mandiri = $this->input->post('mandiri');
 		unset($_POST['syarat']);
@@ -161,6 +165,7 @@ class Surat_master extends Admin_Controller {
 
 	public function upload($p = 1, $o = 0, $url = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->surat_master_model->upload($url);
 		redirect("surat_master/index/$p/$o");
 	}
@@ -179,32 +184,6 @@ class Surat_master extends Admin_Controller {
 		redirect("surat_master/index/$p/$o");
 	}
 
-	public function p_insert($in = '')
-	{
-		$this->surat_master_model->p_insert($in);
-		redirect("surat_master/atribut/$in");
-	}
-
-	public function p_update($in = '', $id = '')
-	{
-		$this->surat_master_model->p_update($id);
-		redirect("surat_master/atribut/$in");
-	}
-
-	public function p_delete($in = '', $id = '')
-	{
-		$this->redirect_hak_akses('h', "surat_master/atribut/$in");
-		$this->surat_master_model->p_delete($id);
-		redirect("surat_master/atribut/$in");
-	}
-
-	public function p_delete_all()
-	{
-		$this->redirect_hak_akses('h', "surat_master/atribut/$in");
-		$this->surat_master_model->p_delete_all();
-		redirect("surat_master/atribut/$in");
-	}
-
 	public function kode_isian($p = 1, $o = 0, $id = '')
 	{
 		$data['p'] = $p;
@@ -221,12 +200,14 @@ class Surat_master extends Admin_Controller {
 
 	public function lock($id = 0, $k = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->surat_master_model->lock($id, $k);
 		redirect("surat_master");
 	}
 
 	public function favorit($id = 0, $k = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->surat_master_model->favorit($id, $k);
 		redirect("surat_master");
 	}

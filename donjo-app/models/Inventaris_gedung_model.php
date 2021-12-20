@@ -5,6 +5,7 @@ class Inventaris_gedung_model extends CI_Model
 
 	protected $table = 'inventaris_gedung';
 	protected $table_mutasi = 'mutasi_inventaris_gedung';
+	protected $mutasi_key = 'id_inventaris_gedung';
 	protected $table_pamong = 'tweb_desa_pamong';
 
 	public function __construct()
@@ -40,9 +41,11 @@ class Inventaris_gedung_model extends CI_Model
 
 	public function list_inventaris()
 	{
-		$this->db->select('*');
-		$this->db->from($this->table);
-		$this->db->where($this->table.'.visible', 1);
+		$this->db
+			->select('u.*, m.id as mutasi')
+			->from("{$this->table} u")
+			->join("{$this->table_mutasi} m", "m.{$this->mutasi_key} = u.id", 'left')
+			->where('u.visible', 1);
 		$data = $this->db->get()->result();
 		return $data;
 	}
@@ -71,9 +74,10 @@ class Inventaris_gedung_model extends CI_Model
 
 	public function list_mutasi_inventaris()
 	{
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
+		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
+		// $this->db->where('status_mutasi', 'Hapus');
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung', 'left');
 		$data = $this->db->get()->result();
 		return $data;
@@ -90,8 +94,9 @@ class Inventaris_gedung_model extends CI_Model
 	public function add_mutasi($data)
 	{
 		$this->db->insert($this->table_mutasi, array_filter($data));
+		$status_ivntrs= ($data['status_mutasi'] === 'Hapus') ? 1 : 0 ;  // status 1 adalah untuk barang yang sudah terhapus
 		$id = $this->db->insert_id();
-		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_gedung']));
+		$this->db->update($this->table, array('status' => $status_ivntrs), array('id' => $data['id_inventaris_gedung']));
 		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();
 		return $inserted;
 	}
@@ -100,14 +105,14 @@ class Inventaris_gedung_model extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from($this->table);
-        $this->db->where($this->table.'.id', $id);
+		$this->db->where($this->table.'.id', $id);
 		$data = $this->db->get()->row();
 		return $data;
 	}
 
 	public function view_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
+		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung', 'left');
@@ -117,7 +122,7 @@ class Inventaris_gedung_model extends CI_Model
 
 	public function edit_mutasi($id)
 	{
-		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*,  inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
+		$this->db->select('mutasi_inventaris_gedung.id as id,mutasi_inventaris_gedung.*, inventaris_gedung.nama_barang, inventaris_gedung.kode_barang, inventaris_gedung.tanggal_dokument, inventaris_gedung.register');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.id', $id);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_gedung', 'left');

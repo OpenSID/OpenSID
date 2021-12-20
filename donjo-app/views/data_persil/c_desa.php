@@ -81,10 +81,14 @@
 																	<tr>
 																		<td><?= $item['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("cdesa/rincian/".$item["id_cdesa"])?>" class="btn bg-purple btn-flat btn-sm"  title="Rincian"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("cdesa/create_mutasi/".$item["id_cdesa"])?>" class="btn bg-green btn-flat btn-sm"  title="Tambah Data"><i class="fa fa-plus"></i></a>
-																			<a href="<?= site_url("cdesa/create/edit/".$item["id_cdesa"])?>" class="btn bg-yellow btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
-																			<a href="#" data-href="<?= site_url("cdesa/hapus/".$item["id_cdesa"])?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="<?= site_url("cdesa/rincian/".$item["id_cdesa"])?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-bars"></i></a>
+																			<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<a href="<?= site_url("cdesa/create_mutasi/".$item["id_cdesa"])?>" class="btn bg-green btn-flat btn-sm" title="Tambah Data"><i class="fa fa-plus"></i></a>
+																				<a href="<?= site_url("cdesa/create/edit/".$item["id_cdesa"])?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																			<?php endif; ?>
+																			<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<a href="#" data-href="<?= site_url("cdesa/hapus/".$item["id_cdesa"])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php endif; ?>
 																		</td>
 																		<td><?= sprintf("%04s", $item["nomor"]) ?></td>
 																		<td><?= $item['nama_kepemilikan'] ?>

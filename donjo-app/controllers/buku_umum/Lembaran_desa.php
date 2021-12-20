@@ -75,7 +75,7 @@ class Lembaran_desa extends Admin_Controller {
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
-    $_SESSION['menu_kategori'] = TRUE;
+		$_SESSION['menu_kategori'] = TRUE;
 
 		foreach ($data['submenu'] as $s)
 		{
@@ -159,6 +159,8 @@ class Lembaran_desa extends Admin_Controller {
 		$data['form_action'] = site_url("lembaran_desa/daftar/$aksi/$o");
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat = 3);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
@@ -175,7 +177,8 @@ class Lembaran_desa extends Admin_Controller {
 		$post = $this->input->post();
 		$data['main'] = $this->web_dokumen_model->data_cetak($kat = 3, $post['tahun'], $post['jenis_peraturan']);
 		$data['input'] = $post;
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
 		$data['tahun'] = $post['tahun'];
 		$data['desa'] = $this->config_model->get_data();
 		$data['aksi'] = $aksi;

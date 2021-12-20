@@ -25,6 +25,7 @@
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="nama_barang">Nama Barang</label>
 										<div class="col-sm-8">
 											<input type="hidden" name="id" id="id" value="<?= $main->id; ?>">
+											<input type="hidden" name="id_asset" id="id_asset" value="<?= $main->id_inventaris_asset; ?>">
 											<input maxlength="50" value="<?= $main->nama_barang; ?>"  class="form-control input-sm required" name="nama_barang" id="nama_barang" type="text" disabled/>
 										</div>
 									</div>
@@ -40,20 +41,33 @@
 											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" disabled/>
 										</div>
 									</div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Mutasi</label>
+										<div class="col-sm-4">
+											<select name="status_mutasi" id="status" class="form-control input-sm required">
+												<option value="Baik" <?php selected($main->status_mutasi, 'Baik') ?>>Baik</option>
+												<option value="Rusak" <?php selected($main->status_mutasi, 'Rusak') ?> >Rusak</option>
+												<option value="Diperbaiki" <?php selected($main->status_mutasi, 'Diperbaiki') ?> >Diperbaiki</option>
+												<option value="Hapus" <?php selected($main->status_mutasi, 'Hapus') ?>>Penghapusan</option>
+											</select>
+										</div>
+									</div>									
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm required">
-												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
-												<option value="Rusak">Status Rusak</option>
-												<option value="Diperbaiki">Status Diperbaiki</option>
-												<optgroup label="Barang Masih Baik">
-												<option value="Masih Baik Disumbangkan">Sumbangakan</option>
-												<option value="Masih Baik Dijual">Jual</option>
+											<select name="mutasi" id="mutasi" class="form-control input-sm ">
+												<optgroup label="Penghapusan">
+													<option value="Baik" <?php selected($main->jenis_mutasi, 'Baik')?>>Status Baik</option>
+													<option value="Rusak" <?php selected($main->jenis_mutasi, 'Rusak')?>>Status Rusak</option>
+ 												</optgroup>
+												<optgroup label="Disumbangkan">
+													<option value="Masih Baik Disumbangkan" <?php selected($main->jenis_mutasi, 'Masih Baik Disumbangkan')?>>Masih Baik</option>
+													<option value="Barang Rusak Disumbangkan" <?php selected($main->jenis_mutasi, 'Barang Rusak Disumbangkan')?>>Rusak</option>
 												</optgroup>
-												<optgroup label="Barang Sudah Rusak">
-												<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
-												<option value="Barang Rusak Dijual">Jual</option>
+												<optgroup label="Jual">
+													<option value="Masih Baik Dijual" <?php selected($main->jenis_mutasi, 'Masih Baik Dijual')?>>Masih Baik</option>
+													<option value="Barang Rusak Dijual" <?php selected($main->jenis_mutasi, 'Barang Rusak Dijual')?>>Rusak</option>
 												</optgroup>
 											</select>
 										</div>
@@ -108,6 +122,9 @@
 <script>
 	$(document).ready(function()
 	{
+		var status = $("#status").val();
+		if (status == 'Hapus') {$("#mutasi").parent().parent().show();} else {$("#mutasi").parent().parent().hide();}
+
 		if ($("#mutasi").val() == "Masih Baik Disumbangkan" | $("#mutasi").val() == "Barang Rusak Disumbangkan" )
 		{
 			$(".disumbangkan").show();
@@ -127,14 +144,31 @@
 			{
 				$(".disumbangkan").show();
 				$(".harga_jual").hide();
-			} else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
+			} 
+			else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			} 
+			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
+			}
+		});
+
+		$("#status").change(function() 
+		{
+			var status = $(this).val();
+			if (status == "Hapus") 
+			{
+				$("#mutasi").parent().parent().show();
+				$("#mutasi").addClass('required');
+			}
+			else
+			{
+				$("#mutasi").parent().parent().hide();
+				$("#mutasi").removeClass('required');
 			}
 		});
 	});

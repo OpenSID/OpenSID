@@ -15,9 +15,11 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url('inventaris_jalan/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
-								<i class="fa fa-plus"></i>Tambah Data
-							</a>
+							<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<a href="<?= site_url('inventaris_jalan/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
+									<i class="fa fa-plus"></i>Tambah Data
+								</a>
+							<?php endif; ?>
 							<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
 								<i class="fa fa-print"></i>Cetak
 							</a>
@@ -39,7 +41,7 @@
 															<th class="text-center" rowspan="2">Nama Barang</th>
 															<th class="text-center" rowspan="2">Kode Barang / Nomor Registrasi</th>
 															<th class="text-center" rowspan="2">Kondisi (B, KB, RB)</th>
-															<th class="text-center" rowspan="2">Jenis Kontruksi</th>
+															<th class="text-center" rowspan="2">Jenis Konstruksi</th>
 															<th class="text-center" rowspan="2">Luas (M<sup>2</sup>)</th>
 															<th class="text-center" colspan="2">Dokumen Kepemilikan</th>
 															<th class="text-center" rowspan="2">Status Tanah</th>
@@ -60,12 +62,16 @@
 															<?php endif; ?>
 																<td></td>
 																<td nowrap>
-																	<?php if ($data->status == "0"): ?>
+																	<?php if ($data->mutasi == null && $this->CI->cek_hak_akses('u')): ?>
 																		<a href="<?= site_url('inventaris_jalan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
 																	<a href="<?= site_url('inventaris_jalan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																	<a href="<?= site_url('inventaris_jalan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																	<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<a href="<?= site_url('inventaris_jalan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																	<?php endif; ?>
+																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																		<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php endif; ?>
 																</td>
 																<td><?= $data->nama_barang;?></td>
 																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>

@@ -840,4 +840,39 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
 	imagedestroy($QR);
 }
 
+function upload_foto_penduduk($id = 0, $nik)
+{
+	$foto = $_POST['foto'];
+	$old_foto = $_POST['old_foto'];
+	$nama_file = ($nik ?: '0') . '-' . $id;
+
+	if ($_FILES['foto']['tmp_name'])
+	{
+		$nama_file = $nama_file . get_extension($_FILES['foto']['name']);
+		UploadFoto($nama_file, $old_foto);
+	}
+	elseif ($foto)
+	{
+		$nama_file = $nama_file . '.png';
+		$foto = str_replace('data:image/png;base64,', '', $foto);
+		$foto = base64_decode($foto, true);
+
+		if ($old_foto != '')
+		{
+			// Hapus old_foto
+			unlink(LOKASI_USER_PICT . $old_foto);
+			unlink(LOKASI_USER_PICT . 'kecil_' . $old_foto);
+		}
+
+		file_put_contents(LOKASI_USER_PICT . $nama_file, $foto);
+		file_put_contents(LOKASI_USER_PICT . 'kecil_' . $nama_file, $foto);
+	}
+	else
+	{
+		$nama_file = null;
+	}
+
+	return $nama_file;
+}
+
 ?>

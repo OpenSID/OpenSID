@@ -69,6 +69,7 @@ class Setting extends Admin_Controller {
 
 	public function update()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->setting_model->update_setting($this->input->post());
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -83,7 +84,12 @@ class Setting extends Admin_Controller {
 
 	public function info_sistem()
 	{
+		$this->set_minsidebar(1);
 		$this->sub_modul_ini = 46;
+
+		// Logs viewer
+		$this->load->library('Log_Viewer');
+		$data = $this->log_viewer->showLogs();
 
 		$data['ekstensi'] = $this->setting_model->cek_ekstensi();
 		$data['php'] = $this->setting_model->cek_php();

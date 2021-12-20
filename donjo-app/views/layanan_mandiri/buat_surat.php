@@ -46,9 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 ?>
 
-<div class="box box-solid">
-	<form id="validasi" action="<?= site_url("layanan_mandiri/surat/form/$permohonan[id]"); ?>" method="POST" enctype="multipart/form-data">
-
+<form id="validasi" action="<?= site_url("layanan-mandiri/surat/form/$permohonan[id]"); ?>" method="POST" enctype="multipart/form-data">
+	<div class="box box-solid">
 		<div class="box-header with-border bg-green">
 			<h4 class="box-title">Surat</h4>
 		</div>
@@ -86,38 +85,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<!-- Kelengkapan Dokumen Yang Dibutuhkan -->
-		<div class="box-body box-line">
-			<h4><b>DOKUMEN / KELENGKAPAN PENDUDUK YANG DIBUTUHKAN</b></h4>
-		</div>
-		<div class="box-body box-line">
-			<div class="table-responsive">
-				<table class="table table-bordered table-hover table-data" id="syarat_surat">
-					<thead>
-						<tr>
-							<th class="padat">No</center></th>
-							<th>Syarat</th>
-							<th class="padat">Dokumen Melengkapi Syarat</th>
-						</tr>
-					</thead>
-				</table>
+	<!-- Kelengkapan Dokumen Yang Dibutuhkan -->
+	<div class="box box-default">
+		<div class="ada_syarat" style="display: none">
+			<div class="box-header with-border">
+				<h4><b>DOKUMEN / KELENGKAPAN PENDUDUK YANG DIBUTUHKAN</b></h4>
 			</div>
-			<div class="col-xs-12">
-				<button type="reset" class="btn btn-social btn-sm btn-danger"><i class="fa fa-times"></i> Batal</button>
-				<button type="submit" class="btn btn-social btn-primary btn-sm pull-right" id="isi_form"><i class="fa fa-sign-in"></i>Isi Form</button>
+			<div class="box-body">
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover table-data" id="syarat_surat">
+						<thead>
+							<tr>
+								<th class="padat">No</center></th>
+								<th>Syarat</th>
+								<th class="padat">Dokumen Melengkapi Syarat</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
 			</div>
 		</div>
-	</form>
+		<div class="box-footer">
+			<button type="reset" class="btn btn-social btn-sm btn-danger"><i class="fa fa-times"></i> Batal</button>
+			<button type="submit" class="btn btn-social btn-primary btn-sm pull-right" id="isi_form"><i class="fa fa-sign-in"></i>Isi Form</button>
+		</div>
+	</div>
+</form>
 
-	<!-- Kelengkapan Dokumen Yang Dimiliki -->
-	<div class="box-body box-line">
+<!-- Kelengkapan Dokumen Yang Dimiliki -->
+<div class="box box-default ada_syarat" style="display: none">
+	<div class="box-header with-border">
 		<h4><b>DOKUMEN / KELENGKAPAN PENDUDUK YANG TERSEDIA</b></h4>
 	</div>
-	<div class="box-body box-line">
+	<div class="box-body">
 		<button type="button" title="Tambah Dokumen" data-remote="false" data-toggle="modal" data-target="#modal" data-title="Tambah Dokumen" class="btn btn-social bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" id="tambah_dokumen"><i class='fa fa-plus'></i>Tambah Dokumen</button>
-	</div>
-	<div class="box-body box-line">
 		<div class="table-responsive">
 			<table class="table table-bordered table-hover table-data" id="dokumen">
 				<thead>
@@ -184,7 +187,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<input type="text" class="form-control" id="file_path" name="satuan">
 							<input type="file" class="hidden" id="file" name="satuan">
 							<span class="input-group-btn">
-								<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+								<button type="button" class="btn btn-info btn-sm" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 							</span>
 						</div>
 						<span class="help-block"><code>Kosongkan jika tidak ingin mengubah dokumen. Ukuran maksimal <strong><?= max_upload() ?> MB</strong>.</code></span>
@@ -217,8 +220,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php endif ?>
 				</div>
 				<div class="modal-footer">
-					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Tutup</button>
-					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
+					<button type="reset" class="btn btn-social btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Tutup</button>
+					<button type="submit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
 				</div>
 			</form>
 		</div>

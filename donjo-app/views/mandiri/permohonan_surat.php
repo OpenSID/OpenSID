@@ -1,9 +1,7 @@
 <script>
-	$(function()
-	{
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete(
-		{
+	$(function() {
+		var keyword = <?= $keyword; ?> ;
+		$("#cari").autocomplete( {
 			source: keyword,
 			maxShowItems: 10,
 		});
@@ -48,7 +46,9 @@
 											<thead class="bg-gray disabled color-palette">
 												<tr>
 													<th>No</th>
-													<th>Aksi</th>
+													<?php if ($this->CI->cek_hak_akses('u') || $this->CI->cek_hak_akses('h')): ?>
+														<th>Aksi</th>
+													<?php endif; ?>
 													<th>NIK</th>
 													<th>Nama Penduduk</th>
 													<th>No HP Aktif</th>
@@ -57,34 +57,44 @@
 												</tr>
 											</thead>
 											<tbody>
-												<?php foreach ($main as $data): ?>
-													<tr>
-														<td class="padat"><?=$data['no']?></td>
-														<td class="aksi">
-															<?php if ($data['status_id'] == 0): ?>
-																<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-info-circle"></i><?= $data['status']; ?></a>
-															<?php elseif ($data['status_id'] == 1): ?>
-																<a href="<?=site_url("{$this->controller}/periksa/$data[id]")?>" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i><span><?= $data['status']; ?></span></a>
-															<?php elseif ($data['status_id'] == 2): ?>
-																<a href="<?=site_url("{$this->controller}/proses/$data[id]/3")?>" class="btn btn-social bg-purple btn-flat btn-sm pesan-hover" title="Klik jika telah ditandatangani" style="width: 170px"><i class="fa fa-edit"></i><span><?= $data['status']; ?></span></a>
-															<?php elseif ($data['status_id'] == 3): ?>
-																<a href="<?=site_url("{$this->controller}/proses/$data[id]/4")?>" class="btn btn-social bg-orange btn-flat btn-sm pesan-hover" title="Klik jika telah diambil" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><span><?= $data['status']; ?></span></a>
-															<?php elseif ($data['status_id'] == 4): ?>
-																<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
-															<?php else: ?>
-																<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
+												<?php if ($main): ?>
+													<?php foreach ($main as $data): ?>
+														<tr>
+															<td class="padat"><?=$data['no']?></td>
+															<?php if ($this->CI->cek_hak_akses('u') || $this->CI->cek_hak_akses('h')): ?>
+																<td class="aksi">
+																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<?php if ($data['status_id'] == 0): ?>
+																			<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-info-circle"></i><?= $data['status']; ?></a>
+																		<?php elseif ($data['status_id'] == 1): ?>
+																			<a href="<?=site_url("{$this->controller}/periksa/$data[id]")?>" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i><span><?= $data['status']; ?></span></a>
+																		<?php elseif ($data['status_id'] == 2): ?>
+																			<a href="<?=site_url("{$this->controller}/proses/$data[id]/3")?>" class="btn btn-social bg-purple btn-flat btn-sm pesan-hover" title="Klik jika telah ditandatangani" style="width: 170px"><i class="fa fa-edit"></i><span><?= $data['status']; ?></span></a>
+																		<?php elseif ($data['status_id'] == 3): ?>
+																			<a href="<?=site_url("{$this->controller}/proses/$data[id]/4")?>" class="btn btn-social bg-orange btn-flat btn-sm pesan-hover" title="Klik jika telah diambil" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><span><?= $data['status']; ?></span></a>
+																		<?php elseif ($data['status_id'] == 4): ?>
+																			<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
+																		<?php else: ?>
+																			<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
+																		<?php endif; ?>
+																	<?php endif; ?>
+																	<?php if ($this->CI->cek_hak_akses('h') && in_array($data['status_id'], [0, 1])): ?>
+																		<a href="#" data-href="<?=site_url("{$this->controller}/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																	<?php endif; ?>
+																</td>
 															<?php endif; ?>
-															<?php if (in_array($data['status_id'], [0, 1])): ?>
-																<a href="#" data-href="<?=site_url("{$this->controller}/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-															<?php endif; ?>
-														</td>
-														<td class="padat"><?=$data['nik'];?></td>
-														<td><?=$data['nama']?></td>
-														<td><?=$data['no_hp_aktif']?></td>
-														<td><?=$data['jenis_surat']?></td>
-														<td class="padat"><?=tgl_indo2($data['created_at'])?></td>
-													</tr>
-												<?php endforeach; ?>
+															<td class="padat"><?=$data['nik'];?></td>
+															<td><?=$data['nama']?></td>
+															<td><?=$data['no_hp_aktif']?></td>
+															<td><?=$data['jenis_surat']?></td>
+															<td class="padat"><?=tgl_indo2($data['created_at'])?></td>
+														</tr>
+													<?php endforeach; ?>
+												<?php else: ?>
+												<tr>
+													<td class="text-center" colspan="7">Data Tidak Tersedia</td>
+												</tr>
+											<?php endif; ?>
 											</tbody>
 										</table>
 									</div>
@@ -139,15 +149,12 @@
 </div>
 <?php $this->load->view('global/confirm_delete');?>
 <script type="text/javascript">
-	$('document').ready(function()
-	{
-		$( "a.pesan-hover" )
-		  .mouseover(function() {
-				text = $( this ).find( "span" ).text();
-		    $( this ).find( "span" ).text( $(this).attr('title') );
-		  })
-		  .mouseout(function() {
-		    $( this ).find( "span" ).text( text );
-		  });
+	$("document").ready(function() {
+		$("a.pesan-hover").mouseover(function() {
+			text = $(this).find("span").text();
+			$(this).find("span").text( $(this).attr('title'));
+		}).mouseout(function() {
+			$( this ).find( "span" ).text( text );
+		});
 	});
 </script>
