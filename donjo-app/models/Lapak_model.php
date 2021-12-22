@@ -48,6 +48,7 @@ class Lapak_model extends MY_Model
         7 => 'potongan',
         8 => 'deskripsi',
     ];
+    
     public const ORDER_ABLE_PELAPAK = [
         2 => 'pelapak',
         3 => 'telepon',
@@ -99,9 +100,14 @@ class Lapak_model extends MY_Model
             ->from('config c')
             ->get()
             ->row();
+        
+        $default_nama = 'Admin';
+        $default_telepon = $this->db->get_where('media_sosial', ['id' => 6, 'tipe' => 1, 'enabled' => 1])->row()->link;
 
         $this->db
-            ->select('pr.*, pk.kategori, p.nama AS pelapak, p.nik, lp.telepon, lp.zoom')
+            ->select('pr.*, pk.kategori, p.nik, lp.zoom')
+            ->select("(case when p.nama is null then '{$default_nama}' else p.nama end) as pelapak")
+            ->select("(case when p.nama is null then '{$default_telepon}' else lp.telepon end) as telepon")
             ->select("if(lp.lat is null or lp.lat = ' ', if(m.lat is null or m.lat = ' ', '{$kantor->lat}', m.lat), lp.lat) as lat ")
             ->select("if(lp.lng is null or lp.lng = ' ', if(m.lng is null or m.lng = ' ', '{$kantor->lng}', m.lng), lp.lng) as lng ")
             ->from('produk pr')
