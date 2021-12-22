@@ -18,54 +18,60 @@ function tulis_csv($table)
 
 	$data = $CI->db->get($table)->result_array();
 	if (count($data) == 0)
-		 return null;
+	{
+		return null;
+	}
 
 	ob_start();
 	$df = fopen("php://output", 'w');
 	fputcsv($df, array_keys(reset($data)));
+
 	foreach ($data as $row)
 	{
 		fputcsv($df, $row);
 	}
 	fclose($df);
+
 	return ob_get_clean();
 }
 
 /**
-  https://stackoverflow.com/questions/7391969/in-memory-download-and-extract-zip-archive
-  https://www.php.net/manual/en/function.str-getcsv.php
-  https://bugs.php.net/bug.php?id=55763
-
-  Contoh yg dihasilkan:
-
-  Array
-  (
-      [0] => Array
-          (
-              [Kd_Bid] => 01
-              [Nama_Bidang] => Bidang Penyelenggaraan Pemerintah Desa
-          )
-
-      [1] => Array
-          (
-              [Kd_Bid] => 02
-              [Nama_Bidang] => Bidang Pelaksanaan Pembangunan Desa
-          )
-  )
-*/
+ * https://stackoverflow.com/questions/7391969/in-memory-download-and-extract-zip-archive
+ * https://www.php.net/manual/en/function.str-getcsv.php
+ * https://bugs.php.net/bug.php?id=55763
+ *
+ * Contoh yg dihasilkan:
+ *
+ * Array
+ * (
+ *      [0] => Array
+ *          (
+ *               [Kd_Bid] => 01
+ *               [Nama_Bidang] => Bidang Penyelenggaraan Pemerintah Desa
+ *          )
+ *
+ *      [1] => Array
+ *          (
+ *               [Kd_Bid] => 02
+ *               [Nama_Bidang] => Bidang Pelaksanaan Pembangunan Desa
+ *          )
+ * )
+ */
 function get_csv($zip_file, $file_in_zip)
 {
-  # read the file's data:
-  $path = sprintf('zip://%s#%s', $zip_file, $file_in_zip);
-  $file_data = file_get_contents($path);
-  //$file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
-  $file_data = preg_split('/\r*\n+|\r+/', $file_data);
-  $csv = array_map('str_getcsv', $file_data);
-  array_walk($csv, function(&$a) use ($csv) {
-    $a = array_combine($csv[0], $a);
-  });
-  array_shift($csv); # remove column header
-  return($csv);
+	# read the file's data:
+	$path = sprintf('zip://%s#%s', $zip_file, $file_in_zip);
+	$file_data = file_get_contents($path);
+	//$file_data = preg_split('/[\r\n]{1,2}(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))/', $file_data);
+	$file_data = preg_split('/\r*\n+|\r+/', $file_data);
+	$csv = array_map('str_getcsv', $file_data);
+	array_walk($csv, function(&$a) use ($csv)
+	{
+		$a = array_combine($csv[0], $a);
+	});
+	array_shift($csv); # remove column header
+
+	return($csv);
 }
 
 /**
@@ -96,11 +102,13 @@ function download_send_headers($filename)
 function duplicate_key_update_str($data)
 {
 	$update_str = '';
+
 	foreach ($data as $key => $item)
 	{
-			$update_str .= $key.'=VALUES('.$key.'),';
+		$update_str .= $key.'=VALUES('.$key.'),';
 	}
 	$update_str = ' ON DUPLICATE KEY UPDATE ' . rtrim($update_str, ', ');
+
 	return $update_str;
 }
 ?>

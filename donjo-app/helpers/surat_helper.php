@@ -13,9 +13,13 @@ function SuratExportDesa($nama_surat)
 {
 	$surat_export_desa = LOKASI_SURAT_DESA . $nama_surat . "/" . $nama_surat . ".rtf";
 	if (is_file($surat_export_desa))
+	{
 		return $surat_export_desa;
+	}
 	else
+	{
 		$surat_export_desa = LOKASI_SURAT_EXPORT_DESA . $nama_surat . ".rtf";
+	}
 	if (is_file($surat_export_desa))
 	{
 		return $surat_export_desa;
@@ -24,7 +28,6 @@ function SuratExportDesa($nama_surat)
 	{
 		return "";
 	}
-
 }
 
 /**
@@ -47,18 +50,27 @@ function SuratExport($nama_surat)
 	{
 		return "template-surat/$nama_surat/$nama_surat.rtf";
 	}
-	else return "";
+	else
+	{
+		return "";
+	}
 }
 
 function ikut_case($format, $str)
 {
 	$str = strtolower($str);
 	if (ctype_upper($format[0]) AND ctype_upper($format[1]))
+	{
 		return strtoupper($str);
+	}
 	elseif (ctype_upper($format[0]))
+	{
 		return ucwords($str);
+	}
 	else
+	{
 		return $str;
+	}
 }
 
 /**
@@ -77,6 +89,7 @@ function padded_string_fixed_length($str, $awal, $panjang)
 	$panjang_text = strlen($str);
 	$str = str_pad($str, ($awal * $panjang_padding) + $panjang_text, $padding, STR_PAD_LEFT);
 	$str = str_pad($str, (($panjang - $panjang_text) * $panjang_padding) + $panjang_text, $padding, STR_PAD_RIGHT);
+
 	return $str;
 }
 
@@ -90,6 +103,7 @@ function padded_string_center($str, $panjang)
 	{
 		$str = $padding . $str . $padding;
 	}
+
 	return $str;
 }
 
