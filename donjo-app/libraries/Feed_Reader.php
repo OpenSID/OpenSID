@@ -1,4 +1,7 @@
-<?php class Feed_Reader
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Feed_Reader
 {
 	private $sumber_feed = '';
 	private $parser;

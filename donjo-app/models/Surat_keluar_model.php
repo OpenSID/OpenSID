@@ -1,4 +1,7 @@
-<?php class Surat_keluar_model extends MY_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Surat_keluar_model extends MY_Model {
   // Konfigurasi untuk library 'upload'
   protected $uploadConfig = array();
 

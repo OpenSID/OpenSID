@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * A class for reading Microsoft Excel (97/2003) Spreadsheets.
  *

@@ -1,4 +1,7 @@
-<?php class Lapor_model extends CI_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Lapor_model extends CI_Model {
 
 	/**
 	 * Gunakan model ini untuk memindahkan semua method terkait laporan layanan mandiri.

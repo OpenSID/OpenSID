@@ -1,4 +1,7 @@
-<?php class Analisis_kategori_model extends MY_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Analisis_kategori_model extends MY_Model {
 
 	public function __construct()
 	{

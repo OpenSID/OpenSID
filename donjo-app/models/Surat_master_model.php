@@ -1,4 +1,7 @@
-<?php class Surat_master_model extends MY_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Surat_master_model extends MY_Model {
 
 	public function __construct()
 	{

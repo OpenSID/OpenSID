@@ -1,4 +1,7 @@
-<?php class Web_komentar_model extends MY_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Web_komentar_model extends MY_Model {
 
 	public function __construct()
 	{

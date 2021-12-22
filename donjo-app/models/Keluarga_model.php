@@ -1,4 +1,7 @@
-<?php class Keluarga_model extends CI_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Keluarga_model extends CI_Model {
 
 /**
  * File ini:

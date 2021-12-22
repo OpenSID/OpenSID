@@ -1,4 +1,7 @@
-<?php class Web_widget_model extends MY_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Web_widget_model extends MY_Model {
 
 	private $urut_model;
 

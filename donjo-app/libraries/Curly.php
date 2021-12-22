@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * Curly - Simple cURL Library for PHP 5.4+
  * Ported to PHP 5.3+ by @esyede

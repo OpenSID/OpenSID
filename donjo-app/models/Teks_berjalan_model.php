@@ -1,4 +1,7 @@
-<?php class Teks_berjalan_model extends MY_Model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Teks_berjalan_model extends MY_Model {
 
 	private $urut_model;
 

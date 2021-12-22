@@ -1,4 +1,7 @@
-<?php class Statistik_penduduk_model extends Laporan_penduduk_model {
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Statistik_penduduk_model extends Laporan_penduduk_model {
 
 	/** Gunakan model ini untuk mulai refactor statistik penduduk
 	 * Mungkin bisa gunakan anonymous classes yg disediakan di PHP 7.x

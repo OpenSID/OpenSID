@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
 class Analisis_import_Model extends CI_Model {
