@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Bantuan extends Mandiri_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -78,10 +77,12 @@ class Bantuan extends Mandiri_Controller
 		else
 		{
 			$this->load->helper('download');
-			if ($data['kartu_peserta']) force_download(LOKASI_DOKUMEN . $data['kartu_peserta'], NULL);
+			if ($data['kartu_peserta'])
+			{
+				force_download(LOKASI_DOKUMEN . $data['kartu_peserta'], NULL);
+			}
 
 			redirect('layanan-mandiri/bantuan');
 		}
 	}
-
 }

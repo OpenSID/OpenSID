@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Inventaris_peralatan extends Admin_Controller {
-
+class Inventaris_peralatan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();

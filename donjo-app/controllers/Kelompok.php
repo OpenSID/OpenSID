@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Kelompok extends Admin_Controller {
-
+class Kelompok extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -79,7 +79,9 @@ class Kelompok extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -218,8 +220,13 @@ class Kelompok extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != "")
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('kelompok');
 	}
 
@@ -283,8 +290,13 @@ class Kelompok extends Admin_Controller {
 	{
 		$filter = $id;
 		if ($filter != 0)
+		{
 			$this->session->filter = $filter;
-		else $this->session->unset_userdata(['filter']);
+		}
+		else
+		{
+			$this->session->unset_userdata(['filter']);
+		}
 		redirect('kelompok');
 	}
 }

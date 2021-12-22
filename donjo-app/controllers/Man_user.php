@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Man_user extends Admin_Controller {
-
+class Man_user extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -66,15 +66,27 @@ class Man_user extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->user_model->paging($p, $o);
@@ -111,8 +123,13 @@ class Man_user extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('man_user');
 	}
 
@@ -120,8 +137,13 @@ class Man_user extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('man_user');
 	}
 
@@ -156,9 +178,13 @@ class Man_user extends Admin_Controller {
 	{
 		// radiisi berarti tidak sandi tidak diubah
 		if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str) or $str == 'radiisi')
+		{
 			return TRUE;
+		}
 		else
+		{
 			return FALSE;
+		}
 	}
 
 	public function update($p = 1, $o = 0, $id = '')

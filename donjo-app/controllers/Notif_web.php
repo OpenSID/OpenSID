@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Notif_web extends Mandiri_Controller {
-
+class Notif_web extends Mandiri_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();

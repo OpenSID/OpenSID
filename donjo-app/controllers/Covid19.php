@@ -39,8 +39,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Covid19 extends Admin_Controller {
-
+class Covid19 extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -65,9 +65,13 @@ class Covid19 extends Admin_Controller {
 		$this->sub_modul_ini = 207;
 
 		if (isset($_POST['per_page']))
+		{
 			$this->session->set_userdata('per_page', $_POST['per_page']);
+		}
 		else
+		{
 			$this->session->set_userdata('per_page', 10);
+		}
 
 		$data = $this->covid19_model->get_list_pemudik($page);
 		$data['per_page'] = $this->session->userdata('per_page');
@@ -118,7 +122,9 @@ class Covid19 extends Admin_Controller {
 
 		$id = $this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1)
+		{
 			$_SESSION['dari_internal'] = true;
+		}
 		redirect("covid19/form_pemudik");
 	}
 
@@ -182,7 +188,9 @@ class Covid19 extends Admin_Controller {
 	{
 		$this->penduduk_model->update($id_pend);
 		if ($_SESSION['success'] == -1)
+		{
 			$_SESSION['dari_internal'] = true;
+		}
 		redirect("covid19/detil_pemudik/$id_pemudik");
 	}
 
@@ -191,9 +199,13 @@ class Covid19 extends Admin_Controller {
 		$this->sub_modul_ini = 208;
 
 		if (isset($_POST['per_page']))
+		{
 			$this->session->set_userdata('per_page', $_POST['per_page']);
+		}
 		else
+		{
 			$this->session->set_userdata('per_page', 10);
+		}
 		$data['per_page'] = $this->session->userdata('per_page');
 		$data['page'] = $page;
 
@@ -263,7 +275,10 @@ class Covid19 extends Admin_Controller {
 			$judul = 'pendataan';
 		}
 
-		if ($aksi === 'cetak') $aksi = $aksi.'_'.$judul;
+		if ($aksi === 'cetak')
+		{
+			$aksi = $aksi.'_'.$judul;
+		}
 
 		$data['config'] = $this->config_model->get_data();
 		$data['aksi'] = $aksi;

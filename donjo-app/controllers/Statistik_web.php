@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Statistik_web extends Web_Controller {
-
+class Statistik_web extends Web_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -76,10 +76,18 @@ class Statistik_web extends Web_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -101,7 +109,7 @@ class Statistik_web extends Web_Controller {
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
 		}
-		elseif (in_array($lap, array('bantuan_penduduk', 'bantuan_keluarga')))
+		elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']))
 		{
 			$data['kategori'] = 'bantuan';
 		}
@@ -122,9 +130,13 @@ class Statistik_web extends Web_Controller {
 		$this->session->unset_userdata('rt');
 		$dusun = $this->input->post('dusun');
 		if ($dusun)
+		{
 			$this->session->set_userdata('dusun', $dusun);
+		}
 		else
+		{
 			$this->session->unset_userdata('dusun');
+		}
 		redirect("statistik_web/$tipe_stat/$lap");
 	}
 
@@ -134,9 +146,13 @@ class Statistik_web extends Web_Controller {
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw)
+		{
 			$this->session->set_userdata('rw', $rw);
+		}
 		else
+		{
 			$this->session->unset_userdata('rw');
+		}
 		redirect("statistik_web/$tipe_stat/$lap");
 	}
 
@@ -145,9 +161,13 @@ class Statistik_web extends Web_Controller {
 		$tipe_stat = $this->get_tipe_statistik($tipe);
 		$rt = $this->input->post('rt');
 		if ($rt)
+		{
 			$this->session->set_userdata('rt', $rt);
+		}
 		else
+		{
 			$this->session->unset_userdata('rt');
+		}
 		redirect("statistik_web/$tipe_stat/$lap");
 	}
 

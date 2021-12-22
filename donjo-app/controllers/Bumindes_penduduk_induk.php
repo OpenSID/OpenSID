@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Bumindes_penduduk_induk extends Admin_Controller {
-
+class Bumindes_penduduk_induk extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -63,17 +63,18 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 
 		// Samakan dengan donjo-app/controllers/Penduduk.php, karena memanggil penduduk_model
 		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
-
 	}
 
 	public function index($page_number = 1, $order_by = 0)
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		// Hanya menampilkan data status_dasar HIDUP, HILANG
-		$this->session->status_dasar = array(1, 4);
+		$this->session->status_dasar = [1, 4];
 
 		// Menampilkan hanya status penduduk TETAP
 		$this->session->status_penduduk = 1;
@@ -158,8 +159,13 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != "")
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('bumindes_penduduk_induk');
 	}
 }

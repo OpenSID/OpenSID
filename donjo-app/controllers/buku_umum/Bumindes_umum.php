@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Bumindes_umum extends Admin_Controller {
-
+class Bumindes_umum extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -24,15 +24,27 @@ class Bumindes_umum extends Admin_Controller {
 
 		// set session
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 		// set session END
 
@@ -65,6 +77,7 @@ class Bumindes_umum extends Admin_Controller {
 				$data = array_merge($data, $this->load_ekspedisi_data_tables($page_number, $offset));
 				break;
 		}
+
 		return $data;
 	}
 
@@ -90,7 +103,7 @@ class Bumindes_umum extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 302;
 
-		$data = array();
+		$data = [];
 		$data = array_merge($data, $this->load_form($page, $page_number, $offset, $key));
 
 		$header = $this->header_model->get_data();
@@ -122,17 +135,16 @@ class Bumindes_umum extends Admin_Controller {
 				$data = array_merge($data, $this->load_form_peraturan($page_number, $offset, $key));
 				break;
 		}
+
 		return $data;
 	}
 
 	function load_form_ekspedisi($page_number, $offset, $key)
 	{
-
 	}
 
 	function load_form_berita($page_number, $offset, $key)
 	{
-
 	}
 
 	// FORM END
@@ -213,5 +225,4 @@ class Bumindes_umum extends Admin_Controller {
 		}
 	}
 	// UPDATE END
-
 }

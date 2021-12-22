@@ -42,10 +42,13 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-if(!defined('BASEPATH')) exit('No direct script access allowed');
+if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 
-class Data_persil extends Admin_Controller {
-
+class Data_persil extends Admin_Controller
+{
 	private $set_page;
 	private $list_session;
 
@@ -74,7 +77,8 @@ class Data_persil extends Admin_Controller {
 		echo json_encode($data);
 	}
 
-	public function search(){
+	public function search()
+	{
 		$this->session->cari = $this->input->post('cari') ?: NULL;
 		redirect('data_persil');
 	}
@@ -87,9 +91,13 @@ class Data_persil extends Admin_Controller {
 		foreach ($this->list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
+			{
 				$$list = $this->session->$list;
+			}
 			else
+			{
 				$data[$list] = $this->session->$list ?: '';
+			}
 		}
 
 		if (isset($dusun))
@@ -103,10 +111,18 @@ class Data_persil extends Admin_Controller {
 				$data['list_rt'] = $this->data_persil_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -124,7 +140,9 @@ class Data_persil extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->set_page;
@@ -153,8 +171,14 @@ class Data_persil extends Admin_Controller {
 		$this->set_minsidebar(1);
 		$this->tab_ini = 13;
 
-		if ($id) $data["persil"] = $this->data_persil_model->get_persil($id);
-		if ($id_cdesa) $data["id_cdesa"] = $id_cdesa;
+		if ($id)
+		{
+			$data["persil"] = $this->data_persil_model->get_persil($id);
+		}
+		if ($id_cdesa)
+		{
+			$data["id_cdesa"] = $id_cdesa;
+		}
 		$data['list_cdesa'] = $this->cdesa_model->list_c_desa();
 		$data["persil_lokasi"] = $this->wilayah_model->list_semua_wilayah();
 		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
@@ -174,9 +198,13 @@ class Data_persil extends Admin_Controller {
 			$id_persil = $this->data_persil_model->simpan_persil($this->input->post());
 			$cdesa_awal = $this->input->post('cdesa_awal');
 			if (!$this->input->post('id_persil') and $cdesa_awal)
+			{
 				redirect("cdesa/mutasi/$cdesa_awal/$id_persil");
+			}
 			else
+			{
 				redirect("data_persil");
+			}
 		}
 
 		$this->session->success = -1;
@@ -211,22 +239,39 @@ class Data_persil extends Admin_Controller {
 		$kelas = $this->data_persil_model->list_persil_kelas($id);
 		foreach ($kelas as $key => $item)
 		{
-			$data[] = array('id' => $key, 'kode' => $item['kode'], 'ndesc' => $item['ndesc']);
+			$data[] = ['id' => $key, 'kode' => $item['kode'], 'ndesc' => $item['ndesc']];
 		}
 		echo json_encode($data);
 	}
 
 	public function filter($filter)
 	{
-		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
-		if ($filter == "rw") $this->session->unset_userdata("rt");
-		if ($filter == "tipe") $this->session->unset_userdata("kelas");
-		if ($filter == "lokasi") $this->session->unset_userdata(["dusun", "rw", "rt"]);
+		if ($filter == "dusun")
+		{
+			$this->session->unset_userdata(['rw', 'rt']);
+		}
+		if ($filter == "rw")
+		{
+			$this->session->unset_userdata("rt");
+		}
+		if ($filter == "tipe")
+		{
+			$this->session->unset_userdata("kelas");
+		}
+		if ($filter == "lokasi")
+		{
+			$this->session->unset_userdata(["dusun", "rw", "rt"]);
+		}
 
 		$value = $this->input->post($filter);
 		if ($value != "")
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('data_persil');
 	}
 
@@ -247,7 +292,7 @@ class Data_persil extends Admin_Controller {
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
 		$data['desa'] = $this->config_model->get_data();
 		$data['persil'] = $this->data_persil_model->list_data();
-    	$data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
+		$data['persil_kelas'] = $this->data_persil_model->list_persil_kelas();
 
 		//pengaturan data untuk format cetak/ unduh
 		$data['file'] = "Persil";

@@ -42,10 +42,13 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-if(!defined('BASEPATH')) exit('No direct script access allowed');
+if (!defined('BASEPATH'))
+{
+	exit('No direct script access allowed');
+}
 
-class Cdesa extends Admin_Controller {
-
+class Cdesa extends Admin_Controller
+{
 	private $set_page;
 	private $list_session;
 
@@ -78,7 +81,8 @@ class Cdesa extends Admin_Controller {
 		echo json_encode($data);
 	}
 
-	public function search(){
+	public function search()
+	{
 		$this->session->cari = $this->input->post('cari') ?: NULL;
 		redirect('cdesa');
 	}
@@ -106,7 +110,7 @@ class Cdesa extends Admin_Controller {
 	public function rincian($id)
 	{
 		$this->tab_ini = 13;
-		$data = array();
+		$data = [];
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id);
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id);
 		$data['persil'] = $this->cdesa_model->get_list_persil($id);
@@ -115,13 +119,15 @@ class Cdesa extends Admin_Controller {
 
 	public function mutasi($id_cdesa, $id_persil)
 	{
-
-		$data = array();
+		$data = [];
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id_cdesa);
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id_cdesa);
 		$data['mutasi'] = $this->cdesa_model->get_list_mutasi($id_cdesa, $id_persil);
 		$data['persil'] = $this->data_persil_model->get_persil($id_persil);
-		if (empty($data['cdesa'])) show_404();
+		if (empty($data['cdesa']))
+		{
+			show_404();
+		}
 
 		$this->render('data_persil/mutasi_persil', $data);
 	}
@@ -132,10 +138,11 @@ class Cdesa extends Admin_Controller {
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
-		$this->set_minsidebar(1);		$this->tab_ini = empty($mode) ? 10 : 12;
+		$this->set_minsidebar(1);
+		$this->tab_ini = empty($mode) ? 10 : 12;
 
 		$post = $this->input->post();
-		$data = array();
+		$data = [];
 		$data["mode"] = $mode;
 		$data["penduduk"] = $this->cdesa_model->list_penduduk();
 		if ($mode === 'edit')
@@ -154,6 +161,7 @@ class Cdesa extends Admin_Controller {
 						$data['pemilik'] = $this->cdesa_model->get_penduduk($post['nik'], $nik=true);
 					}
 					break;
+
 				case '2':
 					# Pemilik luar desa
 					$data['cdesa']['jenis_pemilik'] = 2;
@@ -177,6 +185,7 @@ class Cdesa extends Admin_Controller {
 					$data['pemilik'] = $this->cdesa_model->get_pemilik($id);
 				}
 				break;
+
 			case '1':
 				// Ubah atau ambil pemilik desa
 				$data['pemilik'] = $this->cdesa_model->get_pemilik($id);
@@ -186,6 +195,7 @@ class Cdesa extends Admin_Controller {
 				}
 				$data['cdesa']['jenis_pemilik'] = $jenis_pemilik_baru;
 				break;
+
 			case '2':
 				// Ubah pemilik luar
 				$data['cdesa']['jenis_pemilik'] = $jenis_pemilik_baru;
@@ -203,8 +213,14 @@ class Cdesa extends Admin_Controller {
 		if ($this->form_validation->run() != false)
 		{
 			$id_cdesa = $this->cdesa_model->simpan_cdesa();
-			if ($this->input->post('id')) redirect("cdesa");
-			else redirect("cdesa/create_mutasi/$id_cdesa");
+			if ($this->input->post('id'))
+			{
+				redirect("cdesa");
+			}
+			else
+			{
+				redirect("cdesa/create_mutasi/$id_cdesa");
+			}
 		}
 		else
 		{
@@ -215,16 +231,24 @@ class Cdesa extends Admin_Controller {
 			if ($jenis_pemilik == 1)
 			{
 				if ($id)
+				{
 					redirect("cdesa/create/edit/".$id);
+				}
 				else
+				{
 					redirect("cdesa/create");
+				}
 			}
 			else
 			{
 				if ($id)
+				{
 					redirect("cdesa/create/edit/".$id);
+				}
 				else
+				{
 					redirect("cdesa/create");
+				}
 			}
 		}
 	}
@@ -236,7 +260,10 @@ class Cdesa extends Admin_Controller {
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
 		$this->set_minsidebar(1);
-		if (empty($id_persil)) $id_persil = $this->input->post('id_persil');
+		if (empty($id_persil))
+		{
+			$id_persil = $this->input->post('id_persil');
+		}
 
 		if ($id_persil)
 		{
@@ -268,9 +295,13 @@ class Cdesa extends Admin_Controller {
 	{
 		$data = $this->cdesa_model->simpan_mutasi($id_cdesa, $id_mutasi, $this->input->post());
 		if ($data['id_persil'])
+		{
 			redirect("cdesa/mutasi/$id_cdesa/$data[id_persil]");
+		}
 		else
+		{
 			redirect("cdesa/rincian/$id_cdesa");
+		}
 	}
 
 	public function hapus_mutasi($cdesa, $id_mutasi)
@@ -288,7 +319,10 @@ class Cdesa extends Admin_Controller {
 	public function cek_nomor($nomor)
 	{
 		$id_cdesa = $this->input->post('id');
-		if ($id_cdesa) $this->db->where('id <>', $id_cdesa);
+		if ($id_cdesa)
+		{
+			$this->db->where('id <>', $id_cdesa);
+		}
 		$ada = $this->db
 			->where('nomor', $nomor)
 			->get('cdesa')->num_rows();
@@ -296,6 +330,7 @@ class Cdesa extends Admin_Controller {
 		if ($ada)
 		{
 			$this->form_validation->set_message('cek_nomor', 'Nomor C-Desa sudah ada');
+
 			return FALSE;
 		}
 		else

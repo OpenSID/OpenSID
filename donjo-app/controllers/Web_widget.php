@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Web_widget extends Admin_Controller {
-
+class Web_widget extends Admin_Controller
+{
 	private $set_page;
 	private $list_session;
 
@@ -74,7 +74,9 @@ class Web_widget extends Admin_Controller {
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['cari'] = $this->session->cari ?: '';
 		$data['filter'] = $this->session->filter ?: '';
@@ -89,10 +91,10 @@ class Web_widget extends Admin_Controller {
 		$data['keyword'] = $this->web_widget_model->autocomplete($this->input->post('cari'));
 
 		$this->session->page = $data['p'];
-		$this->session->urut_range = array(
+		$this->session->urut_range = [
 			'min' => $data['main'][0]['urut'],
 			'max' => $data['main'][count($data['main'])-1]['urut']
-		);
+		];
 
 		$this->render('web/artikel/widget', $data);
 	}
@@ -122,8 +124,13 @@ class Web_widget extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('web_widget');
 	}
 
@@ -185,7 +192,7 @@ class Web_widget extends Admin_Controller {
 			$page++;
 		}
 
- 		redirect("web_widget/index/$page");
+		redirect("web_widget/index/$page");
 	}
 
 	public function lock($id = 0)

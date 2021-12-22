@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pesan extends Mandiri_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -83,7 +82,10 @@ class Pesan extends Mandiri_Controller
 		$post['status'] = 2;
 		$this->mailbox_model->insert($post);
 
-		if ($kat == 1) redirect('layanan-mandiri/pesan-keluar');
+		if ($kat == 1)
+		{
+			redirect('layanan-mandiri/pesan-keluar');
+		}
 
 		redirect('layanan-mandiri/pesan-masuk');
 	}
@@ -91,7 +93,8 @@ class Pesan extends Mandiri_Controller
 	public function baca($kat = 2, $id = '')
 	{
 		$nik = $this->is_login->nik;
-		if ($kat == 2) {
+		if ($kat == 2)
+		{
 			$this->mailbox_model->ubah_status_pesan($nik, $id, 1);
 		}
 
@@ -119,5 +122,4 @@ class Pesan extends Mandiri_Controller
 
 		$this->load->view('layanan_mandiri/template', $data);
 	}
-
 }

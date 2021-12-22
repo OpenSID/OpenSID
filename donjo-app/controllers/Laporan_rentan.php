@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Laporan_rentan extends Admin_Controller {
-
+class Laporan_rentan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -73,8 +73,13 @@ class Laporan_rentan extends Admin_Controller {
 	public function index()
 	{
 		if (isset($_SESSION['dusun']))
+		{
 			$data['dusun'] = $_SESSION['dusun'];
-		else $data['dusun'] = '';
+		}
+		else
+		{
+			$data['dusun'] = '';
+		}
 
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
 		$data['config'] = $this->config_model->get_data();
@@ -101,8 +106,13 @@ class Laporan_rentan extends Admin_Controller {
 	{
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
+		}
+		else
+		{
+			unset($_SESSION['dusun']);
+		}
 		redirect('laporan_rentan');
 	}
 }

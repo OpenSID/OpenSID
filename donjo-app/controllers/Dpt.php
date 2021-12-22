@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Dpt extends Admin_Controller {
-
+class Dpt extends Admin_Controller
+{
 	private $set_page;
 	private $list_session;
 
@@ -70,9 +70,13 @@ class Dpt extends Admin_Controller {
 		foreach ($this->list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
+			{
 				$$list = $this->session->$list;
+			}
 			else
+			{
 				$data[$list] = $this->session->$list ?: '';
+			}
 		}
 
 		if (isset($dusun))
@@ -86,10 +90,18 @@ class Dpt extends Admin_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -98,7 +110,9 @@ class Dpt extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->set_page;
@@ -115,13 +129,24 @@ class Dpt extends Admin_Controller {
 
 	public function filter($filter)
 	{
-		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
-		if ($filter == "rw") $this->session->unset_userdata("rt");
+		if ($filter == "dusun")
+		{
+			$this->session->unset_userdata(['rw', 'rt']);
+		}
+		if ($filter == "rw")
+		{
+			$this->session->unset_userdata("rt");
+		}
 
 		$value = $this->input->post($filter);
 		if ($value != "")
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('dpt');
 	}
 
@@ -129,7 +154,7 @@ class Dpt extends Admin_Controller {
 	{
 		foreach ($this->list_session as $list)
 		{
-				$data[$list] = $this->session->$list ?: '';
+			$data[$list] = $this->session->$list ?: '';
 		}
 
 		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
@@ -150,7 +175,7 @@ class Dpt extends Admin_Controller {
 		while ($i++ < count($adv_search))
 		{
 			$col[$i] = key($adv_search);
-				next($adv_search);
+			next($adv_search);
 		}
 		$i = 0;
 		while ($i++ < count($col))
@@ -173,7 +198,10 @@ class Dpt extends Admin_Controller {
 	{
 		$data['main'] = $this->dpt_model->list_data($o, 0);
 		$data['aksi'] = $aksi;
-		if ($privasi_nik == 1) $data['privasi_nik'] = true;
+		if ($privasi_nik == 1)
+		{
+			$data['privasi_nik'] = true;
+		}
 		$this->load->view("dpt/dpt_$aksi", $data);
 	}
 
@@ -185,5 +213,4 @@ class Dpt extends Admin_Controller {
 		$data['form_action_privasi'] = site_url("dpt/cetak/$o/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
 	}
-
 }

@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Beranda extends Mandiri_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -59,13 +58,13 @@ class Beranda extends Mandiri_Controller
 	{
 		/**
 		 * krn view index belum tersedia
-		$data = [
-			'desa' => $this->header,
-			'konten' => 'index'
-		];
-
-		$this->load->view('layanan_mandiri/template', $data);
-		*/
+		 * $data = [
+		 * 'desa' => $this->header,
+		 * 'konten' => 'index'
+		 * ];
+		 *
+		 * $this->load->view('layanan_mandiri/template', $data);
+		 */
 
 		$this->profil();
 	}
@@ -93,7 +92,7 @@ class Beranda extends Mandiri_Controller
 		$this->load->view('sid/kependudukan/cetak_biodata', $data);
 	}
 
-	public function cetak_kk() 
+	public function cetak_kk()
 	{
 		if ($this->is_login->id_kk == 0)
 		{
@@ -147,9 +146,12 @@ class Beranda extends Mandiri_Controller
 		// Ambil nama berkas dari database
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $this->is_login->id_pend);
 		if ($berkas)
+		{
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
+		}
 		else
+		{
 			$this->output->set_status_header('404');
+		}
 	}
-
 }

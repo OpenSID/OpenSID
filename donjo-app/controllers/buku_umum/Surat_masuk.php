@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Surat_masuk extends Admin_Controller {
-
+class Surat_masuk extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -73,15 +73,27 @@ class Surat_masuk extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->surat_masuk_model->paging($p, $o);
@@ -144,16 +156,27 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('surat_masuk');
 	}
 
 	public function filter()
 	{
 		$filter = $this->input->post('filter');
-		if ($filter != 0) $_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		if ($filter != 0)
+		{
+			$_SESSION['filter'] = $filter;
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('surat_masuk');
 	}
 
@@ -264,9 +287,13 @@ class Surat_masuk extends Admin_Controller {
 	public function nomor_surat_duplikat()
 	{
 		if ($_POST['nomor_urut'] == $_POST['nomor_urut_lama'])
+		{
 			$hasil = false;
+		}
 		else
+		{
 			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_masuk', $_POST['nomor_urut']);
-   	echo $hasil ? 'false' : 'true';
+		}
+		echo $hasil ? 'false' : 'true';
 	}
 }

@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_respon extends Admin_Controller {
-
+class Analisis_respon extends Admin_Controller
+{
 	function __construct()
 	{
 		parent::__construct();
@@ -84,12 +84,22 @@ class Analisis_respon extends Admin_Controller {
 		$data['o']        = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['isi']))
+		{
 			$data['isi'] = $_SESSION['isi'];
-		else $data['isi'] = '';
+		}
+		else
+		{
+			$data['isi'] = '';
+		}
 
 		if (isset($_SESSION['dusun']))
 		{
@@ -101,10 +111,18 @@ class Analisis_respon extends Admin_Controller {
 				$data['rw'] = $_SESSION['rw'];
 				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
+				{
 					$data['rt'] = $_SESSION['rt'];
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -114,7 +132,9 @@ class Analisis_respon extends Admin_Controller {
 		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
@@ -130,13 +150,19 @@ class Analisis_respon extends Admin_Controller {
 	public function kuisioner($p=1, $o=0, $id='', $fs=0)
 	{
 		if ($fs == 1)
+		{
 			$_SESSION['fullscreen'] = 1;
+		}
 
-		if($fs == 2)
+		if ($fs == 2)
+		{
 			unset($_SESSION['fullscreen']);
+		}
 
 		if ($fs != 0)
+		{
 			redirect("analisis_respon/kuisioner/$p/$o/$id");
+		}
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -149,8 +175,11 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
 
-		$this->set_minsidebar(1);		if (isset($_SESSION['fullscreen']))
+		$this->set_minsidebar(1);
+		if (isset($_SESSION['fullscreen']))
+		{
 			$data['layarpenuh']= 1;
+		}
 		else
 		{
 			$data['layarpenuh']= 2;
@@ -203,7 +232,8 @@ class Analisis_respon extends Admin_Controller {
 		$this->load->view('analisis_respon/import/data_unduh', $data);
 	}
 
-	public function import($op=0){
+	public function import($op=0)
+	{
 		$data['form_action'] = site_url("analisis_respon/import_proses/$op");
 		$this->load->view('analisis_respon/import/import', $data);
 	}
@@ -218,8 +248,13 @@ class Analisis_respon extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('analisis_respon');
 	}
 
@@ -227,8 +262,13 @@ class Analisis_respon extends Admin_Controller {
 	{
 		$isi = $this->input->post('isi');
 		if ($isi != "")
+		{
 			$_SESSION['isi'] = $isi;
-		else unset($_SESSION['isi']);
+		}
+		else
+		{
+			unset($_SESSION['isi']);
+		}
 		redirect('analisis_respon');
 	}
 
@@ -238,8 +278,13 @@ class Analisis_respon extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
+		}
+		else
+		{
+			unset($_SESSION['dusun']);
+		}
 		redirect('analisis_respon');
 	}
 
@@ -248,8 +293,13 @@ class Analisis_respon extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$rw = $this->input->post('rw');
 		if ($rw != "")
+		{
 			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
+		}
+		else
+		{
+			unset($_SESSION['rw']);
+		}
 		redirect('analisis_respon');
 	}
 
@@ -257,12 +307,18 @@ class Analisis_respon extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
+		{
 			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
+		}
+		else
+		{
+			unset($_SESSION['rt']);
+		}
 		redirect('analisis_respon');
 	}
 
-	public function form_impor_bdt(){
+	public function form_impor_bdt()
+	{
 		$data['form_action'] = site_url("analisis_respon/impor_bdt/");
 		$this->load->view('analisis_respon/import/impor_bdt', $data);
 	}

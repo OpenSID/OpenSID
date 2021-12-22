@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Dokumen extends Admin_Controller {
-
+class Dokumen extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -73,15 +73,27 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
@@ -119,8 +131,13 @@ class Dokumen extends Admin_Controller {
 		$cari = $this->input->post('cari');
 		$kat = $this->input->post('kategori');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect("dokumen/index/$kat");
 	}
 
@@ -129,8 +146,13 @@ class Dokumen extends Admin_Controller {
 		$filter = $this->input->post('filter');
 		$kat = $this->input->post('kategori');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect("dokumen/index/$kat");
 	}
 
@@ -139,7 +161,10 @@ class Dokumen extends Admin_Controller {
 		$_SESSION['success'] = 1;
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
-		if (!$outp) $_SESSION['success'] = -1;
+		if (!$outp)
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("dokumen/index/$kat");
 	}
 
@@ -147,7 +172,10 @@ class Dokumen extends Admin_Controller {
 	{
 		$_SESSION['success'] = 1;
 		$outp = $this->web_dokumen_model->update($id);
-		if (!$outp) $_SESSION['success'] = -1;
+		if (!$outp)
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("dokumen/index/$kat/$p/$o");
 	}
 
@@ -203,16 +231,28 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['tahun'] = $post['tahun'];
 		if ($kat == 1)
+		{
 			$data['kategori'] = 'Informasi Publik';
+		}
 		else
 		{
 			$data['desa'] = $this->config_model->get_data();
 			$list_kategori = $this->web_dokumen_model->list_kategori();
 			$data['kategori'] = $list_kategori[$kat];
 		}
-		if ($kat == 2) $data['template'] = 'sk_kades_print';
-		elseif ($kat == 3) $data['template'] = 'perdes_print';
-		else $data['template'] = 'dokumen_print';
+		if ($kat == 2)
+		{
+			$data['template'] = 'sk_kades_print';
+		}
+		elseif ($kat == 3)
+		{
+			$data['template'] = 'perdes_print';
+		}
+		else
+		{
+			$data['template'] = 'dokumen_print';
+		}
+
 		return $data;
 	}
 
@@ -232,7 +272,7 @@ class Dokumen extends Admin_Controller {
 		$this->load->view("dokumen/dokumen_excel", $data);
 	}
 
-  	/**
+	/**
 	 * Unduh berkas berdasarkan kolom dokumen.id
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
@@ -242,8 +282,12 @@ class Dokumen extends Admin_Controller {
 		// Ambil nama berkas dari database
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
 		if ($berkas)
+		{
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
+		}
 		else
+		{
 			$this->output->set_status_header('404');
+		}
 	}
 }

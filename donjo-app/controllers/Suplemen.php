@@ -43,8 +43,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Suplemen extends Admin_Controller {
-
+class Suplemen extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -59,11 +59,15 @@ class Suplemen extends Admin_Controller {
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$sasaran = $this->input->post('sasaran');
 		if (isset($sasaran))
+		{
 			$this->session->sasaran = $sasaran;
+		}
 
 		$data = [
 			'func' => 'index',
@@ -127,9 +131,13 @@ class Suplemen extends Admin_Controller {
 		$value = $this->input->post($filter);
 		$id_rincian = $this->session->id_rincian;
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
+		}
 		else
+		{
 			$this->session->unset_userdata($filter);
+		}
 		redirect("suplemen/rincian/$id_rincian");
 	}
 
@@ -156,7 +164,9 @@ class Suplemen extends Admin_Controller {
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data = $this->suplemen_model->get_rincian($p, $id);
 		$data['sasaran'] = unserialize(SASARAN);
@@ -285,5 +295,4 @@ class Suplemen extends Admin_Controller {
 	{
 		$this->suplemen_model->ekspor($id);
 	}
-
 }

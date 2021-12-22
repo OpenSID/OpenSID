@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_indikator extends Admin_Controller{
-
+class Analisis_indikator extends Admin_Controller
+{
 	function __construct()
 	{
 		parent::__construct();
@@ -75,19 +75,41 @@ class Analisis_indikator extends Admin_Controller{
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 		if (isset($_SESSION['tipe']))
+		{
 			$data['tipe'] = $_SESSION['tipe'];
-		else $data['tipe'] = '';
+		}
+		else
+		{
+			$data['tipe'] = '';
+		}
 		if (isset($_SESSION['kategori']))
+		{
 			$data['kategori'] = $_SESSION['kategori'];
-		else $data['kategori'] = '';
+		}
+		else
+		{
+			$data['kategori'] = '';
+		}
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->analisis_indikator_model->paging($p,$o);
@@ -124,10 +146,13 @@ class Analisis_indikator extends Admin_Controller{
 		$this->render('analisis_indikator/form', $data);
 	}
 
-	public function parameter($id=''){
+	public function parameter($id='')
+	{
 		$ai = $this->analisis_indikator_model->get_analisis_indikator($id);
 		if ($ai['id_tipe'] == 3 OR $ai['id_tipe'] == 4)
-		redirect('analisis_indikator');
+		{
+			redirect('analisis_indikator');
+		}
 
 		$data['analisis_indikator'] = $this->analisis_indikator_model->get_analisis_indikator($id);
 		$data['analisis_master'] = $this->analisis_indikator_model->get_analisis_master();
@@ -159,8 +184,13 @@ class Analisis_indikator extends Admin_Controller{
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('analisis_indikator');
 	}
 
@@ -168,8 +198,13 @@ class Analisis_indikator extends Admin_Controller{
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('analisis_indikator');
 	}
 
@@ -177,8 +212,13 @@ class Analisis_indikator extends Admin_Controller{
 	{
 		$filter = $this->input->post('tipe');
 		if ($filter != 0)
+		{
 			$_SESSION['tipe'] = $filter;
-		else unset($_SESSION['tipe']);
+		}
+		else
+		{
+			unset($_SESSION['tipe']);
+		}
 		redirect('analisis_indikator');
 	}
 
@@ -186,8 +226,13 @@ class Analisis_indikator extends Admin_Controller{
 	{
 		$filter = $this->input->post('kategori');
 		if ($filter != 0)
+		{
 			$_SESSION['kategori']=$filter;
-		else unset($_SESSION['kategori']);
+		}
+		else
+		{
+			unset($_SESSION['kategori']);
+		}
 		redirect('analisis_indikator');
 	}
 
@@ -197,18 +242,21 @@ class Analisis_indikator extends Admin_Controller{
 		redirect('analisis_indikator');
 	}
 
-	public function update($p=1, $o=0, $id=''){
+	public function update($p=1, $o=0, $id='')
+	{
 		$this->analisis_indikator_model->update($id);
 		redirect("analisis_indikator/index/$p/$o");
 	}
 
-	public function delete($p=1, $o=0, $id=''){
+	public function delete($p=1, $o=0, $id='')
+	{
 		$this->redirect_hak_akses('h', "analisis_indikator/index/$p/$o");
 		$this->analisis_indikator_model->delete($id);
 		redirect("analisis_indikator/index/$p/$o");
 	}
 
-	public function delete_all($p=1, $o=0){
+	public function delete_all($p=1, $o=0)
+	{
 		$this->redirect_hak_akses('h', "analisis_indikator/index/$p/$o");
 		$this->analisis_indikator_model->delete_all();
 		redirect("analisis_indikator/index/$p/$o");

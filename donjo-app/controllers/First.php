@@ -45,8 +45,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
-class First extends Web_Controller {
-
+class First extends Web_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -127,11 +127,11 @@ class First extends Web_Controller {
 		$data['cari'] = htmlentities($this->input->get('cari'));
 		if ($this->setting->covid_rss)
 		{
-			$data['feed'] = array(
+			$data['feed'] = [
 				'items' => $this->first_artikel_m->get_feed(),
 				'title' => 'BERITA COVID19.GO.ID',
 				'url' => 'https://www.covid19.go.id'
-			);
+			];
 		}
 
 		if ($this->setting->apbdes_footer)
@@ -241,7 +241,10 @@ class First extends Web_Controller {
 
 	public function statistik($stat=0, $tipe=0)
 	{
-		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat)) show_404();
+		if (!$this->web_menu_model->menu_aktif('statistik/'.$stat))
+		{
+			show_404();
+		}
 
 		$data = $this->includes;
 
@@ -259,7 +262,10 @@ class First extends Web_Controller {
 
 	public function kelompok($id)
 	{
-		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id)) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id))
+		{
+			show_404();
+		}
 
 		$data = $this->includes;
 
@@ -269,7 +275,10 @@ class First extends Web_Controller {
 		$data['anggota'] = $this->kelompok_model->list_anggota($id, $sub='anggota');
 
 		// Jika kelompok tdk tersedia / sudah terhapus pd modul kelompok
-		if ($data['detail'] == NULL) show_404();
+		if ($data['detail'] == NULL)
+		{
+			show_404();
+		}
 
 		$this->_get_common_data($data);
 		$this->set_template('layouts/kelompok.tpl.php');
@@ -278,7 +287,10 @@ class First extends Web_Controller {
 
 	public function suplemen($id = 0)
 	{
-		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('data-suplemen/' . $id))
+		{
+			show_404();
+		}
 
 		$this->session->per_page = null;
 		$data = $this->includes;
@@ -295,13 +307,13 @@ class First extends Web_Controller {
 	public function ajax_peserta_program_bantuan()
 	{
 		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
-		$data = array();
+		$data = [];
 		$no = $_POST['start'];
 
 		foreach ($peserta as $baris)
 		{
 			$no++;
-			$row = array();
+			$row = [];
 			$row[] = $no;
 			$row[] = $baris['program'];
 			$row[] = $baris['peserta'];
@@ -309,17 +321,20 @@ class First extends Web_Controller {
 			$data[] = $row;
 		}
 
-		$output = array(
+		$output = [
 			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
 			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
 			'data' => $data
-		);
+		];
 		echo json_encode($output);
 	}
 
 	public function data_analisis($stat="", $sb=0, $per=0)
 	{
-		if (!$this->web_menu_model->menu_aktif('data_analisis')) show_404();
+		if (!$this->web_menu_model->menu_aktif('data_analisis'))
+		{
+			show_404();
+		}
 
 		$data = $this->includes;
 
@@ -344,7 +359,10 @@ class First extends Web_Controller {
 
 	public function dpt()
 	{
-		if (!$this->web_menu_model->menu_aktif('dpt')) show_404();
+		if (!$this->web_menu_model->menu_aktif('dpt'))
+		{
+			show_404();
+		}
 
 		$this->load->model('dpt_model');
 		$data = $this->includes;
@@ -360,7 +378,10 @@ class First extends Web_Controller {
 
 	public function wilayah()
 	{
-		if (!$this->web_menu_model->menu_aktif('wilayah')) show_404();
+		if (!$this->web_menu_model->menu_aktif('wilayah'))
+		{
+			show_404();
+		}
 
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
@@ -378,7 +399,10 @@ class First extends Web_Controller {
 
 	public function peraturan_desa()
 	{
-		if (!$this->web_menu_model->menu_aktif('peraturan_desa')) show_404();
+		if (!$this->web_menu_model->menu_aktif('peraturan_desa'))
+		{
+			show_404();
+		}
 
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
@@ -417,7 +441,10 @@ class First extends Web_Controller {
 
 	public function informasi_publik()
 	{
-		if (!$this->web_menu_model->menu_aktif('informasi_publik')) show_404();
+		if (!$this->web_menu_model->menu_aktif('informasi_publik'))
+		{
+			show_404();
+		}
 
 		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
@@ -436,13 +463,13 @@ class First extends Web_Controller {
 	public function ajax_informasi_publik()
 	{
 		$informasi_publik = $this->web_dokumen_model->get_informasi_publik();
-		$data = array();
+		$data = [];
 		$no = $_POST['start'];
 
 		foreach ($informasi_publik as $baris)
 		{
 			$no++;
-			$row = array();
+			$row = [];
 			$row[] = $no;
 			$row[] = "<a href='".site_url('dokumen_web/unduh_berkas/').$baris['id']."' target='_blank'>".$baris['nama']."</a>";
 			$row[] = $baris['tahun'];
@@ -452,11 +479,11 @@ class First extends Web_Controller {
 			$data[] = $row;
 		}
 
-		$output = array(
+		$output = [
 			"recordsTotal" => $this->web_dokumen_model->count_informasi_publik_all(),
 			"recordsFiltered" => $this->web_dokumen_model->count_informasi_publik_filtered(),
 			'data' => $data
-		);
+		];
 		echo json_encode($output);
 	}
 
@@ -575,10 +602,10 @@ class First extends Web_Controller {
 		}
 		// Pembersihan tidak dilakukan global, karena artikel yang dibuat oleh
 		// petugas terpecaya diperbolehkan menampilkan <iframe> dsbnya..
-		$list_kolom = array(
+		$list_kolom = [
 			'arsip',
 			'w_cos'
-		);
+		];
 		foreach ($list_kolom as $kolom)
 		{
 			$data[$kolom] = $this->security->xss_clean($data[$kolom]);
@@ -587,7 +614,10 @@ class First extends Web_Controller {
 
 	public function peta()
 	{
-		if (!$this->web_menu_model->menu_aktif('peta')) show_404();
+		if (!$this->web_menu_model->menu_aktif('peta'))
+		{
+			show_404();
+		}
 
 		$this->load->model('wilayah_model');
 		$data = $this->includes;
@@ -636,9 +666,11 @@ class First extends Web_Controller {
 			case '1':
 				$data['jabatan'] = "Kepala Dusun";
 				break;
+
 			case '2':
 				$data['jabatan'] = "Ketua RW";
 				break;
+
 			case '3':
 				$data['jabatan'] = "Ketua RT";
 				break;
@@ -660,7 +692,10 @@ class First extends Web_Controller {
 
 	public function status_idm()
 	{
-		if (!$this->web_menu_model->menu_aktif('status_idm')) show_404();
+		if (!$this->web_menu_model->menu_aktif('status_idm'))
+		{
+			show_404();
+		}
 
 		$data = $this->includes;
 		$this->load->library('data_publik');
@@ -717,14 +752,17 @@ class First extends Web_Controller {
 
 	public function status_sdgs()
 	{
-		if (!$this->web_menu_model->menu_aktif('status_sdgs')) show_404();
+		if (!$this->web_menu_model->menu_aktif('status_sdgs'))
+		{
+			show_404();
+		}
 
 		$this->load->model('data_eksternal_model');
 		$data = $this->includes;
 		$this->_get_common_data($data);
 		$kode_desa = $data['desa']['kode_desa'];
- 		$data ['evaluasi'] = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
- 		$data['halaman_statis'] = '../../' . $this->theme_folder . '/'. $this->theme . '/partials/kemendes_sdgs.php';
+		$data ['evaluasi'] = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
+		$data['halaman_statis'] = '../../' . $this->theme_folder . '/'. $this->theme . '/partials/kemendes_sdgs.php';
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
 	}

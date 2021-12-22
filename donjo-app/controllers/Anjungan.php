@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Anjungan extends Admin_Controller {
-
+class Anjungan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -101,5 +101,4 @@ class Anjungan extends Admin_Controller {
 		$this->anjungan_model->lock($id, $val);
 		redirect('anjungan');
 	}
-
 }

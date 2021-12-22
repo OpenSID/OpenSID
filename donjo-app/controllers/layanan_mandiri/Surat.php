@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Surat extends Mandiri_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -82,7 +81,10 @@ class Surat extends Mandiri_Controller
 		{
 			$permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
 
-			if (! $permohonan) redirect('layanan-mandiri/surat/buat');
+			if (! $permohonan)
+			{
+				redirect('layanan-mandiri/surat/buat');
+			}
 		}
 
 		$data = [
@@ -111,26 +113,26 @@ class Surat extends Mandiri_Controller
 		$dokumen = $this->penduduk_model->list_dokumen($this->is_login->id_pend);
 		$id = $this->input->post('id_surat');
 		$syarat_surat = $this->surat_master_model->get_syarat_surat($id);
-		$data = array();
+		$data = [];
 		$no = $_POST['start'];
 
 		foreach ($syarat_surat as $no_syarat => $baris)
 		{
 			$no++;
-			$row = array();
+			$row = [];
 			$row[] = $no;
 			$row[] = $baris['ref_syarat_nama'];
 			// Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-			$pilihan_dokumen = $this->load->view('layanan_mandiri/pilihan_syarat', array('dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan), TRUE);
+			$pilihan_dokumen = $this->load->view('layanan_mandiri/pilihan_syarat', ['dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan], TRUE);
 			$row[] = $pilihan_dokumen;
 			$data[] = $row;
 		}
 
-		$output = array(
+		$output = [
 			"recordsTotal" => 10,
 			"recordsFiltered" => 10,
 			'data' => $data
-		);
+		];
 
 		$this->output
 			->set_content_type('application/json')
@@ -154,7 +156,7 @@ class Surat extends Mandiri_Controller
 			$list_dokumen[$i][] = $data[$i]['dok_warga'];
 		}
 
-		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : array();
+		$list['data'] = count($list_dokumen) > 0 ? $list_dokumen : [];
 
 		$this->output
 			->set_content_type('application/json')
@@ -175,6 +177,7 @@ class Surat extends Mandiri_Controller
 			$this->output
 				->set_content_type('application/json')
 				->set_output(json_encode($data));
+
 			return;
 		}
 
@@ -278,7 +281,10 @@ class Surat extends Mandiri_Controller
 		{
 			$permohonan = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'id_pemohon' => $id_pend, 'status' => 0]);
 
-			if (! $permohonan OR ! $post) redirect('layanan-mandiri/surat/buat');
+			if (! $permohonan OR ! $post)
+			{
+				redirect('layanan-mandiri/surat/buat');
+			}
 
 			$data['permohonan'] = $permohonan;
 			$data['isian_form'] = json_encode($this->permohonan_surat_model->ambil_isi_form($permohonan['isian_form']));
@@ -286,7 +292,10 @@ class Surat extends Mandiri_Controller
 		}
 		else
 		{
-			if (! $post) redirect('layanan-mandiri/surat/buat');
+			if (! $post)
+			{
+				redirect('layanan-mandiri/surat/buat');
+			}
 
 			$data['permohonan'] = NULL;
 			$data['isian_form'] = NULL;
@@ -357,7 +366,9 @@ class Surat extends Mandiri_Controller
 		$pamong_ub = $this->pamong_model->get_ub();
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))
+		{
 			include($data_form);
+		}
 	}
 
 	public function proses($id = '')
@@ -366,5 +377,4 @@ class Surat extends Mandiri_Controller
 
 		redirect('layanan-mandiri/permohonan-surat');
 	}
-
 }

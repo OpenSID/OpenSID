@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Surat_keluar extends Admin_Controller {
-
+class Surat_keluar extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -67,15 +67,27 @@ class Surat_keluar extends Admin_Controller {
 		$data['o'] = $o;
 
 		if ($this->session->has_userdata('cari'))
+		{
 			$data['cari'] = $this->session->cari;
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if ($this->session->has_userdata('filter'))
+		{
 			$data['filter'] = $this->session->filter;
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if ($this->session->has_userdata('per_page'))
+		{
 			$this->session->per_page = $this->input->post('per_page');
+		}
 
 		$data['per_page'] = $this->session->per_page;
 		$data['paging'] = $this->surat_keluar_model->paging($p, $o);
@@ -133,16 +145,27 @@ class Surat_keluar extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$this->session->cari = $cari;
-		else $this->session->unset_userdata('cari');
+		}
+		else
+		{
+			$this->session->unset_userdata('cari');
+		}
 		redirect('surat_keluar');
 	}
 
 	public function filter()
 	{
 		$filter = $this->input->post('filter');
-		if ($filter != 0) $this->session->filter = $filter;
-		else $this->session->unset_userdata('filter');
+		if ($filter != 0)
+		{
+			$this->session->filter = $filter;
+		}
+		else
+		{
+			$this->session->unset_userdata('filter');
+		}
 		redirect('surat_keluar');
 	}
 
@@ -235,10 +258,14 @@ class Surat_keluar extends Admin_Controller {
 	public function nomor_surat_duplikat()
 	{
 		if ($this->input->post('nomor_urut') == $this->input->post('nomor_urut_lama'))
+		{
 			$hasil = false;
+		}
 		else
+		{
 			$hasil = $this->penomoran_surat_model->nomor_surat_duplikat('surat_keluar', $this->input->post('nomor_urut'));
-   	echo $hasil ? 'false' : 'true';
+		}
+		echo $hasil ? 'false' : 'true';
 	}
 
 	public function untuk_ekspedisi($p = 1, $o = 0, $id)

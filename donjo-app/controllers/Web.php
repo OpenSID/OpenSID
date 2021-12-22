@@ -25,11 +25,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -44,8 +44,8 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Web extends Admin_Controller {
-
+class Web extends Admin_Controller
+{
 	private $_set_page;
 
 	public function __construct()
@@ -86,7 +86,9 @@ class Web extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = "index";
 		$data['per_page'] = $this->session->per_page;
@@ -118,9 +120,15 @@ class Web extends Admin_Controller {
 		if ($id)
 		{
 			$cek_data = $this->web_artikel_model->get_artikel($id);
-			if ( ! $cek_data) show_404();
+			if ( ! $cek_data)
+			{
+				show_404();
+			}
 
-			if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
+			if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user))
+			{
+				redirect("web");
+			}
 
 			$this->session->kategori = $cek_data['id_kategori'];
 			$data['artikel'] = $cek_data;
@@ -143,8 +151,13 @@ class Web extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect("web");
 	}
 
@@ -160,13 +173,20 @@ class Web extends Admin_Controller {
 	{
 		$cat = $this->session->kategori ?: 0;
 
-		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user))
+		{
+			redirect("web");
+		}
 
 		$this->web_artikel_model->update($cat, $id);
 		if ($this->session->success == -1)
+		{
 			redirect("web/form/$id");
+		}
 		else
+		{
 			redirect("web");
+		}
 	}
 
 	public function delete($id = 0)
@@ -197,7 +217,10 @@ class Web extends Admin_Controller {
 	// TODO: Pindahkan ke controller kategoris
 	public function ubah_kategori_form($id = 0)
 	{
-		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user))
+		{
+			redirect("web");
+		}
 
 		$data['list_kategori'] = $this->web_kategori_model->list_kategori("kategori");
 		$data['form_action'] = site_url("web/update_kategori/$id");
@@ -207,7 +230,10 @@ class Web extends Admin_Controller {
 
 	public function update_kategori($id = 0)
 	{
-		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user)) redirect("web");
+		if ( ! $this->web_artikel_model->boleh_ubah($id, $this->session->user))
+		{
+			redirect("web");
+		}
 
 		$cat = $this->input->post('kategori');
 		$this->web_artikel_model->update_kategori($id, $cat);
@@ -302,7 +328,10 @@ class Web extends Admin_Controller {
 	{
 		$cat = $this->session->kategori ?: 0;
 
-		if ($cat == 999) $this->web_artikel_model->reset($cat);
+		if ($cat == 999)
+		{
+			$this->web_artikel_model->reset($cat);
+		}
 
 		redirect("web");
 	}

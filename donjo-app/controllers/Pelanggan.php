@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Pelanggan extends Admin_Controller {
-
+class Pelanggan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -68,5 +68,4 @@ class Pelanggan extends Admin_Controller {
 
 		$this->render('pelanggan/index', ['response' => $response]);
 	}
-
 }

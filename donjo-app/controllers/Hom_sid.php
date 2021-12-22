@@ -44,8 +44,8 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Hom_sid extends Admin_Controller {
-
+class Hom_sid extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -98,5 +98,4 @@ class Hom_sid extends Admin_Controller {
 
 		$this->load->view('home/pengaturan_form', $data);
 	}
-
 }

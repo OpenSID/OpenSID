@@ -1,10 +1,10 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
-* User: didikkurniawan
-* Date: 10/1/16
-* Time: 06:59
-*/
+ * User: didikkurniawan
+ * Date: 10/1/16
+ * Time: 06:59
+ */
 
 class Api_inventaris_tanah extends Admin_Controller
 {
@@ -16,7 +16,7 @@ class Api_inventaris_tanah extends Admin_Controller
 
 	public function add()
 	{
-		$data = $this->inventaris_tanah_model->add(array(
+		$data = $this->inventaris_tanah_model->add([
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
 			'register' => $this->input->post('register'),
@@ -33,15 +33,21 @@ class Api_inventaris_tanah extends Admin_Controller
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_tanah");
 	}
 
 	public function add_mutasi()
 	{
-		$data = $this->inventaris_tanah_model->add_mutasi(array(
+		$data = $this->inventaris_tanah_model->add_mutasi([
 			'id_inventaris_tanah' => $this->input->post('id_inventaris_tanah'),
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
@@ -51,15 +57,21 @@ class Api_inventaris_tanah extends Admin_Controller
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_tanah/mutasi");
 	}
 
 	public function update($id)
 	{
-		$data = $this->inventaris_tanah_model->update($id, array(
+		$data = $this->inventaris_tanah_model->update($id, [
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
 			'register' => $this->input->post('register'),
@@ -75,15 +87,21 @@ class Api_inventaris_tanah extends Admin_Controller
 			'keterangan' => $this->input->post('keterangan'),
 			'updated_at' => date('Y-m-d H:i:s'),
 			'visible' => 1
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_tanah");
 	}
 
 	public function update_mutasi($id)
 	{
-		$data = $this->inventaris_tanah_model->update_mutasi($id, array(
+		$data = $this->inventaris_tanah_model->update_mutasi($id, [
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual') || null,
@@ -91,9 +109,15 @@ class Api_inventaris_tanah extends Admin_Controller
 			'keterangan' => $this->input->post('keterangan'),
 			'updated_at' => date('Y-m-d H:i:s'),
 			'visible' => 1
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_tanah/mutasi");
 	}
 
@@ -101,8 +125,14 @@ class Api_inventaris_tanah extends Admin_Controller
 	{
 		$this->redirect_hak_akses('h', 'inventaris_tanah');
 		$data = $this->inventaris_tanah_model->delete($id);
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect('inventaris_tanah');
 	}
 
@@ -110,8 +140,14 @@ class Api_inventaris_tanah extends Admin_Controller
 	{
 		$this->redirect_hak_akses('h', "inventaris_tanah/mutasi");
 		$data = $this->inventaris_tanah_model->delete_mutasi($id);
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_tanah/mutasi");
 	}
 }

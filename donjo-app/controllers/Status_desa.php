@@ -44,8 +44,8 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Status_desa extends Admin_Controller {
-
+class Status_desa extends Admin_Controller
+{
 	protected $cache_id = 'cache_idm';
 
 	public function __construct()
@@ -84,5 +84,4 @@ class Status_desa extends Admin_Controller {
 		$this->load->view('home/idm', ['idm' => $idm->body->mapData]);
 		$this->load->view('footer');
 	}
-
 }

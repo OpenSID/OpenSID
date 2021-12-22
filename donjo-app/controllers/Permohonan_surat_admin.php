@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Permohonan_surat_admin extends Admin_Controller {
-
+class Permohonan_surat_admin extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -67,15 +67,27 @@ class Permohonan_surat_admin extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['list_status_permohonan'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN);
@@ -91,8 +103,13 @@ class Permohonan_surat_admin extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect($this->controller);
 	}
 
@@ -100,8 +117,13 @@ class Permohonan_surat_admin extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != '')
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect($this->controller);
 	}
 
@@ -110,7 +132,10 @@ class Permohonan_surat_admin extends Admin_Controller {
 		// Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
 		$periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'status' => 1]);
 
-		if (! $id OR ! $periksa) redirect('permohonan_surat_admin');
+		if (! $id OR ! $periksa)
+		{
+			redirect('permohonan_surat_admin');
+		}
 
 		$surat = $this->surat_model->cek_surat_mandiri($periksa['id_surat']);
 		$url = $surat['url_surat'];
@@ -151,26 +176,31 @@ class Permohonan_surat_admin extends Admin_Controller {
 		$pamong_ub = $this->pamong_model->get_ub();
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))
+		{
 			include($data_form);
+		}
 	}
 
 	private function ambil_isi_form($isian_form)
 	{
 		$isian_form = json_decode($isian_form, true);
-		$hapus = array('url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id');
+		$hapus = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
 		foreach ($hapus as $kolom)
 		{
 			unset($isian_form[$kolom]);
 		}
+
 		return $isian_form;
 	}
 
 	public function delete($id_permohonan)
 	{
 		// Hanya status 0 dan 1 yang boleh dihapus
-		if (in_array($id_permohonan, [0, 1])) $this->permohonan_surat_model->delete($id_permohonan);
+		if (in_array($id_permohonan, [0, 1]))
+		{
+			$this->permohonan_surat_model->delete($id_permohonan);
+		}
 
 		redirect('permohonan_surat_admin');
 	}
-
 }

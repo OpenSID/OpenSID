@@ -52,7 +52,7 @@ class Dokumen_web extends Web_Controller
 		$this->load->model('stat_shortener_model');
 	}
 
-  /**
+	/**
 	 * Unduh berkas berdasarkan kolom dokumen.id
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
@@ -62,9 +62,13 @@ class Dokumen_web extends Web_Controller
 		// Ambil nama berkas dari database
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
 		if ($berkas)
+		{
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
+		}
 		else
+		{
 			$this->output->set_status_header('404');
+		}
 	}
 
 	public function check_surat1($id_dokumen)
@@ -80,8 +84,12 @@ class Dokumen_web extends Web_Controller
 	{
 		$berkas = $this->surat_model->get_surat_check($id_decoded);
 		if ($berkas)
+		{
 			$this->load->view('../../' . LOKASI_ARSIP . $berkas);
+		}
 		else
+		{
 			$this->output->set_status_header('404');
+		}
 	}
 }

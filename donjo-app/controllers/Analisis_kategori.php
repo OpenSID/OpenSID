@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_kategori extends Admin_Controller {
-
+class Analisis_kategori extends Admin_Controller
+{
 	function __construct()
 	{
 		parent::__construct();
@@ -71,12 +71,19 @@ class Analisis_kategori extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if( isset($_SESSION['cari']))
+		if ( isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->analisis_kategori_model->paging($p,$o);
@@ -87,11 +94,12 @@ class Analisis_kategori extends Admin_Controller {
 		$this->render('analisis_kategori/table', $data);
 	}
 
-	public function form($p=1, $o=0, $id=''){
+	public function form($p=1, $o=0, $id='')
+	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if($id)
+		if ($id)
 		{
 			$data['analisis_kategori'] = $this->analisis_kategori_model->get_analisis_kategori($id);
 			$data['form_action'] = site_url("analisis_kategori/update/$p/$o/$id");
@@ -109,8 +117,13 @@ class Analisis_kategori extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('analisis_kategori');
 	}
 

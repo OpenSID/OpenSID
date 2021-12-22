@@ -42,7 +42,6 @@
 
 class Sosmed extends Admin_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -56,7 +55,10 @@ class Sosmed extends Admin_Controller
 	{
 		$sosmed = $this->session->userdata('sosmed');
 
-		if(!$sosmed) $sosmed = 'facebook';
+		if (!$sosmed)
+		{
+			$sosmed = 'facebook';
+		}
 
 		$data['media'] = $sosmed;
 		$data['main'] = $this->web_sosmed_model->get_sosmed($sosmed);

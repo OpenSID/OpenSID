@@ -44,7 +44,6 @@ require_once 'vendor/google-api-php-client/vendor/autoload.php';
 
 class Analisis_master extends Admin_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -73,19 +72,36 @@ class Analisis_master extends Admin_Controller
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_SESSION['state']))
+		{
 			$data['state'] = $_SESSION['state'];
-		else $data['state'] = '';
+		}
+		else
+		{
+			$data['state'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->analisis_master_model->paging($p,$o);
@@ -118,7 +134,7 @@ class Analisis_master extends Admin_Controller
 			$data['form_action'] = site_url("analisis_master/insert");
 		}
 
-		$data['list_format_impor'] = array('1' => 'BDT 2015');
+		$data['list_format_impor'] = ['1' => 'BDT 2015'];
 		$data['list_kelompok'] = $this->analisis_master_model->list_kelompok();
 		$data['list_analisis'] = $this->analisis_master_model->list_analisis_child();
 		$this->set_minsidebar(1);
@@ -160,14 +176,17 @@ class Analisis_master extends Admin_Controller
 				$data['menu_respon'] = "analisis_respon_penduduk";
 				$data['menu_laporan'] = "analisis_laporan_penduduk";
 				break;
+
 			case 2:
 				$data['menu_respon'] = "analisis_respon_keluarga";
 				$data['menu_laporan'] = "analisis_laporan_keluarga";
 				break;
+
 			case 3:
 				$data['menu_respon'] = "analisis_respon_rtm";
 				$data['menu_laporan'] = "analisis_laporan_rtm";
 				break;
+
 			case 4:
 				$data['menu_respon'] = "analisis_respon_kelompok";
 				$data['menu_laporan'] = "analisis_laporan_kelompok";
@@ -189,8 +208,13 @@ class Analisis_master extends Admin_Controller
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('analisis_master');
 	}
 
@@ -198,8 +222,13 @@ class Analisis_master extends Admin_Controller
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter']=$filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('analisis_master');
 	}
 
@@ -207,8 +236,13 @@ class Analisis_master extends Admin_Controller
 	{
 		$filter = $this->input->post('state');
 		if ($filter != 0)
+		{
 			$_SESSION['state']=$filter;
-		else unset($_SESSION['state']);
+		}
+		else
+		{
+			unset($_SESSION['state']);
+		}
 		redirect('analisis_master');
 	}
 
@@ -225,14 +259,14 @@ class Analisis_master extends Admin_Controller
 	}
 
 	/**
-		1. Credential
-		2. Id script
-		3. Redirect URI
-
-		- Jika 1 dan 2 diisi (asumsi user pakai akun google sendiri) eksekusi dari nilai yg diisi user. Abaikan isisan 3. Redirect ambil dari isian 1
-		- Jika 1 dan 2 kosong. 3 diisi. Import gform langsung menuju redirect field 3
-		- Jika semua tidak terisi (asumsi opensid ini yang jalan di server OpenDesa) ambil credential setting di file config
-	*/
+	 * 1. Credential
+	 * 2. Id script
+	 * 3. Redirect URI
+	 *
+	 * - Jika 1 dan 2 diisi (asumsi user pakai akun google sendiri) eksekusi dari nilai yg diisi user. Abaikan isisan 3. Redirect ambil dari isian 1
+	 * - Jika 1 dan 2 kosong. 3 diisi. Import gform langsung menuju redirect field 3
+	 * - Jika semua tidak terisi (asumsi opensid ini yang jalan di server OpenDesa) ambil credential setting di file config
+	 */
 	private function get_redirect_uri()
 	{
 		if ($this->setting->api_gform_credential)
@@ -248,7 +282,10 @@ class Analisis_master extends Admin_Controller
 			$credential_data = json_decode(str_replace('\"' , '"', $api_gform_credential), true);
 			$redirect_uri = $credential_data['web']['redirect_uris'][0];
 		}
-		if (empty($redirect_uri)) $redirect_uri = $this->setting->api_gform_redirect_uri;
+		if (empty($redirect_uri))
+		{
+			$redirect_uri = $this->setting->api_gform_redirect_uri;
+		}
 
 		return $redirect_uri;
 	}
@@ -336,6 +373,5 @@ class Analisis_master extends Admin_Controller
 			$url = $REDIRECT_URI . '?formId=' . $this->session->google_form_id . '&redirectLink=' . $self_link ;
 			header('Location: ' . $url);
 		}
-
 	}
 }

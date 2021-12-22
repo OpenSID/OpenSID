@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Wilayah extends Admin_Controller {
-
+class Wilayah extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();

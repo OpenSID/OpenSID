@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Klasifikasi extends Admin_Controller {
-
+class Klasifikasi extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -65,15 +65,27 @@ class Klasifikasi extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->klasifikasi_model->paging($p, $o);
@@ -106,8 +118,13 @@ class Klasifikasi extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('klasifikasi');
 	}
 
@@ -115,8 +132,13 @@ class Klasifikasi extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != "")
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect("klasifikasi");
 	}
 
@@ -124,7 +146,10 @@ class Klasifikasi extends Admin_Controller {
 	{
 		$_SESSION['success'] = 1;
 		$outp = $this->klasifikasi_model->insert();
-		if (!$outp) $_SESSION['success'] = -1;
+		if (!$outp)
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("klasifikasi");
 	}
 
@@ -132,7 +157,10 @@ class Klasifikasi extends Admin_Controller {
 	{
 		$_SESSION['success'] = 1;
 		$outp = $this->klasifikasi_model->update($id);
-		if (!$outp) $_SESSION['success'] = -1;
+		if (!$outp)
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("klasifikasi/index/$p/$o");
 	}
 

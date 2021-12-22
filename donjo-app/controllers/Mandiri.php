@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mandiri extends Admin_Controller {
-
+class Mandiri extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -68,12 +68,14 @@ class Mandiri extends Admin_Controller {
 	{
 		foreach ($this->_list_session as $list)
 		{
-				$data[$list] = $this->session->$list ?: '';
+			$data[$list] = $this->session->$list ?: '';
 		}
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -88,8 +90,13 @@ class Mandiri extends Admin_Controller {
 	{
 		$value = $order_by ?: $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('mandiri');
 	}
 
@@ -161,5 +168,4 @@ class Mandiri extends Admin_Controller {
 
 		redirect('mandiri');
 	}
-
 }

@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Bumindes_penduduk_ktpkk extends Admin_Controller {
-
+class Bumindes_penduduk_ktpkk extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -69,7 +69,10 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller {
 		$this->session->status_dasar = 1;
 		$this->session->status_penduduk = 1;
 
-		if ($this->input->post('per_page')) $this->session->per_page = $this->input->post('per_page');
+		if ($this->input->post('per_page'))
+		{
+			$this->session->per_page = $this->input->post('per_page');
+		}
 
 		$data = [
 			'main_content' => "bumindes/penduduk/ktpkk/content_ktpkk",
@@ -140,7 +143,10 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller {
 			'letak_ttd' => ['2', '2', '9']
 		];
 
-		if ($privasi_nik == 1) $data['privasi_nik'] = true;
+		if ($privasi_nik == 1)
+		{
+			$data['privasi_nik'] = true;
+		}
 
 		$this->load->view('global/format_cetak', $data);
 	}
@@ -154,8 +160,14 @@ class Bumindes_penduduk_ktpkk extends Admin_Controller {
 	public function filter($filter)
 	{
 		$value = $this->input->post($filter);
-		if ($value != "") $this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		if ($value != "")
+		{
+			$this->session->$filter = $value;
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 
 		$this->session->filter_tahun = $this->input->post('filter_tahun') ? : date('Y');
 		$this->session->filter_bulan = $this->input->post('filter_bulan') ? : date('m');

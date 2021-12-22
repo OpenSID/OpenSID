@@ -25,11 +25,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -42,8 +42,8 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-class Plan extends Admin_Controller {
-
+class Plan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -70,28 +70,49 @@ class Plan extends Admin_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
-
 		$data['p'] = $p;
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_SESSION['point']))
+		{
 			$data['point'] = $_SESSION['point'];
-		else $data['point'] = '';
+		}
+		else
+		{
+			$data['point'] = '';
+		}
 
 		if (isset($_SESSION['subpoint']))
+		{
 			$data['subpoint'] = $_SESSION['subpoint'];
-		else $data['subpoint'] = '';
+		}
+		else
+		{
+			$data['subpoint'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 
@@ -133,13 +154,17 @@ class Plan extends Admin_Controller {
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-		if ($id){
+		if ($id)
+		{
 			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
-		}else{
+		}
+		else
+		{
 			$data['lokasi'] = NULL;
 		}
 
-		$data['desa'] = $this->config_model->get_data();;
+		$data['desa'] = $this->config_model->get_data();
+		;
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
@@ -164,8 +189,13 @@ class Plan extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('plan');
 	}
 
@@ -173,8 +203,13 @@ class Plan extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('plan');
 	}
 
@@ -182,8 +217,13 @@ class Plan extends Admin_Controller {
 	{
 		$point = $this->input->post('point');
 		if ($point != 0)
+		{
 			$_SESSION['point'] = $point;
-		else unset($_SESSION['point']);
+		}
+		else
+		{
+			unset($_SESSION['point']);
+		}
 		redirect('plan');
 	}
 
@@ -192,8 +232,13 @@ class Plan extends Admin_Controller {
 		unset($_SESSION['point']);
 		$subpoint = $this->input->post('subpoint');
 		if ($subpoint != 0)
+		{
 			$_SESSION['subpoint'] = $subpoint;
-		else unset($_SESSION['subpoint']);
+		}
+		else
+		{
+			unset($_SESSION['subpoint']);
+		}
 		redirect('plan');
 	}
 

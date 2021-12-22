@@ -28,11 +28,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-class Identitas_desa extends Admin_Controller {
-
+class Identitas_desa extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -75,9 +75,13 @@ class Identitas_desa extends Admin_Controller {
 		$this->session->kades_lama = $data['main']['pamong_id'];
 
 		if ($data['main'])
+		{
 			$data['form_action'] = site_url('identitas_desa/update/' . $data['main']['id']);
+		}
 		else
+		{
 			$data['form_action'] = site_url('identitas_desa/insert');
+		}
 
 		$this->render('identitas_desa/form', $data);
 	}
@@ -108,9 +112,9 @@ class Identitas_desa extends Admin_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
 		$data['wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
-		$data['breadcrumb'] = array(
-			array('link' => site_url("identitas_desa"), 'judul' => "Identitas " . ucwords($this->setting->sebutan_desa)),
-		);
+		$data['breadcrumb'] = [
+			['link' => site_url("identitas_desa"), 'judul' => "Identitas " . ucwords($this->setting->sebutan_desa)],
+		];
 
 		$data['form_action'] = site_url("identitas_desa/update_maps/$tipe");
 
@@ -120,9 +124,13 @@ class Identitas_desa extends Admin_Controller {
 	public function update_maps($tipe = 'kantor')
 	{
 		if ($tipe = 'kantor')
+		{
 			$this->config_model->update_kantor();
+		}
 		else
+		{
 			$this->config_model->update_wilayah();
+		}
 
 		redirect("identitas_desa");
 	}

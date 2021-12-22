@@ -43,8 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Rtm extends Admin_Controller {
-
+class Rtm extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -71,9 +71,13 @@ class Rtm extends Admin_Controller {
 		foreach ($this->_list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
+			{
 				$$list = $this->session->$list;
+			}
 			else
+			{
 				$data[$list] = $this->session->$list ?: '';
+			}
 		}
 
 		if (isset($dusun))
@@ -87,10 +91,18 @@ class Rtm extends Admin_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -99,7 +111,9 @@ class Rtm extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -118,7 +132,10 @@ class Rtm extends Admin_Controller {
 	public function daftar($aksi = '', $privasi_nik = 0)
 	{
 		$data['main'] = $this->rtm_model->list_data($this->session->order_by, 0);
-		if ($privasi_nik == 1) $data['privasi_nik'] = true;
+		if ($privasi_nik == 1)
+		{
+			$data['privasi_nik'] = true;
+		}
 		$this->load->view("sid/kependudukan/rtm_$aksi", $data);
 	}
 
@@ -140,8 +157,13 @@ class Rtm extends Admin_Controller {
 	{
 		$value = $order_by ?: $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('rtm');
 	}
 
@@ -150,8 +172,13 @@ class Rtm extends Admin_Controller {
 		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != '')
+		{
 			$this->session->dusun = $dusun;
-		else $this->session->unset_userdata('dusun');
+		}
+		else
+		{
+			$this->session->unset_userdata('dusun');
+		}
 		redirect('rtm');
 	}
 
@@ -160,8 +187,13 @@ class Rtm extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != '')
+		{
 			$this->session->rw = $rw;
-		else $this->session->unset_userdata('rw');
+		}
+		else
+		{
+			$this->session->unset_userdata('rw');
+		}
 		redirect('rtm');
 	}
 
@@ -169,8 +201,13 @@ class Rtm extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != '')
+		{
 			$this->session->rt = $rt;
-		else $this->session->unset_userdata('rt');
+		}
+		else
+		{
+			$this->session->unset_userdata('rt');
+		}
 		redirect('rtm');
 	}
 
@@ -249,9 +286,13 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$kk = $this->rtm_model->get_kepala_rtm($id);
 		if ($kk)
+		{
 			$data['kepala_kk'] = $kk;
+		}
 		else
+		{
 			$data['kepala_kk'] = NULL;
+		}
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/add_anggota/$id");
@@ -277,9 +318,13 @@ class Rtm extends Admin_Controller {
 		$data['desa'] = $this->header['desa'];
 
 		if ($kk)
+		{
 			$data['kepala_kk'] = $kk;
+		}
 		else
+		{
 			$data['kepala_kk'] = NULL;
+		}
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/print");

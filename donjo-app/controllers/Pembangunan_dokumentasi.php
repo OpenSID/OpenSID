@@ -138,5 +138,4 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
 		redirect("pembangunan_dokumentasi/show/{$id_pembangunan}");
 	}
-
 }

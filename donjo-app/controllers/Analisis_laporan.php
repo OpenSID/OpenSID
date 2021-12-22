@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_laporan extends Admin_Controller {
-
+class Analisis_laporan extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -85,9 +85,13 @@ class Analisis_laporan extends Admin_Controller {
 		foreach ($this->_list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
+			{
 				$$list = $this->session->$list;
+			}
 			else
+			{
 				$data[$list] = $this->session->$list ?: '';
+			}
 		}
 
 		if (isset($dusun))
@@ -101,10 +105,18 @@ class Analisis_laporan extends Admin_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -113,7 +125,9 @@ class Analisis_laporan extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -168,11 +182,15 @@ class Analisis_laporan extends Admin_Controller {
 		switch ($subjek_tipe)
 		{
 			case 1: $asubjek = "Penduduk"; break;
+
 			case 2: $asubjek = "Keluarga"; break;
+
 			case 3: $asubjek = "Rumahtangga"; break;
+
 			case 4: $asubjek = "Kelompok"; break;
 			default: return NULL;
 		}
+
 		return $asubjek;
 	}
 
@@ -247,11 +265,11 @@ class Analisis_laporan extends Admin_Controller {
 	{
 		if (isset($_SESSION['jawab']))
 		{
-		 $data['jawab'] = $_SESSION['jawab'];
+			$data['jawab'] = $_SESSION['jawab'];
 		}
 		else
 		{
-		 $data['jawab'] = '';
+			$data['jawab'] = '';
 		}
 		$data['main'] = $this->analisis_laporan_model->multi_jawab(1, 1);
 		$data['form_action'] = site_url("analisis_laporan/multi_jawab_proses");
@@ -283,14 +301,24 @@ class Analisis_laporan extends Admin_Controller {
 
 	public function filter($filter)
 	{
-		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
-		if ($filter == "rw") $this->session->unset_userdata("rt");
+		if ($filter == "dusun")
+		{
+			$this->session->unset_userdata(['rw', 'rt']);
+		}
+		if ($filter == "rw")
+		{
+			$this->session->unset_userdata("rt");
+		}
 
 		$value = $this->input->post($filter);
 		if ($value != "")
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('analisis_laporan');
 	}
-
 }

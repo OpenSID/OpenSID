@@ -42,8 +42,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Keuangan_manual extends Admin_Controller {
-
+class Keuangan_manual extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -56,10 +56,10 @@ class Keuangan_manual extends Admin_Controller {
 	// Manual Input Anggaran dan Realisasi APBDes
 	public function setdata_laporan($tahun, $semester)
 	{
-		$sess_manual = array(
+		$sess_manual = [
 			'set_tahun' => $tahun,
 			'set_semester' => $semester
-		);
+		];
 		$this->session->set_userdata( $sess_manual );
 		echo json_encode(true);
 	}
@@ -86,9 +86,9 @@ class Keuangan_manual extends Admin_Controller {
 
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 		$tahun = $this->session->set_tahun ?: $data['tahun_anggaran'][0];
-		$sess_manual = array(
+		$sess_manual = [
 			'set_tahun' => $tahun,
-		);
+		];
 		$this->session->set_userdata( $sess_manual );
 		$this->load->model('keuangan_grafik_manual_model');
 		$this->set_minsidebar(1);
@@ -99,6 +99,7 @@ class Keuangan_manual extends Admin_Controller {
 			case 'rincian_realisasi_bidang_manual':
 				$this->rincian_realisasi_manual($thn, 'Akhir Bidang Manual');
 				break;
+
 			case 'grafik-RP-APBD-manual':
 				$this->grafik_rp_apbd_manual($thn);
 				break;
@@ -227,19 +228,19 @@ class Keuangan_manual extends Admin_Controller {
 	public function cek_tahun_manual()
 	{
 		$data = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-		$list_tahun = array();
+		$list_tahun = [];
 		foreach ($data as $tahun)
 		{
-			$list_tahun[] = array(
+			$list_tahun[] = [
 				'text' => $tahun,
 				'value' => $tahun
-			);
+			];
 		}
 		echo json_encode($list_tahun);
 	}
 	/** untuk menghindari double post browser
 	 * https://en.wikipedia.org/wiki/Post/Redirect/Get
-	*/
+	 */
 	public function set_tahun_terpilih()
 	{
 		$post_tahun = $this->input->post('tahun_anggaran');

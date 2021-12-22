@@ -41,8 +41,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Setting extends Admin_Controller {
-
+class Setting extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -76,7 +76,10 @@ class Setting extends Admin_Controller {
 
 	public function aktifkan_tracking()
 	{
-		if ($this->input->post('notifikasi') != 1) return; // Hanya bila dipanggil dari form pengumuman
+		if ($this->input->post('notifikasi') != 1)
+		{
+			return;
+		} // Hanya bila dipanggil dari form pengumuman
 		$this->setting_model->aktifkan_tracking();
 		$this->db->where('kode', 'tracking_off')->update('notifikasi', ['aktif' => 0]);
 	}

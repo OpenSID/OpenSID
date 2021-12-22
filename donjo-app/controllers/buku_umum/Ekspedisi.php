@@ -1,7 +1,7 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Ekspedisi extends Admin_Controller {
-
+class Ekspedisi extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -132,5 +132,4 @@ class Ekspedisi extends Admin_Controller {
 		$this->surat_keluar_model->untuk_ekspedisi($id, $masuk = 0);
 		redirect("ekspedisi/index/$p/$o");
 	}
-
 }

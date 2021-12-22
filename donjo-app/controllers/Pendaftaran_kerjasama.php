@@ -124,7 +124,8 @@ class Pendaftaran_kerjasama extends Admin_Controller
 		$config['overwrite']     = true;
 		$this->upload->initialize($config);
 
-		try {
+		try
+		{
 			$this->upload->do_upload('permohonan');
 			$response = $this->client->post("{$this->server}/api/v1/pelanggan/register", [
 				'headers' => ['X-Requested-With' => 'XMLHttpRequest'],

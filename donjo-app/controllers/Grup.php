@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Grup extends Admin_Controller {
-
+class Grup extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -74,7 +74,9 @@ class Grup extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->set_page;
@@ -106,7 +108,9 @@ class Grup extends Admin_Controller {
 			foreach ($data['list_akses_submodul'][$akses_modul['id']] as $akses_submodul)
 			{
 				if ($akses_submodul['ada_akses'] == 1)
+				{
 					$data['list_akses_modul'][$key]['ada_akses'] = 1;
+				}
 			}
 		}
 		if ($id)
@@ -189,5 +193,4 @@ class Grup extends Admin_Controller {
 		$this->grup_model->delete_all();
 		redirect("grup/index/$p/$o");
 	}
-
 }

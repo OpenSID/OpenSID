@@ -25,11 +25,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -126,9 +126,13 @@ class Area extends Admin_Controller
 		$data['p'] = $p;
 		$data['o'] = $o;
 		if ($id)
+		{
 			$data['area'] = $this->plan_area_model->get_area($id);
+		}
 		else
+		{
 			$data['area'] = null;
+		}
 
 		$data['desa'] = $this->config_model->get_data();
 		$data['wil_atas'] = $this->config_model->get_data();
@@ -154,8 +158,13 @@ class Area extends Admin_Controller
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$this->session->cari = $cari;
-		else $this->session->unset_userdata('cari');
+		}
+		else
+		{
+			$this->session->unset_userdata('cari');
+		}
 		redirect('area');
 	}
 
@@ -163,8 +172,13 @@ class Area extends Admin_Controller
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$this->session->filter = $filter;
-		else $this->session->unset_userdata('filter');
+		}
+		else
+		{
+			$this->session->unset_userdata('filter');
+		}
 		redirect('area');
 	}
 
@@ -172,8 +186,13 @@ class Area extends Admin_Controller
 	{
 		$polygon = $this->input->post('polygon');
 		if ($polygon != 0)
+		{
 			$this->session->polygon = $polygon;
-		else $this->session->unset_userdata('polygon');
+		}
+		else
+		{
+			$this->session->unset_userdata('polygon');
+		}
 		redirect('area');
 	}
 
@@ -182,8 +201,13 @@ class Area extends Admin_Controller
 		$this->session->unset_userdata('polygon');
 		$subpolygon = $this->input->post('subpolygon');
 		if ($subpolygon != 0)
+		{
 			$this->session->subpolygon = $subpolygon;
-		else $this->session->unset_userdata('subpolygon');
+		}
+		else
+		{
+			$this->session->unset_userdata('subpolygon');
+		}
 		redirect('area');
 	}
 

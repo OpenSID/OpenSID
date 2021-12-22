@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_statistik_jawaban extends Admin_Controller {
-
+class Analisis_statistik_jawaban extends Admin_Controller
+{
 	private $_set_page;
 
 	function __construct()
@@ -89,20 +89,42 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 		if (isset($_SESSION['tipe']))
+		{
 			$data['tipe'] = $_SESSION['tipe'];
-		else $data['tipe'] = '';
+		}
+		else
+		{
+			$data['tipe'] = '';
+		}
 		if (isset($_SESSION['kategori']))
+		{
 			$data['kategori'] = $_SESSION['kategori'];
-		else $data['kategori'] = '';
+		}
+		else
+		{
+			$data['kategori'] = '';
+		}
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 		$data['per_page'] = $this->session->per_page;
 
 		if (isset($_SESSION['dusun']))
@@ -116,10 +138,18 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 
 				if (isset($_SESSION['rt']))
+				{
 					$data['rt'] = $_SESSION['rt'];
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -154,10 +184,18 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 				$data['rw'] = $_SESSION['rw'];
 				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'],$data['rw']);
 				if (isset($_SESSION['rt']))
+				{
 					$data['rt'] = $_SESSION['rt'];
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -187,10 +225,18 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 				$data['rw'] = $_SESSION['rw'];
 				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
+				{
 					$data['rt'] = $_SESSION['rt'];
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -242,8 +288,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -251,8 +302,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -260,8 +316,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		$filter = $this->input->post('tipe');
 		if ($filter != 0)
+		{
 			$_SESSION['tipe'] = $filter;
-		else unset($_SESSION['tipe']);
+		}
+		else
+		{
+			unset($_SESSION['tipe']);
+		}
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -269,8 +330,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		$filter = $this->input->post('kategori');
 		if ($filter != 0)
+		{
 			$_SESSION['kategori'] = $filter;
-		else unset($_SESSION['kategori']);
+		}
+		else
+		{
+			unset($_SESSION['kategori']);
+		}
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -280,8 +346,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
+		}
+		else
+		{
+			unset($_SESSION['dusun']);
+		}
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -290,8 +361,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$rw = $this->input->post('rw');
 		if ($rw != "")
+		{
 			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
+		}
+		else
+		{
+			unset($_SESSION['rw']);
+		}
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -299,8 +375,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
+		{
 			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
+		}
+		else
+		{
+			unset($_SESSION['rt']);
+		}
 		redirect('analisis_statistik_jawaban');
 	}
 
@@ -310,8 +391,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
+		}
+		else
+		{
+			unset($_SESSION['dusun']);
+		}
 		redirect("analisis_statistik_jawaban/subjek_parameter/$id/$par");
 	}
 
@@ -320,8 +406,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$rw = $this->input->post('rw');
 		if ($rw != "")
+		{
 			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
+		}
+		else
+		{
+			unset($_SESSION['rw']);
+		}
 		redirect("analisis_statistik_jawaban/subjek_parameter/$id/$par");
 	}
 
@@ -329,8 +420,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
+		{
 			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
+		}
+		else
+		{
+			unset($_SESSION['rt']);
+		}
 		redirect("analisis_statistik_jawaban/subjek_parameter/$id/$par");
 	}
 
@@ -340,8 +436,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$_SESSION['dusun'] = $dusun;
-		else unset($_SESSION['dusun']);
+		}
+		else
+		{
+			unset($_SESSION['dusun']);
+		}
 		redirect("analisis_statistik_jawaban/grafik_parameter/$id");
 	}
 
@@ -350,8 +451,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 		unset($_SESSION['rt']);
 		$rw = $this->input->post('rw');
 		if ($rw != "")
+		{
 			$_SESSION['rw'] = $rw;
-		else unset($_SESSION['rw']);
+		}
+		else
+		{
+			unset($_SESSION['rw']);
+		}
 		redirect("analisis_statistik_jawaban/grafik_parameter/$id");
 	}
 
@@ -359,8 +465,13 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
+		{
 			$_SESSION['rt'] = $rt;
-		else unset($_SESSION['rt']);
+		}
+		else
+		{
+			unset($_SESSION['rt']);
+		}
 		redirect("analisis_statistik_jawaban/grafik_parameter/$id");
 	}
 

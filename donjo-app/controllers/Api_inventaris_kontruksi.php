@@ -1,21 +1,22 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
-* User: didikkurniawan
-* Date: 10/1/16
-* Time: 06:59
-*/
+ * User: didikkurniawan
+ * Date: 10/1/16
+ * Time: 06:59
+ */
 
 class Api_inventaris_kontruksi extends Admin_Controller
 {
-	function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 		$this->load->model('inventaris_kontruksi_model');
 	}
 
 	public function add()
 	{
-		$data = $this->inventaris_kontruksi_model->add(array(
+		$data = $this->inventaris_kontruksi_model->add([
 			'nama_barang' => $this->input->post('nama_barang'),
 			'kondisi_bangunan' => $this->input->post('fisik_bangunan'),
 			'kontruksi_bertingkat' => $this->input->post('tingkat'),
@@ -33,15 +34,21 @@ class Api_inventaris_kontruksi extends Admin_Controller
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_kontruksi");
 	}
 
 	public function add_mutasi()
 	{
-		$data = $this->inventaris_kontruksi_model->add_mutasi(array(
+		$data = $this->inventaris_kontruksi_model->add_mutasi([
 			'id_inventaris_kontruksi' => $this->input->post('id_inventaris_kontruksi'),
 			'jenis_mutasi' => $this->input->post('jenis_mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
@@ -51,15 +58,21 @@ class Api_inventaris_kontruksi extends Admin_Controller
 			'visible' => 1,
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_kontruksi/mutasi");
 	}
 
 	public function update($id)
 	{
-		$data = $this->inventaris_kontruksi_model->update($id, array(
+		$data = $this->inventaris_kontruksi_model->update($id, [
 			'nama_barang' => $this->input->post('nama_barang'),
 			'kondisi_bangunan' => $this->input->post('fisik_bangunan'),
 			'kontruksi_bertingkat' => $this->input->post('tingkat'),
@@ -75,24 +88,36 @@ class Api_inventaris_kontruksi extends Admin_Controller
 			'harga' => $this->input->post('harga'),
 			'keterangan' => $this->input->post('keterangan'),
 			'updated_at' => date('Y-m-d H:i:s')
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_kontruksi");
 	}
 
 	public function update_mutasi($id)
 	{
-		$data = $this->inventaris_kontruksi_model->update_mutasi($id, array(
+		$data = $this->inventaris_kontruksi_model->update_mutasi($id, [
 			'jenis_mutasi' => $this->input->post('jenis_mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual'),
 			'sumbangkan' => $this->input->post('sumbangkan'),
 			'keterangan' => $this->input->post('keterangan'),
 			'updated_at' => date('Y-m-d H:i:s')
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+			]);
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("inventaris_kontruksi/mutasi");
 	}
 
@@ -100,8 +125,14 @@ class Api_inventaris_kontruksi extends Admin_Controller
 	{
 		$this->redirect_hak_akses('h', 'inventaris_kontruksi');
 		$data = $this->inventaris_kontruksi_model->delete($id);
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect('inventaris_kontruksi');
 	}
 
@@ -109,8 +140,14 @@ class Api_inventaris_kontruksi extends Admin_Controller
 	{
 		$this->redirect_hak_akses('h', 'inventaris_kontruksi/mutasi');
 		$data = $this->inventaris_kontruksi_model->delete_mutasi($id);
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
+		if ($data)
+		{
+			$_SESSION['success'] = 1;
+		}
+		else
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect('inventaris_kontruksi/mutasi');
 	}
 }

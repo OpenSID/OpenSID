@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Penduduk_log extends Admin_Controller {
-
+class Penduduk_log extends Admin_Controller
+{
 	private $set_page;
 	private $list_session;
 
@@ -75,9 +75,13 @@ class Penduduk_log extends Admin_Controller {
 		foreach ($this->list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
+			{
 				$$list = $this->session->$list;
+			}
 			else
+			{
 				$data[$list] = $this->session->$list ?: '';
+			}
 		}
 
 		if (isset($dusun))
@@ -91,10 +95,18 @@ class Penduduk_log extends Admin_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -105,7 +117,9 @@ class Penduduk_log extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['per_page'] = $this->session->per_page;
@@ -126,8 +140,13 @@ class Penduduk_log extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('penduduk_log');
 	}
 
@@ -136,8 +155,13 @@ class Penduduk_log extends Admin_Controller {
 		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$this->session->dusun = $dusun;
-		else $this->session->unset_userdata('dusun');
+		}
+		else
+		{
+			$this->session->unset_userdata('dusun');
+		}
 		redirect('penduduk_log');
 	}
 
@@ -146,8 +170,13 @@ class Penduduk_log extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != "")
+		{
 			$this->session->rw = $rw;
-		else $this->session->unset_userdata('rw');
+		}
+		else
+		{
+			$this->session->unset_userdata('rw');
+		}
 		redirect('penduduk_log');
 	}
 
@@ -155,17 +184,30 @@ class Penduduk_log extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
+		{
 			$this->session->rt = $rt;
-		else $this->session->unset_userdata('rt');
+		}
+		else
+		{
+			$this->session->unset_userdata('rt');
+		}
 		redirect('penduduk_log');
 	}
 
 	public function tahun_bulan()
 	{
-
-		if ($bln = $this->input->post('bulan')) $this->session->filter_bulan = $bln;
-		else $this->session->unset_userdata('filter_bulan');
-		if ($thn = $this->input->post('tahun')) $this->session->filter_tahun = $thn;
+		if ($bln = $this->input->post('bulan'))
+		{
+			$this->session->filter_bulan = $bln;
+		}
+		else
+		{
+			$this->session->unset_userdata('filter_bulan');
+		}
+		if ($thn = $this->input->post('tahun'))
+		{
+			$this->session->filter_tahun = $thn;
+		}
 		else
 		{
 			// Kalau tidak tentukan tahun, tampilkan semua
@@ -219,7 +261,10 @@ class Penduduk_log extends Admin_Controller {
 	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
 	{
 		$data['main'] = $this->penduduk_log_model->list_data($o, 0);
-		if ($privasi_nik == 1) $data['privasi_nik'] = true;
+		if ($privasi_nik == 1)
+		{
+			$data['privasi_nik'] = true;
+		}
 		$this->load->view("penduduk_log/penduduk_log_$aksi", $data);
 	}
 

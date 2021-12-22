@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Lembaran_desa extends Admin_Controller {
-
+class Lembaran_desa extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -66,7 +66,9 @@ class Lembaran_desa extends Admin_Controller {
 		$data['cari'] = $this->session->cari ?: '';
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
@@ -75,7 +77,7 @@ class Lembaran_desa extends Admin_Controller {
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
-    $_SESSION['menu_kategori'] = TRUE;
+		$_SESSION['menu_kategori'] = TRUE;
 
 		foreach ($data['submenu'] as $s)
 		{
@@ -180,7 +182,7 @@ class Lembaran_desa extends Admin_Controller {
 		$data['desa'] = $this->config_model->get_data();
 		$data['aksi'] = $aksi;
 		$data['template'] = 'lembaran_desa_print';
+
 		return $data;
 	}
-
 }

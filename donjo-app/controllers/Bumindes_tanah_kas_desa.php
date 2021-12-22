@@ -43,8 +43,8 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-class Bumindes_tanah_kas_desa extends Admin_Controller {
-
+class Bumindes_tanah_kas_desa extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -146,7 +146,6 @@ class Bumindes_tanah_kas_desa extends Admin_Controller {
 				'view_mark'	   => 0,
 				'form_action'  => site_url("bumindes_tanah_kas_desa/add_tanah_kas_desa"),
 			];
-
 		}
 
 		$this->set_minsidebar(1);

@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Teks_berjalan extends Admin_Controller {
-
+class Teks_berjalan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -106,7 +106,7 @@ class Teks_berjalan extends Admin_Controller {
 	public function urut($id = 0, $arah = 0)
 	{
 		$urut = $this->teks_berjalan_model->urut($id, $arah);
- 		redirect("teks_berjalan/index/$page");
+		redirect("teks_berjalan/index/$page");
 	}
 
 	public function lock($id = 0, $val = 1)

@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Keluar extends Admin_Controller {
-
+class Keluar extends Admin_Controller
+{
 	private $list_session = ['cari','tahun', 'bulan', 'jenis', 'nik' ];
 
 	public function __construct()
@@ -69,22 +69,28 @@ class Keluar extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		foreach ($this->list_session as $list) {
+		foreach ($this->list_session as $list)
+		{
 			$data[$list] = $this->session->$list ?: '';
 		}
 
 		if ($this->input->post('per_page') !== NULL)
+		{
 			$this->session->per_page = $this->input->post('per_page');
+		}
 
-		if(!isset($this->session->tahun)) $this->session->unset_userdata('bulan');
+		if (!isset($this->session->tahun))
+		{
+			$this->session->unset_userdata('bulan');
+		}
 
 		$data['per_page'] = $this->session->per_pages;
 
 		$data['paging'] = $this->keluar_model->paging($p,$o);
 		$data['main'] = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
- 		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
+		$data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
 		$data['bulan_surat'] = ($this->session->tahun == NULL) ? [] :  $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
- 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
+		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
 		$this->render('surat/surat_keluar', $data);
@@ -99,7 +105,7 @@ class Keluar extends Admin_Controller {
 
 	public function update_keterangan($id='')
 	{
-		$data = array('keterangan' => $this->input->post('keterangan'));
+		$data = ['keterangan' => $this->input->post('keterangan')];
 		$data = $this->security->xss_clean($data);
 		$data = html_escape($data);
 		$this->keluar_model->update_keterangan($id, $data);
@@ -118,9 +124,13 @@ class Keluar extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$this->session->cari = $cari;
-		else $this->session->session_unset('cari') ;
-
+		}
+		else
+		{
+			$this->session->session_unset('cari') ;
+		}
 	}
 
 	public function perorangan_clear()
@@ -135,7 +145,6 @@ class Keluar extends Admin_Controller {
 		if ($this->input->post('nik') !== null)
 		{
 			$nik = $this->input->post('nik');
-
 		}
 		if (!empty($nik))
 		{
@@ -150,7 +159,9 @@ class Keluar extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $this->input->post('per_page');
+		}
 		$data['per_page'] = $this->session->per_page;
 
 		$data['paging'] = $this->keluar_model->paging_perorangan($nik, $p, $o);
@@ -171,10 +182,18 @@ class Keluar extends Admin_Controller {
 	public function filter($filter)
 	{
 		$value = $this->input->post($filter);
-		if ($filter == 'tahun') $this->session->unset_userdata('bulan'); //hapus filter bulan
+		if ($filter == 'tahun')
+		{
+			$this->session->unset_userdata('bulan');
+		} //hapus filter bulan
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('keluar');
 	}
 
@@ -217,5 +236,4 @@ class Keluar extends Admin_Controller {
 
 		$this->load->view('global/format_cetak', $data);
 	}
-
 }

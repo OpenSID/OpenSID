@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Dokumen_sekretariat extends Admin_Controller {
-
+class Dokumen_sekretariat extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -66,11 +66,18 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['kat'] = $kat;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
@@ -80,7 +87,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
-    $_SESSION['menu_kategori'] = TRUE;
+		$_SESSION['menu_kategori'] = TRUE;
 
 		foreach ($data['submenu'] as $s)
 		{
@@ -143,8 +150,13 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$cari = $this->input->post('cari');
 		$kat = $this->input->post('kategori');
 		if ($cari != '')
+		{
 			$_SESSION['cari']=$cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect("dokumen_sekretariat/index/$kat");
 	}
 
@@ -160,7 +172,10 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$_SESSION['success'] = 1;
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
-		if (!$outp) $_SESSION['success'] = -1;
+		if (!$outp)
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 
@@ -169,9 +184,14 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$_SESSION['success'] = 1;
 		$kategori = $this->input->post('kategori');
 		if (!empty($kategori))
+		{
 			$kat = $this->input->post('kategori');
+		}
 		$outp = $this->web_dokumen_model->update($id);
-		if (!$outp) $_SESSION['success'] = -1;
+		if (!$outp)
+		{
+			$_SESSION['success'] = -1;
+		}
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 

@@ -44,8 +44,8 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Keluarga extends Admin_Controller {
-
+class Keluarga extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -80,9 +80,13 @@ class Keluarga extends Admin_Controller {
 		foreach ($this->_list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
+			{
 				$$list = $this->session->$list;
+			}
 			else
+			{
 				$data[$list] = $this->session->$list ?: '';
+			}
 		}
 
 		if (isset($dusun))
@@ -96,10 +100,18 @@ class Keluarga extends Admin_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -108,7 +120,9 @@ class Keluarga extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -130,7 +144,10 @@ class Keluarga extends Admin_Controller {
 	public function cetak($o = 0, $aksi = '', $privasi_kk = 0)
 	{
 		$data['main'] = $this->keluarga_model->list_data($o, 0);
-		if ($privasi_kk == 1) $data['privasi_kk'] = true;
+		if ($privasi_kk == 1)
+		{
+			$data['privasi_kk'] = true;
+		}
 		$this->load->view("sid/kependudukan/keluarga_$aksi", $data);
 	}
 
@@ -138,7 +155,10 @@ class Keluarga extends Admin_Controller {
 	{
 		// Acuan jenis peristiwa berada pada ref_peristiwa
 		// Yg valid hanya peristiwa datang masuk
-		if ($peristiwa <> 5) redirect('keluarga');
+		if ($peristiwa <> 5)
+		{
+			redirect('keluarga');
+		}
 
 		$this->session->jenis_peristiwa = $peristiwa;
 		$this->form();
@@ -158,7 +178,9 @@ class Keluarga extends Admin_Controller {
 	{
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
-				unset($_SESSION['validation_error']);
+		{
+			unset($_SESSION['validation_error']);
+		}
 
 		$data['kk_baru'] = true;
 
@@ -179,7 +201,9 @@ class Keluarga extends Admin_Controller {
 			$data['penduduk']['id_sex'] = $data['penduduk']['sex'];
 		}
 		else
+		{
 			$data['penduduk'] = null;
+		}
 		$data['kk'] = null;
 		$data['form_action'] = site_url("keluarga/insert_new");
 		$data['penduduk_lepas'] = $this->keluarga_model->list_penduduk_lepas();
@@ -206,9 +230,13 @@ class Keluarga extends Admin_Controller {
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		if ($this->session->status_hanya_tetap)
+		{
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap, 1);
+		}
 		else
+		{
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		}
 		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
 		$this->session->unset_userdata(['dari_internal']);
@@ -222,8 +250,13 @@ class Keluarga extends Admin_Controller {
 	{
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND !$_SESSION['dari_internal'])
-				unset($_SESSION['validation_error']);
-		else unset($_SESSION['dari_internal']);
+		{
+			unset($_SESSION['validation_error']);
+		}
+		else
+		{
+			unset($_SESSION['dari_internal']);
+		}
 
 		$data['id_kk'] = $id;
 		$data['kk'] = $this->keluarga_model->get_kepala_a($id);
@@ -248,9 +281,13 @@ class Keluarga extends Admin_Controller {
 		$data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
 		$data['pilihan_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
 		if ($this->session->status_hanya_tetap)
+		{
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', $this->session->status_hanya_tetap, 1);
+		}
 		else
+		{
 			$data['status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status', null, 1);
+		}
 		$data['jenis_peristiwa'] = $this->session->jenis_peristiwa;
 
 		// Validasi dilakukan di keluarga_model sewaktu insert dan update
@@ -289,8 +326,13 @@ class Keluarga extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('keluarga');
 	}
 
@@ -299,8 +341,13 @@ class Keluarga extends Admin_Controller {
 		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$this->session->dusun = $dusun;
-		else $this->session->unset_userdata('dusun');
+		}
+		else
+		{
+			$this->session->unset_userdata('dusun');
+		}
 		redirect('keluarga');
 	}
 
@@ -309,8 +356,13 @@ class Keluarga extends Admin_Controller {
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != "")
+		{
 			$this->session->rw = $rw;
-		else $this->session->unset_userdata('rw');
+		}
+		else
+		{
+			$this->session->unset_userdata('rw');
+		}
 		redirect('keluarga');
 	}
 
@@ -318,8 +370,13 @@ class Keluarga extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
+		{
 			$this->session->rt = $rt;
-		else $this->session->unset_userdata('rt');
+		}
+		else
+		{
+			$this->session->unset_userdata('rt');
+		}
 		redirect('keluarga');
 	}
 
@@ -407,9 +464,13 @@ class Keluarga extends Admin_Controller {
 
 		$kk = $this->keluarga_model->get_kepala_kk($id);
 		if ($kk)
+		{
 			$data['kepala_kk'] = $kk;
+		}
 		else
+		{
 			$data['kepala_kk'] = NULL;
+		}
 		$data['hubungan'] = $this->penduduk_model->list_hubungan($data['kepala_kk']['status_kawin_id'], $data['kepala_kk']['sex_id']);
 		$data['main'] = $this->keluarga_model->list_anggota($id);
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
@@ -429,9 +490,13 @@ class Keluarga extends Admin_Controller {
 
 		$kk = $this->keluarga_model->get_kepala_kk($id);
 		if ($kk)
+		{
 			$data['kepala_kk'] = $kk;
+		}
 		else
+		{
 			$data['kepala_kk'] = NULL;
+		}
 
 		$data['form_action'] = site_url("keluarga/update_anggota/$p/$o/$id_kk/$id");
 
@@ -450,9 +515,13 @@ class Keluarga extends Admin_Controller {
 		$data['desa'] = $this->config_model->get_data();
 
 		if ($kk)
+		{
 			$data['kepala_kk'] = $kk;
+		}
 		else
+		{
 			$data['kepala_kk'] = $this->keluarga_model->get_keluarga($id);
+		}
 
 		$data['penduduk'] = $this->keluarga_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("keluarga/print");
@@ -521,8 +590,14 @@ class Keluarga extends Admin_Controller {
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		if ($sex == NULL)
 		{
-			if ($nomor != 0) $this->session->sex = $nomor;
-			else $this->session->unset_userdata('sex');
+			if ($nomor != 0)
+			{
+				$this->session->sex = $nomor;
+			}
+			else
+			{
+				$this->session->unset_userdata('sex');
+			}
 			$this->session->unset_userdata('judul_statistik');
 			redirect('keluarga');
 		}
@@ -605,5 +680,4 @@ class Keluarga extends Admin_Controller {
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_keluarga', $id_program, '0');
 	}
-
 }

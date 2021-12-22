@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Analisis_periode extends Admin_Controller {
-
+class Analisis_periode extends Admin_Controller
+{
 	function __construct()
 	{
 		parent::__construct();
@@ -73,14 +73,26 @@ class Analisis_periode extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['state']))
+		{
 			$data['state'] = $_SESSION['state'];
-		else $data['state'] = '';
+		}
+		else
+		{
+			$data['state'] = '';
+		}
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->analisis_periode_model->paging($p,$o);
@@ -119,8 +131,13 @@ class Analisis_periode extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('analisis_periode');
 	}
 
@@ -128,8 +145,13 @@ class Analisis_periode extends Admin_Controller {
 	{
 		$filter = $this->input->post('state');
 		if ($filter != 0)
+		{
 			$_SESSION['state']=$filter;
-		else unset($_SESSION['state']);
+		}
+		else
+		{
+			unset($_SESSION['state']);
+		}
 		redirect('analisis_periode');
 	}
 
@@ -163,6 +185,7 @@ class Analisis_periode extends Admin_Controller {
 	{
 		$sql = "SELECT * FROM analisis_ref_state";
 		$query = $this->db->query($sql);
+
 		return $query->result_array();
 	}
 }

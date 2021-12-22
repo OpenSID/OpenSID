@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Laporan extends Admin_Controller {
-
+class Laporan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -71,7 +71,9 @@ class Laporan extends Admin_Controller {
 	public function index()
 	{
 		if (isset($_SESSION['bulanku']))
+		{
 			$data['bulanku'] = $_SESSION['bulanku'];
+		}
 		else
 		{
 			$data['bulanku'] = date("n");
@@ -79,7 +81,9 @@ class Laporan extends Admin_Controller {
 		}
 
 		if (isset($_SESSION['tahunku']))
+		{
 			$data['tahunku'] = $_SESSION['tahunku'];
+		}
 		else
 		{
 			$data['tahunku'] = date("Y");
@@ -94,6 +98,7 @@ class Laporan extends Admin_Controller {
 		{
 			$data['data_lengkap'] = false;
 			$this->render('laporan/bulanan', $data);
+
 			return;
 		}
 		$tahun_bulan = (new DateTime($this->setting->tgl_data_lengkap))->format('Y-m');
@@ -101,6 +106,7 @@ class Laporan extends Admin_Controller {
 		{
 			$data['sesudah_data_lengkap'] = false;
 			$this->render('laporan/bulanan', $data);
+
 			return;
 		}
 		$this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
@@ -149,7 +155,7 @@ class Laporan extends Admin_Controller {
 
 	private function data_cetak()
 	{
-		$data = array();
+		$data = [];
 		$data['config'] = $this->config_model->get_data();
 		$data['bulan'] = $_SESSION['bulanku'];
 		$data['tahun'] = $_SESSION['tahunku'];
@@ -163,6 +169,7 @@ class Laporan extends Admin_Controller {
 		$data['hilang'] = $this->laporan_bulanan_model->hilang();
 		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+
 		return $data;
 	}
 
@@ -170,13 +177,23 @@ class Laporan extends Admin_Controller {
 	{
 		$bulanku = $this->input->post('bulan');
 		if ($bulanku != "")
+		{
 			$_SESSION['bulanku'] = $bulanku;
-		else unset($_SESSION['bulanku']);
+		}
+		else
+		{
+			unset($_SESSION['bulanku']);
+		}
 
 		$tahunku = $this->input->post('tahun');
 		if ($tahunku != "")
+		{
 			$_SESSION['tahunku'] = $tahunku;
-		else unset($_SESSION['tahunku']);
+		}
+		else
+		{
+			unset($_SESSION['tahunku']);
+		}
 		redirect('laporan');
 	}
 
@@ -193,36 +210,42 @@ class Laporan extends Admin_Controller {
 						'main' => $this->laporan_bulanan_model->penduduk_awal($rincian, $tipe),
 					];
 				break;
+
 			case 'lahir':
 					$data = [
 						'title' => in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN INI' : 'KELAHIRAN BULAN INI',
 						'main' => $this->laporan_bulanan_model->kelahiran($rincian, $tipe),
 					];
 				break;
+
 			case 'mati':
 					$data = [
 						'title' => 'KEMATIAN BULAN INI',
 						'main' => $this->laporan_bulanan_model->kematian($rincian, $tipe),
 					];
 				break;
+
 			case 'datang':
 					$data = [
 						'title' => 'PENDATANG BULAN INI',
 						'main' => $this->laporan_bulanan_model->pendatang($rincian, $tipe),
 					];
 				break;
+
 			case 'pindah':
 					$data = [
 						'title' => 'PINDAH/KELUAR PERGI BULAN INI',
 						'main' => $this->laporan_bulanan_model->pindah($rincian, $tipe),
 					];
 				break;
+
 			case 'hilang':
 					$data = [
 						'title' => 'PENDUDUK HILANG BULAN INI',
 						'main' => $this->laporan_bulanan_model->hilang($rincian, $tipe),
 					];
 				break;
+
 			case 'akhir':
 					$data = [
 						'title' => 'PENDUDUK/KELUARGA AKHIR BULAN INI',

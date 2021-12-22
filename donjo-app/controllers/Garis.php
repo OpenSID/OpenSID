@@ -25,11 +25,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -42,8 +42,8 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-class Garis extends Admin_Controller {
-
+class Garis extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -74,23 +74,45 @@ class Garis extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_SESSION['line']))
+		{
 			$data['line'] = $_SESSION['line'];
-		else $data['line'] = '';
+		}
+		else
+		{
+			$data['line'] = '';
+		}
 
 		if (isset($_SESSION['subline']))
+		{
 			$data['subline'] = $_SESSION['subline'];
-		else $data['subline'] = '';
+		}
+		else
+		{
+			$data['subline'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->plan_garis_model->paging($p,$o);
@@ -132,9 +154,13 @@ class Garis extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 		if ($id)
+		{
 			$data['garis'] = $this->plan_garis_model->get_garis($id);
+		}
 		else
+		{
 			$data['garis'] = null;
+		}
 
 		$data['desa'] = $this->config_model->get_data();
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
@@ -161,8 +187,13 @@ class Garis extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('garis');
 	}
 
@@ -170,8 +201,13 @@ class Garis extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('garis');
 	}
 
@@ -179,8 +215,13 @@ class Garis extends Admin_Controller {
 	{
 		$line = $this->input->post('line');
 		if ($line != 0)
+		{
 			$_SESSION['line'] = $line;
-		else unset($_SESSION['line']);
+		}
+		else
+		{
+			unset($_SESSION['line']);
+		}
 		redirect('garis');
 	}
 
@@ -189,8 +230,13 @@ class Garis extends Admin_Controller {
 		unset($_SESSION['line']);
 		$subline = $this->input->post('subline');
 		if ($subline != 0)
+		{
 			$_SESSION['subline'] = $subline;
-		else unset($_SESSION['subline']);
+		}
+		else
+		{
+			unset($_SESSION['subline']);
+		}
 		redirect('garis');
 	}
 

@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Surat extends Admin_Controller {
-
+class Surat extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -63,7 +63,6 @@ class Surat extends Admin_Controller {
 
 	public function index()
 	{
-
 		$data['menu_surat'] = $this->surat_model->list_surat();
 		$data['menu_surat2'] = $this->surat_model->list_surat2();
 		$data['surat_favorit'] = $this->surat_model->list_surat_fav();
@@ -142,18 +141,38 @@ class Surat extends Admin_Controller {
 		{
 			case 'surat_ket_kelahiran':
 				// surat_ket_kelahiran id-nya ibu atau bayi
-				if (!$id) $id = $_SESSION['id_ibu'];
-				if (!$id) $id = $_SESSION['id_bayi'];
+				if (!$id)
+				{
+					$id = $_SESSION['id_ibu'];
+				}
+				if (!$id)
+				{
+					$id = $_SESSION['id_bayi'];
+				}
 				break;
+
 			case 'surat_ket_nikah':
 				// id-nya calon pasangan pria atau wanita
-				if (!$id) $id = $_POST['id_pria'];
-				if (!$id) $id = $_POST['id_wanita'];
+				if (!$id)
+				{
+					$id = $_POST['id_pria'];
+				}
+				if (!$id)
+				{
+					$id = $_POST['id_wanita'];
+				}
 				break;
+
 			case 'surat_kuasa':
 				// id-nya pemberi kuasa atau penerima kuasa
-				if (!$id) $id = $_POST['id_pemberi_kuasa'];
-				if (!$id) $id = $_POST['id_penerima_kuasa'];
+				if (!$id)
+				{
+					$id = $_POST['id_pemberi_kuasa'];
+				}
+				if (!$id)
+				{
+					$id = $_POST['id_penerima_kuasa'];
+				}
 				break;
 			default:
 				# code...
@@ -186,14 +205,18 @@ class Surat extends Admin_Controller {
 		$this->surat_model->buat_surat($url, $nama_surat, $lampiran);
 
 		if ($this->input->post('submit_cetak') == 'cetak_pdf')
+		{
 			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".pdf";
+		}
 		else
+		{
 			$nama_surat = pathinfo($nama_surat, PATHINFO_FILENAME).".rtf";
+		}
 
 		if ($lampiran)
 		{
 			$nama_file = pathinfo($nama_surat, PATHINFO_FILENAME).".zip";
-			$berkas_zip = array();
+			$berkas_zip = [];
 			$berkas_zip[] = LOKASI_ARSIP.$nama_surat;
 			$berkas_zip[] = LOKASI_ARSIP.$lampiran;
 			# Masukkan semua berkas ke dalam zip
@@ -221,9 +244,13 @@ class Surat extends Admin_Controller {
 	{
 		$cari = $this->input->post('nik');
 		if ($cari != '')
+		{
 			redirect("surat/form/$cari");
+		}
 		else
+		{
 			redirect('surat');
+		}
 	}
 
 	private function get_data_untuk_form($url, &$data)
@@ -247,11 +274,15 @@ class Surat extends Admin_Controller {
 			$str_ttd = ucwords($pamong_ttd['jabatan'].' '.$data['lokasi']['nama_desa']);
 			$data['atas_nama'][] = "a.n {$str_ttd}";
 			if ($pamong_ub)
+			{
 				$data['atas_nama'][] = "u.b {$pamong_ub['jabatan']}";
+			}
 		}
 		$data_form = $this->surat_model->get_data_form($url);
 		if (is_file($data_form))
+		{
 			include($data_form);
+		}
 	}
 
 	public function favorit($id = 0, $k = 0)

@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Mailbox extends Admin_Controller {
-
+class Mailbox extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -69,17 +69,20 @@ class Mailbox extends Admin_Controller {
 		$data['o'] = $o;
 		$data['kat'] = $kat;
 
-		$list_session = array('cari', 'filter_status', 'filter_nik', 'filter_archived');
+		$list_session = ['cari', 'filter_status', 'filter_nik', 'filter_archived'];
 
-		foreach ($list_session as $session) {
+		foreach ($list_session as $session)
+		{
 			$data[$session] = $this->session->userdata($session) ?: '';
 		}
 
-		if ($nik = $this->session->userdata('filter_nik')) {
+		if ($nik = $this->session->userdata('filter_nik'))
+		{
 			$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
 		}
 
-		if ($per_page = $this->input->post('per_page')) {
+		if ($per_page = $this->input->post('per_page'))
+		{
 			$this->session->set_userdata('per_page', $per_page);
 		}
 
@@ -97,10 +100,12 @@ class Mailbox extends Admin_Controller {
 
 	public function form()
 	{
-		if (!empty($nik = $this->input->post('nik'))) {
+		if (!empty($nik = $this->input->post('nik')))
+		{
 			$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
 		}
-		if (!empty($subjek = $this->input->post('subjek'))) {
+		if (!empty($subjek = $this->input->post('subjek')))
+		{
 			$data['subjek'] = $subjek;
 		}
 		$data['form_action'] = site_url("mailbox/kirim_pesan");
@@ -119,7 +124,8 @@ class Mailbox extends Admin_Controller {
 
 	public function baca_pesan($kat = 1, $id)
 	{
-		if ($kat == 1) {
+		if ($kat == 1)
+		{
 			$this->web_komentar_model->komentar_lock($id, 1);
 			unset($_SESSION['success']);
 		}
@@ -136,24 +142,34 @@ class Mailbox extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect("mailbox/index/{$kat}");
 	}
 
 	public function filter_status($kat = 1)
 	{
 		$status = $this->input->post('status');
-		if ($status != 0){
-			if ($status == 3) {
+		if ($status != 0)
+		{
+			if ($status == 3)
+			{
 				$_SESSION['filter_archived'] = true;
 				unset($_SESSION['filter_status']);
-			} else {
+			}
+			else
+			{
 				$_SESSION['filter_status'] = $status;
 				unset($_SESSION['filter_archived']);
 			}
 		}
-		else {
+		else
+		{
 			unset($_SESSION['filter_status']);
 			unset($_SESSION['filter_archived']);
 		}
@@ -164,8 +180,13 @@ class Mailbox extends Admin_Controller {
 	{
 		$nik = $this->input->post('nik');
 		if (!empty($nik) AND $nik != 0)
+		{
 			$_SESSION['filter_nik'] = $nik;
-		else unset($_SESSION['filter_nik']);
+		}
+		else
+		{
+			unset($_SESSION['filter_nik']);
+		}
 		redirect("mailbox/index/{$kat}");
 	}
 

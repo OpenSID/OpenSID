@@ -47,7 +47,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Masuk_ektp extends Web_Controller
 {
-
 	private $cek_anjungan;
 
 	public function __construct()
@@ -57,12 +56,18 @@ class Masuk_ektp extends Web_Controller
 		$this->session->login_ektp = TRUE;
 		$this->load->model(['config_model', 'anjungan_model', 'mandiri_model', 'theme_model']);
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
-		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) show_404();
+		if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan)
+		{
+			show_404();
+		}
 	}
 
 	public function index()
 	{
-		if ($this->session->mandiri == 1) redirect('layanan-mandiri');
+		if ($this->session->mandiri == 1)
+		{
+			redirect('layanan-mandiri');
+		}
 
 		//Initialize Session ------------
 		$this->session->unset_userdata('balik_ke');
@@ -90,5 +95,4 @@ class Masuk_ektp extends Web_Controller
 		$this->mandiri_model->siteman_ektp();
 		redirect('layanan-mandiri');
 	}
-
 }

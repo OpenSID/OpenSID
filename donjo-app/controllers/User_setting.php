@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class User_setting extends Admin_Controller {
-
+class User_setting extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -75,7 +75,10 @@ class User_setting extends Admin_Controller {
 			{
 				redirect($_SERVER['HTTP_REFERER']);
 			}
-			else redirect("main");
+			else
+			{
+				redirect("main");
+			}
 		}
 	}
 
@@ -86,16 +89,23 @@ class User_setting extends Admin_Controller {
 		{
 			redirect($_SERVER['HTTP_REFERER']);
 		}
-		else redirect("main");
+		else
+		{
+			redirect("main");
+		}
 	}
 
 	// Kata sandi harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil
 	public function syarat_sandi($str)
 	{
 		if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/', $str))
+		{
 			return TRUE;
+		}
 		else
+		{
 			return FALSE;
+		}
 	}
 
 	public function change_pwd()

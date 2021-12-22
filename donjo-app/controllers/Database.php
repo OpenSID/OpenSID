@@ -45,8 +45,8 @@ require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use Box\Spout\Common\Entity\Row;
 
-class Database extends Admin_Controller {
-
+class Database extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -209,7 +209,7 @@ class Database extends Admin_Controller {
 		{
 			foreach ($get as $row)
 			{
-				$penduduk = array(
+				$penduduk = [
 					$row->alamat,
 					$row->dusun,
 					$row->rw,
@@ -252,7 +252,7 @@ class Database extends Admin_Controller {
 					$row->created_at,
 					$row->updated_at,
 					$row->desa_id,
-				);
+				];
 
 
 				$file_foto = LOKASI_USER_PICT . $row->foto;
@@ -274,7 +274,7 @@ class Database extends Admin_Controller {
 		{
 			foreach ($get as $row)
 			{
-				$penduduk = array(
+				$penduduk = [
 					$row->alamat,
 					$row->dusun,
 					$row->rw,
@@ -312,7 +312,7 @@ class Database extends Admin_Controller {
 					$row->status_rekam,
 					$row->alamat_sekarang,
 					$row->status_dasar,
-				);
+				];
 				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
 				$writer->addRow($rowFromValues);
 			}
@@ -413,9 +413,10 @@ class Database extends Admin_Controller {
 
 	public function sinkronasi_db_opendk()
 	{
-
-		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
-			if (file_exists($file)) {
+		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file)
+		{
+			if (file_exists($file))
+			{
 				unlink($file);
 				break;
 			}
@@ -483,7 +484,7 @@ class Database extends Admin_Controller {
 		$get = $this->export_model->tambah_penduduk_sinkronasi_opendk();
 		foreach ($get as $row)
 		{
-			$penduduk = array(
+			$penduduk = [
 				$row->alamat,
 				$row->dusun,
 				$row->rw,
@@ -526,7 +527,7 @@ class Database extends Admin_Controller {
 				$row->created_at,
 				$row->updated_at,
 				$row->desa_id,
-			);
+			];
 
 			$file_foto = LOKASI_USER_PICT . $row->foto;
 			if (is_file($file_foto))
@@ -547,7 +548,7 @@ class Database extends Admin_Controller {
 
 		//Tambah/Ubah Data
 		$curl = curl_init();
-		curl_setopt_array($curl, array(
+		curl_setopt_array($curl, [
 			CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk/storedata",
 			// Jika http gunakan url ini :
 			//CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk/storedata?token=".$this->setting->api_opendk_key,
@@ -558,19 +559,22 @@ class Database extends Admin_Controller {
 			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => array('file'=> new CURLFILE(LOKASI_DOKUMEN . $filename)),
-			CURLOPT_HTTPHEADER => array(
+			CURLOPT_POSTFIELDS => ['file'=> new CURLFILE(LOKASI_DOKUMEN . $filename)],
+			CURLOPT_HTTPHEADER => [
 				'content-Type: multipart/form-data',
 				"Authorization: Bearer {$this->setting->api_opendk_key}",
-			),
-		));
+			],
+		]);
 
 		$response = curl_exec($curl);
 		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-		if (curl_errno($curl) || $http_code === 422) {
+		if (curl_errno($curl) || $http_code === 422)
+		{
 			$_SESSION['success'] = -1;
-		} else {
+		}
+		else
+		{
 			$_SESSION['success'] = 1;
 		}
 
@@ -580,7 +584,7 @@ class Database extends Admin_Controller {
 
 		//Hapus Data
 		$curl = curl_init();
-		curl_setopt_array($curl, array(
+		curl_setopt_array($curl, [
 			CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk",
 			// Jika http gunakan url ini :
 			//CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk?token=".$this->setting->api_opendk_key,
@@ -592,20 +596,23 @@ class Database extends Admin_Controller {
 			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 			CURLOPT_CUSTOMREQUEST => 'POST',
 			CURLOPT_POSTFIELDS => json_encode($this->export_model->hapus_penduduk_sinkronasi_opendk()),
-			CURLOPT_HTTPHEADER => array(
+			CURLOPT_HTTPHEADER => [
 				'Accept: application/json',
 				'Content-Type: application/json',
 				"Authorization: Bearer {$this->setting->api_opendk_key}",
-			),
-		));
+			],
+		]);
 
 		$response = curl_exec($curl);
 		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-		if (curl_errno($curl) || $http_code === 422) {
+		if (curl_errno($curl) || $http_code === 422)
+		{
 			$_SESSION['response'] = $response;
 			$_SESSION['success'] = -1;
-		} else {
+		}
+		else
+		{
 			$_SESSION['response'] = $response;
 			$_SESSION['success'] = 1;
 		}
@@ -618,7 +625,10 @@ class Database extends Admin_Controller {
 	// Dikhususkan untuk server yg hanya digunakan untuk web publik
 	public function acak()
 	{
-		if ($this->setting->penggunaan_server != 6) return;
+		if ($this->setting->penggunaan_server != 6)
+		{
+			return;
+		}
 
 		$this->load->model('acak_model');
 		echo $this->load->view('database/hasil_acak', '', true);
@@ -631,7 +641,10 @@ class Database extends Admin_Controller {
 	public function mutakhirkan_data_server()
 	{
 		$this->session->error_msg = null;
-		if ($this->setting->penggunaan_server != 6) return;
+		if ($this->setting->penggunaan_server != 6)
+		{
+			return;
+		}
 		$this->load->view('database/ajax_sinkronkan', $data);
 	}
 

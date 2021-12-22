@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Sms extends Admin_Controller {
-
+class Sms extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -74,20 +74,31 @@ class Sms extends Admin_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
-
 		$data['p'] = $p;
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->sms_model->paging($p, $o);
@@ -134,15 +145,27 @@ class Sms extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
@@ -173,15 +196,27 @@ class Sms extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->sms_model->paging_terkirim($p, $o);
@@ -212,15 +247,27 @@ class Sms extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->sms_model->paging_tertunda($p, $o);
@@ -273,7 +320,9 @@ class Sms extends Admin_Controller {
 	public function carikontak($tipe = 0)
 	{
 		if (isset($_POST['TextDecoded']))
+		{
 			$data['text']['TextDecoded'] = $_POST['TextDecoded'];
+		}
 
 		$data['text']['TextDecoded'] = null;
 		$data['form_action'] = site_url("sms/formaftercari/0/0/$tipe");
@@ -297,12 +346,22 @@ class Sms extends Admin_Controller {
 		$data['input'] = $_POST;
 
 		if (isset($_SESSION['cari1']))
+		{
 			$data['cari1'] = $_SESSION['cari1'];
-		else $data['cari1'] = '';
+		}
+		else
+		{
+			$data['cari1'] = '';
+		}
 
 		if (isset($_SESSION['sex1']))
+		{
 			$data['sex1'] = $_SESSION['sex1'];
-		else $data['sex1'] = '';
+		}
+		else
+		{
+			$data['sex1'] = '';
+		}
 
 		if (isset($_SESSION['dusun1']))
 		{
@@ -314,41 +373,87 @@ class Sms extends Admin_Controller {
 				$data['rw1'] = $_SESSION['rw1'];
 				$data['list_rt1'] = $this->wilayah_model->list_rt($data['dusun1'], $data['rw11']);
 
-			if (isset($_SESSION['rt1']))
-				$data['rt1'] = $_SESSION['rt1'];
-			else $data['rt1'] = '';
+				if (isset($_SESSION['rt1']))
+				{
+					$data['rt1'] = $_SESSION['rt1'];
+				}
+				else
+				{
+					$data['rt1'] = '';
+				}
 			}
-			else $data['rw1'] = '';
+			else
+			{
+				$data['rw1'] = '';
+			}
 		}
-		else $data['dusun1'] = '';
+		else
+		{
+			$data['dusun1'] = '';
+		}
 
 		if (isset($_SESSION['agama1']))
+		{
 			$data['agama1'] = $_SESSION['agama1'];
-		else $data['agama1'] = '';
+		}
+		else
+		{
+			$data['agama1'] = '';
+		}
 
 		if (isset($_SESSION['pekerjaan1']))
+		{
 			$data['pekerjaan1'] = $_SESSION['pekerjaan1'];
-		else $data['pekerjaan1'] = '';
+		}
+		else
+		{
+			$data['pekerjaan1'] = '';
+		}
 
 		if (isset($_SESSION['status1']))
+		{
 			$data['status1'] = $_SESSION['status1'];
-		else $data['status1'] = '';
+		}
+		else
+		{
+			$data['status1'] = '';
+		}
 
 		if (isset($_SESSION['pendidikan1']))
+		{
 			$data['pendidikan1'] = $_SESSION['pendidikan1'];
-		else $data['pendidikan1'] = '';
+		}
+		else
+		{
+			$data['pendidikan1'] = '';
+		}
 
 		if (isset($_SESSION['status_penduduk1']))
+		{
 			$data['status_penduduk1'] = $_SESSION['status_penduduk1'];
-		else $data['status_penduduk1'] = '';
+		}
+		else
+		{
+			$data['status_penduduk1'] = '';
+		}
 
 		if (isset($_SESSION['TextDecoded1']))
+		{
 			$data['TextDecoded1'] = $_SESSION['TextDecoded1'];
-		else $data['TextDecoded1'] = '';
+		}
+		else
+		{
+			$data['TextDecoded1'] = '';
+		}
 
 		if (isset($_SESSION['grup1']))
+		{
 			$data['grup'] = $_SESSION['grup1'];
-		else $data['grup1'] = '';
+		}
+		else
+		{
+			$data['grup1'] = '';
+		}
 
 		$data['insert'] = $this->sms_model->send_broadcast($data);
 		redirect('sms/outbox');
@@ -372,16 +477,20 @@ class Sms extends Admin_Controller {
 		while ($i++ < count($adv_search))
 		{
 			$col[$i] = key($adv_search);
-				next($adv_search);
+			next($adv_search);
 		}
 
 		$i = 0;
 		while ($i++ < count($col))
 		{
 			if ($adv_search[$col[$i]] == "")
+			{
 				UNSET($adv_search[$col[$i]]);
+			}
 			else
+			{
 				$_SESSION[$col[$i]] = $adv_search[$col[$i]];
+			}
 		}
 
 		redirect('sms/send_broadcast');
@@ -405,11 +514,11 @@ class Sms extends Admin_Controller {
 			<label for='rw'>RW</label>
 			<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
 				<option value=''>Pilih RW</option>";
-				foreach ($rw as $data)
-				{
-					echo "<option>".$data['rw']."</option>";
-				}
-			echo"</select>
+		foreach ($rw as $data)
+		{
+			echo "<option>".$data['rw']."</option>";
+		}
+		echo"</select>
 		</div>";
 	}
 
@@ -420,11 +529,11 @@ class Sms extends Admin_Controller {
 			<label for='rt'>RT</label>
 			<select class='form-control input-sm' name='rt'>
 				<option value=''>Pilih RT</option>";
-				foreach ($rt as $data)
-				{
-					echo "<option value=".$data['rt'].">".$data['rt']."</option>";
-				}
-			echo"</select>
+		foreach ($rt as $data)
+		{
+			echo "<option value=".$data['rt'].">".$data['rt']."</option>";
+		}
+		echo"</select>
 		</div>";
 	}
 
@@ -432,8 +541,13 @@ class Sms extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 
 		redirect('sms');
 	}
@@ -442,8 +556,13 @@ class Sms extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari_kontak');
 		if ($cari != '')
+		{
 			$_SESSION['cari_kontak'] = $cari;
-		else unset($_SESSION['cari_kontak']);
+		}
+		else
+		{
+			unset($_SESSION['cari_kontak']);
+		}
 		redirect('sms/kontak');
 	}
 
@@ -451,8 +570,13 @@ class Sms extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari_grup');
 		if ($cari != '')
+		{
 			$_SESSION['cari_grup'] = $cari;
-		else unset($_SESSION['cari_grup']);
+		}
+		else
+		{
+			unset($_SESSION['cari_grup']);
+		}
 		redirect('sms/group');
 	}
 
@@ -461,8 +585,13 @@ class Sms extends Admin_Controller {
 		$cari = $this->input->post('cari_anggota');
 
 		if ($cari != '')
+		{
 			$_SESSION['cari_anggota'] = $cari;
-		else unset($_SESSION['cari_anggota']);
+		}
+		else
+		{
+			unset($_SESSION['cari_anggota']);
+		}
 		redirect("sms/anggota/$id");
 	}
 
@@ -470,18 +599,35 @@ class Sms extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('sms');
 	}
 
 	public function insert($tipe = 0)
 	{
 		$this->sms_model->insert();
-		if ($tipe == 1) redirect('sms');
-		elseif ($tipe == 2) redirect('sms/sentitem');
-		elseif ($tipe == 3) redirect('sms/pending');
-		else redirect('sms/outbox');
+		if ($tipe == 1)
+		{
+			redirect('sms');
+		}
+		elseif ($tipe == 2)
+		{
+			redirect('sms/sentitem');
+		}
+		elseif ($tipe == 3)
+		{
+			redirect('sms/pending');
+		}
+		else
+		{
+			redirect('sms/outbox');
+		}
 	}
 
 	public function update($id = '', $p = 1, $o = 0)
@@ -494,20 +640,44 @@ class Sms extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('h', 'sms/outbox');
 		$this->sms_model->delete($tipe, $id);
-		if ($tipe == 1) redirect('sms');
-		elseif ($tipe == 2) redirect('sms/sentitem');
-		elseif ($tipe == 3) redirect('sms/pending');
-		else redirect('sms/outbox');
+		if ($tipe == 1)
+		{
+			redirect('sms');
+		}
+		elseif ($tipe == 2)
+		{
+			redirect('sms/sentitem');
+		}
+		elseif ($tipe == 3)
+		{
+			redirect('sms/pending');
+		}
+		else
+		{
+			redirect('sms/outbox');
+		}
 	}
 
 	public function delete_all($p = 1, $o = 0, $tipe = 0)
 	{
 		$this->redirect_hak_akses('h', 'sms/outbox');
 		$this->sms_model->delete_all($tipe);
-		if ($tipe == 1) redirect('sms');
-		elseif ($tipe == 2) redirect('sms/sentitem');
-		elseif ($tipe == 3) redirect('sms/pending');
-		else redirect('sms/outbox');
+		if ($tipe == 1)
+		{
+			redirect('sms');
+		}
+		elseif ($tipe == 2)
+		{
+			redirect('sms/sentitem');
+		}
+		elseif ($tipe == 3)
+		{
+			redirect('sms/pending');
+		}
+		else
+		{
+			redirect('sms/outbox');
+		}
 	}
 
 	public function sms_lock($id = '')
@@ -530,15 +700,27 @@ class Sms extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari_kontak']))
+		{
 			$data['cari_kontak'] = $_SESSION['cari_kontak'];
-		else $data['cari_kontak'] = '';
+		}
+		else
+		{
+			$data['cari_kontak'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->sms_model->paging_kontak($p, $o);
@@ -602,11 +784,18 @@ class Sms extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari_grup']))
+		{
 			$data['cari_grup'] = $_SESSION['cari_grup'];
-		else $data['cari_grup'] = '';
+		}
+		else
+		{
+			$data['cari_grup'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->sms_model->paging_grup($p, $o);
@@ -669,11 +858,18 @@ class Sms extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari_anggota']))
+		{
 			$data['cari_anggota'] = $_SESSION['cari_anggota'];
-		else $data['cari_anggota'] = '';
+		}
+		else
+		{
+			$data['cari_anggota'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->sms_model->paging_anggota($id, $p, $o);
@@ -713,5 +909,4 @@ class Sms extends Admin_Controller {
 		$this->sms_model->delete_all_anggota($grup);
 		echo "<script>self.history.back();</script>";
 	}
-
 }

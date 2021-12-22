@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Pengurus extends Admin_Controller {
-
+class Pengurus extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -66,11 +66,14 @@ class Pengurus extends Admin_Controller {
 	{
 		foreach ($this->_list_session as $list)
 		{
-				$data[$list] = $this->session->$list ?: '';
+			$data[$list] = $this->session->$list ?: '';
 		}
 
 		$per_page = $this->input->post('per_page');
-		if (isset($per_page)) $this->session->per_page = $per_page;
+		if (isset($per_page))
+		{
+			$this->session->per_page = $per_page;
+		}
 
 		$data['func'] = 'index';
 		$data['set_page'] = $this->_set_page;
@@ -96,7 +99,10 @@ class Pengurus extends Admin_Controller {
 		if ($id)
 		{
 			$data['pamong'] = $this->pamong_model->get_data($id);
-			if (!isset($id_pend)) $id_pend = $data['pamong']['id_pend'];
+			if (!isset($id_pend))
+			{
+				$id_pend = $data['pamong']['id_pend'];
+			}
 			$data['form_action'] = site_url("pengurus/update/$id");
 		}
 		else
@@ -110,9 +116,13 @@ class Pengurus extends Admin_Controller {
 		$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 
 		if (!empty($id_pend))
+		{
 			$data['individu'] = $this->penduduk_model->get_penduduk($id_pend);
+		}
 		else
+		{
 			$data['individu'] = NULL;
+		}
 
 		$this->render('home/pengurus_form', $data);
 	}
@@ -121,8 +131,13 @@ class Pengurus extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('pengurus');
 	}
 

@@ -44,8 +44,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Surat_master extends Admin_Controller {
-
+class Surat_master extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -69,15 +69,27 @@ class Surat_master extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter']))
+		{
 			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+		}
+		else
+		{
+			$data['filter'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page'] = $_POST['per_page'];
+		}
 
 		$data['per_page'] = $_SESSION['per_page'];
 		$data['paging'] = $this->surat_master_model->paging($p, $o);
@@ -124,8 +136,13 @@ class Surat_master extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('surat_master');
 	}
 
@@ -133,8 +150,13 @@ class Surat_master extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
+		}
+		else
+		{
+			unset($_SESSION['filter']);
+		}
 		redirect('surat_master');
 	}
 
@@ -230,5 +252,4 @@ class Surat_master extends Admin_Controller {
 		$this->surat_master_model->favorit($id, $k);
 		redirect("surat_master");
 	}
-
 }

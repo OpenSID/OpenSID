@@ -28,11 +28,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -53,8 +53,8 @@ use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
 use Box\Spout\Common\Entity\Style\Color;
 use Box\Spout\Common\Entity\Row;
 
-class Program_bantuan extends Admin_Controller {
-
+class Program_bantuan extends Admin_Controller
+{
 	private $_set_page;
 
 	public function __construct()
@@ -76,8 +76,13 @@ class Program_bantuan extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('program_bantuan');
 	}
 
@@ -87,7 +92,9 @@ class Program_bantuan extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data = $this->program_bantuan_model->get_program($p, FALSE);
 		$data['list_sasaran'] = unserialize(SASARAN);
@@ -130,7 +137,9 @@ class Program_bantuan extends Admin_Controller {
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['cari'] = $this->session->cari ?: '';
 		$data['program'] = $this->program_bantuan_model->get_program($p, $program_id);
@@ -164,6 +173,7 @@ class Program_bantuan extends Admin_Controller {
 			case '2':
 				$peserta_id = $data['peserta']['kartu_id_pend'];
 				break;
+
 			case '3':
 			case '4':
 				$peserta_id = $data['peserta']['peserta'];
@@ -318,8 +328,13 @@ class Program_bantuan extends Admin_Controller {
 		$cari = $this->input->post('cari');
 
 		if ($cari != '')
+		{
 			$this->session->cari = $cari;
-		else $this->session->unset_userdata('cari');
+		}
+		else
+		{
+			$this->session->unset_userdata('cari');
+		}
 
 		redirect("program_bantuan/detail/$program_id");
 	}
@@ -379,7 +394,10 @@ class Program_bantuan extends Admin_Controller {
 						$value = (string) $cells[1];
 
 						// Data terakhir
-						if ($title == '###') break;
+						if ($title == '###')
+						{
+							break;
+						}
 
 						switch (true)
 						{
@@ -435,10 +453,16 @@ class Program_bantuan extends Admin_Controller {
 						$nik = (string) $cells[2];
 
 						// Data terakhir
-						if ($peserta == '###') break;
+						if ($peserta == '###')
+						{
+							break;
+						}
 
 						// Abaikan baris pertama / judul
-						if ($no_baris <= 1) continue;
+						if ($no_baris <= 1)
+						{
+							continue;
+						}
 
 						// Cek valid data peserta sesuai sasaran
 						$cek_peserta = $this->program_bantuan_model->cek_peserta($peserta, $sasaran);
@@ -473,11 +497,17 @@ class Program_bantuan extends Admin_Controller {
 						}
 
 						// Random no. kartu peserta
-						if ($rand_kartu == 1) $no_id_kartu = 'acak_' . random_int(1, 1000);
+						if ($rand_kartu == 1)
+						{
+							$no_id_kartu = 'acak_' . random_int(1, 1000);
+						}
 
 						// Ubaha data peserta menjadi id (untuk saat ini masih data kelompok yg menggunakan id)
 						// Berkaitan dgn issue #3417
-						if ($sasaran == 4) $peserta = $cek_peserta['id'];
+						if ($sasaran == 4)
+						{
+							$peserta = $cek_peserta['id'];
+						}
 
 						// Simpan data peserta yg diimpor dalam bentuk array
 						$simpan = [
@@ -527,7 +557,6 @@ class Program_bantuan extends Admin_Controller {
 			$this->session->error_msg = $this->upload->display_errors();
 			$this->session->success = -1;
 		}
-
 	}
 
 	// TODO: function ini terlalu panjang dan sebaiknya dipecah menjadi beberapa method
@@ -605,5 +634,4 @@ class Program_bantuan extends Admin_Controller {
 
 		$this->session->per_page = $temp;
 	}
-
 }

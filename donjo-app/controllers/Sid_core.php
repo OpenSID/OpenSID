@@ -25,11 +25,11 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -44,8 +44,8 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Sid_Core extends Admin_Controller {
-
+class Sid_Core extends Admin_Controller
+{
 	private $_set_page;
 
 	public function __construct()
@@ -72,7 +72,9 @@ class Sid_Core extends Admin_Controller {
 
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data['cari'] = $this->session->cari ?: '';
 		$data['func'] = 'index';
@@ -138,8 +140,13 @@ class Sid_Core extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$this->session->cari = $cari;
-		else $this->session->unset_userdata('cari');
+		}
+		else
+		{
+			$this->session->unset_userdata('cari');
+		}
 		redirect('sid_core');
 	}
 
@@ -168,7 +175,9 @@ class Sid_Core extends Admin_Controller {
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$dusun = $this->wilayah_model->cluster_by_id($id_dusun);
 		$nama_dusun = $dusun['dusun'];
@@ -249,7 +258,9 @@ class Sid_Core extends Admin_Controller {
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		$data_rw = $this->wilayah_model->cluster_by_id($id_rw);
 		$data['dusun'] = $data_rw['dusun'];
@@ -391,9 +402,9 @@ class Sid_Core extends Admin_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = ucwords($this->setting->sebutan_dusun." ".$data['wil_ini']['dusun']." ".$sebutan_desa." ".$data['wil_atas']['nama_desa']);
 		$data['wilayah'] = ucwords($this->setting->sebutan_dusun);
-		$data['breadcrumb'] = array(
-			array('link' => site_url('sid_core'), 'judul' => "Daftar ".$data['wilayah']),
-		);
+		$data['breadcrumb'] = [
+			['link' => site_url('sid_core'), 'judul' => "Daftar ".$data['wilayah']],
+		];
 		$data['form_action'] = site_url("sid_core/update_kantor_dusun_map/$id");
 		$namadesa =  $data['wil_atas']['nama_desa'];
 		$data['logo'] = $this->header['desa'];
@@ -420,9 +431,9 @@ class Sid_Core extends Admin_Controller {
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = ucwords($this->setting->sebutan_dusun." ".$data['wil_ini']['dusun']." ".$sebutan_desa." ".$data['wil_atas']['nama_desa']);
 		$data['wilayah'] = ucwords($this->setting->sebutan_dusun);
-		$data['breadcrumb'] = array(
-			array('link' => site_url('sid_core'), 'judul' => "Daftar ".$data['wilayah']),
-		);
+		$data['breadcrumb'] = [
+			['link' => site_url('sid_core'), 'judul' => "Daftar ".$data['wilayah']],
+		];
 		$data['form_action'] = site_url("sid_core/update_wilayah_dusun_map/$id");
 		$namadesa =  $data['wil_atas']['nama_desa'];
 		$data['logo'] = $this->header['desa'];
@@ -467,10 +478,10 @@ class Sid_Core extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-		$data['breadcrumb'] = array(
-			array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-			array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW')
-		);
+		$data['breadcrumb'] = [
+			['link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun],
+			['link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW']
+		];
 		$data['wilayah'] = 'RW';
 		$data['form_action'] = site_url("sid_core/update_kantor_rw_map/$id_dusun/$id_rw");
 		$data['logo'] = $this->header['desa'];
@@ -496,10 +507,10 @@ class Sid_Core extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = 'RW '.$data['wil_ini']['rw']." ".ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-		$data['breadcrumb'] = array(
-			array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-			array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW')
-		);
+		$data['breadcrumb'] = [
+			['link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun],
+			['link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW']
+		];
 		$data['wilayah'] = 'RW';
 		$data['form_action'] = site_url("sid_core/update_wilayah_rw_map/$id_dusun/$id_rw");
 		$data['logo'] = $this->header['desa'];
@@ -537,11 +548,11 @@ class Sid_Core extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-		$data['breadcrumb'] = array(
-			array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-			array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'),
-			array('link' => site_url("sid_core/sub_rt/$id_dusun/$id_rw"), 'judul' => 'Daftar RT')
-		);
+		$data['breadcrumb'] = [
+			['link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun],
+			['link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'],
+			['link' => site_url("sid_core/sub_rt/$id_dusun/$id_rw"), 'judul' => 'Daftar RT']
+		];
 		$data['wilayah'] = 'RT';
 		$data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$id_rw/$id");
 		$data['logo'] = $this->header['desa'];
@@ -567,11 +578,11 @@ class Sid_Core extends Admin_Controller {
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = 'RT '.$data['wil_ini']['rt'].' RW '.$data['wil_ini']['rw'].' '.ucwords($sebutan_dusun." ".$data['wil_ini']['dusun']);
-		$data['breadcrumb'] = array(
-			array('link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun),
-			array('link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'),
-			array('link' => site_url("sid_core/sub_rt/$id_dusun/$id_rw"), 'judul' => 'Daftar RT')
-		);
+		$data['breadcrumb'] = [
+			['link' => site_url('sid_core'), 'judul' => "Daftar ".$sebutan_dusun],
+			['link' => site_url("sid_core/sub_rw/$id_dusun"), 'judul' => 'Daftar RW'],
+			['link' => site_url("sid_core/sub_rt/$id_dusun/$id_rw"), 'judul' => 'Daftar RT']
+		];
 		$data['wilayah'] = 'RT';
 		$data['form_action'] = site_url("sid_core/update_wilayah_rt_map/$id_dusun/$id_rw/$id");
 		$data['logo'] = $this->header['desa'];

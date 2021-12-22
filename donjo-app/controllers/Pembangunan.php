@@ -147,7 +147,10 @@ class Pembangunan extends Admin_Controller
 
 		$data = $this->model->find($id);
 
-		if (is_null($data)) show_404();
+		if (is_null($data))
+		{
+			show_404();
+		}
 
 		// Update lokasi maps
 		if ($request = $this->input->post())

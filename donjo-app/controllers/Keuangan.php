@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Keuangan extends Admin_Controller {
-
+class Keuangan extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -53,10 +53,10 @@ class Keuangan extends Admin_Controller {
 
 	public function setdata_laporan($tahun, $semester)
 	{
-		$sess = array(
+		$sess = [
 			'set_tahun' => $tahun,
 			'set_semester' => $semester
-		);
+		];
 		$this->session->set_userdata( $sess );
 		echo json_encode(true);
 	}
@@ -84,10 +84,10 @@ class Keuangan extends Admin_Controller {
 		$data['tahun_anggaran'] = $this->keuangan_model->list_tahun_anggaran();
 		$tahun = $this->session->userdata('set_tahun') ? $this->session->userdata('set_tahun') : $data['tahun_anggaran'][0];
 		$semester = $this->session->userdata('set_semester') ? $this->session->userdata('set_semester') : 0;
-		$sess = array(
+		$sess = [
 			'set_tahun' => $tahun,
 			'set_semester' => $semester
-		);
+		];
 		$this->session->set_userdata( $sess );
 		$this->load->model('keuangan_grafik_model');
 		$this->set_minsidebar(1);
@@ -100,15 +100,19 @@ class Keuangan extends Admin_Controller {
 			case 'grafik-RP-APBD':
 				$this->grafik_rp_apbd($thn);
 				break;
+
 			case 'rincian_realisasi':
 				$this->rincian_realisasi($thn, 'Akhir');
 				break;
+
 			case 'rincian_realisasi_smt1':
 				$this->rincian_realisasi($thn, 'Semester1', $smt1=1);
 				break;
+
 			case 'rincian_realisasi_bidang':
 				$this->rincian_realisasi($thn, 'Akhir Bidang');
 				break;
+
 			case 'rincian_realisasi_smt1_bidang':
 				$this->rincian_realisasi($thn, 'Semester1 Bidang', $smt1-1);
 				break;
@@ -176,14 +180,17 @@ class Keuangan extends Admin_Controller {
 			{
 				echo json_encode(2);
 			}
-			else if ($cek)
-			{
-				$output =array('id' => $cek->id, 'tahun_anggaran' => $cek->tahun_anggaran);
-				echo json_encode($output);
-			}
 			else
 			{
-				echo json_encode(0);
+				if ($cek)
+				{
+					$output =['id' => $cek->id, 'tahun_anggaran' => $cek->tahun_anggaran];
+					echo json_encode($output);
+				}
+				else
+				{
+					echo json_encode(0);
+				}
 			}
 		}
 		else
@@ -196,13 +203,13 @@ class Keuangan extends Admin_Controller {
 	public function cek_tahun()
 	{
 		$data = $this->keuangan_model->list_tahun_anggaran();
-		$list_tahun = array();
+		$list_tahun = [];
 		foreach ($data as $tahun)
 		{
-			$list_tahun[] = array(
+			$list_tahun[] = [
 				'text' => $tahun,
 				'value' => $tahun
-			);
+			];
 		}
 		echo json_encode($list_tahun);
 	}

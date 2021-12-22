@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Statistik extends Admin_Controller {
-
+class Statistik extends Admin_Controller
+{
 	private $_list_session;
 
 	public function __construct()
@@ -102,7 +102,7 @@ class Statistik extends Admin_Controller {
 			$data['judul_kelompok'] = $data['program']['judul_sasaran'];
 			$data['kategori'] = 'bantuan';
 		}
-		elseif (in_array($lap, array('bantuan_penduduk', 'bantuan_keluarga')))
+		elseif (in_array($lap, ['bantuan_penduduk', 'bantuan_keluarga']))
 		{
 			$data['kategori'] = 'bantuan';
 		}
@@ -210,37 +210,61 @@ class Statistik extends Admin_Controller {
 
 	public function dusun($lap = 0)
 	{
-		if ($lap) $this->session->lap = $lap;
+		if ($lap)
+		{
+			$this->session->lap = $lap;
+		}
 
 		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
+		{
 			$this->session->dusun = $dusun;
-		else $this->session->unset_userdata('dusun');
+		}
+		else
+		{
+			$this->session->unset_userdata('dusun');
+		}
 
 		redirect('statistik');
 	}
 
 	public function rw($lap = 0)
 	{
-		if ($lap) $this->session->lap = $lap;
+		if ($lap)
+		{
+			$this->session->lap = $lap;
+		}
 
 		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != "")
+		{
 			$this->session->rw = $rw;
-		else $this->session->unset_userdata('rw');
+		}
+		else
+		{
+			$this->session->unset_userdata('rw');
+		}
 		redirect('statistik');
 	}
 
 	public function rt($lap = 0)
 	{
-		if ($lap) $this->session->lap = $lap;
+		if ($lap)
+		{
+			$this->session->lap = $lap;
+		}
 
 		$rt = $this->input->post('rt');
 		if ($rt != "")
+		{
 			$this->session->rt = $rt;
-		else $this->session->unset_userdata('rt');
+		}
+		else
+		{
+			$this->session->unset_userdata('rt');
+		}
 		redirect('statistik');
 	}
 
@@ -249,7 +273,9 @@ class Statistik extends Admin_Controller {
 		foreach ($this->_list_session as $list)
 		{
 			if (in_array($list, ['dusun', 'rw', 'rt']))
+			{
 				$$list = $this->session->$list;
+			}
 		}
 
 		if (isset($dusun))
@@ -263,10 +289,18 @@ class Statistik extends Admin_Controller {
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
+				{
 					$data['rt'] = $rt;
-				else $data['rt'] = '';
+				}
+				else
+				{
+					$data['rt'] = '';
+				}
 			}
-			else $data['rw'] = '';
+			else
+			{
+				$data['rw'] = '';
+			}
 		}
 		else
 		{
@@ -325,13 +359,13 @@ class Statistik extends Admin_Controller {
 	public function ajax_peserta_program_bantuan()
 	{
 		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
-		$data = array();
+		$data = [];
 		$no = $_POST['start'];
 
 		foreach ($peserta as $baris)
 		{
 			$no++;
-			$row = array();
+			$row = [];
 			$row[] = $no;
 			$row[] = $baris['program'];
 			$row[] = $baris['peserta'];
@@ -339,11 +373,11 @@ class Statistik extends Admin_Controller {
 			$data[] = $row;
 		}
 
-		$output = array(
+		$output = [
 			"recordsTotal" => $this->program_bantuan_model->count_peserta_bantuan_all(),
 			"recordsFiltered" => $this->program_bantuan_model->count_peserta_bantuan_filtered(),
 			'data' => $data
-		);
+		];
 		echo json_encode($output);
 	}
 }

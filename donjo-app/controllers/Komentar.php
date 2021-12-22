@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Komentar extends Admin_Controller {
-
+class Komentar extends Admin_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -65,15 +65,27 @@ class Komentar extends Admin_Controller {
 		$data['o'] = $o;
 
 		if (isset($_SESSION['cari']))
+		{
 			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		}
+		else
+		{
+			$data['cari'] = '';
+		}
 
 		if (isset($_SESSION['filter_status']))
+		{
 			$data['filter_status'] = $_SESSION['filter_status'];
-		else $data['filter_status'] = '';
+		}
+		else
+		{
+			$data['filter_status'] = '';
+		}
 
 		if (isset($_POST['per_page']))
+		{
 			$_SESSION['per_page']=$_POST['per_page'];
+		}
 		$data['per_page'] = $_SESSION['per_page'];
 
 		$data['paging'] = $this->web_komentar_model->paging($p,$o);
@@ -108,8 +120,13 @@ class Komentar extends Admin_Controller {
 	{
 		$cari = $this->input->post('cari');
 		if ($cari != '')
+		{
 			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
+		}
+		else
+		{
+			unset($_SESSION['cari']);
+		}
 		redirect('komentar');
 	}
 
@@ -117,8 +134,13 @@ class Komentar extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
+		{
 			$_SESSION['filter_status'] = $filter;
-		else unset($_SESSION['filter_status']);
+		}
+		else
+		{
+			unset($_SESSION['filter_status']);
+		}
 		redirect('komentar');
 	}
 

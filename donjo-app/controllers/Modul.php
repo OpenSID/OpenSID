@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Modul extends Admin_Controller {
-
+class Modul extends Admin_Controller
+{
 	private $list_session;
 
 	public function __construct()
@@ -111,8 +111,13 @@ class Modul extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != '')
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('modul');
 	}
 
@@ -121,9 +126,13 @@ class Modul extends Admin_Controller {
 		$this->modul_model->update($id);
 		$parent = $this->input->post('parent');
 		if ($parent == 0)
+		{
 			redirect("modul");
+		}
 		else
+		{
 			redirect("modul/sub_modul/$parent");
+		}
 	}
 
 	public function lock($id = 0, $val = 1)

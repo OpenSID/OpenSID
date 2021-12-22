@@ -40,8 +40,8 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Main extends CI_Controller {
-
+class Main extends CI_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -51,13 +51,19 @@ class Main extends CI_Controller {
 	public function maintenance_mode()
 	{
 		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
+		{
 			redirect('main');
+		}
 		$data['main'] = $this->config_model->get_data();
 		$data['pamong_kades'] = $this->pamong_model->get_ttd();
 		if (file_exists(FCPATH.'desa/offline_mode.php'))
+		{
 			$this->load->view('../../desa/offline_mode', $data);
+		}
 		else
+		{
 			$this->load->view('offline_mode', $data);
+		}
 	}
 
 	public function index()
@@ -71,8 +77,11 @@ class Main extends CI_Controller {
 			switch ($grup)
 			{
 				case 1 : redirect('hom_sid'); break;
+
 				case 2 : redirect('hom_sid'); break;
+
 				case 3 : redirect('web/clear'); break;
+
 				case 4 : redirect('web/clear'); break;
 				default :
 					$modul_awal = $this->grup_model->modul_awal($grup);
@@ -80,14 +89,17 @@ class Main extends CI_Controller {
 					break;
 			}
 		}
-		else if ($this->setting->offline_mode > 0)
-		{
-			// Jika website hanya bisa diakses user, maka harus login dulu
-			redirect('siteman');
-		}
 		else
 		{
-			redirect();
+			if ($this->setting->offline_mode > 0)
+			{
+				// Jika website hanya bisa diakses user, maka harus login dulu
+				redirect('siteman');
+			}
+			else
+			{
+				redirect();
+			}
 		}
 	}
 }

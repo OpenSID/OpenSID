@@ -45,8 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Bumindes_penduduk_mutasi extends Admin_Controller {
-
+class Bumindes_penduduk_mutasi extends Admin_Controller
+{
 	private $_set_page;
 	private $_list_session;
 
@@ -67,10 +67,12 @@ class Bumindes_penduduk_mutasi extends Admin_Controller {
 	{
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
+		{
 			$this->session->per_page = $per_page;
+		}
 
 		// Menampilkan hanya kode peristiwa
-		$this->session->kode_peristiwa = array(2, 3, 5);
+		$this->session->kode_peristiwa = [2, 3, 5];
 		// Menampilkan hanya status penduduk TETAP
 		$this->session->status_penduduk = 1;
 
@@ -97,7 +99,9 @@ class Bumindes_penduduk_mutasi extends Admin_Controller {
 		$data['main'] = $this->penduduk_log_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);
 
 		if ($data['tgl_lengkap'])
+		{
 			$this->session->tgl_lengkap = $data['tgl_lengkap'];
+		}
 
 		$this->set_minsidebar(1);
 		$this->render('bumindes/penduduk/main', $data);
@@ -161,8 +165,13 @@ class Bumindes_penduduk_mutasi extends Admin_Controller {
 	{
 		$value = $this->input->post($filter);
 		if ($value != "")
+		{
 			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		}
+		else
+		{
+			$this->session->unset_userdata($filter);
+		}
 		redirect('bumindes_penduduk_mutasi');
 	}
 }
