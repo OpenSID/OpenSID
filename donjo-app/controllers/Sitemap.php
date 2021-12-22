@@ -1,8 +1,8 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 // https://itsolutionstuff.com/post/how-to-create-dynamic-sitemap-in-php-codeigniterexample.html
 
-defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  *  File ini:
  *

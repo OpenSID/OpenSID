@@ -1,6 +1,5 @@
 <?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once 'vendor/google-api-php-client/vendor/autoload.php';
 

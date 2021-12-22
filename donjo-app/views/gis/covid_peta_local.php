@@ -1,4 +1,5 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <link rel="stylesheet" href="<?= base_url()?>assets/css/peta.css">
 
