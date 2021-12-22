@@ -46,6 +46,7 @@ class Mandiri extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('mandiri_model');
+        $this->load->library('OTP/OTP_manager', null, 'otp_library');
 
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 56;
@@ -96,6 +97,7 @@ class Mandiri extends Admin_Controller
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['penduduk'] = $this->mandiri_model->list_penduduk();
+
         if ($id_pend) {
             $data['id_pend']     = $id_pend;
             $data['form_action'] = site_url("mandiri/update/{$id_pend}");
@@ -103,6 +105,8 @@ class Mandiri extends Admin_Controller
             $data['id_pend']     = null;
             $data['form_action'] = site_url('mandiri/insert');
         }
+
+        $data['tgl_verifikasi'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
         $this->load->view('mandiri/ajax_pin', $data);
     }
 
