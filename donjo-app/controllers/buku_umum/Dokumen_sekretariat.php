@@ -235,15 +235,16 @@ class Dokumen_sekretariat extends Admin_Controller
     /**
      * Unduh berkas berdasarkan kolom dokumen.id
      *
-     * @param int   $id_dokumen Id berkas pada koloam dokumen.id
-     * @param mixed $kat
+     * @param int $id_dokumen Id berkas pada koloam dokumen.id
+     * @param int $kat
+     * @param int $tipe
      *
      * @return void
      */
-    public function unduh_berkas($id_dokumen = 0, $kat = 1)
+    public function berkas($id_dokumen = 0, $kat = 1, $tipe = 0)
     {
         // Ambil nama berkas dari database
         $data = $this->web_dokumen_model->get_dokumen($id_dokumen);
-        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN);
+        ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, null, LOKASI_DOKUMEN, ($tipe == 1) ? true : false);
     }
 }

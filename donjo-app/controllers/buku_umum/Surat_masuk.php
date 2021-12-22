@@ -264,14 +264,15 @@ class Surat_masuk extends Admin_Controller
      * Unduh berkas scan berdasarkan kolom surat_masuk.id
      *
      * @param int $idSuratMasuk Id berkas scan pada koloam surat_masuk.id
+     * @param int $tipe
      *
      * @return void
      */
-    public function unduh_berkas_scan($idSuratMasuk)
+    public function berkas($idSuratMasuk = 0, $tipe = 0)
     {
         // Ambil nama berkas dari database
         $berkas = $this->surat_masuk_model->getNamaBerkasScan($idSuratMasuk);
-        ambilBerkas($berkas, 'surat_masuk', '__sid__');
+        ambilBerkas($berkas, 'surat_masuk', '__sid__', LOKASI_ARSIP, ($tipe == 1) ? true : false);
     }
 
     public function nomor_surat_duplikat()

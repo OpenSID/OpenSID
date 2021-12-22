@@ -100,12 +100,13 @@
 																<a href="<?= site_url("surat_masuk/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 															<?php endif; ?>
 															<?php if ($data['berkas_scan']): ?>
-																<a href="<?= site_url("surat_masuk/unduh_berkas_scan/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
+																<a href="<?= site_url("surat_masuk/berkas/{$data['id']}/0"); ?>" class="btn bg-purple btn-flat btn-sm"  title="Unduh Berkas Surat" target="_blank"><i class="fa fa-download"></i></a>
 															<?php endif; ?>
 															<a href="<?= site_url("surat_masuk/dialog_disposisi/{$o}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Cetak Lembar Disposisi Surat" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Lembar Disposisi Surat"><i class="fa fa-file-archive-o"></i></a>
-															<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<?php if ($this->CI->cek_hak_akses('h')): ?>
 																<a href="#" data-href="<?= site_url("surat_masuk/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 															<?php endif; ?>
+															<a href="<?= site_url("surat_masuk/berkas/{$data['id']}/1")?>" target="_blank" class="btn btn-info btn-flat btn-sm"  title="Lihat Dokumen"><i class="fa fa-eye"></i></a>
 														</td>
 														<td nowrap><?= tgl_indo_out($data['tanggal_penerimaan'])?></td>
 														<td nowrap><?= $data['nomor_surat']?></td>

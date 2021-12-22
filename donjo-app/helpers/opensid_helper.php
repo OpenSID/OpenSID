@@ -534,10 +534,7 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
         if ($redirect_url) {
             redirect($redirect_url);
         } else {
-            http_response_code(404);
-            include FCPATH . 'donjo-app/views/errors/html/error_404.php';
-
-            exit();
+            show_404();
         }
     }
     // OK, berkas ada. Ambil konten berkasnya
@@ -556,7 +553,22 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     // Kalau $tampil, tampilkan secara inline.
     if ($tampil) {
         // Set the default MIME type to send
-        $mime = get_extension($nama_berkas) == '.pdf' ? 'application/pdf' : 'application/octet-stream';
+        switch (get_extension($nama_berkas)) {
+            case '.gif': $mime = 'image/gif'; break;
+
+            case '.png': $mime = 'image/png'; break;
+
+            case '.jpeg': $mime = 'image/jpeg'; break;
+
+            case '.jpg': $mime = 'image/jpeg'; break;
+
+            case '.svg': $mime = 'image/svg+xml'; break;
+
+            case '.pdf' : $mime = 'application/pdf'; break;
+
+            default: $mime = 'application/octet-stream'; break;
+        }
+
         // Generate the server headers
         header('Content-Type: ' . $mime);
         header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
@@ -565,7 +577,7 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
         header('Content-Length: ' . strlen($data));
         header('Cache-Control: private, no-transform, no-store, must-revalidate');
 
-        exit($data);
+        return readfile($pathBerkas);
     }
 
     force_download($nama_berkas, $data);
