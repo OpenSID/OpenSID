@@ -124,9 +124,11 @@
 		if (as == 1) {
 			$('#form_tampilan_anjungan_slider').show();
 			$('#form_tampilan_anjungan_video').hide();
+			$('#form_waktu_tampilan_anjungan').show();
 		} else if (as == 2) {
 			$('#form_tampilan_anjungan_slider').hide();
 			$('#form_tampilan_anjungan_video').show();
+			$('#form_waktu_tampilan_anjungan').show();
 		} else {
 			$('#form_tampilan_anjungan_slider').hide();
 			$('#form_tampilan_anjungan_video').hide();
