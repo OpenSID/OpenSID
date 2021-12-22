@@ -48,7 +48,6 @@ class Lapak_model extends MY_Model
         7 => 'potongan',
         8 => 'deskripsi',
     ];
-    
     public const ORDER_ABLE_PELAPAK = [
         2 => 'pelapak',
         3 => 'telepon',
@@ -100,8 +99,8 @@ class Lapak_model extends MY_Model
             ->from('config c')
             ->get()
             ->row();
-        
-        $default_nama = 'Admin';
+
+        $default_nama    = 'Admin';
         $default_telepon = $this->db->get_where('media_sosial', ['id' => 6, 'tipe' => 1, 'enabled' => 1])->row()->link;
 
         $this->db
