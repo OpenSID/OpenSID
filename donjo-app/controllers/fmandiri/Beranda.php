@@ -98,8 +98,9 @@ class Beranda extends Mandiri_Controller
     public function ganti_pin()
     {
         $data = [
-            'cek_anjungan' => $this->cek_anjungan,
-            'form_action'  => site_url('layanan-mandiri/proses-ganti-pin'),
+            'tgl_verifikasi' => $this->otp_library->driver('telegram')->cek_verifikasi_otp($this->is_login->id_pend),
+            'cek_anjungan'   => $this->cek_anjungan,
+            'form_action'    => site_url('layanan-mandiri/proses-ganti-pin'),
         ];
 
         $this->render('ganti_pin', $data);

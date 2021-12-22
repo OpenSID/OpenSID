@@ -78,4 +78,16 @@ interface OTP_interface
      * @return bool
      */
     public function cek_verifikasi_otp($user);
+
+    /**
+     * Kirim pesan permintaan pin baru ke user telegram.
+     *
+     * @param mixed $user = chatID
+     * @param mixed $pin
+     *
+     * @throws \Exception
+     *
+     * @return void
+     */
+    public function kirim_pin_baru($user, $pin);
 }
