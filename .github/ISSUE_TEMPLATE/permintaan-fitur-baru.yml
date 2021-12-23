@@ -8,7 +8,7 @@ body:
     id: kekurangan
     attributes:
       label: Apa kekurangan yg ingin diatasi?
-      placeholder: Beri keterangan singkat dan jelas mengapa fitur ini diperlukan.
+      description: Beri keterangan singkat dan jelas mengapa fitur ini diperlukan.
     validations:
       required: true
 
@@ -16,7 +16,7 @@ body:
     id: solusi
     attributes:
       label: Jelaskan solusi yg diinginkan
-      placeholder: |
+      description: |
         Beri keterangan singkat dan jelas mengenai fitur yg diinginkan.
         Beri acuan peraturan yg mendasari fitur ini, kalau ada.
         Lampirkan contoh laporan dan tangkapan layar yang diinginkan.
@@ -27,7 +27,7 @@ body:
     id: alternatif
     attributes:
       label: Apakah ada alternatif lain
-      placeholder: Beri keterangan singkat dan jelas solusi lain yg telah anda pertimbangkan untuk kebutuhan ini.
+      description: Beri keterangan singkat dan jelas solusi lain yg telah anda pertimbangkan untuk kebutuhan ini.
     validations:
       required: true
 
@@ -35,7 +35,7 @@ body:
     id: version
     attributes:
       label: Untuk versi OpenSID mana
-      placeholder: Fitur ini diusulkan untuk versi Rilis Umum (mis. v21.03) atau Rilis Premium (mis v21.03-premium) yg mana?
+      description: Fitur ini diusulkan untuk versi Rilis Umum (mis. v21.03) atau Rilis Premium (mis v21.03-premium) yg mana?
     validations:
       required: true
 
@@ -43,6 +43,6 @@ body:
     id: tambahan
     attributes:
       label: Informasi tambahan
-      placeholder: Beri informasi lainnya yg dapat membantu menjelaskan permintaan ini.
+      description: Beri informasi lainnya yg dapat membantu menjelaskan permintaan ini.
     validations:
       required: false
