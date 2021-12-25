@@ -59,11 +59,12 @@ class Pelanggan extends Admin_Controller {
 	{
 		$response = $this->notif_model->api_pelanggan_pemesanan();
 
-		// Ubah layanan_opendesa_token terbaru
-		if ( ! is_null($response) && $response->body->token !== $this->setting->layanan_opendesa_token)
-		{
+		// Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
+		if ((null !== $response && $response->body->token !== $this->setting->layanan_opendesa_token) && empty(config_item('token_layanan'))) {
 			$post['layanan_opendesa_token'] = $response->body->token;
 			$this->setting_model->update_setting($post);
+
+			redirect($this->controller);
 		}
 
 		$this->render('pelanggan/index', ['response' => $response]);
