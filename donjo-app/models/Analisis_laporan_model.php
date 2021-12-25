@@ -407,7 +407,7 @@ class Analisis_laporan_model extends CI_Model
 
             default: return null;
         }
-        $this->db->select("(h.akumulasi/{$pembagi}) AS cek, k.nama AS klasifikasi");
+        $this->db->select("CAST((h.akumulasi/{$pembagi}) AS decimal(8,3)) AS cek, k.nama AS klasifikasi");
 
         $this->list_data_query();
 
