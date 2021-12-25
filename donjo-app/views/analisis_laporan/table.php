@@ -103,7 +103,7 @@
 								<div class="row">
 									<div class="col-sm-8">
 										<select class="form-control input-sm" name="klasifikasi" onchange="formAction('mainform', '<?= site_url('analisis_laporan/filter/klasifikasi'); ?>')">
-											<option value=""> --- Klasifikasi --- </option>
+											<option value="">Semua Klasifikasi</option>
 											<?php foreach ($list_klasifikasi as $data): ?>
 												<option value="<?= $data['id']; ?>" <?= selected($klasifikasi, $data['id']); ?>><?= $data['nama']; ?></option>
 											<?php endforeach; ?>
@@ -152,10 +152,10 @@
 														<?php endif; ?>
 														<td nowrap><?= $data['nama']; ?></td>
 														<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4])): ?>
-															<td><?= $data['jk']; ?></td>
+															<td class="padat"><?= $data['jk']; ?></td>
 															<td><?= strtoupper($data['alamat'] . ' ' . 'RT/RW ' . $data['rt'] . '/' . $data['rw'] . ' - ' . $this->setting->sebutan_dusun . ' ' . $data['dusun']); ?></td>
 														<?php endif; ?>
-														<td><?= $data['nilai']; ?></td>
+														<td class="padat"><?= $data['nilai']; ?></td>
 														<td><?= $data['klasifikasi']; ?></td>
 													</tr>
 												<?php endforeach; ?>
