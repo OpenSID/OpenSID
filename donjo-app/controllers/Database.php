@@ -75,8 +75,8 @@ class Database extends Admin_Controller
             redirect($this->controller);
         }
 
-        $data['form_action']  = site_url('database/import_dasar');
-        $data['form_action3'] = site_url('database/ppls_individu');
+        $data['form_action']          = site_url('database/import_dasar');
+        $data['form_action3']         = site_url('database/ppls_individu');
         $data['boleh_hapus_penduduk'] = $this->import_model->boleh_hapus_penduduk();
 
         $data['act_tab'] = 2;
@@ -90,7 +90,7 @@ class Database extends Admin_Controller
             redirect($this->controller);
         }
 
-        $data['form_action'] = site_url('database/import_data_bip');
+        $data['form_action']          = site_url('database/import_data_bip');
         $data['boleh_hapus_penduduk'] = $this->import_model->boleh_hapus_penduduk();
 
         $data['act_tab'] = 3;

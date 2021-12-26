@@ -549,24 +549,27 @@ class Import_model extends CI_Model
             ->where_in('sasaran', [1, 2, 3, 4])
             ->get('program')
             ->result_array();
-       $this->db
+        $this->db
             ->where_in('program_id', array_column($program, 'id'))
             ->delete('program_peserta');
     }
 
     /** Tidak boleh menghapus data penduduk jika:
-        * dalam demo_mode, atau
-        * status penduduk sudah lengkap
-        * tidak ada lagi data tweb_penduduk contoh awal (created_by = -1)
-    */
+     * dalam demo_mode, atau
+     * status penduduk sudah lengkap
+     * tidak ada lagi data tweb_penduduk contoh awal (created_by = -1)
+     */
     public function boleh_hapus_penduduk()
     {
         $data_awal = $this->db
             ->from('tweb_penduduk')
             ->where('created_by <=', 0)
             ->count_all_results();
-        if (config_item('demo_mode') || $data_awal == 0) return false;
-        return (! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap));
+        if (config_item('demo_mode') || $data_awal == 0) {
+            return false;
+        }
+
+        return ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap);
     }
 
     public function import_excel($hapus = false)
