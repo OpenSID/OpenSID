@@ -44,8 +44,10 @@
 																									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 																								</span>
 																							</div>
-																							<p class="help-block"><input type="checkbox" name="hapus_data" value="hapus"></input>	Hapus data penduduk sebelum Impor</p>
-																						</div>
+																							<?php if ($boleh_hapus_penduduk): ?>
+																								<p class="help-block"><input type="checkbox" name="hapus_data" value="hapus"></input>	Hapus data penduduk sebelum Impor</p>
+																							<?php endif; ?>
+																					</div>
 																						<div class="col-md-2">
 																							<a href="#" class="btn btn-block btn-success btn-sm"  title="Impor Database" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor</a>
 																						</div>
