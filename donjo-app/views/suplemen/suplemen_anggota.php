@@ -153,6 +153,5 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <script type="text/javascript">
 	$(".btn-import").click(function() {
 		$("#id_suplemen").val($("#data-id").html());
-		console.log($("#data-id").html());
 	});
 </script>

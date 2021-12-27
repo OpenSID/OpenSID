@@ -298,7 +298,7 @@ class Suplemen_model extends MY_Model
     {
         $hasil = [];
         // Paging
-        if (! empty($this->session->per_page) && $this->session->per_page > 0) {
+        if ((! empty($this->session->per_page) && $this->session->per_page > 0) || $p > 0) {
             $this->get_penduduk_terdata_sql($suplemen_id);
             $hasil['paging'] = $this->paging($p);
             $this->db->limit($hasil['paging']->per_page, $hasil['paging']->offset);

@@ -162,7 +162,7 @@ class Suplemen extends Admin_Controller
         $data['sasaran']  = unserialize(SASARAN);
         $data['func']     = "rincian/{$id}";
         $data['per_page'] = $this->session->per_page;
-        $data['set_page'] = ['20', '50', '100'];
+        $data['set_page'] = $this->_set_page;
         $data['cari']     = $this->session->cari;
 
         $this->render('suplemen/suplemen_anggota', $data);
