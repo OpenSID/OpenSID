@@ -1,6 +1,14 @@
 name: Fix styling
 
-on: [push]
+on:
+  push:
+    branches:
+      - bug-fix
+      - rilis-dev
+  pull_request:
+    branches:
+      - bug-fix
+      - rilis-dev
 
 jobs:
   php-cs-fixer:
