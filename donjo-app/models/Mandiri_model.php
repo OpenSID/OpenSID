@@ -108,13 +108,13 @@ class Mandiri_model extends CI_Model {
 		switch ($o)
 		{
 			case 1: $this->db->order_by('p.nik'); break;
-			case 2: $this->db->order_by('p.nik', DESC); break;
+			case 2: $this->db->order_by('p.nik', 'DESC'); break;
 			case 3: $this->db->order_by('p.nama'); break;
-			case 4: $this->db->order_by('p.nama', DESC); break;
+			case 4: $this->db->order_by('p.nama', 'DESC'); break;
 			case 5: $this->db->order_by('pm.tanggal_buat'); break;
-			case 6: $this->db->order_by('pm.tanggal_buat', DESC); break;
+			case 6: $this->db->order_by('pm.tanggal_buat', 'DESC'); break;
 			case 7: $this->db->order_by('pm.last_login'); break;
-			case 8: $this->db->order_by('pm.last_login', DESC); break;
+			case 8: $this->db->order_by('pm.last_login', 'DESC'); break;
 			default: '';
 		}
 
