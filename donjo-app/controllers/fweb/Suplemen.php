@@ -54,7 +54,7 @@ class Suplemen extends Web_Controller
         }
 
         $data            = $this->includes;
-        $data['main']    = $this->suplemen_model->get_rincian(1, $id);
+        $data['main']    = $this->suplemen_model->get_rincian(0, $id);
         $data['title']   = 'Data Suplemen ' . $data['main']['suplemen']['nama'];
         $data['sasaran'] = unserialize(SASARAN);
 
