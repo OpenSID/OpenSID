@@ -283,19 +283,30 @@ class Export_model extends CI_Model
         $this->upload->initialize($this->uploadConfig);
         // Upload sukses
         if (! $this->upload->do_upload('userfile')) {
-            $_SESSION['success']   = -1;
-            $_SESSION['error_msg'] = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
+            $this->session->success   = -1;
+            $this->session->error_msg = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
 
-            return;
+            return false;
         }
         $uploadData = $this->upload->data();
         $filename   = $this->uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
-        $lines      = file($filename);
+
+        return $this->proses_restore($filename);
+    }
+
+    public function proses_restore($filename = null)
+    {
+        if (! $filename) {
+            return false;
+        }
+
+        $lines = file($filename);
+
         if (count($lines) < 20) {
             $_SESSION['success']   = -1;
             $_SESSION['error_msg'] = 'Sepertinya bukan file backup';
 
-            return;
+            return false;
         }
 
         $_SESSION['success'] = 1;
@@ -325,6 +336,8 @@ class Export_model extends CI_Model
                 }
             }
         }
+
+        return true;
     }
 
     private function _build_schema($nama_tabel, $nama_tanda)
