@@ -103,6 +103,9 @@ class Web_sosmed_model extends CI_Model
 			return $link;
 		}
 
+		// Remove all illegal characters from a url
+		$link = filter_var($link, FILTER_SANITIZE_URL);
+
 		// validasi link
 		$valid_link = filter_var($link, FILTER_VALIDATE_URL);
 
