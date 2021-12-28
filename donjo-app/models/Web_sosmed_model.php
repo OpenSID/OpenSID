@@ -93,48 +93,54 @@ class Web_sosmed_model extends CI_Model
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	// Penanganan khusus sesuai jenis sosmed
-	public function link_sosmed($id = 0, $link = '', $tipe = 1)
+	/**
+	 * Tampilkan link sosmed
+	 * Ditampilkan sesuai jenis sosmed
+	 */
+	public function link_sosmed(int $id = 0, string $link = '', int $tipe = 1): string
 	{
 		if (empty($link)) {
 			return $link;
 		}
 
+		// validasi link
+		$valid_link = filter_var($link, FILTER_VALIDATE_URL);
+
 		switch (true) {
-			case $id === 1 && $tipe === 1 :
-				$link = 'https://web.facebook.com/' . $link;
+			case $id === 1 && $tipe === 1:
+				$link = ($valid_link !== false ? $valid_link : 'https://web.facebook.com/' . $link);
 				break;
 
-			case $id === 1 && $tipe === 2 :
-				$link = 'https://web.facebook.com/groups/' . $link;
+			case $id === 1 && $tipe === 2:
+				$link = ($valid_link !== false ? $valid_link : 'https://web.facebook.com/groups/' . $link);
 				break;
 
-			case $id === 2 :
-				$link = 'https://twitter.com/' . $link;
+			case $id === 2:
+				$link = ($valid_link !== false ? $valid_link : 'https://twitter.com/' . $link);
 				break;
 
-			case $id === 4 :
-				$link = 'https://www.youtube.com/channel/' . $link;
+			case $id === 4:
+				$link = ($valid_link !== false ? $valid_link : 'https://www.youtube.com/channel/' . $link);
 				break;
 
-			case $id === 5 :
-				$link = 'https://www.instagram.com/' . $link . '/';
+			case $id === 5:
+				$link = ($valid_link !== false ? $valid_link : 'https://www.instagram.com/' . $link . '/');
 				break;
 
-			case $id === 6 && $tipe === 1 :
-				$link = 'https://api.whatsapp.com/send?phone=' . $link;
+			case $id === 6 && $tipe === 1:
+				$link = ($valid_link !== false ? $valid_link : 'https://api.whatsapp.com/send?phone=' . $link);
 				break;
 
-			case $id === 6 && $tipe === 2 :
-				$link = 'https://chat.whatsapp.com/' . $link;
+			case $id === 6 && $tipe === 2:
+				$link = ($valid_link !== false ? $valid_link : 'https://chat.whatsapp.com/' . $link);
 				break;
 
-			case $id === 7 && $tipe === 1 :
-				$link = 'https://t.me/' . $link;
+			case $id === 7 && $tipe === 1:
+				$link = ($valid_link !== false ? $valid_link : 'https://t.me/' . $link);
 				break;
 
-			case $id === 7 && $tipe === 2 :
-				$link = 'https://t.me/joinchat/' . $link;
+			case $id === 7 && $tipe === 2:
+				$link = ($valid_link !== false ? $valid_link : 'https://t.me/joinchat/' . $link);
 				break;
 
 			default:
