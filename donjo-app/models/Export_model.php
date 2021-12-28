@@ -215,61 +215,71 @@
 
 	public function restore()
 	{
-		$this->load->library('upload');
-		$this->uploadConfig = array(
-			'upload_path' => sys_get_temp_dir(),
-			'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
-			'file_ext' => 'sql',
-			'max_size' => max_upload() * 1024,
-		);
-		$this->upload->initialize($this->uploadConfig);
-		// Upload sukses
-		if (! $this->upload->do_upload('userfile'))
-		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL) . ': ' . $this->upload->file_type;
-			return;
-		}
-		$uploadData = $this->upload->data();
-		$filename = $this->uploadConfig['upload_path'] . '/'. $uploadData['file_name'];
-		$lines = file($filename);
-		if (count($lines) < 20)
-		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = 'Sepertinya bukan file backup';
-			return;
-		}
+			$this->load->library('upload');
+			$this->uploadConfig = [
+					'upload_path'   => sys_get_temp_dir(),
+					'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+					'file_ext'      => 'sql',
+					'max_size'      => max_upload() * 1024,
+			];
+			$this->upload->initialize($this->uploadConfig);
+			// Upload sukses
+			if (! $this->upload->do_upload('userfile')) {
+					$this->session->success   = -1;
+					$this->session->error_msg = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
 
-		$_SESSION['success'] = 1;
-		$this->drop_views();
-		$this->drop_tables();
+					return false;
+			}
+			$uploadData = $this->upload->data();
+			$filename   = $this->uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
 
-		$query = "";
-		foreach ($lines as $key => $sql_line)
-		{
-			// Abaikan baris apabila kosong atau komentar
-			$sql_line = trim($sql_line);
-			$sql_line = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.* SQL SECURITY DEFINER /", "", $sql_line);
-			$sql_line = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $sql_line);
+			return $this->proses_restore($filename);
+	}
 
-		  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
-		  {
-				$query .= $sql_line;
-				if (substr(rtrim($query), -1) == ';')
-				{
-				  $result = $this->db->simple_query($query) ;
-				  if (!$result)
-				  {
-				  	$_SESSION['success'] = -1;
-				  	$error = $this->db->error();
-				  	log_message('error', "<br><br>[".$key."]>>>>>>>> Error: ".$query.'<br>');
-				  	log_message('error', $error['message'].'<br>'); // (mysql_error equivalent)
-						log_message('error', $error['code'].'<br>'); // (mysql_errno equivalent)
-				  }
-				  $query = "";
-				}
-		  }
-	 	}
+	public function proses_restore($filename = null)
+	{
+			if (! $filename) {
+					return false;
+			}
+
+			$lines = file($filename);
+
+			if (count($lines) < 20) {
+					$_SESSION['success']   = -1;
+					$_SESSION['error_msg'] = 'Sepertinya bukan file backup';
+
+					return false;
+			}
+
+			$_SESSION['success'] = 1;
+			$this->drop_views();
+			$this->drop_tables();
+
+			$query = '';
+
+			foreach ($lines as $key => $sql_line) {
+					// Abaikan baris apabila kosong atau komentar
+					$sql_line = trim($sql_line);
+					$sql_line = preg_replace('/ALGORITHM=UNDEFINED DEFINER=.* SQL SECURITY DEFINER /', '', $sql_line);
+					$sql_line = preg_replace('/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/', '', $sql_line);
+
+					if ($sql_line != '' && (strpos($sql_line, '--') === false || strpos($sql_line, '--') != 0) && $sql_line[0] != '#') {
+							$query .= $sql_line;
+							if (substr(rtrim($query), -1) == ';') {
+									$result = $this->db->simple_query($query);
+									if (! $result) {
+											$_SESSION['success'] = -1;
+											$error               = $this->db->error();
+											log_message('error', '<br><br>[' . $key . ']>>>>>>>> Error: ' . $query . '<br>');
+											log_message('error', $error['message'] . '<br>'); // (mysql_error equivalent)
+											log_message('error', $error['code'] . '<br>'); // (mysql_errno equivalent)
+									}
+									$query = '';
+							}
+					}
+			}
+
+			return true;
 	}
 
 	private function _build_schema($nama_tabel, $nama_tanda) {
