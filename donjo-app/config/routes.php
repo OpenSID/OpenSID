@@ -162,6 +162,11 @@ $route['pembangunan/(:any)']       = WEB . '/pembangunan/detail/$1';
 $route['lapak']        = WEB . '/lapak';
 $route['lapak/(:num)'] = WEB . '/lapak/index/$1';
 
+// Pengaduan
+$route['pengaduan']        = WEB . '/pengaduan';
+$route['pengaduan/(:num)'] = WEB . '/pengaduan/index/$1';
+$route['pengaduan/kirim']  = WEB . '/pengaduan/kirim';
+
 // Surat
 $route['v/(:any)']                = WEB . '/verifikasi_surat/cek/$1';
 $route['c1/(:any)']               = WEB . '/verifikasi_surat/encode/$1';

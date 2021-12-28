@@ -160,6 +160,7 @@ class Web_Controller extends MY_Controller
         $this->load->model('anjungan_model');
         $this->load->model('keuangan_grafik_manual_model');
         $this->load->model('keuangan_grafik_model');
+        $this->load->model('pengaduan_model');
 
         // Counter statistik pengunjung
         $this->statistik_pengunjung->counter_visitor();

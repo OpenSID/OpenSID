@@ -51,8 +51,9 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = $hasil && $this->migrasi_2021120971($hasil);
         $hasil = $hasil && $this->migrasi_2021121371($hasil);
         $hasil = $hasil && $this->migrasi_2021121571($hasil);
+        $hasil = $hasil && $this->migrasi_2021121651($hasil);
 
-        return $hasil && $this->migrasi_2021121651($hasil);
+        return $hasil && $this->migrasi_2021122471($hasil);
     }
 
     protected function migrasi_2021120271($hasil)
@@ -194,5 +195,114 @@ class Migrasi_fitur_premium_2201 extends MY_model
         ];
 
         return $hasil && $this->dbforge->modify_column('tweb_penduduk', $fields);
+    }
+
+    protected function migrasi_2021122471($hasil)
+    {
+        $hasil = $hasil && $this->tambah_tabel_pengaduan($hasil);
+        $hasil = $hasil && $this->tambah_modul_pengaduan($hasil);
+
+        return $hasil && $this->tambah_folder_pengaduan($hasil);
+    }
+
+    protected function tambah_tabel_pengaduan($hasil)
+    {
+        if (! $this->db->table_exists('pengaduan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                ],
+
+                'id_pengaduan' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => true,
+                ],
+
+                'nik' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 16,
+                    'null'       => true,
+                ],
+
+                'nama' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                ],
+
+                'email' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                ],
+
+                'telepon' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 20,
+                    'null'       => true,
+                ],
+
+                'judul' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                ],
+
+                'isi' => [
+                    'type' => 'TEXT',
+                ],
+
+                'status' => [
+                    'type'       => 'INT',
+                    'constraint' => 1,
+                    'default'    => '1',
+                    'comment'    => '1 = menunggu proses, 2 = Sedang Diproses, 3 = Selesai Diproses',
+                ],
+
+                'foto' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                ],
+
+                'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+                'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+            ];
+
+            $this->dbforge->add_key('id', true);
+            $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->create_table('pengaduan', true);
+        }
+
+        return $hasil;
+    }
+
+    protected function tambah_modul_pengaduan($hasil)
+    {
+        return $hasil && $this->tambah_modul([
+            'id'         => '334',
+            'modul'      => 'Pengaduan',
+            'url'        => 'pengaduan_admin',
+            'aktif'      => '1',
+            'ikon'       => 'fa-info',
+            'urut'       => '124',
+            'level'      => '2',
+            'parent'     => '0',
+            'hidden'     => '0',
+            'ikon_kecil' => 'fa-info',
+        ]);
+    }
+
+    protected function tambah_folder_pengaduan($hasil)
+    {
+        $folder = 'upload/pengaduan';
+        if (! file_exists('/desa/' . $folder)) {
+            mkdir('desa/' . $folder, 0755, true);
+            xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
+        }
+
+        return $hasil;
     }
 }

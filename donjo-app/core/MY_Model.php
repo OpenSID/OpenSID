@@ -98,6 +98,7 @@ class MY_Model extends CI_Model
             case 'lapak':
             case 'pembangunan':
             case 'galeri':
+            case 'pengaduan':
                 break;
 
             default:
@@ -192,7 +193,13 @@ class MY_Model extends CI_Model
     {
         $sql = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
 
-        return $this->db->query($sql);
+        $hasil = $this->db->query($sql);
+
+        // Hapus cache menu navigasi
+        $this->load->driver('cache');
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
     }
 
     /**

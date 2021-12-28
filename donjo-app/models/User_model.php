@@ -132,6 +132,7 @@ class User_model extends CI_Model
                 $this->session->siteman      = 1;
                 $this->session->sesi         = $row->session;
                 $this->session->user         = $row->id;
+                $this->session->nama         = $row->nama;
                 $this->session->grup         = $row->id_grup;
                 $this->session->per_page     = 10;
                 $this->session->siteman_wait = 0;
