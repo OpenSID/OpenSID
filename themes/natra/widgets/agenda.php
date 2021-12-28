@@ -81,7 +81,7 @@
 				</div>
 
 				<div id="lama" class="tab-pane fade <?php count(array_merge($hari_ini, $yad)) == 0 and print('in active')?>">
-					<marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" align="center" behavior=”alternate”>
+					<marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" class="text-center" behavior="alternate">
 						<ul class="sidebar-latest">
 							<?php foreach ($lama as $agenda): ?>
 								<li>
