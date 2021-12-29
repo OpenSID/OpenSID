@@ -199,11 +199,11 @@ class Database_model extends CI_Model {
 			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
 		*/
 		$versi = AmbilVersi();
-		$versi = preg_replace('/pasca-|-pasca|-premium|-premium-pasca/', '', $versi);
+		$versi = preg_replace('/-premium-pasca|-premium-bugfix|-premium-beta|pasca-|-pasca|-premium/', '', $versi);
 		$newVersion = array(
 			'value' => $versi
 		);
-		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
+		$this->db->where(array('key' => 'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
 		$this->track_model->kirim_data();
 		$this->catat_versi_database();

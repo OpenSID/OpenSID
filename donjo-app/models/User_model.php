@@ -104,7 +104,7 @@ class User_model extends CI_Model {
 
 		// Login gagal: user tidak ada atau tidak lolos verifikasi
 		if ($userAda === FALSE || $authLolos === FALSE)
-		{			
+		{
 			$this->session->siteman= -1;
 			if ($this->session->siteman_try > 2)
 			{
@@ -137,7 +137,7 @@ class User_model extends CI_Model {
 			}
 			// Lanjut set session
 			if (($row->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2))
-			{				
+			{
 				$this->session->siteman= -2;
 			}
 			else
@@ -409,11 +409,12 @@ class User_model extends CI_Model {
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
-		if (!$this->db->where('id', $idUser)->update('user', $data))
+		if ( ! $this->db->where('id', $idUser)->update('user', $data))
 		{
 			$this->session->success = -1;
 			$this->session->error_msg = ' -> Gagal memperbarui data di database';
 		}
+		$this->cache->file->delete("{$idUser}_cache_modul");
 	}
 
 	public function delete($idUser = '', $semua=false)

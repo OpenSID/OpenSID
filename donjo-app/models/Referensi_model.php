@@ -86,6 +86,7 @@ define("LINK_TIPE", serialize([
 	'6' => 'Artikel Keuangan',
 	'7' => 'Kelompok',
 	'9' => 'Data Suplemen',
+	'10' => 'Status IDM',
 	'99' => 'Eksternal'
 ]));
 
@@ -130,9 +131,8 @@ define("STAT_LAINNYA", serialize([
 	'peraturan_desa' => 'Produk Hukum',
 	'informasi_publik' => 'Informasi Publik',
 	'peta' => 'Peta',
-	'status_idm' => 'Status IDM',
 	'data_analisis' => 'Data Analisis',
-	'status_sdgs'	=> 'SDGs Desa'
+	'status-sdgs'	=> 'SDGs Desa'
 ]));
 
 // Jabatan Kelompok

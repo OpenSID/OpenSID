@@ -1040,7 +1040,7 @@ class Program_bantuan_model extends MY_Model {
 				->row()
 				->jml;
 		} else {
-				$jml_peserta = $this->db->get('program_peserta')->num_rows();
+			$jml_peserta = $this->db->get('program_peserta')->num_rows();
 		}
 
 		return $jml_peserta;

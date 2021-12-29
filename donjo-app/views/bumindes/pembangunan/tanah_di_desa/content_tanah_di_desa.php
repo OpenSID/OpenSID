@@ -1,3 +1,51 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * File ini:
+ *
+ * View untuk modul Buku Administrasi Desa > Administrasi Pembangunan > Buku Tanah Desa
+ *
+ * donjo-app/views/bumindes/pembangunan/tanah_di_desa/content_tanah_di_desa.php,
+ *
+ */
+
+/**
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package	OpenSID
+ * @author	Tim Pengembang OpenDesa
+ * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
+ * @link 	https://github.com/OpenSID/OpenSID
+ */
+?>
+
 <div class="box box-info">
 	<div class="box-header with-border">
 		<a href="<?= site_url('bumindes_tanah_desa/form')?>"
@@ -5,8 +53,8 @@
 			title="Tambah Data Baru">
 			<i class="fa fa-plus"></i>Tambah Data
 		</a>
-		<a href="#" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Buku Tanah di Desa"><i class="fa fa-print "></i> Cetak</a>
-		<a href="#" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Buku Tanah di Desa"><i class="fa fa-download"></i> Unduh</a>
+		<a href="#" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-href="<?= site_url('bumindes_tanah_desa/cetak_tanah_desa/cetak'); ?>" data-target="#cetakBox" data-aksi="Cetak" data-title="Buku Tanah di Desa"><i class="fa fa-print "></i> Cetak</a>
+		<a href="#" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah di Desa" data-remote="false" data-toggle="modal" data-href="<?= site_url("bumindes_tanah_desa/cetak_tanah_desa/unduh"); ?>" data-target="#cetakBox" data-aksi="Unduh" data-title="Buku Tanah di Desa"><i class="fa fa-download"></i> Unduh</a>
 	</div>
 	<div class="box-body">
 		<div class="row">
@@ -33,73 +81,13 @@
 				</div>
 			</div>
 		</div>
-		<div id="cetakBox" class="modal fade" role="dialog" style="padding-top:30px;">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Cetak Buku Tanah di Desa</h4>
-					</div>
-					<formtarget="_blank" class="form-horizontal" method="get">
-						<div class="modal-body">
-							<div class="form-group">
-								<div class="container-fluid">
-									<label class="control-label required" for="tgl_cetak">Tanggal Cetak</label>
-									<div class="input-group input-group-sm date">
-										<div class="input-group-addon">
-											<i class="fa fa-calendar"></i>
-										</div>
-										<input class="form-control input-sm required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"
-								data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_cetak"
-								name="form_cetak" data-dismiss="modal"><i class='fa fa-check'></i> Cetak</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div id="unduhBox" class="modal fade" role="dialog" style="padding-top:30px;">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Unduh Buku Tanah di Desa</h4>
-					</div>
-					<formtarget="_blank" class="form-horizontal" method="get">
-						<div class="modal-body">
-							<div class="form-group">
-								<div class="container-fluid">
-									<label class="control-label required" for="tgl_cetak">Tanggal Unduh</label>
-									<div class="input-group input-group-sm date">
-										<div class="input-group-addon">
-											<i class="fa fa-calendar"></i>
-										</div>
-										<input class="form-control input-sm required" id="tgl_2" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"
-								data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="form_download"
-								name="form_download" data-dismiss="modal"><i class='fa fa-check'></i> Unduh</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+		<?php $this->load->view('global/cetak_box');?>
 	</div>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
 <script>
-	$(document).ready(function() {
+	$(document).ready(function()
+	{
 		let tabelTanahDesa = $('#tabel-tanahdesa').DataTable({
 			'processing': true,
 			'serverSide': true,
@@ -108,7 +96,7 @@
 			'order': [],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1,2, 3, 4, 5],
+				'targets': [0, 1, 2, 3, 4, 5],
 			}],
 			'ajax': {
 				'url': "<?= site_url('bumindes_tanah_desa') ?>",
@@ -121,7 +109,8 @@
 					'data': null,
 				},
 				{
-					'data': function(data) {
+					'data': function(data)
+					{
 						return `
 							<a href="<?= site_url('bumindes_tanah_desa/view_tanah_desa/') ?>${data.id}" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 							<a href="<?= site_url('bumindes_tanah_desa/form/') ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
@@ -130,13 +119,9 @@
 					}
 				},
 				{
-					'data': function(data) {
-						if(data.nama_pemilik_asal)
-						{
-							return data.nama_pemilik_asal;
-						}
-						return data.nama;
-
+					'data': function(data)
+					{
+						return data.nama_pemilik_asal ? data.nama_pemilik_asal : data.nama;
 					}
 				},
 				{
@@ -154,7 +139,8 @@
 			}
 		});
 
-		tabelTanahDesa.on('draw.dt', function() {
+		tabelTanahDesa.on('draw.dt', function()
+		{
 			let PageInfo = $('#tabel-tanahdesa').DataTable().page.info();
 			tabelTanahDesa.column(0, {
 				page: 'current'
@@ -162,14 +148,5 @@
 				cell.innerHTML = i + 1 + PageInfo.start;
 			});
 		});
-	});
-
-	$("#form_cetak").click(function (event) {
-		var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_1').val()+ '/cetak';
-		window.open(link, '_blank');
-	});
-	$("#form_download").click(function (event) {
-		var link = '<?= site_url("bumindes_tanah_desa/cetak_tanah_desa"); ?>'+ '/' + $('#tgl_2').val()+ '/unduh';
-		window.open(link, '_blank');
 	});
 </script>

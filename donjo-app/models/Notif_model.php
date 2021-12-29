@@ -1,28 +1,32 @@
 <?php
 
-use Esyede\Curly;
-
-require_once APPPATH . '/libraries/Curly.php';
-
 class Notif_model extends CI_Model {
-
-	/** @var Esyede\Curly */
-	protected $client;
-
-	public function __construct()
-	{
-		$this->client = new Curly();
-		$this->load->driver('cache');
-	}
 
 	public function status_langganan()
 	{
-		if (empty($response = $this->api_pelanggan_pemesanan()))
+		$cache_id = 'status_langganan';
+
+		if (empty($this->setting->api_key_opensid)) return null;
+
+		$this->load->library('data_publik');
+		$tracker_host = (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker;
+		if ( ! $this->data_publik->has_internet_connection()) return;
+		$this->data_publik->set_api_url($tracker_host . '/index.php/api/pelanggan/customer?token=' . $this->setting->api_key_opensid, 'status_pelanggan');
+
+		// Perbaharui cache setiap hari
+		$status = $this->cache->pakai_cache(function ()
 		{
-			return null;
+			return $this->data_publik->get_url_content($no_cache = true);
+		}, $cache_id, 24*60*60);
+
+		// Hapus cache dan tidak tampilkan notifikasi jika tidak ada info pelanggan
+		if (empty($status->body->PELANGGAN_PREMIUM))
+		{
+			$this->cache->hapus_cache_untuk_semua($cache_id);
+			return;
 		}
 
-		$tgl_akhir = $response->body->tanggal_berlangganan->akhir;
+		$tgl_akhir = $status->body->PELANGGAN_PREMIUM[0]->tgl_akhir;
 		$tgl_akhir = strtotime($tgl_akhir);
 		$masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
 		switch (true)
@@ -166,45 +170,6 @@ class Notif_model extends CI_Model {
 		$this->db->query($sql);
 	}
 
-	/**
-	 * Ambil data pemesanan dari api layanan.opendeda.id
-	 * 
-	 * @return mixed
-	 */
-	public function api_pelanggan_pemesanan()
-	{
-		if (empty($token = $this->setting->layanan_opendesa_token))
-		{
-			$this->session->set_userdata('error_status_langganan', "Token Pelanggan Kosong.");
-
-			return null;
-		}
-
-		$host = config_item('server_layanan');
-
-		// simpan cache
-		$response = $this->cache->pakai_cache(function () use ($host, $token) {
-			// request ke api layanan.opendesa.id
-			return $this->client->get(
-				"{$host}/api/v1/pelanggan/pemesanan",
-				[],
-				[
-					CURLOPT_HTTPHEADER => [
-						"X-Requested-With: XMLHttpRequest",
-						"Authorization: Bearer {$token}",
-					],
-				]
-			);
-		}, 'status_langganan', 24 * 60 * 60);
-
-		if ($response->header->http_code != 200)
-		{
-			$this->cache->hapus_cache_untuk_semua('status_langganan');
-			$this->session->set_userdata('error_status_langganan', "{$response->header->http_code} {$response->body->messages->error}");
-
-			return null;
-		}
-
-		return $response;
-	}
 }
+
+?>

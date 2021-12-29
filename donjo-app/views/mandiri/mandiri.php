@@ -1,4 +1,7 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/views/mandiri.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -61,9 +65,11 @@
 	<section class="content" id="maincontent">
 		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
-				<div class="box-header with-border">
-					<a href="<?= site_url('mandiri/ajax_pin'); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Pengguna</a>
-				</div>
+				<?php if ($this->CI->cek_hak_akses('u')): ?>
+					<div class="box-header with-border">
+						<a href="<?= site_url('mandiri/ajax_pin'); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Buat PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class="fa fa-plus"></i> Tambah Pengguna</a>
+					</div>
+				<?php endif; ?>
 				<div class="box-body">
 					<form id="mainform" name="mainform" method="post">
 						<div class="row">
@@ -84,7 +90,9 @@
 									<thead class="bg-gray disabled color-palette">
 										<tr>
 											<th>No</th>
-											<th>Aksi</th>
+											<?php if ($this->CI->cek_hak_akses('u') || $this->CI->cek_hak_akses('h')): ?>
+												<th>Aksi</th>
+											<?php endif; ?>
 											<th>
 												<?php if ($order_by == 2): ?>
 													<a href="<?= site_url("mandiri/filter/order_by/1")?>">NIK<i class="fa fa-sort-asc fa-sm"></i></a>
@@ -124,15 +132,21 @@
 										</tr>
 									</thead>
 									<tbody>
-										<?php if($main): ?>
+										<?php if ($main): ?>
 											<?php foreach ($main as $key => $data): ?>
 												<tr <?= jecho($data['telepon'], FALSE, 'class="select-row"'); ?>>
 													<td class="padat"><?= ($key + 1); ?></td>
-													<td class="aksi">
-														<a href="<?= site_url("mandiri/ajax_pin/$data[id_pend]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ganti PIN Warga" title="Ganti PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>
-														<a href="<?= site_url("mandiri/ajax_hp/$data[id_pend]"); ?>" data-remote="false"  data-toggle="modal" data-target="#modalBox"  data-title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon Warga" title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon" class="btn <?= $data['telepon'] ? 'bg-teal' : 'bg-green' ?> btn-flat btn-sm" ><i class="fa fa-phone"></i></a>
-														<a href="#" data-href="<?= site_url("mandiri/delete/$data[id_pend]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-													</td>
+													<?php if ($this->CI->cek_hak_akses('u') || $this->CI->cek_hak_akses('h')): ?>
+														<td class="aksi">
+															<?php if ($this->CI->cek_hak_akses('u')): ?>
+																<a href="<?= site_url("mandiri/ajax_pin/$data[id_pend]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ganti PIN Warga" title="Ganti PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>
+																<a href="<?= site_url("mandiri/ajax_hp/$data[id_pend]"); ?>" data-remote="false"  data-toggle="modal" data-target="#modalBox"  data-title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon Warga" title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon" class="btn <?= $data['telepon'] ? 'bg-teal' : 'bg-green' ?> btn-flat btn-sm" ><i class="fa fa-phone"></i></a>
+															<?php endif; ?>
+															<?php if ($this->CI->cek_hak_akses('h')): ?>
+																<a href="#" data-href="<?= site_url("mandiri/delete/$data[id_pend]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															<?php endif; ?>
+														</td>
+													<?php endif; ?>
 													<td><?= $data['nik']; ?></td>
 													<td><?= $data['nama']; ?></td>
 													<td nowrap><?=tgl_indo2($data['tanggal_buat']); ?></td>
@@ -185,5 +199,5 @@
 		$(window).on('load', function() {
 			$('#pinBox').modal('show');
 		});
-	<?php endif ?>
+	<?php endif; ?>
 </script>

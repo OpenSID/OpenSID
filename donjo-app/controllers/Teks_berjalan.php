@@ -61,6 +61,7 @@ class Teks_berjalan extends Admin_Controller {
 
 	public function form($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['list_artikel'] = $this->web_artikel_model->list_data(999, 6, 0);
 
 		if ($id)
@@ -79,12 +80,14 @@ class Teks_berjalan extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->teks_berjalan_model->insert();
 		redirect("teks_berjalan");
 	}
 
 	public function update($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->teks_berjalan_model->update($id);
 		redirect("teks_berjalan");
 	}
@@ -105,12 +108,14 @@ class Teks_berjalan extends Admin_Controller {
 
 	public function urut($id = 0, $arah = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$urut = $this->teks_berjalan_model->urut($id, $arah);
  		redirect("teks_berjalan/index/$page");
 	}
 
 	public function lock($id = 0, $val = 1)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->teks_berjalan_model->lock($id, $val);
 		redirect("teks_berjalan");
 	}

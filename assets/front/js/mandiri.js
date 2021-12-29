@@ -43,21 +43,19 @@
 
 $(document).ready(function() {
 
-	var url = SITE_URL + 'layanan_mandiri/surat/cek_syarat';
-	table = $('#syarat_surat').DataTable({
+	var table = $('#syarat_surat').DataTable({
 		'processing': true,
-		'serverSide': true,
 		'paging': false,
 		'info': false,
 		'ordering': false,
 		'searching': false,
-		"ajax": {
-			"url": url,
-			"type": "POST",
+		'ajax': {
+			'url': SITE_URL + 'layanan_mandiri/surat/cek_syarat',
+			'type': "POST",
 			data: function ( d ) {
 				d.id_surat = $("#id_surat").val();
 				d.id_permohonan = $("#id_permohonan").val();
-			}
+			},
 		},
 		//Set column definition initialisation properties.
 		"columnDefs": [
@@ -76,8 +74,17 @@ $(document).ready(function() {
 		},
 		'drawCallback': function () {
 			$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
+			processInfo(table.page.info());
 		}
 	});
+
+	function processInfo(info) {
+		if (info.recordsTotal <= 0) {
+			$('.ada_syarat').hide();
+		} else {
+			$('.ada_syarat').show();
+		}
+	}
 
 	$('#id_surat').change(function() {
 		table.ajax.reload();
@@ -139,7 +146,7 @@ $(document).ready(function() {
 	$('#dokumen').DataTable({
 		'paging': false,
 		'ordering': false,
-		'info': false,
+		'info': true,
 		'searching': false,
 		'responsive': true,
 		'rowReorder': {

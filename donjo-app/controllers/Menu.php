@@ -101,6 +101,7 @@ class Menu extends Admin_Controller {
 
 	public function form($tip = 1, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
 		$data['artikel_statis'] = $this->web_artikel_model->list_artikel_statis();
 		$data['kategori_artikel'] = $this->web_kategori_model->list_kategori();
@@ -140,6 +141,7 @@ class Menu extends Admin_Controller {
 
 	public function ajax_add_sub_menu($tip = 1, $menu = '', $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['menu'] = $menu;
 		$data['tip'] = $tip;
 
@@ -189,12 +191,14 @@ class Menu extends Admin_Controller {
 
 	public function insert($tip = 1)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->insert($tip);
 		redirect("menu/index/$tip");
 	}
 
 	public function update($tip = 1, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->update($id);
 		redirect("menu/index/$tip");
 	}
@@ -215,30 +219,35 @@ class Menu extends Admin_Controller {
 
 	public function menu_lock($tip = 1, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->menu_lock($id, 1);
 		redirect("menu/index/$tip/$p/$o");
 	}
 
 	public function menu_unlock($tip = 1, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->menu_lock($id, 2);
 		redirect("menu/index/$tip/$p/$o");
 	}
 
 	public function insert_sub_menu($tip = 1, $menu = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->insert_sub_menu($menu);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
 
 	public function update_sub_menu($tip = 1, $menu = '', $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->update_sub_menu($id);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
 
 	public function delete_sub_menu($tip = '', $menu = '', $id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
 		$this->web_menu_model->delete($id);
 		redirect("menu/sub_menu/$tip/$menu");
@@ -246,6 +255,7 @@ class Menu extends Admin_Controller {
 
 	public function delete_all_sub_menu($tip = 1, $menu = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->redirect_hak_akses('h', "menu/sub_menu/$tip/$menu");
 		$this->web_menu_model->delete_all();
 		redirect("menu/sub_menu/$tip/$menu");
@@ -253,18 +263,21 @@ class Menu extends Admin_Controller {
 
 	public function menu_lock_sub_menu($tip = 1, $menu = '', $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->menu_lock($id, 1);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
 
 	public function menu_unlock_sub_menu($tip = 1, $menu = '', $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->menu_lock($id, 2);
 		redirect("menu/sub_menu/$tip/$menu");
 	}
 
 	public function urut($tip = 1, $id = 0, $arah = 0, $menu = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_menu_model->urut($id, $arah, $tip, $menu);
 		if ($menu != '')
 			redirect("menu/sub_menu/$tip/$menu");

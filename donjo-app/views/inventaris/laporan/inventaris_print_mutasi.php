@@ -164,7 +164,7 @@
 			</tr>
 			<tr>
 				<td>4</td>
-				<td>Kontruksi Dalam Pengerjaan</td>
+				<td>Konstruksi Dalam Pengerjaan</td>
 				<td>
 					<?=$cetak_inventaris_kontruksi_pribadi->total?>
 				</td>

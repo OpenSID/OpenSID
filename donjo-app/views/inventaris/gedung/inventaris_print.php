@@ -61,10 +61,21 @@
 					<br>
 				</div>
 				<div style="padding-bottom: 35px;">
-					<div class="pull-left">
-						<?= strtoupper($this->setting->sebutan_desa.' = '.$header['nama_desa']) ?><br>
-						<?= strtoupper($this->setting->sebutan_kecamatan.' = '.$header['nama_kecamatan']) ?><br>
-						<?= strtoupper($this->setting->sebutan_kabupaten.' = '.$header['nama_kabupaten']) ?><br>
+					<div class="pull-left" style="width: auto">
+						<table>
+							<tr>
+								<td><?= strtoupper($this->setting->sebutan_desa) ?></td>
+								<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_desa']) ?></td>
+							</tr>
+							<tr>
+								<td><?= strtoupper($this->setting->sebutan_kecamatan) ?></td>
+								<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_kecamatan']) ?></td>
+							</tr>
+							<tr>
+								<td><?= strtoupper($this->setting->sebutan_kabupaten) ?></td>
+								<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_kabupaten']) ?></td>
+							</tr>
+						</table>
 					</div>
 					<div class="pull-right">
 						KODE LOKASI : _ _ . _ _ . _ _ . _ _ . _ _ . _ _ . _ _ _
@@ -79,7 +90,7 @@
 						<th class="text-center" rowspan="2">Nama Barang</th>
 						<th class="text-center" colspan="2">Nomor</th>
 						<th class="text-center" rowspan="2">Kondisi Bangunan (B, KB, RB)</th>
-						<th class="text-center" colspan="2">Kontruksi Bangunan</th>
+						<th class="text-center" colspan="2">Konstruksi Bangunan</th>
 						<th class="text-center" rowspan="2">Luas Lantai (M<sup>2</sup>)</th>
 						<th class="text-center" rowspan="2">Letak/Lokasi</th>
 						<th class="text-center" colspan="2">Dokumen Gedung</th>

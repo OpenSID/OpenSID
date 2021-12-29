@@ -259,7 +259,7 @@ class First extends Web_Controller {
 
 	public function kelompok($id)
 	{
-		if ( ! $this->web_menu_model->menu_aktif('kelompok/' . $id)) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('data-kelompok/' . $id)) show_404();
 
 		$data = $this->includes;
 
@@ -658,9 +658,9 @@ class First extends Web_Controller {
 		}
 	}
 
-	public function status_idm()
+	public function status_idm(int $tahun)
 	{
-		if (!$this->web_menu_model->menu_aktif('status_idm')) show_404();
+		if ( ! $this->web_menu_model->menu_aktif('status-idm/' . $tahun)) show_404();
 
 		$data = $this->includes;
 		$this->load->library('data_publik');
@@ -668,9 +668,9 @@ class First extends Web_Controller {
 		$kode_desa = $data['desa']['kode_desa'];
 		if ($this->data_publik->has_internet_connection())
 		{
-			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/" . date('Y'), "idm_$kode_desa")
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", 'idm_' . $tahun . '_' . $kode_desa)
 				->set_interval(7)
-				->set_cache_folder(FCPATH.'cache');
+				->set_cache_folder(FCPATH . 'cache');
 
 			$idm = $this->data_publik->get_url_content();
 			if ($idm->body->error)
@@ -717,14 +717,14 @@ class First extends Web_Controller {
 
 	public function status_sdgs()
 	{
-		if (!$this->web_menu_model->menu_aktif('status_sdgs')) show_404();
+		if (!$this->web_menu_model->menu_aktif('status-sdgs')) show_404();
 
 		$this->load->model('data_eksternal_model');
 		$data = $this->includes;
 		$this->_get_common_data($data);
 		$kode_desa = $data['desa']['kode_desa'];
- 		$data ['evaluasi'] = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
- 		$data['halaman_statis'] = '../../' . $this->theme_folder . '/'. $this->theme . '/partials/kemendes_sdgs.php';
+		$data ['evaluasi'] = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
+		$data['halaman_statis'] = '../../' . $this->theme_folder . '/'. $this->theme . '/partials/kemendes_sdgs.php';
 		$this->set_template('layouts/halaman_statis_lebar.tpl.php');
 		$this->load->view($this->template, $data);
 	}
@@ -751,7 +751,6 @@ class First extends Web_Controller {
 			$redirect_link = $this->session->inside_redirect_link;
 
 			$this->session->unset_userdata(['inside_retry', 'inside_redirect_link']);
-			
 			header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code') . '&formId=' . $this->session->google_form_id);
 		}
 	}

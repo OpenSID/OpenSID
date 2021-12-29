@@ -15,6 +15,7 @@ class Api_inventaris_kontruksi extends Admin_Controller
 
 	public function add()
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_kontruksi_model->add(array(
 			'nama_barang' => $this->input->post('nama_barang'),
 			'kondisi_bangunan' => $this->input->post('fisik_bangunan'),
@@ -39,26 +40,9 @@ class Api_inventaris_kontruksi extends Admin_Controller
 		redirect("inventaris_kontruksi");
 	}
 
-	public function add_mutasi()
-	{
-		$data = $this->inventaris_kontruksi_model->add_mutasi(array(
-			'id_inventaris_kontruksi' => $this->input->post('id_inventaris_kontruksi'),
-			'jenis_mutasi' => $this->input->post('jenis_mutasi'),
-			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
-			'harga_jual' => $this->input->post('harga_jual'),
-			'sumbangkan' => $this->input->post('sumbangkan'),
-			'keterangan' => $this->input->post('keterangan'),
-			'visible' => 1,
-			'created_by' => $this->session->user,
-			'updated_by' => $this->session->user
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-		redirect("inventaris_kontruksi/mutasi");
-	}
-
 	public function update($id)
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_kontruksi_model->update($id, array(
 			'nama_barang' => $this->input->post('nama_barang'),
 			'kondisi_bangunan' => $this->input->post('fisik_bangunan'),
@@ -81,21 +65,6 @@ class Api_inventaris_kontruksi extends Admin_Controller
 		redirect("inventaris_kontruksi");
 	}
 
-	public function update_mutasi($id)
-	{
-		$data = $this->inventaris_kontruksi_model->update_mutasi($id, array(
-			'jenis_mutasi' => $this->input->post('jenis_mutasi'),
-			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
-			'harga_jual' => $this->input->post('harga_jual'),
-			'sumbangkan' => $this->input->post('sumbangkan'),
-			'keterangan' => $this->input->post('keterangan'),
-			'updated_at' => date('Y-m-d H:i:s')
-			));
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-		redirect("inventaris_kontruksi/mutasi");
-	}
-
 	public function delete($id)
 	{
 		$this->redirect_hak_akses('h', 'inventaris_kontruksi');
@@ -103,14 +72,5 @@ class Api_inventaris_kontruksi extends Admin_Controller
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 		redirect('inventaris_kontruksi');
-	}
-
-	public function delete_mutasi($id)
-	{
-		$this->redirect_hak_akses('h', 'inventaris_kontruksi/mutasi');
-		$data = $this->inventaris_kontruksi_model->delete_mutasi($id);
-		if ($data) $_SESSION['success'] = 1;
-		else $_SESSION['success'] = -1;
-		redirect('inventaris_kontruksi/mutasi');
 	}
 }

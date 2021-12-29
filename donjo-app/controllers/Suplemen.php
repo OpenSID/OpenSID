@@ -80,6 +80,7 @@ class Suplemen extends Admin_Controller {
 
 	public function form($id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		if ($id)
 		{
 			$data['suplemen'] = $this->suplemen_model->get_suplemen($id);
@@ -99,12 +100,14 @@ class Suplemen extends Admin_Controller {
 
 	public function tambah()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->suplemen_model->create();
 		redirect('suplemen');
 	}
 
 	public function ubah($id)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->suplemen_model->update($id);
 		redirect('suplemen');
 	}
@@ -171,6 +174,7 @@ class Suplemen extends Admin_Controller {
 
 	public function form_terdata($id)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['sasaran'] = unserialize(SASARAN);
 		$data['suplemen'] = $this->suplemen_model->get_suplemen($id);
 		$sasaran = $data['suplemen']['sasaran'];
@@ -207,6 +211,7 @@ class Suplemen extends Admin_Controller {
 
 	public function edit_terdata_form($id = 0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data = $this->suplemen_model->get_suplemen_terdata_by_id($id);
 		$data['form_action'] = site_url("suplemen/edit_terdata/$id");
 
@@ -215,12 +220,14 @@ class Suplemen extends Admin_Controller {
 
 	public function add_terdata($id)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->suplemen_model->add_terdata($_POST, $id);
 		redirect("suplemen/rincian/$id");
 	}
 
 	public function edit_terdata($id)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->suplemen_model->edit_terdata($_POST, $id);
 		$id_suplemen = $_POST['id_suplemen'];
 		redirect("suplemen/rincian/$id_suplemen");
@@ -276,6 +283,7 @@ class Suplemen extends Admin_Controller {
 
 	public function impor()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$suplemen_id = $this->input->post('id_suplemen');
 		$this->suplemen_model->impor();
 		redirect("suplemen/rincian/$suplemen_id");

@@ -21,7 +21,7 @@
 		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
-					<?php if ($detail["status"] == 1): ?>
+					<?php if ($this->CI->cek_hak_akses('u') && $detail["status"] == 1): ?>
 						<div class="btn-group btn-group-vertical">
 							<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Peserta Baru</a>
 							<ul class="dropdown-menu" role="menu">
@@ -34,7 +34,9 @@
 							</ul>
 						</div>
 					<?php endif; ?>
-					<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?=site_url("program_bantuan/delete_all/$detail[id]")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+					<?php if ($this->CI->cek_hak_akses('h')): ?>
+						<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?=site_url("program_bantuan/delete_all/$detail[id]")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+					<?php endif; ?>
 					<a href="<?= site_url("program_bantuan/daftar/$detail[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
 					</a>
 					<a href="<?= site_url("program_bantuan/daftar/$detail[id]/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
@@ -68,9 +70,13 @@
 											<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
 												<thead class="bg-gray disabled color-palette">
 													<tr>
-														<th rowspan="2" class="padat"><input type="checkbox" id="checkall"/></th>
+														<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<th rowspan="2" class="padat"><input type="checkbox" id="checkall"/></th>
+														<?php endif; ?>
 														<th rowspan="2" class="padat">No</th>
-														<th rowspan="2" class="padat">Aksi</th>
+														<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<th rowspan="2" class="padat">Aksi</th>
+														<?php endif; ?>
 														<th rowspan="2" nowrap><?= $detail["judul_peserta"]?></th>
 														<?php if (!empty($detail['judul_peserta_plus'])): ?>
 															<th rowspan="2" nowrap class="text-center"><?= $detail["judul_peserta_plus"]?></th>
@@ -92,12 +98,20 @@
 													<?php if (is_array($peserta)): ?>
 														<?php foreach ($peserta as $key => $item): ?>
 															<tr>
-																<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $item['id']?>" /></td>
+																<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $item['id']?>" /></td>
+																<?php endif; ?>
 																<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
-																<td class="padat">
-																	<a href="<?= site_url("program_bantuan/edit_peserta_form/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Peserta"><i class="fa fa-edit"></i></a>
-																	<a href="#" data-href="<?= site_url("program_bantuan/hapus_peserta/$detail[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-																</td>
+																<?php if ($this->CI->cek_hak_akses('u')): ?>
+																	<td class="aksi">
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?= site_url("program_bantuan/edit_peserta_form/$item[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data Peserta"><i class="fa fa-edit"></i></a>
+																		<?php endif; ?>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<a href="#" data-href="<?= site_url("program_bantuan/hapus_peserta/$detail[id]/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif; ?>
+																	</td>
+																<?php endif; ?>
 																<?php $id_peserta = ($detail['sasaran'] == 4) ? $item['peserta'] : $item['nik'] ?>
 																<td nowrap><a href="<?= site_url("program_bantuan/peserta/$detail[sasaran]/$id_peserta")?>" title="Daftar program untuk peserta"><?= $item["peserta_nama"] ?></a></td>
 																<?php if (!empty($item['peserta_plus'])): ?>

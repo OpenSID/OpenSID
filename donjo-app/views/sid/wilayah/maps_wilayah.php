@@ -104,7 +104,9 @@
 										</div>
 									</div>
 								</div>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<?php if ($this->CI->cek_hak_akses('u')): ?>
+									<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<?php endif; ?>
 							</div>
 						</div>
 					</form>
@@ -188,13 +190,15 @@
 		// update value zoom ketika ganti zoom
 		updateZoom(peta_wilayah);
 
-		//Export/Import Peta dari file GPX
-		L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
-		L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
-		control = eximGpxPoly(peta_wilayah);
+		<?php if ($this->CI->cek_hak_akses('u')): ?>
+			//Export/Import Peta dari file GPX
+			L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
+			L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+			control = eximGpxPoly(peta_wilayah);
 
-		//Import Peta dari file SHP
-		eximShp(peta_wilayah);
+			//Import Peta dari file SHP
+			eximShp(peta_wilayah);
+		<?php endif; ?>
 
 		//Geolocation IP Route/GPS
 		geoLocation(peta_wilayah);

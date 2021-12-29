@@ -74,9 +74,8 @@
 						</tr>
 					</tbody>
 				</table>
-				<?php include("donjo-app/views/global/blok_ttd_pamong.php"); ?>
+				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 12, 'spasi_kiri' => 2, 'spasi_tengah' => 6]); ?>
 			</div>
-			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
 		</div>
 	</body>
 </html>

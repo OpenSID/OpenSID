@@ -91,6 +91,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
 	public function form($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		if ($id)
 		{
 			$id_pembangunan = $_SESSION['id_pembangunan'];
@@ -113,18 +114,21 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
 	public function insert($id_pembangunan = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->model->insert($id_pembangunan);
 		redirect("pembangunan_dokumentasi/show/$id_pembangunan");
 	}
 
 	public function update($id = '', $id_pembangunan = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->model->update($id, $id_pembangunan);
 		redirect("pembangunan_dokumentasi/show/$id_pembangunan");
 	}
 
 	public function delete($id_pembangunan, $id)
 	{
+		$this->redirect_hak_akses('h');
 		$this->model->delete($id);
 
 		if ($this->db->affected_rows())

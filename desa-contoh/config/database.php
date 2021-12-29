@@ -20,6 +20,6 @@ $db['default']['database'] = 'umum';
 /*
 | Untuk setting koneksi database 'Strict Mode'
 | Sesuaikan dengan ketentuan hosting
-*/ 
+*/
 $db['default']['stricton'] = TRUE;
 ?>

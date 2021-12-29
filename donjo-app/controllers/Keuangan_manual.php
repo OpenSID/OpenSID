@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  * File ini:
  *
@@ -56,10 +59,10 @@ class Keuangan_manual extends Admin_Controller {
 	// Manual Input Anggaran dan Realisasi APBDes
 	public function setdata_laporan($tahun, $semester)
 	{
-		$sess_manual = array(
+		$sess_manual = [
 			'set_tahun' => $tahun,
 			'set_semester' => $semester
-		);
+		];
 		$this->session->set_userdata( $sess_manual );
 		echo json_encode(true);
 	}
@@ -68,7 +71,7 @@ class Keuangan_manual extends Admin_Controller {
 	{
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
 
-		if (!empty($data['tahun_anggaran']))
+		if ( ! empty($data['tahun_anggaran']))
 		{
 			redirect("keuangan_manual/grafik_manual/rincian_realisasi_bidang_manual");
 		}
@@ -130,17 +133,16 @@ class Keuangan_manual extends Admin_Controller {
 	{
 		$this->sub_modul_ini = 209;
 		$data['tahun_anggaran'] = $this->keuangan_manual_model->list_tahun_anggaran_manual();
-		$default_tahun = !empty($data['tahun_anggaran']) ? $data['tahun_anggaran'][0] : NULL;
-		$this->session->set_tahun = $this->session->set_tahun ?: $default_tahun;
-		$tahun_anggaran = $this->session->set_tahun ?: $default_tahun;
+		$default_tahun = ! empty($data['tahun_anggaran']) ? $data['tahun_anggaran'][0] : NULL;
+		$this->session->set_tahun = $this->session->set_tahun ?? $default_tahun;
+		$this->session->set_jenis = $this->session->set_jenis ?? '4.PENDAPATAN';
+		$data['tahun'] = $this->session->set_tahun;
+		$data['jenis'] = $this->session->set_jenis;
 		$data['lpendapatan'] = $this->keuangan_manual_model->list_rek_pendapatan();
 		$data['lbelanja'] = $this->keuangan_manual_model->list_rek_belanja();
 		$data['lbiaya'] = $this->keuangan_manual_model->list_rek_biaya();
 		$data['lakun'] = $this->keuangan_manual_model->list_akun();
-		$data['main']= $this->keuangan_manual_model->list_apbdes($tahun_anggaran);
-		$data['main_pd']= $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
-		$data['main_bl']= $this->keuangan_manual_model->list_belanja($tahun_anggaran);
-		$data['main_by']= $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
+		$data['main'] = $this->keuangan_manual_model->list_apbdes($data['tahun']);
 
 		$this->render('keuangan/manual_apbdes', $data);
 	}
@@ -151,24 +153,9 @@ class Keuangan_manual extends Admin_Controller {
 		echo json_encode($data);
 	}
 
-	public function data_pendapatan()
+	public function load_data()
 	{
-		$tahun_anggaran = $this->session->set_tahun ?: NULL;
-		$data = $this->keuangan_manual_model->list_pendapatan($tahun_anggaran);
-		echo json_encode($data);
-	}
-
-	public function data_belanja()
-	{
-		$tahun_anggaran = $this->session->set_tahun ?: NULL;
-		$data = $this->keuangan_manual_model->list_belanja($tahun_anggaran);
-		echo json_encode($data);
-	}
-
-	public function data_pembiayaan()
-	{
-		$tahun_anggaran = $this->session->set_tahun ?: NULL;
-		$data = $this->keuangan_manual_model->list_pembiayaan($tahun_anggaran);
+		$data = $this->keuangan_manual_model->list_data_keuangan();
 		echo json_encode($data);
 	}
 
@@ -219,6 +206,7 @@ class Keuangan_manual extends Admin_Controller {
 	public function salin_anggaran_tpl()
 	{
 		$thn_apbdes = $this->input->post('kode');
+		$this->session->set_tahun = $thn_apbdes;
 		$data = $this->keuangan_manual_model->salin_anggaran_tpl($thn_apbdes);
 		echo json_encode($data);
 	}
@@ -237,13 +225,18 @@ class Keuangan_manual extends Admin_Controller {
 		}
 		echo json_encode($list_tahun);
 	}
-	/** untuk menghindari double post browser
+
+	/**
+	 * untuk menghindari double post browser
 	 * https://en.wikipedia.org/wiki/Post/Redirect/Get
-	*/
-	public function set_tahun_terpilih()
+	 */
+	public function set_terpilih()
 	{
 		$post_tahun = $this->input->post('tahun_anggaran');
+		$post_jenis = $this->input->post('jenis_anggaran');
 		$this->session->set_tahun = $post_tahun;
+		$this->session->set_jenis = $post_jenis;
 		redirect('keuangan_manual/manual_apbdes');
 	}
+
 }

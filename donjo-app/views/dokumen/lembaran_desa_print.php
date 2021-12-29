@@ -88,37 +88,7 @@
 					</tbody>
 				</table>
 				<br><br>
-				<table id="ttd">
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr>
-						<!-- Persen untuk tampilan cetak.
-								Colspan untuk tampilan unduh.
-						-->
-						<td colspan="1">&nbsp;</td>
-						<td colspan="2" align="center">MENGETAHUI</td>
-						<td colspan="3" align="center"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$desa['nama_desa'].', '.tgl_indo(date("Y m d")))?></span></td>
-						<td colspan="1">&nbsp;</td>
-					</tr>
-					<tr>
-						<td colspan="1">&nbsp;</td>
-						<td colspan="2" align="center"><?= strtoupper($input['jabatan_ketahui'])?></td>
-						<td colspan="3" align="center"><?= strtoupper($input['jabatan_ttd'])?></td>
-						<td colspan="1">&nbsp;</td>
-					</tr>
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr><td colspan="7">&nbsp;</td></tr>
-					<tr>
-						<td colspan="1">&nbsp;</td>
-						<td colspan="2" align="center"><span class="underline"><?= strtoupper($input['pamong_ketahui'])?></span></td>
-						<td colspan="3" align="center"><span class="underline"><?= strtoupper($input['pamong_ttd'])?></span></td>
-						<td colspan="1">&nbsp;</td>
-					</tr>
-				</table>
+				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2]); ?>
 			</div>
 		</div>
 	</body>

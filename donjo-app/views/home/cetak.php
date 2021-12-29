@@ -112,7 +112,7 @@
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-				<?php include("donjo-app/views/global/blok_ttd_pamong.php"); ?>
+				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 13, 'spasi_kiri' => 3, 'spasi_tengah' => 6]); ?>
 			</div>
 		</div>
 	</body>

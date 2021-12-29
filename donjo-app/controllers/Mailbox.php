@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Mailbox.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -45,7 +49,6 @@ class Mailbox extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->model('web_komentar_model');
 		$this->load->model('mandiri_model');
 		$this->load->model('mailbox_model');
@@ -97,12 +100,16 @@ class Mailbox extends Admin_Controller {
 
 	public function form()
 	{
-		if (!empty($nik = $this->input->post('nik'))) {
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+
+		if ( ! empty($nik = $this->input->post('nik'))) {
 			$data['individu'] = $this->mandiri_model->get_pendaftar_mandiri($nik);
 		}
-		if (!empty($subjek = $this->input->post('subjek'))) {
+
+		if ( ! empty($subjek = $this->input->post('subjek'))) {
 			$data['subjek'] = $subjek;
 		}
+
 		$data['form_action'] = site_url("mailbox/kirim_pesan");
 
 		$this->render('mailbox/form', $data);
@@ -110,6 +117,7 @@ class Mailbox extends Admin_Controller {
 
 	public function kirim_pesan()
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$post = $this->input->post();
 		$post['tipe'] = 2;
 		$post['status'] = 2;
@@ -163,7 +171,7 @@ class Mailbox extends Admin_Controller {
 	public function filter_nik($kat = 1)
 	{
 		$nik = $this->input->post('nik');
-		if (!empty($nik) AND $nik != 0)
+		if ( ! empty($nik) AND $nik != 0)
 			$_SESSION['filter_nik'] = $nik;
 		else unset($_SESSION['filter_nik']);
 		redirect("mailbox/index/{$kat}");
@@ -179,26 +187,28 @@ class Mailbox extends Admin_Controller {
 
 	public function archive($kat = 1, $p = 1, $o = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', "mailbox/index/$p/$o");
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->archive($id);
 		redirect("mailbox/index/$kat/$p/$o");
 	}
 
 	public function archive_all($kat = 1, $p = 1, $o = 0)
 	{
-		$this->redirect_hak_akses('h', "mailbox/index/$p/$o");
+		$this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->archive_all();
 		redirect("mailbox/index/$kat/$p/$o");
 	}
 
 	public function pesan_read($id = '')
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->komentar_lock($id, 1);
 		redirect("mailbox");
 	}
 
 	public function pesan_unread($id = '')
 	{
+		$this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->komentar_lock($id, 2);
 		redirect("mailbox");
 	}

@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Jalan, Irigasi dan Jaringan</a>
+							<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Gedung Dan Bangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -40,21 +40,37 @@
 											<input maxlength="50" value="<?= $main->register; ?>"  class="form-control input-sm required" name="register" id="register" type="text" disabled/>
 										</div>
 									</div>
+
 									<div class="form-group">
-										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Jenis Mutasi </label>
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Gedung dan Bangunan</label>
 										<div class="col-sm-4">
-											<select name="mutasi" id="mutasi" class="form-control input-sm required">
+											<select name="status_mutasi" id="status" class="form-control input-sm required">
+												<option value="Baik">Baik</option>
+												<option value="Rusak">Rusak</option>
+												<option value="Diperbaiki">Diperbaiki</option>
+												<option value="Hapus">Dihapus</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Jenis Mutasi</label>
+										<div class="col-sm-4">
+											<select name="mutasi" id="mutasi" class="form-control input-sm">
 												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
-												<option value="Rusak">Status Rusak</option>
-												<option value="Diperbaiki">Status Diperbaiki</option>
-												<optgroup label="Barang Masih Baik">
-													<option value="Masih Baik Disumbangkan">Sumbangakan</option>
-													<option value="Masih Baik Dijual">Jual</option>
+												<optgroup label="Penghapusan">
+													<option value="Baik">Status Baik</option>
+													<option value="Rusak">Status Rusak</option>
 												</optgroup>
-												<optgroup label="Barang Sudah Rusak">
-													<option value="Barang Rusak Disumbangkan">Sumbangakan</option>
-													<option value="Barang Rusak Dijual">Jual</option>
+												<optgroup label="Disumbangkan">
+													<option value="Masih Baik Disumbangkan">Masih Baik</option>
+													<option value="Barang Rusak Disumbangkan">Rusak</option>
 												</optgroup>
+												<optgroup label="Jual">
+													<option value="Masih Baik Dijual">Masih Baik</option>
+													<option value="Barang Rusak Dijual">Rusak</option>
+												</optgroup>
+											 
 											</select>
 										</div>
 									</div>
@@ -108,6 +124,7 @@
 <script>
 	$(document).ready(function()
 	{
+		$("#mutasi").parent().parent().hide();
 		$(".disumbangkan").hide();
 		$(".harga_jual").hide();
 		$("#mutasi").change(function()
@@ -121,10 +138,25 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
+			} 
+			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
+			}
+		});
+		$("#status").change(function() 
+		{
+			var status = $(this).val();
+			if (status == "Hapus") 
+			{
+				$("#mutasi").parent().parent().show();
+				$("#mutasi").addClass('required');
+			}
+			else
+			{
+				$("#mutasi").parent().parent().hide();
+				$("#mutasi").removeClass('required');
 			}
 		});
 	});
