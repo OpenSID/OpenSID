@@ -95,4 +95,24 @@ class Masuk extends Web_Controller
         $this->mandiri_model->siteman();
         redirect('layanan-mandiri');
     }
+
+    public function lupa_pin()
+    {
+        $data = [
+            'header'              => $this->config_model->get_data(),
+            'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
+            'cek_anjungan'        => $this->anjungan_model->cek_anjungan($this->session->mac_address),
+            'form_action'         => site_url('layanan-mandiri/cek-pin'),
+        ];
+
+        $this->load->view(MANDIRI . '/lupa_pin', $data);
+    }
+
+    public function cek_pin()
+    {
+        $nik = bilangan($this->input->post('nik'));
+        $this->mandiri_model->cek_verifikasi($nik);
+
+        redirect('layanan-mandiri/lupa-pin');
+    }
 }

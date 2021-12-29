@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mandiri_model extends CI_Model
 {
+    protected $table = 'tweb_penduduk_mandiri';
+
     public function __construct()
     {
         parent::__construct();
@@ -144,7 +146,7 @@ class Mandiri_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    private function generate_pin($pin = '')
+    private function generate_pin()
     {
         $pin = mt_rand(100000, 999999);
 
@@ -154,7 +156,7 @@ class Mandiri_model extends CI_Model
     public function insert()
     {
         $post = $this->input->post();
-        $pin  = bilangan($post['pin'] ?: $this->generate_pin($post['pin']));
+        $pin  = bilangan($post['pin'] ?? $this->generate_pin());
 
         $data['pin']          = hash_pin($pin); // Hash PIN
         $data['tanggal_buat'] = date('Y-m-d H:i:s');
@@ -173,7 +175,7 @@ class Mandiri_model extends CI_Model
     public function update($id_pend = null)
     {
         $post = $this->input->post();
-        $pin  = bilangan($post['pin'] ?: $this->generate_pin($post['pin']));
+        $pin  = bilangan($post['pin'] ?? $this->generate_pin());
 
         $data['pin']       = hash_pin($pin); // Hash PIN
         $data['ganti_pin'] = 1;
@@ -505,5 +507,41 @@ class Mandiri_model extends CI_Model
     public function jml_mandiri()
     {
         return $this->db->get('tweb_penduduk_mandiri')->num_rows();
+    }
+
+    public function cek_verifikasi($nik = 0)
+    {
+        $data = $this->db
+            ->select('p.id, p.telegram')
+            ->from("{$this->table} pm")
+            ->join('penduduk_hidup p', 'p.id = pm.id_pend', 'left')
+            ->where('p.nik', $nik)
+            ->where('p.telegram_tgl_verifikasi !=', null)
+            ->get()
+            ->row();
+
+        if ($data) {
+            try {
+                $pin_baru = $this->generate_pin();
+
+                $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru);
+
+                $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
+
+                $respon = [
+                    'status' => 1, // Notif gagal
+                    'pesan'  => 'PIN berhasil diatur ulang, silahkan masuk dengan PIN baru yang dikirim ke akun telegram anda.',
+                ];
+            } catch (\Exception $e) {
+                log_message('error', $e);
+            }
+        } else {
+            $respon = [
+                'status' => -1, // Notif gagal
+                'pesan'  => '<b>NIK anda tidak terdaftar di database kami.</b> ',
+            ];
+        }
+
+        $this->session->set_flashdata('notif', $respon);
     }
 }

@@ -191,6 +191,8 @@ $route[$mandiri . '/masuk']      = MANDIRI . '/masuk';
 $route[$mandiri . '/cek']        = MANDIRI . '/masuk/cek';
 $route[$mandiri . '/masuk-ektp'] = MANDIRI . '/masuk_ektp';
 $route[$mandiri . '/cek-ektp']   = MANDIRI . '/masuk_ektp/cek_ektp';
+$route[$mandiri . '/lupa-pin']   = MANDIRI . '/masuk/lupa_pin';
+$route[$mandiri . '/cek-pin']    = MANDIRI . '/masuk/cek_pin';
 // Beranda
 $route['layanan-mandiri']             = MANDIRI . '/beranda';
 $route[$mandiri . '/pendapat/(:num)'] = MANDIRI . '/beranda/pendapat/$1';

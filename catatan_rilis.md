@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 17. [#4180](https://github.com/OpenSID/OpenSID/issues/4180) Buku Inventaris Hasil-Hasil Pembangunan di Menu Buku Administrasi Pembangunan.
 18. [#4610](https://github.com/OpenSID/OpenSID/issues/4610) Pendataan Warga Penerima Vaksin.
 19. [#4497](https://github.com/OpenSID/OpenSID/issues/4497) Surat Keterangan Nikah & Form F2.12 untuk Warga Non Muslim.
+20. [#4557](https://github.com/OpenSID/OpenSID/issues/4557) Lupa/reset PIN degan Telegram.
 
 #### Perbaikan BUG
 
