@@ -80,6 +80,7 @@ class Pembangunan_dokumentasi extends Admin_Controller
 
         if ($id) {
             $data['main']        = $this->model->find($id);
+            $data['perubahan']   = $this->pembangunan_model->find($id_pembangunan)->perubahan_anggaran ?? 0;
             $data['form_action'] = site_url("{$this->controller}/update/{$id}/{$id_pembangunan}");
         } else {
             $data['main']        = null;

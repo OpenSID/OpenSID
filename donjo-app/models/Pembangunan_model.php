@@ -67,10 +67,10 @@ class Pembangunan_model extends MY_Model
         $this->lokasi_pembangunan_query();
         $this->db->select([
             'p.*',
-            'IF(p.sifat_proyek = "BARU", "&#10004", "-") as sifat_proyek_baru',
-            'IF(p.sifat_proyek = "LANJUTAN", "&#10004", "-") as sifat_proyek_lanjutan',
-            '(CASE WHEN MAX(CAST(d.persentase as UNSIGNED INTEGER)) IS NOT NULL THEN CONCAT(MAX(CAST(d.persentase as UNSIGNED INTEGER)), "%") ELSE CONCAT("belum ada progres") END) AS max_persentase',
-            'max(cast(d.persentase as unsigned integer)) as progress',
+            'IF(p.sifat_proyek = "BARU", "&#10004", "-") AS sifat_proyek_baru',
+            'IF(p.sifat_proyek = "LANJUTAN", "&#10004", "-") AS sifat_proyek_lanjutan',
+            '(CASE WHEN MAX(CAST(d.persentase AS UNSIGNED INTEGER)) IS NOT NULL THEN CONCAT(MAX(CAST(d.persentase as UNSIGNED INTEGER)), "%") ELSE CONCAT("belum ada progres") END) AS max_persentase',
+            'IF(p.perubahan_anggaran = 0, p.anggaran, p.perubahan_anggaran) AS jml_anggaran',
         ])
             ->from("{$this->table} p")
             ->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')
@@ -113,7 +113,7 @@ class Pembangunan_model extends MY_Model
 
         return $this->db
             ->select('p.*')
-            ->from('pembangunan p')
+            ->from("{$this->table} p")
             ->where('p.status = 1')
             ->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
             ->get()
@@ -131,7 +131,7 @@ class Pembangunan_model extends MY_Model
 
         unset($data['file_foto'], $data['old_foto']);
 
-        $outp = $this->db->insert('pembangunan', $data);
+        $outp = $this->db->insert($this->table, $data);
 
         status_sukses($outp);
     }
@@ -149,7 +149,7 @@ class Pembangunan_model extends MY_Model
         unset($data['file_foto'], $data['old_foto']);
 
         $this->db->where('id', $id);
-        $outp = $this->db->update('pembangunan', $data);
+        $outp = $this->db->update($this->table, $data);
 
         status_sukses($outp);
     }
@@ -311,6 +311,11 @@ class Pembangunan_model extends MY_Model
 
         if ($this->tipe == 'rencana') {
             $this->db->where('d.persentase is NULL', null, false);
+        }
+
+        if ($this->tipe == 'hasil') {
+            $this->db->where('d.persentase !=', null);
+            $this->db->where('d.persentase =', '100%');
         }
     }
 

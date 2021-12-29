@@ -156,7 +156,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					'data': 'sumber_dana'
 				},
 				{
-					'data': 'anggaran',
+					'data': 'jml_anggaran',
 					'render': $.fn.dataTable.render.number( ',', '.', 0, 'Rp ' )
 				},
 				{

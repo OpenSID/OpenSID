@@ -97,13 +97,14 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         $data = [
             'aksi'           => $aksi,
             'config'         => $this->header['desa'],
+            'tahun'          => $tahun,
             'pamong_ketahui' => $this->pamong_model->get_ttd(),
             'pamong_ttd'     => $this->pamong_model->get_ub(),
             'main'           => $this->model->get_data('', $tahun)->get()->result(),
             'tgl_cetak'      => $this->input->post('tgl_cetak'),
             'file'           => 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan',
             'isi'            => 'bumindes/pembangunan/' . $this->tipe . '/cetak',
-            'letak_ttd'      => ['2', '2', '5'],
+            'letak_ttd'      => ['1', '1', '3'],
         ];
 
         $this->load->view('global/format_cetak', $data);

@@ -19,7 +19,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 13. [#3663](https://github.com/OpenSID/OpenSID/issues/3663) Penambahan Fitur Kirim PIN baru melalui email/Telegram ke warga.
 14. [#4411](https://github.com/OpenSID/OpenSID/issues/4411) Tambah Fitur Lihat Dokumen pada Buku Administrasi Umum (Peraturan Desa, Keputusan Kepala Desa, Surat Masuk).
 15. [#4622](https://github.com/OpenSID/OpenSID/issues/4622) Tidak boleh hapus data penduduk kalau sudah menggantikan data contoh awal atau data penduduk sudah dinyatakan lengkap.
-15. [#512](https://github.com/OpenSID/OpenSID/issues/512) Layanan Lapor/Keluhan/Pengaduan bagi warga/umum.
+16. [#512](https://github.com/OpenSID/OpenSID/issues/512) Layanan Lapor/Keluhan/Pengaduan bagi warga/umum.
+17. [#4180](https://github.com/OpenSID/OpenSID/issues/4180) Buku Inventaris Hasil-Hasil Pembangunan di Menu Buku Administrasi Pembangunan.
 
 #### Perbaikan BUG
 

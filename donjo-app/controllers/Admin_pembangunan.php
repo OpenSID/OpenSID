@@ -82,7 +82,7 @@ class Admin_pembangunan extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         if ($id) {
-            $data['main']        = $this->model->find($id);
+            $data['main']        = $this->model->find($id) ?? show_404();
             $data['form_action'] = site_url("{$this->controller}/update/{$id}");
         } else {
             $data['main'] = null;
@@ -126,11 +126,7 @@ class Admin_pembangunan extends Admin_Controller
 
     public function lokasi_maps($id)
     {
-        $data = $this->model->find($id);
-
-        if (null === $data) {
-            show_404();
-        }
+        $data = $this->model->find($id) ?? show_404();
 
         // Update lokasi maps
         if ($request = $this->input->post()) {

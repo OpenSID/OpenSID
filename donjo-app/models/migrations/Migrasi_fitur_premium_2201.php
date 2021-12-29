@@ -52,8 +52,9 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = $hasil && $this->migrasi_2021121371($hasil);
         $hasil = $hasil && $this->migrasi_2021121571($hasil);
         $hasil = $hasil && $this->migrasi_2021121651($hasil);
+        $hasil = $hasil && $this->migrasi_2021122471($hasil);
 
-        return $hasil && $this->migrasi_2021122471($hasil);
+        return $hasil && $this->migrasi_2021122971($hasil);
     }
 
     protected function migrasi_2021120271($hasil)
@@ -71,6 +72,11 @@ class Migrasi_fitur_premium_2201 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2021120371($hasil)
+    {
+        return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.03.php,f-1.08.php,f-1.25.php,f-1.27.php']);
     }
 
     protected function migrasi_2021120971($hasil)
@@ -122,11 +128,6 @@ class Migrasi_fitur_premium_2201 extends MY_model
         }
 
         return $hasil;
-    }
-
-    protected function migrasi_2021120371($hasil)
-    {
-        return $hasil && $this->db->where('url_surat', 'surat_ket_pindah_penduduk')->update('tweb_surat_format', ['lampiran' => 'f-1.03.php,f-1.08.php,f-1.25.php,f-1.27.php']);
     }
 
     protected function migrasi_2021121371($hasil)
@@ -301,6 +302,42 @@ class Migrasi_fitur_premium_2201 extends MY_model
         if (! file_exists('/desa/' . $folder)) {
             mkdir('desa/' . $folder, 0755, true);
             xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2021122971($hasil)
+    {
+        $hasil = $hasil && $this->tambah_modul_hasil_pembangunan($hasil);
+
+        return $hasil && $this->tambah_perubahan_anggaran($hasil);
+    }
+
+    protected function tambah_modul_hasil_pembangunan($hasil)
+    {
+        return $hasil && $this->tambah_modul([
+            'id'     => 333,
+            'modul'  => 'Buku Inventaris Hasil - Hasil Pembangunan',
+            'url'    => 'bumindes_hasil_pembangunan',
+            'aktif'  => 1,
+            'hidden' => 2,
+            'parent' => 301,
+        ]);
+    }
+
+    public function tambah_perubahan_anggaran($hasil)
+    {
+        if (! $this->db->field_exists('perubahan_anggaran', 'pembangunan')) {
+            $fields = [
+                'perubahan_anggaran' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'default'    => 0,
+                    'after'      => 'anggaran',
+                ],
+            ];
+            $hasil = $this->dbforge->add_column('pembangunan', $fields);
         }
 
         return $hasil;
