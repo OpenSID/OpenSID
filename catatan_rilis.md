@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 15. [#4622](https://github.com/OpenSID/OpenSID/issues/4622) Tidak boleh hapus data penduduk kalau sudah menggantikan data contoh awal atau data penduduk sudah dinyatakan lengkap.
 16. [#512](https://github.com/OpenSID/OpenSID/issues/512) Layanan Lapor/Keluhan/Pengaduan bagi warga/umum.
 17. [#4180](https://github.com/OpenSID/OpenSID/issues/4180) Buku Inventaris Hasil-Hasil Pembangunan di Menu Buku Administrasi Pembangunan.
+18. [#4610](https://github.com/OpenSID/OpenSID/issues/4610) Pendataan Warga Penerima Vaksin.
 
 #### Perbaikan BUG
 

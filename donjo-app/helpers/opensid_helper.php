@@ -78,6 +78,7 @@ define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
 define('PENDAPAT', 'assets/images/layanan_mandiri/');
 define('LOKASI_PRODUK', 'desa/upload/produk/');
 define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
+define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
 
 // Pengaturan Latar
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');

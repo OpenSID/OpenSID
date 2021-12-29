@@ -53,8 +53,9 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = $hasil && $this->migrasi_2021121571($hasil);
         $hasil = $hasil && $this->migrasi_2021121651($hasil);
         $hasil = $hasil && $this->migrasi_2021122471($hasil);
+        $hasil = $hasil && $this->migrasi_2021122971($hasil);
 
-        return $hasil && $this->migrasi_2021122971($hasil);
+        return $hasil && $this->migrasi_2021122972($hasil);
     }
 
     protected function migrasi_2021120271($hasil)
@@ -341,5 +342,97 @@ class Migrasi_fitur_premium_2201 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2021122972($hasil)
+    {
+        // tambahkan folder vaksin
+        $folder = 'upload/vaksin';
+        if (! file_exists('/desa/' . $folder)) {
+            mkdir('desa/' . $folder, 0755, true);
+            xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
+        }
+        // tambahkan field untuk vaksin covid 19
+
+        if (! $this->db->table_exists('covid19_vaksin')) {
+            $this->dbforge->add_field([
+                'id_penduduk' => [
+                    'type'       => 'varchar',
+                    'constraint' => 100,
+                ],
+                'vaksin_1' => [
+                    'type'       => 'int',
+                    'constraint' => 1,
+                    'null'       => true,
+                ],
+                'tgl_vaksin_1' => [
+                    'type' => 'date',
+                    'null' => true,
+                ],
+                'dokumen_vaksin_1' => [
+                    'type'       => 'varchar',
+                    'constraint' => 255,
+                    'null'       => true,
+                ],
+                'vaksin_2' => [
+                    'type'       => 'int',
+                    'constraint' => 1,
+                    'null'       => true,
+                ],
+                'tgl_vaksin_2' => [
+                    'type' => 'date',
+                    'null' => true,
+                ],
+                'dokumen_vaksin_2' => [
+                    'type'       => 'varchar',
+                    'constraint' => 255,
+                    'null'       => true,
+                ],
+                'vaksin_3' => [
+                    'type'       => 'int',
+                    'constraint' => 1,
+                    'null'       => true,
+                ],
+                'tgl_vaksin_3' => [
+                    'type' => 'date',
+                    'null' => true,
+                ],
+                'dokumen_vaksin_3' => [
+                    'type'       => 'varchar',
+                    'constraint' => 255,
+                    'null'       => true,
+                ],
+                'tunda' => [
+                    'type'       => 'int',
+                    'constraint' => 1,
+                    'null'       => true,
+                ],
+                'keterangan' => [
+                    'type'       => 'text',
+                    'constraint' => 1,
+                    'null'       => true,
+                ],
+                'surat_dokter' => [
+                    'type'       => 'varchar',
+                    'constraint' => 255,
+                    'null'       => true,
+                ],
+            ]);
+            $this->dbforge->add_key('id_penduduk', true);
+            $hasil = $hasil && $this->dbforge->create_table('covid19_vaksin', true);
+        }
+
+        return $hasil && $this->tambah_modul([
+            'id'         => 335,
+            'modul'      => 'Vaksin',
+            'url'        => 'vaksin_covid/clear',
+            'aktif'      => 1,
+            'ikon'       => 'fa fa-medkit',
+            'urut'       => 2,
+            'level'      => 2,
+            'hidden'     => 0,
+            'ikon_kecil' => '',
+            'parent'     => 206,
+        ]);
     }
 }
