@@ -278,4 +278,9 @@ class Surat extends Admin_Controller
         $penduduk = $this->surat_model->list_penduduk_bersurat_ajax($cari, $page);
         echo json_encode($penduduk);
     }
+
+    public function test()
+    {
+        $this->load->view('../../template-surat/surat_ket_nikah_non_muslim/f-2.12.php');
+    }
 }

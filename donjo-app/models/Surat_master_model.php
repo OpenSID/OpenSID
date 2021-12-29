@@ -44,7 +44,7 @@ class Surat_master_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->impor_surat_desa();
+        // $this->impor_surat_desa();
     }
 
     public function autocomplete()
