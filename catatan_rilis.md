@@ -1,13 +1,13 @@
-#### [v21.12-pasca]
+#### [v22.01]
 
-Di rilis ini, versi 21.06-premium, menyediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi v22.01, menyediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada afa28 yang terus berkontribusi.
+Terima kasih pada @andifahruddinakas yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi v21.12-pasca adalah sebagai berikut:
-
+Lengkapnya, isi rilis versi v22.01 adalah sebagai berikut:
 
 #### Penambahan Fitur
+
 1. [#4137](https://github.com/OpenSID/OpenSID/issues/4137) Sekarang Status IDM Desa bisa ditampilkan untuk tahun pilihan.
 2. [#4171](https://github.com/OpenSID/OpenSID/issues/4171) Di Pengaturan > QR Code scan tombol Kunjungi Website sekarang hanya tampil jika ada url valid di isi QR Code yg di-scan.
 3. [#4183](https://github.com/OpenSID/OpenSID/issues/4183) Tampilkan / Sembunyikan PIN saat Ganti PIN Layanan Mandiri.
@@ -22,8 +22,8 @@ Lengkapnya, isi rilis versi v21.12-pasca adalah sebagai berikut:
 12. [#4210](https://github.com/OpenSID/OpenSID/issues/4210) Di form ubah biodata penduduk, sediakan tombol kembali ke Daftar Anggota Keluarga jika dibuka dari situ.
 13. [#2838](https://github.com/OpenSID/OpenSID/issues/2838) Sediakan Buku Inventaris dan Kekayaan Desa sesuai Permendagri 47/2016.
 
-
 #### Perbaikan BUG
+
 1. [#4162](https://github.com/OpenSID/OpenSID/issues/4162) Batasi tidak bisa ubah data Penduduk, Keluarga, Kelompok, Data Suplemen, Layanan Surat, Info Desa, Admin Web, Layanan Mandiri, Bantuan, Sekretariat, Pembangunan, Pertanahan dan Rumah Tangga kalau pengguna tidak mempunyai hak ubah.
 2. [#4170](https://github.com/OpenSID/OpenSID/issues/4170) Sekarang data keluarga tersimpan normal pada impor data penduduk.
 3. [#4165](https://github.com/OpenSID/OpenSID/issues/4165) Sekarang penandatangan tampil benar di cetak/unduh Buku Agenda - Surat Masuk dan Buku Ekspedisi.
@@ -47,8 +47,8 @@ Lengkapnya, isi rilis versi v21.12-pasca adalah sebagai berikut:
 21. [#4201](https://github.com/OpenSID/OpenSID/issues/4201) Sekarang penduduk tidak tetap yang ditambahkan melalui Satgas Covid-19 > Pendataan tersimpan dengan benar.
 22. [#4207](https://github.com/OpenSID/OpenSID/issues/4207) Sekarang kembalikan status dasar kepala keluarga mati/hilang/pindah terhitung benar di Statistik > Laporan Bulanan.
 
-
 #### Perubahan Teknis
+
 1. Perbaiki penulisan script Buku Tanah di Desa dan Buku Kas Tanah Desa.
 2. Gunakan modal cetak global.
 3. Sesuaikan migrasi dengan versi database.
