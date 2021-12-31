@@ -186,13 +186,13 @@
 							<div class="form-group">
 								<label for="status_kk_pindah" class="col-sm-3 control-label">Status KK Bagi Yang Pindah</label>
 								<div class="col-sm-4">
-									<select class="form-control input-sm required" id='status_kk_pindah_show' onchange="pilih_status_kk_pindah($(this).val());">
+									<select class="form-control input-sm" id='status_kk_pindah_show' onchange="pilih_status_kk_pindah($(this).val());">
 										<option value="">-- Pilih Status KK Pindah --</option>
 										<?php foreach ($kode['status_kk_pindah'] as $key => $value) : ?>
 											<option value="<?= $key ?>"><?= strtoupper($value) ?></option>
 										<?php endforeach; ?>
 									</select>
-									<select class="form-control input-sm required" id='status_kk_pindah_f103_show' style="display: none" onchange="$('#status_kk_pindah').val($(this).val());">
+									<select class="form-control input-sm" id='status_kk_pindah_f103_show' style="display: none" onchange="$('#status_kk_pindah').val($(this).val());">
 										<option value="">-- Pilih Status KK Pindah --</option>
 										<?php foreach ($kode['status_kk_pindah_f103'] as $key => $value) : ?>
 											<option value="<?= $key ?>"><?= strtoupper($value) ?></option>
