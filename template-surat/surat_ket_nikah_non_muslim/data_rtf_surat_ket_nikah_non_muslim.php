@@ -74,6 +74,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			"[form_alamat_wanita]"       => $wanita['alamat'] .  " RT " . $wanita['rt'] .  " RW " . $wanita['rw'] . " $alamat_desa",
 			"[form_nama_wanita]"         => $wanita['nama'],
 			"[form_no_ktp_wanita]"       => $wanita['nik'],
+			"[no_kk_wanita]"        => $pria['no_kk'],
 			"[form_sex_wanita]"          => $wanita['sex'],
 			"[status_wanita]"       	 	 => $wanita['status_kawin'],
 			"[pendidikan_wanita]"        => $wanita['pendidikan'],

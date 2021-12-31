@@ -112,7 +112,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<div class=" form-group col-md-5">
 												<label for="telegram_userID">Silahkan Masukan User ID</label>
 												<div class="input-group">
-													<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="telegram_userID" placeholder="User ID Telegram" minlength="10" maxlength="10">
+													<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="telegram_userID" placeholder="User ID Telegram" maxlength="16">
 													<span class="input-group-addon"><i class="fa fa-eye-slash" id="telegram_userID" onclick="show(this);" aria-hidden="true"></i></span>
 												</div>
 												<button type="submit" class="btn bg-green pull-right" style="margin-top: 10px;">Kirim</button>
@@ -225,6 +225,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			errorSteps: [], // Highlight step with errors
 			hiddenSteps: [] // Hidden steps
 		});
+
+		$('#smartwizard').smartWizard("stepState", [2, 3], "disable");
 
 		<?php if ($this->session->flashdata('kirim-otp-telegram')) : ?>
 			$('#smartwizard').smartWizard("stepState", [0, 1], "disable");

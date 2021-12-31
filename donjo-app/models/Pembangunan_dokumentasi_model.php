@@ -82,8 +82,6 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
         unset($data['file_gambar'], $data['old_gambar']);
 
-        log_message('error', 'cek' . $data['persentase']);
-
         if ($outp = $this->db->insert('pembangunan_ref_dokumentasi', $data)) {
             $outp = $outp && $this->perubahan_anggaran($id_pembangunan, $data['persentase'], bilangan($this->input->post('perubahan_anggaran')));
         }
@@ -109,7 +107,6 @@ class Pembangunan_dokumentasi_model extends CI_Model
         unset($data['file_gambar'], $data['old_gambar']);
 
         if ($outp = $this->db->where('id', $id)->update('pembangunan_ref_dokumentasi', $data)) {
-            log_message('error', 'update' . $data['persentase']);
             $outp = $outp && $this->perubahan_anggaran($id_pembangunan, $data['persentase'], bilangan($this->input->post('perubahan_anggaran')));
         }
 
@@ -191,8 +188,6 @@ class Pembangunan_dokumentasi_model extends CI_Model
     public function perubahan_anggaran($id_pembangunan = 0, $persentase = 0, $perubahan_anggaran = 0)
     {
         if (in_array($persentase, ['100', '100%'])) {
-            log_message('error', 'tambah' . $persentase);
-
             return $this->db
                 ->where('id', $id_pembangunan)
                 ->update('pembangunan', [
@@ -200,6 +195,6 @@ class Pembangunan_dokumentasi_model extends CI_Model
                 ]);
         }
 
-        log_message('error', 'gagal : ' . $persentase);
+        return true;
     }
 }

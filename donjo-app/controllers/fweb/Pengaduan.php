@@ -63,9 +63,10 @@ class Pengaduan extends Web_Controller
         $data['end_paging']   = min($data['paging']->end_link, $p + $data['paging_range']);
         $data['pages']        = range($data['start_paging'], $data['end_paging']);
 
-        $data['pengaduan']      = $this->pengaduan_model->get_pengaduan($data['cari'] ?? '', $data['caristatus'] ?? '');
-        $data['pengaduan']      = $data['pengaduan']->limit($data['paging']->per_page, $data['cari'] ? 0 : $data['paging']->offset)->get()->result_array();
-        $data['halaman_statis'] = 'pengaduan/index';
+        $data['pengaduan']       = $this->pengaduan_model->get_pengaduan($data['cari'] ?? '', $data['caristatus'] ?? '');
+        $data['pengaduan']       = $data['pengaduan']->limit($data['paging']->per_page, $data['cari'] ? 0 : $data['paging']->offset)->get()->result_array();
+        $data['pengaduan_balas'] = $this->pengaduan_model->get_pengaduan_balas($data['cari'] ?? '', $data['caristatus'] ?? '')->get()->result_array();
+        $data['halaman_statis']  = 'pengaduan/index';
 
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         $this->load->view($this->template, $data);

@@ -47,13 +47,17 @@ class Migrasi_2001_ke_2002 extends CI_model
         }
         $this->db->where('id', 51)->update('setting_modul', ['url' => 'gallery/clear', 'aktif' => '1']);
         // Tambahkan slug untuk setiap artikel agenda yg belum memiliki
-        $list_artikel = $this->db->select('id, judul, slug')
+        $list_artikel = $this->db
+            ->select('id, judul, slug')
             ->where('slug is NULL')->where('id_kategori', AGENDA)
-            ->get('artikel')->result_array();
+            ->get('artikel')
+            ->result_array();
 
-        foreach ($list_artikel as $artikel) {
-            $slug = url_title($artikel['judul'], 'dash', true);
-            $this->db->where('id', $artikel['id'])->update('artikel', ['slug' => $slug]);
+        if ($list_artikel) {
+            foreach ($list_artikel as $artikel) {
+                $slug = url_title($artikel['judul'], 'dash', true);
+                $this->db->where('id', $artikel['id'])->update('artikel', ['slug' => $slug]);
+            }
         }
     }
 }

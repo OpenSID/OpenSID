@@ -65,6 +65,28 @@ class Pengaduan_model extends CI_Model
             $this->db->where('status', $status);
         }
 
+        $this->db->where('id_pengaduan is NULL', null, true);
+
+        return $this->db;
+    }
+
+    public function get_pengaduan_balas(string $search = '', $status = '')
+    {
+        $this->pengaduan();
+
+        if ($search) {
+            $this->db
+                ->group_start()
+                ->like('judul', $search)
+                ->or_like('isi', $search)
+                ->or_like('nama', $search)
+                ->group_end();
+        }
+
+        if ($status) {
+            $this->db->where('status', $status);
+        }
+
         return $this->db;
     }
 
@@ -120,8 +142,6 @@ class Pengaduan_model extends CI_Model
 
     public function insert()
     {
-        log_message('error', 'kirim');
-
         $this->load->library('upload');
 
         $config['upload_path']   = LOKASI_PENGADUAN;

@@ -43,13 +43,29 @@ class Vaksin_covid_model extends MY_Model
     protected $table_vaksin   = 'covid19_vaksin';
     protected $penduduk_key   = 'id';
     protected $vaksin_key     = 'id_penduduk';
-    private $list_session     = ['cari'];
 
-    public function clear()
+    public function __construct()
     {
-        $this->session->unset_userdata($this->list_session);
-        $this->session->set_userdata('per_page', 20);
-        redirect('keluar');
+        parent::__construct();
+        $this->load->model('referensi_model');
+    }
+
+    public function jenis_vaksin()
+    {
+        // Data awal
+        $awal = $this->referensi_model->list_ref(JENIS_VAKSIN);
+
+        // Dari database
+        $data = $this->db
+            ->get($this->table_vaksin)
+            ->result_array();
+
+        $jenis_vaksin_1 = array_column($data, 'jenis_vaksin_1');
+        $jenis_vaksin_2 = array_column($data, 'jenis_vaksin_2');
+        $jenis_vaksin_3 = array_column($data, 'jenis_vaksin_3');
+        $jenis_vaksin   = array_unique(array_merge($awal, $jenis_vaksin_1, $jenis_vaksin_2, $jenis_vaksin_3));
+
+        return array_values(array_filter($jenis_vaksin));
     }
 
     public function dusun_sql()
@@ -78,6 +94,33 @@ class Vaksin_covid_model extends MY_Model
             } else {
                 $this->db->where("vaksin_{$kf}", '1');
             }
+        }
+    }
+
+    public function jenis_vaksin_sql()
+    {
+        $kf = $this->session->jenis_vaksin;
+
+        if (isset($kf)) {
+            $this->db->group_start();
+            $this->db->where('jenis_vaksin_1', $kf);
+            $this->db->or_where('jenis_vaksin_2', $kf);
+            $this->db->or_where('jenis_vaksin_3', $kf);
+            $this->db->group_end();
+        }
+    }
+
+    public function tanggal_vaksin_sql()
+    {
+        $kf = $this->session->tanggal_vaksin;
+
+        if (isset($kf)) {
+            $kf = rev_tgl($kf);
+            $this->db->group_start();
+            $this->db->where('tgl_vaksin_1', $kf);
+            $this->db->or_where('tgl_vaksin_2', $kf);
+            $this->db->or_where('tgl_vaksin_3', $kf);
+            $this->db->group_end();
         }
     }
 
@@ -114,6 +157,8 @@ class Vaksin_covid_model extends MY_Model
             ->join('tweb_penduduk_sex AS s', 'p.sex = s.id', 'left');
         $this->dusun_sql();
         $this->vaksin_sql();
+        $this->tanggal_vaksin_sql();
+        $this->jenis_vaksin_sql();
         $this->cari();
     }
 
@@ -176,12 +221,15 @@ class Vaksin_covid_model extends MY_Model
             'vaksin_1'         => $data['vaksin_1'],
             'tgl_vaksin_1'     => $data['tgl_vaksin_1'],
             'dokumen_vaksin_1' => $data['dokumen_vaksin_1'] ?? null,
+            'jenis_vaksin_1'   => $data['jenis_vaksin_1'] ?? null,
             'vaksin_2'         => $data['vaksin_2'],
             'tgl_vaksin_2'     => $data['tgl_vaksin_2'],
             'dokumen_vaksin_2' => $data['dokumen_vaksin_2'] ?? null,
+            'jenis_vaksin_2'   => $data['jenis_vaksin_2'] ?? null,
             'vaksin_3'         => $data['vaksin_3'],
             'tgl_vaksin_3'     => $data['tgl_vaksin_3'] ?? null,
             'dokumen_vaksin_3' => $data['dokumen_vaksin_3'] ?? null,
+            'jenis_vaksin_3'   => $data['jenis_vaksin_3'] ?? null,
             'tunda'            => $data['tunda'],
             'keterangan'       => $data['keterangan'] ?? null,
             'surat_dokter'     => $data['surat_dokter'] ?? null,
@@ -253,24 +301,24 @@ class Vaksin_covid_model extends MY_Model
 
     public function validasi_data(&$data)
     {
-        if (alfanumerik_spasi($data['keterangan'])) {
-            $valid[] = 'keterangan hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
-        }
         if ((int) ($data['id_penduduk']) == 0) {
             $valid[] = 'NIK belum di pilih';
         }
 
         //  steril data
-        $data['id_penduduk']  = (int) ($data['id_penduduk']);
-        $data['vaksin_1']     = (int) ($data['vaksin_1']);
-        $data['tgl_vaksin_1'] = (! isset($data['tgl_vaksin_1']) || $data['tgl_vaksin_1'] == '') ? null : rev_tgl($data['tgl_vaksin_1']);
-        $data['vaksin_2']     = (int) ($data['vaksin_2']);
-        $data['tgl_vaksin_2'] = (! isset($data['tgl_vaksin_2']) || $data['tgl_vaksin_2'] == '') ? null : rev_tgl($data['tgl_vaksin_2']);
-        $data['vaksin_3']     = (int) ($data['vaksin_3']);
-        $data['tgl_vaksin_3'] = (! isset($data['tgl_vaksin_3']) || $data['tgl_vaksin_3'] == '') ? null : rev_tgl($data['tgl_vaksin_3']);
-        $data['tunda']        = (int) ($data['tunda']);
-        $data['surat_dokter'] = $data['surat_dokter'] ?? null;
-        $data['keterangan']   = strip_tags($data['keterangan']);
+        $data['id_penduduk']    = (int) ($data['id_penduduk']);
+        $data['vaksin_1']       = (int) ($data['vaksin_1']);
+        $data['tgl_vaksin_1']   = (! isset($data['tgl_vaksin_1']) || $data['tgl_vaksin_1'] == '') ? null : rev_tgl($data['tgl_vaksin_1']);
+        $data['jenis_vaksin_1'] = (isset($data['jenis_vaksin_1']) || $data['jenis_vaksin_1'] != '') ? alfanumerik_spasi($data['jenis_vaksin_1']) : null;
+        $data['vaksin_2']       = (int) ($data['vaksin_2']);
+        $data['tgl_vaksin_2']   = (! isset($data['tgl_vaksin_2']) || $data['tgl_vaksin_2'] == '') ? null : rev_tgl($data['tgl_vaksin_2']);
+        $data['jenis_vaksin_2'] = (isset($data['jenis_vaksin_2']) || $data['jenis_vaksin_2'] != '') ? alfanumerik_spasi($data['jenis_vaksin_2']) : null;
+        $data['vaksin_3']       = (int) ($data['vaksin_3']);
+        $data['tgl_vaksin_3']   = (! isset($data['tgl_vaksin_3']) || $data['tgl_vaksin_3'] == '') ? null : rev_tgl($data['tgl_vaksin_3']);
+        $data['jenis_vaksin_3'] = (isset($data['jenis_vaksin_3']) || $data['jenis_vaksin_3'] != '') ? alfanumerik_spasi($data['jenis_vaksin_3']) : null;
+        $data['tunda']          = (int) ($data['tunda']);
+        $data['surat_dokter']   = $data['surat_dokter'] ?? null;
+        $data['keterangan']     = alfanumerik_spasi($data['keterangan']);
 
         if (! empty($valid)) {
             $this->session->success = -1;
@@ -287,6 +335,3 @@ class Vaksin_covid_model extends MY_Model
         return $this->db->get("{$this->tabel_penduduk} as p")->result();
     }
 }
-
-// End of file Vaksin_covid_model.php
-// Location: .//G/www/afila/premiumw/donjo-app/models/Vaksin_covid_model.php

@@ -25,18 +25,33 @@
 			</tr>
 		</thead>
 		<tbody>
-			<?php $i = 0 ?>
+			<?php
+                $i            = 0;
+                $tot_penduduk = 0;
+                $tot_sasaran  = 0;
+                $tot_vaksin_1 = 0;
+                $tot_vaksin_2 = 0;
+                $tot_vaksin_3 = 0;
+                $tot_belum    = 0;
+            ?>
 			<?php foreach ($main as $key => $data) : ?>
 				<?php
-                // olah data
-                $sasaran_vaksin   = $sasaran[$key];
-                $sasaran_vaksin_1 = count($sasaran_vaksin['vaksin_1']);
-                $sasaran_vaksin_2 = count($sasaran_vaksin['vaksin_2']);
-                $sasaran_vaksin_3 = count($sasaran_vaksin['vaksin_3']);
-                $sasaran_belum    = count($sasaran_vaksin['belum']);
-                $sasaran_total    = $sasaran_vaksin_1 + $sasaran_vaksin_2 + $sasaran_vaksin_3 + $sasaran_belum;
-                $sasaran_sudah    = $sasaran_vaksin_1 + $sasaran_vaksin_2 + $sasaran_vaksin_3;
-                $i++;
+                    // TODO : Perhitungan jangan simpan disini
+                    $sasaran_vaksin   = $sasaran[$key];
+                    $sasaran_vaksin_1 = count($sasaran_vaksin['vaksin_1']);
+                    $sasaran_vaksin_2 = count($sasaran_vaksin['vaksin_2']);
+                    $sasaran_vaksin_3 = count($sasaran_vaksin['vaksin_3']);
+                    $sasaran_belum    = count($sasaran_vaksin['belum']);
+                    $sasaran_total    = $sasaran_vaksin_1 + $sasaran_vaksin_2 + $sasaran_vaksin_3 + $sasaran_belum;
+                    $sasaran_sudah    = $sasaran_vaksin_1 + $sasaran_vaksin_2 + $sasaran_vaksin_3;
+                    $tot_pend_dusun   = count($data['vaksin_1']) + count($data['vaksin_2']) + count($data['vaksin_3']) + count($data['belum']);
+                    $tot_penduduk     = $tot_penduduk + $tot_pend_dusun;
+                    $tot_sasaran      = $tot_sasaran + $sasaran_total;
+                    $tot_vaksin_1     = $tot_vaksin_1 + $sasaran_vaksin_1;
+                    $tot_vaksin_2     = $tot_vaksin_2 + $sasaran_vaksin_2;
+                    $tot_vaksin_3     = $tot_vaksin_3 + $sasaran_vaksin_3;
+                    $tot_belum        = $tot_belum + $sasaran_belum;
+                    $i++;
                 ?>
 				<tr>
 					<td class="padat"><?= $i ?></td>
@@ -48,12 +63,26 @@
 					<td class="padat"><?= $sasaran_vaksin_3 ?></td>
 					<td class="padat"><?= $sasaran_sudah ?></td>
 					<td class="padat"><?= $sasaran_belum ?></td>
-					<td class="padat"><?= rp((float) (($sasaran_vaksin_1 / $sasaran_total) * 100)) ?></td>
-					<td class="padat"><?= rp((float) (($sasaran_vaksin_2 / $sasaran_total) * 100)) ?></td>
-					<td class="padat"><?= rp((float) (($sasaran_vaksin_3 / $sasaran_total) * 100)) ?></td>
-					<td class="padat"><?= rp((float) (($sasaran_belum / $sasaran_total) * 100)) ?></td>
+					<td class="padat"><?= persen($sasaran_vaksin_1 / $sasaran_total, '', 2); ?></td>
+					<td class="padat"><?= persen($sasaran_vaksin_2 / $sasaran_total, '', 2); ?></td>
+					<td class="padat"><?= persen($sasaran_vaksin_3 / $sasaran_total, '', 2); ?></td>
+					<td class="padat"><?= persen($sasaran_belum / $sasaran_total, '', 2); ?></td>
 				</tr>
 			<?php endforeach ?>
+			<tr class="text-bold" >
+				<td colspan="2">JUMLAH</td>
+				<td class="padat"><?= $tot_penduduk ?></td>
+				<td class="padat"><?= $tot_sasaran ?></td>
+				<td class="padat"><?= $tot_vaksin_1 ?></td>
+				<td class="padat"><?= $tot_vaksin_2 ?></td>
+				<td class="padat"><?= $tot_vaksin_3 ?></td>
+				<td class="padat"><?= $tot_vaksin_1 + $tot_vaksin_2 + $tot_vaksin_3?></td>
+				<td class="padat"><?=  $tot_belum ?></td>
+				<td class="padat"><?=  persen($tot_vaksin_1 / $tot_sasaran, '', 2); ?></td>
+				<td class="padat"><?=  persen($tot_vaksin_2 / $tot_sasaran, '', 2); ?></td>
+				<td class="padat"><?=  persen($tot_vaksin_3 / $tot_sasaran, '', 2); ?></td>
+				<td class="padat"><?=  persen($tot_belum / $tot_sasaran, '', 2); ?></td>
+			</tr>
 		</tbody>
 	</table>
 </div>

@@ -34,8 +34,8 @@
  *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
- * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	 Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	 Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
@@ -74,41 +74,41 @@
 		<?php foreach ($main as $key => $data) : ?>
 			<tr>
 				<td><?= $key + 1 ?></td>
-				<td><?= $data->no_kk ?></td>
+				<td class="textx"><?= $data->no_kk ?></td>
 				<td><?= $data->nama ?></td>
-				<td><?= $data->nik ?></td>
+				<td class="textx"><?= $data->nik ?></td>
 				<td><?= $data->dusun ?></td>
 				<td><?= $data->jenis_kelamin ?></td>
 				<td><?= $data->tempatlahir ?></td>
-				<td  class="padat"><?= rev_tgl($data->tanggallahir) ?></td>
+				<td class="padat"><?= rev_tgl($data->tanggallahir) ?></td>
 
 				<td><?= $data->umur ?></td>
-				<td  class="padat">
+				<td class="padat">
 					<?php if ($data->vaksin_1 == 1 && $data->tunda == 0) : ?>
 						V
 					<?php endif ?>
 				</td>
-				<td  class="padat">
+				<td class="padat">
 					<?php if ($data->vaksin_2 == 1 && $data->tunda == 0) : ?>
 						V
 					<?php endif ?>
 				</td>
-				<td  class="padat">
+				<td class="padat">
 					<?php if ($data->vaksin_3 == 1 && $data->tunda == 0) : ?>
 						V
 					<?php endif ?>
 				</td>
-				<td  class="padat">
+				<td class="padat">
 					<?php if ($data->vaksin_1 == null || ($data->tunda == 0 && $data->vaksin_1 == 0)) : ?>
 						V
 					<?php endif ?>
 				</td>
-				<td  class="padat">
+				<td class="padat">
 					<?php if ($data->tunda == 1) : ?>
 						V
 					<?php endif ?>
 				</td>
-				<td  class="padat">
+				<td class="padat">
 					<?php if ($data->tunda == 1) : ?>
 						<?= $data->keterangan ?>
 					<?php endif ?>

@@ -44,7 +44,7 @@ class Surat_master_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        // $this->impor_surat_desa();
+        $this->impor_surat_desa();
     }
 
     public function autocomplete()
@@ -403,26 +403,28 @@ class Surat_master_model extends MY_Model
         $folder_surat_desa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
         $daftar_surat      = [];
 
-        foreach ($folder_surat_desa as $surat) {
-            $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
-            $hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
-            if ($hasil->num_rows() == 0) {
-                $data              = [];
-                $data['jenis']     = 2;
-                $data['url_surat'] = $surat;
-                $data['nama']      = ucwords(trim(str_replace(['surat', '-', '_'], ' ', $surat)));
-                $sql               = $this->db->insert_string('tweb_surat_format', $data) . ' ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)';
-                $this->db->query($sql);
+        if ($folder_surat_desa) {
+            foreach ($folder_surat_desa as $surat) {
+                $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
+                $hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
+                if ($hasil->num_rows() == 0) {
+                    $data              = [];
+                    $data['jenis']     = 2;
+                    $data['url_surat'] = $surat;
+                    $data['nama']      = ucwords(trim(str_replace(['surat', '-', '_'], ' ', $surat)));
+                    $sql               = $this->db->insert_string('tweb_surat_format', $data) . ' ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)';
+                    $this->db->query($sql);
+                }
+
+                $daftar_surat[] = $surat;
             }
 
-            $daftar_surat[] = $surat;
+            // Hapus surat ubahan desa yg sudah tidak ada
+            $this->db
+                ->where('jenis', 2)
+                ->where_not_in('url_surat', $daftar_surat)
+                ->delete($this->table);
         }
-
-        // Hapus surat ubahan desa yg sudah tidak ada
-        $this->db
-            ->where('jenis', 2)
-            ->where_not_in('url_surat', $daftar_surat)
-            ->delete($this->table);
     }
 
     /**

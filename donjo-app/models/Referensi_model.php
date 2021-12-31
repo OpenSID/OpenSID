@@ -185,13 +185,22 @@ define('HAMIL', serialize([
     1 => 'Hamil',
 ]));
 
+// SUmber : https://news.detik.com/berita/d-5825409/jenis-vaksin-di-indonesia-berikut-daftar-hingga-efek-sampingnya
+define('JENIS_VAKSIN', serialize([
+    'Covovax',
+    'Zififax',
+    'Sinovac',
+    'AstraZeneca',
+    'Sinopharm',
+    'Moderna',
+    'Pfizer',
+    'Novavax',
+    'Johnson&Johnson',
+    'Biofarma',
+]));
+
 class Referensi_model extends CI_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function list_nama($tabel)
     {
         $data = $this->list_data($tabel);
@@ -215,11 +224,6 @@ class Referensi_model extends CI_Model
         }
 
         return $this->db->select('*')->order_by('id')->get($tabel)->result_array();
-    }
-
-    public function list_wajib_ktp()
-    {
-        return array_flip(unserialize(WAJIB_KTP));
     }
 
     public function list_ktp_el()

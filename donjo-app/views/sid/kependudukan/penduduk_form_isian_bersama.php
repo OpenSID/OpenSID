@@ -478,8 +478,8 @@
 				</div>
 				<div class='col-sm-8'>
 					<div class='form-group'>
-						<label for="nama_ibu">Telegram </label>
-						<input name="telegram" class="form-control input-sm telegram" maxlength="100" type="text" placeholder="Akun Telegram (contoh: @akun_saya)" value="<?= $penduduk['telegram']?>"></input>
+						<label for="telegram">Telegram </label>
+						<input name="telegram" class="form-control input-sm number" maxlength="100" type="text" placeholder="Akun Telegram" value="<?= $penduduk['telegram']?>"></input>
 					</div>
 				</div>
 				<div class='col-sm-12'>

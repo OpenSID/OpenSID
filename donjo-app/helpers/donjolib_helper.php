@@ -692,11 +692,11 @@ function set_ucwords($data)
     return trim($data);
 }
 
-function persen($data)
+function persen($data, $simbol = '%', $digit = 2)
 {
-    $str = is_nan($data) ? '0%' : number_format($data * 100, 2, '.', '') . '%';
+    $str = number_format(is_nan($data) ? 0 : (float) ($data * 100), $digit, '.', '');
 
-    return str_replace('.', ',', $str);
+    return str_replace('.', ',', $str) . $simbol;
 }
 
 function sensor_nik_kk($data)

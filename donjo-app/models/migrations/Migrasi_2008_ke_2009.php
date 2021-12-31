@@ -79,12 +79,13 @@ class Migrasi_2008_ke_2009 extends MY_model
 
         // Isi field kartu_id_pend berdasarkan data peserta program
         $list_peserta = $this->db->select('id, kartu_nik, kartu_id_pend')->get('program_peserta')->result_array();
-
-        foreach ($list_peserta as $peserta) {
-            // Cari penduduk berdasaran kartu_nik
-            $penduduk = $this->db->select('id')->get_where('tweb_penduduk', ['nik' => $peserta['kartu_nik']])->row_array();
-            if (($peserta['kartu_id_pend'] == null) && $penduduk) {
-                $this->db->where('id', $peserta['id'])->update('program_peserta', ['kartu_id_pend' => $penduduk['id']]);
+        if ($list_peserta) {
+            foreach ($list_peserta as $peserta) {
+                // Cari penduduk berdasaran kartu_nik
+                $penduduk = $this->db->select('id')->get_where('tweb_penduduk', ['nik' => $peserta['kartu_nik']])->row_array();
+                if (($peserta['kartu_id_pend'] == null) && $penduduk) {
+                    $this->db->where('id', $peserta['id'])->update('program_peserta', ['kartu_id_pend' => $penduduk['id']]);
+                }
             }
         }
 

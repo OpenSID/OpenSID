@@ -85,9 +85,11 @@ class Migrasi_2003_ke_2004 extends CI_model
         // Tambahkan slug untuk setiap artikel agenda yg belum memiliki
         $list_kategori = $this->db->get('kategori')->result_array();
 
-        foreach ($list_kategori as $kategori) {
-            $slug = url_title($kategori['kategori'], 'dash', true);
-            $this->db->where('id', $kategori['id'])->update('kategori', ['slug' => $slug]);
+        if ($list_kategori) {
+            foreach ($list_kategori as $kategori) {
+                $slug = url_title($kategori['kategori'], 'dash', true);
+                $this->db->where('id', $kategori['id'])->update('kategori', ['slug' => $slug]);
+            }
         }
         $this->tambah_tabel_migrasi();
     }
@@ -200,16 +202,16 @@ class Migrasi_2003_ke_2004 extends CI_model
         foreach ($data as $modul) {
             $sql = $this->db->insert_string('setting_modul', $modul);
             $sql .= ' ON DUPLICATE KEY UPDATE
-      id = VALUES(id),
-      modul = VALUES(modul),
-      url = VALUES(url),
-      aktif = VALUES(aktif),
-      ikon = VALUES(ikon),
-      urut = VALUES(urut),
-      level = VALUES(level),
-      hidden = VALUES(hidden),
-      ikon_kecil = VALUES(ikon_kecil),
-      parent = VALUES(parent)';
+                id = VALUES(id),
+                modul = VALUES(modul),
+                url = VALUES(url),
+                aktif = VALUES(aktif),
+                ikon = VALUES(ikon),
+                urut = VALUES(urut),
+                level = VALUES(level),
+                hidden = VALUES(hidden),
+                ikon_kecil = VALUES(ikon_kecil),
+                parent = VALUES(parent)';
             $this->db->query($sql);
         }
 
@@ -300,11 +302,13 @@ class Migrasi_2003_ke_2004 extends CI_model
         foreach ($surat_tersedia as $surat_format_id => $list_syarat) {
             $this->db->where('id', $surat_format_id)->update('tweb_surat_format', ['mandiri' => 1]);
 
-            foreach ($list_syarat as $syarat_id) {
-                $ada = $this->db->where('surat_format_id', $surat_format_id)->where('ref_syarat_id', $syarat_id)
-                    ->get('syarat_surat')->num_rows();
-                if (! $ada) {
-                    $this->db->insert('syarat_surat', ['surat_format_id' => $surat_format_id, 'ref_syarat_id' => $syarat_id]);
+            if ($list_syarat) {
+                foreach ($list_syarat as $syarat_id) {
+                    $ada = $this->db->where('surat_format_id', $surat_format_id)->where('ref_syarat_id', $syarat_id)
+                        ->get('syarat_surat')->num_rows();
+                    if (! $ada) {
+                        $this->db->insert('syarat_surat', ['surat_format_id' => $surat_format_id, 'ref_syarat_id' => $syarat_id]);
+                    }
                 }
             }
         }
@@ -401,28 +405,32 @@ class Migrasi_2003_ke_2004 extends CI_model
     {
         // Ubah penyimpanan syarat permohonan surat.
         // Tambahkan syarat_id
-        $list_permohonan = $this->db->select('id, id_surat, syarat')
+        $list_permohonan = $this->db
+            ->select('id, id_surat, syarat')
             ->where('status < 2')
-            ->get('permohonan_surat')->result_array();
+            ->get('permohonan_surat')
+            ->result_array();
 
-        foreach ($list_permohonan as $permohonan) {
-            $syarat_surat = $this->db->select('ref_syarat_id')
-                ->where('surat_format_id', $permohonan['id_surat'])
-                ->get('syarat_surat')->result_array();
-            $syarat_surat      = array_column($syarat_surat, 'ref_syarat_id');
-            $syarat_permohonan = json_decode($permohonan['syarat'], true);
-            // Jangan proses kalau sudah diubah
-            if (array_keys($syarat_permohonan)[0] != 0) {
-                return;
-            } // Tidak ada syarat_id dgn nilai 0;
+        if ($list_permohonan) {
+            foreach ($list_permohonan as $permohonan) {
+                $syarat_surat = $this->db->select('ref_syarat_id')
+                    ->where('surat_format_id', $permohonan['id_surat'])
+                    ->get('syarat_surat')->result_array();
+                $syarat_surat      = array_column($syarat_surat, 'ref_syarat_id');
+                $syarat_permohonan = json_decode($permohonan['syarat'], true);
+                // Jangan proses kalau sudah diubah
+                if (array_keys($syarat_permohonan)[0] != 0) {
+                    return;
+                } // Tidak ada syarat_id dgn nilai 0;
 
-            $syarat_baru = [];
+                $syarat_baru = [];
 
-            for ($i = 0; $i < count($syarat_permohonan); $i++) {
-                $syarat_baru[$syarat_surat[$i]] = $syarat_permohonan[$i];
+                for ($i = 0; $i < count($syarat_permohonan); $i++) {
+                    $syarat_baru[$syarat_surat[$i]] = $syarat_permohonan[$i];
+                }
+                $this->db->where('id', $permohonan['id'])
+                    ->update('permohonan_surat', ['syarat' => json_encode($syarat_baru)]);
             }
-            $this->db->where('id', $permohonan['id'])
-                ->update('permohonan_surat', ['syarat' => json_encode($syarat_baru)]);
         }
     }
 }

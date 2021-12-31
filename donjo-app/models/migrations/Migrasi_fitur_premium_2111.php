@@ -210,11 +210,13 @@ class Migrasi_fitur_premium_2111 extends MY_Model
                 // Kalau folder desa/cache sudah ada, pindahkan file dari cache lama dan hapus cache lama
                 $files = scandir($cache_lama);
 
-                foreach ($files as $fname) {
-                    if ($fname != '.' && $fname != '..') {
-                        $hasil = $hasil && rename($cache_lama . '/' . $fname, $cache_desa . '/' . $fname);
-                        if (! $hasil) {
-                            log_message('error', print_r(error_get_last(), true));
+                if ($files) {
+                    foreach ($files as $fname) {
+                        if ($fname != '.' && $fname != '..') {
+                            $hasil = $hasil && rename($cache_lama . '/' . $fname, $cache_desa . '/' . $fname);
+                            if (! $hasil) {
+                                log_message('error', print_r(error_get_last(), true));
+                            }
                         }
                     }
                 }

@@ -234,13 +234,13 @@
 			<td colspan="2" class="kotak padat tengah">7.</td>
 			<td colspan="9" class="kotak">Pendidikan Terakhir</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['pendidikan_pria']?></td>
-			<td>&nbsp;</td>
+			<td class="kotak" colspan="34"><?= $input['pendidikan_pria']?></td>
+			<!-- <td>&nbsp;</td>
 			<td colspan="9" class="left">1. Tidak/Belum Sekolah</td>
 			<td colspan="9" class="left">2. Belum Tamat SD</td>
-			<td colspan="9" class="left">3. SD/Sederajat</td>
+			<td colspan="9" class="left">3. SD/Sederajat</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="15" >&nbsp;</td>
 			<td colspan="9" class="left">4. SLTP/Sederajat</td>
 			<td colspan="9" class="left">5. SLTA/Sederajat</td>
@@ -255,26 +255,26 @@
 			<td colspan="15" >&nbsp;</td>
 			<td colspan="9" class="left">9. Strata II</td>
 			<td colspan="9" class="left">10. Strata III</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">8.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_pria']?></td>
-			<td>&nbsp;</td>
+			<td class="kotak"  colspan="31"><?= $input['agama_pria']?></td>
+			<!-- <td>&nbsp;</td>
 			<td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">9.</td>
@@ -322,12 +322,12 @@
 			<td colspan="2" class="kotak padat tengah">12.</td>
 			<td colspan="12" class="kotak">Status Perkawinan Sebelum Nikah</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['status_kawin_pria']?></td>
-			<td>&nbsp;</td>
+			<td class="kotak"  colspan="31"><?= $input['status_kawin_pria']?></td>
+			<!-- <td>&nbsp;</td>
 			<td colspan="8" class="left">1. Belum kawin</td>
 			<td colspan="8" class="left">2. Kawin</td>
 			<td colspan="8" class="left">3. Cerai Hidup </td>
-			<td colspan="8" class="left">4. Cerai Mati </td>
+			<td colspan="8" class="left">4. Cerai Mati </td> -->
 		</tr>
 		<tr>
 			<td>&nbsp;&nbsp;</td>
@@ -367,10 +367,10 @@
 			<td colspan="2" class="kotak padat tengah">15.</td>
 			<td colspan="9" class="kotak">Kewarganegaraan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['wn_pria']?></td>
-			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. WNI</td>
-			<td colspan="8" class="left">2. WNA</td>
+			<td class="kotak" colspan="34"><?= $input['wn_pria']?></td>
+			<!-- <td>&nbsp;</td> -->
+			<!-- <td colspan="8" class="left">1. WNI</td>
+			<td colspan="8" class="left">2. WNA</td> -->
 		</tr>
 		<tr>
 			<td>&nbsp;&nbsp;</td>
@@ -416,20 +416,20 @@
 			<td colspan="2" class="kotak padat tengah">19.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_ayah_pria']?></td>
+			<td class="kotak" colspan="31"><?= $input['agama_ayah_pria']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Islam</td>
+			<!-- <td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">20.</td>
@@ -603,20 +603,20 @@
 			<td colspan="2" class="kotak padat tengah">26.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_ibu_pria']?></td>
+			<td class="kotak" colspan="31"><?= $input['agama_ibu_pria']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Islam</td>
+			<!-- <td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">27.</td>
@@ -931,13 +931,13 @@
 			<td colspan="2" class="kotak padat tengah">37.</td>
 			<td colspan="9" class="kotak">Pendidikan Terakhir</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['pendidikan_wanita']?></td>
+			<td class="kotak" colspan="34"><?= $input['pendidikan_wanita']?></td>
 			<td>&nbsp;</td>
-			<td colspan="9" class="left">1. Tidak/Belum Sekolah</td>
+			<!-- <td colspan="9" class="left">1. Tidak/Belum Sekolah</td>
 			<td colspan="9" class="left">2. Belum Tamat SD</td>
-			<td colspan="9" class="left">3. SD/Sederajat</td>
+			<td colspan="9" class="left">3. SD/Sederajat</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="15" >&nbsp;</td>
 			<td colspan="9" class="left">4. SLTP/Sederajat</td>
 			<td colspan="9" class="left">5. SLTA/Sederajat</td>
@@ -952,26 +952,26 @@
 			<td colspan="15" >&nbsp;</td>
 			<td colspan="9" class="left">9. Strata II</td>
 			<td colspan="9" class="left">10. Strata III</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">38.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_wanita']?></td>
-			<td>&nbsp;</td>
+			<td class="kotak" colspan="31"><?= $input['agama_wanita']?></td>
+			<td>&nbsp;</td><!-- 
 			<td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">39.</td>
@@ -1019,12 +1019,12 @@
 			<td colspan="2" class="kotak padat tengah">42.</td>
 			<td colspan="12" class="kotak">Status Perkawinan Sebelum Nikah</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['status_kawin_wanita']?></td>
+			<td class="kotak" colspan="31"><?= $input['status_kawin_wanita']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Belum kawin</td>
+			<!-- <td colspan="8" class="left">1. Belum kawin</td>
 			<td colspan="8" class="left">2. Kawin</td>
 			<td colspan="8" class="left">3. Cerai Hidup </td>
-			<td colspan="8" class="left">4. Cerai Mati </td>
+			<td colspan="8" class="left">4. Cerai Mati </td> -->
 		</tr>
 		<tr>
 			<td>&nbsp;&nbsp;</td>
@@ -1048,10 +1048,10 @@
 			<td colspan="2" class="kotak padat tengah">44.</td>
 			<td colspan="9" class="kotak">Kewarganegaraan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['wn_wanita']?></td>
+			<td class="kotak" colspan="34"><?= $input['wn_wanita']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. WNI</td>
-			<td colspan="8" class="left">2. WNA</td>
+			<!-- <td colspan="8" class="left">1. WNI</td>
+			<td colspan="8" class="left">2. WNA</td> -->
 		</tr>
 		<tr>
 			<td>&nbsp;&nbsp;</td>
@@ -1097,20 +1097,20 @@
 			<td colspan="2" class="kotak padat tengah">48.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_ayah_wanita']?></td>
+			<td class="kotak" colspan="31"><?= $input['agama_ayah_wanita']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Islam</td>
+			<!-- <td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">49.</td>
@@ -1284,20 +1284,20 @@
 			<td colspan="2" class="kotak padat tengah">55.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_ibu_wanita']?></td>
+			<td class="kotak" colspan="31"><?= $input['agama_ibu_wanita']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Islam</td>
+			<!-- <td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">56.</td>
@@ -1405,7 +1405,7 @@
 		<tr>
 			<td colspan="13" >&nbsp;</td>
 			<td colspan="7" class="left">a. Desa/Kelurahan</td>
-			<td colspan="11" class="kotak"><?= $input['desibu_wanita'];?></td>
+			<td colspan="11" class="kotak"><?= $input['desaibu_wanita'];?></td>
 			<td colspan="5" class="left">b. Kecamatan</td>
 			<td colspan="11" class="kotak"><?= $input['kecibu_wanita'];?></td>
 			<td>&nbsp;&nbsp;</td>
@@ -1523,20 +1523,20 @@
 			<td colspan="2" class="kotak padat tengah">63.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_saksi1']?></td>
+			<td class="kotak" colspan="31"><?= $input['agama_saksi1']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Islam</td>
+			<!-- <td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">64.</td>
@@ -1600,7 +1600,7 @@
 		<tr>
 			<td colspan="13" >&nbsp;</td>
 			<td colspan="7" class="left">a. Desa/Kelurahan</td>
-			<td colspan="11" class="kotak"><?= $input['dessaksi1'];?></td>
+			<td colspan="11" class="kotak"><?= $input['desasaksi1'];?></td>
 			<td colspan="5" class="left">b. Kecamatan</td>
 			<td colspan="11" class="kotak"><?= $input['kecsaksi1'];?></td>
 			<td>&nbsp;&nbsp;</td>
@@ -1618,7 +1618,9 @@
 			<td colspan="2" class="kotak padat tengah">66.</td>
 			<td colspan="9" class="kotak">Pekerjaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<?php for ($j = 0; $j < 2; $j++) : ?>
+			<td class="kotak" colspan="34"><?= $input['pekerjaanid_saksi1']?></td>
+			<td>&nbsp;</td>
+			<!-- <?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
 					<?php if (isset($input['pekerjaanid_saksi1'][$j])) : ?>
 						<?= $input['pekerjaanid_saksi1'][$j]; ?>
@@ -1628,7 +1630,7 @@
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
-			<td colspan="33"> Lihat tata cara pengisian formulir X JENIS PEKERJAAN No. 1 s/d 88</td>
+			<td colspan="33"> Lihat tata cara pengisian formulir X JENIS PEKERJAAN No. 1 s/d 88</td> -->
 		</tr>
 
 		<tr><td colspan="48">&nbsp;</td></tr>
@@ -1710,12 +1712,12 @@
 			<td colspan="2" class="kotak padat tengah">70.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['agama_saksi2']?></td>
+			<td class="kotak" colspan="31"><?= $input['agama_saksi2']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Islam</td>
+			<!-- <td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
 		<tr>
 			<td colspan="17" >&nbsp;</td>
@@ -1787,7 +1789,7 @@
 		<tr>
 			<td colspan="13" >&nbsp;</td>
 			<td colspan="7" class="left">a. Desa/Kelurahan</td>
-			<td colspan="11" class="kotak"><?= $input['dessaksi2'];?></td>
+			<td colspan="11" class="kotak"><?= $input['desasaksi2'];?></td>
 			<td colspan="5" class="left">b. Kecamatan</td>
 			<td colspan="11" class="kotak"><?= $input['kecsaksi2'];?></td>
 			<td>&nbsp;&nbsp;</td>
@@ -1805,17 +1807,19 @@
 			<td colspan="2" class="kotak padat tengah">73.</td>
 			<td colspan="9" class="kotak">Pekerjaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<?php for ($j = 0; $j < 2; $j++) : ?>
+			<td class="kotak" colspan="34"><?= $input['pekerjaanid_saksi2']?></td>
+			<td>&nbsp;</td>
+			<!-- <?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($pekerjaanid_saksi2[$j])) : ?>
-						<?= $pekerjaanid_saksi2[$j]; ?>
+					<?php if (isset($input['pekerjaanid_saksi2'][$j])) : ?>
+						<?= $input['pekerjaanid_saksi2'][$j]; ?>
 					<?php else : ?>
 						&nbsp;
 					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
-			<td colspan="33"> Lihat tata cara pengisian formulir X JENIS PEKERJAAN No. 1 s/d 88</td>
+			<td colspan="33"> Lihat tata cara pengisian formulir X JENIS PEKERJAAN No. 1 s/d 88</td> -->
 		</tr>
 
 		<tr><td colspan="48">&nbsp;</td></tr>
@@ -1831,6 +1835,10 @@
 			<td colspan="9" class="kotak">Tanggal Pemberkatan Perkawinan</td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">Tgl</td>
+			<?php $tgl = date('dd', strtotime($input['tanggal_pemberkatan']));
+			$bln = date('mm', strtotime($input['tanggal_pemberkatan']));
+			$thn = date('Y', strtotime($input['tanggal_pemberkatan']));
+			?>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
 					<?php if (isset($tgl[$j])) : ?>
@@ -1869,10 +1877,10 @@
 			<td colspan="2" class="kotak padat tengah">75.</td>
 			<td colspan="12" class="kotak">Hari, Tanggal, Bulan dan Tahun Melapor</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="9" class="kotak"><?= $individu['alamat']?></td>
-			<?php $tgl = date('dd', strtotime($input['tanggal_pindah']));
-			$bln = date('mm', strtotime($input['tanggal_pindah']));
-			$thn = date('Y', strtotime($input['tanggal_pindah']));
+			<td colspan="9" class="kotak"><?= $input['hari_lapor']?></td>
+			<?php $tgl = date('dd', strtotime($input['tanggal_lapor']));
+			$bln = date('mm', strtotime($input['tanggal_lapor']));
+			$thn = date('Y', strtotime($input['tanggal_lapor']));
 			?>
 			<td colspan="2" class="tengah">Tgl</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
@@ -1913,15 +1921,7 @@
 			<td colspan="2" class="kotak padat tengah">76.</td>
 			<td colspan="9" class="kotak">Pukul</td>
 			<td>&nbsp;&nbsp;</td>
-			<?php for ($j = 0; $j < 2; $j++) : ?>
-				<td class="kotak tengah">
-					<?php if (isset($tgl[$j])) : ?>
-						<?= $tgl[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
-				</td>
-			<?php endfor; ?>
+			<td colspan="9" class="kotak"><?= $input['jam_lapor']?></td>
 			<td>&nbsp;</td>
 			<td colspan="13">&nbsp;</td>
 		</tr>
@@ -1930,26 +1930,26 @@
 			<td colspan="2" class="kotak padat tengah">70.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td class="kotak"><?= $input['alasan_permohonan_id']?></td>
+			<td class="kotak" colspan="32"><?= $input['agama_kawin']?></td>
 			<td>&nbsp;</td>
-			<td colspan="8" class="left">1. Islam</td>
+			<!-- <td colspan="8" class="left">1. Islam</td>
 			<td colspan="8" class="left">2. Kristen</td>
 			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td>
+			<td colspan="8" class="left">4. Hindu</td> -->
 		</tr>
-		<tr>
+		<!-- <tr>
 			<td colspan="18" >&nbsp;</td>
 			<td colspan="8" class="left">5. Budha</td>
 			<td colspan="8" class="left">6. Khonghucu</td>
 			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
 			<td colspan="8" class="left">8. Lainnya</td>
-		</tr>
+		</tr> -->
 		<tr>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="kotak padat tengah">78.</td>
 			<td colspan="15" class="kotak">Nama Organisasi Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="28" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="28" class="kotak"><?= $input['penghayat_kawin']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
@@ -1957,7 +1957,7 @@
 			<td colspan="2" class="kotak padat tengah">79.</td>
 			<td colspan="12" class="kotak">Nama Badan Peradilan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="31" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="31" class="kotak"><?= $input['badan_peradilan']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
@@ -1965,7 +1965,7 @@
 			<td colspan="2" class="kotak padat tengah">80.</td>
 			<td colspan="12" class="kotak">Nomor Putusan Penetapan Pengadilan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="31" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="31" class="kotak"><?= $input['nomor_putusan']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
@@ -1974,6 +1974,10 @@
 			<td colspan="12" class="kotak">Tanggal Putusan Penetapan Pengadilan</td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">Tgl</td>
+			<?php $tgl = date('dd', strtotime($input['tanggal_putusan']));
+			$bln = date('mm', strtotime($input['tanggal_putusan']));
+			$thn = date('Y', strtotime($input['tanggal_putusan']));
+			?>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
 					<?php if (isset($tgl[$j])) : ?>
@@ -2012,7 +2016,7 @@
 			<td colspan="2" class="kotak padat tengah">82.</td>
 			<td colspan="12" class="kotak">Nama Pemuka Agama/Pghyt Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="31" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="31" class="kotak"><?= $input['nama_pemuka']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
@@ -2020,7 +2024,7 @@
 			<td colspan="2" class="kotak padat tengah">83.</td>
 			<td colspan="12" class="kotak">Ijin Perwakilan bagi WNA / Nomor</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="31" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="31" class="kotak"><?= $input['ijin_wna']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
@@ -2028,17 +2032,8 @@
 			<td colspan="2" class="kotak padat tengah">84.</td>
 			<td colspan="12" class="kotak">Jumlah Anak Yang Telah Diakui dan Disahkan</td>
 			<td>&nbsp;&nbsp;</td>
-			<?php for ($j = 0; $j < 2; $j++) : ?>
-				<td class="kotak tengah">
-					<?php if (isset($tgl[$j])) : ?>
-						<?= $tgl[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
-				</td>
-			<?php endfor; ?>
+			<td colspan="31" class="kotak"><?= $input['jumlah_anak']?></td>
 			<td>&nbsp;</td>
-			<td colspan="13">&nbsp;</td>
 		</tr>
 
 		<tr>
@@ -2047,42 +2042,42 @@
 			<td colspan="6" class="kotak">Nama Anak</td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">1.</td>
-			<td colspan="35" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="35" class="kotak"><?= $input['nama_anak1']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="9"></td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">2.</td>
-			<td colspan="35" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="35" class="kotak"><?= $input['nama_anak2']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="9"></td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">3.</td>
-			<td colspan="35" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="35" class="kotak"><?= $input['nama_anak3']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="9"></td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">4.</td>
-			<td colspan="35" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="35" class="kotak"><?= $input['nama_anak4']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="9"></td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">5.</td>
-			<td colspan="35" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="35" class="kotak"><?= $input['nama_anak5']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="9"></td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">6.</td>
-			<td colspan="35" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="35" class="kotak"><?= $input['nama_anak6']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 
@@ -2092,44 +2087,44 @@
 			<td colspan="9" class="kotak">No, Tgl. Akta Kelahiran</td>
 			<td>&nbsp;&nbsp;</td>
 			<td colspan="2" class="tengah">1. No.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['no_akta_anak1']?></td>
 			<td colspan="2" class="tengah">Tgl.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['tgl_akta_anak1']?></td>
 		</tr>
 		<tr>
 			<td colspan="13"></td>
 			<td colspan="2" class="tengah">2. No.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['no_akta_anak2']?></td>
 			<td colspan="2" class="tengah">Tgl.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['tgl_akta_anak2']?></td>
 		</tr>
 		<tr>
 			<td colspan="13"></td>
 			<td colspan="2" class="tengah">3. No.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['no_akta_anak3']?></td>
 			<td colspan="2" class="tengah">Tgl.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['tgl_akta_anak3']?></td>
 		</tr>
 		<tr>
 			<td colspan="13"></td>
 			<td colspan="2" class="tengah">4. No.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['no_akta_anak4']?></td>
 			<td colspan="2" class="tengah">Tgl.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['tgl_akta_anak4']?></td>
 		</tr>
 		<tr>
 			<td colspan="13"></td>
 			<td colspan="2" class="tengah">5. No.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['no_akta_anak5']?></td>
 			<td colspan="2" class="tengah">Tgl.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['tgl_akta_anak5']?></td>
 		</tr>
 		<tr>
 			<td colspan="13"></td>
 			<td colspan="2" class="tengah">6. No.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['no_akta_anak6']?></td>
 			<td colspan="2" class="tengah">Tgl.</td>
-			<td colspan="15" class="kotak"><?= $individu['alamat']?></td>
+			<td colspan="15" class="kotak"><?= $input['tgl_akta_anak6']?></td>
 		</tr>
 		<tr><td colspan="48" class="">&nbsp;</td></tr>
 		<tr>
@@ -2247,33 +2242,21 @@
 			<td colspan="2" class="tengah">Tgl</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($tgl[$j])) : ?>
-						<?= $tgl[$j]; ?>
-					<?php else : ?>
 						&nbsp;
-					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
 			<td colspan="2" class="tengah">Bln</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($bln[$j])) : ?>
-						<?= $bln[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
 			<td colspan="2" class="tengah">Thn</td>
 			<?php for ($j = 0; $j < 4; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($thn[$j])) : ?>
-						<?= $thn[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td colspan="13">&nbsp;</td>
@@ -2286,33 +2269,21 @@
 			<td colspan="2" class="tengah">Tgl</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($tgl[$j])) : ?>
-						<?= $tgl[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
 			<td colspan="2" class="tengah">Bln</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($bln[$j])) : ?>
-						<?= $bln[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
 			<td colspan="2" class="tengah">Thn</td>
 			<?php for ($j = 0; $j < 4; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($thn[$j])) : ?>
-						<?= $thn[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td colspan="13">&nbsp;</td>
@@ -2333,33 +2304,21 @@
 			<td colspan="2" class="tengah">Tgl</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($tgl[$j])) : ?>
-						<?= $tgl[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
 			<td colspan="2" class="tengah">Bln</td>
 			<?php for ($j = 0; $j < 2; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($bln[$j])) : ?>
-						<?= $bln[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td>&nbsp;</td>
 			<td colspan="2" class="tengah">Thn</td>
 			<?php for ($j = 0; $j < 4; $j++) : ?>
 				<td class="kotak tengah">
-					<?php if (isset($thn[$j])) : ?>
-						<?= $thn[$j]; ?>
-					<?php else : ?>
-						&nbsp;
-					<?php endif; ?>
+					&nbsp;
 				</td>
 			<?php endfor; ?>
 			<td colspan="13">&nbsp;</td>

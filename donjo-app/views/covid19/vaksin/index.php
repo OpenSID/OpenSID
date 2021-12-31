@@ -21,11 +21,12 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url($this->controller . '/form'); ?>" title="Tambah Kader Pembangunan" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Data</a>
+						<a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 					</div>
 					<div class="box-body">
 						<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 							<form id="mainform" name="mainform" method="post">
-								<div class="row"> <?= $vaksin ?>
+								<div class="row">
 									<div class="col-sm-8">
 										<select class="form-control input-sm" name="vaksin" onchange="formAction('mainform', '<?= site_url($this->controller) . '/filter/vaksin' ?>')">
 											<option value="">-- Status Vaksin --</option>
@@ -36,11 +37,24 @@
 											<option value="5" <?= selected($vaksin, '5'); ?>>Tunda</option>
 										</select>
 										<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url("{$this->controller}/filter/dusun"); ?>')">
-											<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
+											<option value="">-- Pilih <?= ucwords($this->setting->sebutan_dusun); ?> --</option>
 											<?php foreach ($list_dusun as $data) : ?>
 												<option value="<?= $data['dusun']; ?>" <?= selected($dusun, $data['dusun']); ?>><?= set_ucwords($data['dusun']); ?></option>
 											<?php endforeach; ?>
 										</select>
+										<select class="form-control input-sm " name="jenis_vaksin" onchange="formAction('mainform','<?= site_url("{$this->controller}/filter/jenis_vaksin"); ?>')">
+											<option value="">-- Pilih Jenis Vaksin --</option>
+											<?php foreach ($list_vaksin as $data) : ?>
+												<option value="<?= $data; ?>" <?= selected($jenis_vaksin, $data); ?>><?= set_ucwords($data); ?></option>
+											<?php endforeach; ?>
+										</select>
+
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input type="text" class="form-control input-sm tgl-datepicker"  name="tanggal_vaksin" value="<?= ($tanggal_vaksin) ?>"  >
+										</div>
 									</div>
 									<div class="col-sm-4">
 										<div class="input-group input-group-sm pull-right">
@@ -110,3 +124,15 @@
 		</div>
 	</section>
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.tgl-datepicker').datetimepicker({
+			format: 'DD-MM-YYYY',
+			useCurrent: false
+		});
+
+		$('.tgl-datepicker').on('dp.change', function(e){
+			formAction('mainform','<?= site_url("{$this->controller}/filter/tanggal_vaksin"); ?>')
+		});
+	});
+</script>

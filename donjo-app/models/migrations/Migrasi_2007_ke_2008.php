@@ -498,53 +498,55 @@ class Migrasi_2007_ke_2008 extends CI_model
 
         $data = $this->db->get('data_persil')->result_array();
 
-        foreach ($data as $persil) {
-            // 1. Buat persil
-            $baru = [
-                'nomor'       => $persil['nama'],
-                'kelas'       => 0, // $persil['kelas'] tidak dapat digunakan karena bukan kode
-                'luas_persil' => $persil['luas'],
-                'id_wilayah'  => $persil['id_clusterdesa'],
-                'path'        => $persil['peta'],
-            ];
-            $this->db->insert('persil', $baru);
-            $id_persil = $this->db->insert_id();
-            // 2. Buat cdesa sebagai pemilik awal setiap persil
-            if ($persil['jenis_pemilik'] == 1) {
-                $nama_pemilik = $this->db->select('nama')
-                    ->from('tweb_penduduk')
-                    ->where('id', $persil['id_pend'])
-                    ->get()->row()
-                    ->nama;
-            } else {
-                $nama_pemilik = $persil['pemilik_luar'];
-            }
-            $cdesa = [
-                'nomor'               => $persil['nama'], // samakan dengan nonmor persil
-                'nama_kepemilikan'    => $nama_pemilik,
-                'jenis_pemilik'       => $persil['jenis_pemilik'],
-                'nama_pemilik_luar'   => $persil['pemilik_luar'],
-                'alamat_pemilik_luar' => $persil['alamat_luar'],
-                'created_at'          => $persil['rdate'],
-                'created_by'          => $persil['userID'],
-            ];
-            $this->db->insert('cdesa', $cdesa);
-            $id_cdesa = $this->db->insert_id();
-            $this->db->where('id', $id_persil)
-                ->update('persil', ['cdesa_awal' => $id_cdesa]);
-            $mutasi = [
-                'id_cdesa_masuk' => $id_cdesa,
-                'jenis_mutasi'   => '9',
-                'tanggal_mutasi' => $persil['rdate'],
-                'id_persil'      => $id_persil,
-                'luas'           => $persil['luas'],
-                'no_objek_pajak' => $persil['no_sppt_pbb'],
-                'keterangan'     => 'Pemilik awal persil ini',
-            ];
-            $this->db->insert('mutasi_cdesa', $mutasi);
-            // 3. Kalau pemilik adalah warga desa, buat cdesa_penduduk
-            if ($persil['jenis_pemilik'] == 1) {
-                $this->db->insert('cdesa_penduduk', ['id_cdesa' => $id_cdesa, 'id_pend' => $persil['id_pend']]);
+        if ($data) {
+            foreach ($data as $persil) {
+                // 1. Buat persil
+                $baru = [
+                    'nomor'       => $persil['nama'],
+                    'kelas'       => 0, // $persil['kelas'] tidak dapat digunakan karena bukan kode
+                    'luas_persil' => $persil['luas'],
+                    'id_wilayah'  => $persil['id_clusterdesa'],
+                    'path'        => $persil['peta'],
+                ];
+                $this->db->insert('persil', $baru);
+                $id_persil = $this->db->insert_id();
+                // 2. Buat cdesa sebagai pemilik awal setiap persil
+                if ($persil['jenis_pemilik'] == 1) {
+                    $nama_pemilik = $this->db->select('nama')
+                        ->from('tweb_penduduk')
+                        ->where('id', $persil['id_pend'])
+                        ->get()->row()
+                        ->nama;
+                } else {
+                    $nama_pemilik = $persil['pemilik_luar'];
+                }
+                $cdesa = [
+                    'nomor'               => $persil['nama'], // samakan dengan nonmor persil
+                    'nama_kepemilikan'    => $nama_pemilik,
+                    'jenis_pemilik'       => $persil['jenis_pemilik'],
+                    'nama_pemilik_luar'   => $persil['pemilik_luar'],
+                    'alamat_pemilik_luar' => $persil['alamat_luar'],
+                    'created_at'          => $persil['rdate'],
+                    'created_by'          => $persil['userID'],
+                ];
+                $this->db->insert('cdesa', $cdesa);
+                $id_cdesa = $this->db->insert_id();
+                $this->db->where('id', $id_persil)
+                    ->update('persil', ['cdesa_awal' => $id_cdesa]);
+                $mutasi = [
+                    'id_cdesa_masuk' => $id_cdesa,
+                    'jenis_mutasi'   => '9',
+                    'tanggal_mutasi' => $persil['rdate'],
+                    'id_persil'      => $id_persil,
+                    'luas'           => $persil['luas'],
+                    'no_objek_pajak' => $persil['no_sppt_pbb'],
+                    'keterangan'     => 'Pemilik awal persil ini',
+                ];
+                $this->db->insert('mutasi_cdesa', $mutasi);
+                // 3. Kalau pemilik adalah warga desa, buat cdesa_penduduk
+                if ($persil['jenis_pemilik'] == 1) {
+                    $this->db->insert('cdesa_penduduk', ['id_cdesa' => $id_cdesa, 'id_pend' => $persil['id_pend']]);
+                }
             }
         }
     }
@@ -615,11 +617,13 @@ class Migrasi_2007_ke_2008 extends CI_model
             $dir   = LOKASI_SIMBOL_LOKASI_DEF;
             $files = scandir($dir);
 
-            foreach ($files as $file) {
-                if (! empty($file) && $file != '.' && $file != '..') {
-                    $source      = $dir . '/' . $file;
-                    $destination = $new_dir . '/' . $file;
-                    $outp        = $outp && copy($source, $destination);
+            if ($files) {
+                foreach ($files as $file) {
+                    if (! empty($file) && $file != '.' && $file != '..') {
+                        $source      = $dir . '/' . $file;
+                        $destination = $new_dir . '/' . $file;
+                        $outp        = $outp && copy($source, $destination);
+                    }
                 }
             }
             status_sukses($outp);

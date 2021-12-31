@@ -13,7 +13,7 @@
 		<div class="box box-info">
 			<?php if ($this->CI->cek_hak_akses('u')): ?>
 				<div class="box-header with-border">
-					<a href="<?= site_url($this->controller)?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pemudik Saat Covid-19"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk Penerima Vaksin Covid 19</a>
+					<a href="<?= site_url($this->controller)?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pemudik Saat Covid-19"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk Penerima Vaksin Covid 19</a>
 				</div>
 			<?php endif; ?>
 			<div class="box-header with-border">
@@ -42,17 +42,14 @@
 						<input type="hidden" name="id_penduduk" value="<?= $penduduk->id ?>">
 
 						<div class="form-group">
-							<label  class="col-sm-12 control-label"></label>
-						</div>
-
-						<div class="form-group">
-							<label for="tunda" class="col-sm-3 control-label"> Tunda Vaksin <?= ($penduduk->tunda) ?></label>
-							<div class="btn-group col-sm-4" data-toggle="buttons">
-								<label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 <?= ($penduduk->tunda == 1) ? 'active' : ''; ?>" >
-									<input type="radio" name="tunda" class="form-check-input" value="1" autocomplete="off" <?= ($penduduk->tunda == 1) ? 'selected' : ''; ?> > Ya
+							<label for="tunda" class="col-xs-12 col-sm-3 col-lg-3 control-label"> Tunda Vaksin</label>
+							<input type="hidden" name="tunda" value="<?= (int) ($penduduk->tunda) ?>">
+							<div class="btn-group col-xs-12 col-sm-4" data-toggle="buttons">
+								<label class="btn btn-info btn-flat btn-sm form-check-label col-xs-6 col-sm-6 <?= ($penduduk->tunda == 1) ? 'active' : ''; ?>"  >
+									<input id="tunda_v" type="radio" name="tunda_radio" class="form-check-input" value="1" autocomplete="off" <?= ($penduduk->tunda == 1) ? 'selected' : ''; ?> > Ya
 								</label>
-								<label class="btn btn-info btn-flat btn-sm form-check-label col-sm-6 <?= ($penduduk->tunda == 0) ? 'active' : ''; ?>" >
-									<input type="radio" name="tunda" class="form-check-input" value="0" autocomplete="off" <?= ($penduduk->tunda == '0' || $penduduk->tunda == null) ? 'selected' : ''; ?> selected> Tidak
+								<label id="tidak" class="btn btn-info btn-flat btn-sm form-check-label col-xs-6 col-sm-6 <?= ($penduduk->tunda == 0) ? 'active' : ''; ?>" >
+									<input type="radio" name="tunda_radio" class="form-check-input" value="0" autocomplete="off" <?= ($penduduk->tunda == '0' || $penduduk->tunda == null) ? 'selected' : ''; ?> > Tidak
 								</label>
 							</div>
 						</div>
@@ -84,21 +81,36 @@
 							<div class="col-sm-4">
 								<div class="input-group input-group-sm date ">
 									<span class="input-group-addon">
-										<input type="checkbox" title="Centang jika sudah vaksin dosis 1" id="centang_vaksin_1" data-ke="1" class="centang_vaksin" checked="checked" <?= ($penduduk->tunda == '1') ? 'disabled' : ''; ?> value="1" name="vaksin_1">
+										<input type="checkbox" title="Centang jika sudah vaksin dosis 1" id="centang_vaksin_1" data-ke="1" class="centang_vaksin" checked="checked" <?= jecho($penduduk->tunda, 1, 'disabled'); ?> value="1" name="vaksin_1" >
 									</span>
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i> Tanggal Vaksin
 									</div>
-									<input type="text" class="form-control input-sm pull-right tgl-datepicker" id="tanggal_vaksin_1"  name="tgl_vaksin_1" value="<?= $penduduk->tgl_vaksin_1; ?>" <?= ($penduduk->tunda == 1) ? 'disabled' : ''; ?>>
+									<input type="text" class="form-control input-sm pull-right tgl-datepicker" id="tanggal_vaksin_1"  name="tgl_vaksin_1" value="<?= rev_tgl($penduduk->tgl_vaksin_1); ?>" <?= ($penduduk->tunda == 1) ? 'disabled' : ''; ?>>
 								</div>
 							</div>
 
 							<div class="col-sm-4">
+								<div class="input-group input-group-sm date ">
+									<div class="input-group-addon">Jenis Vaksin</div>
+									<select class="form-control input-sm select2-tags" data-url="<?= site_url($this->controller) ?>" data-placeholder="-- Pilih Jenis Vaksin --" id="jenis_vaksin_1" name="jenis_vaksin_1" disabled>
+										<option value="">-- Pilih Jenis vaksin -- </option>
+										<?php foreach ($list_vaksin as $vaksin): ?>
+											<option value="<?= $vaksin ?>" <?= selected($vaksin, $penduduk->jenis_vaksin_1); ?>><?= $vaksin ?></option>
+										<?php endforeach ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-3"></div>
+							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
-									<input type="text" class="form-control" id="file_path1" placeholder="Upload Dokumen/Sertifikat" <?= ($penduduk->tunda == '1') ? 'disabled' : ''; ?>>
+									<input type="text" class="form-control" id="file_path1" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
 									<input id="file1" type="file" class="hidden" name="vaksin_1">
 									<span class="input-group-btn">
-										<button type="button" class="btn btn-info btn-flat" id="file_browser1" <?= ($penduduk->tunda == '1') ? 'disabled' : ''; ?>><i class="fa fa-search"></i> Browse</button>
+										<button type="button" class="btn btn-info btn-flat" id="file_browser1" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>
 									</span>
 								</div>
 							</div>
@@ -115,37 +127,67 @@
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i> Tanggal Vaksin
 									</div>
-									<input type="text" class="form-control input-sm pull-right tgl-datepicker" id="tanggal_vaksin_2" name="tgl_vaksin_2" value="<?= $penduduk->tgl_vaksin_2; ?>" disabled>
+									<input type="text" class="form-control input-sm pull-right tgl-datepicker" id="tanggal_vaksin_2" name="tgl_vaksin_2" value="<?= rev_tgl($penduduk->tgl_vaksin_2); ?>" disabled>
 								</div>
 							</div>
 
 							<div class="col-sm-4">
+								<div class="input-group input-group-sm date ">
+									<div class="input-group-addon">Jenis Vaksin</div>
+									<select class="form-control input-sm select2-tags" data-url="<?= site_url($this->controller) ?>" data-placeholder="-- Pilih Jenis Vaksin --" id="jenis_vaksin_2" name="jenis_vaksin_2" disabled>
+										<option value="">-- Pilih Jenis vaksin -- </option>
+										<?php foreach ($list_vaksin as $vaksin): ?>
+											<option value="<?= $vaksin ?>" <?= selected($vaksin, $penduduk->jenis_vaksin_2); ?>><?= $vaksin ?></option>
+										<?php endforeach ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-3"></div>
+							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
-									<input type="text" class="form-control" id="file_path2" placeholder="Upload Dokumen/Sertifikat" disabled>
-									<input id="file2" type="file" class="hidden" name="vaksin_2">
+									<input type="text" class="form-control" id="file_path1" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
+									<input id="file1" type="file" class="hidden" name="vaksin_1">
 									<span class="input-group-btn">
-										<button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i> Browse</button>
+										<button type="button" class="btn btn-info btn-flat" id="file_browser1" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>
 									</span>
 								</div>
 							</div>
 						</div>
 
-						<!-- vaksin dosis 2 -->
+						<!-- vaksin dosis 3 -->
 						<div class="form-group">
 							<label for="centang_vaksin_3" class="col-sm-3 control-label">Vakin Dosis 3</label>
 							<div class="col-sm-4">
 								<div class="input-group input-group-sm date ">
 									<span class="input-group-addon">
-										<input type="checkbox" title="Centang jika sudah vaksin dosis 3" id="centang_vaksin_3" data-ke="3" class="centang_vaksin" <?= jecho($penduduk->vaksin_3, 1, 'checked="checked"'); ?> value="1" name="vaksin_3">
+										<input type="checkbox" title="Centang jika sudah vaksin dosis 3" id="centang_vaksin_3" data-ke="3" class="centang_vaksin" <?= jecho($penduduk->vaksin_3, 1, 'checked="checked"'); ?> value="1" name="vaksin_3" disabled>
 									</span>
 									<div class="input-group-addon">
 										<i class="fa fa-calendar"></i> Tanggal Vaksin
 									</div>
-									<input type="text" class="form-control input-sm pull-right tgl-datepicker " id="tanggal_vaksin_3" data-ke="3" name="tgl_vaksin_3" value="<?= $penduduk->tgl_vaksin_3; ?>" disabled>
+									<input type="text" class="form-control input-sm pull-right tgl-datepicker " id="tanggal_vaksin_3" data-ke="3" name="tgl_vaksin_3" value="<?= rev_tgl($penduduk->tgl_vaksin_3); ?>" disabled>
 								</div>
 							</div>
 
 							<div class="col-sm-4">
+								<div class="input-group input-group-sm date ">
+									<div class="input-group-addon">Jenis Vaksin</div>
+									<select class="form-control input-sm select2-tags" data-url="<?= site_url($this->controller) ?>" data-placeholder="-- Pilih Jenis Vaksin --" id="jenis_vaksin_3" name="jenis_vaksin_3" disabled>
+										<option value="">-- Pilih Jenis vaksin -- </option>
+										<?php foreach ($list_vaksin as $vaksin): ?>
+											<option value="<?= $vaksin ?>" <?= selected($vaksin, $penduduk->jenis_vaksin_3); ?>><?= $vaksin ?></option>
+										<?php endforeach ?>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-3"></div>
+							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path3" placeholder="Upload Dokumen/Sertifikat" disabled>
 									<input id="file3" type="file" class="hidden" name="vaksin_3">
@@ -156,10 +198,6 @@
 							</div>
 						</div>
 
-						<div class="form-group">
-							<label  class="col-sm-12 control-label"></label>
-						</div>
-						<!-- tunda Vaksin -->
 					</form>
 				</div>
 				<div class="box-footer">
@@ -176,20 +214,63 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 
-
-		$('input[name="tunda"]').change(function(event) {
-			if ($(this).val() == 0) {
-				$('.centang_vaksin').prop( "disabled", false );
+		// fungsi cek vaksin
+		function cek_vaksin() {
+			var tunda = $('input[name="tunda"]').val();
+			if (tunda == 1) {
 				for (var i = 1; i <= 3; i++) {
+					// disable vaksin
+					$(`#tanggal_vaksin_${i}`).prop( "disabled", true );
+					$(`#file_path${i}`).prop( "disabled", true );
+					$(`#file_browser${i}`).prop( "disabled", true );
+					$(`#jenis_vaksin_${i}`).prop( "disabled", true );
+					$(`#centang_vaksin_${i}`).prop( "disabled", true );
+				}
+			} else {
+				$(`#centang_vaksin_1`).prop( "disabled", false );
+				for (var i = 1; i <= 3; i++) {
+					if ($(`#centang_vaksin_${i}`).is(':checked')) {
+						$(`#tanggal_vaksin_${i}`).prop( "disabled", false );
+							$(`#file_path${i}`).prop( "disabled", false );
+							$(`#file_browser${i}`).prop( "disabled", false );
+							$(`#centang_vaksin_${i+1}`).prop( "disabled", false );
+							$(`#jenis_vaksin_${i}`).prop( "disabled", false );
+					}
+				}
+			}
+		}
+		cek_vaksin(); // load cek
+
+		// fungsi aktifkan vaksin
+		function enable_vaksin() {
+			$(`#centang_vaksin_1`).prop( "disabled", false );
+			$(`#tanggal_vaksin_1`).prop( "disabled", false );
+			$(`#file_path1`).prop( "disabled", false );
+			$(`#file_browser1`).prop( "disabled", false );
+			$(`#jenis_vaksin_1`).prop( "disabled", false );
+			for (var i = 2; i <= 3; i++) {
+				// enable checkbox
+				if ($(`#centang_vaksin_${i-1}`).is(':checked')) {
+					$(`#centang_vaksin_${i}`).prop( "disabled", false );
+				}
+
+				if ($(`#centang_vaksin_${i}`).is(':checked')) {
 					$(`#tanggal_vaksin_${i}`).prop( "disabled", false );
 					$(`#file_path${i}`).prop( "disabled", false );
 					$(`#file_browser${i}`).prop( "disabled", false );
-					$(`#keterangan`).prop( "disabled", false );
+					$(`#jenis_vaksin_${i}`).prop( "disabled", false );
 				}
+			}
+		}
+
+		$('input[name="tunda_radio"]').change(function(event) {
+			$('input[name="tunda"]').val($(this).val());
+			if ($(this).val() == 0) {
+				enable_vaksin();
 				$(`#file_path4`).prop( "disabled", true );
 				$(`#file_browser4`).prop( "disabled", true );
 				$('#keterangan').prop("disabled", true );
-			}else{
+			} else {
 				$('.centang_vaksin').prop( "disabled", true );
 				$('#keterangan').prop( "disabled", false );
 				$(`#file_path4`).prop( "disabled", false );
@@ -198,8 +279,8 @@
 					$(`#tanggal_vaksin_${i}`).prop( "disabled", true );
 					$(`#file_path${i}`).prop( "disabled", true );
 					$(`#file_browser${i}`).prop( "disabled", true );
+					$(`#jenis_vaksin_${i}`).prop( "disabled", true );
 				}
-
 			}
 		});
 
@@ -209,10 +290,14 @@
 				$(`#tanggal_vaksin_${ke}`).prop( "disabled", false );
 				$(`#file_path${ke}`).prop( "disabled", false );
 				$(`#file_browser${ke}`).prop( "disabled", false );
+				$(`#jenis_vaksin_${ke}`).prop( "disabled", false );
+				$(`#centang_vaksin_${ke+1}`).prop( "disabled", false );
 			} else {
 				$(`#tanggal_vaksin_${ke}`).prop( "disabled", true );
 				$(`#file_path${ke}`).prop( "disabled", true );
 				$(`#file_browser${ke}`).prop( "disabled", true );
+				$(`#jenis_vaksin_${ke}`).prop( "disabled", true );
+				$(`#centang_vaksin_${ke+1}`).prop( "disabled", true );
 			}
 		});
 

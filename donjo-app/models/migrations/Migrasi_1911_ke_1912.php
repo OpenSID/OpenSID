@@ -131,12 +131,14 @@ class Migrasi_1911_ke_1912 extends CI_model
             // Pindahkan isi kolom sebelumnya
             $dokumen = $this->db->select('id, attr')->get('dokumen')->result_array();
 
-            foreach ($dokumen as $dok) {
-                $attr = json_decode($dok['attr'], true);
-                $kat  = $attr['kategori_publik'];
-                unset($attr['kategori_publik']);
-                $this->db->where('id', $dok['id'])
-                    ->update('dokumen', ['kategori_info_publik' => $kat, 'attr' => json_encode($attr)]);
+            if ($dokumen) {
+                foreach ($dokumen as $dok) {
+                    $attr = json_decode($dok['attr'], true);
+                    $kat  = $attr['kategori_publik'];
+                    unset($attr['kategori_publik']);
+                    $this->db->where('id', $dok['id'])
+                        ->update('dokumen', ['kategori_info_publik' => $kat, 'attr' => json_encode($attr)]);
+                }
             }
         }
         // Isi kategori_info_publik untuk semua dokumen SK Kades dan Perdes sebagai 'Informasi Setiap Saat'

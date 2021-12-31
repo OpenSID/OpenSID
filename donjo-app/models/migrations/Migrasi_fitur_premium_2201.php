@@ -55,8 +55,9 @@ class Migrasi_fitur_premium_2201 extends MY_model
         $hasil = $hasil && $this->migrasi_2021122471($hasil);
         $hasil = $hasil && $this->migrasi_2021122971($hasil);
         $hasil = $hasil && $this->migrasi_2021122972($hasil);
+        $hasil = $hasil && $this->migrasi_2021122973($hasil);
 
-        return $hasil && $this->migrasi_2021122973($hasil);
+        return $hasil && $this->migrasi_2021123051($hasil);
     }
 
     protected function migrasi_2021120271($hasil)
@@ -92,7 +93,7 @@ class Migrasi_fitur_premium_2201 extends MY_model
                 'kategori'   => 'setting_mandiri',
             ],
             [
-                'key'        => 'waktu_tampilan_anjungan',
+                'key'        => 'tampilan_anjungan_waktu',
                 'value'      => 30,
                 'keterangan' => 'Atur waktu (detik) kapan tampilan di anjungan akan muncul pada saat tidak ada aktifitas di halaman login.',
                 'jenis'      => 'int',
@@ -445,15 +446,55 @@ class Migrasi_fitur_premium_2201 extends MY_model
             'url_surat'  => 'surat_ket_nikah_non_muslim',
             'kode_surat' => 'S-50',
             'lampiran'   => 'f-2.12.php',
-            'jenis'      => 1, ];
+            'jenis'      => 1,
+        ];
         $sql = $this->db->insert_string('tweb_surat_format', $data);
         $sql .= ' ON DUPLICATE KEY UPDATE
-                nama = VALUES(nama),
-                url_surat = VALUES(url_surat),
-                kode_surat = VALUES(kode_surat),
-                lampiran = VALUES(lampiran),
-                jenis = VALUES(jenis)';
+            nama = VALUES(nama),
+            url_surat = VALUES(url_surat),
+            kode_surat = VALUES(kode_surat),
+            lampiran = VALUES(lampiran),
+            jenis = VALUES(jenis)';
 
         return $hasil && $this->db->query($sql);
+    }
+
+    public function migrasi_2021123051($hasil)
+    {
+        // tambah kolom jenis vaksin
+        if (! $this->db->field_exists('jenis_vaksin_1', 'covid19_vaksin')) {
+            $fields = [
+                'jenis_vaksin_1' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'after'      => 'dokumen_vaksin_1',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('covid19_vaksin', $fields);
+        }
+
+        if (! $this->db->field_exists('jenis_vaksin_2', 'covid19_vaksin')) {
+            $fields = [
+                'jenis_vaksin_2' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'after'      => 'dokumen_vaksin_2',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('covid19_vaksin', $fields);
+        }
+
+        if (! $this->db->field_exists('jenis_vaksin_3', 'covid19_vaksin')) {
+            $fields = [
+                'jenis_vaksin_3' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'after'      => 'dokumen_vaksin_3',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('covid19_vaksin', $fields);
+        }
+
+        return $hasil;
     }
 }
