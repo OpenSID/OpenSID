@@ -1,6 +1,6 @@
-Di rilis ini, versi 21.12-premium-beta03 menyediakan [untuk diisi] Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.01-premium menyediakan Layanan lapor/keluhan/pengaduan bagi warga/umum. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada @andifahruddinakas, @agungsugiarto, @FirlianiF, @scqolbu24, @FaisyalRachman dan @apidong yang terus berkontribusi. Terima kasih pula pada @totoprayogo1916 dan @raamaj yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 
