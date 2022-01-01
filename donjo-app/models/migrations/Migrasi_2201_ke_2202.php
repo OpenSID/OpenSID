@@ -1,15 +1,6 @@
 <?php
 
 /**
- * File ini:
- *
- * Model untuk modul database
- *
- * donjo-app/models/migrations/Migrasi_fitur_premium_2107.php
- *
- */
-
-/**
  *
  * File ini bagian dari:
  *
@@ -20,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -42,13 +33,22 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-
-class Migrasi_fitur_premium_2107 extends MY_Model
+class Migrasi_2201_ke_2202 extends MY_model
 {
 	public function up()
 	{
-		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
+    
+    // Migrasi fitur premium
+    // Jalankan migrasi fitur premium yg digabungkan sejak rilis sebelumnya
+    $daftar_migrasi_premium = ['2012', '2101', '2102', '2103', '2104', '2105', '2106'];
+    foreach ($daftar_migrasi_premium as $migrasi)
+    {
+      $migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
+      $file_migrasi = 'migrations/'.$migrasi_premium;
+      $this->load->model($file_migrasi);
+      $hasil = $hasil && $this->$migrasi_premium->up();
+    }
 
 		status_sukses($hasil);
 		return $hasil;
