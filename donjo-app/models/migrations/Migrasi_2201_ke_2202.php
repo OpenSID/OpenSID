@@ -35,9 +35,19 @@
  *
  */
 
-    header('Content-type: application/xls');
-    header('Content-Disposition: attachment; filename=' . 'laporan_' . urlencode($judul) . '_covid19_' . date('Y-m-d') . '.xls');
-    header('Pragma: no-cache');
-    header('Expires: 0');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-    include "donjo-app/views/covid19/cetak_{$judul}.php";
+class Migrasi_2201_ke_2202 extends MY_Model
+{
+    public function up()
+    {
+        $hasil = true;
+
+        // Migrasi fitur premium
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
+
+        status_sukses($hasil);
+
+        return $hasil;
+    }
+}
