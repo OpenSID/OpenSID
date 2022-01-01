@@ -60,18 +60,13 @@ class Pembangunan_model extends CI_Model
 		7  => 'p.tahun_anggaran',
 		8  => 'p.pelaksana_kegiatan',
 		9  => 'alamat',
-		10 => 'p.keterangan',
 	];
 
 	public function get_data(string $search = '', $tahun = '')
 	{
-		$builder = $this->db->select([
+		$this->lokasi_pembangunan_query();
+		$this->db->select([
 			'p.*',
-			"(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT(
-				(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-				(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-				w.dusun
-			) ELSE p.lokasi END) AS alamat",
 			'(CASE WHEN MAX(CAST(d.persentase as UNSIGNED INTEGER)) IS NOT NULL THEN CONCAT(MAX(CAST(d.persentase as UNSIGNED INTEGER)), "%") ELSE CONCAT("belum ada progres") END) AS max_persentase',
 		])
 		->from("{$this->table} p")
@@ -79,46 +74,38 @@ class Pembangunan_model extends CI_Model
 		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
 		->group_by('p.id');
 
-		if (empty($search))
+		if ($search)
 		{
-			$search = $builder;
-		}
-		else
-		{
-			$search = $builder->group_start()
-				->like('p.sumber_dana', $search)
-				->or_like('p.judul', $search)
-				->or_like('p.keterangan', $search)
-				->or_like('p.volume', $search)
-				->or_like('p.tahun_anggaran', $search)
-				->or_like('p.pelaksana_kegiatan', $search)
-				->or_like('p.lokasi', $search)
-				->or_like('p.anggaran', $search)
+			$this->db
+				->group_start()
+					->like('p.sumber_dana', $search)
+					->or_like('p.judul', $search)
+					->or_like('p.keterangan', $search)
+					->or_like('p.volume', $search)
+					->or_like('p.tahun_anggaran', $search)
+					->or_like('p.pelaksana_kegiatan', $search)
+					->or_like('p.lokasi', $search)
+					->or_like('p.anggaran', $search)
 				->group_end();
 		}
 
-		$condition = $tahun === 'semua'
-			? $search
-			: $search->where('p.tahun_anggaran', $tahun);
+		if ($tahun !== 'semua')
+		{
+			$this->db->where('p.tahun_anggaran', $tahun);
+		}
 
-		return $condition;
+		return $this->db;
 	}
 
 	public function list_lokasi_pembangunan()
 	{
-		$data = $this->db->select([
-			'p.*',
-			"(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT(
-				(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-				(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-				w.dusun
-			) ELSE p.lokasi END) AS alamat",
-		])
-		->from('pembangunan p')
-		->where('p.status = 1')
-		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
-		->get()
-		->result();
+		$this->lokasi_pembangunan_query();
+		$data = $this->db->select('p.*')
+			->from('pembangunan p')
+			->where('p.status = 1')
+			->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+			->get()
+			->result();
 
 		return $data;
 	}
@@ -137,8 +124,8 @@ class Pembangunan_model extends CI_Model
 		$data['keterangan']         = $post['keterangan'];
 		$data['created_at']         = date('Y-m-d H:i:s');
 		$data['updated_at']         = date('Y-m-d H:i:s');
-		$data['foto'] 						  = $this->upload_gambar_pembangunan('foto');
-		$data['anggaran']     			= $post['anggaran'];
+		$data['foto']               = $this->upload_gambar_pembangunan('foto');
+		$data['anggaran']           = $post['anggaran'];
 
 		if (empty($data['foto'])) unset($data['foto']);
 
@@ -165,8 +152,8 @@ class Pembangunan_model extends CI_Model
 		$data['keterangan']         = $post['keterangan'];
 		$data['created_at']         = date('Y-m-d H:i:s');
 		$data['updated_at']         = date('Y-m-d H:i:s');
-		$data['foto'] 						  = $this->upload_gambar_pembangunan('foto');
-		$data['anggaran']     			= $post['anggaran'];
+		$data['foto']               = $this->upload_gambar_pembangunan('foto');
+		$data['anggaran']           = $post['anggaran'];
 
 		if (empty($data['foto'])) unset($data['foto']);
 
@@ -246,19 +233,15 @@ class Pembangunan_model extends CI_Model
 
 	public function find($id)
 	{
-		return $this->db->select([
-			'p.*',
-			"(CASE WHEN p.id_lokasi IS NOT NULL THEN CONCAT(
-				(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
-				(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
-				w.dusun
-			) ELSE p.lokasi END) AS alamat",
-		])
-		->from("{$this->table} p")
-		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
-		->where('p.id', $id)
-		->get()
-		->row();
+		$this->lokasi_pembangunan_query();
+		$data = $this->db->select('p.*')
+			->from("{$this->table} p")
+			->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
+			->where('p.id', $id)
+			->get()
+			->row();
+
+		return $data;
 	}
 
 	public function list_filter_tahun()
@@ -282,5 +265,16 @@ class Pembangunan_model extends CI_Model
 		return $this->db->set('status', static::DISABLE)
 			->where('id', $id)
 			->update($this->table);
+	}
+
+	protected function lokasi_pembangunan_query()
+	{
+		$this->db->select(
+			"(CASE WHEN p.id_lokasi = w.id THEN CONCAT(
+				(CASE WHEN w.rt != '0' THEN CONCAT('RT ', w.rt, ' / ') ELSE '' END),
+				(CASE WHEN w.rw != '0' THEN CONCAT('RW ', w.rw, ' - ') ELSE '' END),
+				w.dusun
+			) ELSE CASE WHEN p.lokasi IS NOT NULL THEN p.lokasi ELSE '=== Lokasi Tidak Ditemukan ===' END END) AS alamat"
+		);
 	}
 }

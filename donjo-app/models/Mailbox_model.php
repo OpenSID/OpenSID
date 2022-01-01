@@ -34,6 +34,7 @@ class Mailbox_model extends CI_Model {
 		$data['status'] = $post['status'];
 		$data['subjek'] = strip_tags($post['subjek']);
 		$data['komentar'] = strip_tags($post['komentar']);
+		$data['permohonan'] = bilangan($post['permohonan']);
 		$data['id_artikel'] = 775;
 		$data['tgl_upload'] = date('Y-m-d H:i:s');
 		$data['updated_at'] = date('Y-m-d H:i:s');

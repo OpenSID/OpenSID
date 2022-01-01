@@ -85,6 +85,7 @@ class Komentar extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -124,12 +125,14 @@ class Komentar extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->insert();
 		redirect('komentar');
 	}
 
 	public function update($id='', $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->update($id);
 		redirect("komentar/index/$p/$o");
 	}
@@ -150,12 +153,14 @@ class Komentar extends Admin_Controller {
 
 	public function komentar_lock($id='')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->komentar_lock($id, 1);
 		redirect("komentar/index/$p/$o");
 	}
 
 	public function komentar_unlock($id='')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->web_komentar_model->komentar_lock($id, 2);
 		redirect("komentar/index/$p/$o");
 	}

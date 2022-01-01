@@ -54,9 +54,13 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 
-  // Setting $_SERVER['CI_ENV'] dilakukan di file .env (di .gitignore	)
+  // pengaturan lain yang tersimpan difile .env (di .gitignore)
 	if (file_exists('.env')) include '.env';
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'production');
+
+	defined('ENVIRONMENT') or define('ENVIRONMENT', 'production');
+	
+	// Setting devtoolsbar
+	defined('DEV_TOOLS_BAR') or define('DEV_TOOLS_BAR', false);
 
 /*
  *---------------------------------------------------------------

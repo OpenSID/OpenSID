@@ -90,6 +90,7 @@ class Inventaris_jalan extends Admin_Controller {
 
 	public function edit($id)
 	{
+		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_jalan_model->view($id);
 		$data['aset'] = $this->inventaris_jalan_model->list_aset();
 		$data['count_reg'] = $this->inventaris_jalan_model->count_reg();
@@ -102,6 +103,7 @@ class Inventaris_jalan extends Admin_Controller {
 
 	public function edit_mutasi($id)
 	{
+		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_jalan_model->edit_mutasi($id);
 		$data['tip'] = 2;
 		$this->set_minsidebar(1);
@@ -110,6 +112,7 @@ class Inventaris_jalan extends Admin_Controller {
 
 	public function form()
 	{
+		$this->redirect_hak_akses('u');
 		$data['tip'] = 1;
 
 		$data['get_kode'] = $this->header['desa'];
@@ -122,6 +125,7 @@ class Inventaris_jalan extends Admin_Controller {
 
 	public function form_mutasi($id)
 	{
+		$this->redirect_hak_akses('u');
 		$data['main'] = $this->inventaris_jalan_model->view($id);
 		$data['tip'] = 2;
 		$this->set_minsidebar(1);

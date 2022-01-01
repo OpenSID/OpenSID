@@ -43,7 +43,6 @@
 		<?php else: ?>
 			<span class="cycle-pager"></span>  <!-- Untuk membuat tanda bulat atau link pada slider -->
 		<?php endif; ?>
-
 		<?php foreach ($aparatur_desa['daftar_perangkat'] as $data) : ?>
 				<img src="<?= $data['foto'] ?>"
 				data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>"

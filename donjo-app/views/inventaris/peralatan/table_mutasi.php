@@ -30,6 +30,7 @@
 																<th class="text-center">Kode Barang / Nomor Registrasi</th>
 																<th class="text-center">Tahun Pengadaan</th>
 																<th class="text-center">Tanggal Mutasi</th>
+																<th class="text-center">Status Peralatan</th>
 																<th class="text-center">Jenis Mutasi</th>
 																<th class="text-center" width="300px">Keterangan</th>
 															</tr>
@@ -43,13 +44,18 @@
 																			<a href="<?= site_url('inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																		<?php endif; ?>
 																		<a href="<?= site_url('inventaris_peralatan/view_mutasi/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																		<a href="<?= site_url('inventaris_peralatan/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-																		<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?= site_url('inventaris_peralatan/edit_mutasi/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<?php endif; ?>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete_mutasi/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif; ?>
 																	</td>
 																  <td><?= $data->nama_barang;?></td>
 																	<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
 																	<td><?= $data->tahun_pengadaan;?></td>
 																	<td nowrap><?= date('d M Y',strtotime($data->tahun_mutasi));?></td>
+																	<td><?= $data->status_mutasi;?></td>
 																	<td><?= $data->jenis_mutasi;?></td>
 																	<td><?= $data->keterangan;?></td>
 																</tr>

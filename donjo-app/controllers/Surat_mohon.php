@@ -84,6 +84,7 @@ class Surat_mohon extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -99,18 +100,6 @@ class Surat_mohon extends Admin_Controller {
 		}
 
 		$this->render('surat_master/surat_mohon_form', $data);
-	}
-
-	public function form_upload($p = 1, $o = 0, $url = '')
-	{
-		$data['form_action'] = site_url("surat_mohon/upload/$p/$o/$url");
-		$this->load->view('surat_master/ajax-upload-mohon', $data);
-	}
-
-	public function upload($p = 1, $o = 0, $url = '')
-	{
-		$this->surat_master_model->upload($url);
-		redirect("surat_mohon/index/$p/$o");
 	}
 
 	public function search()
@@ -133,12 +122,14 @@ class Surat_mohon extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->lapor_model->insert_ref_surat();
 		redirect('surat_mohon');
 	}
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$this->lapor_model->update($id);
 		redirect("surat_mohon/index/$p/$o");
 	}
@@ -157,15 +148,4 @@ class Surat_mohon extends Admin_Controller {
 		redirect("surat_mohon/index/$p/$o");
 	}
 
-	public function user_lock($id = '')
-	{
-		$this->lapor_model->user_lock($id, 0);
-		redirect("surat_mohon/index/$p/$o");
-	}
-
-	public function user_unlock($id = '')
-	{
-		$this->lapor_model->user_lock($id, 1);
-		redirect("surat_mohon/index/$p/$o");
-	}
 }

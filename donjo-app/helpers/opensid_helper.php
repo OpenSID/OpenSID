@@ -44,12 +44,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-define("VERSION", '21.12');
+define("VERSION", '22.01');
 /**
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
-define('VERSI_DATABASE', '2021120101');
+define('VERSI_DATABASE', '2022010101');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -73,6 +73,7 @@ define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
 define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
 define("LOKASI_SISIPAN_DOKUMEN", 'assets/files/sisipan/');
 define("LOKASI_SINKRONISASI_ZIP", 'desa/upload/sinkronisasi/');
+define("PENDAPAT", 'assets/images/layanan_mandiri/');
 
 // Pengaturan Latar
 define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');
@@ -339,6 +340,13 @@ define("KATEGORI_MAILBOX", serialize(array(
     "Kotak Keluar" => "2"
 )));
 
+define("NILAI_PENDAPAT", serialize([
+	1 => 'Sangat Puas',
+	2 => 'Puas',
+	3 => 'Cukup',
+	4 => 'Buruk'
+]));
+
 /**
  * Ambil Versi
  *
@@ -423,44 +431,53 @@ function session_success()
 // Untuk mengirim data ke OpenSID tracker
 function httpPost($url, $params)
 {
-    if (!extension_loaded('curl') or isset($_SESSION['no_curl'])) {
-        log_message('error', 'curl tidak bisa dijalankan 1.'.$_SESSION['no_curl'].' 2.'.extension_loaded('curl'));
-        return;
-    }
+	if (!extension_loaded('curl') OR isset($_SESSION['no_curl']))
+	{
+		log_message('error', 'curl tidak bisa dijalankan 1.'.$_SESSION['no_curl'].' 2.'.extension_loaded('curl'));
+		return;
+	}
 
-    $postData = '';
-    //create name value pairs seperated by &
-    foreach ($params as $k => $v) {
-        $postData .= $k . '=' . $v . '&';
-    }
-    $postData = rtrim($postData, '&');
+	$postData = '';
+	//create name value pairs seperated by &
+	foreach ($params as $k => $v)
+	{
+		$postData .= $k . '=' . $v . '&';
+	}
+	$postData = rtrim($postData, '&');
 
-    try {
-        $ch = curl_init();
+	try
+	{
+		$ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_POST, count($postData));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_POST, count($postData));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
-        // Paksa tidak menunggu hasil tracker
-        /*curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-        curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
-        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 1);*/
-        $output = curl_exec($ch);
+		// Batasi waktu koneksi dan ambil data, supaya tidak menggantung kalau ada error koneksi
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
-        if ($output === false) {
-            log_message('error', 'Curl error: ' . curl_error($ch));
-            log_message('error', print_r(curl_getinfo($ch), true));
-        }
-        curl_close($ch);
-        return $output;
-    } catch (Exception $e) {
-        return $e;
-    }
+		/*curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+		curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 1);*/
+		$output = curl_exec($ch);
+
+		if ($output === false)
+		{
+			log_message('error', 'Curl error: ' . curl_error($ch));
+			log_message('error', print_r(curl_getinfo($ch), true));
+		}
+		curl_close($ch);
+		return $output;
+	}
+	catch (Exception $e)
+	{
+		return $e;
+	}
 }
 
 /**

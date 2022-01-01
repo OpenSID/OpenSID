@@ -92,6 +92,7 @@ class Keluar extends Admin_Controller {
 
 	public function edit_keterangan($id=0)
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data['data'] = $this->keluar_model->list_data_keterangan($id);
 		$data['form_action'] = site_url("keluar/update_keterangan/$id");
 		$this->load->view('surat/ajax_edit_keterangan', $data);
@@ -99,6 +100,7 @@ class Keluar extends Admin_Controller {
 
 	public function update_keterangan($id='')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		$data = array('keterangan' => $this->input->post('keterangan'));
 		$data = $this->security->xss_clean($data);
 		$data = html_escape($data);

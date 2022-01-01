@@ -82,7 +82,9 @@
 		<form id="mainform" name="mainform" method="post">
 			<div class="box box-info">
 				<div class="box-header with-border">
-					<a href="<?= site_url('identitas_desa/form'); ?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Data <?= $desa; ?></a>
+					<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<a href="<?= site_url('identitas_desa/form'); ?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Data <?= $desa; ?></a>
+					<?php endif; ?>
 					<a href="<?= site_url('identitas_desa/maps/kantor'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-map-marker'></i> Lokasi Kantor <?= $desa; ?></a>
 					<a href="<?= site_url('identitas_desa/maps/wilayah'); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-map'></i> Peta Wilayah <?= $desa; ?></a>
 				</div>

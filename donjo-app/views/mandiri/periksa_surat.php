@@ -54,7 +54,7 @@
 	</section>
 	<section class="content periksa">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-8">
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title">Pemohon</h3>
@@ -82,86 +82,83 @@
 						</form>
 					</div>
 				</div>
-
-				<div class="box box-warning collapsed-box">
-					<div class="box-header with-border">
-						<h3 class="box-title">Periksa persyaratan</h3>
-						<div class="box-tools pull-right">
-							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-						</div>
-					</div>
-					<div class="box-body">
-						Periksa setiap dokumen untuk memastikan sesuai dengan persyaratan surat ini.
-						Kalau persyaratan belum lengkap:
-						<ul>
-							<li>Klik tombol Belum Lengkap</li>
-							<li>Beritahu pemohon persyaratan mana yang belum lengkap</li>
-						</ul>
-						<p>Status permohonan akan secara otomatis diubah menjadi 'Belum Lengkap'.</p>
-					</div>
-				</div>
-
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<h3 class="box-title">Kelengkapan Dokumen</h3>
 					</div>
 					<div class="box-body">
 						<div class="table-responsive">
-							<table class="table table-bordered table-striped table-hover tabel-daftar">
-								<tr>
-									<th>No</th>
-									<th>Syarat</th>
-									<th>Dokumen Melengkapi Syarat</th>
-								</tr>
-								<?php if ($syarat_permohonan): ?>
-									<?php foreach ($syarat_permohonan as $key => $syarat): ?>
-										<tr>
-											<td class="padat"><?= ($key + 1); ?></td>
-											<td width="40%"><?= $syarat['ref_syarat_nama']?></td>
-											<td width="60%">
-												<?php if ($syarat['dok_id'] == '-1'): ?>
-													<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
-												<?php else: ?>
-													<a href="<?= site_url("dokumen/unduh_berkas/$syarat[dok_id]/$periksa[id_pemohon]"); ?>" class="btn btn-flat btn-info btn-sm"><i class="fa fa-eye"></i> Cek Dokumen</a>
-												<?php endif; ?>
-											</td>
-										</tr>
-									<?php endforeach; ?>
-								<?php else: ?>
+							<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
+								<thead class="bg-gray disabled color-palette">
 									<tr>
-										<td class="text-center" colspan="9">Data Tidak Tersedia</td>
+										<th>No</th>
+										<th>Nama Dokumen</th>
+										<th>Kelengkapan Dokumen</th>
 									</tr>
-								<?php endif; ?>
+								</thead>
+								<tbody>
+									<?php if ($syarat_permohonan): ?>
+										<?php foreach ($syarat_permohonan as $key => $syarat): ?>
+											<tr>
+												<td class="padat"><?= ($key + 1); ?></td>
+												<td><?= $syarat['ref_syarat_nama']; ?></td>
+												<td class="padat">
+													<?php if ($syarat['dok_id'] == '-1'): ?>
+														<strong class="text-red"><i class="fa fa-exclamation-triangle text-red"></i>Bawa bukti fisik ke Kantor Desa</strong>
+													<?php else: ?>
+														<a href="<?= site_url("permohonan_surat_admin/tampilkan/$syarat[dok_id]/$periksa[id_pemohon]"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tampilkan" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Tampilkan Dokumen"><i class="fa fa-eye"></i> Cek Dokumen</a>
+													<?php endif; ?>
+												</td>
+											</tr>
+										<?php endforeach; ?>
+									<?php else: ?>
+										<tr>
+											<td class="text-center" colspan="9">Data Tidak Tersedia</td>
+										</tr>
+									<?php endif; ?>
+								</tbody>
 							</table>
 						</div>
 					</div>
 				</div>
+			</div>
 
+			<div class="col-md-4">
 				<div class="box box-warning collapsed-box">
 					<div class="box-header with-border">
-						<h3 class="box-title">Periksa isian form</h3>
+						<h3 class="box-title">Panduan Singkat</h3>
 						<div class="box-tools pull-right">
 							<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 						</div>
 					</div>
 					<div class="box-body">
-						Kalau isian sudah lengkap:
+						<center><b>Kelengkapan Dokumen</b></center>
+						<p>Periksa setiap dokumen untuk memastikan sesuai dengan persyaratan surat ini. Kalau persyaratan belum lengkap:</p>
 						<ul>
-							<li>Klik Ekspor Dok untuk mencetak surat. Lampiran dapat diunduh di Arsip Layanan.</li>
+							<li>Klik tombol Belum Lengkap</li>
+							<li>Beritahu pemohon persyaratan mana yang belum lengkap melalui pesan singkat</li>
+						</ul>
+						<p>Status permohonan akan secara otomatis diubah menjadi 'Belum Lengkap'.</p>
+						<hr>
+						<center><b>Isian Form</b></center>
+						<p>Kalau isian sudah lengkap:</p>
+						<ul>
+							<li>Klik Unduh RTF/Cetak PDF untuk mencetak surat. Lampiran dapat diunduh di Arsip Layanan.</li>
 							<li>Berikan surat kepada petugas untuk ditandatangani</li>
 						</ul>
 						<p>Status permohonan akan secara otomatis diubah menjadi 'Menunggu Tandatangan'.</p>
 						Kalau isian belum lengkap:
 						<ul>
 							<li>Klik tombol Belum Lengkap</li>
-							<li>Beritahu pemohon isian mana yang belum lengkap</li>
+							<li>Beritahu pemohon isian mana yang belum lengkap melalui pesan singkat</li>
 						</ul>
 						<p>Status permohonan akan secara otomatis diubah menjadi 'Belum Lengkap'.</p>
-						<textarea id="isian_form" hidden="hidden"><?= $isian_form?></textarea>
 					</div>
 				</div>
 			</div>
-			</div>
+
+			<textarea id="isian_form" hidden="hidden"><?= $isian_form?></textarea>
+
 		</div>
 	</section>
 </div>
@@ -176,9 +173,9 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-	// Di form surat ubah isian admin menjadi disabled
-	$("#periksa-permohonan .readonly-periksa").attr('disabled', true);
-	setTimeout(function() {isi_form();}, 100);
+		// Di form surat ubah isian admin menjadi disabled
+		$("#periksa-permohonan .readonly-periksa").attr('disabled', true);
+		setTimeout(function() {isi_form();}, 100);
 	});
 
 	function isi_form() {

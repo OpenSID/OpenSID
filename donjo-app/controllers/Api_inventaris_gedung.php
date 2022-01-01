@@ -16,6 +16,7 @@ class Api_inventaris_gedung extends Admin_Controller
 
 	public function add()
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_gedung_model->add(array(
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
@@ -44,8 +45,11 @@ class Api_inventaris_gedung extends Admin_Controller
 
 	public function add_mutasi()
 	{
+		$this->redirect_hak_akses('u');
+		$id_asset = $this->input->post('id_inventaris_gedung');
 		$data = $this->inventaris_gedung_model->add_mutasi(array(
-			'id_inventaris_gedung' => $this->input->post('id_inventaris_gedung'),
+			'id_inventaris_gedung' => $id_asset,
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'jenis_mutasi' => $this->input->post('mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual'),
@@ -55,6 +59,7 @@ class Api_inventaris_gedung extends Admin_Controller
 			'created_by' => $this->session->user,
 			'updated_by' => $this->session->user
 			));
+
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
 		redirect("inventaris_gedung/mutasi");
@@ -62,6 +67,7 @@ class Api_inventaris_gedung extends Admin_Controller
 
 	public function update($id)
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->inventaris_gedung_model->update($id, array(
 			'nama_barang' => $this->input->post('nama_barang_save'),
 			'kode_barang' => $this->input->post('kode_barang'),
@@ -88,8 +94,11 @@ class Api_inventaris_gedung extends Admin_Controller
 
 	public function update_mutasi($id)
 	{
+		$this->redirect_hak_akses('u');
+		$id_asset = $this->input->post('id_asset');
 		$data = $this->inventaris_gedung_model->update_mutasi($id, array(
-			'jenis_mutasi' => $this->input->post('mutasi'),
+			'jenis_mutasi' => ($this->input->post('status_mutasi') == 'Hapus') ?  $this->input->post('mutasi') : null ,
+			'status_mutasi' => $this->input->post('status_mutasi'),
 			'tahun_mutasi' => $this->input->post('tahun_mutasi'),
 			'harga_jual' => $this->input->post('harga_jual') || null,
 			'sumbangkan' => $this->input->post('sumbangkan') || null,
@@ -116,6 +125,6 @@ class Api_inventaris_gedung extends Admin_Controller
 		$data = $this->inventaris_gedung_model->delete_mutasi($id);
 		if ($data) $_SESSION['success'] = 1;
 		else $_SESSION['success'] = -1;
-		redirect('inventaris_gedung/mutasi');
+		redirect("inventaris_gedung/mutasi");
 	}
 }

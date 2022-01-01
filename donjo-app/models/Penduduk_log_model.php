@@ -116,11 +116,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$data['status_dasar'] = 1; // status dasar hidup
 			$data['updated_at'] = date('Y-m-d H:i:s');
 			$data['updated_by'] = $this->session->user;
-			if (!$this->db->where('id',$log->id_pend)->update('tweb_penduduk', $data))
-				$_SESSION['success'] = - 1;
+			$outp = $this->db->where('id',$log->id_pend)->update('tweb_penduduk', $data);
+			// Hapus log_keluarga, jika terkait
+			$outp = $outp && $this->db->where('id_log_penduduk', $log->id)->delete('log_keluarga');
 			// Hapus log penduduk
-			if (!$this->db->where('id', $id_log)->delete('log_penduduk'))
-				$_SESSION['success'] = - 1;
+			$outp = $outp && $this->db->where('id', $id_log)->delete('log_penduduk');
+			status_sukses($outp);
 		}
 	}
 

@@ -409,11 +409,12 @@ class User_model extends CI_Model {
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
-		if (!$this->db->where('id', $idUser)->update('user', $data))
+		if ( ! $this->db->where('id', $idUser)->update('user', $data))
 		{
 			$this->session->success = -1;
 			$this->session->error_msg = ' -> Gagal memperbarui data di database';
 		}
+		$this->cache->file->delete("{$idUser}_cache_modul");
 	}
 
 	public function delete($idUser = '', $semua=false)
@@ -760,6 +761,11 @@ class User_model extends CI_Model {
 			fwrite($handle, $rfm);
 			fclose($handle);
 		}
+	}
+
+	public function jml_pengguna()
+	{
+		return $this->db->get('user')->num_rows();
 	}
 
 }

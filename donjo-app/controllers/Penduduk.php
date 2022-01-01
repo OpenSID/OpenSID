@@ -127,6 +127,7 @@ class Penduduk extends Admin_Controller {
 
 	public function form_peristiwa($peristiwa='')
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		// Acuan jenis peristiwa berada pada ref_peristiwa
 		$this->session->jenis_peristiwa = $peristiwa;
 		$this->form();
@@ -134,6 +135,7 @@ class Penduduk extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
 		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
 			unset($_SESSION['validation_error']);
@@ -241,6 +243,7 @@ class Penduduk extends Admin_Controller {
 
 	public function dokumen_form($id = 0, $id_dokumen = 0)
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 		$data['jenis_syarat_surat'] = $this->lapor_model->get_surat_ref_all();
 
@@ -293,6 +296,7 @@ class Penduduk extends Admin_Controller {
 
 	public function dokumen_insert()
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$this->web_dokumen_model->insert();
 		$id = $_POST['id_pend'];
 		redirect("penduduk/dokumen/$id");
@@ -300,6 +304,7 @@ class Penduduk extends Admin_Controller {
 
 	public function dokumen_update($id = '')
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$this->web_dokumen_model->update($id);
 		$id = $_POST['id_pend'];
 		redirect("penduduk/dokumen/$id");
@@ -340,6 +345,7 @@ class Penduduk extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$id = $this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1)
 		{
@@ -354,6 +360,7 @@ class Penduduk extends Admin_Controller {
 
 	public function update($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$this->penduduk_model->update($id);
 		if ($_SESSION['success'] == -1)
 		{
@@ -530,6 +537,7 @@ class Penduduk extends Admin_Controller {
 
 	public function edit_status_dasar($p = 1, $o = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$data['nik'] = $this->penduduk_model->get_penduduk($id);
 		$data['form_action'] = site_url("penduduk/update_status_dasar/$p/$o/$id");
 		$data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
@@ -542,12 +550,14 @@ class Penduduk extends Admin_Controller {
 
 	public function update_status_dasar($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$this->penduduk_model->update_status_dasar($id);
 		redirect("penduduk/index/$p/$o");
 	}
 
 	public function kembalikan_status($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$this->penduduk_model->kembalikan_status($id);
 		redirect("penduduk/index/$p/$o");
 	}

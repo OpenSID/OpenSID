@@ -117,6 +117,7 @@
 			$data[] = $akses;
 		}
 		$outp = $this->db->insert_batch('grup_akses', $data);
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 		return $outp;
 	}
 
@@ -157,6 +158,7 @@
 			$this->session->error_msg = '';
 		}
 		$outp = $this->db->where('id', $id)->delete($this->table);
+		$this->cache->hapus_cache_untuk_semua('_cache_modul');
 
 		status_sukses($outp);
 	}

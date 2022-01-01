@@ -101,29 +101,30 @@
 														</thead>
 														<tbody>
 															<?php foreach ($main as $data): ?>
-																<?php
-																	if ($data['nama_surat']):
-																		$berkas = $data['nama_surat'];
-																	else:
-																		$berkas = $data["berkas"]."_".$data["nik"]."_".date("Y-m-d").".rtf";
-																	endif;
-
-																	$theFile = FCPATH.LOKASI_ARSIP.$berkas;
-																	$lampiran = FCPATH.LOKASI_ARSIP.$data['lampiran'];
-																?>
 																<tr>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
-																		<?php
-																			if (is_file($theFile)): ?>
-																				<a href="<?= base_url(LOKASI_ARSIP.$berkas)?>" class="btn btn-social btn-flat bg-purple btn-sm" title="Unduh Surat" target="_blank"><i class="fa fa-file-word-o"></i> Surat</a>
-																			<?php	endif; ?>
-																		<?php
-																			if (is_file($lampiran)): ?>
-																				<a href="<?= base_url(LOKASI_ARSIP.$data['lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i>  Lampiran</a>
-																			<?php	endif; ?>
-																		<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
-																		<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php if (is_file($data['file_rtf'])): ?>
+																			<a href="<?= base_url($data['file_rtf'])?>" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_pdf'])): ?>
+																			<a href="<?= base_url($data['file_pdf'])?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_php'])): ?>
+																			<a href="<?= base_url($data['file_php'])?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_qr'])): ?>
+																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
+																		<?php	endif; ?>
+																		<?php if (is_file($data['file_lampiran'])): ?>
+																			<a href="<?= base_url($data['file_lampiran'])?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
+																		<?php	endif; ?>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<?php endif; ?>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['kode_surat']?></td>
 																	<td><?= $data['no_surat']?></td>

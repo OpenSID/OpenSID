@@ -74,7 +74,7 @@
 					</div>
 					<div class="box box-primary">
 						<div class="box-body box-profile">
-							<img class="img-responsive" src="<?= gambar_desa($main['kantor_desa'], true); ?>" alt="Kantor <?= $desa; ?>">
+							<img class="img-responsive" src="<?= gambar_desa($main['kantor_desa'], TRUE); ?>" alt="Kantor <?= $desa; ?>">
 							<br/>
 							<p class="text-center text-bold">Kantor <?= $desa; ?></p>
 							<p class="text-muted text-center text-red">(Kosongkan, jika kantor <?= $desa; ?> tidak berubah)</p>
@@ -99,7 +99,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>"  data-token="<?= config_item('token_tracksid')?>" data-tracker="<?= $this->setting->tracker; ?>"></select>
+									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_tracksid')?>" data-tracker='<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>'></select>
 								</div>
 								<input type="hidden" id="nama_desa" name="nama_desa" value="<?= $main["nama_desa"]; ?>">
 							</div>
@@ -215,33 +215,42 @@
 		</div>
 	</section>
 </div>
+
 <script>
-	$(document).ready(function() {
-		
-		var server_pantau = '<?= config_item('server_pantau'); ?>';
-		var token_pantau = '<?= config_item('token_pantau'); ?>';
+$(document).ready(function()
+{
+	var tracker_host = '<?= (ENVIRONMENT == 'development') ? $this->setting->dev_tracker : $this->setting->tracker ?>';
 
-		// Ambil Nama dan Kode Wilayah dari API Server
-		$('[name="pilih_desa"]').change(function() {
-			$.ajax({
-				type: 'GET',
-				url: server_pantau + '/index.php/api/wilayah/ambildesa?token=' + token_pantau + '&id_desa=' + $(this).val(),
-				dataType: 'json',
-				success: function(data) {
+	// Ambil Nama dan Kode Wilayah dari API Server
+	$('[name="pilih_desa"]').change(function(){
+		$.ajax({
+        type: 'GET',
+        url: tracker_host + '/index.php/api/wilayah/ambildesa?token=' + '<?= config_item("token_tracksid")?>' + '&id_desa=' + $(this).val(),
+        dataType: 'json',
+        success: function(data) {
 					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
-					$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
-					$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
-					$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
-					$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
-					$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
-					$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
-					$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
-				}
-			});
-		});
-
-		function hapus_kab_kota(str) {
-			return str.replace(/KAB |KOTA /gi, '');
-		}
+				  $('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
+				  $('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
+				  $('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
+				  $('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
+				  $('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
+				  $('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
+				  $('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+        }
+    });
 	});
+
+	function hapus_kab_kota(str) {
+		return str.replace(/KAB |KOTA /gi, '');
+	}
+
+	function hapus_kab_kota(str) {
+		return str.replace(/KAB |KOTA /gi, '');
+	}
+
+	$('#kades').change(function () {
+		var nip = $("#kades option:selected").attr("data-nip");
+		$("#nip_kepala_desa").val(nip);
+	});
+});
 </script>

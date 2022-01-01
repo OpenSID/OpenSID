@@ -22,23 +22,19 @@
 
 .ui-keyboard {
     /* adjust overall keyboard size using "font-size" */
-    font-size: 28px; /* increase button size for small screen */
+    font-size: 15px; /* increase button size for small screen */
     text-align: center;
     background: #fefefe;
     border: 1px solid #aaa;
     padding: 4px;
 
-    /* include the following setting to place the
-    keyboard at the bottom of the browser window */
-		width: 100%;
-		height: auto;
-		bottom: 0px;
-    left: 0px;
-    top: auto;
-    position: fixed;
-    /*position: absolute;*/
-    white-space: nowrap;
+    /* Sematkan keyboard di bagian bawah layar */
+    top: auto !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    width: fit-content;
     overflow-x: auto;
+
     /* see issue #484 */
     -ms-touch-action: manipulation;
     touch-action: manipulation;

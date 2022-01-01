@@ -26,10 +26,14 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("kategori/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Baru">
-								<i class="fa fa-plus"></i>Tambah Kategori Baru
-            	</a>
-						  <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("kategori/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<a href="<?= site_url("kategori/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori Baru">
+									<i class="fa fa-plus"></i>Tambah Kategori Baru
+	            	</a>
+            	<?php endif; ?>
+							<?php if ($this->CI->cek_hak_akses('h')): ?>
+							  <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("kategori/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -61,7 +65,9 @@
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall"/></th>
+																	<?php if ($this->CI->cek_hak_akses('h')): ?>
+																		<th><input type="checkbox" id="checkall"/></th>
+																	<?php endif; ?>
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o==2): ?>
@@ -84,20 +90,28 @@
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<?php if ($this->CI->cek_hak_akses('h')): ?>
+																			<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																		<?php endif; ?>
 																		<td><?=$data['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("kategori/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-																			<a href="<?= site_url("kategori/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																			<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<a href="<?= site_url("kategori/urut/$data[id]/1")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																				<a href="<?= site_url("kategori/urut/$data[id]/2")?>" class="btn bg-olive btn-flat btn-sm"  title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																			<?php endif; ?>
 																			<a href="<?= site_url("kategori/sub_kategori/$data[id]")?>" class="btn bg-purple btn-flat btn-sm"  title="Sub Kategori"><i class="fa fa-bars"></i></a>
-																			<a href="<?= site_url("kategori/form/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
-																			<?php if ($data['enabled'] == '2'): ?>
-																				<a href="<?= site_url("kategori/kategori_lock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
-																			<?php elseif ($data['enabled'] == '1'): ?>
-																				<a href="<?= site_url("kategori/kategori_unlock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-                                        <a href="<?= site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Kategori" title="Tambah Sub Kategori"><i class="fa fa-plus"></i></a>
-                                      <?php endif ?>
-																			<a href="#" data-href="<?= site_url("kategori/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<a href="<?= site_url("kategori/form/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
+																				<?php if ($data['enabled'] == '2'): ?>
+																					<a href="<?= site_url("kategori/kategori_lock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																				<?php elseif ($data['enabled'] == '1'): ?>
+																					<a href="<?= site_url("kategori/kategori_unlock/".$data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+	                                        <a href="<?= site_url("kategori/ajax_add_sub_kategori/$data[id]")?>" class="btn bg-olive btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Sub Kategori" title="Tambah Sub Kategori"><i class="fa fa-plus"></i></a>
+	                                      <?php endif ?>
+	                                    <?php endif; ?>
+																			<?php if ($this->CI->cek_hak_akses('h')): ?>
+																				<a href="#" data-href="<?= site_url("kategori/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php endif; ?>
 																	  </td>
                                     <td width="50%"><?= $data['kategori']?></td>
                                     <td><?= $data['aktif']?></td>

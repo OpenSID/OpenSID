@@ -201,6 +201,8 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_masuk/cetak/$o");
 		$this->load->view('surat_masuk/ajax_cetak', $data);
@@ -210,6 +212,8 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['aksi'] = "Unduh";
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_masuk/unduh/$o");
 		$this->load->view('surat_masuk/ajax_cetak', $data);

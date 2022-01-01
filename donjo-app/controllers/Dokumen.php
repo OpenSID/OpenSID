@@ -94,6 +94,7 @@ class Dokumen extends Admin_Controller {
 
 	public function form($kat=1, $p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
@@ -136,6 +137,7 @@ class Dokumen extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$_SESSION['success'] = 1;
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
@@ -145,6 +147,7 @@ class Dokumen extends Admin_Controller {
 
 	public function update($kat, $id='', $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('u');
 		$_SESSION['success'] = 1;
 		$outp = $this->web_dokumen_model->update($id);
 		if (!$outp) $_SESSION['success'] = -1;
@@ -167,12 +170,14 @@ class Dokumen extends Admin_Controller {
 
 	public function dokumen_lock($kat=1, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->web_dokumen_model->dokumen_lock($id, 1);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
 
 	public function dokumen_unlock($kat=1, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->web_dokumen_model->dokumen_lock($id, 2);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -183,6 +188,8 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
@@ -200,13 +207,15 @@ class Dokumen extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
 		$data['input'] = $post;
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['kat'] = $kat;
 		$data['tahun'] = $post['tahun'];
+		$data['desa'] = $this->config_model->get_data();
 		if ($kat == 1)
 			$data['kategori'] = 'Informasi Publik';
 		else
 		{
-			$data['desa'] = $this->config_model->get_data();
 			$list_kategori = $this->web_dokumen_model->list_kategori();
 			$data['kategori'] = $list_kategori[$kat];
 		}
@@ -222,6 +231,8 @@ class Dokumen extends Admin_Controller {
 		$data['kat'] = $kat;
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}

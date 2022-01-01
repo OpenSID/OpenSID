@@ -71,8 +71,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<p class="hidden" id="data-id"><?= $suplemen['id']; ?></p>
-				<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
-				<a href="<?= site_url("suplemen/impor")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-import visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#impor" data-title="Impor Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-upload "></i> Impor Data</a>
+				<?php if ($this->CI->cek_hak_akses('u')): ?>
+					<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
+					<a href="<?= site_url("suplemen/impor")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-import visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#impor" data-title="Impor Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-upload "></i> Impor Data</a>
+				<?php endif; ?>
 				<a href="<?= site_url("suplemen/ekspor/$suplemen[id]")?>" class="btn btn-social btn-flat bg-teal btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-excel-o "></i> Ekspor Data</a>
 				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-print "></i> Cetak</a>
 				<a href="<?= site_url("suplemen/dialog_daftar/$suplemen[id]/unduh")?>" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-download "></i> Unduh</a>
@@ -117,8 +119,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<tr>
 												<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 												<td class="aksi">
-													<?php if ($this->CI->cek_hak_akses('h')): ?>
+													<?php if ($this->CI->cek_hak_akses('u')): ?>
 														<a href="<?= site_url("suplemen/edit_terdata_form/$item[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Terdata" title="Ubah Terdata" class="btn btn-warning btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+													<?php endif; ?>
+													<?php if ($this->CI->cek_hak_akses('h')): ?>
 														<a href="#" data-href="<?= site_url("suplemen/hapus_terdata/$suplemen[id]/$item[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 													<?php endif; ?>
 												</td>
