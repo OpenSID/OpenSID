@@ -73,6 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<p class="hidden" id="data-id"><?= $suplemen['id']; ?></p>
 				<?php if ($this->CI->cek_hak_akses('u')): ?>
 					<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
+				<?php endif; ?>
+				<?php if ($this->CI->cek_hak_akses('h')): ?>
+					<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?= site_url("suplemen/hapus_terdata_all/".$suplemen['id']); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+				<?php endif; ?>
+				<?php if ($this->CI->cek_hak_akses('u')): ?>
 					<a href="<?= site_url("suplemen/impor")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-import visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#impor" data-title="Impor Data Suplemen <?= $sasaran[$suplemen["sasaran"]]; ?> "><i class="fa fa-upload "></i> Impor Data</a>
 				<?php endif; ?>
 				<a href="<?= site_url("suplemen/ekspor/$suplemen[id]")?>" class="btn btn-social btn-flat bg-teal btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-excel-o "></i> Ekspor Data</a>
@@ -101,6 +106,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 								<thead class="bg-gray disabled color-palette">
 									<tr>
+										<th><input type="checkbox" id="checkall"/></th>
 										<th>No</th>
 										<th>Aksi</th>
 										<th><?= $judul['judul_terdata_info']; ?></th>
@@ -117,6 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php if($terdata): ?>
 										<?php foreach ($terdata as $key => $item): ?>
 											<tr>
+												<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $item['id']; ?>" /></td>
 												<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 												<td class="aksi">
 													<?php if ($this->CI->cek_hak_akses('u')): ?>

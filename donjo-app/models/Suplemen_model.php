@@ -480,6 +480,17 @@ class Suplemen_model extends MY_Model {
 		$this->db->delete('suplemen_terdata');
 	}
 
+	public function hapus_terdata_all()
+	{
+		$this->session->success = 1;
+
+		$id_cb = $_POST['id_cb'];
+		foreach ($id_cb as $id)
+		{
+			$this->hapus_terdata($id);
+		}
+	}
+
 	// $id = suplemen_terdata.id
 	public function edit_terdata($post,$id)
 	{

@@ -240,6 +240,13 @@ class Suplemen extends Admin_Controller {
 		redirect("suplemen/rincian/$id_suplemen");
 	}
 
+	public function hapus_terdata_all($id_suplemen)
+	{
+		$this->redirect_hak_akses('h');
+		$this->suplemen_model->hapus_terdata_all();
+		redirect("suplemen/rincian/$id_suplemen");
+	}
+
 	/*
 	* $aksi = cetak/unduh
 	*/
