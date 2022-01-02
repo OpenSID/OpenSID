@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * File ini:
@@ -45,7 +45,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Penduduk extends Admin_Controller {
+class Penduduk extends Admin_Controller
+{
 
 	private $_set_page;
 	private $_list_session;
@@ -79,32 +80,26 @@ class Penduduk extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		foreach ($this->_list_session as $list)
-		{
+		foreach ($this->_list_session as $list) {
 			if (in_array($list, ['dusun', 'rw', 'rt']))
 				$$list = $this->session->$list;
 			else
 				$data[$list] = $this->session->$list ?: '';
 		}
 
-		if (isset($dusun))
-		{
+		if (isset($dusun)) {
 			$data['dusun'] = $dusun;
 			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
 
-			if (isset($rw))
-			{
+			if (isset($rw)) {
 				$data['rw'] = $rw;
 				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
 
 				if (isset($rt))
 					$data['rt'] = $rt;
 				else $data['rt'] = '';
-			}
-			else $data['rw'] = '';
-		}
-		else
-		{
+			} else $data['rw'] = '';
+		} else {
 			$data['dusun'] = $data['rw'] = $data['rt'] = '';
 		}
 
@@ -125,7 +120,7 @@ class Penduduk extends Admin_Controller {
 		$this->render('sid/kependudukan/penduduk', $data);
 	}
 
-	public function form_peristiwa($peristiwa='')
+	public function form_peristiwa($peristiwa = '')
 	{
 		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		// Acuan jenis peristiwa berada pada ref_peristiwa
@@ -137,52 +132,38 @@ class Penduduk extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
 		// Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-		if (empty($_POST) AND (!isset($_SESSION['dari_internal']) OR !$_SESSION['dari_internal']))
+		if (empty($_POST) and (!isset($_SESSION['dari_internal']) or !$_SESSION['dari_internal']))
 			unset($_SESSION['validation_error']);
 
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		if ($id)
-		{
+		if ($id) {
 			$data['id'] = $id;
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
-			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error'])
-			{
+			if (isset($_SESSION['validation_error']) and $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
-				if ($_SESSION['dari_internal'])
-				{
+				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];
-				}
-				else
-				{
+				} else {
 					$data['penduduk'] = $_POST;
 				}
-			}
-			else
-			{
+			} else {
 				$data['penduduk'] = $this->penduduk_model->get_penduduk($id);
 				$_SESSION['nik_lama'] = $data['penduduk']['nik'];
 			}
 			$data['form_action'] = site_url("penduduk/update/1/$o/$id");
 			$data['form_action_maps'] = site_url("penduduk/update/1/$o/$id");
-		}
-		else
-		{
+		} else {
 			// Validasi dilakukan di penduduk_model sewaktu insert dan update
-			if (isset($_SESSION['validation_error']) AND $_SESSION['validation_error'])
-			{
+			if (isset($_SESSION['validation_error']) and $_SESSION['validation_error']) {
 				// Kalau dipanggil internal pakai data yang disimpan di $_SESSION
-				if ($_SESSION['dari_internal'])
-				{
+				if ($_SESSION['dari_internal']) {
 					$data['penduduk'] = $_SESSION['post'];
-				}
-				else
-				{
+				} else {
 					$data['penduduk'] = $_POST;
 				}
-			}
-			else
+			} else
 				$data['penduduk'] = null;
 			$data['form_action'] = site_url("penduduk/insert");
 		}
@@ -252,8 +233,7 @@ class Penduduk extends Admin_Controller {
 			$data['kk'] = $this->keluarga_model->list_anggota($data['penduduk']['id_kk']);
 		}
 
-		if ($id_dokumen)
-		{
+		if ($id_dokumen) {
 			$data['dokumen'] = $this->web_dokumen_model->get_dokumen($id_dokumen);
 
 			// Ambil data anggota KK
@@ -261,14 +241,12 @@ class Penduduk extends Admin_Controller {
 			{
 				$data['dokumen_anggota'] = $this->web_dokumen_model->get_dokumen_di_anggota_lain($id_dokumen);
 
-				if (count($data['dokumen_anggota'])>0)
-				{
+				if (count($data['dokumen_anggota']) > 0) {
 					$id_pend_anggota = array();
 					foreach ($data['dokumen_anggota'] as $item_dokumen)
 						$id_pend_anggota[] = $item_dokumen['id_pend'];
 
-					foreach ($data['kk'] as $key => $value)
-					{
+					foreach ($data['kk'] as $key => $value) {
 						if (in_array($value['id'], $id_pend_anggota))
 							$data['kk'][$key]['checked'] = 'checked';
 					}
@@ -276,9 +254,7 @@ class Penduduk extends Admin_Controller {
 			}
 
 			$data['form_action'] = site_url("penduduk/dokumen_update/$id_dokumen");
-		}
-		else
-		{
+		} else {
 			$data['dokumen'] = NULL;
 			$data['form_action'] = site_url("penduduk/dokumen_insert");
 		}
@@ -347,13 +323,10 @@ class Penduduk extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$id = $this->penduduk_model->insert();
-		if ($_SESSION['success'] == -1)
-		{
+		if ($_SESSION['success'] == -1) {
 			$_SESSION['dari_internal'] = true;
 			redirect("penduduk/form");
-		}
-		else
-		{
+		} else {
 			redirect("penduduk/detail/1/0/$id");
 		}
 	}
@@ -362,13 +335,10 @@ class Penduduk extends Admin_Controller {
 	{
 		$this->redirect_hak_akses('u', "penduduk/index/$p/$o");
 		$this->penduduk_model->update($id);
-		if ($_SESSION['success'] == -1)
-		{
+		if ($_SESSION['success'] == -1) {
 			$_SESSION['dari_internal'] = true;
 			redirect("penduduk/form/$p/$o/$id");
-		}
-		else
-		{
+		} else {
 			redirect("penduduk/detail/1/0/$id");
 		}
 	}
@@ -391,8 +361,7 @@ class Penduduk extends Admin_Controller {
 	{
 		$list_session = array('umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
 
-		foreach ($list_session as $session)
-		{
+		foreach ($list_session as $session) {
 			$data[$session] = $this->session->userdata($session) ?: '';
 		}
 
@@ -413,21 +382,16 @@ class Penduduk extends Admin_Controller {
 		$adv_search = $this->validasi_pencarian($this->input->post());
 
 		$i = 0;
-		while ($i++ < count($adv_search))
-		{
+		while ($i++ < count($adv_search)) {
 			$col[$i] = key($adv_search);
 			next($adv_search);
 		}
 		$i = 0;
-		while ($i++ < count($col))
-		{
-			if ($adv_search[$col[$i]] == "")
-			{
-				UNSET($adv_search[$col[$i]]);
-				UNSET($_SESSION[$col[$i]]);
-			}
-			else
-			{
+		while ($i++ < count($col)) {
+			if ($adv_search[$col[$i]] == "") {
+				unset($adv_search[$col[$i]]);
+				unset($_SESSION[$col[$i]]);
+			} else {
 				$_SESSION[$col[$i]] = $adv_search[$col[$i]];
 			}
 		}
@@ -454,11 +418,11 @@ class Penduduk extends Admin_Controller {
 	{
 		$dusun = urldecode($dusun);
 		$rw = $this->wilayah_model->list_rw($dusun);
-		echo"<div class='form-group'><label>RW</label>
-		<select class='form-control input-sm' name='rw' onchange=RWSel('".rawurlencode($dusun)."',this.value)>
+		echo "<div class='form-group'><label>RW</label>
+		<select class='form-control input-sm' name='rw' onchange=RWSel('" . rawurlencode($dusun) . "',this.value)>
 		<option value=''>Pilih RW</option>";
-		foreach ($rw as $data):
-			echo "<option>".$data['rw']."</option>";
+		foreach ($rw as $data) :
+			echo "<option>" . $data['rw'] . "</option>";
 		endforeach;
 		echo "</select></div>";
 	}
@@ -467,11 +431,11 @@ class Penduduk extends Admin_Controller {
 	{
 		$dusun = urldecode($dusun);
 		$rt = $this->wilayah_model->list_rt($dusun, $rw);
-		echo"<div class='form-group'><label>RT</label>
+		echo "<div class='form-group'><label>RT</label>
 		<select class='form-control input-sm' name='id_cluster'>
 		<option value=''>Pilih RT</option>";
-		foreach ($rt as $data):
-			echo "<option value=".$data['id'].">".$data['rt']."</option>";
+		foreach ($rt as $data) :
+			echo "<option value=" . $data['id'] . ">" . $data['rt'] . "</option>";
 		endforeach;
 		echo "</select></div>";
 	}
@@ -480,25 +444,22 @@ class Penduduk extends Admin_Controller {
 	{
 		$rw = $this->wilayah_model->list_rw($dusun);
 
-		echo"<td>RW</td>
-		<td><select name='rw' onchange=RWSel('".$dusun."',this.value)>
+		echo "<td>RW</td>
+		<td><select name='rw' onchange=RWSel('" . $dusun . "',this.value)>
 		<option value=''>Pilih RW&nbsp;</option>";
-		foreach($rw as $data)
-		{
-			echo "<option>".$data['rw']."</option>";
+		foreach ($rw as $data) {
+			echo "<option>" . $data['rw'] . "</option>";
 		}
-		echo"</select>
+		echo "</select>
 		</td>";
 	}
 
 	public function penduduk_maps($p = 1, $o = 0, $id = NULL)
 	{
-		if ($id == NULL)
-		{
+		if ($id == NULL) {
 			$id = $this->penduduk_model->insert();
 
-			if ($this->session->success == -1)
-			{
+			if ($this->session->success == -1) {
 				$this->session->dari_internal = true;
 				redirect("penduduk/form");
 			}
@@ -575,8 +536,7 @@ class Penduduk extends Admin_Controller {
 		$this->clear_session();
 		// Untuk tautan TOTAL di laporan statistik, di mana arg-2 = sex dan arg-3 kosong
 		// kecuali untuk laporan wajib KTP
-		if ($sex == NULL && $tipe <> 18)
-		{
+		if ($sex == NULL && $tipe <> 18) {
 			if ($nomor != 0) $this->session->sex  = $nomor;
 			else $this->session->unset_userdata('sex');
 			$this->session->unset_userdata('judul_statistik');
@@ -585,37 +545,94 @@ class Penduduk extends Admin_Controller {
 
 		$this->session->sex = ($sex == 0) ? NULL : $sex;
 
-		switch ($tipe)
-		{
-			case '0': $session = 'pendidikan_kk_id'; $kategori = 'PENDIDIKAN DALAM KK : '; break;
-			case 1: $session = 'pekerjaan_id'; $kategori = 'PEKERJAAN : '; break;
-			case 2: $session = 'status'; $kategori = 'STATUS PERKAWINAN : '; break;
-			case 3: $session = 'agama'; $kategori = 'AGAMA : '; break;
-			case 4: $session = 'sex'; $kategori = 'JENIS KELAMIN : '; break;
-			case 5: $session = 'warganegara'; $kategori = 'WARGANEGARA : '; break;
-			case 6: $session = 'status_penduduk'; $kategori = 'STATUS PENDUDUK : '; break;
-			case 7: $session = 'golongan_darah'; $kategori = 'GOLONGAN DARAH : '; break;
-			case 9: $session = 'cacat'; $kategori = 'CACAT : '; break;
-			case 10: $session = 'menahun'; $kategori = 'SAKIT MENAHUN : '; break;
-			case 13: $session = 'umurx'; $kategori = 'UMUR (RENTANG) : '; break;
-			case 14: $session = 'pendidikan_sedang_id'; $kategori = 'PENDIDIKAN SEDANG DITEMPUH : '; break;
-			case 15: $session = 'umurx'; $kategori = 'UMUR (KATEGORI) : '; break;
-			case 16: $session = 'cara_kb_id'; $kategori = 'CARA KB : '; break;
-			case 17: $session = 'akta_kelahiran'; $kategori = 'AKTA KELAHIRAN : UMUR '; break;
-			case 19: $session = 'id_asuransi'; $kategori = 'JENIS ASURANSI : '; break;
-			case 'hubungan_kk': $session = 'hubungan'; $kategori = 'HUBUNGAN DALAM KK : '; break;
-			case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;
-			case 'bantuan_penduduk': $session = 'penerima_bantuan'; $kategori = 'PENERIMA BANTUAN PENDUDUK : '; break;
+		switch ($tipe) {
+			case '0':
+				$session = 'pendidikan_kk_id';
+				$kategori = 'PENDIDIKAN DALAM KK : ';
+				break;
+			case 1:
+				$session = 'pekerjaan_id';
+				$kategori = 'PEKERJAAN : ';
+				break;
+			case 2:
+				$session = 'status';
+				$kategori = 'STATUS PERKAWINAN : ';
+				break;
+			case 3:
+				$session = 'agama';
+				$kategori = 'AGAMA : ';
+				break;
+			case 4:
+				$session = 'sex';
+				$kategori = 'JENIS KELAMIN : ';
+				break;
+			case 5:
+				$session = 'warganegara';
+				$kategori = 'WARGANEGARA : ';
+				break;
+			case 6:
+				$session = 'status_penduduk';
+				$kategori = 'STATUS PENDUDUK : ';
+				break;
+			case 7:
+				$session = 'golongan_darah';
+				$kategori = 'GOLONGAN DARAH : ';
+				break;
+			case 9:
+				$session = 'cacat';
+				$kategori = 'CACAT : ';
+				break;
+			case 10:
+				$session = 'menahun';
+				$kategori = 'SAKIT MENAHUN : ';
+				break;
+			case 13:
+				$session = 'umurx';
+				$kategori = 'UMUR (RENTANG) : ';
+				break;
+			case 14:
+				$session = 'pendidikan_sedang_id';
+				$kategori = 'PENDIDIKAN SEDANG DITEMPUH : ';
+				break;
+			case 15:
+				$session = 'umurx';
+				$kategori = 'UMUR (KATEGORI) : ';
+				break;
+			case 16:
+				$session = 'cara_kb_id';
+				$kategori = 'CARA KB : ';
+				break;
+			case 17:
+				$session = 'akta_kelahiran';
+				$kategori = 'AKTA KELAHIRAN : UMUR ';
+				break;
+			case 19:
+				$session = 'id_asuransi';
+				$kategori = 'JENIS ASURANSI : ';
+				break;
+			case 'hubungan_kk':
+				$session = 'hubungan';
+				$kategori = 'HUBUNGAN DALAM KK : ';
+				break;
+			case 'covid':
+				$session = 'status_covid';
+				$kategori = 'STATUS COVID : ';
+				break;
+			case 'bantuan_penduduk':
+				$session = 'penerima_bantuan';
+				$kategori = 'PENERIMA BANTUAN PENDUDUK : ';
+				break;
+			case 'hamil':
+				$session = 'hamil';
+				$kategori = 'STATUS KEHAMILAN : ';
+				break;
 			case 18:
-				if ($sex == NULL)
-				{
+				if ($sex == NULL) {
 					$this->session->status_ktp = 0;
 					$this->session->sex = ($nomor == 0) ? NULL : $nomor;
 					$sex = $this->session->sex;
 					unset($nomor);
-				}
-				else
-				{
+				} else {
 					$this->session->status_ktp = $nomor;
 				}
 
@@ -624,19 +641,15 @@ class Penduduk extends Admin_Controller {
 		}
 
 		// Filter berdasarkan kategori tdk dilakukan jika $nomer = TOTAL (888)
-		if ($tipe != 18 && $nomor != TOTAL)
-		{
+		if ($tipe != 18 && $nomor != TOTAL) {
 			$this->session->$session = $nomor;
 		}
 
 		$judul = $this->penduduk_model->get_judul_statistik($tipe, $nomor, $sex);
 		// Laporan wajib KTP berbeda - menampilkan sebagian dari penduduk, jadi selalu perlu judul
-		if ($judul['nama'] OR $tipe = 18)
-		{
+		if ($judul['nama'] or $tipe = 18) {
 			$this->session->judul_statistik = $kategori . $judul['nama'];
-		}
-		else
-		{
+		} else {
 			$this->session->unset_userdata('judul_statistik');
 		}
 
@@ -648,8 +661,7 @@ class Penduduk extends Admin_Controller {
 		$this->clear_session();
 		$cluster = $this->penduduk_model->get_cluster($id_cluster);
 
-		switch ($tipe)
-		{
+		switch ($tipe) {
 			case 1:
 				$_SESSION['sex'] = '1';
 				$_SESSION['dusun'] = $cluster['dusun'];
@@ -719,8 +731,13 @@ class Penduduk extends Admin_Controller {
 				$pre = "BERUMUR >60";
 				break;
 
-			case 91: case 92: case 93: case 94:
-			case 95: case 96: case 97:
+			case 91:
+			case 92:
+			case 93:
+			case 94:
+			case 95:
+			case 96:
+			case 97:
 				$kode_cacat = $tipe - 90;
 				$_SESSION['cacat'] = $kode_cacat;
 				$_SESSION['dusun'] = $cluster['dusun'];
@@ -757,12 +774,9 @@ class Penduduk extends Admin_Controller {
 				break;
 		}
 
-		if ($pre)
-		{
+		if ($pre) {
 			$_SESSION['judul_statistik'] = $pre;
-		}
-		else
-		{
+		} else {
 			unset($_SESSION['judul_statistik']);
 		}
 		redirect("penduduk");
@@ -813,5 +827,4 @@ class Penduduk extends Admin_Controller {
 		$id_program = $this->input->post('program_bantuan');
 		$this->statistik('bantuan_penduduk', $id_program, '0');
 	}
-
 }
