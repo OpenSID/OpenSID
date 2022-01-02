@@ -38,7 +38,9 @@ define("KOLOM_IMPOR_KELUARGA", serialize(array(
 	"status_rekam" => "34",
 	"tag_id_card" => "35",
 	"alamat_sekarang" => "36",
-	"status_dasar" => "37"
+	"status_dasar" => "37",
+	"id_asuransi" => "38",
+	"no_asuransi" => "39"
 )));
 
 require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
@@ -72,6 +74,7 @@ class Import_model extends CI_Model {
 		$this->kode_status_rekam = array_change_key_case(unserialize(STATUS_REKAM));
 		$this->kode_status_dasar = array_change_key_case($this->merge_kode_status_dasar());
 		$this->kode_cacat = array_change_key_case(unserialize(KODE_CACAT));
+		$this->kode_asuransi = array_change_key_case(unserialize(KODE_ASURANSI));
 		// Load model
 		$this->load->model('penduduk_model');
 	}
@@ -167,6 +170,8 @@ class Import_model extends CI_Model {
 		if ($isi_baris['ktp_el'] != "" and !($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) return 'kode ktp_el tidak dikenal';
 		if ($isi_baris['status_rekam'] != "" and !($isi_baris['status_rekam'] >= 1 && $isi_baris['status_rekam'] <= 8)) return 'kode status_rekam tidak dikenal';
 		if ($isi_baris['status_dasar'] != "" and !in_array($isi_baris['status_dasar'], [1, 2, 3, 4, 6, 9])) return 'kode status_dasar tidak dikenal';
+		log_message('error', 'asuransi = ' . $isi_baris['asuransi']);
+		if ($isi_baris['id_asuransi'] != "" and !($isi_baris['id_asuransi'] >= 1 && $isi_baris['id_asuransi'] <= 4)) return 'kode asuransi tidak dikenal';
 
 		// Validasi data lain
 		if ( ! ctype_digit($isi_baris['nik']) or (strlen($isi_baris['nik']) != 16 and $isi_baris['nik'] != '0')) return 'nik salah';
@@ -282,6 +287,9 @@ class Import_model extends CI_Model {
 		$isi_baris['tag_id_card'] = trim($rowData[$kolom_impor_keluarga['tag_id_card']]);
 		$isi_baris['alamat_sekarang'] = trim($rowData[$kolom_impor_keluarga['alamat_sekarang']]);
 		$isi_baris['status_dasar'] = $this->get_konversi_kode($this->kode_status_dasar, trim($rowData[$kolom_impor_keluarga['status_dasar']]));
+		$isi_baris['id_asuransi'] = $this->get_konversi_kode($this->kode_asuransi, trim($rowData[$kolom_impor_keluarga['id_asuransi']]));
+		$isi_baris['no_asuransi'] = trim($rowData[$kolom_impor_keluarga['no_asuransi']]);
+		
 
 		return $isi_baris;
 	}
@@ -379,7 +387,7 @@ class Import_model extends CI_Model {
 		$this->error_tulis_penduduk = null;
 
 		// Siapkan data penduduk
-		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'tag_id_card', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar');
+		$kolom_baris = array('nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'tag_id_card', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar', 'id_asuransi', 'no_asuransi');
 		foreach ($kolom_baris as $kolom)
 		{
 			$data[$kolom] = $isi_baris[$kolom];

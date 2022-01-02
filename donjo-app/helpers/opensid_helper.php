@@ -339,13 +339,18 @@ define("KATEGORI_MAILBOX", serialize(array(
     "Kotak Masuk" => "1",
     "Kotak Keluar" => "2"
 )));
-
 define("NILAI_PENDAPAT", serialize([
 	1 => 'Sangat Puas',
 	2 => 'Puas',
 	3 => 'Cukup',
 	4 => 'Buruk'
 ]));
+define("KODE_ASURANSI", serialize(array(
+    "Tidak/Belum Punya" => "1",
+    "BPJS Penerima Bantuan Iuran" => "2",
+    "BPJS Non Penerima Bantuan Iuran" => "3",
+    "Asuransi lainnya" => "99"
+)));
 
 /**
  * Ambil Versi
