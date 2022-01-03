@@ -292,8 +292,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			</div>
 		</footer>
 	</div>
-	<!-- jQuery 3 -->
-	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Jquery UI -->
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery-ui.min.js"></script>
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.ui.autocomplete.scroll.min.js"></script>
