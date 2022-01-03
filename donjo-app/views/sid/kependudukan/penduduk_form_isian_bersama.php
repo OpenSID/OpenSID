@@ -10,7 +10,7 @@
 
 ?>
 <div class="row">
-	<?php if ($jenis_peristiwa == 5 && !$penduduk['tgl_peristiwa']) : ?>
+	<?php if ($jenis_peristiwa == 5 && ! $penduduk['tgl_peristiwa']) : ?>
 		<div class='col-sm-4'>
 			<div class='form-group'>
 				<label for="tgl_peristiwa">Tanggal Pindah Masuk</label>
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	<?php endif; ?>
-	<?php if (!$penduduk['tgl_lapor']) : ?>
+	<?php if (! $penduduk['tgl_lapor']) : ?>
 		<div class='col-sm-4'>
 			<div class='form-group'>
 				<label for="tgl_lapor">Tanggal Lapor</label>
@@ -130,7 +130,7 @@
 	</div>
 	<div class='col-sm-4'>
 		<div class='form-group'>
-			<?php if (!empty($penduduk)) : ?>
+			<?php if (! empty($penduduk)) : ?>
 				<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level'] ?>">
 			<?php endif; ?>
 			<label for="kk_level">Hubungan Dalam Keluarga</label>
@@ -423,7 +423,7 @@
 			<label class="text-right"><strong>ALAMAT :</strong></label>
 		</div>
 	</div>
-	<?php if (!empty($penduduk['no_kk']) || $kk_baru) : ?>
+	<?php if (! empty($penduduk['no_kk']) || $kk_baru) : ?>
 		<div class='col-sm-12'>
 			<div class='form-group'>
 				<label for="alamat">Alamat KK </label>
@@ -488,7 +488,7 @@
 			<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm nomor_sk" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya'] ?>"></input>
 		</div>
 	</div>
-	<?php if (!$penduduk['no_kk'] && !$kk_baru) : ?>
+	<?php if (! $penduduk['no_kk'] && ! $kk_baru) : ?>
 		<div class='col-sm-12'>
 			<div class='form-group'>
 				<label for="alamat_sekarang">Alamat Sekarang </label>

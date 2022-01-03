@@ -129,7 +129,7 @@ class Penduduk extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-        if (empty($_POST) && (!isset($_SESSION['dari_internal']) || !$_SESSION['dari_internal'])) {
+        if (empty($_POST) && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
             unset($_SESSION['validation_error']);
         }
 
@@ -571,103 +571,103 @@ class Penduduk extends Admin_Controller
 
         switch ($tipe) {
             case '0':
-                $session = 'pendidikan_kk_id';
+                $session  = 'pendidikan_kk_id';
                 $kategori = 'PENDIDIKAN DALAM KK : ';
                 break;
 
             case 1:
-                $session = 'pekerjaan_id';
+                $session  = 'pekerjaan_id';
                 $kategori = 'PEKERJAAN : ';
                 break;
 
             case 2:
-                $session = 'status';
+                $session  = 'status';
                 $kategori = 'STATUS PERKAWINAN : ';
                 break;
 
             case 3:
-                $session = 'agama';
+                $session  = 'agama';
                 $kategori = 'AGAMA : ';
                 break;
 
             case 4:
-                $session = 'sex';
+                $session  = 'sex';
                 $kategori = 'JENIS KELAMIN : ';
                 break;
 
             case 5:
-                $session = 'warganegara';
+                $session  = 'warganegara';
                 $kategori = 'WARGANEGARA : ';
                 break;
 
             case 6:
-                $session = 'status_penduduk';
+                $session  = 'status_penduduk';
                 $kategori = 'STATUS PENDUDUK : ';
                 break;
 
             case 7:
-                $session = 'golongan_darah';
+                $session  = 'golongan_darah';
                 $kategori = 'GOLONGAN DARAH : ';
                 break;
 
             case 9:
-                $session = 'cacat';
+                $session  = 'cacat';
                 $kategori = 'CACAT : ';
                 break;
 
             case 10:
-                $session = 'menahun';
+                $session  = 'menahun';
                 $kategori = 'SAKIT MENAHUN : ';
                 break;
 
             case 13:
-                $session = 'umurx';
+                $session  = 'umurx';
                 $kategori = 'UMUR (RENTANG) : ';
                 break;
 
             case 14:
-                $session = 'pendidikan_sedang_id';
+                $session  = 'pendidikan_sedang_id';
                 $kategori = 'PENDIDIKAN SEDANG DITEMPUH : ';
                 break;
 
             case 15:
-                $session = 'umurx';
+                $session  = 'umurx';
                 $kategori = 'UMUR (KATEGORI) : ';
                 break;
 
             case 16:
-                $session = 'cara_kb_id';
+                $session  = 'cara_kb_id';
                 $kategori = 'CARA KB : ';
                 break;
 
             case 17:
-                $session = 'akta_kelahiran';
+                $session  = 'akta_kelahiran';
                 $kategori = 'AKTA KELAHIRAN : UMUR ';
                 break;
 
             case 19:
-                $session = 'id_asuransi';
+                $session  = 'id_asuransi';
                 $kategori = 'ASURANSI KESEHATAN : ';
                 break;
 
             case 'bpjs-tenagakerja':
-                $session = ($nomor == BELUM_MENGISI || $nomor == JUMLAH) ? 'bpjs_ketenagakerjaan' : 'pekerjaan_id';
-                $kategori = 'BPJS Ketenagakerjaan : ';
+                $session                             = ($nomor == BELUM_MENGISI || $nomor == JUMLAH) ? 'bpjs_ketenagakerjaan' : 'pekerjaan_id';
+                $kategori                            = 'BPJS Ketenagakerjaan : ';
                 $this->session->bpjs_ketenagakerjaan = ($nomor == TOTAL) ? false : true;
                 break;
 
             case 'hubungan_kk':
-                $session = 'hubungan';
+                $session  = 'hubungan';
                 $kategori = 'HUBUNGAN DALAM KK : ';
                 break;
 
             case 'covid':
-                $session = 'status_covid';
+                $session  = 'status_covid';
                 $kategori = 'STATUS COVID : ';
                 break;
 
             case 'bantuan_penduduk':
-                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_penduduk';
@@ -688,7 +688,7 @@ class Penduduk extends Admin_Controller
                 break;
 
             case 'suku':
-                $session = 'suku';
+                $session  = 'suku';
                 $kategori = 'Suku: ';
                 break;
 
@@ -699,7 +699,7 @@ class Penduduk extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }
