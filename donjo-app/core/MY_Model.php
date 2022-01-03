@@ -134,7 +134,7 @@ class MY_Model extends CI_Model
                 ->from($tabel)
                 ->where($where)
                 ->like($kolom, $cari)
-                ->order_by($kolom, DESC)
+                ->order_by($kolom, 'DESC')
                 ->get_compiled_select()
                 . ')';
         }
