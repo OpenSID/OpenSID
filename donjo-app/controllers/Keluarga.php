@@ -155,7 +155,7 @@ class Keluarga extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         // Reset kalau dipanggil dari luar pertama kali ($_POST kosong)
-        if (empty($_POST) && (! isset($_SESSION['dari_internal']) || ! $_SESSION['dari_internal'])) {
+        if (empty($_POST) && (!isset($_SESSION['dari_internal']) || !$_SESSION['dari_internal'])) {
             unset($_SESSION['validation_error']);
         }
 
@@ -193,7 +193,6 @@ class Keluarga extends Admin_Controller
         $data['cacat']              = $this->penduduk_model->list_cacat();
         $data['sakit_menahun']      = $this->referensi_model->list_data('tweb_sakit_menahun');
         $data['cara_kb']            = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-        $data['wajib_ktp']          = $this->referensi_model->list_wajib_ktp();
         $data['ktp_el']             = $this->referensi_model->list_ktp_el();
         $data['status_rekam']       = $this->referensi_model->list_status_rekam();
         $data['tempat_dilahirkan']  = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
@@ -226,7 +225,7 @@ class Keluarga extends Admin_Controller
         $kepala = $this->keluarga_model->get_kepala_a($id);
         $this->redirect_tidak_valid(empty($kepala['id']) || $kepala['status_dasar'] == 1);
 
-        if (empty($_POST) && ! $_SESSION['dari_internal']) {
+        if (empty($_POST) && !$_SESSION['dari_internal']) {
             unset($_SESSION['validation_error']);
         } else {
             unset($_SESSION['dari_internal']);
@@ -247,7 +246,6 @@ class Keluarga extends Admin_Controller
         $data['cacat']              = $this->penduduk_model->list_cacat();
         $data['sakit_menahun']      = $this->referensi_model->list_data('tweb_sakit_menahun');
         $data['cara_kb']            = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-        $data['wajib_ktp']          = $this->referensi_model->list_wajib_ktp();
         $data['ktp_el']             = $this->referensi_model->list_ktp_el();
         $data['status_rekam']       = $this->referensi_model->list_status_rekam();
         $data['tempat_dilahirkan']  = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
@@ -586,7 +584,7 @@ class Keluarga extends Admin_Controller
                 break;
 
             case $tipe == 'bantuan_keluarga':
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null;
                 } // tampilkan semua peserta walaupun bukan hidup/aktif
                 $session  = 'bantuan_keluarga';
@@ -600,7 +598,7 @@ class Keluarga extends Admin_Controller
                     ->where('id', $program_id)
                     ->get('program')->row()
                     ->nama;
-                if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
+                if (!in_array($nomor, [BELUM_MENGISI, TOTAL])) {
                     $this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
                     $nomor                       = $program_id;
                 }
