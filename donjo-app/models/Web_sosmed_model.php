@@ -88,50 +88,70 @@ class Web_sosmed_model extends CI_Model
 			return $link;
 		}
 
-		// Remove all illegal characters from a url
-		$link = filter_var($link, FILTER_SANITIZE_URL);
+		// list domain yang akan digunakan untuk ditambahkan protokol https
+		// ini digunakan untuk cek apakah mengandung string domain dibawah atau tidak
+		// jika $link tidak ada protokol http/https maka akan ditambahkan terlebih dahulu
+		$list_domain = [
+			'facebook.com',
+			'instagram.com',
+			't.me',
+			'telegram.me',
+			'twitter.com',
+			'whatsapp.com',
+			'youtube.com',
+		];
 
+		foreach ($list_domain as $key) {
+			if (strpos($link, $key) !== false) {
+				// tambahkan https di awal link
+				$link = preg_replace('/^http:/i', 'https:', prep_url($link));
+			}
+		}
+
+		// Remove all illegal characters from a url
 		// remove `@` with ''
 		$link = str_replace('@', '', $link);
+		$link = filter_var($link, FILTER_SANITIZE_URL);
 
 		// validasi link
 		$valid_link = filter_var($link, FILTER_VALIDATE_URL);
 
 		switch (true) {
-			case $id === 1 && $tipe === 1 :
-				$link = ($valid_link !== false ? $valid_link : 'https://web.facebook.com/' . $link);
+			case $id === '1' && $tipe === '1':
+				$link = ($valid_link ? $link : 'https://web.facebook.com/' . $link);
 				break;
 
-			case $id === 1 && $tipe === 2 :
-				$link = ($valid_link !== false ? $valid_link : 'https://web.facebook.com/groups/' . $link);
+			case $id === '1' && $tipe === '2':
+				$link = ($valid_link !== false ? $link : 'https://web.facebook.com/groups/' . $link);
 				break;
 
-			case $id === 2 :
-				$link = ($valid_link !== false ? $valid_link : 'https://twitter.com/' . $link);
+			case $id === '2':
+				$link = ($valid_link !== false ? $link : 'https://twitter.com/' . $link);
 				break;
 
-			case $id === 4 :
-				$link = ($valid_link !== false ? $valid_link : 'https://www.youtube.com/channel/' . $link);
+			case $id === '4':
+				$link = ($valid_link !== false ? $link : 'https://www.youtube.com/channel/' . $link);
 				break;
 
-			case $id === 5 :
-				$link = ($valid_link !== false ? $valid_link : 'https://www.instagram.com/' . $link . '/');
+			case $id === '5':
+				$link = ($valid_link !== false ? $link : 'https://www.instagram.com/' . $link . '/');
 				break;
 
-			case $id === 6 && $tipe === 1 :
-				$link = ($valid_link !== false ? $valid_link : 'https://api.whatsapp.com/send?phone=' . $link);
+			case $id === '6' && $tipe === '1':
+
+				$link = ($valid_link !== false ? $link : 'https://api.whatsapp.com/send?phone=' . $link);
 				break;
 
-			case $id === 6 && $tipe === 2 :
-				$link = ($valid_link !== false ? $valid_link : 'https://chat.whatsapp.com/' . $link);
+			case $id === '6' && $tipe === '2':
+				$link = ($valid_link !== false ? $link : 'https://chat.whatsapp.com/' . $link);
 				break;
 
-			case $id === 7 && $tipe === 1 :
-				$link = ($valid_link !== false ? $valid_link : 'https://t.me/' . $link);
+			case $id === '7' && $tipe === '1':
+				$link = ($valid_link !== false ? $link : 'https://t.me/' . $link);
 				break;
 
-			case $id === 7 && $tipe === 2 :
-				$link = ($valid_link !== false ? $valid_link : 'https://t.me/joinchat/' . $link);
+			case $id === '7' && $tipe === '2':
+				$link = ($valid_link !== false ? $link : 'https://t.me/joinchat/' . $link);
 				break;
 
 			default:
