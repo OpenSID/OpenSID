@@ -75,7 +75,13 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td width='25%'><?= strtoupper($penduduk['wajib_ktp']) ?></td>
+									<!-- <td width='25%'><?= strtoupper($penduduk['wajib_ktp']) ?></td> -->
+									<!-- <td width='25%'><label id="wajib_ktp"></label></td> -->
+									<?php if ($penduduk['wajib_ktp'] != null) : ?>
+										<td width='25%'><?= strtoupper($penduduk['wajib_ktp']) ?></td>
+									<?php else : ?>
+										<td width='25%'><label id="wajib_ktp"></label></td>
+									<?php endif; ?>
 									<td>
 										<select name="ktp_el" id="ktp_el" class="form-control input-sm" onchange="show_hide_ktp_el($(this).find(':selected').val())">
 											<option value="">Pilih Identitas-EL</option>
@@ -702,9 +708,7 @@
 		});
 
 		$("select[name='sex']").change();
-		$("select[name='status_kawin']").change(
-
-		);
+		$("select[name='status_kawin']").change();
 		$("select[name='id_asuransi']").change();
 
 		$('#nik_sementara').change(function() {
@@ -787,23 +791,27 @@
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
 		switch (status) {
 			case '1':
+				$('#wajib_ktp').text('BELUM');
 			case '4':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
+				$('#wajib_ktp').text('WAJIB');
 				break;
 			case '2':
 				$("#akta_perkawinan").attr('disabled', false);
 				$("input[name=tanggalperkawinan]").attr('disabled', false);
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
+				$('#wajib_ktp').text('WAJIB');
 				break;
 			case '3':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
+				$('#wajib_ktp').text('WAJIB');
 				break;
 		}
 	}
