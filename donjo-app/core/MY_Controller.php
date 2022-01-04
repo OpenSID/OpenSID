@@ -401,35 +401,49 @@ class Admin_Controller extends Premium
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
     {
-        if (! $this->user_model->hak_akses_url($this->grup, $controller ?? $this->controller, $akses)) {
+        if (empty($controller)) {
+            $controller = $this->controller;
+        }
+        if (! $this->user_model->hak_akses_url($this->grup, $controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
             if (empty($this->grup)) {
                 redirect('siteman');
             }
-            redirect($redirect ?? $_SERVER['HTTP_REFERER']);
+            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
         }
     }
 
     protected function redirect_hak_akses($akses, $redirect = '', $controller = '')
     {
-        if (! $this->user_model->hak_akses($this->grup, $controller ?? $this->controller, $akses)) {
+        if (empty($controller)) {
+            $controller = $this->controller;
+        }
+        if (! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
             if (empty($this->grup)) {
                 redirect('siteman');
             }
-            redirect($redirect ?? $_SERVER['HTTP_REFERER']);
+            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
         }
     }
 
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     public function cek_hak_akses_url($akses, $controller = '')
     {
-        return $this->user_model->hak_akses_url($this->grup, $controller ?? $this->controller, $akses);
+        if (empty($controller)) {
+            $controller = $this->controller;
+        }
+
+        return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
     }
 
     public function cek_hak_akses($akses, $controller = '')
     {
-        return $this->user_model->hak_akses($this->grup, $controller ?? $this->controller, $akses);
+        if (empty($controller)) {
+            $controller = $this->controller;
+        }
+
+        return $this->user_model->hak_akses($this->grup, $controller, $akses);
     }
 
     public function redirect_tidak_valid($valid)
