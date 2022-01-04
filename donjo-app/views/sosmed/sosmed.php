@@ -73,7 +73,7 @@
 			{
 				$('#link').attr('pattern', '(((https?:\\\/\\\/)?api\\.whatsapp\\.com\\\/send(?:\\\/|)[?&]+(\\w+)+=([^&]+).*)|\\d+)');
 				$('#link').attr('placeholder', '0851234567890');
-				$('#ex_whatsapp').text('Contoh : 0851234567890 (Nomor HP saja)) atau https://api.whatsapp.com/send?phone=62851234567890');
+				$('#ex_whatsapp').text('Contoh : 0851234567890 (Nomor HP saja) atau https://api.whatsapp.com/send?phone=62851234567890');
 			}
 			else
 			{
