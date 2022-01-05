@@ -95,7 +95,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= base_url() ?>assets/front/css/jquery-confirm.min.css">
 	<!-- Jquery UI -->
 	<link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/css/jquery-ui.min.css">
-	<!-- Diperlukan untuk script jquery khusus halaman -->
+	<!-- jQuery 3 -->
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Diperlukan untuk global automatic base_url oleh external js file -->
 	<script type="text/javascript">
@@ -292,8 +292,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			</div>
 		</footer>
 	</div>
-	<!-- jQuery 3 -->
-	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Jquery UI -->
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery-ui.min.js"></script>
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.ui.autocomplete.scroll.min.js"></script>
