@@ -9,7 +9,8 @@ body:
       value: |
         Terima kasih sudah meluangkan waktu untuk membuat laporan bug/error.
 
-        Sebelum Anda memulai, pastikan tidak ada issue yang sama. Silakan mencari terlebih dahulu.
+        Sebelum Anda memulai, pastikan tidak ada issue yang sama. Silakan mencari terlebih dahulu di issue yang sudah di [close](https://github.com/OpenSID/OpenSID/issues?q=is%3Aissue+is%3Aclosed) atau di [rilis umum yang akan datang](https://github.com/OpenSID/OpenSID/wiki/Rilis-Umum-Yang-Akan-Datang).
+        Jika pada rilis umum yang akan datang sudah ditemukan bug yang dimaksud silahkan menuggu untuk diperbaiki dirilis berikutnya.
 
         Harap tidak melaporkan masalah instal OpenSID. 
         Masalah pada waktu install harap ditanyakan di https://www.facebook.com/groups/OpenSID 
