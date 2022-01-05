@@ -193,7 +193,6 @@ class Keluarga extends Admin_Controller
         $data['cacat']              = $this->penduduk_model->list_cacat();
         $data['sakit_menahun']      = $this->referensi_model->list_data('tweb_sakit_menahun');
         $data['cara_kb']            = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-        $data['wajib_ktp']          = $this->referensi_model->list_wajib_ktp();
         $data['ktp_el']             = $this->referensi_model->list_ktp_el();
         $data['status_rekam']       = $this->referensi_model->list_status_rekam();
         $data['tempat_dilahirkan']  = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
@@ -247,7 +246,6 @@ class Keluarga extends Admin_Controller
         $data['cacat']              = $this->penduduk_model->list_cacat();
         $data['sakit_menahun']      = $this->referensi_model->list_data('tweb_sakit_menahun');
         $data['cara_kb']            = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-        $data['wajib_ktp']          = $this->referensi_model->list_wajib_ktp();
         $data['ktp_el']             = $this->referensi_model->list_ktp_el();
         $data['status_rekam']       = $this->referensi_model->list_status_rekam();
         $data['tempat_dilahirkan']  = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);

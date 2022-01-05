@@ -403,31 +403,57 @@ class Penduduk_model extends MY_Model
     {
         //Urut data
         switch ($order_by) {
-            case 1: $this->db->order_by('u.nik'); break;
+            case 1:
+                $this->db->order_by('u.nik');
+                break;
 
-            case 2: $this->db->order_by('u.nik', 'DESC'); break;
+            case 2:
+                $this->db->order_by('u.nik', 'DESC');
+                break;
 
-            case 3: $this->db->order_by('u.nama'); break;
+            case 3:
+                $this->db->order_by('u.nama');
+                break;
 
-            case 4: $this->db->order_by('u.nama', 'DESC'); break;
+            case 4:
+                $this->db->order_by('u.nama', 'DESC');
+                break;
 
-            case 5: $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)'); break;
+            case 5:
+                $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)');
+                break;
 
-            case 6:$this->db->order_by('d.no_kk DESC, u.id_kk, u.kk_level'); break;
+            case 6:
+                $this->db->order_by('d.no_kk DESC, u.id_kk, u.kk_level');
+                break;
 
-            case 7: $this->db->order_by('umur'); break;
+            case 7:
+                $this->db->order_by('umur');
+                break;
 
-            case 8: $this->db->order_by('umur', 'DESC'); break;
+            case 8:
+                $this->db->order_by('umur', 'DESC');
+                break;
 
-            case 9: $this->db->order_by('u.created_at'); break;
+            case 9:
+                $this->db->order_by('u.created_at');
+                break;
 
-            case 10: $this->db->order_by('u.created_at', 'DESC'); break;
+            case 10:
+                $this->db->order_by('u.created_at', 'DESC');
+                break;
 
-            case 11: $this->db->order_by('log.tgl_peristiwa'); break;
+            case 11:
+                $this->db->order_by('log.tgl_peristiwa');
+                break;
 
-            case 12: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
+            case 12:
+                $this->db->order_by('log.tgl_peristiwa', 'DESC');
+                break;
 
-            default: $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)'); break;
+            default:
+                $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)');
+                break;
         }
     }
 
@@ -695,7 +721,7 @@ class Penduduk_model extends MY_Model
         $data['sakit_menahun_id']   = $data['sakit_menahun_id'] ?: null;
         $data['kk_level']           = $data['kk_level'];
         $data['email']              = strip_tags($data['email']);
-        $data['telegram']           = strip_tags($data['telegram']);
+        $data['telegram']           = empty($data['telegram']) ? null : strip_tags($data['telegram']);
         if (empty($data['id_asuransi']) || $data['id_asuransi'] == 1) {
             $data['no_asuransi'] = null;
         }
@@ -925,9 +951,7 @@ class Penduduk_model extends MY_Model
         // Untuk anggota keluarga
         if (! empty($data['no_kk'])) {
             // Ganti alamat KK
-            $this->db->
-                where('id', $pend['id_kk'])->
-                update('tweb_keluarga', ['alamat' => $data['alamat']]);
+            $this->db->where('id', $pend['id_kk'])->update('tweb_keluarga', ['alamat' => $data['alamat']]);
             if ($pend['id_cluster'] != $data['id_cluster']) {
                 $this->keluarga_model->pindah_keluarga($pend['id_kk'], $data['id_cluster']);
             }
@@ -1295,7 +1319,7 @@ class Penduduk_model extends MY_Model
 
             if ($status_kawin_kk == 1) {
                 ($sex == 2) ? $this->db->where("id NOT IN ('1', '2', '3', '5', '6', '8') ")
-                                        : $this->db->where("id NOT IN ('1', '2', '3', '4', '5', '6', '8') ");
+                    : $this->db->where("id NOT IN ('1', '2', '3', '4', '5', '6', '8') ");
             } else {
                 $this->db->where('id <> 1');
             }
@@ -1464,7 +1488,7 @@ class Penduduk_model extends MY_Model
             'tgl_peristiwa'  => date('d-m-y'),
         ];
         $query = $this->db->insert_string('log_penduduk', $data) .
-        'ON DUPLICATE KEY UPDATE
+            'ON DUPLICATE KEY UPDATE
 				id_pend = VALUES(id_pend),
 				kode_peristiwa = VALUES(kode_peristiwa),
 				tgl_peristiwa = VALUES(tgl_peristiwa)
@@ -1483,47 +1507,87 @@ class Penduduk_model extends MY_Model
             $judul = ['nama' => 'TOTAL'];
         } else {
             switch ($tipe) {
-                case '0': $table = 'tweb_penduduk_pendidikan_kk'; break;
+                case '0':
+                    $table = 'tweb_penduduk_pendidikan_kk';
+                    break;
 
-                case 1: $table = 'tweb_penduduk_pekerjaan'; break;
+                case 1:
+                    $table = 'tweb_penduduk_pekerjaan';
+                    break;
 
-                case 2: $table = 'tweb_penduduk_kawin'; break;
+                case 2:
+                    $table = 'tweb_penduduk_kawin';
+                    break;
 
-                case 3: $table = 'tweb_penduduk_agama'; break;
+                case 3:
+                    $table = 'tweb_penduduk_agama';
+                    break;
 
-                case 4: $table = 'tweb_penduduk_sex'; break;
+                case 4:
+                    $table = 'tweb_penduduk_sex';
+                    break;
 
-                case 5: $table = 'tweb_penduduk_warganegara'; break;
+                case 5:
+                    $table = 'tweb_penduduk_warganegara';
+                    break;
 
-                case 6: $table = 'tweb_penduduk_status'; break;
+                case 6:
+                    $table = 'tweb_penduduk_status';
+                    break;
 
-                case 7: $table = 'tweb_golongan_darah'; break;
+                case 7:
+                    $table = 'tweb_golongan_darah';
+                    break;
 
-                case 9: $table = 'tweb_cacat'; break;
+                case 9:
+                    $table = 'tweb_cacat';
+                    break;
 
-                case 10: $table = 'tweb_sakit_menahun'; break;
+                case 10:
+                    $table = 'tweb_sakit_menahun';
+                    break;
 
-                case 14: $table = 'tweb_penduduk_pendidikan'; break;
+                case 14:
+                    $table = 'tweb_penduduk_pendidikan';
+                    break;
 
-                case 16: $table = 'tweb_cara_kb'; break;
+                case 16:
+                    $table = 'tweb_cara_kb';
+                    break;
 
                 case 13: // = 17
                 case 15: // = 17
-                case 17: $table = 'tweb_penduduk_umur'; break;
+                case 17:
+                    $table = 'tweb_penduduk_umur';
+                    break;
 
-                case 18: $table = 'tweb_status_ktp'; break;
+                case 18:
+                    $table = 'tweb_status_ktp';
+                    break;
 
-                case 19: $table = 'tweb_penduduk_asuransi'; break;
+                case 19:
+                    $table = 'tweb_penduduk_asuransi';
+                    break;
 
-                case 'bpjs-tenagakerja': $table = 'tweb_penduduk_pekerjaan'; break;
+                case 'bpjs-tenagakerja':
+                    $table = 'tweb_penduduk_pekerjaan';
+                    break;
 
-                case 'covid': $table = 'ref_status_covid'; break;
+                case 'covid':
+                    $table = 'ref_status_covid';
+                    break;
 
-                case 'bantuan_penduduk': $table = 'program'; break;
+                case 'bantuan_penduduk':
+                    $table = 'program';
+                    break;
 
-                case 'hubungan_kk': $table = 'tweb_penduduk_hubungan'; break;
+                case 'hubungan_kk':
+                    $table = 'tweb_penduduk_hubungan';
+                    break;
 
-                case 'suku': $table = 'tweb_penduduk'; break;
+                case 'suku':
+                    $table = 'tweb_penduduk';
+                    break;
             }
 
             if ($tipe == 13 || $tipe == 17) {
@@ -1631,8 +1695,7 @@ class Penduduk_model extends MY_Model
 
     public function jml_penduduk()
     {
-        return $this->db->select('count(id) as jml')->where('status', '1')->
-                get('tweb_penduduk')->row()->jml;
+        return $this->db->select('count(id) as jml')->where('status', '1')->get('tweb_penduduk')->row()->jml;
     }
 
     public function get_suku()
