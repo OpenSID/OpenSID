@@ -110,7 +110,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 2:
-                $this->db->order_by('p.nik', DESC);
+                $this->db->order_by('p.nik', 'DESC');
                 break;
 
             case 3:
@@ -118,7 +118,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 4:
-                $this->db->order_by('p.nama', DESC);
+                $this->db->order_by('p.nama', 'DESC');
                 break;
 
             case 5:
@@ -126,7 +126,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 6:
-                $this->db->order_by('pm.tanggal_buat', DESC);
+                $this->db->order_by('pm.tanggal_buat', 'DESC');
                 break;
 
             case 7:
@@ -134,7 +134,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 8:
-                $this->db->order_by('pm.last_login', DESC);
+                $this->db->order_by('pm.last_login', 'DESC');
                 break;
 
             default:
