@@ -57,6 +57,16 @@ body:
         Lampirkan isi file di folder `logs` atau tangkapan error di console inspector browser.
     validations:
       required: true
+      
+  - type: dropdown
+    id: rilis-version
+    attributes:
+      label: Pilih versi OpenSID yang digunakan!
+      options:
+        - Rilis Premium
+        - Rilis Umum
+    validations:
+      required: true
 
   - type: input
     id: version
