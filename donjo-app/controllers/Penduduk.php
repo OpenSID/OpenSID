@@ -181,7 +181,6 @@ class Penduduk extends Admin_Controller
         $data['cacat']              = $this->penduduk_model->list_cacat();
         $data['sakit_menahun']      = $this->referensi_model->list_data('tweb_sakit_menahun');
         $data['cara_kb']            = $this->penduduk_model->list_cara_kb($data['penduduk']['id_sex']);
-        $data['wajib_ktp']          = $this->referensi_model->list_wajib_ktp();
         $data['ktp_el']             = $this->referensi_model->list_ktp_el();
         $data['status_rekam']       = $this->referensi_model->list_status_rekam();
         $data['tempat_dilahirkan']  = $this->referensi_model->list_ref_flip(TEMPAT_DILAHIRKAN);
@@ -571,43 +570,101 @@ class Penduduk extends Admin_Controller
         $this->session->sex = ($sex == 0) ? null : $sex;
 
         switch ($tipe) {
-            case '0': $session = 'pendidikan_kk_id'; $kategori = 'PENDIDIKAN DALAM KK : '; break;
+            case '0':
+                $session  = 'pendidikan_kk_id';
+                $kategori = 'PENDIDIKAN DALAM KK : ';
+                break;
 
-            case 1: $session = 'pekerjaan_id'; $kategori = 'PEKERJAAN : '; break;
+            case 1:
+                $session  = 'pekerjaan_id';
+                $kategori = 'PEKERJAAN : ';
+                break;
 
-            case 2: $session = 'status'; $kategori = 'STATUS PERKAWINAN : '; break;
+            case 2:
+                $session  = 'status';
+                $kategori = 'STATUS PERKAWINAN : ';
+                break;
 
-            case 3: $session = 'agama'; $kategori = 'AGAMA : '; break;
+            case 3:
+                $session  = 'agama';
+                $kategori = 'AGAMA : ';
+                break;
 
-            case 4: $session = 'sex'; $kategori = 'JENIS KELAMIN : '; break;
+            case 4:
+                $session  = 'sex';
+                $kategori = 'JENIS KELAMIN : ';
+                break;
 
-            case 5: $session = 'warganegara'; $kategori = 'WARGANEGARA : '; break;
+            case 5:
+                $session  = 'warganegara';
+                $kategori = 'WARGANEGARA : ';
+                break;
 
-            case 6: $session = 'status_penduduk'; $kategori = 'STATUS PENDUDUK : '; break;
+            case 6:
+                $session  = 'status_penduduk';
+                $kategori = 'STATUS PENDUDUK : ';
+                break;
 
-            case 7: $session = 'golongan_darah'; $kategori = 'GOLONGAN DARAH : '; break;
+            case 7:
+                $session  = 'golongan_darah';
+                $kategori = 'GOLONGAN DARAH : ';
+                break;
 
-            case 9: $session = 'cacat'; $kategori = 'CACAT : '; break;
+            case 9:
+                $session  = 'cacat';
+                $kategori = 'CACAT : ';
+                break;
 
-            case 10: $session = 'menahun'; $kategori = 'SAKIT MENAHUN : '; break;
+            case 10:
+                $session  = 'menahun';
+                $kategori = 'SAKIT MENAHUN : ';
+                break;
 
-            case 13: $session = 'umurx'; $kategori = 'UMUR (RENTANG) : '; break;
+            case 13:
+                $session  = 'umurx';
+                $kategori = 'UMUR (RENTANG) : ';
+                break;
 
-            case 14: $session = 'pendidikan_sedang_id'; $kategori = 'PENDIDIKAN SEDANG DITEMPUH : '; break;
+            case 14:
+                $session  = 'pendidikan_sedang_id';
+                $kategori = 'PENDIDIKAN SEDANG DITEMPUH : ';
+                break;
 
-            case 15: $session = 'umurx'; $kategori = 'UMUR (KATEGORI) : '; break;
+            case 15:
+                $session  = 'umurx';
+                $kategori = 'UMUR (KATEGORI) : ';
+                break;
 
-            case 16: $session = 'cara_kb_id'; $kategori = 'CARA KB : '; break;
+            case 16:
+                $session  = 'cara_kb_id';
+                $kategori = 'CARA KB : ';
+                break;
 
-            case 17: $session = 'akta_kelahiran'; $kategori = 'AKTA KELAHIRAN : UMUR '; break;
+            case 17:
+                $session  = 'akta_kelahiran';
+                $kategori = 'AKTA KELAHIRAN : UMUR ';
+                break;
 
-            case 19: $session = 'id_asuransi'; $kategori = 'ASURANSI KESEHATAN : '; break;
+            case 19:
+                $session  = 'id_asuransi';
+                $kategori = 'ASURANSI KESEHATAN : ';
+                break;
 
-            case 'bpjs-tenagakerja': $session = ($nomor == BELUM_MENGISI || $nomor == JUMLAH) ? 'bpjs_ketenagakerjaan' : 'pekerjaan_id'; $kategori = 'BPJS Ketenagakerjaan : '; $this->session->bpjs_ketenagakerjaan = ($nomor == TOTAL) ? false : true; break;
+            case 'bpjs-tenagakerja':
+                $session                             = ($nomor == BELUM_MENGISI || $nomor == JUMLAH) ? 'bpjs_ketenagakerjaan' : 'pekerjaan_id';
+                $kategori                            = 'BPJS Ketenagakerjaan : ';
+                $this->session->bpjs_ketenagakerjaan = ($nomor == TOTAL) ? false : true;
+                break;
 
-            case 'hubungan_kk': $session = 'hubungan'; $kategori = 'HUBUNGAN DALAM KK : '; break;
+            case 'hubungan_kk':
+                $session  = 'hubungan';
+                $kategori = 'HUBUNGAN DALAM KK : ';
+                break;
 
-            case 'covid': $session = 'status_covid'; $kategori = 'STATUS COVID : '; break;
+            case 'covid':
+                $session  = 'status_covid';
+                $kategori = 'STATUS COVID : ';
+                break;
 
             case 'bantuan_penduduk':
                 if (! in_array($nomor, [BELUM_MENGISI, TOTAL])) {
@@ -630,7 +687,10 @@ class Penduduk extends Admin_Controller
                 $kategori = 'KEPEMILIKAN WAJIB KTP : ';
                 break;
 
-            case 'suku': $session = 'suku'; $kategori = 'Suku: '; break;
+            case 'suku':
+                $session  = 'suku';
+                $kategori = 'Suku: ';
+                break;
 
             case $tipe > 50:
                 $program_id                     = preg_replace('/^50/', '', $tipe);
@@ -740,8 +800,13 @@ class Penduduk extends Admin_Controller
                 $pre                  = 'BERUMUR >60';
                 break;
 
-            case 91: case 92: case 93: case 94:
-            case 95: case 96: case 97:
+            case 91:
+            case 92:
+            case 93:
+            case 94:
+            case 95:
+            case 96:
+            case 97:
                 $kode_cacat        = $tipe - 90;
                 $_SESSION['cacat'] = $kode_cacat;
                 $_SESSION['dusun'] = $cluster['dusun'];
