@@ -1103,8 +1103,7 @@ class Program_bantuan_model extends MY_Model {
 		{
 			$this->db->where('p.sasaran', '1');
 		}
-
-		$this->db->where('p.status', '1');
+		
 	}
 
 	private function cari_query()
@@ -1148,8 +1147,11 @@ class Program_bantuan_model extends MY_Model {
 		}
 	}
 
-	public function get_peserta_bantuan()
+	public function get_peserta_bantuan($status = "")
 	{
+		if($status != ""){
+			$this->db->where('p.status', $status);
+		}
 		$this->get_peserta_bantuan_query();
 		if ($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);

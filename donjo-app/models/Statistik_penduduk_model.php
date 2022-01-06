@@ -120,6 +120,11 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 
 	public function select_per_kategori()
 	{
+		$status = $this->session->status;
+		if($status != "") {
+			$this->db->where('u.status', (string) $status);
+		}
+
 		// Ambil data sasaran penduduk
 		$this->db->select('u.id, u.nama')
 			->select('u.*, COUNT(pp.peserta) as jumlah')
@@ -130,7 +135,6 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model {
 			->join('tweb_keluarga k', 'pp.peserta = k.no_kk', 'left')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
 			->where('u.sasaran', '2')
-			->where('u.status', '1')
 			->group_by('u.id');
 		return true;
 	}

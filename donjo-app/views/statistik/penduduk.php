@@ -120,6 +120,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									</div>
 								</div>
 							<?php endif; ?>
+							<?php if ($lap == 'bantuan_keluarga'): ?>
+								<div class="row">
+									<div class="col-sm-12 form-inline">
+										<formid="mainform" method="post">
+											<select class="form-control input-sm " name="status" onchange="formAction('mainform','<?= site_url('statistik/status'); ?>')">
+												<option value="" selected>Pilih Status</option>
+												<option value="1" <?= selected($status, '1'); ?>>Ya</option>
+												<option value="0" <?= selected($status, '0'); ?>>Tidak</option>
+											</select>
+										</form>
+									</div>
+								</div>
+							<?php endif; ?>
 								<div class="table-responsive">
 									<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 										<thead class="bg-gray color-palette">
