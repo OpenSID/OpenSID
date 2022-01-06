@@ -228,14 +228,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 		$('#smartwizard').smartWizard("stepState", [2, 3], "disable");
 
-		<?php if ($this->session->flashdata('kirim-otp-telegram')) : ?>
-			$('#smartwizard').smartWizard("stepState", [0, 1], "disable");
-			$('#smartwizard').smartWizard("goToStep", 2);
-		<?php endif ?>
-
 		<?php if ($this->session->flashdata('sudah-diverifikasi')) : ?>
 			$('#smartwizard').smartWizard("stepState", [0, 1, 2], "disable");
+			$('#smartwizard').smartWizard("stepState", [3], "enable");
 			$('#smartwizard').smartWizard("goToStep", 3);
+		<?php endif ?>
+
+		<?php if ($this->session->flashdata('kirim-otp-telegram')) : ?>
+			$('#smartwizard').smartWizard("stepState", [0, 1], "disable");
+			$('#smartwizard').smartWizard("stepState", [2], "enable");
+			$('#smartwizard').smartWizard("goToStep", 2);
 		<?php endif ?>
 	});
 </script>
