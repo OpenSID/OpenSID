@@ -179,4 +179,14 @@ class OTP_telegram implements OTP_interface
             throw $e;
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cek_akun_terdaftar($user)
+    {
+        return isset($this->ci->db)
+            ? ($this->ci->db->where('telegram', $user['telegram'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0)
+            : false;
+    }
 }
