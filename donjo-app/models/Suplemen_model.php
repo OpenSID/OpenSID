@@ -473,6 +473,7 @@ class Suplemen_model extends MY_Model
     public function hapus_terdata_all()
     {
         $id_cb = $this->input->post('id_cb');
+
         foreach ($id_cb as $id) {
             $this->hapus_terdata($id);
         }
