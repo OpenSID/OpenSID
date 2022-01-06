@@ -172,6 +172,9 @@ class OTP_telegram implements OTP_interface
 
                     KODE PIN: {$pin}
 
+                    JIKA BUKAN ANDA YANG MELAKUKAN RESET PIN TERSEBUT
+                    SILAHKAN LAPORKAN KEPADA OPERATOR DESA
+
                     EOD,
                 'parse_mode' => 'Markdown',
             ]);
