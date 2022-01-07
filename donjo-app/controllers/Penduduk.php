@@ -58,7 +58,7 @@ class Penduduk extends Admin_Controller {
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 21;
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik', 'tag_id_card'];
 	}
 
 	private function clear_session()
@@ -389,7 +389,7 @@ class Penduduk extends Admin_Controller {
 
 	public function ajax_adv_search()
 	{
-		$list_session = array('umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk');
+		$list_session = array('umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'sex', 'status_dasar', 'cacat', 'cara_kb_id', 'status_ktp', 'id_asuransi', 'warganegara', 'golongan_darah', 'hamil', 'menahun', 'tag_id_card');
 
 		foreach ($list_session as $session)
 		{
@@ -402,6 +402,15 @@ class Penduduk extends Admin_Controller {
 		$data['list_pekerjaan'] = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
 		$data['list_status_kawin'] = $this->referensi_model->list_data('tweb_penduduk_kawin');
 		$data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
+		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
+		$data['list_cacat'] = $this->referensi_model->list_data('tweb_cacat');
+		$data['list_cara_kb'] = $this->referensi_model->list_data('tweb_cara_kb');
+		$data['list_status_ktp'] = $this->referensi_model->list_data('tweb_status_ktp');
+		$data['list_asuransi'] = $this->referensi_model->list_data('tweb_penduduk_asuransi');
+		$data['list_warganegara'] = $this->referensi_model->list_data('tweb_penduduk_warganegara');
+		$data['list_golongan_darah'] = $this->referensi_model->list_data('tweb_golongan_darah');
+		$data['list_sakit_menahun'] = $this->referensi_model->list_data('tweb_sakit_menahun');
 		$data['form_action'] = site_url("penduduk/adv_search_proses");
 
 		$this->load->view("sid/kependudukan/ajax_adv_search_form", $data);
@@ -446,6 +455,16 @@ class Penduduk extends Admin_Controller {
 		$data['pendidikan_kk_id'] = $post['pendidikan_kk_id'];
 		$data['status_penduduk'] = $post['status_penduduk'];
 		$data['filter'] = $post['status_penduduk'];
+		$data['sex'] = $post['sex'];
+		$data['status_dasar'] = $post['status_dasar'];
+		$data['cara_kb_id'] = $post['cara_kb_id'];
+		$data['status_ktp'] = $post['status_ktp'];
+		$data['id_asuransi'] = $post['id_asuransi'];
+		$data['warganegara'] = $post['warganegara'];
+		$data['golongan_darah'] = $post['golongan_darah'];
+		$data['menahun'] = $post['menahun'];
+		$data['cacat'] = $post['cacat'];
+		$data['tag_id_card'] = $post['tag_id_card'];
 
 		return $data;
 	}

@@ -129,6 +129,115 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</select>
 				</div>
 			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="sex">Jenis Kelamin</label>
+					<select class="form-control input-sm" id="sex" name="sex">
+						<option value=""> -- </option>
+						<?php foreach ($list_sex AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="status_dasar">Status Dasar</label>
+					<select class="form-control input-sm" id="status_dasar" name="status_dasar">
+						<option value=""> -- </option>
+						<?php foreach ($list_status_dasar AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($status_dasar, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="cacat">Cacat</label>
+					<select class="form-control input-sm" id="cacat" name="cacat">
+						<option value=""> -- </option>
+						<?php foreach ($list_cacat AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($cacat, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="cara_kb_id">Cara KB</label>
+					<select class="form-control input-sm" id="cara_kb_id" name="cara_kb_id">
+						<option value=""> -- </option>
+						<?php foreach ($list_cara_kb AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($cara_kb_id, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="status_ktp">Status KTP</label>
+					<select class="form-control input-sm" id="status_ktp" name="status_ktp">
+						<option value=""> -- </option>
+						<?php foreach ($list_status_ktp AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($status_ktp, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="id_asuransi">Asuransi</label>
+					<select class="form-control input-sm" id="id_asuransi" name="id_asuransi">
+						<option value=""> -- </option>
+						<?php foreach ($list_asuransi AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($id_asuransi, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="warganegara">Warga Negara</label>
+					<select class="form-control input-sm" id="warganegara" name="warganegara">
+						<option value=""> -- </option>
+						<?php foreach ($list_warganegara AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($warganegara, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="golongan_darah">Golongan Darah</label>
+					<select class="form-control input-sm" id="golongan_darah" name="golongan_darah">
+						<option value=""> -- </option>
+						<?php foreach ($list_golongan_darah AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($golongan_darah, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="menahun">Sakit Menahun</label>
+					<select class="form-control input-sm" id="menahun" name="menahun">
+						<option value=""> -- </option>
+						<?php foreach ($list_sakit_menahun AS $data): ?>
+							<option value="<?= $data['id']?>" <?php selected($menahun, $data['id']); ?>><?= $data['nama']?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="tag_id_card">Tag ID Card</label>
+					<select class="form-control input-sm" id="tag_id_card" name="tag_id_card">
+						<option value=""> -- </option>
+						<option value="2" <?php	selected($tag_id_card, '2') ?>>YA</option>
+						<option value="1" <?php	selected($tag_id_card, '1') ?>>TIDAK</option>
+					</select>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="modal-footer">

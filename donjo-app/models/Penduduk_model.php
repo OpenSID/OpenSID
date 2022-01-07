@@ -153,6 +153,20 @@ class Penduduk_model extends MY_Model {
 		}
 	}
 
+	// Filter belum digunakan
+	protected function tag_id_card_sql()
+	{
+		if (isset($this->session->tag_id_card))
+		{
+			$kf = (string) $this->session->tag_id_card;
+			if ($kf == '1'){
+			$this->db->where('u.tag_id_card', null);
+			}elseif($kf == '2'){
+			$this->db->where('u.tag_id_card !=', null);
+			}
+		}
+	}
+
 	protected function umur_max_sql()
 	{
 		$kf = $this->session->umur_max;
@@ -354,6 +368,7 @@ class Penduduk_model extends MY_Model {
 		$this->umur_sql(); // Kode 13, 15
 		$this->akta_kelahiran_sql(); // Kode 17
 		$this->hamil_sql(); // Filter blum digunakan
+		$this->tag_id_card_sql(); // Filter blum digunakan
 	}
 
 	// Perlu di urut sebelum paging dan sesudah paging
@@ -1083,6 +1098,11 @@ class Penduduk_model extends MY_Model {
 		{
 			if ($_POST[$col[$i]] == "")
 				UNSET($_POST[$col[$i]]);
+		}
+
+		$tag_id_card = $this->session->tag_id_card;
+		if($tag_id_card != "") {
+			$this->db->where('u.tag_id_card', (string) $tag_id_card);
 		}
 
 		$data = $_POST;
