@@ -48,10 +48,10 @@ class Suplemen extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['suplemen_model', 'pamong_model', 'penduduk_model', 'keluarga_model']);
+		$this->load->model(['suplemen_model', 'pamong_model', 'penduduk_model', 'keluarga_model', 'wilayah_model']);
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 25;
-		$this->_list_session = ['cari', 'sasaran'];
+		$this->_list_session = ['cari', 'sasaran', 'sex', 'dusun', 'rw', 'rt'];
 		$this->_set_page = ['20', '50', '100'];
 	}
 
@@ -126,6 +126,9 @@ class Suplemen extends Admin_Controller {
 
 	public function filter($filter)
 	{
+		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
+		if ($filter == "rw") $this->session->unset_userdata("rt");
+
 		## untuk filter pada data rincian suplemen
 		$value = $this->input->post($filter);
 		$id_rincian = $this->session->id_rincian;
@@ -133,6 +136,7 @@ class Suplemen extends Admin_Controller {
 			$this->session->$filter = $value;
 		else
 			$this->session->unset_userdata($filter);
+
 		redirect("suplemen/rincian/$id_rincian");
 	}
 
@@ -156,7 +160,7 @@ class Suplemen extends Admin_Controller {
 	}
 
 	public function rincian($id = '', $p = 1)
-	{
+	{		
 		$per_page = $this->input->post('per_page');
 		if (isset($per_page))
 			$this->session->per_page = $per_page;
@@ -167,6 +171,36 @@ class Suplemen extends Admin_Controller {
 		$data['per_page'] = $this->session->per_page;
 		$data['set_page'] = ['20', '50', '100'];
 		$data['cari'] = $this->session->cari;
+		$data['sex'] = $this->session->sex ?? null;
+		$data['list_jenis_kelamin'] = $this->referensi_model->list_data('tweb_penduduk_sex');
+		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+
+		foreach ($this->_list_session as $list)
+		{
+			if (in_array($list, ['dusun', 'rw', 'rt']))
+				$$list = $this->session->$list;
+		}
+		if (isset($dusun))
+		{
+			$data['dusun'] = $dusun;
+			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
+
+			if (isset($rw))
+			{
+				$data['rw'] = $rw;
+				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
+
+				if (isset($rt))
+					$data['rt'] = $rt;
+				else $data['rt'] = '';
+			}
+			else $data['rw'] = '';
+		}
+		else
+		{
+			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+		}
+
 		$this->set_minsidebar(1);
 
 		$this->render('suplemen/suplemen_anggota', $data);
