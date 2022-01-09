@@ -154,9 +154,34 @@
 		$input['penghayat_ayah_wanita'] = $_POST['penghayat_ayah_wanita'];
 	}
 
-	$saksi1 = $this->get_data_pribadi($_POST['id_saksi1']);
+	$saksi1 = $this->get_data_surat($_POST['id_saksi1']);
 	if ($saksi1)
 	{
+		$input['nik_saksi1'] = $saksi1['nik'];
+		$input['nama_saksi1'] = $saksi1['nama'];
+		$input['tanggal_lahir_saksi1']	= $saksi1['tanggallahir'];
+		$input['tempat_lahir_saksi1']	= $saksi1['tempatlahir'];
+		$input['pekerjaanid_saksi1'] = $saksi1['pekerjaan_id'];
+		$input['pekerjaansaksi1'] = $saksi1['pek'];
+		$input['alamat_saksi1'] = trim($saksi1['alamat'].' '.$saksi1['dusun']);
+		$input['rt_saksi1'] = $saksi1['rt'];
+		$input['rw_saksi1'] = $saksi1['rw'];
+		$input['status_kawin_saksi1'] = $saksi1['status_kawin'];
+		$input['wn_saksi1'] = $saksi1['warganegara'];
+		$input['desasaksi1'] = $config['nama_desa'];
+		$input['kecsaksi1'] = $config['nama_kecamatan'];
+		$input['kabsaksi1'] = $config['nama_kabupaten'];
+		$input['provinsisaksi1'] = $config['nama_propinsi'];
+		$input['pendidikan_saksi1'] = $saksi1['pendidikan'];
+		$input['agama_saksi1'] = $saksi1['agama'];
+		$input['anak_ke_saksi1'] = $_POST['anak_ke_saksi1'];
+		$input['dokumen_pasport_saksi1'] = $_POST['paspor_saksi1'];
+		$input['telepon_saksi1'] = $_POST['telepon_saksi1'];
+		$input['penghayat_saksi1'] = $_POST['penghayat_saksi1'];
+		$input['kawin_ke_saksi1'] = $_POST['kawin_ke_saksi1'];
+		$input['istri_ke_bagi_saksi1'] = $_POST['istri_ke'];
+		$input['bangsa_saksi1'] = $_POST['bangsa_saksi1'];
+	}else{
 		$input['nik_saksi1'] = $_POST['noktp_saksi1'];
 		$input['nama_saksi1'] = $_POST['nama_saksi1'];
 		$input['tanggal_lahir_saksi1']	= $_POST['tanggallahir_saksi1'];
@@ -175,9 +200,34 @@
 		$input['provinsisaksi1'] = $config['nama_propinsi'];
 	}
 
-	$saksi2 = $this->get_data_pribadi($_POST['id_saksi2']);
+	$saksi2 = $this->get_data_surat($_POST['id_saksi2']);
 	if ($saksi2)
 	{
+		$input['nik_saksi2'] = $saksi2['nik'];
+		$input['nama_saksi2'] = $saksi2['nama'];
+		$input['tanggal_lahir_saksi2']	= $saksi2['tanggallahir'];
+		$input['tempat_lahir_saksi2']	= $saksi2['tempatlahir'];
+		$input['pekerjaanid_saksi2'] = $saksi2['pekerjaan_id'];
+		$input['pekerjaansaksi2'] = $saksi2['pek'];
+		$input['alamat_saksi2'] = trim($saksi2['alamat'].' '.$saksi2['dusun']);
+		$input['rt_saksi2'] = $saksi2['rt'];
+		$input['rw_saksi2'] = $saksi2['rw'];
+		$input['status_kawin_saksi2'] = $saksi2['status_kawin'];
+		$input['wn_saksi2'] = $saksi2['warganegara'];
+		$input['desasaksi2'] = $config['nama_desa'];
+		$input['kecsaksi2'] = $config['nama_kecamatan'];
+		$input['kabsaksi2'] = $config['nama_kabupaten'];
+		$input['provinsisaksi2'] = $config['nama_propinsi'];
+		$input['pendidikan_saksi2'] = $saksi2['pendidikan'];
+		$input['agama_saksi2'] = $saksi2['agama'];
+		$input['anak_ke_saksi2'] = $_POST['anak_ke_saksi2'];
+		$input['dokumen_pasport_saksi2'] = $_POST['paspor_saksi2'];
+		$input['telepon_saksi2'] = $_POST['telepon_saksi2'];
+		$input['penghayat_saksi2'] = $_POST['penghayat_saksi2'];
+		$input['kawin_ke_saksi2'] = $_POST['kawin_ke_saksi2'];
+		$input['istri_ke_bagi_saksi2'] = $_POST['istri_ke'];
+		$input['bangsa_saksi2'] = $_POST['bangsa_saksi2'];
+	}else{
 		$input['nik_saksi2'] = $_POST['noktp_saksi2'];
 		$input['nama_saksi2'] = $_POST['nama_saksi2'];
 		$input['tanggal_lahir_saksi2']	= $_POST['tanggallahir_saksi2'];
@@ -195,6 +245,48 @@
 		$input['kabsaksi2'] = $config['nama_kabupaten'];
 		$input['provinsisaksi2'] = $config['nama_propinsi'];
 	}
+
+	// $saksi1 = $this->get_data_pribadi($_POST['id_saksi1']);
+	// if ($saksi1)
+	// {
+	// 	$input['nik_saksi1'] = $_POST['noktp_saksi1'];
+	// 	$input['nama_saksi1'] = $_POST['nama_saksi1'];
+	// 	$input['tanggal_lahir_saksi1']	= $_POST['tanggallahir_saksi1'];
+	// 	$input['tempat_lahir_saksi1']	= $_POST['tempatlahir_saksi1'];
+	// 	$input['pekerjaanid_saksi1'] = $_POST['pek_saksi1'];
+	// 	$input['pekerjaansaksi1'] = $_POST['pek_saksi1'];
+	// 	$input['alamat_saksi1'] = $_POST['alamat_saksi1'];
+	// 	$input['agama_saksi1'] = $_POST['agama_saksi1'];
+	// 	$input['telepon_saksi1'] = $_POST['telepon_saksi1'];
+	// 	$input['penghayat_saksi1'] = $_POST['penghayat_saksi1'];
+	// 	$input['rt_saksi1'] = $config['rt'];
+	// 	$input['rw_saksi1'] = $config['rw'];
+	// 	$input['desasaksi1'] = $config['nama_desa'];
+	// 	$input['kecsaksi1'] = $config['nama_kecamatan'];
+	// 	$input['kabsaksi1'] = $config['nama_kabupaten'];
+	// 	$input['provinsisaksi1'] = $config['nama_propinsi'];
+	// }
+
+	// $saksi2 = $this->get_data_pribadi($_POST['id_saksi2']);
+	// if ($saksi2)
+	// {
+	// 	$input['nik_saksi2'] = $_POST['noktp_saksi2'];
+	// 	$input['nama_saksi2'] = $_POST['nama_saksi2'];
+	// 	$input['tanggal_lahir_saksi2']	= $_POST['tanggallahir_saksi2'];
+	// 	$input['tempat_lahir_saksi2']	= $_POST['tempatlahir_saksi2'];
+	// 	$input['pekerjaanid_saksi2'] = $_POST['pek_saksi2'];
+	// 	$input['pekerjaansaksi2'] = $_POST['pek_saksi2'];
+	// 	$input['alamat_saksi2'] = $_POST['alamat_saksi2'];
+	// 	$input['agama_saksi2'] = $_POST['agama_saksi2'];
+	// 	$input['telepon_saksi2'] = $_POST['telepon_saksi2'];
+	// 	$input['penghayat_saksi2'] = $_POST['penghayat_saksi2'];
+	// 	$input['rt_saksi2'] = $config['rt'];
+	// 	$input['rw_saksi2'] = $config['rw'];
+	// 	$input['desasaksi2'] = $config['nama_desa'];
+	// 	$input['kecsaksi2'] = $config['nama_kecamatan'];
+	// 	$input['kabsaksi2'] = $config['nama_kabupaten'];
+	// 	$input['provinsisaksi2'] = $config['nama_propinsi'];
+	// }
 
 		$input['tanggal_pemberkatan'] = $_POST['tanggal_pemberkatan'];
 		$input['tanggal_lapor'] = $_POST['tanggal_nikah'];

@@ -1647,8 +1647,8 @@
 			<td>&nbsp;&nbsp;</td>
 			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_saksi1'][$i])): ?>
-						<?= $input['nik_saksi1'][$i];?>
+					<?php if (isset($input['nik_saksi2'][$i])): ?>
+						<?= $input['nik_saksi2'][$i];?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
@@ -1660,7 +1660,7 @@
 			<td colspan="2" class="kotak padat tengah">68.</td>
 			<td colspan="9" class="kotak">Nama Lengkap</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="34" class="kotak"><?= $input['nama_saksi1']?></td>
+			<td colspan="34" class="kotak"><?= $input['nama_saksi2']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
