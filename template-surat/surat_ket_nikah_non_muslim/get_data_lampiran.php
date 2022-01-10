@@ -73,7 +73,10 @@
 	$ibu_pria = $this->get_data_ibu($_POST['id_pria']);
 	if ($ibu_pria)
 	{
-		$input['nik_ibu_pria'] = $_POST['noktp_ibu_pria'];
+		$input['nik_ibu_pria'] = $ibu_pria['nik'];
+		if (empty($ibu_pria['nik'])) {
+			$input['nik_ibu_pria'] = $_POST['noktp_ibu_pria'];
+		}
 		$input['nama_ibu_pria'] = $ibu_pria['nama'];
 		$input['tanggal_lahir_ibu_pria']	= $_POST['tanggallahir_ibu_pria'];
 		$input['tempat_lahir_ibu_pria']	= $_POST['tempatlahir_ibu_pria'];
@@ -94,7 +97,10 @@
 	$ayah_pria = $this->get_data_ayah($_POST['id_pria']);
 	if ($ayah_pria)
 	{
-		$input['nik_ayah_pria'] = $_POST['noktp_ayah_wanita'];
+		$input['nik_ayah_pria'] = $ayah_pria['nik'];
+		if (empty($ayah_pria['nik'])) {
+			$input['nik_ayah_pria'] = $_POST['noktp_ayah_pria'];
+		}
 		$input['nama_ayah_pria'] = $ayah_pria['nama'];
 		$input['tanggal_lahir_ayah_pria']	= $_POST['tanggallahir_ayah_pria'];
 		$input['tempat_lahir_ayah_pria']	= $_POST['tempatlahir_ayah_pria'];
@@ -115,7 +121,10 @@
 	$ibu_wanita = $this->get_data_ibu($_POST['id_wanita']);
 	if ($ibu_wanita)
 	{
-		$input['nik_ibu_wanita'] = $_POST['noktp_ibu_wanita'];
+		$input['nik_ibu_wanita'] = $ibu_wanita['nik'];
+		if (empty($ibu_wanita['nik'])) {
+			$input['nik_ibu_wanita'] = $_POST['noktp_ibu_wanita'];
+		}
 		$input['nama_ibu_wanita'] = $ibu_wanita['nama'];
 		$input['tanggal_lahir_ibu_wanita']	= $_POST['tanggallahir_ibu_wanita'];
 		$input['tempat_lahir_ibu_wanita']	= $_POST['tempatlahir_ibu_wanita'];
@@ -137,6 +146,9 @@
 	if ($ayah_wanita)
 	{
 		$input['nik_ayah_wanita'] = $ayah_wanita['nik'];
+		if (empty($ayah_wanita['nik'])) {
+			$input['nik_ayah_wanita'] = $_POST['noktp_ayah_wanita'];
+		}
 		$input['nama_ayah_wanita'] = $ayah_wanita['nama'];
 		$input['tanggal_lahir_ayah_wanita']	= $_POST['tanggallahir_ayah_wanita'];
 		$input['tempat_lahir_ayah_wanita']	= $_POST['tempatlahir_ayah_wanita'];
