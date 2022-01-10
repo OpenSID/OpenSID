@@ -159,7 +159,7 @@ class Klasifikasi_model extends MY_model
 
     private function sterilkan_data(&$data)
     {
-        $data['kode']   = bilangan_titik($data['kode']);
+        $data['kode']   = alfanumerik_titik($data['kode']);
         $data['nama']   = alfa_spasi($data['nama']);
         $data['uraian'] = strip_tags($data['uraian']);
     }
