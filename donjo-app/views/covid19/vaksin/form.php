@@ -7,15 +7,8 @@
 			<li><a href="<?= site_url($this->controller)?>"> Daftar Penduduk Penerima Vaksin Covid 19</a></li>
 			<li class="active">Penambahan Pemudik Covid-19</li>
 		</ol>
-
-		<?php if ($this->session->success == -1): ?>
-			<div class="alert alert-danger">
-				<?= $this->session->error_msg ?>
-			</div>
-		<?php endif; ?>
-
 	</section>
-	<section class="content">
+	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<?php if ($this->CI->cek_hak_akses('u')): ?>
 				<div class="box-header with-border">
