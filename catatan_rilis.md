@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. [#4645](https://github.com/OpenSID/OpenSID/issues/4645) Menampilkan Pembangunan tahun terbaru pada bagian atas.
 5. [#4668](https://github.com/OpenSID/OpenSID/issues/4668) Perbaiki pada saat verifikasi telegram dengan akun yang sama (Duplicate entry).
 6. [#4674](https://github.com/OpenSID/OpenSID/issues/4674) Perbaiki jangan tampilkan pesan NIK jika tidak ditemukan.
+7. [#4641](https://github.com/OpenSID/OpenSID/issues/4641) Perbaikan modul vaksinasi.
 
 #### Perubahan Teknis
 
