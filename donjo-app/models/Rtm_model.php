@@ -489,8 +489,8 @@ class Rtm_model extends MY_Model
         $status_dasar = $this->session->status_dasar;
         if ($status_dasar == 1) {
             $this->db->where('t.status_dasar', 1);
-        } else if ($status_dasar == 2) {
-            $this->db->where('t.status_dasar', NULL);
+        } elseif ($status_dasar == 2) {
+            $this->db->where('t.status_dasar', null);
         }
     }
 

@@ -55,9 +55,9 @@ class Rtm extends Admin_Controller
     public function clear()
     {
         $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
+        $this->session->per_page     = $this->_set_page[0];
         $this->session->status_dasar = 1; // Rumah Tangga Aktif
-        $this->session->order_by = 1;
+        $this->session->order_by     = 1;
 
         redirect($this->controller);
     }
