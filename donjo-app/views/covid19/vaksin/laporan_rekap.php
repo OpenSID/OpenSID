@@ -29,7 +29,7 @@
 									</div>
 										<div class="col-sm-4">
 											<div class="input-group input-group-sm pull-right">
-												<input name="umur" id="umur" class="form-control ui-autocomplete-input" placeholder="masukan rentang umur awal" type="text" value="<?= ($umur == 0) ? '' : $umur ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').submit();}" autocomplete="off">
+												<input name="umur" id="umur" class="form-control ui-autocomplete-input" placeholder="Rentang Umur" title="Contoh : 20-30" type="text" value="<?= ($umur == 0) ? '' : $umur ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').submit();}" autocomplete="off">
 												<div class="input-group-btn">
 													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 												</div>
