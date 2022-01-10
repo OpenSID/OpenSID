@@ -46,13 +46,13 @@ class Vaksin_covid extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['vaksin_covid_model', 'wilayah_model', 'pamong_model']);
-        $this->_list_session = ['cari', 'dusun', 'vaksin', 'jenis_vaksin', 'tanggal_vaksin'];
+        $this->_list_session = ['cari', 'dusun', 'vaksin', 'jenis_vaksin', 'tanggal_vaksin', 'umur'];
         $this->_set_page     = ['50', '100', '200'];
         $this->modul_ini     = 206;
         $this->sub_modul_ini = 335;
     }
 
-    public function filter($filter)
+    public function filter($filter, $return = '')
     {
         $value = $this->input->post($filter);
         if ($value != '') {
@@ -60,7 +60,7 @@ class Vaksin_covid extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
-        redirect($this->controller);
+        redirect($this->controller . "/{$return}");
     }
 
     public function search()
@@ -74,11 +74,11 @@ class Vaksin_covid extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function clear()
+    public function clear($return = '')
     {
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = 50;
-        redirect($this->controller);
+        redirect($this->controller . "/{$return}");
     }
 
     public function index(int $p = 1)
@@ -121,6 +121,13 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/form', $data);
     }
 
+    public function berkas($id_penduduk, $vaksin_ke, $form = false)
+    {
+        $data = $this->vaksin_covid_model->data_penduduk($id_penduduk);
+        $url  = $this->controller . '/vaksin_covid/' . ($form) ?: "form?terdata={$id_penduduk}";
+        ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN);
+    }
+
     public function update()
     {
         $this->redirect_hak_akses('u');
@@ -136,7 +143,6 @@ class Vaksin_covid extends Admin_Controller
 
     public function laporan_penduduk()
     {
-        $this->session->unset_userdata($this->_list_session);
         $pamong = $this->pamong_model->list_data();
 
         $data = [
@@ -145,22 +151,27 @@ class Vaksin_covid extends Admin_Controller
             'kades'        => $data['sekdes'] = $pamong,
             'sekdes'       => $data['sekdes'] = $pamong,
             'isi'          => 'covid19/vaksin/cetak',
+            'list_dusun'   => $this->wilayah_model->list_dusun(),
+            'list_vaksin'  => $this->vaksin_covid_model->jenis_vaksin(),
         ];
+
+        foreach ($this->_list_session as $list) {
+            $data[$list] = $this->session->{$list} ?? null;
+        }
 
         $this->render('covid19/vaksin/laporan_penduduk', $data);
     }
 
     public function laporan_penduduk_cetak($aksi)
     {
-        $sekdes = (int) ($this->input->post('sekdes'));
-        $this->session->unset_userdata($this->_list_session);
+        $sekdes             = (int) ($this->input->post('sekdes'));
         $data['pamong_ttd'] = $this->pamong_model->get_data($sekdes);
         $data['aksi']       = $aksi;
         $data['header']     = $this->header['desa'];
         $data['file']       = 'Laporan Hasil Rekap Vaksin Covid 19';
         $data['isi']        = 'covid19/vaksin/laporan_penduduk_print';
         $data['letak_ttd']  = ['2', '2', '1'];
-        $data['main']       = $this->vaksin_covid_model->list_penduduk(1, 0);
+        $data['main']       = $this->vaksin_covid_model->list_penduduk(0);
 
         $this->load->view('global/format_cetak', $data);
     }
@@ -168,7 +179,7 @@ class Vaksin_covid extends Admin_Controller
     public function laporan_rekap()
     {
         $this->session->unset_userdata($this->_list_session);
-        $umur          = (int) ($this->input->get('umur'));
+        $umur          = $this->input->get('umur');
         $penduduk      = $this->vaksin_covid_model->rekap(0);
         $rekap         = $this->rekap($penduduk);
         $sasaran       = $this->vaksin_covid_model->rekap($umur);
@@ -191,7 +202,7 @@ class Vaksin_covid extends Admin_Controller
     public function laporan_rekap_cetak($aksi)
     {
         $sekdes = (int) ($this->input->post('sekdes'));
-        $umur   = (int) ($this->input->post('umur'));
+        $umur   = $this->input->post('umur');
         $this->session->unset_userdata($this->_list_session);
         $penduduk             = $this->vaksin_covid_model->rekap(0);
         $rekap                = $this->rekap($penduduk);
@@ -204,31 +215,34 @@ class Vaksin_covid extends Admin_Controller
         $data['isi']          = 'covid19/vaksin/laporan_rekap_print';
         $data['letak_ttd']    = ['2', '2', '1'];
         $data['main']         = $rekap;
-        $data['sasaran']      = $sasaran;
+        $data['sasaran']      = $rekap_sasaran;
         $data['tanggal']      = tgl_indo(date('Y-m-d'));
-        $data['umur_sasaran'] = $umur;
+        $data['umur_sasaran'] = explode('-', $umur);
 
         $this->load->view('global/format_cetak', $data);
     }
 
     public function rekap($penduduk)
     {
-        $rekap = [];
+        $rekap = ['total_v1' => 0, 'total_v2' => 0, 'total_v3' => 0, 'total_belum' => 0, 'detail' => []];
 
         foreach ($penduduk as $key => $value) {
             $value->dusun = $value->dusun ?? 'Data Dusun Tidak Ada';
-            if (! isset($rekap[$value->dusun])) {
-                $rekap[$value->dusun] = ['vaksin_1' => [], 'vaksin_2' => [], 'vaksin_3' => [], 'belum' => []];
+            if (! isset($rekap['detail'][$value->dusun])) {
+                $rekap['detail'][$value->dusun] = ['vaksin_1' => 0, 'vaksin_2' => 0, 'vaksin_3' => 0, 'belum' => 0];
             }
+
             if ($value->vaksin_1 == null || $value->tunda == 1) {
-                $rekap[$value->dusun]['belum'][] = $value->id;
-            } elseif ($value->vaksin_1 == 1 && $value->vaksin_2 == 0 && $value->vaksin_3 == 0) {
-                $rekap[$value->dusun]['vaksin_1'][] = $value->id;
-            } elseif ($value->vaksin_1 == 1 && $value->vaksin_2 == 1 && $value->vaksin_3 == 0) {
-                $rekap[$value->dusun]['vaksin_2'][] = $value->id;
-            } elseif ($value->vaksin_1 == 1 && $value->vaksin_2 == 1 && $value->vaksin_3 == 1) {
-                $rekap[$value->dusun]['vaksin_3'][] = $value->id;
+                $rekap['detail'][$value->dusun]['belum']++;
+                $rekap['total_belum']++;
             }
+
+            $rekap['detail'][$value->dusun]['vaksin_1'] += $value->vaksin_1;
+            $rekap['detail'][$value->dusun]['vaksin_2'] += $value->vaksin_2;
+            $rekap['detail'][$value->dusun]['vaksin_3'] += $value->vaksin_3;
+            $rekap['total_v1'] += $value->vaksin_1;
+            $rekap['total_v2'] += $value->vaksin_2;
+            $rekap['total_v3'] += $value->vaksin_3;
         }
 
         return $rekap;
