@@ -1775,7 +1775,12 @@
 										<input name="no_akta_anak1" class="form-control input-sm " type="text" placeholder="1. No." value="<?= $_SESSION['post']['no_akta_anak1']?>">
 									</div>
 									<div class="col-sm-4">
-										<input name="tgl_akta_anak1" class="form-control input-sm datepicker" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak1']?>">
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input title="Pilih Tanggal" class="form-control datepicker input-sm" name="tgl_akta_anak1" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak1']?>"/>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">
@@ -1784,7 +1789,12 @@
 										<input name="no_akta_anak2" class="form-control input-sm " type="text" placeholder="2. No." value="<?= $_SESSION['post']['no_akta_anak2']?>">
 									</div>
 									<div class="col-sm-4">
-										<input name="tgl_akta_anak2" class="form-control input-sm datepicker" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak2']?>">
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input title="Pilih Tanggal" class="form-control datepicker input-sm" name="tgl_akta_anak2" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak2']?>"/>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">
@@ -1793,7 +1803,12 @@
 										<input name="no_akta_anak3" class="form-control input-sm " type="text" placeholder="3. No." value="<?= $_SESSION['post']['no_akta_anak3']?>">
 									</div>
 									<div class="col-sm-4">
-										<input name="tgl_akta_anak3" class="form-control input-sm datepicker" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak3']?>">
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input title="Pilih Tanggal" class="form-control datepicker input-sm" name="tgl_akta_anak3" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak3']?>"/>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">
@@ -1802,7 +1817,12 @@
 										<input name="no_akta_anak4" class="form-control input-sm" type="text" placeholder="4. No." value="<?= $_SESSION['post']['no_akta_anak4']?>">
 									</div>
 									<div class="col-sm-4">
-										<input name="tgl_akta_anak4" class="form-control input-sm datepicker" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak4']?>">
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input title="Pilih Tanggal" class="form-control datepicker input-sm" name="tgl_akta_anak4" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak4']?>"/>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">
@@ -1811,7 +1831,12 @@
 										<input name="no_akta_anak5" class="form-control input-sm" type="text" placeholder="5. No." value="<?= $_SESSION['post']['no_akta_anak5']?>">
 									</div>
 									<div class="col-sm-4">
-										<input name="tgl_akta_anak5" class="form-control input-sm datepicker" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak5']?>">
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input title="Pilih Tanggal" class="form-control datepicker input-sm" name="tgl_akta_anak5" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak5']?>"/>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">
@@ -1820,7 +1845,12 @@
 										<input name="no_akta_anak6" class="form-control input-sm" type="text" placeholder="6. No." value="<?= $_SESSION['post']['no_akta_anak6']?>">
 									</div>
 									<div class="col-sm-4">
-										<input name="tgl_akta_anak6" class="form-control input-sm datepicker" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak6']?>">
+										<div class="input-group input-group-sm date">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input title="Pilih Tanggal" class="form-control datepicker input-sm" name="tgl_akta_anak6" type="text" placeholder="Tgl." value="<?= $_SESSION['post']['tgl_akta_anak6']?>"/>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">
