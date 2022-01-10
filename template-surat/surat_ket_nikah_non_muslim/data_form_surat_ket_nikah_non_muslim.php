@@ -23,6 +23,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		$this->session->unset_userdata('id_pria');
 	}
 
+	if ($this->input->post('calon_saksi1') == 2) $this->session->unset_userdata('id_saksi1');
+	if ($this->input->post('id_saksi1') != '' AND $this->input->post('id_saksi1') != '*')
+	{
+		$data['saksi1'] = $this->surat_model->get_penduduk($this->input->post('id_saksi1'));
+		$this->session->id_saksi1 = $this->input->post('id_saksi1');
+	}
+	elseif ($this->input->post('id_saksi1') != '*' AND isset($this->session->id_saksi1))
+	{
+		$data['saksi1'] = $this->surat_model->get_penduduk($this->session->id_saksi1);
+	}
+	else
+	{
+		unset($data['saksi1']);
+		$this->session->unset_userdata('id_saksi1');
+	}
+
+	if ($this->input->post('calon_saksi2') == 2) $this->session->unset_userdata('id_saksi2');
+	if ($this->input->post('id_saksi2') != '' AND $this->input->post('id_saksi2') != '*')
+	{
+		$data['saksi2'] = $this->surat_model->get_penduduk($this->input->post('id_saksi2'));
+		$this->session->id_saksi2 = $this->input->post('id_saksi2');
+	}
+	elseif ($this->input->post('id_saksi2') != '*' AND isset($this->session->id_saksi2))
+	{
+		$data['saksi2'] = $this->surat_model->get_penduduk($this->session->id_saksi2);
+	}
+	else
+	{
+		unset($data['saksi2']);
+		$this->session->unset_userdata('id_saksi2');
+	}
+
 	$data['calon_wanita_berbeda'] = true;
 	if ($this->input->post('calon_wanita') == 2) $this->session->unset_userdata('id_wanita');
 	if ($this->input->post('id_wanita') != '' AND $this->input->post('id_wanita') != '*'){
@@ -86,6 +118,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	if (isset($data['pria']))
 	{
 		$data['pria']['status_kawin_pria'] = $status_kawin_pria[$data['pria']['status_kawin']];
+	}
+
+	if (isset($this->session->id_saksi1))
+	{
+		$id = $this->session->id_saksi1;
+		$data['ayah_saksi1'] = $this->surat_model->get_data_ayah($id);
+		$data['ibu_saksi1'] = $this->surat_model->get_data_ibu($id);
+	}
+
+	if (isset($data['saksi1']))
+	{
+		$data['saksi1']['status_kawin_saksi1'] = $status_kawin_saksi1[$data['saksi1']['status_kawin']];
+	}
+
+	if (isset($this->session->id_saksi2))
+	{
+		$id = $this->session->id_saksi2;
+		$data['ayah_saksi2'] = $this->surat_model->get_data_ayah($id);
+		$data['ibu_saksi2'] = $this->surat_model->get_data_ibu($id);
+	}
+
+	if (isset($data['saksi2']))
+	{
+		$data['saksi2']['status_kawin_saksi2'] = $status_kawin_saksi2[$data['saksi2']['status_kawin']];
 	}
 
 	if (isset($this->session->id_wanita))
