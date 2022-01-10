@@ -150,9 +150,23 @@ class Penduduk_model extends MY_Model
     // Filter belum digunakan
     protected function hamil_sql()
     {
-        if (isset($this->session->hamil)) {
-            $kf = $this->session->hamil;
-            $this->db->where('u.hamil', $kf);
+        $kf = $this->session->hamil;
+
+        switch (true) {
+            case $kf == BELUM_MENGISI:
+                $this->db->where('(u.hamil IS NULL)');
+                break;
+
+            case $kf == JUMLAH:
+                $this->db->where('u.hamil IS NOT NULL');
+                break;
+
+            case $kf == TOTAL:
+                break;
+
+            default:
+                $this->db->where('u.hamil', $kf);
+                break;
         }
     }
 
@@ -707,7 +721,7 @@ class Penduduk_model extends MY_Model
         $data['pekerjaan_id']         = $data['pekerjaan_id'] ?: null;
         $data['status_kawin']         = $data['status_kawin'] ?: null;
         $data['id_asuransi']          = $data['id_asuransi'] ?: null;
-        $data['hamil']                = $data['hamil'] ?: null;
+        $data['hamil']                = $data['hamil'];
 
         $data['ktp_el']             = $data['ktp_el'] ?: null;
         $data['tag_id_card']        = $data['tag_id_card'] ?: null;
@@ -735,7 +749,7 @@ class Penduduk_model extends MY_Model
         }
         // Status hamil tidak berlaku bagi laki-laki
         if ($data['sex'] == 1) {
-            $data['hamil'] = 0;
+            $data['hamil'] = null;
         }
         if (empty($data['kelahiran_anak_ke'])) {
             $data['kelahiran_anak_ke'] = null;
@@ -1587,6 +1601,10 @@ class Penduduk_model extends MY_Model
 
                 case 'suku':
                     $table = 'tweb_penduduk';
+                    break;
+
+                case 'hamil':
+                    $table = 'ref_penduduk_hamil';
                     break;
             }
 

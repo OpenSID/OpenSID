@@ -3,6 +3,7 @@ Di rilis ini, versi 22.01-premium-rev01 [untuk diisi]. Rilis ini juga berisi pen
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
+1. [#1759](https://github.com/OpenSID/OpenSID/issues/1759) Laporan statistik kehamilan.
 
 #### Perbaikan BUG
 
