@@ -1,9 +1,10 @@
 Di rilis ini, versi 22.01-premium-rev01 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada @Irvan1609 yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#1759](https://github.com/OpenSID/OpenSID/issues/1759) Laporan statistik kehamilan.
+2. [#4635](https://github.com/OpenSID/OpenSID/issues/4635) Permintaan Penyediaan Tombol Hapus Dan Tanda Conteng Pilihan Hapus Data Pada Fitur Suplemen [Nama Modul].
 
 #### Perbaikan BUG
 
