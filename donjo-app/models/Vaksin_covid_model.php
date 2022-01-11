@@ -72,7 +72,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $kf = $this->session->dusun;
         if (isset($kf)) {
-            $this->db->where('dusun', $kf);
+            $this->db->where("((p.id_kk <> '0' AND cp.dusun = '{$kf}') OR (p.id_kk = '0' AND ck.dusun = '{$kf}'))");
         }
     }
 
@@ -124,6 +124,15 @@ class Vaksin_covid_model extends MY_Model
         }
     }
 
+    public function umur_sql($umur)
+    {
+        $umur = explode('-', $umur);
+        $this->db->where("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(p.tanggallahir)),'%Y') + 0) >= " . (int) $umur[0]);
+        if (isset($umur[1]) && $umur[1] > $umur[0]) {
+            $this->db->where("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(p.tanggallahir)),'%Y') + 0) <=  " . (int) $umur[1]);
+        }
+    }
+
     public function cari($value = '')
     {
         $kf = $this->session->cari;
@@ -149,16 +158,34 @@ class Vaksin_covid_model extends MY_Model
 
     public function penduduk_sql()
     {
-        $this->db->select('p.*, v.*, kk.no_kk, kk.alamat, w.rt, w.rw, w.dusun, s.nama as jenis_kelamin ')
+        $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
+        $this->db->select('p.*, v.*, kk.no_kk, ck.rt, ck.rw, ck.dusun, s.nama as jenis_kelamin ')
             ->select("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(p.tanggallahir)), '%Y')+0) AS umur")
+            ->select("(
+                case when (p.id_kk IS NULL or p.id_kk = 0)
+                    then
+                        case when (cp.dusun = '-' or cp.dusun = '')
+                            then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
+                            else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
+                        end
+                    else
+                        case when (ck.dusun = '-' or ck.dusun = '')
+                            then CONCAT(COALESCE(kk.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
+                            else CONCAT(COALESCE(kk.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
+                        end
+                end) AS alamat")
             ->join("{$this->table_vaksin} as v", "p.{$this->penduduk_key} = v.{$this->vaksin_key}", 'left')
-            ->join('tweb_keluarga AS kk', 'p.id = kk.id', 'left')
-            ->join('tweb_wil_clusterdesa AS w', 'kk.id_cluster = w.id', 'left')
+            ->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
+            ->join('tweb_keluarga AS kk', 'p.id_kk = kk.id', 'left')
+            ->join('tweb_wil_clusterdesa ck', 'kk.id_cluster = ck.id', 'left')
             ->join('tweb_penduduk_sex AS s', 'p.sex = s.id', 'left');
         $this->dusun_sql();
         $this->vaksin_sql();
         $this->tanggal_vaksin_sql();
         $this->jenis_vaksin_sql();
+        if (isset($this->session->umur)) {
+            $this->umur_sql($this->session->umur);
+        }
         $this->cari();
     }
 
@@ -176,7 +203,7 @@ class Vaksin_covid_model extends MY_Model
         $jml_data = $this->db->get("{$this->tabel_penduduk} as p")->num_rows();
         $this->load->library('paging');
         $cfg['page']     = $p;
-        $cfg['per_page'] = $_SESSION['per_page'];
+        $cfg['per_page'] = $this->session->per_page;
         $cfg['num_rows'] = $jml_data;
         $this->paging->init($cfg);
 
@@ -255,7 +282,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $config['upload_path']   = LOKASI_VAKSIN;
         $config['file_name']     = 'vaksin';
-        $config['allowed_types'] = 'pdf|jpg|jpeg|png';
+        $config['allowed_types'] = 'jpg|jpeg|png';
         $config['max_size']      = 1024;
         $config['overwrite']     = true;
         $this->upload->initialize($config);
@@ -264,7 +291,8 @@ class Vaksin_covid_model extends MY_Model
             $upload = $this->upload->do_upload($file);
 
             if (! $upload) {
-                $error = $this->upload->display_errors();
+                $this->session->error_msg = $this->upload->display_errors();
+                $this->session->success   = -1;
 
                 return redirect('vaksin_covid/form?terdata=' . $data['id_penduduk']);
             }
@@ -294,7 +322,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $this->load->library('upload');
         if ($_FILES['surat_dokter']['size'] != 0 && $data['tunda'] == 1) {
-            $file                 = 'tunda';
+            $file                 = 'surat_dokter';
             $data['surat_dokter'] = $this->do_upload($file, $data);
         }
     }
@@ -330,7 +358,10 @@ class Vaksin_covid_model extends MY_Model
     public function rekap($umur)
     {
         $this->penduduk_sql();
-        $this->db->where("(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(p.tanggallahir)),'%Y') + 0) >= {$umur}");
+
+        if ($umur != 0) {
+            $this->umur_sql($umur);
+        }
 
         return $this->db->get("{$this->tabel_penduduk} as p")->result();
     }

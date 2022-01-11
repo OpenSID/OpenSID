@@ -17,7 +17,7 @@
 		<div class="form-group">
 			<label class="control-label" style="text-align:left;" for="penandatangan_pdf">Rentang Umur</label>
 			<div class="">
-				<input name="umur" id="umur" class="form-control input-sm" placeholder="masukan rentang umur awal" type="text" autocomplete="off">
+				<input name="umur" id="umur" class="form-control input-sm" placeholder="Masukan rentang umur" title="Contoh : 20-30" type="text" autocomplete="off">
 			</div>
 		</div>
 	</div>
