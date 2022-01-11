@@ -765,6 +765,12 @@ function alfanumerik_kolon($str)
     return preg_replace('/[^a-zA-Z0-9:]/', '', strip_tags($str));
 }
 
+//hanya berisi karakter alfanumerik dan titik
+function alfanumerik_titik($str)
+{
+    return preg_replace('/[^a-zA-Z0-9\.]/', '', strip_tags($str));
+}
+
 function nomor_surat_keputusan($str)
 {
     return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', $str);
