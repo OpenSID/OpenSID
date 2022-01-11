@@ -142,6 +142,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 															<?php if ($this->CI->cek_hak_akses('u')) : ?>
 																<a href="<?= site_url("mandiri/ajax_pin/{$data['id_pend']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Reset PIN Warga" title="Reset PIN Warga" class="btn btn-flat btn-primary btn-sm"><i class="fa fa-key"></i></a>
 																<a href="<?= site_url("mandiri/ajax_hp/{$data['id_pend']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon Warga" title="<?= $data['telepon'] ? 'Ubah' : 'Tambah' ?> Telepon" class="btn <?= $data['telepon'] ? 'bg-teal' : 'bg-green' ?> btn-flat btn-sm"><i class="fa fa-phone"></i></a>
+																<?php if ($data['aktif'] == 0) : ?>
+																	<a href="<?= site_url("mandiri/ajax_verifikasi_warga/{$data['id_pend']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Verifikasi Pendaftaran Warga" title="Verifikasi Pendaftaran Warga" class="btn bg-purple btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																<?php endif ?>
 															<?php endif; ?>
 															<?php if ($this->CI->cek_hak_akses('h')) : ?>
 																<a href="#" data-href="<?= site_url("mandiri/delete/{$data['id_pend']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

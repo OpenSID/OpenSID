@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
+        $hasil = $hasil && $this->migrasi_2022010671($hasil);
 
-        return $hasil && $this->migrasi_2022010671($hasil);
+        return $hasil && $this->migrasi_2022011071($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -79,5 +80,54 @@ class Migrasi_fitur_premium_2202 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022011071($hasil)
+    {
+        $folder = 'upload/pendaftaran';
+        if (! file_exists('/desa/' . $folder)) {
+            mkdir('desa/' . $folder, 0755, true);
+            xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
+        }
+
+        if (! $this->db->field_exists('aktif', 'tweb_penduduk_mandiri')) {
+            $fields = [
+                'aktif' => [
+                    'type'       => 'INT',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'default'    => 1,
+                    'after'      => 'id_pend',
+                ],
+                'scan_ktp' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'aktif',
+                ],
+                'scan_kk' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'scan_ktp',
+                ],
+                'foto_selfie' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'scan_kk',
+                ],
+
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk_mandiri', $fields);
+        }
+
+        return $hasil && $this->tambah_setting([
+            'key'        => 'tampilkan_pendaftaran',
+            'value'      => 0,
+            'keterangan' => 'Aktifkan / Non Aktifkan Pendaftaran Layanan Mandiri',
+            'jenis'      => 'boolean',
+            'kategori'   => 'setting_mandiri',
+        ]);
     }
 }

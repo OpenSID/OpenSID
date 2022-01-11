@@ -217,10 +217,16 @@
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</div>
-				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>">
+				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>" onchange="myFunction()">
 			</div>
 		</div>
 	</div>
+	<script>
+  function myFunction() {
+    let tokenAmount = document.getElementById("tgl_1").value;
+    alert(tokenAmount);
+  }
+</script>
 	<div class='col-sm-4'>
 		<div class='form-group'>
 			<label for="waktulahir">Waktu Kelahiran </label>

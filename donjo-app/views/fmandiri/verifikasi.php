@@ -8,6 +8,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * View modul Layanan Mandiri > Verifikasi 'Telegram'
  *
  * donjo-app/views/fmandiri/verifikasi.php
+ * http://techlaboratory.net/jquery-smartwizard
  */
 
 /*

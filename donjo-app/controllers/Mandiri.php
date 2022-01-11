@@ -52,6 +52,7 @@ class Mandiri extends Admin_Controller
         $this->sub_modul_ini = 56;
         $this->_set_page     = ['20', '50', '100'];
         $this->_list_session = ['cari', 'order_by'];
+        $this->telegram      = new Telegram();
     }
 
     public function clear()
@@ -59,7 +60,7 @@ class Mandiri extends Admin_Controller
         $this->session->unset_userdata($this->_list_session);
         $this->session->per_page = $this->_set_page[0];
         $this->session->order_by = 6;
-        redirect('mandiri');
+        redirect($this->controller);
     }
 
     public function index($p = 1)
@@ -90,68 +91,110 @@ class Mandiri extends Admin_Controller
         } else {
             $this->session->unset_userdata($filter);
         }
-        redirect('mandiri');
+        redirect($this->controller);
     }
 
     public function ajax_pin($id_pend = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $data['penduduk'] = $this->mandiri_model->list_penduduk();
 
         if ($id_pend) {
             $data['id_pend']     = $id_pend;
-            $data['form_action'] = site_url("mandiri/update/{$id_pend}");
+            $data['form_action'] = site_url("{$this->controller}/update/{$id_pend}");
         } else {
             $data['id_pend']     = null;
-            $data['form_action'] = site_url('mandiri/insert');
+            $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
         $data['tgl_verifikasi'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
+
         $this->load->view('mandiri/ajax_pin', $data);
     }
 
     public function ajax_hp($id_pend)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
-        $data['form_action'] = site_url("mandiri/ubah_hp/{$id_pend}");
+        $this->redirect_hak_akses('u');
+        $data['form_action'] = site_url("{$this->controller}/ubah_hp/{$id_pend}");
         $data['penduduk']    = $this->mandiri_model->get_penduduk($id_pend);
+
         $this->load->view('mandiri/ajax_hp', $data);
+    }
+
+    public function ajax_verifikasi_warga($id_pend)
+    {
+        $this->redirect_hak_akses('u');
+        $data['form_action'] = site_url("{$this->controller}/verifikasi_warga/{$id_pend}");
+        $data['penduduk']    = $this->mandiri_model->get_mandiri($id_pend);
+
+        $this->load->view('mandiri/ajax_verifikasi_warga', $data);
+    }
+
+    public function verifikasi_warga($id_pend)
+    {
+        $this->redirect_hak_akses('u');
+        $this->db->trans_begin();
+
+        try {
+            $outp = $this->db->where('id_pend', $id_pend)
+                ->set('aktif', true)
+                ->update('tweb_penduduk_mandiri');
+
+            $chat_id = $this->db->from('tweb_penduduk')->select('telegram')->where('id', $id_pend)->get()->row();
+
+            $this->telegram->sendMessage([
+                'chat_id' => $chat_id->telegram,
+                'text'    => <<<'EOD'
+                    SELAMAT AKUN LAYANAN MANDIRI ANDA SUDAH DIVERIFIKASI DAN TELAH DISETUJUI
+
+                    SAAT INI ANDA SUDAH DAPAT LOGIN DI FITUR LAYANAN MANDIRI
+
+                    TERIMA KASIH.
+                    EOD,
+                'parse_mode' => 'Markdown',
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', $e);
+        }
+
+        status_sukses($outp);
+        redirect($this->controller);
     }
 
     public function ubah_hp($id_pend)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $outp = $this->db->where('id', $id_pend)
             ->set('telepon', bilangan($this->input->post('telepon')))
             ->update('tweb_penduduk');
         status_sukses($outp);
-        redirect('mandiri');
+        redirect($this->controller);
     }
 
     public function insert()
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->mandiri_model->insert();
-        redirect('mandiri');
+        redirect($this->controller);
     }
 
     public function update($id_pend)
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $this->mandiri_model->update($id_pend);
-        redirect('mandiri');
+        redirect($this->controller);
     }
 
     public function delete($id = '')
     {
-        $this->redirect_hak_akses('h', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('h');
         $this->mandiri_model->delete($id);
-        redirect('mandiri');
+        redirect($this->controller);
     }
 
     public function kirim($id_pend = '')
     {
-        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->redirect_hak_akses('u');
         $pin  = $this->input->post('pin');
         $data = $this->mandiri_model->get_mandiri($id_pend);
         $desa = $this->header['desa'];
@@ -163,7 +206,6 @@ class Mandiri extends Admin_Controller
 
             redirect("https://api.whatsapp.com/send?phone={$no_tujuan}&text={$pesan}");
         }
-
-        redirect('mandiri');
+        redirect($this->controller);
     }
 }

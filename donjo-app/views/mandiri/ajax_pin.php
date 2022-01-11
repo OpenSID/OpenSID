@@ -43,11 +43,6 @@
 ?>
 
 <?php $this->load->view('global/validasi_form'); ?>
-<script>
-	$(function() {
-		$('.select2').select2()
-	});
-</script>
 <form action="<?= $form_action; ?>" method="post" id="validasi">
 	<div class="modal-body">
 		<?php if (! $id_pend) : ?>
@@ -72,7 +67,7 @@
 				<p class="help-block"><code>1. Sistem akan menghasilkan PIN secara acak dengan cara menekan tombol 'Reset PIN'.</code></p>
 				<p class="help-block"><code>2. PIN berisi 6 (enam) digit Angka.</code></p>
 				<p class="help-block"><code>3. PIN akan dikirimkan ke akun Telegram atau Email yang sudah diverifikasi.</code></p>
-				<p class="help-block"><code>4. Cara Verifikasi Email atau Telegram di menu Verifikasi pada Layanan Mandiri.</code></p>
+				<p class="help-block"><code>4. Cara Verifikasi Telegram atau Email di menu Verifikasi pada Layanan Mandiri.</code></p>
 			<?php endif; ?>
 		</div>
 

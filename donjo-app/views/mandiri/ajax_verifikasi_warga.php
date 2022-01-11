@@ -60,14 +60,22 @@
 		<div class="box box-danger">
 			<div class="box-body">
 				<div class="form-group">
-					<label class="control-label" for="telepon">Nomor Telepon</label>
-					<input name="telepon" class="form-control input-sm digits" minlength="8" maxlength="16" type="text" placeholder="No. HP Warga" value="<?= $penduduk['telepon'] ?>"></input>
+					<label for="exampleInputEmail1">Scan KTP</label>
+					<img class="img-responsive" src="<?= base_url("desa/upload/pendaftaran/{$penduduk['scan_ktp']}") ?>" alt="Scan KTP"/>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1">Scan KK</label>
+					<img class="img-responsive" src="<?= base_url("desa/upload/pendaftaran/{$penduduk['scan_kk']}") ?>" alt="Scan KK"/>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1">Foto Selfie</label>
+					<img class="img-responsive" src="<?= base_url("desa/upload/pendaftaran/{$penduduk['foto_selfie']}") ?>" alt="Foto Selfie"/>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class='fa fa-times'></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Verifikasi</button>
 	</div>
 </form>

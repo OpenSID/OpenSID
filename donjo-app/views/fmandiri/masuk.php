@@ -22,13 +22,15 @@
 	<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="<?= base_url() ?>rss.xml" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/login-style.css" media="screen" type="text/css" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/login-form-elements.css" media="screen" type="text/css" />
+	<link rel="stylesheet" href="<?= base_url() ?>assets/css/daftar-form-elements.css" media="screen" type="text/css" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/css/siteman_mandiri.css" media="screen" type="text/css" />
 	<link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')) : ?>
 		<link type='text/css' href="<?= base_url() ?>desa/pengaturan/siteman/siteman_mandiri.css" rel='Stylesheet' />
 	<?php endif; ?>
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/mandiri_video.css') ?>">
-
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="<?= base_url() ?>assets/bootstrap/css/font-awesome.min.css">
 	<!-- Google Font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
@@ -47,6 +49,9 @@
 			}
 		</style>
 	<?php endif; ?>
+
+	<!-- Form Wizard - smartWizard -->
+	<link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_slider)) : ?>
@@ -100,79 +105,117 @@
 							</div>
 						</div>
 						<div class="form-bottom">
-							<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form">
-								<?php if ($this->session->mandiri_wait == 1) : ?>
-									<div class="error login-footer-top">
-										<p id="countdown" style="color:red; text-transform:uppercase"></p>
+							<?php if ($this->session->mandiri_wait == 1) : ?>
+								<div class="error login-footer-top">
+									<p id="countdown" style="color:red; text-transform:uppercase"></p>
+								</div>
+							<?php else : ?>
+								<?php $data = $this->session->flashdata('notif'); ?>
+
+								<?php if ($this->session->daftar_verifikasi) : ?>
+									<!-- View Pendaftaran -->
+									<div class="login-form">
+										<?php $this->load->view(MANDIRI . '/pendaftaran-verifikasi'); ?>
 									</div>
 								<?php else : ?>
-									<?php $data = $this->session->flashdata('notif'); ?>
-
-									<?php if (! $this->session->login_ektp) : ?>
-
-										<?php if ($this->session->mandiri_try < 4) : ?>
-											<div class="callout callout-danger" id="notif">
-												<p>NIK atau PIN salah.<br />Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
-											</div>
-										<?php endif; ?>
-										<div class="form-group form-login">
-											<input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
-										</div>
-										<div class="form-group form-login">
-											<input type="password" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
-										</div>
-										<div class="form-group">
-											<center><input type="checkbox" id="checkbox" style="display: initial;"> Tampilkan PIN</center>
-										</div>
-										<div class="form-group">
-											<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
-										</div>
-										<div class="form-group">
-											<a href="<?= site_url('layanan-mandiri/masuk-ektp') ?>">
-												<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
-											</a>
-										</div>
-
+									<?php if ($this->session->daftar) : ?>
+										<!-- View Pendaftaran -->
+										<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form" enctype="multipart/form-data">
+											<?php $this->load->view(MANDIRI . '/pendaftaran'); ?>
+										</form>
 									<?php else : ?>
+										<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form">
+											<?php if (! $this->session->login_ektp) : ?>
 
-										<?php if ($this->session->mandiri_try < 4) : ?>
-											<div class="callout callout-danger" id="notif">
-												<p>PIN ATAU ID E-KTP salah.<br />Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
-											</div>
-										<?php endif; ?>
-										<div class="login-footer-top">
-											<?php if ($cek_anjungan) : ?>
-												Tempelkan e-KTP Pada Card Reader
+												<?php if ($this->session->mandiri_try < 4) : ?>
+													<div class="callout callout-danger" id="notif">
+														<p>NIK atau PIN salah.<br />Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+													</div>
+												<?php endif; ?>
+												<?php if ($this->session->success == -1) : ?>
+													<div class="callout callout-danger" id="notif">
+														<?= $this->session->error_msg ?>
+													</div>
+												<?php endif; ?>
+
+												<!-- <?php if ($proses = $this->session->flashdata('proses_verifikasi')) : ?>
+													<div class="callout callout-<?= ($proses['status'] == -1) ? 'danger' : 'success' ?>">
+														<p><?= $proses['pesan']; ?></p>
+													</div>
+												<?php endif; ?> -->
+
+												<div class="form-group form-login">
+													<input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
+												</div>
+												<div class="form-group form-login">
+													<input type="password" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="pin" placeholder="PIN" id="pin">
+												</div>
+												<div class="form-group">
+													<center><input type="checkbox" id="checkbox" style="display: initial;"> Tampilkan PIN</center>
+												</div>
+												<div class="form-group">
+													<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
+												</div>
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk-ektp') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
+													</a>
+												</div>
+												<?php if ($this->setting->tampilkan_pendaftaran) : ?>
+													<div class="form-group">
+														<a href="<?= site_url('layanan-mandiri/daftar') ?>">
+															<button type="button" class="btn btn-block bg-green"><b>DAFTAR</b></button>
+														</a>
+													</div>
+												<?php endif; ?>
+											<?php else : ?>
+
+												<?php if ($this->session->mandiri_try < 4) : ?>
+													<div class="callout callout-danger" id="notif">
+														<p>PIN ATAU ID E-KTP salah.<br />Kesempatan mencoba <?= ($this->session->mandiri_try - 1); ?> kali lagi.</p>
+													</div>
+												<?php endif; ?>
+												<div class="login-footer-top">
+													<?php if ($cek_anjungan) : ?>
+														Tempelkan e-KTP Pada Card Reader
+													<?php endif; ?>
+													<div class="thumbnail">
+														<img src="<?= base_url('assets/images/camera-scan.gif') ?>" alt="scanner" class="center" style="width:30%">
+													</div>
+												</div>
+												<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; overflow: hidden;'); ?>">
+													<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
+												</div>
+												<?php if (! $cek_anjungan) : ?>
+													<div class="form-group form-login">
+														<input type="password" class="form-control required number" name="pin" placeholder="Masukan PIN" id="pin" autocomplete="off">
+													</div>
+													<div class="form-group">
+														<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
+													</div>
+												<?php endif; ?>
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
+													</a>
+												</div>
+												<?php if ($this->setting->tampilkan_pendaftaran) : ?>
+													<div class="form-group">
+														<a href="<?= site_url('layanan-mandiri/daftar') ?>">
+															<button type="button" class="btn btn-block bg-green"><b>DAFTAR</b></button>
+														</a>
+													</div>
+												<?php endif; ?>
 											<?php endif; ?>
-											<div class="thumbnail">
-												<img src="<?= base_url('assets/images/camera-scan.gif') ?>" alt="scanner" class="center" style="width:30%">
-											</div>
-										</div>
-										<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; overflow: hidden;'); ?>">
-											<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
-										</div>
-										<?php if (! $cek_anjungan) : ?>
-											<div class="form-group form-login">
-												<input type="password" class="form-control required number" name="pin" placeholder="Masukan PIN" id="pin" autocomplete="off">
-											</div>
 											<div class="form-group">
-												<button type="submit" class="btn btn-block bg-green"><b>MASUK</b></button>
+												<a href="<?= site_url('layanan-mandiri/lupa-pin') ?>">
+													<button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
+												</a>
 											</div>
-										<?php endif; ?>
-										<div class="form-group">
-											<a href="<?= site_url('layanan-mandiri/masuk') ?>">
-												<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
-											</a>
-										</div>
+										</form>
 									<?php endif; ?>
-									<div class="form-group">
-										<a href="<?= site_url('layanan-mandiri/lupa-pin') ?>">
-											<button type="button" class="btn btn-block bg-green"><b>LUPA PIN</b></button>
-										</a>
-									</div>
-
 								<?php endif; ?>
-							</form>
+							<?php endif; ?>
 							<div class="login-footer-bottom">
 								<a href="https://github.com/OpenSID/OpenSID" class="content-color-secondary" rel="noopener noreferrer" target="_blank">OpenSID <?= AmbilVersi() ?></a>
 							</div>
@@ -186,6 +229,9 @@
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.7 -->
 	<script src="<?= base_url() ?>assets/bootstrap/js/bootstrap.min.js"></script>
+	<!-- bootstrap Date picker -->
+	<script src="<?= base_url() ?>assets/bootstrap/js/bootstrap-datepicker.min.js"></script>
+	<script src="<?= base_url() ?>assets/bootstrap/js/bootstrap-datepicker.id.min.js"></script>
 	<!-- SlimScroll -->
 	<script src="<?= base_url() ?>assets/bootstrap/js/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
@@ -196,6 +242,9 @@
 	<script src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
 	<script src="<?= base_url() ?>assets/js/validasi.js"></script>
 	<script src="<?= base_url() ?>assets/js/localization/messages_id.js"></script>
+
+	<!-- Form Wizard - jquery.smartWizard -->
+	<script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
 
 	<?php if ($cek_anjungan) : ?>
 		<!-- keyboard widget css & script -->
@@ -288,6 +337,34 @@
 				}
 			}, 500);
 		}
+
+		//Date picker
+		$('#daftar_tgl_lahir').datepicker({
+			autoclose: true
+		})
+
+		function show(elem) {
+			if ($(elem).hasClass('fa-eye')) {
+				$(".pin").attr('type', 'password');
+				$(".fa-eye").addClass('fa-eye-slash');
+				$(".fa-eye").removeClass('fa-eye');
+			} else {
+				$(".pin").attr('type', 'text');
+				$(".fa-eye-slash").addClass('fa-eye');
+				$(".fa-eye-slash").removeClass('fa-eye-slash');
+			}
+		}
+
+		<?php if ($this->session->flashdata('info_pendaftaran')) : ?>
+			$(window).on('load', function() {
+				$('#informasi').modal('show');
+			});
+		<?php endif; ?>
+		<?php if ($this->session->flashdata('daftar_notif_telegram')) : ?>
+			$(window).on('load', function() {
+				$('#notif_telegram').modal('show');
+			});
+		<?php endif; ?>
 	</script>
 </body>
 

@@ -145,7 +145,7 @@ class OTP_telegram implements OTP_interface
             $this->telegram->sendMessage([
                 'chat_id' => $user,
                 'text'    => <<<'EOD'
-                    SELAMAT AKUN ANDA BERHASIL DIVERIFIKASI
+                    SELAMAT AKUN TELEGRAM ANDA BERHASIL DIVERIFIKASI
 
                     Terima kasih.
                     EOD,
