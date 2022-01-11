@@ -41,12 +41,12 @@ class Kader_model extends MY_Model
 {
     public const ORDER_ABLE = [
         3 => 'p.nama',
-        4 => 'p.umur',
-        5 => 'p.jk',
+        4 => 'umur',
+        5 => 'jk',
         6 => 'kd.kursus',
         7 => 'kd.bidang',
-        8 => 'p.alamat',
-        9 => 'p.keterangan',
+        8 => 'alamat',
+        9 => 'kd.keterangan',
     ];
 
     protected $table = 'kader_pemberdayaan_masyarakat';
@@ -57,7 +57,7 @@ class Kader_model extends MY_Model
         $this->load->model('referensi_model');
     }
 
-    public function get_data(string $search = '')
+    public function get_data(?string $search = '')
     {
         $sebutan_dusun = ucwords($this->setting->sebutan_dusun);
 
@@ -65,18 +65,18 @@ class Kader_model extends MY_Model
             ->select("kd.*, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id) AS umur")
             ->select("IF(p.sex=1, 'L', 'P') AS jk, p.nama, pd.nama AS pendidikan_sedang")
             ->select("(
-			case when (p.id_kk IS NULL or p.id_kk = 0)
-				then
-					case when (cp.dusun = '-' or cp.dusun = '')
-						then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
-						else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
-					end
-				else
-					case when (ck.dusun = '-' or ck.dusun = '')
-						then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
-						else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
-					end
-			end) AS alamat")
+                case when (p.id_kk IS NULL or p.id_kk = 0)
+                    then
+                        case when (cp.dusun = '-' or cp.dusun = '')
+                            then CONCAT(COALESCE(p.alamat_sekarang, ''), ' RT ', cp.rt, ' / RW ', cp.rw)
+                            else CONCAT(COALESCE(p.alamat_sekarang, ''), ' {$sebutan_dusun} ', cp.dusun, ' RT ', cp.rt, ' / RW ', cp.rw)
+                        end
+                    else
+                        case when (ck.dusun = '-' or ck.dusun = '')
+                            then CONCAT(COALESCE(k.alamat, ''), ' RT ', ck.rt, ' / RW ', ck.rw)
+                            else CONCAT(COALESCE(k.alamat, ''), ' {$sebutan_dusun} ', ck.dusun, ' RT ', ck.rt, ' / RW ', ck.rw)
+                        end
+                end) AS alamat")
             ->from("{$this->table} kd")
             ->join('tweb_penduduk p', 'kd.penduduk_id = p.id', 'left')
             ->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
@@ -88,12 +88,8 @@ class Kader_model extends MY_Model
             $this->db
                 ->group_start()
                 ->like('p.nama', $search)
-                ->or_like('p.umur', $search)
-                ->or_like('p.jenis_kelamin', $search)
                 ->or_like('kd.kursus', $search)
                 ->or_like('kd.bidang', $search)
-                ->or_like('p.alamat', $search)
-                ->or_like('kd.keterangan', $search)
                 ->group_end();
         }
 
