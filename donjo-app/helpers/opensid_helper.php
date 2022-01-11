@@ -51,37 +51,39 @@ define('VERSION', '22.01-premium-rev02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022011251');
-define('LOKASI_LOGO_DESA', 'desa/logo/');
-define('LOKASI_ARSIP', 'desa/arsip/');
-define('LOKASI_CONFIG_DESA', 'desa/config/');
-define('LOKASI_SURAT_DESA', 'desa/template-surat/');
-define('LOKASI_SURAT_FORM_DESA', 'desa/template-surat/form/');
-define('LOKASI_SURAT_PRINT_DESA', 'desa/template-surat/print/');
-define('LOKASI_SURAT_EXPORT_DESA', 'desa/template-surat/export/');
-define('LOKASI_USER_PICT', 'desa/upload/user_pict/');
-define('LOKASI_GALERI', 'desa/upload/galeri/');
-define('LOKASI_FOTO_ARTIKEL', 'desa/upload/artikel/');
-define('LOKASI_FOTO_LOKASI', 'desa/upload/gis/lokasi/');
-define('LOKASI_FOTO_AREA', 'desa/upload/gis/area/');
-define('LOKASI_FOTO_GARIS', 'desa/upload/gis/garis/');
-define('LOKASI_DOKUMEN', 'desa/upload/dokumen/');
-define('LOKASI_PENGESAHAN', 'desa/upload/pengesahan/');
-define('LOKASI_WIDGET', 'desa/widgets/');
-define('LOKASI_GAMBAR_WIDGET', 'desa/upload/widgets/');
-define('LOKASI_KEUANGAN_ZIP', 'desa/upload/keuangan/');
-define('LOKASI_MEDIA', 'desa/upload/media/');
-define('LOKASI_SIMBOL_LOKASI', 'desa/upload/gis/lokasi/point/');
-define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
-define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
-define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
-define('PENDAPAT', 'assets/images/layanan_mandiri/');
-define('LOKASI_PRODUK', 'desa/upload/produk/');
-define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
-define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
+define('VERSI_DATABASE', '2022011351');
 
-// Pengaturan Latar
-define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+// Desa
+define('LOKASI_LOGO_DESA', folder('desa/logo/'));
+define('LOKASI_ARSIP', folder('desa/arsip/'));
+define('LOKASI_CONFIG_DESA', folder('desa/config/'));
+define('LOKASI_SURAT_DESA', folder('desa/template-surat/'));
+define('LOKASI_SURAT_FORM_DESA', folder('desa/template-surat/form/'));
+define('LOKASI_SURAT_PRINT_DESA', folder('desa/template-surat/print/'));
+define('LOKASI_SURAT_EXPORT_DESA', folder('desa/template-surat/export/'));
+define('LOKASI_USER_PICT', folder('desa/upload/user_pict/'));
+define('LOKASI_GALERI', folder('desa/upload/galeri/'));
+define('LOKASI_FOTO_ARTIKEL', folder('desa/upload/artikel/'));
+define('LOKASI_FOTO_LOKASI', folder('desa/upload/gis/lokasi/'));
+define('LOKASI_FOTO_AREA', folder('desa/upload/gis/area/'));
+define('LOKASI_FOTO_GARIS', folder('desa/upload/gis/garis/'));
+define('LOKASI_DOKUMEN', folder('desa/upload/dokumen/'));
+define('LOKASI_PENGESAHAN', folder('desa/upload/pengesahan/'));
+define('LOKASI_WIDGET', folder('desa/widgets/'));
+define('LOKASI_GAMBAR_WIDGET', folder('desa/upload/widgets/'));
+define('LOKASI_KEUANGAN_ZIP', folder('desa/upload/keuangan/'));
+define('LOKASI_MEDIA', folder('desa/upload/media/'));
+define('LOKASI_SIMBOL_LOKASI', folder('desa/upload/gis/lokasi/point/'));
+define('LOKASI_SINKRONISASI_ZIP', folder('desa/upload/sinkronisasi/'));
+define('LOKASI_PRODUK', folder('desa/upload/produk/'));
+define('LOKASI_PENGADUAN', folder('desa/upload/pengaduan/'));
+define('LOKASI_VAKSIN', folder('desa/upload/vaksin/'));
+define('LATAR_LOGIN', folder('desa/pengaturan/siteman/images/'));
+
+// Sistem
+define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
+define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
+define('PENDAPAT', 'assets/images/layanan_mandiri/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -1084,4 +1086,13 @@ function kode_format($lampiran = '')
     $str = strtoupper(str_replace('.php', '', $lampiran));
 
     return str_replace(',', ', ', $str);
+}
+
+if (! function_exists('folder')) {
+    function folder($folder = null)
+    {
+        file_exists($folder) || mkdir($folder, 0755, true);
+
+        return $folder;
+    }
 }
