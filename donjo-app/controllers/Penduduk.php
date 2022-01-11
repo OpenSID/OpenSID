@@ -187,6 +187,7 @@ class Penduduk extends Admin_Controller
         $data['jenis_kelahiran']    = $this->referensi_model->list_ref_flip(JENIS_KELAHIRAN);
         $data['penolong_kelahiran'] = $this->referensi_model->list_ref_flip(PENOLONG_KELAHIRAN);
         $data['pilihan_asuransi']   = $this->referensi_model->list_data('tweb_penduduk_asuransi');
+        $data['kehamilan']          = $this->referensi_model->list_data('ref_penduduk_hamil');
         $data['suku']               = $this->penduduk_model->get_suku();
         $data['nik_sementara']      = $this->penduduk_model->nik_sementara();
         $data['cek_nik']            = get_nik($data['penduduk']['nik']);
@@ -690,6 +691,11 @@ class Penduduk extends Admin_Controller
             case 'suku':
                 $session  = 'suku';
                 $kategori = 'Suku: ';
+                break;
+
+            case 'hamil':
+                $session  = 'hamil';
+                $kategori = 'STATUS KEHAMILAN : ';
                 break;
 
             case $tipe > 50:

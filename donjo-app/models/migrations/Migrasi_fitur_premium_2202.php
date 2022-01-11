@@ -44,6 +44,40 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
+
+        return $hasil && $this->migrasi_2022010671($hasil);
+    }
+
+    protected function migrasi_2022010671($hasil)
+    {
+        // Tambah tabel ref_penduduk_kehamilan
+        if (! $this->db->table_exists('ref_penduduk_hamil')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'unsigned'       => true,
+                    'auto_increment' => true,
+                ],
+                'nama' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->add_key('id', true);
+            $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_hamil', true);
+
+            // tambahkan data awal
+            $insert_batch = [
+                ['id' => 1, 'nama' => 'Hamil'],
+                ['id' => 2, 'nama' => 'Tidak Hamil'],
+            ];
+
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_hamil', $insert_batch);
+        }
+
+        return $hasil;
     }
 }

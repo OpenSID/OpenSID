@@ -1647,8 +1647,8 @@
 			<td>&nbsp;&nbsp;</td>
 			<?php for ($i=0; $i<16; $i++): ?>
 				<td class="kotak padat tengah">
-					<?php if (isset($input['nik_saksi1'][$i])): ?>
-						<?= $input['nik_saksi1'][$i];?>
+					<?php if (isset($input['nik_saksi2'][$i])): ?>
+						<?= $input['nik_saksi2'][$i];?>
 					<?php else: ?>
 						&nbsp;
 					<?php endif; ?>
@@ -1660,7 +1660,7 @@
 			<td colspan="2" class="kotak padat tengah">68.</td>
 			<td colspan="9" class="kotak">Nama Lengkap</td>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="34" class="kotak"><?= $input['nama_saksi1']?></td>
+			<td colspan="34" class="kotak"><?= $input['nama_saksi2']?></td>
 			<td>&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
@@ -1714,17 +1714,6 @@
 			<td>&nbsp;&nbsp;</td>
 			<td class="kotak" colspan="31"><?= $input['agama_saksi2']?></td>
 			<td>&nbsp;</td>
-			<!-- <td colspan="8" class="left">1. Islam</td>
-			<td colspan="8" class="left">2. Kristen</td>
-			<td colspan="8" class="left">3. Katholik</td>
-			<td colspan="8" class="left">4. Hindu</td> -->
-		</tr>
-		<tr>
-			<td colspan="17" >&nbsp;</td>
-			<td colspan="8" class="left">5. Budha</td>
-			<td colspan="8" class="left">6. Khonghucu</td>
-			<td colspan="8" class="left">7. Penghayat Kepercayaan</td>
-			<td colspan="8" class="left">8. Lainnya</td>
 		</tr>
 		<tr>
 			<td>&nbsp;&nbsp;</td>
@@ -1927,7 +1916,7 @@
 		</tr>
 		<tr>
 			<td>&nbsp;&nbsp;</td>
-			<td colspan="2" class="kotak padat tengah">70.</td>
+			<td colspan="2" class="kotak padat tengah">77.</td>
 			<td colspan="12" class="kotak">Agama/Penghayat Kepercayaan</td>
 			<td>&nbsp;&nbsp;</td>
 			<td class="kotak" colspan="32"><?= $input['agama_kawin']?></td>

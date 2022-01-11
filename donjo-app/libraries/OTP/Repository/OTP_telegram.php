@@ -172,11 +172,24 @@ class OTP_telegram implements OTP_interface
 
                     KODE PIN: {$pin}
 
+                    JIKA BUKAN ANDA YANG MELAKUKAN RESET PIN TERSEBUT
+                    SILAHKAN LAPORKAN KEPADA OPERATOR DESA
+
                     EOD,
                 'parse_mode' => 'Markdown',
             ]);
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function cek_akun_terdaftar($user)
+    {
+        return isset($this->ci->db)
+            ? ($this->ci->db->where('telegram', $user['telegram'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0)
+            : false;
     }
 }

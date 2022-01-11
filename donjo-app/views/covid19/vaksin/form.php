@@ -8,8 +8,7 @@
 			<li class="active">Penambahan Pemudik Covid-19</li>
 		</ol>
 	</section>
-
-	<section class="content">
+	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<?php if ($this->CI->cek_hak_akses('u')): ?>
 				<div class="box-header with-border">
@@ -20,6 +19,7 @@
 				<h3 class="box-title">Tambahkan Warga Penerima Vaksin</h3>
 			</div>
 			<div class="box-body">
+
 				<form id="main" name="main" method="GET" class="form-horizontal">
 					<div class="form-group" >
 						<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
@@ -68,6 +68,7 @@
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path4" placeholder="Upload Dokumen/Surat Dokter" <?= ($penduduk->tunda == '0' || $penduduk->tunda == null) ? 'disabled' : ''; ?> >
 									<input id="file4" type="file" class="hidden" name="surat_dokter">
+									<input type="hidden" name="surat_dokter" value="<?= $penduduk->surat_dokter?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser4" <?= ($penduduk->tunda == '0' || $penduduk->tunda == null) ? 'disabled' : ''; ?>><i class="fa fa-search" ></i> Browse</button>
 									</span>
@@ -109,6 +110,7 @@
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path1" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
 									<input id="file1" type="file" class="hidden" name="vaksin_1">
+									<input type="hidden" name="dokumen_vaksin_1" value="<?= $penduduk->dokumen_vaksin_1?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser1" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>
 									</span>
@@ -148,10 +150,11 @@
 							<div class="col-sm-3"></div>
 							<div class="col-sm-8">
 								<div class="input-group input-group-sm">
-									<input type="text" class="form-control" id="file_path1" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
-									<input id="file1" type="file" class="hidden" name="vaksin_1">
+									<input type="text" class="form-control" id="file_path2" placeholder="Upload Dokumen/Sertifikat" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>>
+									<input id="file2" type="file" class="hidden" name="vaksin_2">
+									<input type="hidden" name="dokumen_vaksin_2" value="<?= $penduduk->dokumen_vaksin_2?>">
 									<span class="input-group-btn">
-										<button type="button" class="btn btn-info btn-flat" id="file_browser1" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>
+										<button type="button" class="btn btn-info btn-flat" id="file_browser2" <?= jecho($penduduk->tunda, 1, 'disabled'); ?>><i class="fa fa-search"></i> Browse</button>
 									</span>
 								</div>
 							</div>
@@ -191,6 +194,7 @@
 								<div class="input-group input-group-sm">
 									<input type="text" class="form-control" id="file_path3" placeholder="Upload Dokumen/Sertifikat" disabled>
 									<input id="file3" type="file" class="hidden" name="vaksin_3">
+									<input type="hidden" name="dokumen_vaksin_3" value="<?= $penduduk->dokumen_vaksin_3?>">
 									<span class="input-group-btn">
 										<button type="button" class="btn btn-info btn-flat" id="file_browser3" disabled><i class="fa fa-search" ></i> Browse</button>
 									</span>
@@ -229,12 +233,13 @@
 			} else {
 				$(`#centang_vaksin_1`).prop( "disabled", false );
 				for (var i = 1; i <= 3; i++) {
+
 					if ($(`#centang_vaksin_${i}`).is(':checked')) {
 						$(`#tanggal_vaksin_${i}`).prop( "disabled", false );
-							$(`#file_path${i}`).prop( "disabled", false );
-							$(`#file_browser${i}`).prop( "disabled", false );
-							$(`#centang_vaksin_${i+1}`).prop( "disabled", false );
-							$(`#jenis_vaksin_${i}`).prop( "disabled", false );
+						$(`#file_path${i}`).prop( "disabled", false );
+						$(`#file_browser${i}`).prop( "disabled", false );
+						$(`#centang_vaksin_${i+1}`).prop( "disabled", false );
+						$(`#jenis_vaksin_${i}`).prop( "disabled", false );
 					}
 				}
 			}

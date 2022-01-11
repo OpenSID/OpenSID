@@ -90,4 +90,14 @@ interface OTP_interface
      * @return void
      */
     public function kirim_pin_baru($user, $pin);
+
+    /**
+     * Cek akun sudah terdaftar.
+     *
+     * @param mixed $user
+     * @param mixed $chat_id
+     *
+     * @return bool
+     */
+    public function cek_akun_terdaftar($chat_id);
 }

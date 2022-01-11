@@ -105,6 +105,7 @@ define('STAT_PENDUDUK', serialize([
     'covid'            => 'Status Covid',
     'suku'             => 'Suku / Etnis',
     'bpjs-tenagakerja' => 'BPJS Ketenagakerjaan',
+    'hamil'            => 'Status Kehamilan',
 ]));
 
 // Statistik Keluarga

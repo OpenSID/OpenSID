@@ -72,37 +72,45 @@ class Verifikasi extends Mandiri_Controller
 
         $this->db->trans_begin();
 
-        try {
-            $this->db->where('id', $id_pend)->update('tweb_penduduk', [
-                'telegram'                => $userID,
-                'telegram_token'          => $token,
-                'telegram_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +1 minutes')),
-            ]);
+        if ($this->otp_library->driver('telegram')->cek_akun_terdaftar(['telegram' => $userID, 'id' => $id_pend])) {
+            try {
+                $this->db->where('id', $id_pend)->update('tweb_penduduk', [
+                    'telegram'                => $userID,
+                    'telegram_token'          => $token,
+                    'telegram_tgl_kadaluarsa' => date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . ' +1 minutes')),
+                ]);
 
-            $this->otp_library->driver('telegram')->kirim_otp($userID, $raw_token);
+                $this->otp_library->driver('telegram')->kirim_otp($userID, $raw_token);
 
-            $this->db->trans_commit();
-        } catch (\Exception $e) {
-            log_message('error', $e);
+                $this->db->trans_commit();
+            } catch (\Exception $e) {
+                log_message('error', $e);
+
+                $this->session->set_flashdata('notif_telegram', [
+                    'status' => -1,
+                    'pesan'  => 'Tidak berhasil mengirim OTP, silahkan mencoba kembali.',
+                ]);
+
+                $this->db->trans_rollback();
+
+                redirect('layanan-mandiri/verifikasi/telegram/#langkah-2');
+            }
 
             $this->session->set_flashdata('notif_telegram', [
-                'status' => -1,
-                'pesan'  => 'Tidak berhasil mengirim OTP, silahkan mencoba kembali.',
+                'status' => 1,
+                'pesan'  => 'OTP telegram anda berhasil terkirim, silahkan cek telegram anda!',
             ]);
 
-            $this->db->trans_rollback();
+            $this->session->set_flashdata('kirim-otp-telegram', '#langkah3');
 
+            redirect('layanan-mandiri/verifikasi/telegram/#langkah-3');
+        } else {
+            $this->session->set_flashdata('notif_telegram', [
+                'status' => -1,
+                'pesan'  => 'Akun Telegram yang Anda Masukkan tidak valid, Silahkan ulangi lagi.',
+            ]);
             redirect('layanan-mandiri/verifikasi/telegram/#langkah-2');
         }
-
-        $this->session->set_flashdata('notif_telegram', [
-            'status' => 1,
-            'pesan'  => 'OTP telegram anda berhasil terkirim, silahkan cek telegram anda!',
-        ]);
-
-        $this->session->set_flashdata('kirim-otp-telegram', '#langkah3');
-
-        redirect('layanan-mandiri/verifikasi/telegram/#langkah-3');
     }
 
     /**

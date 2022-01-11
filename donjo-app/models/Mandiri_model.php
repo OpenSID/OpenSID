@@ -110,7 +110,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 2:
-                $this->db->order_by('p.nik', DESC);
+                $this->db->order_by('p.nik', 'DESC');
                 break;
 
             case 3:
@@ -118,7 +118,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 4:
-                $this->db->order_by('p.nama', DESC);
+                $this->db->order_by('p.nama', 'DESC');
                 break;
 
             case 5:
@@ -126,7 +126,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 6:
-                $this->db->order_by('pm.tanggal_buat', DESC);
+                $this->db->order_by('pm.tanggal_buat', 'DESC');
                 break;
 
             case 7:
@@ -134,7 +134,7 @@ class Mandiri_model extends CI_Model
                 break;
 
             case 8:
-                $this->db->order_by('pm.last_login', DESC);
+                $this->db->order_by('pm.last_login', 'DESC');
                 break;
 
             default:
@@ -520,8 +520,8 @@ class Mandiri_model extends CI_Model
             ->get()
             ->row();
 
-        if ($data) {
-            try {
+        switch (true) {
+            case $data:
                 $pin_baru = $this->generate_pin();
 
                 $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru);
@@ -529,19 +529,24 @@ class Mandiri_model extends CI_Model
                 $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
 
                 $respon = [
-                    'status' => 1, // Notif gagal
-                    'pesan'  => 'PIN berhasil diatur ulang, silahkan masuk dengan PIN baru yang dikirim ke akun telegram anda.',
+                    'status' => 1, // Notif berhasil
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun Telegram anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun Telegram anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
                 ];
-            } catch (\Exception $e) {
-                log_message('error', $e);
-            }
-        } else {
-            $respon = [
-                'status' => -1, // Notif gagal
-                'pesan'  => '<b>NIK anda tidak terdaftar di database kami.</b> ',
-            ];
+                break;
+
+            case $this->session->mandiri_try > 2:
+                $this->session->mandiri_try = $this->session->mandiri_try - 1;
+                $respon                     = [
+                    'status' => -1, // Notif gagal
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun Telegram anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun Telegram anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
+                ];
+                break;
+
+            default:
+                $this->session->mandiri_wait = 1;
+                break;
         }
 
-        $this->session->set_flashdata('notif', $respon);
+        $this->session->set_flashdata('lupa_pin', $respon);
     }
 }

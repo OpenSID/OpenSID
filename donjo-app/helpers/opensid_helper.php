@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.01-premium-beta01');
+define('VERSION', '22.01-premium-rev01');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -556,19 +556,33 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     if ($tampil) {
         // Set the default MIME type to send
         switch (get_extension($nama_berkas)) {
-            case '.gif': $mime = 'image/gif'; break;
+            case '.gif':
+                $mime = 'image/gif';
+                break;
 
-            case '.png': $mime = 'image/png'; break;
+            case '.png':
+                $mime = 'image/png';
+                break;
 
-            case '.jpeg': $mime = 'image/jpeg'; break;
+            case '.jpeg':
+                $mime = 'image/jpeg';
+                break;
 
-            case '.jpg': $mime = 'image/jpeg'; break;
+            case '.jpg':
+                $mime = 'image/jpeg';
+                break;
 
-            case '.svg': $mime = 'image/svg+xml'; break;
+            case '.svg':
+                $mime = 'image/svg+xml';
+                break;
 
-            case '.pdf' : $mime = 'application/pdf'; break;
+            case '.pdf':
+                $mime = 'application/pdf';
+                break;
 
-            default: $mime = 'application/octet-stream'; break;
+            default:
+                $mime = 'application/octet-stream';
+                break;
         }
 
         // Generate the server headers

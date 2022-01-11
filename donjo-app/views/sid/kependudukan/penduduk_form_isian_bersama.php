@@ -616,8 +616,9 @@
 			<label for="hamil">Status Kehamilan </label>
 			<select class="form-control input-sm" name="hamil">
 				<option value="">Pilih Status Kehamilan</option>
-				<option value="0" <?php selected($penduduk['hamil'], '0'); ?>>Tidak Hamil</option>
-				<option value="1" <?php selected($penduduk['hamil'], '1'); ?>>Hamil</option>
+				<?php foreach ($kehamilan as $data) : ?>
+					<option value="<?= $data['id'] ?>" <?php selected($penduduk['hamil'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>
