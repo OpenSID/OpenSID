@@ -131,7 +131,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="sex">Jenis Kelamin</label>
 					<select class="form-control input-sm" id="sex" name="sex">
 						<option value=""> -- </option>
-						<?php foreach ($list_sex AS $data): ?>
+						<?php foreach ($list_sex as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($sex, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -142,7 +142,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="status_dasar">Status Dasar</label>
 					<select class="form-control input-sm" id="status_dasar" name="status_dasar">
 						<option value=""> -- </option>
-						<?php foreach ($list_status_dasar AS $data): ?>
+						<?php foreach ($list_status_dasar as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($status_dasar, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -153,7 +153,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="cacat">Cacat</label>
 					<select class="form-control input-sm" id="cacat" name="cacat">
 						<option value=""> -- </option>
-						<?php foreach ($list_cacat AS $data): ?>
+						<?php foreach ($list_cacat as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($cacat, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -164,7 +164,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="cara_kb_id">Cara KB</label>
 					<select class="form-control input-sm" id="cara_kb_id" name="cara_kb_id">
 						<option value=""> -- </option>
-						<?php foreach ($list_cara_kb AS $data): ?>
+						<?php foreach ($list_cara_kb as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($cara_kb_id, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -175,7 +175,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="status_ktp">Status KTP</label>
 					<select class="form-control input-sm" id="status_ktp" name="status_ktp">
 						<option value=""> -- </option>
-						<?php foreach ($list_status_ktp AS $data): ?>
+						<?php foreach ($list_status_ktp as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($status_ktp, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -186,7 +186,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="id_asuransi">Asuransi</label>
 					<select class="form-control input-sm" id="id_asuransi" name="id_asuransi">
 						<option value=""> -- </option>
-						<?php foreach ($list_asuransi AS $data): ?>
+						<?php foreach ($list_asuransi as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($id_asuransi, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -197,7 +197,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="warganegara">Warga Negara</label>
 					<select class="form-control input-sm" id="warganegara" name="warganegara">
 						<option value=""> -- </option>
-						<?php foreach ($list_warganegara AS $data): ?>
+						<?php foreach ($list_warganegara as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($warganegara, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -208,7 +208,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="golongan_darah">Golongan Darah</label>
 					<select class="form-control input-sm" id="golongan_darah" name="golongan_darah">
 						<option value=""> -- </option>
-						<?php foreach ($list_golongan_darah AS $data): ?>
+						<?php foreach ($list_golongan_darah as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($golongan_darah, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -219,7 +219,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<label for="menahun">Sakit Menahun</label>
 					<select class="form-control input-sm" id="menahun" name="menahun">
 						<option value=""> -- </option>
-						<?php foreach ($list_sakit_menahun AS $data): ?>
+						<?php foreach ($list_sakit_menahun as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($menahun, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
