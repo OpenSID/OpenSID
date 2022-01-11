@@ -146,7 +146,7 @@ class Rtm_model extends MY_Model
     // id = id_penduduk pd tweb_penduduk, id = nik_kepala pd tweb_rtm
     public function update_anggota($id, $id_rtm)
     {
-        // Krn tweb_penduduk menggunakan no_kk(no_rtm) bukan id sebagai id_rtm, jd perlu dicari dlu
+        // Krn penduduk_hidup menggunakan no_kk(no_rtm) bukan id sebagai id_rtm, jd perlu dicari dlu
         $no_rtm = $this->db->get_where('tweb_rtm', ['id' => $id_rtm])->row();
 
         $rtm_level = $this->input->post('rtm_level');
@@ -162,6 +162,7 @@ class Rtm_model extends MY_Model
             $this->db->where('id_rtm', $no_rtm->no_kk)->update('tweb_penduduk', ['rtm_level' => '2']);
 
             // nik_kepala = id_penduduk pd table tweb_penduduk
+            // field no_kk pada tweb_rtm maksudnya adalah no_rtm
             $this->db->where('id', $no_rtm->no_kk)->update('tweb_rtm', ['nik_kepala' => $id]);
         }
 
@@ -210,10 +211,9 @@ class Rtm_model extends MY_Model
 
     public function get_anggota($id)
     {
-        $sql   = 'SELECT * FROM tweb_penduduk WHERE id_rtm = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->db
+            ->get_where('penduduk_hidup', ['id_rtm' => $id])
+            ->row_array();
     }
 
     private function get_kode_wilayah()
@@ -226,7 +226,7 @@ class Rtm_model extends MY_Model
     public function list_penduduk_lepas()
     {
         $sql = 'SELECT p.id, p.nik, p.nama, h.nama as kk_level
-			FROM tweb_penduduk p
+			FROM penduduk_hidup p
 			LEFT JOIN tweb_penduduk_hubungan h ON p.kk_level = h.id
 			WHERE (status = 1 OR status = 3) AND status_dasar = 1 AND (id_rtm = 0 OR id_rtm IS NULL)';
         $query = $this->db->query($sql);
@@ -244,8 +244,8 @@ class Rtm_model extends MY_Model
     public function list_anggota($id)
     {
         $sql = 'SELECT b.dusun, b.rw, b.rt, u.id, nik, x.nama as sex, k.no_kk, u.rtm_level, tempatlahir, tanggallahir, a.nama as agama, d.nama as pendidikan, j.nama as pekerjaan, w.nama as status_kawin, f.nama as warganegara, nama_ayah, nama_ibu, g.nama as golongan_darah, u.nama, status, h.nama AS hubungan
-			FROM tweb_penduduk u
-			LEFT JOIN tweb_keluarga k ON u.id_kk = k.id
+			FROM penduduk_hidup u
+			LEFT JOIN keluarga_aktif k ON u.id_kk = k.id
 			LEFT JOIN tweb_penduduk_agama a ON u.agama_id = a.id
 			LEFT JOIN tweb_penduduk_pekerjaan j ON u.pekerjaan_id = j.id
 			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
@@ -256,7 +256,9 @@ class Rtm_model extends MY_Model
 			LEFT JOIN tweb_rtm_hubungan h ON u.rtm_level = h.id
 			LEFT JOIN tweb_rtm r ON u.id_rtm = r.no_kk
 			LEFT JOIN tweb_wil_clusterdesa b ON u.id_cluster = b.id
-			WHERE r.id = ? ORDER BY rtm_level';
+            -- WHERE u.status_dasar = 1 AND
+            WHERE r.id = ?
+            ORDER BY rtm_level';
 
         $query = $this->db->query($sql, [$id]);
         $data  = $query->result_array();
@@ -279,9 +281,9 @@ class Rtm_model extends MY_Model
 
         $kolom_id = ($is_no_kk) ? 'no_kk' : 'id';
         $this->load->model('penduduk_model');
-        $sql = "SELECT u.id, u.nik, u.nama, r.no_kk, r.bdt, x.nama AS sex, u.tempatlahir, u.tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM tweb_penduduk WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
+        $sql = "SELECT u.id, u.nik, u.nama, u.status_dasar, r.no_kk, r.bdt, x.nama AS sex, u.tempatlahir, u.tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM penduduk_hidup WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
 			FROM tweb_rtm r
-			LEFT JOIN tweb_penduduk u ON u.id = r.nik_kepala
+			LEFT JOIN penduduk_hidup u ON u.id = r.nik_kepala
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
 			LEFT JOIN tweb_penduduk_pendidikan_kk d ON u.pendidikan_kk_id = d.id
 			LEFT JOIN tweb_penduduk_warganegara f ON u.warganegara_id = f.id
@@ -340,7 +342,9 @@ class Rtm_model extends MY_Model
         $this->db
             ->select('t.nama')
             ->from('tweb_rtm u')
-            ->join('tweb_penduduk t', 'u.nik_kepala = t.id', LEFT);
+            ->join('penduduk_hidup t', 'u.nik_kepala = t.id', LEFT);
+
+        $this->status_dasar_sql();
 
         $data = $this->db->get()->result_array();
 
@@ -355,11 +359,11 @@ class Rtm_model extends MY_Model
         $query_dasar = $this->db->select('u.*')->get_compiled_select();
 
         $this->db
-            ->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
-            ->select('(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_rtm = u.no_kk ) AS jumlah_anggota')
+            ->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.status_dasar, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
+            ->select('(SELECT COUNT(p.id) FROM penduduk_hidup p WHERE p.id_rtm = u.no_kk ) AS jumlah_anggota')
             ->from("({$query_dasar}) as u")
-            ->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
-            ->join('tweb_keluarga k', 't.id_kk = k.id', 'left')
+            ->join('penduduk_hidup t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
+            ->join('keluarga_aktif k', 't.id_kk = k.id', 'left')
             ->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id', 'left');
 
         $this->order_by_list($this->session->order_by);
@@ -438,7 +442,7 @@ class Rtm_model extends MY_Model
     {
         $this->db
             ->from('tweb_rtm u')
-            ->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
+            ->join('penduduk_hidup t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
             ->join('tweb_wil_clusterdesa c', 't.id_cluster = c.id', 'left');
 
         if ($this->session->penerima_bantuan) {
@@ -463,6 +467,8 @@ class Rtm_model extends MY_Model
         foreach ($kolom_kode as $kolom) {
             $this->get_sql_kolom_kode($kolom[0], $kolom[1]);
         }
+
+        $this->status_dasar_sql();
     }
 
     private function search_sql()
@@ -476,6 +482,16 @@ class Rtm_model extends MY_Model
             ->like('t.nama', $cari)
             ->or_like('u.no_kk', $cari)
             ->group_end();
+    }
+
+    protected function status_dasar_sql()
+    {
+        $status_dasar = $this->session->status_dasar;
+        if ($status_dasar == 1) {
+            $this->db->where('t.status_dasar', 1);
+        } elseif ($status_dasar == 2) {
+            $this->db->where('t.status_dasar', null);
+        }
     }
 
     protected function get_sql_kolom_kode($session, $kolom)

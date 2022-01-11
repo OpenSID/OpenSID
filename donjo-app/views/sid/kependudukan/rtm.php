@@ -76,6 +76,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					<form id="mainform" name="mainform" method="post">
 						<div class="row">
 							<div class="col-sm-8">
+								<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?=site_url('rtm/filter/status_dasar')?>')">
+									<option value="">Pilih Status</option>
+									<option value="1" <?= selected(1, $status_dasar); ?>>Aktif</option>
+									<option value="2" <?= selected(2, $status_dasar); ?>>Tidak Aktif</option>
+								</select>
 								<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('rtm/filter/sex')?>')">
 									<option value="">Pilih Jenis Kelamin</option>
 									<?php foreach ($list_sex as $data): ?>
@@ -162,7 +167,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 												<td class="padat"><?= ($paging->offset + $key + 1); ?></td>
 												<td class="aksi">
 													<a href="<?= site_url("rtm/anggota/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian Anggota Rumah Tangga"><i class="fa fa-list-ol"></i></a>
-													<?php if ($this->CI->cek_hak_akses('u')): ?>
+													<?php if ($this->CI->cek_hak_akses('u') && $data['status_dasar'] == 1): ?>
 														<a href="<?= site_url("rtm/ajax_add_anggota/{$data['id']}"); ?>" title="Tambah Anggota Rumah Tangga" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" class="btn btn-success btn-flat btn-sm"><i class="fa fa-plus"></i></a>
 														<a href="<?= site_url("rtm/edit_nokk/{$data['id']}"); ?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Rumah Tangga" class="btn bg-orange btn-flat btn-sm"><i class='fa fa-edit'></i></a>
 													<?php endif; ?>

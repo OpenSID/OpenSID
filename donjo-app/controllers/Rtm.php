@@ -47,7 +47,7 @@ class Rtm extends Admin_Controller
         parent::__construct();
         $this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']);
         $this->_set_page     = ['50', '100', '200'];
-        $this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan']; // Session id_bos
+        $this->_list_session = ['status_dasar', 'cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt', 'penerima_bantuan']; // Session id_bos
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 23;
     }
@@ -55,8 +55,9 @@ class Rtm extends Admin_Controller
     public function clear()
     {
         $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
-        $this->session->order_by = 1;
+        $this->session->per_page     = $this->_set_page[0];
+        $this->session->status_dasar = 1; // Rumah Tangga Aktif
+        $this->session->order_by     = 1;
 
         redirect($this->controller);
     }
