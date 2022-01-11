@@ -14,8 +14,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. [#4674](https://github.com/OpenSID/OpenSID/issues/4674) Perbaiki jangan tampilkan pesan NIK jika tidak ditemukan.
 7. [#4641](https://github.com/OpenSID/OpenSID/issues/4641) Perbaikan modul vaksinasi.
 8. [#4636](https://github.com/OpenSID/OpenSID/issues/4636) Perbaiki data tidak muncul di hasil unduhan surat keterangan nikah untuk warga non muslim (PDF & RTF).
-9. [#4676](https://github.com/OpenSID/OpenSID/issues/4676) Perbaiki Penduduk Mati Masih Muncul Pada data Rumah Tangga.
-10. [#4690](https://github.com/OpenSID/OpenSID/issues/4690) Perbaiki Izinkan penggunaan Huruf dalam Klasifikasi Surat.
+9. [#4676](https://github.com/OpenSID/OpenSID/issues/4676) Perbaiki penduduk mati masih muncul pada data rumah tangga.
+10. [#4690](https://github.com/OpenSID/OpenSID/issues/4690) Perbaiki izinkan penggunaan huruf dalam klasifikasi surat.
+11. [#4675](https://github.com/OpenSID/OpenSID/issues/4675) Perbaiki list pamong tidak muncul saat cetak laporan hasil klasifikasi analisis.
 
 #### Perubahan Teknis
 
