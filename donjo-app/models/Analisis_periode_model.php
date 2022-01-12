@@ -160,15 +160,14 @@ class Analisis_periode_model extends MY_Model
 
     public function insert()
     {
-        $data = $this->validasi_data($this->input->post());
-        $dp   = $data['duplikasi'];
+        $data              = $this->validasi_data($this->input->post());
+        $data['duplikasi'] = $this->input->post('duplikasi');
+        $dp                = $data['duplikasi'];
         unset($data['duplikasi']);
 
         if ($dp == 1) {
-            $sqld   = 'SELECT id FROM analisis_periode WHERE id_master = ? ORDER BY id DESC LIMIT 1';
-            $queryd = $this->db->query($sqld, $this->session->analisis_master);
-            $dpd    = $queryd->row_array();
-            $sblm   = $dpd['id'];
+            $dpd  = $this->db->select('id')->where('id_master', $this->session->analisis_master)->order_by('id', 'desc')->get('analisis_periode')->row_array();
+            $sblm = $dpd['id'];
         }
 
         $akt               = [];
@@ -181,14 +180,10 @@ class Analisis_periode_model extends MY_Model
         $outp = $this->db->insert('analisis_periode', $data);
 
         if ($dp == 1) {
-            $sqld   = 'SELECT id FROM analisis_periode WHERE id_master = ? ORDER BY id DESC LIMIT 1';
-            $queryd = $this->db->query($sqld, $this->session->analisis_master);
-            $dpd    = $queryd->row_array();
-            $skrg   = $dpd['id'];
+            $dpd  = $this->db->select('id')->where('id_master', $this->session->analisis_master)->order_by('id', 'desc')->get('analisis_periode')->row_array();
+            $skrg = $dpd['id'];
 
-            $sql   = 'SELECT id_subjek,id_indikator,id_parameter FROM analisis_respon WHERE id_periode = ? ';
-            $query = $this->db->query($sql, $sblm);
-            $data  = $query->result_array();
+            $data = $this->db->select(['id_subjek', 'id_indikator', 'id_parameter'])->where('id_periode', $sblm)->get('analisis_respon')->result_array();
 
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i]['id_periode'] = $skrg;
