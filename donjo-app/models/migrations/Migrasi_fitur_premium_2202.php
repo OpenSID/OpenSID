@@ -55,9 +55,8 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->keuangan_ta_spjpot($hasil);
         $hasil = $hasil && $this->keuangan_ta_spj_bukti($hasil);
         $hasil = $hasil && $this->keuangan_ta_sppbukti($hasil);
-        $hasil = $hasil && $this->keuangan_ta_spppot($hasil);
 
-        return $hasil;
+        return $hasil && $this->keuangan_ta_spppot($hasil);
     }
 
     protected function keuangan_ta_pencairan($hasil)
