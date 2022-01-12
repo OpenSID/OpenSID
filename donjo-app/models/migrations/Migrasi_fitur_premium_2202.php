@@ -54,7 +54,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
     protected function migrasi_2022010671($hasil)
     {
         // Tambah tabel ref_penduduk_kehamilan
-        if (!$this->db->table_exists('ref_penduduk_hamil')) {
+        if (! $this->db->table_exists('ref_penduduk_hamil')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -86,12 +86,12 @@ class Migrasi_fitur_premium_2202 extends MY_model
     protected function migrasi_2022011071($hasil)
     {
         $folder = 'upload/pendaftaran';
-        if (!file_exists('/desa/' . $folder)) {
+        if (! file_exists('/desa/' . $folder)) {
             mkdir('desa/' . $folder, 0755, true);
             xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
         }
 
-        if (!$this->db->field_exists('aktif', 'tweb_penduduk_mandiri')) {
+        if (! $this->db->field_exists('aktif', 'tweb_penduduk_mandiri')) {
             $fields = [
                 'aktif' => [
                     'type'       => 'INT',
@@ -146,7 +146,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         $fields = [];
 
-        if (!$this->db->field_exists('No_Ref', 'keuangan_ta_pencairan')) {
+        if (! $this->db->field_exists('No_Ref', 'keuangan_ta_pencairan')) {
             $fields['No_Ref'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -154,7 +154,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Tgl_Bayar', 'keuangan_ta_pencairan')) {
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_pencairan')) {
             $fields['Tgl_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -162,7 +162,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Validasi', 'keuangan_ta_pencairan')) {
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_pencairan')) {
             $fields['Validasi'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -181,7 +181,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         $fields = [];
 
-        if (!$this->db->field_exists('Billing_Pajak', 'keuangan_ta_spjpot')) {
+        if (! $this->db->field_exists('Billing_Pajak', 'keuangan_ta_spjpot')) {
             $fields['Billing_Pajak'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -200,7 +200,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         $fields = [];
 
-        if (!$this->db->field_exists('Kd_Bank', 'keuangan_ta_spj_bukti')) {
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spj_bukti')) {
             $fields['Kd_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -208,7 +208,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Ref_Bayar', 'keuangan_ta_spj_bukti')) {
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spj_bukti')) {
             $fields['Ref_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -216,7 +216,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spj_bukti')) {
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spj_bukti')) {
             $fields['Tgl_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -224,7 +224,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Validasi', 'keuangan_ta_spj_bukti')) {
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spj_bukti')) {
             $fields['Validasi'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -243,7 +243,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         $fields = [];
 
-        if (!$this->db->field_exists('Kd_Bank', 'keuangan_ta_sppbukti')) {
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_sppbukti')) {
             $fields['Kd_Bank'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -251,7 +251,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Ref_Bayar', 'keuangan_ta_sppbukti')) {
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_sppbukti')) {
             $fields['Ref_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -259,7 +259,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Tgl_Bayar', 'keuangan_ta_sppbukti')) {
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_sppbukti')) {
             $fields['Tgl_Bayar'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -267,7 +267,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
             ];
         }
 
-        if (!$this->db->field_exists('Validasi', 'keuangan_ta_sppbukti')) {
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_sppbukti')) {
             $fields['Validasi'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
@@ -286,7 +286,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         $fields = [];
 
-        if (!$this->db->field_exists('Billing_Pajak', 'keuangan_ta_spppot')) {
+        if (! $this->db->field_exists('Billing_Pajak', 'keuangan_ta_spppot')) {
             $fields['Billing_Pajak'] = [
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
