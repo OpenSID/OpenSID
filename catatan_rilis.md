@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 13. [#4631](https://github.com/OpenSID/OpenSID/issues/4631) Perbaiki impor siskuedes kolom tidak ditemukan.
 14. [#4704](https://github.com/OpenSID/OpenSID/issues/4704) Perbaiki error impor struktur database awal.
 15. [#4646](https://github.com/OpenSID/OpenSID/issues/4646) Perbaiki duplikat pendataan tidak berfungsi.
+16. [#4664](https://github.com/OpenSID/OpenSID/issues/4664) Perbaiki wajib identitas menyesuaikan umur dan status perkawinan.
 
 #### Perubahan Teknis
 
