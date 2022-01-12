@@ -44,6 +44,178 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
+
+        return $hasil && $this->migrasi_2022011251($hasil);
+    }
+
+    protected function migrasi_2022011251($hasil)
+    {
+        $hasil = $hasil && $this->keuangan_ta_pencairan($hasil);
+        $hasil = $hasil && $this->keuangan_ta_spjpot($hasil);
+        $hasil = $hasil && $this->keuangan_ta_spj_bukti($hasil);
+        $hasil = $hasil && $this->keuangan_ta_sppbukti($hasil);
+        $hasil = $hasil && $this->keuangan_ta_spppot($hasil);
+
+        return $hasil;
+    }
+
+    protected function keuangan_ta_pencairan($hasil)
+    {
+        $fields = [];
+
+        if (! $this->db->field_exists('No_Ref', 'keuangan_ta_pencairan')) {
+            $fields['No_Ref'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_pencairan')) {
+            $fields['Tgl_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_pencairan')) {
+            $fields['Validasi'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_pencairan', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function keuangan_ta_spjpot($hasil)
+    {
+        $fields = [];
+
+        if (! $this->db->field_exists('Billing_Pajak', 'keuangan_ta_spjpot')) {
+            $fields['Billing_Pajak'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spjpot', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function keuangan_ta_spj_bukti($hasil)
+    {
+        $fields = [];
+
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_spj_bukti')) {
+            $fields['Kd_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_spj_bukti')) {
+            $fields['Ref_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_spj_bukti')) {
+            $fields['Tgl_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_spj_bukti')) {
+            $fields['Validasi'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spj_bukti', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function keuangan_ta_sppbukti($hasil)
+    {
+        $fields = [];
+
+        if (! $this->db->field_exists('Kd_Bank', 'keuangan_ta_sppbukti')) {
+            $fields['Kd_Bank'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Ref_Bayar', 'keuangan_ta_sppbukti')) {
+            $fields['Ref_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Tgl_Bayar', 'keuangan_ta_sppbukti')) {
+            $fields['Tgl_Bayar'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('Validasi', 'keuangan_ta_sppbukti')) {
+            $fields['Validasi'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_sppbukti', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function keuangan_ta_spppot($hasil)
+    {
+        $fields = [];
+
+        if (! $this->db->field_exists('Billing_Pajak', 'keuangan_ta_spppot')) {
+            $fields['Billing_Pajak'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spppot', $fields);
+        }
+
+        return $hasil;
     }
 }
