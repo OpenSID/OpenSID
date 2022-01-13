@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4635](https://github.com/OpenSID/OpenSID/issues/4635) Permintaan Penyediaan Tombol Hapus Dan Tanda Conteng Pilihan Hapus Data Pada Fitur Suplemen [Nama Modul].
 3. [#1760](https://github.com/OpenSID/OpenSID/issues/1760) Pendaftaran layanan mandiri.
 4. [#4521](https://github.com/OpenSID/OpenSID/issues/4521) Penulisan kalimat NIP/NIPD pada tangan tangan surat secara dinamis.
+5. [#4353](https://github.com/OpenSID/OpenSID/issues/4353) Tambah fitur tag ktp di format impor data penduduk excel.
 
 #### Perbaikan BUG
 
