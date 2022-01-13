@@ -77,6 +77,8 @@ define('KOLOM_IMPOR_KELUARGA', serialize([
     'status_dasar'         => '36',
     'suku'                 => '37',
     'tag_id_card'          => '38',
+    'id_asuransi'          => '38',
+    'no_asuransi'          => '39'
 ]));
 
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
@@ -143,6 +145,7 @@ class Import_model extends CI_Model
         $this->kode_cacat             = $this->referensi_model->impor_list_data('tweb_cacat');
         $this->kode_warganegara       = $this->referensi_model->impor_list_data('tweb_penduduk_warganegara');
         $this->kode_hamil             = array_change_key_case(unserialize(HAMIL));
+        $this->kode_asuransi = array_change_key_case(unserialize(KODE_ASURANSI));
     }
 
     /**
@@ -268,6 +271,8 @@ class Import_model extends CI_Model
             return 'kode status_dasar ' . $isi_baris['status_dasar'] . ' tidak dikenal';
         }
 
+        if ($isi_baris['id_asuransi'] != "" and !($isi_baris['id_asuransi'] >= 1 && $isi_baris['id_asuransi'] <= 4)) return 'kode asuransi tidak dikenal';
+
         // Validasi data lain
         if (! ctype_digit($isi_baris['nik']) || (strlen($isi_baris['nik']) != 16 && $isi_baris['nik'] != '0')) {
             return 'nik salah';
@@ -362,7 +367,8 @@ class Import_model extends CI_Model
         $isi_baris['status_dasar']         = $this->get_konversi_kode($this->kode_status_dasar, $rowData[$kolom_impor_keluarga['status_dasar']]);
         $isi_baris['suku']                 = $this->cek_kosong($rowData[$kolom_impor_keluarga['suku']]);
         $isi_baris['tag_id_card']          = $this->cek_kosong($rowData[$kolom_impor_keluarga['tag_id_card']]);
-
+        $isi_baris['id_asuransi'] = $this->get_konversi_kode($this->kode_asuransi, trim($rowData[$kolom_impor_keluarga['id_asuransi']]));
+        $isi_baris['no_asuransi'] = trim($rowData[$kolom_impor_keluarga['no_asuransi']]);
         return $isi_baris;
     }
 
@@ -455,7 +461,7 @@ class Import_model extends CI_Model
         $this->error_tulis_penduduk = null;
 
         // Siapkan data penduduk
-        $kolom_baris = ['nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar', 'suku', 'tag_id_card'];
+        $kolom_baris = ['nama', 'nik', 'id_kk', 'kk_level', 'sex', 'tempatlahir', 'tanggallahir', 'agama_id', 'pendidikan_kk_id', 'pendidikan_sedang_id', 'pekerjaan_id', 'status_kawin', 'warganegara_id', 'nama_ayah', 'nama_ibu', 'golongan_darah_id', 'akta_lahir', 'dokumen_pasport', 'tanggal_akhir_paspor', 'dokumen_kitas', 'ayah_nik', 'ibu_nik', 'akta_perkawinan', 'tanggalperkawinan', 'akta_perceraian', 'tanggalperceraian', 'cacat_id', 'cara_kb_id', 'hamil', 'id_cluster', 'ktp_el', 'status_rekam', 'alamat_sekarang', 'alamat_sebelumnya', 'status_dasar', 'suku', 'tag_id_card', 'id_asuransi', 'no_asuransi'];
 
         foreach ($kolom_baris as $kolom) {
             $data[$kolom] = $isi_baris[$kolom];
