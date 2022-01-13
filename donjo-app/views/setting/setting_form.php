@@ -124,10 +124,12 @@
 		var strUser = e.options[e.selectedIndex].value;
 		if (as == 1) {
 			$('#form_tampilan_anjungan_slider').show();
+			$('#form_tampilan_anjungan_audio').hide();
 			$('#form_tampilan_anjungan_video').hide();
 			$('#form_tampilan_anjungan_waktu').show();
 		} else if (as == 2) {
 			$('#form_tampilan_anjungan_slider').hide();
+			$('#form_tampilan_anjungan_audio').show();
 			$('#form_tampilan_anjungan_video').show();
 			$('#form_tampilan_anjungan_waktu').show();
 		} else {

@@ -65,7 +65,7 @@
 
 <?php if ($this->setting->tampilan_anjungan == 2 && ! empty($this->setting->tampilan_anjungan_video)) : ?>
 	<div class="video-internal" id="videov" style="display: none;">
-		<video loop muted autoplay poster="<?= base_url($latar_login_mandiri); ?>" class="video-internal-bg">
+		<video loop <?= jecho($this->setting->tampilan_anjungan_audio, 0, 'muted'); ?> poster="<?= base_url($latar_login_mandiri); ?>" class="video-internal-bg" id="videona">
 			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
 		</video>
 	</div>
@@ -206,6 +206,8 @@
 	<?php endif; ?>
 	<script type="text/javascript">
 		$('document').ready(function() {
+			var videona = document.getElementById("videona");
+			videona.pause();
 			var IDLE_TIMEOUT = <?= $this->setting->tampilan_anjungan_waktu; ?>; //seconds
 			var _idleSecondsCounter = 0;
 			document.onclick = function() {
@@ -228,12 +230,14 @@
 				var tampil_anjungan_slider = '<?= $this->setting->tampilan_anjungan_slider; ?>';
 				if (_idleSecondsCounter >= IDLE_TIMEOUT) {
 					if (tampil_anjungan == 2 && tampil_anjungan_video) {
+						videona.play();
 						video.style.display = "block";
 					} else if (tampil_anjungan == 1 && tampil_anjungan_slider) {
 						slider.style.display = "block";
 					}
 				} else {
 					if (tampil_anjungan == 2 && tampil_anjungan_video) {
+						videona.pause();
 						video.style.display = "none";
 					} else if (tampil_anjungan == 1 && tampil_anjungan_slider) {
 						slider.style.display = "none";

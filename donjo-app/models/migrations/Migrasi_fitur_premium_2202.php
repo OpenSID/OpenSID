@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
+        $hasil = $hasil && $this->migrasi_2022011251($hasil);
 
-        return $hasil && $this->migrasi_2022011251($hasil);
+        return $hasil && $this->migrasi_2022011371($hasil);
     }
 
     protected function migrasi_2022011251($hasil)
@@ -216,5 +217,16 @@ class Migrasi_fitur_premium_2202 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022011371($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'tampilan_anjungan_audio',
+            'value'      => 0,
+            'keterangan' => 'Apakah audio diaktifkan atau tidak saat video diputar',
+            'jenis'      => 'boolean',
+            'kategori'   => 'setting_mandiri',
+        ]);
     }
 }
