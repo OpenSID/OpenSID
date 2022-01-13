@@ -177,6 +177,7 @@ class Database extends Admin_Controller
             ['Alamat Sekarang', 'alamat_sekarang'],
             ['Status Dasar', 'status_dasar'],
             ['Suku', 'suku'],
+            ['Tag ID Card', 'tag_id_card'],
         ];
 
         $judul  = array_column($daftar_kolom, 0);
@@ -226,6 +227,7 @@ class Database extends Admin_Controller
                 $row->alamat_sekarang,
                 $row->status_dasar,
                 $row->suku,
+                $row->tag_id_card,
             ];
             $rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
             $writer->addRow($rowFromValues);
