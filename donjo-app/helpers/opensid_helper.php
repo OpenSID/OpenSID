@@ -163,12 +163,12 @@ define('NILAI_PENDAPAT', serialize([
     3 => 'Cukup',
     4 => 'Buruk',
 ]));
-define("KODE_ASURANSI", serialize(array(
-    "Tidak/Belum Punya"                 => "1",
-    "BPJS Penerima Bantuan Iuran"       => "2",
-    "BPJS Non Penerima Bantuan Iuran"   => "3",
-    "Asuransi lainnya"                  => "99"
-)));
+define('KODE_ASURANSI', serialize([
+    'Tidak/Belum Punya'               => '1',
+    'BPJS Penerima Bantuan Iuran'     => '2',
+    'BPJS Non Penerima Bantuan Iuran' => '3',
+    'Asuransi lainnya'                => '99',
+]));
 
 /**
  * Ambil Versi
