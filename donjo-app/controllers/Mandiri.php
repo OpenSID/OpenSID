@@ -133,7 +133,6 @@ class Mandiri extends Admin_Controller
     public function verifikasi_warga($id_pend)
     {
         $this->redirect_hak_akses('u');
-        $this->db->trans_begin();
 
         try {
             $outp = $this->db->where('id_pend', $id_pend)

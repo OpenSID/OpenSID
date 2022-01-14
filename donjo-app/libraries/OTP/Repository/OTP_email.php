@@ -36,11 +36,8 @@
  */
 
 require_once 'donjo-app/libraries/OTP/Interface/OTP_interface.php';
-require_once 'donjo-app/libraries/Telegram/Telegram.php';
 
-use Telegram;
-
-class OTP_telegram implements OTP_interface
+class OTP_email implements OTP_interface
 {
     /**
      * Intance class codeigniter.
@@ -50,14 +47,14 @@ class OTP_telegram implements OTP_interface
     protected $ci;
 
     /**
-     * @var Telegram
+     * @var Email
      */
-    protected $telegram;
+    protected $email;
 
     public function __construct()
     {
-        $this->ci       = get_instance();
-        $this->telegram = new Telegram();
+        $this->ci = get_instance();
+        $this->ci->load->library('email', config_item('email'));
     }
 
     /**
@@ -69,22 +66,17 @@ class OTP_telegram implements OTP_interface
             return true;
         }
 
-        try {
-            $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
-                    Kode Verifikasi OTP Anda: {$otp}
+        $this->ci->email->from($this->ci->email->smtp_user, 'OpenSID')
+            ->to($user)
+            ->subject('Verifikasi Akun Email')
+            ->set_mailtype('html')
+            ->message($this->ci->load->view('fmandiri/email/verifikasi', ['token' => $otp], true));
 
-                    JANGAN BERIKAN KODE RAHASIA INI KEPADA SIAPA PUN,
-                    TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.
-
-                    Terima kasih.
-                    EOD,
-                'parse_mode' => 'Markdown',
-            ]);
-        } catch (\Exception $e) {
-            throw $e;
+        if ($this->ci->email->send()) {
+            return true;
         }
+
+        throw new \Exception($this->ci->email->print_debugger());
     }
 
     /**
@@ -97,7 +89,7 @@ class OTP_telegram implements OTP_interface
         }
 
         $token = $this->ci->db->from('tweb_penduduk')
-            ->where('telegram_token', $raw_token = hash('sha256', $otp))
+            ->where('email_token', $raw_token = hash('sha256', $otp))
             ->get()
             ->row();
 
@@ -105,15 +97,15 @@ class OTP_telegram implements OTP_interface
             return false;
         }
 
-        if (date('Y-m-d H:i:s') > $token->telegram_tgl_kadaluarsa) {
+        if (date('Y-m-d H:i:s') > $token->email_tgl_kadaluarsa) {
             return false;
         }
 
-        if (hash_equals($token->telegram_token, $raw_token)) {
+        if (hash_equals($token->email_token, $raw_token)) {
             $this->ci->db
                 ->where('id', $user)
                 ->update('tweb_penduduk', [
-                    'telegram_tgl_verifikasi' => date('Y-m-d H:i:s'),
+                    'email_tgl_verifikasi' => date('Y-m-d H:i:s'),
                 ]);
 
             return true;
@@ -128,34 +120,30 @@ class OTP_telegram implements OTP_interface
     public function cek_verifikasi_otp($user)
     {
         $token = $this->ci->db->from('tweb_penduduk')
-            ->select('telegram_tgl_verifikasi')
+            ->select('email_tgl_verifikasi')
             ->where('id', $user)
             ->get()
             ->row();
 
-        return (bool) ($token->telegram_tgl_verifikasi != null);
+        return (bool) ($token->email_tgl_verifikasi != null);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_berhasil($user, $nama)
+    public function verifikasi_berhasil($email, $nama)
     {
-        try {
-            $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
-                    Hallo {$nama},
+        $this->ci->email->from($this->ci->email->smtp_user, 'OpenSID')
+            ->to($email)
+            ->subject('Berhasil Verifikasi Email')
+            ->set_mailtype('html')
+            ->message($this->ci->load->view('fmandiri/email/verifikasi-berhasil', ['nama' => $nama], true));
 
-                    SELAMAT AKUN TELEGRAM ANDA BERHASIL DIVERIFIKASI
-
-                    Terima kasih.
-                    EOD,
-                'parse_mode' => 'Markdown',
-            ]);
-        } catch (\Exception $e) {
-            throw $e;
+        if ($this->ci->email->send()) {
+            return true;
         }
+
+        throw new \Exception($this->ci->email->print_debugger());
     }
 
     /**
@@ -163,26 +151,17 @@ class OTP_telegram implements OTP_interface
      */
     public function kirim_pin_baru($user, $pin)
     {
-        try {
-            $this->telegram->sendMessage([
-                'chat_id' => $user,
-                'text'    => <<<EOD
-                    BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,
-                    KODE PIN INI SANGAT RAHASIA
-                    JANGAN BERIKAN KODE PIN KEPADA SIAPA PUN,
-                    TERMASUK PIHAK YANG MENGAKU DARI DESA ANDA.
+        $this->ci->email->from($this->ci->email->smtp_user, 'OpenSID')
+            ->to($user)
+            ->subject('PIN Baru')
+            ->set_mailtype('html')
+            ->message($this->ci->load->view('fmandiri/email/kirim-pin', ['pin' => $pin], true));
 
-                    KODE PIN: {$pin}
-
-                    JIKA BUKAN ANDA YANG MELAKUKAN RESET PIN TERSEBUT
-                    SILAHKAN LAPORKAN KEPADA OPERATOR DESA
-
-                    EOD,
-                'parse_mode' => 'Markdown',
-            ]);
-        } catch (\Exception $e) {
-            throw $e;
+        if ($this->ci->email->send()) {
+            return true;
         }
+
+        throw new \Exception($this->ci->email->print_debugger());
     }
 
     /**
@@ -191,7 +170,7 @@ class OTP_telegram implements OTP_interface
     public function cek_akun_terdaftar($user)
     {
         return isset($this->ci->db)
-            ? ($this->ci->db->where('telegram', $user['telegram'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0)
+            ? ($this->ci->db->where('email', $user['email'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0)
             : false;
     }
 }

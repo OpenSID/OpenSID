@@ -249,7 +249,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<a href="<?= site_url('layanan-mandiri/ganti-pin'); ?>" class="btn btn-block btn-social bg-navy">
 										<i class="fa fa-key"></i> Ganti PIN
 									</a>
-									<a href="<?= site_url('layanan-mandiri/verifikasi/telegram'); ?>" class="btn btn-block btn-social bg-purple">
+									<a href="<?= site_url('layanan-mandiri/verifikasi'); ?>" class="btn btn-block btn-social bg-purple">
 										<i class="fa fa-key"></i> Verifikasi
 									</a>
 									<button type="button" class="btn btn-block btn-social bg-red" data-toggle="modal" data-target="#pendapat"><i class="fa fa-sign-out"></i>Keluar</button>
