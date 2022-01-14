@@ -51,38 +51,40 @@ define('VERSION', '22.01-premium-beta02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022011251');
-define('LOKASI_LOGO_DESA', 'desa/logo/');
-define('LOKASI_ARSIP', 'desa/arsip/');
-define('LOKASI_CONFIG_DESA', 'desa/config/');
-define('LOKASI_SURAT_DESA', 'desa/template-surat/');
-define('LOKASI_SURAT_FORM_DESA', 'desa/template-surat/form/');
-define('LOKASI_SURAT_PRINT_DESA', 'desa/template-surat/print/');
-define('LOKASI_SURAT_EXPORT_DESA', 'desa/template-surat/export/');
-define('LOKASI_USER_PICT', 'desa/upload/user_pict/');
-define('LOKASI_GALERI', 'desa/upload/galeri/');
-define('LOKASI_FOTO_ARTIKEL', 'desa/upload/artikel/');
-define('LOKASI_FOTO_LOKASI', 'desa/upload/gis/lokasi/');
-define('LOKASI_FOTO_AREA', 'desa/upload/gis/area/');
-define('LOKASI_FOTO_GARIS', 'desa/upload/gis/garis/');
-define('LOKASI_DOKUMEN', 'desa/upload/dokumen/');
-define('LOKASI_PENGESAHAN', 'desa/upload/pengesahan/');
-define('LOKASI_WIDGET', 'desa/widgets/');
-define('LOKASI_GAMBAR_WIDGET', 'desa/upload/widgets/');
-define('LOKASI_KEUANGAN_ZIP', 'desa/upload/keuangan/');
-define('LOKASI_MEDIA', 'desa/upload/media/');
-define('LOKASI_SIMBOL_LOKASI', 'desa/upload/gis/lokasi/point/');
-define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
-define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
-define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
-define('PENDAPAT', 'assets/images/layanan_mandiri/');
-define('LOKASI_PRODUK', 'desa/upload/produk/');
-define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
-define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
-define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
+define('VERSI_DATABASE', '2022011351');
 
-// Pengaturan Latar
-define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+// Desa
+define('LOKASI_LOGO_DESA', folder('desa/logo/'));
+define('LOKASI_ARSIP', folder('desa/arsip/'));
+define('LOKASI_CONFIG_DESA', folder('desa/config/'));
+define('LOKASI_SURAT_DESA', folder('desa/template-surat/'));
+define('LOKASI_SURAT_FORM_DESA', folder('desa/template-surat/form/'));
+define('LOKASI_SURAT_PRINT_DESA', folder('desa/template-surat/print/'));
+define('LOKASI_SURAT_EXPORT_DESA', folder('desa/template-surat/export/'));
+define('LOKASI_USER_PICT', folder('desa/upload/user_pict/'));
+define('LOKASI_GALERI', folder('desa/upload/galeri/'));
+define('LOKASI_FOTO_ARTIKEL', folder('desa/upload/artikel/'));
+define('LOKASI_FOTO_LOKASI', folder('desa/upload/gis/lokasi/'));
+define('LOKASI_FOTO_AREA', folder('desa/upload/gis/area/'));
+define('LOKASI_FOTO_GARIS', folder('desa/upload/gis/garis/'));
+define('LOKASI_DOKUMEN', folder('desa/upload/dokumen/'));
+define('LOKASI_PENGESAHAN', folder('desa/upload/pengesahan/'));
+define('LOKASI_WIDGET', folder('desa/widgets/'));
+define('LOKASI_GAMBAR_WIDGET', folder('desa/upload/widgets/'));
+define('LOKASI_KEUANGAN_ZIP', folder('desa/upload/keuangan/'));
+define('LOKASI_MEDIA', folder('desa/upload/media/'));
+define('LOKASI_SIMBOL_LOKASI', folder('desa/upload/gis/lokasi/point/'));
+define('LOKASI_SINKRONISASI_ZIP', folder('desa/upload/sinkronisasi/'));
+define('LOKASI_PRODUK', folder('desa/upload/produk/'));
+define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
+define('LOKASI_PENGADUAN', folder('desa/upload/pengaduan/'));
+define('LOKASI_VAKSIN', folder('desa/upload/vaksin/'));
+define('LATAR_LOGIN', folder('desa/pengaturan/siteman/images/'));
+
+// Sistem
+define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
+define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
+define('PENDAPAT', 'assets/images/layanan_mandiri/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -238,7 +240,7 @@ function session_success()
 // Untuk mengirim data ke OpenSID tracker
 function httpPost($url, $params)
 {
-    if (! extension_loaded('curl') || isset($_SESSION['no_curl'])) {
+    if (!extension_loaded('curl') || isset($_SESSION['no_curl'])) {
         log_message('error', 'curl tidak bisa dijalankan 1.' . $_SESSION['no_curl'] . ' 2.' . extension_loaded('curl'));
 
         return;
@@ -366,7 +368,7 @@ function get_dynamic_title_page_from_path()
 
     for ($i = 0; $i < count($explo); $i++) {
         $t = trim($explo[$i]);
-        if (! empty($t) && $t != '1' && $t != '0') {
+        if (!empty($t) && $t != '1' && $t != '0') {
             $title .= ((is_numeric($t)) ? ' ' : ' - ') . $t;
         }
     }
@@ -475,12 +477,12 @@ function xcopy($src, $dest)
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
-        if (! is_readable($srcfile)) {
+        if (!is_readable($srcfile)) {
             continue;
         }
         if ($file != '.' && $file != '..') {
             if (is_dir($srcfile)) {
-                if (! file_exists($destfile)) {
+                if (!file_exists($destfile)) {
                     mkdir($destfile);
                 }
                 xcopy($srcfile, $destfile);
@@ -531,7 +533,7 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     $pathBerkas = FCPATH . $lokasi . $nama_berkas;
     $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
     // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-    if (! file_exists($pathBerkas)) {
+    if (!file_exists($pathBerkas)) {
         $_SESSION['success']   = -1;
         $_SESSION['error_msg'] = 'Berkas tidak ditemukan';
         if ($redirect_url) {
@@ -814,7 +816,7 @@ function alamat_web($str)
 }
 
 // Format wanrna #803c3c
-if (! function_exists('warna')) {
+if (!function_exists('warna')) {
     function warna($str)
     {
         return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str ?? '#000000');
@@ -855,10 +857,10 @@ function list_mutasi($mutasi = [])
             $div   = ($item['jenis_mutasi'] == 2) ? 'class="error"' : null;
             $hasil = "<p {$div}>";
             $hasil .= $item['sebabmutasi'];
-            $hasil .= ! empty($item['no_c_desa']) ? ' ' . ket_mutasi_persil($item['jenis_mutasi']) . ' C No ' . sprintf('%04s', $item['no_c_desa']) : null;
-            $hasil .= ! empty($item['luasmutasi']) ? ', Seluas ' . number_format($item['luasmutasi']) . ' m<sup>2</sup>, ' : null;
-            $hasil .= ! empty($item['tanggalmutasi']) ? tgl_indo_out($item['tanggalmutasi']) . '<br />' : null;
-            $hasil .= ! empty($item['keterangan']) ? $item['keterangan'] : null;
+            $hasil .= !empty($item['no_c_desa']) ? ' ' . ket_mutasi_persil($item['jenis_mutasi']) . ' C No ' . sprintf('%04s', $item['no_c_desa']) : null;
+            $hasil .= !empty($item['luasmutasi']) ? ', Seluas ' . number_format($item['luasmutasi']) . ' m<sup>2</sup>, ' : null;
+            $hasil .= !empty($item['tanggalmutasi']) ? tgl_indo_out($item['tanggalmutasi']) . '<br />' : null;
+            $hasil .= !empty($item['keterangan']) ? $item['keterangan'] : null;
             $hasil .= '</p>';
 
             echo $hasil;
@@ -884,7 +886,7 @@ function status_sukses($outp, $gagal_saja = false, $msg = '')
         $CI->session->error_msg = $msg;
     }
     if ($gagal_saja) {
-        if (! $outp) {
+        if (!$outp) {
             $CI->session->success = -1;
         }
     } else {
@@ -929,7 +931,7 @@ function getUrlContent($url)
 
         return false;
     }
-    if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
+    if (!in_array(explode(':', $url)[0], ['http', 'https'])) {
         throw new Exception('URL harus http atau https');
 
         return false;
@@ -1002,7 +1004,7 @@ function format_telpon(string $no_telpon, $kode_negara = '+62')
 // https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
 function strReplaceArrayRecursive($replacement = [], $strArray = false, $isReplaceKey = false)
 {
-    if (! is_array($strArray)) {
+    if (!is_array($strArray)) {
         return str_replace(array_keys($replacement), array_values($replacement), $strArray);
     }
 
@@ -1053,7 +1055,7 @@ function isLocalIPAddress($IPAddress)
         return true;
     }
 
-    return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+    return !filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
 function unique_slug($tabel = null, $str = null)
@@ -1085,4 +1087,13 @@ function kode_format($lampiran = '')
     $str = strtoupper(str_replace('.php', '', $lampiran));
 
     return str_replace(',', ', ', $str);
+}
+
+if (!function_exists('folder')) {
+    function folder($folder = null)
+    {
+        file_exists($folder) || mkdir($folder, 0755, true);
+
+        return $folder;
+    }
 }
