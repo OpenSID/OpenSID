@@ -38,3 +38,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. [#4661](https://github.com/OpenSID/OpenSID/issues/4661) Perbaiki jQuery di panggil 2 kali.
 2. [#4639](https://github.com/OpenSID/OpenSID/pull/4639) Penambahan single quote ( ' ) pada opsi order_by.
 3. Hapus folder/file logs setiap kali menjalankan job.
+4. Perbaikan link assets menggunakan helper asset().
+5. Tambahkan browser Edge yang berbasis Chromium

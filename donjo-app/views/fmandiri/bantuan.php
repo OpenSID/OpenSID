@@ -43,8 +43,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 ?>
 
-<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/jquery-ui.min.css">
-<script src="<?= base_url()?>assets/bootstrap/js/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="<?= asset('bootstrap/css/jquery-ui.min.css') ?>">
+<script src="<?= asset('bootstrap/js/jquery-ui.min.js') ?>"></script>
 <script>
 	function show_kartu_peserta(elem) {
 		var id = elem.attr('target');
