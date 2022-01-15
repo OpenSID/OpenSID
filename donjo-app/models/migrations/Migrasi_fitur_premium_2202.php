@@ -47,8 +47,10 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
         $hasil = $hasil && $this->migrasi_2022010671($hasil);
         $hasil = $hasil && $this->migrasi_2022011071($hasil);
+        $hasil = $hasil && $this->migrasi_2022011251($hasil);
+        $hasil = $hasil && $this->migrasi_2022011371($hasil);
 
-        return $hasil && $this->migrasi_2022011251($hasil);
+        return $hasil && $this->migrasi_2022011471($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -296,6 +298,45 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
         if ($fields) {
             $hasil = $hasil && $this->dbforge->add_column('keuangan_ta_spppot', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022011371($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'tampilan_anjungan_audio',
+            'value'      => 0,
+            'keterangan' => 'Apakah audio diaktifkan atau tidak saat video diputar',
+            'jenis'      => 'boolean',
+            'kategori'   => 'setting_mandiri',
+        ]);
+    }
+
+    protected function migrasi_2022011471($hasil)
+    {
+        if (! $this->db->field_exists('email_token', 'tweb_penduduk')) {
+            $fields = [
+                'email_token' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'unique'     => true,
+                    'null'       => true,
+                    'after'      => 'email',
+                ],
+                'email_tgl_kadaluarsa' => [
+                    'type'  => 'DATETIME',
+                    'null'  => true,
+                    'after' => 'email_token',
+                ],
+                'email_tgl_verifikasi' => [
+                    'type'  => 'DATETIME',
+                    'null'  => true,
+                    'after' => 'email_tgl_kadaluarsa',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', $fields);
         }
 
         return $hasil;

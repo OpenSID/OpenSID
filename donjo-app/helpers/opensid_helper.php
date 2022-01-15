@@ -51,7 +51,9 @@ define('VERSION', '22.01-premium-beta02');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022011251');
+define('VERSI_DATABASE', '2022011471');
+
+// Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
 define('LOKASI_ARSIP', 'desa/arsip/');
 define('LOKASI_CONFIG_DESA', 'desa/config/');
@@ -72,17 +74,17 @@ define('LOKASI_GAMBAR_WIDGET', 'desa/upload/widgets/');
 define('LOKASI_KEUANGAN_ZIP', 'desa/upload/keuangan/');
 define('LOKASI_MEDIA', 'desa/upload/media/');
 define('LOKASI_SIMBOL_LOKASI', 'desa/upload/gis/lokasi/point/');
-define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
-define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
 define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
-define('PENDAPAT', 'assets/images/layanan_mandiri/');
 define('LOKASI_PRODUK', 'desa/upload/produk/');
-define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
 define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
-
-// Pengaturan Latar
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
+
+// Sistem
+define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
+define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
+define('PENDAPAT', 'assets/images/layanan_mandiri/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);

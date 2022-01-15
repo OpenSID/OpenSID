@@ -63,12 +63,13 @@ interface OTP_interface
      * Kirim pesan ke user telegram.
      *
      * @param mixed $user
+     * @param mixed $nama
      *
      * @throws \Exception
      *
      * @return void
      */
-    public function verifikasi_berhasil($user);
+    public function verifikasi_berhasil($user, $nama);
 
     /**
      * Cek verifikasi otp user.

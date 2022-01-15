@@ -3,11 +3,14 @@ Di rilis ini, versi 22.01-premium-rev01 [untuk diisi]. Rilis ini juga berisi pen
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada @Irvan1609 yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
+
 1. [#1759](https://github.com/OpenSID/OpenSID/issues/1759) Laporan statistik kehamilan.
 2. [#4635](https://github.com/OpenSID/OpenSID/issues/4635) Permintaan Penyediaan Tombol Hapus Dan Tanda Conteng Pilihan Hapus Data Pada Fitur Suplemen [Nama Modul].
 3. [#1760](https://github.com/OpenSID/OpenSID/issues/1760) Pendaftaran layanan mandiri.
 4. [#4521](https://github.com/OpenSID/OpenSID/issues/4521) Penulisan kalimat NIP/NIPD pada tangan tangan surat secara dinamis.
 5. [#4353](https://github.com/OpenSID/OpenSID/issues/4353) Tambah fitur tag ktp di format impor data penduduk excel.
+6. [#4696](https://github.com/OpenSID/OpenSID/pull/4696) Pencarian spesifik pada data penduduk.
+7. [#4612](https://github.com/OpenSID/OpenSID/issues/4612) Tambah fitur verifikasi akun email.
 
 #### Perbaikan BUG
 
@@ -27,8 +30,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 14. [#4704](https://github.com/OpenSID/OpenSID/issues/4704) Perbaiki error impor struktur database awal.
 15. [#4646](https://github.com/OpenSID/OpenSID/issues/4646) Perbaiki duplikat pendataan tidak berfungsi.
 16. [#4664](https://github.com/OpenSID/OpenSID/issues/4664) Perbaiki wajib identitas menyesuaikan umur dan status perkawinan.
+17. [#4702](https://github.com/OpenSID/OpenSID/issues/4702) Perbaiki dan sediakan pengaturan suara video login mandiri.
 
 #### Perubahan Teknis
 
 1. [#4661](https://github.com/OpenSID/OpenSID/issues/4661) Perbaiki jQuery di panggil 2 kali.
-2. [#4639](https://github.com/OpenSID/OpenSID/pull/4639) Penambahan single quote ( ' ) pada opsi order_by
+2. [#4639](https://github.com/OpenSID/OpenSID/pull/4639) Penambahan single quote ( ' ) pada opsi order_by.
+3. Hapus folder/file logs setiap kali menjalankan job.
