@@ -77,8 +77,8 @@ define('KOLOM_IMPOR_KELUARGA', serialize([
     'status_dasar'         => '36',
     'suku'                 => '37',
     'tag_id_card'          => '38',
-    'id_asuransi'          => '38',
-    'no_asuransi'          => '39',
+    'id_asuransi'          => '39',
+    'no_asuransi'          => '40',
 ]));
 
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
@@ -145,7 +145,7 @@ class Import_model extends CI_Model
         $this->kode_cacat             = $this->referensi_model->impor_list_data('tweb_cacat');
         $this->kode_warganegara       = $this->referensi_model->impor_list_data('tweb_penduduk_warganegara');
         $this->kode_hamil             = array_change_key_case(unserialize(HAMIL));
-        $this->kode_asuransi          = array_change_key_case(unserialize(KODE_ASURANSI));
+        $this->kode_asuransi       = $this->referensi_model->impor_list_data('tweb_penduduk_asuransi');
     }
 
     /**
