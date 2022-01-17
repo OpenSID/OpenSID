@@ -47,7 +47,7 @@ class Bumindes_arsip extends Admin_controller
         parent::__construct();
         $this->load->model('arsip_fisik_model');
         $this->list_session = ['data_filter_tahun', 'data_filter_jenis', 'data_filter_cari'];
-        $this->_set_page = ['6', '8', '50', '100', '200'];
+        $this->_set_page = ['50', '100', '200'];
     }
 
     public function index()

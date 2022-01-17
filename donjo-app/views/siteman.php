@@ -2,32 +2,32 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title><?= $this->setting->login_title . ' ' . ucwords($this->setting->sebutan_desa) . (($header['nama_desa']) ? ' ' . $header['nama_desa'] : '') . get_dynamic_title_page_from_path(); ?></title>
+		<title><?= $this->setting->login_title . ' ' . ucwords($this->setting->sebutan_desa) . (($header['nama_desa']) ? ' ' . $header['nama_desa'] : '') . get_dynamic_title_page_from_path() ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="robots" content="noindex">
-		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
-		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="<?= asset('css/login-style.css') ?>" media="screen">
+		<link rel="stylesheet" href="<?= asset('css/login-form-elements.css') ?>" media="screen">
+		<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.bar.css') ?>" media="screen">
 		<?php if (is_file('desa/pengaturan/siteman/siteman.css')): ?>
-			<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css" rel='Stylesheet' />
-		<?php endif; ?>
+			<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman.css') ?>">
+		<?php endif ?>
 		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-			<link rel="shortcut icon" href="<?= base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />
+			<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>">
 		<?php else: ?>
-			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-		<?php endif; ?>
+			<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>"/>
+		<?php endif ?>
 
 		<style type="text/css">
 			<?php if ($latar_login): ?>
 				body.login {
 					background-image: url('<?= base_url($latar_login) ?>');
 				}
-			<?php endif; ?>
+			<?php endif ?>
 		</style>
-		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-		<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
-		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+		<script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
+		<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+		<script src="<?= asset('js/validasi.js') ?>"></script>
+		<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
 		<?php require __DIR__ . '/head_tags.php' ?>
 	</head>
 	<body class="login">
@@ -37,7 +37,7 @@
 					<div class="row">
 						<div class="col-sm-4 col-sm-offset-4 form-box">
 							<div class="form-top">
-								<a href="<?=site_url(); ?>"><img src="<?=gambar_desa($header['logo']); ?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
+								<a href="<?=site_url() ?>"><img src="<?=gambar_desa($header['logo']) ?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
 								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 									<h3>
 										<br /><?=$header['alamat_kantor']?><br />Kodepos <?=$header['kode_pos']?>
@@ -68,59 +68,60 @@
 											<div class="error">
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />
 												<?php if ($this->session->siteman_try): ?>
-													Kesempatan mencoba <?= ($this->session->siteman_try - 1); ?> kali lagi.</p>
-												<?php endif; ?>
+													Kesempatan mencoba <?= ($this->session->siteman_try - 1) ?> kali lagi.</p>
+												<?php endif ?>
 											</div>
 										<?php elseif ($this->session->siteman == -2): ?>
 											<div class="error">
 												Redaksi belum boleh masuk, SID belum memiliki sambungan internet!
 											</div>
-										<?php endif; ?>
-									<?php endif; ?>
+										<?php endif ?>
+									<?php endif ?>
 								</form>
 								<hr/>
-								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= AmbilVersi(); ?></div>
+								<div class="login-footer-bottom"><a href="https://github.com/OpenSID/OpenSID" target="_blank">OpenSID</a> <?= AmbilVersi() ?></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<script>
+			function start_countdown() {
+				var times = eval(<?= json_encode($this->session->siteman_timeout)?>) - eval(<?= json_encode(time())?>);
+				var menit = Math.floor(times / 60);
+				var detik = times % 60;
+				timer = setInterval(function(){
+					detik--;
+					if (detik <= 0 && menit >=1) {
+						detik = 60;
+						menit--;
+					}
+
+					if (menit <= 0 && detik <= 0) {
+						clearInterval(timer);
+						location.reload();
+					} else {
+						document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
+					}
+				}, 1000)
+			}
+
+			$('document').ready(function() {
+				var pass = $("#password");
+				$('#checkbox').click(function() {
+					if (pass.attr('type') === "password") {
+						pass.attr('type', 'text');
+					} else {
+						pass.attr('type', 'password')
+					}
+				});
+
+				if ($('#countdown').length) {
+					start_countdown();
+				}
+			});
+		</script>
 	</body>
 </html>
-<script>
-	function start_countdown() {
-		var times = eval(<?= json_encode($this->session->siteman_timeout)?>) - eval(<?= json_encode(time())?>);
-		var menit = Math.floor(times / 60);
-		var detik = times % 60;
-		timer = setInterval(function(){
-			detik--;
-			if (detik <= 0 && menit >=1) {
-				detik = 60;
-				menit--;
-			}
-
-			if (menit <= 0 && detik <= 0) {
-				clearInterval(timer);
-				location.reload();
-			} else {
-				document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
-			}
-		}, 1000)
-	}
-
-	$('document').ready(function() {
-		var pass = $("#password");
-		$('#checkbox').click(function() {
-			if (pass.attr('type') === "password") {
-				pass.attr('type', 'text');
-			} else {
-				pass.attr('type', 'password')
-			}
-		});
-
-		if ($('#countdown').length) {
-			start_countdown();
-		}
-	});
-</script>

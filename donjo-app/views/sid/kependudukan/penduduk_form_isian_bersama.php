@@ -76,14 +76,13 @@
 							<tbody>
 								<tr>
 									<!-- <td width='25%'><?= strtoupper($penduduk['wajib_ktp']) ?></td> -->
-									<!-- <td width='25%'><label id="wajib_ktp"></label></td> -->
 									<?php if ($penduduk['wajib_ktp'] != null) : ?>
 										<td width='25%'><?= strtoupper($penduduk['wajib_ktp']) ?></td>
 									<?php else : ?>
 										<td width='25%'><label id="wajib_ktp"></label></td>
 									<?php endif; ?>
 									<td>
-										<select name="ktp_el" id="ktp_el" class="form-control input-sm" onchange="show_hide_ktp_el($(this).find(':selected').val())">
+										<select name="ktp_el" id="ktp_el" class="form-control input-sm wajib_identitas" onchange="show_hide_ktp_el($(this).find(':selected').val())">
 											<option value="">Pilih Identitas-EL</option>
 											<?php foreach ($ktp_el as $id => $nama) : ?>
 												<option value="<?= $id ?>" <?php selected(strtolower($penduduk['ktp_el']), $nama); ?>><?= strtoupper($nama) ?></option>
@@ -91,7 +90,7 @@
 										</select>
 									</td>
 									<td width='25%'>
-										<select name="status_rekam" class="form-control input-sm">
+										<select name="status_rekam" class="form-control input-sm wajib_identitas">
 											<option value="">Pilih Status Rekam</option>
 											<?php foreach ($status_rekam as $id => $nama) : ?>
 												<option value="<?= $id ?>" <?php selected(strtolower($penduduk['status_rekam']), $nama); ?>><?= strtoupper($nama) ?></option>
@@ -217,10 +216,16 @@
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</div>
-				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>">
+				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>" onchange="myFunction()">
 			</div>
 		</div>
 	</div>
+	<script>
+  function myFunction() {
+    let tokenAmount = document.getElementById("tgl_1").value;
+    alert(tokenAmount);
+  }
+</script>
 	<div class='col-sm-4'>
 		<div class='form-group'>
 			<label for="waktulahir">Waktu Kelahiran </label>
@@ -510,7 +515,7 @@
 	<div class='col-sm-4'>
 		<div class='form-group'>
 			<label for="status_kawin">Status Perkawinan</label>
-			<select class="form-control input-sm required" name="status_kawin" onchange="disable_kawin_cerai($(this).find(':selected').val())">
+			<select class="form-control input-sm required" name="status_kawin" onchange="disable_kawin_cerai($(this).find(':selected').val())" id="status_perkawinan">
 				<option value="">Pilih Status Perkawinan</option>
 				<?php foreach ($kawin as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['status_kawin'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
@@ -616,8 +621,9 @@
 			<label for="hamil">Status Kehamilan </label>
 			<select class="form-control input-sm" name="hamil">
 				<option value="">Pilih Status Kehamilan</option>
-				<option value="0" <?php selected($penduduk['hamil'], '0'); ?>>Tidak Hamil</option>
-				<option value="1" <?php selected($penduduk['hamil'], '1'); ?>>Hamil</option>
+				<?php foreach ($kehamilan as $data) : ?>
+					<option value="<?= $data['id'] ?>" <?php selected($penduduk['hamil'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>
@@ -675,9 +681,34 @@
 		</div>
 	</div>
 </div>
-
 <script type="text/javascript">
+
 	$(document).ready(function() {
+		var addOrRemoveRequiredAttribute = function() {
+	        var tglsekarang = new Date();
+			var tgllahir = parseInt($('#tgl_1').val().substring(6, 10));
+			var selisih = tglsekarang.getFullYear() - tgllahir;
+			var wajib_identitas = $('.wajib_identitas');
+			var tag_id_card = $('#tag_id_card');
+			var status_perkawinan = document.getElementById("status_perkawinan").value;
+		  	if (selisih > 16 || (status_perkawinan != '' && status_perkawinan > 1)) {
+		  		$('#wajib_ktp').text('WAJIB');
+		        wajib_identitas.addClass('required');
+		        if (selisih > 16) {
+		        	tag_id_card.addClass('required');
+		        } else {
+		        	tag_id_card.removeClass('required');
+		        }
+		    } else {
+		    	$('#wajib_ktp').text('BELUM WAJIB');
+		        wajib_identitas.removeClass('required');
+		        tag_id_card.removeClass('required');
+		    }
+	    };
+		$("#tgl_1").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
+		$("#status_perkawinan").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
+		$(".form-control").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
+
 		$('#tag_id_card').focus();
 
 		$("#dusun").change(function() {
@@ -790,8 +821,6 @@
 	function disable_kawin_cerai(status) {
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
 		switch (status) {
-			case '1':
-				$('#wajib_ktp').text('BELUM');
 			case '4':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);

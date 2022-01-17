@@ -971,6 +971,19 @@ class Surat_model extends CI_Model
             }
             $buffer = str_replace('[jabatan]', "{$input['jabatan']}", $buffer);
             $buffer = str_replace('[nama_pamong]', "{$input['pamong']}", $buffer);
+            $nip    = "{$input['pamong_nip']}";
+            if (strlen($nip) > 10) {
+                $pamong_nip = 'NIP: ' . $nip;
+            } else {
+                $sebutan_nip_desa = $this->setting->sebutan_nip_desa;
+                $pamong_niap      = "{$input['pamong_niap']}";
+                if (! empty($pamong_niap)) {
+                    $pamong_nip = $sebutan_nip_desa . ': ' . $pamong_niap;
+                } else {
+                    $pamong_nip = '';
+                }
+            }
+            $buffer = str_replace('NIP: [pamong_nip]', $pamong_nip, $buffer);
             $buffer = str_replace('[keterangan]', "{$input['keterangan']}", $buffer);
             if (isset($input['keperluan'])) {
                 $buffer = str_replace('[keperluan]', "{$input['keperluan']}", $buffer);

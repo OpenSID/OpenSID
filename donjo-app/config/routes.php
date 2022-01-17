@@ -189,13 +189,18 @@ $route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
 
 // Halaman Layanan Mandiri
 // Auth
-$mandiri                         = 'layanan-mandiri';
-$route[$mandiri . '/masuk']      = MANDIRI . '/masuk';
-$route[$mandiri . '/cek']        = MANDIRI . '/masuk/cek';
-$route[$mandiri . '/masuk-ektp'] = MANDIRI . '/masuk_ektp';
-$route[$mandiri . '/cek-ektp']   = MANDIRI . '/masuk_ektp/cek_ektp';
-$route[$mandiri . '/lupa-pin']   = MANDIRI . '/masuk/lupa_pin';
-$route[$mandiri . '/cek-pin']    = MANDIRI . '/masuk/cek_pin';
+$mandiri                                                      = 'layanan-mandiri';
+$route[$mandiri . '/masuk']                                   = MANDIRI . '/masuk';
+$route[$mandiri . '/cek']                                     = MANDIRI . '/masuk/cek';
+$route[$mandiri . '/masuk-ektp']                              = MANDIRI . '/masuk_ektp';
+$route[$mandiri . '/cek-ektp']                                = MANDIRI . '/masuk_ektp/cek_ektp';
+$route[$mandiri . '/daftar']                                  = MANDIRI . '/daftar';
+$route[$mandiri . '/proses-daftar']                           = MANDIRI . '/daftar/proses_daftar';
+$route[$mandiri . '/daftar/verifikasi/telegram']              = MANDIRI . '/daftar_verifikasi';
+$route[$mandiri . '/daftar/verifikasi/telegram/kirim-userid'] = MANDIRI . '/daftar_verifikasi/kirim_otp_telegram';
+$route[$mandiri . '/daftar/verifikasi/telegram/kirim-otp']    = MANDIRI . '/daftar_verifikasi/verifikasi_telegram';
+$route[$mandiri . '/lupa-pin']                                = MANDIRI . '/masuk/lupa_pin';
+$route[$mandiri . '/cek-pin']                                 = MANDIRI . '/masuk/cek_pin';
 // Beranda
 $route['layanan-mandiri']             = MANDIRI . '/beranda';
 $route[$mandiri . '/pendapat/(:num)'] = MANDIRI . '/beranda/pendapat/$1';
@@ -225,9 +230,13 @@ $route[$mandiri . '/surat/form/(:num)'] = MANDIRI . '/surat/form/$1';
 $route[$mandiri . '/lapak']        = MANDIRI . '/lapak';
 $route[$mandiri . '/lapak/(:num)'] = MANDIRI . '/lapak/index/$1';
 //Verifikasi
+$route[$mandiri . '/verifikasi']                       = MANDIRI . '/verifikasi';
 $route[$mandiri . '/verifikasi/telegram']              = MANDIRI . '/verifikasi/telegram';
 $route[$mandiri . '/verifikasi/telegram/kirim-userid'] = MANDIRI . '/verifikasi/kirim_otp_telegram';
 $route[$mandiri . '/verifikasi/telegram/kirim-otp']    = MANDIRI . '/verifikasi/verifikasi_telegram';
+$route[$mandiri . '/verifikasi/email']                 = MANDIRI . '/verifikasi/email';
+$route[$mandiri . '/verifikasi/email/kirim-email']     = MANDIRI . '/verifikasi/kirim_otp_email';
+$route[$mandiri . '/verifikasi/email/kirim-otp']       = MANDIRI . '/verifikasi/verifikasi_email';
 
 // Bantuan
 $route[$mandiri . '/bantuan'] = MANDIRI . '/bantuan';

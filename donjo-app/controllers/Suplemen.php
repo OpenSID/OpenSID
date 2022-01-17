@@ -236,6 +236,14 @@ class Suplemen extends Admin_Controller
         redirect("{$this->controller}/rincian/{$id_suplemen}");
     }
 
+    public function hapus_terdata_all($id_suplemen)
+    {
+        $this->redirect_hak_akses('h');
+        $this->suplemen_model->hapus_terdata_all();
+
+        redirect("{$this->controller}/rincian/{$id_suplemen}");
+    }
+
     // $aksi = cetak/unduh
     public function dialog_daftar($id = 0, $aksi = '')
     {

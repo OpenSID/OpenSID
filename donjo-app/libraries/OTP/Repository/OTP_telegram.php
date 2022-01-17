@@ -139,13 +139,15 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function verifikasi_berhasil($user)
+    public function verifikasi_berhasil($user, $nama)
     {
         try {
             $this->telegram->sendMessage([
                 'chat_id' => $user,
-                'text'    => <<<'EOD'
-                    SELAMAT AKUN ANDA BERHASIL DIVERIFIKASI
+                'text'    => <<<EOD
+                    Hallo {$nama},
+
+                    SELAMAT AKUN TELEGRAM ANDA BERHASIL DIVERIFIKASI
 
                     Terima kasih.
                     EOD,

@@ -5,17 +5,17 @@
 		<title><?= $this->setting->login_title . ' ' . ucwords($this->setting->sebutan_desa) . (($header['nama_desa']) ? ' ' . $header['nama_desa'] : '') . get_dynamic_title_page_from_path(); ?></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="robots" content="noindex">
-		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
-		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
-		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
+		<link rel="stylesheet" href="<?= asset('css/login-style.css') ?>" media="screen">
+		<link rel="stylesheet" href="<?= asset('css/login-form-elements.css') ?>" media="screen">
+		<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.bar.css') ?>" media="screen">
 		<?php if (is_file('desa/pengaturan/siteman/siteman.css')): ?>
-			<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css" rel='Stylesheet' />
+			<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman.css') ?>">
 		<?php endif; ?>
 		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-			<link rel="shortcut icon" href="<?= base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />
+			<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>"/>
 		<?php else: ?>
-			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-		<?php endif; ?>
+			<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>"/>
+		<?php endif ?>
 
 		<style type="text/css">
 			span.input-group-btn {
@@ -31,11 +31,11 @@
 				}
 			<?php endif; ?>
 		</style>
-		<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-		<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
-		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
-		<?php require __DIR__ . '/head_tags.php' ?>
+		<script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
+		<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+		<script src="<?= asset('js/validasi.js') ?>"></script>
+		<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
+		<?php require __DIR__ . '/head_tags.php'; ?>
 	</head>
 	<body class="login">
 		<div class="top-content">
@@ -98,10 +98,10 @@
 		</div>
 	</body>
 </html>
-<script src="<?= base_url()?>assets/bootstrap/js/jquery.min.js"></script>
-<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-<script src="<?= base_url()?>assets/js/validasi.js"></script>
-<script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
+<script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
+<script src="<?= asset('js/jquery.validate.min.js') ?>"></script>
+<script src="<?= asset('js/validasi.js') ?>"></script>
+<script src="<?= asset('js/localization/messages_id.js') ?>"></script>
 <script>
 	$('document').ready(function() {
 		$(".reveal").on('click',function() {

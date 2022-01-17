@@ -45,7 +45,9 @@ class Masuk extends Web_Controller
     {
         parent::__construct();
         mandiri_timeout();
-        $this->session->login_ektp = false;
+        $this->session->login_ektp        = false;
+        $this->session->daftar            = false;
+        $this->session->daftar_verifikasi = false;
         $this->load->model(['anjungan_model', 'mandiri_model', 'theme_model']);
         if ($this->setting->layanan_mandiri == 0 && ! $this->cek_anjungan) {
             show_404();
@@ -68,14 +70,16 @@ class Masuk extends Web_Controller
         $this->session->unset_userdata('balik_ke');
         if (! isset($this->session->mandiri)) {
             // Belum ada session variable
-            $this->session->mandiri      = 0;
-            $this->session->mandiri_try  = 4;
-            $this->session->mandiri_wait = 0;
-            $this->session->login_ektp   = false;
+            $this->session->mandiri           = 0;
+            $this->session->mandiri_try       = 4;
+            $this->session->mandiri_wait      = 0;
+            $this->session->login_ektp        = false;
+            $this->session->daftar            = false;
+            $this->session->daftar_verifikasi = false;
         }
 
         $data = [
-            'header'              => $this->config_model->get_data(),
+            'header'              => $this->header,
             'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
             'cek_anjungan'        => $this->anjungan_model->cek_anjungan($this->session->mac_address),
             'form_action'         => site_url('layanan-mandiri/cek'),
@@ -99,7 +103,7 @@ class Masuk extends Web_Controller
     public function lupa_pin()
     {
         $data = [
-            'header'              => $this->config_model->get_data(),
+            'header'              => $this->header,
             'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
             'cek_anjungan'        => $this->anjungan_model->cek_anjungan($this->session->mac_address),
             'form_action'         => site_url('layanan-mandiri/cek-pin'),
