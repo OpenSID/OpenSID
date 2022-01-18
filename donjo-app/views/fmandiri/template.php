@@ -78,7 +78,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<link rel="stylesheet" href="<?= asset('css/skins/_all-skins.min.css') ?>">
 
 	<!-- Form Wizard - smartWizard -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css') ?>">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
 
 	<?php if ($this->controller == 'lapak') : ?>
 		<!-- Map -->
