@@ -689,20 +689,13 @@
 			var tgllahir = parseInt($('#tgl_1').val().substring(6, 10));
 			var selisih = tglsekarang.getFullYear() - tgllahir;
 			var wajib_identitas = $('.wajib_identitas');
-			var tag_id_card = $('#tag_id_card');
 			var status_perkawinan = document.getElementById("status_perkawinan").value;
 		  	if (selisih > 16 || (status_perkawinan != '' && status_perkawinan > 1)) {
 		  		$('#wajib_ktp').text('WAJIB');
 		        wajib_identitas.addClass('required');
-		        if (selisih > 16) {
-		        	tag_id_card.addClass('required');
-		        } else {
-		        	tag_id_card.removeClass('required');
-		        }
 		    } else {
 		    	$('#wajib_ktp').text('BELUM WAJIB');
 		        wajib_identitas.removeClass('required');
-		        tag_id_card.removeClass('required');
 		    }
 	    };
 		$("#tgl_1").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
