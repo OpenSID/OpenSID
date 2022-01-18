@@ -140,7 +140,7 @@ class User_model extends CI_Model
                 $this->session->fm_key       = $this->set_fm_key($row->id . $row->id_grup . $row->sesi);
                 $this->last_login($this->session->user);
 
-                if (cek_koneksi_internet()) {
+                if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
                     try {
                         $this->telegram->sendMessage([
                             'text'       => sprintf('%s login Halaman Admin %s pada tanggal %s', $row->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),

@@ -156,7 +156,7 @@ class Mandiri_model extends CI_Model
     public function insert()
     {
         $post = $this->input->post();
-        $pin  = bilangan($post['pin'] ?? $this->generate_pin());
+        $pin  = bilangan($post['pin'] ?: $this->generate_pin());
 
         $data['pin']          = hash_pin($pin); // Hash PIN
         $data['tanggal_buat'] = date('Y-m-d H:i:s');
