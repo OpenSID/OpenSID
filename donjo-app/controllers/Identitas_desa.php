@@ -50,25 +50,25 @@ class Identitas_desa extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'wilayah_model', 'pamong_model']);
+		$this->load->model(['wilayah_model', 'pamong_model']);
 		$this->modul_ini = 200;
 		$this->sub_modul_ini = 17;
 	}
 
 	public function index()
 	{
-		$data['main'] = $this->config_model->get_data();
+		$data['main'] = $this->header['desa'];
 		$data['desa'] = ucwords($this->setting->sebutan_desa);
 		$data['kecamatan'] = ucwords($this->setting->sebutan_kecamatan);
 		$data['kabupaten'] = ucwords($this->setting->sebutan_kabupaten);
 
-		$this->render('identitas_desa/index', $data);
+		$this->render("$this->controller/index", $data);
 	}
 
 	public function form()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$data['main'] = $this->config_model->get_data();
+		$this->redirect_hak_akses('u');
+		$data['main'] = $this->header['desa'];
 		$data['desa'] = ucwords($this->setting->sebutan_desa);
 		$data['kecamatan'] = ucwords($this->setting->sebutan_kecamatan);
 		$data['kabupaten'] = ucwords($this->setting->sebutan_kabupaten);
@@ -76,58 +76,63 @@ class Identitas_desa extends Admin_Controller {
 		$this->session->kades_lama = $data['main']['pamong_id'];
 
 		if ($data['main'])
-			$data['form_action'] = site_url('identitas_desa/update/' . $data['main']['id']);
+			$data['form_action'] = site_url("$this->controller/update/" . $data['main']['id']);
 		else
-			$data['form_action'] = site_url('identitas_desa/insert');
+			$data['form_action'] = site_url("$this->controller/insert");
 
-		$this->render('identitas_desa/form', $data);
+		$this->render("$this->controller/form", $data);
 	}
 
 	public function insert()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->config_model->insert();
-		redirect('identitas_desa');
+		redirect("$this->controller");
 	}
 
 	public function update($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->config_model->update($id);
-		redirect('identitas_desa');
+		redirect("$this->controller");
 	}
 
 	public function maps($tipe = 'kantor')
 	{
-		$data_desa = $this->config_model->get_data();
-		$data['desa'] = $this->config_model->get_data();
+		$data_desa = $this->header['desa'];
+		$data['desa'] = $data_desa;
+		$data['poly'] = ($tipe == 'wilayah') ? 'multi' : 'poly';
 		$data['wil_ini'] = $data_desa;
-		$data['wil_atas']['lat'] = -1.0546279422758742;
-		$data['wil_atas']['lng'] = 116.71875000000001;
-		$data['wil_atas']['zoom'] = 4;
-		$data['wil_atas'] = $this->config_model->get_data();
+		$data['wil_atas'] = $data_desa;
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
 		$data['rw_gis'] = $this->wilayah_model->list_rw();
 		$data['rt_gis'] = $this->wilayah_model->list_rt();
 		$data['nama_wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
 		$data['wilayah'] = ucwords($this->setting->sebutan_desa . " " . $data_desa['nama_desa']);
 		$data['breadcrumb'] = array(
-			array('link' => site_url("identitas_desa"), 'judul' => "Identitas " . ucwords($this->setting->sebutan_desa)),
+			array('link' => site_url("$this->controller"), 'judul' => "Identitas " . ucwords($this->setting->sebutan_desa)),
 		);
 
-		$data['form_action'] = site_url("identitas_desa/update_maps/$tipe");
+		$data['form_action'] = site_url("$this->controller/update_maps/$tipe");
 
 		$this->render('sid/wilayah/maps_' . $tipe, $data);
 	}
 
 	public function update_maps($tipe = 'kantor')
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		if ($tipe = 'kantor')
 			$this->config_model->update_kantor();
 		else
 			$this->config_model->update_wilayah();
 
-		redirect("identitas_desa");
+		redirect("$this->controller");
+	}
+
+	public function kosongkan($id = '')
+	{
+		$this->redirect_hak_akses('u');
+		$this->config_model->kosongkan_path($id);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 }

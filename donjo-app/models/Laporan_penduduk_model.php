@@ -302,19 +302,23 @@ class Laporan_penduduk_model extends MY_Model {
 		return $semua;
 	}
 
-	protected function order_by($o)
+	protected function order_by($o, $lap)
 	{
+
 		//Ordering SQL
-		switch ($o)
+		switch (true)
 		{
-			case 1: $this->db->order_by('u.id'); break;
-			case 2: $this->db->order_by('u.id DESC'); break;
-			case 3: $this->db->order_by('laki'); break;
-			case 4: $this->db->order_by('laki DESC'); break;
-			case 5: $this->db->order_by('jumlah'); break;
-			case 6: $this->db->order_by('jumlah DESC'); break;
-			case 7: $this->db->order_by('perempuan'); break;
-			case 8: $this->db->order_by('perempuan DESC'); break;
+			case ($o == 1 && $lap == 'suku'): $this->db->order_by($lap); break;
+			case ($o == 2 && $lap == 'suku'): $this->db->order_by($lap.' DESC'); break;
+			case ($o == 1): $this->db->order_by('u.id'); break;
+			case ($o == 1): $this->db->order_by('u.id'); break;
+			case ($o == 2): $this->db->order_by('u.id DESC'); break;
+			case ($o == 3): $this->db->order_by('laki'); break;
+			case ($o == 4): $this->db->order_by('laki DESC'); break;
+			case ($o == 5): $this->db->order_by('jumlah'); break;
+			case ($o == 6): $this->db->order_by('jumlah DESC'); break;
+			case ($o == 7): $this->db->order_by('perempuan'); break;
+			case ($o == 8): $this->db->order_by('perempuan DESC'); break;
 		}
 	}
 
@@ -401,6 +405,23 @@ class Laporan_penduduk_model extends MY_Model {
 				FROM program u";
 				break;
 
+			case 'suku':
+				$this->db->select('u.suku AS nama');
+				$this->db->select('u.suku AS id');
+				$this->db->select('COUNT(u.sex) AS jumlah');
+				$this->db->select('COUNT(CASE WHEN u.sex = 1 THEN 1 END) AS laki');
+				$this->db->select('COUNT(CASE WHEN u.sex = 2 THEN 1 END) AS perempuan');
+				$this->db->from('penduduk_hidup AS u');
+				$this->db->group_by('u.suku');
+				$this->db->where('u.suku IS NOT NULL');
+				$this->db->where('u.suku != ""');
+				$this->db->join('tweb_wil_clusterdesa a', 'u.id_cluster = a.id', 'left');
+				if ($dusun = $this->session->userdata("dusun")) $this->db->where('a.dusun', $dusun);
+				if ($rw = $this->session->userdata("rw")) $this->db->where('a.rw', $rw);
+				if ($rt = $this->session->userdata("rt")) $this->db->where('a.rt', $rt);
+
+				break;
+
 			case in_array($lap, array_keys($statistik_penduduk)):
 				$this->select_jml_penduduk_per_kategori($statistik_penduduk["$lap"]['id_referensi'], $statistik_penduduk["$lap"]['tabel_referensi']);
 				break;
@@ -442,6 +463,7 @@ class Laporan_penduduk_model extends MY_Model {
 
 			default:
 				$this->select_jml_penduduk_per_kategori($statistik_penduduk["0"]['id_referensi'], $statistik_penduduk["0"]['tabel_referensi']);
+
 		}
 		return true;
 	}
@@ -488,7 +510,7 @@ class Laporan_penduduk_model extends MY_Model {
 
 		if ($namespace->select_per_kategori())
 		{
-			$this->order_by($o);
+			$this->order_by($o, $lap);
 			$data = $this->db->get()->result_array();
 			$this->isi_nomor($data);
 		}

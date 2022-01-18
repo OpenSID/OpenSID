@@ -324,6 +324,7 @@ function deleteAllBox(idForm, action)
 	$('#ok-delete').click(function ()
 	{
 		$('#' + idForm).attr('action', action);
+		addCsrfField($('#' + idForm)[0]);
     $('#' + idForm).submit();
 	});
 	return false;

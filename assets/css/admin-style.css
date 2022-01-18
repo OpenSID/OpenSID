@@ -153,7 +153,7 @@
 /* Modifikasi Ukuran Huruf pada header box--- */
 .content-header > h1
 {
-	font-size: 18px;
+	font-size: 20px;
 }
 .box-header > .fa, .box-header > .glyphicon, .box-header > .ion, .box-header .box-title
 {
@@ -556,4 +556,13 @@ div.form-surat .content-header {
 
 .box .border-bottom {
 	border-bottom: 1px solid #f4f4f4;
+}
+
+.small-box h3 {
+	font-size: 25px;
+}
+
+.fa-nav {
+	width: auto;
+	padding: 20px;
 }

@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -6,6 +9,7 @@
  * donjo-app/controllers/Covid19.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -44,14 +48,10 @@ class Covid19 extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->library('session');
-
 		$this->load->model('covid19_model');
 		$this->load->model('referensi_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('penduduk_model');
-
 		$this->modul_ini = 206;
 	}
 
@@ -77,6 +77,7 @@ class Covid19 extends Admin_Controller {
 
 	public function form_pemudik()
 	{
+		$this->redirect_hak_akses('u');
 		$this->sub_modul_ini = 207;
 
 		$d = new DateTime('NOW');
@@ -113,9 +114,11 @@ class Covid19 extends Admin_Controller {
 
 	public function insert_penduduk()
 	{
+		$this->redirect_hak_akses('u');
 		$callback_url = $_POST['callback_url'];
 		unset($_POST['callback_url']);
 
+		$this->session->jenis_peristiwa = 5; // pindah masuk
 		$id = $this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1)
 			$_SESSION['dari_internal'] = true;
@@ -124,19 +127,21 @@ class Covid19 extends Admin_Controller {
 
 	public function add_pemudik()
 	{
+		$this->redirect_hak_akses('u');
 		$this->covid19_model->add_pemudik($_POST);
 		redirect("covid19");
 	}
 
 	public function hapus_pemudik($id_pemudik)
 	{
-		$this->redirect_hak_akses('h', "covid19");
+		$this->redirect_hak_akses('h');
 		$this->covid19_model->delete_pemudik_by_id($id_pemudik);
 		redirect("covid19");
 	}
 
 	public function edit_pemudik_form($id = 0)
 	{
+		$this->redirect_hak_akses('u');
 		$data = $this->covid19_model->get_pemudik_by_id($id);
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
 		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
@@ -147,6 +152,7 @@ class Covid19 extends Admin_Controller {
 
 	public function edit_pemudik($id)
 	{
+		$this->redirect_hak_akses('u');
 		$this->covid19_model->update_pemudik_by_id($_POST, $id);
 		redirect("covid19");
 	}
@@ -180,6 +186,7 @@ class Covid19 extends Admin_Controller {
 
 	public function update_penduduk($id_pend, $id_pemudik)
 	{
+		$this->redirect_hak_akses('u');
 		$this->penduduk_model->update($id_pend);
 		if ($_SESSION['success'] == -1)
 			$_SESSION['dari_internal'] = true;
@@ -229,6 +236,7 @@ class Covid19 extends Admin_Controller {
 
 	public function add_pantau()
 	{
+		$this->redirect_hak_akses('u', '', 'covid19/pantau');
 		$this->covid19_model->add_pantau_pemudik($_POST);
 		$url = "covid19/pantau/".$_POST["page"]."/".$_POST["data_h_plus"];
 		redirect($url);
@@ -236,7 +244,7 @@ class Covid19 extends Admin_Controller {
 
 	public function hapus_pantau($id_pantau_pemudik, $page=NULL, $h_plus=NULL)
 	{
-		$this->redirect_hak_akses('h', "covid19");
+		$this->redirect_hak_akses('h', '', 'covid19/pantau');
 		$this->covid19_model->delete_pantau_pemudik_by_id($id_pantau_pemudik);
 
 		$url = "covid19/pantau";

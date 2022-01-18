@@ -130,7 +130,7 @@
 
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
 		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'setting_aplikasi_options', 'log_penduduk', 'agenda',
-			'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota', 'log_keluarga', 'grup_akses');
+			'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota', 'log_keluarga', 'grup_akses', 'produk');
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $ada_foreign_key,
@@ -215,32 +215,42 @@
 
 	public function restore()
 	{
-			$this->load->library('upload');
-			$this->uploadConfig = [
-					'upload_path'   => sys_get_temp_dir(),
-					'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
-					'file_ext'      => 'sql',
-					'max_size'      => max_upload() * 1024,
-			];
-			$this->upload->initialize($this->uploadConfig);
-			// Upload sukses
-			if (! $this->upload->do_upload('userfile')) {
-					$this->session->success   = -1;
-					$this->session->error_msg = $this->upload->display_errors(null, null) . ': ' . $this->upload->file_type;
+		$this->load->library('upload');
+		$this->uploadConfig = array(
+			'upload_path' => sys_get_temp_dir(),
+			'allowed_types' => 'sql', // File sql terdeteksi sebagai text/plain
+			'file_ext' => 'sql',
+			'max_size' => max_upload() * 1024,
+		);
+		$this->upload->initialize($this->uploadConfig);
+		// Upload sukses
+		if (! $this->upload->do_upload('userfile'))
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL) . ': ' . $this->upload->file_type;
+			return;
+		}
+		$uploadData = $this->upload->data();
+		$filename = $this->uploadConfig['upload_path'] . '/'. $uploadData['file_name'];
+		$lines = file($filename);
+		if (count($lines) < 20)
+		{
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'Sepertinya bukan file backup';
+			return;
+		}
 
-					return false;
-			}
-			$uploadData = $this->upload->data();
-			$filename   = $this->uploadConfig['upload_path'] . '/' . $uploadData['file_name'];
+		$_SESSION['success'] = 1;
+		$this->drop_views();
+		$this->drop_tables();
 
-			return $this->proses_restore($filename);
-	}
-
-	public function proses_restore($filename = null)
-	{
-			if (! $filename) {
-					return false;
-			}
+		$query = "";
+		foreach ($lines as $key => $sql_line)
+		{
+			// Abaikan baris apabila kosong atau komentar
+			$sql_line = trim($sql_line);
+			$sql_line = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.* SQL SECURITY DEFINER /", "", $sql_line);
+			$sql_line = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $sql_line);
 
 			$lines = file($filename);
 

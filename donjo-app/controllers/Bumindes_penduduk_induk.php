@@ -82,7 +82,7 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 			'main_content' => "bumindes/penduduk/induk/content_induk",
 			'subtitle' => "Buku Induk Penduduk",
 			'selected_nav' => 'induk',
-			'o' => $order_by,
+			'order_by' => $order_by,
 			'cari' => $this->session->cari ?: '',
 			'filter' => $this->session->filter ?: '',
 			'bulan' => $this->session->filter_bulan,

@@ -1,4 +1,7 @@
 <?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  * File ini:
  *
@@ -42,8 +45,6 @@
  * @link  https://github.com/OpenSID/OpenSID
  */
 
-if(!defined('BASEPATH')) exit('No direct script access allowed');
-
 class Cdesa extends Admin_Controller {
 
 	private $set_page;
@@ -52,11 +53,8 @@ class Cdesa extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->load->model('config_model');
 		$this->load->model('data_persil_model');
 		$this->load->model('cdesa_model');
-		$this->load->model('penduduk_model');
 		$this->load->model('referensi_model');
 		$this->load->model('wilayah_model');
 		$this->modul_ini = 7;
@@ -75,10 +73,11 @@ class Cdesa extends Admin_Controller {
 	public function autocomplete()
 	{
 		$data = $this->cdesa_model->autocomplete($this->input->post('cari'));
-		echo json_encode($data);
+		$this->json_output($data);
 	}
 
-	public function search(){
+	public function search()
+	{
 		$this->session->cari = $this->input->post('cari') ?: NULL;
 		redirect('cdesa');
 	}
@@ -96,9 +95,7 @@ class Cdesa extends Admin_Controller {
 		$data['set_page'] = $this->set_page;
 		$data['paging']  = $this->cdesa_model->paging_c_desa($page);
 		$data['keyword'] = $this->data_persil_model->autocomplete();
-		$data["desa"] = $this->config_model->get_data();
 		$data["cdesa"] = $this->cdesa_model->list_c_desa($data['paging']->offset, $data['paging']->per_page);
-		$data["persil_kelas"] = $this->data_persil_model->list_persil_kelas();
 
 		$this->render('data_persil/c_desa', $data);
 	}
@@ -108,6 +105,7 @@ class Cdesa extends Admin_Controller {
 		$this->tab_ini = 13;
 		$data = array();
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id);
+		$data['desa'] = $this->header['desa'];
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id);
 		$data['persil'] = $this->cdesa_model->get_list_persil($id);
 		$this->render('data_persil/rincian', $data);
@@ -117,6 +115,7 @@ class Cdesa extends Admin_Controller {
 	{
 		$data = array();
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id_cdesa);
+		$data['desa'] = $this->header['desa'];
 		$data['pemilik'] = $this->cdesa_model->get_pemilik($id_cdesa);
 		$data['mutasi'] = $this->cdesa_model->get_list_mutasi($id_cdesa, $id_persil);
 		$data['persil'] = $this->data_persil_model->get_persil($id_persil);
@@ -236,6 +235,7 @@ class Cdesa extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
+		$this->load->model('plan_area_model');
 		$this->form_validation->set_rules('nama', 'Nama Jenis Tanah', 'required');
 
 		$this->set_minsidebar(1);
@@ -263,6 +263,7 @@ class Cdesa extends Admin_Controller {
 		$data["persil_lokasi"] = $this->wilayah_model->list_semua_wilayah();
 		$data["persil_kelas"] = $this->referensi_model->list_by_id('ref_persil_kelas');
 		$data["persil_sebab_mutasi"] = $this->referensi_model->list_by_id('ref_persil_mutasi');
+		$data['peta'] = $this->plan_area_model->list_data();
 
 		$this->render('data_persil/create_mutasi', $data);
 	}
@@ -355,7 +356,7 @@ class Cdesa extends Admin_Controller {
 
 	public function form_c_desa($id=0)
 	{
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['cdesa'] = $this->cdesa_model->get_cdesa($id);
 		$data['basah'] = $this->cdesa_model->get_cetak_mutasi($id, 'BASAH');
 		$data['kering'] = $this->cdesa_model->get_cetak_mutasi($id, 'KERING');

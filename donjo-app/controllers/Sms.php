@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Sms.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -46,7 +50,6 @@ class Sms extends Admin_Controller {
 	{
 		parent::__construct();
 		$this->load->model('sms_model');
-
 		$this->load->model('penduduk_model');
 		$this->load->model('referensi_model');
 		$this->modul_ini = 10;
@@ -124,6 +127,7 @@ class Sms extends Admin_Controller {
 
 	public function insert_autoreply()
 	{
+		$this->redirect_hak_akses('u', '', 'sms/setting');
 		$this->sms_model->insert_autoreply();
 		redirect('sms/setting');
 	}
@@ -247,6 +251,7 @@ class Sms extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $tipe = 0, $id = 0)
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -294,6 +299,7 @@ class Sms extends Admin_Controller {
 
 	public function send_broadcast()
 	{
+		$this->redirect_hak_akses('u');
 		$data['input'] = $_POST;
 
 		if (isset($_SESSION['cari1']))
@@ -356,6 +362,7 @@ class Sms extends Admin_Controller {
 
 	public function broadcast_proses()
 	{
+		$this->redirect_hak_akses('u');
 		$post = $this->input->post();
 		$adv_search['umur_min1'] = bilangan($post['umur_min1']);
 		$adv_search['umur_max1'] = bilangan($post['umur_max1']);
@@ -475,8 +482,10 @@ class Sms extends Admin_Controller {
 		redirect('sms');
 	}
 
+	// Sms
 	public function insert($tipe = 0)
 	{
+		// $this->redirect_hak_akses('u');
 		$this->sms_model->insert();
 		if ($tipe == 1) redirect('sms');
 		elseif ($tipe == 2) redirect('sms/sentitem');
@@ -486,13 +495,14 @@ class Sms extends Admin_Controller {
 
 	public function update($id = '', $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->sms_model->update($id);
 		redirect("sms/index/$p/$o");
 	}
 
 	public function delete($p = 1, $o = 0, $tipe = 0, $id = '')
 	{
-		$this->redirect_hak_akses('h', 'sms/outbox');
+		$this->redirect_hak_akses('h', '', 'sms/sentitem');
 		$this->sms_model->delete($tipe, $id);
 		if ($tipe == 1) redirect('sms');
 		elseif ($tipe == 2) redirect('sms/sentitem');
@@ -502,7 +512,7 @@ class Sms extends Admin_Controller {
 
 	public function delete_all($p = 1, $o = 0, $tipe = 0)
 	{
-		$this->redirect_hak_akses('h', 'sms/outbox');
+		$this->redirect_hak_akses('h', '', 'sms/sentitem');
 		$this->sms_model->delete_all($tipe);
 		if ($tipe == 1) redirect('sms');
 		elseif ($tipe == 2) redirect('sms/sentitem');
@@ -552,6 +562,8 @@ class Sms extends Admin_Controller {
 
 	public function form_kontak($id = 0)
 	{
+		$this->redirect_hak_akses('u', '', 'sms/kontak');
+
 		if ($id == 0)
 		{
 			$data['nama'] = $this->sms_model->list_nama();
@@ -568,6 +580,7 @@ class Sms extends Admin_Controller {
 
 	public function kontak_insert()
 	{
+		$this->redirect_hak_akses('u', '', 'sms/kontak');
 		$data = $_POST;
 		$this->sms_model->insert_kontak($data);
 		redirect('sms/kontak');
@@ -575,6 +588,7 @@ class Sms extends Admin_Controller {
 
 	public function kontak_update()
 	{
+		$this->redirect_hak_akses('u', '', 'sms/kontak');
 		$data = $_POST;
 		$this->sms_model->update_kontak($data);
 		redirect('sms/kontak');
@@ -582,14 +596,14 @@ class Sms extends Admin_Controller {
 
 	public function kontak_delete($id = 0)
 	{
-		$this->redirect_hak_akses('h', 'sms/kontak');
+		$this->redirect_hak_akses('h', '', 'sms/kontak');
 		$data['hapus'] = $this->sms_model->delete_kontak($id);
 		redirect('sms/kontak');
 	}
 
 	public function delete_all_kontak()
 	{
-		$this->redirect_hak_akses('h', 'sms/kontak');
+		$this->redirect_hak_akses('h', '', 'sms/kontak');
 		$this->sms_model->delete_all_kontak();
 		redirect('sms/kontak');
 	}
@@ -620,6 +634,7 @@ class Sms extends Admin_Controller {
 
 	public function form_grup($id = 0)
 	{
+		$this->redirect_hak_akses('u', '', 'sms/kontak');
 		if ($id == "0")
 		{
 			$data['form_action'] = site_url("sms/grup_insert");
@@ -635,6 +650,7 @@ class Sms extends Admin_Controller {
 
 	public function grup_insert()
 	{
+		$this->redirect_hak_akses('u', '', 'sms/group');
 		$data['input'] = $_POST;
 		$data['insert'] = $this->sms_model->insert_grup($data);
 		redirect('sms/group');
@@ -642,6 +658,7 @@ class Sms extends Admin_Controller {
 
 	public function grup_update()
 	{
+		$this->redirect_hak_akses('u', '', 'sms/group');
 		$data['input'] = $_POST;
 		$data['update'] = $this->sms_model->update_grup($data);
 		redirect('sms/group');
@@ -649,14 +666,14 @@ class Sms extends Admin_Controller {
 
 	public function grup_delete($id = 0)
 	{
-		$this->redirect_hak_akses('h', 'sms/group');
+		$this->redirect_hak_akses('u', '', 'sms/group');
 		$data['hapus'] = $this->sms_model->delete_grup($id);
 		redirect('sms/group');
 	}
 
 	public function delete_all_grup()
 	{
-		$this->redirect_hak_akses('h', 'sms/group');
+		$this->redirect_hak_akses('u', '', 'sms/group');
 		$this->sms_model->delete_all_grup();
 		redirect('sms/group');
 	}
@@ -688,6 +705,7 @@ class Sms extends Admin_Controller {
 
 	public function form_anggota($id = 0)
 	{
+		$this->redirect_hak_akses('u', '', 'sms/anggota');
 		$data['form_action'] = site_url("sms/anggota_insert/$id");
 		$data['main'] = $this->sms_model->list_data_nama($id);
 		$data['id_grup'] = $id;
@@ -696,20 +714,21 @@ class Sms extends Admin_Controller {
 
 	public function anggota_insert($grup)
 	{
+		$this->redirect_hak_akses('u', '', 'sms/anggota');
 		$data['insert'] = $this->sms_model->insert_anggota($grup);
 		redirect("sms/anggota/$grup");
 	}
 
 	public function anggota_delete($id = 0)
 	{
-		$this->redirect_hak_akses('h', $this->controller);
+		$this->redirect_hak_akses('h', '', 'sms/anggota');
 		$data['hapus'] = $this->sms_model->delete_anggota($id);
 		echo "<script>self.history.back();</script>";
 	}
 
 	public function delete_all_anggota($grup = 0)
 	{
-		$this->redirect_hak_akses('h', $this->controller);
+		$this->redirect_hak_akses('h', '', 'sms/anggota');
 		$this->sms_model->delete_all_anggota($grup);
 		echo "<script>self.history.back();</script>";
 	}

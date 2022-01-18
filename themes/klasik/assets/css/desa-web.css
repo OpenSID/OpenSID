@@ -1,0 +1,17 @@
+.content {
+	background: #ffffff;
+}
+
+.box {
+	border-top: 0;	
+}
+
+.small-box h3 {
+	font-size: 25px;
+}
+
+.small-box .icon {
+	top: 5px;
+	right: 5px;
+	font-size: 70px;
+}

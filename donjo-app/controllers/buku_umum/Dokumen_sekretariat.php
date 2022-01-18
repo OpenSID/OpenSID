@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -80,7 +83,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
-    $_SESSION['menu_kategori'] = TRUE;
+    	$_SESSION['menu_kategori'] = TRUE;
 
 		foreach ($data['submenu'] as $s)
 		{
@@ -111,6 +114,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 
 	public function form($kat=2, $p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 		$data['kat'] = $kat;
@@ -157,6 +161,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$_SESSION['success'] = 1;
 		$kat = $this->input->post('kategori');
 		$outp = $this->web_dokumen_model->insert();
@@ -166,6 +171,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 
 	public function update($kat, $id='', $p=1, $o=0)
 	{
+		$this->redirect_hak_akses('u');
 		$_SESSION['success'] = 1;
 		$kategori = $this->input->post('kategori');
 		if (!empty($kategori))
@@ -177,26 +183,28 @@ class Dokumen_sekretariat extends Admin_Controller {
 
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
-		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
-		$this->redirect_hak_akses('h', "dokumen_sekretariat/index/$kat/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
 	public function dokumen_lock($kat=1, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->web_dokumen_model->dokumen_lock($id, 1);
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}
 
 	public function dokumen_unlock($kat=1,$id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->web_dokumen_model->dokumen_lock($id, 2);
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/");
 	}

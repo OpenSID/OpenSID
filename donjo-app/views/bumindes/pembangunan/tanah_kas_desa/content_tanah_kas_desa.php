@@ -48,11 +48,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="box box-info">
 	<div class="box-header with-border">
-		<a href="<?= site_url('bumindes_tanah_kas_desa/form')?>"
-			class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"
-			title="Tambah Data Baru">
-			<i class="fa fa-plus"></i>Tambah Data
-		</a>
+		<?php if ($this->CI->cek_hak_akses('u')): ?>
+			<a href="<?= site_url('bumindes_tanah_kas_desa/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru"> <i class="fa fa-plus"></i>Tambah Data</a>
+		<?php endif; ?>
 		<a href="#" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Buku Tanah Kas Desa" data-remote="false" data-toggle="modal" data-href="<?= site_url('bumindes_tanah_kas_desa/cetak_tanah_kas_desa/cetak'); ?>" data-target="#cetakBox" data-aksi="Cetak" data-title="Buku Tanah Kas Desa"><i class="fa fa-print "></i> Cetak</a>
 		<a href="#" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Buku Tanah Kas Desa" data-remote="false" data-toggle="modal" data-href="<?= site_url("bumindes_tanah_kas_desa/cetak_tanah_kas_desa/unduh"); ?>" data-target="#cetakBox" data-aksi="Unduh" data-title="Buku Tanah Kas Desa"><i class="fa fa-download"></i> Unduh</a>
 	</div>
@@ -120,8 +118,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					{
 						return `
 							<a href="<?= site_url('bumindes_tanah_kas_desa/view_tanah_kas_desa/') ?>${data.id}" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-							<a href="<?= site_url('bumindes_tanah_kas_desa/form/') ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
-							<a href="#" data-href="<?= site_url('bumindes_tanah_kas_desa/delete_tanah_kas_desa/') ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>													`
+							<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<a href="<?= site_url('bumindes_tanah_kas_desa/form/') ?>${data.id}" title="Edit Data" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+							<?php endif; ?>
+							<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<a href="#" data-href="<?= site_url('bumindes_tanah_kas_desa/delete_tanah_kas_desa/') ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+							<?php endif; ?>
+						`
 					}
 				},
 				{

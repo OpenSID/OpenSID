@@ -6,7 +6,6 @@
 			<li class="active"><?= $judul ?></li>
 		</ol>
 	</section>
-	
 	<section class="content" id="maincontent">
 		<div class="row">
 			<form id="validasi" action="<?=site_url('setting/update'); ?>" method="POST" class="form-horizontal" enctype="multipart/form-data">
@@ -75,7 +74,7 @@
 						</div>
 						<div class="box-footer">
 							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-							<?php if ($this->CI->cek_hak_akses('u')): ?>
+							<?php if ($this->CI->cek_hak_akses_url('u', $aksi_controller)): ?>
 								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 							<?php endif; ?>
 						</div>

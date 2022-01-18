@@ -334,7 +334,8 @@ class Penduduk_model extends MY_Model {
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
 			array('hubungan', 'u.kk_level'), // Kode hubungan_kk
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
-			array('status_covid', 'rc.id') // Kode covid
+			array('status_covid', 'rc.id'),  // Kode covid
+			array('suku', 'u.suku') // Kode covid
 		);
 
 		if ($this->session->penerima_bantuan)
@@ -366,15 +367,15 @@ class Penduduk_model extends MY_Model {
 			case 2: $this->db->order_by('u.nik', 'DESC'); break;
 			case 3: $this->db->order_by('u.nama'); break;
 			case 4: $this->db->order_by('u.nama', 'DESC'); break;
-			case 5: $this->db->order_by('CONCAT(d.no_kk, u.kk_level)'); break;
-			case 6: $this->db->order_by('d.no_kk DESC, u.kk_level'); break;
+			case 5: $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)'); break;
+			case 6:$this->db->order_by('d.no_kk DESC, u.id_kk, u.kk_level'); break;
 			case 7: $this->db->order_by('umur'); break;
 			case 8: $this->db->order_by('umur', 'DESC'); break;
 			case 9: $this->db->order_by('u.created_at'); break;
 			case 10: $this->db->order_by('u.created_at', 'DESC'); break;
 			case 11: $this->db->order_by('log.tgl_peristiwa'); break;
 			case 12: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
-			default: $this->db->order_by('CONCAT(d.no_kk, u.kk_level)');
+			default: $this->db->order_by('CONCAT(d.no_kk, u.id_kk, u.kk_level)'); break;
 		}
 	}
 
@@ -390,7 +391,7 @@ class Penduduk_model extends MY_Model {
 		if ($limit > 0 ) $this->db->limit($limit, $offset);
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
-		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
+		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, u.suku, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
 			(CASE
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
@@ -1434,12 +1435,15 @@ class Penduduk_model extends MY_Model {
 				case 'covid': $table = 'ref_status_covid'; break;
 				case 'bantuan_penduduk': $table = 'program'; break;
 				case 'hubungan_kk' : $table = 'tweb_penduduk_hubungan'; break;
+				case 'suku' : $table = 'tweb_penduduk'; break;
 			}
 
 			if ($tipe == 13 OR $tipe == 17) $this->db->where('STATUS', 1);
 			if ($tipe == 15) $this->db->where('STATUS', 0);
 
 			$judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
+
+			if ($tipe == 'suku') $judul['nama'] = rawurldecode($nomor);
 		}
 
 		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
@@ -1527,6 +1531,27 @@ class Penduduk_model extends MY_Model {
 		$jml = $this->db->select('count(id) as jml')->where('status', '1')->
 				get('tweb_penduduk')->row()->jml;
 		return $jml;
+	}
+
+	public function get_suku()
+	{
+		$suku = [];
+		// ref pendduduk
+		$suku['ref'] = $this->db->select('suku')
+			->order_by('suku')
+			->get('ref_penduduk_suku')
+			->result_array();
+
+		// dari penduduk
+		$suku['penduduk'] = $this->db
+			->distinct()
+			->select('suku')
+			->where('suku IS NOT NULL')
+			// ->where('suku NOT IN('.$this->db->last_query().')') // NOT IN REF PENDUDUK
+			->order_by('suku')
+			->get('tweb_penduduk')->result_array();
+			 
+		return $suku;
 	}
 
 }

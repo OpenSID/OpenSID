@@ -101,12 +101,11 @@
 								<div class="col-sm-8">
 									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_pantau'); ?>" data-tracker="<?= config_item('server_pantau'); ?>"></select>
 								</div>
-								<input type="hidden" id="nama_desa" name="nama_desa" value="<?= $main["nama_desa"]; ?>">
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_desa">Kode <?= $desa; ?></label>
 								<div class="col-sm-2">
-									<input readonly id="kode_desa" name="kode_desa" class="form-control input-sm" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
+									<input readonly id="kode_desa" name="kode_desa" class="form-control input-sm <?= jecho(cek_koneksi_internet(), false, 'bilangan') ?> required" <?= jecho(cek_koneksi_internet(), false, 'minlength="10" maxlength="10"') ?> type="text" onkeyup="tampil_kode_desa()" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">

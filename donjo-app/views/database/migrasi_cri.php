@@ -24,7 +24,7 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<div class="col-sm-7 col-md-6">
+																						<div class="col-sm-5 col-md-4">
 																							<a href="#" class="btn btn-block btn-danger btn-sm ajax"  title="Migrasi DB" onclick="document.getElementById('excell').submit();" data-toggle="modal" data-target="#loading" data-backdrop="false" data-keyboard="false"> <i class="fa fa-spin fa-refresh"></i> Migrasi Database Ke OpenSID <?= AmbilVersi()?></a>
 																						</div>
 																					</div>

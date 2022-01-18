@@ -1,14 +1,11 @@
 <script type="text/javascript">
-	$(document).ready(function()
-	{
+	$(document).ready(function() {
 		//https://momentjs.com/docs/#/parsing/string-format/
-		$('#tanggal_tiba').datetimepicker(
-		{
+		$('#tanggal_tiba').datetimepicker( {
 			format: 'YYYY-MM-DD'
 		});
 	});
 </script>
-
 <div class="form-group">
 	<label for="asal_pemudik" class="col-sm-3 control-label">Asal Pemudik (kota) / Tiba Tanggal</label>
 	<div class="col-sm-4">

@@ -20,7 +20,7 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar C-DESA <?= ucwords($this->setting->sebutan_desa)?> <?= $desa["nama_desa"];?></h1>
+		<h1>Daftar C-DESA <?= ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']);?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar C-DESA</li>
@@ -86,14 +86,14 @@
 																				<a href="<?= site_url("cdesa/create_mutasi/".$item["id_cdesa"])?>" class="btn bg-green btn-flat btn-sm" title="Tambah Data"><i class="fa fa-plus"></i></a>
 																				<a href="<?= site_url("cdesa/create/edit/".$item["id_cdesa"])?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php endif; ?>
-																			<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<?php if ($this->CI->cek_hak_akses('h')): ?>
 																				<a href="#" data-href="<?= site_url("cdesa/hapus/".$item["id_cdesa"])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
 																		</td>
 																		<td><?= sprintf("%04s", $item["nomor"]) ?></td>
 																		<td><?= $item['nama_kepemilikan'] ?>
 																		<td><?= strtoupper($item["namapemilik"]) ?></td>
-																		<td><a href='<?= site_url("penduduk/detail/1/0/$item[id_pend]")?>'><?= $item["nik"] ?></a></td>
+																		<td><?= ($item["nik"]) ? "<a href=" . site_url("penduduk/detail/1/0/$item[id_pend]") . ">" . $item["nik"] . "</a>" : "-"; ?></td>
 																		<td><?= $item["jumlah"] ?></td>
 																	</tr>
 																<?php endforeach; ?>

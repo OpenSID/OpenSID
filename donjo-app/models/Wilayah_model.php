@@ -803,6 +803,14 @@ class Wilayah_model extends MY_Model {
 		}
 	}
 
+	public function kosongkan_path($id)
+	{
+		$this->db
+			->set('path', NULL)
+			->where('id', $id)
+			->update('tweb_wil_clusterdesa');
+	}
+
 	private function update_urut($urut = 1, $id = 1)
 	{
 		$this->db

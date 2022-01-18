@@ -15,9 +15,11 @@
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("area/form") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru">
-								<i class="fa fa-plus"></i>Tambah Data Baru
-							</a>
+							<?php if ($this->CI->cek_hak_akses('u')): ?>
+								<a href="<?= site_url("area/form") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru">
+									<i class="fa fa-plus"></i>Tambah Data Baru
+								</a>
+							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')) : ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("area/delete_all/$p/$o") ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
@@ -65,7 +67,9 @@
 														<table class="table table-bordered dataTable table-striped dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
-																	<th><input type="checkbox" id="checkall" /></th>
+																	<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<th><input type="checkbox" id="checkall" /></th>
+																	<?php endif; ?>
 																	<th>No</th>
 																	<th>Aksi</th>
 																	<?php if ($o == 2) : ?>
@@ -89,17 +93,25 @@
 															<tbody>
 																<?php foreach ($main as $data) : ?>
 																	<tr>
-																		<td><input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" /></td>
+																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																			<td><input type="checkbox" name="id_cb[]" value="<?= $data['id'] ?>" /></td>
+																		<?php endif; ?>
 																		<td><?= $data['no'] ?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("area/form/$p/$o/$data[id]") ?>" class="btn btn-warning btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<a href="<?= site_url("area/form/$p/$o/$data[id]") ?>" class="btn btn-warning btn-flat btn-sm" title="Ubah"><i class="fa fa-edit"></i></a>
+																			<?php endif; ?>
 																			<a href="<?= site_url("area/ajax_area_maps/$p/$o/$data[id]") ?>" class="btn bg-olive btn-flat btn-sm" title="Lokasi <?= $data['nama'] ?>"><i class="fa fa-map"></i></a>
-																			<?php if ($data['enabled'] == '2') : ?>
-																				<a href="<?= site_url('area/area_lock/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
-																			<?php elseif ($data['enabled'] == '1') : ?>
-																				<a href="<?= site_url('area/area_unlock/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-																			<?php endif ?>
-																			<a href="#" data-href="<?= site_url("area/delete/$p/$o/$data[id]") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php if ($this->CI->cek_hak_akses('u')): ?>
+																				<?php if ($data['enabled'] == '2') : ?>
+																					<a href="<?= site_url('area/area_lock/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																				<?php elseif ($data['enabled'] == '1') : ?>
+																					<a href="<?= site_url('area/area_unlock/' . $data['id']) ?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																				<?php endif ?>
+																			<?php endif; ?>
+																			<?php if ($this->CI->cek_hak_akses('h')): ?>
+																				<a href="#" data-href="<?= site_url("area/delete/$p/$o/$data[id]") ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<?php endif; ?>
 																		</td>
 																		<td width="40%"><?= $data['nama'] ?></td>
 																		<td><?= $data['aktif'] ?></td>
