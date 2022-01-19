@@ -161,12 +161,14 @@ class OTP_telegram implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function kirim_pin_baru($user, $pin)
+    public function kirim_pin_baru($user, $pin, $nama)
     {
         try {
             $this->telegram->sendMessage([
                 'chat_id' => $user,
                 'text'    => <<<EOD
+                    HALLO {$nama},
+
                     BERIKUT ADALAH KODE PIN YANG BARU SAJA DIHASILKAN,
                     KODE PIN INI SANGAT RAHASIA
                     JANGAN BERIKAN KODE PIN KEPADA SIAPA PUN,

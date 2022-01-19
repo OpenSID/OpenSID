@@ -185,9 +185,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<h4>Kode PIN : <?= $tampilkan_pin['pin']; ?></h4>
 										<?php endif; ?>
 
-										<?php if ($telegram = $this->session->flashdata('notif_kirim_telegram')) : ?>
-											<div class="callout callout-<?= ($telegram['status'] == 1) ? 'success' : 'danger' ?>" style="margin-top: 30px;">
-												<p><?= $telegram['pesan']; ?></p>
+										<?php if ($kirim_verifikasi = $this->session->flashdata('notif_kirim_verifikasi')) : ?>
+											<div class="callout callout-<?= ($kirim_verifikasi['status'] == 1) ? 'success' : 'danger' ?>" style="margin-top: 30px;">
+												<p><?= $kirim_verifikasi['pesan']; ?></p>
 											</div>
 										<?php endif; ?>
 									</div>

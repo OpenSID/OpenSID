@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. [#4430](https://github.com/OpenSID/OpenSID/issues/4430) Penambahan Fitur Import Asuransi Kesehatan pada file FormatImporExcel.
 9. [#4665](https://github.com/OpenSID/OpenSID/issues/4665) Sediakan Filter Bantuan aktif dan tidak aktif Pada Statistik Bantuan Keluarga.
 10. [#4606](https://github.com/OpenSID/OpenSID/issues/4606) Tambah saring data rincian suplemen.
+11. [#4710](https://github.com/OpenSID/OpenSID/issues/4710) Notifikasi kirim pin baru melalui email.
 
 #### Perbaikan BUG
 

@@ -85,12 +85,13 @@ interface OTP_interface
      *
      * @param mixed $user = chatID
      * @param mixed $pin
+     * @param mixed $nama
      *
      * @throws \Exception
      *
      * @return void
      */
-    public function kirim_pin_baru($user, $pin);
+    public function kirim_pin_baru($user, $pin, $nama);
 
     /**
      * Cek akun sudah terdaftar.

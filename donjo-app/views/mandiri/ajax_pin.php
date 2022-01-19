@@ -71,22 +71,27 @@
 			<?php endif; ?>
 		</div>
 
-		<?php if ($tgl_verifikasi) : ?>
-			<div class="form-group">
+		<div class="form-group">
+			<?php if ($tgl_verifikasi_telegram || $tgl_verifikasi_email) : ?>
 				<label style="margin-top: 10px; margin-bottom: 0px;">Kirim PIN Baru Melalui : </label>
-				<div class="checkbox">
-					<label style="font-size: 13.7px;">
-						<input type="checkbox" value="kirim_telegram" id="kirim_telegram" name="kirim_telegram" checked> Telegram
-					</label>
-				</div>
+			<?php endif; ?>
 
-				<div class="checkbox">
+			<?php if ($tgl_verifikasi_email) : ?>
+				<div class="radio">
 					<label style="font-size: 13.7px;">
-						<input type="checkbox" value="kirim_email" id="kirim_email" name="kirim_email"> Email
+						<input type="radio" value="kirim_email" id="kirim_email" name="pilihan_kirim" checked> Email
 					</label>
 				</div>
-			</div>
-		<?php endif; ?>
+			<?php endif; ?>
+
+			<?php if ($tgl_verifikasi_telegram) : ?>
+				<div class="radio">
+					<label style="font-size: 13.7px;">
+						<input type="radio" value="kirim_telegram" id="kirim_telegram" name="pilihan_kirim" checked> Telegram
+					</label>
+				</div>
+			<?php endif; ?>
+		</div>
 
 	</div>
 	<div class="modal-footer">

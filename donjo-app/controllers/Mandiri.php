@@ -107,7 +107,8 @@ class Mandiri extends Admin_Controller
             $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
-        $data['tgl_verifikasi'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
+        $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
+        $data['tgl_verifikasi_email']    = $this->otp_library->driver('email')->cek_verifikasi_otp($data['id_pend']);
 
         $this->load->view('mandiri/ajax_pin', $data);
     }
