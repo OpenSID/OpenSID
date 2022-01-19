@@ -39,9 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Theme_model extends CI_Model
 {
+    protected $tema;
+    protected $folder;
+    
     public function __construct()
     {
         parent::__construct();
+        $this->tema = str_replace('desa/', '', $this->setting->web_theme);
+        $this->folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'themes';
     }
 
     /*
@@ -65,8 +70,8 @@ class Theme_model extends CI_Model
     // Mengambil latar belakang website ubahan
     public function latar_website()
     {
-        $ubahan_tema   = "desa/pengaturan/{$this->theme}/images/latar_website.jpg";
-        $bawaan_tema   = "{$this->theme_folder}/{$this->theme}/assets/css/images/latar_website.jpg";
+        $ubahan_tema   = "desa/pengaturan/$this->tema/images/latar_website.jpg";
+        $bawaan_tema   = "{$this->folder}/$this->tema/assets/css/images/latar_website.jpg";
         $latar_website = is_file($ubahan_tema) ? $ubahan_tema : $bawaan_tema;
 
         return is_file($latar_website) ? $latar_website : null;
@@ -74,7 +79,7 @@ class Theme_model extends CI_Model
 
     public function lokasi_latar_website()
     {
-        $folder = "desa/pengaturan/{$this->theme}/images/";
+        $folder = "desa/pengaturan/{$this->tema}/images/";
         mkdir($folder, 0775, true);
 
         return $folder;
