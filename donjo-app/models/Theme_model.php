@@ -80,7 +80,7 @@ class Theme_model extends CI_Model
     public function lokasi_latar_website()
     {
         $folder = "desa/pengaturan/{$this->tema}/images/";
-        mkdir($folder, 0775, true);
+        file_exists($folder) || mkdir($folder, 0755, true);
 
         return $folder;
     }
