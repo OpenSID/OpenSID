@@ -152,21 +152,25 @@ class Penduduk_model extends MY_Model
     {
         $kf = $this->session->hamil;
 
-        switch (true) {
-            case $kf == BELUM_MENGISI:
-                $this->db->where('(u.hamil IS NULL)');
-                break;
+        if ($kf) {
+            switch (true) {
+                case $kf == BELUM_MENGISI:
+                    $this->db->where('(u.hamil IS NULL)');
+                    break;
 
-            case $kf == JUMLAH:
-                $this->db->where('u.hamil IS NOT NULL');
-                break;
+                case $kf == JUMLAH:
+                    $this->db->where('u.hamil IS NOT NULL');
+                    break;
 
-            case $kf == TOTAL:
-                break;
+                case $kf == TOTAL:
+                    break;
 
-            default:
-                $this->db->where('u.hamil', $kf);
-                break;
+                default:
+                    $this->db->where('u.hamil', $kf);
+                    break;
+            }
+
+            $this->db->where('u.sex', '2');
         }
     }
 
