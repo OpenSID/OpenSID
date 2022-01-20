@@ -146,7 +146,7 @@ class Suplemen extends Admin_Controller
         //# untuk filter pada data rincian suplemen
         if ($id) {
             $this->session->id_rincian = $id;
-            $this->session->unset_userdata('cari');
+            $this->session->unset_userdata(['cari', 'sex', 'dusun', 'rw', 'rt']);
 
             redirect("{$this->controller}/rincian/{$id}");
         }
