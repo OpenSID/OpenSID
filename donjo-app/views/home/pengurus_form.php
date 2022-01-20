@@ -263,7 +263,7 @@
 	input.addEventListener('keyup', function(e) {
 	  this.value = this.value.replace('rgba', '');
 	});
-	
+
 	$('document').ready(function() {
 		$("input[name='pengurus']:checked").change();
 		if ($("#validasi input[name='id_pend']").val() != '') {
