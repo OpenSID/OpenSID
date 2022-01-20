@@ -208,12 +208,6 @@
 			</div>
 		</div>
 	</div>
-	<script>
-  function myFunction() {
-    let tokenAmount = document.getElementById("tgl_1").value;
-    alert(tokenAmount);
-  }
-</script>
 	<div class='col-sm-4'>
 		<div class='form-group'>
 			<label for="waktulahir">Waktu Kelahiran </label>
