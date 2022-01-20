@@ -1,14 +1,3 @@
-<?php
-/*
- * File ini:
- *
- * Views di Modul Kependudukan
- *
- * donjo-app/views/sid/kependudukan/penduduk_detail.php
- *
- */
-
-?>
 <!-- TODO: Pindahkan ke external css -->
 <style>
 	.table {
