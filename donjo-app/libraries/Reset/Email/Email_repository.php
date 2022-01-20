@@ -129,13 +129,26 @@ class Email_repository implements Password_interface
 
         if ($callback) {
             $callback($user);
-        }
-        // We are ready to send verify the message out to this user with a link
-        // to their email. We will then redirect back to the current URI
-        // having nothing set in the session to indicate errors.
-        // $user->sendEmailVerificationNotification();
+        } else {
+            // We are ready to send verify the message out to this user with a link
+            // to their email. We will then redirect back to the current URI
+            // having nothing set in the session to indicate errors.
+            $this->ci->email->from($this->ci->email->smtp_user, 'OpenSID')
+                ->to($user->email)
+                ->subject('Verifikasi Alamat Email')
+                ->set_mailtype('html')
+                ->message($this->ci->load->view('autentikasi/notifikasi_verifikasi_email', [
+                    'hash'      => sha1($user->email),
+                    'expire'    => strtotime(date('Y-m-d H:i:s') . ' +60 minutes'),
+                    'signature' => hash_hmac('sha256', $user->email, config_item('encryption_key')),
+                ], true));
 
-        // TODO: Send email
+            if ($this->ci->email->send()) {
+                return static::VERIFY_LINK_SENT;
+            }
+
+            throw new \Exception($this->ci->email->print_debugger());
+        }
 
         return static::VERIFY_LINK_SENT;
     }

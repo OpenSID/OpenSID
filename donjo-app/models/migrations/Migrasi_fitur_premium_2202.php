@@ -49,8 +49,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022011071($hasil);
         $hasil = $hasil && $this->migrasi_2022011251($hasil);
         $hasil = $hasil && $this->migrasi_2022011371($hasil);
+        $hasil = $hasil && $this->migrasi_2022011471($hasil);
 
-        return $hasil && $this->migrasi_2022011471($hasil);
+        return $hasil && $this->migrasi_2022012071($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -337,6 +338,22 @@ class Migrasi_fitur_premium_2202 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022012071($hasil)
+    {
+        if (! $this->db->field_exists('email_verified_at', 'user')) {
+            $fields = [
+                'email_verified_at' => [
+                    'type'  => 'DATETIME',
+                    'null'  => true,
+                    'after' => 'last_login',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('user', $fields);
         }
 
         return $hasil;
