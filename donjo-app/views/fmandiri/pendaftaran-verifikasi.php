@@ -51,129 +51,283 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px 20px;">
-				<div class="text-overflow">
-					<p style="margin-top: 10px; margin-bottom: 10px; font-size:12px">
-						Ini adalah langkah untuk melakukan verifikasi telegram, silahkan lakukan mulai dari Tahap 1 sampai 4.
-					</p>
-
-					<div id="smartwizard">
-						<ul class="nav" style="font-size: 12px;">
-							<li>
-								<a class="nav-link" href="#langkah-1">
-									Langkah 1<br />
-									<small>Link Verifikasi</small>
-								</a>
-							</li>
-							<li>
-								<a class="nav-link" href="#langkah-2">
-									Langkah 2<br />
-									<small>Masukan User ID</small>
-								</a>
-							</li>
-							<li>
-								<a class="nav-link" href="#langkah-3">
-									Langkah 3<br />
-									<small>OTP Verifikasi</small>
-								</a>
-							</li>
-							<li>
-								<a class="nav-link" href="#langkah-4">
-									Langkah 4<br />
-									<small>Status Verifikasi</small>
-								</a>
-							</li>
+				<!-- start nav-tab -->
+				<div class="nav-tabs-custom">
+					<?php if ($tab_aktif = $this->session->flashdata('tab-aktif')) : ?>
+						<ul class="nav nav-tabs">
+							<li id="link-telegram" class="<?= ($tab_aktif['status'] == 0) ? 'active' : '' ?>"><a href="#telegram" data-toggle="tab">Telegram</a></li>
+							<li id="link-email" class="<?= ($tab_aktif['status'] == 1) ? 'active' : '' ?>"><a href="#email" data-toggle="tab">Email</a></li>
 						</ul>
-
 						<div class="tab-content">
-							<div id="langkah-1" class="tab-pane" role="tabpanel">
-								<h3 class="StepTitle text-left"><b>Langkah 1 Link Verifikasi</b></h3>
-								<small class="text-left" style="font-size: 12px;">
-									<p>1. Silahkan Klik link ini <a href="https://t.me/opensid_notifikasi_bot" target="_blank">Verifikasi Telegram OpenSID</a> </p>
-									<p>2. Klik start untuk mendapatkan kode User ID Anda. </p>
-									<p>3. Masukkan kode User ID di <strong>Langkah 2</strong> dengan cara klik tombol "Selanjutnya".</p>
-								</small>
-								<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram#langkah-2') ?>">
-									<button type="submit" class="btn bg-green" style="margin-top: 15px;">Selanjutnya</button>
-								</a>
-							</div>
-							<div id="langkah-2" class="tab-pane" role="tabpanel">
-								<h3 class="StepTitle text-left"><b>Langkah 2 Masukan User ID</b></h3>
-								<small class="text-left" style="font-size: 12px;">
-									<p>1. Langkah ini digunakan untuk masukan user ID Anda yang telah didapatkan pada langkah 1.</p>
-									<p>2. Setelah mengirim User ID pada tombol "Kirim", maka Anda akan mendapatkan pesan kode berupa OTP Verifikasi dan langsuh diarahkan ke langkah 3</p>
+							<div class="<?= ($tab_aktif['status'] == 0) ? 'active' : '' ?> tab-pane" id="telegram">
+								<div class="text-overflow">
+									<p style="margin-top: 10px; margin-bottom: 10px; font-size:12px">
+										Ini adalah langkah untuk melakukan verifikasi telegram, silahkan lakukan mulai dari Tahap 1 sampai 4.
+									</p>
 
-									<form action="<?= $form_kirim_userid; ?>" method="POST">
-										<div class="container">
-											<div class="row align-items-center">
-												<div class="form-group col-md-7">
-													<label for="telegram_userID">Silahkan Masukan User ID</label>
-													<div class="input-group form-daftar">
-														<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="telegram_userID" placeholder="User ID Telegram" maxlength="16">
-														<span class="input-group-addon"><i class="fa fa-eye-slash" id="telegram_userID" onclick="show(this);" aria-hidden="true"></i></span>
-													</div>
+									<div id="smartwizard">
+										<ul class="nav" style="font-size: 12px;">
+											<li>
+												<a class="nav-link" href="#langkah-1">
+													Langkah 1<br />
+													<small>Link Verifikasi</small>
+												</a>
+											</li>
+											<li>
+												<a class="nav-link" href="#langkah-2">
+													Langkah 2<br />
+													<small>Masukan User ID</small>
+												</a>
+											</li>
+											<li>
+												<a class="nav-link" href="#langkah-3">
+													Langkah 3<br />
+													<small>OTP Verifikasi</small>
+												</a>
+											</li>
+											<li>
+												<a class="nav-link" href="#langkah-4">
+													Langkah 4<br />
+													<small>Status Verifikasi <?= ($tgl_verifikasi_telegram != null) ? '(Sudah)' : '' ?></small>
+												</a>
+											</li>
+										</ul>
+
+										<div class="tab-content">
+											<div id="langkah-1" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 1 Link Verifikasi</b></h3>
+												<small class="text-left" style="font-size: 12px;">
+													<p>1. Silahkan Klik link ini <a href="https://t.me/opensid_notifikasi_bot" target="_blank">Verifikasi Telegram OpenSID</a> </p>
+													<p>2. Klik start untuk mendapatkan kode User ID Anda. </p>
+													<p>3. Masukkan kode User ID di <strong>Langkah 2</strong> dengan cara klik tombol "Selanjutnya".</p>
+												</small>
+												<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram#langkah-2') ?>">
+													<button type="submit" class="btn bg-green" style="margin-top: 15px;">Selanjutnya</button>
+												</a>
+											</div>
+											<div id="langkah-2" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 2 Masukan User ID</b></h3>
+												<small class="text-left" style="font-size: 12px;">
+													<p>1. Langkah ini digunakan untuk masukan user ID Anda yang telah didapatkan pada langkah 1.</p>
+													<p>2. Setelah mengirim User ID pada tombol "Kirim", maka Anda akan mendapatkan pesan kode berupa OTP Verifikasi dan langsuh diarahkan ke langkah 3</p>
+
+													<form action="<?= $form_kirim_userid; ?>" method="POST">
+														<div class="container">
+															<div class="row align-items-center">
+																<div class="form-group col-md-7">
+																	<label for="telegram_userID">Silahkan Masukan User ID</label>
+																	<div class="input-group form-daftar">
+																		<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="telegram_userID" placeholder="User ID Telegram" maxlength="16">
+																		<span class="input-group-addon"><i class="fa fa-eye-slash" id="telegram_userID" onclick="show(this);" aria-hidden="true"></i></span>
+																	</div>
+																</div>
+																<div class="form-daftar col-md-5">
+																	<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram/kirim-userid') ?>">
+																		<button type="submit" class="btn bg-green">Kirim</button>
+																	</a>
+																</div>
+															</div>
+														</div>
+													</form>
+												</small>
+												<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram#langkah-1') ?>">
+													<button type="submit" class="btn bg-green" style="margin-top: 5px;">Sebelumnya</button>
+												</a>
+											</div>
+											<div id="langkah-3" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 3 OTP Verifikasi</b></h3>
+												<small class="text-left" style="font-size: 12px;">
+													<p>1. Langkah ini digunakan untuk masukan OTP Verifikasi yang telah didapatkan pada langkah 2.</p>
+													<p>2. Setelah mengirim OTP Verifikasi pada tombol "Kirim", maka akun telegram sudah terverifikasi dan langsung diarahkan ke langkah 4 dengan pemberitahuan bahwa akun sudah terverifikasi</p>
+													<p>3. OTP Verifikasi ini berbatas waktu dengan lama 1 menit.</p>
+													<p>4. Jika Status telegram belum terverifikasi maka silahkan ulang dari awal.</p>
+
+													<form action="<?= $form_kirim_otp; ?>" method="POST" id="validasi">
+														<div class="container">
+															<div class="row">
+																<div class="form-group col-md-7">
+																	<label for="token_telegram">Silahkan Masukan OTP Verifikasi</label>
+																	<div class="input-group form-daftar">
+																		<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="token_telegram" placeholder="OTP Verifikasi">
+																		<span class="input-group-addon"><i class="fa fa-eye-slash" id="token_telegram" onclick="show(this);" aria-hidden="true"></i></span>
+																	</div>
+																</div>
+																<div class="col-md-5">
+																	<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram/kirim-otp') ?>">
+																		<button type="submit" class="btn bg-green">Kirim</button>
+																	</a>
+																</div>
+															</div>
+														</div>
+													</form>
+												</small>
+												<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram#langkah-2') ?>">
+													<button type="submit" class="btn bg-green" style="margin-top: 5px;">Sebelumnya</button>
+												</a>
+											</div>
+											<div id="langkah-4" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 4 Status Verifikasi</b></h3>
+												<input type="text" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="user_id" value="Akun Telegram Anda <?= ($tgl_verifikasi_telegram != null) ? 'Sudah' : 'Belum' ?> di verifikasi" disabled style="<?= ($tgl_verifikasi_telegram != null) ? 'background-color: #5cb85c; color: #ffffff;' : 'color: #000000;' ?> ">
+
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
+													</a>
 												</div>
-												<div class="form-daftar col-md-5">
-													<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram/kirim-userid') ?>">
-														<button type="submit" class="btn bg-green">Kirim</button>
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk-ektp') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
 													</a>
 												</div>
 											</div>
 										</div>
-									</form>
-								</small>
-								<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram#langkah-1') ?>">
-									<button type="submit" class="btn bg-green" style="margin-top: 5px;">Sebelumnya</button>
-								</a>
-							</div>
-							<div id="langkah-3" class="tab-pane" role="tabpanel">
-								<h3 class="StepTitle text-left"><b>Langkah 3 OTP Verifikasi</b></h3>
-								<small class="text-left" style="font-size: 12px;">
-									<p>1. Langkah ini digunakan untuk masukan OTP Verifikasi yang telah didapatkan pada langkah 2.</p>
-									<p>2. Setelah mengirim OTP Verifikasi pada tombol "Kirim", maka akun telegram sudah terverifikasi dan langsung diarahkan ke langkah 4 dengan pemberitahuan bahwa akun sudah terverifikasi</p>
-									<p>3. OTP Verifikasi ini berbatas waktu dengan lama 1 menit.</p>
-									<p>4. Jika Status telegram belum terverifikasi maka silahkan ulang dari awal.</p>
-
-									<form action="<?= $form_kirim_otp; ?>" method="POST" id="validasi">
-										<div class="container">
-											<div class="row">
-												<div class="form-group col-md-7">
-													<label for="token_telegram">Silahkan Masukan OTP Verifikasi</label>
-													<div class="input-group form-daftar">
-														<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="token_telegram" placeholder="OTP Verifikasi">
-														<span class="input-group-addon"><i class="fa fa-eye-slash" id="token_telegram" onclick="show(this);" aria-hidden="true"></i></span>
-													</div>
-												</div>
-												<div class="col-md-5">
-													<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram/kirim-otp') ?>">
-														<button type="submit" class="btn bg-green">Kirim</button>
-													</a>
-												</div>
-											</div>
-										</div>
-									</form>
-								</small>
-								<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/telegram#langkah-2') ?>">
-									<button type="submit" class="btn bg-green" style="margin-top: 5px;">Sebelumnya</button>
-								</a>
-							</div>
-							<div id="langkah-4" class="tab-pane" role="tabpanel">
-								<h3 class="StepTitle text-left"><b>Langkah 4 Status Verifikasi</b></h3>
-								<input type="text" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="user_id" value="Akun Telegram Anda <?= ($tgl_verifikasi != null) ? 'Sudah' : 'Belum' ?> di verifikasi" disabled style="<?= ($tgl_verifikasi != null) ? 'background-color: #5cb85c; color: #ffffff;' : 'color: #000000;' ?> ">
-
-								<div class="form-group">
-									<a href="<?= site_url('layanan-mandiri/masuk') ?>">
-										<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
-									</a>
+									</div>
 								</div>
-								<div class="form-group">
-									<a href="<?= site_url('layanan-mandiri/masuk-ektp') ?>">
-										<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
-									</a>
+							</div>
+							<div class="<?= ($tab_aktif['status'] == 1) ? 'active' : '' ?> tab-pane" id="email">
+								<div class="text-overflow">
+									<p style="margin-top: 10px; margin-bottom: 10px; font-size:12px">
+										Ini adalah langkah untuk melakukan verifikasi email, silahkan lakukan mulai dari Tahap 1 sampai 4.
+									</p>
+
+									<div id="smartwizard-email">
+										<ul class="nav" style="font-size: 12px;">
+											<li>
+												<a class="nav-link" href="#langkah-1">
+													Langkah 1<br />
+													<small>Persiapkan Email</small>
+												</a>
+											</li>
+											<li>
+												<a class="nav-link" href="#langkah-2">
+													Langkah 2<br />
+													<small>Masukan Alamat Email</small>
+												</a>
+											</li>
+											<li>
+												<a class="nav-link" href="#langkah-3">
+													Langkah 3<br />
+													<small>OTP Verifikasi</small>
+												</a>
+											</li>
+											<li>
+												<a class="nav-link" href="#langkah-4">
+													Langkah 4<br />
+													<small>Status Verifikasi <?= ($tgl_verifikasi_email != null) ? '(Sudah)' : '' ?></small>
+												</a>
+											</li>
+										</ul>
+
+										<div class="tab-content">
+											<div id="langkah-1" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 1 Persiapkan Email</b></h3>
+												<small class="text-left" style="font-size: 12px;">
+													<p>1. Silahkan Login ke Alamat Email yang akan diverifikasi</p>
+													<p>2. Masukkan Alamat Email di <strong>Langkah 2</strong> dengan cara klik tombol "Selanjutnya".</p>
+												</small>
+												<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/email#langkah-2') ?>">
+													<button type="submit" class="btn bg-green" style="margin-top: 15px;">Selanjutnya</button>
+												</a>
+											</div>
+											<div id="langkah-2" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 2 Masukan Alamat Email</b></h3>
+												<small class="text-left" style="font-size: 12px;">
+													<p>1. Langkah ini digunakan untuk masukan alamat email Anda</p>
+													<p>2. Setelah mengirim alamat email pada tombol "Kirim", maka Anda akan mendapatkan pesan kode berupa OTP Verifikasi</p>
+													<p>3. Silahkan melanjutkan ke Langkah 3 jika sudah mendapatkan OTP Verifikasi dengan cara klik tombol "Selanjutnya".</p>
+
+													<form action="<?= $form_kirim_email; ?>" method="POST" id="validasi">
+														<div class="container">
+															<div class="row align-items-center">
+																<div class="form-group col-md-7">
+																	<label for="alamat_email">Silahkan Masukan Alamat Email</label>
+																	<div class="input-group form-daftar">
+																		<input type="text" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="alamat_email" placeholder="Alamat Email">
+																	</div>
+																</div>
+																<div class="form-daftar col-md-5">
+																	<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/email/kirim-userid') ?>">
+																		<button type="submit" class="btn bg-green">Kirim</button>
+																	</a>
+																</div>
+															</div>
+														</div>
+													</form>
+												</small>
+												<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/email#langkah-1') ?>">
+													<button type="submit" class="btn bg-green" style="margin-top: 5px;">Sebelumnya</button>
+												</a>
+											</div>
+											<div id="langkah-3" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 3 OTP Verifikasi</b></h3>
+												<small class="text-left" style="font-size: 12px;">
+													<p>1. Langkah ini digunakan untuk masukan OTP Verifikasi yang telah didapatkan pada langkah 2.</p>
+													<p>2. Setelah mengirim OTP Verifikasi pada tombol "Kirim", maka alamat email sudah terverifikasi</p>
+													<p>3. OTP Verifikasi ini berbatas waktu dengan lama 1 menit.</p>
+													<p>4. Silahkan melanjutkan ke Langkah 4 untuk melihat status sudah terverifikasi atau belum dengan cara klik tombol "Selanjutnya".</p>
+													<p>5. Jika Status email belum terverifikasi maka silahkan ulang dari awal.</p>
+
+													<form action="<?= $form_kirim_otp_email; ?>" method="POST" id="validasi">
+														<div class="container">
+															<div class="row">
+																<div class="form-group col-md-7">
+																	<label for="token_email">Silahkan Masukan OTP Verifikasi</label>
+																	<div class="input-group form-daftar">
+																		<input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="token_email" placeholder="OTP Verifikasi">
+																		<span class="input-group-addon"><i class="fa fa-eye-slash" id="token_email" onclick="show(this);" aria-hidden="true"></i></span>
+																	</div>
+																</div>
+																<div class="col-md-5">
+																	<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/email/kirim-otp') ?>">
+																		<button type="submit" class="btn bg-green">Kirim</button>
+																	</a>
+																</div>
+															</div>
+														</div>
+													</form>
+												</small>
+												<a href="<?= site_url('layanan-mandiri/daftar/verifikasi/email#langkah-2') ?>">
+													<button type="submit" class="btn bg-green" style="margin-top: 5px;">Sebelumnya</button>
+												</a>
+											</div>
+											<div id="langkah-4" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 4 Status Verifikasi</b></h3>
+												<input type="text" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="user_id" value="Akun Email Anda <?= ($tgl_verifikasi_email != null) ? 'Sudah' : 'Belum' ?> di verifikasi" disabled style="<?= ($tgl_verifikasi_email != null) ? 'background-color: #5cb85c; color: #ffffff;' : 'color: #000000;' ?> ">
+
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
+													</a>
+												</div>
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk-ektp') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
+													</a>
+												</div>
+											</div>
+											<div id="langkah-4" class="tab-pane" role="tabpanel">
+												<h3 class="StepTitle text-left"><b>Langkah 4 Status Verifikasi</b></h3>
+												<input type="text" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="user_email" value="Alamat Email Anda <?= ($tgl_verifikasi_email != null) ? 'Sudah' : 'Belum' ?> di verifikasi" disabled style="<?= ($tgl_verifikasi_email != null) ? 'background-color: #5cb85c; color: #ffffff;' : 'color: #000000;' ?> ">
+
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN NIK</b></button>
+													</a>
+												</div>
+												<div class="form-group">
+													<a href="<?= site_url('layanan-mandiri/masuk-ektp') ?>">
+														<button type="button" class="btn btn-block bg-green"><b>MASUK DENGAN E-KTP</b></button>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 				</div>
+				<!-- /.nav-tabs-custom -->
 			</div>
 		</div>
 	</div>
@@ -214,7 +368,19 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	}
 
 	$(document).ready(function() {
-		// SmartWizard initialize
+		// Link tab Telegram
+		$('#link-telegram').click(function(e) {
+			e.preventDefault();
+			window.location = '<?= site_url('layanan-mandiri/daftar/verifikasi/telegram')  ?>';
+		});
+
+		// Link tab Email
+		$('#link-email').click(function(e) {
+			e.preventDefault();
+			window.location = '<?= site_url('layanan-mandiri/daftar/verifikasi/email')  ?>';
+		});
+
+		// Smartwizard Telegram
 		$('#smartwizard').smartWizard({
 			selected: 0, // Initial selected step, 0 = first step
 			theme: 'dots', // 1. default 2. arrows 3. dots 4. progress  theme for the wizard, related css need to include for other than default theme
@@ -260,14 +426,75 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 		$('#smartwizard').smartWizard("stepState", [2, 3], "disable");
 
+		<?php if ($this->session->flashdata('sudah-diverifikasi')) : ?>
+			$('#smartwizard').smartWizard("stepState", [0, 1, 2], "disable");
+			$('#smartwizard').smartWizard("stepState", [3], "enable");
+			$('#smartwizard').smartWizard("goToStep", 3);
+		<?php endif ?>
+
 		<?php if ($this->session->flashdata('kirim-otp-telegram')) : ?>
 			$('#smartwizard').smartWizard("stepState", [0, 1], "disable");
+			$('#smartwizard').smartWizard("stepState", [2], "enable");
 			$('#smartwizard').smartWizard("goToStep", 2);
 		<?php endif ?>
 
-		<?php if ($this->session->flashdata('sudah-diverifikasi')) : ?>
-			$('#smartwizard').smartWizard("stepState", [0, 1, 2], "disable");
-			$('#smartwizard').smartWizard("goToStep", 3);
+		// Smartwizard Email
+		$('#smartwizard-email').smartWizard({
+			selected: 0, // Initial selected step, 0 = first step
+			theme: 'dots', // 1. default 2. arrows 3. dots 4. progress  theme for the wizard, related css need to include for other than default theme
+			justified: true, // Nav menu justification. true/false
+			darkMode: false, // Enable/disable Dark Mode if the theme supports. true/false
+			autoAdjustHeight: true, // Automatically adjust content height
+			cycleSteps: false, // Allows to cycle the navigation of steps
+			backButtonSupport: true, // Enable the back button support
+			enableURLhash: true, // Enable selection of the step based on url hash
+			transition: {
+				animation: 'fade', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+				speed: '400', // Transion animation speed
+				easing: '' // Transition animation easing. Not supported without a jQuery easing plugin
+			},
+			toolbarSettings: {
+				toolbarPosition: 'bottom', // none, top, bottom, both
+				toolbarButtonPosition: 'right', // left, right, center
+				showNextButton: false, // show/hide a Next button
+				showPreviousButton: false, // show/hide a Previous button
+				toolbarExtraButtons: [] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+			},
+			anchorSettings: {
+				anchorClickable: true, // Enable/Disable anchor navigation
+				enableAllAnchors: false, // Activates all anchors clickable all times
+				markDoneStep: true, // Add done state on navigation
+				markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+				removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+				enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+			},
+			keyboardSettings: {
+				keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+				keyLeft: [37], // Left key code
+				keyRight: [39] // Right key code
+			},
+			lang: { // Language variables for button
+				next: 'Selanjutnya',
+				previous: 'Sebelumnya'
+			},
+			disabledSteps: [], // Array Steps disabled
+			errorSteps: [], // Highlight step with errors
+			hiddenSteps: [] // Hidden steps
+		});
+
+		$('#smartwizard-email').smartWizard("stepState", [2, 3], "disable");
+		$('#smartwizard-email').smartWizard("goToStep", 0);
+
+		<?php if ($this->session->flashdata('sudah-diverifikasi-email')) : ?>
+			$('#smartwizard-email').smartWizard("stepState", [0, 1, 2], "disable");
+			$('#smartwizard-email').smartWizard("stepState", [3], "enable");
+			$('#smartwizard-email').smartWizard("goToStep", 3);
+		<?php endif ?>
+
+		<?php if ($this->session->flashdata('kirim-otp-email')) : ?>
+			$('#smartwizard-email').smartWizard("stepState", [0, 1], "disable");
+			$('#smartwizard-email').smartWizard("stepState", [2], "enable");
+			$('#smartwizard-email').smartWizard("goToStep", 2);
 		<?php endif ?>
 	});
 </script>

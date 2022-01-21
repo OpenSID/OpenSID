@@ -102,7 +102,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									</label>
 								</div>
 							<?php endif; ?>
-
 						</div>
 					</div>
 					<div class="box-footer">

@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 11. [#4710](https://github.com/OpenSID/OpenSID/issues/4710) Notifikasi kirim pin baru melalui email.
 12. [#4670](https://github.com/OpenSID/OpenSID/issues/4670) Reset password untuk pengguna administrator.
 13. [#4669](https://github.com/OpenSID/OpenSID/issues/4669) Verifikasi akun email untuk pengguna administrator.
+14. [#4711](https://github.com/OpenSID/OpenSID/issues/4711) Kirim verifikasi melalui email pada pendaftaran layanan mandiri.
 
 #### Perbaikan BUG
 
