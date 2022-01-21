@@ -36,7 +36,7 @@
 														</div>
 													</div>
 												</div>
-												<?php if ($this->CI->cek_hak_akses('u')): ?>
+												<?php if ($this->CI->cek_hak_akses('u') && ! config_item('demo_mode')): ?>
 													<div class="col-md-12">
 													<div class="box-header with-border">
 														<h3 class="box-title"><strong>Restore Database SID</strong></h3>
