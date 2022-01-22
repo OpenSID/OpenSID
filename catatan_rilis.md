@@ -24,6 +24,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 16. [#4664](https://github.com/OpenSID/OpenSID/issues/4664) Perbaiki wajib identitas menyesuaikan umur dan status perkawinan.
 17. [#4702](https://github.com/OpenSID/OpenSID/issues/4702) Perbaiki dan sediakan pengaturan suara video login mandiri.
 18. [#4714](https://github.com/OpenSID/OpenSID/issues/4714) Perbaiki tidak bisa menghapus artikel.
+19. [#4731](https://github.com/OpenSID/OpenSID/issues/4731) Perbaiki Latar Website pada tema tidak berganti.
+20. [#4745](https://github.com/OpenSID/OpenSID/issues/4745) Perbaiki Salah penyebutan "Dusun" pada laporan rekap vaksin.
+21. [#4746](https://github.com/OpenSID/OpenSID/issues/4746) Perbaiki Nomor dan Tanggal Akta Nikah aktif ketika status perkawinan belum kawin.
+22. [#4744](https://github.com/OpenSID/OpenSID/issues/4744) Perbaiki Sesuaikan Sebutan Desa pada Notifikasi Layanan Mandiri.
 
 #### Perubahan Teknis
 

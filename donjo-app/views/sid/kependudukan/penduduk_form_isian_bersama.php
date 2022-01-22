@@ -796,12 +796,12 @@
 	function disable_kawin_cerai(status) {
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
 		switch (status) {
-			case '4':
+			case '1':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
-				$('#wajib_ktp').text('WAJIB');
+				$('#wajib_ktp').text('BELUM WAJIB');
 				break;
 			case '2':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -815,6 +815,13 @@
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
+				$('#wajib_ktp').text('WAJIB');
+				break;
+			case '4':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');
 				break;
 		}
