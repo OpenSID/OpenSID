@@ -178,7 +178,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</thead>
 					<tbody>
 						<?php if ($main): ?>
-							<?php foreach ($main as $data): ?>
+							<?php foreach ($main as $key => $data): ?>
 								<tr>
 									<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 									<td><?= strtoupper($data['DUSUN'])?></td>
