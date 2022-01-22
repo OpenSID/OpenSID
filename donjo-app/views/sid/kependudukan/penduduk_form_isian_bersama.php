@@ -665,6 +665,24 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		var addOrRemoveRequiredAttribute = function() {
+			var tglsekarang = new Date();
+			var tgllahir = parseInt($('#tgl_1').val().substring(6, 10));
+			var selisih = tglsekarang.getFullYear() - tgllahir;
+			var wajib_identitas = $('.wajib_identitas');
+			var status_perkawinan = document.getElementById("status_perkawinan").value;
+			if (selisih > 16 || (status_perkawinan != '' && status_perkawinan > 1)) {
+				$('#wajib_ktp').text('WAJIB');
+					wajib_identitas.addClass('required');
+			} else {
+				$('#wajib_ktp').text('BELUM WAJIB');
+					wajib_identitas.removeClass('required');
+			}
+		};
+
+		$("#tgl_1").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
+		$("#status_perkawinan").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
+		$(".form-control").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 
 		$('#tag_id_card').focus();
 
