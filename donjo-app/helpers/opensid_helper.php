@@ -661,8 +661,6 @@ function xcopy($src = '', $dest = '', $exclude = [])
         mkdir($dest, 0755, true);
     }
 
-    log_message('error','jalan');
-
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
