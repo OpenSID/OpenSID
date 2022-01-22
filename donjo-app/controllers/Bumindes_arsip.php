@@ -46,14 +46,18 @@ class Bumindes_arsip extends Admin_controller
     {
         parent::__construct();
         $this->load->model('arsip_fisik_model');
-        $this->list_session = ['data_filter_tahun', 'data_filter_jenis', 'data_filter_cari'];
+        $this->list_session = ['data_filter_tahun', 'data_filter_jenis', 'data_filter_cari', 'data_filter_kategori'];
         $this->_set_page = ['50', '100', '200'];
+
+        $this->modul_ini = 301;
+        $this->sub_modul_ini = 306;
     }
 
-    public function index()
+    public function index($p=1, $o=4)
     {
         $total_dokumen_desa = $this->arsip_fisik_model->ambil_total_data('dokumen_desa');
-        $total_surat_desa = $this->arsip_fisik_model->ambil_total_data('surat_desa');
+        $total_surat_masuk = $this->arsip_fisik_model->ambil_total_data('surat_masuk');
+        $total_surat_keluar = $this->arsip_fisik_model->ambil_total_data('surat_keluar');
         $total_kependudukan = $this->arsip_fisik_model->ambil_total_data('kependudukan');
         $total_layanan_surat = $this->arsip_fisik_model->ambil_total_data('layanan_surat');
         
@@ -61,38 +65,35 @@ class Bumindes_arsip extends Admin_controller
             'dokumen_desa' => [
                 'title'=>'Dokumen Desa',
                 'total' => $total_dokumen_desa,
-                'uri' => 'bumindes_arsip/clear/dokumen_desa'
+                'uri' => 'dokumen_desa'
             ],
-            'surat_desa' => [
-                'title'=>'Surat Desa',
-                'total' => $total_surat_desa,
-                'uri' => 'bumindes_arsip/clear/surat_desa'
+            'surat_masuk' => [
+                'title'=>'Surat Masuk',
+                'total' => $total_surat_masuk,
+                'uri' => 'surat_masuk'
+            ],
+            'surat_keluar' => [
+                'title'=>'Surat Keluar',
+                'total' => $total_surat_keluar,
+                'uri' => 'surat_keluar'
             ],
             'kependudukan' => [
                 'title'=>'Kependudukan',
                 'total' => $total_kependudukan,
-                'uri' => 'bumindes_arsip/clear/kependudukan'
+                'uri' => 'kependudukan'
             ],
             'layanan_surat' => [
                 'title'=>'Layanan Surat',
                 'total' => $total_layanan_surat,
-                'uri' => 'bumindes_arsip/clear/layanan_surat'
+                'uri' => 'layanan_surat'
             ]
         ];
-
         
-        $this->render('bumindes/arsip/dashboard', $data);
-    }
-
-    public function tampil($kategori, $p=1)
-    {
-        $this->session->kategori_arsip = $kategori;
         if($filter_jenis = $this->input->post('jenis')){
-            $this->session->unset_userdata($this->list_session[2]);
+            $this->session->unset_userdata($this->list_session[3]);
             $this->session->{$this->list_session[1]} = $filter_jenis;
         } 
         if($filter_tahun = $this->input->post('tahun')){
-            $this->session->unset_userdata($this->list_session[2]);
             $this->session->{$this->list_session[0]} = $filter_tahun;
         }
         if($filter_cari = $this->input->post('cari')){
@@ -103,32 +104,56 @@ class Bumindes_arsip extends Admin_controller
 
         $this->session->data_perpage = $this->session->data_perpage ?? $this->_set_page[0];
 
-        $data['func']              = "set_perpage/$kategori";
+        $data['func']              = "set_perpage";
         $data['set_page']          = $this->_set_page;
         $data['per_page']          = $this->session->data_perpage;
-        $data['paging']            = $this->arsip_fisik_model->paging($p, $kategori);
-        $data['main']              = $this->arsip_fisik_model->ambil_dokumen_perpage($kategori, true, $data['per_page'], $p);
+        $data['paging']            = $this->arsip_fisik_model->paging($p);
+        $data['main']              = $this->arsip_fisik_model->ambil_dokumen_perpage(true, $data['per_page'], $p, $o);
         $data['page']              = $p;
-        $data['kategori']          = $kategori;
+        $data['o']                 = $o;
+        
+        $filter = $this->arsip_fisik_model->ambil_semua_filter();
 
-        $filter = $this->arsip_fisik_model->ambil_semua_filter($kategori);
         
         $data['list_tahun'] = $filter['tahun'];
         $data['list_jenis'] = $filter['jenis'];
 
         $data['main_content'] = 'bumindes/arsip/content_arsip';
         
-        $this->render('bumindes/arsip/main', $data);
+        $this->render('bumindes/arsip/dashboard', $data);
     }
+    
 
-    public function set_perpage($kategori, $page = 1)
+    public function set_perpage($page=1, $o=4)
     {
         if($sess_perpage = $this->input->post('per_page')){
             $this->session->data_perpage = $sess_perpage;
-            redirect($this->controller."/$kategori/$page");
         }
 
-        redirect($this->controller."/{$kategori}/{$page}");
+        redirect($this->controller."/{$page}/{$o}");
+    }
+
+    public function kategori($kat)
+    {
+        $this->session->unset_userdata('data_perpage');
+        switch($kat){
+            case 'dokumen_desa':
+                $this->session->{$this->list_session[3]} = 'dokumen_desa';
+                break;
+            case 'surat_masuk':
+                $this->session->{$this->list_session[3]} = 'surat_masuk';
+                break;
+            case 'surat_keluar':
+                $this->session->{$this->list_session[3]} = 'surat_keluar';
+                break;
+            case 'kependudukan':
+                $this->session->{$this->list_session[3]} = 'kependudukan';
+                break;
+            case 'layanan_surat':
+                $this->session->{$this->list_session[3]} = 'layanan_surat';
+                break;
+        }
+        redirect($this->controller);
     }
 
     public function tindakan_lihat($kategori, $id, $tindakan)
@@ -145,17 +170,10 @@ class Bumindes_arsip extends Admin_controller
         }
     }
 
-    public function tindakan_ubah($kategori, $id, $tindakan, $p)
+    public function tindakan_ubah($kategori, $id, $p, $o)
     {
         $tabel = $this->get_table($kategori);
-        switch($tindakan){
-            case 'ubah':
-                $this->modal_ubah_arsip($tabel, $id, $p);
-                break;
-            case 'hapus':
-                $this->modal_hapus_dokumen($tabel, $id, $p);
-                break;
-        }
+        $this->modal_ubah_arsip($tabel, $id, $p, $o);
     }
 
     public function tampilkan_berkas($tabel, $berkas, $tampil = true)
@@ -165,11 +183,7 @@ class Bumindes_arsip extends Admin_controller
             $lokasi = LOKASI_DOKUMEN;
         else if($tabel=='surat_masuk' || $tabel=='surat_keluar')
             $lokasi = LOKASI_ARSIP;
-        ambilBerkas($berkas, $this->controller."/{$this->session->kategori_arsip}", null, $lokasi, $tampil ?? false);
-    }
-
-    public function test($berkas){
-        ambilBerkas($berkas, $this->controller);
+        ambilBerkas($berkas, $this->controller, null, $lokasi, $tampil ?? false);
     }
 
     public function unduh_berkas($tabel, $berkas)
@@ -177,39 +191,25 @@ class Bumindes_arsip extends Admin_controller
         $this->tampilkan_berkas($tabel, $berkas, false);
     }
 
-    public function modal_ubah_arsip($tabel, $id, $p)
+    public function modal_ubah_arsip($tabel, $id, $p, $o)
     {
         $data['page'] = $p;
         $data['tabel'] = $tabel;
         $data['id_doc'] = $id;
+        $data['o'] = $o;
+        $data['value'] = $this->arsip_fisik_model->get_lokasi_arsip($id, $tabel);
         $this->load->view("bumindes/arsip/modal_tindakan_ubah", $data);
     }
 
-    public function modal_hapus_dokumen($tabel, $id, $p)
-    {
-        $data['page'] = $p;
-        $data['tabel'] = $tabel;
-        $data['id_doc'] = $id;
-        $this->load->view("bumindes/arsip/modal_tindakan_hapus", $data);
-    }
-
-    public function ubah_dokumen($tabel, $id, $p)
+    public function ubah_dokumen($tabel, $id, $p, $o)
     {
         $lokasi_baru = $this->input->post('lokasi_arsip');
         $this->arsip_fisik_model->update_lokasi($tabel, $id, $lokasi_baru);
 
-        redirect($this->controller."/{$this->session->kategori_arsip}/{$p}");
+        redirect($this->controller.'/'.$p.'/'.$o);
     }
 
-    public function hapus_dokumen($tabel, $id, $p)
-    {
-        $this->arsip_fisik_model->hapus_dokumen($tabel, $id);
-
-        redirect($this->controller."/{$this->session->kategori_arsip}/{$p}");
-    }
-
-
-    public function clear($kategori)
+    public function clear()
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->unset_userdata('data_perpage');
@@ -217,7 +217,7 @@ class Bumindes_arsip extends Admin_controller
         $this->session->unset_userdata('id_arsip');
         $this->session->unset_userdata('id');
 
-        redirect($this->controller."/$kategori");
+        redirect($this->controller);
     }
 
     private function get_table($kategori){
