@@ -35,71 +35,22 @@
  *
  */
 
-interface OTP_interface
+require_once 'donjo-app/libraries/OTP/Abstract_manager.php';
+require_once 'donjo-app/libraries/Reset/Email/Email_repository.php';
+require_once 'donjo-app/libraries/Reset/Password_repository.php';
+
+class Password extends Abstract_manager
 {
     /**
-     * Kirim otp ke user.
-     *
-     * @param mixed $user
-     * @param mixed $otp
-     *
-     * @throws \Exception
-     *
-     * @return void
+     * {@inheritDoc}
      */
-    public function kirim_otp($user, $otp);
+    public function getDefaultDriver()
+    {
+        return 'email';
+    }
 
-    /**
-     * Verifikasi otp user.
-     *
-     * @param mixed $otp
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function verifikasi_otp($otp, $user = null);
-
-    /**
-     * Kirim pesan ke user telegram.
-     *
-     * @param mixed $user
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function verifikasi_berhasil($user, $nama);
-
-    /**
-     * Cek verifikasi otp user.
-     *
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function cek_verifikasi_otp($user);
-
-    /**
-     * Kirim pesan permintaan pin baru ke user telegram.
-     *
-     * @param mixed $user = chatID
-     * @param mixed $pin
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function kirim_pin_baru($user, $pin, $nama);
-
-    /**
-     * Cek akun sudah terdaftar.
-     *
-     * @param mixed $user
-     * @param mixed $chat_id
-     *
-     * @return bool
-     */
-    public function cek_akun_terdaftar($chat_id);
+    public function createEmailDriver()
+    {
+        return new Email_repository(new Password_repository());
+    }
 }

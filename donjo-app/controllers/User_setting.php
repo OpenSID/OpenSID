@@ -42,7 +42,8 @@ class User_setting extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-
+        $this->lang->load('passwords');
+        $this->load->library('reset/password', '', 'password');
         $this->load->model('user_model');
     }
 
@@ -94,5 +95,81 @@ class User_setting extends Admin_Controller
         $data['main']   = $this->user_model->get_user($id);
         $data['header'] = $this->config_model->get_data();
         $this->load->view('setting_pwd', $data);
+    }
+
+    public function kirim_verifikasi()
+    {
+        $user = $this->db->where('id', $this->session->user)->get('user')->row();
+
+        if ($user->email_verified_at !== null) {
+            $this->session->success = 1;
+
+            return redirect('hom_sid');
+        }
+
+        try {
+            $status = $this->password->driver('email')->sendVerifyLink([
+                'email' => $user->email,
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', $e);
+
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Tidak berhasil mengirim verifikasi email';
+
+            return redirect('hom_sid');
+        }
+
+        if ($status === 'verify') {
+            $this->session->success = 1;
+        } else {
+            $this->session->success   = -1;
+            $this->session->error_msg = lang($status);
+        }
+
+        return redirect('hom_sid');
+    }
+
+    public function verifikasi(string $hash)
+    {
+        $user = $this->db->where('id', $this->session->user)->get('user')->row();
+
+        if ($user->email_verified_at !== null) {
+            $this->session->success = 1;
+
+            return redirect('hom_sid');
+        }
+
+        // Check if hash equal with current user email.
+        if (! hash_equals($hash, sha1($user->email))) {
+            $this->session->success   = -1;
+            $this->session->error_msg = lang('token');
+
+            return redirect('hom_sid');
+        }
+
+        $signature = hash_hmac('sha256', $user->email, config_item('encryption_key'));
+
+        // Check signature key
+        if (! hash_equals($signature, $this->input->get('signature'))) {
+            $this->session->success   = -1;
+            $this->session->error_msg = lang('token');
+
+            return redirect('hom_sid');
+        }
+
+        // Check for token if expired
+        if ($this->input->get('expires') < strtotime(date('Y-m-d H:i:s'))) {
+            $this->session->success   = -1;
+            $this->session->error_msg = lang('expired');
+
+            return redirect('hom_sid');
+        }
+
+        $this->db->where('id', $this->session->user)->update('user', ['email_verified_at' => date('Y-m-d H:i:s')]);
+
+        $this->session->success = 1;
+
+        return redirect('hom_sid');
     }
 }

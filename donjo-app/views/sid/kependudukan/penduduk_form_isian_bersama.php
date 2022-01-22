@@ -1,14 +1,3 @@
-<?php
-/*
- * File ini:
- *
- * Views di Modul Kependudukan
- *
- * donjo-app/views/sid/kependudukan/penduduk_form_isian_bersama.php
- *
- */
-
-?>
 <div class="row">
 	<?php if ($jenis_peristiwa == 5 && ! $penduduk['tgl_peristiwa']) : ?>
 		<div class='col-sm-4'>
@@ -75,7 +64,6 @@
 							</thead>
 							<tbody>
 								<tr>
-									<!-- <td width='25%'><?= strtoupper($penduduk['wajib_ktp']) ?></td> -->
 									<?php if ($penduduk['wajib_ktp'] != null) : ?>
 										<td width='25%'><?= strtoupper($penduduk['wajib_ktp']) ?></td>
 									<?php else : ?>
@@ -220,12 +208,6 @@
 			</div>
 		</div>
 	</div>
-	<script>
-  function myFunction() {
-    let tokenAmount = document.getElementById("tgl_1").value;
-    alert(tokenAmount);
-  }
-</script>
 	<div class='col-sm-4'>
 		<div class='form-group'>
 			<label for="waktulahir">Waktu Kelahiran </label>
@@ -685,26 +667,20 @@
 
 	$(document).ready(function() {
 		var addOrRemoveRequiredAttribute = function() {
-	        var tglsekarang = new Date();
+			var tglsekarang = new Date();
 			var tgllahir = parseInt($('#tgl_1').val().substring(6, 10));
 			var selisih = tglsekarang.getFullYear() - tgllahir;
 			var wajib_identitas = $('.wajib_identitas');
-			var tag_id_card = $('#tag_id_card');
 			var status_perkawinan = document.getElementById("status_perkawinan").value;
-		  	if (selisih > 16 || (status_perkawinan != '' && status_perkawinan > 1)) {
-		  		$('#wajib_ktp').text('WAJIB');
-		        wajib_identitas.addClass('required');
-		        if (selisih > 16) {
-		        	tag_id_card.addClass('required');
-		        } else {
-		        	tag_id_card.removeClass('required');
-		        }
-		    } else {
-		    	$('#wajib_ktp').text('BELUM WAJIB');
-		        wajib_identitas.removeClass('required');
-		        tag_id_card.removeClass('required');
-		    }
-	    };
+			if (selisih > 16 || (status_perkawinan != '' && status_perkawinan > 1)) {
+				$('#wajib_ktp').text('WAJIB');
+					wajib_identitas.addClass('required');
+			} else {
+				$('#wajib_ktp').text('BELUM WAJIB');
+					wajib_identitas.removeClass('required');
+			}
+		};
+
 		$("#tgl_1").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
 		$("#status_perkawinan").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 		$(".form-control").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
@@ -821,12 +797,12 @@
 	function disable_kawin_cerai(status) {
 		// Status 1 = belum kawin, 2 = kawin, 3 = cerai hidup, 4 = cerai mati
 		switch (status) {
-			case '4':
+			case '1':
 				$("#akta_perkawinan").attr('disabled', true);
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
-				$('#wajib_ktp').text('WAJIB');
+				$('#wajib_ktp').text('BELUM WAJIB');
 				break;
 			case '2':
 				$("#akta_perkawinan").attr('disabled', false);
@@ -840,6 +816,13 @@
 				$("input[name=tanggalperkawinan]").attr('disabled', true);
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
+				$('#wajib_ktp').text('WAJIB');
+				break;
+			case '4':
+				$("#akta_perkawinan").attr('disabled', true);
+				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perceraian").attr('disabled', true);
+				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');
 				break;
 		}

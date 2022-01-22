@@ -35,71 +35,11 @@
  *
  */
 
-interface OTP_interface
-{
-    /**
-     * Kirim otp ke user.
-     *
-     * @param mixed $user
-     * @param mixed $otp
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function kirim_otp($user, $otp);
-
-    /**
-     * Verifikasi otp user.
-     *
-     * @param mixed $otp
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function verifikasi_otp($otp, $user = null);
-
-    /**
-     * Kirim pesan ke user telegram.
-     *
-     * @param mixed $user
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function verifikasi_berhasil($user, $nama);
-
-    /**
-     * Cek verifikasi otp user.
-     *
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function cek_verifikasi_otp($user);
-
-    /**
-     * Kirim pesan permintaan pin baru ke user telegram.
-     *
-     * @param mixed $user = chatID
-     * @param mixed $pin
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function kirim_pin_baru($user, $pin, $nama);
-
-    /**
-     * Cek akun sudah terdaftar.
-     *
-     * @param mixed $user
-     * @param mixed $chat_id
-     *
-     * @return bool
-     */
-    public function cek_akun_terdaftar($chat_id);
-}
+$lang['verify']    = 'Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan saat pendaftaran.';
+$lang['confirm']   = 'Kata sandi yang diberikan salah.';
+$lang['reset']     = 'Kata sandi Anda telah disetel ulang!';
+$lang['sent']      = 'Kami telah mengirim email link reset password Anda!';
+$lang['throttled'] = 'Harap tunggu sebelum mencoba lagi.';
+$lang['token']     = 'Token pengaturan ulang kata sandi ini tidak valid.';
+$lang['expired']   = 'Token reset password ini sudah kadaluarsa.';
+$lang['user']      = 'Kami tidak dapat menemukan pengguna dengan alamat email tersebut.';

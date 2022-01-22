@@ -78,7 +78,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<a href="<?= site_url("{$this->controller}/ekspor/{$suplemen['id']}"); ?>" class="btn btn-social btn-flat bg-teal btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-file-excel-o "></i> Ekspor Data</a>
 				<a href="<?= site_url("{$this->controller}/dialog_daftar/{$suplemen['id']}/cetak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Suplemen <?= $sasaran[$suplemen['sasaran']]; ?> "><i class="fa fa-print "></i> Cetak</a>
 				<a href="<?= site_url("{$this->controller}/dialog_daftar/{$suplemen['id']}/unduh"); ?>" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Suplemen <?= $sasaran[$suplemen['sasaran']]; ?> "><i class="fa fa-download "></i> Unduh</a>
-				<a href="<?= site_url($this->controller); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
+				<a href="<?= site_url("{$this->controller}/clear/1"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan"><i class="fa fa-refresh"></i>Bersihkan</a>
+				<a href="<?= site_url("{$this->controller}/clear"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Suplemen">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 				</a>
 			</div>
@@ -88,7 +89,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<form id="mainform" name="mainform" method="post">
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-9">
+								<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('suplemen/filter/sex'); ?>')">
+									<option value="">Pilih Jenis Kelamin</option>
+									<?php foreach ($list_jenis_kelamin as $data): ?>
+										<option value="<?= $data['id']; ?>" <?= selected($sex, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
+									<?php endforeach; ?>
+								</select>
+								<?php $this->load->view('global/filter_wilayah', ['form' => 'mainform']); ?>
+							</div>
+							<div class="col-sm-3">
 								<div class="input-group input-group-sm pull-right">
 									<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" value="<?= $cari ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("{$this->controller}/filter/cari"); ?>');$('#'+'mainform').submit();}">
 									<div class="input-group-btn">
@@ -140,7 +150,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<?php endforeach; ?>
 									<?php else: ?>
 										<tr>
-											<td class="text-center" colspan="10">Data Tidak Tersedia</td>
+											<td class="text-center" colspan="11">Data Tidak Tersedia</td>
 										</tr>
 									<?php endif; ?>
 								</tbody>

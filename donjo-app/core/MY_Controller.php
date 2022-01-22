@@ -356,7 +356,7 @@ class Admin_Controller extends Premium
     public function __construct()
     {
         parent::__construct();
-        // $this->validasi();
+        $this->validasi();
         $this->CI = CI_Controller::get_instance();
         $this->load->model(['user_model', 'notif_model', 'referensi_model']);
         $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);

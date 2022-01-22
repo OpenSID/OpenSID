@@ -44,7 +44,11 @@
 										<br /><?=ucwords($this->setting->sebutan_kecamatan)?> <?=$header['nama_kecamatan']?><br /><?=ucwords($this->setting->sebutan_kabupaten)?> <?=$header['nama_kabupaten']?>
 									</h3>
 								</div>
-								<hr />
+								<?php if ($notif = $this->session->flashdata('notif')) : ?>
+									<div class="alert alert-info">
+										<p><?= $notif ?></p>
+									</div>
+								<?php endif ?>
 							</div>
 							<div class="form-bottom">
 								<form id="validasi" class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
@@ -61,9 +65,13 @@
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi
+											<a href="<?= site_url('siteman/lupa_sandi') ?>" class="btn" role="button" aria-pressed="true">Lupa Kata Sandi?</a>
 										</div>
 										<hr />
-										<button type="submit" class="btn">MASUK</button>
+										<div class="form-group">
+											<button type="submit" class="btn">Masuk</button>
+										</div>
+
 										<?php if ($this->session->siteman == -1 && $this->session->siteman_try < 4): ?>
 											<div class="error">
 												<p style="color:red; text-transform:uppercase">Login Gagal.<br />Nama pengguna atau kata sandi yang Anda masukkan salah!<br />

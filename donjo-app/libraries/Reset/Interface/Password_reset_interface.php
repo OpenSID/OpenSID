@@ -35,71 +35,56 @@
  *
  */
 
-interface OTP_interface
+interface Password_reset_interface
 {
     /**
-     * Kirim otp ke user.
+     * Create a new token.
      *
      * @param mixed $user
-     * @param mixed $otp
      *
-     * @throws \Exception
-     *
-     * @return void
+     * @return string
      */
-    public function kirim_otp($user, $otp);
+    public function create($user);
 
     /**
-     * Verifikasi otp user.
+     * Create a new token for the user.
      *
-     * @param mixed $otp
-     * @param mixed $user
+     * @return string
+     */
+    public function createNewToken();
+
+    /**
+     * Determine if a token record exists and is valid.
+     *
+     * @param mixed  $user
+     * @param string $token
      *
      * @return bool
      */
-    public function verifikasi_otp($otp, $user = null);
+    public function exists($user, $token);
 
     /**
-     * Kirim pesan ke user telegram.
-     *
-     * @param mixed $user
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function verifikasi_berhasil($user, $nama);
-
-    /**
-     * Cek verifikasi otp user.
+     * Determine if the given user recently created a password reset token.
      *
      * @param mixed $user
      *
      * @return bool
      */
-    public function cek_verifikasi_otp($user);
+    public function recentlyCreatedToken($user);
 
     /**
-     * Kirim pesan permintaan pin baru ke user telegram.
+     * Destroy a token record.
      *
-     * @param mixed $user = chatID
-     * @param mixed $pin
-     * @param mixed $nama
-     *
-     * @throws \Exception
+     * @param mixed $user
      *
      * @return void
      */
-    public function kirim_pin_baru($user, $pin, $nama);
+    public function destroy($user);
 
     /**
-     * Cek akun sudah terdaftar.
+     * Delete expired tokens.
      *
-     * @param mixed $user
-     * @param mixed $chat_id
-     *
-     * @return bool
+     * @return void
      */
-    public function cek_akun_terdaftar($chat_id);
+    public function destroyExpired();
 }

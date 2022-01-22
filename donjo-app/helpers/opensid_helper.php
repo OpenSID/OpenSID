@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.01-premium-beta03');
+define('VERSION', '22.01-premium-beta04');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -51,7 +51,7 @@ define('VERSION', '22.01-premium-beta03');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022011771');
+define('VERSI_DATABASE', '2022012271');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -472,14 +472,20 @@ function get_external_ip()
 
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
-function xcopy($src, $dest)
+function xcopy($src = '', $dest = '', $exclude = [])
 {
+    if (! file_exists($dest)) {
+        mkdir($dest, 0755, true);
+    }
+
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
-        if (! is_readable($srcfile)) {
+
+        if (! is_readable($srcfile) || in_array($file, $exclude)) {
             continue;
         }
+
         if ($file != '.' && $file != '..') {
             if (is_dir($srcfile)) {
                 if (! file_exists($destfile)) {
@@ -1087,4 +1093,78 @@ function kode_format($lampiran = '')
     $str = strtoupper(str_replace('.php', '', $lampiran));
 
     return str_replace(',', ', ', $str);
+}
+
+/**
+ * Determine if the given key exists in the provided array.
+ *
+ * @param array|ArrayAccess $array
+ * @param int|string        $key
+ *
+ * @return bool
+ */
+function exists($array, $key)
+{
+    if ($array instanceof \ArrayAccess) {
+        return $array->offsetExists($key);
+    }
+
+    return array_key_exists($key, $array);
+}
+
+/**
+ * Remove one or many array items from a given array using "dot" notation.
+ *
+ * @param array        $array
+ * @param array|string $keys
+ *
+ * @return void
+ */
+function forget(&$array, $keys)
+{
+    $original = &$array;
+    $keys     = (array) $keys;
+
+    if (count($keys) === 0) {
+        return;
+    }
+
+    foreach ($keys as $key) {
+        // if the exact key exists in the top-level, remove it
+        if (exists($array, $key)) {
+            unset($array[$key]);
+
+            continue;
+        }
+
+        $parts = explode('.', $key);
+        // clean up before each pass
+        $array = &$original;
+
+        while (count($parts) > 1) {
+            $part = array_shift($parts);
+
+            if (isset($array[$part]) && is_array($array[$part])) {
+                $array = &$array[$part];
+            } else {
+                continue 2;
+            }
+        }
+        unset($array[array_shift($parts)]);
+    }
+}
+
+/**
+ * Get all of the given array except for a specified array of keys.
+ *
+ * @param array        $array
+ * @param array|string $keys
+ *
+ * @return array
+ */
+function except($array, $keys)
+{
+    forget($array, $keys);
+
+    return $array;
 }

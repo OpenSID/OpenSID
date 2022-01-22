@@ -47,6 +47,7 @@ class Mandiri extends Admin_Controller
         parent::__construct();
         $this->load->model('mandiri_model');
         $this->load->library('OTP/OTP_manager', null, 'otp_library');
+        $this->load->library('email', config_item('email'));
 
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 56;
@@ -107,7 +108,8 @@ class Mandiri extends Admin_Controller
             $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
-        $data['tgl_verifikasi'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
+        $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
+        $data['tgl_verifikasi_email']    = $this->otp_library->driver('email')->cek_verifikasi_otp($data['id_pend']);
 
         $this->load->view('mandiri/ajax_pin', $data);
     }
@@ -124,8 +126,10 @@ class Mandiri extends Admin_Controller
     public function ajax_verifikasi_warga($id_pend)
     {
         $this->redirect_hak_akses('u');
-        $data['form_action'] = site_url("{$this->controller}/verifikasi_warga/{$id_pend}");
-        $data['penduduk']    = $this->mandiri_model->get_mandiri($id_pend);
+        $data['tgl_verifikasi_telegram'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($id_pend);
+        $data['tgl_verifikasi_email']    = $this->otp_library->driver('email')->cek_verifikasi_otp($id_pend);
+        $data['form_action']             = site_url("{$this->controller}/verifikasi_warga/{$id_pend}");
+        $data['penduduk']                = $this->mandiri_model->get_mandiri($id_pend);
 
         $this->load->view('mandiri/ajax_verifikasi_warga', $data);
     }
@@ -134,26 +138,86 @@ class Mandiri extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        try {
-            $outp = $this->db->where('id_pend', $id_pend)
-                ->set('aktif', true)
-                ->update('tweb_penduduk_mandiri');
+        $post          = $this->input->post();
+        $pilihan_kirim = $post['pilihan_kirim'];
+        $data          = $this->db->from('tweb_penduduk')->select('telegram, email, nama')->where('id', $id_pend)->get()->row();
 
-            $chat_id = $this->db->from('tweb_penduduk')->select('telegram')->where('id', $id_pend)->get()->row();
+        switch (true) {
+            case $pilihan_kirim == 'kirim_telegram':
+                $this->update_warga_aktif_telegram($id_pend, $data);
+                break;
+
+            case $pilihan_kirim == 'kirim_email':
+                $this->update_warga_aktif_email($id_pend, $data);
+                break;
+
+            default:
+                redirect($this->controller);
+                break;
+        }
+    }
+
+    protected function update_warga_aktif_telegram($id_pend, $data)
+    {
+        $this->redirect_hak_akses('u');
+        $this->db->trans_begin();
+
+        try {
+            $outp = $this->db->where('id_pend', $id_pend)->set('aktif', true)->update('tweb_penduduk_mandiri');
 
             $this->telegram->sendMessage([
-                'chat_id' => $chat_id->telegram,
-                'text'    => <<<'EOD'
-                    SELAMAT AKUN LAYANAN MANDIRI ANDA SUDAH DIVERIFIKASI DAN TELAH DISETUJUI
+                'chat_id' => $data->telegram,
+                'text'    => <<<EOD
+                    HALLO {$data->nama},
 
+                    SELAMAT AKUN LAYANAN MANDIRI ANDA SUDAH DIVERIFIKASI DAN TELAH DISETUJUI
                     SAAT INI ANDA SUDAH DAPAT LOGIN DI FITUR LAYANAN MANDIRI
 
                     TERIMA KASIH.
                     EOD,
                 'parse_mode' => 'Markdown',
             ]);
+
+            $this->db->trans_commit();
         } catch (\Exception $e) {
             log_message('error', $e);
+
+            $this->db->trans_rollback();
+
+            status_sukses(false);
+            redirect($this->controller);
+        }
+
+        status_sukses($outp);
+        redirect($this->controller);
+    }
+
+    protected function update_warga_aktif_email($id_pend, $data)
+    {
+        $this->redirect_hak_akses('u');
+        $this->db->trans_begin();
+
+        try {
+            $outp = $this->db->where('id_pend', $id_pend)->set('aktif', true)->update('tweb_penduduk_mandiri');
+
+            $this->email->from($this->email->smtp_user, 'OpenSID')
+                ->to($data->email)
+                ->subject('Verifikasi Akun Layanan Mandiri')
+                ->set_mailtype('html')
+                ->message($this->load->view('mandiri/email/verifikasi-berhasil', ['nama' => $data->nama], true));
+
+            if (! $this->email->send()) {
+                throw new \Exception($this->email->print_debugger());
+            }
+
+            $this->db->trans_commit();
+        } catch (\Exception $e) {
+            log_message('error', $e);
+
+            $this->db->trans_rollback();
+
+            status_sukses(false);
+            redirect($this->controller);
         }
 
         status_sukses($outp);
@@ -201,7 +265,7 @@ class Mandiri extends Admin_Controller
         if (cek_koneksi_internet() && $data['telepon']) {
             $no_tujuan = '+62' . substr($data['telepon'], 1);
 
-            $pesan = 'Selamat Datang di Layanan Mandiri Desa ' . $desa[nama_desa] . ' %0A%0AUntuk Menggunakan Layanan Mandiri, silahkan kunjungi ' . site_url('layanan-mandiri') . '%0AAkses Layanan Mandiri : %0A- NIK : ' . sensor_nik_kk($data[nik]) . ' %0A- PIN : ' . $pin . '%0A%0AHarap merahasiakan NIK dan PIN untuk keamanan data anda.%0A%0AHormat kami %0AKepala Desa ' . $desa[nama_desa] . '%0A%0A%0A' . $desa[nama_kepala_desa];
+            $pesan = 'Selamat Datang di Layanan Mandiri ' . ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) . ' %0A%0AUntuk Menggunakan Layanan Mandiri, silahkan kunjungi ' . site_url('layanan-mandiri') . '%0AAkses Layanan Mandiri : %0A- NIK : ' . sensor_nik_kk($data[nik]) . ' %0A- PIN : ' . $pin . '%0A%0AHarap merahasiakan NIK dan PIN untuk keamanan data anda.%0A%0AHormat kami %0AKepala Desa ' . $desa[nama_desa] . '%0A%0A%0A' . $desa[nama_kepala_desa];
 
             redirect("https://api.whatsapp.com/send?phone={$no_tujuan}&text={$pesan}");
         }

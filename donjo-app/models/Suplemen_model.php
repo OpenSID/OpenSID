@@ -309,6 +309,18 @@ class Suplemen_model extends MY_Model
             ->select('s.*, s.id_terdata, o.nik, o.nama, o.tempatlahir, o.tanggallahir, o.sex, k.no_kk, w.rt, w.rw, w.dusun')
             ->select('(case when (o.id_kk IS NULL or o.id_kk = 0) then o.alamat_sekarang else k.alamat end) AS alamat');
         $this->search_sql('1');
+        if ($sex = $this->session->sex) {
+            $this->db->where('o.sex', $sex);
+        }
+        if ($dusun = $this->session->dusun) {
+            $this->db->where('w.dusun', $dusun);
+        }
+        if ($rw = $this->session->rw) {
+            $this->db->where('w.rw', $rw);
+        }
+        if ($rt = $this->session->rt) {
+            $this->db->where('w.rt', $rt);
+        }
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -354,6 +366,18 @@ class Suplemen_model extends MY_Model
         $this->db
             ->select('s.*, s.id_terdata, o.no_kk, s.id_suplemen, o.nik_kepala, o.alamat, q.nik, q.nama, q.tempatlahir, q.tanggallahir, q.sex, w.rt, w.rw, w.dusun');
         $this->search_sql('2');
+        if ($sex = $this->session->sex) {
+            $this->db->where('q.sex', $sex);
+        }
+        if ($dusun = $this->session->dusun) {
+            $this->db->where('w.dusun', $dusun);
+        }
+        if ($rw = $this->session->rw) {
+            $this->db->where('w.rw', $rw);
+        }
+        if ($rt = $this->session->rt) {
+            $this->db->where('w.rt', $rt);
+        }
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {

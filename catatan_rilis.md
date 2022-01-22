@@ -13,6 +13,11 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. [#4612](https://github.com/OpenSID/OpenSID/issues/4612) Tambah fitur verifikasi akun email.
 8. [#4430](https://github.com/OpenSID/OpenSID/issues/4430) Penambahan Fitur Import Asuransi Kesehatan pada file FormatImporExcel.
 9. [#4665](https://github.com/OpenSID/OpenSID/issues/4665) Sediakan Filter Bantuan aktif dan tidak aktif Pada Statistik Bantuan Keluarga.
+10. [#4606](https://github.com/OpenSID/OpenSID/issues/4606) Tambah saring data rincian suplemen.
+11. [#4710](https://github.com/OpenSID/OpenSID/issues/4710) Notifikasi kirim pin baru melalui email.
+12. [#4670](https://github.com/OpenSID/OpenSID/issues/4670) Reset password untuk pengguna administrator.
+13. [#4669](https://github.com/OpenSID/OpenSID/issues/4669) Verifikasi akun email untuk pengguna administrator.
+14. [#4711](https://github.com/OpenSID/OpenSID/issues/4711) Kirim verifikasi melalui email pada pendaftaran layanan mandiri.
 
 #### Perbaikan BUG
 
@@ -33,6 +38,11 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 15. [#4646](https://github.com/OpenSID/OpenSID/issues/4646) Perbaiki duplikat pendataan tidak berfungsi.
 16. [#4664](https://github.com/OpenSID/OpenSID/issues/4664) Perbaiki wajib identitas menyesuaikan umur dan status perkawinan.
 17. [#4702](https://github.com/OpenSID/OpenSID/issues/4702) Perbaiki dan sediakan pengaturan suara video login mandiri.
+18. [#4714](https://github.com/OpenSID/OpenSID/issues/4714) Perbaiki tidak bisa menghapus artikel.
+19. [#4731](https://github.com/OpenSID/OpenSID/issues/4731) Perbaiki Latar Website pada tema tidak berganti.
+20. [#4745](https://github.com/OpenSID/OpenSID/issues/4745) Perbaiki Salah penyebutan "Dusun" pada laporan rekap vaksin.
+21. [#4746](https://github.com/OpenSID/OpenSID/issues/4746) Perbaiki Nomor dan Tanggal Akta Nikah aktif ketika status perkawinan belum kawin.
+22. [#4744](https://github.com/OpenSID/OpenSID/issues/4744) Perbaiki Sesuaikan Sebutan Desa pada Notifikasi Layanan Mandiri.
 
 #### Perubahan Teknis
 
@@ -40,4 +50,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4639](https://github.com/OpenSID/OpenSID/pull/4639) Penambahan single quote ( ' ) pada opsi order_by.
 3. Hapus folder/file logs setiap kali menjalankan job.
 4. Perbaikan link assets menggunakan helper asset().
-5. Tambahkan browser Edge yang berbasis Chromium
+5. Tambahkan browser Edge yang berbasis Chromium.
+6. Jangan kirim notifikasi jika token bot telegram kosong.

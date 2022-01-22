@@ -149,13 +149,13 @@ class OTP_email implements OTP_interface
     /**
      * {@inheritDoc}
      */
-    public function kirim_pin_baru($user, $pin)
+    public function kirim_pin_baru($user, $pin, $nama)
     {
         $this->ci->email->from($this->ci->email->smtp_user, 'OpenSID')
             ->to($user)
             ->subject('PIN Baru')
             ->set_mailtype('html')
-            ->message($this->ci->load->view('fmandiri/email/kirim-pin', ['pin' => $pin], true));
+            ->message($this->ci->load->view('fmandiri/email/kirim-pin', ['pin' => $pin, 'nama' => $nama], true));
 
         if ($this->ci->email->send()) {
             return true;

@@ -73,9 +73,33 @@
 				</div>
 			</div>
 		</div>
+		<div class="form-group">
+			<?php if ($tgl_verifikasi_telegram || $tgl_verifikasi_email) : ?>
+				<label style="margin-top: 10px; margin-bottom: 0px;">Kirim Pemberitahuan Verifikasi Melalui : </label>
+			<?php endif; ?>
+
+			<?php if ($tgl_verifikasi_email) : ?>
+				<div class="radio">
+					<label style="font-size: 13.7px;">
+						<input type="radio" value="kirim_email" id="kirim_email" name="pilihan_kirim" checked> Email
+					</label>
+				</div>
+			<?php endif; ?>
+
+			<?php if ($tgl_verifikasi_telegram) : ?>
+				<div class="radio">
+					<label style="font-size: 13.7px;">
+						<input type="radio" value="kirim_telegram" id="kirim_telegram" name="pilihan_kirim" checked> Telegram
+					</label>
+				</div>
+			<?php endif; ?>
+		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class='fa fa-times'></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Verifikasi</button>
+
+		<?php if ($tgl_verifikasi_telegram || $tgl_verifikasi_email) : ?>
+			<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Verifikasi</button>
+		<?php endif; ?>
 	</div>
 </form>

@@ -58,9 +58,9 @@ class Arsip_fisik_model extends MY_Model
     {
         $jenis = [];
         $tahun = [];
-        $jenis['1-1'] = 'Informasi Desa';
-        $jenis['1-2'] = 'SK Kades';
-        $jenis['1-3'] = 'Perdes';
+        $jenis['1-1'] = 'Informasi Desa Lain';
+        $jenis['1-2'] = 'Surat Keputusan Kepaladesa';
+        $jenis['1-3'] = 'Peraturan Desa';
         $jenis['2-1'] = 'Surat Masuk';
         $jenis['3-1'] = 'Surat Keluar';
         $syarat_surat = $this->db->select('*')->get('ref_syarat_surat')->result_array();
@@ -83,10 +83,10 @@ class Arsip_fisik_model extends MY_Model
         $p = ($p-1)*$perpage;
         $query_dokumen_desa = $this->db->select("`id` as id")
                                 ->select("IF(kategori=3, JSON_VALUE(`attr`, '$.no_ditetapkan'), JSON_VALUE(`attr`, '$.no_kep_kades')) as nomor_dokumen")
-                                ->select("STR_TO_DATE(IF(kategori=2, JSON_VALUE(`attr`, '$.tgl_kep_kades'), JSON_VALUE(`attr`, '$.tgl_ditetapkan')), '%d-%m-%Y') as tanggal_dokumen")
+                                ->select("IF(kategori=2, STR_TO_DATE(JSON_VALUE(`attr`, '$.tgl_kep_kades'), '%d-%m-%Y'), IF(kategori=3, STR_TO_DATE(JSON_VALUE(`attr`, '$.tgl_ditetapkan'), '%d-%m-%Y'), DATE(`updated_at`))) as tanggal_dokumen")
                                 ->select("`nama` as `nama_dokumen`")
                                 ->select("IF(`kategori`=3, '1-3', IF(`kategori`=2, '1-2', '1-1')) as jenis")
-                                ->select("IF(`kategori`=3, 'perdes', IF(`kategori`=2, 'sk_kades', 'informasi_desa')) as nama_jenis")
+                                ->select("IF(`kategori`=3, 'perdes', IF(`kategori`=2, 'sk_kades', 'informasi_desa_lain')) as nama_jenis")
                                 ->select("`lokasi_arsip`")
                                 ->select("IF(kategori=3, 'dokumen_sekretariat/clear/3', IF(kategori=2, 'dokumen_sekretariat/clear/2', '')) as modul_asli")
                                 ->select("`tahun`")
