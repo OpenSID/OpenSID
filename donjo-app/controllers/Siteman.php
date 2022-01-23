@@ -46,7 +46,7 @@ class Siteman extends MY_Controller
         $this->load->model('user_model');
         $this->load->model('theme_model');
         $this->lang->load('passwords');
-        $this->load->library('reset/password', '', 'password');
+        $this->load->library('Reset/Password', '', 'password');
     }
 
     public function index()
