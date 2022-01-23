@@ -177,12 +177,12 @@ class Penduduk_model extends MY_Model
     // Filter belum digunakan
     protected function tag_id_card_sql()
     {
-        if (isset($this->session->tag_id_card)) {
-            $kf = (string) $this->session->tag_id_card;
-            if ($kf == '1') {
-                $this->db->where('u.tag_id_card', null);
-            } elseif ($kf == '2') {
+        $kf = $this->session->tag_id_card;
+        if (isset($kf)) {
+            if ($kf === '1') {
                 $this->db->where('u.tag_id_card !=', null);
+            } elseif ($kf === '2') {
+                $this->db->where('u.tag_id_card', null);
             }
         }
     }
