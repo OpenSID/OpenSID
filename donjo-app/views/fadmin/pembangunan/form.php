@@ -95,7 +95,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" style="text-align:left;">Anggaran</label>
-										<input class="form-control input-sm required" name="anggaran" id="anggaran" value="<?= $main->anggaran ?>" type="number" placeholder="Anggaran" />
+										<input class="form-control input-sm" readonly name="anggaran" id="anggaran" value="<?= $main->anggaran ?>" type="number" placeholder="Anggaran" />
 									</div>
 								</div>
 							</div>
@@ -103,15 +103,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_pemerintah">Sumber Biaya Pemerintah</label>
-										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah"  onchange="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Pemerintah" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_pemerintah; ?>" ></input>
-										<label class="error cek">Total rincian sumber biaya tidak boleh melebihi anggaran.</label>
+										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah"  onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Pemerintah" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_pemerintah; ?>" ></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_provinsi">Sumber Biaya Provinsi</label>
-										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi"  onchange="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Provinsi" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_provinsi; ?>" ></input>
-										<label class="error cek">Total rincian sumber biaya tidak boleh melebihi anggaran.</label>
+										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi"  onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Provinsi" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_provinsi; ?>" ></input>
 									</div>
 								</div>
 							</div>
@@ -119,15 +117,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_kab_kota">Sumber Biaya Kab / Kota</label>
-										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required"  onchange="cek()" type="number" placeholder="Sumber Biaya Kab / Kota" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_kab_kota; ?>" ></input>
-										<label class="error cek">Total rincian sumber biaya tidak boleh melebihi anggaran.</label>
+										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required"  onkeyup="cek()" type="number" placeholder="Sumber Biaya Kab / Kota" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_kab_kota; ?>" ></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_swadaya">Sumber Biaya Swadaya</label>
-										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required" type="number" onchange="cek()" placeholder="Sumber Biaya Swadaya" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_swadaya; ?>" ></input>
-										<label class="error cek">Total rincian sumber biaya tidak boleh melebihi anggaran.</label>
+										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required" type="number" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_swadaya; ?>" ></input>
 									</div>
 								</div>
 							</div>
@@ -222,7 +218,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</section>
 </div>
 <script>
-	$('.cek').css('display','none');
 	var sb_pem = document.getElementById('sumber_biaya_pemerintah');
 	var sb_prov = document.getElementById('sumber_biaya_provinsi');
 	var sb_kab = document.getElementById('sumber_biaya_kab_kota');
@@ -236,20 +231,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	function cek() {
 		const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
 	  	var biaya = numbers.reduce(getSum, 0);
+	  	document.getElementById('anggaran').value = biaya;
 	  	var total_anggaran = aggaran.value;
-	  	if (biaya > total_anggaran) {
-		  	$(sb_pem).closest(".form-group").addClass("has-error");
-		  	$(sb_prov).closest(".form-group").addClass("has-error");
-		  	$(sb_kab).closest(".form-group").addClass("has-error");
-		  	$(sb_swad).closest(".form-group").addClass("has-error");
-		  	$('.cek').css('display','block');
-	  	}else{
-	  		$(sb_pem).closest(".form-group").removeClass("has-error");
-		  	$(sb_prov).closest(".form-group").removeClass("has-error");
-		  	$(sb_kab).closest(".form-group").removeClass("has-error");
-		  	$(sb_swad).closest(".form-group").removeClass("has-error");
-		  	$('.cek').css('display','none');
-	  	}
 	};
 
 	$(document).ready(function(){
