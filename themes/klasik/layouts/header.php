@@ -100,6 +100,7 @@
 		<?php if ($single_artikel OR $gallery): ?>
 			<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<?php endif ?>
+
 		<!-- Ionicons -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/ionicons.min.css">
 

@@ -74,10 +74,14 @@
 				} else if ($('#success-code').val() == -4) {
 					notify = 'error';
 					notify_msg = 'Data gagal dihapus';
-				} else if ($('#success-code').val() == 5) {
+				}
+				else if ($('#success-code').val() == 5)
+				{
 					notify = 'success';
 					notify_msg = 'Data berhasil diunggah';
-				} else {
+				}
+				else
+				{
 					notify = '';
 					notify_msg = '';
 				}

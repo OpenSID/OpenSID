@@ -3,7 +3,7 @@
 	<?php if (is_file($this->theme_folder."/".$this->theme.'/css/first.css')): ?>
 		<link rel="stylesheet" href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/css/first.css' ?>" />
 	<?php endif; ?>
-	<?php if (is_file("desa/themes/".$this->theme.'/assets/css/desa-web.css')): ?>
+	<?php if (is_file($this->theme_folder."/".$this->theme.'/assets/css/desa-web.css')): ?>
 		<link type='text/css' href="<?= base_url().$this->theme_folder.'/'.$this->theme.'/assets/css/desa-web.css' ?>" rel='stylesheet' />
 	<?php endif; ?>
 	<?php if (is_file("desa/css/".$this->theme."/desa-web.css")): ?>
@@ -97,7 +97,7 @@
 						<div class="col-lg-3 col-xs-6">
 							<div class="small-box bg-blue">
 								<div class="inner">
-									<h3><?= number_format($idm->SUMMARIES->SKOR_SAAT_INI, 4) ?></sup></h3>
+									<h3><?= number_format($idm->SUMMARIES->SKOR_SAAT_INI, 4) ?></h3>
 									<p>SKOR IDM SAAT INI</p>
 								</div>
 								<div class="icon">
@@ -108,7 +108,7 @@
 						<div class="col-lg-3 col-xs-6">
 							<div class="small-box bg-yellow">
 								<div class="inner">
-									<h3><?= $idm->SUMMARIES->STATUS ?><sup style="font-size: 20px"></sup></h3>
+									<h3><?= $idm->SUMMARIES->STATUS ?></h3>
 									<p>STATUS IDM</p>
 								</div>
 								<div class="icon">
@@ -119,7 +119,7 @@
 						<div class="col-lg-3 col-xs-6">
 							<div class="small-box bg-green">
 								<div class="inner">
-									<h3><?= $idm->SUMMARIES->TARGET_STATUS ?><sup style="font-size: 20px"></sup></h3>
+									<h3><?= $idm->SUMMARIES->TARGET_STATUS ?></h3>
 									<p>TARGET STATUS</p>
 								</div>
 								<div class="icon">
@@ -130,7 +130,7 @@
 						<div class="col-lg-3 col-xs-6">
 							<div class="small-box bg-red">
 								<div class="inner">
-									<h3><?= number_format($idm->SUMMARIES->SKOR_MINIMAL, 4) ?><sup style="font-size: 20px"></sup></h2>
+									<h3><?= number_format($idm->SUMMARIES->SKOR_MINIMAL, 4) ?></h2>
 									<p>SKOR IDM MINIMAL</p>
 								</div>
 								<div class="icon">

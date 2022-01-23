@@ -3720,8 +3720,7 @@ class Database_model extends CI_Model {
 			"keuangan_manual_ref_bidang",
 			"keuangan_manual_ref_kegiatan",
 			"keuangan_manual_rinci_tpl",
-			"media_sosial", //?
-			"provinsi",
+			"media_sosial",
 			"ref_dokumen",
 			"ref_pindah",
 			"ref_syarat_surat",

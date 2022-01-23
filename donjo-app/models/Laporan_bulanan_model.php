@@ -457,8 +457,15 @@ class Laporan_bulanan_model extends CI_Model {
 			->from('log_keluarga l')
 			->join('tweb_keluarga k', 'k.id = l.id_kk')
 			->join('tweb_penduduk p', 'p.id = k.nik_kepala')
-			->where('year(l.tgl_peristiwa)', $thn)
-			->where('month(l.tgl_peristiwa)', $bln)
+			->join('log_penduduk lp', 'lp.id = l.id_log_penduduk', 'left')
+			->group_start()
+				->where("lp.tgl_lapor is not null and year(lp.tgl_lapor) = {$thn}")
+				->or_where("lp.tgl_lapor is null and year(l.tgl_peristiwa) = {$thn}")
+			->group_end()
+			->group_start()
+				->where("lp.tgl_lapor is not null and month(lp.tgl_lapor) = {$bln}")
+				->or_where("lp.tgl_lapor is null and month(l.tgl_peristiwa) = {$bln}")
+			->group_end()
 			->where('l.id_peristiwa', $id_peristiwa);
 
 		return $this->db->get_compiled_select();

@@ -282,6 +282,21 @@ class Admin_Controller extends MY_Controller {
 		}
 	}
 
+	// Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
+	protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
+	{
+		$kembali = $_SERVER['HTTP_REFERER'];
+
+		if (empty($controller))
+			$controller = $this->controller;
+		if ( ! $this->user_model->hak_akses_url($this->grup, $controller, $akses))
+		{
+			session_error("Anda tidak mempunyai akses pada fitur ini");
+			if (empty($this->grup)) redirect('siteman');
+			empty($redirect) ? redirect($kembali) : redirect($redirect);
+		}
+	}
+
 	protected function redirect_hak_akses($akses, $redirect = '', $controller = '')
 	{
 		$kembali = $_SERVER['HTTP_REFERER'];
@@ -294,6 +309,14 @@ class Admin_Controller extends MY_Controller {
 			if (empty($this->grup)) redirect('siteman');
 			empty($redirect) ? redirect($kembali) : redirect($redirect);
 		}
+	}
+
+	// Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
+	public function cek_hak_akses_url($akses, $controller = '')
+	{
+		if (empty($controller))
+			$controller = $this->controller;
+		return $this->user_model->hak_akses_url($this->grup, $controller, $akses);
 	}
 
 	public function cek_hak_akses($akses, $controller = '')

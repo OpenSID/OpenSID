@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Keuangan.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -148,6 +152,7 @@ class Keuangan extends Admin_Controller {
 
 	public function proses_impor()
 	{
+		$this->redirect_hak_akses('u');
 		if (empty($_FILES['keuangan']['name']))
 		{
 			$this->session->success = -1;
@@ -209,7 +214,7 @@ class Keuangan extends Admin_Controller {
 
 	public function delete($id = '')
 	{
-		$this->redirect_hak_akses('h', 'keuangan');
+		$this->redirect_hak_akses('h');
 		$outp = $this->keuangan_model->delete($id);
 		redirect('keuangan/impor_data');
 	}

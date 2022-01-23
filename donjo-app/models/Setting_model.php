@@ -49,8 +49,19 @@ class Setting_model extends CI_Model {
 			$pre = (object) $CI->config->config;
 		}
 		$CI->setting = (object) $pre;
-		$CI->list_setting = $pr; // Untuk tampilan daftar setting
+		$CI->list_setting = $this->sterilkan_setting_demo($pr); // Untuk tampilan daftar setting
 		$this->apply_setting();
+	}
+
+	// Sembunyikan setting yg tidak untuk ditampilkan di demo, seperti token layanan
+	private function sterilkan_setting_demo($pr)
+	{
+		if ( ! config_item('demo_mode')) return $pr;
+		foreach ($pr as $key => $setting)
+		{
+			if ($setting->key == 'layanan_opendesa_token') $pr[$key]->value = '';
+		}
+		return $pr;
 	}
 
 	// Setting untuk PHP
@@ -109,6 +120,9 @@ class Setting_model extends CI_Model {
 		if ($data['latar_website'] != '') $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website()); // latar_website
 		if ($data['latar_login']  != '') $this->upload_img('latar_login', LATAR_LOGIN); // latar_login
 		if ($data['latar_login_mandiri']  != '') $this->upload_img('latar_login_mandiri', LATAR_LOGIN); // latar_login_mandiri
+
+		// Hapus Cache Pelanggan
+		$this->cache->hapus_cache_untuk_semua('status_langganan');
 
 		return $data;
 	}

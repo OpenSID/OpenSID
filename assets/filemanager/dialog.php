@@ -323,6 +323,8 @@ $get_params = http_build_query($get_params);
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jplayer/2.7.1/skin/blue.monday/jplayer.blue.monday.min.css" />
         <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.css">
         <link href="css/style.css?v=<?php echo $version; ?>" rel="stylesheet" type="text/css" />
+        <!-- Ubahan tampilan File Manager dari OpenSID -->
+        <link href="<?= $config['base_url']; ?>/css/filemanager-style.css" rel="stylesheet" type="text/css" />
         <!--[if lt IE 8]>
         <style>
             .img-container span, .img-container-mini span {

@@ -95,6 +95,7 @@ class Analisis_periode extends Admin_Controller {
 
 	public function form($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -135,12 +136,14 @@ class Analisis_periode extends Admin_Controller {
 
 	public function insert()
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_periode_model->insert();
 		redirect('analisis_periode');
 	}
 
 	public function update($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_periode_model->update($id);
 		redirect("analisis_periode/index/$p/$o");
 	}

@@ -86,17 +86,6 @@
 										<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 									</div>
 								</div>
-								<div  class="modal fade" id="rumah-penduduk" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class='modal-dialog'>
-										<div class='modal-content'>
-											<div class='modal-header'>
-												<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-												<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Cari Lokasi Tempat Tinggal</h4>
-											</div>
-											<div class="fetched-data"></div>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>

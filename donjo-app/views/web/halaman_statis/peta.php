@@ -61,6 +61,12 @@ table {
 td {
   word-wrap: break-word;
 }
+.persil{
+  min-width: 350px;
+}
+.persil td{
+  padding-right: 1rem;
+}
 </style>
 
 <form id="mainform_map" name="mainform_map"method="post">
@@ -227,7 +233,7 @@ td {
 
     //OVERLAY WILAYAH DUSUN
     <?php if (!empty($dusun_gis)): ?>
-      set_marker_content(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa()?>');
+      set_marker_multi_content(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //OVERLAY WILAYAH RW
@@ -239,6 +245,8 @@ td {
     <?php if (!empty($rt_gis)): ?>
       set_marker_content(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa()?>');
     <?php endif; ?>
+
+    
 
     //Menampilkan overlayLayers Peta Semua Wilayah
     var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");

@@ -110,7 +110,8 @@ define("STAT_PENDUDUK", serialize([
 	'17' => 'Akta Kelahiran',
 	'18' => 'Kepemilikan KTP',
 	'19' => 'Jenis Asuransi',
-	'covid' => 'Status Covid'
+	'covid' => 'Status Covid',
+	'suku'	=> 'Suku / Etnis'
 ]));
 
 // Statistik Keluarga
@@ -132,7 +133,8 @@ define("STAT_LAINNYA", serialize([
 	'informasi_publik' => 'Informasi Publik',
 	'peta' => 'Peta',
 	'data_analisis' => 'Data Analisis',
-	'status-sdgs'	=> 'SDGs Desa'
+	'status-sdgs'	=> 'SDGs Desa',
+	'lapak'	=> 'Lapak Desa'
 ]));
 
 // Jabatan Kelompok
@@ -158,36 +160,6 @@ define("JENIS_NOTIF", serialize([
 
 define("SERVER_NOTIF", serialize([
 	'TrackSID'
-]));
-
-define("JENIS_PELANGGAN", serialize([
-	1 => 'hosting + update',
-	2 => 'hosting saja',
-	3 => 'premium',
-	4 => 'update saja',
-	5 => 'hosting + domain',
-	6 => 'hosting + domain + update'
-]));
-
-define("STATUS_LANGGANAN", serialize([
-	1 => 'aktif',
-	2 => 'suspended',
-	3 => 'tidak aktif',
-]));
-
-define("FILTER_LANGGANAN", serialize([
-	1 => 'aktif',
-	2 => 'suspended',
-	3 => 'tidak aktif',
-	4 => 'sebentar lagi berakhir',
-	5 => 'baru berakhir',
-	6 => 'sudah berakhir'
-]));
-
-define("PELAKSANA", serialize([
-	1 => 'Herry Wanda',
-	2 => 'Mohammad Ihsan',
-	3 => 'Rudy Purwanto'
 ]));
 
 define("SUMBER_DANA", serialize([
@@ -278,11 +250,5 @@ class Referensi_model extends CI_Model {
 	{
 		$list = array_flip(unserialize($s_array));
 		return $list;
-	}
-
-	public function list_ref_pelanggan($stat)
-	{
-		$list_ref = unserialize($stat);
-		return $list_ref;
 	}
 }

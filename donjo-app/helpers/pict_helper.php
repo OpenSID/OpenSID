@@ -82,20 +82,30 @@ function tambahSuffixUniqueKeNamaFile($namaFile, $urlEncode = TRUE, $delimiter =
 	return $namaFileUnik;
 }
 
-function AmbilFoto($foto, $ukuran="kecil_", $sex='1')
+function AmbilFoto($foto, $ukuran = "kecil_", $sex = '1')
 {
-	if ($foto == 'kuser.png' || $foto == 'wuser.png') return base_url() . LOKASI_USER_PICT . $foto;
+	$sex = $sex ?: 1;
+	$file_foto = Foto_Default($foto, $sex);
 
-	if (empty($foto)) return $sex == 2 ? FOTO_DEFAULT_WANITA : FOTO_DEFAULT_PRIA;
-
-	$ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
-	$file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
-	if (!file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto))
+	if ($foto == $file_foto)
 	{
-		$file_foto = $sex == 2 ? FOTO_DEFAULT_WANITA : FOTO_DEFAULT_PRIA;
+		$ukuran = ($ukuran == "kecil_") ? "kecil_" : "";
+		$file_foto = base_url() . LOKASI_USER_PICT . $ukuran . $foto;
+		
+		if ( ! file_exists(FCPATH . LOKASI_USER_PICT . $ukuran . $foto))
+		{
+			$file_foto = Foto_Default(null, $sex);
+		}
 	}
 
 	return $file_foto;
+}
+
+function Foto_Default($foto, $sex = 1)
+{
+	if ( ! in_array($foto, ['kuser.png', 'wuser.png']) && ! empty($foto)) return $foto;
+	if (($foto == 'kuser.png') || $sex == 1) return FOTO_DEFAULT_PRIA;
+	if (($foto == 'wuser.png') || $sex == 2) return FOTO_DEFAULT_WANITA;
 }
 
 function UploadGambarWidget($nama_file, $lokasi_file, $old_gambar)

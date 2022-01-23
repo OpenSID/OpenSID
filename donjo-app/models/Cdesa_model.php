@@ -42,14 +42,13 @@ class Cdesa_model extends CI_Model {
 
 	private function search_sql()
 	{
-		if ($this->session->cari)
+		$cari = $this->session->cari;
+		if ($cari)
 		{
-			$cari = $this->session->cari;
 			$this->db
 				->group_start()
 					->like('u.nama', $cari)
-					->or_like('c.nama_kepemilikan', $cari)
-					->or_like('c.nama_kepemilikan', $cari)
+					->or_like('c.nama_pemilik_luar', $cari)
 					->or_like('c.nomor', $cari)
 				->group_end();
 		}
@@ -98,8 +97,9 @@ class Cdesa_model extends CI_Model {
 			->select('COUNT(DISTINCT p.id) AS jumlah')
 			->order_by('cast(c.nomor as unsigned)')
 			->group_by('c.id, cu.id');
+		
 		if ($per_page) $this->db->limit($per_page, $offset);
-  	if ($kecuali)	$this->db->where("c.id not in ($kecuali)");
+  		if ($kecuali)	$this->db->where("c.id not in ($kecuali)");
 		$data = $this->db
 			->get()
 			->result_array();
@@ -129,11 +129,13 @@ class Cdesa_model extends CI_Model {
 			->where('cdesa_awal', $id_cdesa)
 			->get()
 			->result_array();
+
 		$luas_persil = [];
 		foreach ($persil_awal as $persil)
 		{
 			$luas_persil[$persil['tipe']][$persil['id']] = $persil['luas_persil'];
 		}
+		
 		$list_mutasi = $this->db
 			->select('m.id_persil, m.luas, m.cdesa_keluar, k.tipe')
 			->from('mutasi_cdesa m')
@@ -143,22 +145,27 @@ class Cdesa_model extends CI_Model {
 			->or_where('m.cdesa_keluar', $id_cdesa)
 			->get('')
 			->result_array();
-		foreach ($list_mutasi as $mutasi)
+
+		$luas_persil_mutasi = [];
+		foreach ($list_mutasi as $key => $mutasi)
 		{
+
 			if ($mutasi['cdesa_keluar'] == $id_cdesa)
 			{
-				$luas_persil[$mutasi['tipe']][$mutasi['id_persil']] -= $mutasi['luas'];
+				$luas_persil_mutasi[$mutasi['tipe']][$mutasi['id_persil']] -= $mutasi['luas'];
 			}
 			else
 			{
-				$luas_persil[$mutasi['tipe']][$mutasi['id_persil']] += $mutasi['luas'];
+				$luas_persil_mutasi[$mutasi['tipe']][$mutasi['id_persil']] += $mutasi['luas'];
 			}
 		}
+
 		$luas_total = [];
-		foreach ($luas_persil as $key => $luas)
+		foreach ($luas_persil_mutasi as $key => $luas)
 		{
 			$luas_total[$key] += array_sum($luas);
 		}
+
 		return $luas_total;
 	}
 
@@ -265,13 +272,14 @@ class Cdesa_model extends CI_Model {
 		$data['id_cdesa_masuk'] = $id_cdesa;
 		$data['no_bidang_persil'] = bilangan($post['no_bidang_persil']) ?: NULL;
 		$data['no_objek_pajak'] = strip_tags($post['no_objek_pajak']);
-
 		$data['tanggal_mutasi'] = $post['tanggal_mutasi'] ? tgl_indo_in($post['tanggal_mutasi']) : NULL;
 		$data['jenis_mutasi'] = $post['jenis_mutasi'] ?: NULL;
 		$data['luas'] = bilangan_titik($post['luas']) ?: NULL;
 		$data['cdesa_keluar'] = bilangan($post['cdesa_keluar']) ?: NULL;
 		$data['keterangan'] = strip_tags($post['keterangan']) ?: NULL;
-
+		$data['path'] = $post['path'];
+		$data['id_peta'] = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? $post['id_peta'] : NULL ; 
+	 
 		if ($id_mutasi)
 			$outp = $this->db->where('id', $id_mutasi)->update('mutasi_cdesa', $data);
 		else

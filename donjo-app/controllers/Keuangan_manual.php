@@ -50,10 +50,13 @@ class Keuangan_manual extends Admin_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('keuangan_manual_model');
-
-		$this->load->model('keuangan_grafik_manual_model');
+		$this->load->model(['keuangan_manual_model', 'keuangan_grafik_manual_model']);
 		$this->modul_ini = 201;
+	}
+
+	public function index()
+	{
+		redirect("keuangan_manual/manual_apbdes");
 	}
 
 	// Manual Input Anggaran dan Realisasi APBDes
@@ -168,6 +171,7 @@ class Keuangan_manual extends Admin_Controller {
 
 	public function simpan_anggaran()
 	{
+		$this->redirect_hak_akses('u');
 		$Tahun = $this->input->post('Tahun');
 		$Kd_Akun = $this->input->post('Kd_Akun');
 		$Kd_Keg = $this->input->post('Kd_Keg');
@@ -180,6 +184,7 @@ class Keuangan_manual extends Admin_Controller {
 
 	public function update_anggaran()
 	{
+		$this->redirect_hak_akses('u');
 		$id = $this->input->post('id');
 		$Tahun = $this->input->post('Tahun');
 		$Kd_Akun = $this->input->post('Kd_Akun');
@@ -193,6 +198,7 @@ class Keuangan_manual extends Admin_Controller {
 
 	public function delete_input($id = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->keuangan_manual_model->delete_input($id);
 		redirect("keuangan_manual/manual_apbdes");
 	}

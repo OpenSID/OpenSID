@@ -29,7 +29,7 @@ class MY_Model extends CI_Model {
 				$data = $this->first_artikel_m->get_kategori($cut[1]);
 				$url = ($data) ? ('artikel/' . $cut[0] . '/' . $data['slug']) : ($url);
 				break;
-
+				
 			case 'arsip':
 			case 'peraturan_desa':
 			case 'data_analisis':
@@ -43,6 +43,7 @@ class MY_Model extends CI_Model {
 			case 'data-kelompok':
 			case 'status-idm':
 			case 'status-sdgs':
+			case 'lapak':
 				break;
 
 			default:
@@ -174,5 +175,23 @@ class MY_Model extends CI_Model {
 		$this->paging->init($cfg);
 
 		return $this->paging;
+	}
+
+	// Buat FOREIGN KEY $nama_constraint $di_tbl untuk $fk menunjuk $ke_tbl di $ke_kolom
+	public function tambah_foreign_key($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom)
+	{
+		$query = $this->db
+			->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+			->where('CONSTRAINT_NAME', $nama_constraint)
+			->where('TABLE_NAME', $di_tbl)
+			->get();
+		$hasil = true;
+		if ($query->num_rows() == 0)
+		{
+			$hasil = $hasil && $this->dbforge->add_column($di_tbl, [
+				"CONSTRAINT `{$nama_constraint}` FOREIGN KEY (`{$fk}`) REFERENCES `{$ke_tbl}` (`{$ke_kolom}`) ON DELETE CASCADE ON UPDATE CASCADE"
+			]);
+		}
+		return $hasil;
 	}
 }

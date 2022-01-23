@@ -93,6 +93,7 @@ class Point extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -161,12 +162,14 @@ class Point extends Admin_Controller {
 
 	public function insert($tip = 1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->insert($tip);
 		redirect("point/index/$tip");
 	}
 
 	public function update($id = '', $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->update($id);
 		redirect("point/index/$p/$o");
 	}
@@ -187,24 +190,28 @@ class Point extends Admin_Controller {
 
 	public function point_lock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->point_lock($id, 1);
 		redirect("point/index/$p/$o");
 	}
 
 	public function point_unlock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->point_lock($id, 2);
 		redirect("point/index/$p/$o");
 	}
 
 	public function insert_sub_point($point = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->insert_sub_point($point);
 		redirect("point/sub_point/$point");
 	}
 
 	public function update_sub_point($point = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->update_sub_point($id);
 		redirect("point/sub_point/$point");
 	}
@@ -225,24 +232,28 @@ class Point extends Admin_Controller {
 
 	public function point_lock_sub_point($point = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->point_lock($id, 1);
 		redirect("point/sub_point/$point");
 	}
 
 	public function point_unlock_sub_point($point = '', $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->point_lock($id, 2);
 		redirect("point/sub_point/$point");
 	}
 
 	public function tambah_simbol()
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->tambah_simbol();
 		redirect("point/form_simbol");
 	}
 
 	public function form_simbol($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['simbol'] = $this->plan_point_model->list_simbol();
 		$this->set_minsidebar(1);
 		$data['tip'] = 6;
@@ -252,6 +263,7 @@ class Point extends Admin_Controller {
 
 	public function delete_simbol($id = '', $simbol = '')
 	{
+		$this->redirect_hak_akses('h');
 		$this->plan_point_model->delete_simbol($id);
 		$this->plan_point_model->delete_simbol_file($simbol);
 		redirect("point/form_simbol");
@@ -259,6 +271,7 @@ class Point extends Admin_Controller {
 
 	public function salin_simbol_default()
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_point_model->salin_simbol_default();
 		redirect("point/form_simbol");
 	}

@@ -99,14 +99,16 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="nama">Nama <?= $desa; ?></label>
 								<div class="col-sm-8">
-									<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_pantau'); ?>" data-tracker="<?= config_item('server_pantau'); ?>"></select>
+									<?php if (cek_koneksi_internet()): ?>
+										<select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="<?= $main["nama_desa"]; ?> - <?= $main["nama_kecamatan"]; ?> - <?= $main["nama_kabupaten"]; ?> - <?= $main["nama_propinsi"]; ?>" data-token="<?= config_item('token_pantau'); ?>" data-tracker="<?= config_item('server_pantau'); ?>" style="display: none;"></select>
+									<?php endif; ?>
+									<input type="hidden" id="nama_desa" class="form-control input-sm nama_terbatas required" minlength="3" maxlength="50" name="nama_desa" value="<?= $main["nama_desa"]; ?>">
 								</div>
-								<input type="hidden" id="nama_desa" name="nama_desa" value="<?= $main["nama_desa"]; ?>">
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="kode_desa">Kode <?= $desa; ?></label>
 								<div class="col-sm-2">
-									<input readonly id="kode_desa" name="kode_desa" class="form-control input-sm" type="text" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
+									<input readonly id="kode_desa" name="kode_desa" class="form-control input-sm <?= jecho(cek_koneksi_internet(), false, 'bilangan') ?> required" <?= jecho(cek_koneksi_internet(), false, 'minlength="10" maxlength="10"') ?> type="text" onkeyup="tampil_kode_desa()" placeholder="Kode <?= $desa; ?>" value="<?= $main["kode_desa"]; ?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -215,33 +217,60 @@
 		</div>
 	</section>
 </div>
+
 <script>
 	$(document).ready(function() {
-		
-		var server_pantau = '<?= config_item('server_pantau'); ?>';
-		var token_pantau = '<?= config_item('token_pantau'); ?>';
 
-		// Ambil Nama dan Kode Wilayah dari API Server
-		$('[name="pilih_desa"]').change(function() {
-			$.ajax({
-				type: 'GET',
-				url: server_pantau + '/index.php/api/wilayah/ambildesa?token=' + token_pantau + '&id_desa=' + $(this).val(),
-				dataType: 'json',
-				success: function(data) {
-					$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
-					$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
-					$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
-					$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
-					$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
-					$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
-					$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
-					$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
-				}
+		var koneksi = "<?= cek_koneksi_internet(); ?>";
+
+		tampil_kode_desa();
+
+		if (koneksi) {
+			$("#nama_desa").attr('type', 'hidden');
+
+			var server_pantau = '<?= config_item('server_pantau'); ?>';
+			var token_pantau = '<?= config_item('token_pantau'); ?>';
+
+			// Ambil Nama dan Kode Wilayah dari Pantau > Wilayah
+			$('[name="pilih_desa"]').change(function(){
+				$.ajax({
+					type: 'GET',
+					url: server_pantau + '/index.php/api/wilayah/ambildesa?token=' + token_pantau + '&id_desa=' + $(this).val(),
+					dataType: 'json',
+					success: function(data) {
+								$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
+								$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
+								$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
+								$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
+								$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
+								$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
+								$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
+								$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+					}
+				});
 			});
-		});
 
-		function hapus_kab_kota(str) {
-			return str.replace(/KAB |KOTA /gi, '');
+			function hapus_kab_kota(str) {
+				return str.replace(/KAB |KOTA /gi, '');
+			}
+		} else {
+			$("#nama_desa").attr('type', 'text');
+			$("#kode_desa").removeAttr('readonly');
+			$("#nama_kecamatan").removeAttr('readonly');
+			$("#nama_kabupaten").removeAttr('readonly');
+			$("#nama_propinsi").removeAttr('readonly');
 		}
+
+		$('#kades').change(function () {
+			var nip = $("#kades option:selected").attr("data-nip");
+			$("#nip_kepala_desa").val(nip);
+		});
 	});
+
+	function tampil_kode_desa() {
+		var kode_desa = $('#kode_desa').val();
+		$('#kode_kecamatan').val(kode_desa.substr(0, 6));
+		$('#kode_kabupaten').val(kode_desa.substr(0, 4));
+		$('#kode_propinsi').val(kode_desa.substr(0, 2));
+	}
 </script>
