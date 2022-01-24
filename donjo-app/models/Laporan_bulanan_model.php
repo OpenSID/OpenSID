@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Laporan_bulanan_model extends CI_Model
+class Laporan_bulanan_model extends MY_Model
 {
     protected $awal;
     protected $lahir;
@@ -654,17 +654,11 @@ class Laporan_bulanan_model extends CI_Model
 
     public function rekapitulasi_paging($p = 1)
     {
-        $this->db->select('COUNT(a.dusun) as jml');
+        $this->db->select('a.dusun');
         $this->rekapitulasi_query_dasar();
 
-        $jml = $this->db->get()->row()->jml;
+        $jml = $this->db->count_all_results();
 
-        $this->load->library('paging');
-        $cfg['page']     = $p;
-        $cfg['per_page'] = $this->session->per_page;
-        $cfg['num_rows'] = $jml;
-        $this->paging->init($cfg);
-
-        return $this->paging;
+        return $this->paginasi($p, $jml);
     }
 }
