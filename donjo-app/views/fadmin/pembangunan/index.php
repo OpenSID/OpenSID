@@ -157,7 +157,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				},
 				{
 					'data': 'jml_anggaran',
-					'render': $.fn.dataTable.render.number( ',', '.', 0, 'Rp ' )
+					'render': $.fn.dataTable.render.number( '.', ',', 0, 'Rp ' )
 				},
 				{
 					'data': 'max_persentase'
