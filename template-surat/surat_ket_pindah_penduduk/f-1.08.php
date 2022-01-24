@@ -425,7 +425,7 @@
 		<tr class="pendek">
 			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
 			<td>&nbsp;</td>
-			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
+			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl." . tgl_indo(date("Y m d"))) ?></td>
 		</tr>
 		<tr style="font-size: 8mm; line-height: normal;">
 			<td>&nbsp;</td>
