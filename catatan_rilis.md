@@ -31,7 +31,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 23. [#4764](https://github.com/OpenSID/OpenSID/issues/4764) Perbaiki Paginasi pada menu Buku Rekapitulasi Jumlah Penduduk tidak bekerja normal.
 24. [#4760](https://github.com/OpenSID/OpenSID/issues/4760) Perbaiki Link/Url "Home" pada breadcrumb salah.
 25. [#4768](https://github.com/OpenSID/OpenSID/issues/4768) Perbaiki Nama desa tidak tampil dalam hasil cetak/unduh di bagian tanda tangan Wilayah Administratif.
-25. [#4718](https://github.com/OpenSID/OpenSID/issues/4718) Perbaiki paginasi artikel kategori artikel.
+26. [#4718](https://github.com/OpenSID/OpenSID/issues/4718) Perbaiki paginasi artikel kategori artikel.
+27. [#4769](https://github.com/OpenSID/OpenSID/issues/4769) Perbaiki validasi form dan modal input agar tidak duplikasi.
 
 #### Perubahan Teknis
 
