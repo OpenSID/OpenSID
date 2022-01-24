@@ -1,5 +1,4 @@
 <?php if ($this->CI->cek_hak_akses('u')): ?>
-<?php $this->load->view('global/validasi_form'); ?>
 	<script>
 		$(document).ready(function() {
 			$('#file_browser').click(function(e)
