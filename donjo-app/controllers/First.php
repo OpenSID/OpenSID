@@ -413,7 +413,7 @@ class First extends Web_Controller
         $data['judul_kategori'] = $this->first_artikel_m->get_kategori($id);
         $data['title']          = 'Artikel ' . $data['judul_kategori']['kategori'];
         $data['paging']         = $this->first_artikel_m->paging_kat($p, $id);
-        $data['paging_page']    = 'kategori/' . $id;
+        $data['paging_page']    = 'artikel/kategori/' . $id;
         $data['paging_range']   = 3;
         $data['start_paging']   = max($data['paging']->start_link, $p - $data['paging_range']);
         $data['end_paging']     = min($data['paging']->end_link, $p + $data['paging_range']);
