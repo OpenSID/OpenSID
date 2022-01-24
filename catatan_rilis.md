@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 25. [#4768](https://github.com/OpenSID/OpenSID/issues/4768) Perbaiki Nama desa tidak tampil dalam hasil cetak/unduh di bagian tanda tangan Wilayah Administratif.
 26. [#4718](https://github.com/OpenSID/OpenSID/issues/4718) Perbaiki paginasi artikel kategori artikel.
 27. [#4769](https://github.com/OpenSID/OpenSID/issues/4769) Perbaiki validasi form dan modal input agar tidak duplikasi.
+28. [#4629](https://github.com/OpenSID/OpenSID/issues/4629) Perbaiki link sembarang bisa diinputkan di sosmed.
 
 #### Perubahan Teknis
 
