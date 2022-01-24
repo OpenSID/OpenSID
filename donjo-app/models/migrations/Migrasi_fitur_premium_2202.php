@@ -244,6 +244,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
             $hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
         }
+
         return $hasil;
     }
 }
