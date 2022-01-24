@@ -30,7 +30,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 22. [#4744](https://github.com/OpenSID/OpenSID/issues/4744) Perbaiki Sesuaikan Sebutan Desa pada Notifikasi Layanan Mandiri.
 23. [#4764](https://github.com/OpenSID/OpenSID/issues/4764) Perbaiki Paginasi pada menu Buku Rekapitulasi Jumlah Penduduk tidak bekerja normal.
 24. [#4760](https://github.com/OpenSID/OpenSID/issues/4760) Perbaiki Link/Url "Home" pada breadcrumb salah.
-25. [#4768](https://github.com/OpenSID/OpenSID/issues/4768) Perbaiki Nama desa tidak tampil dalam hasil cetak/unduh di bagian tanda tangan "Wilayah Administratif".
+25. [#4768](https://github.com/OpenSID/OpenSID/issues/4768) Perbaiki Nama desa tidak tampil dalam hasil cetak/unduh di bagian tanda tangan Wilayah Administratif.
+25. [#4718](https://github.com/OpenSID/OpenSID/issues/4718) Perbaiki paginasi artikel kategori artikel.
 
 #### Perubahan Teknis
 
