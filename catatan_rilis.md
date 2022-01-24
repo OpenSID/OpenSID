@@ -37,6 +37,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 29. [#4725] (https://github.com/OpenSID/OpenSID/issues/4725) Perbaiki form f1.08 (pindah pergi) surat keterangan pindah penduduk.
 30. [#4765](https://github.com/OpenSID/OpenSID/issues/4765) Perbaiki pendidikan di buku kader pemberdayaan tidak sesuai dengan pendidikan di data penduduk.
 31. [#4748](https://github.com/OpenSID/OpenSID/issues/4748) Perbaiki gagal simpan penduduk baru untuk usia 17+.
+32. [#4735](https://github.com/OpenSID/OpenSID/issues/4735) Perbaiki rincian anggaran pembangunan melebihi total anggaran.
 
 #### Perubahan Teknis
 

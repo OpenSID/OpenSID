@@ -95,7 +95,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" style="text-align:left;">Anggaran</label>
-										<input class="form-control input-sm required" name="anggaran" id="anggaran" value="<?= $main->anggaran ?>" type="number" placeholder="Anggaran" />
+										<input class="form-control input-sm" readonly name="anggaran" id="anggaran" value="<?= $main->anggaran ?>" type="number" placeholder="Anggaran" />
 									</div>
 								</div>
 							</div>
@@ -103,13 +103,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_pemerintah">Sumber Biaya Pemerintah</label>
-										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Pemerintah" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_pemerintah; ?>" ></input>
+										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah"  onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Pemerintah" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_pemerintah; ?>" ></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_provinsi">Sumber Biaya Provinsi</label>
-										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Provinsi" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_provinsi; ?>" ></input>
+										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi"  onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Provinsi" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_provinsi; ?>" ></input>
 									</div>
 								</div>
 							</div>
@@ -117,13 +117,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_kab_kota">Sumber Biaya Kab / Kota</label>
-										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Kab / Kota" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_kab_kota; ?>" ></input>
+										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required"  onkeyup="cek()" type="number" placeholder="Sumber Biaya Kab / Kota" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_kab_kota; ?>" ></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_swadaya">Sumber Biaya Swadaya</label>
-										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Swadaya" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_swadaya; ?>" ></input>
+										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required" type="number" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_swadaya; ?>" ></input>
 									</div>
 								</div>
 							</div>
@@ -177,7 +177,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</div>
 						<div class="box-footer">
 							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-							<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+							<button type="submit" id="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
 						</div>
 					</div>
 				</div>
@@ -218,6 +218,35 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</section>
 </div>
 <script>
+	var sb_pem = document.getElementById('sumber_biaya_pemerintah');
+	var sb_prov = document.getElementById('sumber_biaya_provinsi');
+	var sb_kab = document.getElementById('sumber_biaya_kab_kota');
+	var sb_swad = document.getElementById('sumber_biaya_swadaya');
+	var aggaran = document.getElementById('anggaran');
+
+	function getSum(total, num) {
+	  	return total + Math.round(num);
+	}
+
+	function cek() {
+		const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
+	  	var biaya = numbers.reduce(getSum, 0);
+	  	document.getElementById('anggaran').value = biaya;
+	  	var total_anggaran = aggaran.value;
+	};
+
+	$(document).ready(function(){
+		 $("form").submit(function(e){
+            const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
+		  	var biaya = numbers.reduce(getSum, 0);
+		  	var total_anggaran = aggaran.value;
+		  	if (biaya > total_anggaran) {
+		  		alert('Total rincian sumber biaya tidak boleh melebihi anggaran.');
+			  	e.preventDefault(e);
+		  	}
+        });
+	});
+
 	function pilih_lokasi(pilih) {
 		if (pilih == 1) {
 			$('#lokasi').val(null);
