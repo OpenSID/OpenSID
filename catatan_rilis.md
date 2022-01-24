@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 31. [#4748](https://github.com/OpenSID/OpenSID/issues/4748) Perbaiki gagal simpan penduduk baru untuk usia 17+.
 32. [#4735](https://github.com/OpenSID/OpenSID/issues/4735) Perbaiki rincian anggaran pembangunan melebihi total anggaran.
 33. [#4771](https://github.com/OpenSID/OpenSID/issues/4771) Perbaiki paginasi halaman website pembangunan terjadi error/kosong apabila list view yang ditampilkan lebih dari 10 item.
+34. [#4759](https://github.com/OpenSID/OpenSID/issues/4759) Perbaiki kolom "ditandatangani oleh" dalam hasil cetak dan unduh arsip surat kosong.
 
 #### Perubahan Teknis
 
