@@ -318,6 +318,9 @@ class Premium extends MY_Controller
         if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['desa']['kode_desa']), '!=')) {
             $this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
+            // Catat di daftar hitam layanan
+            $this->daftar_hitam();
+
             return false;
         }
 
@@ -340,10 +343,48 @@ class Premium extends MY_Controller
         if (get_domain($jwtPayload->domain) != get_domain(APP_URL)) {
             $this->session->set_userdata('error_premium', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
+            // Catat di daftar hitam layanan
+            $this->daftar_hitam();
+
             return false;
         }
 
         return true;
+    }
+
+    private function daftar_hitam()
+    {
+        $this->load->library('user_agent');
+        if ($this->agent->is_browser()) {
+            $browser = $this->agent->browser() . ' ' . $this->agent->version();
+        } elseif ($this->agent->is_robot()) {
+            $browser = $this->agent->robot();
+        } elseif ($this->agent->is_mobile()) {
+            $browser = $this->agent->mobile();
+        } else {
+            $browser = 'Unidentified User Agent';
+        }
+
+        $os = $this->agent->platform();
+
+        try {
+            $client = new \GuzzleHttp\Client();
+            $client->post(config_item('server_layanan') . 'api/v1/pelanggan/daftarhitam', [
+                'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                'form_params' => [
+                    'kode_desa'  => $this->header['desa']['kode_desa'],
+                    'ip_address' => $this->input->ip_address(),
+                    'token'      => $this->setting->layanan_opendesa_token,
+                    'waktu'      => date('Y-m-d h:i:sa'),
+                    'browser'    => $browser,
+                    'os'         => $os,
+                    'domain'     => get_domain(APP_URL),
+                ],
+            ])
+                ->getBody();
+        } catch (Exception $e) {
+            log_message('error', $e);
+        }
     }
 }
 
