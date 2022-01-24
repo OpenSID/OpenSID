@@ -124,7 +124,7 @@ class Web_sosmed_model extends CI_Model {
 			default:
 
 		return $link;
-	}
+		}
 
+	}
 }
-?>

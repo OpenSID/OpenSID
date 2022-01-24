@@ -6,7 +6,7 @@
 				<div class="col-sm-9">
 					<!-- pattern/regex: https://regex101.com/r/kppBa2/1 -->
 					<input id="link" pattern="^((?:http|https):\/\/(?:|www).instagram.com\/[a-zA-Z0-9._]+|(?:@)[a-zA-Z0-9._]+|[a-zA-Z0-9._]+)" name="link" class="form-control input-lg" placeholder="@OpenDesa" value="<?= ($main ? $main['link'] : '') ?>" />
-					<small class="form-text text-muted">Contoh : https://www.instagram.com/OpenDesa/, OpenDesa atau @OpenDesa</small>
+					<small class="form-text text-muted">Contoh : https://www.instagram.com/OpenDesa, OpenDesa atau @OpenDesa</small>
 				</div>
 			</div>
 			<div class="form-group">
