@@ -50,8 +50,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 26. [#4718](https://github.com/OpenSID/OpenSID/issues/4718) Perbaiki paginasi artikel kategori artikel.
 27. [#4769](https://github.com/OpenSID/OpenSID/issues/4769) Perbaiki validasi form dan modal input agar tidak duplikasi.
 28. [#4629](https://github.com/OpenSID/OpenSID/issues/4629) Perbaiki link sembarang bisa diinputkan di sosmed.
-29. [#4725] (https://github.com/OpenSID/OpenSID/issues/4725) Perbaiki form f1.08 (pindah pergi) surat keterangan pindah penduduk
-
+29. [#4725] (https://github.com/OpenSID/OpenSID/issues/4725) Perbaiki form f1.08 (pindah pergi) surat keterangan pindah penduduk.
+30. [#4765](https://github.com/OpenSID/OpenSID/issues/4765) Perbaiki pendidikan di buku kader pemberdayaan tidak sesuai dengan pendidikan di data penduduk.
 #### Perubahan Teknis
 
 1. [#4661](https://github.com/OpenSID/OpenSID/issues/4661) Perbaiki jQuery di panggil 2 kali.
