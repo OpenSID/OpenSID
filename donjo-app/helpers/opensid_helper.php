@@ -814,11 +814,11 @@ function alamat_web($str)
     return preg_replace('/[^a-zA-Z0-9:\\/\\.\\-]/', '', htmlentities($str));
 }
 
-// Format wanrna #803c3c
+// Format wanrna #803c3c dan rgba(131,127,127,1)
 if (! function_exists('warna')) {
     function warna($str)
     {
-        return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str ?? '#000000');
+        return preg_replace('/[^a-zA-Z0-9\\#\\,\\(\\)]/', '', $str ?? '#000000');
     }
 }
 
