@@ -125,7 +125,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				{ 'data': 'jk' },
 				{
 					'data': function(data) {
-						return (data.pendidikan_sedang + ', ' + data.kursus);
+						return (data.pendidikan + '<br/>' + data.kursus);
 					}
 				},
 				{ 'data': 'bidang' },
