@@ -96,7 +96,7 @@ class Sid_core extends Admin_Controller
     {
         $data['pamong_ttd']     = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
         $data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
-        $data['desa']           = $this->header;
+        $data['desa']           = $this->header['desa'];
         $data['main']           = $this->wilayah_model->list_semua_wilayah();
         $data['total']          = $this->wilayah_model->total();
 
