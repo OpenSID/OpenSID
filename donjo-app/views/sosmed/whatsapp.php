@@ -14,7 +14,7 @@
 				<label class="col-sm-3 control-label">Link Username WhatsApp</label>
 				<div class="col-sm-9">
 					<!-- pattern/regex: https://regex101.com/r/ArUskq/1 & https://regex101.com/r/tr6Ca6/1 -->
-					<input id="link" name="link" class="form-control input-lg" placeholder="@OpenDesa" value="<?= ($main ? $main['link'] : '') ?>" />
+					<input id="link" name="link" class="form-control input-lg" placeholder="@OpenDesa" value="<?= ($main ? $main['link'] : '') ?>" minlength="10" maxlength="13"/>
 					<small class="form-text text-muted" id="ex_whatsapp"></small>
 				</div>
 			</div>
