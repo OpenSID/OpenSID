@@ -1,5 +1,4 @@
 <?php if ($this->CI->cek_hak_akses('u')): ?>
-<?php $this->load->view('global/validasi_form'); ?>
 	<div class="content-wrapper">
 		<section class="content-header">
 			<h1>Biodata Anggota Keluarga</h1>

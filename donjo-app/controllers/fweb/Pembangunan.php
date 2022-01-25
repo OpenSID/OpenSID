@@ -53,7 +53,7 @@ class Pembangunan extends Web_Controller
         $this->_get_common_data($data);
 
         $data['paging']         = $this->pembangunan_model->paging_pembangunan($p);
-        $data['paging_page']    = 'pembangunan';
+        $data['paging_page']    = 'pembangunan/index';
         $data['paging_range']   = 3;
         $data['start_paging']   = max($data['paging']->start_link, $p - $data['paging_range']);
         $data['end_paging']     = min($data['paging']->end_link, $p + $data['paging_range']);

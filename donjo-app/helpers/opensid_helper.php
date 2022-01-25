@@ -471,14 +471,20 @@ function get_external_ip()
 
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
-function xcopy($src, $dest)
+function xcopy($src = '', $dest = '', $exclude = [])
 {
+    if (! file_exists($dest)) {
+        mkdir($dest, 0755, true);
+    }
+
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
-        if (! is_readable($srcfile)) {
+
+        if (! is_readable($srcfile) || in_array($file, $exclude)) {
             continue;
         }
+
         if ($file != '.' && $file != '..') {
             if (is_dir($srcfile)) {
                 if (! file_exists($destfile)) {
