@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 34. [#4759](https://github.com/OpenSID/OpenSID/issues/4759) Perbaiki kolom "ditandatangani oleh" dalam hasil cetak dan unduh arsip surat kosong.
 35. [#4751](https://github.com/OpenSID/OpenSID/issues/4751) Perbaiki lampiran F.2.01 memunculkan camat.
 36. [#4723](https://github.com/OpenSID/OpenSID/issues/4723) Perbaiki kode warna bermasalah.
+37. [#4754](https://github.com/OpenSID/OpenSID/issues/4754) Perbaiki tidak bisa menggunakan login ektp.
 
 #### Perubahan Teknis
 
