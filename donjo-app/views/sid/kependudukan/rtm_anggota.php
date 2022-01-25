@@ -50,7 +50,7 @@
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<?php if ($this->CI->cek_hak_akses('u') && $kepala_kk['status_dasar'] == 1): ?>
+				<?php if ($this->CI->cek_hak_akses('u') && (string) $kepala_kk['status_dasar'] === '1'): ?>
 					<a href="<?= site_url("rtm/ajax_add_anggota/{$kk}")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Rumah Tangga" title="Tambah Anggota Dari Penduduk Yang Sudah Ada" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
 				<?php endif; ?>
 				<?php if ($this->CI->cek_hak_akses('h')): ?>
