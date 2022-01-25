@@ -81,11 +81,9 @@ class Hom_sid extends Admin_Controller
         $data['keluarga']     = $this->header_model->keluarga_total();
         $data['bantuan']      = $this->header_model->bantuan_total();
         $data['kelompok']     = $this->header_model->kelompok_total();
-        // $data['rtm']          = $this->header_model->rtm_total();
         $data['rtm']          = count($this->rtm_model->list_data($page));
         $data['dusun']        = $this->header_model->dusun_total();
         $data['jumlah_surat'] = $this->surat_model->surat_total();
-        // var_dump($data['rtm']);return;
         $this->render('home/desa', $data);
     }
 
