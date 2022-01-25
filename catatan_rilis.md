@@ -44,7 +44,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 36. [#4723](https://github.com/OpenSID/OpenSID/issues/4723) Perbaiki kode warna bermasalah.
 37. [#4754](https://github.com/OpenSID/OpenSID/issues/4754) Perbaiki tidak bisa menggunakan login ektp.
 38. [#4772](https://github.com/OpenSID/OpenSID/issues/4772) Perbaiki status kepala rumah tangga jika sudah meninggal.
-39. [#4775](https://github.com/OpenSID/OpenSID/issues/4775) Perbaiki pengelompokan rumah tangga tersimpan record data kosong yang ikut dihitung sebagai rekap jumlah data rumah tangga
+39. [#4775](https://github.com/OpenSID/OpenSID/issues/4775) Perbaiki pengelompokan rumah tangga tersimpan record data kosong yang ikut dihitung sebagai rekap jumlah data rumah tangga.
+40. [#4774](https://github.com/OpenSID/OpenSID/issues/4774) Perbaiki nilai kosong pada saat kosongkan database (impor analisis).
 
 #### Perubahan Teknis
 

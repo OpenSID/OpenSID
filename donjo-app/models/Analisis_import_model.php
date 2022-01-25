@@ -85,6 +85,7 @@ class Analisis_import_model extends CI_Model
 
         $reader = ReaderEntityFactory::createReaderFromFile($file);
         $reader->open($file);
+        $id_master = null;
 
         foreach ($reader->getSheetIterator() as $sheet) {
             switch ($sheet->getName()) {
@@ -188,14 +189,18 @@ class Analisis_import_model extends CI_Model
             } // Abaikan baris judul
             $cells = $row->getCells();
             // Tambahkan indikator
-            $indikator                 = [];
-            $indikator['id_master']    = $id_master;
-            $indikator['nomor']        = $cells[0]->getValue();
-            $indikator['pertanyaan']   = $cells[1]->getValue();
-            $indikator['id_kategori']  = $this->get_id_kategori($cells[2]->getValue(), $id_master);
-            $indikator['id_tipe']      = $cells[3]->getValue();
-            $indikator['bobot']        = $cells[4]->getValue() ?? 0;
-            $indikator['act_analisis'] = $cells[5]->getValue() ?? 2;
+            $indikator                = [];
+            $indikator['id_master']   = $id_master;
+            $indikator['nomor']       = $cells[0]->getValue();
+            $indikator['pertanyaan']  = $cells[1]->getValue();
+            $indikator['id_kategori'] = $this->get_id_kategori($cells[2]->getValue(), $id_master);
+            $indikator['id_tipe']     = $cells[3]->getValue();
+            if (! empty($cells[4]) && $cells[4]->getValue()) {
+                $indikator['bobot'] = (int) $cells[4]->getValue();
+            }
+            if (! empty($cells[5]) && $cells[5]->getValue()) {
+                $indikator['act_analisis'] = $cells[5]->getValue();
+            }
             if (! $this->db->insert('analisis_indikator', $indikator)) {
                 return $this->impor_error();
             }
@@ -234,9 +239,13 @@ class Analisis_import_model extends CI_Model
             // Tambahkan parameter
             $parameter                 = [];
             $parameter['id_indikator'] = $this->get_id_indikator($cells[0]->getValue(), $id_master);
-            $parameter['kode_jawaban'] = $cells[1]->getValue();
             $parameter['jawaban']      = $cells[2]->getValue();
-            $parameter['nilai']        = $cells[3]->getValue();
+            if (! empty($cells[1]) && $cells[1]->getValue()) {
+                $parameter['kode_jawaban'] = $cells[1]->getValue();
+            }
+            if (! empty($cells[3]) && $cells[3]->getValue()) {
+                $parameter['nilai'] = $cells[3]->getValue();
+            }
             if (! $this->db->insert('analisis_parameter', $parameter)) {
                 return $this->impor_error();
             }
