@@ -263,7 +263,7 @@ class Gis extends Admin_Controller
     public function ajax_adv_search()
     {
         $list_session = ['umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk'];
-        
+
         foreach ($list_session as $list) {
             $data[$list] = $this->session->{$list} ?: '';
         }
