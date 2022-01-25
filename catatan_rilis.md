@@ -43,6 +43,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 35. [#4751](https://github.com/OpenSID/OpenSID/issues/4751) Perbaiki lampiran F.2.01 memunculkan camat.
 36. [#4723](https://github.com/OpenSID/OpenSID/issues/4723) Perbaiki kode warna bermasalah.
 37. [#4754](https://github.com/OpenSID/OpenSID/issues/4754) Perbaiki tidak bisa menggunakan login ektp.
+38. [#4772](https://github.com/OpenSID/OpenSID/issues/4772) Perbaiki status kepala rumah tangga jika sudah meninggal.
 
 #### Perubahan Teknis
 
