@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.01-premium-rev02');
+define('VERSION', '22.01-premium-rev03');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -820,11 +820,11 @@ function alamat_web($str)
     return preg_replace('/[^a-zA-Z0-9:\\/\\.\\-]/', '', htmlentities($str));
 }
 
-// Format wanrna #803c3c
+// Format wanrna #803c3c dan rgba(131,127,127,1)
 if (! function_exists('warna')) {
     function warna($str)
     {
-        return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str ?? '#000000');
+        return preg_replace('/[^a-zA-Z0-9\\#\\,\\(\\)]/', '', $str ?? '#000000');
     }
 }
 
