@@ -50,8 +50,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022011251($hasil);
         $hasil = $hasil && $this->migrasi_2022011371($hasil);
         $hasil = $hasil && $this->migrasi_2022011471($hasil);
+        $hasil = $hasil && $this->migrasi_2022012071($hasil);
 
-        return $hasil && $this->migrasi_2022012071($hasil);
+        return $hasil && $this->migrasi_2022012471($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -354,6 +355,23 @@ class Migrasi_fitur_premium_2202 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('user', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022012471($hasil)
+    {
+        if ($this->db->field_exists('bagan_warna', 'tweb_desa_pamong')) {
+            $fields = [
+                'bagan_warna' => [
+                    'type'       => 'varchar',
+                    'constraint' => 20,
+                    'null'       => true,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
         }
 
         return $hasil;

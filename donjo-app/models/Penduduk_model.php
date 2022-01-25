@@ -740,7 +740,7 @@ class Penduduk_model extends MY_Model
         $data['pekerjaan_id']         = $data['pekerjaan_id'] ?: null;
         $data['status_kawin']         = $data['status_kawin'] ?: null;
         $data['id_asuransi']          = $data['id_asuransi'] ?: null;
-        $data['hamil']                = $data['hamil'];
+        $data['hamil']                = $data['hamil'] ?: null;
 
         $data['ktp_el']             = $data['ktp_el'] ?: null;
         $data['tag_id_card']        = $data['tag_id_card'] ?: null;

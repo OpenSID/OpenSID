@@ -63,7 +63,7 @@ class Kader_model extends MY_Model
 
         $this->db
             ->select("kd.*, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(tanggallahir)), '%Y')+0 FROM tweb_penduduk WHERE id = p.id) AS umur")
-            ->select("IF(p.sex=1, 'L', 'P') AS jk, p.nama, pd.nama AS pendidikan_sedang")
+            ->select("IF(p.sex=1, 'L', 'P') AS jk, p.nama, pd.nama AS pendidikan")
             ->select("(
                 case when (p.id_kk IS NULL or p.id_kk = 0)
                     then
@@ -82,7 +82,7 @@ class Kader_model extends MY_Model
             ->join('tweb_wil_clusterdesa cp', 'p.id_cluster = cp.id', 'left')
             ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
             ->join('tweb_wil_clusterdesa ck', 'k.id_cluster = ck.id', 'left')
-            ->join('tweb_penduduk_pendidikan pd', 'p.pendidikan_kk_id = pd.id', 'left');
+            ->join('tweb_penduduk_pendidikan_kk pd', 'p.pendidikan_kk_id = pd.id', 'left');
 
         if ($search) {
             $this->db

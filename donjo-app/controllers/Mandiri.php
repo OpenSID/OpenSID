@@ -168,7 +168,7 @@ class Mandiri extends Admin_Controller
             $this->telegram->sendMessage([
                 'chat_id' => $data->telegram,
                 'text'    => <<<EOD
-                    HALLO {$data->nama},
+                    HALO {$data->nama},
 
                     SELAMAT AKUN LAYANAN MANDIRI ANDA SUDAH DIVERIFIKASI DAN TELAH DISETUJUI
                     SAAT INI ANDA SUDAH DAPAT LOGIN DI FITUR LAYANAN MANDIRI
