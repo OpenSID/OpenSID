@@ -135,6 +135,7 @@ class Dpt extends Admin_Controller
             $data[$list] = $this->session->{$list} ?: '';
         }
 
+        $data['input_umur']           = true;
         $data['list_agama']           = $this->referensi_model->list_data('tweb_penduduk_agama');
         $data['list_pendidikan']      = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
         $data['list_pendidikan_kk']   = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');

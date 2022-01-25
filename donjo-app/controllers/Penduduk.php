@@ -382,10 +382,11 @@ class Penduduk extends Admin_Controller
     {
         $list_session = ['umur_min', 'umur_max', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'sex', 'status_dasar', 'cacat', 'cara_kb_id', 'status_ktp', 'id_asuransi', 'warganegara', 'golongan_darah', 'hamil', 'menahun', 'tag_id_card'];
 
-        foreach ($list_session as $session) {
-            $data[$session] = $this->session->userdata($session) ?: '';
+        foreach ($list_session as $list) {
+            $data[$list] = $this->session->{$list} ?: '';
         }
 
+        $data['input_umur']           = true;
         $data['list_agama']           = $this->referensi_model->list_data('tweb_penduduk_agama');
         $data['list_pendidikan']      = $this->referensi_model->list_data('tweb_penduduk_pendidikan');
         $data['list_pendidikan_kk']   = $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk');
@@ -401,6 +402,7 @@ class Penduduk extends Admin_Controller
         $data['list_warganegara']     = $this->referensi_model->list_data('tweb_penduduk_warganegara');
         $data['list_golongan_darah']  = $this->referensi_model->list_data('tweb_golongan_darah');
         $data['list_sakit_menahun']   = $this->referensi_model->list_data('tweb_sakit_menahun');
+        $data['list_tag_id_card']     = $this->referensi_model->list_ref(STATUS);
         $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);
