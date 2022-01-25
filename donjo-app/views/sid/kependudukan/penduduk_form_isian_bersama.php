@@ -673,10 +673,8 @@
 			var status_perkawinan = document.getElementById("status_perkawinan").value;
 			if (selisih > 16 || (status_perkawinan != '' && status_perkawinan > 1)) {
 				$('#wajib_ktp').text('WAJIB');
-					wajib_identitas.addClass('required');
 			} else {
 				$('#wajib_ktp').text('BELUM WAJIB');
-					wajib_identitas.removeClass('required');
 			}
 		};
 

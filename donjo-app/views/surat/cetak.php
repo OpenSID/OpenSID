@@ -98,7 +98,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<?php endif; ?>
 									</td>
 									<td><?= $data['keterangan']?></td>
-									<td><?= $data['pamong']?></td>
+									<td><?= $data['pamong_nama']?></td>
 									<td nowrap><?= tgl_indo($data['tanggal'])?></td>
 									<td><?= $data['nama_user']?></td>
 								</tr>
