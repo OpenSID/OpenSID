@@ -162,9 +162,7 @@
 							<div class="col-lg-4 col-xs-4">
 								<div class="small-box bg-gray">
 									<div class="inner">
-										<?php foreach ($rtm as $data): ?>
-											<h3><?=$data['jumlah']?></h3>
-										<?php endforeach; ?>
+										<h3><?=$rtm?></h3>
 										<p>Rumah Tangga</p>
 									</div>
 									<div class="icon">
