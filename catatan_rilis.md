@@ -46,6 +46,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 38. [#4772](https://github.com/OpenSID/OpenSID/issues/4772) Perbaiki status kepala rumah tangga jika sudah meninggal.
 39. [#4775](https://github.com/OpenSID/OpenSID/issues/4775) Perbaiki pengelompokan rumah tangga tersimpan record data kosong yang ikut dihitung sebagai rekap jumlah data rumah tangga.
 40. [#4774](https://github.com/OpenSID/OpenSID/issues/4774) Perbaiki nilai kosong pada saat kosongkan database (impor analisis).
+41. [#4783](https://github.com/OpenSID/OpenSID/issues/4783) Perbaiki field nama tidak tampil ketika edit di modul lembaga dan kelompok.
 
 #### Perubahan Teknis
 
