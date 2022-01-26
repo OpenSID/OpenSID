@@ -54,7 +54,7 @@ class Statistik extends Admin_Controller {
 		parent::__construct();
 		$this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model', 'config_model', 'referensi_model']);
 
-		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt'];
+		$this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'filter_tahun'];
 		$this->modul_ini = 3;
 		$this->sub_modul_ini = 27;
 	}
@@ -71,7 +71,9 @@ class Statistik extends Admin_Controller {
 		$data['stat_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
 		$data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
 		$data['stat_bantuan'] = $this->program_bantuan_model->list_program(0);
+		$data['tahun_bantuan_pertama'] = $this->program_bantuan_model->tahun_bantuan_pertama();
 		$data['judul_kelompok'] = "Jenis Kelompok";
+		$data['filter_tahun'] = $this->session->filter_tahun ?? null;
 		$this->get_data_stat($data, $data['lap']);
 
 		$this->render('statistik/penduduk', $data);
@@ -221,6 +223,17 @@ class Statistik extends Admin_Controller {
 		redirect('statistik');
 	}
 
+	public function filter_tahun()
+	{
+		$tahun = $this->input->post('tahun');		
+		if ($tahun != "")
+			$this->session->filter_tahun = $tahun;
+		else $this->session->unset_userdata('filter_tahun');
+
+		redirect('statistik');
+		
+	}
+
 	public function rw($lap = 0)
 	{
 		if ($lap) $this->session->lap = $lap;
@@ -324,7 +337,7 @@ class Statistik extends Admin_Controller {
 
 	public function ajax_peserta_program_bantuan()
 	{
-		$peserta = $this->program_bantuan_model->get_peserta_bantuan();
+		$peserta = $this->program_bantuan_model->get_peserta_bantuan($this->session->filter_tahun);
 		$data = array();
 		$no = $_POST['start'];
 

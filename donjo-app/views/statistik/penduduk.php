@@ -79,7 +79,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</a>
 							<?php endif; ?>
 							<a href="<?= site_url("{$this->controller}/clear/$lap") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan Filter</a>
+
+							<div class="row">
+								<div class="col-sm-12 form-inline">
+									
+								</div>
+							</div>
 						</div>
+						
 						<div class="box-body">
 							<?php if ($lap < 50): ?>
 								<h4 class="box-title text-center"><b>Data Kependudukan Menurut <?= ($stat); ?></b></h4>
@@ -94,6 +101,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<div class="row">
 									<div class="col-sm-12 form-inline">
 										<formid="mainform" method="post">
+											<select class="form-control input-sm" name="tahun" onchange="formAction('mainform','<?= site_url('statistik/filter_tahun')?>')">
+												<option value="">Pilih Tahun</option>
+												<?php for ($t=date("Y"); $t>=$tahun_bantuan_pertama; $t--): ?>
+												<option value=<?= $t ?> <?php selected($filter_tahun, $t); ?>><?= $t ?></option>
+												<?php endfor; ?>
+											</select>
 											<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url('statistik/dusun'); ?>')">
 												<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun); ?></option>
 												<?php foreach ($list_dusun AS $data): ?>

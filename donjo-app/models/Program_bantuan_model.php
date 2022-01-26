@@ -1148,8 +1148,12 @@ class Program_bantuan_model extends MY_Model {
 		}
 	}
 
-	public function get_peserta_bantuan()
+	public function get_peserta_bantuan($thn = null)
 	{
+		if($thn != ""){
+			$this->db->where('YEAR(p.sdate)', $thn);
+			$this->db->or_where('YEAR(p.edate)', $thn);
+		}
 		$this->get_peserta_bantuan_query();
 		if ($_POST['length'] != -1)
 			$this->db->limit($_POST['length'], $_POST['start']);
@@ -1326,5 +1330,15 @@ class Program_bantuan_model extends MY_Model {
 		return $data;
 	}
 
+	public function tahun_bantuan_pertama()
+	{
+		$thn = $this->db
+			->select('min(date_format(sdate, "%Y")) as thn')
+			->from('program')
+			->where("DAYNAME(sdate) IS NOT NULL")
+			->where('status', '1')
+			->get()->row()->thn;
+		return $thn;
+	}
+
 }
-?>
