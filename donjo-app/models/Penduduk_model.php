@@ -849,6 +849,11 @@ class Penduduk_model extends MY_Model
             $_SESSION['validation_error'] = true;
         }
 
+        // Cek duplikasi Tag ID Card
+        if ($this->penduduk_model->cekTagIdCard($data['tag_id_card'], $id)) {
+            $valid[] = 'Tag ID Card sudah digunakan';
+        }
+
         return $valid;
     }
 
@@ -1770,5 +1775,20 @@ class Penduduk_model extends MY_Model
         $desa = $this->config_model->get_data();
 
         return '0' . $desa['kode_desa'] . sprintf('%05d', $digit + 1);
+    }
+
+    public function cekTagIdCard($cek = null, $kecuali = null)
+    {
+        // Cek duplikasi Tag ID Card
+        if ($kecuali) {
+            $this->db->where('id !=', $kecuali);
+        }
+
+        $tag_id_card = $this->db->select('tag_id_card')->get_where('tweb_penduduk', ['tag_id_card !=' => null])->result_array();
+        if (in_array($cek, array_column($tag_id_card, 'tag_id_card'))) {
+            return true;
+        }
+
+        return false;
     }
 }
