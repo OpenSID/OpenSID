@@ -1785,10 +1785,7 @@ class Penduduk_model extends MY_Model
         }
 
         $tag_id_card = $this->db->select('tag_id_card')->get_where('tweb_penduduk', ['tag_id_card !=' => null])->result_array();
-        if (in_array($cek, array_column($tag_id_card, 'tag_id_card'))) {
-            return true;
-        }
 
-        return false;
+        return (bool) (in_array($cek, array_column($tag_id_card, 'tag_id_card')));
     }
 }
