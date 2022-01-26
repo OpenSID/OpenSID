@@ -753,15 +753,15 @@ class Suplemen_model extends MY_Model
         $reader = ReaderEntityFactory::createXLSXReader();
         $reader->open($file);
 
-        $data_peserta = [];
+        $data_peserta      = [];
         $terdaftar_peserta = [];
 
         foreach ($reader->getSheetIterator() as $sheet) {
             $baris_pertama = true;
-            $no_baris  = 0;
-            $no_gagal  = 0;
-            $no_sukses = 0;
-            $pesan     = '';
+            $no_baris      = 0;
+            $no_gagal      = 0;
+            $no_sukses     = 0;
+            $pesan         = '';
 
             $field = ['id', 'nama', 'sasaran', 'keterangan'];
 
@@ -790,6 +790,7 @@ class Suplemen_model extends MY_Model
                     // Abaikan baris pertama / judul
                     if ($baris_pertama) {
                         $baris_pertama = false;
+
                         continue;
                     }
 
