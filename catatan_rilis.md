@@ -71,4 +71,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. Perbaikan link assets menggunakan helper asset().
 5. Tambahkan browser Edge yang berbasis Chromium.
 6. Jangan kirim notifikasi jika token bot telegram kosong.
-7. Penulisan hallo menjadi halo
+7. Penulisan hallo menjadi halo.
+8. Hapus use statement telegram dan email.

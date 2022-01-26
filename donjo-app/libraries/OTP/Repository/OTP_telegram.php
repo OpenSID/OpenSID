@@ -38,8 +38,6 @@
 require_once 'donjo-app/libraries/OTP/Interface/OTP_interface.php';
 require_once 'donjo-app/libraries/Telegram/Telegram.php';
 
-use Telegram;
-
 class OTP_telegram implements OTP_interface
 {
     /**
