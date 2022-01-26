@@ -205,8 +205,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" width="10%">&nbsp;</td>
-					<td colspan="3" width="30%">KEPALA Desa</td>
-					<td colspan="5" width="55%">SEKRETARIS DESA</td>
+					<td colspan="3" width="30%"><?= strtoupper($this->setting->sebutan_kepala_desa) ?></td>
+					<td colspan="5" width="55%">SEKRETARIS <?= strtoupper($this->setting->sebutan_desa) ?></td>
 					<td colspan="5" width="5%">&nbsp;</td>
 				</tr>
 				<tr>
