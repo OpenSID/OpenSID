@@ -54,7 +54,7 @@ class Grup extends Admin_Controller
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->per_page = $this->set_page[0];
-        redirect('grup');
+        redirect($this->controller);
     }
 
     public function index($p = 1, $o = 0)
@@ -86,7 +86,7 @@ class Grup extends Admin_Controller
     public function filter($filter)
     {
         $this->session->{$filter} = $this->input->post($filter) ?: null;
-        redirect('grup');
+        redirect($this->controller);
     }
 
     public function form($p = 1, $o = 0, $id = '', $view = false)
@@ -109,10 +109,10 @@ class Grup extends Admin_Controller
         }
         if ($id) {
             $data['grup']        = $this->grup_model->get_grup($id);
-            $data['form_action'] = site_url("grup/update/{$p}/{$o}/{$id}");
+            $data['form_action'] = site_url("{$this->controller}/update/{$p}/{$o}/{$id}");
         } else {
             $data['grup']        = null;
-            $data['form_action'] = site_url('grup/insert');
+            $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
         $this->render('grup/form', $data);
@@ -121,7 +121,7 @@ class Grup extends Admin_Controller
     public function search()
     {
         $this->session->cari = $this->input->post('cari') ?: null;
-        redirect('grup');
+        redirect($this->controller);
     }
 
     public function insert()
@@ -131,10 +131,10 @@ class Grup extends Admin_Controller
         if ($this->form_validation->run() !== true) {
             $this->session->success   = -1;
             $this->session->error_msg = trim(validation_errors());
-            redirect("grup/form/{$p}/{$o}");
+            redirect("{$this->controller}/form");
         } else {
             $this->grup_model->insert();
-            redirect('grup');
+            redirect($this->controller);
         }
     }
 
