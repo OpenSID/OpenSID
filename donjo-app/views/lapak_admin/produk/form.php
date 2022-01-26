@@ -98,7 +98,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<label class="control-label" for="harga">Harga Produk</label>
 										<div class="input-group">
 											<span class="input-group-addon input-sm">Rp.</span>
-											<input id="harga" name="harga" onkeyup="cek_nominal();" class="form-control input-sm number required" type="number" placeholder="Harga Produk" style="text-align:right;" min="100" max="99999999999" step="100" value="<?= $main->harga; ?>"/>
+											<input id="harga" name="harga" onkeyup="cek_nominal();" class="form-control input-sm number required" type="number" placeholder="Harga Produk" style="text-align:right;" min="100" max="2000000000" step="100" value="<?= $main->harga; ?>"/>
 										</div>
 									</div>
 								</div>
