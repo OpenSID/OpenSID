@@ -82,8 +82,8 @@ class Arsip_fisik_model extends MY_Model
     {
         $p = ($p-1)*$perpage;
         $query_dokumen_desa = $this->db->select("`id` as id")
-                                ->select("IF(kategori=3, JSON_VALUE(`attr`, '$.no_ditetapkan'), JSON_VALUE(`attr`, '$.no_kep_kades')) as nomor_dokumen")
-                                ->select("IF(kategori=2, STR_TO_DATE(JSON_VALUE(`attr`, '$.tgl_kep_kades'), '%d-%m-%Y'), IF(kategori=3, STR_TO_DATE(JSON_VALUE(`attr`, '$.tgl_ditetapkan'), '%d-%m-%Y'), DATE(`updated_at`))) as tanggal_dokumen")
+                                ->select("IF(kategori=3, TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.no_ditetapkan')), TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.no_kep_kades'))) as nomor_dokumen")
+                                ->select("IF(kategori=2, STR_TO_DATE(TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.tgl_kep_kades')), '%d-%m-%Y'), IF(kategori=3, STR_TO_DATE(TRIM(BOTH '\"' FROM JSON_EXTRACT(`attr`, '$.tgl_ditetapkan')), '%d-%m-%Y'), DATE(`updated_at`))) as tanggal_dokumen")
                                 ->select("`nama` as `nama_dokumen`")
                                 ->select("IF(`kategori`=3, '1-3', IF(`kategori`=2, '1-2', '1-1')) as jenis")
                                 ->select("IF(`kategori`=3, 'perdes', IF(`kategori`=2, 'sk_kades', 'informasi_desa_lain')) as nama_jenis")
