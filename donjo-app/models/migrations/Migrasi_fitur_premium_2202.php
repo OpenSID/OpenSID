@@ -361,7 +361,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022012471($hasil)
+    protected function migrasi_2022012271($hasil)
     {
         if ($this->db->field_exists('bagan_warna', 'tweb_desa_pamong')) {
             $fields = [
