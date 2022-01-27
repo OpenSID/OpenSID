@@ -548,7 +548,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_suku', true);
         }
 
-        if ($this->db->truncate('ref_penduduk_suku')) {
+        if ($hasil && $this->db->truncate('ref_penduduk_suku')) {
 
             // Tambahkan data awal tabel ref_penduduk_suku
             $insert_batch = [
