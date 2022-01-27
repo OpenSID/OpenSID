@@ -250,6 +250,37 @@
 	<?php endif; ?>
 	<script type="text/javascript">
 		$('document').ready(function() {
+
+			var ektp = '<?= $this->session->login_ektp ?>';
+			var anjungan = '<?= $cek_anjungan ?>';
+
+			if (ektp) {
+				if (anjungan) {
+					$('#tag').focus();
+				} else {
+					$('#pin').focus();
+				}
+			}
+
+			var pass = $("#pin");
+			$('#checkbox').click(function() {
+				if (pass.attr('type') === "password") {
+					pass.attr('type', 'text');
+				} else {
+					pass.attr('type', 'password')
+				}
+			});
+
+			if ($('#countdown').length) {
+				start_countdown();
+			}
+
+			window.setTimeout(function() {
+				$("#notif").fadeTo(500, 0).slideUp(500, function() {
+					$(this).remove();
+				});
+			}, 5000);
+
 			var videona = document.getElementById("videona");
 			videona.pause();
 			var IDLE_TIMEOUT = <?= $this->setting->tampilan_anjungan_waktu; ?>; //seconds
@@ -288,33 +319,6 @@
 					}
 				}
 			}
-
-			<?php if ($this->session->login_ektp) : ?>
-				<?php if (! $cek_anjungan) : ?>
-					$('#pin').focus();
-				<?php else : ?>
-					$('#tag').focus();
-				<?php endif; ?>
-			<?php endif; ?>
-
-			var pass = $("#pin");
-			$('#checkbox').click(function() {
-				if (pass.attr('type') === "password") {
-					pass.attr('type', 'text');
-				} else {
-					pass.attr('type', 'password')
-				}
-			});
-
-			if ($('#countdown').length) {
-				start_countdown();
-			}
-
-			window.setTimeout(function() {
-				$("#notif").fadeTo(500, 0).slideUp(500, function() {
-					$(this).remove();
-				});
-			}, 5000);
 		});
 
 		function start_countdown() {

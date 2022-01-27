@@ -43,7 +43,7 @@ class User_setting extends Admin_Controller
     {
         parent::__construct();
         $this->lang->load('passwords');
-        $this->load->library('reset/password', '', 'password');
+        $this->load->library('Reset/Password', '', 'password');
         $this->load->model('user_model');
     }
 

@@ -45,17 +45,6 @@ class Rtm_model extends MY_Model
         $this->load->model('config_model');
     }
 
-    // Digunakan dimana ????
-    private function jenis_sql()
-    {
-        if (isset($_SESSION['jenis'])) {
-            $kh        = $_SESSION['jenis'];
-            $jenis_sql = " AND jenis = {$kh}";
-
-            return $jenis_sql;
-        }
-    }
-
     public function insert()
     {
         $post = $this->input->post();
@@ -149,7 +138,7 @@ class Rtm_model extends MY_Model
         // Krn penduduk_hidup menggunakan no_kk(no_rtm) bukan id sebagai id_rtm, jd perlu dicari dlu
         $no_rtm = $this->db->get_where('tweb_rtm', ['id' => $id_rtm])->row();
 
-        $rtm_level = $this->input->post('rtm_level');
+        $rtm_level = (string) $this->input->post('rtm_level');
 
         $data = [
             'rtm_level'  => $rtm_level,
@@ -157,13 +146,13 @@ class Rtm_model extends MY_Model
             'updated_by' => $this->session->user,
         ];
 
-        if ($rtm_level == 1) {
+        if ($rtm_level === '1') {
             // Ganti semua level penduduk dgn id_rtm yg sma -> rtm_level = 2 (Anggota)
             $this->db->where('id_rtm', $no_rtm->no_kk)->update('tweb_penduduk', ['rtm_level' => '2']);
 
             // nik_kepala = id_penduduk pd table tweb_penduduk
             // field no_kk pada tweb_rtm maksudnya adalah no_rtm
-            $this->db->where('id', $no_rtm->no_kk)->update('tweb_rtm', ['nik_kepala' => $id]);
+            $this->db->where('id', $id_rtm)->update('tweb_rtm', ['nik_kepala' => $id]);
         }
 
         $outp = $this->db->where('id', $id)->update('tweb_penduduk', $data);
@@ -212,7 +201,7 @@ class Rtm_model extends MY_Model
     public function get_anggota($id)
     {
         return $this->db
-            ->get_where('penduduk_hidup', ['id_rtm' => $id])
+            ->get_where('penduduk_hidup', ['id' => $id])
             ->row_array();
     }
 
@@ -342,7 +331,7 @@ class Rtm_model extends MY_Model
         $this->db
             ->select('t.nama')
             ->from('tweb_rtm u')
-            ->join('penduduk_hidup t', 'u.nik_kepala = t.id', LEFT);
+            ->join('penduduk_hidup t', 'u.nik_kepala = t.id', 'LEFT');
 
         $this->status_dasar_sql();
 

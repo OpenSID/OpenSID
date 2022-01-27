@@ -177,12 +177,12 @@ class Penduduk_model extends MY_Model
     // Filter belum digunakan
     protected function tag_id_card_sql()
     {
-        if (isset($this->session->tag_id_card)) {
-            $kf = (string) $this->session->tag_id_card;
-            if ($kf == '1') {
-                $this->db->where('u.tag_id_card', null);
-            } elseif ($kf == '2') {
+        $kf = $this->session->tag_id_card;
+        if (isset($kf)) {
+            if ($kf === '1') {
                 $this->db->where('u.tag_id_card !=', null);
+            } elseif ($kf === '2') {
+                $this->db->where('u.tag_id_card', null);
             }
         }
     }
@@ -740,7 +740,7 @@ class Penduduk_model extends MY_Model
         $data['pekerjaan_id']         = $data['pekerjaan_id'] ?: null;
         $data['status_kawin']         = $data['status_kawin'] ?: null;
         $data['id_asuransi']          = $data['id_asuransi'] ?: null;
-        $data['hamil']                = $data['hamil'];
+        $data['hamil']                = $data['hamil'] ?: null;
 
         $data['ktp_el']             = $data['ktp_el'] ?: null;
         $data['tag_id_card']        = $data['tag_id_card'] ?: null;

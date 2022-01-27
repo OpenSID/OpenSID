@@ -276,7 +276,7 @@ $(document).ready(function() {
 	}, "Tanggal harus sama atau lebih besar dari tanggal minimal.");
 
 	jQuery.validator.addMethod("warna", function(value, element) {
-		valid = /^[a-zA-Z0-9#]+$/i.test(value);
+		valid = /^#[a-zA-Z0-9#,()]+$/i.test(value) || /^rgba[a-zA-Z0-9#,()]+$/i.test(value);
 		return this.optional(element) || valid;
-	}, `Hanya boleh berisi karakter alfanumerik dan tagar`);
+	}, `Hanya boleh berisi karakter alfanumerik, tagar, koma, buka dan tutup kurung`);
 })

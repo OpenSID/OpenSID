@@ -51,7 +51,7 @@ define('VERSION', '22.01-premium-beta04');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022012271');
+define('VERSI_DATABASE', '2022012771');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -821,11 +821,11 @@ function alamat_web($str)
     return preg_replace('/[^a-zA-Z0-9:\\/\\.\\-]/', '', htmlentities($str));
 }
 
-// Format wanrna #803c3c
+// Format wanrna #803c3c dan rgba(131,127,127,1)
 if (! function_exists('warna')) {
     function warna($str)
     {
-        return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str ?? '#000000');
+        return preg_replace('/[^a-zA-Z0-9\\#\\,\\(\\)]/', '', $str ?? '#000000');
     }
 }
 

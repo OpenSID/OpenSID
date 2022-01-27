@@ -45,7 +45,7 @@
 	<section class='content-header'>
 		<h1>Tentang OpenSID</h1>
 		<ol class='breadcrumb'>
-			<li><a href='<?= site_url() ?>'><i class='fa fa-home'></i> Home</a></li>
+			<li><a href='<?= site_url('hom_sid') ?>'><i class='fa fa-home'></i> Home</a></li>
 			<li class='active'>Tentang OpenSID</li>
 		</ol>
 	</section>
@@ -163,9 +163,7 @@
 							<div class="col-lg-6 col-xs-6">
 								<div class="small-box bg-gray">
 									<div class="inner">
-										<?php foreach ($rtm as $data) : ?>
-											<h3><?= $data['jumlah'] ?></h3>
-										<?php endforeach; ?>
+										<h3><?=$rtm?></h3>
 										<p>Rumah Tangga</p>
 									</div>
 									<div class="icon">

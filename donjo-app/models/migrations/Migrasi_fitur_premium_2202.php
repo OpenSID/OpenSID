@@ -48,11 +48,12 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022010671($hasil);
         $hasil = $hasil && $this->migrasi_2022011071($hasil);
         $hasil = $hasil && $this->migrasi_2022011251($hasil);
-        $hasil = $hasil && $this->migrasi_2022011371($hasil);
+        $hasil = $hasil && $this->migrasi_2022011351($hasil);
         $hasil = $hasil && $this->migrasi_2022011471($hasil);
         $hasil = $hasil && $this->migrasi_2022012071($hasil);
+        $hasil = $hasil && $this->migrasi_2022012271($hasil);
 
-        return $hasil && $this->migrasi_2022012271($hasil);
+        return $hasil && $this->migrasi_2022012771($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -305,7 +306,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022011371($hasil)
+    protected function migrasi_2022011351($hasil)
     {
         return $hasil && $this->tambah_setting([
             'key'        => 'tampilan_anjungan_audio',
@@ -360,7 +361,24 @@ class Migrasi_fitur_premium_2202 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022012271($hasil)
+    protected function migrasi_2022012471($hasil)
+    {
+        if ($this->db->field_exists('bagan_warna', 'tweb_desa_pamong')) {
+            $fields = [
+                'bagan_warna' => [
+                    'type'       => 'varchar',
+                    'constraint' => 20,
+                    'null'       => true,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022012771($hasil)
     {
         $hasil = $hasil && $this->tambah_modul([
             'id'            => 306,
