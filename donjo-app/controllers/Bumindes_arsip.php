@@ -213,9 +213,6 @@ class Bumindes_arsip extends Admin_controller
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->unset_userdata('data_perpage');
-        $this->session->unset_userdata('tabel_arsip');
-        $this->session->unset_userdata('id_arsip');
-        $this->session->unset_userdata('id');
 
         redirect($this->controller);
     }

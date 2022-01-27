@@ -2,7 +2,7 @@
     <section class='content-header'>
 		<h1>Dokumen Arsip Desa</h1>
 		<ol class='breadcrumb'>
-			<li><a href='<?=site_url()?>'><i class='fa fa-home'></i> Home</a></li>
+			<li><a href='<?= site_url('hom_sid') ?>'><i class='fa fa-home'></i> Home</a></li>
 			<li class='active'>Arsip Desa</li>
 		</ol>
 	</section>

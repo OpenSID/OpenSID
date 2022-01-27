@@ -63,11 +63,11 @@ class Arsip_fisik_model extends MY_Model
         $jenis['1-3'] = 'Peraturan Desa';
         $jenis['2-1'] = 'Surat Masuk';
         $jenis['3-1'] = 'Surat Keluar';
-        $syarat_surat = $this->db->select('*')->get('ref_syarat_surat')->result_array();
+        $syarat_surat = $this->db->get('ref_syarat_surat')->result_array();
                 foreach($syarat_surat as $value){
                     $jenis['4-'.$value['ref_syarat_id']] = $value['ref_syarat_nama'];
                 }
-        $format_surat = $this->db->select("*")->get('tweb_surat_format')->result_array();
+        $format_surat = $this->db->get('tweb_surat_format')->result_array();
                 foreach($format_surat as $value){
                     $jenis['5-'.$value['id']] = $value['nama'];
                 }
