@@ -179,15 +179,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_column('kelompok_master', ['tipe' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok']]);
         }
 
-        // Tambah hak ases group operator
-        $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,327,3), -- Lembaga --
-			(2,328,3) -- Kategori Lembaga --
-		';
-
-        return $hasil && $this->db->query($query);
+        return $hasil;
     }
 
     protected function migrasi_2021082971($hasil)
@@ -237,14 +229,7 @@ class Migrasi_fitur_premium_2109 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_column('pembangunan', ['manfaat' => ['type' => 'VARCHAR', 'constraint' => '100', 'null' => true]]);
         }
 
-        // Tambah hak ases group operator
-        $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,305,3) -- Bumindes Rencana Kerja Pembangunan --
-		';
-
-        return $hasil && $this->db->query($query);
+        return $hasil;
     }
 
     protected function migrasi_2021082951($hasil)
