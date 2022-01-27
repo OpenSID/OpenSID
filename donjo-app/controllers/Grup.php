@@ -91,6 +91,11 @@ class Grup extends Admin_Controller
 
     public function form($p = 1, $o = 0, $id = '', $view = false)
     {
+        if (! $view && in_array($id, $this->grup_model::KECUALI)) {
+            session_error('Grup Pengguna Tidak Dapat Diubah');
+            redirect($this->controller);
+        }
+
         if (! $view) {
             $this->redirect_hak_akses('u');
         }
@@ -131,7 +136,7 @@ class Grup extends Admin_Controller
         if ($this->form_validation->run() !== true) {
             $this->session->success   = -1;
             $this->session->error_msg = trim(validation_errors());
-            redirect("grup/form/{$p}/{$o}");
+            redirect('grup/form');
         } else {
             $this->grup_model->insert();
             redirect('grup');
