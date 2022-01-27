@@ -25,7 +25,6 @@
 				<div class="header" align="center">
 					<label align="left"><?= get_identitas()?></label>
 					<h3> Tabel Data Kependudukan berdasarkan Populasi Per Wilayah </h3>
-					<h4> <?= ucwords($this->setting->sebutan_kabupaten)?> <?= $desa['desa']['nama_kabupaten']?>, <?= ucwords($this->setting->sebutan_kecamatan)?> <?= $desa['desa']['nama_kecamatan']?>, <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['desa']['nama_desa']?></h4>
 				</div>
 				<br>
 				<table class="border thick">
