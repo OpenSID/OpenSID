@@ -59,3 +59,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. Perbaikan link assets menggunakan helper asset().
 5. Tambahkan browser Edge yang berbasis Chromium.
 6. Jangan kirim notifikasi jika token bot telegram kosong.
+7. Tambahkan unique pada kolom, username dan email tabel user.

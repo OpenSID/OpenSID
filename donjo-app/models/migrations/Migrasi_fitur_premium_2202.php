@@ -48,7 +48,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022011251($hasil);
         $hasil = $hasil && $this->migrasi_2022011351($hasil);
 
-        return $hasil && $this->migrasi_2022012471($hasil);
+        return $hasil && $this->migrasi_2022012751($hasil);
     }
 
     protected function migrasi_2022011251($hasil)
@@ -246,5 +246,12 @@ class Migrasi_fitur_premium_2202 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022012751($hasil)
+    {
+        $hasil = $hasil && $this->tambah_indeks('user', 'username');
+
+        return $hasil && $this->tambah_indeks('user', 'email');
     }
 }
