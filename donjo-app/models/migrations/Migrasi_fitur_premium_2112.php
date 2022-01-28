@@ -124,6 +124,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->create_table('kader_pemberdayaan_masyarakat', true);
         }
 
+        // Tambah tabel ref_penduduk_bidang
         if (! $this->db->table_exists('ref_penduduk_bidang')) {
             $fields = [
                 'id' => [
@@ -140,10 +141,11 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_bidang', true);
+        }
 
-            // Tambahkan data awal
-            $this->db->truncate('ref_penduduk_bidang');
-            $insert_batch = [
+        // Tambahkan data awal tabel ref_penduduk_bidang
+        if ($hasil && $this->db->truncate('ref_penduduk_bidang')) {
+            $ref_penduduk_bidang = [
                 ['nama' => 'Service Komputer'],
                 ['nama' => 'Operator Buldoser'],
                 ['nama' => 'Operator Komputer'],
@@ -166,10 +168,10 @@ class Migrasi_fitur_premium_2112 extends MY_Model
                 ['nama' => 'Teknisi Listrik'],
                 ['nama' => 'Internet Marketing'],
             ];
-
-            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_bidang', $insert_batch);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_bidang', $ref_penduduk_bidang);
         }
 
+        // Tambah tabel ref_penduduk_kursus
         if (! $this->db->table_exists('ref_penduduk_kursus')) {
             $fields = [
                 'id' => [
@@ -186,10 +188,11 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_kursus', true);
+        }
 
-            // tambahkan data awal
-            $this->db->truncate('ref_penduduk_kursus');
-            $insert_batch = [
+        // Tambahkan data awal tabel ref_penduduk_kursus
+        if ($hasil && $this->db->truncate('ref_penduduk_kursus')) {
+            $ref_penduduk_kursus = [
                 ['nama' => 'Kursus Komputer'],
                 ['nama' => 'Kursus Menjahit'],
                 ['nama' => 'Pelatihan Kelistrikan'],
@@ -235,8 +238,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
                 ['nama' => 'Kursus Batik'],
                 ['nama' => 'Kursus Pengobatan Tradisional'],
             ];
-
-            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_kursus', $insert_batch);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_kursus', $ref_penduduk_kursus);
         }
 
         return $hasil;

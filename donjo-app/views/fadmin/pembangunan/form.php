@@ -45,11 +45,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 <div class="content-wrapper">
 	<section class="content-header">
-			<h1>Tambah Data Pembangunan</h1>
+			<h1>
+				Pembangunan
+				<small><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</small>
+			</h1>
 			<ol class="breadcrumb">
 					<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-					<li><a href="<?= site_url('admin_pembangunan') ?>"> Daftar Pembangunan</a></li>
-					<li class="active">Tambah Data Pembangunan</li>
+					<li><a href="<?= site_url('admin_pembangunan') ?>"> Pembangunan</a></li>
+					<li class="active"><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</li>
 			</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -58,7 +61,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-								<a href="<?= site_url('admin_pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
+								<a href="<?= site_url('admin_pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Pembangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
@@ -225,26 +228,26 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	var aggaran = document.getElementById('anggaran');
 
 	function getSum(total, num) {
-	  	return total + Math.round(num);
+		return total + Math.round(num);
 	}
 
 	function cek() {
 		const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
-	  	var biaya = numbers.reduce(getSum, 0);
-	  	document.getElementById('anggaran').value = biaya;
-	  	var total_anggaran = aggaran.value;
+		var biaya = numbers.reduce(getSum, 0);
+		document.getElementById('anggaran').value = biaya;
+		var total_anggaran = aggaran.value;
 	};
 
-	$(document).ready(function(){
-		 $("form").submit(function(e){
-            const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
-		  	var biaya = numbers.reduce(getSum, 0);
-		  	var total_anggaran = aggaran.value;
-		  	if (biaya > total_anggaran) {
-		  		alert('Total rincian sumber biaya tidak boleh melebihi anggaran.');
-			  	e.preventDefault(e);
-		  	}
-        });
+	$(document).ready(function() {
+		$("form").submit(function(e) {
+			const numbers = [sb_pem.value, sb_prov.value, sb_kab.value, sb_swad.value];
+			var biaya = numbers.reduce(getSum, 0);
+			var total_anggaran = aggaran.value;
+			if (biaya > total_anggaran) {
+				alert('Total rincian sumber biaya tidak boleh melebihi anggaran.');
+				e.preventDefault(e);
+			}
+		});
 	});
 
 	function pilih_lokasi(pilih) {

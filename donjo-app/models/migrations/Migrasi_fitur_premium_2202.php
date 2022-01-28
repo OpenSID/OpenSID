@@ -46,9 +46,11 @@ class Migrasi_fitur_premium_2202 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
         $hasil = $hasil && $this->migrasi_2022011251($hasil);
-        $hasil = $hasil && $this->migrasi_2022011371($hasil);
+        $hasil = $hasil && $this->migrasi_2022011351($hasil);
+        $hasil = $hasil && $this->migrasi_2022012471($hasil);
+        $hasil = $hasil && $this->migrasi_2022012651($hasil);
 
-        return $hasil && $this->migrasi_2022012471($hasil);
+        return $hasil && $this->migrasi_2022012751($hasil);
     }
 
     protected function migrasi_2022011251($hasil)
@@ -220,7 +222,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022011371($hasil)
+    protected function migrasi_2022011351($hasil)
     {
         return $hasil && $this->tambah_setting([
             'key'        => 'tampilan_anjungan_audio',
@@ -246,5 +248,25 @@ class Migrasi_fitur_premium_2202 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022012651($hasil)
+    {
+        // Hapus modul pembangunan dokumentasi
+        $hasil = $hasil && $this->db->where('id', '221')->delete('setting_modul');
+
+        // Ubah group akses modul pembangunan dokumentasi jadi modul pembangunan
+        $hasil = $hasil && $this->db->where('id_modul', '221')->update('grup_akses', ['id_modul' => '220']);
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022012751($hasil)
+    {
+        $hasil = $hasil && $this->tambah_indeks('user', 'username');
+
+        return $hasil && $this->tambah_indeks('user', 'email');
     }
 }
