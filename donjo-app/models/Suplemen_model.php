@@ -773,10 +773,7 @@ class Suplemen_model extends MY_Model
         $this->upload->initialize($config);
 
         if (! $this->upload->do_upload('userfile')) {
-            $this->session->error_msg = $this->upload->display_errors();
-            $this->session->success   = -1;
-
-            return;
+            return session_error($this->upload->display_errors());
         }
 
         // Data Suplemen
@@ -789,17 +786,19 @@ class Suplemen_model extends MY_Model
         $reader = ReaderEntityFactory::createXLSXReader();
         $reader->open($file);
 
-        $data_peserta = [];
+        $data_peserta      = [];
+        $terdaftar_peserta = [];
 
         foreach ($reader->getSheetIterator() as $sheet) {
-            $no_baris  = 0;
-            $no_gagal  = 0;
-            $no_sukses = 0;
-            $pesan     = '';
+            $baris_pertama = true;
+            $no_baris      = 0;
+            $no_gagal      = 0;
+            $no_sukses     = 0;
+            $pesan         = '';
 
             $field = ['id', 'nama', 'sasaran', 'keterangan'];
 
-            // // Sheet Program
+            // Sheet Program
             if ($sheet->getName() == 'Peserta') {
                 $suplemen_record = $this->get_suplemen($suplemen_id);
                 $sasaran         = $suplemen_record['sasaran'];
@@ -813,7 +812,6 @@ class Suplemen_model extends MY_Model
                 }
 
                 foreach ($sheet->getRowIterator() as $row) {
-                    $no_baris++;
                     $cells   = $row->getCells();
                     $peserta = trim((string) $cells[0]); // NIK atau No_kk sesuai sasaran
 
@@ -823,9 +821,13 @@ class Suplemen_model extends MY_Model
                     }
 
                     // Abaikan baris pertama / judul
-                    if ($no_baris <= 1) {
+                    if ($baris_pertama) {
+                        $baris_pertama = false;
+
                         continue;
                     }
+
+                    $no_baris++;
 
                     // Cek valid data peserta sesuai sasaran
                     $cek_peserta = $this->cek_peserta($peserta, $sasaran);
@@ -852,6 +854,8 @@ class Suplemen_model extends MY_Model
 
                         continue;
                     }
+
+                    $terdaftar_peserta[] = $peserta;
 
                     // Simpan data peserta yg diimpor dalam bentuk array
                     $simpan = [

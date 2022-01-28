@@ -72,7 +72,7 @@
 		<!-- Print Body -->
 		<div id="body">
 			<div class="" align="center">
-				<h3> Buku Inventaris Dan Kekayaan Desa
+				<h3> Buku Inventaris Dan Kekayaan <?= ucfirst($this->setting->sebutan_desa) . ' ' . ucfirst($header['nama_desa']) ?>
 					<br><?= 'Tahun ' . $tahun; ?>
 				</h3>
 				<br>
@@ -205,8 +205,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" width="10%">&nbsp;</td>
-					<td colspan="3" width="30%">KEPALA Desa</td>
-					<td colspan="5" width="55%">SEKRETARIS DESA</td>
+					<td colspan="3" width="30%"><?= ucfirst($this->setting->sebutan_kepala_desa) . ' ' . ucfirst($header['nama_desa']) ?></td>
+					<td colspan="5" width="55%">Sekretaris <?= ucfirst($this->setting->sebutan_desa) . ' ' . ucfirst($header['nama_desa']) ?></td>
 					<td colspan="5" width="5%">&nbsp;</td>
 				</tr>
 				<tr>

@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.01-premium-rev01 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.01-premium-rev03 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada @Irvan1609 yang baru mulai berkontribusi.
 
@@ -63,6 +63,14 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 39. [#4775](https://github.com/OpenSID/OpenSID/issues/4775) Perbaiki pengelompokan rumah tangga tersimpan record data kosong yang ikut dihitung sebagai rekap jumlah data rumah tangga.
 40. [#4774](https://github.com/OpenSID/OpenSID/issues/4774) Perbaiki nilai kosong pada saat kosongkan database (impor analisis).
 41. [#4783](https://github.com/OpenSID/OpenSID/issues/4783) Perbaiki field nama tidak tampil ketika edit di modul lembaga dan kelompok.
+42. [#4786](https://github.com/OpenSID/OpenSID/issues/4786) Perbaiki dapat memasukkan data ganda melalui impor data suplemen.
+43. [#4782](https://github.com/OpenSID/OpenSID/issues/4782) Perbaiki hapus duplikasi kabupaten, kecamatan, desa pada cetak wilayah administratif.
+44. [#4780](https://github.com/OpenSID/OpenSID/issues/4780) Perbaiki nama desa tidak tampil pada cetak laporan vaksin.
+45. [#4796](https://github.com/OpenSID/OpenSID/issues/4796) Perbaiki tambah produk pada modul lapak.
+46. [#4794](https://github.com/OpenSID/OpenSID/issues/4794) Perbaiki hak akses modul pembangunan.
+47. [#4778](https://github.com/OpenSID/OpenSID/issues/4778) Perbaiki import rumah tangga selalu tertimpa.
+48. [#4781](https://github.com/OpenSID/OpenSID/issues/4781) Perbaiki penyesuaian tempat tanda tangan sesuai dengan pilihan pada pengaturan aplikasi print buku inventaris dan kekayaan desa.
+49. [#4779](https://github.com/OpenSID/OpenSID/issues/4779) Perbaiki uji coba lapak desa setelah input data produk terjadi error 500.
 
 #### Perubahan Teknis
 
@@ -74,3 +82,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. Jangan kirim notifikasi jika token bot telegram kosong.
 7. Penulisan hallo menjadi halo.
 8. Hapus use statement telegram dan email.
+9. Tambahkan unique pada kolom, username dan email tabel user.
+10. Perbaiki migrasi berulang tabel ref_penduduk_hamil dengan kondisi jika tabel kosong.
+11. Perbaiki migrasi berulang dengan kondisi jika kosongkan database.

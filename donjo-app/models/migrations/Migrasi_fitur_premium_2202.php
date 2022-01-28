@@ -48,11 +48,13 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022010671($hasil);
         $hasil = $hasil && $this->migrasi_2022011071($hasil);
         $hasil = $hasil && $this->migrasi_2022011251($hasil);
-        $hasil = $hasil && $this->migrasi_2022011371($hasil);
+        $hasil = $hasil && $this->migrasi_2022011351($hasil);
         $hasil = $hasil && $this->migrasi_2022011471($hasil);
         $hasil = $hasil && $this->migrasi_2022012071($hasil);
+        $hasil = $hasil && $this->migrasi_2022012471($hasil);
+        $hasil = $hasil && $this->migrasi_2022012651($hasil);
 
-        return $hasil && $this->migrasi_2022012471($hasil);
+        return $hasil && $this->migrasi_2022012751($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -74,14 +76,15 @@ class Migrasi_fitur_premium_2202 extends MY_model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_hamil', true);
+        }
 
-            // tambahkan data awal
-            $insert_batch = [
-                ['id' => 1, 'nama' => 'Hamil'],
-                ['id' => 2, 'nama' => 'Tidak Hamil'],
+        // Tambahkan data awal tabel ref_penduduk_hamil
+        if ($hasil && $this->db->truncate('ref_penduduk_hamil')) {
+            $ref_penduduk_hamil = [
+                ['nama' => 'Hamil'],
+                ['nama' => 'Tidak Hamil'],
             ];
-
-            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_hamil', $insert_batch);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_hamil', $ref_penduduk_hamil);
         }
 
         return $hasil;
@@ -305,7 +308,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         return $hasil;
     }
 
-    protected function migrasi_2022011371($hasil)
+    protected function migrasi_2022011351($hasil)
     {
         return $hasil && $this->tambah_setting([
             'key'        => 'tampilan_anjungan_audio',
@@ -375,5 +378,25 @@ class Migrasi_fitur_premium_2202 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022012651($hasil)
+    {
+        // Hapus modul pembangunan dokumentasi
+        $hasil = $hasil && $this->db->where('id', '221')->delete('setting_modul');
+
+        // Ubah group akses modul pembangunan dokumentasi jadi modul pembangunan
+        $hasil = $hasil && $this->db->where('id_modul', '221')->update('grup_akses', ['id_modul' => '220']);
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022012751($hasil)
+    {
+        $hasil = $hasil && $this->tambah_indeks('user', 'username');
+
+        return $hasil && $this->tambah_indeks('user', 'email');
     }
 }
