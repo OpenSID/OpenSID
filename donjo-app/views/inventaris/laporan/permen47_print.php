@@ -205,8 +205,8 @@
 				</tr>
 				<tr>
 					<td colspan="2" width="10%">&nbsp;</td>
-					<td colspan="3" width="30%"><?= strtoupper($this->setting->sebutan_kepala_desa) . ' ' . strtoupper($header['nama_desa']) ?></td>
-					<td colspan="5" width="55%">SEKRETARIS <?= strtoupper($this->setting->sebutan_desa) . ' ' . strtoupper($header['nama_desa']) ?></td>
+					<td colspan="3" width="30%"><?= ucfirst($this->setting->sebutan_kepala_desa) . ' ' . ucfirst($header['nama_desa']) ?></td>
+					<td colspan="5" width="55%">Sekretaris <?= ucfirst($this->setting->sebutan_desa) . ' ' . ucfirst($header['nama_desa']) ?></td>
 					<td colspan="5" width="5%">&nbsp;</td>
 				</tr>
 				<tr>
