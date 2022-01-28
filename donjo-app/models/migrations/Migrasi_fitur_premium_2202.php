@@ -52,6 +52,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022011471($hasil);
         $hasil = $hasil && $this->migrasi_2022012071($hasil);
         $hasil = $hasil && $this->migrasi_2022012471($hasil);
+        $hasil = $hasil && $this->migrasi_2022012651($hasil);
 
         return $hasil && $this->migrasi_2022012751($hasil);
     }
@@ -375,6 +376,19 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
             $hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
         }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022012651($hasil)
+    {
+        // Hapus modul pembangunan dokumentasi
+        $hasil = $hasil && $this->db->where('id', '221')->delete('setting_modul');
+
+        // Ubah group akses modul pembangunan dokumentasi jadi modul pembangunan
+        $hasil = $hasil && $this->db->where('id_modul', '221')->update('grup_akses', ['id_modul' => '220']);
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
     }

@@ -1,9 +1,9 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar Dokumentasi Pembangunan</h1>
+		<h1>Dokumentasi Pembangunan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Daftar Jenis</li>
+			<li class="active">Dokumentasi Pembangunan</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -13,11 +13,11 @@
 					<div class="box box-info">
 						<div class="box-header with-border">
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
-								<a href="<?= site_url('pembangunan_dokumentasi/form') ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru"><i class="fa fa-plus"></i>Tambah Data</a>
+								<a href="<?= site_url("{$this->controller}/dokumentasi_form") ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru"><i class="fa fa-plus"></i>Tambah Data</a>
 							<?php endif; ?>
-							<a href="<?= site_url("admin_pembangunan/dialog_daftar/{$pembangunan->id}/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Pembangunan" title="Cetak Data Pembangunan <?= $pembangunan->judul ?> "><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("admin_pembangunan/dialog_daftar/{$pembangunan->id}/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Pembangunan" title="Unduh Data Pembangunan <?= $pembangunan->judul ?> "><i class="fa fa-download "></i> Unduh</a>
-							<a href="<?= site_url('admin_pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pembagunan"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
+							<a href="<?= site_url("{$this->controller}/dialog_daftar/{$pembangunan->id}/cetak") ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data Pembangunan" title="Cetak Data Pembangunan <?= $pembangunan->judul ?> "><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("{$this->controller}/dialog_daftar/{$pembangunan->id}/unduh") ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Pembangunan" title="Unduh Data Pembangunan <?= $pembangunan->judul ?> "><i class="fa fa-download "></i> Unduh</a>
+							<a href="<?= site_url($this->controller) ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Pembagunan"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Pembangunan</a>
 						</div>
 						<div class="box-body">
 							<h5 class="text-bold">Rincian Dokumentasi Pembangunan</h5>
@@ -97,7 +97,7 @@
 			}],
 
 			'ajax': {
-				'url': "<?= site_url("pembangunan_dokumentasi/show/{$pembangunan->id}") ?>",
+				'url': "<?= site_url("{$this->controller}/dokumentasi/{$pembangunan->id}") ?>",
 				'method': 'POST'
 			},
 			'columns': [
@@ -107,10 +107,10 @@
 						'data': function(data) {
 							return `
 								<?php if ($this->CI->cek_hak_akses('u')): ?>
-									<a href="<?= site_url('pembangunan_dokumentasi/form/'); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+									<a href="<?= site_url("{$this->controller}/dokumentasi_form/"); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 								<?php endif; ?>
 								<?php if ($this->CI->cek_hak_akses('u')): ?>
-									<a href="#" data-href="<?= site_url("pembangunan_dokumentasi/delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+									<a href="#" data-href="<?= site_url("{$this->controller}/dokumentasi_delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 								<?php endif; ?>
 							`
 						}, 'class': 'aksi'
