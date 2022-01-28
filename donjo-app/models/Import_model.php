@@ -711,116 +711,162 @@ class Import_model extends CI_Model
     private function hapus_rtm_penduduk()
     {
         // Hapus status rtm di tabel tweb_penduduk
-        $this->db->set('id_rtm', '0')
-            ->set('rtm_level', '0')
-            ->where('id_rtm <>', '0')->or_where('rtm_level <>', '0')
-            ->update('tweb_penduduk');
+        $this->db
+            ->where('id_rtm <>', '0')
+            ->or_where('rtm_level <>', '0')
+            ->update('tweb_penduduk', [
+                'id_rtm'    => '0',
+                'rtm_level' => '0',
+            ]);
+
+        // Hapus data RTM
+        $this->db->truncate('tweb_rtm');
     }
 
-    // Impor Pengelompokan Data Rumah Tangga
-    // Data rumah tangga sebelumnya dihapus dan digantikan dengan data impor
-    public function pbdt_individu()
+    /**
+     * Impor Pengelompokan Data Rumah Tangga
+     * Alur :
+     * Cek apakah NIK ada atau tidak.
+     * 1. Jika Ya, update data penduduk (rtm) berdasarkan data impor.
+     * 2. Jika Tidak, tampilkan notifikasi baris data yang gagal.
+     *
+     * @param mixed $hapus
+     */
+    public function pbdt_individu($hapus = false)
     {
+        if (pathinfo($_FILES['userfile']['name'], PATHINFO_EXTENSION) !== 'xlsx') {
+            return session_error('-> File impor tidak sesuai');
+        }
+
         $reader = ReaderEntityFactory::createXLSXReader();
         $reader->open($_FILES['userfile']['tmp_name']);
+
         $outp = true;
+
+        // Hapus data RTM sebelum Impor
+        if ($hapus) {
+            $outp = $outp && $this->hapus_rtm_penduduk();
+        }
 
         foreach ($reader->getSheetIterator() as $sheet) {
             $baris_pertama = false;
-            $gg            = 0;
+            $gagal         = 0;
+            $nomor_baris   = 0;
+            $pesan         = '';
 
-            $this->hapus_rtm_penduduk();
+            if ($sheet->getName() === 'RTM') {
+                foreach ($sheet->getRowIterator() as $row) {
+                    // Abaikan baris pertama yg berisi nama kolom
+                    if (! $baris_pertama) {
+                        $baris_pertama = true;
 
-            foreach ($sheet->getRowIterator() as $row) {
-                // Abaikan baris pertama yg berisi nama kolom
-                if (! $baris_pertama) {
-                    $baris_pertama = true;
+                        continue;
+                    }
 
-                    continue;
+                    $nomor_baris++;
+
+                    $rowData = [];
+                    $cells   = $row->getCells();
+
+                    foreach ($cells as $cell) {
+                        $rowData[] = $cell->getValue();
+                    }
+                    //ID RuTa
+                    $id_rtm = $rowData[1];
+
+                    if (empty($id_rtm)) {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Nomer Rumah Tannga Tidak Boleh Kosong</br>";
+                        $gagal++;
+                        $outp = false;
+
+                        continue;
+                    }
+
+                    //Level
+                    $rtm_level = (int) $rowData[2];
+
+                    if (empty($rowData[2]) || ! is_int($rowData[2])) {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kode Hubungan Rumah Tangga Tidak Diketahui</br>";
+                        $gagal++;
+                        $outp = false;
+
+                        continue;
+                    }
+
+                    if ($rtm_level > 1) {
+                        $rtm_level = 2;
+                    }
+
+                    //NIK
+                    $nik = $rowData[0];
+
+                    if (empty($nik)) {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} NIK Tidak Boleh Kosong</br>";
+                        $gagal++;
+                        $outp = false;
+
+                        continue;
+                    }
+
+                    if ($penduduk = $this->cekPenduduk($nik)) {
+                        $ada = [
+                            'id_rtm'     => $id_rtm,
+                            'rtm_level'  => $rtm_level,
+                            'updated_at' => date('Y-m-d H:i:s'),
+                            'updated_by' => $this->session->user,
+                        ];
+
+                        if (! $this->db->where('nik', $nik)->update('tweb_penduduk', $ada)) {
+                            $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : { {$nik} } gagal disimpan</br>";
+                            $gagal++;
+                            $outp = false;
+
+                            continue;
+                        }
+
+                        if ($rtm_level > 1) {
+                            $dataRTM = [
+                                'nik_kepala' => $penduduk['id'],
+                                'no_kk'      => $id_rtm,
+                            ];
+
+                            $sql = $this->db->insert_string('tweb_rtm', $dataRTM) . ' ON DUPLICATE KEY UPDATE nik_kepala = VALUES(nik_kepala), no_kk = VALUES(no_kk)';
+                            if (! $this->db->query($sql)) {
+                                $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} gagal disimpan</br>";
+                                $gagal++;
+                                $outp = false;
+
+                                continue;
+                            }
+                        }
+                    } else {
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Data penduduk dengan NIK : {$nik} tidak ditemukan</br>";
+                        $gagal++;
+                        $outp = false;
+                    }
                 }
-                $rowData = [];
-                $cells   = $row->getCells();
+                $berhasil = ($nomor_baris - $gagal);
+                $pesan .= "Jumlah Berhasil : {$berhasil} </br>";
+                $pesan .= "Jumlah Gagal : {$gagal} </br>";
+                $pesan .= "Jumlah Data : {$nomor_baris} </br>";
 
-                foreach ($cells as $cell) {
-                    $rowData[] = $cell->getValue();
-                }
-                //ID RuTa
-                $id_rtm = $rowData[1];
-
-                //Level
-                $rtm_level = $rowData[2];
-                if ($rtm_level > 1) {
-                    $rtm_level = 2;
-                }
-
-                //NIK
-                $nik = $rowData[0];
-
-                $pdd = $this->db->select('nama')
-                    ->where('nik', $nik)
-                    ->get('tweb_penduduk')
-                    ->row_array();
-
-                $nama = '--> GAGAL';
-                if ($pdd) {
-                    $upd['id_rtm']     = $id_rtm;
-                    $upd['rtm_level']  = $rtm_level;
-                    $upd['updated_at'] = date('Y-m-d H:i:s');
-                    $upd['updated_by'] = $this->session->user;
-
-                    $this->db->where('nik', $nik);
-                    $outp = $outp && $this->db->update('tweb_penduduk', $upd);
-                    $nama = $pdd['nama'];
-
-                    echo '<a>' . $id_rtm . ' ' . $rtm_level . ' ' . $nik . ' ' . $nama . '</a><br>';
-                } else {
-                    $penduduk               = '';
-                    $penduduk['id_cluster'] = 0;
-                    $penduduk['status']     = 2;
-                    $penduduk['nama']       = $rowData[3];
-                    $penduduk['nik']        = $nik;
-                    $penduduk['id_rtm']     = $id_rtm;
-                    $penduduk['rtm_level']  = $rtm_level;
-                    $penduduk['created_by'] = $this->session->user;
-
-                    $outp = $outp && $this->db->insert('tweb_penduduk', $penduduk);
-
-                    echo "<a style='color:#f00;'>" . $id_rtm . ' ' . $rtm_level . ' ' . $nik . ' ' . $nama . '</a><br>';
-
-                    $gg++;
-                }
+                break;
             }
 
-            $this->db->truncate('tweb_rtm');
-
-            $ketua_rtm = $this->db->select('id_rtm as no_kk, id as nik_kepala')
-                ->from('tweb_penduduk')
-                ->where('id_rtm >', 0)
-                ->where('rtm_level', 1)
-                ->get()->result_array();
-
-            $hasil_insert = $this->db
-                ->insert_batch('tweb_rtm', $ketua_rtm);
-
-            $outp = $outp && $hasil_insert;
-
-            if (! $hasil_insert) {
-                $error = $this->db->error();
-                echo "<a style='color:#f00;'> Ada rumah tangga dengan kepala ganda. " . $error['code'] . ': ' . $error['message'] . '</a><br><br>';
-                $this->hapus_rtm_penduduk();
-            }
-
-            $_SESSION['ggl'] = $gg;
-
-            status_sukses($outp); //Tampilkan Pesan
-
-            if ($hasil_insert) {
-                echo "<br>JUMLAH GAGAL : {$gg}</br>";
-            }
-            echo "<a href='" . site_url() . "database/import'>LANJUT</a>";
-
-            exit;
+            return session_error('-> File impor tidak sesuai');
         }
         $reader->close();
+        $this->session->set_flashdata('pesan_rtm', $pesan);
+
+        return status_sukses($outp, false, 'Terjadi kesalahan impor data RTM');
+    }
+
+    private function cekPenduduk($nik = '')
+    {
+        return $this->db
+            ->select('id', 'nama')
+            ->where('nik', $nik)
+            ->get('tweb_penduduk')
+            ->row_array();
     }
 }
