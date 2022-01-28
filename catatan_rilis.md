@@ -79,3 +79,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. Penulisan hallo menjadi halo.
 8. Hapus use statement telegram dan email.
 9. Tambahkan unique pada kolom, username dan email tabel user.
+10. Perbaiki migrasi berulang tabel ref_penduduk_hamil dengan kondisi jika tabel kosong.
