@@ -69,6 +69,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 45. [#4796](https://github.com/OpenSID/OpenSID/issues/4796) Perbaiki tambah produk pada modul lapak.
 46. [#4794](https://github.com/OpenSID/OpenSID/issues/4794) Perbaiki hak akses modul pembangunan.
 47. [#4778](https://github.com/OpenSID/OpenSID/issues/4778) Perbaiki import rumah tangga selalu tertimpa.
+48. [#4781](https://github.com/OpenSID/OpenSID/issues/4781) Perbaiki penyesuaian tempat tanda tangan sesuai dengan pilihan pada pengaturan aplikasi print buku inventaris dan kekayaan desa.
 
 #### Perubahan Teknis
 
