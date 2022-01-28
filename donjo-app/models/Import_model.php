@@ -813,7 +813,7 @@ class Import_model extends CI_Model
                             continue;
                         }
 
-                        if ($rtm_level > 1) {
+                        if ($rtm_level == 1) {
                             $dataRTM = [
                                 'nik_kepala' => $penduduk['id'],
                                 'no_kk'      => $id_rtm,
