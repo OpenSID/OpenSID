@@ -314,23 +314,18 @@ class Migrasi_fitur_premium_2102 extends MY_model
             ]);
         }
 
-        // Menambahkan data ke ref_penduduk_bahasa
-        $data = [
-            ['id' => 1, 'nama' => 'Latin', 'inisial' => 'L'],
-            ['id' => 2, 'nama' => 'Daerah', 'inisial' => 'D'],
-            ['id' => 3, 'nama' => 'Arab', 'inisial' => 'A'],
-            ['id' => 4, 'nama' => 'Arab dan Latin', 'inisial' => 'AL'],
-            ['id' => 5, 'nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
-            ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
-        ];
+        // Tambah data awal tabel ref_penduduk_bahasa
+        if ($hasil && $this->db->truncate('ref_penduduk_bahasa')) {
+            $ref_penduduk_bahasa = [
+                ['nama' => 'Latin', 'inisial' => 'L'],
+                ['nama' => 'Daerah', 'inisial' => 'D'],
+                ['nama' => 'Arab', 'inisial' => 'A'],
+                ['nama' => 'Arab dan Latin', 'inisial' => 'AL'],
+                ['nama' => 'Arab dan Daerah', 'inisial' => 'AD'],
+                ['nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
+            ];
 
-        foreach ($data as $bahasa) {
-            $sql = $this->db->insert_string('ref_penduduk_bahasa', $bahasa);
-            $sql .= ' ON DUPLICATE KEY UPDATE
-					id = VALUES(id),
-					nama = VALUES(nama),
-					inisial = VALUES(inisial)';
-            $hasil = $hasil && $this->db->query($sql);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_bahasa', $ref_penduduk_bahasa);
         }
 
         return $hasil;

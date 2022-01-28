@@ -108,42 +108,30 @@ class Migrasi_fitur_premium_2111 extends MY_Model
 
     protected function migrasi_2021101871($hasil)
     {
-        // Sesuaikan tabel covid19_pemudik
-
-        $this->db->truncate('ref_status_covid');
-
-        $data = [
-            [
-                'id'   => 1,
-                'nama' => 'Kasus Suspek',
-            ],
-            [
-                'id'   => 2,
-                'nama' => 'Kasus Probable',
-            ],
-            [
-                'id'   => 3,
-                'nama' => 'Kasus Konfirmasi',
-            ],
-            [
-                'id'   => 4,
-                'nama' => 'Kontak Erat',
-            ],
-            [
-                'id'   => 5,
-                'nama' => 'Pelaku Perjalanan',
-            ],
-            [
-                'id'   => 6,
-                'nama' => 'Discarded',
-            ],
-            [
-                'id'   => 7,
-                'nama' => 'Selesai Isolasi',
+        // Ubah kolom id tabel covid19_pemudik menjadi auto increment
+        $fields = [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'unsigned'       => true,
+                'auto_increment' => true,
             ],
         ];
+        $hasil = $hasil && $this->dbforge->modify_column('ref_status_covid', $fields);
 
-        $hasil = $hasil && $this->db->insert_batch('ref_status_covid', $data);
+        if ($hasil && $this->db->truncate('ref_status_covid')) {
+            // Sesuaikan tabel covid19_pemudik
+            $ref_status_covid = [
+                ['nama' => 'Kasus Suspek'],
+                ['nama' => 'Kasus Probable'],
+                ['nama' => 'Kasus Konfirmasi'],
+                ['nama' => 'Kontak Erat'],
+                ['nama' => 'Pelaku Perjalanan'],
+                ['nama' => 'Discarded'],
+                ['nama' => 'Selesai Isolasi'],
+            ];
+            $hasil = $hasil && $this->db->insert_batch('ref_status_covid', $ref_status_covid);
+        }
 
         // Ganti ODP & PDP jadi Suspek
         $hasil = $hasil && $this->db

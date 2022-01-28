@@ -273,7 +273,8 @@ class Database extends Admin_Controller
     public function ppls_individu()
     {
         $this->redirect_hak_akses('u');
-        $this->import_model->pbdt_individu();
+        $this->import_model->pbdt_individu(isset($_POST['hapus_rtm']));
+        redirect("{$this->controller}/import");
     }
 
     public function exec_backup()

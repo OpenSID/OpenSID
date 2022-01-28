@@ -1,10 +1,14 @@
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Pengaturan Data Dokumentasi Pembangunan</h1>
+		<h1>
+			Dokumentasi Pembangunan
+			<small><?= ($id_pembangunan ? 'Ubah' : 'Tambah') ?> Data</small>
+		</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url("{$this->controller}/show/{$id_pembangunan}") ?>"></i>Daftar Dokumentasi Pembangunan</a></li>
-			<li class="active">Pengaturan Data Pembangunan</li>
+			<li><a href="<?= site_url($this->controller) ?>"> Pembangunan</a></li>
+			<li><a href="<?= site_url("{$this->controller}/dokumentasi/{$id_pembangunan}") ?>"></i>Dokumentasi Pembangunan</a></li>
+			<li class="active"><?= ($id_pembangunan ? 'Ubah' : 'Tambah') ?> Data</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -13,7 +17,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("{$this->controller}/show/{$id_pembangunan}") ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
+							<a href="<?= site_url("{$this->controller}/dokumentasi/{$id_pembangunan}") ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Pembangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">

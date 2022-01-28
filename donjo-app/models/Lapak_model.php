@@ -174,18 +174,26 @@ class Lapak_model extends MY_Model
             $foto[] = $value;
         }
 
-        return [
+        $data = [
             'id_pelapak'         => bilangan($post['id_pelapak']),
             'nama'               => $post['nama'],
             'id_produk_kategori' => alfanumerik_spasi($post['id_produk_kategori']),
             'harga'              => bilangan($post['harga']),
             'satuan'             => alfanumerik_spasi($post['satuan']),
             'tipe_potongan'      => bilangan($post['tipe_potongan']),
-            'potongan'           => bilangan(($post['tipe_potongan'] == 1) ? $post['persen'] : $post['nominal']),
             'deskripsi'          => $this->security->xss_clean($post['deskripsi']),
-
-            'foto' => ($foto == []) ? null : json_encode($foto),
+            'foto'               => ($foto == []) ? null : json_encode($foto),
         ];
+
+        if ($post['tipe_potongan'] == 1 && ! empty($post['persen'])) {
+            $data['potongan'] = bilangan($post['persen']);
+        }
+
+        if ($post['tipe_potongan'] == 2 && ! empty($post['nominal'])) {
+            $data['potongan'] = bilangan($post['nominal']);
+        }
+
+        return $data;
     }
 
     private function upload_foto_produk($key = 1)
