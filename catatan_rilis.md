@@ -80,3 +80,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. Hapus use statement telegram dan email.
 9. Tambahkan unique pada kolom, username dan email tabel user.
 10. Perbaiki migrasi berulang tabel ref_penduduk_hamil dengan kondisi jika tabel kosong.
+11. Perbaiki migrasi berulang dengan kondisi jika kosongkan database.
