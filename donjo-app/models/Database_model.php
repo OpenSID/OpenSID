@@ -3533,10 +3533,14 @@ class Database_model extends MY_Model
             'ref_asal_tanah_kas',
             'ref_dokumen',
             'ref_penduduk_hamil',
+            'ref_peristiwa',
+            'ref_persil_kelas', // Migrasi tambah data ref_peristiwa perlu dilakukan ulang (Migrasi_2007_ke_2008)
+            'ref_persil_mutasi', // Migrasi tambah data ref_persil_kelas perlu dilakukan ulang (Migrasi_2007_ke_2008)
             'ref_peruntukan_tanah_kas', // Migrasi tambah data ref_peruntukan_tanah_kas perlu dilakukan ulang (Migrasi_2007_ke_2008)
             'ref_pindah',
             'ref_penduduk_bahasa',
             'ref_penduduk_bidang',
+            'ref_penduduk_kursus',
             'ref_penduduk_suku',
             'ref_syarat_surat',
             'ref_status_covid',
