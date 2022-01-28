@@ -46,10 +46,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar Pembangunan</h1>
+		<h1>Pembangunan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li class="active">Daftar Pembangunan</li>
+			<li class="active">Pembangunan</li>
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
@@ -63,7 +63,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<div class="box-body">
 					<div class="row">
 						<div class="col-sm-2">
-						<select class="form-control input-sm select2" id="tahun" name="tahun" style="width:100%;">
+						<select class="form-control input-sm select2" id="tahun" name="tahun">
 							<option selected value="semua">Semua Tahun</option>
 							<?php foreach ($list_tahun as $list) : ?>
 								<option value="<?= $list->tahun_anggaran ?>"><?= $list->tahun_anggaran ?></option>
@@ -138,7 +138,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<a href="<?= site_url("{$this->controller}/form/"); ?>${data.id}" title="Ubah Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 							<?php endif; ?>
 							<a href="<?= site_url($this->controller . '/lokasi_maps/'); ?>${data.id}" class="btn bg-olive btn-flat btn-sm" title="Lokasi Pembangunan"><i class="fa fa-map"></i></a>
-							<a href="<?= site_url('pembangunan_dokumentasi/show/'); ?>${data.id}" class="btn bg-purple btn-flat btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-list-ol"></i></a>
+							<a href="<?= site_url($this->controller . '/dokumentasi/'); ?>${data.id}" class="btn bg-purple btn-flat btn-sm" title="Rincian Dokumentasi Kegiatan"><i class="fa fa-list-ol"></i></a>
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
 								${status}
 							<?php endif; ?>
