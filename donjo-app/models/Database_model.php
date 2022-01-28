@@ -3531,6 +3531,7 @@ class Database_model extends MY_Model
             'keuangan_manual_rinci_tpl',
             'media_sosial',
             'ref_dokumen',
+            'ref_penduduk_hamil',
             'ref_pindah',
             'ref_syarat_surat',
             'ref_status_covid',

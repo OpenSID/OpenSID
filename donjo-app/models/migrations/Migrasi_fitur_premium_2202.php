@@ -75,14 +75,15 @@ class Migrasi_fitur_premium_2202 extends MY_model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_hamil', true);
+        }
 
-            // tambahkan data awal
-            $insert_batch = [
-                ['id' => 1, 'nama' => 'Hamil'],
-                ['id' => 2, 'nama' => 'Tidak Hamil'],
+        // Tambahkan data awal tabel ref_penduduk_hamil
+        if ($hasil && $this->db->truncate('ref_penduduk_hamil')) {
+            $ref_penduduk_hamil = [
+                ['nama' => 'Hamil'],
+                ['nama' => 'Tidak Hamil'],
             ];
-
-            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_hamil', $insert_batch);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_hamil', $ref_penduduk_hamil);
         }
 
         return $hasil;
