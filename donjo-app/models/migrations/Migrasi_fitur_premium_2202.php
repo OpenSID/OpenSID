@@ -262,7 +262,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
         return $hasil;
     }
-    
+
     protected function migrasi_2022012751($hasil)
     {
         $hasil = $hasil && $this->tambah_indeks('user', 'username');
