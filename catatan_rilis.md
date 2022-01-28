@@ -51,6 +51,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 43. [#4782](https://github.com/OpenSID/OpenSID/issues/4782) Perbaiki hapus duplikasi kabupaten, kecamatan, desa pada cetak wilayah administratif.
 44. [#4780](https://github.com/OpenSID/OpenSID/issues/4780) Perbaiki nama desa tidak tampil pada cetak laporan vaksin.
 45. [#4796](https://github.com/OpenSID/OpenSID/issues/4796) Perbaiki tambah produk pada modul lapak.
+46. [#4794](https://github.com/OpenSID/OpenSID/issues/4794) Perbaiki hak akses modul pembangunan.
 
 #### Perubahan Teknis
 
