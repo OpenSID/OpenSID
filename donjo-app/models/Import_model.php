@@ -461,6 +461,7 @@ class Import_model extends CI_Model
 
     protected function tulis_tweb_penduduk($isi_baris)
     {
+        $this->load->model('penduduk_model');
         $this->error_tulis_penduduk = null;
 
         // Siapkan data penduduk
@@ -469,6 +470,7 @@ class Import_model extends CI_Model
         foreach ($kolom_baris as $kolom) {
             $data[$kolom] = $isi_baris[$kolom];
         }
+
         $data['status'] = '1';  // penduduk impor dianggap aktif
         // Jangan masukkan atau update isian yang kosong
         foreach ($data as $key => $value) {
@@ -495,6 +497,10 @@ class Import_model extends CI_Model
         $res = $this->db->get_where('tweb_penduduk', ['nik' => $isi_baris['nik']])->row_array();
         if ($res) {
             if ($data['status_dasar'] != -1) {
+                if ($this->penduduk_model->cekTagIdCard($data['tag_id_card'], $res['id'])) {
+                    return $this->error_tulis_penduduk['message'] = 'Tag ID Card ' . $data['tag_id_card'] . ' sudah digunakan pada NIK : ' . $data['nik'];
+                }
+
                 $data['nik'] = $res['nik'];
 
                 // Hanya update apabila status dasar valid (data SIAK)
@@ -508,6 +514,10 @@ class Import_model extends CI_Model
 
             $penduduk_baru = $res['id'];
         } else {
+            if ($this->penduduk_model->cekTagIdCard($data['tag_id_card'])) {
+                return $this->error_tulis_penduduk['message'] = 'Tag ID Card ' . $data['tag_id_card'] . ' sudah digunakan pada NIK : ' . $data['nik'];
+            }
+
             // Konfersi nik 0 sesuai format nik sementara
             $data['nik'] = $isi_baris['nik'];
 
