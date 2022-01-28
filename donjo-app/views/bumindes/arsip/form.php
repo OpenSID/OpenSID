@@ -1,10 +1,8 @@
-<form id="main_arsip" action="<?= site_url($this->controller."/ubah_dokumen/$tabel/$id_doc/$page/$o"); ?>" method="POST" class="form-horizontal">
+<form id="main_arsip" action="<?= site_url("{$this->controller}/ubah_dokumen/{$tabel}/{$id_doc}/{$page}/{$o}"); ?>" method="POST">
 	<div class="modal-body">
 		<div class="form-group" id="form_ubah_arsip">
-			<label class="col-sm-12 col-md-3" for="nama">Masukkan Lokasi Arsip</label>
-			<div class="col-sm-12 col-md-4">
-				<input id="lokasi_arsip" name="lokasi_arsip" class="form-control input-sm" type="text" value="<?=$value?>">
-			</div>
+			<label for="nama">Masukkan Lokasi Arsip</label>
+			<input id="lokasi_arsip" name="lokasi_arsip" class="form-control input-sm" type="text" value="<?= $value ?>">
 		</div>
 	</div>
 	<div class="modal-footer">
