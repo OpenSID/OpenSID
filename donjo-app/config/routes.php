@@ -105,6 +105,10 @@ $route['bumindes_umum/([a-z_]+)/(:any)'] = 'buku_umum/bumindes_umum/$1/$2';
 $route['bumindes_umum/([a-z_]+)']        = 'buku_umum/bumindes_umum/$1';
 $route['bumindes_umum']                  = 'buku_umum/bumindes_umum';
 
+$route['bumindes_arsip']                 = 'bumindes_arsip/index'; 
+$route['bumindes_arsip/(:num)']          = 'bumindes_arsip/index/$1'; 
+$route['bumindes_arsip/(:num)/(:num)']   = 'bumindes_arsip/index/$1/$2'; 
+
 $buku_umum = ['ekspedisi', 'lembaran_desa', 'pengurus', 'surat_keluar', 'surat_masuk'];
 
 foreach ($buku_umum as $menu) {

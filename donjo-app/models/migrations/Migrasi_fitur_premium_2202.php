@@ -53,8 +53,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022012071($hasil);
         $hasil = $hasil && $this->migrasi_2022012471($hasil);
         $hasil = $hasil && $this->migrasi_2022012651($hasil);
-
-        return $hasil && $this->migrasi_2022012751($hasil);
+        $hasil = $hasil && $this->migrasi_2022012751($hasil);
+        
+        return $hasil && $this->migrasi_2022012771($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -398,5 +399,34 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->tambah_indeks('user', 'username');
 
         return $hasil && $this->tambah_indeks('user', 'email');
+    }
+
+    protected function migrasi_2022012771($hasil)
+    {
+        $hasil = $hasil && $this->tambah_modul([
+            'id'            => 306,
+            'modul'         => 'Arsip Desa',
+            'url'           => 'bumindes_arsip',
+            'aktif'         => 1,
+            'ikon'          => 'fa-archive',
+            'urut'          => 5,
+            'level'         => 2,
+            'hidden'        => 0,
+            'ikon_kecil'    => 'fa fa-archive',
+            'parent'        => 301,
+        ]);
+        
+        $list_tabel = ['surat_masuk', 'surat_keluar', 'dokumen', 'log_surat'];
+        foreach($list_tabel as $tabel)
+        {
+            if (! $this->db->field_exists('lokasi_arsip', $tabel)) {
+                $hasil = $hasil && $this->dbforge->add_column($tabel, ['lokasi_arsip' => ['type' => 'VARCHAR', 'constraint' => '150', 'default' => '']]);
+            }
+        }
+
+        // Perbaharui view dokumen_hidup
+        $hasil = $hasil && $this->db->query('DROP VIEW dokumen_hidup');
+        
+        return $hasil && $this->db->query('CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
     }
 }

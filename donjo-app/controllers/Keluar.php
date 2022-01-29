@@ -134,11 +134,14 @@ class Keluar extends Admin_Controller
 
     public function perorangan($nik = '', $p = 1, $o = 0)
     {
-        if ($this->input->post('nik') !== null) {
-            $nik = $this->input->post('nik');
+        if ($this->input->post('nik')) {
+            $id = $this->input->post('nik');
+        } elseif ($nik) {
+            $id = $this->db->select('id')->get_where('penduduk_hidup', ['nik' => $nik])->row()->id;
         }
-        if (! empty($nik)) {
-            $data['individu'] = $this->surat_model->get_penduduk($nik);
+        
+        if ($id) {
+            $data['individu'] = $this->surat_model->get_penduduk($id);
         } else {
             $data['individu'] = null;
         }
@@ -150,12 +153,10 @@ class Keluar extends Admin_Controller
             $_SESSION['per_page'] = $this->input->post('per_page');
         }
         $data['per_page'] = $this->session->per_page;
+        $data['paging'] = $this->keluar_model->paging_perorangan($id, $p, $o);
+        $data['main']   = $this->keluar_model->list_data_perorangan($id, $o, $data['paging']->offset, $data['paging']->per_page);
+        $data['form_action'] = site_url("sid_surat_keluar/perorangan/{$data['individu']['nik']}");
 
-        $data['paging'] = $this->keluar_model->paging_perorangan($nik, $p, $o);
-        $data['main']   = $this->keluar_model->list_data_perorangan($nik, $o, $data['paging']->offset, $data['paging']->per_page);
-
-        $data['form_action'] = site_url("sid_surat_keluar/perorangan/{$nik}");
-        $data['nik']['no']   = $nik;
         $this->render('surat/surat_keluar_perorangan', $data);
     }
 
