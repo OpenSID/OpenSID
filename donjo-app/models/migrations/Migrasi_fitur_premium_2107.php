@@ -368,12 +368,6 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			(2,44,1), -- Pengguna --
 			(2,45,3), -- Database --
 			(2,46,3), -- Info Sistem --
-			(2,214,3), -- C-Desa --
-			(2,320,3), -- Buku Tanah di Desa --
-			(2,321,3), -- Pendapat --
-			(2,322,3), -- Buku Inventaris dan Kekayaan Desa --
-			(2,323,3), -- Buku Rencana Kerja Pembangunan --
-			(2,324,3), -- Lapak --
 
 			-- Redaksi --
 			(3,65,7), -- Kategori --

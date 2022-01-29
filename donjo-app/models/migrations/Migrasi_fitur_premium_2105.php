@@ -652,7 +652,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
 			(2,213,3),
 			(2,220,0),
 			(2,221,3),
-			(2,301,0),
+            (2,301,0),
 			(2,302,3),
 			(2,303,3),
 			(2,304,3),
@@ -660,7 +660,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
 			(2,310,3),
 			(2,311,3),
 			(2,312,3),
-			(2,313,3),
 			(2,314,3),
 			(2,315,3),
 			(2,316,3),
@@ -777,8 +776,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'parent'     => 305,
         ]);
 
-        //menambahkan hak akses operator untuk modul 'bumindes tanah kas desa' 321
-        return $hasil && $this->db->insert('grup_akses', ['id_grup' => '2', 'id_modul' => '319', 'akses' => '3']);
+        return $hasil;
     }
 
     private function tambah_pengaturan_analisis($hasil)
@@ -812,13 +810,8 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'hidden'     => 0,
             'parent'     => 5,
         ]);
-        // Tambahkan ke hak akses operator
-        $modul_tambahan = [
-            ['id_grup' => 2, 'id_modul' => 110, 'akses' => 3],
-            ['id_grup' => 2, 'id_modul' => 111, 'akses' => 3],
-        ];
 
-        return $hasil && $this->db->insert_batch('grup_akses', $modul_tambahan);
+        return $hasil;
     }
 
     private function impor_google_form($hasil)

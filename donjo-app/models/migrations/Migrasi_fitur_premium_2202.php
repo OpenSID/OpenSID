@@ -386,8 +386,11 @@ class Migrasi_fitur_premium_2202 extends MY_model
         // Hapus modul pembangunan dokumentasi
         $hasil = $hasil && $this->db->where('id', '221')->delete('setting_modul');
 
-        // Ubah group akses modul pembangunan dokumentasi jadi modul pembangunan
-        $hasil = $hasil && $this->db->where('id_modul', '221')->update('grup_akses', ['id_modul' => '220']);
+        // Hapus group akses modul pembangunan dan pembangunan dokumentasi
+        $hasil = $hasil && $this->db->where_in('id_modul', [220, 221])->delete('grup_akses');
+
+        // Tambah group akses modul pembangunan untuk operator
+        $hasil = $hasil && $this->grup_akses(2, 220, 3);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 

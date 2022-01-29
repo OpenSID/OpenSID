@@ -263,19 +263,7 @@ class Migrasi_fitur_premium_2102 extends MY_model
         ];
 
         foreach ($data as $modul) {
-            $sql = $this->db->insert_string('setting_modul', $modul);
-            $sql .= ' ON DUPLICATE KEY UPDATE
-					id = VALUES(id),
-					modul = VALUES(modul),
-					url = VALUES(url),
-					aktif = VALUES(aktif),
-					ikon = VALUES(ikon),
-					urut = VALUES(urut),
-					level = VALUES(level),
-					hidden = VALUES(hidden),
-					ikon_kecil = VALUES(ikon_kecil),
-					parent = VALUES(parent)';
-            $hasil = $hasil && $this->db->query($sql);
+            $hasil = $hasil && $this->tambah_modul($modul);
         }
 
         return $hasil;

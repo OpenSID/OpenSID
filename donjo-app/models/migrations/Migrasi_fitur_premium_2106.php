@@ -229,7 +229,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
             'urut'       => 0,
             'level'      => 0,
             'hidden'     => 0,
-            'ikon_kecil' => '',
+            'ikon_kecil' => 'fa-files-o',
             'parent'     => 302,
         ]);
         // Hapus Administrasi Lainnya
@@ -244,7 +244,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
             'urut'       => 0,
             'level'      => 0,
             'hidden'     => 0,
-            'ikon_kecil' => '',
+            'ikon_kecil' => 'fa-files-o',
             'parent'     => 305,
         ]);
         // Ubah link Buku Administrasi Pembangunan
