@@ -43,7 +43,7 @@
 											<thead class="bg-gray color-palette">
 												<tr>
 													<th><input type="checkbox" id="checkall"/></th>
-													<th>No</th>
+													<th colspan="2">No</th>
 													<th>Nama Modul</th>
 													<th>Hak Baca</th>
 													<th>Hak Ubah</th>
@@ -55,46 +55,45 @@
 													<?php foreach ($list_akses_modul as $key => $akses_modul): ?>
 														<tr class="modul">
 															<td class="padat"><input id="m<?= $key + 1?>" type="checkbox" name="modul[id][]" value="<?= $akses_modul['id']; ?>" <?= jecho($akses_modul['ada_akses'], 1, 'checked'); ?>/></td>
-															<td class="padat"><?= ($key + 1); ?></td>
+															<td class="padat" colspan="2"><?= ($key + 1); ?></td>
 															<td><?= $akses_modul['modul']; ?></td>
 															<?php if (count($list_akses_submodul[$akses_modul['id']]) == 0): ?>
-																<td class="text-center">
-																	<input type="checkbox" name="modul[akses_baca][<?= $akses_modul[id]?>]" value="1" <?= jecho($akses_modul['akses_baca'], true, 'checked'); ?>/>
+																<td class="padat">
+																	<input type="checkbox" name="modul[akses_baca][<?= $akses_modul['id'] ?>]" value="1" <?= jecho($akses_modul['akses_baca'], 1, 'checked'); ?>/>
 																</td>
-																<td class="text-center">
-																	<input type="checkbox" name="modul[akses_ubah][<?= $akses_modul[id]?>]" value="1" <?= jecho($akses_modul['akses_ubah'], true, 'checked'); ?>/>
+																<td class="padat">
+																	<input type="checkbox" name="modul[akses_ubah][<?= $akses_modul['id'] ?>]" value="1" <?= jecho($akses_modul['akses_ubah'], 1, 'checked'); ?>/>
 																</td>
-																<td class="text-center">
-																	<input type="checkbox" name="modul[akses_hapus][<?= $akses_modul[id]?>]" value="1" <?= jecho($akses_modul['akses_hapus'], true, 'checked'); ?>/>
+																<td class="padat">
+																	<input type="checkbox" name="modul[akses_hapus][<?= $akses_modul['id'] ?>]" value="1" <?= jecho($akses_modul['akses_hapus'], 1, 'checked'); ?>/>
 																</td>
 															<?php else: ?>
-																<td colspan="3">&nbsp;</td>
+																<td colspan="4">&nbsp;</td>
 															<?php endif; ?>
 														</tr>
 														<?php foreach ($list_akses_submodul[$akses_modul['id']] as $subkey => $akses_submodul) : ?>
 															<tr>
-																<td class="padat"><input id="m<?= ($key + 1) . '.' . ($subkey + 1)?>" class="m<?=$key + 1?>" type="checkbox" name="modul[id][]" value="<?= $akses_submodul['id']; ?>" <?= jecho($akses_submodul['ada_akses'], 1, 'checked'); ?>/></td>
-																<td class="text-right">
-																	&nbsp;&nbsp;&nbsp;&nbsp;<?= ($key + 1) . '.' . ($subkey + 1); ?></td>
-																<td>
-																	&nbsp;&nbsp;&nbsp;&nbsp;
-																	<?= '==> ' . $akses_submodul['modul']; ?>
+																<td class="padat">
+																	<input id="m<?= ($key + 1) . '.' . ($subkey + 1)?>" class="m<?=$key + 1?>" type="checkbox" name="modul[id][]" value="<?= $akses_submodul['id']; ?>" <?= jecho($akses_submodul['ada_akses'], 1, 'checked'); ?>/>
 																</td>
-																<td class="text-center">
-																	<input class="m<?=$key + 1?>" type="checkbox" name="modul[akses_baca][<?= $akses_submodul[id]?>]" value="1" <?= jecho($akses_submodul['akses_baca'], true, 'checked'); ?>/>
+																<td></td>
+																<td class="padat"><?= ($key + 1) . '.' . ($subkey + 1); ?></td>
+																<td><?= $akses_submodul['modul']; ?></td>
+																<td class="padat">
+																	<input class="m<?=$key + 1?>" type="checkbox" name="modul[akses_baca][<?= $akses_submodul['id'] ?>]" value="1" <?= jecho($akses_submodul['akses_baca'], 1, 'checked'); ?>/>
 																</td>
-																<td class="text-center">
-																	<input class="m<?=$key + 1?>" type="checkbox" name="modul[akses_ubah][<?= $akses_submodul[id]?>]" value="1" <?= jecho($akses_submodul['akses_ubah'], true, 'checked'); ?>/>
+																<td class="padat">
+																	<input class="m<?=$key + 1?>" type="checkbox" name="modul[akses_ubah][<?= $akses_submodul['id'] ?>]" value="1" <?= jecho($akses_submodul['akses_ubah'], 1, 'checked'); ?>/>
 																</td>
-																<td class="text-center">
-																	<input class="m<?=$key + 1?>" type="checkbox" name="modul[akses_hapus][<?= $akses_submodul[id]?>]" value="1" <?= jecho($akses_submodul['akses_hapus'], true, 'checked'); ?>/>
+																<td class="padat">
+																	<input class="m<?=$key + 1?>" type="checkbox" name="modul[akses_hapus][<?= $akses_submodul['id'] ?>]" value="1" <?= jecho($akses_submodul['akses_hapus'], 1, 'checked'); ?>/>
 																</td>
 															</tr>
 														<?php endforeach; ?>
 													<?php endforeach; ?>
 												<?php else: ?>
 													<tr>
-														<td class="text-center" colspan="3">Data Tidak Tersedia</td>
+														<td class="padat" colspan="4">Data Tidak Tersedia</td>
 													</tr>
 												<?php endif; ?>
 											</tbody>
@@ -127,15 +126,15 @@ $(document).ready(function() {
 		// Ubah suhmodul sesuai modul
 		// Cara berikut karena trigger('change') tidak jalan (?)
 		// Submodul aktif tergantung modul
-	  if (this.checked) {
-	    $("input." + id).removeAttr("disabled");
+		if (this.checked) {
+			$("input." + id).removeAttr("disabled");
 			$('input[type=checkbox][id^="'+id+'."]').prop('checked', ! $(this).is(':checked'));
 			$('input[type=checkbox][id^="'+id+'."]').trigger('click');
-	  } else {
+		} else {
 			$('input[type=checkbox][id^="'+id+'."]').prop('checked', ! $(this).is(':checked'));
 			$('input[type=checkbox][id^="'+id+'."]').trigger('click');
-	    $("input." + id).attr("disabled", true);
-	  }
+			$("input." + id).attr("disabled", true);
+		}
 	});
 
 	$( "input[name*='akses']" ).change(function() {
@@ -149,39 +148,39 @@ $(document).ready(function() {
 			var hapus = name.replace("baca", "hapus")
 			if ( ! $(this).is(':checked')) {
 				// Pastikan akses_ubah dan akses_hapus tidak checked
-			  $("input[name='"+ubah+"']").prop('checked', false);
-			  $("input[name='"+hapus+"']").prop('checked', false);
+				$("input[name='"+ubah+"']").prop('checked', false);
+				$("input[name='"+hapus+"']").prop('checked', false);
 			}
 		}	else if (name.indexOf('akses_ubah') > 0) {
 			var baca = name.replace("ubah", "baca")
 			var hapus = name.replace("ubah", "hapus")
 			if ($(this).is(':checked')) {
 				// Pastikan akses_baca juga checked
-			  $("input[name='"+baca+"']").prop('checked', true);
+				$("input[name='"+baca+"']").prop('checked', true);
 			} else {
 				// Pastikan akses_hapus tidak checked
-			  $("input[name='"+hapus+"']").prop('checked', false);
+				$("input[name='"+hapus+"']").prop('checked', false);
 			}
 		} else if (name.indexOf('akses_hapus') > 0) {
 			var baca = name.replace("hapus", "baca")
 			var ubah = name.replace("hapus", "ubah")
 			if ($(this).is(':checked')) {
 				// Pastikan akses_baca dan akses_ubah juga checked
-			  $("input[name='"+baca+"']").prop('checked', true);
-			  $("input[name='"+ubah+"']").prop('checked', true);
+				$("input[name='"+baca+"']").prop('checked', true);
+				$("input[name='"+ubah+"']").prop('checked', true);
 			}
 		}
 	});
 
 	$( "input[name*='modul[id]']" ).each(function( index ) {
 		var id = $(this).attr('id');
-	  if (this.checked) {
-	    $("input." + id).removeAttr("disabled");
+		if (this.checked) {
+			$("input." + id).removeAttr("disabled");
 			$('input[type=checkbox][id^="'+id+'."]').prop('checked', ! $(this).is(':checked'));
-	  } else {
-			$('input[type=checkbox][id^="'+id+'."]').prop('checked', ! $(this).is(':checked'));
-	    $("input." + id).attr("disabled", true);
-	  }
+		} else {
+			$('input[type=checkbox][id^="'+id+'."]').prop('checked', $(this).is(':checked'));
+			$("input." + id).attr("disabled", true);
+		}
 	});
 
 	$( "input[name*='akses']" ).each(function( index ) {
@@ -190,6 +189,5 @@ $(document).ready(function() {
 			$(modul).prop('checked', true);
 		}
 	});
-
 });
 </script>
