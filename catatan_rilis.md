@@ -68,6 +68,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 44. [#4780](https://github.com/OpenSID/OpenSID/issues/4780) Perbaiki nama desa tidak tampil pada cetak laporan vaksin.
 45. [#4796](https://github.com/OpenSID/OpenSID/issues/4796) Perbaiki tambah produk pada modul lapak.
 46. [#4794](https://github.com/OpenSID/OpenSID/issues/4794) Perbaiki hak akses modul pembangunan.
+47. [#4778](https://github.com/OpenSID/OpenSID/issues/4778) Perbaiki import rumah tangga selalu tertimpa.
+48. [#4781](https://github.com/OpenSID/OpenSID/issues/4781) Perbaiki penyesuaian tempat tanda tangan sesuai dengan pilihan pada pengaturan aplikasi print buku inventaris dan kekayaan desa.
+49. [#4779](https://github.com/OpenSID/OpenSID/issues/4779) Perbaiki uji coba lapak desa setelah input data produk terjadi error 500.
+50. [#4792](https://github.com/OpenSID/OpenSID/issues/4792) Perbaiki simpan data penduduk jika terjadi duplikasi tag id card.
 
 #### Perubahan Teknis
 
