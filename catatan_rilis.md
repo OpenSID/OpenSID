@@ -55,6 +55,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 47. [#4778](https://github.com/OpenSID/OpenSID/issues/4778) Perbaiki import rumah tangga selalu tertimpa.
 48. [#4781](https://github.com/OpenSID/OpenSID/issues/4781) Perbaiki penyesuaian tempat tanda tangan sesuai dengan pilihan pada pengaturan aplikasi print buku inventaris dan kekayaan desa.
 49. [#4779](https://github.com/OpenSID/OpenSID/issues/4779) Perbaiki uji coba lapak desa setelah input data produk terjadi error 500.
+50. [#4801](https://github.com/OpenSID/OpenSID/issues/4801) Perbaiki salah penyebutan tanggal pada form mutasi inventaris.
 
 #### Perubahan Teknis
 
