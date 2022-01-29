@@ -58,6 +58,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 50. [#4776](https://github.com/OpenSID/OpenSID/issues/4776) Perbaiki layanan mandiri belum dapat mengirim pengajuan permohonan surat.
 51. [#4801](https://github.com/OpenSID/OpenSID/issues/4801) Perbaiki salah penyebutan tanggal pada form mutasi inventaris.
 52. [#4804](https://github.com/OpenSID/OpenSID/issues/4804) Hapus nama kecamatan yang ikut tampil dalam tempat dan tanggal laporan inventaris.
+53. [#4797](https://github.com/OpenSID/OpenSID/issues/4797) Perbaiki validasi lat/lng pada peta lokasi.
 
 #### Perubahan Teknis
 

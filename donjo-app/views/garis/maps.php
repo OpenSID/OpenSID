@@ -86,10 +86,6 @@
     var tebal = "<?= $garis['tebal']; ?>";
     var warna = "<?= $garis['color']; ?>";
 
-    console.log('Jenis ' + jenis);
-    console.log('Tebal ' + tebal);
-    console.log('Jenis ' + warna);
-
   	//Inisialisasi tampilan peta
     var peta_garis = L.map('map').setView(posisi, zoom);
 
