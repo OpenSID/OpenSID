@@ -191,15 +191,24 @@ class MY_Model extends CI_Model
 
     public function tambah_modul($modul)
     {
+        // Modul
         $sql = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
 
         $hasil = $this->db->query($sql);
+
+        // Hak Akses Default Operator
+        $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
 
         // Hapus cache menu navigasi
         $this->load->driver('cache');
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
+    }
+
+    public function grup_akses($id_grup, $id_modul, $akses)
+    {
+        return $this->db->insert('grup_akses', ['id_grup' => $id_grup, 'id_modul' => $id_modul, 'akses' => $akses]);
     }
 
     /**

@@ -1,14 +1,3 @@
-<?php
-
-/**
- * File ini:
- *
- * View untuk modul Pemetaan di Halaman Admin
- *
- * /donjo-app/views/gis/maps.php
- */
-?>
-
 <script>
 		(function() {
 				var infoWindow;
