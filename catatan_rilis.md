@@ -72,3 +72,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. Perbaiki migrasi berulang dengan kondisi jika kosongkan database.
 9. Kosongkan database beserta data folder desa.
 10. Tambahkan hak akses group operator setiap kali tambah modul baru.
+11. Perbaiki saat menampilkan group pengguna.
