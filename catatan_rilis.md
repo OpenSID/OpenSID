@@ -57,6 +57,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 49. [#4779](https://github.com/OpenSID/OpenSID/issues/4779) Perbaiki uji coba lapak desa setelah input data produk terjadi error 500.
 50. [#4776](https://github.com/OpenSID/OpenSID/issues/4776) Perbaiki layanan mandiri belum dapat mengirim pengajuan permohonan surat.
 51. [#4801](https://github.com/OpenSID/OpenSID/issues/4801) Perbaiki salah penyebutan tanggal pada form mutasi inventaris.
+52. [#4804](https://github.com/OpenSID/OpenSID/issues/4804) Hapus nama kecamatan yang ikut tampil dalam tempat dan tanggal laporan inventaris.
 
 #### Perubahan Teknis
 
