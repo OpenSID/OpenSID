@@ -221,6 +221,10 @@ class MY_Model extends CI_Model
         return $this->db->where('id', $id)
             ->set($modul)
             ->update('setting_modul');
+        
+        // Hapus cache menu navigasi
+        $this->load->driver('cache');
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
     }
 
     public function tambah_setting($setting)

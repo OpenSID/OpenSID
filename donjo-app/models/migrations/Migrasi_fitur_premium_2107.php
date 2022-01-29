@@ -252,7 +252,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
     // Menu Produk / Lapak
     protected function tambah_modul_produk($hasil)
     {
-        $fields = [
+        return $hasil && $this->tambah_modul([
             'id'         => 324,
             'modul'      => 'Lapak',
             'url'        => 'lapak_admin',
@@ -263,15 +263,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
             'hidden'     => 0,
             'ikon_kecil' => 'fa-cart-plus',
             'parent'     => 0,
-        ];
-
-        $hasil = $hasil && $this->tambah_modul($fields);
-
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
+        ]);
     }
 
     protected function tambah_folder_produk($hasil)

@@ -156,10 +156,6 @@ class Migrasi_fitur_premium_2109 extends MY_Model
             'parent' => 327,
         ]);
 
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
         if (! $this->db->field_exists('tipe', 'kelompok')) {
             $hasil = $hasil && $this->dbforge->add_column('kelompok', ['tipe' => ['type' => 'VARCHAR', 'constraint' => '100', 'default' => 'kelompok']]);
         }

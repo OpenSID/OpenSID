@@ -187,10 +187,6 @@ class Migrasi_fitur_premium_2102 extends MY_model
             'parent'     => 220,
         ]);
 
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
         //tambah kolom Foto utama di tabel pembangunan
         if (! $this->db->field_exists('foto', 'pembangunan')) {
             $hasil = $this->dbforge->add_column('pembangunan', [

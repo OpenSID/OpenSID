@@ -763,7 +763,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = $hasil && $this->db->where('id', 305)->update('setting_modul', ['url' => 'bumindes_tanah_desa/clear']);
 
         //menambahkan data pada setting_modul untuk controller 'bumindes_tanah_kas_desa'
-        $hasil = $hasil && $this->tambah_modul([
+        return $hasil && $this->tambah_modul([
             'id'         => 319,
             'modul'      => 'Buku Tanah Kas Desa',
             'url'        => 'bumindes_tanah_kas_desa/clear',
@@ -775,8 +775,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'ikon_kecil' => '',
             'parent'     => 305,
         ]);
-
-        return $hasil;
     }
 
     private function tambah_pengaturan_analisis($hasil)
@@ -786,6 +784,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
             ->set('url', '')
             ->where('id', 5)
             ->update('setting_modul');
+
         $hasil = $hasil && $this->tambah_modul([
             'id'         => 110,
             'modul'      => 'Master Analisis',
@@ -798,7 +797,8 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'hidden'     => 0,
             'parent'     => 5,
         ]);
-        $hasil = $hasil && $this->tambah_modul([
+
+        return $hasil && $this->tambah_modul([
             'id'         => 111,
             'modul'      => 'Pengaturan',
             'url'        => 'setting/analisis',
@@ -810,8 +810,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'hidden'     => 0,
             'parent'     => 5,
         ]);
-
-        return $hasil;
     }
 
     private function impor_google_form($hasil)
