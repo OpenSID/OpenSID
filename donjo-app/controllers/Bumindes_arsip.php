@@ -165,11 +165,8 @@ class Bumindes_arsip extends Admin_controller
     public function modal_ubah_arsip($tabel, $id, $p, $o)
     {
         $data = [
-            'page' => $p,
-            'tabel' => $tabel,
-            'id_doc' => $id,
-            'o' => $o,
             'value' => $this->arsip_fisik_model->get_lokasi_arsip($id, $tabel),
+            'form_action' => site_url("{$this->controller}/ubah_dokumen/{$tabel}/{$id}/{$p}/{$o}"),
         ];
 
         $this->load->view("bumindes/arsip/form", $data);
@@ -177,7 +174,7 @@ class Bumindes_arsip extends Admin_controller
 
     public function ubah_dokumen($tabel, $id, $p, $o)
     {
-        $lokasi_baru = $this->input->post('lokasi_arsip');
+        $lokasi_baru = nama_terbatas($this->input->post('lokasi_arsip'));
         $this->arsip_fisik_model->update_lokasi($tabel, $id, $lokasi_baru);
 
         redirect("{$this->controller}/{$p}/{$o}");

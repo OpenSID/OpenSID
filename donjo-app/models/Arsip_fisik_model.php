@@ -39,13 +39,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Arsip_fisik_model extends MY_Model
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('keluar_model');
-    }
-
     public function ambil_total_data($kategori)
     {
         $this->datas_jenis($kategori);
@@ -232,9 +225,12 @@ class Arsip_fisik_model extends MY_Model
 
     public function update_lokasi($tabel, $id, $value)
     {
-        $this->db->set('lokasi_arsip', $value);
-        $this->db->where('id', $id);
-        $this->db->update($tabel);
+        $outp = $this->db
+            ->set('lokasi_arsip', $value)
+            ->where('id', $id)
+            ->update($tabel);
+
+        status_sukses($outp);
     }
 
     public function get_nama_berkas($tabel, $id, $lampiran = false)

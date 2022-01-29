@@ -1,8 +1,9 @@
-<form id="main_arsip" action="<?= site_url("{$this->controller}/ubah_dokumen/{$tabel}/{$id_doc}/{$page}/{$o}"); ?>" method="POST">
+<?php $this->load->view('global/validasi_form'); ?>
+<form id="validasi" action="<?= $form_action ?>" method="POST">
 	<div class="modal-body">
 		<div class="form-group" id="form_ubah_arsip">
 			<label for="nama">Masukkan Lokasi Arsip</label>
-			<input id="lokasi_arsip" name="lokasi_arsip" class="form-control input-sm" type="text" value="<?= $value ?>">
+			<input type="text" id="lokasi_arsip" name="lokasi_arsip" class="form-control input-sm nama_terbatas" maxlength="150" value="<?= $value ?>">
 		</div>
 	</div>
 	<div class="modal-footer">
@@ -10,8 +11,3 @@
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
 	</div>
 </form>
-<script>
-	$(document).ready(function() {
-		$("#main_arsip").validate();
-	})
-</script>
