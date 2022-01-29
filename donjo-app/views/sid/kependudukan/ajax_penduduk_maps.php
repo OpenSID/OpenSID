@@ -20,7 +20,7 @@
 		</section>
 		<section class="content">
 		<div class="box box-info">
-			<form id="validasi1" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form id="validasi" action="<?= $form_action ?>" method="POST" class="form-horizontal">
 				<div class="box-body">
 					<div id="tampil-map">
 				</div>
@@ -28,32 +28,14 @@
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="lat">Latitude</label>
 						<div class="col-sm-9">
-							<?php switch ($edit): ?><?php case '0': ?>
-								<input readonly="readonly" class="form-control number" name="lat1" id="lat1" value="<?= $penduduk['lat']; ?>"/>
-								<?php break; ?>
-							<?php case '1': ?>
-								<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
-								<?php break; ?>
-							<?php case '2': ?>
-								<input type="text" class="form-control number" name="lat" id="lat" value="<?= $penduduk['lat']; ?>"/>
-								<?php break; ?>
-							<?php endswitch ?>
+							<input type="text" class="form-control input-sm lng" <?= ($edit == 0) ? 'readonly="readonly"' : 'name="lat" id="lat"' ?> value="<?= $penduduk['lat']; ?>"/>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-sm-3 control-label" for="lng">Longitude</label>
 						<div class="col-sm-9">
-							<?php switch ($edit): ?><?php case '0': ?>
-								<input readonly="readonly" class="form-control number" name="lng1" id="lng1" value="<?= $penduduk['lng']; ?>"/>
-								<?php break; ?>
-							<?php case '1': ?>
-								<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
-								<?php break; ?>
-							<?php case '2': ?>
-								<input type="text" class="form-control number" name="lng" id="lng" value="<?= $penduduk['lng']; ?>"/>
-								<?php break; ?>
-							<?php endswitch ?>
+							<input type="text" class="form-control input-sm lng" <?= ($edit == 0) ? 'readonly="readonly"' : 'name="lng" id="lng"' ?>  value="<?= $penduduk['lng']; ?>"/>
 						</div>
 					</div>
 
@@ -66,7 +48,7 @@
 						<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 						<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
 						<?php if ($penduduk['status_dasar'] == 1 || ! isset($penduduk['status_dasar'])): ?>
-							<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
+							<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 						<?php endif; ?>
 						<?php break; ?>
 					<?php case '2': ?>
@@ -74,7 +56,7 @@
 						<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 						<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
 						<?php if ($penduduk['status_dasar'] == 1 || ! isset($penduduk['status_dasar'])): ?>
-							<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_penduduk"><i class='fa fa-check'></i> Simpan</button>
+							<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
 						<?php endif; ?>
 						<?php break; ?>
 					<?php endswitch ?>
@@ -86,6 +68,7 @@
 
 	<script>
 		window.onload = function() {
+			var mode = '<?= $edit ? true : false ?>';
 			//Jika posisi kantor dusun belum ada, maka posisi peta akan menampilkan peta desa
 			<?php if (! empty($penduduk['lat'])):	?>
 				var posisi = [<?= $penduduk['lat'] . ',' . $penduduk['lng']; ?>];
@@ -136,7 +119,7 @@
 
 			//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS + Exim GPX/KML
 			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
-			showCurrentPoint(posisi, peta_penduduk);
+			showCurrentPoint(posisi, peta_penduduk, mode);
 
 			//Menambahkan zoom scale ke peta
 			L.control.scale().addTo(peta_penduduk);
@@ -144,42 +127,6 @@
 			L.control.layers(baseLayers, overlayLayers, {position: 'topleft', collapsed: true}).addTo(peta_penduduk);
 
 		}; //EOF window.onload
-
-		$(document).ready(function(){
-			$('#simpan_penduduk').click(function(){
-
-				$("#validasi1").validate({
-					errorElement: "label",
-					errorClass: "error",
-					highlight:function (element){
-						$(element).closest(".form-group").addClass("has-error");
-					},
-					unhighlight:function (element){
-						$(element).closest(".form-group").removeClass("has-error");
-					},
-					errorPlacement: function (error, element) {
-						if (element.parent('.input-group').length) {
-							error.insertAfter(element.parent());
-						} else {
-							error.insertAfter(element);
-						}
-					}
-				});
-
-				if (!$('#validasi1').valid()) return;
-
-				var id = $('#id').val();
-				var lat = $('#lat').val();
-				var lng = $('#lng').val();
-
-				$.ajax({
-					type: "POST",
-					url: "<?=$form_action?>",
-					dataType: 'json',
-					data: {lat: lat, lng: lng, id: id},
-				});
-			});
-		});
 	</script>
 	<script src="<?= base_url()?>assets/js/leaflet.filelayer.js"></script>
 	<script src="<?= base_url()?>assets/js/togeojson.js"></script>

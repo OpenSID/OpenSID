@@ -66,6 +66,12 @@ class Job extends CI_Controller
         log_message('error', 'Mulai normalkan website demo');
         log_message('error', 'Hapus folder logs');
 
+        // Kosongkan folder desa dan copy isi folder desa-contoh
+        foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
+            if ($folder != 'desa/config') {
+                delete_files(FCPATH . $folder, true);
+            }
+        }
         xcopy('desa-contoh', 'desa', ['config']);
         log_message('error', 'Normalkan folder desa');
 

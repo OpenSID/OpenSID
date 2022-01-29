@@ -3598,9 +3598,18 @@ class Database_model extends MY_Model
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
         // Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
         $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
-        $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', $jenis = 1);
+        $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', 1);
         $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
-        $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
+        $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', 1);
+
+        // Kosongkan folder desa dan copy isi folder desa-contoh
+        foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
+            if ($folder != 'desa/config') {
+                delete_files(FCPATH . $folder, true);
+            }
+        }
+
+        xcopy('desa-contoh', 'desa', ['config'], ['.htaccess', 'index.html', 'baca-ini.txt']);
 
         $this->session->success = 1;
     }

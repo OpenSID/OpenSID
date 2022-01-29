@@ -73,6 +73,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 48. [#4781](https://github.com/OpenSID/OpenSID/issues/4781) Perbaiki penyesuaian tempat tanda tangan sesuai dengan pilihan pada pengaturan aplikasi print buku inventaris dan kekayaan desa.
 49. [#4779](https://github.com/OpenSID/OpenSID/issues/4779) Perbaiki uji coba lapak desa setelah input data produk terjadi error 500.
 50. [#4776](https://github.com/OpenSID/OpenSID/issues/4776) Perbaiki layanan mandiri belum dapat mengirim pengajuan permohonan surat.
+51. [#4801](https://github.com/OpenSID/OpenSID/issues/4801) Perbaiki salah penyebutan tanggal pada form mutasi inventaris.
+52. [#4804](https://github.com/OpenSID/OpenSID/issues/4804) Hapus nama kecamatan yang ikut tampil dalam tempat dan tanggal laporan inventaris.
+53. [#4797](https://github.com/OpenSID/OpenSID/issues/4797) Perbaiki validasi lat/lng pada peta lokasi.
 
 #### Perubahan Teknis
 
@@ -85,5 +88,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. Penulisan hallo menjadi halo.
 8. Hapus use statement telegram dan email.
 9. Tambahkan unique pada kolom, username dan email tabel user.
-10. Perbaiki migrasi berulang tabel ref_penduduk_hamil dengan kondisi jika tabel kosong.
-11. Perbaiki migrasi berulang dengan kondisi jika kosongkan database.
+10. Perbaiki migrasi berulang dengan kondisi jika kosongkan database.
+11. Kosongkan database beserta data folder desa.
+12. Tambahkan hak akses group operator setiap kali tambah modul baru.
+13. Perbaiki saat menampilkan group pengguna.
