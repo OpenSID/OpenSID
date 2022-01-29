@@ -139,7 +139,7 @@ class Keluar extends Admin_Controller
         } elseif ($nik) {
             $id = $this->db->select('id')->get_where('penduduk_hidup', ['nik' => $nik])->row()->id;
         }
-        
+
         if ($id) {
             $data['individu'] = $this->surat_model->get_penduduk($id);
         } else {
@@ -152,9 +152,9 @@ class Keluar extends Admin_Controller
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $this->input->post('per_page');
         }
-        $data['per_page'] = $this->session->per_page;
-        $data['paging'] = $this->keluar_model->paging_perorangan($id, $p, $o);
-        $data['main']   = $this->keluar_model->list_data_perorangan($id, $o, $data['paging']->offset, $data['paging']->per_page);
+        $data['per_page']    = $this->session->per_page;
+        $data['paging']      = $this->keluar_model->paging_perorangan($id, $p, $o);
+        $data['main']        = $this->keluar_model->list_data_perorangan($id, $o, $data['paging']->offset, $data['paging']->per_page);
         $data['form_action'] = site_url("sid_surat_keluar/perorangan/{$data['individu']['nik']}");
 
         $this->render('surat/surat_keluar_perorangan', $data);
