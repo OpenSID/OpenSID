@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 13. [#4669](https://github.com/OpenSID/OpenSID/issues/4669) Verifikasi akun email untuk pengguna administrator.
 14. [#4711](https://github.com/OpenSID/OpenSID/issues/4711) Kirim verifikasi melalui email pada pendaftaran layanan mandiri.
 15. [#28](https://github.com/OpenSID/wiki-layanan-opendesa/issues/28) Catat dan laporkan penggunaan token premium di domain tidak terdaftar.
+16. [#4637](https://github.com/OpenSID/OpenSID/issues/4637) Modul bumindesa arsip desa.
 
 #### Perbaikan BUG
 
