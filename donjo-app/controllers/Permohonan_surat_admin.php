@@ -71,11 +71,10 @@ class Permohonan_surat_admin extends Admin_Controller
             $data['filter'] = '';
         }
 
-        if (isset($_POST['per_page'])) {
-            $_SESSION['per_page'] = $_POST['per_page'];
-        }
-        $data['per_page'] = $_SESSION['per_page'];
+        $per_page = $this->input->post('per_page');
+        $this->session->per_page = isset($per_page) ? $per_page : 20;
 
+        $data['per_page'] = $this->session->per_page;
         $data['list_status_permohonan'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN);
         $data['func']                   = 'index';
         $data['paging']                 = $this->permohonan_surat_model->paging($p, $o);

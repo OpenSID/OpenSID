@@ -92,3 +92,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 11. Kosongkan database beserta data folder desa.
 12. Tambahkan hak akses group operator setiap kali tambah modul baru.
 13. Perbaiki saat menampilkan group pengguna.
+14. Perbaiki paginasi yang tidak jalan normal pada modul permohonan surat.
