@@ -70,3 +70,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. Tambahkan unique pada kolom, username dan email tabel user.
 8. Perbaiki migrasi berulang dengan kondisi jika kosongkan database.
 9. Kosongkan database beserta data folder desa.
+10. Tambahkan hak akses group operator setiap kali tambah modul.
