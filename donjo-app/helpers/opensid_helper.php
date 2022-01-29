@@ -656,7 +656,7 @@ function get_external_ip()
 
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
-function xcopy($src = '', $dest = '', $exclude = [])
+function xcopy($src = '', $dest = '', $exclude = [], $only = [])
 {
     if (! file_exists($dest)) {
         mkdir($dest, 0755, true);
@@ -666,7 +666,7 @@ function xcopy($src = '', $dest = '', $exclude = [])
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
 
-        if (! is_readable($srcfile) || in_array($file, $exclude)) {
+        if (! is_readable($srcfile) || ($exclude && in_array($file, $exclude))) {
             continue;
         }
         
@@ -675,8 +675,12 @@ function xcopy($src = '', $dest = '', $exclude = [])
                 if (!file_exists($destfile)) {
                     mkdir($destfile);
                 }
-                xcopy($srcfile, $destfile);
+                xcopy($srcfile, $destfile, $exclude, $only);
             } else {
+                if ($only && ! in_array($file, $only)) {
+                    continue;
+                }
+
                 copy($srcfile, $destfile);
             }
         }

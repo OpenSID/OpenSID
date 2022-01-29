@@ -3786,7 +3786,16 @@ class Database_model extends CI_Model {
 		$file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
 		$this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis = 1);
 
-		$_SESSION['success'] = 1;
+		// Kosongkan folder desa dan copy isi folder desa-contoh
+		foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
+				if ($folder != 'desa/config') {
+						delete_files(FCPATH . $folder, true);
+				}
+		}
+
+		xcopy('desa-contoh', 'desa', ['config'], ['.htaccess', 'index.html', 'baca-ini.txt']);
+
+		$this->session->success = 1;
 	}
 
 	public function get_views()
