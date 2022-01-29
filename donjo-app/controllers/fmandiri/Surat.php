@@ -76,6 +76,10 @@ class Surat extends Mandiri_Controller
             if (! $permohonan) {
                 redirect('layanan-mandiri/surat/buat');
             }
+
+            $form_action = site_url("layanan-mandiri/surat/form/{$permohonan['id']}");
+        } else {
+            $form_action = site_url('layanan-mandiri/surat/form');
         }
 
         $data = [
@@ -84,6 +88,7 @@ class Surat extends Mandiri_Controller
             'list_dokumen'         => $this->penduduk_model->list_dokumen($id_pend),
             'kk'                   => ($this->is_login->kk_level === '1') ? $this->keluarga_model->list_anggota($this->is_login->id_kk) : '', // Ambil data anggota KK, jika Kepala Keluarga
             'permohonan'           => $permohonan,
+            'form_action'          => $form_action,
         ];
 
         $this->render('buat_surat', $data);
@@ -135,7 +140,7 @@ class Surat extends Mandiri_Controller
             $berkas             = $data[$i]['satuan'];
             $list_dokumen[$i][] = $data[$i]['no'];
             $list_dokumen[$i][] = $data[$i]['id'];
-            $list_dokumen[$i][] = '<a href="' . site_url('layanan-mandiri/unduh-berkas/' . $data[$i][id]) . '">' . $data[$i][nama] . '</a>';
+            $list_dokumen[$i][] = '<a href="' . site_url('layanan-mandiri/unduh-berkas/' . $data[$i]['id']) . '">' . $data[$i]['nama'] . '</a>';
             $list_dokumen[$i][] = $jenis_syarat_surat[$data[$i]['id_syarat']]['ref_syarat_nama'];
             $list_dokumen[$i][] = tgl_indo2($data[$i]['tgl_upload']);
             $list_dokumen[$i][] = $data[$i]['nama'];
@@ -252,7 +257,6 @@ class Surat extends Mandiri_Controller
             if (! $post) {
                 redirect('layanan-mandiri/surat/buat');
             }
-
             $data['permohonan'] = null;
             $data['isian_form'] = null;
             $data['id_surat']   = $post['id_surat'];
