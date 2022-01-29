@@ -206,7 +206,6 @@ class Bumindes_arsip extends Admin_controller
         if ($kategori == 'surat_masuk' || $kategori == 'surat_keluar') {
             return $kategori;
         }
-
     }
 
     private function kategori($kat)
