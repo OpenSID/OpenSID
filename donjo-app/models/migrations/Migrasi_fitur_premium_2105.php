@@ -548,8 +548,22 @@ class Migrasi_fitur_premium_2105 extends MY_model
 
     private function akses_grup_bawaan($hasil)
     {
+        // Simpan grup akses yang ada sebelumnya kecuali grup_akses bawaan
+        $grup = $this->db->where_not_in('id_grup', [2, 3, 4])->get('grup_akses')->result_array();
+        array_walk($grup, function(&$key) {
+            unset($key['id']);
+        });
+        
+        // Kosongkan tabel grup_akses
+        if ($hasil && $this->db->truncate('grup_akses')) {
+            if ($grup) {
+                $hasil = $hasil && $this->db->insert_batch('grup_akses', $grup);
+            }
+        } else {
+            return false;
+        }
+
         // Operator, Redaksi, Kontributor, Satgas Covid-19
-        $hasil = $hasil && $this->db->where('id_grup in (2, 3, 4, 5)')->delete('grup_akses');
         $query = '
 			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
 			-- Operator --
@@ -686,23 +700,22 @@ class Migrasi_fitur_premium_2105 extends MY_model
 		';
         $hasil = $hasil && $this->db->query($query);
 
-        // Hanya isi untuk Satgas Covid kalau masih ada
-        $satgas_ada = $this->db
-            ->where('id', 5)
-            ->get('user_grup')
-            ->num_rows();
-        if ($satgas_ada) {
-            $query = '
-				INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-				-- Satgas Covid-19 --
-				(5,3,0),
-				(5,27,3),
-				(5,206,0),
-				(5,207,7),
-				(5,208,7)
-			';
-            $hasil = $hasil && $this->db->query($query);
+        // Hanya isi jika grup Satgas Covid masih ada dan grup_akses belum ada (Jangan ubah grup_akses satgas covid jika sudah ada)
+        if ($this->db->get_where('user_grup', ['id' => 5])->row()) {
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 3])->row()) {
+                $this->grup_akses(5, 3, 0);
+            }
+
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 206])->row()) {
+                $this->grup_akses(5, 206, 0);
+            }
+
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 208])->row()) {
+                $this->grup_akses(5, 208, 7);
+            }
         }
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
     }
