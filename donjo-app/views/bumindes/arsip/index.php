@@ -16,13 +16,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-                            <form id="mainform" action="<?= site_url("bumindes_arsip") ?>" name="mainform" method="post">
+                            <form id="mainform" action="<?= site_url('bumindes_arsip') ?>" name="mainform" method="post">
                                 <div class="row">
                                     <div class="col-sm-8">
                                         <div class="form-group">
                                             <select class="form-control input-sm select2" name="jenis" onchange="$('#mainform').submit()">
                                                 <option value="0">Pilih Jenis Dokumen</option>
-                                                <?php foreach($list_jenis as $key => $jenis):?>
+                                                <?php foreach ($list_jenis as $key => $jenis):?>
                                                     <option value="<?= $key ?>" <?= selected($this->session->data_filter_jenis, $key) ?>><?= strtoupper(str_replace('_', ' ', $jenis))?></option>
                                                 <?php endforeach ?>
                                             </select>
@@ -30,7 +30,7 @@
                                         <div class="form-group">
                                             <select class="form-control input-sm" name="tahun" onchange="$('#mainform').submit()">
                                                 <option value="0">Pilih Tahun</option>
-                                                <?php foreach($list_tahun as $tahun): ?>
+                                                <?php foreach ($list_tahun as $tahun): ?>
                                                     <option value="<?= $tahun ?>" <?= selected($this->session->data_filter_tahun, $tahun) ?>><?= $tahun ?></option>
                                                 <?php endforeach ?>
                                             </select>
@@ -66,18 +66,18 @@
                                                 <?php if ($main): ?>
                                                     <?php foreach ($main as $key => $data): ?>
                                                         <tr>
-                                                            <td class="padat"><?= ($key+$paging->offset+1); ?></td>
+                                                            <td class="padat"><?= ($key + $paging->offset + 1); ?></td>
                                                             <td class="aksi">
-                                                                <?php if(isset($data['lampiran'])):?>
-                                                                    <?php if($data['lampiran'] != ''): ?>
-                                                                        <a href="<?= site_url('keluar/unduh/lampiran/').$data['id']?>" class="btn bg-blue btn-flat btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip">&nbsp;</i></a>
+                                                                <?php if (isset($data['lampiran'])):?>
+                                                                    <?php if ($data['lampiran'] != ''): ?>
+                                                                        <a href="<?= site_url('keluar/unduh/lampiran/') . $data['id']?>" class="btn bg-blue btn-flat btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip">&nbsp;</i></a>
                                                                     <?php endif ?>
-                                                                    <a href="<?= site_url('keluar/unduh/rtf/').$data['id']?>" class="btn bg-black btn-flat btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a>
+                                                                    <a href="<?= site_url('keluar/unduh/rtf/') . $data['id']?>" class="btn bg-black btn-flat btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a>
                                                                 <?php else: ?>
-                                                                <a href="<?= site_url('bumindes_arsip/tindakan_lihat/').$data['kategori'].'/'.$data['id'].'/lihat' ?>" target="_blank" class="btn bg-blue btn-flat btn-sm" title="Lihat Berkas"><i class="fa fa-eye">&nbsp;</i></a>
-                                                                <a href="<?= site_url('bumindes_arsip/tindakan_lihat/').$data['kategori'].'/'.$data['id'].'/unduh' ?>" class="btn bg-black btn-flat btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a>
+                                                                <a href="<?= site_url('bumindes_arsip/tindakan_lihat/') . $data['kategori'] . '/' . $data['id'] . '/lihat' ?>" target="_blank" class="btn bg-blue btn-flat btn-sm" title="Lihat Berkas"><i class="fa fa-eye">&nbsp;</i></a>
+                                                                <a href="<?= site_url('bumindes_arsip/tindakan_lihat/') . $data['kategori'] . '/' . $data['id'] . '/unduh' ?>" class="btn bg-black btn-flat btn-sm" title="Unduh Berkas"><i class="fa fa-download">&nbsp;</i></a>
                                                                 <?php endif ?>
-                                                                <a href="<?= site_url('bumindes_arsip/tindakan_ubah/').$data['kategori'].'/'.$data['id'].'/'.$page.'/'.$o?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Lokasi Arsip" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Lokasi Arsip"><i class="fa fa-edit">&nbsp;</i></a>
+                                                                <a href="<?= site_url('bumindes_arsip/tindakan_ubah/') . $data['kategori'] . '/' . $data['id'] . '/' . $page . '/' . $o?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Lokasi Arsip" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Lokasi Arsip"><i class="fa fa-edit">&nbsp;</i></a>
                                                                 <a href="<?= site_url($data['modul_asli'])?>" class="btn bg-green btn-flat btn-sm" title="Tampilkan di modul aslinya"><i class="fa fa-list">&nbsp;</i></a>
                                                             </td>
                                                             <td class="aksi"><?= $data['nomor_dokumen'] ?? '-' ?></td>
