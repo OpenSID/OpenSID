@@ -69,7 +69,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
     protected function tambah_modul_kader_pemberdayaan_masyarakat($hasil)
     {
-        $hasil = $hasil && $this->tambah_modul([
+        return $hasil && $this->tambah_modul([
             'id'     => 332,
             'modul'  => 'Kader Pemberdayaan Masyarakat',
             'url'    => 'bumindes_kader',
@@ -77,15 +77,6 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             'hidden' => 2,
             'parent' => 301,
         ]);
-
-        // Tambah hak ases group operator
-        $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,331,3) -- Bumindes Kader Pemberdayaan Masyarakat --
-			';
-
-        return $hasil && $this->db->query($query);
     }
 
     public function tabel_referensi($hasil)
