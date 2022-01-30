@@ -608,6 +608,7 @@ class Suplemen_model extends MY_Model {
 							->like('o.nama', $cari)
 							->or_like('o.nik', $cari)
 							->or_like('k.no_kk', $cari)
+							->or_like('o.tag_id_card', $cari)
 						->group_end();
 					break;
 				case '2':

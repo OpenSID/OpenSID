@@ -1,4 +1,9 @@
 <script>
+	$(document).ready(function()
+	{
+		$('#cari').focus();
+	});
+
 	$(function() {
 		var keyword = <?= $keyword != '' ? $keyword : '""' ?> ;
 		$("#cari").autocomplete( {
