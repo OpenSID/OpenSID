@@ -249,7 +249,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
             'ikon_kecil' => 'fa-files-o',
             'parent'     => 305,
         ]);
-        
+
         // Ubah link Buku Administrasi Pembangunan
         return $hasil && $this->tambah_modul([
             'id'         => 305,

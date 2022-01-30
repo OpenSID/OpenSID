@@ -127,7 +127,7 @@ class Migrasi_fitur_premium_2009 extends MY_model
         foreach ($menu as $modul) {
             $hasil = $hasil && $this->tambah_modul($modul);
         }
-        
+
         // Menu parent Buku Administrasi Desa. END
         // Dokumen tidak harus ada file
         $hasil = $hasil && $this->db->query('ALTER TABLE dokumen MODIFY satuan VARCHAR(200) NULL DEFAULT NULL;');

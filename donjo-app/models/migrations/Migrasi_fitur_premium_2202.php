@@ -368,11 +368,11 @@ class Migrasi_fitur_premium_2202 extends MY_model
     protected function migrasi_2022012471($hasil)
     {
         $daftar_ubah = [
-            'config' => 'warna',
-            'tweb_desa_pamong' => 'bagan_warna',
+            'config'               => 'warna',
+            'tweb_desa_pamong'     => 'bagan_warna',
             'tweb_wil_clusterdesa' => 'warna',
-            'line' => 'color',
-            'polygon' => 'color',
+            'line'                 => 'color',
+            'polygon'              => 'color',
         ];
 
         if ($daftar_ubah) {

@@ -550,10 +550,10 @@ class Migrasi_fitur_premium_2105 extends MY_model
     {
         // Simpan grup akses yang ada sebelumnya kecuali grup_akses bawaan
         $grup = $this->db->where_not_in('id_grup', [2, 3, 4])->get('grup_akses')->result_array();
-        array_walk($grup, function(&$key) {
+        array_walk($grup, static function (&$key) {
             unset($key['id']);
         });
-        
+
         // Kosongkan tabel grup_akses
         if ($hasil && $this->db->truncate('grup_akses')) {
             if ($grup) {

@@ -85,7 +85,7 @@ class Hom_sid extends Admin_Controller
         $data['dusun']        = $this->header_model->dusun_total();
         $data['pendaftaran']  = $this->mandiri_model->jml_mandiri_non_aktif();
         $data['jumlah_surat'] = $this->surat_model->surat_total();
-        
+
         $this->render('home/desa', $data);
     }
 
