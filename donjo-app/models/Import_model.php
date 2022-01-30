@@ -144,7 +144,7 @@ class Import_model extends CI_Model
         $this->kode_status_dasar      = $this->referensi_model->impor_list_data('tweb_status_dasar', $status_dasar);
         $this->kode_cacat             = $this->referensi_model->impor_list_data('tweb_cacat');
         $this->kode_warganegara       = $this->referensi_model->impor_list_data('tweb_penduduk_warganegara');
-        $this->kode_hamil             = array_change_key_case(unserialize(HAMIL));
+        $this->kode_hamil             = $this->referensi_model->impor_list_data('ref_penduduk_hamil');
         $this->kode_asuransi          = $this->referensi_model->impor_list_data('tweb_penduduk_asuransi');
     }
 
@@ -492,6 +492,11 @@ class Import_model extends CI_Model
             // Jika ke 3 data tsb sama, maka data sebelumnya dianggap sama, selain itu dianggap penduduk yg berbeda/baru
             $cek_data         = $this->db->get_where('tweb_penduduk', ['nama' => $isi_baris['nama'], 'tempatlahir' => $isi_baris['tempatlahir'], 'tanggallahir' => $isi_baris['tanggallahir']])->row_array();
             $isi_baris['nik'] = $cek_data['nik'] ?? $this->penduduk_model->nik_sementara();
+        }
+
+        // Hamil hanya untuk jenis kelamin perempuan (2)
+        if ($data['sex'] == '1') {
+            unset($data['hamil']);
         }
 
         $res = $this->db->get_where('tweb_penduduk', ['nik' => $isi_baris['nik']])->row_array();

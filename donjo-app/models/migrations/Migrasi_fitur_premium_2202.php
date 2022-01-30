@@ -54,8 +54,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022012471($hasil);
         $hasil = $hasil && $this->migrasi_2022012651($hasil);
         $hasil = $hasil && $this->migrasi_2022012751($hasil);
+        $hasil = $hasil && $this->migrasi_2022012771($hasil);
 
-        return $hasil && $this->migrasi_2022012771($hasil);
+        return $hasil && $this->migrasi_2022013071($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -443,5 +444,10 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->db->query('DROP VIEW dokumen_hidup');
 
         return $hasil && $this->db->query('CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
+    }
+
+    protected function migrasi_2022013071($hasil)
+    {
+        return $this->db->where('hamil', 0)->update('tweb_penduduk', ['hamil' => 2]);
     }
 }
