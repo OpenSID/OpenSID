@@ -368,7 +368,7 @@ class Web_widget_model extends MY_Model
         foreach ($tema_desa as $tema) {
             $tema = str_replace('desa/', '', $tema);
 
-            if ($tema !== 'klasik' || $tema !== 'hadakewa') {
+            if ($tema !== 'esensi' || $tema !== 'hadakewa') {
                 $list = $this->widget('desa/themes/' . $tema . '/widgets/*.php');
             }
 

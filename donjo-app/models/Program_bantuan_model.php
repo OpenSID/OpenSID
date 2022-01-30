@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Program_bantuan_model extends MY_Model
 {
-    // Untuk datatables peserta bantuan di themes/klasik/partials/statistik.php (web)
+    // Untuk datatables peserta bantuan di themes/nama_tema/partials/statistik.php (web)
     public $column_order  = [null, 'program', 'peserta', null]; //set column field database for datatable orderable
     public $column_search = []; // Daftar kolom yg bisa dicari
     public $order         = ['peserta' => 'asc']; // default order
@@ -993,7 +993,7 @@ class Program_bantuan_model extends MY_Model
     }
 
     /* ====================================
-     * Untuk datatable #peserta_program di themes/klasik/partials/statistik.php
+     * Untuk datatable #peserta_program di themes/nama_tema/partials/statistik.php
      * ==================================== */
 
     private function get_all_peserta_bantuan_query()
