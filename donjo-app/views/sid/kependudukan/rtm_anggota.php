@@ -99,6 +99,11 @@
 									<?php endif; ?>
 								</td>
 							</tr>
+							<tr>
+								<td>Nomor Rumah</td>
+								<td>:</td>
+								<td><?= $kepala_kk['no_rumah']?></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

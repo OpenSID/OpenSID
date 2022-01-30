@@ -146,6 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<?php else: ?>
 											<th><a href="<?= site_url("rtm/filter/order_by/5"); ?>">Tanggal Terdaftar <i class='fa fa-sort fa-sm'></i></a></th>
 										<?php endif; ?>
+										<th>Nomor Rumah</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -184,6 +185,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 												<td><?= strtoupper($data['rw']); ?></td>
 												<td><?= strtoupper($data['rt']); ?></td>
 												<td><?= tgl_indo($data['tgl_daftar']); ?></td>
+												<td>
+													<label><?= $data['no_rumah']?></label>
+												</td>
 											</tr>
 										<?php endforeach; ?>
 									<?php else: ?>

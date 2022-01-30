@@ -280,7 +280,7 @@ class Rtm_model extends CI_Model {
 
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
 		$this->load->model('penduduk_model');
-		$sql = "SELECT u.id, u.nik, u.nama, r.no_kk, x.nama AS sex, u.tempatlahir, u.tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM tweb_penduduk WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
+		$sql = "SELECT u.id, u.nik, u.nama, r.no_kk, x.nama AS sex, u.tempatlahir, u.tanggallahir, r.no_rumah, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM tweb_penduduk WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
 			FROM tweb_rtm r
 			LEFT JOIN tweb_penduduk u ON u.id = r.nik_kepala
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
@@ -368,7 +368,7 @@ class Rtm_model extends CI_Model {
 		$query_dasar = $this->db->select('u.*')->get_compiled_select();
 
 		$this->db
-			->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar')
+			->select('u.id, u.no_kk, t.foto, t.nama AS kepala_kk, t.nik, t.sex as id_sex, k.alamat, c.dusun, c.rw, c.rt, u.tgl_daftar, u.no_rumah')
 			->select('(SELECT COUNT(p.id) FROM tweb_penduduk p WHERE p.id_rtm = u.no_kk ) AS jumlah_anggota')
 			->from("($query_dasar) as u")
 			->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1')
