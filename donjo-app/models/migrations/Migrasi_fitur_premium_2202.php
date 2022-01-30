@@ -366,16 +366,28 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
     protected function migrasi_2022012471($hasil)
     {
-        if ($this->db->field_exists('bagan_warna', 'tweb_desa_pamong')) {
-            $fields = [
-                'bagan_warna' => [
-                    'type'       => 'varchar',
-                    'constraint' => 20,
-                    'null'       => true,
-                ],
-            ];
+        $daftar_ubah = [
+            'config' => 'warna',
+            'tweb_desa_pamong' => 'bagan_warna',
+            'tweb_wil_clusterdesa' => 'warna',
+            'line' => 'color',
+            'polygon' => 'color',
+        ];
 
-            $hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
+        if ($daftar_ubah) {
+            foreach ($daftar_ubah as $tabel => $kolom) {
+                if ($this->db->field_exists($kolom, $tabel)) {
+                    $fields = [
+                        $kolom => [
+                            'type'       => 'varchar',
+                            'constraint' => 25,
+                            'null'       => true,
+                        ],
+                    ];
+
+                    $hasil = $hasil && $this->dbforge->modify_column($tabel, $fields);
+                }
+            }
         }
 
         return $hasil;
