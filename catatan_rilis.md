@@ -1,10 +1,8 @@
-#### v22.01-pasca
-
-Di rilis ini, versi v22.01-pasca, menyediakan Lapak Desa dan Penambahan Peta Area Pada Pertanahan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi v22.02, menyediakan Lapak Desa dan Penambahan Peta Area Pada Pertanahan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Mokhamad Afila yang terus berkontribusi.
 
-Lengkapnya, isi rilis versi v22.01-pasca adalah sebagai berikut:
+Lengkapnya, isi rilis versi v22.02 adalah sebagai berikut:
 
 
 #### Penambahan Fitur
