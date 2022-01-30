@@ -420,8 +420,8 @@ class Migrasi_fitur_premium_2202 extends MY_model
     protected function migrasi_2022012771($hasil)
     {
         $hasil = $hasil && $this->tambah_modul([
-            'id'         => 306,
-            'modul'      => 'Arsip Desa',
+            'id'         => 336,
+            'modul'      => 'Arsip [Desa]',
             'url'        => 'bumindes_arsip',
             'aktif'      => 1,
             'ikon'       => 'fa-archive',
