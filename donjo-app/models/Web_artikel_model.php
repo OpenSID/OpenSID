@@ -399,7 +399,7 @@ class Web_artikel_model extends MY_Model
             $data['tgl_agenda'] = $tempTgl->format('Y-m-d H:i:s');
         }
 
-        $data['slug'] = unique_slug('artikel', $data['judul']);
+        $data['slug'] = unique_slug('artikel', $data['judul'], $id);
 
         if ($cat == AGENDA) {
             $outp = $this->update_agenda($id, $data);

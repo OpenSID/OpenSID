@@ -49,7 +49,7 @@ class Bumindes_arsip extends Admin_controller
         $this->list_session  = ['data_filter_tahun', 'data_filter_jenis', 'data_filter_cari', 'data_filter_kategori'];
         $this->_set_page     = ['50', '100', '200'];
         $this->modul_ini     = 301;
-        $this->sub_modul_ini = 306;
+        $this->sub_modul_ini = 336;
     }
 
     public function index($p = 1, $o = 4)

@@ -229,11 +229,13 @@ class Migrasi_fitur_premium_2106 extends MY_Model
             'urut'       => 0,
             'level'      => 0,
             'hidden'     => 0,
-            'ikon_kecil' => '',
+            'ikon_kecil' => 'fa-files-o',
             'parent'     => 302,
         ]);
+
         // Hapus Administrasi Lainnya
         $hasil = $hasil && $this->db->where('id', 306)->delete('setting_modul');
+
         // Tambah Buku Rencana Kerja Pembangunan
         $hasil = $hasil && $this->tambah_modul([
             'id'         => 323,
@@ -244,9 +246,10 @@ class Migrasi_fitur_premium_2106 extends MY_Model
             'urut'       => 0,
             'level'      => 0,
             'hidden'     => 0,
-            'ikon_kecil' => '',
+            'ikon_kecil' => 'fa-files-o',
             'parent'     => 305,
         ]);
+        
         // Ubah link Buku Administrasi Pembangunan
         return $hasil && $this->tambah_modul([
             'id'         => 305,

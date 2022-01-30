@@ -54,8 +54,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022012471($hasil);
         $hasil = $hasil && $this->migrasi_2022012651($hasil);
         $hasil = $hasil && $this->migrasi_2022012751($hasil);
+        $hasil = $hasil && $this->migrasi_2022012771($hasil);
 
-        return $hasil && $this->migrasi_2022012771($hasil);
+        return $hasil && $this->migrasi_2022013071($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -366,16 +367,28 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
     protected function migrasi_2022012471($hasil)
     {
-        if ($this->db->field_exists('bagan_warna', 'tweb_desa_pamong')) {
-            $fields = [
-                'bagan_warna' => [
-                    'type'       => 'varchar',
-                    'constraint' => 20,
-                    'null'       => true,
-                ],
-            ];
+        $daftar_ubah = [
+            'config' => 'warna',
+            'tweb_desa_pamong' => 'bagan_warna',
+            'tweb_wil_clusterdesa' => 'warna',
+            'line' => 'color',
+            'polygon' => 'color',
+        ];
 
-            $hasil = $hasil && $this->dbforge->modify_column('tweb_desa_pamong', $fields);
+        if ($daftar_ubah) {
+            foreach ($daftar_ubah as $tabel => $kolom) {
+                if ($this->db->field_exists($kolom, $tabel)) {
+                    $fields = [
+                        $kolom => [
+                            'type'       => 'varchar',
+                            'constraint' => 25,
+                            'null'       => true,
+                        ],
+                    ];
+
+                    $hasil = $hasil && $this->dbforge->modify_column($tabel, $fields);
+                }
+            }
         }
 
         return $hasil;
@@ -386,8 +399,11 @@ class Migrasi_fitur_premium_2202 extends MY_model
         // Hapus modul pembangunan dokumentasi
         $hasil = $hasil && $this->db->where('id', '221')->delete('setting_modul');
 
-        // Ubah group akses modul pembangunan dokumentasi jadi modul pembangunan
-        $hasil = $hasil && $this->db->where('id_modul', '221')->update('grup_akses', ['id_modul' => '220']);
+        // Hapus group akses modul pembangunan dan pembangunan dokumentasi
+        $hasil = $hasil && $this->db->where_in('id_modul', [220, 221])->delete('grup_akses');
+
+        // Tambah group akses modul pembangunan untuk operator
+        $hasil = $hasil && $this->grup_akses(2, 220, 3);
 
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
@@ -404,8 +420,8 @@ class Migrasi_fitur_premium_2202 extends MY_model
     protected function migrasi_2022012771($hasil)
     {
         $hasil = $hasil && $this->tambah_modul([
-            'id'         => 306,
-            'modul'      => 'Arsip Desa',
+            'id'         => 336,
+            'modul'      => 'Arsip [Desa]',
             'url'        => 'bumindes_arsip',
             'aktif'      => 1,
             'ikon'       => 'fa-archive',
@@ -428,5 +444,10 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->db->query('DROP VIEW dokumen_hidup');
 
         return $hasil && $this->db->query('CREATE VIEW dokumen_hidup AS SELECT * FROM dokumen WHERE deleted <> 1');
+    }
+
+    protected function migrasi_2022013071($hasil)
+    {
+        return $this->db->where('hamil', 0)->update('tweb_penduduk', ['hamil' => 2]);
     }
 }

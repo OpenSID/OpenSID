@@ -276,9 +276,9 @@ $(document).ready(function() {
 	}, "Tanggal harus sama atau lebih besar dari tanggal minimal.");
 
 	jQuery.validator.addMethod("warna", function(value, element) {
-		valid = /^#[a-zA-Z0-9#,()]+$/i.test(value) || /^rgba[a-zA-Z0-9#,()]+$/i.test(value);
+		valid = /^#[a-zA-Z0-9#]+$/i.test(value) || /^rgba[a-zA-Z0-9.,()]+$/i.test(value);
 		return this.optional(element) || valid;
-	}, `Hanya boleh berisi karakter alfanumerik, tagar, koma, buka dan tutup kurung`);
+	}, `Hanya boleh berisi karakter alfanumerik, tagar, titik, koma, buka dan tutup kurung`);
 
 	// https://www.aspsnippets.com/questions/532641/Validation-Latitude-and-Longitude-using-Regular-Expression-in-jQuery/
 	jQuery.validator.addMethod("lat", function(value, element) {

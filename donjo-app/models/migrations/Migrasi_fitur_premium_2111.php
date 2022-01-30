@@ -55,9 +55,8 @@ class Migrasi_fitur_premium_2111 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021102071($hasil);
         $hasil = $hasil && $this->migrasi_2021102271($hasil);
         $hasil = $hasil && $this->migrasi_2021102371($hasil);
-        $hasil = $hasil && $this->migrasi_2021102451($hasil);
 
-        return $hasil && $this->migrasi_2021103171($hasil);
+        return $hasil && $this->migrasi_2021102451($hasil);
     }
 
     protected function migrasi_2021100171($hasil)
@@ -268,27 +267,5 @@ class Migrasi_fitur_premium_2111 extends MY_Model
         }
 
         return $hasil && $this->tambah_indeks('tweb_keluarga', 'no_kk');
-    }
-
-    protected function migrasi_2021103171($hasil)
-    {
-        $hasil = $hasil && $this->tambah_modul([
-            'id'         => 331,
-            'modul'      => 'Pendaftaran Kerjasama',
-            'url'        => 'pendaftaran_kerjasama',
-            'aktif'      => 1,
-            'ikon'       => 'fa-list',
-            'urut'       => 6,
-            'level'      => 2,
-            'hidden'     => 0,
-            'ikon_kecil' => 'fa-list',
-            'parent'     => 200,
-        ]);
-
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
     }
 }

@@ -95,9 +95,7 @@
 							<div class="col-lg-6 col-xs-6">
 								<div class="small-box bg-purple">
 									<div class="inner">
-										<?php foreach ($dusun as $data) : ?>
-											<h3><?= $data['jumlah'] ?></h3>
-										<?php endforeach; ?>
+										<h3><?= $dusun ?></h3>
 										<p>Wilayah Dusun</p>
 									</div>
 									<div class="icon">
@@ -109,9 +107,7 @@
 							<div class="col-lg-6 col-xs-6">
 								<div class="small-box bg-aqua">
 									<div class="inner">
-										<?php foreach ($penduduk as $data) : ?>
-											<h3><?= $data['jumlah'] ?></h3>
-										<?php endforeach; ?>
+										<h3><?= $penduduk ?></h3>
 										<p>Penduduk</p>
 									</div>
 									<div class="icon">
@@ -123,9 +119,7 @@
 							<div class="col-lg-6 col-xs-6">
 								<div class="small-box bg-green">
 									<div class="inner">
-										<?php foreach ($keluarga as $data) : ?>
-											<h3><?= $data['jumlah'] ?></h3>
-										<?php endforeach; ?>
+										<h3><?= $keluarga ?></h3>
 										<p>Keluarga</p>
 									</div>
 									<div class="icon">
@@ -149,9 +143,7 @@
 							<div class="col-lg-6 col-xs-6">
 								<div class="small-box bg-red">
 									<div class="inner">
-										<?php foreach ($kelompok as $data) : ?>
-											<h3><?= $data['jumlah'] ?></h3>
-										<?php endforeach; ?>
+										<h3><?= $kelompok ?></h3>
 										<p>Kelompok</p>
 									</div>
 									<div class="icon">
@@ -163,7 +155,7 @@
 							<div class="col-lg-6 col-xs-6">
 								<div class="small-box bg-gray">
 									<div class="inner">
-										<h3><?=$rtm?></h3>
+										<h3><?= $rtm ?></h3>
 										<p>Rumah Tangga</p>
 									</div>
 									<div class="icon">

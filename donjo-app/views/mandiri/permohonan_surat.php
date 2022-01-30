@@ -21,8 +21,8 @@
 				<div class="box-body">
 					<div class="row">
 						<div class="col-sm-3">
-							<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?=site_url("{$this->controller}/filter")?>')">
-								<option value="">Pilih Status</option>
+							<select class="form-control input-sm select2" name="filter" onchange="formAction('mainform', '<?=site_url("{$this->controller}/filter")?>')">
+								<option value="">Pilih Status Permohonan</option>
 								<?php foreach ($list_status_permohonan as $id => $data): ?>
 									<option value="<?= $id; ?>" <?= selected($filter != null && $filter == $id, true); ?>><?= $data; ?></option>
 								<?php endforeach; ?>
@@ -80,7 +80,7 @@
 																		<?php endif; ?>
 																	<?php endif; ?>
 																	<?php if ($this->CI->cek_hak_akses('u') && $data['status_id'] == 1): ?>
-																		<a href="<?= site_url("permohonan_surat_admin/konfirmasi/{$data['id']}/5"); ?>" class="btn btn-flat btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Batalkan Permohonan Surat" data-title="Batalkan Permohonan Surat"><i class="fa fa-times"></i></a>
+																		<a href="<?= site_url("{$this->controller}/konfirmasi/{$data['id']}/5"); ?>" class="btn btn-flat btn-danger btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Batalkan Permohonan Surat" data-title="Batalkan Permohonan Surat"><i class="fa fa-times"></i></a>
 																	<?php endif; ?>
 																</td>
 															<?php endif; ?>

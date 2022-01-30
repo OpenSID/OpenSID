@@ -110,7 +110,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
     // Menu Laporan sinkronisasi
     protected function tambah_modul_laporan_sinkronisasi($hasil)
     {
-        $fields = [
+        return $hasil && $this->tambah_modul([
             'id'         => 330,
             'modul'      => 'Laporan penduduk',
             'url'        => 'laporan_penduduk',
@@ -121,15 +121,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
             'hidden'     => 1,
             'ikon_kecil' => 'fa-file-text-o',
             'parent'     => 3,
-        ];
-
-        $hasil = $hasil && $this->tambah_modul($fields);
-
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
+        ]);
     }
 
     private function ubah_nama_tabel($hasil)
