@@ -81,7 +81,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="form-group">
 				<label for="no_hp_aktif" class="col-sm-3 control-label">No. HP aktif</label>
 				<div class="col-sm-9">
-					<input class="form-control bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?= $permohonan['no_hp_aktif']; ?>" />
+					<input class="form-control bilangan_spasi required <?= jecho($cek_anjungan['keyboard'] == 1, TRUE, 'kbvnumber'); ?>" type="text" name="no_hp_aktif" id="no_hp_aktif" placeholder="Ketik No. HP" maxlength="14" value="<?php echo ($permohonan['no_hp_aktif']) ? $permohonan['no_hp_aktif'] : $mandiri['telepon']; ?>" />
 				</div>
 			</div>
 		</div>

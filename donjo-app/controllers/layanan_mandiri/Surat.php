@@ -51,7 +51,7 @@ class Surat extends Mandiri_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'lapor_model', 'penduduk_model']);
+		$this->load->model(['keluar_model', 'permohonan_surat_model', 'surat_model', 'lapor_model', 'penduduk_model', 'mandiri_model']);
 	}
 
 	// Kat 1 = Permohonan
@@ -87,6 +87,7 @@ class Surat extends Mandiri_Controller
 			'menu_dokumen_mandiri' => $this->lapor_model->get_surat_ref_all(),
 			'list_dokumen' => $this->penduduk_model->list_dokumen($id_pend),
 			'kk' => ($this->is_login->kk_level === '1') ? $this->keluarga_model->list_anggota($this->is_login->id_kk) : '', // Ambil data anggota KK, jika Kepala Keluarga
+			'mandiri' => $this->mandiri_model->get_penduduk($id_pend),
 			'permohonan' => $permohonan
 		];
 
