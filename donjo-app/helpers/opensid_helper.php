@@ -1068,17 +1068,20 @@ function isLocalIPAddress($IPAddress)
     return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
-function unique_slug($tabel = null, $str = null)
+function unique_slug($tabel = null, $judul = null, $id = null)
 {
-    if ($tabel && $str) {
+    if ($tabel && $judul) {
         $CI = &get_instance();
 
-        $slug      = url_title($str, 'dash', true);
+        $slug      = url_title($judul, 'dash', true);
         $cek_slug  = true;
         $n         = 1;
         $slug_unik = $slug;
 
         while ($cek_slug) {
+            if ($id) {
+                $CI->db->where('id !=', $id);
+            }
             $cek_slug = $CI->db->get_where($tabel, ['slug' => $slug_unik])->num_rows();
             if ($cek_slug) {
                 $slug_unik = $slug . '-' . $n++;

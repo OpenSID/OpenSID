@@ -154,12 +154,12 @@ class Pembangunan_model extends MY_Model
         status_sukses($outp);
     }
 
-    private function validasi($post)
+    private function validasi($post, $id = null)
     {
         return [
             'sumber_dana'             => $post['sumber_dana'],
             'judul'                   => $post['judul'],
-            'slug'                    => unique_slug($this->table, $post['judul']),
+            'slug'                    => unique_slug($this->table, $post['judul'], $id),
             'volume'                  => $post['volume'],
             'waktu'                   => $post['waktu'],
             'tahun_anggaran'          => $post['tahun_anggaran'],

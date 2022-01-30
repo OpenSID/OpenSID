@@ -195,7 +195,7 @@ class Kelompok_model extends MY_Model
         return $data;
     }
 
-    private function validasi($post)
+    private function validasi($post = [], $id = null)
     {
         if ($post['id_ketua']) {
             $data['id_ketua'] = bilangan($post['id_ketua']);
@@ -203,7 +203,7 @@ class Kelompok_model extends MY_Model
 
         $data['id_master']  = bilangan($post['id_master']);
         $data['nama']       = nama_terbatas($post['nama']);
-        $data['slug']       = unique_slug($this->table, $data['nama']);
+        $data['slug']       = unique_slug($this->table, $data['nama'], $id);
         $data['keterangan'] = htmlentities($post['keterangan']);
         $data['kode']       = nomor_surat_keputusan($post['kode']);
         $data['tipe']       = $this->tipe;
@@ -281,7 +281,7 @@ class Kelompok_model extends MY_Model
 
     public function update($id = 0)
     {
-        $data = $this->validasi($this->input->post());
+        $data = $this->validasi($this->input->post(), $id);
 
         if ($this->get_kelompok($id, $data['kode'])) {
             $this->session->success   = -1;
