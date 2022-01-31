@@ -461,6 +461,7 @@ class Migrasi_fitur_premium_2202 extends MY_model
         if ($data) {
             $hasil && $this->db->update_batch('tweb_rtm', $data, 'no_kk');
         }
-        return  $data;
+
+        return $data;
     }
 }
