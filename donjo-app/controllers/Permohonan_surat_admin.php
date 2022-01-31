@@ -67,8 +67,6 @@ class Permohonan_surat_admin extends Admin_Controller
 
         if (isset($_SESSION['filter'])) {
             $data['filter'] = $_SESSION['filter'];
-        } else {
-            $data['filter'] = '';
         }
 
         $per_page                = $this->input->post('per_page');

@@ -710,7 +710,7 @@ class Mandiri_model extends CI_Model
     public function cek_verifikasi($nik = 0)
     {
         $data = $this->db
-            ->select('p.id, p.telegram')
+            ->select('p.id, p.telegram, p.nama')
             ->from("{$this->table} pm")
             ->join('penduduk_hidup p', 'p.id = pm.id_pend', 'left')
             ->where('p.nik', $nik)
@@ -722,7 +722,7 @@ class Mandiri_model extends CI_Model
             case $data:
                 $pin_baru = $this->generate_pin();
 
-                $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru);
+                $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru, $data->nama);
 
                 $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
 

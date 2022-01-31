@@ -121,7 +121,7 @@ class User_setting extends Admin_Controller
         }
 
         if ($status === 'verify') {
-            $this->session->success = 1;
+            $this->session->success = 6;
         } else {
             $this->session->success   = -1;
             $this->session->error_msg = lang($status);
