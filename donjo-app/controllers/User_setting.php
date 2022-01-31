@@ -121,7 +121,7 @@ class User_setting extends Admin_Controller
         }
 
         if ($status === 'verify') {
-            $this->session->success = 1;
+            $this->session->success = 6;
         } else {
             $this->session->success   = -1;
             $this->session->error_msg = lang($status);
@@ -141,7 +141,7 @@ class User_setting extends Admin_Controller
         }
 
         // Check if hash equal with current user email.
-        if (! hash_equals($hash, sha1($user->email))) {
+        if (!hash_equals($hash, sha1($user->email))) {
             $this->session->success   = -1;
             $this->session->error_msg = lang('token');
 
@@ -151,7 +151,7 @@ class User_setting extends Admin_Controller
         $signature = hash_hmac('sha256', $user->email, config_item('encryption_key'));
 
         // Check signature key
-        if (! hash_equals($signature, $this->input->get('signature'))) {
+        if (!hash_equals($signature, $this->input->get('signature'))) {
             $this->session->success   = -1;
             $this->session->error_msg = lang('token');
 
