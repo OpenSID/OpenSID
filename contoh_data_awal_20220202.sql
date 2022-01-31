@@ -6,6 +6,66 @@ DROP VIEW IF EXISTS penduduk_hidup;
 DROP VIEW IF EXISTS rekap_mutasi_inventaris;
 DROP VIEW IF EXISTS daftar_kontak;
 DROP VIEW IF EXISTS daftar_anggota_grup;
+DROP TABLE IF EXISTS mutasi_cdesa;
+DROP TABLE IF EXISTS cdesa_penduduk;
+DROP TABLE IF EXISTS keuangan_ta_triwulan_rinci;
+DROP TABLE IF EXISTS keuangan_ta_triwulan;
+DROP TABLE IF EXISTS keuangan_ta_tbp_rinci;
+DROP TABLE IF EXISTS keuangan_ta_tbp;
+DROP TABLE IF EXISTS keuangan_ta_sts_rinci;
+DROP TABLE IF EXISTS keuangan_ta_sts;
+DROP TABLE IF EXISTS keuangan_ta_spppot;
+DROP TABLE IF EXISTS keuangan_ta_sppbukti;
+DROP TABLE IF EXISTS keuangan_ta_spp_rinci;
+DROP TABLE IF EXISTS keuangan_ta_spp;
+DROP TABLE IF EXISTS keuangan_ta_spjpot;
+DROP TABLE IF EXISTS keuangan_ta_spj_sisa;
+DROP TABLE IF EXISTS keuangan_ta_spj_rinci;
+DROP TABLE IF EXISTS keuangan_ta_spj_bukti;
+DROP TABLE IF EXISTS keuangan_ta_spj;
+DROP TABLE IF EXISTS keuangan_ta_saldo_awal;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_visi;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_tujuan;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_sasaran;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_pagu_tahunan;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_pagu_indikatif;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_misi;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_kegiatan;
+DROP TABLE IF EXISTS keuangan_ta_rpjm_bidang;
+DROP TABLE IF EXISTS keuangan_ta_rab_sub;
+DROP TABLE IF EXISTS keuangan_ta_rab_rinci;
+DROP TABLE IF EXISTS keuangan_ta_rab;
+DROP TABLE IF EXISTS keuangan_ta_perangkat;
+DROP TABLE IF EXISTS keuangan_ta_pencairan;
+DROP TABLE IF EXISTS keuangan_ta_pemda;
+DROP TABLE IF EXISTS keuangan_ta_pajak_rinci;
+DROP TABLE IF EXISTS keuangan_ta_pajak;
+DROP TABLE IF EXISTS keuangan_ta_mutasi;
+DROP TABLE IF EXISTS keuangan_ta_kegiatan;
+DROP TABLE IF EXISTS keuangan_ta_jurnal_umum_rinci;
+DROP TABLE IF EXISTS keuangan_ta_jurnal_umum;
+DROP TABLE IF EXISTS keuangan_ta_desa;
+DROP TABLE IF EXISTS keuangan_ta_bidang;
+DROP TABLE IF EXISTS keuangan_ta_anggaran_rinci;
+DROP TABLE IF EXISTS keuangan_ta_anggaran_log;
+DROP TABLE IF EXISTS keuangan_ta_anggaran;
+DROP TABLE IF EXISTS keuangan_ref_sumber;
+DROP TABLE IF EXISTS keuangan_ref_sbu;
+DROP TABLE IF EXISTS keuangan_ref_rek4;
+DROP TABLE IF EXISTS keuangan_ref_rek3;
+DROP TABLE IF EXISTS keuangan_ref_rek2;
+DROP TABLE IF EXISTS keuangan_ref_rek1;
+DROP TABLE IF EXISTS keuangan_ref_potongan;
+DROP TABLE IF EXISTS keuangan_ref_perangkat;
+DROP TABLE IF EXISTS keuangan_ref_neraca_close;
+DROP TABLE IF EXISTS keuangan_ref_korolari;
+DROP TABLE IF EXISTS keuangan_ref_kegiatan;
+DROP TABLE IF EXISTS keuangan_ref_kecamatan;
+DROP TABLE IF EXISTS keuangan_ref_desa;
+DROP TABLE IF EXISTS keuangan_ref_bunga;
+DROP TABLE IF EXISTS keuangan_ref_bidang;
+DROP TABLE IF EXISTS keuangan_ref_bel_operasional;
+DROP TABLE IF EXISTS keuangan_ref_bank_desa;
 DROP TABLE IF EXISTS produk;
 DROP TABLE IF EXISTS grup_akses;
 DROP TABLE IF EXISTS log_keluarga;
@@ -1644,21 +1704,6 @@ CREATE TABLE `cdesa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
-# TABLE STRUCTURE FOR: cdesa_penduduk
-#
-
-DROP TABLE IF EXISTS `cdesa_penduduk`;
-
-CREATE TABLE `cdesa_penduduk` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id_cdesa` int(5) unsigned NOT NULL,
-  `id_pend` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_cdesa` (`id_cdesa`),
-  CONSTRAINT `cdesa_penduduk_fk` FOREIGN KEY (`id_cdesa`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
 # TABLE STRUCTURE FOR: config
 #
 
@@ -1688,7 +1733,7 @@ CREATE TABLE `config` (
   `telepon` varchar(50) DEFAULT NULL,
   `website` varchar(100) DEFAULT NULL,
   `kantor_desa` varchar(100) DEFAULT NULL,
-  `warna` varchar(10) DEFAULT NULL,
+  `warna` varchar(25) DEFAULT NULL,
   `pamong_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -3271,1374 +3316,6 @@ CREATE TABLE `keuangan_master` (
   `aktif` int(2) NOT NULL DEFAULT '1',
   `tanggal_impor` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_bank_desa
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_bank_desa`;
-
-CREATE TABLE `keuangan_ref_bank_desa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(50) NOT NULL,
-  `Kd_Desa` varchar(50) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `NoRek_Bank` varchar(100) NOT NULL,
-  `Nama_Bank` varchar(250) NOT NULL,
-  `Kantor_Cabang` varchar(100) DEFAULT NULL,
-  `Nama_Pemilik` varchar(100) DEFAULT NULL,
-  `Alamat_Pemilik` varchar(100) DEFAULT NULL,
-  `No_Identitas` varchar(20) DEFAULT NULL,
-  `No_Telepon` varchar(20) DEFAULT NULL,
-  `ID_Bank` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_bank_desa_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_bank_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_bel_operasional
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_bel_operasional`;
-
-CREATE TABLE `keuangan_ref_bel_operasional` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `ID_Keg` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_bel_operasional_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_bel_operasional_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_bidang
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_bidang`;
-
-CREATE TABLE `keuangan_ref_bidang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Bid` varchar(50) NOT NULL,
-  `Nama_Bidang` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_bidang_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_bunga
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_bunga`;
-
-CREATE TABLE `keuangan_ref_bunga` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Bunga` varchar(50) NOT NULL,
-  `Kd_Admin` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_bunga_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_bunga_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_desa
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_desa`;
-
-CREATE TABLE `keuangan_ref_desa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Kec` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Nama_Desa` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_desa_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_kecamatan
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_kecamatan`;
-
-CREATE TABLE `keuangan_ref_kecamatan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Kec` varchar(100) NOT NULL,
-  `Nama_Kecamatan` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_kecamatan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_kecamatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_kegiatan
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_kegiatan`;
-
-CREATE TABLE `keuangan_ref_kegiatan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Bid` varchar(100) DEFAULT NULL,
-  `ID_Keg` varchar(100) NOT NULL,
-  `Nama_Kegiatan` varchar(250) NOT NULL,
-  `Jns_Kegiatan` tinyint(5) DEFAULT NULL,
-  `Kd_Sub` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_kegiatan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_korolari
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_korolari`;
-
-CREATE TABLE `keuangan_ref_korolari` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kd_RekDB` varchar(100) NOT NULL,
-  `Kd_RekKD` varchar(250) NOT NULL,
-  `Jenis` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_korolari_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_korolari_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_neraca_close
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_neraca_close`;
-
-CREATE TABLE `keuangan_ref_neraca_close` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kelompok` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_neraca_close_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_neraca_close_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_perangkat
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_perangkat`;
-
-CREATE TABLE `keuangan_ref_perangkat` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kode` varchar(100) NOT NULL,
-  `Nama_Perangkat` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_perangkat_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_potongan
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_potongan`;
-
-CREATE TABLE `keuangan_ref_potongan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kd_Potongan` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_potongan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_potongan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_rek1
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_rek1`;
-
-CREATE TABLE `keuangan_ref_rek1` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Akun` varchar(100) NOT NULL,
-  `Nama_Akun` varchar(100) NOT NULL,
-  `NoLap` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_rek1_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_rek1_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_rek2
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_rek2`;
-
-CREATE TABLE `keuangan_ref_rek2` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Akun` varchar(100) NOT NULL,
-  `Kelompok` varchar(100) NOT NULL,
-  `Nama_Kelompok` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_rek2_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_rek2_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_rek3
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_rek3`;
-
-CREATE TABLE `keuangan_ref_rek3` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kelompok` varchar(100) NOT NULL,
-  `Jenis` varchar(100) NOT NULL,
-  `Nama_Jenis` varchar(100) NOT NULL,
-  `Formula` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_rek3_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_rek3_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_rek4
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_rek4`;
-
-CREATE TABLE `keuangan_ref_rek4` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Jenis` varchar(100) NOT NULL,
-  `Obyek` varchar(100) NOT NULL,
-  `Nama_Obyek` varchar(100) NOT NULL,
-  `Peraturan` varchar(250) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_rek4_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_rek4_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_sbu
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_sbu`;
-
-CREATE TABLE `keuangan_ref_sbu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kode_SBU` varchar(100) NOT NULL,
-  `NoUrut_SBU` varchar(100) NOT NULL,
-  `Nama_SBU` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `Satuan` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_sbu_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_sbu_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ref_sumber
-#
-
-DROP TABLE IF EXISTS `keuangan_ref_sumber`;
-
-CREATE TABLE `keuangan_ref_sumber` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kode` varchar(100) NOT NULL,
-  `Nama_Sumber` varchar(100) NOT NULL,
-  `Urut` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ref_sumber_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ref_sumber_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_anggaran
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_anggaran`;
-
-CREATE TABLE `keuangan_ta_anggaran` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `KdPosting` varchar(100) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `KURincianSD` varchar(100) NOT NULL,
-  `KD_Rincian` varchar(100) NOT NULL,
-  `RincianSD` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `AnggaranPAK` varchar(100) NOT NULL,
-  `AnggaranStlhPAK` varchar(100) NOT NULL,
-  `Belanja` varchar(100) NOT NULL,
-  `Kd_keg` varchar(100) NOT NULL,
-  `SumberDana` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `TglPosting` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_anggaran_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_anggaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_anggaran_log
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_anggaran_log`;
-
-CREATE TABLE `keuangan_ta_anggaran_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `KdPosting` varchar(100) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_Perdes` varchar(100) NOT NULL,
-  `TglPosting` varchar(100) NOT NULL,
-  `UserID` varchar(50) NOT NULL,
-  `Kunci` varchar(100) NOT NULL,
-  `No_Perkades` varchar(100) DEFAULT NULL,
-  `Petugas` varchar(80) DEFAULT NULL,
-  `Tanggal` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_anggaran_log_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_anggaran_log_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_anggaran_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_anggaran_rinci`;
-
-CREATE TABLE `keuangan_ta_anggaran_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `KdPosting` varchar(100) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(100) NOT NULL,
-  `No_Urut` varchar(100) NOT NULL,
-  `Uraian` varchar(100) NOT NULL,
-  `SumberDana` varchar(100) NOT NULL,
-  `JmlSatuan` varchar(100) NOT NULL,
-  `HrgSatuan` varchar(100) NOT NULL,
-  `Satuan` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `JmlSatuanPAK` varchar(100) NOT NULL,
-  `HrgSatuanPAK` varchar(100) NOT NULL,
-  `AnggaranStlhPAK` varchar(100) NOT NULL,
-  `AnggaranPAK` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_anggaran_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_anggaran_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_bidang
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_bidang`;
-
-CREATE TABLE `keuangan_ta_bidang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Bid` varchar(100) NOT NULL,
-  `Nama_Bidang` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_bidang_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_desa
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_desa`;
-
-CREATE TABLE `keuangan_ta_desa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Nm_Kades` varchar(100) NOT NULL,
-  `Jbt_Kades` varchar(100) NOT NULL,
-  `Nm_Sekdes` varchar(100) NOT NULL,
-  `NIP_Sekdes` varchar(100) NOT NULL,
-  `Jbt_Sekdes` varchar(100) NOT NULL,
-  `Nm_Kaur_Keu` varchar(100) NOT NULL,
-  `Jbt_Kaur_Keu` varchar(100) NOT NULL,
-  `Nm_Bendahara` varchar(100) NOT NULL,
-  `Jbt_Bendahara` varchar(100) NOT NULL,
-  `No_Perdes` varchar(100) NOT NULL,
-  `Tgl_Perdes` varchar(100) NOT NULL,
-  `No_Perdes_PB` varchar(100) NOT NULL,
-  `Tgl_Perdes_PB` varchar(100) NOT NULL,
-  `No_Perdes_PJ` varchar(100) NOT NULL,
-  `Tgl_Perdes_PJ` varchar(100) NOT NULL,
-  `Alamat` varchar(250) NOT NULL,
-  `Ibukota` varchar(100) NOT NULL,
-  `Status` varchar(100) NOT NULL,
-  `NPWP` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_desa_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_jurnal_umum
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_jurnal_umum`;
-
-CREATE TABLE `keuangan_ta_jurnal_umum` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `KdBuku` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Tanggal` varchar(100) NOT NULL,
-  `JnsBukti` varchar(100) NOT NULL,
-  `NoBukti` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
-  `DK` varchar(100) NOT NULL,
-  `Debet` varchar(100) NOT NULL,
-  `Kredit` varchar(100) NOT NULL,
-  `Jenis` varchar(100) NOT NULL,
-  `Posted` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_jurnal_umum_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_jurnal_umum_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_jurnal_umum_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_jurnal_umum_rinci`;
-
-CREATE TABLE `keuangan_ta_jurnal_umum_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `NoBukti` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `RincianSD` varchar(100) NOT NULL,
-  `NoID` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Akun` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `DK` varchar(100) NOT NULL,
-  `Debet` varchar(100) NOT NULL,
-  `Kredit` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_jurnal_umum_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_jurnal_umum_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_kegiatan
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_kegiatan`;
-
-CREATE TABLE `keuangan_ta_kegiatan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Bid` varchar(100) DEFAULT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `ID_Keg` varchar(100) NOT NULL,
-  `Nama_Kegiatan` varchar(100) NOT NULL,
-  `Pagu` varchar(100) NOT NULL,
-  `Pagu_PAK` varchar(100) NOT NULL,
-  `Nm_PPTKD` varchar(100) NOT NULL,
-  `NIP_PPTKD` varchar(100) NOT NULL,
-  `Lokasi` varchar(100) NOT NULL,
-  `Waktu` varchar(100) NOT NULL,
-  `Keluaran` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `Jbt_PPTKD` varchar(100) DEFAULT NULL,
-  `Kd_Sub` varchar(30) DEFAULT NULL,
-  `Nilai` bigint(20) unsigned DEFAULT NULL,
-  `NilaiPAK` bigint(20) unsigned DEFAULT NULL,
-  `Satuan` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_kegiatan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_mutasi
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_mutasi`;
-
-CREATE TABLE `keuangan_ta_mutasi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Tgl_Bukti` varchar(100) NOT NULL,
-  `Keterangan` varchar(200) DEFAULT NULL,
-  `Kd_Bank` varchar(100) DEFAULT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `Kd_Mutasi` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `ID_Bank` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_mutasi_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_mutasi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_pajak
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_pajak`;
-
-CREATE TABLE `keuangan_ta_pajak` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SSP` varchar(100) NOT NULL,
-  `Tgl_SSP` varchar(100) NOT NULL,
-  `Keterangan` varchar(250) DEFAULT NULL,
-  `Nama_WP` varchar(100) NOT NULL,
-  `Alamat_WP` varchar(100) NOT NULL,
-  `NPWP` varchar(100) NOT NULL,
-  `Kd_MAP` varchar(100) NOT NULL,
-  `Nm_Penyetor` varchar(100) NOT NULL,
-  `Jn_Transaksi` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Jumlah` varchar(100) NOT NULL,
-  `KdBayar` varchar(100) NOT NULL,
-  `ID_Bank` varchar(10) DEFAULT NULL,
-  `NTPN` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_pajak_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_pajak_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_pajak_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_pajak_rinci`;
-
-CREATE TABLE `keuangan_ta_pajak_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SSP` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_pajak_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_pajak_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_pemda
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_pemda`;
-
-CREATE TABLE `keuangan_ta_pemda` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Prov` varchar(100) NOT NULL,
-  `Kd_Kab` varchar(100) NOT NULL,
-  `Nama_Pemda` varchar(100) NOT NULL,
-  `Nama_Provinsi` varchar(100) NOT NULL,
-  `Ibukota` varchar(100) NOT NULL,
-  `Alamat` varchar(100) NOT NULL,
-  `Nm_Bupati` varchar(100) NOT NULL,
-  `Jbt_Bupati` varchar(100) NOT NULL,
-  `Logo` mediumblob,
-  `C_Kode` varchar(100) NOT NULL,
-  `C_Pemda` varchar(100) NOT NULL,
-  `C_Data` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_pemda_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_pemda_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_pencairan
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_pencairan`;
-
-CREATE TABLE `keuangan_ta_pencairan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_Cek` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `Tgl_Cek` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Keterangan` varchar(250) DEFAULT NULL,
-  `Jumlah` varchar(100) NOT NULL,
-  `Potongan` varchar(100) NOT NULL,
-  `KdBayar` varchar(100) NOT NULL,
-  `ID_Bank` varchar(10) DEFAULT NULL,
-  `Kunci` varchar(10) DEFAULT NULL,
-  `No_Ref` varchar(100) DEFAULT NULL,
-  `Tgl_Bayar` varchar(100) DEFAULT NULL,
-  `Validasi` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_pencairan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_pencairan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_perangkat
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_perangkat`;
-
-CREATE TABLE `keuangan_ta_perangkat` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Jabatan` varchar(100) NOT NULL,
-  `No_ID` varchar(100) NOT NULL,
-  `Nama_Perangkat` varchar(100) NOT NULL,
-  `Alamat_Perangkat` varchar(100) NOT NULL,
-  `Nomor_HP` varchar(100) NOT NULL,
-  `Rek_Bank` varchar(100) NOT NULL,
-  `Nama_Bank` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_perangkat_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rab
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rab`;
-
-CREATE TABLE `keuangan_ta_rab` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `AnggaranPAK` varchar(100) NOT NULL,
-  `AnggaranStlhPAK` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rab_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rab_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rab_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rab_rinci`;
-
-CREATE TABLE `keuangan_ta_rab_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(100) NOT NULL,
-  `No_Urut` varchar(100) NOT NULL,
-  `SumberDana` varchar(100) NOT NULL,
-  `Uraian` varchar(100) NOT NULL,
-  `Satuan` varchar(100) NOT NULL,
-  `JmlSatuan` varchar(100) NOT NULL,
-  `HrgSatuan` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `JmlSatuanPAK` varchar(100) NOT NULL,
-  `HrgSatuanPAK` varchar(100) NOT NULL,
-  `AnggaranStlhPAK` varchar(100) NOT NULL,
-  `AnggaranPAK` varchar(100) NOT NULL,
-  `Kode_SBU` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rab_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rab_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rab_sub
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rab_sub`;
-
-CREATE TABLE `keuangan_ta_rab_sub` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(100) NOT NULL,
-  `Nama_SubRinci` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `AnggaranPAK` varchar(100) NOT NULL,
-  `AnggaranStlhPAK` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rab_sub_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rab_sub_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_bidang
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_bidang`;
-
-CREATE TABLE `keuangan_ta_rpjm_bidang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Bid` varchar(100) NOT NULL,
-  `Nama_Bidang` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_bidang_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_kegiatan
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_kegiatan`;
-
-CREATE TABLE `keuangan_ta_rpjm_kegiatan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Bid` varchar(100) DEFAULT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `ID_Keg` varchar(100) NOT NULL,
-  `Nama_Kegiatan` varchar(100) NOT NULL,
-  `Lokasi` varchar(100) NOT NULL,
-  `Keluaran` varchar(100) NOT NULL,
-  `Kd_Sas` varchar(100) NOT NULL,
-  `Sasaran` varchar(100) NOT NULL,
-  `Tahun1` varchar(100) NOT NULL,
-  `Tahun2` varchar(100) NOT NULL,
-  `Tahun3` varchar(100) NOT NULL,
-  `Tahun4` varchar(100) NOT NULL,
-  `Tahun5` varchar(100) NOT NULL,
-  `Tahun6` varchar(100) NOT NULL,
-  `Swakelola` varchar(100) NOT NULL,
-  `Kerjasama` varchar(100) NOT NULL,
-  `Pihak_Ketiga` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `Kd_Sub` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_kegiatan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_misi
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_misi`;
-
-CREATE TABLE `keuangan_ta_rpjm_misi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `ID_Misi` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `ID_Visi` varchar(100) NOT NULL,
-  `No_Misi` varchar(100) NOT NULL,
-  `Uraian_Misi` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_misi_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_misi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_pagu_indikatif
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_pagu_indikatif`;
-
-CREATE TABLE `keuangan_ta_rpjm_pagu_indikatif` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Sumber` varchar(100) NOT NULL,
-  `Tahun1` varchar(100) NOT NULL,
-  `Tahun2` varchar(100) NOT NULL,
-  `Tahun3` varchar(100) NOT NULL,
-  `Tahun4` varchar(100) NOT NULL,
-  `Tahun5` varchar(100) NOT NULL,
-  `Tahun6` varchar(100) NOT NULL,
-  `Pola` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_pagu_tahunan
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_pagu_tahunan`;
-
-CREATE TABLE `keuangan_ta_rpjm_pagu_tahunan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Tahun` varchar(100) NOT NULL,
-  `Kd_Sumber` varchar(100) NOT NULL,
-  `Biaya` varchar(100) NOT NULL,
-  `Volume` varchar(100) NOT NULL,
-  `Satuan` varchar(100) NOT NULL,
-  `Lokasi_Spesifik` varchar(100) NOT NULL,
-  `Jml_Sas_Pria` varchar(100) NOT NULL,
-  `Jml_Sas_Wanita` varchar(100) NOT NULL,
-  `Jml_Sas_ARTM` varchar(100) NOT NULL,
-  `Waktu` varchar(100) NOT NULL,
-  `Mulai` varchar(100) NOT NULL,
-  `Selesai` varchar(100) NOT NULL,
-  `Pola_Kegiatan` varchar(100) NOT NULL,
-  `Pelaksana` varchar(100) NOT NULL,
-  `No_ID` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_sasaran
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_sasaran`;
-
-CREATE TABLE `keuangan_ta_rpjm_sasaran` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `ID_Sasaran` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `ID_Tujuan` varchar(100) NOT NULL,
-  `No_Sasaran` varchar(100) NOT NULL,
-  `Uraian_Sasaran` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_sasaran_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_sasaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_tujuan
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_tujuan`;
-
-CREATE TABLE `keuangan_ta_rpjm_tujuan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `ID_Tujuan` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `ID_Misi` varchar(100) NOT NULL,
-  `No_Tujuan` varchar(100) NOT NULL,
-  `Uraian_Tujuan` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_tujuan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_tujuan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_rpjm_visi
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_rpjm_visi`;
-
-CREATE TABLE `keuangan_ta_rpjm_visi` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `ID_Visi` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_Visi` varchar(100) NOT NULL,
-  `Uraian_Visi` varchar(250) DEFAULT NULL,
-  `TahunA` varchar(100) NOT NULL,
-  `TahunN` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_rpjm_visi_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_rpjm_visi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_saldo_awal
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_saldo_awal`;
-
-CREATE TABLE `keuangan_ta_saldo_awal` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Jenis` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `Debet` varchar(100) NOT NULL,
-  `Kredit` varchar(100) NOT NULL,
-  `Tgl_Bukti` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_saldo_awal_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_saldo_awal_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spj
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spj`;
-
-CREATE TABLE `keuangan_ta_spj` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_SPJ` varchar(100) NOT NULL,
-  `Tgl_SPJ` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
-  `Jumlah` varchar(100) NOT NULL,
-  `Potongan` varchar(100) NOT NULL,
-  `Status` varchar(100) NOT NULL,
-  `Kunci` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spj_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spj_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spj_bukti
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spj_bukti`;
-
-CREATE TABLE `keuangan_ta_spj_bukti` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_SPJ` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Tgl_Bukti` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Nm_Penerima` varchar(100) NOT NULL,
-  `Alamat` varchar(100) NOT NULL,
-  `Rek_Bank` varchar(100) NOT NULL,
-  `Nm_Bank` varchar(100) NOT NULL,
-  `NPWP` varchar(100) NOT NULL,
-  `Keterangan` varchar(250) DEFAULT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(10) DEFAULT NULL,
-  `Kd_Bank` varchar(100) DEFAULT NULL,
-  `Ref_Bayar` varchar(100) DEFAULT NULL,
-  `Tgl_Bayar` varchar(100) DEFAULT NULL,
-  `Validasi` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spj_bukti_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spj_bukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spj_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spj_rinci`;
-
-CREATE TABLE `keuangan_ta_spj_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_SPJ` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `JmlCair` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `Alamat` varchar(100) DEFAULT NULL,
-  `Sisa` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spj_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spj_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spj_sisa
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spj_sisa`;
-
-CREATE TABLE `keuangan_ta_spj_sisa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Tgl_Bukti` varchar(100) NOT NULL,
-  `No_SPJ` varchar(100) NOT NULL,
-  `Tgl_SPJ` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `Tgl_SPP` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Keterangan` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spj_sisa_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spj_sisa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spjpot
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spjpot`;
-
-CREATE TABLE `keuangan_ta_spjpot` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SPJ` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `Billing_Pajak` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spjpot_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spjpot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spp
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spp`;
-
-CREATE TABLE `keuangan_ta_spp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `Tgl_SPP` varchar(100) NOT NULL,
-  `Jn_SPP` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Keterangan` varchar(250) DEFAULT NULL,
-  `Jumlah` varchar(100) NOT NULL,
-  `Potongan` varchar(100) NOT NULL,
-  `Status` varchar(100) NOT NULL,
-  `F10` varchar(10) DEFAULT NULL,
-  `F11` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spp_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spp_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spp_rinci`;
-
-CREATE TABLE `keuangan_ta_spp_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spp_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_sppbukti
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_sppbukti`;
-
-CREATE TABLE `keuangan_ta_sppbukti` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Sumberdana` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Tgl_Bukti` varchar(100) NOT NULL,
-  `Nm_Penerima` varchar(100) NOT NULL,
-  `Alamat` varchar(100) NOT NULL,
-  `Rek_Bank` varchar(100) NOT NULL,
-  `Nm_Bank` varchar(100) NOT NULL,
-  `NPWP` varchar(100) NOT NULL,
-  `Keterangan` varchar(200) DEFAULT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(10) DEFAULT NULL,
-  `Kd_Bank` varchar(100) DEFAULT NULL,
-  `Ref_Bayar` varchar(100) DEFAULT NULL,
-  `Tgl_Bayar` varchar(100) DEFAULT NULL,
-  `Validasi` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_sppbukti_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_sppbukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_spppot
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_spppot`;
-
-CREATE TABLE `keuangan_ta_spppot` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_SPP` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  `Billing_Pajak` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_spppot_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_spppot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_sts
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_sts`;
-
-CREATE TABLE `keuangan_ta_sts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Tgl_Bukti` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Uraian` varchar(100) NOT NULL,
-  `NoRek_Bank` varchar(100) NOT NULL,
-  `Nama_Bank` varchar(100) NOT NULL,
-  `Jumlah` varchar(100) NOT NULL,
-  `Nm_Bendahara` varchar(100) NOT NULL,
-  `Jbt_Bendahara` varchar(100) NOT NULL,
-  `ID_Bank` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_sts_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_sts_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_sts_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_sts_rinci`;
-
-CREATE TABLE `keuangan_ta_sts_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `No_TBP` varchar(100) NOT NULL,
-  `Uraian` varchar(100) NOT NULL,
-  `Nilai` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_sts_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_sts_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_tbp
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_tbp`;
-
-CREATE TABLE `keuangan_ta_tbp` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Tgl_Bukti` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Uraian` varchar(250) DEFAULT NULL,
-  `Nm_Penyetor` varchar(100) NOT NULL,
-  `Alamat_Penyetor` varchar(100) NOT NULL,
-  `TTD_Penyetor` varchar(100) NOT NULL,
-  `NoRek_Bank` varchar(100) NOT NULL,
-  `Nama_Bank` varchar(100) NOT NULL,
-  `Jumlah` varchar(100) NOT NULL,
-  `Nm_Bendahara` varchar(100) NOT NULL,
-  `Jbt_Bendahara` varchar(100) NOT NULL,
-  `Status` varchar(100) NOT NULL,
-  `KdBayar` varchar(100) NOT NULL,
-  `Ref_Bayar` varchar(100) NOT NULL,
-  `ID_Bank` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_tbp_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_tbp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_tbp_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_tbp_rinci`;
-
-CREATE TABLE `keuangan_ta_tbp_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `No_Bukti` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `RincianSD` varchar(100) NOT NULL,
-  `SumberDana` varchar(100) NOT NULL,
-  `nilai` varchar(100) NOT NULL,
-  `Kd_SubRinci` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_tbp_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_tbp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_triwulan
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_triwulan`;
-
-CREATE TABLE `keuangan_ta_triwulan` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `KURincianSD` varchar(100) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Sifat` varchar(100) NOT NULL,
-  `SumberDana` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `AnggaranPAK` varchar(100) NOT NULL,
-  `Tw1Rinci` varchar(100) DEFAULT NULL,
-  `Tw2Rinci` varchar(100) DEFAULT NULL,
-  `Tw3Rinci` varchar(100) DEFAULT NULL,
-  `Tw4Rinci` varchar(100) DEFAULT NULL,
-  `KunciData` varchar(100) NOT NULL,
-  `Jan` varchar(100) DEFAULT NULL,
-  `Peb` varchar(100) DEFAULT NULL,
-  `Mar` varchar(100) DEFAULT NULL,
-  `Apr` varchar(100) DEFAULT NULL,
-  `Mei` varchar(100) DEFAULT NULL,
-  `Jun` varchar(100) DEFAULT NULL,
-  `Jul` varchar(100) DEFAULT NULL,
-  `Agt` varchar(100) DEFAULT NULL,
-  `Sep` varchar(100) DEFAULT NULL,
-  `Okt` varchar(100) DEFAULT NULL,
-  `Nop` varchar(100) DEFAULT NULL,
-  `Des` varchar(100) DEFAULT NULL,
-  `Kd_SubRinci` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_triwulan_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_triwulan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-#
-# TABLE STRUCTURE FOR: keuangan_ta_triwulan_rinci
-#
-
-DROP TABLE IF EXISTS `keuangan_ta_triwulan_rinci`;
-
-CREATE TABLE `keuangan_ta_triwulan_rinci` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_keuangan_master` int(11) NOT NULL,
-  `KdPosting` varchar(100) NOT NULL,
-  `KURincianSD` varchar(100) NOT NULL,
-  `Tahun` varchar(100) NOT NULL,
-  `Sifat` varchar(100) NOT NULL,
-  `SumberDana` varchar(100) NOT NULL,
-  `Kd_Desa` varchar(100) NOT NULL,
-  `Kd_Keg` varchar(100) NOT NULL,
-  `Kd_Rincian` varchar(100) NOT NULL,
-  `Anggaran` varchar(100) NOT NULL,
-  `AnggaranPAK` varchar(100) NOT NULL,
-  `Tw1Rinci` varchar(100) DEFAULT NULL,
-  `Tw2Rinci` varchar(100) DEFAULT NULL,
-  `Tw3Rinci` varchar(100) DEFAULT NULL,
-  `Tw4Rinci` varchar(100) DEFAULT NULL,
-  `KunciData` varchar(100) NOT NULL,
-  `Jan` varchar(100) DEFAULT NULL,
-  `Peb` varchar(100) DEFAULT NULL,
-  `Mar` varchar(100) DEFAULT NULL,
-  `Apr` varchar(100) DEFAULT NULL,
-  `Mei` varchar(100) DEFAULT NULL,
-  `Jun` varchar(100) DEFAULT NULL,
-  `Jul` varchar(100) DEFAULT NULL,
-  `Agt` varchar(100) DEFAULT NULL,
-  `Sep` varchar(100) DEFAULT NULL,
-  `Okt` varchar(100) DEFAULT NULL,
-  `Nop` varchar(100) DEFAULT NULL,
-  `Des` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_keuangan_ta_triwulan_rinci_master_fk` (`id_keuangan_master`),
-  CONSTRAINT `id_keuangan_ta_triwulan_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 #
@@ -7075,7 +5752,7 @@ CREATE TABLE `line` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
-  `color` varchar(10) NOT NULL DEFAULT 'ff0000',
+  `color` varchar(25) DEFAULT NULL,
   `tipe` int(4) DEFAULT '0',
   `tebal` int(2) DEFAULT '3',
   `jenis` varchar(10) DEFAULT 'solid',
@@ -7300,33 +5977,9 @@ INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (24, '2021100171');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (25, '2021103171');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (26, '2021120171');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (27, '2022010171');
-INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (28, '2022012771');
+INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (28, '2022013071');
 INSERT INTO `migrasi` (`id`, `versi_database`) VALUES (29, '2022020171');
 
-
-#
-# TABLE STRUCTURE FOR: mutasi_cdesa
-#
-
-DROP TABLE IF EXISTS `mutasi_cdesa`;
-
-CREATE TABLE `mutasi_cdesa` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id_cdesa_masuk` int(5) unsigned DEFAULT NULL,
-  `cdesa_keluar` int(5) unsigned DEFAULT NULL,
-  `jenis_mutasi` tinyint(2) DEFAULT NULL,
-  `tanggal_mutasi` date DEFAULT NULL,
-  `keterangan` text,
-  `id_persil` int(11) NOT NULL,
-  `no_bidang_persil` tinyint(3) DEFAULT NULL,
-  `luas` decimal(7,0) DEFAULT NULL,
-  `no_objek_pajak` varchar(30) DEFAULT NULL,
-  `path` text,
-  `id_peta` int(60) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `cdesa_mutasi_fk` (`id_cdesa_masuk`),
-  CONSTRAINT `cdesa_mutasi_fk` FOREIGN KEY (`id_cdesa_masuk`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: notifikasi
@@ -7607,7 +6260,7 @@ CREATE TABLE `polygon` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
   `simbol` varchar(50) DEFAULT NULL,
-  `color` varchar(10) NOT NULL DEFAULT 'ff0000',
+  `color` varchar(25) DEFAULT NULL,
   `tipe` int(4) DEFAULT '0',
   `parrent` int(4) DEFAULT '1',
   `enabled` int(11) NOT NULL DEFAULT '1',
@@ -8249,7 +6902,7 @@ CREATE TABLE `setting_aplikasi` (
   `kategori` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=885 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=873 DEFAULT CHARSET=latin1;
 
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (1, 'sebutan_kabupaten', 'kabupaten', 'Pengganti sebutan wilayah kabupaten', '', '');
 INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES (2, 'sebutan_kabupaten_singkat', 'kab.', 'Pengganti sebutan singkatan wilayah kabupaten', '', '');
@@ -8333,7 +6986,7 @@ CREATE TABLE `setting_modul` (
   `ikon_kecil` varchar(50) DEFAULT '',
   `parent` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=336 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8;
 
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (1, 'Home', 'hom_sid', 1, 'fa-home', 10, 2, 1, 'fa fa-home', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (2, 'Kependudukan', '', 1, 'fa-users', 30, 2, 0, 'fa fa-users', 0);
@@ -8446,7 +7099,6 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (303, 'Administrasi Penduduk', 'bumindes_penduduk_induk/clear', 1, 'fa-users', 2, 2, 0, 'fa fa-users', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (304, 'Administrasi Keuangan', 'bumindes_keuangan', 1, 'fa-money', 3, 2, 0, 'fa fa-money', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (305, 'Administrasi Pembangunan', 'bumindes_rencana_pembangunan', 1, 'fa-university', 4, 2, 0, 'fa fa-university', 301);
-INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (306, 'Arsip Desa', 'bumindes_arsip', 1, 'fa-archive', 5, 2, 0, 'fa fa-archive', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (310, 'Buku Eskpedisi', 'ekspedisi/clear', 1, 'fa-files-o', 0, 0, 0, '', 302);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (311, 'Buku Lembaran Dan Berita [Desa]', 'lembaran_desa/clear', 1, 'fa-files-o', 0, 0, 0, '', 302);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (312, 'Anjungan', 'anjungan', 1, 'fa-desktop', 4, 2, 0, '', 14);
@@ -8473,6 +7125,7 @@ INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `lev
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (333, 'Buku Inventaris Hasil - Hasil Pembangunan', 'bumindes_hasil_pembangunan', 1, '', NULL, 2, 2, '', 301);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (334, 'Pengaduan', 'pengaduan_admin', 1, 'fa-info', 124, 2, 0, 'fa-info', 0);
 INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (335, 'Vaksin', 'vaksin_covid/clear', 1, 'fa fa-medkit', 2, 2, 0, '', 206);
+INSERT INTO `setting_modul` (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES (336, 'Arsip [Desa]', 'bumindes_arsip', 1, 'fa-archive', 5, 2, 0, 'fa fa-archive', 301);
 
 
 #
@@ -13123,7 +11776,7 @@ CREATE TABLE `tweb_desa_pamong` (
   `bagan_tingkat` tinyint(2) DEFAULT NULL,
   `bagan_offset` int(3) DEFAULT NULL,
   `bagan_layout` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `bagan_warna` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bagan_warna` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`pamong_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -13331,8 +11984,8 @@ CREATE TABLE `tweb_penduduk` (
   KEY `id_rtm` (`id_rtm`)
 ) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (1, 'AHLUL', '5201142005716996', 1, 1, '011405000012', 1, 1, 'MANGSIT', '1970-05-20', 1, 3, 18, 26, 2, 1, '', '0', '', '', 'ARFAH', 'RAISAH', '', 13, 4, 1, '', '', 1, 0, NULL, NULL, '', '', NULL, '', NULL, NULL, '082296870436', NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:30:21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (2, 'AHMAD ALLIF RIZKI', '5201140706966997', 1, 4, '0', 0, 1, 'MANGSIT', '1995-06-07', 1, 1, 18, 1, 1, 1, '', '0', '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, 0, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (1, 'AHLUL', '5201142005716996', 1, 1, '011405000012', 1, 1, 'MANGSIT', '1970-05-20', 1, 3, 18, 26, 2, 1, '', '0', '', '', 'ARFAH', 'RAISAH', '', 13, 4, 1, '', '', 1, 2, NULL, NULL, '', '', NULL, '', NULL, NULL, '082296870436', NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:30:21', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (2, 'AHMAD ALLIF RIZKI', '5201140706966997', 1, 4, '0', 0, 1, 'MANGSIT', '1995-06-07', 1, 1, 18, 1, 1, 1, '', '0', '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, 2, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (3, 'AHMAD HABIB', '5201140301916995', 1, 4, '011405000012', 2, 1, 'MANGSIT', '1990-01-03', 1, 3, 18, 1, 1, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2020-07-30 11:36:12', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (4, 'ADINI SEPTIA LISTA', '5201145003976995', 1, 4, '0', 0, 2, 'MANGSIT', '1996-03-10', 1, 4, 18, 2, 2, 1, NULL, NULL, '', '', 'AHLUL', 'RUSDAH', '', 13, 4, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `tweb_penduduk` (`id`, `nama`, `nik`, `id_kk`, `kk_level`, `id_rtm`, `rtm_level`, `sex`, `tempatlahir`, `tanggallahir`, `agama_id`, `pendidikan_kk_id`, `pendidikan_sedang_id`, `pekerjaan_id`, `status_kawin`, `warganegara_id`, `dokumen_pasport`, `dokumen_kitas`, `ayah_nik`, `ibu_nik`, `nama_ayah`, `nama_ibu`, `foto`, `golongan_darah_id`, `id_cluster`, `status`, `alamat_sebelumnya`, `alamat_sekarang`, `status_dasar`, `hamil`, `cacat_id`, `sakit_menahun_id`, `akta_lahir`, `akta_perkawinan`, `tanggalperkawinan`, `akta_perceraian`, `tanggalperceraian`, `cara_kb_id`, `telepon`, `tanggal_akhir_paspor`, `no_kk_sebelumnya`, `ktp_el`, `status_rekam`, `waktu_lahir`, `tempat_dilahirkan`, `jenis_kelahiran`, `kelahiran_anak_ke`, `penolong_kelahiran`, `berat_lahir`, `panjang_lahir`, `tag_id_card`, `created_at`, `created_by`, `updated_at`, `updated_by`, `id_asuransi`, `no_asuransi`, `email`, `email_token`, `email_tgl_kadaluarsa`, `email_tgl_verifikasi`, `telegram`, `telegram_token`, `telegram_tgl_kadaluarsa`, `telegram_tgl_verifikasi`, `bahasa_id`, `ket`, `negara_asal`, `tempat_cetak_ktp`, `tanggal_cetak_ktp`, `suku`, `bpjs_ketenagakerjaan`) VALUES (5, 'AHYAR', '5201141003666996', 2, 1, '0', 0, 1, 'JAKARTA', '1965-03-10', 1, 5, 18, 88, 2, 1, NULL, NULL, '', '', 'PAIMUN', 'SUPINAH', '', 13, 8, 1, '', '', 1, NULL, NULL, NULL, '', '', NULL, '', NULL, NULL, NULL, NULL, NULL, 0, 0, '', 0, 0, 0, 0, 0, '', NULL, '2019-05-28 22:45:28', 0, '2019-05-28 22:45:28', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -13986,7 +12639,7 @@ CREATE TABLE `tweb_wil_clusterdesa` (
   `zoom` int(11) DEFAULT NULL,
   `path` text,
   `map_tipe` varchar(20) DEFAULT NULL,
-  `warna` varchar(10) DEFAULT NULL,
+  `warna` varchar(25) DEFAULT NULL,
   `urut` int(11) DEFAULT NULL,
   `urut_cetak` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -14067,7 +12720,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `email_verified_at`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, 'info@opendesa.id', '2022-01-30 20:22:40', NULL, 1, 'Administrator', 'ADMIN', '321', 'kuser.png', 'a8d4080245664ed2049c1b2ded7cac30');
+INSERT INTO `user` (`id`, `username`, `password`, `id_grup`, `email`, `last_login`, `email_verified_at`, `active`, `nama`, `company`, `phone`, `foto`, `session`) VALUES (1, 'admin', '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 1, 'info@opendesa.id', '2022-01-31 21:14:46', NULL, 1, 'Administrator', 'ADMIN', '321', 'kuser.png', 'a8d4080245664ed2049c1b2ded7cac30');
 
 
 #
@@ -14734,180 +13387,169 @@ CREATE TABLE `grup_akses` (
   KEY `id_modul` (`id_modul`),
   CONSTRAINT `fk_id_grup` FOREIGN KEY (`id_grup`) REFERENCES `user_grup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_id_modul` FOREIGN KEY (`id_modul`) REFERENCES `setting_modul` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5892 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8;
 
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5719, 2, 1, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5720, 2, 2, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5721, 2, 3, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5722, 2, 4, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5723, 2, 5, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5724, 2, 6, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5725, 2, 7, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5726, 2, 8, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5727, 2, 9, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5728, 2, 10, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5729, 2, 11, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5730, 2, 13, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5731, 2, 14, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5732, 2, 15, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5733, 2, 17, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5734, 2, 18, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5735, 2, 20, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5736, 2, 21, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5737, 2, 22, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5738, 2, 23, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5739, 2, 24, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5740, 2, 25, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5741, 2, 26, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5742, 2, 27, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5743, 2, 28, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5744, 2, 29, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5745, 2, 30, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5746, 2, 31, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5747, 2, 32, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5748, 2, 33, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5749, 2, 39, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5750, 2, 40, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5751, 2, 41, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5752, 2, 42, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5753, 2, 47, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5754, 2, 48, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5755, 2, 49, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5756, 2, 50, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5757, 2, 51, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5758, 2, 52, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5759, 2, 53, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5760, 2, 54, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5761, 2, 55, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5762, 2, 56, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5763, 2, 57, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5764, 2, 58, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5765, 2, 61, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5766, 2, 62, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5767, 2, 63, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5768, 2, 64, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5769, 2, 65, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5770, 2, 66, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5771, 2, 67, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5772, 2, 68, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5773, 2, 69, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5774, 2, 70, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5775, 2, 71, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5776, 2, 72, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5777, 2, 73, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5778, 2, 75, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5779, 2, 76, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5780, 2, 77, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5781, 2, 78, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5782, 2, 79, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5783, 2, 80, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5784, 2, 81, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5785, 2, 82, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5786, 2, 83, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5787, 2, 84, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5788, 2, 85, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5789, 2, 86, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5790, 2, 87, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5791, 2, 88, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5792, 2, 89, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5793, 2, 90, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5794, 2, 91, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5795, 2, 92, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5796, 2, 93, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5797, 2, 94, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5798, 2, 95, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5799, 2, 96, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5800, 2, 97, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5801, 2, 98, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5802, 2, 101, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5803, 2, 200, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5804, 2, 201, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5805, 2, 202, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5806, 2, 203, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5807, 2, 205, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5808, 2, 206, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5809, 2, 207, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5810, 2, 208, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5811, 2, 209, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5812, 2, 210, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5813, 2, 211, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5814, 2, 212, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5815, 2, 213, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5816, 2, 220, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5818, 2, 301, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5819, 2, 302, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5820, 2, 303, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5821, 2, 304, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5822, 2, 305, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5823, 2, 310, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5824, 2, 311, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5825, 2, 312, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5826, 2, 313, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5827, 2, 314, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5828, 2, 315, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5829, 2, 316, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5830, 2, 317, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5831, 2, 318, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5832, 3, 13, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5833, 3, 47, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5834, 3, 48, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5835, 3, 49, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5836, 3, 50, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5837, 3, 51, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5838, 3, 53, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5839, 3, 54, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5840, 3, 64, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5841, 3, 205, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5842, 3, 211, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5843, 4, 13, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5844, 4, 47, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5845, 4, 50, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5846, 4, 51, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5847, 4, 54, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5848, 5, 3, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5849, 5, 27, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5850, 5, 206, 0);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5851, 5, 207, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5852, 5, 208, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5853, 2, 319, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5854, 2, 319, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5855, 2, 110, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5856, 2, 111, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5857, 2, 110, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5858, 2, 111, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5859, 2, 320, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5860, 2, 321, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5861, 2, 322, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5862, 2, 323, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5863, 2, 305, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5864, 2, 214, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5865, 2, 324, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5866, 2, 43, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5867, 2, 44, 1);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5868, 2, 45, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5869, 2, 46, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5870, 2, 214, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5871, 2, 320, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5872, 2, 321, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5873, 2, 322, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5874, 2, 323, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5875, 2, 324, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5876, 3, 65, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5877, 3, 324, 7);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5878, 2, 325, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5879, 2, 326, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5880, 2, 327, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5881, 2, 328, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5882, 2, 329, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5883, 2, 330, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5884, 2, 331, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5885, 2, 332, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5886, 2, 334, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5887, 2, 333, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5888, 2, 335, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5889, 2, 306, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5890, 2, 313, 3);
-INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5891, 2, 331, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (1, 5, 3, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (2, 5, 27, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (3, 5, 206, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (4, 5, 207, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (5, 5, 208, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (6, 2, 1, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (7, 2, 2, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (8, 2, 3, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (9, 2, 4, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (10, 2, 5, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (11, 2, 6, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (12, 2, 7, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (13, 2, 8, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (14, 2, 9, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (15, 2, 10, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (16, 2, 11, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (17, 2, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (18, 2, 14, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (19, 2, 15, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (20, 2, 17, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (21, 2, 18, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (22, 2, 20, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (23, 2, 21, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (24, 2, 22, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (25, 2, 23, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (26, 2, 24, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (27, 2, 25, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (28, 2, 26, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (29, 2, 27, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (30, 2, 28, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (31, 2, 29, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (32, 2, 30, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (33, 2, 31, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (34, 2, 32, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (35, 2, 33, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (36, 2, 39, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (37, 2, 40, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (38, 2, 41, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (39, 2, 42, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (40, 2, 47, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (41, 2, 48, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (42, 2, 49, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (43, 2, 50, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (44, 2, 51, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (45, 2, 52, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (46, 2, 53, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (47, 2, 54, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (48, 2, 55, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (49, 2, 56, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (50, 2, 57, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (51, 2, 58, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (52, 2, 61, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (53, 2, 62, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (54, 2, 63, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (55, 2, 64, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (56, 2, 65, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (57, 2, 66, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (58, 2, 67, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (59, 2, 68, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (60, 2, 69, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (61, 2, 70, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (62, 2, 71, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (63, 2, 72, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (64, 2, 73, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (65, 2, 75, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (66, 2, 76, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (67, 2, 77, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (68, 2, 78, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (69, 2, 79, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (70, 2, 80, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (71, 2, 81, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (72, 2, 82, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (73, 2, 83, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (74, 2, 84, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (75, 2, 85, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (76, 2, 86, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (77, 2, 87, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (78, 2, 88, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (79, 2, 89, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (80, 2, 90, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (81, 2, 91, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (82, 2, 92, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (83, 2, 93, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (84, 2, 94, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (85, 2, 95, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (86, 2, 96, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (87, 2, 97, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (88, 2, 98, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (89, 2, 101, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (90, 2, 200, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (91, 2, 201, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (92, 2, 202, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (93, 2, 203, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (94, 2, 205, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (95, 2, 206, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (96, 2, 207, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (97, 2, 208, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (98, 2, 209, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (99, 2, 210, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (100, 2, 211, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (101, 2, 212, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (102, 2, 213, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (105, 2, 301, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (106, 2, 302, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (107, 2, 303, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (108, 2, 304, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (109, 2, 305, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (110, 2, 310, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (111, 2, 311, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (112, 2, 312, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (113, 2, 314, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (114, 2, 315, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (115, 2, 316, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (116, 2, 317, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (117, 2, 318, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (118, 3, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (119, 3, 47, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (120, 3, 48, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (121, 3, 49, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (122, 3, 50, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (123, 3, 51, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (124, 3, 53, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (125, 3, 54, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (126, 3, 64, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (127, 3, 205, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (128, 3, 211, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (129, 4, 13, 0);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (130, 4, 47, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (131, 4, 50, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (132, 4, 51, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (133, 4, 54, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (134, 2, 319, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (135, 2, 110, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (136, 2, 111, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (137, 2, 320, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (138, 2, 321, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (139, 2, 322, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (140, 2, 323, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (141, 2, 305, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (142, 2, 214, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (143, 2, 324, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (144, 2, 43, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (145, 2, 44, 1);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (146, 2, 45, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (147, 2, 46, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (148, 3, 65, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (149, 3, 324, 7);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (150, 2, 325, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (151, 2, 326, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (152, 2, 327, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (153, 2, 328, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (154, 2, 329, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (155, 2, 330, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (156, 2, 332, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (157, 2, 334, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (158, 2, 333, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (159, 2, 335, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (160, 2, 220, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (161, 2, 336, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (162, 2, 313, 3);
+INSERT INTO `grup_akses` (`id`, `id_grup`, `id_modul`, `akses`) VALUES (163, 2, 331, 3);
 
 
 #
@@ -14939,6 +13581,1413 @@ CREATE TABLE `produk` (
 
 INSERT INTO `produk` (`id`, `id_pelapak`, `id_produk_kategori`, `nama`, `harga`, `satuan`, `tipe_potongan`, `potongan`, `deskripsi`, `foto`, `status`, `created_at`, `updated_at`) VALUES (1, 1, 1, 'Lumpring', 8000, 'bungkus', 2, 2000, 'Si Camilan Cruncy LUMPRING atau Lumpia Kering ini diolah dari kulit lumpia yang kemudian dibubuhi dengan aneka varian rasa', '[\"lumpring__sid__WMZk6Fs.jpg\"]', 1, '2021-06-30 19:04:47', '2021-06-30 19:04:47');
 
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_bank_desa
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_bank_desa`;
+
+CREATE TABLE `keuangan_ref_bank_desa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(50) NOT NULL,
+  `Kd_Desa` varchar(50) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `NoRek_Bank` varchar(100) NOT NULL,
+  `Nama_Bank` varchar(250) NOT NULL,
+  `Kantor_Cabang` varchar(100) DEFAULT NULL,
+  `Nama_Pemilik` varchar(100) DEFAULT NULL,
+  `Alamat_Pemilik` varchar(100) DEFAULT NULL,
+  `No_Identitas` varchar(20) DEFAULT NULL,
+  `No_Telepon` varchar(20) DEFAULT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bank_desa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bank_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_bel_operasional
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_bel_operasional`;
+
+CREATE TABLE `keuangan_ref_bel_operasional` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `ID_Keg` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bel_operasional_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bel_operasional_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_bidang
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_bidang`;
+
+CREATE TABLE `keuangan_ref_bidang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Bid` varchar(50) NOT NULL,
+  `Nama_Bidang` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bidang_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_bunga
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_bunga`;
+
+CREATE TABLE `keuangan_ref_bunga` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Bunga` varchar(50) NOT NULL,
+  `Kd_Admin` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_bunga_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_bunga_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_desa
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_desa`;
+
+CREATE TABLE `keuangan_ref_desa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Kec` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Nama_Desa` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_desa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_kecamatan
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_kecamatan`;
+
+CREATE TABLE `keuangan_ref_kecamatan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Kec` varchar(100) NOT NULL,
+  `Nama_Kecamatan` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_kecamatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_kecamatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_kegiatan
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_kegiatan`;
+
+CREATE TABLE `keuangan_ref_kegiatan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Bid` varchar(100) DEFAULT NULL,
+  `ID_Keg` varchar(100) NOT NULL,
+  `Nama_Kegiatan` varchar(250) NOT NULL,
+  `Jns_Kegiatan` tinyint(5) DEFAULT NULL,
+  `Kd_Sub` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_kegiatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_korolari
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_korolari`;
+
+CREATE TABLE `keuangan_ref_korolari` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kd_RekDB` varchar(100) NOT NULL,
+  `Kd_RekKD` varchar(250) NOT NULL,
+  `Jenis` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_korolari_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_korolari_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_neraca_close
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_neraca_close`;
+
+CREATE TABLE `keuangan_ref_neraca_close` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kelompok` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_neraca_close_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_neraca_close_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_perangkat
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_perangkat`;
+
+CREATE TABLE `keuangan_ref_perangkat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kode` varchar(100) NOT NULL,
+  `Nama_Perangkat` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_perangkat_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_potongan
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_potongan`;
+
+CREATE TABLE `keuangan_ref_potongan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kd_Potongan` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_potongan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_potongan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_rek1
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_rek1`;
+
+CREATE TABLE `keuangan_ref_rek1` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Akun` varchar(100) NOT NULL,
+  `Nama_Akun` varchar(100) NOT NULL,
+  `NoLap` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek1_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek1_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_rek2
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_rek2`;
+
+CREATE TABLE `keuangan_ref_rek2` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Akun` varchar(100) NOT NULL,
+  `Kelompok` varchar(100) NOT NULL,
+  `Nama_Kelompok` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek2_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek2_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_rek3
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_rek3`;
+
+CREATE TABLE `keuangan_ref_rek3` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kelompok` varchar(100) NOT NULL,
+  `Jenis` varchar(100) NOT NULL,
+  `Nama_Jenis` varchar(100) NOT NULL,
+  `Formula` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek3_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek3_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_rek4
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_rek4`;
+
+CREATE TABLE `keuangan_ref_rek4` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Jenis` varchar(100) NOT NULL,
+  `Obyek` varchar(100) NOT NULL,
+  `Nama_Obyek` varchar(100) NOT NULL,
+  `Peraturan` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_rek4_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_rek4_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_sbu
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_sbu`;
+
+CREATE TABLE `keuangan_ref_sbu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kode_SBU` varchar(100) NOT NULL,
+  `NoUrut_SBU` varchar(100) NOT NULL,
+  `Nama_SBU` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `Satuan` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_sbu_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_sbu_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ref_sumber
+#
+
+DROP TABLE IF EXISTS `keuangan_ref_sumber`;
+
+CREATE TABLE `keuangan_ref_sumber` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kode` varchar(100) NOT NULL,
+  `Nama_Sumber` varchar(100) NOT NULL,
+  `Urut` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ref_sumber_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ref_sumber_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_anggaran
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_anggaran`;
+
+CREATE TABLE `keuangan_ta_anggaran` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `KdPosting` varchar(100) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `KURincianSD` varchar(100) NOT NULL,
+  `KD_Rincian` varchar(100) NOT NULL,
+  `RincianSD` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `AnggaranPAK` varchar(100) NOT NULL,
+  `AnggaranStlhPAK` varchar(100) NOT NULL,
+  `Belanja` varchar(100) NOT NULL,
+  `Kd_keg` varchar(100) NOT NULL,
+  `SumberDana` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `TglPosting` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_anggaran_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_anggaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_anggaran_log
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_anggaran_log`;
+
+CREATE TABLE `keuangan_ta_anggaran_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `KdPosting` varchar(100) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_Perdes` varchar(100) NOT NULL,
+  `TglPosting` varchar(100) NOT NULL,
+  `UserID` varchar(50) NOT NULL,
+  `Kunci` varchar(100) NOT NULL,
+  `No_Perkades` varchar(100) DEFAULT NULL,
+  `Petugas` varchar(80) DEFAULT NULL,
+  `Tanggal` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_anggaran_log_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_anggaran_log_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_anggaran_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_anggaran_rinci`;
+
+CREATE TABLE `keuangan_ta_anggaran_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `KdPosting` varchar(100) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(100) NOT NULL,
+  `No_Urut` varchar(100) NOT NULL,
+  `Uraian` varchar(100) NOT NULL,
+  `SumberDana` varchar(100) NOT NULL,
+  `JmlSatuan` varchar(100) NOT NULL,
+  `HrgSatuan` varchar(100) NOT NULL,
+  `Satuan` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `JmlSatuanPAK` varchar(100) NOT NULL,
+  `HrgSatuanPAK` varchar(100) NOT NULL,
+  `AnggaranStlhPAK` varchar(100) NOT NULL,
+  `AnggaranPAK` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_anggaran_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_anggaran_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_bidang
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_bidang`;
+
+CREATE TABLE `keuangan_ta_bidang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Bid` varchar(100) NOT NULL,
+  `Nama_Bidang` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_bidang_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_desa
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_desa`;
+
+CREATE TABLE `keuangan_ta_desa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Nm_Kades` varchar(100) NOT NULL,
+  `Jbt_Kades` varchar(100) NOT NULL,
+  `Nm_Sekdes` varchar(100) NOT NULL,
+  `NIP_Sekdes` varchar(100) NOT NULL,
+  `Jbt_Sekdes` varchar(100) NOT NULL,
+  `Nm_Kaur_Keu` varchar(100) NOT NULL,
+  `Jbt_Kaur_Keu` varchar(100) NOT NULL,
+  `Nm_Bendahara` varchar(100) NOT NULL,
+  `Jbt_Bendahara` varchar(100) NOT NULL,
+  `No_Perdes` varchar(100) NOT NULL,
+  `Tgl_Perdes` varchar(100) NOT NULL,
+  `No_Perdes_PB` varchar(100) NOT NULL,
+  `Tgl_Perdes_PB` varchar(100) NOT NULL,
+  `No_Perdes_PJ` varchar(100) NOT NULL,
+  `Tgl_Perdes_PJ` varchar(100) NOT NULL,
+  `Alamat` varchar(250) NOT NULL,
+  `Ibukota` varchar(100) NOT NULL,
+  `Status` varchar(100) NOT NULL,
+  `NPWP` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_desa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_desa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_jurnal_umum
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_jurnal_umum`;
+
+CREATE TABLE `keuangan_ta_jurnal_umum` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `KdBuku` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Tanggal` varchar(100) NOT NULL,
+  `JnsBukti` varchar(100) NOT NULL,
+  `NoBukti` varchar(100) NOT NULL,
+  `Keterangan` varchar(100) NOT NULL,
+  `DK` varchar(100) NOT NULL,
+  `Debet` varchar(100) NOT NULL,
+  `Kredit` varchar(100) NOT NULL,
+  `Jenis` varchar(100) NOT NULL,
+  `Posted` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_jurnal_umum_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_jurnal_umum_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_jurnal_umum_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_jurnal_umum_rinci`;
+
+CREATE TABLE `keuangan_ta_jurnal_umum_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `NoBukti` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `RincianSD` varchar(100) NOT NULL,
+  `NoID` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Akun` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `DK` varchar(100) NOT NULL,
+  `Debet` varchar(100) NOT NULL,
+  `Kredit` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_jurnal_umum_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_jurnal_umum_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_kegiatan
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_kegiatan`;
+
+CREATE TABLE `keuangan_ta_kegiatan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Bid` varchar(100) DEFAULT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `ID_Keg` varchar(100) NOT NULL,
+  `Nama_Kegiatan` varchar(100) NOT NULL,
+  `Pagu` varchar(100) NOT NULL,
+  `Pagu_PAK` varchar(100) NOT NULL,
+  `Nm_PPTKD` varchar(100) NOT NULL,
+  `NIP_PPTKD` varchar(100) NOT NULL,
+  `Lokasi` varchar(100) NOT NULL,
+  `Waktu` varchar(100) NOT NULL,
+  `Keluaran` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `Jbt_PPTKD` varchar(100) DEFAULT NULL,
+  `Kd_Sub` varchar(30) DEFAULT NULL,
+  `Nilai` bigint(20) unsigned DEFAULT NULL,
+  `NilaiPAK` bigint(20) unsigned DEFAULT NULL,
+  `Satuan` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_kegiatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_mutasi
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_mutasi`;
+
+CREATE TABLE `keuangan_ta_mutasi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Tgl_Bukti` varchar(100) NOT NULL,
+  `Keterangan` varchar(200) DEFAULT NULL,
+  `Kd_Bank` varchar(100) DEFAULT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `Kd_Mutasi` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_mutasi_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_mutasi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_pajak
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_pajak`;
+
+CREATE TABLE `keuangan_ta_pajak` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SSP` varchar(100) NOT NULL,
+  `Tgl_SSP` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
+  `Nama_WP` varchar(100) NOT NULL,
+  `Alamat_WP` varchar(100) NOT NULL,
+  `NPWP` varchar(100) NOT NULL,
+  `Kd_MAP` varchar(100) NOT NULL,
+  `Nm_Penyetor` varchar(100) NOT NULL,
+  `Jn_Transaksi` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Jumlah` varchar(100) NOT NULL,
+  `KdBayar` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  `NTPN` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pajak_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pajak_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_pajak_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_pajak_rinci`;
+
+CREATE TABLE `keuangan_ta_pajak_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SSP` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pajak_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pajak_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_pemda
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_pemda`;
+
+CREATE TABLE `keuangan_ta_pemda` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Prov` varchar(100) NOT NULL,
+  `Kd_Kab` varchar(100) NOT NULL,
+  `Nama_Pemda` varchar(100) NOT NULL,
+  `Nama_Provinsi` varchar(100) NOT NULL,
+  `Ibukota` varchar(100) NOT NULL,
+  `Alamat` varchar(100) NOT NULL,
+  `Nm_Bupati` varchar(100) NOT NULL,
+  `Jbt_Bupati` varchar(100) NOT NULL,
+  `Logo` mediumblob,
+  `C_Kode` varchar(100) NOT NULL,
+  `C_Pemda` varchar(100) NOT NULL,
+  `C_Data` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pemda_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pemda_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_pencairan
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_pencairan`;
+
+CREATE TABLE `keuangan_ta_pencairan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_Cek` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `Tgl_Cek` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
+  `Jumlah` varchar(100) NOT NULL,
+  `Potongan` varchar(100) NOT NULL,
+  `KdBayar` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  `Kunci` varchar(10) DEFAULT NULL,
+  `No_Ref` varchar(100) DEFAULT NULL,
+  `Tgl_Bayar` varchar(100) DEFAULT NULL,
+  `Validasi` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_pencairan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_pencairan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_perangkat
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_perangkat`;
+
+CREATE TABLE `keuangan_ta_perangkat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Jabatan` varchar(100) NOT NULL,
+  `No_ID` varchar(100) NOT NULL,
+  `Nama_Perangkat` varchar(100) NOT NULL,
+  `Alamat_Perangkat` varchar(100) NOT NULL,
+  `Nomor_HP` varchar(100) NOT NULL,
+  `Rek_Bank` varchar(100) NOT NULL,
+  `Nama_Bank` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_perangkat_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_perangkat_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rab
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rab`;
+
+CREATE TABLE `keuangan_ta_rab` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `AnggaranPAK` varchar(100) NOT NULL,
+  `AnggaranStlhPAK` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rab_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rab_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rab_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rab_rinci`;
+
+CREATE TABLE `keuangan_ta_rab_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(100) NOT NULL,
+  `No_Urut` varchar(100) NOT NULL,
+  `SumberDana` varchar(100) NOT NULL,
+  `Uraian` varchar(100) NOT NULL,
+  `Satuan` varchar(100) NOT NULL,
+  `JmlSatuan` varchar(100) NOT NULL,
+  `HrgSatuan` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `JmlSatuanPAK` varchar(100) NOT NULL,
+  `HrgSatuanPAK` varchar(100) NOT NULL,
+  `AnggaranStlhPAK` varchar(100) NOT NULL,
+  `AnggaranPAK` varchar(100) NOT NULL,
+  `Kode_SBU` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rab_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rab_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rab_sub
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rab_sub`;
+
+CREATE TABLE `keuangan_ta_rab_sub` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(100) NOT NULL,
+  `Nama_SubRinci` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `AnggaranPAK` varchar(100) NOT NULL,
+  `AnggaranStlhPAK` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rab_sub_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rab_sub_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_bidang
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_bidang`;
+
+CREATE TABLE `keuangan_ta_rpjm_bidang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Bid` varchar(100) NOT NULL,
+  `Nama_Bidang` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_bidang_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_bidang_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_kegiatan
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_kegiatan`;
+
+CREATE TABLE `keuangan_ta_rpjm_kegiatan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Bid` varchar(100) DEFAULT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `ID_Keg` varchar(100) NOT NULL,
+  `Nama_Kegiatan` varchar(100) NOT NULL,
+  `Lokasi` varchar(100) NOT NULL,
+  `Keluaran` varchar(100) NOT NULL,
+  `Kd_Sas` varchar(100) NOT NULL,
+  `Sasaran` varchar(100) NOT NULL,
+  `Tahun1` varchar(100) NOT NULL,
+  `Tahun2` varchar(100) NOT NULL,
+  `Tahun3` varchar(100) NOT NULL,
+  `Tahun4` varchar(100) NOT NULL,
+  `Tahun5` varchar(100) NOT NULL,
+  `Tahun6` varchar(100) NOT NULL,
+  `Swakelola` varchar(100) NOT NULL,
+  `Kerjasama` varchar(100) NOT NULL,
+  `Pihak_Ketiga` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `Kd_Sub` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_kegiatan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_kegiatan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_misi
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_misi`;
+
+CREATE TABLE `keuangan_ta_rpjm_misi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `ID_Misi` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `ID_Visi` varchar(100) NOT NULL,
+  `No_Misi` varchar(100) NOT NULL,
+  `Uraian_Misi` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_misi_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_misi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_pagu_indikatif
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_pagu_indikatif`;
+
+CREATE TABLE `keuangan_ta_rpjm_pagu_indikatif` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Sumber` varchar(100) NOT NULL,
+  `Tahun1` varchar(100) NOT NULL,
+  `Tahun2` varchar(100) NOT NULL,
+  `Tahun3` varchar(100) NOT NULL,
+  `Tahun4` varchar(100) NOT NULL,
+  `Tahun5` varchar(100) NOT NULL,
+  `Tahun6` varchar(100) NOT NULL,
+  `Pola` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_pagu_indikatif_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_pagu_tahunan
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_pagu_tahunan`;
+
+CREATE TABLE `keuangan_ta_rpjm_pagu_tahunan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Tahun` varchar(100) NOT NULL,
+  `Kd_Sumber` varchar(100) NOT NULL,
+  `Biaya` varchar(100) NOT NULL,
+  `Volume` varchar(100) NOT NULL,
+  `Satuan` varchar(100) NOT NULL,
+  `Lokasi_Spesifik` varchar(100) NOT NULL,
+  `Jml_Sas_Pria` varchar(100) NOT NULL,
+  `Jml_Sas_Wanita` varchar(100) NOT NULL,
+  `Jml_Sas_ARTM` varchar(100) NOT NULL,
+  `Waktu` varchar(100) NOT NULL,
+  `Mulai` varchar(100) NOT NULL,
+  `Selesai` varchar(100) NOT NULL,
+  `Pola_Kegiatan` varchar(100) NOT NULL,
+  `Pelaksana` varchar(100) NOT NULL,
+  `No_ID` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_pagu_tahunan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_sasaran
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_sasaran`;
+
+CREATE TABLE `keuangan_ta_rpjm_sasaran` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `ID_Sasaran` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `ID_Tujuan` varchar(100) NOT NULL,
+  `No_Sasaran` varchar(100) NOT NULL,
+  `Uraian_Sasaran` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_sasaran_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_sasaran_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_tujuan
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_tujuan`;
+
+CREATE TABLE `keuangan_ta_rpjm_tujuan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `ID_Tujuan` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `ID_Misi` varchar(100) NOT NULL,
+  `No_Tujuan` varchar(100) NOT NULL,
+  `Uraian_Tujuan` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_tujuan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_tujuan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_rpjm_visi
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_rpjm_visi`;
+
+CREATE TABLE `keuangan_ta_rpjm_visi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `ID_Visi` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_Visi` varchar(100) NOT NULL,
+  `Uraian_Visi` varchar(250) DEFAULT NULL,
+  `TahunA` varchar(100) NOT NULL,
+  `TahunN` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_rpjm_visi_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_rpjm_visi_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_saldo_awal
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_saldo_awal`;
+
+CREATE TABLE `keuangan_ta_saldo_awal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Jenis` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `Debet` varchar(100) NOT NULL,
+  `Kredit` varchar(100) NOT NULL,
+  `Tgl_Bukti` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_saldo_awal_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_saldo_awal_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spj
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spj`;
+
+CREATE TABLE `keuangan_ta_spj` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_SPJ` varchar(100) NOT NULL,
+  `Tgl_SPJ` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `Keterangan` varchar(100) NOT NULL,
+  `Jumlah` varchar(100) NOT NULL,
+  `Potongan` varchar(100) NOT NULL,
+  `Status` varchar(100) NOT NULL,
+  `Kunci` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spj_bukti
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spj_bukti`;
+
+CREATE TABLE `keuangan_ta_spj_bukti` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_SPJ` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Tgl_Bukti` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Nm_Penerima` varchar(100) NOT NULL,
+  `Alamat` varchar(100) NOT NULL,
+  `Rek_Bank` varchar(100) NOT NULL,
+  `Nm_Bank` varchar(100) NOT NULL,
+  `NPWP` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
+  `Kd_Bank` varchar(100) DEFAULT NULL,
+  `Ref_Bayar` varchar(100) DEFAULT NULL,
+  `Tgl_Bayar` varchar(100) DEFAULT NULL,
+  `Validasi` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_bukti_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_bukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spj_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spj_rinci`;
+
+CREATE TABLE `keuangan_ta_spj_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_SPJ` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `JmlCair` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `Alamat` varchar(100) DEFAULT NULL,
+  `Sisa` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spj_sisa
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spj_sisa`;
+
+CREATE TABLE `keuangan_ta_spj_sisa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Tgl_Bukti` varchar(100) NOT NULL,
+  `No_SPJ` varchar(100) NOT NULL,
+  `Tgl_SPJ` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `Tgl_SPP` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Keterangan` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spj_sisa_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spj_sisa_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spjpot
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spjpot`;
+
+CREATE TABLE `keuangan_ta_spjpot` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SPJ` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `Billing_Pajak` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spjpot_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spjpot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spp
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spp`;
+
+CREATE TABLE `keuangan_ta_spp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `Tgl_SPP` varchar(100) NOT NULL,
+  `Jn_SPP` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Keterangan` varchar(250) DEFAULT NULL,
+  `Jumlah` varchar(100) NOT NULL,
+  `Potongan` varchar(100) NOT NULL,
+  `Status` varchar(100) NOT NULL,
+  `F10` varchar(10) DEFAULT NULL,
+  `F11` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spp_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spp_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spp_rinci`;
+
+CREATE TABLE `keuangan_ta_spp_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spp_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_sppbukti
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_sppbukti`;
+
+CREATE TABLE `keuangan_ta_sppbukti` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Sumberdana` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Tgl_Bukti` varchar(100) NOT NULL,
+  `Nm_Penerima` varchar(100) NOT NULL,
+  `Alamat` varchar(100) NOT NULL,
+  `Rek_Bank` varchar(100) NOT NULL,
+  `Nm_Bank` varchar(100) NOT NULL,
+  `NPWP` varchar(100) NOT NULL,
+  `Keterangan` varchar(200) DEFAULT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
+  `Kd_Bank` varchar(100) DEFAULT NULL,
+  `Ref_Bayar` varchar(100) DEFAULT NULL,
+  `Tgl_Bayar` varchar(100) DEFAULT NULL,
+  `Validasi` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_sppbukti_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_sppbukti_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_spppot
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_spppot`;
+
+CREATE TABLE `keuangan_ta_spppot` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_SPP` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  `Billing_Pajak` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_spppot_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_spppot_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_sts
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_sts`;
+
+CREATE TABLE `keuangan_ta_sts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Tgl_Bukti` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Uraian` varchar(100) NOT NULL,
+  `NoRek_Bank` varchar(100) NOT NULL,
+  `Nama_Bank` varchar(100) NOT NULL,
+  `Jumlah` varchar(100) NOT NULL,
+  `Nm_Bendahara` varchar(100) NOT NULL,
+  `Jbt_Bendahara` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_sts_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_sts_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_sts_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_sts_rinci`;
+
+CREATE TABLE `keuangan_ta_sts_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `No_TBP` varchar(100) NOT NULL,
+  `Uraian` varchar(100) NOT NULL,
+  `Nilai` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_sts_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_sts_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_tbp
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_tbp`;
+
+CREATE TABLE `keuangan_ta_tbp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Tgl_Bukti` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Uraian` varchar(250) DEFAULT NULL,
+  `Nm_Penyetor` varchar(100) NOT NULL,
+  `Alamat_Penyetor` varchar(100) NOT NULL,
+  `TTD_Penyetor` varchar(100) NOT NULL,
+  `NoRek_Bank` varchar(100) NOT NULL,
+  `Nama_Bank` varchar(100) NOT NULL,
+  `Jumlah` varchar(100) NOT NULL,
+  `Nm_Bendahara` varchar(100) NOT NULL,
+  `Jbt_Bendahara` varchar(100) NOT NULL,
+  `Status` varchar(100) NOT NULL,
+  `KdBayar` varchar(100) NOT NULL,
+  `Ref_Bayar` varchar(100) NOT NULL,
+  `ID_Bank` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_tbp_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_tbp_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_tbp_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_tbp_rinci`;
+
+CREATE TABLE `keuangan_ta_tbp_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `No_Bukti` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `RincianSD` varchar(100) NOT NULL,
+  `SumberDana` varchar(100) NOT NULL,
+  `nilai` varchar(100) NOT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_tbp_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_tbp_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_triwulan
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_triwulan`;
+
+CREATE TABLE `keuangan_ta_triwulan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `KURincianSD` varchar(100) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Sifat` varchar(100) NOT NULL,
+  `SumberDana` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `AnggaranPAK` varchar(100) NOT NULL,
+  `Tw1Rinci` varchar(100) DEFAULT NULL,
+  `Tw2Rinci` varchar(100) DEFAULT NULL,
+  `Tw3Rinci` varchar(100) DEFAULT NULL,
+  `Tw4Rinci` varchar(100) DEFAULT NULL,
+  `KunciData` varchar(100) NOT NULL,
+  `Jan` varchar(100) DEFAULT NULL,
+  `Peb` varchar(100) DEFAULT NULL,
+  `Mar` varchar(100) DEFAULT NULL,
+  `Apr` varchar(100) DEFAULT NULL,
+  `Mei` varchar(100) DEFAULT NULL,
+  `Jun` varchar(100) DEFAULT NULL,
+  `Jul` varchar(100) DEFAULT NULL,
+  `Agt` varchar(100) DEFAULT NULL,
+  `Sep` varchar(100) DEFAULT NULL,
+  `Okt` varchar(100) DEFAULT NULL,
+  `Nop` varchar(100) DEFAULT NULL,
+  `Des` varchar(100) DEFAULT NULL,
+  `Kd_SubRinci` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_triwulan_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_triwulan_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: keuangan_ta_triwulan_rinci
+#
+
+DROP TABLE IF EXISTS `keuangan_ta_triwulan_rinci`;
+
+CREATE TABLE `keuangan_ta_triwulan_rinci` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_keuangan_master` int(11) NOT NULL,
+  `KdPosting` varchar(100) NOT NULL,
+  `KURincianSD` varchar(100) NOT NULL,
+  `Tahun` varchar(100) NOT NULL,
+  `Sifat` varchar(100) NOT NULL,
+  `SumberDana` varchar(100) NOT NULL,
+  `Kd_Desa` varchar(100) NOT NULL,
+  `Kd_Keg` varchar(100) NOT NULL,
+  `Kd_Rincian` varchar(100) NOT NULL,
+  `Anggaran` varchar(100) NOT NULL,
+  `AnggaranPAK` varchar(100) NOT NULL,
+  `Tw1Rinci` varchar(100) DEFAULT NULL,
+  `Tw2Rinci` varchar(100) DEFAULT NULL,
+  `Tw3Rinci` varchar(100) DEFAULT NULL,
+  `Tw4Rinci` varchar(100) DEFAULT NULL,
+  `KunciData` varchar(100) NOT NULL,
+  `Jan` varchar(100) DEFAULT NULL,
+  `Peb` varchar(100) DEFAULT NULL,
+  `Mar` varchar(100) DEFAULT NULL,
+  `Apr` varchar(100) DEFAULT NULL,
+  `Mei` varchar(100) DEFAULT NULL,
+  `Jun` varchar(100) DEFAULT NULL,
+  `Jul` varchar(100) DEFAULT NULL,
+  `Agt` varchar(100) DEFAULT NULL,
+  `Sep` varchar(100) DEFAULT NULL,
+  `Okt` varchar(100) DEFAULT NULL,
+  `Nop` varchar(100) DEFAULT NULL,
+  `Des` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_keuangan_ta_triwulan_rinci_master_fk` (`id_keuangan_master`),
+  CONSTRAINT `id_keuangan_ta_triwulan_rinci_master_fk` FOREIGN KEY (`id_keuangan_master`) REFERENCES `keuangan_master` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+#
+# TABLE STRUCTURE FOR: cdesa_penduduk
+#
+
+DROP TABLE IF EXISTS `cdesa_penduduk`;
+
+CREATE TABLE `cdesa_penduduk` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_cdesa` int(5) unsigned NOT NULL,
+  `id_pend` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_cdesa` (`id_cdesa`),
+  CONSTRAINT `cdesa_penduduk_fk` FOREIGN KEY (`id_cdesa`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# TABLE STRUCTURE FOR: mutasi_cdesa
+#
+
+DROP TABLE IF EXISTS `mutasi_cdesa`;
+
+CREATE TABLE `mutasi_cdesa` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_cdesa_masuk` int(5) unsigned DEFAULT NULL,
+  `cdesa_keluar` int(5) unsigned DEFAULT NULL,
+  `jenis_mutasi` tinyint(2) DEFAULT NULL,
+  `tanggal_mutasi` date DEFAULT NULL,
+  `keterangan` text,
+  `id_persil` int(11) NOT NULL,
+  `no_bidang_persil` tinyint(3) DEFAULT NULL,
+  `luas` decimal(7,0) DEFAULT NULL,
+  `no_objek_pajak` varchar(30) DEFAULT NULL,
+  `path` text,
+  `id_peta` int(60) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cdesa_mutasi_fk` (`id_cdesa_masuk`),
+  CONSTRAINT `cdesa_mutasi_fk` FOREIGN KEY (`id_cdesa_masuk`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
 # TABLE STRUCTURE FOR: daftar_grup
