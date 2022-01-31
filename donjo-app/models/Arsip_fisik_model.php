@@ -152,9 +152,7 @@ class Arsip_fisik_model extends MY_Model
             ->select("'layanan_surat' as kategori")
             ->select("if (s.`lampiran` IS NOT NULL, s.`lampiran`, '') as lampiran")
             ->from('`log_surat` AS s')
-            // ->join('`tweb_penduduk` AS p', 's.`id_pend` = p.`id`')
             ->join('`tweb_penduduk` AS p', 's.`id_pend` = p.`id`', 'left')
-            // ->join('`tweb_surat_format` AS f', 's.`id_format_surat` = f.`id`')
             ->join('`tweb_surat_format` AS f', 's.`id_format_surat` = f.`id`', 'left')
             ->get_compiled_select();
 
