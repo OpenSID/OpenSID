@@ -55,8 +55,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
         $hasil = $hasil && $this->migrasi_2022012651($hasil);
         $hasil = $hasil && $this->migrasi_2022012751($hasil);
         $hasil = $hasil && $this->migrasi_2022012771($hasil);
+        $hasil = $hasil && $this->migrasi_2022013071($hasil);
 
-        return $hasil && $this->migrasi_2022013071($hasil);
+        return $hasil && $this->migrasi_2022013171($hasil);
     }
 
     protected function migrasi_2022010671($hasil)
@@ -449,5 +450,17 @@ class Migrasi_fitur_premium_2202 extends MY_model
     protected function migrasi_2022013071($hasil)
     {
         return $this->db->where('hamil', 0)->update('tweb_penduduk', ['hamil' => 2]);
+    }
+
+    protected function migrasi_2022013171($hasil)
+    {
+        // Ambil kepala rumah tangga yang masih hidup
+        $data = $this->db->select(['id as nik_kepala', 'id_rtm as no_kk'])->get_where('penduduk_hidup', ['rtm_level' => 1])->result_array();
+
+        // Ubah data nik kepala berdasarkan data dari penduduk dengan kk_level 1
+        if ($data) {
+            $hasil && $this->db->update_batch('tweb_rtm', $data, 'no_kk');
+        }
+        return  $data;
     }
 }
