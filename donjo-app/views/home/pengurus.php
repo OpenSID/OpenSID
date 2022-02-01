@@ -89,7 +89,9 @@
 											<tr>
 												<th class="padat"><input type="checkbox" id="checkall" ></th>
 												<th class="padat">No</th>
-												<th class="padat">Aksi</th>
+												<?php if ($this->CI->cek_hak_akses('u')): ?>
+													<th class="padat">Aksi</th>
+												<?php endif; ?>
 												<th class="text-center">Foto</th>
 												<th>Nama, NIP/<?= $this->setting->sebutan_nip_desa  ?>, NIK</th>
 												<th nowrap>Tempat, <p>Tanggal Lahir</p></th>
@@ -112,33 +114,35 @@
 														<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 													</td>
 													<td class="text-center"><?=$data['no']?></td>
-													<td nowrap>
-														<?php if ($this->CI->cek_hak_akses('u')): ?>
-															<a href="<?=site_url("pengurus/urut/$paging->page/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) and print('disabled'); ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
-															<a href="<?=site_url("pengurus/urut/$paging->page/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 AND $paging->page == $paging->start_link) and print('disabled'); ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
-															<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
-														<?php endif; ?>
-														<?php if ($this->CI->cek_hak_akses('h')): ?>
-															<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-														<?php endif; ?>
-														<?php if ($this->CI->cek_hak_akses('u')): ?>
-															<?php if ($data['pamong_status'] == '1'): ?>
-																<a href="<?= site_url("pengurus/lock/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-															<?php else: ?>
-																<a href="<?= site_url("pengurus/lock/$data[pamong_id]/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
-															<?php endif ?>
-															<?php if ($data['pamong_ttd'] == '1'): ?>
-																<a href="<?= site_url("pengurus/ttd/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
-															<?php else: ?>
-																<a href="<?= site_url("pengurus/ttd/$data[pamong_id]/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD a.n">a.n</a>
-															<?php endif ?>
-															<?php if ($data['pamong_ub'] == '1'): ?>
-																<a href="<?= site_url("pengurus/ub/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD u.b">u.b</a>
-															<?php else: ?>
-																<a href="<?= site_url("pengurus/ub/$data[pamong_id]/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD u.b">u.b</a>
-															<?php endif ?>
-														<?php endif; ?>
-													</td>
+													<?php if ($this->CI->cek_hak_akses('u')): ?>
+														<td nowrap>
+															<?php if ($this->CI->cek_hak_akses('u')): ?>
+																<a href="<?=site_url("pengurus/urut/$paging->page/$data[pamong_id]/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) and print('disabled'); ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
+																<a href="<?=site_url("pengurus/urut/$paging->page/$data[pamong_id]/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 AND $paging->page == $paging->start_link) and print('disabled'); ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
+																<a href="<?= site_url("pengurus/form/$data[pamong_id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
+															<?php endif; ?>
+															<?php if ($this->CI->cek_hak_akses('h')): ?>
+																<a href="#" data-href="<?= site_url("pengurus/delete/$data[pamong_id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															<?php endif; ?>
+															<?php if ($this->CI->cek_hak_akses('u')): ?>
+																<?php if ($data['pamong_status'] == '1'): ?>
+																	<a href="<?= site_url("pengurus/lock/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																<?php else: ?>
+																	<a href="<?= site_url("pengurus/lock/$data[pamong_id]/1")?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock"></i></a>
+																<?php endif ?>
+																<?php if ($data['pamong_ttd'] == '1'): ?>
+																	<a href="<?= site_url("pengurus/ttd/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
+																<?php else: ?>
+																	<a href="<?= site_url("pengurus/ttd/$data[pamong_id]/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD a.n">a.n</a>
+																<?php endif ?>
+																<?php if ($data['pamong_ub'] == '1'): ?>
+																	<a href="<?= site_url("pengurus/ub/$data[pamong_id]/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD u.b">u.b</a>
+																<?php else: ?>
+																	<a href="<?= site_url("pengurus/ub/$data[pamong_id]/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD u.b">u.b</a>
+																<?php endif ?>
+															<?php endif; ?>
+														</td>
+													<?php endif; ?>
 													<td class="text-center">
 														<div class="user-panel">
 															<div class="image2">

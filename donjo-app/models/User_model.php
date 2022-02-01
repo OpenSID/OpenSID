@@ -706,6 +706,12 @@ class User_model extends CI_Model {
 	/*
 	 * Hak akses setiap controller.
 	*/
+
+	public function hak_akses_url($group, $url_modul, $akses)
+	{
+		return $this->hak_akses($group, $url_modul, $akses, $url_modul);
+	}
+
 	public function hak_akses($group, $url_modul, $akses, $pakai_url = false)
 	{
 		$controller = explode('/', $url_modul);

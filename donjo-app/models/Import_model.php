@@ -347,6 +347,7 @@ class Import_model extends CI_Model {
 		$hasil = $this->db->query($query, $isi_baris['no_kk']);
 		$res = $hasil->row_array();
 		$data['updated_by'] = $this->session->user;
+		$data['id_cluster'] = $isi_baris['id_cluster'];
 
 		if ( ! empty($res))
 		{

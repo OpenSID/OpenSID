@@ -28,7 +28,7 @@ a:hover { text-decoration: none; background-color: inherit; color: #0C9FD5; }
  * */
 
 body{
-  background: url('images/latar_website.jpg') no-repeat center fixed; /*gambar background */
+	background: url('images/latar_website.jpg') no-repeat center fixed; /*gambar background */
 	margin:0;
 	padding:0;
 	line-height: 1.5em;
@@ -1555,9 +1555,9 @@ blockquote p {
 
 /* Widget */
 #ul-menu {
-  list-style-type: none;
-  margin-left: 0px;
-  margin-bottom: 0px;
+	list-style-type: none;
+	margin-left: 0px;
+	margin-bottom: 0px;
 }
 
 /* Teks berjalan */
@@ -1651,4 +1651,70 @@ Warna Bar Realisasi
 	margin-left: 100px;
 }
 
+/* Lapak */
+.box-shadow {
+	box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
 
+.mb-4, .my-4 {
+	margin-bottom: 1.5rem!important;
+}
+
+.card {
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 1px solid rgba(0,0,0,.125);
+	border-radius: .25rem;
+}
+
+.card-img-top {
+	width: 100%;
+	border-top-left-radius: calc(.25rem - 1px);
+	border-top-right-radius: calc(.25rem - 1px);
+}
+
+.card-body {
+	-webkit-box-flex: 1;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+	padding: 1.25rem;
+}
+
+.card-text {
+	text-align: justify;
+}
+
+.align-items-center {
+	-webkit-box-align: center!important;
+	-ms-flex-align: center!important;
+	align-items: center!important;
+}
+
+.justify-content-between {
+	-webkit-box-pack: justify!important;
+	-ms-flex-pack: justify!important;
+	justify-content: space-between!important;
+}
+
+.d-flex {
+	display: -webkit-box!important;
+	display: -ms-flexbox!important;
+	display: flex!important;
+}
+
+
+
+/*img {
+	vertical-align: middle;
+	border-style: none;
+}*/

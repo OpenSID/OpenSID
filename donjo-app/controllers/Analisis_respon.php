@@ -161,6 +161,7 @@ class Analisis_respon extends Admin_Controller {
 
 	public function update_kuisioner($p=1, $o=0, $id='')
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_respon_model->update_kuisioner($id);
 		redirect("analisis_respon/kuisioner/$p/$o/$id");
 	}
@@ -179,6 +180,7 @@ class Analisis_respon extends Admin_Controller {
 
 	public function update_kuisioner_child($p=1, $o=0, $id='', $idc='')
 	{
+		$this->redirect_hak_akses('u');
 		$per = $this->analisis_respon_model->get_periode_child();
 		$this->analisis_respon_model->update_kuisioner($idc, $per);
 		redirect("analisis_respon/kuisioner/$p/$o/$id");
@@ -204,12 +206,14 @@ class Analisis_respon extends Admin_Controller {
 	}
 
 	public function import($op=0){
+		$this->redirect_hak_akses('u');
 		$data['form_action'] = site_url("analisis_respon/import_proses/$op");
 		$this->load->view('analisis_respon/import/import', $data);
 	}
 
 	public function import_proses($op=0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->analisis_respon_model->import_respon($op);
 		redirect('analisis_respon');
 	}
@@ -263,12 +267,14 @@ class Analisis_respon extends Admin_Controller {
 	}
 
 	public function form_impor_bdt(){
+		$this->redirect_hak_akses('u');
 		$data['form_action'] = site_url("analisis_respon/impor_bdt/");
 		$this->load->view('analisis_respon/import/impor_bdt', $data);
 	}
 
 	public function impor_bdt()
 	{
+		$this->redirect_hak_akses('u');
 		$this->load->model('bdt_model');
 		$this->bdt_model->impor();
 	}

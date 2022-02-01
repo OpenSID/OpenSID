@@ -48,45 +48,45 @@ class Job extends CI_Controller
 
     public function restore($database = null)
     {
+        $ip = 'IP : ' . $this->input->ip_address();
+
         if (! $this->input->is_cli_request()) {
             // echo 'Skrip ini hanya dapat diakses melalui baris perintah' . PHP_EOL;
-            log_message('error', 'Skrip ini hanya dapat diakses melalui baris perintah');
+            log_message('error', $ip . ' | Skrip ini hanya dapat diakses melalui baris perintah');
 
-            return;
+            show_404();
         }
 
         if (! config_item('demo_mode')) {
             // echo 'Skrip ini hanya dapat diakses melalui web demo' . PHP_EOL;
-            log_message('error', 'Skrip ini hanya dapat diakses melalui web demo');
-
-            return;
+            log_message('error', $ip . ' | Skrip ini hanya dapat diakses melalui web demo');
         }
 
+        delete_files(config_item('log_path'), true);
+        log_message('error', 'Mulai normalkan website demo');
+        log_message('error', 'Hapus folder logs');
+
+        // Kosongkan folder desa dan copy isi folder desa-contoh
         foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
             if ($folder != 'desa/config') {
                 delete_files(FCPATH . $folder, true);
-                xcopy("desa-contoh/{$folder}", "desa/{$folder}");
             }
         }
-
-        // echo '- Normalkan folder desa' . PHP_EOL;
-        log_message('error', '- Normalkan folder desa');
+        xcopy('desa-contoh', 'desa', ['config']);
+        log_message('error', 'Normalkan folder desa');
 
         // Proses Restore Database
-        // echo '- Proses Restore Database ';
-
         if ($this->export_model->proses_restore($this->cek_db($database))) {
-            // echo 'Berhasil' . PHP_EOL;
-            log_message('error', '- Proses Restore Database Berhasil');
+            log_message('error', 'Proses Restore Database Berhasil');
 
             // Proses migrasi database
-            // echo '- Proses Migrasi Database' . PHP_EOL;
-            log_message('error', '- Proses Migrasi Database');
+            log_message('error', 'Proses Migrasi Database');
             $this->database_model->migrasi_db_cri();
         } else {
-            // echo 'Gagal' . PHP_EOL;
-            log_message('error', '- Proses Restore Database Gagal');
+            log_message('error', 'Proses Restore Database Gagal');
         }
+
+        log_message('error', 'Selesai normalkan website demo');
     }
 
     private function cek_db($filename = null)

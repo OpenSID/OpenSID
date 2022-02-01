@@ -44,12 +44,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-define("VERSION", '22.01');
+define("VERSION", '22.02');
 /**
  * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
  * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
  */
-define('VERSI_DATABASE', '2022010101');
+define('VERSI_DATABASE', '2022020101');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -74,6 +74,7 @@ define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
 define("LOKASI_SISIPAN_DOKUMEN", 'assets/files/sisipan/');
 define("LOKASI_SINKRONISASI_ZIP", 'desa/upload/sinkronisasi/');
 define("PENDAPAT", 'assets/images/layanan_mandiri/');
+define("LOKASI_PRODUK", 'desa/upload/produk/');
 
 // Pengaturan Latar
 define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');
@@ -655,21 +656,31 @@ function get_external_ip()
 
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
-function xcopy($src, $dest)
+function xcopy($src = '', $dest = '', $exclude = [], $only = [])
 {
+    if (! file_exists($dest)) {
+        mkdir($dest, 0755, true);
+    }
+
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
-        if (!is_readable($srcfile)) {
+
+        if (! is_readable($srcfile) || ($exclude && in_array($file, $exclude))) {
             continue;
         }
+        
         if ($file != '.' && $file != '..') {
             if (is_dir($srcfile)) {
                 if (!file_exists($destfile)) {
                     mkdir($destfile);
                 }
-                xcopy($srcfile, $destfile);
+                xcopy($srcfile, $destfile, $exclude, $only);
             } else {
+                if ($only && ! in_array($file, $only)) {
+                    continue;
+                }
+
                 copy($srcfile, $destfile);
             }
         }
@@ -1078,4 +1089,37 @@ function kode_wilayah($kode_wilayah)
     $kode_desa = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
     $kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
     return $kode_standar;
+}
+
+// Dari 0892611042612 --> +6292611042612 untuk redirect WA
+function format_telpon(string $no_telpon, $kode_negara = '+62')
+{
+	$awalan = substr($no_telpon, 0, 2);
+
+	if ($awalan == "62") return '+' . $no_telpon;
+
+	return $kode_negara . substr($no_telpon, 1, strlen($no_telpon));
+}
+
+// https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
+function strReplaceArrayRecursive($replacement = array(), $strArray = false, $isReplaceKey = false)
+{
+    if ( ! is_array($strArray))
+    {
+        return str_replace(array_keys($replacement), array_values($replacement), $strArray);
+    }
+    else {
+        $newArr = array();
+        foreach ($strArray as $key=>$value)
+        {
+            $replacedKey = $key;
+            if ($isReplaceKey)
+            {
+                $replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
+            }
+            $newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
+        }
+
+        return $newArr;
+    }
 }

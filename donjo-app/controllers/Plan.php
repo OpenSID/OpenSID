@@ -108,6 +108,7 @@ class Plan extends Admin_Controller {
 
 	public function form($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
 		$data['o'] = $o;
 
@@ -156,6 +157,7 @@ class Plan extends Admin_Controller {
 
 	public function update_maps($p = 1, $o = 0, $id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_lokasi_model->update_position($id);
 		redirect("plan/index/$p/$o");
 	}
@@ -199,12 +201,14 @@ class Plan extends Admin_Controller {
 
 	public function insert($tip = 1)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_lokasi_model->insert($tip);
 		redirect("plan/index/$tip");
 	}
 
 	public function update($id = '', $p = 1, $o = 0)
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_lokasi_model->update($id);
 		redirect("plan/index/$p/$o");
 	}
@@ -225,12 +229,14 @@ class Plan extends Admin_Controller {
 
 	public function lokasi_lock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_lokasi_model->lokasi_lock($id, 1);
 		redirect("plan/index/$p/$o");
 	}
 
 	public function lokasi_unlock($id = '')
 	{
+		$this->redirect_hak_akses('u');
 		$this->plan_lokasi_model->lokasi_lock($id, 2);
 		redirect("plan/index/$p/$o");
 	}

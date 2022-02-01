@@ -1,4 +1,4 @@
-function generateTable(tabel, dataTable) {
+function generateTable(tabel, dataTable, ubah, hapus) {
 	$.ajax({
 		url  : 'load_data',
 		type: 'GET',
@@ -9,17 +9,16 @@ function generateTable(tabel, dataTable) {
 			var no;
 			var kode;
 			for (i=0; i<data.length; i++) {
-				kode = ($('#jenis').val() == '5.BELANJA') ? data[i].Kd_Keg : data[i].Kd_Rincian;
 				no = i+1;
 				html += '<tr>'+
 				'<td class="padat"><input type="checkbox" name="id_cb[]" value="'+data[i].id+'" /></td>'+
 				'<td class="padat">'+no+'</td>'+
-				'<td class="aksi">'+
-				'<a href="javascript:;" class="btn bg-orange btn-flat btn-sm item_edit" title="Ubah" data="'+data[i].id+'"><i class="fa fa-edit"></i></a>'+
-				'&nbsp'+
-				'<a href="#" data-href="delete_input/'+data[i].id+'" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>'+
-				'</td>'+
-				'<td>'+kode+'</td>'+
+				'<td class="aksi">'+ 
+					((ubah) ? '<a href="javascript:;" class="btn bg-orange btn-flat btn-sm item_edit" title="Ubah" data="'+data[i].id+'"><i class="fa fa-edit"></i></a>'+
+						'&nbsp' : '') + 
+					((hapus) ? '<a href="#" data-href="delete_input/'+data[i].id+'" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>'+
+						'</td>' : '') + '</td>'+			
+				'<td>'+(($('#jenis').val() == '5.BELANJA') ? data[i].Kd_Keg : data[i].Kd_Rincian)+'</td>'+
 				'<td class="rupiah">'+formatRupiah(data[i].Nilai_Anggaran)+'</td>'+
 				'<td class="rupiah">'+formatRupiah(data[i].Nilai_Realisasi)+'</td>'+
 				'</tr>';

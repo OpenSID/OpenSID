@@ -105,7 +105,8 @@ class Database_model extends CI_Model {
 		'21.10' => array('migrate' => 'migrasi_2110_ke_2111', 'nextVersion' => '21.11'),
 		'21.11' => array('migrate' => 'migrasi_2111_ke_2112', 'nextVersion' => '21.12'),
 		'21.12' => array('migrate' => 'migrasi_2112_ke_2201', 'nextVersion' => '22.01'),
-		'22.01' => array('migrate' => 'migrasi_2201_ke_2202', 'nextVersion' => NULL),
+		'22.01' => array('migrate' => 'migrasi_2201_ke_2202', 'nextVersion' => '22.02'),
+		'22.02' => array('migrate' => 'migrasi_2202_ke_2203', 'nextVersion' => NULL),
 	);
 
 	public function __construct()
@@ -3720,8 +3721,7 @@ class Database_model extends CI_Model {
 			"keuangan_manual_ref_bidang",
 			"keuangan_manual_ref_kegiatan",
 			"keuangan_manual_rinci_tpl",
-			"media_sosial", //?
-			"provinsi",
+			"media_sosial",
 			"ref_dokumen",
 			"ref_pindah",
 			"ref_syarat_surat",
@@ -3787,7 +3787,16 @@ class Database_model extends CI_Model {
 		$file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xls';
 		$this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis = 1);
 
-		$_SESSION['success'] = 1;
+		// Kosongkan folder desa dan copy isi folder desa-contoh
+		foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
+				if ($folder != 'desa/config') {
+						delete_files(FCPATH . $folder, true);
+				}
+		}
+
+		xcopy('desa-contoh', 'desa', ['config'], ['.htaccess', 'index.html', 'baca-ini.txt']);
+
+		$this->session->success = 1;
 	}
 
 	public function get_views()

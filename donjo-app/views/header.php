@@ -117,7 +117,7 @@
 		<script src="<?= base_url()?>assets/js/leaflet-providers.js"></script>
 		<script src="<?= base_url()?>assets/js/L.Control.Locate.min.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.markercluster.js"></script>
-		<script src="<?= base_url()?>assets/js/peta.js"></script>
+		<script src="<?= base_url('assets/js/peta.js')?>"></script>
 		<script src="<?= base_url()?>assets/js/leaflet-measure-path.js"></script>
 		<script src="<?= base_url()?>assets/js/apbdes_manual.js"></script>
 		<script src="<?= base_url()?>assets/js/mapbox-gl.js"></script>
@@ -161,16 +161,6 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
-							<?php if ($notif_langganan): ?>
-								<li>
-									<a href="<?= site_url('pelanggan'); ?>">
-										<span><i class="fa <?= $notif_langganan['ikon'] ?> fa-lg" title="Status Langganan <?= $notif_langganan['masa'] ?> hari" style="color: <?= $notif_langganan['warna'] ?>;"></i>&nbsp;</span>
-										<?php if ($notif_langganan['status'] > 2) : ?>
-											<span class="badge" id="b_langganan">!</span>
-										<?php endif; ?>
-									</a>
-								</li>
-							<?php endif; ?>
 							<?php if ($notif_langganan): ?>
 								<li>
 									<a href="<?= site_url('pelanggan'); ?>">
@@ -226,13 +216,20 @@
 									</li>
 									<li class="user-footer">
 										<div class="pull-left">
-											<a href="<?= site_url('user_setting'); ?>" data-remote="false" data-toggle="modal" data-tittle="Pengaturan Pengguna" data-target="#modalBox" class="btn bg-maroon btn-flat btn-sm">Profil</a>
+											<a href="<?= site_url('user_setting'); ?>" data-remote="false" data-toggle="modal" data-title="Pengaturan Pengguna" data-target="#modalBox" class="btn bg-maroon btn-flat btn-sm">Profil</a>
 										</div>
 										<div class="pull-right">
 											<a href="<?= site_url('siteman/logout'); ?>" class="btn bg-maroon btn-flat btn-sm">Keluar</a>
 										</div>
 									</li>
 								</ul>
+								<?php if (in_array($this->controller, array_column($this->list_setting, 'kategori')) && $this->CI->cek_hak_akses('u', $this->controller)): ?>
+									<li>
+										<a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan">
+											<span><i class="fa fa-gear"></i>&nbsp;</span>
+										</a>
+									</li>
+								<?php endif; ?>
 							</li>
 							<?php if ($this->controller == 'pelanggan' && $this->CI->cek_hak_akses('u', $this->controller)): ?>
 								<li>
@@ -248,11 +245,11 @@
 			<input id="success-code" type="hidden" value="<?= $_SESSION['success']?>">
 			<!-- Untuk menampilkan modal bootstrap umum -->
 			<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class='modal-dialog'>
-					<div class='modal-content'>
-						<div class='modal-header'>
-							<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
-							<h4 class='modal-title' id='myModalLabel'> Pengaturan Pengguna</h4>
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							<h4 class="modal-title" id="myModalLabel"></h4>
 						</div>
 						<div class="fetched-data"></div>
 					</div>
