@@ -217,7 +217,7 @@ class Mandiri_model extends CI_Model
 
     public function delete($id_pend = '', $semua = false)
     {
-        if (! $semua) {
+        if (!$semua) {
             $this->session->success = 1;
         }
 
@@ -341,7 +341,7 @@ class Mandiri_model extends CI_Model
     {
         //cek penduduk apakah sudah terdaftar di data kependudukan
         if (null !== ($penduduk = $this->cek_pendaftaran($data['nama'], $data['nik'], $data['tgl_lahir'], $data['kk']))) {
-            if (! $this->cek_layanan_mandiri($penduduk->id)) {
+            if (!$this->cek_layanan_mandiri($penduduk->id)) {
                 $data_penduduk['id'] = $penduduk->id;
                 $this->insert_daftar($data_penduduk, $data);
 
@@ -358,7 +358,7 @@ class Mandiri_model extends CI_Model
                     'pesan'  => 'untuk melengkapi pendaftaran Silahkan Verifikasi Email dan Telegram',
                     'aksi'   => site_url('/layanan-mandiri/daftar/verifikasi/telegram'), // TODO issue
                 ];
-            } elseif ($this->cek_layanan_mandiri($penduduk->id) && ! $this->otp_library->driver('telegram')->cek_verifikasi_otp($penduduk->id)) {
+            } elseif ($this->cek_layanan_mandiri($penduduk->id) && !$this->otp_library->driver('telegram')->cek_verifikasi_otp($penduduk->id)) {
                 $data_penduduk['id'] = $penduduk->id;
 
                 $session = [
@@ -481,7 +481,7 @@ class Mandiri_model extends CI_Model
             $this->session->error_msg = $this->upload->display_errors(null, null);
         }
 
-        return (! empty($uploadData)) ? $uploadData['file_name'] : null;
+        return (!empty($uploadData)) ? $uploadData['file_name'] : null;
     }
 
     //Login Layanan Mandiri
@@ -558,7 +558,7 @@ class Mandiri_model extends CI_Model
                     $this->session->set_userdata($session);
                     break;
 
-                case $data && ! $this->cek_anjungan && $tag == $data->tag_id_card && $pin == $data->pin:
+                case $data && !$this->cek_anjungan && $tag == $data->tag_id_card && $pin == $data->pin:
                     $session = [
                         'mandiri'    => 1,
                         'is_login'   => $data,
@@ -722,9 +722,17 @@ class Mandiri_model extends CI_Model
             case $data:
                 $pin_baru = $this->generate_pin();
 
-                $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru, $data->nama);
+                $this->db->trans_begin();
 
-                $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
+                try {
+                    $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru, $data->nama);
+
+                    $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
+                    $this->db->trans_commit();
+                } catch (\Exception $e) {
+                    log_message('error', $e);
+                    $this->db->trans_rollback();
+                }
 
                 $respon = [
                     'status' => 1, // Notif berhasil
