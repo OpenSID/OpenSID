@@ -1,6 +1,6 @@
-Di rilis ini, versi 22.01-premium-rev03 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.02-premium menyediakan fitur Pendaftaran pada Layanan Mandiri. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada @Irvan1609 yang baru mulai berkontribusi.
+Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan1609 dan @nurudin-fst yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 
