@@ -204,7 +204,7 @@
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</div>
-				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>">
+				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>" onchange="myFunction()">
 			</div>
 		</div>
 	</div>
@@ -603,8 +603,9 @@
 			<label for="hamil">Status Kehamilan </label>
 			<select class="form-control input-sm" name="hamil">
 				<option value="">Pilih Status Kehamilan</option>
-				<option value="0" <?php selected($penduduk['hamil'], '0'); ?>>Tidak Hamil</option>
-				<option value="1" <?php selected($penduduk['hamil'], '1'); ?>>Hamil</option>
+				<?php foreach ($kehamilan as $data) : ?>
+					<option value="<?= $data['id'] ?>" <?php selected($penduduk['hamil'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>

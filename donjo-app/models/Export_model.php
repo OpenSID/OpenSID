@@ -73,7 +73,7 @@ class Export_model extends CI_Model
         $kode_desa = kode_wilayah($desa->kode_desa);
 
         $data = $this->db->select([
-            'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id", ])
+            'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.status_dasar', 'p.suku', 'p.tag_id_card', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id", ])
             ->from('tweb_penduduk p')
             ->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
             ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
@@ -180,20 +180,104 @@ class Export_model extends CI_Model
         // Tabel dengan foreign key dan
         // semua views ditambah di belakang.
         $views = $this->database_model->get_views();
+
         // Urutan kedua view berikut perlu diubah karena bergantungan
         unset($views[array_search('daftar_anggota_grup', $views, true)], $views[array_search('daftar_kontak', $views, true)]);
 
         $views = array_merge($views, ['daftar_kontak', 'daftar_anggota_grup']);
 
+        // Cek tabel yang memiliki FK (SELECT DISTINCT TABLE_NAME FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = 'nama_database')
         // Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
-        $ada_foreign_key = ['suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'setting_aplikasi_options', 'log_penduduk', 'agenda',
-            'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota', 'log_keluarga', 'grup_akses', 'produk', ];
+        $ada_foreign_key = [
+            'suplemen_terdata',
+            'kontak',
+            'anggota_grup_kontak',
+            'mutasi_inventaris_asset',
+            'mutasi_inventaris_gedung',
+            'mutasi_inventaris_jalan',
+            'mutasi_inventaris_peralatan',
+            'mutasi_inventaris_tanah',
+            'disposisi_surat_masuk',
+            'tweb_penduduk_mandiri',
+            'setting_aplikasi_options',
+            'log_penduduk',
+            'agenda',
+            'syarat_surat',
+            'covid19_pemudik',
+            'covid19_pantau',
+            'kelompok_anggota',
+            'log_keluarga',
+            'grup_akses',
+            'produk',
+            'keuangan_ref_bank_desa',
+            'keuangan_ref_bel_operasional',
+            'keuangan_ref_bidang',
+            'keuangan_ref_bunga',
+            'keuangan_ref_desa',
+            'keuangan_ref_kecamatan',
+            'keuangan_ref_kegiatan',
+            'keuangan_ref_korolari',
+            'keuangan_ref_neraca_close',
+            'keuangan_ref_perangkat',
+            'keuangan_ref_potongan',
+            'keuangan_ref_rek1',
+            'keuangan_ref_rek2',
+            'keuangan_ref_rek3',
+            'keuangan_ref_rek4',
+            'keuangan_ref_sbu',
+            'keuangan_ref_sumber',
+            'keuangan_ta_anggaran',
+            'keuangan_ta_anggaran_log',
+            'keuangan_ta_anggaran_rinci',
+            'keuangan_ta_bidang',
+            'keuangan_ta_desa',
+            'keuangan_ta_jurnal_umum',
+            'keuangan_ta_jurnal_umum_rinci',
+            'keuangan_ta_kegiatan',
+            'keuangan_ta_mutasi',
+            'keuangan_ta_pajak',
+            'keuangan_ta_pajak_rinci',
+            'keuangan_ta_pemda',
+            'keuangan_ta_pencairan',
+            'keuangan_ta_perangkat',
+            'keuangan_ta_rab',
+            'keuangan_ta_rab_rinci',
+            'keuangan_ta_rab_sub',
+            'keuangan_ta_rpjm_bidang',
+            'keuangan_ta_rpjm_kegiatan',
+            'keuangan_ta_rpjm_misi',
+            'keuangan_ta_rpjm_pagu_indikatif',
+            'keuangan_ta_rpjm_pagu_tahunan',
+            'keuangan_ta_rpjm_sasaran',
+            'keuangan_ta_rpjm_tujuan',
+            'keuangan_ta_rpjm_visi',
+            'keuangan_ta_saldo_awal',
+            'keuangan_ta_spj',
+            'keuangan_ta_spj_bukti',
+            'keuangan_ta_spj_rinci',
+            'keuangan_ta_spj_sisa',
+            'keuangan_ta_spjpot',
+            'keuangan_ta_spp',
+            'keuangan_ta_spp_rinci',
+            'keuangan_ta_sppbukti',
+            'keuangan_ta_spppot',
+            'keuangan_ta_sts',
+            'keuangan_ta_sts_rinci',
+            'keuangan_ta_tbp',
+            'keuangan_ta_tbp_rinci',
+            'keuangan_ta_triwulan',
+            'keuangan_ta_triwulan_rinci',
+            'cdesa_penduduk',
+            'mutasi_cdesa',
+        ];
+
         $prefs = [
             'format' => 'sql',
             'tables' => $ada_foreign_key,
         ];
         $tabel_foreign_key = $this->do_backup($prefs);
-        $prefs             = [
+
+        $prefs = [
             'format'     => 'sql',
             'tables'     => $views,
             'add_drop'   => false,
@@ -202,13 +286,17 @@ class Export_model extends CI_Model
         $create_views = $this->do_backup($prefs);
 
         $backup = '';
+
         // Hapus semua views dulu
         foreach ($views as $view) {
             $backup .= 'DROP VIEW IF EXISTS ' . $view . ";\n";
         }
+
         // Hapus tabel dgn foreign key
-        foreach (array_reverse($ada_foreign_key) as $table) {
-            $backup .= 'DROP TABLE IF EXISTS ' . $table . ";\n";
+        if ($ada_foreign_key) {
+            foreach (array_reverse($ada_foreign_key) as $table) {
+                $backup .= 'DROP TABLE IF EXISTS ' . $table . ";\n";
+            }
         }
 
         // Semua views dan tabel dgn foreign key di-backup terpisah

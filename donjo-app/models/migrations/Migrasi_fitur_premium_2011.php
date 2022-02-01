@@ -76,7 +76,7 @@ class Migrasi_fitur_premium_2011 extends MY_model
         $hasil = $hasil && $this->db->delete('widget', ['isi' => 'layanan_mandiri.php']);
 
         // Tambah pencatatan anjungan
-        $modul = [
+        $hasil = $hasil && $this->tambah_modul([
             'id'         => '312',
             'modul'      => 'Anjungan',
             'url'        => 'anjungan',
@@ -87,8 +87,7 @@ class Migrasi_fitur_premium_2011 extends MY_model
             'parent'     => '14',
             'hidden'     => '0',
             'ikon_kecil' => '',
-        ];
-        $hasil = $hasil && $this->tambah_modul($modul);
+        ]);
 
         // Tabel anjungan
         if (! $this->db->table_exists('anjungan')) {

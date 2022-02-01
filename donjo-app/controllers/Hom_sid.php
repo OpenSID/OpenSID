@@ -48,7 +48,7 @@ class Hom_sid extends Admin_Controller
     public function index()
     {
         $this->load->library('parsedown');
-        $this->load->model(['surat_model', 'database_model']);
+        $this->load->model(['surat_model', 'database_model', 'mandiri_model']);
 
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
             $this->load->library('release');
@@ -81,9 +81,11 @@ class Hom_sid extends Admin_Controller
         $data['keluarga']     = $this->header_model->keluarga_total();
         $data['bantuan']      = $this->header_model->bantuan_total();
         $data['kelompok']     = $this->header_model->kelompok_total();
-        $data['rtm']          = count($this->rtm_model->list_data($page));
+        $data['rtm']          = $this->header_model->rtm_total();
         $data['dusun']        = $this->header_model->dusun_total();
+        $data['pendaftaran']  = $this->mandiri_model->jml_mandiri_non_aktif();
         $data['jumlah_surat'] = $this->surat_model->surat_total();
+
         $this->render('home/desa', $data);
     }
 

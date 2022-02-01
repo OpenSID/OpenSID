@@ -48,20 +48,18 @@ class Header_model extends CI_Model
     // Data penduduk yang digunakan untuk ditampilkan di Widget halaman dashbord (Home SID)
     public function penduduk_total()
     {
-        $sql   = 'SELECT COUNT(id) AS jumlah FROM tweb_penduduk WHERE status_dasar = 1';
-        $query = $this->db->query($sql);
-
-        return $query->result_array();
+        return $this->db
+            ->where('status_dasar', '1')
+            ->count_all_results('tweb_penduduk');
     }
 
     public function keluarga_total()
     {
-        return $this->db->select('COUNT(*) AS jumlah')
-            ->from('tweb_keluarga u')
+        return $this->db
             ->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'left')
             ->where('t.status_dasar', '1')
             ->where('t.kk_level', '1')
-            ->get()->result_array();
+            ->count_all_results('tweb_keluarga u');
     }
 
     public function bantuan_total()
@@ -94,26 +92,23 @@ class Header_model extends CI_Model
 
     public function kelompok_total()
     {
-        $sql   = 'SELECT COUNT(id) AS jumlah FROM kelompok';
-        $query = $this->db->query($sql);
-
-        return $query->result_array();
+        return $this->db->count_all_results('kelompok');
     }
 
     public function rtm_total()
     {
-        $sql   = 'SELECT COUNT(id) AS jumlah FROM tweb_penduduk WHERE rtm_level = 1';
-        $query = $this->db->query($sql);
-
-        return $query->result_array();
+        return $this->db
+            ->join('tweb_penduduk t', 'u.no_kk = t.id_rtm AND t.rtm_level = 1', 'left')
+            ->where('t.status_dasar', 1)
+            ->count_all_results('tweb_rtm u');
     }
 
     public function dusun_total()
     {
-        $sql   = "SELECT COUNT(id) AS jumlah FROM tweb_wil_clusterdesa WHERE rt = '0' AND rw = '0' ";
-        $query = $this->db->query($sql);
-
-        return $query->result_array();
+        return $this->db
+            ->where('rt', '0')
+            ->where('rw', '0')
+            ->count_all_results('tweb_wil_clusterdesa');
     }
 
     // ---

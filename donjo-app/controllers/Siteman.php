@@ -45,6 +45,8 @@ class Siteman extends MY_Controller
         siteman_timeout();
         $this->load->model('user_model');
         $this->load->model('theme_model');
+        $this->lang->load('passwords');
+        $this->load->library('Reset/Password', '', 'password');
     }
 
     public function index()
@@ -115,5 +117,90 @@ class Siteman extends MY_Controller
     {
         $this->user_model->logout();
         $this->index();
+    }
+
+    public function lupa_sandi()
+    {
+        $data['header']      = $this->config_model->get_data();
+        $data['latar_login'] = $this->theme_model->latar_login();
+
+        $this->load->view('lupa_sandi', $data);
+    }
+
+    public function kirim_lupa_sandi()
+    {
+        try {
+            $status = $this->password->driver('email')->sendResetLink([
+                'email' => $this->input->post('email'),
+            ]);
+        } catch (\Exception $e) {
+            log_message('error', $e);
+
+            $this->session->set_flashdata('notif', 'Tidak berhasil mengirim email, harap mencoba kembali.');
+
+            redirect('siteman/lupa_sandi');
+        }
+
+        $this->session->set_flashdata('notif', lang($status));
+
+        redirect('siteman/lupa_sandi');
+    }
+
+    public function reset_kata_sandi(string $token)
+    {
+        $data['header']      = $this->config_model->get_data();
+        $data['latar_login'] = $this->theme_model->latar_login();
+        $data['email']       = $this->input->get('email');
+        $data['token']       = $token;
+
+        $this->load->view('reset_kata_sandi', $data);
+    }
+
+    public function verifikasi_sandi()
+    {
+        $request = (object) $this->input->post();
+
+        if ($request->password !== $request->konfirmasi_password) {
+            $this->session->set_flashdata('notif', 'Bidang konfirmasi password tidak cocok dengan bidang password.');
+
+            redirect("siteman/reset_kata_sandi/{$request->token}?email={$request->email}");
+        }
+
+        try {
+            $status = $this->password->driver('email')->reset(
+                ['email' => $request->email, 'token' => $request->token, 'password' => $request->password],
+                function ($user, $password) {
+                    $this->db->where('id', $user->id)->update('user', ['password' => $this->generatePasswordHash($password)]);
+                }
+            );
+        } catch (\Exception $e) {
+            log_message('error', $e);
+
+            $this->session->set_flashdata('notif', 'Tidak berhasil memverifikasi kata sandi, silahkan coba kembali.');
+
+            redirect("siteman/reset_kata_sandi/{$request->token}?email={$request->email}");
+        }
+
+        $this->session->set_flashdata('notif', lang($status));
+
+        if ($status === 'reset') {
+            redirect('siteman');
+        } else {
+            redirect("siteman/reset_kata_sandi/{$request->token}?email={$request->email}");
+        }
+    }
+
+    protected function generatePasswordHash($string)
+    {
+        // Pastikan inputnya adalah string
+        $string = is_string($string) ? $string : (string) $string;
+        // Buat hash password
+        $pwHash = password_hash($string, PASSWORD_BCRYPT);
+        // Cek kekuatan hash, regenerate jika masih lemah
+        if (password_needs_rehash($pwHash, PASSWORD_BCRYPT)) {
+            $pwHash = password_hash($string, PASSWORD_BCRYPT);
+        }
+
+        return $pwHash;
     }
 }

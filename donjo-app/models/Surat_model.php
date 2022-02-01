@@ -229,7 +229,7 @@ class Surat_model extends CI_Model
 
     public function get_penduduk($id = 0)
     {
-        $sql = "SELECT u.id AS id, u.nama AS nama, u.sex as sex_id, x.nama AS sex, u.id_kk AS id_kk, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir, u.no_kk_sebelumnya, s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
+        $sql = "SELECT u.id AS id, u.nama AS nama, u.nik, u.sex as sex_id, x.nama AS sex, u.id_kk AS id_kk, u.tempatlahir AS tempatlahir, u.tanggallahir AS tanggallahir, u.no_kk_sebelumnya, s.nama as status, u.waktu_lahir, u.tempat_dilahirkan, u.jenis_kelahiran, u.kelahiran_anak_ke, u.penolong_kelahiran, u.berat_lahir, u.panjang_lahir, u.id_cluster,
 		(select (date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0) AS `(date_format(from_days((to_days(now()) - to_days(tweb_penduduk.tanggallahir))),'%Y') + 0)`
 		from tweb_penduduk where (tweb_penduduk.id = u.id)) AS umur,
 		w.nama AS status_kawin, f.nama AS warganegara,a.nama AS agama, d.nama AS pendidikan, j.nama AS pekerjaan, u.nik AS nik, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat,
@@ -971,6 +971,19 @@ class Surat_model extends CI_Model
             }
             $buffer = str_replace('[jabatan]', "{$input['jabatan']}", $buffer);
             $buffer = str_replace('[nama_pamong]', "{$input['pamong']}", $buffer);
+            $nip    = "{$input['pamong_nip']}";
+            if (strlen($nip) > 10) {
+                $pamong_nip = 'NIP: ' . $nip;
+            } else {
+                $sebutan_nip_desa = $this->setting->sebutan_nip_desa;
+                $pamong_niap      = "{$input['pamong_niap']}";
+                if (! empty($pamong_niap)) {
+                    $pamong_nip = $sebutan_nip_desa . ': ' . $pamong_niap;
+                } else {
+                    $pamong_nip = '';
+                }
+            }
+            $buffer = str_replace('NIP: [pamong_nip]', $pamong_nip, $buffer);
             $buffer = str_replace('[keterangan]', "{$input['keterangan']}", $buffer);
             if (isset($input['keperluan'])) {
                 $buffer = str_replace('[keperluan]', "{$input['keperluan']}", $buffer);

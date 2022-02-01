@@ -92,6 +92,7 @@
 															<th><a href="<?= site_url("man_user/index/{$cat}/{$p}/5")?>">Group <i class='fa fa-sort fa-sm'></i></a></th>
 														<?php endif; ?>
 														<th>Login Terakhir</th>
+														<th>Tanggal Verifikasi</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -127,7 +128,8 @@
 															<td><?=$data['username']?></td>
 															<td><?=$data['nama']?></td>
 															<td><?=$data['grup']?></td>
-															<td><?=tgl_indo($data['last_login'])?></td>
+															<td><?= tgl_indo($data['last_login']) ?></td>
+															<td><?= tgl_indo($data['email_verified_at']) ?></td>
 														</tr>
 													<?php endforeach; ?>
 												</tbody>

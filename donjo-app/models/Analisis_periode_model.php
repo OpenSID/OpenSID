@@ -185,12 +185,14 @@ class Analisis_periode_model extends MY_Model
 
             $data = $this->db->select(['id_subjek', 'id_indikator', 'id_parameter'])->where('id_periode', $sblm)->get('analisis_respon')->result_array();
 
-            for ($i = 0; $i < count($data); $i++) {
-                $data[$i]['id_periode'] = $skrg;
+            if ($data) {
+                for ($i = 0; $i < count($data); $i++) {
+                    $data[$i]['id_periode'] = $skrg;
+                }
+                $outp = $this->db->insert_batch('analisis_respon', $data);
+                $this->load->model('analisis_respon_model');
+                $this->analisis_respon_model->pre_update($skrg);
             }
-            $outp = $this->db->insert_batch('analisis_respon', $data);
-            $this->load->model('analisis_respon_model');
-            $this->analisis_respon_model->pre_update($skrg);
         }
 
         status_sukses($outp); //Tampilkan Pesan

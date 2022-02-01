@@ -97,7 +97,8 @@ class Database_model extends MY_Model
         '21.10'   => ['migrate' => 'migrasi_2110_ke_2111', 'nextVersion' => '21.11'],
         '21.11'   => ['migrate' => 'migrasi_2111_ke_2112', 'nextVersion' => '21.12'],
         '21.12'   => ['migrate' => 'migrasi_2112_ke_2201', 'nextVersion' => '22.01'],
-        '22.01'   => ['migrate' => 'migrasi_2201_ke_2202', 'nextVersion' => null],
+        '22.01'   => ['migrate' => 'migrasi_2201_ke_2202', 'nextVersion' => '22.02'],
+        '22.02'   => ['migrate' => 'migrasi_2202_ke_2203', 'nextVersion' => null],
     ];
 
     public function __construct()
@@ -3532,7 +3533,7 @@ class Database_model extends MY_Model
             'media_sosial',
             'ref_asal_tanah_kas',
             'ref_dokumen',
-            'ref_dokumen',
+            'ref_penduduk_hamil',
             'ref_peristiwa',
             'ref_persil_kelas', // Migrasi tambah data ref_peristiwa perlu dilakukan ulang (Migrasi_2007_ke_2008)
             'ref_persil_mutasi', // Migrasi tambah data ref_persil_kelas perlu dilakukan ulang (Migrasi_2007_ke_2008)

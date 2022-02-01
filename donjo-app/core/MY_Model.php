@@ -45,6 +45,7 @@ class MY_Model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->driver('cache');
     }
 
     // Konversi url menu menjadi slug tanpa mengubah data
@@ -200,7 +201,6 @@ class MY_Model extends CI_Model
         $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
 
         // Hapus cache menu navigasi
-        $this->load->driver('cache');
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
@@ -218,9 +218,14 @@ class MY_Model extends CI_Model
      */
     public function ubah_modul(int $id, array $modul)
     {
-        return $this->db->where('id', $id)
-            ->set($modul)
-            ->update('setting_modul');
+        $hasil = $this->db
+            ->where('id', $id)
+            ->update('setting_modul', $modul);
+
+        // Hapus cache menu navigasi
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
     }
 
     public function tambah_setting($setting)

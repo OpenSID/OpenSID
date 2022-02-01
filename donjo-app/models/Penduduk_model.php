@@ -150,9 +150,40 @@ class Penduduk_model extends MY_Model
     // Filter belum digunakan
     protected function hamil_sql()
     {
-        if (isset($this->session->hamil)) {
-            $kf = $this->session->hamil;
-            $this->db->where('u.hamil', $kf);
+        $kf = $this->session->hamil;
+
+        if ($kf) {
+            switch (true) {
+                case $kf == BELUM_MENGISI:
+                    $this->db->where('(u.hamil IS NULL)');
+                    break;
+
+                case $kf == JUMLAH:
+                    $this->db->where('u.hamil IS NOT NULL');
+                    break;
+
+                case $kf == TOTAL:
+                    break;
+
+                default:
+                    $this->db->where('u.hamil', $kf);
+                    break;
+            }
+
+            $this->db->where('u.sex', '2');
+        }
+    }
+
+    // Filter belum digunakan
+    protected function tag_id_card_sql()
+    {
+        $kf = $this->session->tag_id_card;
+        if (isset($kf)) {
+            if ($kf === '1') {
+                $this->db->where('u.tag_id_card !=', null);
+            } elseif ($kf === '2') {
+                $this->db->where('u.tag_id_card', null);
+            }
         }
     }
 
@@ -395,6 +426,7 @@ class Penduduk_model extends MY_Model
         $this->umur_sql(); // Kode 13, 15
         $this->akta_kelahiran_sql(); // Kode 17
         $this->hamil_sql(); // Filter blum digunakan
+        $this->tag_id_card_sql(); // Filter blum digunakan
         $this->nik_sementara_sql(); // NIK Sementara
     }
 
@@ -690,6 +722,7 @@ class Penduduk_model extends MY_Model
         $this->umur_sql(); // Kode 13, 15
         $this->akta_kelahiran_sql(); // Kode 17
         $this->hamil_sql(); // Filter blum digunakan
+        $this->tag_id_card_sql(); // Filter blum digunakan
 
         return $this->db->get()->result_array();
     }
@@ -735,7 +768,7 @@ class Penduduk_model extends MY_Model
         }
         // Status hamil tidak berlaku bagi laki-laki
         if ($data['sex'] == 1) {
-            $data['hamil'] = 0;
+            $data['hamil'] = null;
         }
         if (empty($data['kelahiran_anak_ke'])) {
             $data['kelahiran_anak_ke'] = null;
@@ -814,6 +847,11 @@ class Penduduk_model extends MY_Model
         }
         if (! empty($valid)) {
             $_SESSION['validation_error'] = true;
+        }
+
+        // Cek duplikasi Tag ID Card
+        if ($this->penduduk_model->cekTagIdCard($data['tag_id_card'], $id)) {
+            $valid[] = 'Tag ID Card sudah digunakan';
         }
 
         return $valid;
@@ -1588,6 +1626,10 @@ class Penduduk_model extends MY_Model
                 case 'suku':
                     $table = 'tweb_penduduk';
                     break;
+
+                case 'hamil':
+                    $table = 'ref_penduduk_hamil';
+                    break;
             }
 
             if ($tipe == 13 || $tipe == 17) {
@@ -1733,5 +1775,17 @@ class Penduduk_model extends MY_Model
         $desa = $this->config_model->get_data();
 
         return '0' . $desa['kode_desa'] . sprintf('%05d', $digit + 1);
+    }
+
+    public function cekTagIdCard($cek = null, $kecuali = null)
+    {
+        // Cek duplikasi Tag ID Card
+        if ($kecuali) {
+            $this->db->where('id !=', $kecuali);
+        }
+
+        $tag_id_card = $this->db->select('tag_id_card')->get_where('tweb_penduduk', ['tag_id_card !=' => null])->result_array();
+
+        return (bool) (in_array($cek, array_column($tag_id_card, 'tag_id_card')));
     }
 }

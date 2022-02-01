@@ -302,7 +302,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_pembangunan = $this->db->get('pembangunan')->result_array()) {
             foreach ($data_pembangunan as $pembangunan) {
-                $slug  = unique_slug('pembangunan', $pembangunan['judul']);
+                $slug  = unique_slug('pembangunan', $pembangunan['judul'], $pembangunan['id']);
                 $hasil = $hasil && $this->db->where('id', $pembangunan['id'])->update('pembangunan', ['slug' => $slug]);
             }
         }
@@ -397,7 +397,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_suplemen = $this->suplemen_model->list_data()) {
             foreach ($data_suplemen as $suplemen) {
-                $slug  = unique_slug('suplemen', $suplemen['nama']);
+                $slug  = unique_slug('suplemen', $suplemen['nama'], $suplemen['id']);
                 $hasil = $hasil && $this->db->where('id', $suplemen['id'])->update('suplemen', ['slug' => $slug]);
             }
         }
@@ -423,7 +423,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_kelompok = $this->kelompok_model->list_data()) {
             foreach ($data_kelompok as $kelompok) {
-                $slug  = unique_slug('kelompok', $kelompok['nama']);
+                $slug  = unique_slug('kelompok', $kelompok['nama'], $kelompok['id']);
                 $hasil = $hasil && $this->db->where('id', $kelompok['id'])->update('kelompok', ['slug' => $slug]);
             }
         }
