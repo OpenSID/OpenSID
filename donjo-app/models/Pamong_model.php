@@ -473,4 +473,10 @@ class Pamong_model extends CI_Model
             ->where("pamong_id in ({$list_id})")
             ->update('tweb_desa_pamong', $data);
     }
+
+    public function status_aktif()
+    {
+        $this->db->where('u.pamong_status', 1);
+        return $this;
+    }
 }
