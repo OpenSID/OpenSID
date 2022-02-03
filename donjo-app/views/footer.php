@@ -65,7 +65,7 @@
 							notify_msg = 'Data berhasil disimpan';
 						} else if ($('#success-code').val() == -1) {
 							notify = 'error';
-							notify_msg = 'Data gagal disimpan <?= addslashes($this->session->error_msg) ?>';
+							notify_msg = `Data gagal disimpan <?= addslashes($this->session->error_msg) ?>`;
 						} else if ($('#success-code').val() == -2) {
 							notify = 'error';
 							notify_msg = 'Data gagal disimpan, nama id sudah ada!';

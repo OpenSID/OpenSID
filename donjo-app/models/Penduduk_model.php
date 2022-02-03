@@ -753,7 +753,7 @@ class Penduduk_model extends MY_Model
         $data['cacat_id']           = $data['cacat_id'] ?: null;
         $data['sakit_menahun_id']   = $data['sakit_menahun_id'] ?: null;
         $data['kk_level']           = $data['kk_level'];
-        $data['email']              = strip_tags($data['email']);
+        $data['email']              = empty($data['email']) ? null : strip_tags($data['email']);
         $data['telegram']           = empty($data['telegram']) ? null : strip_tags($data['telegram']);
         if (empty($data['id_asuransi']) || $data['id_asuransi'] == 1) {
             $data['no_asuransi'] = null;
@@ -844,6 +844,33 @@ class Penduduk_model extends MY_Model
         }
         if ($error_nik = $this->nik_error($data['ibu_nik'], 'NIK Ibu')) {
             $valid[] = $error_nik;
+        }
+
+        //cek email duplikat
+        if (isset($data['email'])) {
+            $existing_data = $this->db
+                ->select('email')
+                ->from('tweb_penduduk')
+                ->where('email', $data['email'])
+                // ->where('email <>', 0)
+                ->limit(1)->get()->row();
+
+            if ($existing_data) {
+                $valid[] = "Email {$data['email']} sudah digunakan";
+            }
+        }
+
+        //cek telegram duplikat
+        if (isset($data['telegram'])) {
+            $existing_data = $this->db
+                ->select('telegram')
+                ->from('tweb_penduduk')
+                ->where('telegram', $data['telegram'])
+                ->limit(1)->get()->row();
+
+            if ($existing_data) {
+                $valid[] = "Telegram {$data['telegram']} sudah digunakan";
+            }
         }
         if (! empty($valid)) {
             $_SESSION['validation_error'] = true;

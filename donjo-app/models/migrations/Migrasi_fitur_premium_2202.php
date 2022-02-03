@@ -347,7 +347,22 @@ class Migrasi_fitur_premium_2202 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', $fields);
         }
 
-        return $hasil;
+        $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk', [
+            'email' => ['type' => 'varchar', 'constraint' => 100, 'null' => true],
+        ]);
+
+        foreach ($this->db->get_where('tweb_penduduk', ['email' => ''])->result_object() as $row) {
+            $penduduk[] = [
+                'id'    => $row->id,
+                'email' => null,
+            ];
+        }
+
+        if ($penduduk) {
+            $hasil = $hasil && $this->db->update_batch('tweb_penduduk', $penduduk, 'id');
+        }
+
+        return $hasil && $this->tambah_indeks('tweb_penduduk', 'email');
     }
 
     protected function migrasi_2022012071($hasil)
@@ -413,6 +428,22 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
     protected function migrasi_2022012751($hasil)
     {
+        $hasil = $hasil && $this->dbforge->modify_column('user', [
+            'email'    => ['type' => 'varchar', 'constraint' => 100, 'null' => true],
+            'username' => ['type' => 'varchar', 'constraint' => 100, 'null' => true],
+        ]);
+
+        foreach ($this->db->get_where('user', ['email' => ''])->result_object() as $row) {
+            $users[] = [
+                'id'    => $row->id,
+                'email' => null,
+            ];
+        }
+
+        if ($users) {
+            $hasil = $hasil && $this->db->update_batch('user', $users, 'id');
+        }
+
         $hasil = $hasil && $this->tambah_indeks('user', 'username');
 
         return $hasil && $this->tambah_indeks('user', 'email');
