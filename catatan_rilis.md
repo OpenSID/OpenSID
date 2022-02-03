@@ -1,14 +1,11 @@
-Catatan Pra Rilis Tema Natra Versi 4.6, sbb:
+Catatan Pra Rilis Tema Natra Versi 4.7, sbb:
 
-1. Tambahkan halaman pembangunan.
-2. Sesuaikan tampilan peta lokasi pada web lapak.
-3. Sederhanakan paging.
-4. Sesuaikan route dan tampilan wilayah.
-5. Sesuaikan tampilan covid desa.
-6. Sesuaikan tampilan analisis.
-7. Perbaiki tampilan slider lapak.
+1. Tambahkan tombol share pada detail pembangunan.
+2. Gunakan slug pada detail pembangunan.
+3. Sesuaikan tampilan detail pembangunan.
+4. Sesuaikan halaman galeri.
 
-Support OpenSID 21.11-premium
+Support OpenSID 21.12-premium
 
 
 ****************************************************************

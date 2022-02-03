@@ -1,4 +1,4 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <script type="text/javascript">
 	let chart;
@@ -202,7 +202,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat);?>
+				<?php $i=0; $l=0; $p=0; $hide=""; $h=0; $jm1=1; $jm = count($stat); ?>
 				<?php foreach ($stat as $data):?>
 					<?php $jm1++; if (1):?>
 						<?php $h++; if ($h > 12 AND $jm > 10): $hide="lebih"; ?>

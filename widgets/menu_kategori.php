@@ -1,4 +1,4 @@
-<!-- widget Kategori-->
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_bottom_rightbar">
 	<h2> Kategori</h2>
@@ -6,7 +6,7 @@
 		<?php foreach($menu_kiri as $data):?>
 			<li>
 				<a href="<?= site_url("artikel/kategori/$data[slug]"); ?>">
-					<?= $data['kategori']; ?><?php (count($data['submenu'])>0) and print('<span class="caret"></span>');?>
+					<?= $data['kategori']; ?><?php (count($data['submenu'])>0) and print('<span class="caret"></span>'); ?>
 				</a>
 				<?php if(count($data['submenu'])>0): ?>
 					<ul class="nav submenu">
