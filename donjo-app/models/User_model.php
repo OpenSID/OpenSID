@@ -368,7 +368,7 @@ class User_model extends CI_Model
     {
         $data             = [];
         $data['password'] = $post['password'];
-        if (isset($post['username'])) {
+        if (isset($post['username']) && ! empty($post['username'])) {
             $data['username'] = alfanumerik($post['username']);
         }
         if (isset($post['nama'])) {
@@ -377,7 +377,7 @@ class User_model extends CI_Model
         if (isset($post['email'])) {
             $data['phone'] = htmlentities($post['phone']);
         }
-        if (isset($post['username'])) {
+        if (isset($post['email']) && ! empty($post['email'])) {
             $data['email'] = htmlentities($post['email']);
         }
         if (isset($post['id_grup'])) {

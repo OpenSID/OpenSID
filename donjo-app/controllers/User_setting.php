@@ -104,7 +104,7 @@ class User_setting extends Admin_Controller
         if ($user->email_verified_at !== null) {
             $this->session->success = 1;
 
-            return redirect('hom_sid');
+            return redirect('siteman');
         }
 
         try {
@@ -117,7 +117,7 @@ class User_setting extends Admin_Controller
             $this->session->success   = -1;
             $this->session->error_msg = 'Tidak berhasil mengirim verifikasi email';
 
-            return redirect('hom_sid');
+            return redirect('siteman');
         }
 
         if ($status === 'verify') {
@@ -127,7 +127,7 @@ class User_setting extends Admin_Controller
             $this->session->error_msg = lang($status);
         }
 
-        return redirect('hom_sid');
+        return redirect('siteman');
     }
 
     public function verifikasi(string $hash)
@@ -137,7 +137,7 @@ class User_setting extends Admin_Controller
         if ($user->email_verified_at !== null) {
             $this->session->success = 1;
 
-            return redirect('hom_sid');
+            return redirect('siteman');
         }
 
         // Check if hash equal with current user email.
@@ -145,7 +145,7 @@ class User_setting extends Admin_Controller
             $this->session->success   = -1;
             $this->session->error_msg = lang('token');
 
-            return redirect('hom_sid');
+            return redirect('siteman');
         }
 
         $signature = hash_hmac('sha256', $user->email, config_item('encryption_key'));
@@ -155,7 +155,7 @@ class User_setting extends Admin_Controller
             $this->session->success   = -1;
             $this->session->error_msg = lang('token');
 
-            return redirect('hom_sid');
+            return redirect('siteman');
         }
 
         // Check for token if expired
@@ -163,13 +163,13 @@ class User_setting extends Admin_Controller
             $this->session->success   = -1;
             $this->session->error_msg = lang('expired');
 
-            return redirect('hom_sid');
+            return redirect('siteman');
         }
 
         $this->db->where('id', $this->session->user)->update('user', ['email_verified_at' => date('Y-m-d H:i:s')]);
 
         $this->session->success = 1;
 
-        return redirect('hom_sid');
+        return redirect('siteman');
     }
 }

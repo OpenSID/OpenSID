@@ -134,7 +134,7 @@ class Man_user extends Admin_Controller
         if ($this->form_validation->run() !== true) {
             $this->session->success   = -1;
             $this->session->error_msg = trim(validation_errors());
-            redirect("man_user/form/{$p}/{$o}");
+            redirect('man_user/form');
         } else {
             $this->user_model->insert();
             redirect('man_user');
@@ -146,6 +146,8 @@ class Man_user extends Admin_Controller
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->form_validation->set_error_delimiters('', '');
+        $this->form_validation->set_rules('username', 'Username', 'is_unique[user.username]');
+        $this->form_validation->set_rules('email', 'Email', 'is_unique[user.email]');
         $this->form_validation->set_rules('password', 'Kata Sandi Baru', 'required|callback_syarat_sandi');
         $this->form_validation->set_message('syarat_sandi', 'Harus 6 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil');
     }
