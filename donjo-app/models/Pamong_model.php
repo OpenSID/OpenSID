@@ -477,6 +477,7 @@ class Pamong_model extends CI_Model
     public function status_aktif()
     {
         $this->db->where('u.pamong_status', 1);
+
         return $this;
     }
 }
