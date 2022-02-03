@@ -44,6 +44,79 @@ class Migrasi_fitur_premium_2203 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
+
+        return $hasil && $this->migrasi_2022020151($hasil);
+    }
+
+    protected function migrasi_2022020151($hasil)
+    {
+        if ($this->db->field_exists('anggaran', 'pembangunan')) {
+            $fields = [
+                'anggaran' => [
+                    'type'    => 'bigint',
+                    'default' => 0,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('pembangunan', $fields);
+        }
+
+        if ($this->db->field_exists('sumber_biaya_pemerintah', 'pembangunan')) {
+            $fields = [
+                'sumber_biaya_pemerintah' => [
+                    'type'    => 'bigint',
+                    'default' => 0,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('pembangunan', $fields);
+        }
+
+        if ($this->db->field_exists('sumber_biaya_provinsi', 'pembangunan')) {
+            $fields = [
+                'sumber_biaya_provinsi' => [
+                    'type'    => 'bigint',
+                    'default' => 0,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('pembangunan', $fields);
+        }
+
+        if ($this->db->field_exists('sumber_biaya_kab_kota', 'pembangunan')) {
+            $fields = [
+                'sumber_biaya_kab_kota' => [
+                    'type'    => 'bigint',
+                    'default' => 0,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('pembangunan', $fields);
+        }
+
+        if ($this->db->field_exists('sumber_biaya_swadaya', 'pembangunan')) {
+            $fields = [
+                'sumber_biaya_swadaya' => [
+                    'type'    => 'bigint',
+                    'default' => 0,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('pembangunan', $fields);
+        }
+
+        if ($this->db->field_exists('sumber_biaya_jumlah', 'pembangunan')) {
+            $fields = [
+                'sumber_biaya_jumlah' => [
+                    'type'    => 'bigint',
+                    'default' => 0,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('pembangunan', $fields);
+        }
+
+        return $hasil;
     }
 }

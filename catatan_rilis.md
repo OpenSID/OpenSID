@@ -7,5 +7,6 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 #### Perbaikan BUG
 
 1. [#4825](https://github.com/OpenSID/OpenSID/issues/4825) Perbaiki info media sosial tidak muncul di halaman utama.
+2. [#4793](https://github.com/OpenSID/OpenSID/issues/4793) Perbaiki input data pembangunan alokasi anggaran 10 digit atau ada sebab lain.
 
 #### Perubahan Teknis
