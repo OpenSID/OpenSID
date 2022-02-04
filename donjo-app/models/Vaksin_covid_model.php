@@ -363,6 +363,9 @@ class Vaksin_covid_model extends MY_Model
             $this->umur_sql($umur);
         }
 
+        //ORDER BERDASARKAN DUSUN
+        $this->db->order_by('ck.dusun', 'asc');
+
         return $this->db->get("{$this->tabel_penduduk} as p")->result();
     }
 }
