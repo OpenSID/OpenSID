@@ -64,7 +64,7 @@ class Identitas_desa extends Admin_Controller
         $data['desa']              = ucwords($this->setting->sebutan_desa);
         $data['kecamatan']         = ucwords($this->setting->sebutan_kecamatan);
         $data['kabupaten']         = ucwords($this->setting->sebutan_kabupaten);
-        $data['pamong']            = $this->pamong_model->list_data();
+        $data['pamong']            = $this->pamong_model->status_aktif()->list_data();
         $this->session->kades_lama = $data['main']['pamong_id'];
 
         if ($data['main']) {
