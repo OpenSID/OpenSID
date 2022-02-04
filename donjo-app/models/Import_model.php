@@ -258,7 +258,7 @@ class Import_model extends CI_Model
         if ($isi_baris['cara_kb_id'] != '' && ! ($isi_baris['cara_kb_id'] >= 1 && $isi_baris['cara_kb_id'] <= 8) && $isi_baris['cara_kb_id'] != '99') {
             return 'kode cara_kb ' . $isi_baris['cara_kb_id'] . '  tidak dikenal';
         }
-        if ($isi_baris['hamil'] != '' && ! ($isi_baris['hamil'] >= 0 && $isi_baris['hamil'] <= 1)) {
+        if ($isi_baris['hamil'] != '' && ! ($isi_baris['hamil'] >= 1 && $isi_baris['hamil'] <= 2)) {
             return 'kode hamil ' . $isi_baris['hamil'] . '  tidak dikenal';
         }
         if ($isi_baris['ktp_el'] != '' && ! ($isi_baris['ktp_el'] >= 1 && $isi_baris['ktp_el'] <= 2)) {

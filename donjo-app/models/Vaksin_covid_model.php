@@ -368,4 +368,29 @@ class Vaksin_covid_model extends MY_Model
 
         return $this->db->get("{$this->tabel_penduduk} as p")->result();
     }
+
+    public function autocomplete($cari = '')
+    {
+        $sql_kolom  = [];
+        $list_kolom = [
+            'nama' => $this->tabel_penduduk,
+            'nik' => $this->tabel_penduduk,
+        ];
+
+        foreach ($list_kolom as $kolom => $tabel) {
+            $this->db->select($kolom . ' as item')
+                ->distinct()->from($tabel)
+                ->order_by('item');
+            if ($cari) {
+                $this->db->like($kolom, $cari);
+            }
+            $sql_kolom[] = $this->db->get_compiled_select();
+        }
+
+        $sql = '(' . implode(') UNION (', $sql_kolom) . ')';
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
+
+        return autocomplete_data_ke_str($data);
+    }
 }

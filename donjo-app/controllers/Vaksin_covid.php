@@ -66,6 +66,7 @@ class Vaksin_covid extends Admin_Controller
     public function search()
     {
         $cari = $this->input->post('cari');
+
         if ($cari != '') {
             $this->session->cari = $cari;
         } else {
@@ -95,6 +96,7 @@ class Vaksin_covid extends Admin_Controller
             'list_vaksin'  => $this->vaksin_covid_model->jenis_vaksin(),
             'paging'       => $this->vaksin_covid_model->paging($p),
             'per_page'     => $this->session->per_page,
+            'cari' => $this->session->cari,
             'func'         => 'index',
             'p'            => $p,
             'selected_nav' => 'daftar',
@@ -246,5 +248,11 @@ class Vaksin_covid extends Admin_Controller
         }
 
         return $rekap;
+    }
+
+    public function autocomplete()
+    {
+        $data = $this->vaksin_covid_model->autocomplete($this->input->post('cari'));
+        $this->json_output($data);
     }
 }
