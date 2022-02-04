@@ -3,6 +3,7 @@ Di rilis ini, versi 22.02-premium-rev01 menyediakan fitur Pendaftaran pada Layan
 Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan1609 dan @nurudin-fst yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
+1. [#4803](https://github.com/OpenSID/OpenSID/issues/4803) Default no telpon pengguna saat buat surat di layanan mandiri.
 
 #### Perbaikan BUG
 
