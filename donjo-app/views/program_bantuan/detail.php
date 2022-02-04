@@ -1,12 +1,3 @@
-<script>
-	$(function() {
-		var keyword = <?= $keyword != '' ? $keyword : '""' ?> ;
-		$("#cari").autocomplete( {
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
 <?php $detail = $program[0]; ?>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -189,7 +180,15 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		$(window).on('load', function() {
+		$(document).ready(function() {
+			$('#cari').focus();
+
+			var keyword = <?= $keyword ?> ;
+			$("#cari").autocomplete( {
+				source: keyword,
+				maxShowItems: 10,
+			});
+
 			$('#notif-box').modal('show');
 		});
 	</script>

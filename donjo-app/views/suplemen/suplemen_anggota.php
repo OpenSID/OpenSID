@@ -43,16 +43,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
  */
 ?>
 
-<script>
-	$(function() {
-		var keyword = <?= $keyword?> ;
-		$( "#cari" ).autocomplete( {
-			source: keyword,
-			maxShowItems: 10,
-		});
-	});
-</script>
-
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Daftar Terdata Suplemen</h1>
@@ -166,7 +156,16 @@ defined('BASEPATH') || exit('No direct script access allowed');
 <?php $this->load->view('global/confirm_delete'); ?>
 <?php $this->load->view('suplemen/impor'); ?>
 <script type="text/javascript">
-	$(".btn-import").click(function() {
-		$("#id_suplemen").val($("#data-id").html());
+	$(document).ready(function() {
+
+		var keyword = <?= $keyword ?> ;
+		$( "#cari" ).autocomplete( {
+			source: keyword,
+			maxShowItems: 10,
+		});
+
+		$(".btn-import").click(function() {
+			$("#id_suplemen").val($("#data-id").html());
+		});
 	});
 </script>
