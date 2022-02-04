@@ -8,6 +8,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 3. [#4730](https://github.com/OpenSID/OpenSID/issues/4730) Urutan Nama Dusun Belum ter-Urut tampil pada menu cetak/rekap laporan Fitur Pendataan Vaksin.
 4. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penambahan autocomplete pada pencarian daftar penerima vaksin. 
 5. [#4589](https://github.com/OpenSID/OpenSID/issues/4589) Pencarian berdasarkan tagIdCard pada suplemen dan program bantuan.
+6. [#4814](https://github.com/OpenSID/OpenSID/issues/4814) Informasi halaman home untuk jumlah data kelompok hanya untuk yang ketua nya masih hidup.
 
 #### Perbaikan BUG
 
