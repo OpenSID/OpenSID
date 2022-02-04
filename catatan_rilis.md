@@ -4,6 +4,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 
 #### Penambahan Fitur
 1. [#4803](https://github.com/OpenSID/OpenSID/issues/4803) Default no telpon pengguna saat buat surat di layanan mandiri.
+2. [#4730](https://github.com/OpenSID/OpenSID/issues/4730) Urutan Nama Dusun Belum ter-Urut tampil pada menu cetak/rekap laporan Fitur Pendataan Vaksin.
 
 #### Perbaikan BUG
 
