@@ -6,6 +6,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 1. [#4803](https://github.com/OpenSID/OpenSID/issues/4803) Default no telpon pengguna saat buat surat di layanan mandiri.
 2. [#4767](https://github.com/OpenSID/OpenSID/issues/4767) Hanya tampilkan daftar Perangkat Desa yang aktif saat pilih Kepala Desa di Identitas Desa.
 3. [#4730](https://github.com/OpenSID/OpenSID/issues/4730) Urutan Nama Dusun Belum ter-Urut tampil pada menu cetak/rekap laporan Fitur Pendataan Vaksin.
+4. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penambahan autocomplete pada pencarian daftar penerima vaksin.
 
 #### Perbaikan BUG
 

@@ -63,7 +63,7 @@
 									</div>
 									<div class="col-sm-4">
 										<div class="input-group input-group-sm pull-right">
-											<input name="cari" id="cari" class="form-control ui-autocomplete-input" placeholder="Cari..." type="text" value="" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url($this->controller . '/search'); ?>');$('#mainform').submit();}" autocomplete="off">
+											<input name="cari" id="cari" class="form-control ui-autocomplete-input" placeholder="Cari..." type="text" value="<?= html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url($this->controller . '/search'); ?>');$('#'+'mainform').submit();}" autocomplete="off">
 											<div class="input-group-btn">
 												<button type="button" class="btn btn-default" onclick="$('#mainform').attr('action', '<?= site_url($this->controller) ?>/search');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 											</div>
@@ -256,6 +256,24 @@
 
 			$("#formbox1").html(temp);
 		})
+
+		$( "#cari" ).autocomplete({
+			source: function( request, response ) {
+				$.ajax( {
+					type: "POST",
+					url: `${SITE_URL}vaksin_covid/autocomplete`,
+					dataType: "json",
+					data: {
+						cari: request.term
+					},
+					success: function( data ) {
+						response( JSON.parse( data ));
+						csrf_semua_form();
+					}
+				} );
+			},
+			minLength: 2,
+		});
 	});
 </script>
 
