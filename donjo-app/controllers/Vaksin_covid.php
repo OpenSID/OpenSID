@@ -96,7 +96,7 @@ class Vaksin_covid extends Admin_Controller
             'list_vaksin'  => $this->vaksin_covid_model->jenis_vaksin(),
             'paging'       => $this->vaksin_covid_model->paging($p),
             'per_page'     => $this->session->per_page,
-            'cari' => $this->session->cari,
+            'cari'         => $this->session->cari,
             'func'         => 'index',
             'p'            => $p,
             'selected_nav' => 'daftar',

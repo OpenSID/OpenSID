@@ -374,7 +374,7 @@ class Vaksin_covid_model extends MY_Model
         $sql_kolom  = [];
         $list_kolom = [
             'nama' => $this->tabel_penduduk,
-            'nik' => $this->tabel_penduduk,
+            'nik'  => $this->tabel_penduduk,
         ];
 
         foreach ($list_kolom as $kolom => $tabel) {
@@ -387,7 +387,7 @@ class Vaksin_covid_model extends MY_Model
             $sql_kolom[] = $this->db->get_compiled_select();
         }
 
-        $sql = '(' . implode(') UNION (', $sql_kolom) . ')';
+        $sql   = '(' . implode(') UNION (', $sql_kolom) . ')';
         $query = $this->db->query($sql);
         $data  = $query->result_array();
 
