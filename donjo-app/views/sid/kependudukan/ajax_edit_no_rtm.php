@@ -11,10 +11,6 @@
 							<label for="rtm_nomor">Nomor Rumah Tangga</label>
 							<input id="no_kk" name="no_kk" class="form-control input-sm digits required" type="text" placeholder="Nomor Rumah Tangga" value="<?= $kk['no_kk']?>" ></input>
 						</div>
-						<div class="form-group">
-							<label for="rtm_nomor">Nomor Rumah</label>
-							<input id="no_rumah" name="no_rumah" class="form-control input-sm digits required" type="text" placeholder="Nomor Rumah" value="<?= $kk['no_rumah']?>" ></input>
-						</div>
 					</div>
 				</div>
 			</div>
