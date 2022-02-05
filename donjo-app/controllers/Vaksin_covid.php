@@ -123,11 +123,20 @@ class Vaksin_covid extends Admin_Controller
         $this->render('covid19/vaksin/form', $data);
     }
 
-    public function berkas($id_penduduk, $vaksin_ke, $form = false)
+    public function tampil_sertifikat($id_penduduk)
+    {
+        $data = [
+            'penduduk' => $this->vaksin_covid_model->data_penduduk($id_penduduk),
+        ];
+
+        $this->render('covid19/vaksin/sertifkat', $data);
+    }
+
+    public function berkas($id_penduduk, $vaksin_ke, $form = false, $tampil = false)
     {
         $data = $this->vaksin_covid_model->data_penduduk($id_penduduk);
         $url  = $this->controller . '/vaksin_covid/' . ($form) ?: "form?terdata={$id_penduduk}";
-        ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN);
+        ambilBerkas($data->{$vaksin_ke}, $url, null, LOKASI_VAKSIN, $tampil);
     }
 
     public function update()
