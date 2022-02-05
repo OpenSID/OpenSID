@@ -92,7 +92,10 @@ class Header_model extends CI_Model
 
     public function kelompok_total()
     {
-        return $this->db->count_all_results('kelompok');
+        return $this->db
+            ->join('tweb_penduduk t', 'u.id_ketua = t.id', 'left')
+            ->where('t.status_dasar', 1)
+            ->count_all_results('kelompok u');
     }
 
     public function rtm_total()

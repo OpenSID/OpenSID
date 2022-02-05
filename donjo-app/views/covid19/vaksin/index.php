@@ -63,7 +63,7 @@
 									</div>
 									<div class="col-sm-4">
 										<div class="input-group input-group-sm pull-right">
-											<input name="cari" id="cari" class="form-control ui-autocomplete-input" placeholder="Cari..." type="text" value="" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url($this->controller . '/search'); ?>');$('#mainform').submit();}" autocomplete="off">
+											<input name="cari" id="cari" class="form-control ui-autocomplete-input" placeholder="Cari..." type="text" value="<?= html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url($this->controller . '/search'); ?>');$('#'+'mainform').submit();}" autocomplete="off">
 											<div class="input-group-btn">
 												<button type="button" class="btn btn-default" onclick="$('#mainform').attr('action', '<?= site_url($this->controller) ?>/search');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 											</div>
@@ -115,7 +115,7 @@
 																		<?php endif ?>
 																	</ul>
 																</div>
-																<button class="btn bg-blue btn-flat btn-sm tampil" type="button" title="Tampilkan" data-target="#modalBox1" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-nik="<?= $data->nik ?>" data-nama="<?= $data->nama ?>" data-tunda="<?= $data->tunda ?>" data-v1="<?= $data->dokumen_vaksin_1 ?>" data-v2="<?= $data->dokumen_vaksin_2 ?>" data-v3="<?= $data->dokumen_vaksin_3 ?>" data-surat_dokter="<?= $data->surat_dokter ?>" data-idpenduduk="<?= $data->id_penduduk ?>" ><i class="fa fa-eye"></i></button>
+																<a href="<?= site_url($this->controller . "/tampil_sertifikat/{$data->id_penduduk}"); ?>" class="btn bg-blue btn-flat btn-sm tampil" title="Tampilkan"><i class="fa fa-eye"></i></a>
 															</td>
 															<td class="padat"><?= $data->nik ?></td>
 															<td><?= $data->nama ?></td>
@@ -167,108 +167,27 @@
 
 		$("#tabel-data tbody tr").each(function(index, el) {
 			if ($(el).find('button.unduh').parent().find('li').length == 0) {
-				$(el).find('button.unduh').addClass('disabled')
-				$(el).find('button.tampil').prop('disabled', 'true')
+				$(el).find('button.unduh').addClass('disabled');
+				$(el).find('a.tampil').addClass('disabled');
 			}
 		});
 
-		$('#modalBox1').on('show.bs.modal', function (event) {
- 			var button = $(event.relatedTarget); // Button that triggered the modal
-			var nama = button.data('nama');
-			var nik = button.data('nik');
-			var tunda = button.data('tunda');
-			var v1 = button.data('v1');
-			var v2 = button.data('v2');
-			var v3 = button.data('v3');
-			var tunda = button.data('tunda');
-			var surat = button.data('surat_dokter');
-			var idpenduduk = button.data('idpenduduk');
-			var url = `${SITE_URL}vaksin_covid/berkas/${idpenduduk}`;
-			var temp = `
-				<div class="form-group">
-					<label for="nama" class="col-sm-3 control-label">Nama</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control input-sm pull-right" name="nama" value="${nama}" readonly>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="NIK" class="col-sm-3 control-label">NIK</label>
-					<div class="col-sm-8">
-						<input type="text" class="form-control input-sm pull-right" name="NIK" value="${nik}" readonly>
-					</div>
-				</div>
-				`;
-
-			if (tunda == 1 ) {
-				if (surat != null && surat != "") {
-					temp = temp + `
-						<div class="form-group">
-							<label for="keterangan" class="col-sm-3 control-label">Surat Dokter</label>
-							<div class="col-sm-8">
-								<div class="thumbnail">
-									<img src="${url}/surat_dokter/true" alt="Surat Dokter" style="width:100%">
-								</div>
-							</div>
-						</div>
-					`;
-				}
-			} else if(tunda == 0) {
-				if (v1 != null && v1 != "" ) {
-					temp = temp + `
-						<div class="form-group">
-							<label for="keterangan" class="col-sm-3 control-label">Vaksin Dosis 1</label>
-							<div class="col-sm-8">
-								<div class="thumbnail">
-									<img src="${url}/dokumen_vaksin_1/true" alt="Vaksin Dosis 1" style="width:100%">
-								</div>
-							</div>
-						</div>
-					`;
-				}
-
-				if (v2 != null && v2 != "" ) {
-					temp = temp + `
-						<div class="form-group">
-							<label for="keterangan" class="col-sm-3 control-label">Vaksin Dosis 2</label>
-							<div class="col-sm-8">
-								<div class="thumbnail">
-									<img src="${url}/dokumen_vaksin_2/true" alt="Vaksin Dosis 2" style="width:100%">
-								</div>
-							</div>
-						</div>
-					`;
-				}
-
-				if (v3 != null && v3 != "" ) {
-					temp = temp + `
-						<div class="form-group">
-							<label for="keterangan" class="col-sm-3 control-label">Vaksin Dosis 3</label>
-							<div class="col-sm-8">
-								<div class="thumbnail">
-									<img src="${url}/dokumen_vaksin_3/true" alt="Vaksin Dosis 3" style="width:100%">
-								</div>
-							</div>
-						</div>
-					`;
-				}
-			}
-
-			$("#formbox1").html(temp);
-		})
+		$( "#cari" ).autocomplete({
+			source: function( request, response ) {
+				$.ajax( {
+					type: "POST",
+					url: `${SITE_URL}vaksin_covid/autocomplete`,
+					dataType: "json",
+					data: {
+						cari: request.term
+					},
+					success: function( data ) {
+						response( JSON.parse( data ));
+						csrf_semua_form();
+					}
+				} );
+			},
+			minLength: 2,
+		});
 	});
 </script>
-
-<div class="modal fade" id="modalBox1" tabindex="-1" role="dialog" aria-labelledby="modalBox1Label" aria-hidden="true">
-  <div class="modal-dialog " role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form enctype="multipart/form-data" class="form-horizontal" id="formbox1">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-			</div>
-    </div>
-  </div>
-</div>

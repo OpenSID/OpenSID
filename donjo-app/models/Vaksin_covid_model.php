@@ -282,7 +282,7 @@ class Vaksin_covid_model extends MY_Model
     {
         $config['upload_path']   = LOKASI_VAKSIN;
         $config['file_name']     = 'vaksin';
-        $config['allowed_types'] = 'jpg|jpeg|png';
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
         $config['max_size']      = 1024;
         $config['overwrite']     = true;
         $this->upload->initialize($config);
@@ -363,6 +363,34 @@ class Vaksin_covid_model extends MY_Model
             $this->umur_sql($umur);
         }
 
+        //ORDER BERDASARKAN DUSUN
+        $this->db->order_by('ck.dusun', 'asc');
+
         return $this->db->get("{$this->tabel_penduduk} as p")->result();
+    }
+
+    public function autocomplete($cari = '')
+    {
+        $sql_kolom  = [];
+        $list_kolom = [
+            'nama' => $this->tabel_penduduk,
+            'nik'  => $this->tabel_penduduk,
+        ];
+
+        foreach ($list_kolom as $kolom => $tabel) {
+            $this->db->select($kolom . ' as item')
+                ->distinct()->from($tabel)
+                ->order_by('item');
+            if ($cari) {
+                $this->db->like($kolom, $cari);
+            }
+            $sql_kolom[] = $this->db->get_compiled_select();
+        }
+
+        $sql   = '(' . implode(') UNION (', $sql_kolom) . ')';
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
+
+        return autocomplete_data_ke_str($data);
     }
 }
