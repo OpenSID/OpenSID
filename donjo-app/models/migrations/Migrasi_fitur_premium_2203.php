@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2203 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
+        $hasil = $hasil && $this->migrasi_2022020151($hasil);
 
-        return $hasil && $this->migrasi_2022020151($hasil);
+        return $hasil && $this->migrasi_2022020271($hasil);
     }
 
     protected function migrasi_2022020151($hasil)
@@ -118,5 +119,16 @@ class Migrasi_fitur_premium_2203 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022020271($hasil)
+    {
+        $this->db
+            ->set('value', 'esensi')
+            ->where('key', 'web_theme')
+            ->where('value', 'klasik')
+            ->update('setting_aplikasi');
+
+        return $hasil && true;
     }
 }
