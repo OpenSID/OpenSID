@@ -150,6 +150,7 @@ class Grup extends Admin_Controller
         $this->form_validation->set_error_delimiters('', '');
         $this->form_validation->set_rules('nama', 'Nama Grup', 'required|callback_syarat_nama');
         $this->form_validation->set_message('nama', 'Hanya boleh berisi karakter alfanumerik, spasi dan strip');
+        $this->form_validation->set_rules('modul[]', 'Akses Modul', 'required');
     }
 
     public function syarat_nama($str)
