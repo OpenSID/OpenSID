@@ -13,6 +13,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 8. [#4831](https://github.com/OpenSID/OpenSID/issues/4831) Mengganti tema klasik dengan tema esensi.
 9. [#4816](https://github.com/OpenSID/OpenSID/issues/4816) Penambahan penyaringan status pada modul kelompok/lembaga.
 10. [#4784](https://github.com/OpenSID/OpenSID/issues/4784) Penambahan halaman pada modul Kelompok/Lembaga > Anggota.
+11. [#4608](https://github.com/OpenSID/OpenSID/issues/4608) Unggah dokumen kependudukan menggunakan kamera.
 
 
 #### Perbaikan BUG

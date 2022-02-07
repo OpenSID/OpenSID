@@ -41,3 +41,43 @@ if (! function_exists('asset')) {
         return base_url('assets/' . $uri);
     }
 }
+
+if (! function_exists('set_session')) {
+    function set_session($status = 'success', $pesan = '')
+    {
+        return get_instance()->session->set_flashdata($status, $pesan);
+    }
+}
+
+if (! function_exists('session')) {
+    function session($nama = '')
+    {
+        return get_instance()->session->flashdata($nama);
+    }
+}
+
+if (! function_exists('json')) {
+    function json($content = [], $header = 200)
+    {
+        get_instance()->output
+            ->set_status_header($header)
+            ->set_content_type('application/json', 'utf-8')
+            ->set_output(json_encode($content))
+            ->_display();
+
+        exit();
+    }
+}
+
+if (! function_exists('redirect_with')) {
+    function redirect_with($status = 'success', $pesan = '', $route = '')
+    {
+        set_session($status, $pesan);
+
+        if (empty($route)) {
+            $route = get_instance()->controller;
+        }
+
+        return redirect($route);
+    }
+}

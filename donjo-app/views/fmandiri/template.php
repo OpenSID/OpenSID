@@ -234,21 +234,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<img class="img-circle" src="<?= AmbilFoto($this->is_login->foto, '', $this->is_login->sex) ?>" alt="Foto" width="100%">
 								</div>
 								<div class="box-body">
-									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/profil') ?>" class="btn btn-block btn-social bg-blue" rel="noopener noreferrer">
+									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/profil') ?>" class="btn btn-block btn-social bg-blue">
 										<i class="fa fa-user-o"></i> Profil
 									</a>
 									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-biodata') ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 										<i class="fa fa-print"></i> Cetak Biodata
 									</a>
 									<?php if ($this->is_login->id_kk != 0) : ?>
-										<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-kk') ?>" class="btn btn-block btn-social bg-aqua" target="_blank" rel="noopener noreferrer">
+										<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/cetak-kk') ?>" class="btn btn-block btn-social bg-green" target="_blank" rel="noopener noreferrer">
 											<i class="fa fa-print"></i> Cetak Salinan KK
 										</a>
 									<?php endif; ?>
+									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/dokumen') ?>" class="btn btn-block btn-social bg-aqua">
+										<i class="fa fa-file"></i> Dokumen
+									</a>
 									<a href="<?= site_url('layanan-mandiri/ganti-pin') ?>" class="btn btn-block btn-social bg-navy">
 										<i class="fa fa-key"></i> Ganti PIN
 									</a>
-									<a href="<?= site_url('layanan-mandiri/verifikasi') ?>" class="btn btn-block btn-social bg-purple">
+									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/verifikasi') ?>" class="btn btn-block btn-social bg-purple">
 										<i class="fa fa-key"></i> Verifikasi
 									</a>
 									<button type="button" class="btn btn-block btn-social bg-red" data-toggle="modal" data-target="#pendapat"><i class="fa fa-sign-out"></i>Keluar</button>
@@ -346,7 +349,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				$(".callout").fadeTo(500, 0).slideUp(500, function() {
 					$(this).remove();
 				});
-			}, 5000);
+			}, 1000);
 
 			setTimeout(function() {
 				refresh_badge($("#b_pesan"), "<?= site_url('notif_web/inbox') ?>");
