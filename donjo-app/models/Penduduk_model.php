@@ -852,7 +852,7 @@ class Penduduk_model extends MY_Model
                 ->select('email')
                 ->from('tweb_penduduk')
                 ->where('email', $data['email'])
-                // ->where('email <>', 0)
+                ->where_not_in('id', $id)
                 ->limit(1)->get()->row();
 
             if ($existing_data) {
@@ -866,6 +866,7 @@ class Penduduk_model extends MY_Model
                 ->select('telegram')
                 ->from('tweb_penduduk')
                 ->where('telegram', $data['telegram'])
+                ->where_not_in('id', $id)
                 ->limit(1)->get()->row();
 
             if ($existing_data) {
