@@ -9,5 +9,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 1. [#4825](https://github.com/OpenSID/OpenSID/issues/4825) Perbaiki info media sosial tidak muncul di halaman utama.
 2. [#4793](https://github.com/OpenSID/OpenSID/issues/4793) Perbaiki input data pembangunan alokasi anggaran 10 digit atau ada sebab lain.
 3. [#4824](https://github.com/OpenSID/OpenSID/issues/4824) Perbaiki duplikat email ketika migrasi database.
+4. [#4826](https://github.com/OpenSID/OpenSID/issues/4826) Perbaiki kolom asuransi dan no asuransi tidak terdowload di unduh export database xlsx dan import database.
 
 #### Perubahan Teknis
+1. Perbaiki return migrasi, tidak sesuai.
