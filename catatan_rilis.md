@@ -22,3 +22,4 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 4. [#4826](https://github.com/OpenSID/OpenSID/issues/4826) Perbaiki kolom asuransi dan no asuransi tidak terdowload di unduh export database xlsx dan import database.
 
 #### Perubahan Teknis
+1. Perbaiki return migrasi, tidak sesuai.
