@@ -50,14 +50,15 @@ class Kelompok extends Admin_Controller
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 24;
         $this->_set_page     = ['20', '50', '100'];
-        $this->_list_session = ['cari', 'filter', 'penerima_bantuan', 'sex'];
+        $this->_list_session = ['cari', 'filter', 'penerima_bantuan', 'sex', 'status_dasar'];
         $this->kelompok_model->set_tipe($this->tipe);
     }
 
     public function clear()
     {
         $this->session->unset_userdata($this->_list_session);
-        $this->session->per_page = $this->_set_page[0];
+        $this->session->per_page     = $this->_set_page[0];
+        $this->session->status_dasar = 1; // Rumah Tangga Aktif
 
         redirect($this->controller);
     }

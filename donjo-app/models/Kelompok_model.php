@@ -83,6 +83,16 @@ class Kelompok_model extends MY_Model
         return $this->db;
     }
 
+    protected function status_dasar_sql()
+    {
+        $status_dasar = $this->session->status_dasar;
+        if ($status_dasar == 1) {
+            $this->db->where('c.status_dasar', 1);
+        } elseif ($status_dasar == 2) {
+            $this->db->where('c.status_dasar', null);
+        }
+    }
+
     private function penerima_bantuan_sql()
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
@@ -123,7 +133,7 @@ class Kelompok_model extends MY_Model
     {
         $this->db->from("{$this->table} u")
             ->join('kelompok_master s', 'u.id_master = s.id', 'left')
-            ->join('tweb_penduduk c', 'u.id_ketua = c.id', 'left')
+            ->join('penduduk_hidup c', 'u.id_ketua = c.id', 'left')
             ->where('u.tipe', $this->tipe);
 
         if ($this->session->penerima_bantuan) {
@@ -132,6 +142,7 @@ class Kelompok_model extends MY_Model
 
         $this->search_sql();
         $this->filter_sql();
+        $this->status_dasar_sql();
 
         $kolom_kode = [
             ['sex', 'c.sex'],

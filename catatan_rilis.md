@@ -11,6 +11,9 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 6. [#4814](https://github.com/OpenSID/OpenSID/issues/4814) Informasi halaman home untuk jumlah data kelompok hanya untuk yang ketua nya masih hidup.
 7. [#4726](https://github.com/OpenSID/OpenSID/issues/4726) Penambahan jenis file unggah dokumen (jpeg, png dan pdf) pada pendataan vaksin dan perbaiki tampilan lihat dokumen.
 8. [#4831](https://github.com/OpenSID/OpenSID/issues/4831) Mengganti tema klasik dengan tema esensi.
+9. [#4816](https://github.com/OpenSID/OpenSID/issues/4816) Penambahan penyaringan status pada modul kelompok/lembaga.
+
+
 #### Perbaikan BUG
 
 1. [#4825](https://github.com/OpenSID/OpenSID/issues/4825) Perbaiki info media sosial tidak muncul di halaman utama.
