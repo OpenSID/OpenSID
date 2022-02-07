@@ -201,7 +201,7 @@ class Import_model extends CI_Model
         $nilai = preg_replace('/\\s*\\/\\s*/', '/', $nilai);
 
         if (! empty($nilai) && $nilai != '-' && ! array_key_exists($nilai, $daftar_kode)) {
-            return -1;
+            return $nilai;
         } // kode salah
 
         return $daftar_kode[$nilai];
@@ -618,17 +618,17 @@ class Import_model extends CI_Model
 
         foreach ($reader->getSheetIterator() as $sheet) {
             $gagal         = 0;
-            $baris_gagal   = '';
+            $ganda         = 0;
+            $pesan         = '';
             $baris_data    = 0;
             $baris_pertama = false;
-            $nomor_baris   = 0;
+            $data_penduduk = [];
 
             if ($sheet->getName() == 'Kode Data') {
                 continue;
             }
 
             foreach ($sheet->getRowIterator() as $row) {
-                $nomor_baris++;
                 $rowData = [];
                 $cells   = $row->getCells();
 
@@ -663,33 +663,41 @@ class Import_model extends CI_Model
                 if (empty($error_validasi)) {
                     $this->tulis_tweb_wil_clusterdesa($isi_baris);
                     $this->tulis_tweb_keluarga($isi_baris);
+
+                    // Untuk pesan jika data yang sama akan diganti
+                    if ($index = array_search($isi_baris['nik'], $data_penduduk)) {
+                        $ganda++;
+                        $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
+                    }
+                    $data_penduduk[] = $isi_baris['nik'];
+
                     $this->tulis_tweb_penduduk($isi_baris);
                     if ($error = $this->error_tulis_penduduk) {
                         $gagal++;
-                        $baris_gagal .= $nomor_baris . ') ' . $error['message'] . '<br>';
+                        $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
                     }
                 } else {
                     $gagal++;
-                    $baris_gagal .= $nomor_baris . ') ' . $error_validasi . '<br>';
+                    $pesan .= $baris_data . ') ' . $error_validasi . '<br>';
                 }
             }
 
             if ($baris_data <= 0) {
-                $this->session->error_msg .= ' -> Tidak ada data';
-                $this->session->success = -1;
-
-                return;
+                return session_error(' -> Tidak ada data');
             }
 
-            $sukses = $baris_data - $gagal;
-            if ($gagal == 0) {
-                $baris_gagal = 'tidak ada data yang gagal di import.';
-            } else {
-                $this->session->success = -1;
+            if ($gagal > 0) {
+                session_error();
             }
-            $this->session->gagal  = $gagal;
-            $this->session->sukses = $sukses;
-            $this->session->baris  = $baris_gagal;
+
+            $pesan_impor = [
+                'gagal'  => $gagal,
+                'ganda'  => $ganda,
+                'pesan'  => $pesan,
+                'sukses' => ($baris_data - $gagal),
+            ];
+
+            set_session('pesan_impor', $pesan_impor);
         }
         $reader->close();
     }
@@ -871,7 +879,7 @@ class Import_model extends CI_Model
             return session_error('-> File impor tidak sesuai');
         }
         $reader->close();
-        $this->session->set_flashdata('pesan_rtm', $pesan);
+        set_session('pesan_rtm', $pesan);
 
         return status_sukses($outp, false, 'Terjadi kesalahan impor data RTM');
     }

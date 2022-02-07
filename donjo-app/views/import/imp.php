@@ -1,11 +1,11 @@
-											<div class="tab-pane <?php if ($act_tab == 2): ?> active<?php endif ?>">
+											<div class="tab-pane <?= jecho($act_tab, 2, 'active') ?>">
 												<div class="row">
 													<div class="col-md-12">
 														<div class="box-header with-border">
 															<h3 class="box-title"><strong>Impor Data Kependudukan</strong></h3>
 														</div>
 														<div class="box-body">
-															<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
+															<form action="<?= $form_action ?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
 																<div class="row">
 																	<div class="col-sm-12">
 																		<p>Mempersiapkan data dengan bentuk excel untuk Impor ke dalam database SID : </p>
@@ -26,8 +26,8 @@
 																				<li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
 																				<li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan di bawah ini :
 																					<div class="timeline-footer row">
-																						<a href="<?= base_url()?>assets/import/FormatImportExcel.xlsm" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
-																						<a href="<?= base_url()?>assets/import/contoh_penduduk.xlsx" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Contoh penduduk ekspor</a>
+																						<a href="<?= asset('import/FormatImportExcel.xlsm') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
+																						<a href="<?= asset('import/contoh_penduduk.xlsx') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Contoh penduduk ekspor</a>
 																					</div>
 																				</li>
 																			</ol>
@@ -63,28 +63,38 @@
 																					</div>
 																				</td>
 																			</tr>
-																			<?php if (isset($_SESSION['gagal'])): ?>
+																			<?php if ($pesan_impor = session('pesan_impor')): ?>
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
 																							<dt>Jumlah Data Gagal : </dt>
-																							<dd><?= $_SESSION['gagal']?></dd>
+																							<dd><?= $pesan_impor['gagal']?></dd>
 																						</dl>
 																					</td>
 																				</tr>
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
-																							<dt>Letak Baris Data Gagal : </dt>
-																							<dd><?= $_SESSION['baris']?></dd>
+																							<dt>Jumlah Data Ganda : </dt>
+																							<dd><?= $pesan_impor['ganda']?></dd>
 																						</dl>
 																					</td>
 																				</tr>
+																				<?php if ($pesan_impor['pesan']) : ?>
+																					<tr>
+																						<td>
+																							<dl class="dl-horizontal">
+																								<dt>Rician Pesan : </dt>
+																								<dd><?= $pesan_impor['pesan'] ?></dd>
+																							</dl>
+																						</td>
+																					</tr>
+																				<?php endif ?>
 																				<tr>
 																					<td>
 																						<dl class="dl-horizontal">
 																							<dt>Total Data Berhasil :</dt>
-																							<dd><?=$_SESSION['sukses']?></dd>
+																							<dd><?= $pesan_impor['sukses'] ?></dd>
 																						</dl>
 																					</td>
 																				</tr>
@@ -142,7 +152,7 @@
 																					</div>
 																				</td>
 																			</tr>
-																			<?php if ($pesan_rtm = $this->session->flashdata('pesan_rtm')): ?>
+																			<?php if ($pesan_rtm = session('pesan_rtm')): ?>
 																				<tr>
 																					<td><?= $pesan_rtm ?></td>
 																				</tr>
@@ -162,16 +172,13 @@
 																<div class='modal-body'>
 																	Harap tunggu sampai proses impor selesai. Proses ini biasa memakan waktu antara 1 (satu) Menit hingga 45 Menit, tergantung kecepatan komputer dan juga jumlah data yang di masukkan.
 																	<div class='text-center'>
-																		<img src='<?= base_url()?>assets/images/background/loading.gif'>
+																		<img src="<?= asset('images/background/loading.gif') ?>"/>
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<?php unset($_SESSION['sukses']); ?>
-												<?php unset($_SESSION['baris']); ?>
-												<?php unset($_SESSION['gagal']); ?>
 											</div>
 										</div>
 									</div>
