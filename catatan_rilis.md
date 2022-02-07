@@ -24,6 +24,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 4. [#4826](https://github.com/OpenSID/OpenSID/issues/4826) Perbaiki kolom asuransi dan no asuransi tidak terdowload di unduh export database xlsx dan import database.
 5. [#4846](https://github.com/OpenSID/OpenSID/issues/4846) Perbaiki data pengguna dan penduduk.
 6. [#4832](https://github.com/OpenSID/OpenSID/issues/4832) Perbaiki tambah grup pengguna baru.
+7. [#4817](https://github.com/OpenSID/OpenSID/issues/4817) Perbaiki tidak dapat menyimpan data form master analisis.
 
 #### Perubahan Teknis
 1. Perbaiki return migrasi, tidak sesuai.
