@@ -89,10 +89,21 @@ class Kelompok extends Admin_Controller
         $this->render('kelompok/table', $data);
     }
 
-    public function anggota($id = 0)
+    public function anggota($id = 0, $p = 1, $o = 0)
     {
+        $data['p'] = $p;
+        $data['o'] = $o;
+
+        $per_page = $this->input->post('per_page');
+        if (isset($per_page)) {
+            $this->session->per_page = $per_page;
+        }
+
+        $data['set_page'] = $this->_set_page;
+        $data['paging']   = $this->kelompok_model->paging($p, $id);
+        $data['func']     = 'anggota/' . $id;
         $data['kelompok'] = $this->kelompok_model->get_kelompok($id);
-        $data['main']     = $this->kelompok_model->list_anggota($id);
+        $data['main']     = $this->kelompok_model->list_anggota($o, $data['paging']->offset, $data['paging']->per_page, $id);
 
         $this->render('kelompok/anggota/table', $data);
     }
@@ -197,7 +208,7 @@ class Kelompok extends Admin_Controller
         $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($post['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-        $data['main']           = $this->kelompok_model->list_anggota($id);
+        $data['main']           = $this->kelompok_model->list_anggota(0, 0, 0, $id);
         $data['kelompok']       = $this->kelompok_model->get_kelompok($id);
         $data['file']           = "Laporan Data {$this->tipe} " . $data['kelompok']['nama']; // nama file
         $data['isi']            = 'kelompok/anggota/cetak';

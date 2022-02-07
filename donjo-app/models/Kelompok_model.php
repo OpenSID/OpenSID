@@ -493,11 +493,15 @@ class Kelompok_model extends MY_Model
     {
         $this->db->where('jabatan <>', 90);
 
-        return $this->list_anggota($id_kelompok);
+        return $this->list_anggota(0, 0, 0, $id_kelompok, '');
     }
 
-    public function list_anggota($id_kelompok = 0, $sub = '')
+    public function list_anggota($o = 0, $offset = 0, $limit = 500, $id_kelompok = 0, $sub = '')
     {
+        if ($limit) {
+            $this->db->limit($limit, $offset);
+        }
+
         $dusun = ucwords($this->setting->sebutan_dusun);
         if ($sub == 'anggota') {
             $this->db->where('jabatan', 90); // Hanya anggota saja, tidak termasuk pengurus
@@ -529,6 +533,13 @@ class Kelompok_model extends MY_Model
         }
 
         return $data;
+    }
+
+    public function paging($p = 1, $id_kelompok = '')
+    {
+        $jml_data = count($this->list_anggota(0, 0, 0, $id_kelompok, ''));
+
+        return $this->paginasi($p, $jml_data);
     }
 
     public function ubah_jabatan($id_kelompok, $id_penduduk, $jabatan, $jabatan_lama)

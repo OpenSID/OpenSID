@@ -12,6 +12,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 7. [#4726](https://github.com/OpenSID/OpenSID/issues/4726) Penambahan jenis file unggah dokumen (jpeg, png dan pdf) pada pendataan vaksin dan perbaiki tampilan lihat dokumen.
 8. [#4831](https://github.com/OpenSID/OpenSID/issues/4831) Mengganti tema klasik dengan tema esensi.
 9. [#4816](https://github.com/OpenSID/OpenSID/issues/4816) Penambahan penyaringan status pada modul kelompok/lembaga.
+10. [#4784](https://github.com/OpenSID/OpenSID/issues/4784) Penambahan halaman pada modul Kelompok/Lembaga > Anggota.
 
 
 #### Perbaikan BUG

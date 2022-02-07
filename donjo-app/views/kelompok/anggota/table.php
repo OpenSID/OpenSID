@@ -113,76 +113,81 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								</table>
 							</div>
 							<h5><b>Anggota <?= $tipe; ?></b></h5>
-							<div class="table-responsive">
-								<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
-									<thead class="bg-gray disabled color-palette">
-										<tr>
-											<th><input type="checkbox" id="checkall" /></th>
-											<th>No</th>
-											<th>Aksi</th>
-											<th>Foto</th>
-											<th>No. Anggota</th>
-											<th>NIK</th>
-											<th>Nama</th>
-											<th>Tempat / Tanggal Lahir</th>
-											<th>Umur (Tahun)</th>
-											<th>Jenis Kelamin</th>
-											<th>Alamat</th>
-											<th>Jabatan</th>
-											<th>Nomor SK Jabatan</th>
-											<?php if ($this->controller == 'lembaga') : ?>
-												<th>Nomor SK Pengangkatan</th>
-												<th>Tanggal SK Pengangkatan</th>
-												<th>Nomor SK Pemberhentian</th>
-												<th>Tanggal SK Pemberhentian</th>
-												<th>Masa Jabatan (Usia/Periode)</th>
-											<?php endif ?>
-											<th>Keterangan</th>
-										</tr>
-									</thead>
-									<tbody>
-										<?php if ($main) : ?>
-											<?php foreach ($main as $key => $data) : ?>
+							<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+								<form id="mainform" name="mainform" method="post">
+									<div class="table-responsive dataTables_wrapper">
+										<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
+											<thead class="bg-gray disabled color-palette">
 												<tr>
-													<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
-													<td class="padat"><?= ($key + 1); ?></td>
-													<td class="aksi">
-														<?php if ($this->CI->cek_hak_akses('u')) : ?>
-															<a href="<?= site_url("{$this->controller}/form_anggota/{$kelompok['id']}/{$data['id_penduduk']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a>
-														<?php endif; ?>
-														<?php if ($this->CI->cek_hak_akses('h')) : ?>
-															<a href="#" data-href="<?= site_url("{$this->controller}/delete_anggota/{$kelompok['id']}/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-														<?php endif; ?>
-													</td>
-													<td class="padat">
-														<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
-													</td>
-													<td class="padat"><?= $data['no_anggota'] ?></td>
-													<td><?= $data['nik']; ?></td>
-													<td nowrap><?= $data['nama']; ?></td>
-													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
-													<td class="padat"><?= $data['umur']; ?></td>
-													<td><?= $data['sex']; ?></td>
-													<td nowrap><?= $data['alamat']; ?></td>
-													<td><?= $data['jabatan']; ?></td>
-													<td><?= $data['no_sk_jabatan'] ?>
+													<th><input type="checkbox" id="checkall" /></th>
+													<th>No</th>
+													<th>Aksi</th>
+													<th>Foto</th>
+													<th>No. Anggota</th>
+													<th>NIK</th>
+													<th>Nama</th>
+													<th>Tempat / Tanggal Lahir</th>
+													<th>Umur (Tahun)</th>
+													<th>Jenis Kelamin</th>
+													<th>Alamat</th>
+													<th>Jabatan</th>
+													<th>Nomor SK Jabatan</th>
 													<?php if ($this->controller == 'lembaga') : ?>
-														<td><?= $data['nmr_sk_pengangkatan'] ?></td>
-														<td><?= tgl_indo_out($data['tgl_sk_pengangkatan']) ?></td>
-														<td><?= $data['nmr_sk_pemberhentian'] ?></td>
-														<td><?= tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
-														<td><?= $data['periode'] ?></td>
+														<th>Nomor SK Pengangkatan</th>
+														<th>Tanggal SK Pengangkatan</th>
+														<th>Nomor SK Pemberhentian</th>
+														<th>Tanggal SK Pemberhentian</th>
+														<th>Masa Jabatan (Usia/Periode)</th>
 													<?php endif ?>
-													<td><?= $data['keterangan']; ?></td>
+													<th>Keterangan</th>
 												</tr>
-											<?php endforeach; ?>
-										<?php else : ?>
-											<tr>
-												<td class="text-center" colspan="11">Data Tidak Tersedia</td>
-											</tr>
-										<?php endif; ?>
-									</tbody>
-								</table>
+											</thead>
+											<tbody>
+												<?php if ($main) : ?>
+													<?php foreach ($main as $key => $data) : ?>
+														<tr>
+															<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
+															<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
+															<td class="aksi">
+																<?php if ($this->CI->cek_hak_akses('u')) : ?>
+																	<a href="<?= site_url("{$this->controller}/form_anggota/{$kelompok['id']}/{$data['id_penduduk']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a>
+																<?php endif; ?>
+																<?php if ($this->CI->cek_hak_akses('h')) : ?>
+																	<a href="#" data-href="<?= site_url("{$this->controller}/delete_anggota/{$kelompok['id']}/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																<?php endif; ?>
+															</td>
+															<td class="padat">
+																<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
+															</td>
+															<td class="padat"><?= $data['no_anggota'] ?></td>
+															<td><?= $data['nik']; ?></td>
+															<td nowrap><?= $data['nama']; ?></td>
+															<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
+															<td class="padat"><?= $data['umur']; ?></td>
+															<td><?= $data['sex']; ?></td>
+															<td nowrap><?= $data['alamat']; ?></td>
+															<td><?= $data['jabatan']; ?></td>
+															<td><?= $data['no_sk_jabatan'] ?>
+															<?php if ($this->controller == 'lembaga') : ?>
+																<td><?= $data['nmr_sk_pengangkatan'] ?></td>
+																<td><?= tgl_indo_out($data['tgl_sk_pengangkatan']) ?></td>
+																<td><?= $data['nmr_sk_pemberhentian'] ?></td>
+																<td><?= tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
+																<td><?= $data['periode'] ?></td>
+															<?php endif ?>
+															<td><?= $data['keterangan']; ?></td>
+														</tr>
+													<?php endforeach; ?>
+												<?php else : ?>
+													<tr>
+														<td class="text-center" colspan="11">Data Tidak Tersedia</td>
+													</tr>
+												<?php endif; ?>
+											</tbody>
+										</table>
+									</div>
+								</form>
+								<?php $this->load->view('global/paging'); ?>
 							</div>
 						</div>
 					</div>
