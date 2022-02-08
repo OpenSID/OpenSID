@@ -39,7 +39,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<?php if (!empty($pend)) : ?>
+									<?php if (! empty($pend)) : ?>
 										<input type="hidden" name="jabatan_lama" value="<?= $pend['jabatan'] ?>">
 									<?php endif; ?>
 									<label class="col-sm-3 control-label" for="jabatan">Jabatan</label>

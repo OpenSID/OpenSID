@@ -87,7 +87,7 @@ class Kelompok_model extends MY_Model
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
         $penerima_bantuan = $this->session->penerima_bantuan;
-        if (!in_array($penerima_bantuan, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+        if (! in_array($penerima_bantuan, [JUMLAH, BELUM_MENGISI, TOTAL])) {
             // Salin program_id
             $this->session->program_bantuan = $penerima_bantuan;
         }
@@ -112,7 +112,7 @@ class Kelompok_model extends MY_Model
                     ->join('program_peserta bt', 'bt.peserta = u.id', 'left')
                     ->where('bt.id is null');
             }
-        } elseif ($penerima_bantuan == JUMLAH && !$this->session->program_bantuan) {
+        } elseif ($penerima_bantuan == JUMLAH && ! $this->session->program_bantuan) {
             // Penerima bantuan mana pun
             $this->db
                 ->where('u.id IN (select peserta from program_peserta)');
@@ -146,7 +146,7 @@ class Kelompok_model extends MY_Model
 
     protected function get_sql_kolom_kode($session, $kolom)
     {
-        if (!empty($ss = $this->session->{$session})) {
+        if (! empty($ss = $this->session->{$session})) {
             if ($ss == JUMLAH) {
                 $this->db->where("{$kolom} !=", null);
             } elseif ($ss == BELUM_MENGISI) {
@@ -266,9 +266,9 @@ class Kelompok_model extends MY_Model
 
         if ($this->tipe == 'lembaga') {
             $data['nmr_sk_pengangkatan']  = nomor_surat_keputusan($post['nmr_sk_pengangkatan']);
-            $data['tgl_sk_pengangkatan']  = !empty($post['tgl_sk_pengangkatan']) ? tgl_indo_in($post['tgl_sk_pengangkatan']) : null;
+            $data['tgl_sk_pengangkatan']  = ! empty($post['tgl_sk_pengangkatan']) ? tgl_indo_in($post['tgl_sk_pengangkatan']) : null;
             $data['nmr_sk_pemberhentian'] = nomor_surat_keputusan($post['nmr_sk_pemberhentian']);
-            $data['tgl_sk_pemberhentian'] = !empty($post['tgl_sk_pemberhentian']) ? tgl_indo_in($post['tgl_sk_pemberhentian']) : null;
+            $data['tgl_sk_pemberhentian'] = ! empty($post['tgl_sk_pemberhentian']) ? tgl_indo_in($post['tgl_sk_pemberhentian']) : null;
             $data['periode']              = htmlentities($post['periode']);
         }
 
@@ -349,7 +349,7 @@ class Kelompok_model extends MY_Model
     // Hapus kelompok dengan tipe 'kelompok' saja
     public function delete($id = '', $semua = false)
     {
-        if (!$semua) {
+        if (! $semua) {
             $this->session->success = 1;
         }
 
@@ -382,7 +382,7 @@ class Kelompok_model extends MY_Model
 
     public function delete_anggota($id = '', $semua = false)
     {
-        if (!$semua) {
+        if (! $semua) {
             $this->session->success = 1;
         }
 
