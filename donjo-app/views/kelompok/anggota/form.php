@@ -1,4 +1,4 @@
-<?php if ($this->CI->cek_hak_akses('u')): ?>
+<?php if ($this->CI->cek_hak_akses('u')) : ?>
 	<?= $tipe = ucfirst($this->controller); ?>
 	<div class="content-wrapper">
 		<section class="content-header">
@@ -9,7 +9,7 @@
 				<li class="active">Data Anggota <?= $tipe; ?></li>
 			</ol>
 		</section>
-		<section class="content">
+		<section class="content" id="maincontent">
 			<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="row">
 					<div class="col-md-3">
@@ -39,7 +39,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<?php if (! empty($pend)) : ?>
+									<?php if (!empty($pend)) : ?>
 										<input type="hidden" name="jabatan_lama" value="<?= $pend['jabatan'] ?>">
 									<?php endif; ?>
 									<label class="col-sm-3 control-label" for="jabatan">Jabatan</label>

@@ -87,7 +87,7 @@ class Kelompok_model extends MY_Model
     {
         // Yg berikut hanya untuk menampilkan peserta bantuan
         $penerima_bantuan = $this->session->penerima_bantuan;
-        if (! in_array($penerima_bantuan, [JUMLAH, BELUM_MENGISI, TOTAL])) {
+        if (!in_array($penerima_bantuan, [JUMLAH, BELUM_MENGISI, TOTAL])) {
             // Salin program_id
             $this->session->program_bantuan = $penerima_bantuan;
         }
@@ -112,7 +112,7 @@ class Kelompok_model extends MY_Model
                     ->join('program_peserta bt', 'bt.peserta = u.id', 'left')
                     ->where('bt.id is null');
             }
-        } elseif ($penerima_bantuan == JUMLAH && ! $this->session->program_bantuan) {
+        } elseif ($penerima_bantuan == JUMLAH && !$this->session->program_bantuan) {
             // Penerima bantuan mana pun
             $this->db
                 ->where('u.id IN (select peserta from program_peserta)');
@@ -146,7 +146,7 @@ class Kelompok_model extends MY_Model
 
     protected function get_sql_kolom_kode($session, $kolom)
     {
-        if (! empty($ss = $this->session->{$session})) {
+        if (!empty($ss = $this->session->{$session})) {
             if ($ss == JUMLAH) {
                 $this->db->where("{$kolom} !=", null);
             } elseif ($ss == BELUM_MENGISI) {
@@ -160,19 +160,33 @@ class Kelompok_model extends MY_Model
     public function list_data($o = 0, $page = 0)
     {
         switch ($o) {
-            case 1: $this->db->order_by('u.nama'); break;
+            case 1:
+                $this->db->order_by('u.nama');
+                break;
 
-            case 2: $this->db->order_by('u.nama', 'desc'); break;
+            case 2:
+                $this->db->order_by('u.nama', 'desc');
+                break;
 
-            case 3: $this->db->order_by('c.nama'); break;
+            case 3:
+                $this->db->order_by('c.nama');
+                break;
 
-            case 4: $this->db->order_by('c.nama desc'); break;
+            case 4:
+                $this->db->order_by('c.nama desc');
+                break;
 
-            case 5: $this->db->order_by('master'); break;
+            case 5:
+                $this->db->order_by('master');
+                break;
 
-            case 6: $this->db->order_by('master desc'); break;
+            case 6:
+                $this->db->order_by('master desc');
+                break;
 
-            default: $this->db->order_by('u.nama'); break;
+            default:
+                $this->db->order_by('u.nama');
+                break;
         }
 
         $this->list_data_sql();
@@ -252,9 +266,9 @@ class Kelompok_model extends MY_Model
 
         if ($this->tipe == 'lembaga') {
             $data['nmr_sk_pengangkatan']  = nomor_surat_keputusan($post['nmr_sk_pengangkatan']);
-            $data['tgl_sk_pengangkatan']  = ! empty($post['tgl_sk_pengangkatan']) ? tgl_indo_in($post['tgl_sk_pengangkatan']) : null;
+            $data['tgl_sk_pengangkatan']  = !empty($post['tgl_sk_pengangkatan']) ? tgl_indo_in($post['tgl_sk_pengangkatan']) : null;
             $data['nmr_sk_pemberhentian'] = nomor_surat_keputusan($post['nmr_sk_pemberhentian']);
-            $data['tgl_sk_pemberhentian'] = ! empty($post['tgl_sk_pemberhentian']) ? tgl_indo_in($post['tgl_sk_pemberhentian']) : null;
+            $data['tgl_sk_pemberhentian'] = !empty($post['tgl_sk_pemberhentian']) ? tgl_indo_in($post['tgl_sk_pemberhentian']) : null;
             $data['periode']              = htmlentities($post['periode']);
         }
 
@@ -266,6 +280,23 @@ class Kelompok_model extends MY_Model
         $data                = $this->validasi_anggota($this->input->post());
         $data['id_kelompok'] = $id;
         $this->ubah_jabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
+
+        if ($data['id_kelompok']) {
+            $validasi_anggota = $this->db
+                ->select('id_penduduk, id_kelompok')
+                ->from('kelompok_anggota')
+                ->where('id_penduduk', $data['id_penduduk'])
+                ->where('id_kelompok', $data['id_kelompok'])
+                ->limit(1)->get()->row();
+        }
+
+        if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Nama Anggota yang dipilih sudah masuk kelompok';
+            redirect("kelompok/form_anggota/{$validasi_anggota->id_kelompok}");
+
+            return false;
+        }
 
         $outp    = $this->db->insert('kelompok_anggota', $data);
         $id_pend = $data['id_penduduk'];
@@ -318,7 +349,7 @@ class Kelompok_model extends MY_Model
     // Hapus kelompok dengan tipe 'kelompok' saja
     public function delete($id = '', $semua = false)
     {
-        if (! $semua) {
+        if (!$semua) {
             $this->session->success = 1;
         }
 
@@ -351,7 +382,7 @@ class Kelompok_model extends MY_Model
 
     public function delete_anggota($id = '', $semua = false)
     {
-        if (! $semua) {
+        if (!$semua) {
             $this->session->success = 1;
         }
 
@@ -568,9 +599,13 @@ class Kelompok_model extends MY_Model
             $judul = ['nama' => ' : TOTAL'];
         } else {
             switch ($tipe) {
-                case 'penerima_bantuan': $table = 'program'; break;
+                case 'penerima_bantuan':
+                    $table = 'program';
+                    break;
 
-                default: $table = 'kelompok'; break;
+                default:
+                    $table = 'kelompok';
+                    break;
             }
 
             $judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
