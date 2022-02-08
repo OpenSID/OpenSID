@@ -557,7 +557,6 @@ class First extends Web_Controller {
 		$data['latar_website'] = $this->theme_model->latar_website();
 		$data['desa'] = $this->config_model->get_data();
 		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
-		$data['menu_atas'] = $this->first_menu_m->list_menu_atas();
 		$data['menu_kiri'] = $this->first_menu_m->list_menu_kiri();
 		$data['teks_berjalan'] = $this->teks_berjalan_model->list_data(TRUE);
 		$data['slide_artikel'] = $this->first_artikel_m->slide_show();
