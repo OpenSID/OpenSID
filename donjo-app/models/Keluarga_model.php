@@ -775,17 +775,17 @@ class Keluarga_model extends MY_Model
                 END) as status_kawin
             ")
             ->select(['b.dusun', 'b.rw', 'b.rt', 'x.nama as sex', 'u.kk_level', 'a.nama as agama', 'd.nama as pendidikan', 'j.nama as pekerjaan', 'f.nama as warganegara', 'g.nama as golongan_darah', 'h.nama AS hubungan', 'k.alamat'])
-            ->from("tweb_penduduk u")
-            ->join("tweb_penduduk_agama a", "u.agama_id = a.id", "left")
-            ->join("tweb_penduduk_pekerjaan j", "u.pekerjaan_id = j.id", "left")
-            ->join("tweb_penduduk_pendidikan_kk d", "u.pendidikan_kk_id = d.id", "left")
-            ->join("tweb_penduduk_warganegara f", "u.warganegara_id = f.id", "left")
-            ->join("tweb_golongan_darah g", "u.golongan_darah_id = g.id", "left")
-            ->join("tweb_penduduk_kawin w", "u.status_kawin = w.id", "left")
-            ->join("tweb_penduduk_sex x", "u.sex = x.id", "left")
-            ->join("tweb_penduduk_hubungan h", "u.kk_level = h.id", "left")
-            ->join("tweb_wil_clusterdesa b", "u.id_cluster = b.id", "left")
-            ->join("tweb_keluarga k", "u.id_kk = k.id", "left")
+            ->from('tweb_penduduk u')
+            ->join('tweb_penduduk_agama a', 'u.agama_id = a.id', 'left')
+            ->join('tweb_penduduk_pekerjaan j', 'u.pekerjaan_id = j.id', 'left')
+            ->join('tweb_penduduk_pendidikan_kk d', 'u.pendidikan_kk_id = d.id', 'left')
+            ->join('tweb_penduduk_warganegara f', 'u.warganegara_id = f.id', 'left')
+            ->join('tweb_golongan_darah g', 'u.golongan_darah_id = g.id', 'left')
+            ->join('tweb_penduduk_kawin w', 'u.status_kawin = w.id', 'left')
+            ->join('tweb_penduduk_sex x', 'u.sex = x.id', 'left')
+            ->join('tweb_penduduk_hubungan h', 'u.kk_level = h.id', 'left')
+            ->join('tweb_wil_clusterdesa b', 'u.id_cluster = b.id', 'left')
+            ->join('tweb_keluarga k', 'u.id_kk = k.id', 'left')
             ->where(['status' => 1, 'status_dasar' => 1, 'id_kk' => $id]);
 
         if ($options['dengan_kk'] !== null && ! $options['dengan_kk']) {
@@ -793,7 +793,7 @@ class Keluarga_model extends MY_Model
         }
 
         if (! empty($options['pilih'])) {
-            $this->db->where_in("u.nik", $options['pilih']);
+            $this->db->where_in('u.nik', $options['pilih']);
         }
 
         $data = $this->db->order_by('kk_level, tanggallahir')->get()->result_array();
