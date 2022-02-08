@@ -15,7 +15,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 10. [#4784](https://github.com/OpenSID/OpenSID/issues/4784) Penambahan halaman pada modul Kelompok/Lembaga > Anggota.
 11. [#4608](https://github.com/OpenSID/OpenSID/issues/4608) Unggah dokumen kependudukan menggunakan kamera.
 12. [#1032](https://github.com/OpenSID/OpenSID/issues/1032) Penambahan informasi jumlah dan rincian data ganda saat melakukan impor data penduduk.
-
+13. [#4750](https://github.com/OpenSID/OpenSID/issues/4750) Pilihan Tahun di Statistik Bantuan.
 
 #### Perbaikan BUG
 

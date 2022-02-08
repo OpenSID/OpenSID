@@ -1051,10 +1051,18 @@ class Program_bantuan_model extends MY_Model
         }
     }
 
-    public function get_peserta_bantuan($status = '')
+    public function get_peserta_bantuan($filter = [])
     {
-        if ($status != '') {
-            $this->db->where('p.status', $status);
+        if ($filter) {
+            if ($status = $filter['status'] != '') {
+                $this->db->where('p.status', $status);
+            }
+
+            $tahun = $this->session->tahun;
+            if (isset($tahun)) {
+                $this->db->where('YEAR(p.sdate)', $tahun);
+                $this->db->or_where('YEAR(p.edate)', $tahun);
+            }
         }
 
         $this->get_peserta_bantuan_query();
@@ -1064,6 +1072,25 @@ class Program_bantuan_model extends MY_Model
         $data = $this->db->get()->result_array();
 
         return $data;
+    }
+
+    public function tahun_bantuan_pertama($sasaran = '')
+    {
+        if ($status = $this->session->status) {
+            $this->db->where('status', $status);
+        }
+
+        if ($sasaran != '') {
+            $this->db->where('sasaran', $sasaran);
+        }
+
+        return $this->db
+            ->select('min(date_format(sdate, "%Y")) as thn')
+            ->from('program')
+            ->where('DAYNAME(sdate) IS NOT NULL')
+            ->get()
+            ->row()
+            ->thn;
     }
 
     public function count_peserta_bantuan_filtered()

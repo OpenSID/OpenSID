@@ -45,7 +45,7 @@ class Statistik extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['wilayah_model', 'laporan_penduduk_model', 'pamong_model', 'program_bantuan_model']);
-        $this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status'];
+        $this->_list_session = ['lap', 'order_by', 'dusun', 'rw', 'rt', 'status', 'tahun'];
         $this->modul_ini     = 3;
         $this->sub_modul_ini = 27;
     }
@@ -67,6 +67,8 @@ class Statistik extends Admin_Controller
         $data['stat_rtm']              = $this->referensi_model->list_ref(STAT_RTM);
         $data['stat_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
         $data['stat_bantuan']          = $this->program_bantuan_model->list_program(0);
+        $data['tahun_bantuan_pertama'] = $this->program_bantuan_model->tahun_bantuan_pertama(($data['lap'] == 'bantuan_penduduk') ? '1' : '2') ?? date('Y');
+        $data['tahun']                 = $this->session->tahun ?? null;
         $data['status']                = $this->session->status ?? null;
         $data['judul_kelompok']        = 'Jenis Kelompok';
         $this->get_data_stat($data, $data['lap']);
@@ -295,16 +297,16 @@ class Statistik extends Admin_Controller
         redirect('statistik');
     }
 
-    public function status()
+    public function filter($key = '')
     {
-        $status = $this->input->post('status');
-        if ($status != '') {
-            $this->session->status = $status;
+        $value = $this->input->post($key);
+        if ($value != '') {
+            $this->session->{$key} = $value;
         } else {
-            $this->session->unset_userdata('status');
+            $this->session->unset_userdata($key);
         }
 
-        redirect('statistik');
+        redirect($this->controller);
     }
 
     private function get_cluster_session()
@@ -386,7 +388,12 @@ class Statistik extends Admin_Controller
 
     public function ajax_peserta_program_bantuan()
     {
-        $peserta = $this->program_bantuan_model->get_peserta_bantuan($this->session->status);
+        $filter = [
+            'status' => $this->session->status,
+            'tahun'  => $this->session->tahun,
+        ];
+
+        $peserta = $this->program_bantuan_model->get_peserta_bantuan($filter);
         $data    = [];
         $no      = $_POST['start'];
 
