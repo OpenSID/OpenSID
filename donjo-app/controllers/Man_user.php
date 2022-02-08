@@ -168,7 +168,7 @@ class Man_user extends Admin_Controller
         $email = $this->input->post('email');
         if (isset($email)) {
             $validation_email = $this->db
-                ->select('email, ')
+                ->select('email')
                 ->from('user')
                 ->where('email', $email)
                 ->where_not_in('id', $id)
@@ -179,7 +179,7 @@ class Man_user extends Admin_Controller
         $username = $this->input->post('username');
         if (isset($username)) {
             $validation_username = $this->db
-                ->select('username, ')
+                ->select('username')
                 ->from('user')
                 ->where('username', $username)
                 ->where_not_in('id', $id)

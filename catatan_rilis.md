@@ -13,6 +13,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 5. [#4846](https://github.com/OpenSID/OpenSID/issues/4846) Perbaiki data pengguna dan penduduk.
 6. [#4832](https://github.com/OpenSID/OpenSID/issues/4832) Perbaiki tambah grup pengguna baru.
 7. [#4817](https://github.com/OpenSID/OpenSID/issues/4817) Perbaiki tidak dapat menyimpan data form master analisis.
+8. [#4845](https://github.com/OpenSID/OpenSID/issues/4845) Perbaiki error ketika menambah anggota yang sudah terdaftar pada anggota kelompok.
 
 #### Perubahan Teknis
 1. Perbaiki return migrasi, tidak sesuai.
