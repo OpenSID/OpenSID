@@ -1,6 +1,6 @@
-Di rilis ini, versi 22.02-premium-rev01 menyediakan fitur Pendaftaran pada Layanan Mandiri. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.02-premium-rev01 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan1609 dan @nurudin-fst yang baru mulai berkontribusi.
+Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#4803](https://github.com/OpenSID/OpenSID/issues/4803) Default no telpon pengguna saat buat surat di layanan mandiri.
@@ -25,6 +25,7 @@ Terima kasih pada pegiat yang terus berkontribusi. Terima kasih pula pada @Irvan
 5. [#4846](https://github.com/OpenSID/OpenSID/issues/4846) Perbaiki data pengguna dan penduduk.
 6. [#4832](https://github.com/OpenSID/OpenSID/issues/4832) Perbaiki tambah grup pengguna baru.
 7. [#4817](https://github.com/OpenSID/OpenSID/issues/4817) Perbaiki tidak dapat menyimpan data form master analisis.
+8. [#4845](https://github.com/OpenSID/OpenSID/issues/4845) Perbaiki error ketika menambah anggota yang sudah terdaftar pada anggota kelompok.
 
 #### Perubahan Teknis
 1. Perbaiki return migrasi, tidak sesuai.
