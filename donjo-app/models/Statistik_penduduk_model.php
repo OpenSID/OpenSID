@@ -106,6 +106,12 @@ class Penduduk_penerima_bantuan extends Statistik_penduduk_model
 
     public function select_per_kategori()
     {
+        $tahun = $this->session->tahun;
+        if (isset($tahun)) {
+            $this->db->where('YEAR(u.sdate)', $tahun);
+            $this->db->or_where('YEAR(u.edate)', $tahun);
+        }
+
         // Ambil data sasaran penduduk
         $this->db->select('u.id, u.nama')
             ->select('u.*, COUNT(pp.peserta) as jumlah')
@@ -172,6 +178,12 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
             $this->db->where('u.status', (string) $status);
         }
 
+        $tahun = $this->session->tahun;
+        if (isset($tahun)) {
+            $this->db->where('YEAR(u.sdate)', $tahun);
+            $this->db->or_where('YEAR(u.edate)', $tahun);
+        }
+
         // Ambil data sasaran keluarga
         $this->db->select('u.id, u.nama')
             ->select('u.*, COUNT(pp.peserta) as jumlah')
@@ -198,6 +210,12 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
         $status = $this->session->status;
         if ($status != '') {
             $this->db->where('u.status', (string) $status);
+        }
+
+        $tahun = $this->session->tahun;
+        if (isset($tahun)) {
+            $this->db->where('YEAR(u.sdate)', $tahun);
+            $this->db->or_where('YEAR(u.edate)', $tahun);
         }
 
         return $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
@@ -241,6 +259,12 @@ class Bantuan_penduduk extends Statistik_penduduk_model
 
     public function hitung_total(&$data)
     {
+        $tahun = $this->session->tahun;
+        if (isset($tahun)) {
+            $this->db->where('YEAR(u.sdate)', $tahun);
+            $this->db->or_where('YEAR(u.edate)', $tahun);
+        }
+
         // Ambil data sasaran penduduk
         return $this->db
             ->select('COUNT(pp.id) AS jumlah')
@@ -250,6 +274,7 @@ class Bantuan_penduduk extends Statistik_penduduk_model
             ->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 1 THEN pp.id END)) AS jumlah_nonaktif_laki')
             ->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 2 THEN pp.id END)) AS jumlah_nonaktif_perempuan')
             ->from('program_peserta pp')
+            ->join('program u', 'u.id = pp.program_id', 'left')
             ->join('tweb_penduduk p', 'pp.peserta = p.nik', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->where('pp.program_id', $this->program_id)
@@ -283,6 +308,12 @@ class Bantuan_keluarga extends Statistik_penduduk_model
 
     public function hitung_total(&$data)
     {
+        $tahun = $this->session->tahun;
+        if (isset($tahun)) {
+            $this->db->where('YEAR(u.sdate)', $tahun);
+            $this->db->or_where('YEAR(u.edate)', $tahun);
+        }
+
         // Ambil data sasaran keluarga
         return $this->db
             ->select('COUNT(pp.id) AS jumlah')
@@ -292,6 +323,7 @@ class Bantuan_keluarga extends Statistik_penduduk_model
             ->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 1 THEN pp.id END)) AS jumlah_nonaktif_laki')
             ->select('COUNT(DISTINCT(CASE WHEN p.status_dasar <> 1 AND p.sex = 2 THEN pp.id END)) AS jumlah_nonaktif_perempuan')
             ->from('program_peserta pp')
+            ->join('program u', 'u.id = pp.program_id', 'left')
             ->join('tweb_keluarga k', 'k.no_kk = pp.peserta')
             ->join('tweb_penduduk p', 'k.nik_kepala = p.id', 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')

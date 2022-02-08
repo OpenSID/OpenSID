@@ -386,10 +386,10 @@
 			</table>
 		</form>
 		<br />
-
+		
 		<!-- Notifikasi -->
-		<?php if ($notif = $this->session->flashdata('notif')) : ?>
-			<div class="alert alert-<?= $notif['status']; ?>" role="alert">
+		<?php if (($notif = session('notif')) && (! session('notif')['data'])) : ?>
+			<div id="notifikasi" class="alert alert-<?= $notif['status']; ?>" role="alert">
 				<?= $notif['pesan']; ?>
 			</div>
 		<?php endif; ?>
@@ -488,35 +488,56 @@
 				</div>
 				<form action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data">
 					<div class="modal-body">
+						<!-- Notifikasi -->
+						<?php if (($notif = session('notif')) && ($data = session('notif')['data'])) : ?>
+							<div class="alert alert-danger" role="alert">
+								<?= $notif['pesan']; ?>
+							</div>
+						<?php endif; ?>
 						<div class="form-group">
-							<input name="nik" type="text" maxlength="16" class="form-control" placeholder="NIK">
+							<input name="nik" type="text" maxlength="16" class="form-control" placeholder="NIK" value="<?= $data['nik']; ?>">
 						</div>
 						<div class="form-group">
-							<input name="nama" type="text" required="" class="form-control" placeholder="Nama*">
+							<input name="nama" type="text" class="form-control" placeholder="Nama*" value="<?= $data['nama']; ?>" required>
 						</div>
 						<div class="form-group">
-							<input name="email" type="email" class="form-control" placeholder="Email">
+							<input name="email" type="email" class="form-control" placeholder="Email" value="<?= $data['email']; ?>">
 						</div>
 						<div class="form-group">
-							<input name="telepon" type="text" class="form-control" placeholder="Telepon">
+							<input name="telepon" type="text" class="form-control" placeholder="Telepon" value="<?= $data['telepon']; ?>">
 						</div>
 						<div class="form-group">
-							<input name="judul" type="text" class="form-control" required="" placeholder="Judul*">
+							<input name="judul" type="text" class="form-control" placeholder="Judul*" value="<?= $data['judul']; ?>" required>
 						</div>
 						<div class="form-group">
-							<textarea name="isi" required="" class="form-control" placeholder="Isi Pengaduan*" style="height: 120px;"></textarea>
+							<textarea name="isi" class="form-control" placeholder="Isi Pengaduan*" rows="5" required><?= $data['isi']; ?></textarea>
 						</div>
 						<div class="form-group">
 							<div class="input-group">
-								<input type="text" accept="image/*" onchange="readURL(this);" class="form-control" id="file_path" placeholder="Unggah Foto" name="foto">
-								<input type="file" accept="image/*" onchange="readURL(this);" class="hidden" id="file" name="foto">
+								<input type="text" accept="image/*" onchange="readURL(this);" class="form-control" id="file_path" placeholder="Unggah Foto" name="foto" value="<?= $data['foto']; ?>">
+								<input type="file" accept="image/*" onchange="readURL(this);" class="hidden" id="file" name="foto" value="<?= $data['foto']; ?>">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
 								</span>
 							</div>
 							<small>Gambar: png,jpg,jpeg</small><br>
-							<br><img id="blah" src="#" alt="gambar" class="img-responsive" />
+							<br><img id="blah" src="#" alt="gambar" class="img-responsive hidden" />
 						</div>
+							<div class="form-group">
+								<table>
+									<tr class="captcha"><td>&nbsp;</td>
+										<td>
+											<a href="#" id="b-captcha" onclick="document.getElementById('captcha').src = '<?= base_url()."securimage/securimage_show.php?"?>' + Math.random(); return false" style="color: #000000;">
+												<img id="captcha" src="<?= base_url('securimage/securimage_show'); ?>" alt="CAPTCHA Image"/>
+											</a>
+										</td>
+										<td>&nbsp;&nbsp;&nbsp;</td>
+										<td>
+											<input type="text" name="captcha_code" class="form-control" maxlength="6" required/>Isi Jawaban
+										</td>
+									</tr>
+								</table>
+							</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i> Tutup</button>
@@ -528,15 +549,28 @@
 	</div>
 </div>
 <script type="text/javascript">
+	$(document).ready(function() {
+		window.setTimeout(function() {
+			$("#notifikasi").fadeTo(500, 0).slideUp(500, function(){
+				$(this).remove();
+			});
+		}, 1000);
+
+		var data = "<?= session('notif')['data'] ?>";
+		if (data) {
+			$('#newpengaduan').modal('show');
+		}
+	});
+
+	$('#b-captcha').click();
+
 	function readURL(input) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
-				$('#blah')
-					.attr('src', e.target.result)
-					.width(150)
-					.height(auto);
+				$('#blah').removeClass('hidden');
+				$('#blah').attr('src', e.target.result).width(150).height(auto);
 			};
 
 			reader.readAsDataURL(input.files[0]);
