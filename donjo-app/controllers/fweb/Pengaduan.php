@@ -74,22 +74,32 @@ class Pengaduan extends Web_Controller
 
     public function kirim()
     {
-        $result = $this->pengaduan_model->insert();
+        // Periksa isian captcha
+        include FCPATH . 'securimage/securimage.php';
+        $securimage = new Securimage();
 
-        if ($result) {
-            $data = [
-                'status' => 'success',
-                'pesan'  => 'Pengaduan berhasil dikirim.',
+        $post = $this->input->post();
+        if ($securimage->check($post['captcha_code']) == false) {
+            $notif = [
+                'status' => 'danger',
+                'pesan'  => 'Kode captcha anda salah. Silakan ulangi lagi.',
+                'data'   => $post,
             ];
         } else {
-            $data = [
-                'status' => 'error',
-                'pesan'  => 'Pengaduan gagal dikirim.',
-            ];
+            if ($this->pengaduan_model->insert()) {
+                $notif = [
+                    'status' => 'success',
+                    'pesan'  => 'Pengaduan berhasil dikirim.',
+                ];
+            } else {
+                $notif = [
+                    'status' => 'danger',
+                    'pesan'  => 'Pengaduan gagal dikirim.',
+                    'data'   => $post,
+                ];
+            }
         }
 
-        $this->session->set_flashdata('notif', $data);
-
-        redirect($this->controller);
+        redirect_with('notif', $notif);
     }
 }
