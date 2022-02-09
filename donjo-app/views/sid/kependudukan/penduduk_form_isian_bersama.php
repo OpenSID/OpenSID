@@ -204,7 +204,7 @@
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</div>
-				<input class="form-control input-sm pull-right required" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>" onchange="myFunction()">
+				<input class="form-control input-sm pull-right required" id="tgl_lahir" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir'] ?>" onchange="myFunction()">
 			</div>
 		</div>
 	</div>
@@ -666,9 +666,15 @@
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		$('#tgl_lahir').datetimepicker({
+			format: 'DD-MM-YYYY',
+			locale: 'id',
+			maxDate: new Date(),
+		});
+
 		var addOrRemoveRequiredAttribute = function() {
 			var tglsekarang = new Date();
-			var tgllahir = parseInt($('#tgl_1').val().substring(6, 10));
+			var tgllahir = parseInt($('#tgl_lahir').val().substring(6, 10));
 			var selisih = tglsekarang.getFullYear() - tgllahir;
 			var wajib_identitas = $('.wajib_identitas');
 			var status_perkawinan = document.getElementById("status_perkawinan").value;
@@ -679,7 +685,7 @@
 			}
 		};
 
-		$("#tgl_1").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
+		$("#tgl_lahir").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
 		$("#status_perkawinan").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 		$(".form-control").on('change keyup paste click keydown select', addOrRemoveRequiredAttribute);
 

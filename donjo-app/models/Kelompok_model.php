@@ -160,19 +160,33 @@ class Kelompok_model extends MY_Model
     public function list_data($o = 0, $page = 0)
     {
         switch ($o) {
-            case 1: $this->db->order_by('u.nama'); break;
+            case 1:
+                $this->db->order_by('u.nama');
+                break;
 
-            case 2: $this->db->order_by('u.nama', 'desc'); break;
+            case 2:
+                $this->db->order_by('u.nama', 'desc');
+                break;
 
-            case 3: $this->db->order_by('c.nama'); break;
+            case 3:
+                $this->db->order_by('c.nama');
+                break;
 
-            case 4: $this->db->order_by('c.nama desc'); break;
+            case 4:
+                $this->db->order_by('c.nama desc');
+                break;
 
-            case 5: $this->db->order_by('master'); break;
+            case 5:
+                $this->db->order_by('master');
+                break;
 
-            case 6: $this->db->order_by('master desc'); break;
+            case 6:
+                $this->db->order_by('master desc');
+                break;
 
-            default: $this->db->order_by('u.nama'); break;
+            default:
+                $this->db->order_by('u.nama');
+                break;
         }
 
         $this->list_data_sql();
@@ -266,6 +280,23 @@ class Kelompok_model extends MY_Model
         $data                = $this->validasi_anggota($this->input->post());
         $data['id_kelompok'] = $id;
         $this->ubah_jabatan($data['id_kelompok'], $data['id_penduduk'], $data['jabatan'], null);
+
+        if ($data['id_kelompok']) {
+            $validasi_anggota = $this->db
+                ->select('id_penduduk, id_kelompok')
+                ->from('kelompok_anggota')
+                ->where('id_penduduk', $data['id_penduduk'])
+                ->where('id_kelompok', $data['id_kelompok'])
+                ->limit(1)->get()->row();
+        }
+
+        if ($validasi_anggota->id_penduduk == $data['id_penduduk']) {
+            $this->session->success   = -1;
+            $this->session->error_msg = 'Nama Anggota yang dipilih sudah masuk kelompok';
+            redirect("kelompok/form_anggota/{$validasi_anggota->id_kelompok}");
+
+            return false;
+        }
 
         $outp    = $this->db->insert('kelompok_anggota', $data);
         $id_pend = $data['id_penduduk'];
@@ -568,9 +599,13 @@ class Kelompok_model extends MY_Model
             $judul = ['nama' => ' : TOTAL'];
         } else {
             switch ($tipe) {
-                case 'penerima_bantuan': $table = 'program'; break;
+                case 'penerima_bantuan':
+                    $table = 'program';
+                    break;
 
-                default: $table = 'kelompok'; break;
+                default:
+                    $table = 'kelompok';
+                    break;
             }
 
             $judul = $this->db->get_where($table, ['id' => $nomor])->row_array();
