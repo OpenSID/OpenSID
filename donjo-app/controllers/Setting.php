@@ -138,7 +138,6 @@ class Setting extends Admin_Controller {
 		$data = [
 			'judul' => 'Pengaturan Analisis',
 			'kategori' => ['setting_analisis'],
-			'demo_mode' => $this->setting->demo_mode,
 			'aksi_controller' => 'setting/analisis'
 		];
 

@@ -115,7 +115,7 @@
 								<tr>
 									<td>Token Pelanggan</td>
 									<td> : </td>
-									<td><textarea disabled style="width:100%; overflow: hidden; background-color: white; border-color: white;"><?= $this->setting->demo_mode ? '' : $response->body->token ?></textarea></td>
+									<td><textarea disabled style="width:100%; overflow: hidden; background-color: white; border-color: white;"><?= config_item('demo_mode') ? '' : $response->body->token ?></textarea></td>
 								</tr>
 							</tbody>
 						</table>
