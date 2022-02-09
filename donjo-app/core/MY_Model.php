@@ -198,7 +198,10 @@ class MY_Model extends CI_Model
         $hasil = $this->db->query($sql);
 
         // Hak Akses Default Operator
-        $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
+        // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
+        if ($this->db->table_exists('grup_akses')) {
+           $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
+        }
 
         // Hapus cache menu navigasi
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
