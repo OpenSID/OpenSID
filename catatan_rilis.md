@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. [#4845](https://github.com/OpenSID/OpenSID/issues/4845) Perbaiki error ketika menambah anggota yang sudah terdaftar pada anggota kelompok.
 9. [#4842](https://github.com/OpenSID/OpenSID/issues/4842) Perbaiki sukses input tanggal lahir mendatang.
 10. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki status perkawinan kawin tercatat semua.
+11. [#4863](https://github.com/OpenSID/OpenSID/issues/4863) Perbaiki migrasi dari v20.12 umum ke v22.02-premium-beta01.
 
 #### Perubahan Teknis
 
