@@ -15,12 +15,6 @@
 																		</td>
 																	</tr>
 																	<tr>
-																		<td class="col-sm-10">Ekspor Data Penduduk untuk diimpor ke database OpenDK (.zip)</td>
-																		<td class="col-sm-2">
-																			<a href="<?= site_url("database")?>/export_excel/opendk" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>
-																		</td>
-																	</tr>
-																	<tr>
 																		<td>Ekspor Data Dasar Kependudukan (.sid)</td>
 																		<td>
 																			<a href="<?= site_url("database")?>/export_dasar" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-download"></i> Unduh</a>

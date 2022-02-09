@@ -44,12 +44,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-define("VERSION", '22.02');
+
 /**
- * Untuk migrasi database. Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
- * Versi database = [yyyymmdd][nomor urut dua digit]. Ubah setiap kali mengubah struktur database.
+ * VERSION
+ * rilis-bugsfix => premium-rev[nomor urut dua digit]
+ * beta => premium-beta[nomor urut dua digit]
+ * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSI_DATABASE', '2022020101');
+define("VERSION", '22.02-pasca');
+/**
+ * VERSI_DATABASE
+ * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
+ * Simpan nilai ini di tabel migrasi untuk menandakan sudah migrasi ke versi ini
+ * Versi database = [yyyymmdd][nomor urut dua digit]
+ * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
+ */
+define('VERSI_DATABASE', '2022021501');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -288,16 +298,6 @@ define("KTP_EL", serialize(array(
     strtolower("BELUM") => "1",
     strtolower("KTP-EL") => "2",
     strtolower("KIA") => "3"
-)));
-define("STATUS_REKAM", serialize(array(
-    strtolower("BELUM WAJIB") => "1",
-    strtolower("BELUM REKAM") => "2",
-    strtolower("SUDAH REKAM") => "3",
-    strtolower("CARD PRINTED") => "4",
-    strtolower("PRINT READY RECORD") => "5",
-    strtolower("CARD SHIPPED") => "6",
-    strtolower("SENT FOR CARD PRINTING") => "7",
-    strtolower("CARD ISSUED") => "8"
 )));
 define("TEMPAT_DILAHIRKAN", serialize(array(
     "RS/RB" => "1",
@@ -713,32 +713,38 @@ function sql_in_list($list_array)
  */
 function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP)
 {
-    // Tentukan path berkas (absolut)
-    $pathBerkas = FCPATH . $lokasi . $nama_berkas;
-    $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
-    // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-    if (!file_exists($pathBerkas)) {
-        $_SESSION['success'] = -1;
-        $_SESSION['error_msg'] = 'Berkas tidak ditemukan';
-        if ($redirect_url) {
-            redirect($redirect_url);
-        } else {
-            http_response_code(404);
-            include(FCPATH . 'donjo-app/views/errors/html/error_404.php');
-            die();
-        }
-    }
-    // OK, berkas ada. Ambil konten berkasnya
-    $data = file_get_contents($pathBerkas);
-    if (!is_null($unique_id)) {
-        // Buang unique id pada nama berkas download
-        $nama_berkas = explode($unique_id, $nama_berkas);
-        $namaFile = $nama_berkas[0];
-        $ekstensiFile = explode('.', end($nama_berkas));
-        $ekstensiFile = end($ekstensiFile);
-        $nama_berkas = $namaFile . '.' . $ekstensiFile;
-    }
-    force_download($nama_berkas, $data);
+	$CI =& get_instance();
+	$CI->load->helper('download');
+	
+	// Tentukan path berkas (absolut)
+	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
+	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+	// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
+	if (!file_exists($pathBerkas))
+	{
+		$_SESSION['success'] = -1;
+		$_SESSION['error_msg'] = 'Berkas tidak ditemukan';
+		if ($redirect_url)
+			redirect($redirect_url);
+		else
+		{
+			http_response_code(404);
+			include(FCPATH . 'donjo-app/views/errors/html/error_404.php');
+			die();
+		}
+	}
+	// OK, berkas ada. Ambil konten berkasnya
+	$data = file_get_contents($pathBerkas);
+	if (!is_null($unique_id))
+	{
+		// Buang unique id pada nama berkas download
+		$nama_berkas = explode($unique_id, $nama_berkas);
+		$namaFile = $nama_berkas[0];
+		$ekstensiFile = explode('.', end($nama_berkas));
+		$ekstensiFile = end($ekstensiFile);
+		$nama_berkas = $namaFile . '.' . $ekstensiFile;
+	}
+	force_download($nama_berkas, $data);
 }
 
 /**
@@ -1089,6 +1095,39 @@ function kode_wilayah($kode_wilayah)
     $kode_desa = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
     $kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
     return $kode_standar;
+}
+
+// Dari 0892611042612 --> +6292611042612 untuk redirect WA
+function format_telpon(string $no_telpon, $kode_negara = '+62')
+{
+	$awalan = substr($no_telpon, 0, 2);
+
+	if ($awalan == "62") return '+' . $no_telpon;
+
+	return $kode_negara . substr($no_telpon, 1, strlen($no_telpon));
+}
+
+// https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
+function strReplaceArrayRecursive($replacement = array(), $strArray = false, $isReplaceKey = false)
+{
+    if ( ! is_array($strArray))
+    {
+        return str_replace(array_keys($replacement), array_values($replacement), $strArray);
+    }
+    else {
+        $newArr = array();
+        foreach ($strArray as $key=>$value)
+        {
+            $replacedKey = $key;
+            if ($isReplaceKey)
+            {
+                $replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
+            }
+            $newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
+        }
+
+        return $newArr;
+    }
 }
 
 // Dari 0892611042612 --> +6292611042612 untuk redirect WA

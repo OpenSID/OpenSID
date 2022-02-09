@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * Controller untuk modul Layanan Pelanggan
+ * View untuk konfiramsi permohonan surat
  *
- * donjo-app/controllers/Pelanggan.php
+ * donjo-app/views/surat/konfirmasi_permohonan.php,
  *
  */
 
@@ -44,29 +44,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
+?>
 
-class Pelanggan extends Admin_Controller {
-	
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model(['notif_model', 'setting_model']);
-		$this->modul_ini = 200;
-		$this->sub_modul_ini = 313;
-	}
+<?php $this->load->view('global/validasi_form'); ?>
+<form id="validasi" action="<?= $form_action; ?>" method="post">
+	<div class="modal-body">
+		<div class="form-group">
+			<label class="control-label" for="pesan">Pesan Singkat Permohonan Surat <?= $judul ?></label>
+			<textarea name="pesan" class="form-control input-sm required" placeholder="Pesan singkat alasan permohonan surat dibatalkan" rows="5"></textarea>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class="fa fa-times"></i> Batal</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
+	</div>
+</form>
 
-	public function index()
-	{
-		$response = $this->notif_model->api_pelanggan_pemesanan();
-
-		// Ubah layanan_opendesa_token terbaru, jangan perbaharui jika token tersimpan di config (untuk developmen)
-		if ((null !== $response && $response->body->token !== $this->setting->layanan_opendesa_token) && empty(config_item('token_layanan'))) {
-			$post['layanan_opendesa_token'] = $response->body->token;
-			$this->setting_model->update_setting($post);
-
-			redirect($this->controller);
-		}
-
-		$this->render('pelanggan/index', ['response' => $response]);
-	}
-}

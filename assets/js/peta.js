@@ -41,7 +41,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-
 $(document).ready(function ()
 {
 	$('#resetme').click(function () {
@@ -100,24 +99,19 @@ function set_marker(marker, daftar_path, judul, nama_wil, favico_desa)
 	}
 }
 
-function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa)
-{
+function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa) {
 	var daftar = JSON.parse(daftar_path);
 	var jml = daftar.length;
 	var jml_path;
-	for (var x = 0; x < jml; x++)
-	{
-		if (daftar[x].path)
-		{
+	for (var x = 0; x < jml; x++) {
+		if (daftar[x].path) {
 			daftar[x].path = JSON.parse(daftar[x].path)
-			var jml = daftar[x].path.length;
-			for (var a = 0; a < jml; a++)
-			{
+			var jml_path_x = daftar[x].path.length;
+			for (var a = 0; a < jml_path_x; a++) {
 				for (var b = 0; b < daftar[x].path[a].length; b++) {
 					jml_path = daftar[x].path[a][0].length;
-					for (var z = 0; z < jml_path; z++)
-					{
-						 daftar[x].path[a][0][z].reverse();
+					for (var z = 0; z < jml_path; z++) {
+						daftar[x].path[a][0][z].reverse();
 					}
 
 					var label = L.tooltip({
@@ -145,21 +139,18 @@ function set_marker_multi(marker, daftar_path, judul, nama_wil, favico_desa)
 
 					daftar[x].path[a][0].push(daftar[x].path[a][0][0]);
 
-					if (daftar[x].lng)
-					{
+					if (daftar[x].lng) {
 						marker.push(turf.point([daftar[x].lng, daftar[x].lat], { content: label, style: L.icon(point_style) }));
 					}
 					
 					marker.push(turf.polygon(daftar[x].path[a], { content: daftar[x][nama_wil], style: marker_style }));
 				}
-				
 			}
 		}
 	}
 }
 
-function set_marker_desa(marker_desa, desa, judul, favico_desa)
-{
+function set_marker_desa(marker_desa, desa, judul, favico_desa) {
 	var daerah_desa = JSON.parse(desa['path']);
 	var jml = daerah_desa.length;
 
@@ -174,21 +165,19 @@ function set_marker_desa(marker_desa, desa, judul, favico_desa)
 	};
 
 	var point_style = stylePointLogo(favico_desa);
-	if (desa['lng'])
-	{
+	if (desa['lng']) {
 		marker_desa.push(turf.point([desa['lng'], desa['lat']], { content: desa, style: L.icon(point_style) }));
 	}
 
-	for (var x = 0; x < jml; x++)
-	{
-		for (var i = 0; i < daerah_desa[x][0].length; i++) 
-		{
+	for (var x = 0; x < jml; x++) {
+		for (var i = 0; i < daerah_desa[x][0].length; i++)  {
 			daerah_desa[x][0][i].reverse();
 		}
 		daerah_desa[x][0].push(daerah_desa[x][0][0]);
 		marker_desa.push(turf.polygon(daerah_desa[x], { content: desa, style: style_polygon }));
 	}
 }
+
 
 function set_marker_desa_content(marker_desa, desa, judul, favico_desa, contents)
 {
@@ -352,17 +341,16 @@ function set_marker_multi_content(marker, daftar_path, judul, nama_wil, contents
 	{
 		if (daftar[x].path)
 		{
-
 			daftar[x].path = JSON.parse(daftar[x].path)
-			var jml = daftar[x].path.length;
-			for (var a = 0; a < jml; a++)
+			var jml_path_x = daftar[x].path.length;
+			for (var a = 0; a < jml_path_x; a++)
 			{
 				for (var b = 0; b < daftar[x].path[a].length; b++) 
 				{
 					jml_path = daftar[x].path[a][0].length;
 					for (var z = 0; z < jml_path; z++)
 					{
-						 daftar[x].path[a][0][z].reverse();
+						daftar[x].path[a][0][z].reverse();
 					}
 
 					content = $(contents + x).html();
@@ -445,95 +433,48 @@ function getBaseLayers(peta, access_token)
 	return baseLayers;
 }
 
-function poligonWil(marker)
-{
-	var poligon_wil = L.geoJSON(turf.featureCollection(marker), {
+function wilayah_property(marker) {
+	var wilayah_property = L.geoJSON(turf.featureCollection(marker), {
 		pmIgnore: true,
-		showMeasurements: true,
-		measurementOptions: { showSegmentLength: false },
+		showMeasurements: false,
+		measurementOptions: {
+			showSegmentLength: false
+		},
 		onEachFeature: function (feature, layer) {
-			if (feature.properties.name == 'kantor_desa')
-			{
+			if (feature.properties.name == 'kantor_desa') {
 				// Beri classname berbeda, supaya bisa gunakan css berbeda
 				layer.bindPopup(feature.properties.content, { 'className': 'kantor_desa' });
-			}
-			else
-			{
+			} else {
 				layer.bindPopup(feature.properties.content);
 			}
 			layer.bindTooltip(feature.properties.content, { sticky: true, direction: 'top' });(feature.properties.style)
 		},
 		style: function (feature) {
-			if (feature.properties.style)
-			{
+			if (feature.properties.style) {
 				return feature.properties.style;
 			}
 		},
 		pointToLayer: function (feature, latlng) {
-			if (feature.properties.style)
-			{
+			if (feature.properties.style) {
 				return L.marker(latlng, { icon: feature.properties.style });
-			}
-			else
+			} else {
 				return L.marker(latlng);
+			}
+			
 		}
 	});
 
-	return poligon_wil;
+	return wilayah_property;
 }
 
-function multipoligonWil(marker)	// check apakah fungsi double mungkin bakal dihapus
-{	
-	var multipoligonWil = 	
-	L.geoJSON(turf.featureCollection(marker), {	
-		pmIgnore: true,	
-		showMeasurements: false,	
-		measurementOptions: { showSegmentLength: false },	
-		onEachFeature: function (feature, layer) {	
-				
-			if (feature.properties.name == 'kantor_desa')	
-			{	
-				// Beri classname berbeda, supaya bisa gunakan css berbeda	
-				layer.bindPopup(feature.properties.content, { 'className': 'kantor_desa' });	
-			}	
-			else	
-			{	
-				layer.bindPopup(feature.properties.content);	
-			}	
-			layer.bindTooltip(feature.properties.content, { sticky: true, direction: 'top' });(feature.properties.style)	
-				
-		},	
-		style: function (feature) {	
-			if (feature.properties.style)	
-			{	
-				return feature.properties.style;	
-			}	
-		},	
-		pointToLayer: function (feature, latlng) {	
-			if (feature.properties.style)	
-			{	
-				return L.marker({lat: -8.483832804795249, lng: 116.08523368835449});	
-			}	
-			else	
-				return L.marker({lat: -8.483832804795249, lng: 116.08523368835449});	
-					
-		}	
-	});	
-	return multipoligonWil;	
-}
-
-function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_desa, sebutan_dusun)
-{
-
-	var poligon_wil_desa = multipoligonWil(marker_desa);
-	var poligon_wil_dusun = poligonWil(marker_dusun);
-	var poligon_wil_rw = poligonWil(marker_rw);
-	var poligon_wil_rt = poligonWil(marker_rt);
-	var poligon_wil_rt = poligonWil(marker_rt);
+function overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, sebutan_desa, sebutan_dusun) {
+	var poligon_wil_desa = wilayah_property(marker_desa);
+	var poligon_wil_dusun = wilayah_property(marker_dusun);
+	var poligon_wil_rw = wilayah_property(marker_rw);
+	var poligon_wil_rt = wilayah_property(marker_rt);
 
 	var peta_desa = 'Peta Wilayah ' + sebutan_desa;
 	var peta_dusun = 'Peta Wilayah ' + sebutan_dusun;
-	var peta_persil = 'Peta Persil ' + sebutan_dusun;
 	var overlayLayers = new Object;
 	overlayLayers[peta_desa] = poligon_wil_desa;
 	overlayLayers[peta_dusun] = poligon_wil_dusun;
@@ -640,8 +581,11 @@ function styleGpx()
 	return style;
 }
 
-function eximGpxPoly(layerpeta, multi = false)
+function eximGpxRegion(layerpeta, multi = false)
 {
+	L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="' + BASE_URL + 'assets/images/gpx.png" alt="file icon"/>';
+	L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+			
 	controlGpxPoly = L.Control.fileLayerLoad({
 		addToMap: true,
 		formats: [
@@ -680,36 +624,22 @@ function eximGpxPoly(layerpeta, multi = false)
 			};
 		}
 
-		if (multi == true)
-		{
+		var path = get_path_import(coords, multi);
+
+		if (multi == true) {
 			coords = new Array(coords);
 		}
 
-		document.getElementById('path').value =
-			JSON.stringify(coords)
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']],[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace(']]],[[[', '],[')
-				.replace('[[[[', '[[[')
-				.replace(']]]]', ']]]')
-				.replace('],null]', ']');
+		document.getElementById('path').value = path;
 	});
+
 	return controlGpxPoly;
 }
 
 function eximGpxPoint(layerpeta) {
+	L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="' + BASE_URL + 'assets/images/gpx.png" alt="file icon"/>';
+	L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
+	
 	controlGpxPoint = L.Control.fileLayerLoad({
 		addToMap: false,
 		formats: [
@@ -749,13 +679,13 @@ function eximGpxPoint(layerpeta) {
 	return controlGpxPoint;
 }
 
-function eximShp(layerpeta)
+function eximShp(layerpeta, multi = false)
 {
 	L.Control.Shapefile = L.Control.extend({
 		onAdd: function (map) {
 			var thisControl = this;
 
-			var controlDiv = L.DomUtil.create('div', 'leaflet-control-command');
+			var controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control leaflet-control-command');
 
 			// Create the leaflet control.
 			var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
@@ -770,6 +700,7 @@ function eximShp(layerpeta)
 			var input = L.DomUtil.create('input', 'leaflet-control-command-form-input', form);
 			input.id = 'file';
 			input.type = 'file';
+			input.accept = '.zip';
 			input.name = 'uploadFile';
 			input.style.display = 'none';
 
@@ -821,39 +752,21 @@ function eximShp(layerpeta)
 								};
 							}
 
-							if (multi == true)
-							{
+							var path = get_path_import(coords, multi);
+							
+							if (multi == true) {
 								coords = new Array(coords);
 							}
 
-							document.getElementById('path').value =
-								JSON.stringify(coords)
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']],[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace(']]],[[[', '],[')
-									.replace('[[[[', '[[[')
-									.replace(']]]]', ']]]')
-									.replace('],null]', ']');
+							document.getElementById('path').value = path;	
 
 							layerpeta.fitBounds(shpfile.getBounds());
-
 						});
 					}
 				});
 
 			controlUI.title = 'Impor Shapefile (.Zip)';
+			
 			return controlDiv;
 		},
 	});
@@ -997,13 +910,13 @@ function old_value(id_path) {
 
 function addPetaMultipoly(layerpeta)	
 {	
-	 
+	
 	layerpeta.on('pm:create', function (e) 	
 	{	
 		var type = e.layerType;	
 		var layer = e.layer;	
 		var latLngs;	
-	 
+	
 		// set value setelah create polygon	
 		if (document.getElementById('path').value == '') {document.getElementById('path').value = '[]'}
 
@@ -1029,13 +942,13 @@ function addPetaMultipoly(layerpeta)
 					}
 				}
 			}
-			 
+			
 			var new_path = getLatLong('multi', _path).toString();	
 			document.getElementById('path').value= new_path; 
 			document.getElementById('zoom').value = layerpeta.getZoom();	 
 		})	
 		layers [e.layer._leaflet_id] = last_path[0]
-		 
+		
 		document.getElementById('path').value = JSON.stringify(last_path)	
 		document.getElementById('zoom').value = layerpeta.getZoom();	
 	});	
@@ -1117,7 +1030,7 @@ function showCurrentMultiPolygon(wilayah, layerpeta, warna) {
 		// set value setelah create masing2 polygon	
 		path.push(layer._latlngs);	
 	}
-	 
+	
 	layerpeta.fitBounds(bounds);
 	document.getElementById('path').value = getLatLong('multi', path).toString()	
 	document.getElementById('zoom').value = layerpeta.getZoom();	
@@ -2028,4 +1941,35 @@ function pantau_desa(layer_desa, tracker_host, kode_desa, img, token)
 
 	});
 	return pantau_desa;
+}
+
+function get_path_import(coords, multi = false) {
+
+	var path = JSON.stringify(coords)
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']],[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace(']]],[[[', '],[')
+		.replace('[[[[[', '[[[')
+		.replace(']]]]]', ']]]')
+		.replace('[[[[', '[[[')
+		.replace(']]]]', ']]]')
+		.replace('],null]', ']');
+
+	if (multi == true) {
+		path = ''.concat('[', path, ']');
+	}
+
+	return path;
 }

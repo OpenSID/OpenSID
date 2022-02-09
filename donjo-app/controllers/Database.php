@@ -132,22 +132,15 @@ class Database extends Admin_Controller {
 	/*
 		$opendk - tidak kosong untuk header sesuai dengan format impor OpenDK
 	*/
-	public function export_excel($opendk = '')
+	public function export_excel()
 	{
 		$writer = WriterEntityFactory::createXLSXWriter();
 
 		//Nama File
 		$tgl =  date('d_m_Y');
-		if ($opendk)
-		{
-			$lokasi = LOKASI_DOKUMEN . 'penduduk_' . $tgl . '_opendk.xlsx';
-			$writer->openToFile($lokasi);
-		}
-		else
-		{
-			$fileName = 'penduduk_' . $tgl . '.xlsx';
-			$writer->openToBrowser($fileName); // stream data directly to the browser
-		}
+		$fileName = 'penduduk_' . $tgl . '.xlsx';
+		$writer->openToBrowser($fileName); // stream data directly to the browser
+
 
 		//Header Tabel
 		$daftar_kolom = [
@@ -189,139 +182,58 @@ class Database extends Admin_Controller {
 			['Alamat Sekarang', 'alamat_sekarang'],
 			['Status Dasar', 'status_dasar'],
 		];
-		if ($opendk)
-		{
-			$judul = array_column($daftar_kolom, 1);
-			// Kolom tambahan khusus OpenDK
-			$judul[] = 'id';
-			$judul[] = 'foto';
-			$judul[] = 'status_dasar';
-			$judul[] = 'created_at';
-			$judul[] = 'updated_at';
-			$judul[] = 'desa_id';
-		}
-		else
-		{
-			$judul = array_column($daftar_kolom, 0);
-		}
+
+		$judul = array_column($daftar_kolom, 0);
 		$header = WriterEntityFactory::createRowFromArray($judul);
 		$writer->addRow($header);
 
 		//Isi Tabel
 		$get = $this->export_model->export_excel();
-		if ($opendk)
+		foreach ($get as $row)
 		{
-			foreach ($get as $row)
-			{
-				$penduduk = array(
-					$row->alamat,
-					$row->dusun,
-					$row->rw,
-					$row->rt,
-					$row->nama,
-					$row->no_kk,
-					$row->nik,
-					$row->sex,
-					$row->tempatlahir,
-					$row->tanggallahir,
-					$row->agama_id,
-					$row->pendidikan_kk_id,
-					$row->pendidikan_sedang_id,
-					$row->pekerjaan_id,
-					$row->status_kawin,
-					$row->kk_level,
-					$row->warganegara_id,
-					$row->nama_ayah,
-					$row->nama_ibu,
-					$row->golongan_darah_id,
-					$row->akta_lahir,
-					$row->dokumen_pasport,
-					$row->tanggal_akhir_pasport,
-					$row->dokumen_kitas,
-					$row->ayah_nik,
-					$row->ibu_nik,
-					$row->akta_perkawinan,
-					$row->tanggalperkawinan,
-					$row->akta_perceraian,
-					$row->tanggalperceraian,
-					$row->cacat_id,
-					$row->cara_kb_id,
-					$row->hamil,
-					$row->ktp_el,
-					$row->status_rekam,
-					$row->alamat_sekarang,
-					$row->id,
-					$row->foto,
-					$row->status_dasar,
-					$row->created_at,
-					$row->updated_at,
-					$row->desa_id,
-				);
-
-
-				$file_foto = LOKASI_USER_PICT . $row->foto;
-				if (is_file($file_foto))
-				{
-					$this->zip->read_file($file_foto);
-				}
-
-				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
-				$writer->addRow($rowFromValues);
-			}
-
-			$writer->close();
-			$this->zip->read_file($lokasi);
-			unlink($lokasi);
-			$this->zip->download('penduduk_' . $tgl . '_opendk.zip');
+			$penduduk = array(
+				$row->alamat,
+				$row->dusun,
+				$row->rw,
+				$row->rt,
+				$row->nama,
+				$row->no_kk,
+				$row->nik,
+				$row->sex,
+				$row->tempatlahir,
+				$row->tanggallahir,
+				$row->agama_id,
+				$row->pendidikan_kk_id,
+				$row->pendidikan_sedang_id,
+				$row->pekerjaan_id,
+				$row->status_kawin,
+				$row->kk_level,
+				$row->warganegara_id,
+				$row->nama_ayah,
+				$row->nama_ibu,
+				$row->golongan_darah_id,
+				$row->akta_lahir,
+				$row->dokumen_pasport,
+				$row->tanggal_akhir_pasport,
+				$row->dokumen_kitas,
+				$row->ayah_nik,
+				$row->ibu_nik,
+				$row->akta_perkawinan,
+				$row->tanggalperkawinan,
+				$row->akta_perceraian,
+				$row->tanggalperceraian,
+				$row->cacat_id,
+				$row->cara_kb_id,
+				$row->hamil,
+				$row->ktp_el,
+				$row->status_rekam,
+				$row->alamat_sekarang,
+				$row->status_dasar,
+			);
+			$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
+			$writer->addRow($rowFromValues);
 		}
-		else
-		{
-			foreach ($get as $row)
-			{
-				$penduduk = array(
-					$row->alamat,
-					$row->dusun,
-					$row->rw,
-					$row->rt,
-					$row->nama,
-					$row->no_kk,
-					$row->nik,
-					$row->sex,
-					$row->tempatlahir,
-					$row->tanggallahir,
-					$row->agama_id,
-					$row->pendidikan_kk_id,
-					$row->pendidikan_sedang_id,
-					$row->pekerjaan_id,
-					$row->status_kawin,
-					$row->kk_level,
-					$row->warganegara_id,
-					$row->nama_ayah,
-					$row->nama_ibu,
-					$row->golongan_darah_id,
-					$row->akta_lahir,
-					$row->dokumen_pasport,
-					$row->tanggal_akhir_pasport,
-					$row->dokumen_kitas,
-					$row->ayah_nik,
-					$row->ibu_nik,
-					$row->akta_perkawinan,
-					$row->tanggalperkawinan,
-					$row->akta_perceraian,
-					$row->tanggalperceraian,
-					$row->cacat_id,
-					$row->cara_kb_id,
-					$row->hamil,
-					$row->ktp_el,
-					$row->status_rekam,
-					$row->alamat_sekarang,
-					$row->status_dasar,
-				);
-				$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
-				$writer->addRow($rowFromValues);
-			}
-			$writer->close();
-		}
+		$writer->close();
 
 		redirect('database');
 	}
@@ -411,219 +323,52 @@ class Database extends Admin_Controller {
 		$this->load->view('export/penduduk_csv', $data);
 	}
 
-	public function sinkronasi_opendk()
+	// Dikhususkan untuk server yg hanya digunakan untuk web publik
+	public function acak()
 	{
 		$this->redirect_hak_akses('u');
-		$data['form_action'] = site_url("database/sinkronasi_db_opendk");
+		if ($this->setting->penggunaan_server != 6) return;
 
-		$data['act_tab'] = 7;
-		$data['content'] = 'database/sinkronasi_opendk';
-		$this->load->view('database/database.tpl.php', $data);
+		$this->load->model('acak_model');
+		echo $this->load->view('database/hasil_acak', '', true);
+		$hasil = $this->acak_model->acak_penduduk();
+		$hasil = $hasil && $this->acak_model->acak_keluarga();
+		echo $this->load->view('database/hasil_acak', '', true);
 	}
 
-	public function sinkronasi_db_opendk()
+	// Digunakan untuk server yg hanya digunakan untuk web publik
+	public function mutakhirkan_data_server()
 	{
 		$this->redirect_hak_akses('u');
+		$this->session->error_msg = null;
+		if ($this->setting->penggunaan_server != 6) return;
+		$this->load->view('database/ajax_sinkronkan', $data);
+	}
 
-		foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
-			if (file_exists($file)) {
-				unlink($file);
-				break;
-			}
-		}
+	public function proses_sinkronkan()
+	{
+		$this->redirect_hak_akses('u');
+		$this->load->model('sinkronisasi_model');
 
-		$writer = WriterEntityFactory::createXLSXWriter();
+		$this->load->library('upload');
 
-		//Nama File
-		$tgl =  date('d_m_Y');
-		$lokasi = LOKASI_DOKUMEN . 'penduduk_' . $tgl . '_opendk.xlsx';
-		$writer->openToFile($lokasi);
+		$config['upload_path']		= LOKASI_SINKRONISASI_ZIP;
+		$config['allowed_types']	= 'zip';
+		$config['overwrite'] 			= TRUE;
+		//$config['max_size']				= max_upload() * 1024;
+		$config['file_name']			= namafile('sinkronisasi');
 
-		//Header Tabel
-		$daftar_kolom = [
-			['Alamat', 'alamat'],
-			['Dusun', 'dusun'],
-			['RW', 'rw'],
-			['RT', 'rt'],
-			['Nama', 'nama'],
-			['Nomor KK', 'nomor_kk'],
-			['Nomor NIK', 'nomor_nik'],
-			['Jenis Kelamin', 'jenis_kelamin'],
-			['Tempat Lahir', 'tempat_lahir'],
-			['Tanggal Lahir', 'tanggal_lahir'],
-			['Agama', 'agama'],
-			['Pendidikan (dlm KK)', 'pendidikan_dlm_kk'],
-			['Pendidikan (sdg ditempuh)', 'pendidikan_sdg_ditempuh'],
-			['Pekerjaan', 'pekerjaan'],
-			['Kawin', 'kawin'],
-			['Hub. Keluarga', 'hubungan_keluarga'],
-			['Kewarganegaraan', 'kewarganegaraan'],
-			['Nama Ayah', 'nama_ayah'],
-			['Nama Ibu', 'nama_ibu'],
-			['Gol. Darah', 'gol_darah'],
-			['Akta Lahir', 'akta_lahir'],
-			['Nomor Dokumen Paspor', 'nomor_dokumen_pasport'],
-			['Tanggal Akhir Paspor', 'tanggal_akhir_pasport'],
-			['Nomor Dokumen KITAS', 'nomor_dokumen_kitas'],
-			['NIK Ayah', 'nik_ayah'],
-			['NIK Ibu', 'nik_ibu'],
-			['Nomor Akta Perkawinan', 'nomor_akta_perkawinan'],
-			['Tanggal Perkawinan', 'tanggal_perkawinan'],
-			['Nomor Akta Perceraian', 'nomor_akta_perceraian'],
-			['Tanggal Perceraian', 'tanggal_perceraian'],
-			['Cacat', 'cacat'],
-			['Cara KB', 'cara_kb'],
-			['Hamil', 'hamil'],
-			['KTP-el', 'ktp_el'],
-			['Status Rekam', 'status_rekam'],
-			['Alamat Sekarang', 'alamat_sekarang']
-		];
-		$judul = array_column($daftar_kolom, 1);
-		// Kolom tambahan khusus OpenDK
-		$judul[] = 'id';
-		$judul[] = 'foto';
-		$judul[] = 'status_dasar';
-		$judul[] = 'created_at';
-		$judul[] = 'updated_at';
-		$judul[] = 'desa_id';
-		$judul[] = 'tahun';
+		$this->upload->initialize($config);
 
-		$header = WriterEntityFactory::createRowFromArray($judul);
-		$writer->addRow($header);
-
-		$get = $this->export_model->tambah_penduduk_sinkronasi_opendk();
-		foreach ($get as $row)
+		if ( ! $this->upload->do_upload('sinkronkan'))
 		{
-			$penduduk = array(
-				$row->alamat,
-				$row->dusun,
-				$row->rw,
-				$row->rt,
-				$row->nama,
-				$row->no_kk,
-				$row->nik,
-				$row->sex,
-				$row->tempatlahir,
-				$row->tanggallahir,
-				$row->agama_id,
-				$row->pendidikan_kk_id,
-				$row->pendidikan_sedang_id,
-				$row->pekerjaan_id,
-				$row->status_kawin,
-				$row->kk_level,
-				$row->warganegara_id,
-				$row->nama_ayah,
-				$row->nama_ibu,
-				$row->golongan_darah_id,
-				$row->akta_lahir,
-				$row->dokumen_pasport,
-				$row->tanggal_akhir_pasport,
-				$row->dokumen_kitas,
-				$row->ayah_nik,
-				$row->ibu_nik,
-				$row->akta_perkawinan,
-				$row->tanggalperkawinan,
-				$row->akta_perceraian,
-				$row->tanggalperceraian,
-				$row->cacat_id,
-				$row->cara_kb_id,
-				$row->hamil,
-				$row->ktp_el,
-				$row->status_rekam,
-				$row->alamat_sekarang,
-				$row->id,
-				$row->foto,
-				$row->status_dasar,
-				$row->created_at,
-				$row->updated_at,
-				$row->desa_id,
-			);
-
-			$file_foto = LOKASI_USER_PICT . $row->foto;
-			if (is_file($file_foto))
-			{
-				$this->zip->read_file($file_foto);
-			}
-
-			$rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
-			$writer->addRow($rowFromValues);
+			status_sukses(false, false, $this->upload->display_errors());
+			redirect($_SERVER['HTTP_REFERER']);
 		}
 
-		$writer->close();
-		$this->zip->read_file($lokasi);
-		unlink($lokasi);
-
-		$filename = 'penduduk_' . $tgl . '_opendk.zip';
-		$this->zip->archive(LOKASI_DOKUMEN . $filename);
-
-		//Tambah/Ubah Data
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk/storedata",
-			// Jika http gunakan url ini :
-			//CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk/storedata?token=".$this->setting->api_opendk_key,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => array('file'=> new CURLFILE(LOKASI_DOKUMEN . $filename)),
-			CURLOPT_HTTPHEADER => array(
-				'content-Type: multipart/form-data',
-				"Authorization: Bearer {$this->setting->api_opendk_key}",
-			),
-		));
-
-		$response = curl_exec($curl);
-		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-		if (curl_errno($curl) || $http_code === 422) {
-			$_SESSION['success'] = -1;
-		} else {
-			$_SESSION['success'] = 1;
-		}
-
-		curl_close($curl);
-
-		unlink(LOKASI_DOKUMEN . $filename);
-
-		//Hapus Data
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-			CURLOPT_URL => "{$this->setting->api_opendk_server}/api/v1/penduduk",
-			// Jika http gunakan url ini :
-			//CURLOPT_URL => $this->setting->api_opendk_server."/api/v1/penduduk?token=".$this->setting->api_opendk_key,
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => '',
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 0,
-			CURLOPT_FOLLOWLOCATION => true,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => 'POST',
-			CURLOPT_POSTFIELDS => json_encode($this->export_model->hapus_penduduk_sinkronasi_opendk()),
-			CURLOPT_HTTPHEADER => array(
-				'Accept: application/json',
-				'Content-Type: application/json',
-				"Authorization: Bearer {$this->setting->api_opendk_key}",
-			),
-		));
-
-		$response = curl_exec($curl);
-		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-		if (curl_errno($curl) || $http_code === 422) {
-			$_SESSION['response'] = $response;
-			$_SESSION['success'] = -1;
-		} else {
-			$_SESSION['response'] = $response;
-			$_SESSION['success'] = 1;
-		}
-
-		curl_close($curl);
-
-		redirect('database/sinkronasi_opendk');
+		$hasil = $this->sinkronisasi_model->sinkronkan();
+		status_sukses($hasil);
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 
 	// Dikhususkan untuk server yg hanya digunakan untuk web publik

@@ -5,7 +5,7 @@
  *
  * Model untuk modul database
  *
- * donjo-app/models/migrations/Migrasi_2107_ke_2108.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2109.php
  *
  */
 
@@ -26,11 +26,9 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -42,23 +40,35 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2107_ke_2108 extends MY_Model
+
+class Migrasi_fitur_premium_2109 extends MY_Model
 {
 	public function up()
 	{
+		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
-		// Migrasi fitur premium
-		// Jalankan juga migrasi versi-versi sebelumnya, karena migrasi dari rllis umum belum menjalankan
-		$daftar_migrasi_premium = ['2012', '2101', '2102', '2103'];
-		foreach ($daftar_migrasi_premium as $migrasi)
-		{
-			$migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
-			$file_migrasi = 'migrations/'.$migrasi_premium;
-				$this->load->model($file_migrasi);
-				$hasil = $hasil && $this->$migrasi_premium->up();
-		}
+
+		$hasil = $hasil && $this->migrasi_2021081851($hasil);
 
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function migrasi_2021081851($hasil)
+	{
+		// Cek log surat, hapus semua file view verifikasi berdasrkan surat yg sudah di cetak
+		$list_data = $this->db->select('nama_surat')->get('log_surat')->result();
+
+		foreach ($list_data as $data)
+		{
+			// Hapus file
+			$file = LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat);
+			if (file_exists($file))
+			{
+				$hasil = $hasil && unlink($file);
+			}
+		}
+
 		return $hasil;
 	}
 }

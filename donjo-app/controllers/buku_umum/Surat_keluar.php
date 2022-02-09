@@ -91,10 +91,8 @@ class Surat_keluar extends Admin_Controller {
 		$data['selected_nav'] = 'agenda_keluar';
 		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->render('bumindes/umum/main', $data);
+
 	}
 
 	public function form($p = 1, $o = 0, $id = '')

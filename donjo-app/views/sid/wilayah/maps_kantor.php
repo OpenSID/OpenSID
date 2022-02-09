@@ -159,9 +159,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<?php if ($this->CI->cek_hak_akses('u')): ?>
 			//Export/Import Peta dari file GPX
-			L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
-			L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
-			controlGpxPoint = eximGpxPoint(peta_kantor);
+			eximGpxPoint(peta_kantor);
 		<?php endif; ?>
 
 		// Menambahkan zoom scale ke peta

@@ -20,10 +20,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav custom_nav">
                 <li class=""><a href="<?= site_url(); ?>">Beranda</a></li>
-				<?php foreach ($menu_atas as $data): ?>
+				<?php foreach($menu_atas as $data): ?>
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="<?= $data['link']?>"><?= $data['nama']; jecho(count($data['submenu']) > 0, TRUE, '<span class="caret"></span>'); ?></a>
-                    <?php if (count($data['submenu']) > 0): ?>
+                    <?php if(count($data['submenu']) > 0): ?>
                     <ul class="dropdown-menu">
                         <?php foreach ($data['submenu'] as $submenu): ?>
                         <li>
@@ -38,8 +38,8 @@
                     <a class="dropdown-toggle" href="javascript:void(0);">Login <span class='caret'></span></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="<?= site_url('siteman'); ?>" rel="noopener noreferrer" target="_blank">Administrator</a>
-                            <a href="<?= site_url('layanan-mandiri'); ?>" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
+                            <a href="<?= site_url(); ?>siteman" rel="noopener noreferrer" target="_blank">Administrator</a>
+                            <a href="<?= site_url(IS_PREMIUM ? 'layanan-mandiri' : 'mandiri_login'); ?>" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
                         </li>
                     </ul>
                 </li>                

@@ -7,36 +7,32 @@
 <div class="single_page_area">
 	<h2 class="post_titile">SDGs Desa</h2>
 	<div class="box-body">
-		<?php if ($evaluasi): ?>
-			<div class="panel-group" id="kemendes-sdgs" role="tablist" aria-multiselectable="true">
-				<?php foreach ($evaluasi as $index => $heading) : ?>
-				<div class="panel panel-default">
-					<div class="panel-heading" role="tab">
-						<h4 class="panel-title">
-							<a role="button" data-toggle="collapse" href="#<?= 'col'.$index ?>" aria-expanded="true">
-								<img class="icon" src="<?= $heading['icon'] ?>" alt="Icon SDG"/><?= $heading['uraian'] ?>
-							</a>
-						</h4>
-					</div>
-					<div id="<?= 'col'.$index ?>" class="panel-collapse collapse  " role="tabpanel" aria-labelledby="headingOne">
-						<div class="panel-body">
-							<table class="table ">
-								<?php foreach ($heading['sub'] as $list) : ?>
-								<tr>
-									<td><?= $list['uraian'] ?></td>
-									<td><?= $list['value'] ?></td>
-								</tr>
-								<?php endforeach ?>
+		<div class="panel-group" id="kemendes-sdgs" role="tablist" aria-multiselectable="true">
+			<?php foreach ($evaluasi as $index => $heading) : ?>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab">
+					<h4 class="panel-title">
+						<a role="button" data-toggle="collapse" href="#<?= 'col'.$index ?>" aria-expanded="true">
+							<img class="icon" src="<?= $heading['icon'] ?>" alt="Icon SDG"/><?= $heading['uraian'] ?>
+						</a>
+					</h4>
+				</div>
+				<div id="<?= 'col'.$index ?>" class="panel-collapse collapse  " role="tabpanel" aria-labelledby="headingOne">
+					<div class="panel-body">
+						<table class="table ">
+							<?php foreach ($heading['sub'] as $list) : ?>
+							<tr>
+								<td><?= $list['uraian'] ?></td>
+								<td><?= $list['value'] ?></td>
+							</tr>
+							<?php endforeach ?>
 
-							</table>
-						</div>
+						</table>
 					</div>
 				</div>
-				<?php endforeach ?>
 			</div>
-		<?php else: ?>
-			<b>Maaf. Halaman ini tidak dapat di akses.</b>
-		<?php endif; ?>
+			<?php endforeach ?>
+		</div>
 	</div>
 </div>
 

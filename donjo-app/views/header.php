@@ -171,6 +171,16 @@
 									</a>
 								</li>
 							<?php endif; ?>
+							<?php if ($notif_langganan): ?>
+								<li>
+									<a href="<?= site_url('pelanggan'); ?>">
+										<span><i class="fa <?= $notif_langganan['ikon'] ?> fa-lg" title="Status Langganan <?= $notif_langganan['masa'] ?> hari" style="color: <?= $notif_langganan['warna'] ?>;"></i>&nbsp;</span>
+										<?php if ($notif_langganan['status'] > 2) : ?>
+											<span class="badge" id="b_langganan">!</span>
+										<?php endif; ?>
+									</a>
+								</li>
+							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
 								<li>
 									<a href="<?= site_url('permohonan_surat_admin/clear'); ?>">
@@ -223,7 +233,7 @@
 										</div>
 									</li>
 								</ul>
-								<?php if (in_array($this->controller, array_column($this->list_setting, 'kategori')) && $this->CI->cek_hak_akses('u', $this->controller)): ?>
+								<?php if ($this->controller == 'pelanggan' && $this->CI->cek_hak_akses('u', $this->controller)): ?>
 									<li>
 										<a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan">
 											<span><i class="fa fa-gear"></i>&nbsp;</span>
@@ -270,6 +280,5 @@
 					</div>
 				</div>
 			<?php endif; ?>
-			
 			<!-- Untuk menampilkan dialog pengumuman -->
 			<?= $this->pengumuman; ?>
