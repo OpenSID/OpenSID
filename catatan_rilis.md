@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 7. [#4817](https://github.com/OpenSID/OpenSID/issues/4817) Perbaiki tidak dapat menyimpan data form master analisis.
 8. [#4845](https://github.com/OpenSID/OpenSID/issues/4845) Perbaiki error ketika menambah anggota yang sudah terdaftar pada anggota kelompok.
 9. [#4842](https://github.com/OpenSID/OpenSID/issues/4842) Perbaiki sukses input tanggal lahir mendatang.
+10. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki status perkawinan kawin tercatat semua.
 
 #### Perubahan Teknis
 
