@@ -22,7 +22,7 @@
 		<div class="error-content">
 			<h3><i class="fa fa-warning text-danger"></i> <?= strip_tags($heading); ?></h3>
 			<?php
- 	           error_log(strip_tags($message));
+               error_log(strip_tags($message));
             ?>
 			<p>
 				<?= $message; ?>
@@ -34,12 +34,12 @@
 			</p>
 		</div>
 		<?php
-			// Tampilkan stack trace
-			if (ENVIRONMENT == 'development') {
-				$e = new \Exception;
-				var_dump($e->getTraceAsString());
-			}
-		?>
+            // Tampilkan stack trace
+            if (ENVIRONMENT == 'development') {
+                $e = new \Exception();
+                var_dump($e->getTraceAsString());
+            }
+        ?>
 	</div>
 </div>
 </body>
