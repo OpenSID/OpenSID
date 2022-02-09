@@ -380,10 +380,7 @@ class First extends Web_Controller {
 	{
 		if (!$this->web_menu_model->menu_aktif('peraturan_desa')) show_404();
 
-		$this->load->model('web_dokumen_model');
 		$data = $this->includes;
-
-		$data['cek'] = $cek;
 		$data['kategori'] = $this->referensi_model->list_data('ref_dokumen', 1);
 		$data['tahun'] = $this->web_dokumen_model->tahun_dokumen();
 		$data['heading'] = "Produk Hukum";
