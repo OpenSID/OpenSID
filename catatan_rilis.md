@@ -21,3 +21,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 #### Perubahan Teknis
 
 1. Perbaiki return migrasi, tidak sesuai.
+2. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.
