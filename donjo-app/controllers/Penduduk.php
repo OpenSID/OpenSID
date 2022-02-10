@@ -190,6 +190,7 @@ class Penduduk extends Admin_Controller
         $data['kehamilan']          = $this->referensi_model->list_data('ref_penduduk_hamil');
         $data['suku']               = $this->penduduk_model->get_suku();
         $data['nik_sementara']      = $this->penduduk_model->nik_sementara();
+        $data['keluarga']           = $this->keluarga_model->get_kepala_kk($data['penduduk']['id_kk']);
         $data['cek_nik']            = get_nik($data['penduduk']['nik']);
 
         if ($this->session->status_hanya_tetap) {

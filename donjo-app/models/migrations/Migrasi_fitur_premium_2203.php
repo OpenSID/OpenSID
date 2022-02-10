@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2203 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
+        $hasil = $hasil && $this->migrasi_2022020151($hasil);
 
-        return $hasil && $this->migrasi_2022020151($hasil);
+        return $hasil && $this->migrasi_2022020951($hasil);
     }
 
     protected function migrasi_2022020151($hasil)
@@ -115,6 +116,59 @@ class Migrasi_fitur_premium_2203 extends MY_model
             ];
 
             $hasil = $hasil && $this->dbforge->modify_column('pembangunan', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022020951($hasil)
+    {
+        $hasil = $hasil && $this->keuangan_ta_spj($hasil);
+
+        return $hasil && $this->keuangan_ta_kegiatan($hasil);
+    }
+
+    protected function keuangan_ta_spj($hasil)
+    {
+        $fields = [];
+
+        if ($this->db->field_exists('Keterangan', 'keuangan_ta_spj')) {
+            $fields['Keterangan'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->modify_column('keuangan_ta_spj', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function keuangan_ta_kegiatan($hasil)
+    {
+        $fields = [];
+
+        if ($this->db->field_exists('Nilai', 'keuangan_ta_kegiatan')) {
+            $fields['Nilai'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($this->db->field_exists('NilaiPAK', 'keuangan_ta_kegiatan')) {
+            $fields['NilaiPAK'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->modify_column('keuangan_ta_kegiatan', $fields);
         }
 
         return $hasil;
