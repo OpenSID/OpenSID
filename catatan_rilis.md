@@ -18,7 +18,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 10. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki status perkawinan kawin tercatat semua.
 11. [#4863](https://github.com/OpenSID/OpenSID/issues/4863) Perbaiki migrasi dari v20.12 umum ke v22.02-premium-beta01.
 12. [#4799](https://github.com/OpenSID/OpenSID/issues/4799) Perbaiki agar tidak bisa ubah status hubungan dalam keluarga menjadi kepala keluarga jika kepala keluarga sudah meninggal.
-13. [#4844](https://github.com/OpenSID/OpenSID/issues/4844) Perbaiki fields keterangan, nilai dan nilai pak pada database Siskeudes.
+13. [#4844](https://github.com/OpenSID/OpenSID/issues/4844) Perbaiki fields keterangan, nilai dan nilai pak pada database siskeudes.
+14. [#4821](https://github.com/OpenSID/OpenSID/issues/4821) Perbaiki data penduduk/kepala keluarga yang berubah status dasar masih muncul di program bantuan.
+
 #### Perubahan Teknis
 
 1. Perbaiki return migrasi, tidak sesuai.
