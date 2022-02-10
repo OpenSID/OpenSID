@@ -89,7 +89,7 @@ class Web_Controller extends MY_Controller
         // Gunakan tema esensi kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
         // if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
         $theme        = preg_replace('/desa\\//', '', strtolower($this->setting->web_theme));
-        $theme_folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'themes';
+        $theme_folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'vendor/themes';
         if (empty($this->setting->web_theme) || ! is_dir(FCPATH . $theme_folder . '/' . $theme)) {
             $this->theme        = 'esensi';
             $this->theme_folder = 'themes';
@@ -144,7 +144,7 @@ class Web_Controller extends MY_Controller
         if (is_file($template_file_path)) {
             $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
         } else {
-            $this->template = 'vendor/themes/esensi/' . $template_file;
+            $this->template = '../../vendor/themes/esensi/' . $template_file;
         }
     }
 
