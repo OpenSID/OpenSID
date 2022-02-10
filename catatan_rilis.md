@@ -35,6 +35,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 12. [#4799](https://github.com/OpenSID/OpenSID/issues/4799) Perbaiki agar tidak bisa ubah status hubungan dalam keluarga menjadi kepala keluarga jika kepala keluarga sudah meninggal.
 13. [#4844](https://github.com/OpenSID/OpenSID/issues/4844) Perbaiki fields keterangan, nilai dan nilai pak pada database siskeudes.
 14. [#4821](https://github.com/OpenSID/OpenSID/issues/4821) Perbaiki data penduduk/kepala keluarga yang berubah status dasar masih muncul di program bantuan.
+15. [#4841](https://github.com/OpenSID/OpenSID/issues/4841) Perbaiki impor peta area persil dari KML/GPX dan buat area persil error 500.
 
 #### Perubahan Teknis
 
