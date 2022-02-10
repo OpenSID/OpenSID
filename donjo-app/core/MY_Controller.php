@@ -104,23 +104,6 @@ class Web_Controller extends MY_Controller
         $this->load->model('web_menu_model');
     }
 
-    /*
-     * Jika file theme/view tidak ada, gunakan file esensi/view
-     * Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
-     */
-    public static function fallback_default($theme, $view)
-    {
-        $view         = trim($view, '/');
-        $theme_folder = self::get_instance()->theme_folder;
-        $theme_view   = "../../{$theme_folder}/{$theme}/{$view}";
-
-        if (! is_file(APPPATH . 'views/' . $theme_view)) {
-            $theme_view = "../../vendor/themes/esensi/{$view}";
-        }
-
-        return $theme_view;
-    }
-
     /**
      * Set Template
      * sometime, we want to use different template for different page
