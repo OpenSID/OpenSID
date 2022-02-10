@@ -166,7 +166,7 @@ class Data_persil extends Admin_Controller
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('no_persil', 'Nomor Surat Persil', 'required|trim|numeric');
-        $this->form_validation->set_rules('nomor_urut_bidang', 'Nomor Urut Bidang', 'required|trim|numeric');
+        $this->form_validation->set_rules('nomor_urut_bidang', 'Nomor Urut Bidang', 'required|trim|numeric|less_than_equal_to[4]');
         $this->form_validation->set_rules('kelas', 'Kelas Tanah', 'required|trim|numeric');
 
         if ($this->form_validation->run() != false) {
