@@ -74,6 +74,9 @@ class Pengaduan extends Web_Controller
 
     public function kirim()
     {
+        $this->load->library('Telegram/telegram');
+        $result = $this->pengaduan_model->insert();
+
         // Periksa isian captcha
         include FCPATH . 'securimage/securimage.php';
         $securimage = new Securimage();
@@ -87,6 +90,17 @@ class Pengaduan extends Web_Controller
             ];
         } else {
             if ($this->pengaduan_model->insert()) {
+                if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
+                    try {
+                        $this->telegram->sendMessage([
+                            'text'       => 'Halo! Ada pengaduan baru dari warga, mohon untuk segera ditindak lanjuti. Terima kasih.',
+                            'parse_mode' => 'Markdown',
+                            'chat_id'    => $this->setting->telegram_user_id,
+                        ]);
+                    } catch (Exception $e) {
+                        log_message('error', $e->getMessage());
+                    }
+                }
                 $notif = [
                     'status' => 'success',
                     'pesan'  => 'Pengaduan berhasil dikirim.',
