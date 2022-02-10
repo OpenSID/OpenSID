@@ -51,7 +51,7 @@ class Setting extends Admin_Controller
     {
         $data = [
             'judul'         => 'Pengaturan Aplikasi',
-            'kategori'      => [null, '', 'sistem', 'web_theme', 'readonly', 'web'],
+            'kategori'      => [null, '', 'sistem', 'web_theme', 'readonly', 'web', 'mobile'],
             'atur_latar'    => true,
             'latar_website' => $this->theme_model->latar_website(),
             'latar_login'   => $this->theme_model->latar_login(),

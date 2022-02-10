@@ -46,9 +46,10 @@ class Migrasi_fitur_premium_2203 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
         $hasil = $hasil && $this->migrasi_2022020151($hasil);
+        $hasil = $hasil && $this->migrasi_2022020271($hasil);
         $hasil = $hasil && $this->migrasi_2022020951($hasil);
 
-        return $hasil && $this->migrasi_2022020271($hasil);
+        return $hasil && $this->migrasi_2022021071($hasil);
     }
 
     protected function migrasi_2022020151($hasil)
@@ -184,5 +185,16 @@ class Migrasi_fitur_premium_2203 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022021071($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'branding_desa',
+            'value'      => 'LAYANAN MANDIRI',
+            'keterangan' => 'Nama Branding Aplikasi Layanan Mandiri Android',
+            'jenis'      => null,
+            'kategori'   => 'mobile',
+        ]);
     }
 }
