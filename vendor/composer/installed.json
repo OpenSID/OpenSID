@@ -182,17 +182,17 @@
         },
         {
             "name": "google/apiclient",
-            "version": "v2.11.0",
-            "version_normalized": "2.11.0.0",
+            "version": "v2.12.1",
+            "version_normalized": "2.12.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client.git",
-                "reference": "7db9eb40c8ba887e81c0fe84f2888a967396cdfb"
+                "reference": "1530583a711f4414407112c4068464bcbace1c71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/7db9eb40c8ba887e81c0fe84f2888a967396cdfb",
-                "reference": "7db9eb40c8ba887e81c0fe84f2888a967396cdfb",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/1530583a711f4414407112c4068464bcbace1c71",
+                "reference": "1530583a711f4414407112c4068464bcbace1c71",
                 "shasum": ""
             },
             "require": {
@@ -220,21 +220,21 @@
             "suggest": {
                 "cache/filesystem-adapter": "For caching certs and tokens (using Google\\Client::setCache)"
             },
-            "time": "2021-09-20T21:15:55+00:00",
+            "time": "2021-12-02T03:34:25+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-main": "2.x-dev"
                 }
             },
             "installation-source": "dist",
             "autoload": {
-                "psr-4": {
-                    "Google\\": "src/"
-                },
                 "files": [
                     "src/aliases.php"
                 ],
+                "psr-4": {
+                    "Google\\": "src/"
+                },
                 "classmap": [
                     "src/aliases.php"
                 ]
@@ -250,23 +250,23 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client/issues",
-                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.11.0"
+                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.12.1"
             },
             "install-path": "../google/apiclient"
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.222.0",
-            "version_normalized": "0.222.0.0",
+            "version": "v0.234.0",
+            "version_normalized": "0.234.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "5a3a9a48b71a009a9dd973b01ca0c4c3ea6b13fc"
+                "reference": "a448391ee97d4ee315fcabf023aa27a022ac5c54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/5a3a9a48b71a009a9dd973b01ca0c4c3ea6b13fc",
-                "reference": "5a3a9a48b71a009a9dd973b01ca0c4c3ea6b13fc",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/a448391ee97d4ee315fcabf023aa27a022ac5c54",
+                "reference": "a448391ee97d4ee315fcabf023aa27a022ac5c54",
                 "shasum": ""
             },
             "require": {
@@ -275,16 +275,16 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2021-11-14T12:26:33+00:00",
+            "time": "2022-02-06T12:23:03+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
-                "psr-4": {
-                    "Google\\Service\\": "src"
-                },
                 "files": [
                     "autoload.php"
-                ]
+                ],
+                "psr-4": {
+                    "Google\\Service\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -297,7 +297,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.222.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.234.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -362,17 +362,17 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.0",
-            "version_normalized": "7.4.0.0",
+            "version": "7.4.1",
+            "version_normalized": "7.4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "868b3571a039f0ebc11ac8f344f4080babe2cb94"
+                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/868b3571a039f0ebc11ac8f344f4080babe2cb94",
-                "reference": "868b3571a039f0ebc11ac8f344f4080babe2cb94",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
+                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
                 "shasum": ""
             },
             "require": {
@@ -381,7 +381,7 @@
                 "guzzlehttp/psr7": "^1.8.3 || ^2.1",
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-client": "^1.0",
-                "symfony/deprecation-contracts": "^2.2"
+                "symfony/deprecation-contracts": "^2.2 || ^3.0"
             },
             "provide": {
                 "psr/http-client-implementation": "1.0"
@@ -398,7 +398,7 @@
                 "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
-            "time": "2021-10-18T09:52:00+00:00",
+            "time": "2021-12-06T18:43:05+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -469,7 +469,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.1"
             },
             "funding": [
                 {
@@ -908,17 +908,17 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v2.4.0",
-            "version_normalized": "2.4.0.0",
+            "version": "v2.5.0",
+            "version_normalized": "2.5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "f34c2b11eb9d2c9318e13540a1dbc2a3afbd939c"
+                "reference": "9229e15f2e6ba772f0c55dd6986c563b937170a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/f34c2b11eb9d2c9318e13540a1dbc2a3afbd939c",
-                "reference": "f34c2b11eb9d2c9318e13540a1dbc2a3afbd939c",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/9229e15f2e6ba772f0c55dd6986c563b937170a8",
+                "reference": "9229e15f2e6ba772f0c55dd6986c563b937170a8",
                 "shasum": ""
             },
             "require": {
@@ -928,7 +928,7 @@
                 "phpunit/phpunit": "^6|^7|^8|^9",
                 "vimeo/psalm": "^1|^2|^3|^4"
             },
-            "time": "2020-12-06T15:14:20+00:00",
+            "time": "2022-01-17T05:32:27+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1031,17 +1031,17 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.11",
-            "version_normalized": "3.0.11.0",
+            "version": "3.0.13",
+            "version_normalized": "3.0.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "6e794226a35159eb06f355efe59a0075a16551dd"
+                "reference": "1443ab79364eea48665fa8c09ac67f37d1025f7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/6e794226a35159eb06f355efe59a0075a16551dd",
-                "reference": "6e794226a35159eb06f355efe59a0075a16551dd",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/1443ab79364eea48665fa8c09ac67f37d1025f7e",
+                "reference": "1443ab79364eea48665fa8c09ac67f37d1025f7e",
                 "shasum": ""
             },
             "require": {
@@ -1060,7 +1060,7 @@
                 "ext-mcrypt": "Install the Mcrypt extension in order to speed up a few other cryptographic operations.",
                 "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations."
             },
-            "time": "2021-10-27T03:01:46+00:00",
+            "time": "2022-01-30T08:50:05+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1125,7 +1125,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.11"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.13"
             },
             "funding": [
                 {
@@ -1544,17 +1544,17 @@
         },
         {
             "name": "spipu/html2pdf",
-            "version": "v5.2.3",
-            "version_normalized": "5.2.3.0",
+            "version": "v5.2.4",
+            "version_normalized": "5.2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spipu/html2pdf.git",
-                "reference": "119d660876546c6b496f8aa6490f1ab8111350f9"
+                "reference": "dcb5671cac3d60ff486cf16df389e3bd0dc16ba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spipu/html2pdf/zipball/119d660876546c6b496f8aa6490f1ab8111350f9",
-                "reference": "119d660876546c6b496f8aa6490f1ab8111350f9",
+                "url": "https://api.github.com/repos/spipu/html2pdf/zipball/dcb5671cac3d60ff486cf16df389e3bd0dc16ba4",
+                "reference": "dcb5671cac3d60ff486cf16df389e3bd0dc16ba4",
                 "shasum": ""
             },
             "require": {
@@ -1571,7 +1571,7 @@
                 "ext-gd": "Allows to embed images into the PDF",
                 "fagundes/zff-html2pdf": "if you need to integrate Html2Pdf with Zend Framework 2 (zf2)"
             },
-            "time": "2021-10-19T10:35:24+00:00",
+            "time": "2021-12-16T15:23:31+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1599,33 +1599,33 @@
             ],
             "support": {
                 "issues": "https://github.com/spipu/html2pdf/issues",
-                "source": "https://github.com/spipu/html2pdf/tree/v5.2.3"
+                "source": "https://github.com/spipu/html2pdf/tree/v5.2.4"
             },
             "install-path": "../spipu/html2pdf"
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v2.4.0",
-            "version_normalized": "2.4.0.0",
+            "version": "v2.5.0",
+            "version_normalized": "2.5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627"
+                "reference": "6f981ee24cf69ee7ce9736146d1c57c2780598a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/5f38c8804a9e97d23e0c8d63341088cd8a22d627",
-                "reference": "5f38c8804a9e97d23e0c8d63341088cd8a22d627",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/6f981ee24cf69ee7ce9736146d1c57c2780598a8",
+                "reference": "6f981ee24cf69ee7ce9736146d1c57c2780598a8",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1"
             },
-            "time": "2021-03-23T23:28:01+00:00",
+            "time": "2021-07-12T14:48:14+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.4-dev"
+                    "dev-main": "2.5-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -1655,7 +1655,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.4.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.0"
             },
             "funding": [
                 {
@@ -1675,23 +1675,23 @@
         },
         {
             "name": "tecnickcom/tcpdf",
-            "version": "6.4.2",
-            "version_normalized": "6.4.2.0",
+            "version": "6.4.4",
+            "version_normalized": "6.4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tecnickcom/TCPDF.git",
-                "reference": "172540dcbfdf8dc983bc2fe78feff48ff7ec1c76"
+                "reference": "42cd0f9786af7e5db4fcedaa66f717b0d0032320"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/172540dcbfdf8dc983bc2fe78feff48ff7ec1c76",
-                "reference": "172540dcbfdf8dc983bc2fe78feff48ff7ec1c76",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/42cd0f9786af7e5db4fcedaa66f717b0d0032320",
+                "reference": "42cd0f9786af7e5db4fcedaa66f717b0d0032320",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2021-07-20T14:43:20+00:00",
+            "time": "2021-12-31T08:39:24+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1738,7 +1738,7 @@
             ],
             "support": {
                 "issues": "https://github.com/tecnickcom/TCPDF/issues",
-                "source": "https://github.com/tecnickcom/TCPDF/tree/6.4.2"
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.4.4"
             },
             "funding": [
                 {
@@ -1747,6 +1747,87 @@
                 }
             ],
             "install-path": "../tecnickcom/tcpdf"
+        },
+        {
+            "name": "themes/esensi",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OpenSID/tema-esensi.git",
+                "reference": "9f9c58f351eac9a67f22cdbc9d90c17539a3a861"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/9f9c58f351eac9a67f22cdbc9d90c17539a3a861",
+                "reference": "9f9c58f351eac9a67f22cdbc9d90c17539a3a861",
+                "shasum": ""
+            },
+            "time": "2022-02-10T06:14:44+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Diki Siswanto",
+                    "email": "dikisiswanto@gmail.com"
+                }
+            ],
+            "description": "Tema OpenSID",
+            "homepage": "https://github.com/OpenSID/tema-esensi",
+            "keywords": [
+                "OpenSID",
+                "themes"
+            ],
+            "support": {
+                "issues": "https://github.com/OpenSID/tema-esensi/issues",
+                "source": "https://github.com/OpenSID/tema-esensi/tree/main"
+            },
+            "install-path": "../themes/esensi"
+        },
+        {
+            "name": "themes/natra",
+            "version": "dev-premium",
+            "version_normalized": "dev-premium",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OpenSID/tema-natra.git",
+                "reference": "44457b4c7163b98eb0cd88d1424acf7d8aa01beb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/44457b4c7163b98eb0cd88d1424acf7d8aa01beb",
+                "reference": "44457b4c7163b98eb0cd88d1424acf7d8aa01beb",
+                "shasum": ""
+            },
+            "time": "2022-02-10T06:16:25+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Ariandi Ryan Kahfi",
+                    "email": "ariandi@mail.com"
+                }
+            ],
+            "description": "Tema OpenSID",
+            "homepage": "https://github.com/OpenSID/tema-natra",
+            "keywords": [
+                "OpenSID",
+                "themes"
+            ],
+            "support": {
+                "issues": "https://github.com/OpenSID/tema-natra/issues",
+                "source": "https://github.com/OpenSID/tema-natra/tree/premium"
+            },
+            "install-path": "../themes/natra"
         }
     ],
     "dev": false,
