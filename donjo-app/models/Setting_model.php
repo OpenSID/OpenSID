@@ -110,7 +110,7 @@ class Setting_model extends CI_Model
         if ($pos !== false) {
             $folder = FCPATH . '/desa/themes/' . substr($this->setting->web_theme, $pos + strlen('desa/'));
             if (! file_exists($folder)) {
-                $this->setting->web_theme = 'default';
+                $this->setting->web_theme = 'esensi';
             }
         }
         $this->load->model('database_model');

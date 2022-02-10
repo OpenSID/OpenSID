@@ -115,7 +115,7 @@ class Web_Controller extends MY_Controller
         $theme_view   = "../../{$theme_folder}/{$theme}/{$view}";
 
         if (! is_file(APPPATH . 'views/' . $theme_view)) {
-            $theme_view = "../../themes/esensi/{$view}";
+            $theme_view = "../../vendor/themes/esensi/{$view}";
         }
 
         return $theme_view;
@@ -144,7 +144,7 @@ class Web_Controller extends MY_Controller
         if (is_file($template_file_path)) {
             $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
         } else {
-            $this->template = '../../themes/esensi/' . $template_file;
+            $this->template = 'vendor/themes/esensi/' . $template_file;
         }
     }
 
