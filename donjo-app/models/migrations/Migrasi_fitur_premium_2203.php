@@ -46,8 +46,9 @@ class Migrasi_fitur_premium_2203 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
         $hasil = $hasil && $this->migrasi_2022020151($hasil);
+        $hasil = $hasil && $this->migrasi_2022020951($hasil);
 
-        return $hasil && $this->migrasi_2022020951($hasil);
+        return $hasil && $this->migrasi_2022021051($hasil);
     }
 
     protected function migrasi_2022020151($hasil)
@@ -169,6 +170,22 @@ class Migrasi_fitur_premium_2203 extends MY_model
 
         if ($fields) {
             $hasil = $hasil && $this->dbforge->modify_column('keuangan_ta_kegiatan', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022021051($hasil)
+    {
+        if ($this->db->field_exists('nomor_urut_bidang', 'persil')) {
+            $fields = [
+                'nomor_urut_bidang' => [
+                    'type'    => 'smallint',
+                    'default' => 1,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('persil', $fields);
         }
 
         return $hasil;
