@@ -170,7 +170,7 @@ class Laporan_sinkronisasi_model extends MY_Model
         try {
             $upload = $this->upload->do_upload('nama_file');
 
-            if (!$upload) {
+            if (! $upload) {
                 $this->session->error_msg = $this->upload->display_errors();
                 $this->session->success   = -1;
 
