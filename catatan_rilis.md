@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 15. [#4841](https://github.com/OpenSID/OpenSID/issues/4841) Perbaiki impor peta area persil dari KML/GPX dan buat area persil error 500.
 16. [#4848](https://github.com/OpenSID/OpenSID/issues/4848) Perbaiki penambahan persil pada batasan digit nomor urut bidang.
 17. [#4850](https://github.com/OpenSID/OpenSID/issues/4850) Perbaiki nama dan jenis kelamin pada surat keterangan lahir.
+18. [#4828](https://github.com/OpenSID/OpenSID/issues/4828) Perbaiki layanan mandiri belum dapat masuk dengan e-ktp dan agak kesulitan pengoperasian di android.
 
 #### Perubahan Teknis
 
