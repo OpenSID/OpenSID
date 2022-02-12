@@ -335,7 +335,7 @@ class Rtm_model extends CI_Model {
 		$this->db
 			->select('t.nama')
 			->from('tweb_rtm u')
-			->join('tweb_penduduk t', 'u.nik_kepala = t.id', LEFT);
+			->join('tweb_penduduk t', 'u.nik_kepala = t.id', 'LEFT');
 
 		$data = $this->db->get()->result_array();
 
@@ -387,11 +387,11 @@ class Rtm_model extends CI_Model {
 		switch ($order_by)
 		{
 			case 1: $this->db->order_by('u.no_kk'); break;
-			case 2: $this->db->order_by('u.no_kk', DESC); break;
+			case 2: $this->db->order_by('u.no_kk', 'DESC'); break;
 			case 3: $this->db->order_by('t.nama'); break;
-			case 4: $this->db->order_by('t.nama', DESC); break;
+			case 4: $this->db->order_by('t.nama', 'DESC'); break;
 			case 5: $this->db->order_by('u.tgl_daftar'); break;
-			case 6: $this->db->order_by('u.tgl_daftar', DESC); break;
+			case 6: $this->db->order_by('u.tgl_daftar', 'DESC'); break;
 			default: $this->db->order_by('u.no_kk'); break;
 		}
 	}
