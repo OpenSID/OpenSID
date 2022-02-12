@@ -10,10 +10,10 @@
 	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-		<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>"/>
-	<?php else: ?>
-		<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>"/>
+	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')) : ?>
+		<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>" />
+	<?php else : ?>
+		<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>" />
 	<?php endif ?>
 	<link rel="stylesheet" href="<?= asset('css/login-style.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/login-form-elements.css') ?>" media="screen">
@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="<?= asset('css/siteman_mandiri.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.bar.css') ?>" media="screen">
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')) : ?>
-		<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman_mandiri.css') ?>" >
+		<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman_mandiri.css') ?>">
 	<?php endif; ?>
 	<link rel="stylesheet" href="<?= asset('css/mandiri_video.css') ?>">
 	<!-- Font Awesome -->
@@ -49,7 +49,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
 </head>
 
-<?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_slider)) : ?>
+<?php if ($this->setting->tampilan_anjungan == 1 && !empty($this->setting->tampilan_anjungan_slider)) : ?>
 	<div id="sliderv" class="video-internal" style="display: none;">
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner">
@@ -63,7 +63,7 @@
 	</div>
 <?php endif; ?>
 
-<?php if ($this->setting->tampilan_anjungan == 2 && ! empty($this->setting->tampilan_anjungan_video)) : ?>
+<?php if ($this->setting->tampilan_anjungan == 2 && !empty($this->setting->tampilan_anjungan_video)) : ?>
 	<div class="video-internal" id="videov" style="display: none;">
 		<video loop <?= jecho($this->setting->tampilan_anjungan_audio, 0, 'muted') ?> poster="<?= base_url($latar_login_mandiri) ?>" class="video-internal-bg" id="videona">
 			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
@@ -88,7 +88,7 @@
 									<br /><?= $header['alamat_kantor'] ?>
 									<br />Kodepos <?= $header['kode_pos'] ?>
 									<br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
-									<?php if (! $cek_anjungan) : ?>
+									<?php if (!$cek_anjungan) : ?>
 										<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
 									<?php else : ?>
 										<br /><br /><br />IP Address : <?= $cek_anjungan['ip_address'] ?>
@@ -120,24 +120,18 @@
 										</form>
 									<?php else : ?>
 										<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form">
-											<?php if (! $this->session->login_ektp) : ?>
+											<?php if (!$this->session->login_ektp) : ?>
 
 												<?php if ($this->session->mandiri_try < 4) : ?>
 													<div class="callout callout-danger" id="notif">
 														<p>NIK atau PIN salah.<br />Kesempatan mencoba <?= ($this->session->mandiri_try - 1) ?> kali lagi.</p>
 													</div>
 												<?php endif; ?>
-												<?php if ($this->session->success == -1) : ?>
+												<?php if ($this->session->aktif == false) : ?>
 													<div class="callout callout-danger" id="notif">
-														<?= $this->session->error_msg ?>
+														<p>Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator.</p>
 													</div>
 												<?php endif; ?>
-
-												<!-- <?php if ($proses = $this->session->flashdata('proses_verifikasi')) : ?>
-													<div class="callout callout-<?= ($proses['status'] == -1) ? 'danger' : 'success' ?>">
-														<p><?= $proses['pesan']; ?></p>
-													</div>
-												<?php endif; ?> -->
 
 												<div class="form-group form-login">
 													<input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>" name="nik" placeholder=" NIK">
@@ -181,7 +175,7 @@
 												<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; overflow: hidden;') ?>">
 													<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
 												</div>
-												<?php if (! $cek_anjungan) : ?>
+												<?php if (!$cek_anjungan) : ?>
 													<div class="form-group form-login">
 														<input type="password" class="form-control required number" name="pin" placeholder="Masukan PIN" id="pin" autocomplete="off">
 													</div>
@@ -370,4 +364,5 @@
 		<?php endif; ?>
 	</script>
 </body>
+
 </html>
