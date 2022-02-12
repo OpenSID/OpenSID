@@ -54,8 +54,8 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
         $this->controller = strtolower($this->router->fetch_class());
-        $this->header     = $this->config_model->get_data();
         $this->setting_model->init();
+        $this->header = $this->config_model->get_data();
     }
 
     // Bersihkan session cluster wilayah

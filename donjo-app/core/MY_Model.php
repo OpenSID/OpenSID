@@ -123,21 +123,42 @@ class MY_Model extends CI_Model
         return autocomplete_data_ke_str($data);
     }
 
-    // 0 = kolom untuk select/order, 1 = tabel, 2 = where, 3 = $cari
-    public function union($list_kode = '')
+    /**
+     * Autocomple str union query.
+     *
+     * ```php
+     * $list_kode = [
+     *     ['field_1', $table, $where, $cari],
+     *     ['field_2', $table, $where, $cari],
+     *     ['field_3', $table, $where, $cari],
+     * ];
+     *
+     * $joins = [
+     *     [$table2, "{$table2}.id = {$table}.id", "right"],
+     * ];
+     * ```
+     *
+     * @param array $list_kode
+     * @param array $joins
+     *
+     * @return array
+     */
+    public function union($list_kode = [], $joins = [])
     {
         $sql = [];
 
         foreach ($list_kode as $kode) {
-            [$kolom, $tabel, $where, $cari] = $kode;
-            $sql[]                          = '(' . $this->db
-                ->select($kolom)
-                ->from($tabel)
-                ->where($where)
-                ->like($kolom, $cari)
-                ->order_by($kolom, 'DESC')
-                ->get_compiled_select()
-                . ')';
+            if ($joins) {
+                foreach ($joins as $val) {
+                    [$join, $cond, $type] = $val;
+
+                    $this->db->join($join, $cond, $type);
+                }
+            }
+
+            [$kolom, $table, $where, $cari] = $kode;
+
+            $sql[] = "({$this->db->select($kolom)->from($table)->where($where)->like($kolom, $cari)->order_by($kolom, 'desc')->get_compiled_select()})";
         }
 
         $sql = implode('UNION', $sql);
@@ -198,7 +219,10 @@ class MY_Model extends CI_Model
         $hasil = $this->db->query($sql);
 
         // Hak Akses Default Operator
-        $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
+        // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
+        if ($this->db->table_exists('grup_akses')) {
+            $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
+        }
 
         // Hapus cache menu navigasi
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
@@ -268,13 +292,19 @@ class MY_Model extends CI_Model
 
     public function jalankan_migrasi($migrasi)
     {
-        $this->load->model('migrations/' . $migrasi);
+        if (in_array($migrasi, $this->session->daftar_migrasi)) {
+            return true;
+        }
 
+        $this->load->model('migrations/' . $migrasi);
+        $_SESSION['daftar_migrasi'][] = $migrasi;
         if ($this->{$migrasi}->up()) {
             log_message('error', 'Jalankan ' . $migrasi);
 
             return true;
         }
+
+        log_message('error', 'Gagal Jalankan ' . $migrasi);
 
         return false;
     }

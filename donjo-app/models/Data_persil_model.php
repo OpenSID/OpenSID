@@ -285,7 +285,7 @@ class Data_persil_model extends MY_Model
         $data['luas_persil']       = bilangan($post['luas_persil']) ?: null;
         $data['lokasi']            = $post['lokasi'] ?: null;
         $data['path']              = $post['path'];
-        $data['id_peta']           = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? $post['id_peta'] : null;
+        $data['id_peta']           = ($post['area_tanah'] == 1 || $post['area_tanah'] == null) ? (empty($post['id_peta']) ? null : $post['id_peta']) : null;
 
         $id_persil = $post['id_persil'] ?: $this->get_persil_by_nomor($post['no_persil'], $post['nomor_urut_bidang']);
         if ($id_persil) {
