@@ -29,3 +29,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 1. Perbaiki return migrasi, tidak sesuai.
 2. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.
+3. Hapus duplikasi menu_atas.
