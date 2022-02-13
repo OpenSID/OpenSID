@@ -55,13 +55,13 @@ class Theme_model extends CI_Model
     */
     public function list_all()
     {
-        $tema_sistem = glob('themes/*', GLOB_ONLYDIR);
+        $tema_sistem = glob('vendor/themes/*', GLOB_ONLYDIR);
         $tema_desa   = glob('desa/themes/*', GLOB_ONLYDIR);
         $tema_semua  = array_merge($tema_sistem, $tema_desa);
         $list_tema   = [];
 
         foreach ($tema_semua as $tema) {
-            $list_tema[] = str_replace('themes/', '', $tema);
+            $list_tema[] = str_replace(['vendor/', 'themes/'], '', $tema);
         }
 
         return $list_tema;

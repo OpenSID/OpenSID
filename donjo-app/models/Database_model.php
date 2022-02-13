@@ -163,6 +163,8 @@ class Database_model extends MY_Model
             return;
         }
 
+        $_SESSION['daftar_migrasi'] = []; // Catat migrasi yg sdh dijalankan, supaya tidak diulang
+
         $_SESSION['success'] = 1;
         $versi               = $this->getCurrentVersion();
         $nextVersion         = $versi;

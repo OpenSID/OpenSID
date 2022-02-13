@@ -46,8 +46,11 @@ class Migrasi_fitur_premium_2203 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2202');
         $hasil = $hasil && $this->migrasi_2022020151($hasil);
+        $hasil = $hasil && $this->migrasi_2022020271($hasil);
+        $hasil = $hasil && $this->migrasi_2022020951($hasil);
+        $hasil = $hasil && $this->migrasi_2022021071($hasil);
 
-        return $hasil && $this->migrasi_2022020271($hasil);
+        return $hasil && $this->migrasi_2022021151($hasil);
     }
 
     protected function migrasi_2022020151($hasil)
@@ -130,5 +133,85 @@ class Migrasi_fitur_premium_2203 extends MY_model
             ->update('setting_aplikasi');
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2022020951($hasil)
+    {
+        $hasil = $hasil && $this->keuangan_ta_spj($hasil);
+
+        return $hasil && $this->keuangan_ta_kegiatan($hasil);
+    }
+
+    protected function keuangan_ta_spj($hasil)
+    {
+        $fields = [];
+
+        if ($this->db->field_exists('Keterangan', 'keuangan_ta_spj')) {
+            $fields['Keterangan'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->modify_column('keuangan_ta_spj', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function keuangan_ta_kegiatan($hasil)
+    {
+        $fields = [];
+
+        if ($this->db->field_exists('Nilai', 'keuangan_ta_kegiatan')) {
+            $fields['Nilai'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($this->db->field_exists('NilaiPAK', 'keuangan_ta_kegiatan')) {
+            $fields['NilaiPAK'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 100,
+                'null'       => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->modify_column('keuangan_ta_kegiatan', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022021071($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'branding_desa',
+            'value'      => 'LAYANAN MANDIRI',
+            'keterangan' => 'Nama Branding Aplikasi Layanan Mandiri Android',
+            'jenis'      => null,
+            'kategori'   => 'mobile',
+        ]);
+    }
+
+    protected function migrasi_2022021151($hasil)
+    {
+        if ($this->db->field_exists('nomor_urut_bidang', 'persil')) {
+            $fields = [
+                'nomor_urut_bidang' => [
+                    'type'    => 'smallint',
+                    'default' => 1,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('persil', $fields);
+        }
+
+        return $hasil;
     }
 }

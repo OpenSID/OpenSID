@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 12. [#1032](https://github.com/OpenSID/OpenSID/issues/1032) Penambahan informasi jumlah dan rincian data ganda saat melakukan impor data penduduk.
 13. [#4750](https://github.com/OpenSID/OpenSID/issues/4750) Pilihan Tahun di Statistik Bantuan.
 14. [#4707](https://github.com/OpenSID/OpenSID/issues/4707) Penambahan captcha untuk form pengaduan.
+15. [#4706](https://github.com/OpenSID/OpenSID/issues/4706) Notifikasi telegram setiap ada pengaduan.
 
 #### Perbaikan BUG
 
@@ -31,7 +32,15 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 9. [#4842](https://github.com/OpenSID/OpenSID/issues/4842) Perbaiki sukses input tanggal lahir mendatang.
 10. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki status perkawinan kawin tercatat semua.
 11. [#4863](https://github.com/OpenSID/OpenSID/issues/4863) Perbaiki migrasi dari v20.12 umum ke v22.02-premium-beta01.
+12. [#4799](https://github.com/OpenSID/OpenSID/issues/4799) Perbaiki agar tidak bisa ubah status hubungan dalam keluarga menjadi kepala keluarga jika kepala keluarga sudah meninggal.
+13. [#4844](https://github.com/OpenSID/OpenSID/issues/4844) Perbaiki fields keterangan, nilai dan nilai pak pada database siskeudes.
+14. [#4821](https://github.com/OpenSID/OpenSID/issues/4821) Perbaiki data penduduk/kepala keluarga yang berubah status dasar masih muncul di program bantuan.
+15. [#4841](https://github.com/OpenSID/OpenSID/issues/4841) Perbaiki impor peta area persil dari KML/GPX dan buat area persil error 500.
+16. [#4848](https://github.com/OpenSID/OpenSID/issues/4848) Perbaiki penambahan persil pada batasan digit nomor urut bidang.
+17. [#4850](https://github.com/OpenSID/OpenSID/issues/4850) Perbaiki nama dan jenis kelamin pada surat keterangan lahir.
+18. [#4828](https://github.com/OpenSID/OpenSID/issues/4828) Perbaiki layanan mandiri belum dapat masuk dengan e-ktp dan agak kesulitan pengoperasian di android.
 
 #### Perubahan Teknis
 
 1. Perbaiki return migrasi, tidak sesuai.
+2. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.

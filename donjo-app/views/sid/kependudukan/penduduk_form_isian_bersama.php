@@ -127,10 +127,10 @@
 				<input type="hidden" name="kk_level_lama" value="<?= $penduduk['kk_level'] ?>">
 			<?php endif; ?>
 			<label for="kk_level">Hubungan Dalam Keluarga</label>
-			<select class="form-control input-sm required" name="kk_level">
+			<select class="form-control input-sm select2 required" name="kk_level">
 				<option value="">Pilih Hubungan Keluarga</option>
 				<?php foreach ($hubungan as $data) : ?>
-					<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
+					<option value="<?= $data['id'] ?>" <?php selected($penduduk['kk_level'], $data['id']); ?> <?= ($data['id'] == 1 && $keluarga['status_dasar'] == '2') ? 'disabled' : ''; ?>><?= strtoupper($data['nama']) ?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>

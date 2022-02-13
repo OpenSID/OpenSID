@@ -89,7 +89,7 @@ class Web_Controller extends MY_Controller
         // Gunakan tema esensi kalau setting tema kosong atau folder di desa/themes untuk tema pilihan tidak ada
         // if (empty($this->setting->web_theme) OR !is_dir(FCPATH.'desa/themes/'.$this->setting->web_theme))
         $theme        = preg_replace('/desa\\//', '', strtolower($this->setting->web_theme));
-        $theme_folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'themes';
+        $theme_folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'vendor/themes';
         if (empty($this->setting->web_theme) || ! is_dir(FCPATH . $theme_folder . '/' . $theme)) {
             $this->theme        = 'esensi';
             $this->theme_folder = 'themes';
@@ -102,23 +102,6 @@ class Web_Controller extends MY_Controller
         $this->includes['folder_themes'] = '../../' . $this->theme_folder . '/' . $this->theme;
 
         $this->load->model('web_menu_model');
-    }
-
-    /*
-     * Jika file theme/view tidak ada, gunakan file esensi/view
-     * Supaya tidak semua layout atau partials harus diulangi untuk setiap tema
-     */
-    public static function fallback_default($theme, $view)
-    {
-        $view         = trim($view, '/');
-        $theme_folder = self::get_instance()->theme_folder;
-        $theme_view   = "../../{$theme_folder}/{$theme}/{$view}";
-
-        if (! is_file(APPPATH . 'views/' . $theme_view)) {
-            $theme_view = "../../themes/esensi/{$view}";
-        }
-
-        return $theme_view;
     }
 
     /**
@@ -144,7 +127,7 @@ class Web_Controller extends MY_Controller
         if (is_file($template_file_path)) {
             $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
         } else {
-            $this->template = '../../themes/esensi/' . $template_file;
+            $this->template = '../../vendor/themes/esensi/' . $template_file;
         }
     }
 

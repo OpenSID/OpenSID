@@ -61,14 +61,16 @@ desa-contoh/cache/*
 .htaccess
 !desa-contoh/arsip/.htaccess
 !desa-contoh/upload/dokumen/.htaccess
-test/
 
 # Abaikan folder example di vendor (untuk commit update rilis)
 vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
 
 test/
+test/
+Tests/
 doc/
+docs/
 example/
 examples/
 vendor/libreoffice/*

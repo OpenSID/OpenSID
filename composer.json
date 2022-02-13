@@ -16,7 +16,9 @@
 		"spipu/html2pdf": "^5.2",
 		"google/apiclient": "^2.11",
 		"box/spout": "^3.3",
-		"simplehtmldom/simplehtmldom": "^2.0@RC"
+		"simplehtmldom/simplehtmldom": "^2.0@RC",
+		"themes/esensi": "dev-main",
+		"themes/natra" : "dev-premium"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*"
