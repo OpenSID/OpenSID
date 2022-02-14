@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 19. [#4837](https://github.com/OpenSID/OpenSID/issues/4837) Perbaiki status kehamilan.
 20. [#4869](https://github.com/OpenSID/OpenSID/issues/4869) Perbaiki upload dokumen laporan penduduk error.
 21. [#90](https://github.com/OpenSID/tema-natra/issues/90) Perbaiki securimage tidak keluar di web demo berputar.
+22. [#4865](https://github.com/OpenSID/OpenSID/issues/4865) Perbaiki error migrasi (ref_penduduk_hamil).
 
 #### Perubahan Teknis
 
