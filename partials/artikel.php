@@ -1,9 +1,9 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <?php if ($single_artikel["id"]) : ?>
-	<div class="single_page_area" id="<?= 'artikel-'.$single_artikel['judul']?>">
+	<div class="single_page_area" id="<?= 'artikel-' . $single_artikel['judul'] ?>">
 		<div style="margin-top:0px;">
-			<?php if (!empty($teks_berjalan)): ?>
+			<?php if (!empty($teks_berjalan)) : ?>
 				<marquee onmouseover="this.stop()" onmouseout="this.start()">
 					<?php $this->load->view("$folder_themes/layouts/teks_berjalan"); ?>
 				</marquee>
@@ -13,16 +13,18 @@
 			<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Artikel</span> </h2>
 		</div>
 		<div id="printableArea">
-			<h4 class="catg_titile" style="font-family: Oswald"><font color="#FFFFFF"><?= $single_artikel["judul"]?></font></h4>
+			<h4 class="catg_titile" style="font-family: Oswald">
+				<font color="#FFFFFF"><?= $single_artikel["judul"] ?></font>
+			</h4>
 			<div class="post_commentbox">
-				<span class="meta_date"><?= tgl_indo2($single_artikel['tgl_upload']);?>&nbsp;
-					<i class="fa fa-user"></i><?= $single_artikel['owner']?>&nbsp;
+				<span class="meta_date"><?= tgl_indo2($single_artikel['tgl_upload']); ?>&nbsp;
+					<i class="fa fa-user"></i><?= $single_artikel['owner'] ?>&nbsp;
 					<i class="fa fa-eye"></i><?= hit($single_artikel['hit']) ?> Dibaca&nbsp;
 					<?php if (trim($single_artikel['kategori']) != '') : ?>
-						<a href="<?= site_url('first/kategori/'.$single_artikel['id_kategori'])?>"><i class='fa fa-tag'></i><?= $single_artikel['kategori']?></a>
+						<a href="<?= site_url('first/kategori/' . $single_artikel['id_kategori']) ?>"><i class='fa fa-tag'></i><?= $single_artikel['kategori'] ?></a>
 					<?php endif; ?>
 				</span>
-				<div class="fb-like" data-href="<?= site_url('artikel/'.buat_slug($single_artikel['id']))?>" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
+				<div class="fb-like" data-href="<?= site_url('artikel/' . buat_slug($single_artikel['id'])) ?>" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="true"></div>
 			</div>
 			<div class="single_page_content" style="margin-bottom:10px;">
 				<?php if ($single_artikel['id_kategori'] == 1000) : ?>
@@ -63,66 +65,69 @@
 					</div>
 				<?php endif; ?>
 				<div class="sampul">
-					<?php if ($single_artikel['gambar']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar'])): ?>
-						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>">
-							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'],'sedang')?>"/>
+					<?php if ($single_artikel['gambar'] != '' and is_file(LOKASI_FOTO_ARTIKEL . "sedang_" . $single_artikel['gambar'])) : ?>
+						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar'], 'sedang') ?>">
+							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar'], 'sedang') ?>" />
 						</a>
-					<?php endif;?>
+					<?php endif; ?>
 				</div>
-				<div class="teks"><?= $single_artikel["isi"]?></div>
-				<?php if ($single_artikel['dokumen']!='' and is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])): ?>
-					<p>Unduh Lampiran:<br><a href='<?= site_url("first/unduh_dokumen_artikel/{$single_artikel[id]}") ?>' title=""><?= $single_artikel['link_dokumen']?></a></p>
+				<div class="teks"><?= $single_artikel["isi"] ?></div>
+				<?php if ($single_artikel['dokumen'] != '' and is_file(LOKASI_DOKUMEN . $single_artikel['dokumen'])) : ?>
+					<p>Unduh Lampiran:<br><a href='<?= site_url("first/unduh_dokumen_artikel/{$single_artikel[id]}") ?>' title=""><?= $single_artikel['link_dokumen'] ?></a></p>
 				<?php endif; ?>
-				<?php if ($single_artikel['gambar1']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar1'])): ?>
+				<?php if ($single_artikel['gambar1'] != '' and is_file(LOKASI_FOTO_ARTIKEL . "sedang_" . $single_artikel['gambar1'])) : ?>
 					<div class="sampul">
-						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>">
-							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar1'],'sedang')?>"/>
+						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar1'], 'sedang') ?>">
+							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar1'], 'sedang') ?>" />
 						</a>
 					</div>
 				<?php endif; ?>
-				<?php if ($single_artikel['gambar2']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar2'])): ?>
+				<?php if ($single_artikel['gambar2'] != '' and is_file(LOKASI_FOTO_ARTIKEL . "sedang_" . $single_artikel['gambar2'])) : ?>
 					<div class="sampul">
-						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>">
-							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar2'],'sedang')?>"/>
+						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar2'], 'sedang') ?>">
+							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar2'], 'sedang') ?>" />
 						</a>
 					</div>
 				<?php endif; ?>
-				<?php if ($single_artikel['gambar3']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar3'])): ?>
+				<?php if ($single_artikel['gambar3'] != '' and is_file(LOKASI_FOTO_ARTIKEL . "sedang_" . $single_artikel['gambar3'])) : ?>
 					<div class="sampul">
-						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>">
-							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar3'],'sedang')?>"/>
+						<a data-fancybox="gallery" href="<?= AmbilFotoArtikel($single_artikel['gambar3'], 'sedang') ?>">
+							<img width="270px" style="float:left; margin:0 8px 4px 0;" class="img-fluid img-thumbnail" src="<?= AmbilFotoArtikel($single_artikel['gambar3'], 'sedang') ?>" />
 						</a>
 					</div>
 				<?php endif; ?>
 			</div>
 		</div>
-		<div class="btn-group" role="group" aria-label="Bagikan ke teman anda" style="clear:both;">
-			<a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= "https://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='noopener noreferrer' target='_blank' title='Facebook'><button type="button" class="btn btn-primary btn-sm"><i class="fa fa-facebook-square fa-2x"></i></button></a>
-			<a href="http://twitter.com/share?source=sharethiscom&text=<?= htmlspecialchars($single_artikel["judul"]);?>%0A&url=<?= "https://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI].'&via=ariandii'?>" class="twitter-share-button" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='noopener noreferrer' target='_blank' title='Twitter'><button type="button" class="btn btn-info btn-sm"><i class="fa fa-twitter fa-2x"></i></button></a>
-			<a href="mailto:?subject=<?= htmlspecialchars($single_artikel["judul"]);?>&body=<?= potong_teks($single_artikel["isi"], 1000);?> ... Selengkapnya di <?= "https://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]?>" title='Email'><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-envelope fa-2x"></i></button></a>
-			<a href="https://telegram.me/share/url?url=<?= "https://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]?>&text=<?= htmlspecialchars($single_artikel["judul"]);?>%0A" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='noopener noreferrer' target='_blank' title='Telegram'><button type="button" class="btn btn-dark btn-sm"><i class="fa fa-telegram fa-2x"></i></button></a>
-			<a href="#" onclick="printDiv('printableArea')" title='Cetak Artikel'><button type="button" class="btn btn-warning btn-sm"><i class="fa fa-print fa-2x"></i></button></a>
-			<a href="https://api.whatsapp.com/send?text=<?= htmlspecialchars($single_artikel["judul"]);?>%0A<?= "https://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]?>" onclick='window.open(this.href,"popupwindow","status=0,height=500,width=500,resizable=0,top=50,left=100");return false;' rel='noopener noreferrer' target='_blank' title='Whatsapp'><button type="button" class="btn btn-success btn-sm"><i class="fa fa-whatsapp fa-2x"></i></button></a>
-		</div>
+
+		<?php
+
+		$share = [
+			'link' => site_url('artikel/' . buat_slug($single_artikel)),
+			'judul' => htmlspecialchars($single_artikel["judul"]),
+		];
+		$this->load->view("$folder_themes/commons/share", $share);
+
+		?>
+
 	</div>
-	<?php if ($single_artikel['boleh_komentar'] == 1): ?>
-		<div class="fb-comments" data-href="<?= site_url('artikel/'.buat_slug($single_artikel))?>" width="100%" data-numposts="5"></div>
+	<?php if ($single_artikel['boleh_komentar'] == 1) : ?>
+		<div class="fb-comments" data-href="<?= site_url('artikel/' . buat_slug($single_artikel)) ?>" width="100%" data-numposts="5"></div>
 	<?php endif; ?>
 	<div class="contact_bottom">
-		<?php if (!empty($komentar)): ?>
+		<?php if (!empty($komentar)) : ?>
 			<div class="contact_bottom">
 				<div class="box-body">
-					<?php foreach ($komentar AS $data): ?>
+					<?php foreach ($komentar as $data) : ?>
 						<table class="table table-bordered table-striped dataTable table-hover">
 							<thead class="bg-gray disabled color-palette">
 								<tr>
-									<th><i class="fa fa-comment"></i> <?= $data['owner']?></th>
+									<th><i class="fa fa-comment"></i> <?= $data['owner'] ?></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<td>
-										<font color='green'><small><?= tgl_indo2($data['tgl_upload'])?></small></font><br/><?= $data['komentar']?>
+										<font color='green'><small><?= tgl_indo2($data['tgl_upload']) ?></small></font><br /><?= $data['komentar'] ?>
 									</td>
 								</tr>
 							</tbody>
@@ -133,16 +138,17 @@
 		<?php endif; ?>
 	</div>
 	<div class="form-group group-komentar" id="kolom-komentar">
-		<?php if ($single_artikel['boleh_komentar'] == 1): ?>
+		<?php if ($single_artikel['boleh_komentar'] == 1) : ?>
 			<div class="box box-default">
 				<div class="box-header">
 					<h2 class="box-title">Kirim Komentar</h2>
-				</div><hr />
+				</div>
+				<hr />
 				<?php
-					$notif = $this->session->flashdata('notif');
-					$label = ($notif['status'] == -1) ? 'label-danger' : 'label-info';
+				$notif = $this->session->flashdata('notif');
+				$label = ($notif['status'] == -1) ? 'label-danger' : 'label-info';
 				?>
-				<?php if ($notif): ?>
+				<?php if ($notif) : ?>
 					<div class="box-header <?= $label; ?>"><?= $notif['pesan']; ?></div>
 				<?php endif; ?>
 				<div class="contact_bottom">
@@ -172,16 +178,17 @@
 									<textarea class="required" name="komentar"><?= $notif['data']['komentar']; ?></textarea>
 								</td>
 							</tr>
-							<tr class="captcha"><td>&nbsp;</td>
+							<tr class="captcha">
+								<td>&nbsp;</td>
 								<td>
-									<img id="captcha" src="<?= base_url('securimage/securimage_show'); ?>" alt="CAPTCHA Image"/>
-									<a href="#" onclick="document.getElementById('captcha').src = '<?= base_url()."securimage/securimage_show.php?"?>' + Math.random(); return false" style="color: #000000;">[ Ganti gambar ]</a>
+									<img id="captcha" src="<?= base_url('securimage/securimage_show.php'); ?>" alt="CAPTCHA Image" />
+									<a href="#" onclick="document.getElementById('captcha').src = '<?= base_url() . "securimage/securimage_show.php?" ?>' + Math.random(); return false" style="color: #000000;">[ Ganti gambar ]</a>
 								</td>
 							</tr>
 							<tr class="captcha_code">
 								<td>&nbsp;</td>
 								<td>
-									<input type="text" name="captcha_code" class="required" maxlength="6" value="<?= $notif['data']['captcha_code']; ?>"/> Isikan kode di gambar
+									<input type="text" name="captcha_code" class="required" maxlength="6" value="<?= $notif['data']['captcha_code']; ?>" /> Isikan kode di gambar
 								</td>
 							</tr>
 							<tr class="submit">
@@ -195,19 +202,10 @@
 					</form>
 				</div>
 			</div>
-		<?php else: ?>
+		<?php else : ?>
 			<span class='info'></span>
 		<?php endif; ?>
 	</div>
-<?php else: ?>
-	<div class="artikel" id="artikel-blank">
-		<div class="col-lg-12 col-md-12 col-sm-12">
-			<div class="error_page_content">
-				<h1>404</h1>
-				<h2>Maaf</h2>
-				<h3>Halaman ini belum tersedia atau sedang dalam perbaikan</h3>
-				<p class="wow fadeInLeftBig">Silahkan kembali lagi ke halaman <a href="<?= site_url(); ?>first">Beranda</a></p>
-			</div>
-		</div>
-	</div>
+<?php else : ?>
+	<?php $this->load->view("$folder_themes/commons/not_found"); ?>
 <?php endif; ?>

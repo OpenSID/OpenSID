@@ -1,34 +1,28 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_category wow fadeInDown">
-	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Album Galeri <?= $parrent['nama']; ?></span></h2>
+	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text"><a href="<?= site_url('galeri'); ?>">Album Galeri : </a> <?= $parent['nama']; ?></span></h2>
 </div>
 
-<div class="content_left" style="margin-bottom:10px;">
-	<ul>
-		<?php foreach ($gallery as $key => $data): ?>
-			<?php if (is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>
-				<li>
-					<div class="single_page_content">
-					<a class="group2" href="<?= site_url() . "first/sub_gallery/" . $data['id'] ?>">
-						<img class='img-fluid img-thumbnail' src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" />
-					</a>
+<div style="content_left">
+	<?php if ($gallery): ?>
+		<div class="row">
+			<?php foreach ($gallery as $data): ?>
+				<?php if (is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>
+					<div class="col-sm-6">
+						<div class="card">
+							<img width="auto" class="img-fluid img-thumbnail" src="<?= AmbilGaleri($data['gambar'], 'kecil') ?>" alt="<?= $data['nama']; ?>"/>
+							<p align="center"><b><?= $data['nama']; ?></b></p>
+							<hr/>
+						</div>
 					</div>
-					<div class="title">
-						<a href="<?= site_url() . "first/sub_gallery/" . $data['id'] ?>"
-						title="<?= $data["nama"] ?>" > Album : <?= $data["nama"] ?></a>
-					</div>
-				</li>
-				<br/>
-			<?php endif ?>
-		<?php endforeach ?>
-	</ul>
+				<?php endif ?>
+			<?php endforeach ?>
+		</div>
 
-	<?php
+	<?php $this->load->view("$folder_themes/commons/page"); ?>
 
-		$data['paging_page'] = 'first/sub_gallery';
-
-		$this->load->view("$folder_themes/commons/page", $data);
-
-	?>
+	<?php else: ?>
+		<p>Data tidak tersedia</p>
+	<?php endif; ?>
 </div>

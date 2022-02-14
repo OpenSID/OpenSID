@@ -1,4 +1,5 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
@@ -24,7 +25,7 @@
 				<div class="content_bottom">
 					<div class="col-lg-12 col-md-12">
 						<div id="contentwrapper" class="web">
-							<?php if (in_array($halaman_statis, ['lapak/index', 'pembangunan/index', 'pembangunan/detail'])): ?>
+							<?php if (in_array($halaman_statis, ['lapak/index', 'pembangunan/index', 'pembangunan/detail', 'pengaduan/index'])): ?>
 								<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/' . $halaman_statis . '.php')); ?>
 							<?php else: ?>
 								<?php $this->load->view($halaman_statis); ?>
