@@ -265,7 +265,7 @@ class Web_artikel_model extends MY_Model
             unset($data['old_' . $gambar]);
         }
         if ($data['tgl_upload'] == '') {
-            unset($data['tgl_upload']);
+            $data['tgl_upload'] = date('Y-m-d H:i:s');
         } else {
             $tempTgl            = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
             $data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');
@@ -387,7 +387,7 @@ class Web_artikel_model extends MY_Model
             unset($data['old_' . $gambar]);
         }
         if ($data['tgl_upload'] == '') {
-            unset($data['tgl_upload']);
+            $data['tgl_upload'] = date('Y-m-d H:i:s');
         } else {
             $tempTgl            = date_create_from_format('d-m-Y H:i:s', $data['tgl_upload']);
             $data['tgl_upload'] = $tempTgl->format('Y-m-d H:i:s');

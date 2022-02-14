@@ -14,6 +14,8 @@
 				<script src="<?= asset('bootstrap/js/jquery.ui.autocomplete.scroll.min.js') ?>"></script>
 
 				<script src="<?= asset('bootstrap/js/moment.min.js') ?>"></script>
+				<script src="<?= asset('bootstrap/js/moment-timezone.js') ?>"></script>
+				<script src="<?= asset('bootstrap/js/moment-timezone-with-data.js') ?>"></script>
 				<!-- Bootstrap 3.3.7 -->
 				<script src="<?= asset('bootstrap/js/bootstrap.min.js') ?>"></script>
 				<!-- Select2 -->
@@ -56,6 +58,14 @@
 					<script src="<?= asset('js/demo.js') ?>"></script>
 				<?php endif ?>
 
+				<!-- set timezone -->
+				<script>
+					$.extend($.fn.datetimepicker.defaults, {
+						timeZone: `<?= date_default_timezone_get() ?>`
+					});
+
+						moment.tz.setDefault(`<?= date_default_timezone_get() ?>`);
+				</script>
 
 				<!-- NOTIFICATION-->
 				<script type="text/javascript">

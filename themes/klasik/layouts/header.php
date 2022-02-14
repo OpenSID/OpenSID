@@ -135,6 +135,8 @@
 		<script src="<?= base_url()?>assets/bootstrap/js/select2.full.min.js"></script>
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datepicker.min.js"></script>
 		<script src="<?= base_url()?>assets/bootstrap/js/moment.min.js"></script>
+		<script src="<?= base_url()?>assets/bootstrap/js/moment-timezone.js"></script>
+		<script src="<?= base_url()?>assets/bootstrap/js/moment-timezone-with-data.js"></script>
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-colorpicker.min.js"></script>
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap3-wysihtml5.all.min.js"></script>
