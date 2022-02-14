@@ -299,6 +299,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<script src="<?= asset('bootstrap/js/jquery.ui.autocomplete.scroll.min.js') ?>"></script>
 
 	<script src="<?= asset('bootstrap/js/moment.min.js') ?>"></script>
+	<script src="<?= asset('bootstrap/js/moment-timezone.js') ?>"></script>
+	<script src="<?= asset('bootstrap/js/moment-timezone-with-data.js') ?>"></script>
 	<!-- Bootstrap 3.3.7 -->
 	<script src="<?= asset('bootstrap/js/bootstrap.min.js') ?>"></script>
 	<!-- Select2 -->
