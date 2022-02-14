@@ -162,25 +162,35 @@ class Laporan_sinkronisasi_model extends MY_Model
 
         $config['upload_path']   = LOKASI_DOKUMEN;
         $config['allowed_types'] = 'pdf';
-        $config['max_size']      = 2048;
+        $config['max_size']      = max_upload() * 1024;
         $config['file_name']     = namafile($nama_file);
 
         $this->upload->initialize($config);
 
-        if (! $this->upload->do_upload('nama_file')) {
-            $this->session->error_msg = $this->upload->display_errors();
-            $this->session->success   = -1;
+        try {
+            $upload = $this->upload->do_upload('nama_file');
 
-            return null;
+            if (! $upload) {
+                session_error($this->upload->display_errors());
+                if (! $old_file) {
+                    redirect('laporan_penduduk');
+                }
+
+                return $old_file;
+            }
+
+            if ($old_file) {
+                unlink(LOKASI_DOKUMEN . $old_file);
+            }
+
+            $uploadData = $this->upload->data();
+
+            return $uploadData['file_name'];
+        } catch (Exception $e) {
+            session_error($this->upload->display_errors());
+
+            return redirect('laporan_penduduk');
         }
-
-        $upload = $this->upload->data();
-
-        if ($old_file) {
-            unlink(LOKASI_DOKUMEN . $old_file);
-        }
-
-        return $upload['file_name'];
     }
 
     public function opendk($id)
