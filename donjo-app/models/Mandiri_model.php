@@ -502,6 +502,7 @@ class Mandiri_model extends CI_Model
             ->row();
 
         session_error_clear();
+        $this->session->aktif = true;
 
         if ($data->aktif == 1) {
             switch (true) {
@@ -523,8 +524,10 @@ class Mandiri_model extends CI_Model
                     $this->session->mandiri_wait = 1;
                     $this->session->login_ektp   = false;
             }
-        } else {
-            session_error('Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator');
+        }
+
+        if ($data->aktif == 0) {
+            $this->session->aktif = false;
         }
     }
 
@@ -545,6 +548,7 @@ class Mandiri_model extends CI_Model
             ->row();
 
         session_error_clear();
+        $this->session->aktif = true;
 
         if ($data->aktif == 1) {
             switch (true) {
@@ -576,8 +580,10 @@ class Mandiri_model extends CI_Model
                     $this->session->login_ektp   = true;
                     break;
             }
-        } else {
-            session_error('Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator');
+        }
+
+        if ($data->aktif == 0) {
+            $this->session->aktif = false;
         }
     }
 
