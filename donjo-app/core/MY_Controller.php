@@ -154,7 +154,6 @@ class Web_Controller extends MY_Controller
         $data['latar_website'] = $this->theme_model->latar_website();
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
-        $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
         $data['teks_berjalan'] = $this->teks_berjalan_model->list_data(true);
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();

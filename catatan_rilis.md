@@ -37,8 +37,13 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 14. [#4821](https://github.com/OpenSID/OpenSID/issues/4821) Perbaiki data penduduk/kepala keluarga yang berubah status dasar masih muncul di program bantuan.
 15. [#4841](https://github.com/OpenSID/OpenSID/issues/4841) Perbaiki impor peta area persil dari KML/GPX dan buat area persil error 500.
 16. [#4848](https://github.com/OpenSID/OpenSID/issues/4848) Perbaiki penambahan persil pada batasan digit nomor urut bidang.
+17. [#4850](https://github.com/OpenSID/OpenSID/issues/4850) Perbaiki nama dan jenis kelamin pada surat keterangan lahir.
+18. [#4828](https://github.com/OpenSID/OpenSID/issues/4828) Perbaiki layanan mandiri belum dapat masuk dengan e-ktp dan agak kesulitan pengoperasian di android.
+19. [#4837](https://github.com/OpenSID/OpenSID/issues/4837) Perbaiki status kehamilan.
 
 #### Perubahan Teknis
 
 1. Perbaiki return migrasi, tidak sesuai.
 2. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.
+3. Hapus duplikasi menu_atas.
+4. Perbaiki library paging.
