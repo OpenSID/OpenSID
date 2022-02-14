@@ -187,6 +187,7 @@ class Laporan_sinkronisasi_model extends MY_Model
             return $uploadData['file_name'];
         } catch (Exception $e) {
             session_error($this->upload->display_errors());
+
             return redirect('laporan_penduduk');
         }
     }
