@@ -10,10 +10,10 @@
 	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-		<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>"/>
-	<?php else: ?>
-		<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>"/>
+	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')) : ?>
+		<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>" />
+	<?php else : ?>
+		<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>" />
 	<?php endif ?>
 	<link rel="stylesheet" href="<?= asset('css/login-style.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/login-form-elements.css') ?>" media="screen">
@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="<?= asset('css/siteman_mandiri.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.bar.css') ?>" media="screen">
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')) : ?>
-		<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman_mandiri.css') ?>" >
+		<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman_mandiri.css') ?>">
 	<?php endif; ?>
 	<link rel="stylesheet" href="<?= asset('css/mandiri_video.css') ?>">
 	<!-- Font Awesome -->
@@ -127,17 +127,11 @@
 														<p>NIK atau PIN salah.<br />Kesempatan mencoba <?= ($this->session->mandiri_try - 1) ?> kali lagi.</p>
 													</div>
 												<?php endif; ?>
-												<?php if ($this->session->success == -1) : ?>
+												<?php if ($this->session->aktif == false) : ?>
 													<div class="callout callout-danger" id="notif">
-														<?= $this->session->error_msg ?>
+														<p>Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator.</p>
 													</div>
 												<?php endif; ?>
-
-												<!-- <?php if ($proses = $this->session->flashdata('proses_verifikasi')) : ?>
-													<div class="callout callout-<?= ($proses['status'] == -1) ? 'danger' : 'success' ?>">
-														<p><?= $proses['pesan']; ?></p>
-													</div>
-												<?php endif; ?> -->
 
 												<div class="form-group form-login">
 													<input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber') ?>" name="nik" placeholder=" NIK">
@@ -370,4 +364,5 @@
 		<?php endif; ?>
 	</script>
 </body>
+
 </html>
