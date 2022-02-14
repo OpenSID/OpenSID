@@ -49,7 +49,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css">
 </head>
 
-<?php if ($this->setting->tampilan_anjungan == 1 && !empty($this->setting->tampilan_anjungan_slider)) : ?>
+<?php if ($this->setting->tampilan_anjungan == 1 && ! empty($this->setting->tampilan_anjungan_slider)) : ?>
 	<div id="sliderv" class="video-internal" style="display: none;">
 		<div id="myCarousel" class="carousel slide" data-ride="carousel">
 			<div class="carousel-inner">
@@ -63,7 +63,7 @@
 	</div>
 <?php endif; ?>
 
-<?php if ($this->setting->tampilan_anjungan == 2 && !empty($this->setting->tampilan_anjungan_video)) : ?>
+<?php if ($this->setting->tampilan_anjungan == 2 && ! empty($this->setting->tampilan_anjungan_video)) : ?>
 	<div class="video-internal" id="videov" style="display: none;">
 		<video loop <?= jecho($this->setting->tampilan_anjungan_audio, 0, 'muted') ?> poster="<?= base_url($latar_login_mandiri) ?>" class="video-internal-bg" id="videona">
 			<source src="<?= $this->setting->tampilan_anjungan_video; ?>" type="video/mp4">
@@ -88,7 +88,7 @@
 									<br /><?= $header['alamat_kantor'] ?>
 									<br />Kodepos <?= $header['kode_pos'] ?>
 									<br /><br />Silakan hubungi operator desa untuk mendapatkan kode PIN anda.
-									<?php if (!$cek_anjungan) : ?>
+									<?php if (! $cek_anjungan) : ?>
 										<br /><br /><br />IP Address: <?= $this->input->ip_address() ?>
 									<?php else : ?>
 										<br /><br /><br />IP Address : <?= $cek_anjungan['ip_address'] ?>
@@ -120,7 +120,7 @@
 										</form>
 									<?php else : ?>
 										<form id="validasi" action="<?= $form_action; ?>" method="post" class="login-form">
-											<?php if (!$this->session->login_ektp) : ?>
+											<?php if (! $this->session->login_ektp) : ?>
 
 												<?php if ($this->session->mandiri_try < 4) : ?>
 													<div class="callout callout-danger" id="notif">
@@ -175,7 +175,7 @@
 												<div class="form-group form-login" style="<?= jecho($cek_anjungan == 0 || ENVIRONMENT == 'development', false, 'width: 0; overflow: hidden;') ?>">
 													<input name="tag" id="tag" autocomplete="off" placeholder="Tempelkan e-KTP Pada Card Reader" class="form-control required number" type="password" onkeypress="if (event.keyCode == 13){$('#'+'validasi').attr('action', '<?= $form_action; ?>');$('#'+'validasi').submit();}">
 												</div>
-												<?php if (!$cek_anjungan) : ?>
+												<?php if (! $cek_anjungan) : ?>
 													<div class="form-group form-login">
 														<input type="password" class="form-control required number" name="pin" placeholder="Masukan PIN" id="pin" autocomplete="off">
 													</div>
