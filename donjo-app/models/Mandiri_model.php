@@ -525,6 +525,7 @@ class Mandiri_model extends CI_Model
                     $this->session->login_ektp   = false;
             }
         }
+
         if ($data->aktif == 0) {
             $this->session->aktif = false;
         }
@@ -549,7 +550,7 @@ class Mandiri_model extends CI_Model
         session_error_clear();
         $this->session->aktif = true;
 
-        if ($data->aktif == 0) {
+        if ($data->aktif == 1) {
             switch (true) {
                 case $data && $this->cek_anjungan && $tag == $data->tag_id_card:
                     $session = [
