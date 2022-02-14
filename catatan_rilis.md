@@ -40,6 +40,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 17. [#4850](https://github.com/OpenSID/OpenSID/issues/4850) Perbaiki nama dan jenis kelamin pada surat keterangan lahir.
 18. [#4828](https://github.com/OpenSID/OpenSID/issues/4828) Perbaiki layanan mandiri belum dapat masuk dengan e-ktp dan agak kesulitan pengoperasian di android.
 19. [#4837](https://github.com/OpenSID/OpenSID/issues/4837) Perbaiki status kehamilan.
+20. [#4869](https://github.com/OpenSID/OpenSID/issues/4869) Perbaiki upload dokumen laporan penduduk error.
 
 #### Perubahan Teknis
 
