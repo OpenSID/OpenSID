@@ -493,7 +493,18 @@ class Mandiri_model extends CI_Model
         $nik   = bilangan(bilangan($masuk['nik']));
         $pin   = hash_pin(bilangan($masuk['pin']));
 
-        $data = $data = $this->getLogin(['p.nik' => $nik]);
+        $data = $this->db
+            ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.sex, p.foto, p.kk_level, p.id_kk, k.no_kk, c.rt, c.rw, c.dusun')
+            ->from('tweb_penduduk_mandiri pm')
+            ->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+            ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+            ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
+            ->where('p.nik', $nik)
+            ->get()
+            ->row();
+
+        session_error_clear();
+        $this->session->aktif = true;
 
         if ($data->aktif == 1) {
             switch (true) {
@@ -515,8 +526,10 @@ class Mandiri_model extends CI_Model
                     $this->session->mandiri_wait = 1;
                     $this->session->login_ektp   = false;
             }
-        } else {
-            session_error('Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator');
+        }
+
+        if ($data->aktif == 0) {
+            $this->session->aktif = false;
         }
     }
 
@@ -529,7 +542,17 @@ class Mandiri_model extends CI_Model
         $pin   = hash_pin(bilangan($masuk['pin']));
         $tag   = bilangan(bilangan($masuk['tag']));
 
-        $data = $this->getLogin(['p.tag_id_card' => $tag]);
+        $data = $this->db
+            ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
+            ->from('tweb_penduduk_mandiri pm')
+            ->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+            ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+            ->where('p.tag_id_card', $tag)
+            ->get()
+            ->row();
+
+        session_error_clear();
+        $this->session->aktif = true;
 
         if ($data->aktif == 1) {
             switch (true) {
@@ -561,8 +584,10 @@ class Mandiri_model extends CI_Model
                     $this->session->login_ektp   = true;
                     break;
             }
-        } else {
-            session_error('Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator');
+        }
+
+        if ($data->aktif == 0) {
+            $this->session->aktif = false;
         }
     }
 

@@ -43,7 +43,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 20. [#4869](https://github.com/OpenSID/OpenSID/issues/4869) Perbaiki upload dokumen laporan penduduk error.
 21. [#90](https://github.com/OpenSID/tema-natra/issues/90) Perbaiki securimage tidak keluar di web demo berputar.
 22. [#4865](https://github.com/OpenSID/OpenSID/issues/4865) Perbaiki error migrasi (ref_penduduk_hamil).
-
+23. [#4870](https://github.com/OpenSID/OpenSID/issues/4870) Perbaiki error Notifikasi Login Layanan Mandiri, Ketika Pengguna Belum Aktif melakukan login di layanan mandiri.
 #### Perubahan Teknis
 
 1. Perbaiki return migrasi, tidak sesuai.
