@@ -170,11 +170,12 @@ class Laporan_sinkronisasi_model extends MY_Model
         try {
             $upload = $this->upload->do_upload('nama_file');
 
-            if (!$upload) {
+            if (! $upload) {
                 session_error($this->upload->display_errors());
-                if (!$old_file) {
+                if (! $old_file) {
                     redirect('laporan_penduduk');
                 }
+
                 return $old_file;
             }
 
