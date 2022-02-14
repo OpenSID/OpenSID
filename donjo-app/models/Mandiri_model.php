@@ -523,8 +523,7 @@ class Mandiri_model extends CI_Model
                     $this->session->mandiri_wait = 1;
                     $this->session->login_ektp   = false;
             }
-        }
-        if ($data->aktif == 0) {
+        } else {
             session_error('Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator');
         }
     }
@@ -547,7 +546,7 @@ class Mandiri_model extends CI_Model
 
         session_error_clear();
 
-        if ($data->aktif == 0) {
+        if ($data->aktif == 1) {
             switch (true) {
                 case $data && $this->cek_anjungan && $tag == $data->tag_id_card:
                     $session = [
@@ -577,9 +576,7 @@ class Mandiri_model extends CI_Model
                     $this->session->login_ektp   = true;
                     break;
             }
-        }
-
-        if ($data->aktif == 0) {
+        } else {
             session_error('Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator');
         }
     }

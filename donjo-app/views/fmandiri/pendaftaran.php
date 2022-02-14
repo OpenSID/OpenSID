@@ -44,50 +44,60 @@ defined('BASEPATH') || exit('No direct script access allowed');
 ?>
 
 <div>
-    <h2 style="margin: -35px -20px 0px -20px;"><strong>PENDAFTARAN AKUN LAYANAN MANDIRI</strong></h2>
+    <h2><strong>PENDAFTARAN AKUN LAYANAN MANDIRI</strong></h2>
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group form-daftar">
-                <input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_nama" placeholder="Nama">
+        <div class="col-12">
+            <div class="col-md-6">
+                <div class="form-group form-daftar">
+                    <input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_nama" placeholder="Nama">
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group date form-daftar">
-                    <input placeholder="Tanggal Lahir" type="text" class="form-control pull-right required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" id="daftar_tgl_lahir" name="daftar_tgl_lahir" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="row date form-daftar">
+                        <input placeholder="Tanggal Lahir" type="text" class="form-control pull-right required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" id="daftar_tgl_lahir" name="daftar_tgl_lahir" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                        <div class="input-group-addon" style="height: 35px; width:40px; display: flex; align-items: center;">
+                            <i class="fa fa-calendar"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top: -10px">
-        <div class="col-md-6">
-            <div class="form-group form-daftar">
-                <input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_nik" placeholder="NIK" minlength="16" maxlength="16">
+    <div class="row row-top-fmandiri">
+        <div class="col-12">
+            <div class="col-md-6">
+                <div class="form-group form-daftar" style="margin-right: -10px">
+                    <input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_nik" placeholder="NIK" minlength="16" maxlength="16">
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group form-daftar">
-                    <input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_pin1" id="daftar_pin1" placeholder="PIN" minlength="6" maxlength="6" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
-                    <span class="input-group-addon"><i class="fa fa-eye-slash" id="baru1" onclick="show(this);" aria-hidden="true"></i></span>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="row form-daftar">
+                        <input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_pin1" id="daftar_pin1" placeholder="PIN" minlength="6" maxlength="6" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                        <span class="input-group-addon" style="height: 35px; width:40px; display: flex; align-items: center;">
+                            <i class="fa fa-eye-slash" id="baru1" onclick="show(this);" aria-hidden="true"></i>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top: -10px">
-        <div class="col-md-6">
-            <div class="form-group form-daftar">
-                <input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_kk" placeholder="KK" minlength="16" maxlength="16">
+    <div class="row row-top-fmandiri">
+        <div class="col-12">
+            <div class="col-md-6">
+                <div class="form-group form-daftar">
+                    <input type="text" autocomplete="off" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_kk" placeholder="KK" minlength="16" maxlength="16">
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="input-group form-daftar">
-                    <input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_pin2" id="daftar_pin2" placeholder="Konfirmasi PIN" minlength="6" maxlength="6" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
-                    <span class="input-group-addon"><i class="fa fa-eye-slash" id="baru2" onclick="show(this);" aria-hidden="true"></i></span>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="row form-daftar">
+                        <input type="password" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="daftar_pin2" id="daftar_pin2" placeholder="Konfirmasi PIN" minlength="6" maxlength="6" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                        <span class="input-group-addon" style="height: 35px; width:40px; display: flex; align-items: center;">
+                            <i class="fa fa-eye-slash" id="baru2" onclick="show(this);" aria-hidden="true"></i>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,11 +105,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
     <div class="row" style="margin-top: -10px;">
         <div class="col-md-12">
             <div class="form-group">
-                <div class="input-group input-group-sm form-daftar">
+                <div class="row input-group-sm form-daftar">
                     <input type="text" class="form-control required" id="file_path1" placeholder="Unggah Scan KTP" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
                     <input id="file1" type="file" class="hidden required" name="scan_1">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-info btn-flat" id="file_browser1"><i class="fa fa-search"></i>&nbsp;</button>
+                    <span class="">
+                        <button type="button" class="btn btn-info btn-flat" id="file_browser1" style="height: 35px; border-radius: 0px; display: flex; align-items: center;"><i class="fa fa-search"></i>&nbsp;</button>
                     </span>
                 </div>
             </div>
@@ -108,11 +118,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
     <div class="row" style="margin-top: -10px;">
         <div class="col-md-12">
             <div class="form-group">
-                <div class="input-group input-group-sm form-daftar">
+                <div class="row input-group-sm form-daftar">
                     <input type="text" class="form-control required" id="file_path2" placeholder="Unggah Scan KK" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
                     <input id="file2" type="file" class="hidden required form-daftar" name="scan_2">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i>&nbsp;</button>
+                    <span class="">
+                        <button type="button" class="btn btn-info btn-flat" id="file_browser2" style="height: 35px; border-radius: 0px; display: flex; align-items: center;"><i class="fa fa-search"></i>&nbsp;</button>
                     </span>
                 </div>
             </div>
@@ -121,11 +131,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
     <div class="row" style="margin-top: -10px;">
         <div class="col-md-12">
             <div class="form-group">
-                <div class="input-group input-group-sm form-daftar">
+                <div class="row input-group-sm form-daftar">
                     <input type="text" class="form-control required" id="file_path3" placeholder="Unggah Foto Selfie dan Membawa KTP" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
                     <input id="file3" type="file" class="hidden required form-daftar" name="scan_3">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-info btn-flat" id="file_browser3"><i class="fa fa-search"></i>&nbsp;</button>
+                    <span class="">
+                        <button type="button" class="btn btn-info btn-flat" id="file_browser3" style="height: 35px; border-radius: 0px; display: flex; align-items: center;"><i class="fa fa-search"></i>&nbsp;</button>
                     </span>
                 </div>
             </div>

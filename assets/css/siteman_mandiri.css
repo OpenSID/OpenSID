@@ -53,8 +53,6 @@ li.list-item-layan a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: -30px;
-  margin-left: -30px;
 }
 
 .login .top-content .inner-bg {
@@ -182,6 +180,10 @@ li.list-item-layan a:hover {
 }
 
 @media screen and (min-width: 768px) {
+  .row-top-fmandiri {
+    margin-top: -10px;
+  }
+
   .login .form-box.col-sm-6 {
     width: 100%;
     flex-direction: row;
