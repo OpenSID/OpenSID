@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 16. [#4848](https://github.com/OpenSID/OpenSID/issues/4848) Perbaiki penambahan persil pada batasan digit nomor urut bidang.
 17. [#4850](https://github.com/OpenSID/OpenSID/issues/4850) Perbaiki nama dan jenis kelamin pada surat keterangan lahir.
 18. [#4828](https://github.com/OpenSID/OpenSID/issues/4828) Perbaiki layanan mandiri belum dapat masuk dengan e-ktp dan agak kesulitan pengoperasian di android.
+19. [#4837](https://github.com/OpenSID/OpenSID/issues/4837) Perbaiki status kehamilan.
 
 #### Perubahan Teknis
 

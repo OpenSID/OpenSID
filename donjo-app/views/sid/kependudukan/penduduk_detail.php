@@ -261,7 +261,7 @@
 														<?php endif ?>
 														<?php if ($penduduk['id_sex'] == 2): ?>
 															<tr>
-																<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'?></td>
+																<td>Status Kehamilan</td><td >:</td><td><?= $penduduk['hamil'] == '1' ? 'HAMIL' : 'TIDAK HAMIL'?></td>
 															</tr>
 														<?php endif; ?>
 														<tr>
