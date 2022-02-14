@@ -51,7 +51,7 @@ class Analisis_laporan_model extends CI_Model
         $sql = 'SELECT no_kk FROM tweb_keluarga
 			UNION SELECT t.nama
 				FROM tweb_keluarga u
-				LEFT JOIN tweb_penduduk t ON u.nik_kepala = t.id
+				LEFT JOIN penduduk_hidup t ON u.nik_kepala = t.id
 				LEFT JOIN tweb_wil_clusterdesa c ON t.id_cluster = c.id
 				WHERE 1 ';
         $query = $this->db->query($sql);
@@ -88,7 +88,7 @@ class Analisis_laporan_model extends CI_Model
                     ->like('u.no_kk', $cari)
                     ->or_like('p.nama', $cari)
                     ->group_end();
-                    // no break
+                // no break
             case 3:
                 $kw = $this->db->escape_like_str($cari);
                 $kw = '%' . $kw . '%';
@@ -133,7 +133,8 @@ class Analisis_laporan_model extends CI_Model
                     ->group_end();
                 break;
 
-            default: return null;
+            default:
+                return null;
         }
     }
 
@@ -292,7 +293,7 @@ class Analisis_laporan_model extends CI_Model
         switch ($this->subjek) {
             case 1:
                 $this->db
-                    ->from('tweb_penduduk u')
+                    ->from('penduduk_hidup u')
                     ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left')
                     ->join('tweb_keluarga kk', 'kk.id = u.id_kk', 'left');
                 break;
@@ -300,14 +301,14 @@ class Analisis_laporan_model extends CI_Model
             case 2:
                 $this->db
                     ->from('tweb_keluarga u')
-                    ->join('tweb_penduduk p', 'u.nik_kepala = p.id', 'left')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
             case 3:
                 $this->db
                     ->from('tweb_rtm u')
-                    ->join('tweb_penduduk p', 'u.nik_kepala = p.id')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id')
                     ->join('tweb_keluarga kk', 'kk.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
@@ -315,7 +316,7 @@ class Analisis_laporan_model extends CI_Model
             case 4:
                 $this->db
                     ->from('kelompok u')
-                    ->join('tweb_penduduk p', 'u.id_ketua = p.id', 'left')
+                    ->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
                     ->join('tweb_keluarga kk', 'kk.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
@@ -405,28 +406,45 @@ class Analisis_laporan_model extends CI_Model
                 $this->db->select("u.id, u.rt AS uid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
                 break;
 
-            default: return null;
+            default:
+                return null;
         }
         $this->db->select("CAST((h.akumulasi/{$pembagi}) AS decimal(8,3)) AS cek, k.nama AS klasifikasi");
 
         $this->list_data_query();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.id'); break;
+            case 1:
+                $this->db->order_by('u.id');
+                break;
 
-            case 2: $this->db->order_by('u.id DESC'); break;
+            case 2:
+                $this->db->order_by('u.id DESC');
+                break;
 
-            case 3: $this->db->order_by('nama'); break;
+            case 3:
+                $this->db->order_by('nama');
+                break;
 
-            case 4: $this->db->order_by('nama DESC'); break;
+            case 4:
+                $this->db->order_by('nama DESC');
+                break;
 
-            case 5: $this->db->order_by('cek'); break;
+            case 5:
+                $this->db->order_by('cek');
+                break;
 
-            case 6: $this->db->order_by('cek DESC'); break;
+            case 6:
+                $this->db->order_by('cek DESC');
+                break;
 
-            case 7: $this->db->order_by('kk'); break;
+            case 7:
+                $this->db->order_by('kk');
+                break;
 
-            case 8: $this->db->order_by('kk DESC'); break;
+            case 8:
+                $this->db->order_by('kk DESC');
+                break;
 
             default:
         }
@@ -531,7 +549,7 @@ class Analisis_laporan_model extends CI_Model
             case 1:
                 $this->db
                     ->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt')
-                    ->from('tweb_penduduk u')
+                    ->from('penduduk_hidup u')
                     ->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
                 break;
 
@@ -539,7 +557,7 @@ class Analisis_laporan_model extends CI_Model
                 $this->db
                     ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->from('tweb_keluarga u')
-                    ->join('tweb_penduduk p', 'u.nik_kepala = p.id', 'left')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
@@ -547,7 +565,7 @@ class Analisis_laporan_model extends CI_Model
                 $this->db
                     ->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->from('tweb_rtm u')
-                    ->join('tweb_penduduk p', 'u.nik_kepala = p.id', 'left')
+                    ->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
@@ -555,7 +573,7 @@ class Analisis_laporan_model extends CI_Model
                 $this->db
                     ->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt')
                     ->from('kelompok u')
-                    ->join('tweb_penduduk p', '.id_ketua = p.id', 'left')
+                    ->join('penduduk_hidup p', '.id_ketua = p.id', 'left')
                     ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
                 break;
 
@@ -589,7 +607,8 @@ class Analisis_laporan_model extends CI_Model
                     ->where('u.rt <> "-"');
                 break;
 
-            default: return null;
+            default:
+                return null;
         }
 
         return $this->db
@@ -608,13 +627,21 @@ class Analisis_laporan_model extends CI_Model
         }
 
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY u.id'; break;
+            case 1:
+                $order_sql = ' ORDER BY u.id';
+                break;
 
-            case 2: $order_sql = ' ORDER BY u.id DESC'; break;
+            case 2:
+                $order_sql = ' ORDER BY u.id DESC';
+                break;
 
-            case 3: $order_sql = ' ORDER BY u.id'; break;
+            case 3:
+                $order_sql = ' ORDER BY u.id';
+                break;
 
-            case 4: $order_sql = ' ORDER BY u.id DESC'; break;
+            case 4:
+                $order_sql = ' ORDER BY u.id DESC';
+                break;
 
             default:
         }
