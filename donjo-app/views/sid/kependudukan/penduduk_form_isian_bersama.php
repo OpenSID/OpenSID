@@ -669,7 +669,7 @@
 		$('#tgl_lahir').datetimepicker({
 			format: 'DD-MM-YYYY',
 			locale: 'id',
-			maxDate: new Date(),
+			maxDate: 'now',
 		});
 
 		var addOrRemoveRequiredAttribute = function() {
