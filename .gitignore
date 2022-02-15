@@ -75,3 +75,4 @@ example/
 examples/
 vendor/libreoffice/*
 vendor/mikey179/*
+.idea/*
