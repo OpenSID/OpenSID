@@ -95,6 +95,7 @@ class Header_model extends CI_Model
         return $this->db
             ->join('tweb_penduduk t', 'u.id_ketua = t.id', 'left')
             ->where('t.status_dasar', 1)
+            ->where('u.tipe', 'kelompok')
             ->count_all_results('kelompok u');
     }
 
