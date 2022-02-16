@@ -55,7 +55,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="row date form-daftar">
-                        <input placeholder="Tanggal Lahir" type="text" class="form-control pull-right required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" id="daftar_tgl_lahir" name="daftar_tgl_lahir" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;">
+                        <input placeholder="Tanggal Lahir" type="text" class="form-control pull-right required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" id="daftar_tgl_lahir" name="daftar_tgl_lahir" style="border-top-right-radius: 0px; border-bottom-right-radius: 0px;" onchange="myFunction()" autocomplete="off">
                         <div class="input-group-addon" style="height: 35px; width:40px; display: flex; align-items: center;">
                             <i class="fa fa-calendar"></i>
                         </div>
@@ -185,4 +185,37 @@ defined('BASEPATH') || exit('No direct script access allowed');
     </div>
 </div>
 
-<script src="<?= base_url('assets/js/script.js') ?>"></script>
+<script>
+    $('#file_browser1').click(function(e) {
+        e.preventDefault();
+        $('#file1').click();
+    });
+    $('#file1').change(function() {
+        $('#file_path1').val($(this).val());
+    });
+    $('#file_path1').click(function() {
+        $('#file_browser1').click();
+    });
+
+    $('#file_browser2').click(function(e) {
+        e.preventDefault();
+        $('#file2').click();
+    });
+    $('#file2').change(function() {
+        $('#file_path2').val($(this).val());
+    });
+    $('#file_path2').click(function() {
+        $('#file_browser2').click();
+    });
+
+    $('#file_browser3').click(function(e) {
+        e.preventDefault();
+        $('#file3').click();
+    });
+    $('#file3').change(function() {
+        $('#file_path3').val($(this).val());
+    });
+    $('#file_path3').click(function() {
+        $('#file_browser3').click();
+    });
+</script>

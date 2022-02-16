@@ -504,7 +504,7 @@ class Mandiri_model extends CI_Model
             ->row();
 
         session_error_clear();
-        $this->session->aktif = true;
+        $this->session->aktif = false;
 
         if ($data->aktif == 1) {
             switch (true) {
@@ -529,7 +529,7 @@ class Mandiri_model extends CI_Model
         }
 
         if ($data->aktif == 0) {
-            $this->session->aktif = false;
+            $this->session->aktif = true;
         }
     }
 
@@ -552,7 +552,7 @@ class Mandiri_model extends CI_Model
             ->row();
 
         session_error_clear();
-        $this->session->aktif = true;
+        $this->session->aktif = false;
 
         if ($data->aktif == 1) {
             switch (true) {
@@ -587,7 +587,7 @@ class Mandiri_model extends CI_Model
         }
 
         if ($data->aktif == 0) {
-            $this->session->aktif = false;
+            $this->session->aktif = true;
         }
     }
 
