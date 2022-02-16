@@ -32,6 +32,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 24. [#4820](https://github.com/OpenSID/OpenSID/issues/4820) Perbaiki keluarga/kepala keluarga berubah status dasar pindah seluruh keluarga terdapat dalam laporan Perbaiki hasil klasifikasi analisis keluarga.
 25. [#4862](https://github.com/OpenSID/OpenSID/issues/4862) Perbaiki mode production, tidak menampilkan pesan errornya.
 26. [#4813](https://github.com/OpenSID/OpenSID/issues/4813) Perbaiki tanggal artikel mengikuti pengaturan aplikasi.
+27. [#4882](https://github.com/OpenSID/OpenSID/issues/4882) Perbaiki input tanggal lahir menggunakan datetime picker.
 
 #### Perubahan Teknis
 

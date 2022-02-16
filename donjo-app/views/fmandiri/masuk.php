@@ -20,6 +20,8 @@
 	<link rel="stylesheet" href="<?= asset('css/daftar-form-elements.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/siteman_mandiri.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.bar.css') ?>" media="screen">
+	<!-- bootstrap datetimepicker -->
+	<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap-datetimepicker.min.css') ?>">
 	<?php if (is_file('desa/pengaturan/siteman/siteman_mandiri.css')) : ?>
 		<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman_mandiri.css') ?>">
 	<?php endif; ?>
@@ -127,7 +129,7 @@
 														<p>NIK atau PIN salah.<br />Kesempatan mencoba <?= ($this->session->mandiri_try - 1) ?> kali lagi.</p>
 													</div>
 												<?php endif; ?>
-												<?php if ($this->session->aktif == false) : ?>
+												<?php if ($this->session->aktif == true) : ?>
 													<div class="callout callout-danger" id="notif">
 														<p>Mohon Maaf, Akun Layanan Mandiri dapat digunakan setelah mendapatkan persetujuan dan proses verifikasi dari operator.</p>
 													</div>
@@ -218,9 +220,13 @@
 	<script src="<?= asset('bootstrap/js/jquery.min.js') ?>"></script>
 	<!-- Bootstrap 3.3.7 -->
 	<script src="<?= asset('bootstrap/js/bootstrap.min.js') ?>"></script>
-	<!-- bootstrap Date picker -->
-	<script src="<?= asset('bootstrap/js/bootstrap-datepicker.min.js') ?>"></script>
-	<script src="<?= asset('bootstrap/js/bootstrap-datepicker.id.min.js') ?>"></script>
+	<!-- bootstrap Moment -->
+	<script src="<?= asset('bootstrap/js/moment.min.js') ?>"></script>
+	<script src="<?= asset('bootstrap/js/moment-timezone.js') ?>"></script>
+	<script src="<?= asset('bootstrap/js/moment-timezone-with-data.js') ?>"></script>
+	<!-- bootstrap Date time picker -->
+	<script src="<?= asset('bootstrap/js/bootstrap-datetimepicker.min.js') ?>"></script>
+	<script src="<?= asset('bootstrap/js/id.js') ?>"></script>
 	<!-- SlimScroll -->
 	<script src="<?= asset('bootstrap/js/jquery.slimscroll.min.js') ?>"></script>
 	<!-- FastClick -->
@@ -244,6 +250,15 @@
 	<?php endif; ?>
 	<script type="text/javascript">
 		$('document').ready(function() {
+			$('#daftar_tgl_lahir').datetimepicker({
+				format: 'DD-MM-YYYY',
+				locale: 'id',
+				maxDate: 'now',
+			});
+			var addOrRemoveRequiredAttribute = function() {
+				var tgllahir = parseInt($('#daftar_tgl_lahir').val().substring(6, 10));
+			};
+			$("#daftar_tgl_lahir").on('change keyup paste click keydown', addOrRemoveRequiredAttribute);
 
 			var ektp = '<?= $this->session->login_ektp ?>';
 			var anjungan = '<?= $cek_anjungan ?>';
@@ -334,11 +349,6 @@
 				}
 			}, 500);
 		}
-
-		//Date picker
-		$('#daftar_tgl_lahir').datepicker({
-			autoclose: true
-		})
 
 		function show(elem) {
 			if ($(elem).hasClass('fa-eye')) {
