@@ -67,8 +67,7 @@ vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
 
 test/
-test/
-Tests/
+tests/
 doc/
 docs/
 example/

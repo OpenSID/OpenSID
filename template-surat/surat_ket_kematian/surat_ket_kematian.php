@@ -1,80 +1,4 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
-<script language="javascript" type="text/javascript">
-	function ubah_saksi1(asal)
-	{
-		if (asal == 1)
-		{
-			$('.saksi1_desa').show();
-			$('.saksi1_luar_desa').hide();
-			$('input[name=anchor').val('a_saksi1');
-		}
-		else
-		{
-			$('.saksi1_desa').hide();
-			$('.saksi1_luar_desa').show();
-			$('#id_saksi1').val('*'); // Hapus $id_saksi1
-			submit_form_ambil_data('a_saksi1');
-		}
-	}
-
-	function ubah_saksi2(asal)
-	{
-		if (asal == 1)
-		{
-			$('.saksi2_desa').show();
-			$('.saksi2_luar_desa').hide();
-			$('input[name=anchor').val('a_saksi2');
-		}
-		else
-		{
-			$('.saksi2_desa').hide();
-			$('.saksi2_luar_desa').show();
-			$('#id_saksi2').val('*'); // Hapus $id_saksi2
-			submit_form_ambil_data('a_saksi2');
-		}
-	}
-
-	function ubah_pelapor(asal){
-		if (asal == 1)
-		{
-			$('.pelapor_desa').show();
-			$('.pelapor_luar_desa').hide();
-			$('input[name=anchor').val('a_pelapor');
-		}
-		else
-		{
-			$('.pelapor_desa').hide();
-			$('.pelapor_luar_desa').show();
-			$('#id_pelapor').val('*'); // Hapus $id_pelapor
-			submit_form_ambil_data('a_pelapor');
-		}
-	}
-
- 	function submit_form_ambil_data(jenis)
-	{
-		$('input[name=anchor').val(jenis);
-		$('input').removeClass('required');
-		$('select').removeClass('required');
-		$('#'+'validasi').attr('action','');
-		$('#'+'validasi').attr('target','');
-		$('#'+'validasi').submit();
-	}
-
-	$('document').ready(function()
-	{
-		/* set otomatis hari */
-		$('input[name=tanggal_mati]').change(function(){
-			var hari = {
-				0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
-			};
-			var t = $(this).datepicker('getDate');
-			var i = t.getDay();
-			$(this).closest('.form-group').find('[name=hari]').val(hari[i]);
-		});
-		/* pergi ke bagian halaman sesudah mengisi warga desa */
-		setTimeout(function() {location.hash = "#" + $('input[name=anchor]').val();}, 500);
-	});
-</script>
 <div class="content-wrapper">
 	<?php $this->load->view("surat/form/breadcrumb.php"); ?>
 	<section class="content">
@@ -84,9 +8,9 @@
 					<div class="box-header with-border">
 						<a href="<?=site_url("surat")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Cetak Surat
-						 </a>
-						 <a href="#" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Lihat Info Isian Surat"  data-toggle="modal" data-target="#infoBox" data-title="Lihat Info Isian Surat">
-						 	<i class="fa fa-info-circle"></i> Info Isian Surat
+						</a>
+						<a href="#" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Lihat Info Isian Surat"  data-toggle="modal" data-target="#infoBox" data-title="Lihat Info Isian Surat">
+							<i class="fa fa-info-circle"></i> Info Isian Surat
 						</a>
 					</div>
 					<div class="box-body">
@@ -121,16 +45,16 @@
 								<?php	endif; ?>
 								<?php include("donjo-app/views/surat/form/nomor_surat.php"); ?>
 								<div class="form-group">
-									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal / Jam Kematian</label>
+									<label for="ttl"  class="col-sm-3 control-label">Hari / Tanggal / Jam Kematian </label>
 									<div class="col-sm-3 col-lg-4">
-										<input  id="hari" readonly="readonly" class="form-control input-sm" type="text" placeholder="Hari Kematian" name="hari" value="<?= $_SESSION['post']['hari']?>">
+										<input  id="hari" readonly="readonly" class="form-control input-sm" type="text" placeholder="Hari Kematian" name="hari" value="<?= $_SESSION['post']['hari']?>" readonly>
 									</div>
 									<div class="col-sm-3 col-lg-2">
 										<div class="input-group input-group-sm date">
 											<div class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input title="Pilih Tanggal" class="form-control input-sm required datepicker" name="tanggal_mati" type="text" value="<?= $_SESSION['post']['tanggal_mati']?>"/>
+											<input title="Pilih Tanggal" class="form-control input-sm required " name="tanggal_mati" type="text" value="<?= $log_penduduk['tgl_peristiwa'] ?>" readonly/>
 										</div>
 									</div>
 									<div class="col-sm-2">
@@ -138,43 +62,39 @@
 											<div class="input-group-addon">
 												<i class="fa fa-clock-o"></i>
 											</div>
-											<input class="form-control input-sm required" name="jam" id="jammenit_1" type="text" value="<?= $_SESSION['post']['jam']?>"/>
+											<input class="form-control input-sm required" name="jam" id="jammenit_1" type="text" value="<?= $log_penduduk['jam_mati'] ?>" readonly/>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="tempat_mati"  class="col-sm-3 control-label">Tempat Meninggal</label>
 									<div class="col-sm-8">
-										<input type="text" name="tempat_mati" class="form-control input-sm required" placeholder="Tempat Meninggal" value="<?= $_SESSION['post']['tempat_mati']?>"></input>
+										<input type="text" name="tempat_mati" class="form-control input-sm required" placeholder="Tempat Meninggal" value="<?= $log_penduduk['meninggal_di'] ?>" readonly></input>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="sebab" class="col-sm-3 control-label" >Penyebab Kematian</label>
 									<div class="col-sm-4">
-										<input name="sebab_nama" type="hidden" value="<?= $sebab[$_SESSION['post']['sebab']] ?>">
-										<select class="form-control input-sm required" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));">
-											<option value="">Pilih Sebab</option>
-											<?php foreach ($sebab as $id => $nama): ?>
-												<option value="<?= $id?>" data-sebabnama="<?= $nama; ?>" <?php if ($id==$_SESSION['post']['sebab']): ?>selected<?php endif; ?>><?= $nama; ?></option>
-											<?php endforeach;?>
+										<input name="sebab_nama" type="hidden" value="<?= $sebab[$log_penduduk['sebab']] ?>">
+										<select class="form-control input-sm required" name="sebab" onchange="$('input[name=sebab_nama]').val($(this).find(':selected').data('sebabnama'));" readonly> 
+											<option value="<?= $log_penduduk['sebab']?>" data-sebabnama="<?= $nama; ?>" selected><?= $sebab[$log_penduduk['sebab']]; ?></option>
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="sebab" class="col-sm-3 control-label"> Yang Menerangkan</label>
 									<div class="col-sm-4">
-										<select class="form-control input-sm required" name="penolong_mati">
-											<option value="">Pilih Penolong mati</option>
-											<?php foreach ($penolong_mati as $id => $nama): ?>
-												<option value="<?= $id?>" <?php if ($id==$_SESSION['post']['penolong_mati']): ?>selected<?php endif; ?>><?= $nama; ?></option>
-											<?php endforeach;?>
+										<select class="form-control input-sm required" name="penolong_mati" readonly>
+											
+												<option value="<?= $log_penduduk['penolong_mati']?>" selected ><?= $penolong_mati[$log_penduduk['penolong_mati']]; ?></option>
+											
 										</select>
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="anakke"  class="col-sm-3 control-label">Anak Ke</label>
 									<div class="col-sm-2">
-										<input type="text" name="anakke" class="form-control input-sm data_lahir required" placeholder="Anak Ke" value="<?= $_SESSION['post']['anakke']?>"></input>
+										<input type="text" name="anakke" class="form-control input-sm data_lahir required" placeholder="Anak Ke" value="<?= $log_penduduk['anak_ke']?>" readonly></input>
 									</div>
 								</div>
 								<!-- AYAH -->
@@ -765,3 +685,69 @@
 		</div>
 	</section>
 </div>
+<script type="text/javascript">
+	function ubah_saksi1(asal) {
+		if (asal == 1) {
+			$('.saksi1_desa').show();
+			$('.saksi1_luar_desa').hide();
+			$('input[name=anchor').val('a_saksi1');
+		} else {
+			$('.saksi1_desa').hide();
+			$('.saksi1_luar_desa').show();
+			$('#id_saksi1').val('*'); // Hapus $id_saksi1
+			submit_form_ambil_data('a_saksi1');
+		}
+	}
+
+	function ubah_saksi2(asal) {
+		if (asal == 1) {
+			$('.saksi2_desa').show();
+			$('.saksi2_luar_desa').hide();
+			$('input[name=anchor').val('a_saksi2');
+		} else {
+			$('.saksi2_desa').hide();
+			$('.saksi2_luar_desa').show();
+			$('#id_saksi2').val('*'); // Hapus $id_saksi2
+			submit_form_ambil_data('a_saksi2');
+		}
+	}
+
+	function ubah_pelapor(asal) {
+		if (asal == 1) {
+			$('.pelapor_desa').show();
+			$('.pelapor_luar_desa').hide();
+			$('input[name=anchor').val('a_pelapor');
+		} else {
+			$('.pelapor_desa').hide();
+			$('.pelapor_luar_desa').show();
+			$('#id_pelapor').val('*'); // Hapus $id_pelapor
+			submit_form_ambil_data('a_pelapor');
+		}
+	}
+
+	function submit_form_ambil_data(jenis) {
+		$('input[name=anchor').val(jenis);
+		$('input').removeClass('required');
+		$('select').removeClass('required');
+		$('#'+'validasi').attr('action','');
+		$('#'+'validasi').attr('target','');
+		$('#'+'validasi').submit();
+	}
+
+	$('document').ready(function() {	
+		/* set otomatis hari */
+		$('input[name=tanggal_mati]').change(function() {
+			var hari = {
+				0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
+			};
+			var t = $(this).datepicker('getDate');
+			var i = t.getDay();
+			$(this).closest('.form-group').find('[name=hari]').val(hari[i]);
+			$(this).datepicker('destroy');
+		});
+
+		/* pergi ke bagian halaman sesudah mengisi warga desa */
+		setTimeout(function() {location.hash = "#" + $('input[name=anchor]').val();}, 500);
+		$('input[name=tanggal_mati]').trigger('change');
+	});
+</script>

@@ -42,12 +42,7 @@ class Surat extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('penduduk_model');
-        $this->load->model('keluarga_model');
-        $this->load->model('surat_model');
-        $this->load->model('keluar_model');
-        $this->load->model('penomoran_surat_model');
-        $this->load->model('permohonan_surat_model');
+        $this->load->model(['penduduk_model', 'keluarga_model', 'surat_model', 'keluar_model', 'penomoran_surat_model', 'permohonan_surat_model', 'referensi_model', 'penduduk_log_model']);
         $this->modul_ini     = 4;
         $this->sub_modul_ini = 31;
     }
@@ -82,6 +77,7 @@ class Surat extends Admin_Controller
             $data['individu'] = null;
             $data['anggota']  = null;
         }
+
         $this->get_data_untuk_form($url, $data);
 
         $data['surat_url']    = rtrim($_SERVER['REQUEST_URI'], '/clear');

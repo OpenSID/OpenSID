@@ -49,8 +49,9 @@ class Migrasi_fitur_premium_2203 extends MY_model
         $hasil = $hasil && $this->migrasi_2022020271($hasil);
         $hasil = $hasil && $this->migrasi_2022020951($hasil);
         $hasil = $hasil && $this->migrasi_2022021071($hasil);
+        $hasil = $hasil && $this->migrasi_2022021151($hasil);
 
-        return $hasil && $this->migrasi_2022021151($hasil);
+        return $hasil && $this->migrasi_2022021671($hasil);
     }
 
     protected function migrasi_2022020151($hasil)
@@ -133,6 +134,59 @@ class Migrasi_fitur_premium_2203 extends MY_model
             ->update('setting_aplikasi');
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2022021671($hasil)
+    {
+        if (! $this->db->field_exists('jam_mati', 'log_penduduk')) {
+            $fields = [
+                'jam_mati' => [
+                    'type'       => 'varchar',
+                    'constraint' => 10,
+                    'after'      => 'meninggal_di',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        if (! $this->db->field_exists('sebab', 'log_penduduk')) {
+            $fields = [
+                'sebab' => [
+                    'type'       => 'varchar',
+                    'constraint' => 50,
+                    'after'      => 'jam_mati',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        if (! $this->db->field_exists('penolong_mati', 'log_penduduk')) {
+            $fields = [
+                'penolong_mati' => [
+                    'type'       => 'varchar',
+                    'constraint' => 50,
+                    'after'      => 'sebab',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        if (! $this->db->field_exists('akta_mati', 'log_penduduk')) {
+            $fields = [
+                'akta_mati' => [
+                    'type'       => 'varchar',
+                    'constraint' => 50,
+                    'after'      => 'anak_ke',
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
+        }
+
+        return $hasil;
     }
 
     protected function migrasi_2022020951($hasil)

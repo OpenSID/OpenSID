@@ -45,7 +45,7 @@ class Penduduk extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'web_dokumen_model', 'program_bantuan_model', 'lapor_model']);
+        $this->load->model(['penduduk_model', 'keluarga_model', 'wilayah_model', 'web_dokumen_model', 'program_bantuan_model', 'lapor_model', 'referensi_model', 'penduduk_log_model']);
 
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 21;
@@ -539,6 +539,8 @@ class Penduduk extends Admin_Controller
         $data['nik']             = $this->penduduk_model->get_penduduk($id);
         $data['form_action']     = site_url("{$this->controller}/update_status_dasar/{$p}/{$o}/{$id}");
         $data['list_ref_pindah'] = $this->referensi_model->list_data('ref_pindah');
+        $data['sebab']           = $this->referensi_model->list_ref(SEBAB);
+        $data['penolong_mati']   = $this->referensi_model->list_ref(PENOLONG_MATI);
 
         //Pengecualian status dasar: Penduduk Tetap => ('TIDAK VALID', 'HIDUP', 'PERGI') , Penduduk Tidak Tetap => ('TIDAK VALID', 'HIDUP')
         $excluded_status           = $data['nik']['id_status'] == 1 ? '9, 1, 6' : '9, 1';

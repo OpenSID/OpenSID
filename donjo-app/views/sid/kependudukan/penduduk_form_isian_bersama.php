@@ -246,7 +246,7 @@
 			<div class='col-sm-4'>
 				<div class='form-group'>
 					<label for="kelahiran_anak_ke">Anak Ke <code>(Isi dengan angka)</code></label>
-					<input id="kelahiran_anak_ke" name="kelahiran_anak_ke" class="form-control input-sm number" maxlength="2" type="text" placeholder="Anak Ke" value="<?= strtoupper($penduduk['kelahiran_anak_ke']) ?>"></input>
+					<input id="kelahiran_anak_ke" name="kelahiran_anak_ke" class="form-control input-sm number" min="1" max="20" type="number" placeholder="Anak Ke-" value="<?= $penduduk['kelahiran_anak_ke'] ?>"></input>
 				</div>
 			</div>
 			<div class='col-sm-4'>
