@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <?php $url = site_url('artikel/'.buat_slug($post)) ?>
-<?php $abstract = potong_teks(strip_tags($post['isi']), 150) ?>
+<?php $abstract = potong_teks(strip_tags($post['isi']), 250) ?>
 <?php $image = ($post['gambar'] && is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$post['gambar'])) ?
   AmbilFotoArtikel($post['gambar'],'sedang') :
   gambar_desa($desa['logo']);
@@ -13,6 +13,7 @@
   </figure>
   <div class="flex flex-col justify-between gap-3">
     <a href="<?= $url ?>" class="text-h5 hover:text-primary-100"><?= $post['judul'] ?></a>
+    <p class="line-clamp-3"><?= $abstract ?></p>
     <ul class="inline-flex gap-x-5 gap-y-3 text-xs lg:text-sm text-gray-500 flex-wrap">
       <li><i class="fas fa-calendar-alt mr-1 text-primary-100"></i> <?= tgl_indo($post['tgl_upload']) ?></li>
       <li><i class="fas fa-user mr-1 text-primary-100"></i> <?= $post['owner'] ?></li>

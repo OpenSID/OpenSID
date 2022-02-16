@@ -256,17 +256,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.234.0",
-            "version_normalized": "0.234.0.0",
+            "version": "v0.235.0",
+            "version_normalized": "0.235.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "a448391ee97d4ee315fcabf023aa27a022ac5c54"
+                "reference": "3aefd2914d9025a881ee93145de16f9e0f82443e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/a448391ee97d4ee315fcabf023aa27a022ac5c54",
-                "reference": "a448391ee97d4ee315fcabf023aa27a022ac5c54",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/3aefd2914d9025a881ee93145de16f9e0f82443e",
+                "reference": "3aefd2914d9025a881ee93145de16f9e0f82443e",
                 "shasum": ""
             },
             "require": {
@@ -275,7 +275,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2022-02-06T12:23:03+00:00",
+            "time": "2022-02-07T14:04:26+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -297,7 +297,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.234.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.235.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -1755,15 +1755,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi.git",
-                "reference": "9f9c58f351eac9a67f22cdbc9d90c17539a3a861"
+                "reference": "d359497868ad1cd3f1a11e6f86b03049fc44dfdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/9f9c58f351eac9a67f22cdbc9d90c17539a3a861",
-                "reference": "9f9c58f351eac9a67f22cdbc9d90c17539a3a861",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/d359497868ad1cd3f1a11e6f86b03049fc44dfdb",
+                "reference": "d359497868ad1cd3f1a11e6f86b03049fc44dfdb",
                 "shasum": ""
             },
-            "time": "2022-02-10T06:14:44+00:00",
+            "time": "2022-02-16T03:05:02+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "dist",
@@ -1774,7 +1774,7 @@
             "authors": [
                 {
                     "name": "Diki Siswanto",
-                    "email": "dikisiswanto@gmail.com"
+                    "email": "dickyachmady@gmail.com"
                 }
             ],
             "description": "Tema OpenSID",
@@ -1796,15 +1796,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra.git",
-                "reference": "44457b4c7163b98eb0cd88d1424acf7d8aa01beb"
+                "reference": "8e747655480717bce4004ed1f0042c8bd8005e9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/44457b4c7163b98eb0cd88d1424acf7d8aa01beb",
-                "reference": "44457b4c7163b98eb0cd88d1424acf7d8aa01beb",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/8e747655480717bce4004ed1f0042c8bd8005e9c",
+                "reference": "8e747655480717bce4004ed1f0042c8bd8005e9c",
                 "shasum": ""
             },
-            "time": "2022-02-10T06:16:25+00:00",
+            "time": "2022-02-16T02:59:05+00:00",
             "type": "library",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",

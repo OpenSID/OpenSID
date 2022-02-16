@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '491edc6420346cc6cab618927b7638972eca468b',
+        'reference' => '56f3ec13881442d305016eef8c3bcbd634fcb505',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -47,12 +47,12 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.234.0',
-            'version' => '0.234.0.0',
+            'pretty_version' => 'v0.235.0',
+            'version' => '0.235.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
-            'reference' => 'a448391ee97d4ee315fcabf023aa27a022ac5c54',
+            'reference' => '3aefd2914d9025a881ee93145de16f9e0f82443e',
             'dev_requirement' => false,
         ),
         'google/auth' => array(
@@ -124,7 +124,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '491edc6420346cc6cab618927b7638972eca468b',
+            'reference' => '56f3ec13881442d305016eef8c3bcbd634fcb505',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -276,7 +276,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => '9f9c58f351eac9a67f22cdbc9d90c17539a3a861',
+            'reference' => 'd359497868ad1cd3f1a11e6f86b03049fc44dfdb',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(
@@ -285,7 +285,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => '44457b4c7163b98eb0cd88d1424acf7d8aa01beb',
+            'reference' => '8e747655480717bce4004ed1f0042c8bd8005e9c',
             'dev_requirement' => false,
         ),
     ),
