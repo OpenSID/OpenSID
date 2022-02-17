@@ -632,24 +632,24 @@ class Program_bantuan_model extends MY_Model
         $filter = array_column($hasil1, 'peserta');
 
         switch ($hasil0['sasaran']) {
-                case 1:
-                    $hasil2 = $this->get_pilihan_penduduk($filter);
-                    break;
+            case 1:
+                $hasil2 = $this->get_pilihan_penduduk($filter);
+                break;
 
-                case 2:
-                    $hasil2 = $this->get_pilihan_kk($filter);
-                    break;
+            case 2:
+                $hasil2 = $this->get_pilihan_kk($filter);
+                break;
 
-                case 3:
-                    $hasil2 = $this->get_pilihan_rumah_tangga($filter);
-                    break;
+            case 3:
+                $hasil2 = $this->get_pilihan_rumah_tangga($filter);
+                break;
 
-                case 4:
-                    $hasil2 = $this->get_pilihan_kelompok($filter);
-                    break;
+            case 4:
+                $hasil2 = $this->get_pilihan_kelompok($filter);
+                break;
 
-                default:
-            }
+            default:
+        }
 
         return [$hasil0, $hasil1, $hasil2];
     }
@@ -755,7 +755,6 @@ class Program_bantuan_model extends MY_Model
                 break;
 
             default:
-
         }
         if (! $data_program == false) {
             return ['programkerja' => $data_program, 'profil' => $data_profil];
@@ -855,7 +854,7 @@ class Program_bantuan_model extends MY_Model
             return null;
         }
         $nama_file = $_FILES['satuan']['name'];
-        $nama_file = time() . '-' . urlencode($nama_file); 	 // normalkan nama file
+        $nama_file = time() . '-' . urlencode($nama_file);      // normalkan nama file
         UploadDocument($nama_file, $old_document);
 
         return $nama_file;
@@ -952,11 +951,7 @@ class Program_bantuan_model extends MY_Model
     public function jml_peserta_program($id = null)
     {
         if ($id) {
-            $jml_peserta = $this->db->select('count(v.program_id) as jml')->
-                from('program p')->
-                join('program_peserta v', 'p.id = v.program_id', 'left')->
-                where('p.id', $id)->
-                get()->row()->jml;
+            $jml_peserta = $this->db->select('count(v.program_id) as jml')->from('program p')->join('program_peserta v', 'p.id = v.program_id', 'left')->where('p.id', $id)->get()->row()->jml;
         } else {
             $jml_peserta = $this->db->get('program_peserta')->num_rows();
         }

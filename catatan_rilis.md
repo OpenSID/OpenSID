@@ -50,6 +50,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 26. [#4813](https://github.com/OpenSID/OpenSID/issues/4813) Perbaiki tanggal artikel mengikuti pengaturan aplikasi.
 27. [#4882](https://github.com/OpenSID/OpenSID/issues/4882) Perbaiki input tanggal lahir menggunakan datetime picker.
 28. [#4887](https://github.com/OpenSID/OpenSID/issues/4887) Perbaiki tidak sembunyikan tabel refrensi tidak ada.
+29. [#4873](https://github.com/OpenSID/OpenSID/issues/4873) Perbaiki error isi data bantuan secara manual dan impor.
 
 #### Perubahan Teknis
 
