@@ -261,10 +261,6 @@ class Referensi_model extends CI_Model
 
     public function impor_list_data($tabel, $tambahan = [], $kecuali = '', $termasuk = null)
     {
-        if (! $this->db->table_exists($tabel)) {
-            return null;
-        }
-
         $data = $this->list_data($tabel, $kecuali, $termasuk);
         $data = array_flip(array_combine(array_column($data, 'id'), array_column($data, 'nama')));
 
