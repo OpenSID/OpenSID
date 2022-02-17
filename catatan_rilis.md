@@ -35,8 +35,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 27. [#4887](https://github.com/OpenSID/OpenSID/issues/4887) Perbaiki tidak sembunyikan tabel refrensi tidak ada.
 28. [#4873](https://github.com/OpenSID/OpenSID/issues/4873) Perbaiki error isi data bantuan secara manual dan impor.
 29. [#4893](https://github.com/OpenSID/OpenSID/issues/4893) Perbaiki total inventaris tanah.
-30. [#4898](https://github.com/OpenSID/OpenSID/issues/4898) Sekarang pada statistik program bantuan sasaran Rumah Tangga jumlah total hanya menghitung yg aktif
-
+30. [#4898](https://github.com/OpenSID/OpenSID/issues/4898) Sekarang pada statistik program bantuan sasaran Rumah Tangga jumlah total hanya menghitung yg aktif.
+31. [#4888](https://github.com/OpenSID/OpenSID/issues/4888) Perbaiki gagal impor data penduduk pada kolom asuransi.
 
 #### Perubahan Teknis
 
