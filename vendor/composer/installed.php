@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '56f3ec13881442d305016eef8c3bcbd634fcb505',
+        'reference' => '2b607bd42c08cc0df607635cf641a4c6e17ac77c',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -124,7 +124,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '56f3ec13881442d305016eef8c3bcbd634fcb505',
+            'reference' => '2b607bd42c08cc0df607635cf641a4c6e17ac77c',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -276,7 +276,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => 'd359497868ad1cd3f1a11e6f86b03049fc44dfdb',
+            'reference' => '862252dd0e1c7f96c63918abf4a114cdd950ab9b',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(
@@ -285,7 +285,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => '8e747655480717bce4004ed1f0042c8bd8005e9c',
+            'reference' => 'ba6a0347aadd7668dbb1065b7645369687d30979',
             'dev_requirement' => false,
         ),
     ),

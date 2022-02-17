@@ -631,4 +631,19 @@ class First extends Web_Controller
             header('Location: ' . $redirect_link . '?outsideRetry=true&code=' . $this->input->get('code') . '&formId=' . $this->session->google_form_id);
         }
     }
+
+    public function vaksin()
+    {
+        $this->load->model('vaksin_covid_model');
+        $data = $this->includes;
+
+        $data['main']           = $this->vaksin_covid_model->list_penduduk($p);
+        $data['heading']        = 'Daftar Nama Warga Yang Telah Divaksin';
+        $data['title']          = $data['heading'];
+        $data['halaman_statis'] = 'web/halaman_statis/vaksin';
+        $this->_get_common_data($data);
+
+        $this->set_template('layouts/halaman_statis.tpl.php');
+        $this->load->view($this->template, $data);
+    }
 }

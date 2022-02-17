@@ -20,6 +20,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 14. [#4707](https://github.com/OpenSID/OpenSID/issues/4707) Penambahan captcha untuk form pengaduan.
 15. [#4706](https://github.com/OpenSID/OpenSID/issues/4706) Penambahan notifikasi telegram setiap ada pengaduan.
 16. [#2859](https://github.com/OpenSID/OpenSID/issues/2859) Penambahan kelengkapan data kematian saat ubah status dasar menjadi mati.
+17. [#4644](https://github.com/OpenSID/OpenSID/issues/4644) Penambahan halaman publikasi data warga yang sudah divaksin.
+
 
 #### Perbaikan BUG
 
