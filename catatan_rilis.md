@@ -26,15 +26,14 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 18. [#4828](https://github.com/OpenSID/OpenSID/issues/4828) Perbaiki layanan mandiri belum dapat masuk dengan e-ktp dan agak kesulitan pengoperasian di android.
 19. [#4837](https://github.com/OpenSID/OpenSID/issues/4837) Perbaiki status kehamilan.
 20. [#4869](https://github.com/OpenSID/OpenSID/issues/4869) Perbaiki upload dokumen laporan penduduk error.
-21. [#90](https://github.com/OpenSID/tema-natra/issues/90) Perbaiki securimage tidak keluar di web demo berputar.
-22. [#4865](https://github.com/OpenSID/OpenSID/issues/4865) Perbaiki error migrasi (ref_penduduk_hamil).
-23. [#4870](https://github.com/OpenSID/OpenSID/issues/4870) Perbaiki error notifikasi login layanan mandiri, ketika pengguna belum aktif melakukan login di layanan mandiri.
-24. [#4820](https://github.com/OpenSID/OpenSID/issues/4820) Perbaiki keluarga/kepala keluarga berubah status dasar pindah seluruh keluarga terdapat dalam laporan Perbaiki hasil klasifikasi analisis keluarga.
-25. [#4862](https://github.com/OpenSID/OpenSID/issues/4862) Perbaiki mode production, tidak menampilkan pesan errornya.
-26. [#4813](https://github.com/OpenSID/OpenSID/issues/4813) Perbaiki tanggal artikel mengikuti pengaturan aplikasi.
-27. [#4882](https://github.com/OpenSID/OpenSID/issues/4882) Perbaiki input tanggal lahir menggunakan datetime picker.
-28. [#4887](https://github.com/OpenSID/OpenSID/issues/4887) Perbaiki tidak sembunyikan tabel refrensi tidak ada.
-29. [#4873](https://github.com/OpenSID/OpenSID/issues/4873) Perbaiki error isi data bantuan secara manual dan impor.
+21. [#4865](https://github.com/OpenSID/OpenSID/issues/4865) Perbaiki error migrasi (ref_penduduk_hamil).
+22. [#4870](https://github.com/OpenSID/OpenSID/issues/4870) Perbaiki error notifikasi login layanan mandiri, ketika pengguna belum aktif melakukan login di layanan mandiri.
+23. [#4820](https://github.com/OpenSID/OpenSID/issues/4820) Perbaiki keluarga/kepala keluarga berubah status dasar pindah seluruh keluarga terdapat dalam laporan Perbaiki hasil klasifikasi analisis keluarga.
+24. [#4862](https://github.com/OpenSID/OpenSID/issues/4862) Perbaiki mode production, tidak menampilkan pesan errornya.
+25. [#4813](https://github.com/OpenSID/OpenSID/issues/4813) Perbaiki tanggal artikel mengikuti pengaturan aplikasi.
+26. [#4882](https://github.com/OpenSID/OpenSID/issues/4882) Perbaiki input tanggal lahir menggunakan datetime picker.
+27. [#4887](https://github.com/OpenSID/OpenSID/issues/4887) Perbaiki tidak sembunyikan tabel refrensi tidak ada.
+28. [#4873](https://github.com/OpenSID/OpenSID/issues/4873) Perbaiki error isi data bantuan secara manual dan impor.
 
 #### Perubahan Teknis
 
