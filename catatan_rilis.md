@@ -3,10 +3,11 @@ Di rilis ini, versi 22.02-premium-beta02 menyediakan [untuk diisi]. Rilis ini ju
 Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
+
 1. [#4803](https://github.com/OpenSID/OpenSID/issues/4803) Default no telpon pengguna saat buat surat di layanan mandiri.
 2. [#4767](https://github.com/OpenSID/OpenSID/issues/4767) Hanya tampilkan daftar Perangkat Desa yang aktif saat pilih Kepala Desa di Identitas Desa.
 3. [#4730](https://github.com/OpenSID/OpenSID/issues/4730) Urutan Nama Dusun Belum ter-Urut tampil pada menu cetak/rekap laporan Fitur Pendataan Vaksin.
-4. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penambahan autocomplete pada pencarian daftar penerima vaksin. 
+4. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penambahan autocomplete pada pencarian daftar penerima vaksin.
 5. [#4589](https://github.com/OpenSID/OpenSID/issues/4589) Pencarian berdasarkan tagIdCard pada suplemen dan program bantuan.
 6. [#4814](https://github.com/OpenSID/OpenSID/issues/4814) Informasi halaman home untuk jumlah data kelompok hanya untuk yang ketua nya masih hidup.
 7. [#4726](https://github.com/OpenSID/OpenSID/issues/4726) Penambahan jenis file unggah dokumen (jpeg, png dan pdf) pada pendataan vaksin dan perbaiki tampilan lihat dokumen.
@@ -58,3 +59,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.
 3. Hapus duplikasi menu_atas.
 4. Perbaiki library paging.
+5. Perbaiki status keterangan vaksin.

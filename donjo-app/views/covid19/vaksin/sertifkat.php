@@ -40,20 +40,20 @@
 							<textarea class="form-control input-sm" rows="5" readonly><?= $penduduk->alamat ?></textarea>
 						</div>
 						<?php
-                            if ($data->tunda == 1) {
-                                $ket = 'Tunda - ' . $data->keterangan;
-                            } elseif ($data->vaksin_3) {
+                            if ($penduduk->tunda == 1) {
+                                $ket = "Tunda -  {$penduduk->keterangan}";
+                            } elseif ($penduduk->vaksin_3) {
                                 $ket = 'Vaksin Dosis ke 3';
-                            } elseif ($data->vaksin_2) {
+                            } elseif ($penduduk->vaksin_2) {
                                 $ket = 'Vaksin Dosis ke 2';
-                            } elseif ($data->vaksin_1) {
+                            } elseif ($penduduk->vaksin_1) {
                                 $ket = 'Vaksin Dosis ke 1';
                             } else {
                                 $ket = 'Belum Vaksin';
                             }
                         ?>
 						<div class="form-group">
-							<label>Keterangan Tunda Vaksin</label>
+							<label>Keterangan Vaksin</label>
 							<textarea class="form-control input-sm" rows="5" readonly><?= $ket ?></textarea>
 						</div>
 					</div>
