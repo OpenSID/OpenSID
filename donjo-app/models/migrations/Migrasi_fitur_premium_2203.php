@@ -174,24 +174,12 @@ class Migrasi_fitur_premium_2203 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
         }
 
-        if (! $this->db->field_exists('anak_ke', 'log_penduduk')) {
-            $fields = [
-                'anak_ke' => [
-                    'type'       => 'integer',
-                    'constraint' => 10,
-                    'after'      => 'penolong_mati',
-                ],
-            ];
-
-            $hasil = $hasil && $this->dbforge->add_column('log_penduduk', $fields);
-        }
-
         if (! $this->db->field_exists('akta_mati', 'log_penduduk')) {
             $fields = [
                 'akta_mati' => [
                     'type'       => 'varchar',
                     'constraint' => 50,
-                    'after'      => 'anak_ke',
+                    'after'      => 'penolong_mati',
                 ],
             ];
 
