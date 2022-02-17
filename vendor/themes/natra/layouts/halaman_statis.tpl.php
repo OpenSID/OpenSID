@@ -5,7 +5,7 @@
 <head>
 	<?php $this->load->view("$folder_themes/commons/meta"); ?>
 </head>
-<body>
+<body onLoad="renderDate()">
 <!--
 <div id="preloader">
 		<div id="status">&nbsp;</div>
@@ -25,11 +25,13 @@
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
 					<div class="content_left">
-						<?php if ($halaman_statis == 'informasi_publik'): ?>
-							<?php $this->load->view("$folder_themes/partials/informasi_publik"); ?>
-						<?php else: ?>
-							<?php $this->load->view($halaman_statis); ?>
-						<?php endif; ?>
+						<?php
+							if (preg_match("/halaman_statis/i", $halaman_statis)) {
+								$this->load->view($halaman_statis);
+							} else {
+								$this->load->view("{$folder_themes}/partials/{$halaman_statis}");
+							}
+						?>
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3">

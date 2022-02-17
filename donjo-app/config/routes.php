@@ -140,6 +140,9 @@ $route['data-suplemen/(:any)'] = WEB . '/suplemen/detail/$1';
 // Kelompok
 $route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
 
+// Vaksin
+$route['vaksin'] = WEB . '/vaksin';
+
 // Halaman Layanan Mandiri
 // Auth
 $mandiri                                                      = 'layanan-mandiri';

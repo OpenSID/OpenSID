@@ -5,7 +5,7 @@
 <head>
 	<?php $this->load->view("{$folder_themes}/commons/meta") ?>
 </head>
-<body>
+<body onLoad="renderDate()">
 	<style type="text/css">
 		.web .content-wrapper {
 			margin-left: 0px !important;
@@ -25,11 +25,13 @@
 				<div class="content_bottom">
 					<div class="col-lg-12 col-md-12">
 						<div id="contentwrapper" class="web">
-							<?php if (in_array($halaman_statis, ['lapak/index', 'pembangunan/index', 'pembangunan/detail', 'pengaduan/index'])): ?>
-								<?php $this->load->view("{$folder_themes}/partials/{$halaman_statis}") ?>
-							<?php else: ?>
-								<?php $this->load->view($halaman_statis) ?>
-							<?php endif; ?>
+							<?php
+								if (preg_match("/halaman_statis/i", $halaman_statis)) {
+									$this->load->view($halaman_statis);
+								} else {
+									$this->load->view("{$folder_themes}/partials/{$halaman_statis}");
+								}
+							?>
 						</div>
 					</div>
 				</div>

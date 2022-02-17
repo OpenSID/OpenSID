@@ -4464,6 +4464,9 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 .mb-4 {
   margin-bottom: 1rem;
 }
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
 .mr-5 {
   margin-right: 1.25rem;
 }
@@ -4533,14 +4536,14 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 .h-40 {
   height: 10rem;
 }
-.h-10 {
-  height: 2.5rem;
-}
 .h-80 {
   height: 20rem;
 }
 .h-44 {
   height: 11rem;
+}
+.h-10 {
+  height: 2.5rem;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -4566,17 +4569,14 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 .w-64 {
   width: 16rem;
 }
-.w-1\/4 {
-  width: 25%;
-}
 .w-auto {
   width: auto;
 }
 .w-4 {
   width: 1rem;
 }
-.w-12 {
-  width: 3rem;
+.w-1\/3 {
+  width: 33.333333%;
 }
 .w-16 {
   width: 4rem;
@@ -4706,16 +4706,16 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 .gap-5 {
   gap: 1.25rem;
 }
+.gap-x-3 {
+  -moz-column-gap: 0.75rem;
+       column-gap: 0.75rem;
+}
 .gap-x-5 {
   -moz-column-gap: 1.25rem;
        column-gap: 1.25rem;
 }
 .gap-y-3 {
   row-gap: 0.75rem;
-}
-.gap-x-3 {
-  -moz-column-gap: 0.75rem;
-       column-gap: 0.75rem;
 }
 .gap-y-2 {
   row-gap: 0.5rem;
@@ -5902,14 +5902,14 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 .pl-0 {
   padding-left: 0px;
 }
+.pr-3 {
+  padding-right: 0.75rem;
+}
 .pt-8 {
   padding-top: 2rem;
 }
 .pt-1 {
   padding-top: 0.25rem;
-}
-.pr-3 {
-  padding-right: 0.75rem;
 }
 .pb-4 {
   padding-bottom: 1rem;
@@ -6985,11 +6985,11 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 .duration-200 {
   transition-duration: 200ms;
 }
-.line-clamp-3 {
+.line-clamp-4 {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
 }
 .form-control {
   display: block;
@@ -7206,8 +7206,8 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
   .lg\:h-\[350px\] {
     height: 350px;
   }
-  .lg\:h-24 {
-    height: 6rem;
+  .lg\:h-32 {
+    height: 8rem;
   }
   .lg\:h-screen {
     height: 100vh;
@@ -7226,9 +7226,6 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
   }
   .lg\:w-1\/3 {
     width: 33.333333%;
-  }
-  .lg\:w-36 {
-    width: 9rem;
   }
   .lg\:w-7\/12 {
     width: 58.333333%;
