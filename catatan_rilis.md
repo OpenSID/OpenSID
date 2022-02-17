@@ -44,3 +44,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.
 3. Hapus duplikasi menu_atas.
 4. Perbaiki library paging.
+5. perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
