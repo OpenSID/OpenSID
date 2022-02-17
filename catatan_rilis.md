@@ -49,6 +49,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 25. [#4862](https://github.com/OpenSID/OpenSID/issues/4862) Perbaiki mode production, tidak menampilkan pesan errornya.
 26. [#4813](https://github.com/OpenSID/OpenSID/issues/4813) Perbaiki tanggal artikel mengikuti pengaturan aplikasi.
 27. [#4882](https://github.com/OpenSID/OpenSID/issues/4882) Perbaiki input tanggal lahir menggunakan datetime picker.
+28. [#4887](https://github.com/OpenSID/OpenSID/issues/4887) Perbaiki tidak sembunyikan tabel refrensi tidak ada.
 
 #### Perubahan Teknis
 
