@@ -325,7 +325,6 @@ class First extends Web_Controller
             show_404();
         }
 
-        $this->load->model('web_dokumen_model');
         $data = $this->includes;
 
         $data['kategori']       = $this->referensi_model->list_data('ref_dokumen', 1);
@@ -365,7 +364,6 @@ class First extends Web_Controller
             show_404();
         }
 
-        $this->load->model('web_dokumen_model');
         $data = $this->includes;
 
         $data['kategori']       = $this->referensi_model->list_data('ref_dokumen', 1);

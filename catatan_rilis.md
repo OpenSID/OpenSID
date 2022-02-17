@@ -65,3 +65,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. Perbaiki library paging.
 5. Perbaiki status keterangan vaksin.
 6. perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
+7. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.
