@@ -64,3 +64,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 3. Hapus duplikasi menu_atas.
 4. Perbaiki library paging.
 5. Perbaiki status keterangan vaksin.
+6. perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
