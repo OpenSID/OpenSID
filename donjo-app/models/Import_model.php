@@ -271,7 +271,7 @@ class Import_model extends CI_Model
             return 'kode status_dasar ' . $isi_baris['status_dasar'] . ' tidak dikenal';
         }
 
-        if ($isi_baris['id_asuransi'] != '' && ! ($isi_baris['id_asuransi'] >= 1 && $isi_baris['id_asuransi'] <= 4)) {
+        if ($isi_baris['id_asuransi'] != '' && ! in_array($isi_baris['id_asuransi'], [1, 2, 3, 99])) {
             return 'kode asuransi tidak dikenal';
         }
 
