@@ -34,6 +34,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 26. [#4882](https://github.com/OpenSID/OpenSID/issues/4882) Perbaiki input tanggal lahir menggunakan datetime picker.
 27. [#4887](https://github.com/OpenSID/OpenSID/issues/4887) Perbaiki tidak sembunyikan tabel refrensi tidak ada.
 28. [#4873](https://github.com/OpenSID/OpenSID/issues/4873) Perbaiki error isi data bantuan secara manual dan impor.
+29. [#4893](https://github.com/OpenSID/OpenSID/issues/4893) Perbaiki total inventaris tanah.
 
 #### Perubahan Teknis
 
