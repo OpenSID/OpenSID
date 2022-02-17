@@ -326,7 +326,7 @@ class Bantuan_rumah_tangga extends Statistik_penduduk_model
             ->select('COUNT(CASE WHEN p.sex = 1 THEN r.id END) AS laki')
             ->select('COUNT(CASE WHEN p.sex = 2 THEN r.id END) AS perempuan')
             ->from('tweb_rtm r')
-            ->join('tweb_penduduk p', 'r.nik_kepala = p.id', 'left')
+            ->join('penduduk_hidup p', 'r.nik_kepala = p.id')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->get()
             ->row_array();
