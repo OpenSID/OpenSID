@@ -75,7 +75,6 @@ class Pengaduan extends Web_Controller
     public function kirim()
     {
         $this->load->library('Telegram/telegram');
-        $result = $this->pengaduan_model->insert();
 
         // Periksa isian captcha
         include FCPATH . 'securimage/securimage.php';
