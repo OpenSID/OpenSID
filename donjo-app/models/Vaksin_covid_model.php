@@ -83,12 +83,14 @@ class Vaksin_covid_model extends MY_Model
         if (isset($kf)) {
             if ($kf == '4') {
                 $this->db->group_start();
+                $this->db->group_start();
                 $this->db->where('vaksin_1', 0);
                 $this->db->where('vaksin_2', 0);
                 $this->db->where('vaksin_3', 0);
                 $this->db->where('tunda', 0);
                 $this->db->group_end();
                 $this->db->or_where('vaksin_1');
+                $this->db->group_end();
             } elseif ($kf == '5') {
                 $this->db->where('tunda', '1');
             } else {
