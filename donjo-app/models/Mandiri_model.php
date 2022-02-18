@@ -716,12 +716,20 @@ class Mandiri_model extends CI_Model
 
     public function cek_verifikasi($nik = 0)
     {
+        // cek metode pengiriman pin melalui telegram atau email
+        $metode = alfa_spasi($this->input->post('send'));
+
+        if ($metode == 'telegram') {
+            $this->db->where('p.telegram_tgl_verifikasi !=', null);
+        } else {
+            $this->db->where('p.email_tgl_verifikasi !=', null);
+        }
+        
         $data = $this->db
-            ->select('p.id, p.telegram, p.nama')
+            ->select('p.id, p.telegram, p.email, p.nama')
             ->from("{$this->table} pm")
             ->join('penduduk_hidup p', 'p.id = pm.id_pend', 'left')
             ->where('p.nik', $nik)
-            ->where('p.telegram_tgl_verifikasi !=', null)
             ->get()
             ->row();
 
@@ -732,8 +740,12 @@ class Mandiri_model extends CI_Model
                 $this->db->trans_begin();
 
                 try {
-                    $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru, $data->nama);
-
+                    if ($metode == 'telegram') {
+                        $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru, $data->nama);
+                    } else {
+                        $this->otp_library->driver('email')->kirim_pin_baru($data->email, $pin_baru, $data->nama);
+                    }
+                    
                     $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
                     $this->db->trans_commit();
                 } catch (\Exception $e) {
@@ -743,7 +755,7 @@ class Mandiri_model extends CI_Model
 
                 $respon = [
                     'status' => 1, // Notif berhasil
-                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun Telegram anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun Telegram anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
                 ];
                 break;
 
@@ -751,7 +763,7 @@ class Mandiri_model extends CI_Model
                 $this->session->mandiri_try = $this->session->mandiri_try - 1;
                 $respon                     = [
                     'status' => -1, // Notif gagal
-                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun Telegram anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun Telegram anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
                 ];
                 break;
 
