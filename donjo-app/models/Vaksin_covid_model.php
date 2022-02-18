@@ -229,7 +229,7 @@ class Vaksin_covid_model extends MY_Model
         $data           = $this->input->post();
         $error_validasi = $this->validasi_data($data);
 
-        if (!empty($error_validasi)) {
+        if (! empty($error_validasi)) {
             foreach ($error_validasi as $error) {
                 $this->session->error_msg .= ': ' . $error . '\n';
             }
@@ -292,7 +292,7 @@ class Vaksin_covid_model extends MY_Model
         try {
             $upload = $this->upload->do_upload($file);
 
-            if (!$upload) {
+            if (! $upload) {
                 $this->session->error_msg = $this->upload->display_errors();
                 $this->session->success   = -1;
 
@@ -338,19 +338,19 @@ class Vaksin_covid_model extends MY_Model
         //  steril data
         $data['id_penduduk']    = (int) ($data['id_penduduk']);
         $data['vaksin_1']       = (int) ($data['vaksin_1']);
-        $data['tgl_vaksin_1']   = (!isset($data['tgl_vaksin_1']) || $data['tgl_vaksin_1'] == '') ? null : rev_tgl($data['tgl_vaksin_1']);
+        $data['tgl_vaksin_1']   = (! isset($data['tgl_vaksin_1']) || $data['tgl_vaksin_1'] == '') ? null : rev_tgl($data['tgl_vaksin_1']);
         $data['jenis_vaksin_1'] = (isset($data['jenis_vaksin_1']) || $data['jenis_vaksin_1'] != '') ? alfanumerik_spasi($data['jenis_vaksin_1']) : null;
         $data['vaksin_2']       = (int) ($data['vaksin_2']);
-        $data['tgl_vaksin_2']   = (!isset($data['tgl_vaksin_2']) || $data['tgl_vaksin_2'] == '') ? null : rev_tgl($data['tgl_vaksin_2']);
+        $data['tgl_vaksin_2']   = (! isset($data['tgl_vaksin_2']) || $data['tgl_vaksin_2'] == '') ? null : rev_tgl($data['tgl_vaksin_2']);
         $data['jenis_vaksin_2'] = (isset($data['jenis_vaksin_2']) || $data['jenis_vaksin_2'] != '') ? alfanumerik_spasi($data['jenis_vaksin_2']) : null;
         $data['vaksin_3']       = (int) ($data['vaksin_3']);
-        $data['tgl_vaksin_3']   = (!isset($data['tgl_vaksin_3']) || $data['tgl_vaksin_3'] == '') ? null : rev_tgl($data['tgl_vaksin_3']);
+        $data['tgl_vaksin_3']   = (! isset($data['tgl_vaksin_3']) || $data['tgl_vaksin_3'] == '') ? null : rev_tgl($data['tgl_vaksin_3']);
         $data['jenis_vaksin_3'] = (isset($data['jenis_vaksin_3']) || $data['jenis_vaksin_3'] != '') ? alfanumerik_spasi($data['jenis_vaksin_3']) : null;
         $data['tunda']          = (int) ($data['tunda']);
         $data['surat_dokter']   = $data['surat_dokter'] ?? null;
         $data['keterangan']     = alfanumerik_spasi($data['keterangan']);
 
-        if (!empty($valid)) {
+        if (! empty($valid)) {
             $this->session->success = -1;
         }
 
