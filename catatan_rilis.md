@@ -56,6 +56,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 29. [#4893](https://github.com/OpenSID/OpenSID/issues/4893) Perbaiki total inventaris tanah.
 30. [#4898](https://github.com/OpenSID/OpenSID/issues/4898) Sekarang pada statistik program bantuan sasaran Rumah Tangga jumlah total hanya menghitung yg aktif.
 31. [#4888](https://github.com/OpenSID/OpenSID/issues/4888) Perbaiki gagal impor data penduduk pada kolom asuransi.
+32. [#4892](https://github.com/OpenSID/OpenSID/issues/4892) Perbaiki nomor register berubah dari aturan baku saat edit data inventaris.
 
 #### Perubahan Teknis
 
