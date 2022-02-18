@@ -724,7 +724,7 @@ class Mandiri_model extends CI_Model
         } else {
             $this->db->where('p.email_tgl_verifikasi !=', null);
         }
-        
+
         $data = $this->db
             ->select('p.id, p.telegram, p.email, p.nama')
             ->from("{$this->table} pm")
@@ -745,7 +745,7 @@ class Mandiri_model extends CI_Model
                     } else {
                         $this->otp_library->driver('email')->kirim_pin_baru($data->email, $pin_baru, $data->nama);
                     }
-                    
+
                     $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
                     $this->db->trans_commit();
                 } catch (\Exception $e) {
@@ -755,7 +755,7 @@ class Mandiri_model extends CI_Model
 
                 $respon = [
                     'status' => 1, // Notif berhasil
-                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun ' . (($metode == 'telegram') ? 'Telegram' : 'Email') . ' anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun ' . (($metode == 'telegram') ? 'Telegram' : 'Email') . ' anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
                 ];
                 break;
 
@@ -763,7 +763,7 @@ class Mandiri_model extends CI_Model
                 $this->session->mandiri_try = $this->session->mandiri_try - 1;
                 $respon                     = [
                     'status' => -1, // Notif gagal
-                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun '.(($metode == 'telegram')? 'Telegram': 'Email').' anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun ' . (($metode == 'telegram') ? 'Telegram' : 'Email') . ' anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun ' . (($metode == 'telegram') ? 'Telegram' : 'Email') . ' anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
                 ];
                 break;
 
