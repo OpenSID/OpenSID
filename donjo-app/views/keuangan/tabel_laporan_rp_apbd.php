@@ -13,11 +13,11 @@
 		</table>
 
 		<?php
-						if ($this->session->submenu == 'Laporan Keuangan Akhir Bidang') {
-                $this->load->view('keuangan/tabel_laporan_rp_apbd_isi', ['jenis' => 'bidang']);
-            } else {
-                $this->load->view('keuangan/tabel_laporan_rp_apbd_isi');
-            } 
+                        if ($this->session->submenu == 'Laporan Keuangan Akhir Bidang') {
+                            $this->load->view('keuangan/tabel_laporan_rp_apbd_isi', ['jenis' => 'bidang']);
+                        } else {
+                            $this->load->view('keuangan/tabel_laporan_rp_apbd_isi');
+                        }
         ?>
 
 	</div>
