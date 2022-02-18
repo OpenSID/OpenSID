@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 31. [#4888](https://github.com/OpenSID/OpenSID/issues/4888) Perbaiki gagal impor data penduduk pada kolom asuransi.
 32. [#4892](https://github.com/OpenSID/OpenSID/issues/4892) Perbaiki nomor register berubah dari aturan baku saat edit data inventaris.
 33. [#4896](https://github.com/OpenSID/OpenSID/issues/4896) Perbaiki filter laporan vaksin belum berfungsi dengan baik.
+34. [#4904](https://github.com/OpenSID/OpenSID/issues/4904) Perbaiki export data penduduk pada kolom asuransi menghasilkan nilai yang salah.
 
 #### Perubahan Teknis
 
