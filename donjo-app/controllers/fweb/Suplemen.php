@@ -44,8 +44,7 @@ class Suplemen extends Web_Controller
         parent::__construct();
         $this->load->model('suplemen_model');
 
-        $id                   = $this->suplemen_model->slug();
-        $_SESSION['per_page'] = $this->suplemen_model->paging_suplemen_web($id);
+        $this->session->unset_userdata('per_page');
     }
 
     public function detail($slug = null)
