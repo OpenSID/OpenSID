@@ -59,6 +59,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 32. [#4892](https://github.com/OpenSID/OpenSID/issues/4892) Perbaiki nomor register berubah dari aturan baku saat edit data inventaris.
 33. [#4896](https://github.com/OpenSID/OpenSID/issues/4896) Perbaiki filter laporan vaksin belum berfungsi dengan baik.
 34. [#4904](https://github.com/OpenSID/OpenSID/issues/4904) Perbaiki export data penduduk pada kolom asuransi menghasilkan nilai yang salah.
+35. [#4905](https://github.com/OpenSID/OpenSID/issues/4905) Perbaiki akses url reset kata sandi error 500.
 
 #### Perubahan Teknis
 
