@@ -29,7 +29,6 @@
 															<li <?= jecho($act_tab, 6, 'class="active"'); ?>><a href="<?= site_url('database/kosongkan'); ?>">Kosongkan DB</a></li>
 														<?php endif; ?>
 														<li <?= jecho($act_tab, 5, 'class="active"'); ?>><a href="<?= site_url('database/migrasi_cri'); ?>">Migrasi DB</a></li>
-														<li <?= jecho($act_tab, 7, 'class="active"'); ?>><a href="<?= site_url('database/sinkronasi_opendk')?>">Sinkronasi DB OpenDK</a></li>
 													<?php endif; ?>
 												</ul>
 												<div class="tab-content">
