@@ -76,6 +76,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</ul>
 	</div>
 </div>
+<div id="rtm" class="box box-info <?= ($kategori == 'rtm') ?: 'collapsed-box'; ?>">
+	<div class="box-header with-border">
+		<h3 class="box-title">Statistik RTM</h3>
+		<div class="box-tools">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa <?= ($kategori == 'rtm') ? 'fa-minus' : 'fa-plus'; ?>"></i></button>
+		</div>
+	</div>
+	<div class="box-body no-padding">
+		<ul class="nav nav-pills nav-stacked">
+			<?php foreach ($stat_rtm as $id => $nama): ?>
+				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+</div>
 <div id="bantuan" class="box box-info <?= ($kategori == 'bantuan') ?: 'collapsed-box'; ?>">
 	<div class="box-header with-border">
 		<h3 class="box-title">Statistik Program Bantuan</h3>

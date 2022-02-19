@@ -494,16 +494,6 @@
 						</div>
 					</div>
 				<?php endif; ?>
-				<div class='col-sm-4'>
-					<div class='form-group'>
-						<label for="lokasi">Lokasi Tempat Tinggal </label>
-						<div class='row'>
-							<div class='col-sm-12'>
-								<a href="<?=site_url("penduduk/ajax_penduduk_maps/$p/$o/$penduduk[id]/1")?>" title="Lokasi <?= $penduduk['nama']?>" class="btn btn-social btn-flat bg-navy btn-sm"><i class='fa fa-map-marker'></i> Cari Lokasi Tempat Tinggal</a>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div class='col-sm-12'>
 					<div class='form-group'>
 						<label for="telepon"> Nomor Telepon </label>
@@ -651,7 +641,7 @@
 				</div>
 				<div class='col-sm-4'>
 					<div class='form-group'>
-						<label for="id_asuransi">Asuransi </label>
+						<label for="id_asuransi">Asuransi Kesehatan</label>
 						<select class="form-control input-sm" name="id_asuransi" onchange="show_hide_asuransi($(this).find(':selected').val());">
 							<option value="">Pilih Asuransi</option>
 							<?php foreach ($pilihan_asuransi as $data): ?>
@@ -664,6 +654,16 @@
 					<div class='form-group'>
 						<label id="label-no-asuransi" for="no_asuransi">No Asuransi </label>
 						<input id="no_asuransi" name="no_asuransi" class="form-control input-sm" type="text" maxlength="50" placeholder="Nomor Asuransi" value="<?= $penduduk['no_asuransi']?>"></input>
+					</div>
+				</div>
+				<div class="col-sm-12">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class='form-group'>
+								<label id="label-no-bpjs-ketenagakerjaan" for="bpjs_ketenagakerjaan">Nomor BPJS Ketenagakerjaan</label>
+								<input id="bpjs_ketenagakerjaan" name="bpjs_ketenagakerjaan" class="form-control input-sm nomor_sk" type="text" maxlength="50" placeholder="Nomor BPJS Ketenagakerjaan" value="<?= $penduduk['bpjs_ketenagakerjaan']?>"></input>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class='col-sm-12'>

@@ -156,13 +156,14 @@ class Lapak_model extends MY_Model
 
 		$data = [
 			'id_pelapak' => bilangan($post['id_pelapak']),
-			'nama' => alfanumerik_spasi($post['nama']),
+			'nama' => $post['nama'],
 			'id_produk_kategori' => alfanumerik_spasi($post['id_produk_kategori']),
 			'harga' => bilangan($post['harga']),
 			'satuan' => alfanumerik_spasi($post['satuan']),
 			'tipe_potongan' => bilangan($post['tipe_potongan']),
 			'potongan' => bilangan(($post['tipe_potongan'] == 1) ? $post['persen'] : $post['nominal']),
-			'deskripsi' => alfanumerik_spasi($post['deskripsi']),
+			'deskripsi' => $this->security->xss_clean($post['deskripsi']),
+			
 			'foto' => ($foto == []) ? NULL : json_encode($foto)
 		];
 

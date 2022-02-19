@@ -440,9 +440,7 @@
 
     	<?php if ($this->CI->cek_hak_akses('u')): ?>
 	      //Export/Import Peta dari file GPX
-	      L.Control.FileLayerLoad.LABEL = '<img class="icon" src="<?= base_url()?>assets/images/gpx.png" alt="file icon"/>';
-	      L.Control.FileLayerLoad.TITLE = 'Impor GPX/KML';
-	      control = eximGpxPoly(peta_area);
+	      eximGpxRegion(peta_area);
 
 	      //Import Peta dari file SHP
 	      eximShp(peta_area);

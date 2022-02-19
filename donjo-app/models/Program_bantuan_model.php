@@ -1,4 +1,6 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * File ini:
@@ -419,7 +421,7 @@ class Program_bantuan_model extends MY_Model {
 				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
-				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
 		}
@@ -447,7 +449,7 @@ class Program_bantuan_model extends MY_Model {
 				$data[$i]['peserta_nama'] = $data[$i]['peserta'];
 				$data[$i]['peserta_info'] = $data[$i]['nama_kk'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
-				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
 		}
@@ -474,7 +476,7 @@ class Program_bantuan_model extends MY_Model {
 				$data[$i]['peserta_nama'] = $data[$i]['no_kk'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nik']." - ".$data[$i]['no_kk']."]";
-				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
 		}
@@ -501,7 +503,7 @@ class Program_bantuan_model extends MY_Model {
 				$data[$i]['peserta_nama'] = $data[$i]['nama_kelompok'];
 				$data[$i]['peserta_info'] = $data[$i]['nama'];
 				$data[$i]['nama'] = strtoupper($data[$i]['nama']);
-				$data[$i]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+				$data[$i]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 			}
 			$hasil1 = $data;
 		}
@@ -537,7 +539,7 @@ class Program_bantuan_model extends MY_Model {
 						$data1[$j]['id'] = $data[$i]['nik'];
 						$data1[$j]['nik'] = $data[$i]['nik'];
 						$data1[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nik']."]";
-						$data1[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+						$data1[$j]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 						$j++;
 					}
 				}
@@ -582,7 +584,7 @@ class Program_bantuan_model extends MY_Model {
 					$hasil2[$j]['id'] = $data[$i]['nik'];
 					$hasil2[$j]['nik'] = $data[$i]['nik'];
 					$hasil2[$j]['nama'] = strtoupper("KK[".$data[$i]['no_kk']."] - [".$data[$i]['kk_level']."] ".$data[$i]['nama']." [".$data[$i]['nik']."]");
-					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+					$hasil2[$j]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 					$j++;
 				}
 			}
@@ -620,7 +622,7 @@ class Program_bantuan_model extends MY_Model {
 					$hasil2[$j]['id'] = $data[$i]['id'];
 					$hasil2[$j]['nik'] = $data[$i]['id'];
 					$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['id']."]";
-					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+					$hasil2[$j]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 					$j++;
 				}
 			}
@@ -656,7 +658,7 @@ class Program_bantuan_model extends MY_Model {
 					$hasil2[$j]['id'] = $data[$i]['id'];
 					$hasil2[$j]['nik'] = $data[$i]['nama_kelompok'];
 					$hasil2[$j]['nama'] = strtoupper($data[$i]['nama'])." [".$data[$i]['nama_kelompok']."]";
-					$hasil2[$j]['info'] = "RT/RW ". $data[$i]['rt']."/".$data[$i]['rw']." - ".strtoupper($data[$i]['dusun']);
+					$hasil2[$j]['info'] = "RT/RW " . $data[$i]['rt'] . "/" . $data[$i]['rw'] . "  " . $this->dusun($data[$i]['dusun']);
 					$j++;
 				}
 			}
@@ -1326,5 +1328,9 @@ class Program_bantuan_model extends MY_Model {
 		return $data;
 	}
 
+	private function dusun($nama_dusun)
+	{
+		return ($this->setting->sebutan_dusun == '-') ? '' : ucwords(strtolower($this->setting->sebutan_dusun . " " . $nama_dusun));
+	}
+
 }
-?>

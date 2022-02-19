@@ -280,7 +280,7 @@ class Rtm_model extends CI_Model {
 
 		$kolom_id = ($is_no_kk) ? "no_kk" : "id";
 		$this->load->model('penduduk_model');
-		$sql = "SELECT u.id, u.nik, u.nama, r.no_kk, x.nama AS sex, u.tempatlahir, u.tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM tweb_penduduk WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
+		$sql = "SELECT u.id, u.nik, u.nama, r.no_kk, r.bdt, x.nama AS sex, u.tempatlahir, u.tanggallahir, (SELECT DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW()) - TO_DAYS(`tanggallahir`)), '%Y') + 0 FROM tweb_penduduk WHERE id = u.id) AS umur, d.nama as pendidikan, f.nama as warganegara, a.nama as agama, wil.rt, wil.rw, wil.dusun
 			FROM tweb_rtm r
 			LEFT JOIN tweb_penduduk u ON u.id = r.nik_kepala
 			LEFT JOIN tweb_penduduk_sex x ON u.sex = x.id
@@ -304,21 +304,26 @@ class Rtm_model extends CI_Model {
 
 	public function update_nokk($id)
 	{
-		$data = $_POST;
+		$post = $this->input->post();
+		$data['no_kk'] = bilangan($post['no_kk']);
+		$data['bdt'] =  ! empty($post['bdt']) ? bilangan($post['bdt']) : NULL;
+
 		if ($data['no_kk'])
 		{
-			$ada_nokk = $this->db->select('id')
+			$ada_nokk = $this->db
+				->select('id')
 				->where('no_kk', $data['no_kk'])
 				->get('tweb_rtm')->row()->id;
 			if ($ada_nokk and $ada_nokk != $id)
 			{
-				$_SESSION['success'] = -1;
-				$_SESSION['error_msg'] = 'Nomor RTM itu sudah ada';
+				$this->session->success = 1;
+				$this->session->error_msg = 'Nomor RTM itu sudah ada';
 				return;
 			}
 			$rtm = $this->db->where('id', $id)->get('tweb_rtm')->row();
-			$this->db->where('id_rtm', $rtm->no_kk)
-				->update('tweb_penduduk', array('id_rtm' => $data['no_kk']));
+			$this->db
+				->where('id_rtm', $rtm->no_kk)
+				->update('tweb_penduduk', ['id_rtm' => $data['no_kk']]);
 		}
 		$outp = $this->db->where("id", $id)->update("tweb_rtm", $data);
 
@@ -405,10 +410,16 @@ class Rtm_model extends CI_Model {
 
 		$this->search_sql();
 
-		$list_kode = [['dusun', 'c.dusun'], ['rw', 'c.rw'], ['rt', 'c.rt']];
-		foreach ($list_kode as $list)
-		{
-			$this->filter_sql($list[0], $list[1]);
+		$kolom_kode = [
+			['dusun', 'c.dusun'],
+			['rw', 'c.rw'],
+			['rt', 'c.rt'],
+			['sex', 't.sex'],
+			['bdt', 'u.bdt'],
+		];
+
+		foreach ($kolom_kode as $kolom) {
+			$this->get_sql_kolom_kode($kolom[0], $kolom[1]);
 		}
 	}
 
@@ -421,16 +432,33 @@ class Rtm_model extends CI_Model {
 		}
 	}
 
-	private function filter_sql($session, $field)
+	protected function get_sql_kolom_kode($session, $kolom)
 	{
-		$value = $this->session->$session;
-
-		if (isset($value))
+		if ( ! empty($ss = $this->session->$session))
 		{
-				$this->db->where($field, $value);
+			if ($ss == JUMLAH)
+				$this->db->where("$kolom !=", NULL);	
+			else if ($ss == BELUM_MENGISI)
+				$this->db->where($kolom, NULL);
+			else
+				$this->db->where($kolom, $ss);
 		}
 	}
 
+	public function get_judul_statistik($tipe = 0, $nomor = 0, $sex = 0)
+	{
+		if ($nomor == JUMLAH)
+			$judul = ["nama" => " : JUMLAH"];
+		else if ($nomor == BELUM_MENGISI)
+			$judul = ["nama" => " : BELUM MENGISI"];
+		else
+		{
+			// Tanpa table referensi
+			$judul = ["nama" => " : TOTAL"];
+		}
+		if ($sex == 1) $judul['nama'] .= " - LAKI-LAKI";
+		elseif ($sex == 2) $judul['nama'] .= " - PEREMPUAN";
 
+		return $judul;
+	}
 }
-?>
