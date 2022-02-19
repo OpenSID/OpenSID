@@ -68,19 +68,6 @@ class Suplemen_model extends MY_Model
         ];
     }
 
-    public function paging_suplemen_web($id)
-    {
-        return $this->db
-            ->select('COUNT(s.id) as jumlah')
-            ->from('suplemen_terdata s')
-            ->join('tweb_penduduk o', ' s.id_terdata = o.id', 'left')
-            ->join('tweb_keluarga k', 'k.id = o.id_kk', 'left')
-            ->join('tweb_wil_clusterdesa w', 'w.id = o.id_cluster', 'left')
-            ->where('s.id_suplemen', $id)
-            ->get()
-            ->row()->jumlah;
-    }
-
     public function paging_suplemen($page_number = 1)
     {
         $this->db->select('COUNT(DISTINCT s.id) AS jml');
