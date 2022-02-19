@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 34. [#4904](https://github.com/OpenSID/OpenSID/issues/4904) Perbaiki export data penduduk pada kolom asuransi menghasilkan nilai yang salah.
 35. [#4905](https://github.com/OpenSID/OpenSID/issues/4905) Perbaiki akses url reset kata sandi error 500.
 36. [#4876](https://github.com/OpenSID/OpenSID/issues/4876) Perbaiki peta garis setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
+37. [#4875](https://github.com/OpenSID/OpenSID/issues/4875) Perbaiki tampilan halaman paging pada website atau filter data suplemen hanya menampilkan 10 data.
 
 #### Perubahan Teknis
 
