@@ -44,7 +44,7 @@ class Suplemen extends Web_Controller
         parent::__construct();
         $this->load->model('suplemen_model');
 
-        $id = $this->suplemen_model->slug();
+        $id                   = $this->suplemen_model->slug();
         $_SESSION['per_page'] = $this->suplemen_model->paging_suplemen_web($id);
     }
 
@@ -52,7 +52,7 @@ class Suplemen extends Web_Controller
     {
         $id = $this->suplemen_model->slug($slug);
 
-        if (!$this->web_menu_model->menu_aktif('data-suplemen/' . $id)) {
+        if (! $this->web_menu_model->menu_aktif('data-suplemen/' . $id)) {
             show_404();
         }
 

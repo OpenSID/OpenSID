@@ -311,7 +311,7 @@ class Suplemen_model extends MY_Model
     {
         $hasil = [];
         // Paging
-        if ((!empty($this->session->per_page) && $this->session->per_page > 0) || $p > 0) {
+        if ((! empty($this->session->per_page) && $this->session->per_page > 0) || $p > 0) {
             $this->get_penduduk_terdata_sql($suplemen_id);
             $hasil['paging'] = $this->paging($p);
             $this->db->limit($hasil['paging']->per_page, $hasil['paging']->offset);
@@ -369,7 +369,7 @@ class Suplemen_model extends MY_Model
     {
         $hasil = [];
         // Paging
-        if (!empty($this->session->per_page) && $this->session->per_page > 0) {
+        if (! empty($this->session->per_page) && $this->session->per_page > 0) {
             $this->get_kk_terdata_sql($suplemen_id);
             $hasil['paging'] = $this->paging($p);
             $this->db->limit($hasil['paging']->per_page, $hasil['paging']->offset);
@@ -609,7 +609,7 @@ class Suplemen_model extends MY_Model
 
             default:
         }
-        if (!empty($list_suplemen)) {
+        if (! empty($list_suplemen)) {
             return ['daftar_suplemen' => $list_suplemen, 'profil' => $data_profil];
         }
 
@@ -784,7 +784,7 @@ class Suplemen_model extends MY_Model
 
         $this->upload->initialize($config);
 
-        if (!$this->upload->do_upload('userfile')) {
+        if (! $this->upload->do_upload('userfile')) {
             return session_error($this->upload->display_errors());
         }
 
@@ -843,7 +843,7 @@ class Suplemen_model extends MY_Model
 
                     // Cek valid data peserta sesuai sasaran
                     $cek_peserta = $this->cek_peserta($peserta, $sasaran);
-                    if (!in_array($peserta, $cek_peserta['valid'])) {
+                    if (! in_array($peserta, $cek_peserta['valid'])) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $cek_peserta['sasaran_peserta'] . ' = ' . $peserta . '</b> tidak ditemukan <br>';
 
@@ -851,7 +851,7 @@ class Suplemen_model extends MY_Model
                     }
 
                     $penduduk_sasaran = $this->cek_penduduk($sasaran, $peserta);
-                    if (!$penduduk_sasaran['id_terdata']) {
+                    if (! $penduduk_sasaran['id_terdata']) {
                         $no_gagal++;
                         $pesan .= '- Data peserta baris <b> Ke-' . ($no_baris) . ' / ' . $penduduk_sasaran['id_sasaran'] . ' = ' . $peserta . '</b> yang terdaftar tidak ditemukan <br>';
 
