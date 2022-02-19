@@ -56,6 +56,9 @@
             <div class='box-footer'>
               <div class='col-xs-12'>
                 <a href="<?= site_url('garis')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+                <?php if ($this->CI->cek_hak_akses('u')): ?>
+                  <a href="#" data-href="<?= site_url("garis/kosongkan/{$garis['id']}")?>" class="btn btn-social btn-flat bg-maroon btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kosongkan Garis" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin akan mengosongkan garis wilayah ini?"><i class="fa fa fa-trash-o"></i>Kosongkan</a>
+                <?php endif; ?>
                 <a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
                 <?php if ($this->CI->cek_hak_akses('u')): ?>
@@ -69,7 +72,7 @@
     </div>
   </section>
 </div>
-
+<?php $this->load->view('global/konfirmasi'); ?>
 <script>
   var infoWindow;
   window.onload = function()
