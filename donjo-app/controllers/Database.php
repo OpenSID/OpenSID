@@ -76,7 +76,6 @@ class Database extends Admin_Controller
         }
 
         $data['form_action']          = site_url('database/import_dasar');
-        $data['form_action3']         = site_url('database/ppls_individu');
         $data['boleh_hapus_penduduk'] = $this->import_model->boleh_hapus_penduduk();
 
         $data['act_tab'] = 2;
@@ -273,14 +272,6 @@ class Database extends Admin_Controller
         $this->redirect_hak_akses('h');
         $this->database_model->kosongkan_db();
         redirect('database/kosongkan');
-    }
-
-    // Impor Pengelompokan Data Rumah Tangga
-    public function ppls_individu()
-    {
-        $this->redirect_hak_akses('u');
-        $this->import_model->pbdt_individu(isset($_POST['hapus_rtm']));
-        redirect("{$this->controller}/import");
     }
 
     public function exec_backup()
