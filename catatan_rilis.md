@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 15. [#4706](https://github.com/OpenSID/OpenSID/issues/4706) Penambahan notifikasi telegram setiap ada pengaduan.
 16. [#2859](https://github.com/OpenSID/OpenSID/issues/2859) Penambahan kelengkapan data kematian saat ubah status dasar menjadi mati.
 17. [#4644](https://github.com/OpenSID/OpenSID/issues/4644) Penambahan halaman publikasi data warga yang sudah divaksin.
+18. [#4924](https://github.com/OpenSID/OpenSID/issues/4924) Pindahkan impor data rumah tangga ke modul Rumah Tangga.
 
 
 #### Perbaikan BUG
@@ -57,6 +58,12 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 30. [#4898](https://github.com/OpenSID/OpenSID/issues/4898) Sekarang pada statistik program bantuan sasaran Rumah Tangga jumlah total hanya menghitung yg aktif.
 31. [#4888](https://github.com/OpenSID/OpenSID/issues/4888) Perbaiki gagal impor data penduduk pada kolom asuransi.
 32. [#4892](https://github.com/OpenSID/OpenSID/issues/4892) Perbaiki nomor register berubah dari aturan baku saat edit data inventaris.
+33. [#4896](https://github.com/OpenSID/OpenSID/issues/4896) Perbaiki filter laporan vaksin belum berfungsi dengan baik.
+34. [#4904](https://github.com/OpenSID/OpenSID/issues/4904) Perbaiki export data penduduk pada kolom asuransi menghasilkan nilai yang salah.
+35. [#4905](https://github.com/OpenSID/OpenSID/issues/4905) Perbaiki akses url reset kata sandi error 500.
+36. [#4876](https://github.com/OpenSID/OpenSID/issues/4876) Perbaiki peta garis setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
+37. [#4875](https://github.com/OpenSID/OpenSID/issues/4875) Perbaiki tampilan halaman paging pada website atau filter data suplemen hanya menampilkan 10 data.
+38. [#4902](https://github.com/OpenSID/OpenSID/issues/4902) Perbaiki filter kategori pada menu pemetaan tidak bekerja semestinya.
 
 #### Perubahan Teknis
 

@@ -146,8 +146,12 @@ class Siteman extends MY_Controller
         redirect('siteman/lupa_sandi');
     }
 
-    public function reset_kata_sandi(string $token)
+    public function reset_kata_sandi($token = null)
     {
+        if (! $token) {
+            redirect('siteman');
+        }
+
         $data['header']      = $this->config_model->get_data();
         $data['latar_login'] = $this->theme_model->latar_login();
         $data['email']       = $this->input->get('email');
