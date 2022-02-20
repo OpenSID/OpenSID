@@ -745,5 +745,4 @@ class Import_model extends CI_Model
         // Hapus data RTM
         $this->db->truncate('tweb_rtm');
     }
-
 }

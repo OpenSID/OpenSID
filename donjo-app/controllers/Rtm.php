@@ -97,16 +97,16 @@ class Rtm extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['pesan_rtm']  = $this->session->pesan_rtm ?: null; // Hasil impor rtm
+        $data['pesan_rtm']        = $this->session->pesan_rtm ?: null; // Hasil impor rtm
         $this->session->pesan_rtm = null;
-        $data['func']       = 'index';
-        $data['set_page']   = $this->_set_page;
-        $list_data          = $this->rtm_model->list_data($page);
-        $data['paging']     = $list_data['paging'];
-        $data['main']       = $list_data['main'];
-        $data['keyword']    = $this->rtm_model->autocomplete();
-        $data['list_dusun'] = $this->wilayah_model->list_dusun();
-        $data['list_sex']   = $this->referensi_model->list_data('tweb_penduduk_sex');
+        $data['func']             = 'index';
+        $data['set_page']         = $this->_set_page;
+        $list_data                = $this->rtm_model->list_data($page);
+        $data['paging']           = $list_data['paging'];
+        $data['main']             = $list_data['main'];
+        $data['keyword']          = $this->rtm_model->autocomplete();
+        $data['list_dusun']       = $this->wilayah_model->list_dusun();
+        $data['list_sex']         = $this->referensi_model->list_data('tweb_penduduk_sex');
 
         $this->render('rtm/rtm', $data);
     }
@@ -419,5 +419,4 @@ class Rtm extends Admin_Controller
         $this->rtm_model->impor();
         redirect($this->controller);
     }
-
 }

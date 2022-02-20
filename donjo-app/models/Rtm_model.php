@@ -685,5 +685,4 @@ class Rtm_model extends MY_Model
             ->get('tweb_penduduk')
             ->row_array();
     }
-
 }
