@@ -127,7 +127,7 @@ class Rtm extends Admin_Controller
         $data['kk']          = $this->rtm_model->get_rtm($id);
         $data['form_action'] = site_url("{$this->controller}/update_nokk/{$id}");
 
-        $this->load->view('sid/kependudukan/ajax_edit_no_rtm', $data);
+        $this->load->view('rtm/ajax_edit_no_rtm', $data);
     }
 
     public function form_old($id = 0)
@@ -136,7 +136,7 @@ class Rtm extends Admin_Controller
         $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/insert/{$id}");
 
-        $this->load->view('sid/kependudukan/ajax_add_rtm', $data);
+        $this->load->view('rtm/ajax_add_rtm', $data);
     }
 
     public function filter($filter = '', $order_by = '')
@@ -262,7 +262,7 @@ class Rtm extends Admin_Controller
         $data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
         $data['program']   = $this->program_bantuan_model->get_peserta_program(3, $data['kepala_kk']['no_kk']);
 
-        $this->render('sid/kependudukan/rtm_anggota', $data);
+        $this->render('rtm/rtm_anggota', $data);
     }
 
     public function ajax_add_anggota($id = 0)
@@ -279,7 +279,7 @@ class Rtm extends Admin_Controller
         $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/add_anggota/{$id}");
 
-        $this->load->view('sid/kependudukan/ajax_add_anggota_rtm_form', $data);
+        $this->load->view('rtm/ajax_add_anggota_rtm_form', $data);
     }
 
     public function edit_anggota($id_rtm = 0, $id = 0)
@@ -289,7 +289,7 @@ class Rtm extends Admin_Controller
         $data['main']        = $this->rtm_model->get_anggota($id);
         $data['form_action'] = site_url("{$this->controller}/update_anggota/{$id_rtm}/{$id}");
 
-        $this->load->view('sid/kependudukan/ajax_edit_anggota_rtm', $data);
+        $this->load->view('rtm/ajax_edit_anggota_rtm', $data);
     }
 
     public function kartu_rtm($id = 0)
@@ -309,7 +309,7 @@ class Rtm extends Admin_Controller
         $data['penduduk']    = $this->rtm_model->list_penduduk_lepas();
         $data['form_action'] = site_url("{$this->controller}/print");
 
-        $this->render('sid/kependudukan/kartu_rtm', $data);
+        $this->render('rtm/kartu_rtm', $data);
     }
 
     public function cetak_kk($id = 0)
@@ -319,7 +319,7 @@ class Rtm extends Admin_Controller
         $data['main']      = $this->rtm_model->list_anggota($id);
         $data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
 
-        $this->load->view('sid/kependudukan/cetak_rtm', $data);
+        $this->load->view('rtm/cetak_rtm', $data);
     }
 
     public function add_anggota($id = 0)
