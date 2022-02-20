@@ -87,7 +87,10 @@
 											<input type="text" autocomplete="off" value="" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
 										</div>
 										<div class="form-group">
-											<button type="submit" class="btn btn-block bg-green"><b>TELEGRAM</b></button>
+											<button type="submit" class="btn btn-block bg-green" name="send" value="telegram"><b>TELEGRAM</b></button>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-block bg-green" name="send" value="email"><b>Email</b></button>
 										</div>
 									<?php endif; ?>
 								<?php endif; ?>
