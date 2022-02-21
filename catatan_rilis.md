@@ -24,7 +24,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 18. [#4924](https://github.com/OpenSID/OpenSID/issues/4924) Pindahkan impor data rumah tangga ke modul Rumah Tangga.
 19. [#4806](https://github.com/OpenSID/OpenSID/issues/4806) Penambahan Lupa/reset PIN kirim melalui email.
 
-
 #### Perbaikan BUG
 
 1. [#4825](https://github.com/OpenSID/OpenSID/issues/4825) Perbaiki info media sosial tidak muncul di halaman utama.
@@ -68,6 +67,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 39. [#4920](https://github.com/OpenSID/OpenSID/issues/4920) Perbaiki peta area setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
 40. [#4886](https://github.com/OpenSID/OpenSID/issues/4886) Perbaiki migrasi supaya tidak menyembunyikan masalah fatal.
 41. [#4834](https://github.com/OpenSID/OpenSID/issues/4834) Sediakan pemeriksaan keabsahan data pada waktu update (seperti NIK duplikat, No KK > 16, tgl 9, email duplikat, dsbnya).
+42. [#4922](https://github.com/OpenSID/OpenSID/issues/4922) Perbaiki fitur edit dan simpan data lapak desa tidak berfungsi.
 
 #### Perubahan Teknis
 
@@ -76,5 +76,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 3. Hapus duplikasi menu_atas.
 4. Perbaiki library paging.
 5. Perbaiki status keterangan vaksin.
-6. perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
+6. Perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
 7. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.

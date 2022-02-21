@@ -129,7 +129,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6" id="tampil-persen" <?= jecho($main->tipe_potongan, 2, 'style="display:none;"'); ?>>
 									<div class="form-group">
 										<div class="input-group">
-											<input type="number" class="form-control input-sm number required" id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= $main->potongan ?? 0; ?>"/>
+											<input type="number" class="form-control input-sm number required" <?= $main->tipe_potongan == 1 ? '' : 'disabled'; ?> id="persen" name="persen" onkeyup="cek_persen();" placeholder="Potongan Persen (%)"  style="text-align:right;" min="0" max="100" step="1" value="<?= $main->potongan ?? 0; ?>"/>
 											<span class="input-group-addon input-sm">%</span>
 										</div>
 									</div>
@@ -139,7 +139,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<div class="form-group">
 										<div class="input-group">
 											<span class="input-group-addon input-sm ">Rp.</span>
-											<input type="number" class="form-control input-sm number required" id="nominal" name="nominal" onkeyup="cek_nominal();" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="10" value="<?= $main->potongan ?? 0; ?>"/>
+											<input type="number" class="form-control input-sm number required" <?= $main->tipe_potongan == 2 ? '' : 'disabled'; ?> id="nominal" name="nominal" onkeyup="cek_nominal();" placeholder="Potongan Nominal (Rp.)" style="text-align:right;" min="0" max="99999999999" step="10" value="<?= $main->potongan ?? 0; ?>"/>
 										</div>
 									</div>
 								</div>
@@ -214,12 +214,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				$('#tampil-nominal').show();
 				$('#nominal').addClass('required');
 				$('#persen').removeClass('required');
+				$('#nominal').removeAttr("disabled");
 				cek_nominal();
 			} else {
 				$('#tampil-nominal').hide();
 				$('#tampil-persen').show();
 				$('#persen').addClass('required');
 				$('#nominal').removeClass('required');
+				$('#persen').removeAttr("disabled");
 				cek_persen();
 			}
 		});
