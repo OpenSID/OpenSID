@@ -68,6 +68,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 40. [#4886](https://github.com/OpenSID/OpenSID/issues/4886) Perbaiki migrasi supaya tidak menyembunyikan masalah fatal.
 41. [#4834](https://github.com/OpenSID/OpenSID/issues/4834) Sediakan pemeriksaan keabsahan data pada waktu update (seperti NIK duplikat, No KK > 16, tgl 9, email duplikat, dsbnya).
 42. [#4922](https://github.com/OpenSID/OpenSID/issues/4922) Perbaiki fitur edit dan simpan data lapak desa tidak berfungsi.
+43. [#4911](https://github.com/OpenSID/OpenSID/issues/4911) Perbaiki virtual keyboard saat verifikasi email layanan mandiri hanya berupa numerik (angka).
 
 #### Perubahan Teknis
 
