@@ -44,7 +44,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 36. [#4876](https://github.com/OpenSID/OpenSID/issues/4876) Perbaiki peta garis setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
 37. [#4875](https://github.com/OpenSID/OpenSID/issues/4875) Perbaiki tampilan halaman paging pada website atau filter data suplemen hanya menampilkan 10 data.
 38. [#4902](https://github.com/OpenSID/OpenSID/issues/4902) Perbaiki filter kategori pada menu pemetaan tidak bekerja semestinya.
-39. [](https://github.com/OpenSID/OpenSID/issues/4920) Perbaiki peta area setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
+39. [#4920](https://github.com/OpenSID/OpenSID/issues/4920) Perbaiki peta area setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
+40. [#4886](https://github.com/OpenSID/OpenSID/issues/4886) Perbaiki migrasi supaya tidak menyembunyikan masalah fatal.
 
 #### Perubahan Teknis
 
