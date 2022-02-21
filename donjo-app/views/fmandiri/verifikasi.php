@@ -208,7 +208,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 												<form action="<?= $form_kirim_email; ?>" method="POST" id="validasi">
 													<div class="form-group col-md-5">
 														<label for="alamat_email">Silahkan Masukan Alamat Email</label>
-														<input type="text" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="alamat_email" placeholder="Alamat Email">
+														<input type="text" class="form-control input-md bilangan pin required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvtext'); ?>" name="alamat_email" placeholder="Alamat Email">
 														<button type="submit" class="btn bg-green pull-right" style="margin-top: 10px;">Kirim</button>
 													</div>
 												</form>
