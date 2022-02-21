@@ -58,3 +58,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. Perbaiki library paging.
 5. Perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
 6. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.
+7. Hapus session per_page yang tidak digunakan pada statistik web.
