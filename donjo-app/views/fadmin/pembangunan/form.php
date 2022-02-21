@@ -45,15 +45,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 <div class="content-wrapper">
 	<section class="content-header">
-			<h1>
-				Pembangunan
-				<small><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</small>
-			</h1>
-			<ol class="breadcrumb">
-					<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-					<li><a href="<?= site_url('admin_pembangunan') ?>"> Pembangunan</a></li>
-					<li class="active"><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</li>
-			</ol>
+		<h1>
+			Pembangunan
+			<small><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('admin_pembangunan') ?>"> Pembangunan</a></li>
+			<li class="active"><?= ($main->id ? 'Ubah' : 'Tambah') ?> Data</li>
+		</ol>
 	</section>
 	<section class="content" id="maincontent">
 		<form action="<?= $form_action; ?>" method="post" id="validasi" enctype="multipart/form-data">
@@ -61,12 +61,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<div class="col-md-9">
 					<div class="box box-info">
 						<div class="box-header with-border">
-								<a href="<?= site_url('admin_pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Pembangunan</a>
+							<a href="<?= site_url('admin_pembangunan') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Pembangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Nama Kegiatan</label>
-								<input id="judul" name="judul" class="form-control input-sm required" value="<?= $main->judul ?>" type="text" maxlength="50"  minlength="5" maxlength="100" placeholder="Nama Kegiatan Pembangunan" />
+								<input id="judul" name="judul" class="form-control input-sm required" value="<?= $main->judul ?>" type="text" maxlength="50" minlength="5" maxlength="100" placeholder="Nama Kegiatan Pembangunan" />
 							</div>
 							<div class="form-group">
 								<label class="control-label" style="text-align:left;">Volume</label>
@@ -89,9 +89,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<div class="form-group">
 										<label class="control-label" for="tahun_anggaran">Tahun Anggaran</label>
 										<select class="form-control input-sm select2" id="tahun_anggaran" name="tahun_anggaran" style="width:100%;">
-											<?php for ($i = date('Y'); $i >= 1999; $i--) : ?>
-												<option value="<?= $i ?>" <?= selected($id, $main->tahun_anggaran ?? date(Y)) ?>><?= $i ?></option>
-											<?php endfor; ?>
+											<?php foreach (tahun(1999) as $value): ?>
+												<option value="<?= $value ?>" <?= selected($value, $main->tahun_anggaran) ?> ><?= $value ?></option>
+											<?php endforeach; ?>
 										</select>
 									</div>
 								</div>
@@ -106,13 +106,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_pemerintah">Sumber Biaya Pemerintah</label>
-										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah" min="0" max="10000000000" step="1000" onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Pemerintah" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_pemerintah; ?>" ></input>
+										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah" min="0" max="10000000000" step="1000" onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Pemerintah" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_pemerintah; ?>"></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_provinsi">Sumber Biaya Provinsi</label>
-										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi" min="0" max="10000000000" step="1000" onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Provinsi" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_provinsi; ?>" ></input>
+										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi" min="0" max="10000000000" step="1000" onkeyup="cek()" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Provinsi" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_provinsi; ?>"></input>
 									</div>
 								</div>
 							</div>
@@ -120,13 +120,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_kab_kota">Sumber Biaya Kab / Kota</label>
-										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required" min="0" max="10000000000" step="1000" onkeyup="cek()" type="number" placeholder="Sumber Biaya Kab / Kota" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_kab_kota; ?>" ></input>
+										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required" min="0" max="10000000000" step="1000" onkeyup="cek()" type="number" placeholder="Sumber Biaya Kab / Kota" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_kab_kota; ?>"></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_swadaya">Sumber Biaya Swadaya</label>
-										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required" type="number" min="0" max="10000000000" step="1000" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_swadaya; ?>" ></input>
+										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required" type="number" min="0" max="10000000000" step="1000" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_swadaya; ?>"></input>
 									</div>
 								</div>
 							</div>
@@ -157,15 +157,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="form-group">
 									<label class="control-label"></label>
 									<div id="pilih">
-											<select class="form-control input-sm select2 required" id="id_lokasi" name="id_lokasi">
-												<option value="">-- Pilih Lokasi Pembangunan --</option>
-												<?php foreach ($list_lokasi as $key => $item) : ?>
-													<option value="<?= $item['id'] ?>" <?= selected($item['id'], $main->id_lokasi) ?>><?= strtoupper($item['dusun']) ?> <?= empty($item['rw']) ? '' : " - RW  {$item['rw']}" ?> <?= empty($item['rt']) ? '' : " / RT  {$item['rt']}" ?></option>
-												<?php endforeach; ?>
-											</select>
+										<select class="form-control input-sm select2 required" id="id_lokasi" name="id_lokasi">
+											<option value="">-- Pilih Lokasi Pembangunan --</option>
+											<?php foreach ($list_lokasi as $key => $item) : ?>
+												<option value="<?= $item['id'] ?>" <?= selected($item['id'], $main->id_lokasi) ?>><?= strtoupper($item['dusun']) ?> <?= empty($item['rw']) ? '' : " - RW  {$item['rw']}" ?> <?= empty($item['rt']) ? '' : " / RT  {$item['rt']}" ?></option>
+											<?php endforeach; ?>
+										</select>
 									</div>
 									<div id="manual">
-											<textarea id="lokasi" class="form-control input-sm required" type="text" placeholder="Lokasi" name="lokasi" rows="3"><?= $main->lokasi ?></textarea>
+										<textarea id="lokasi" class="form-control input-sm required" type="text" placeholder="Lokasi" name="lokasi" rows="3"><?= $main->lokasi ?></textarea>
 									</div>
 								</div>
 							</div>
@@ -175,7 +175,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="keterangan">Keterangan</label>
-									<textarea id="keterangan" class="form-control input-sm required" name="keterangan" placeholder="Keterangan" rows="3"><?= $main->keterangan ?></textarea>
+								<textarea id="keterangan" class="form-control input-sm required" name="keterangan" placeholder="Keterangan" rows="3"><?= $main->keterangan ?></textarea>
 							</div>
 						</div>
 						<div class="box-footer">
@@ -195,10 +195,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<div class="box-body">
 							<center>
 								<div class="form-group">
-									<?php if (is_file(LOKASI_GALERI . $main->foto)): ?>
+									<?php if (is_file(LOKASI_GALERI . $main->foto)) : ?>
 										<img class="img-responsive" src="<?= base_url(LOKASI_GALERI . $main->foto); ?>" alt="Gambar Utama Pembangunan">
-									<?php else: ?>
-										<img class="img-responsive" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Gambar Utama Pembangunan"/>
+									<?php else : ?>
+										<img class="img-responsive" src="<?= base_url('assets/images/404-image-not-found.jpg') ?>" alt="Gambar Utama Pembangunan" />
 									<?php endif; ?>
 									<div class="input-group input-group-sm">
 										<input type="hidden" name="old_foto" value="<?= $main->foto; ?>">
