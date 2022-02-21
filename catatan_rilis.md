@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 17. [#4644](https://github.com/OpenSID/OpenSID/issues/4644) Penambahan halaman publikasi data warga yang sudah divaksin.
 18. [#4924](https://github.com/OpenSID/OpenSID/issues/4924) Pindahkan impor data rumah tangga ke modul Rumah Tangga.
 19. [#4806](https://github.com/OpenSID/OpenSID/issues/4806) Penambahan Lupa/reset PIN kirim melalui email.
+20. [#4643](https://github.com/OpenSID/OpenSID/issues/4643) Penambahan import data penerima vaksin.
 
 #### Perbaikan BUG
 

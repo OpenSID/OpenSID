@@ -264,4 +264,12 @@ class Vaksin_covid extends Admin_Controller
         $data = $this->vaksin_covid_model->autocomplete($this->input->post('cari'));
         $this->json_output($data);
     }
+
+    public function impor()
+    {
+        $this->redirect_hak_akses('u');
+        $this->vaksin_covid_model->impor();
+
+        redirect('vaksin_covid');
+    }
 }
