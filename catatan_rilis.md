@@ -47,6 +47,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 39. [#4920](https://github.com/OpenSID/OpenSID/issues/4920) Perbaiki peta area setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
 40. [#4886](https://github.com/OpenSID/OpenSID/issues/4886) Perbaiki migrasi supaya tidak menyembunyikan masalah fatal.
 41. [#4834](https://github.com/OpenSID/OpenSID/issues/4834) Sediakan pemeriksaan keabsahan data pada waktu update (seperti NIK duplikat, No KK > 16, tgl 9, email duplikat, dsbnya).
+42. [#4922](https://github.com/OpenSID/OpenSID/issues/4922) Perbaiki fitur edit dan simpan data lapak desa tidak berfungsi.
 
 #### Perubahan Teknis
 
