@@ -184,9 +184,12 @@ class MY_Model extends CI_Model
                 ->from($tabel)
                 ->group_by($kolom)
                 ->having("COUNT(`{$kolom}`) > 1")
-                ->get()->num_rows();
+                ->get()
+                ->num_rows();
+
             if ($duplikat > 0) {
-                $this->session->error_msg = "Data {$kolom} ada yg duplikat";
+                session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
+                log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
 
                 return false;
             }
@@ -300,7 +303,7 @@ class MY_Model extends CI_Model
         $this->load->model('migrations/' . $migrasi);
         $_SESSION['daftar_migrasi'][] = $migrasi;
         if ($this->{$migrasi}->up()) {
-            log_message('error', 'Jalankan ' . $migrasi);
+            log_message('error', 'Berhasil Jalankan ' . $migrasi);
 
             return true;
         }

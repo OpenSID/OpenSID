@@ -51,7 +51,7 @@
 								<?php endif ?>
 							</div>
 							<div class="form-bottom">
-								<form id="validasi" class="login-form" action="<?=site_url('siteman/auth')?>" method="post" >
+								<form id="validasi" class="login-form" action="<?= $form_action ?>" method="post" >
 									<?php if ($this->session->siteman_wait == 1): ?>
 										<div class="error login-footer-top">
 											<p id="countdown" style="color:red; text-transform:uppercase"></p>

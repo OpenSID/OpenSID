@@ -382,8 +382,13 @@ class Admin_Controller extends Premium
         $this->validasi();
         $this->CI = CI_Controller::get_instance();
         $this->load->model(['user_model', 'notif_model', 'referensi_model']);
-        $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 
+        // Kalau sehabis periksa data, paksa harus login lagi
+        if ($this->session->periksa_data == 1) {
+            $this->user_model->logout();
+        }
+
+        $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
         $this->load->model('modul_model');
         if (! $this->modul_model->modul_aktif($this->controller)) {
             session_error('Fitur ini tidak aktif');
