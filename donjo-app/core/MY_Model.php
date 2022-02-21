@@ -190,7 +190,7 @@ class MY_Model extends CI_Model
                 session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
                 log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
 
-                redirect($_SERVER['HTTP_REFERER']);
+                return false;
             }
         }
 
@@ -309,6 +309,6 @@ class MY_Model extends CI_Model
 
         log_message('error', 'Gagal Jalankan ' . $migrasi);
 
-        redirect($_SERVER['HTTP_REFERER']);
+        return false;
     }
 }

@@ -46,6 +46,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 38. [#4902](https://github.com/OpenSID/OpenSID/issues/4902) Perbaiki filter kategori pada menu pemetaan tidak bekerja semestinya.
 39. [#4920](https://github.com/OpenSID/OpenSID/issues/4920) Perbaiki peta area setelah dihapus atau di reset semua menu atau tombol ikut hilang di layar.
 40. [#4886](https://github.com/OpenSID/OpenSID/issues/4886) Perbaiki migrasi supaya tidak menyembunyikan masalah fatal.
+41. [#4834](https://github.com/OpenSID/OpenSID/issues/4834) Sediakan pemeriksaan keabsahan data pada waktu update (seperti NIK duplikat, No KK > 16, tgl 9, email duplikat, dsbnya).
 
 #### Perubahan Teknis
 

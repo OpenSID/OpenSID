@@ -51,12 +51,18 @@ class Siteman extends MY_Controller
 
     public function index()
     {
+        // Kalau sehabis periksa data, paksa harus login lagi
+        if ($this->session->periksa_data == 1) {
+            $this->user_model->logout();
+        }
+
         if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
             redirect('main');
         }
         unset($_SESSION['balik_ke']);
         $data['header']      = $this->config_model->get_data();
         $data['latar_login'] = $this->theme_model->latar_login();
+        $data['form_action'] = site_url('siteman/auth');
         //Initialize Session ------------
         if (! isset($_SESSION['siteman'])) {
             // Belum ada session variable
@@ -109,7 +115,8 @@ class Siteman extends MY_Controller
     public function login()
     {
         $this->user_model->login();
-        $data['header'] = $this->config_model->get_data();
+        $data['header']      = $this->config_model->get_data();
+        $data['form_action'] = site_url('siteman/auth');
         $this->load->view('siteman', $data);
     }
 

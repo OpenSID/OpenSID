@@ -186,7 +186,6 @@ class Database_model extends MY_Model
 
         // Jalankan migrasi layanan
         $this->jalankan_migrasi('migrasi_layanan');
-
         $this->folder_desa_model->amankan_folder_desa();
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
         /*
@@ -199,9 +198,9 @@ class Database_model extends MY_Model
             'value' => $versi,
         ];
         $this->db->where(['key' => 'current_version'])->update('setting_aplikasi', $newVersion);
+        $this->catat_versi_database();
         $this->load->model('track_model');
         $this->track_model->kirim_data();
-        $this->catat_versi_database();
     }
 
     private function catat_versi_database()
