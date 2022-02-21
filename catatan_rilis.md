@@ -70,13 +70,13 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 41. [#4834](https://github.com/OpenSID/OpenSID/issues/4834) Sediakan pemeriksaan keabsahan data pada waktu update (seperti NIK duplikat, No KK > 16, tgl 9, email duplikat, dsbnya).
 42. [#4922](https://github.com/OpenSID/OpenSID/issues/4922) Perbaiki fitur edit dan simpan data lapak desa tidak berfungsi.
 43. [#4911](https://github.com/OpenSID/OpenSID/issues/4911) Perbaiki virtual keyboard saat verifikasi email layanan mandiri hanya berupa numerik (angka).
-
+44. [#4927](https://github.com/OpenSID/OpenSID/issues/4927) Perbaiki data tahun yang ditampilkan sesuai dengan data yang akan diubah pada modul ubah data pembangunan.
 #### Perubahan Teknis
 
 1. Perbaiki return migrasi, tidak sesuai.
 2. Perbaiki migrasi supaya tidak diulang-ulang dan laporkan yang gagal.
 3. Hapus duplikasi menu_atas.
 4. Perbaiki library paging.
-5. Perbaiki status keterangan vaksin.
-6. Perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
-7. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.
+5. Perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
+6. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.
+7. Hapus session per_page yang tidak digunakan pada statistik web.
