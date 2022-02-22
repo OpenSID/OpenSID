@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'b616577103061814b7265783610d27cf98b9f994',
+        'reference' => '1b16575bb648af4ee90765813f123f0843482d7c',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -124,7 +124,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'b616577103061814b7265783610d27cf98b9f994',
+            'reference' => '1b16575bb648af4ee90765813f123f0843482d7c',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(

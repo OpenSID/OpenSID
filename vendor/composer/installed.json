@@ -1754,20 +1754,13 @@
             "version_normalized": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenSID/tema-esensi.git",
+                "url": "https://github.com/OpenSID/tema-esensi",
                 "reference": "e879cf8e106be5e042326eced6f89417b5560394"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/e879cf8e106be5e042326eced6f89417b5560394",
-                "reference": "e879cf8e106be5e042326eced6f89417b5560394",
-                "shasum": ""
             },
             "time": "2022-02-22T00:43:53+00:00",
             "default-branch": true,
             "type": "library",
-            "installation-source": "dist",
-            "notification-url": "https://packagist.org/downloads/",
+            "installation-source": "source",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -1781,12 +1774,8 @@
             "homepage": "https://github.com/OpenSID/tema-esensi",
             "keywords": [
                 "OpenSID",
-                "themes"
+                "Themes"
             ],
-            "support": {
-                "issues": "https://github.com/OpenSID/tema-esensi/issues",
-                "source": "https://github.com/OpenSID/tema-esensi/tree/main"
-            },
             "install-path": "../themes/esensi"
         },
         {
@@ -1795,19 +1784,12 @@
             "version_normalized": "dev-premium",
             "source": {
                 "type": "git",
-                "url": "https://github.com/OpenSID/tema-natra.git",
+                "url": "https://github.com/OpenSID/tema-natra",
                 "reference": "695e6d5b005fbf873d7ff7f24ad0baf30000b64b"
             },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/695e6d5b005fbf873d7ff7f24ad0baf30000b64b",
-                "reference": "695e6d5b005fbf873d7ff7f24ad0baf30000b64b",
-                "shasum": ""
-            },
-            "time": "2022-02-17T12:32:50+00:00",
+            "time": "2022-02-17T11:45:13+00:00",
             "type": "library",
-            "installation-source": "dist",
-            "notification-url": "https://packagist.org/downloads/",
+            "installation-source": "source",
             "license": [
                 "GPL-3.0-or-later"
             ],
@@ -1821,12 +1803,8 @@
             "homepage": "https://github.com/OpenSID/tema-natra",
             "keywords": [
                 "OpenSID",
-                "themes"
+                "Themes"
             ],
-            "support": {
-                "issues": "https://github.com/OpenSID/tema-natra/issues",
-                "source": "https://github.com/OpenSID/tema-natra/tree/premium"
-            },
             "install-path": "../themes/natra"
         }
     ],
