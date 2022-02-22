@@ -50,6 +50,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 42. [#4922](https://github.com/OpenSID/OpenSID/issues/4922) Perbaiki fitur edit dan simpan data lapak desa tidak berfungsi.
 43. [#4911](https://github.com/OpenSID/OpenSID/issues/4911) Perbaiki virtual keyboard saat verifikasi email layanan mandiri hanya berupa numerik (angka).
 44. [#4927](https://github.com/OpenSID/OpenSID/issues/4927) Perbaiki data tahun yang ditampilkan sesuai dengan data yang akan diubah pada modul ubah data pembangunan.
+45. [#4907](https://github.com/OpenSID/OpenSID/issues/4907) Perbaiki username menggunakan tanda baca titik (.) tidak tampil di daftar pengguna.
 
 #### Perubahan Teknis
 
