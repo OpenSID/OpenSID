@@ -372,7 +372,7 @@ class User_model extends CI_Model
             $data['username'] = alfanumerik($post['username']);
         }
         if (isset($post['nama'])) {
-            $data['nama'] = alfanumerik_spasi($post['nama']);
+            $data['nama'] = nama($post['nama']);
         }
         if (isset($post['email'])) {
             $data['phone'] = htmlentities($post['phone']);
