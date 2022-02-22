@@ -11,7 +11,7 @@
   <?php $this->load->view($folder_themes . '/commons/loading_screen') ?>
   <?php $this->load->view($folder_themes . '/commons/header') ?>
   <div class="container mx-auto lg:px-5 px-3 flex flex-col lg:flex-row my-5 gap-3 lg:gap-5 justify-between text-gray-600">
-    <main class="lg:w-3/4 w-full overflow-hidden space-y-1 bg-white rounded-lg px-4 py-2 lg:py-4 lg:px-5 shadow">
+    <main class="lg:w-2/3 w-full overflow-hidden space-y-1 bg-white rounded-lg px-4 py-2 lg:py-4 lg:px-5 shadow">
       <nav role="navigation" aria-label="navigation" class="breadcrumb">
         <ol>
           <li><a href="<?= site_url() ?>">Beranda</a></li>
@@ -22,32 +22,54 @@
         <?php $this->load->view("$folder_themes/partials/statistics/analisis.php"); ?>
         <?php else : ?>
           <h2 class="text-h2">Daftar Agregasi Data Analisis Desa</h2>
-          <?php foreach ($list_indikator AS $data): ?>
-            <a href="<?= site_url("data_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><h5>&nbsp;<b><?= $data['indikator']?></b></h5></a>
+          <?php if ($list_indikator): ?>
+            <?php if (count($master_indikator) > 1) : ?>
+              <form action="<?=site_url('data_analisis'); ?>" method="get">
+                <div class="space-y-1">
+                  <label for="" class="block text-sm">Password</label>
+                  <select class="form-select" name="master" onchange="this.form.submit()">
+                    <?php foreach ($master_indikator as $master): ?>
+                      <option value="<?= $master['id']?>" <?= selected($list_indikator['0']['id_master'], $master['id'])?>><?= "{$master['master']} ({$master['tahun']})"?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </form>
+            <?php endif; ?>
             <div class="table-responsive content py-3">
               <table>
                 <tr>
-                  <td width="20%">Pendataan </td>
-                  <td width="1%"> :</td>
-                  <td><?= $data['master']; ?></td>
+                  <td width="200">Pendataan </td>
+                  <td width="20"> :</td>
+                  <td><?= $list_indikator['0']['master']; ?></td>
                 </tr>
                 <tr>
                   <td>Subjek </td>
                   <td> : </td>
-                  <td><?= $data['subjek']; ?></td>
+                  <td><?= $list_indikator['0']['subjek']; ?></td>
                 </tr>
                 <tr>
                   <td>Tahun </td>
                   <td> :</td>
-                  <td><?= $data['tahun']; ?></td>
+                  <td><?= $list_indikator['0']['tahun']; ?></td>
                 </tr>
               </table>
             </div>
-            <hr>
-          <?php endforeach; ?>
+            <h4 class="text-h4 py-3">Indikator</h4>
+            <div class="table-responsive content">
+              <table>
+                <?php foreach ($list_indikator as $data): ?>
+                  <tr>
+                    <td><?= $data['nomor'].'.'; ?>
+                    <td><a href="<?= site_url("jawaban_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><h5><b><?= $data['indikator']?></b></h5></a></td>
+                  </tr>
+                <?php endforeach; ?>
+              </table>
+            </div>
+          <?php endif; ?>
+        <?php endif; ?>
       <?php endif; ?>
     </main>
-    <div class="lg:w-1/4 w-full">
+    <div class="lg:w-1/3 w-full">
       <?php $this->load->view($folder_themes .'/partials/sidebar') ?>
     </div>
   </div>

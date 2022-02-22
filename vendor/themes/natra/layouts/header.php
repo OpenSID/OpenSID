@@ -5,7 +5,7 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<?php $this->load->view("$folder_themes/commons/meta"); ?>
 </head>
-<body>
+<body onLoad="renderDate()">
 	<a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
 	<div class="container"style="background-color: #f6f6f6;">
 		<header id="header">

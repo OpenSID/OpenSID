@@ -256,8 +256,8 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.235.0",
-            "version_normalized": "0.235.0.0",
+            "version": "v0.236.0",
+            "version_normalized": "0.236.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -297,7 +297,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.235.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.236.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -1755,15 +1755,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi.git",
-                "reference": "862252dd0e1c7f96c63918abf4a114cdd950ab9b"
+                "reference": "e879cf8e106be5e042326eced6f89417b5560394"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/862252dd0e1c7f96c63918abf4a114cdd950ab9b",
-                "reference": "862252dd0e1c7f96c63918abf4a114cdd950ab9b",
+                "url": "https://api.github.com/repos/OpenSID/tema-esensi/zipball/e879cf8e106be5e042326eced6f89417b5560394",
+                "reference": "e879cf8e106be5e042326eced6f89417b5560394",
                 "shasum": ""
             },
-            "time": "2022-02-16T13:41:40+00:00",
+            "time": "2022-02-22T00:43:53+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "dist",
@@ -1796,15 +1796,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra.git",
-                "reference": "ba6a0347aadd7668dbb1065b7645369687d30979"
+                "reference": "695e6d5b005fbf873d7ff7f24ad0baf30000b64b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/ba6a0347aadd7668dbb1065b7645369687d30979",
-                "reference": "ba6a0347aadd7668dbb1065b7645369687d30979",
+                "url": "https://api.github.com/repos/OpenSID/tema-natra/zipball/695e6d5b005fbf873d7ff7f24ad0baf30000b64b",
+                "reference": "695e6d5b005fbf873d7ff7f24ad0baf30000b64b",
                 "shasum": ""
             },
-            "time": "2022-02-17T07:30:54+00:00",
+            "time": "2022-02-17T12:32:50+00:00",
             "type": "library",
             "installation-source": "dist",
             "notification-url": "https://packagist.org/downloads/",

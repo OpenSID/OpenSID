@@ -4,7 +4,7 @@
   <div class="box-header">
     <h3 class="box-title"><i class="fas fa-globe"></i> Info Media Sosial</h3>
   </div>
-  <div class="box-body">
+  <div class="box-body flex gap-2">
     <?php foreach ($sosmed As $data): ?>
     <?php if (!empty($data["link"])): ?>
     <a href="<?= $data['link']?>" target="_blank">

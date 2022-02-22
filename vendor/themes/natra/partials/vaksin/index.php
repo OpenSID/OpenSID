@@ -1,41 +1,22 @@
-<style type="text/css">
-    #info_publik_wrapper .row .col-sm-6 {
-        width: 50% !important;
-    }
-    #tabel-data {
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 100%;
-    }
-
-    #tabel-data thead th {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    #tabel-data tbody td {
-        padding: 10px;
-    }
-</style>
 <div class="box box-danger" style="padding-bottom: 2rem;">
     <div class="box-header with-border">
         <h3 class="box-title"><?= $heading ?></h3>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-bordered" id="tabel-data">
-            <thead class="bg-gray color-palette">
-            <tr>
-                <th rowspan="2">No</th>
-                <th rowspan="2">Nama</th>
-                <th rowspan="2">Alamat Dusun</th>
-                <th rowspan="2">Tanggal</th>
-                <th colspan="6">Vaksin</th>
-            </tr>
-            <tr>
-                <th>I</th>
-                <th>II</th>
-                <th>III</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th rowspan="2">No</th>
+                    <th rowspan="2">Nama</th>
+                    <th rowspan="2">Alamat Dusun</th>
+                    <th rowspan="2">Tanggal</th>
+                    <th colspan="6">Vaksin</th>
+                </tr>
+                <tr>
+                    <th>I</th>
+                    <th>II</th>
+                    <th>III</th>
+                </tr>
             </thead>
             <tbody>
             <?php foreach ($main as $data) : ?>
@@ -80,35 +61,35 @@
     </div>
 </div>
 <script>
-	$(document).ready(function(){
-		var tabelData = $('#tabel-data').DataTable({
-			'processing': false,
-			'order': [[1, 'desc']],
-			'pageLength': 10,
+    $(document).ready(function(){
+        var tabelData = $('#tabel-data').DataTable({
+            'processing': false,
+            'order': [[1, 'desc']],
+            'pageLength': 10,
             'lengthMenu': [
                 [10, 25, 50, 100, -1],
                 [10, 25, 50, 100, "Semua"]
             ],
-			'columnDefs': [
-				{
-					'searchable': false,
-					'targets': [0, 4, 5, 6]
-				},
-				{
-					'orderable': false,
-					'targets': [0, 4, 5, 6]
-				}
-			],
-			'language': {
-				'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
-			},
-		});
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [0, 4, 5, 6]
+                },
+                {
+                    'orderable': false,
+                    'targets': [0, 4, 5, 6]
+                }
+            ],
+            'language': {
+                'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+            },
+        });
 
         tabelData.on( 'order.dt search.dt', function () {
             tabelData.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                 cell.innerHTML = i + 1;
             } );
         } ).draw();
-	});
+    });
 </script>
 

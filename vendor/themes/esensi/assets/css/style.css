@@ -4407,6 +4407,9 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 .z-\[-10\] {
   z-index: -10;
 }
+.z-\[999\] {
+  z-index: 999;
+}
 .z-\[99\] {
   z-index: 99;
 }
@@ -4654,6 +4657,9 @@ article .box>div:nth-child(2) .table-responsive table, article .box>div:nth-chil
 }
 .grid-flow-col {
   grid-auto-flow: column;
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));

@@ -4,11 +4,11 @@
   <div class="box-header">
     <h3 class="box-title"><a href="<?= site_url('first/gallery');?>"><i class="fas fa-camera"></i> Galeri Foto</a></h3>
   </div>
-  <div class="box-body flex gap-2 flex-wrap">
+  <div class="box-body grid grid-cols-3 gap-2 flex-wrap">
     <?php foreach ($w_gal As $data): ?>
       <?php if (is_file(LOKASI_GALERI . "sedang_" . $data['gambar'])): ?>
       <a href='<?= site_url("first/sub_gallery/$data[id]"); ?>' title="<?= "Album : $data[nama]" ?>">
-        <img src="<?= AmbilGaleri($data['gambar'],'kecil')?>" width="130" alt="<?= "Album : $data[nama]" ?>">
+        <img src="<?= AmbilGaleri($data['gambar'],'kecil')?>" alt="<?= "Album : $data[nama]" ?>" class="w-full">
       </a>
       <?php endif; ?>
     <?php endforeach; ?>

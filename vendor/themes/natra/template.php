@@ -8,11 +8,6 @@
     <!-- </head> -->
 </head>
 <body onLoad="renderDate()">
-<!--
-<div id="preloader">
-    <div id="status">&nbsp;</div>
-</div>
--->
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
 <div class="container" style="background-color: #f6f6f6;">
     <header id="header">
@@ -23,7 +18,6 @@
     </div>
     <div class="row">
         <section>
-            <div class="content_middle"></div>
             <div class="content_bottom">
                 <div class="col-lg-9 col-md-9">
                     <?php $this->load->view("$folder_themes/partials/bottom_content_left"); ?>

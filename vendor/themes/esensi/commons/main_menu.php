@@ -29,7 +29,7 @@
           <?php if($has_dropdown) : ?>
             <ul
               class="absolute top-full w-64 bg-white text-gray-700 shadow-lg invisible transform transition duration-200 origin-top" 
-              :class="{'opacity-0 invisible z-[-10] scale-y-50': !dropdown, 'opacity-100 visible z-30 scale-y-100': dropdown}"
+              :class="{'opacity-0 invisible z-[-10] scale-y-50': !dropdown, 'opacity-100 visible z-[9999] scale-y-100': dropdown}"
               x-transition
               @mouseover="dropdown = true"
               @mouseleave="dropdown = false">

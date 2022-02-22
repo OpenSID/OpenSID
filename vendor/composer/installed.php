@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
+        'pretty_version' => 'dev-rilis-dev',
+        'version' => 'dev-rilis-dev',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2b607bd42c08cc0df607635cf641a4c6e17ac77c',
+        'reference' => 'b616577103061814b7265783610d27cf98b9f994',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -47,8 +47,8 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.235.0',
-            'version' => '0.235.0.0',
+            'pretty_version' => 'v0.236.0',
+            'version' => '0.236.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
@@ -119,12 +119,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
+            'pretty_version' => 'dev-rilis-dev',
+            'version' => 'dev-rilis-dev',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2b607bd42c08cc0df607635cf641a4c6e17ac77c',
+            'reference' => 'b616577103061814b7265783610d27cf98b9f994',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -276,7 +276,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => '862252dd0e1c7f96c63918abf4a114cdd950ab9b',
+            'reference' => 'e879cf8e106be5e042326eced6f89417b5560394',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(
@@ -285,7 +285,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => 'ba6a0347aadd7668dbb1065b7645369687d30979',
+            'reference' => '695e6d5b005fbf873d7ff7f24ad0baf30000b64b',
             'dev_requirement' => false,
         ),
     ),

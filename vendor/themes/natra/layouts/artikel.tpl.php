@@ -5,12 +5,7 @@
 <head>
 	<?php $this->load->view("$folder_themes/commons/meta"); ?>
 </head>
-<body>
-<!--
-<div id="preloader">
-		<div id="status">&nbsp;</div>
-</div>
--->
+<body onLoad="renderDate()">
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
 <div class="container" style="background-color: #f6f6f6;">
 	<header id="header">

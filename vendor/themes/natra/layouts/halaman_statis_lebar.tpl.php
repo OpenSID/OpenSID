@@ -21,7 +21,6 @@
 		</div>
 		<div class="row">
 			<section id="mainContent">
-				<div class="content_middle"></div>
 				<div class="content_bottom">
 					<div class="col-lg-12 col-md-12">
 						<div id="contentwrapper" class="web">
