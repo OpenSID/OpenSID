@@ -240,9 +240,9 @@ $(document).ready(function() {
 	}, "Hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip, tanda petik dan garis miring");
 
 	jQuery.validator.addMethod("username", function(value, element) {
-		valid = /^[a-zA-Z0-9\.\_]{4,30}$/.test(value);
+		valid = /^[a-zA-Z0-9]{4,30}$/.test(value);
 		return this.optional(element) || valid;
-	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
+	}, "Username hanya boleh berisi karakter alpha, numerik dan terdiri dari 4 hingga 30 karakter");
 
 	jQuery.validator.addMethod("telegram", function(value, element) {
 		valid = /^@[a-zA-Z0-9\_]{5,100}$/.test(value);
