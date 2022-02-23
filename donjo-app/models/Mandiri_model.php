@@ -93,7 +93,7 @@ class Mandiri_model extends CI_Model
     {
         $this->db
             ->from('tweb_penduduk_mandiri pm')
-            ->join('penduduk_hidup p', 'pm.id_pend = p.id', 'LEFT');
+            ->join('penduduk_hidup p', 'pm.id_pend = p.id');
 
         $this->search_sql();
     }
@@ -176,7 +176,7 @@ class Mandiri_model extends CI_Model
     {
         $post = $this->input->post();
         $pin  = bilangan($post['pin'] ?? $this->generate_pin());
-        $nama = $this->db->select('nama')->where('id', $id_pend)->get('tweb_penduduk')->row()->nama;
+        $nama = $this->db->select('nama')->where('id', $id_pend)->get('penduduk_hidup')->row()->nama;
 
         $pilihan_kirim = $post['pilihan_kirim'];
 
@@ -296,7 +296,7 @@ class Mandiri_model extends CI_Model
     {
         return $this->db
             ->select('id, nik, nama')
-            ->from('tweb_penduduk')
+            ->from('penduduk_hidup')
             ->where('status', 1)
             ->where('nik', $nik)
             ->get()
@@ -393,8 +393,8 @@ class Mandiri_model extends CI_Model
     public function cek_pendaftaran($nama, $nik, $tanggallahir, $kk)
     {
         return $this->db->select('p.id, p.nik')
-            ->from('tweb_penduduk p')
-            ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+            ->from('penduduk_hidup p')
+            ->join('tweb_keluarga k', 'p.id_kk = k.id')
             ->where('nama', $nama)
             ->where('nik', $nik)
             ->where('tanggallahir', $tanggallahir)
@@ -496,7 +496,7 @@ class Mandiri_model extends CI_Model
         $data = $this->db
             ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.sex, p.foto, p.kk_level, p.id_kk, k.no_kk, c.rt, c.rw, c.dusun')
             ->from('tweb_penduduk_mandiri pm')
-            ->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+            ->join('penduduk_hidup p', 'pm.id_pend = p.id')
             ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
             ->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
             ->where('p.nik', $nik)
@@ -545,7 +545,7 @@ class Mandiri_model extends CI_Model
         $data = $this->db
             ->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
             ->from('tweb_penduduk_mandiri pm')
-            ->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
+            ->join('penduduk_hidup p', 'pm.id_pend = p.id')
             ->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
             ->where('p.tag_id_card', $tag)
             ->get()
@@ -708,7 +708,9 @@ class Mandiri_model extends CI_Model
     public function jml_mandiri_non_aktif()
     {
         if ($this->db->field_exists('aktif', 'tweb_penduduk_mandiri')) {
-            return $this->db->where('aktif', 0)->get('tweb_penduduk_mandiri')->num_rows();
+            $this->list_data_sql();
+
+            return $this->db->where('pm.aktif', 0)->get()->num_rows();
         }
 
         return 0;
