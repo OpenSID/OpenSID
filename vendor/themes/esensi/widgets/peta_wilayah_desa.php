@@ -3,8 +3,8 @@
 <div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title">
-      <i class="fas fa-map-marker-alt"></i>
-      <?="Wilayah ".ucwords($this->setting->sebutan_desa)?></h3>
+      <i class="fas fa-map-marker-alt"></i>&ensp;<?= $judul_widget ?>
+    </h3>
   </div>
   <div class="box-body">
     <div id="map_wilayah" style="height:200px;"></div>

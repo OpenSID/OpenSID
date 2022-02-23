@@ -2,7 +2,7 @@
 
 <div class="box box-primary box-solid">
   <div class="box-header">
-    <h3 class="box-title"><i class="fas fa-globe"></i> Info Media Sosial</h3>
+    <h3 class="box-title"><i class="fas fa-globe"></i>&ensp;<?= $judul_widget ?></h3>
   </div>
   <div class="box-body flex gap-2">
     <?php foreach ($sosmed As $data): ?>

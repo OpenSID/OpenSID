@@ -9,7 +9,8 @@
 			<?php
 				$judul_widget = [
 					'judul_widget' => str_replace('Desa', ucwords($this->setting->sebutan_desa), strip_tags($widget['judul']))
-			] ?>
+				];
+			?>
 			<?php if ($widget["jenis_widget"] == 1): ?>
 				<?php $this->load->view("{$folder_themes}/widgets/{$widget['isi']}", $judul_widget) ?>
 			<?php elseif($widget['jenis_widget'] == 2) : ?>

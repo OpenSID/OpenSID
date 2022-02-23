@@ -2,7 +2,9 @@
 
 <div class="box">
   <div class="box-header">
-    <h3 class="box-title"><i class="fas fa-calendar-alt"></i> Agenda</h3>
+    <h3 class="box-title">
+      <i class="fas fa-calendar-alt"></i><?= $judul_widget ?>
+    </h3>
   </div>
   <div class="box-body">
     <ul class="nav nav-tabs flex list-none border-b-0 pl-0 mb-4" id="tab-agenda" role="tablist">

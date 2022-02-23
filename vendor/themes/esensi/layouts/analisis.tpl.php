@@ -65,7 +65,8 @@
                 <?php endforeach; ?>
               </table>
             </div>
-          <?php endif; ?>
+          <?php else: ?>
+          <p>Data tidak tersedia</p>
         <?php endif; ?>
       <?php endif; ?>
     </main>

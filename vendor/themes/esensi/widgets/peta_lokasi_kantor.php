@@ -3,7 +3,7 @@
 <div class="box box-primary box-solid">
   <div class="box-header">
     <h3 class="box-title">
-      <i class="fas fa-map-marker-alt"></i><?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?>
+      <i class="fas fa-map-marker-alt"></i>&ensp;<?= $judul_widget ?>
     </h3>
   </div>
   <div class="box-body">

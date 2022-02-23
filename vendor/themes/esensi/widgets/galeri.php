@@ -2,7 +2,9 @@
 
 <div class="box box-primary box-solid">
   <div class="box-header">
-    <h3 class="box-title"><a href="<?= site_url('first/gallery');?>"><i class="fas fa-camera"></i> Galeri Foto</a></h3>
+    <h3 class="box-title">
+      <a href="<?= site_url('first/gallery');?>"><i class="fas fa-camera"></i>&ensp;<?= $judul_widget ?></a>
+    </h3>
   </div>
   <div class="box-body grid grid-cols-3 gap-2 flex-wrap">
     <?php foreach ($w_gal As $data): ?>
