@@ -54,6 +54,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 46. [#4908](https://github.com/OpenSID/OpenSID/issues/4908) Perbaiki tanda baca titik, petik satu, dan koma pada nama pengguna tidak tampil di daftar pengguna.
 47. [#4931](https://github.com/OpenSID/OpenSID/issues/4931) Perbaiki jumlah data di layanan mandiri tidak sesuai seharusnya.
 48. [#4921](https://github.com/OpenSID/OpenSID/issues/4921) Perbaiki tombol tipe pertanyaan masih berfungsi ketika indikator dihubungkan dengan data keluarga / KK pada modul analisis.
+49. [#4935](https://github.com/OpenSID/OpenSID/issues/4935) Perbaiki kesalahan ketika hapus kelompok dan lembaga.
 
 #### Perubahan Teknis
 

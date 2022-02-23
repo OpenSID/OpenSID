@@ -45,7 +45,7 @@ class Kelompok_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['wilayah_model', 'referensi_model']);
+        $this->load->model(['wilayah_model', 'referensi_model', 'program_bantuan_model']);
     }
 
     public function set_tipe(string $tipe)
