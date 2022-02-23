@@ -446,11 +446,10 @@ class Vaksin_covid_model extends MY_Model
                     $nomor_baris++;
                     $cells = $row->getCells();
 
-                    //NIK
-                    $nik = $cells[0];
+                    $nik = (string) $cells[0];
 
                     if (empty($nik)) {
-                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} NIK Tidak Boleh Kosong</br>";
+                        $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kolom NIK Tidak Boleh Kosong.</br>";
                         $gagal++;
                         $outp = false;
 
@@ -460,43 +459,44 @@ class Vaksin_covid_model extends MY_Model
                     if ($penduduk = $this->cekPenduduk($nik)) {
                         $id_penduduk = $penduduk['id'];
 
-                        // Cek Apakah Tunda ???
-                        if ($cells[7] == '1') {
-                            $tunda      = 1;
-                            $keterangan = $cells[8];
-                        } else {
+                        if (empty((string) $cells[7])) {
                             $tunda        = 0;
                             $keterangan   = null;
-                            $tgl_vaksin_1 = $this->cek_is_date($cells[1]);
+                            $tgl_vaksin_1 = $this->cekTgl($cells[1]);
                             if (! empty($tgl_vaksin_1)) {
                                 $vaksin_1       = 1;
-                                $jenis_vaksin_1 = $cells[2];
-                                $tgl_vaksin_2   = $this->cek_is_date($cells[3]);
+                                $jenis_vaksin_1 = $this->jenisVaksin($cells[2]);
+                                $tgl_vaksin_2   = $this->cekTgl($cells[3]);
                                 if (! empty($tgl_vaksin_2)) {
                                     $vaksin_2       = 1;
-                                    $jenis_vaksin_2 = $cells[4];
-                                    $tgl_vaksin_3   = $this->cek_is_date($cells[5]);
+                                    $jenis_vaksin_2 = $this->jenisVaksin($cells[4], $jenis_vaksin_1);
+                                    $tgl_vaksin_3   = $this->cekTgl($cells[5]);
                                     if (! empty($tgl_vaksin_3)) {
                                         $vaksin_3       = 1;
-                                        $jenis_vaksin_3 = $cells[6];
+                                        $jenis_vaksin_3 = $this->jenisVaksin($cells[6], $jenis_vaksin_2);
                                     } else {
+                                        $pesan .= "Pesan Lainnya : Baris {$nomor_baris} kolom vaksin-3 tidak valid, hanya vaksin 1 dan 2 yang tersimpan.</br>";
                                         $vaksin_3       = 0;
                                         $tgl_vaksin_3   = null;
                                         $jenis_vaksin_3 = null;
                                     }
                                 } else {
-                                    $vaksin_2       = 0;
-                                    $tgl_vaksin_2   = null;
-                                    $jenis_vaksin_2 = null;
+                                    $pesan .= "Pesan Lainnya : Baris {$nomor_baris} kolom vaksin-2 tidak valid, hanya vaksin 1 yang tersimpan.</br>";
+                                    $vaksin_2       = $vaksin_3       = 0;
+                                    $tgl_vaksin_2   = $tgl_vaksin_3   = null;
+                                    $jenis_vaksin_2 = $jenis_vaksin_3 = null;
                                 }
                             } else {
                                 // Kolom vaksin 1 tidak boleh kosong jika tunda == 1
-                                $pesan .= "Pesan Gagal : Baris {$nomor_baris} Kolom Vaksin-1 Tidak Boleh Kosong Jika Tidak Tunda (0)</br>";
+                                $pesan .= "Pesan Gagal : Baris {$nomor_baris} kolom vaksin-1 tidak valid.</br>";
                                 $gagal++;
                                 $outp = false;
 
                                 continue;
                             }
+                        } else {
+                            $tunda      = 1;
+                            $keterangan = $cells[7];
                         }
 
                         $dataVaksin = [
@@ -567,14 +567,23 @@ class Vaksin_covid_model extends MY_Model
             ->row_array();
     }
 
-    protected function cek_is_date($cells)
+    protected function cekTgl(string $value = '')
     {
-        if ($cells->isDate()) {
-            $value = $cells->getValue()->format('Y-m-d');
-        } else {
-            $value = (string) $cells;
+        return (date('Y-m-d', strtotime($value)) == $value) ? $value : false;
+    }
+
+    protected function jenisVaksin(string $cells = '', $default = '')
+    {
+        if (empty($cells)) {
+            $this->load->model('referensi_model');
+
+            if (! $default) {
+                return $this->referensi_model->list_ref(JENIS_VAKSIN)[0];
+            }
+
+            return $default;
         }
 
-        return $value;
+        return $cells;
     }
 }
