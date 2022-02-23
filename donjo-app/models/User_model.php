@@ -77,7 +77,7 @@ class User_model extends CI_Model
 
         $this->_username = $username = trim($this->input->post('username'));
         $this->_password = $password = trim($this->input->post('password'));
-        $sql             = 'SELECT id, password, id_grup, nama, session FROM user WHERE username = ?';
+        $sql             = 'SELECT * FROM user WHERE username = ?';
 
         // User 'admin' tidak bisa di-non-aktifkan
         if ($username !== 'admin') {
@@ -138,6 +138,7 @@ class User_model extends CI_Model
                 $this->session->siteman_wait = 0;
                 $this->session->siteman_try  = 4;
                 $this->session->fm_key       = $this->set_fm_key($row->id . $row->id_grup . $row->sesi);
+                $this->session->isAdmin      = $row;
                 $this->last_login($this->session->user);
 
                 if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {

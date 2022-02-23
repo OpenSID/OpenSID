@@ -181,6 +181,18 @@ function AmbilVersi()
 }
 
 /**
+ * Mengembalikan nomor versi database
+ *
+ * @return string
+ */
+if (! function_exists('version')) {
+    function version()
+    {
+        return VERSI_DATABASE;
+    }
+}
+
+/**
  * favico_desa
  *
  * Mengembalikan path lengkap untuk file favico desa

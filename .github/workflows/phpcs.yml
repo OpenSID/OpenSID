@@ -5,6 +5,7 @@ on:
     branches:
       - bug-fix
       - rilis-dev
+      - konversi-ke-blade
   pull_request:
     branches:
       - bug-fix

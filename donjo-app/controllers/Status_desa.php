@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Status_desa extends Admin_Controller
 {
+    protected $layout = 'admin.status_desa.';
+
     public function __construct()
     {
         parent::__construct();
@@ -54,9 +56,10 @@ class Status_desa extends Admin_Controller
         $cache     = 'idm_' . $tahun . '_' . $kode_desa;
 
         if (cek_koneksi_internet()) {
-            $this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/{$kode_desa}/{$tahun}", $cache)
+            $this->data_publik
+                ->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/{$kode_desa}/{$tahun}", $cache)
                 ->set_interval(7)
-                ->set_cache_folder($this->config->item('cache_path'));
+                ->set_cache_folder(config_item('cache_path'));
 
             $idm = $this->data_publik->get_url_content();
             if ($idm->body->error) {
@@ -69,7 +72,7 @@ class Status_desa extends Admin_Controller
             ];
         }
 
-        $this->render('home/idm', $data);
+        return view($this->layout . 'index', $data);
     }
 
     public function perbaharui(int $tahun)
@@ -80,9 +83,10 @@ class Status_desa extends Admin_Controller
 
             $this->cache->file->delete($cache);
             $this->session->set_flashdata('tahun', $tahun);
-            $this->session->success = 1;
+
+            set_session('success', 'Berhasil Perbaharui Status IDM ' . ucwords($this->setting->sebutan_desa) . ' Tahun ' . $tahun);
         }
 
-        redirect('status_desa');
+        redirect($this->controller);
     }
 }

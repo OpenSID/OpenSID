@@ -43,7 +43,11 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->notPath('third_party/*')
     ->notPath('views/*')
     ->in([
+        __DIR__ . '/app',
         __DIR__ . '/donjo-app',
+    ])
+    ->append([
+        __DIR__ . '/index.php',
     ])
     ->name('*.php')
     ->ignoreDotFiles(true)

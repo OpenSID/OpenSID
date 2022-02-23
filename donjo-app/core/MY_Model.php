@@ -312,4 +312,19 @@ class MY_Model extends CI_Model
 
         return false;
     }
+
+    public function timestamps($tabel = '')
+    {
+        // Kolom created_at
+        if (! $this->db->field_exists('created_at', $tabel)) {
+            $hasil = $this->dbforge->add_column($tabel, 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
+        }
+
+        // Kolom updated_at
+        if (! $this->db->field_exists('updated_at', $tabel)) {
+            $hasil = $this->dbforge->add_column($tabel, 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+        }
+
+        return $hasil;
+    }
 }

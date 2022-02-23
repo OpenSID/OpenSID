@@ -9,12 +9,17 @@
 	],
 	"require": {
 		"php": "^7.3",
+		"agungsugiarto/codeigniter-datables": "1.x-dev",
 		"box/spout": "^3.3",
 		"codeigniter/framework": "^3.1",
 		"google/apiclient": "^2.11",
+		"illuminate/database": "^8.78",
+		"illuminate/pagination": "^8.79",
+		"jenssegers/blade": "^1.4",
 		"mike42/escpos-php": "^3.0",
 		"simplehtmldom/simplehtmldom": "^2.0@RC",
 		"spipu/html2pdf": "^5.2",
+		"symfony/var-dumper": "^5.4",
 		"themes/esensi": "dev-main",
 		"themes/natra": "dev-premium"
 	},
@@ -35,6 +40,11 @@
 	],
 	"minimum-stability": "dev",
 	"prefer-stable": true,
+	"autoload": {
+		"psr-4": {
+			"App\\": "app/"
+		}
+	},
 	"extra": {
 		"google/apiclient-services": [
 			"Script",

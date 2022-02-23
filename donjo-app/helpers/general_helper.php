@@ -42,10 +42,52 @@ if (! function_exists('asset')) {
     }
 }
 
-if (! function_exists('set_session')) {
-    function set_session($status = 'success', $pesan = '')
+if (! function_exists('view')) {
+    /**
+     * Get the evaluated view contents for the given view.
+     *
+     * @param string|null                                   $view
+     * @param array|\Illuminate\Contracts\Support\Arrayable $data
+     * @param array                                         $mergeData
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    function view($view = null, $data = [], $mergeData = [])
     {
-        return get_instance()->session->set_flashdata($status, $pesan);
+        $CI = &get_instance();
+
+        $factory = new \Jenssegers\Blade\Blade(config_item('views_blade'), config_item('cache_blade'));
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        $factory->share([
+            'auth'         => $CI->session->isAdmin,
+            'controller'   => $CI->controller,
+            'desa'         => $CI->header['desa'],
+            'list_setting' => $CI->list_setting,
+            'modul'        => $CI->header['modul'],
+            'modul_ini'    => $CI->modul_ini,
+            'notif'        => [
+                'surat'     => $CI->header['notif_permohonan_surat'],
+                'inbox'     => $CI->header['notif_inbox'],
+                'komentar'  => $CI->header['notif_komentar'],
+                'langganan' => $CI->header['notif_langganan'],
+            ],
+            'sub_modul_ini' => $CI->sub_modul_ini,
+            'setting'       => $CI->setting,
+            'token'         => $CI->security->get_csrf_token_name(),
+        ]);
+
+        echo $factory->render($view, $data, $mergeData);
+    }
+}
+
+if (! function_exists('set_session')) {
+    function set_session($key = 'success', $value = '')
+    {
+        return get_instance()->session->set_flashdata($key, $value);
     }
 }
 
@@ -56,6 +98,21 @@ if (! function_exists('session')) {
     }
 }
 
+if (! function_exists('can')) {
+    function can($akses, $controller = '')
+    {
+        $CI = &get_instance();
+        $CI->load->model('user_model');
+
+        if (empty($controller)) {
+            $controller = $CI->controller;
+        }
+
+        return $CI->user_model->hak_akses($CI->grup, $controller, $akses);
+    }
+}
+
+// response()->json(array_data);
 if (! function_exists('json')) {
     function json($content = [], $header = 200)
     {
@@ -69,15 +126,34 @@ if (! function_exists('json')) {
     }
 }
 
+// redirect()->route('example')->with('success', 'information');
 if (! function_exists('redirect_with')) {
-    function redirect_with($status = 'success', $pesan = '', $route = '')
+    function redirect_with($key = 'success', $value = '', $to = '')
     {
-        set_session($status, $pesan);
+        set_session($key, $value);
 
-        if (empty($route)) {
-            $route = get_instance()->controller;
+        if (empty($to)) {
+            $to = get_instance()->controller;
         }
 
-        return redirect($route);
+        return redirect($to);
+    }
+}
+
+// route('example');
+if (! function_exists('route')) {
+    function route($to = null, $params = null)
+    {
+        if (in_array($to, [null, '', '/'])) {
+            return site_url();
+        }
+
+        $to = str_replace('.', '/', $to);
+
+        if (null !== $params) {
+            $to .= '/' . $params;
+        }
+
+        return site_url($to);
     }
 }

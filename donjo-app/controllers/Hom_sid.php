@@ -35,68 +35,81 @@
  *
  */
 
+use App\Libraries\Parsedown;
+use App\Libraries\Release;
+use App\Models\Bantuan;
+use App\Models\Kelompok;
+use App\Models\Keluarga;
+use App\Models\LogSurat;
+use App\Models\Penduduk;
+use App\Models\PendudukMandiri;
+use App\Models\Rtm;
+use App\Models\Wilayah;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Hom_sid extends Admin_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        $this->modul_ini = 1;
-    }
-
     public function index()
     {
-        $this->load->library('parsedown');
-        $this->load->model(['surat_model', 'database_model', 'mandiri_model']);
+        $this->modul_ini = 1;
 
+        $data = [
+            'rilis'         => $this->getUpdate(),
+            'bantuan'       => $this->bantuan(),
+            'penduduk'      => Penduduk::status()->count(),
+            'keluarga'      => Keluarga::status()->count(),
+            'rtm'           => Rtm::status()->count(),
+            'kelompok'      => Kelompok::status()->tipe()->count(),
+            'dusun'         => Wilayah::dusun()->count(),
+            'pendaftaran'   => PendudukMandiri::status()->count(),
+            'surat'         => LogSurat::count(),
+            'catatan_rilis' => $this->catatan(),
+        ];
+
+        return view('admin.home.index', $data);
+    }
+
+    private function getUpdate()
+    {
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
-            $this->load->library('release');
-
             $url_rilis = ($this->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
 
-            $this->release->set_api_url($url_rilis)
+            $release = new Release();
+            $release->set_api_url($url_rilis)
                 ->set_interval(0)
                 ->set_current_version($this->versi_setara)
-                ->set_cache_folder($this->config->item('cache_path'));
+                ->set_cache_folder(config_item('cache_path'));
 
-            $data['update_available'] = $this->release->is_available();
-            $data['current_version']  = 'v' . VERSION;
-            $data['latest_version']   = $this->release->get_latest_version();
-            $data['release_name']     = $this->release->get_release_name();
-            $data['release_body']     = $this->release->get_release_body();
-            $data['url_download']     = $this->release->get_release_download();
+            $info['update_available'] = $release->is_available();
+            $info['current_version']  = 'v' . VERSION;
+            $info['latest_version']   = $release->get_latest_version();
+            $info['release_name']     = $release->get_release_name();
+            $info['release_body']     = $release->get_release_body();
+            $info['url_download']     = $release->get_release_download();
 
             if ($this->versi_setara) {
-                $data['current_version'] .= '(' . $this->release->get_current_version() . ')';
+                $info['current_version'] .= '(' . $release->get_current_version() . ')';
             }
         }
 
-        // Catatan rilis
-        $konten                = file_get_contents('catatan_rilis.md');
-        $data['catatan_rilis'] = $this->parsedown->text($konten);
-
-        // Pengambilan data penduduk untuk ditampilkan widget Halaman Dashboard (modul Home SID)
-        $data['penduduk']     = $this->header_model->penduduk_total();
-        $data['keluarga']     = $this->header_model->keluarga_total();
-        $data['bantuan']      = $this->header_model->bantuan_total();
-        $data['kelompok']     = $this->header_model->kelompok_total();
-        $data['rtm']          = $this->header_model->rtm_total();
-        $data['dusun']        = $this->header_model->dusun_total();
-        $data['pendaftaran']  = $this->mandiri_model->jml_mandiri_non_aktif();
-        $data['jumlah_surat'] = $this->surat_model->surat_total();
-
-        $this->render('home/desa', $data);
+        return $info;
     }
 
-    public function dialog_pengaturan()
+    private function bantuan()
     {
-        $this->load->model('program_bantuan_model');
+        $program                = Bantuan::with('peserta')->whereId($this->setting->dashboard_program_bantuan)->first();
+        $bantuan['jumlah']      = $program ? $program->peserta->count() : Bantuan::status()->count();
+        $bantuan['nama']        = $program ? $program->nama : 'Bantuan';
+        $bantuan['link_detail'] = $program ? ('statistik/clear/50' . $this->setting->dashboard_program_bantuan) : 'program_bantuan';
 
-        $data['list_program_bantuan'] = $this->program_bantuan_model->list_program();
-        $data['sasaran']              = unserialize(SASARAN);
-        $data['form_action']          = site_url('setting/update');
+        return $bantuan;
+    }
 
-        $this->load->view('home/pengaturan_form', $data);
+    private function catatan()
+    {
+        $catatan = new Parsedown();
+
+        return $catatan->text(file_get_contents('catatan_rilis.md'));
     }
 }

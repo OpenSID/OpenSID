@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\User;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class User_setting extends Admin_Controller
@@ -171,5 +173,14 @@ class User_setting extends Admin_Controller
         $this->session->success = 1;
 
         return redirect('main');
+    }
+
+    // Baru ORM
+    public function update_a()
+    {
+        $user = User::find($this->session->isAdmin->id) ?? show_404();
+        $user->update($this->request);
+
+        redirect($_SERVER['HTTP_REFERER']);
     }
 }
