@@ -356,7 +356,7 @@ class Web_widget_model extends MY_Model
         $data['widget_keuangan'] = $this->keuangan_grafik_model->widget_keuangan();
     }
 
-    // widget statis di ambil dari folder desa/widget dan desa/themes/nama_tema/widgets
+    // widget statis di ambil dari folder desa/widget, vendor/themes/nama_tema/widgets dan desa/themes/nama_tema/widgets
     public function list_widget_baru()
     {
         $this->load->model('theme_model');
@@ -366,11 +366,15 @@ class Web_widget_model extends MY_Model
         $list_widget = array_merge($list_widget, $widget_desa);
 
         foreach ($tema_desa as $tema) {
-            $tema = str_replace('desa/', '', $tema);
 
-            if ($tema !== 'esensi' || $tema !== 'natra') {
-                $list = $this->widget('desa/themes/' . $tema . '/widgets/*.php');
+            if (in_array($tema, ['esensi', 'natra'])) {
+                $tema = 'vendor/themes/' . $tema;
+            } else {
+                $tema = str_replace('desa/', '', $tema);
+                $tema = 'desa/themes/' . $tema;
             }
+
+            $list = $this->widget($tema . '/widgets/*.php');
 
             $list_widget = array_merge($list_widget, $list);
         }
