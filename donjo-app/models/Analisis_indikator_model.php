@@ -237,7 +237,7 @@ class Analisis_indikator_model extends MY_Model
         }
 
         $data = $this->validasi_data($this->input->post());
-        
+
         $data['id_master'] = $this->session->analisis_master;
         $outp              = $this->db->where('id', $id)->update('analisis_indikator', $data);
         status_sukses($outp); //Tampilkan Pesan
