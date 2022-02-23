@@ -366,7 +366,6 @@ class Web_widget_model extends MY_Model
         $list_widget = array_merge($list_widget, $widget_desa);
 
         foreach ($tema_desa as $tema) {
-
             if (in_array($tema, ['esensi', 'natra'])) {
                 $tema = 'vendor/themes/' . $tema;
             } else {
