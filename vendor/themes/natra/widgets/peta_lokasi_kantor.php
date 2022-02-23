@@ -35,7 +35,7 @@
 
 <!-- widget Peta Lokasi Kantor Desa -->
 <div class="single_bottom_rightbar">
-	<h2><i class="fa fa-map-marker"></i> <?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?></h2>
+	<h2><i class="fa fa-map-marker"></i>&ensp;<?= $judul_widget ?></h2>
 		<div class="box-body">
 			<div id="map_canvas" style="height:200px;"></div>
 			<button class="btn btn-success btn-block"><a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" style="color:#fff;" rel="noopener noreferrer" target="_blank">Buka Peta</a></button>

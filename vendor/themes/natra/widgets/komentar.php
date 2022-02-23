@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_bottom_rightbar">
-	<h2><i class="fa fa-comments"></i> Komentar Terbaru</h2>
+	<h2><i class="fa fa-comments"></i>&ensp;<?= $judul_widget ?></h2>
 	<div id="mostPopular2" class="tab-pane fade in active" role="tabpanel">
 		<ul id="ul-menu">
 			<div class="box-body">

@@ -3,7 +3,7 @@
 <div class="archive_style_1">
 	<div class="single_bottom_rightbar">
 		<h2 class="box-title">
-			<i class="fa fa-bar-chart-o"></i> Statistik Pengunjung
+			<i class="fa fa-bar-chart-o"></i>&ensp;<?= $judul_widget ?>
 		</h2>
 		<div class="data-case-container">
 			<ul class="ants-right-headline">

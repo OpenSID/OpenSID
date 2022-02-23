@@ -11,7 +11,7 @@
 
 	<div class="archive_style_1">
 		<div class="single_bottom_rightbar">
-			<h2 class="box-title"><i class="fa fa-calendar"></i> JADWAL SHOLAT & IMSAK</h2>
+			<h2 class="box-title"><i class="fa fa-calendar"></i>&ensp;<?= $judul_widget ?></h2>
 			<div class="data-case-container">
 				<ul class="ants-right-headline">
 					<li class="info-date"><span data-name="kota"><i class="fa fa-spinner fa-pulse"></i></span></li>

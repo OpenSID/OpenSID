@@ -130,6 +130,16 @@ class ComposerStaticInit644d767495344502331c4119dcffcbfa
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'o' => 
+        array (
+            'org\\bovigo\\vfs' => 
+            array (
+                0 => __DIR__ . '/..' . '/mikey179/vfsstream/src/main/php',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Datamatrix' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/datamatrix.php',
@@ -178,6 +188,7 @@ class ComposerStaticInit644d767495344502331c4119dcffcbfa
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit644d767495344502331c4119dcffcbfa::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit644d767495344502331c4119dcffcbfa::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit644d767495344502331c4119dcffcbfa::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit644d767495344502331c4119dcffcbfa::$classMap;
 
         }, null, ClassLoader::class);

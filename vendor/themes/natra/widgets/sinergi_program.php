@@ -36,7 +36,7 @@
 	}
 </style>
 <div class="single_bottom_rightbar">
-	<h2 class="box-title"><i class="fa fa-external-link"></i> Sinergi Program</h2>
+	<h2 class="box-title"><i class="fa fa-external-link"></i>&ensp;<?= $judul_widget ?></h2>
 	<div id="sinergi_program" class="box-body">
 		<table>
 			<?php foreach($sinergi_program as $key => $program) :

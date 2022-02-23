@@ -3,8 +3,7 @@
 <div class="">
 	<div class="single_bottom_rightbar">
 		<h2>
-			<i class="fa fa-map-marker"></i>
-			<?="Wilayah ".ucwords($this->setting->sebutan_desa)?>
+			<i class="fa fa-map-marker"></i>&ensp;<?= $judul_widget ?>
 		</h2>
 	</div>
 	<div class="single_bottom_rightbar">

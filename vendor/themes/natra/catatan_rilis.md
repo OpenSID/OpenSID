@@ -4,6 +4,7 @@ Catatan Rilis Tema Natra v22.02-pasca, sbb:
 2. Hapus fuction fallback_default() yang sudah tidak digunakan.
 3. Perbaiki captcha yang tidak tampil di awal buka detail artikel.
 4. Halaman vaksin.
+5. Sesuaikan widget.
 
 
 ****************************************************************
