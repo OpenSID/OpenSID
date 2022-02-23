@@ -4,7 +4,7 @@
 	.highcharts-xaxis-labels tspan {font-size: 8px;}
 </style>
 <div class="single_bottom_rightbar">
-	<h2><a href="<?= site_url("first/statistik/4")?>"><i class="fa fa-bar-chart"></i> Statistik Penduduk</a></h2>
+	<h2><a href="<?= site_url("first/statistik/4") ?>"><i class="fa fa-bar-chart"></i>&ensp;<?= $judul_widget ?></a></h2>
 	<script type="text/javascript">
 		$(function () {
 			var chart_widget;

@@ -2,7 +2,7 @@
 
 <div class="single_bottom_rightbar">
 	<h2>
-		<i class="fa fa-archive"></i> <a href="<?= site_url(); ?>arsip">Arsip Artikel</a>
+		<i class="fa fa-archive"></i> <a href="<?= site_url('arsip'); ?>">&ensp;<?= $judul_widget ?></a>
 	</h2>
 		<ul role="tablist" class="nav nav-tabs custom-tabs">
 			<li class="active" role="presentation"><a data-toggle="tab" role="tab" aria-controls="home" href="#terkini">Terbaru</a></li>
