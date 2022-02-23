@@ -237,11 +237,7 @@ class Analisis_indikator_model extends MY_Model
         }
 
         $data = $this->validasi_data($this->input->post());
-
-        if (($data['id_tipe'] == 1 || $data['id_tipe'] == 2) && ! $data['referensi']) {
-            $this->db->where('id_indikator', $id)->delete('analisis_parameter');
-        }
-
+        
         $data['id_master'] = $this->session->analisis_master;
         $outp              = $this->db->where('id', $id)->update('analisis_indikator', $data);
         status_sukses($outp); //Tampilkan Pesan
