@@ -52,6 +52,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 44. [#4927](https://github.com/OpenSID/OpenSID/issues/4927) Perbaiki data tahun yang ditampilkan sesuai dengan data yang akan diubah pada modul ubah data pembangunan.
 45. [#4907](https://github.com/OpenSID/OpenSID/issues/4907) Perbaiki username menggunakan tanda baca titik (.) tidak tampil di daftar pengguna.
 46. [#4908](https://github.com/OpenSID/OpenSID/issues/4908) Perbaiki tanda baca titik, petik satu, dan koma pada nama pengguna tidak tampil di daftar pengguna.
+47. [#4931](https://github.com/OpenSID/OpenSID/issues/4931) Perbaiki jumlah data di layanan mandiri tidak sesuai seharusnya.
 
 #### Perubahan Teknis
 
