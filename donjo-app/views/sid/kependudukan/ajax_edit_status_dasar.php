@@ -53,7 +53,7 @@
 					</div>
 					<div class="form-group mati">
 						<label for="anak_ke">Anak Ke-</label>
-						<input name="anak_ke" class="form-control input-sm" type="number" min="1" max="20" placeholder="Anak Ke" value="<?= $nik['kelahiran_anak_ke'] ?>"></input>
+						<input name="anak_ke" class="form-control input-sm" type="number" min="1" placeholder="Anak Ke" value="<?= $nik['kelahiran_anak_ke'] ?>"></input>
 					</div>
 					<div class="form-group mati">
 						<label for="akta_mati">Nomor Akta Kematian</label>
@@ -125,6 +125,10 @@
 						$("textarea[name='alamat_tujuan']").addClass('required');
 						$('.mati').hide();
 						$("input[name='meninggal_di']").removeClass('required');
+						$("input[name='jam_mati']").removeClass('required');
+						$("select[name='sebab']").removeClass('required');
+						$("select[name='penolong_mati']").removeClass('required');
+						$("input[name='anak_ke']").removeClass('required').removeAttr( "min" );;
 					} else {
 						$('.mati').show();
 						$("input[name='meninggal_di']").addClass('required');
@@ -132,9 +136,9 @@
 						$("select[name='ref_pindah']").removeClass('required');
 						$("textarea[name='alamat_tujuan']").removeClass('required');
 						$("input[name='jam_mati']").show().addClass('required');
-						$("input[name='sebab']").addClass('required');
-						$("input[name='penolong_mati']").addClass('required');
-						$("input[name='anak_ke']").addClass('required');
+						$("select[name='sebab']").addClass('required');
+						$("select[name='penolong_mati']").addClass('required');
+						$("input[name='anak_ke']").addClass('required').attr( "min", 1 );
 					}
 				} else {
 					$('.pindah').hide();
@@ -142,6 +146,10 @@
 					$("textarea[name='alamat_tujuan']").removeClass('required');
 					$('.mati').hide();
 					$("input[name='meninggal_di']").removeClass('required');
+					$("input[name='jam_mati']").removeClass('required');
+					$("select[name='sebab']").removeClass('required');
+					$("select[name='penolong_mati']").removeClass('required');
+					$("input[name='anak_ke']").removeClass('required').removeAttr( "min" );;
 				}
 			});
 			$('#status_dasar').trigger('change');
