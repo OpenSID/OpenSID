@@ -27,6 +27,7 @@
 						</div>
 						<div class="box-body">
 							<div class="row">
+								<?php $disabled = ($analisis_master['jenis'] == 1 || $analisis_indikator['referensi'] || $ubah == false) ? 'disabled' : '' ?>
 								<div class="col-sm-12">
 									<div class="form-group">
 										<label class="col-sm-3 control-label" for="referensi">Hubungkan Dengan Data <?= $analisis_master['subjek_nama']; ?></label>
@@ -42,7 +43,6 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<?php $disabled = jecho(($analisis_master['jenis'] == 1 || $analisis_indikator['referensi']), true, 'disabled'); ?>
 										<label class="col-sm-3 control-label" for="id_tipe">Tipe Pertanyaan</label>
 										<div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
 											<label id="sx3" <?= $disabled ?> class="<?= $disabled ?> tipe btn btn-info btn-flat btn-sm col-xs-12 col-sm-6 col-lg-3 form-check-label <?= jecho($analisis_indikator['id_tipe'] == '1' || $analisis_indikator['id_tipe'] == null, true, 'active') ?>">
