@@ -6,9 +6,9 @@ class First_menu_m extends MY_Model{
 		parent::__construct();
 	}
 
-	private function list_submenu($menu_id)
+	private function list_submenu($parrent = 0)
 	{
-		$data	= $this->db->select('*')->where(array('parrent'=>$menu_id, 'enabled'=>1, 'tipe'=>3))->order_by('urut')->get('menu')->result_array();
+		$data	= $this->db->where(['parrent' => $parrent, 'enabled'=>1])->order_by('urut')->get('menu')->result_array();
 		for ($i=0; $i<count($data); $i++)
 		{
 			// 99 adalah link eksternal
@@ -23,11 +23,10 @@ class First_menu_m extends MY_Model{
 
 	public function list_menu_atas()
 	{
-		$sql = "SELECT m.* FROM menu m WHERE m.parrent = 1 AND m.enabled = 1 AND m.tipe = 1 order by urut asc";
-		$query	= $this->db->query($sql);
-		$data	= $query->result_array();
+		$data	= $this->db->where(['parrent' => 0, 'enabled'=>1])->order_by('urut')->get('menu')->result_array();
 		for ($i=0; $i<count($data); $i++)
 		{
+			// 99 adalah link eksternal
 			if ($data[$i]['link_tipe'] != 99)
 			{
 				$data[$i]['link'] = $this->menu_slug($data[$i]['link']);

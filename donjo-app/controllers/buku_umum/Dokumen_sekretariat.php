@@ -45,19 +45,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dokumen_sekretariat extends Admin_Controller {
 
+	private $list_session = ['filter', 'cari', 'jenis_peraturan', 'tahun'];
+	private $_set_page;
+
 	public function __construct()
 	{
 		parent::__construct();
 
 		$this->load->model('web_dokumen_model');
 		$this->load->model('referensi_model');
+		$this->_set_page = ['50', '100', '200'];
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 302;
-		$this->_list_session = ['filter', 'cari', 'jenis_peraturan'];
 	}
 
 	public function index($kat=2, $p=1, $o=0)
 	{
+		if ($this->input->post('per_page') !== NULL) $this->session->per_page = $this->input->post('per_page');
 		redirect("dokumen_sekretariat/peraturan_desa/$kat/$p/$o");
 	}
 
@@ -68,17 +72,17 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['o'] = $o;
 		$data['kat'] = $kat;
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+		foreach ($this->list_session as $list) {
+			$data[$list] = $this->session->$list ?: '';
+		}
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page']=$_POST['per_page'];
-		$data['per_page'] = $_SESSION['per_page'];
-
+		$data['func'] = "index/$kat";
+		$data['set_page'] = $this->_set_page;
+		$data['per_page'] = $this->session->per_page;
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 		$data['paging'] = $this->web_dokumen_model->paging($kat, $p, $o);
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
+		$data['list_tahun'] = $this->web_dokumen_model->list_tahun($kat);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
@@ -100,15 +104,13 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['subtitle'] = ($kat == '3') ? "Buku Peraturan Desa" : "Buku Keputusan Kepala Desa";
 		$data['selected_nav'] = ($kat == '3') ? 'peraturan' : 'keputusan';
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function clear($kat=2)
 	{
-		$this->session->unset_userdata($this->_list_session);
+		$this->session->unset_userdata($this->list_session);
+		$this->session->per_page = $this->_set_page[0];
 		redirect("dokumen_sekretariat/peraturan_desa/$kat");
 	}
 

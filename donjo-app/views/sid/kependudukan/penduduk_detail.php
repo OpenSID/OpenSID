@@ -306,15 +306,12 @@
 															</tr>
 														<?php endif; ?>
 														<tr>
-															<td>Nama Asuransi</td><td >:</td><td><?= $penduduk['asuransi'] ?></td>
+															<td>Nama/Nomor Asuransi Kesehatan</td><td >:</td><td><?= $penduduk['asuransi'] . ' / ' . strtoupper($penduduk['no_asuransi']) ?></td>
 														</tr>
-														<?php if (!empty($penduduk['id_asuransi']) and $penduduk['id_asuransi'] <> '1'): ?>
-															<tr>
-																<td><?= ($penduduk['id_asuransi'] == '99') ? 'Nama/nomor Asuransi' : 'No Asuransi' ?></td>
-																<td >:</td>
-																<td><?= strtoupper($penduduk['no_asuransi'])?></td>
-															</tr>
-														<?php endif; ?>
+														<tr>
+															<td>Nomor BPJS Ketenagakerjaan</td><td >:</td><td><?= $penduduk['bpjs_ketenagakerjaan'] ?></td>
+														</tr>
+
 														<tr>
 															<th colspan="3" class="subtitle_head"><strong>DATA LAINNYA</strong></th>
 														</tr>

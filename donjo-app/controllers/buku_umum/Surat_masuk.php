@@ -53,7 +53,6 @@ class Surat_masuk extends Admin_Controller {
 		$this->load->helper('download');
 		$this->load->model('surat_masuk_model');
 		$this->load->model('klasifikasi_model');
-		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 
 		$this->load->model('penomoran_surat_model');
@@ -96,12 +95,9 @@ class Surat_masuk extends Admin_Controller {
 		$data['main_content'] = 'surat_masuk/table';
 		$data['subtitle'] = "Buku Agenda - Surat Masuk";
 		$data['selected_nav'] = 'agenda_masuk';
-		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('bumindes/umum/main', $data);
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -202,6 +198,8 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong_ttd'] = $this->pamong_model->get_ub();
+		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
 		$data['form_action'] = site_url("surat_masuk/disposisi/$id");
 		$this->load->view('global/ttd_pamong', $data);
 	}
@@ -210,8 +208,8 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['aksi'] = "Cetak";
 		$data['pamong'] = $this->pamong_model->list_data();
-		$data['pamong_ttd'] = $this->pamong_model->get_ub();
-		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_masuk/cetak/$o");
 		$this->load->view('surat_masuk/ajax_cetak', $data);
@@ -221,8 +219,8 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['aksi'] = "Unduh";
 		$data['pamong'] = $this->pamong_model->list_data();
-		$data['pamong_ttd'] = $this->pamong_model->get_ub();
-		$data['pamong_ketahui'] = $this->pamong_model->get_ttd();
+		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['tahun_surat'] = $this->surat_masuk_model->list_tahun_surat();
 		$data['form_action'] = site_url("surat_masuk/unduh/$o");
 		$this->load->view('surat_masuk/ajax_cetak', $data);
@@ -232,9 +230,10 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['input'] = $_POST;
 		$_SESSION['filter'] = $data['input']['tahun'];
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->surat_masuk_model->list_data($o, 0, 10000);
 		$this->load->view('surat_masuk/surat_masuk_print', $data);
 	}
@@ -243,9 +242,10 @@ class Surat_masuk extends Admin_Controller {
 	{
 		$data['input'] = $_POST;
 		$_SESSION['filter'] = $data['input']['tahun'];
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
 		$data['main'] = $this->surat_masuk_model->list_data($o, 0, 10000);
 		$this->load->view('surat_masuk/surat_masuk_excel', $data);
 	}
@@ -253,7 +253,8 @@ class Surat_masuk extends Admin_Controller {
 	public function disposisi($id)
 	{
 		$data['input'] = $_POST;
-		$data['desa'] = $this->config_model->get_data();
+		$data['desa'] = $this->header['desa'];
+		$data['pamong'] = $this->pamong_model->list_data();
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
 		$data['ref_disposisi'] = $this->surat_masuk_model->get_pengolah_disposisi();

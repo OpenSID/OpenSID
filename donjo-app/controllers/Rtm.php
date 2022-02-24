@@ -53,9 +53,10 @@ class Rtm extends Admin_Controller {
 		parent::__construct();
 		$this->load->model(['rtm_model', 'wilayah_model', 'program_bantuan_model']);
 		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
+		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas', 'judul_statistik', 'sex', 'bdt']; // Session id_bos
 		$this->modul_ini = 2;
 		$this->sub_modul_ini = 23;
+		$this->set_minsidebar(1);
 	}
 
 	public function clear()
@@ -63,7 +64,7 @@ class Rtm extends Admin_Controller {
 		$this->session->unset_userdata($this->_list_session);
 		$this->session->per_page = $this->_set_page[0];
 		$this->session->order_by = 1;
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function index($p = 1)
@@ -107,7 +108,7 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_data($data['order_by'], $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
 		$data['list_dusun'] = $this->wilayah_model->list_dusun();
-		$this->set_minsidebar(1);
+		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
 
 		$this->render('sid/kependudukan/rtm', $data);
 	}
@@ -124,7 +125,7 @@ class Rtm extends Admin_Controller {
 
 	public function edit_nokk($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data['kk'] = $this->rtm_model->get_rtm($id);
 		$data['form_action'] = site_url("rtm/update_nokk/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_no_rtm', $data);
@@ -132,7 +133,7 @@ class Rtm extends Admin_Controller {
 
 	public function form_old($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/insert/$id");
 		$this->load->view('sid/kependudukan/ajax_add_rtm', $data);
@@ -144,7 +145,7 @@ class Rtm extends Admin_Controller {
 		if ($value != '')
 			$this->session->$filter = $value;
 		else $this->session->unset_userdata($filter);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function dusun()
@@ -154,7 +155,7 @@ class Rtm extends Admin_Controller {
 		if ($dusun != '')
 			$this->session->dusun = $dusun;
 		else $this->session->unset_userdata('dusun');
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function rw()
@@ -164,7 +165,7 @@ class Rtm extends Admin_Controller {
 		if ($rw != '')
 			$this->session->rw = $rw;
 		else $this->session->unset_userdata('rw');
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function rt()
@@ -173,71 +174,71 @@ class Rtm extends Admin_Controller {
 		if ($rt != '')
 			$this->session->rt = $rt;
 		else $this->session->unset_userdata('rt');
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->insert();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert_by_kk()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->insert_by_kk();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert_a()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->insert_a();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function insert_new()
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->insert_new();
 		$this->session->order_by = 6;
 
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function update($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->update($id);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function update_nokk($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->update_nokk($id);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function delete($id = 0)
 	{
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete($id);
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function delete_all()
 	{
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete_all();
-		redirect('rtm');
+		redirect($this->controller);
 	}
 
 	public function anggota($id = 0)
@@ -247,14 +248,13 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
 		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, $data['kepala_kk']['no_kk']);
-		$this->set_minsidebar(1);
-
+		
 		$this->render('sid/kependudukan/rtm_anggota', $data);
 	}
 
 	public function ajax_add_anggota($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$kk = $this->rtm_model->get_kepala_rtm($id);
 		if ($kk)
@@ -270,7 +270,7 @@ class Rtm extends Admin_Controller {
 
 	public function edit_anggota($id_rtm = 0, $id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main'] = $this->rtm_model->get_anggota($id);
 		$data['form_action'] = site_url("rtm/update_anggota/$id_rtm/$id");
@@ -293,7 +293,6 @@ class Rtm extends Admin_Controller {
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/print");
-		$this->set_minsidebar(1);
 
 		$this->render("sid/kependudukan/kartu_rtm", $data);
 	}
@@ -310,30 +309,28 @@ class Rtm extends Admin_Controller {
 
 	public function add_anggota($id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->add_anggota($id);
 		redirect("rtm/anggota/$id");
 	}
 
 	public function update_anggota($id_rtm = 0, $id = 0)
 	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
+		$this->redirect_hak_akses('u');
 		$this->rtm_model->update_anggota($id, $id_rtm);
 		redirect("rtm/anggota/$id_rtm");
 	}
 
 	public function delete_anggota($kk = 0, $id = 0)
 	{
-		$this->session->success = 1;
-		$this->redirect_hak_akses('h', "rtm/anggota/$kk");
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->rem_anggota($kk, $id);
 		redirect("rtm/anggota/$kk");
 	}
 
 	public function delete_all_anggota($kk = 0)
 	{
-		$this->session->success = 1;
-		$this->redirect_hak_akses('h', "rtm/anggota/$kk");
+		$this->redirect_hak_akses('h');
 		$this->rtm_model->rem_all_anggota($kk);
 		redirect("rtm/anggota/$kk");
 	}
@@ -344,5 +341,35 @@ class Rtm extends Admin_Controller {
 		$data['form_action'] = site_url("rtm/daftar/$aksi");
 		$data['form_action_privasi'] = site_url("rtm/daftar/$aksi/1");
 		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
+	}
+
+	public function statistik($tipe = '0', $nomor = 0, $sex = NULL)
+	{
+		if ($sex == NULL)
+		{
+			if ($nomor != 0) $this->session->sex = $nomor;
+			else $this->session->unset_userdata('sex');
+			$this->session->unset_userdata('judul_statistik');
+			redirect($this->controller);
+		}
+
+		$this->session->sex = ($sex == 0) ? NULL : $sex;
+
+		switch ($tipe)
+		{		
+			case 'bdt':
+				$session = 'bdt';
+				$kategori = 'KLASIFIKASI BDT ';
+				break;
+		}
+
+		$this->session->$session = ($nomor != TOTAL) ? $nomor : NULL;
+
+		$judul = $this->rtm_model->get_judul_statistik($tipe, $nomor, $sex);
+		
+		$this->session->unset_userdata('judul_statistik');
+		if ($judul['nama']) $this->session->judul_statistik = $kategori . $judul['nama'];
+
+		redirect($this->controller);
 	}
 }

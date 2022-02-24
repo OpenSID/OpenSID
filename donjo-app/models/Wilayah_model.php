@@ -686,7 +686,8 @@ class Wilayah_model extends MY_Model {
 	// TO DO : Gunakan untuk get_alamat mendapatkan alamat penduduk
 	public function get_alamat_wilayah($data)
 	{
-		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] ".ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
+		$dusun = ($this->setting->sebutan_dusun == '-') ? '' : ucwords(strtolower($this->setting->sebutan_dusun))." ".ucwords(strtolower($data['dusun']));
+		$alamat_wilayah= "$data[alamat] RT $data[rt] / RW $data[rw] " . $dusun;
 
 		return trim($alamat_wilayah);
 	}

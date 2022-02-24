@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="nama">Nama Produk</label>
-								<input name="nama" class="form-control input-sm nama_terbatas required" type="text" placeholder="Nama Produk" minlength="3" maxlength="100" value="<?= $main->nama; ?>"/>
+								<input name="nama" class="form-control input-sm nama_produk required" type="text" placeholder="Nama Produk" minlength="3" maxlength="100" value="<?= $main->nama; ?>"/>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
@@ -149,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 							<div class="form-group">
 								<label class="control-label" for="kode_desa">Deskripsi Produk</label>
-								<textarea name="deskripsi" class="form-control input-sm nama_terbatas required" rows="5"><?= $main->deskripsi; ?></textarea>
+								<textarea name="deskripsi" class="form-control input-sm required" rows="5"><?= $main->deskripsi; ?></textarea>
 							</div>
 						</div>
 						<div class="box-footer">

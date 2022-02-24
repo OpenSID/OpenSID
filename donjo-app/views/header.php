@@ -223,7 +223,7 @@
 										</div>
 									</li>
 								</ul>
-								<?php if (in_array($this->controller, array_column($this->list_setting, 'kategori')) && $this->CI->cek_hak_akses('u', $this->controller)): ?>
+								<?php if ($this->controller == 'pelanggan' && $this->CI->cek_hak_akses('u', $this->controller)): ?>
 									<li>
 										<a href="#" data-remote="false" data-toggle="modal" data-title="Pengaturan <?= ucwords($this->controller); ?>" data-target="#pengaturan">
 											<span><i class="fa fa-gear"></i>&nbsp;</span>

@@ -85,6 +85,11 @@
 								<td><?= $kepala_kk['alamat_wilayah']?></td>
 							</tr>
 							<tr>
+								<td>BDT</td>
+								<td>:</td>
+								<td><?= $kepala_kk['bdt'] ?? '-' ?></td>
+							</tr>
+							<tr>
 								<td>
 									<?= ($program['programkerja']) ? anchor("program_bantuan/peserta/3/$kepala_kk[no_kk]", 'Program Bantuan', 'target="_blank"') : 'Program Bantuan'; ?>
 								</td>

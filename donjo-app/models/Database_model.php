@@ -201,7 +201,7 @@ class Database_model extends CI_Model {
 			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
 		*/
 		$versi = AmbilVersi();
-		$versi = preg_replace('/-premium-pasca|-premium-bugfix|-premium-beta|pasca-|-pasca|-premium/', '', $versi);
+		$versi = preg_replace('/-premium.*|pasca-|-pasca/', '', $versi);
 		$newVersion = array(
 			'value' => $versi
 		);

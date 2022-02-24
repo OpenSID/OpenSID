@@ -5,9 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk konfiramsi belum lengkap
+ * View untuk konfiramsi permohonan surat
  *
- * donjo-app/views/surat/belum_lengkap.php,
+ * donjo-app/views/surat/konfirmasi_permohonan.php,
  *
  */
 
@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <form id="validasi" action="<?= $form_action; ?>" method="post">
 	<div class="modal-body">
 		<div class="form-group">
-			<label class="control-label" for="pesan">Pesan Singkat</label>
+			<label class="control-label" for="pesan">Pesan Singkat Permohonan Surat <?= $judul ?></label>
 			<textarea name="pesan" class="form-control input-sm required" placeholder="Pesan singkat alasan permohonan surat dibatalkan" rows="5"></textarea>
 		</div>
 	</div>

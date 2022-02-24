@@ -65,7 +65,7 @@
 																		<a href="<?= site_url("program_bantuan/expor/$item[id]"); ?>" class="btn bg-navy btn-flat btn-sm" title="Expor"><i class="fa fa-download"></i></a>
 																	<?php endif ?>
 																	<?php if ($this->CI->cek_hak_akses('h')): ?>
-																		<?php if ($item['jml_peserta'] == 0): ?>
+																		<?php if ($item['jml_peserta'] != 0): ?>
 																			<a class="btn bg-maroon btn-flat btn-sm disabled" title="Hapus"><i class="fa fa-trash-o"></i></a>
 																		<?php else: ?>
 																			<a href="#" data-href="<?= site_url("program_bantuan/hapus/$item[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

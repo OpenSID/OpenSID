@@ -344,7 +344,8 @@ class Surat_model extends CI_Model {
 			w.nama AS status_kawin, u.status_kawin as status_kawin_id, f.nama AS warganegara, a.nama AS agama, d.nama AS pendidikan, h.nama AS hubungan, j.nama AS pekerjaan, c.rt AS rt, c.rw AS rw, c.dusun AS dusun, k.no_kk AS no_kk, k.alamat, m.nama as cacat,
 			(select tweb_penduduk.nik from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS nik_kk,
 			(select tweb_penduduk.telepon from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS telepon_kk,
-			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk
+			(select tweb_penduduk.nama AS nama from tweb_penduduk where (tweb_penduduk.id = k.nik_kepala)) AS kepala_kk,
+			r.bdt
 			from tweb_penduduk u
 			left join tweb_penduduk_sex x on u.sex = x.id
 			left join tweb_penduduk_kawin w on u.status_kawin = w.id
@@ -355,6 +356,7 @@ class Surat_model extends CI_Model {
 			left join tweb_cacat m on u.cacat_id = m.id
 			left join tweb_wil_clusterdesa c on u.id_cluster = c.id
 			left join tweb_keluarga k on u.id_kk = k.id
+			left join tweb_rtm r on u.id_rtm = r.no_kk # TODO : ganti nilai tweb_penduduk id_rtm = id pd tweb_rtm dan ganti kolom no_kk menjadi no_rtm
 			left join tweb_penduduk_warganegara f on u.warganegara_id = f.id
 			left join tweb_golongan_darah g on u.golongan_darah_id = g.id
 			WHERE u.id = ?";
@@ -974,6 +976,9 @@ class Surat_model extends CI_Model {
                 "[usia]"                 => "$individu[umur] Tahun",
                 "*usia"                  => "$individu[umur] Tahun",
                 "[warga_negara]"         => $individu['warganegara'],
+
+				// Data RTM
+				"[bdt]"         		 => $individu['bdt'] ?? '-',
 			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 
@@ -1146,7 +1151,6 @@ class Surat_model extends CI_Model {
 		$input = $data['input'];
 		if ($data['surat']['qr_code'] == 1)
 		{
-			$this->verifikasi_surat($data, $nama_surat);
 			$this->buat_qrcode($data, $nama_surat);
 		}
 		$this->lampiran($data, $nama_surat, $lampiran);
@@ -1288,29 +1292,6 @@ class Surat_model extends CI_Model {
 		];
 		$this->session->qrcode = $qrcode;
 		qrcode_generate($qrcode['pathqr'], $qrcode['namaqr'], $qrcode['isiqr'], $qrcode['logoqr'], $qrcode['sizeqr'], $qrcode['foreqr']);
-	}
-
-	public function verifikasi_surat($data, $nama_surat)
-	{
-		$surat = $data['surat'];
-		$config = $data['config'];
-		$individu = $data['individu'];
-		$tanggal = tgl_indo(date("Y m d"));
-		$check_file = pathinfo($nama_surat, PATHINFO_FILENAME).".php";
-
-		ob_start();
-			include("donjo-app/views/surat/verifikasi_surat.php");
-		$content = ob_get_clean();
-		file_put_contents(LOKASI_ARSIP . $check_file, $content);
-	}
-
-	public function get_surat_check($id)
-	{
-		$nama_berkas = $this->db->select('nama_surat')
-			->where('id', $id)
-			->get('log_surat')->row()->nama_surat;
-		$nama_surat_check = pathinfo($nama_berkas, PATHINFO_FILENAME).".php";
-		return $nama_surat_check;
 	}
 
 	// Periksa apakah template rtf berisi sematan qrcode

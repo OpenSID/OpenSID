@@ -36,7 +36,7 @@ return array(
     // 'noise_level'      => 4,         // how much random noise to add (0-10)
     // 'perturbation'     => 0.7,       // distoration level
 
-    // 'use_random_spaces'   => true,
+    'use_random_spaces'   => true,
     // 'use_random_baseline' => true,
     // 'use_text_angles'     => true,
     // 'use_random_boxes' => false,
@@ -51,6 +51,8 @@ return array(
     // 'ttf_file'         => './AHGBold.ttf',   // TTF file for captcha text
 
     //'captcha_type' => Securimage::SI_CAPTCHA_WORDS, // Securimage::SI_CAPTCHA_STRING || Securimage:: SI_CAPTCHA_MATHEMATIC || Securimage::SI_CAPTCHA_WORDS
+
+    'captcha_type' => Securimage:: SI_CAPTCHA_MATHEMATIC,
 
     //'display_value' => 'ABC 123', // Draws custom text on captcha
 
