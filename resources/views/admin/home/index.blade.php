@@ -24,6 +24,7 @@
 @include('admin.layouts.components.notifikasi')
 
 @include('admin.home.rilis')
+@include('admin.home.bantuan')
 
 <div class="row">
   <div class="col-md-6">
@@ -112,6 +113,7 @@
                   <i class="ion ion-ios-pie"></i>
                 </div>
                 <div class="small-box-footer">
+                  <a href="#" class="inner text-white" data-remote="false" data-toggle="modal" data-target="#pengaturan-bantuan"><i class="fa fa-gear"></i></a>
                   <a href="{{ route($bantuan['link_detail']) }}" class="inner text-white">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
               </div>

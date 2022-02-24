@@ -39,21 +39,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pamong extends Model
+class SettingAplikasi extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tweb_desa_pamong';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'pamong_id';
+    protected $table = 'setting_aplikasi';
 
     /**
      * The timestamps for the model.
@@ -63,27 +56,12 @@ class Pamong extends Model
     public $timestamps = false;
 
     /**
-     * The guarded with the model.
+     * The fillable with the model.
      *
      * @var array
      */
-    protected $guarded = [];
-
-    public function penduduk()
-    {
-        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
-    }
-
-    /**
-     * Scope query untuk status pamong
-     *
-     * @param Builder $query
-     * @param mixed   $value
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, $value = 1)
-    {
-        return $query->where('pamong_status', $value);
-    }
+    protected $fillable = [
+        'key',
+        'value',
+    ];
 }

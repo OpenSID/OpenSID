@@ -72,7 +72,7 @@ class Identitas_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $main   = Config::first();
-        $pamong = Pamong::with('penduduk')->get();
+        $pamong = Pamong::with('penduduk')->status()->get();
 
         if ($main) {
             $form_action = route('identitas_desa.update', $main->id);

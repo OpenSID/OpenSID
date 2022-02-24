@@ -48,6 +48,8 @@
     @include('admin.layouts.partials.footer')
 
   </div>
+  <!-- jQuery 3 -->
+  <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
 
   @if (config_item('csrf_protection'))
   <!-- CSRF Token -->
@@ -57,8 +59,7 @@
   </script>
   <script src="{{ asset('js/anti-csrf.js') }}"></script>
   @endif
-  <!-- jQuery 3 -->
-  <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
+
   <!-- Bootstrap 3.3.7 -->
   <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
   <!-- Select2 -->
@@ -69,6 +70,8 @@
   <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
   <!-- AdminLTE -->
   <script src="{{ asset('js/adminlte.min.js') }}"></script>
+  <!-- jquery validasi -->
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
   <!-- Modifikasi -->
   <script src="{{ asset('js/admin.js?v' . version()) }}"></script>
   @if (config_item('demo_mode'))

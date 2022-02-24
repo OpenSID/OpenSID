@@ -102,6 +102,7 @@ class Hom_sid extends Admin_Controller
         $bantuan['jumlah']      = $program ? $program->peserta->count() : Bantuan::status()->count();
         $bantuan['nama']        = $program ? $program->nama : 'Bantuan';
         $bantuan['link_detail'] = $program ? ('statistik/clear/50' . $this->setting->dashboard_program_bantuan) : 'program_bantuan';
+        $bantuan['program']     = Bantuan::status()->pluck('nama', 'id');
 
         return $bantuan;
     }
