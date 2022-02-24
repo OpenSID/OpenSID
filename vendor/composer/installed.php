@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ef3c0e06df48536de6e00c7bc423be67d1fa9b77',
+        'reference' => 'f2be1be1732e20ba32bbe2f7dd9a5f9ebbc841ac',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -268,7 +268,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ef3c0e06df48536de6e00c7bc423be67d1fa9b77',
+            'reference' => 'f2be1be1732e20ba32bbe2f7dd9a5f9ebbc841ac',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -568,7 +568,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => '8e68a92f5aca9572f8e8ed530ddf7d8cdce74ced',
+            'reference' => 'd04250dd369c8f3b9c2cef959680702d18dab323',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(
@@ -577,7 +577,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => '744f2b62d54805b34c26939111f89d6bc7753072',
+            'reference' => 'fe29b2cd24353b4855b20f70cdf99a09ad13cf2d',
             'dev_requirement' => false,
         ),
         'voku/portable-ascii' => array(

@@ -24,8 +24,8 @@
   </div>
 </form>
 
-<?php if ($notif = $this->session->flashdata('notif')) : ?>
-<div class="alert is-<?= $notif['status']; ?>" role="alert">
+<?php if (($notif = session('notif')) && (!session('notif')['data'])) : ?>
+<div class="alert alert-<?= $notif['status']; ?>" role="alert"  id="notifikasi">
   <?= $notif['pesan']; ?>
 </div>
 <?php endif; ?>
@@ -101,23 +101,28 @@
       </div>
       <form action="<?= $form_action; ?>" method="POST" enctype="multipart/form-data">
         <div class="modal-body relative px-3 py-2 lg:px-5">
+          <?php if (($notif = session('notif')) && ($data = session('notif')['data'])) : ?>
+            <div class="alert alert-error" role="alert">
+              <?= $notif['pesan']; ?>
+            </div>
+          <?php endif; ?>
           <div class="py-2">
-            <input name="nik" type="text" maxlength="16" class="form-input" placeholder="NIK">
+            <input name="nik" type="text" maxlength="16" class="form-input" placeholder="NIK" value="<?= $data['nik'] ?>">
           </div>
           <div class="py-2">
-            <input name="nama" type="text" required="" class="form-input" placeholder="Nama*">
+            <input name="nama" type="text" required="" class="form-input" placeholder="Nama*" value="<?= $data['nama'] ?>">
           </div>
           <div class="py-2">
-            <input name="email" type="email" class="form-input" placeholder="Email">
+            <input name="email" type="email" class="form-input" placeholder="Email" value="<?= $data['email'] ?>">
           </div>
           <div class="py-2">
-            <input name="telepon" type="text" class="form-input" placeholder="Telepon">
+            <input name="telepon" type="text" class="form-input" placeholder="Telepon" value="<?= $data['telepon'] ?>">
           </div>
           <div class="py-2">
-            <input name="judul" type="text" class="form-input" required="" placeholder="Judul*">
+            <input name="judul" type="text" class="form-input" required="" placeholder="Judul*" value="<?= $data['judul'] ?>">
           </div>
           <div class="py-2">
-            <textarea name="isi" required="" class="form-textarea" placeholder="Isi Pengaduan*" style="height: 120px;"></textarea>
+            <textarea name="isi" required="" class="form-textarea" placeholder="Isi Pengaduan*" rows="4"><?= $data['isi'] ?></textarea>
           </div>
           <div class="py-2">
             <div class="relative">
@@ -128,11 +133,20 @@
               </span>
             </div>
             <small>Gambar: png,jpg,jpeg</small><br>
-            <br><img id="blah" src="#" alt="gambar pendukung tampil di sini" class="max-w-full w-full" />
+            <br><img id="blah" src="#" alt="gambar pendukung tampil di sini" class="max-w-full w-full hidden" />
+          </div>
+          <div class="flex gap-3">
+            <div class="w-full lg:w-1/3 overflow-hidden">
+              <img id="captcha" src="<?= base_url('securimage/securimage_show.php') ?>" alt="CAPTCHA Image" class="w-full lg:w-11/12">
+              <button type="button" class="btn bg-transparent text-xs" onclick="document.getElementById('captcha').src = '<?= base_url("securimage/securimage_show.php?")?>'+Math.random(); return false">[Ganti Gambar]</button>
+            </div>
+            <div class="w-full lg:w-2/3">
+              <input type="text" class="form-input required" name="captcha_code" maxlength="6" value="<?= $notif['data']['captcha_code']; ?>" placeholder="Isikan jawaban" required>
+            </div>
           </div>
         </div>
         <div class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-between p-4 border-t border-gray-200 rounded-b-md">
-          <button type="button" class="btn bg-red-500 hover:bg-red-500 text-white pull-left" data-bs-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i> Tutup</button>
+          <a href="<?= site_url('pengaduan') ?>" class="btn bg-red-500 hover:bg-red-500 text-white pull-left"><i class="fa fa-times"></i> Tutup</a>
           <button type="submit" class="btn btn-primary pull-right"><i class="fas fa-paper-plane"></i> Kirim</button>
         </div>
       </form>
@@ -227,15 +241,28 @@
   {
     $('#file_browser').click();
   });
+  
+  $(document).ready(function() {
+    window.setTimeout(function() {
+      $("#notifikasi").fadeTo(500, 0).slideUp(500, function() {
+        $(this).remove();
+      });
+    }, 1000);
+
+    var data = "<?= session('notif')['data'] ?>";
+    if (data) {
+      $('#newpengaduan').modal('show');
+    }
+  });
+
+  $('#b-captcha').click();
   function readURL(input) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        $('#blah')
-          .attr('src', e.target.result)
-          .width(150)
-          .height(auto);
+        $('#blah').removeClass('hidden');
+        $('#blah').attr('src', e.target.result).width(150).height(auto);
       };
 
       reader.readAsDataURL(input.files[0]);

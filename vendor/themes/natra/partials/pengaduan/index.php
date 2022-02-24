@@ -386,9 +386,9 @@
 			</table>
 		</form>
 		<br />
-		
+
 		<!-- Notifikasi -->
-		<?php if (($notif = session('notif')) && (! session('notif')['data'])) : ?>
+		<?php if (($notif = session('notif')) && (!session('notif')['data'])) : ?>
 			<div id="notifikasi" class="alert alert-<?= $notif['status']; ?>" role="alert">
 				<?= $notif['pesan']; ?>
 			</div>
@@ -397,73 +397,73 @@
 		<?php if ($pengaduan) : ?>
 			<ul class="list-group fa-padding">
 				<?php foreach ($pengaduan as $key => $value) : ?>
-						<li class="list-group-item status<?= $value['status'] ?> allstatus" data-toggle="modal" data-target="#pengaduan<?= $value['id'] ?>">
-							<div class="media">
-								<div class="media-body" style="display: block;">
-									<table>
-										<tr>
-											<td rowspan="2"><i class="fa fa-user pull-left" style="font-size: -webkit-xxx-large"></i></td>
-											<td>
-												<h4 style="margin-bottom: 0px"><?= $value['nama']; ?></h4>
-											</td>
-										</tr>
-										<tr>
-											<td class="text-muted"><?= $value['created_at'] ?> | <?= $value['judul'] ?> | <?php if ($value['status'] == '1') : ?>
-													<span class="label label-danger">Menunggu Diproses</span>
-												<?php elseif ($value['status'] == '2') : ?>
-													<span class="label label-info">Sedang Diproses</span>
-												<?php elseif ($value['status'] == '3') : ?>
-													<span class="label label-success">Selesai Diproses</span>
-												<?php endif; ?>
-											</td>
-										</tr>
-									</table><br>
-									<p class="info">
-										<span><?= substr($value['isi'], 0, 50); ?> <?php if (strlen($value['isi']) > 50) : ?><label class="text-info">read more...</label><?php endif; ?></span>
-										<span class="label label-<?= $value['jumlah'] > 0 ? 'success' : 'danger'; ?> pull-right"><i class="fa fa-comments"></i> <?= $value['jumlah']; ?> Tanggapan</span>
-									</p>
-								</div>
+					<li class="list-group-item status<?= $value['status'] ?> allstatus" data-toggle="modal" data-target="#pengaduan<?= $value['id'] ?>">
+						<div class="media">
+							<div class="media-body" style="display: block;">
+								<table>
+									<tr>
+										<td rowspan="2"><i class="fa fa-user pull-left" style="font-size: -webkit-xxx-large"></i></td>
+										<td>
+											<h4 style="margin-bottom: 0px"><?= $value['nama']; ?></h4>
+										</td>
+									</tr>
+									<tr>
+										<td class="text-muted"><?= $value['created_at'] ?> | <?= $value['judul'] ?> | <?php if ($value['status'] == '1') : ?>
+												<span class="label label-danger">Menunggu Diproses</span>
+											<?php elseif ($value['status'] == '2') : ?>
+												<span class="label label-info">Sedang Diproses</span>
+											<?php elseif ($value['status'] == '3') : ?>
+												<span class="label label-success">Selesai Diproses</span>
+											<?php endif; ?>
+										</td>
+									</tr>
+								</table><br>
+								<p class="info">
+									<span><?= substr($value['isi'], 0, 50); ?> <?php if (strlen($value['isi']) > 50) : ?><label class="text-info">read more...</label><?php endif; ?></span>
+									<span class="label label-<?= $value['jumlah'] > 0 ? 'success' : 'danger'; ?> pull-right"><i class="fa fa-comments"></i> <?= $value['jumlah']; ?> Tanggapan</span>
+								</p>
 							</div>
-						</li>
+						</div>
+					</li>
 
-						<!-- BEGIN DETAIL TICKET -->
-						<div class="modal fade" id="pengaduan<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="pengaduan<?= $value['id'] ?>" aria-hidden="true">
-							<div class="modal-wrapper">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header bg-blue">
-											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-											<h4 class="modal-title"><i class="fa fa-file"></i> <?= $value['judul'] ?></h4>
-										</div>
-										<div class="modal-body">
-											<div class="row">
-												<div class="col-md-12">
-													<p class="text-muted">Pengaduan oleh <?= $value['nama']; ?> | <?= $value['created_at'] ?></p>
-													<p><?= $value['isi'] ?></p>
-													<?php if ($value['foto']) : ?>
-														<img class="img-responsive" src="<?= base_url(LOKASI_PENGADUAN . $value['foto']); ?>">
-													<?php endif; ?>
-												</div>
-											</div>
-											<?php foreach ($pengaduan_balas as $keyna => $valuena) : ?>
-												<?php if ($valuena['id_pengaduan'] && $valuena['id_pengaduan'] == $value['id']) : ?>
-													<div class="row support-content-comment">
-														<div class="col-md-12">
-															<p>Ditanggapi oleh <?= $valuena['nama']; ?> | <?= $valuena['created_at'] ?></p>
-															<p><?= $valuena['isi'] ?></p>
-														</div>
-													</div>
+					<!-- BEGIN DETAIL TICKET -->
+					<div class="modal fade" id="pengaduan<?= $value['id'] ?>" tabindex="-1" role="dialog" aria-labelledby="pengaduan<?= $value['id'] ?>" aria-hidden="true">
+						<div class="modal-wrapper">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header bg-blue">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										<h4 class="modal-title"><i class="fa fa-file"></i> <?= $value['judul'] ?></h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-md-12">
+												<p class="text-muted">Pengaduan oleh <?= $value['nama']; ?> | <?= $value['created_at'] ?></p>
+												<p><?= $value['isi'] ?></p>
+												<?php if ($value['foto']) : ?>
+													<img class="img-responsive" src="<?= base_url(LOKASI_PENGADUAN . $value['foto']); ?>">
 												<?php endif; ?>
-											<?php endforeach; ?>
+											</div>
 										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
-										</div>
+										<?php foreach ($pengaduan_balas as $keyna => $valuena) : ?>
+											<?php if ($valuena['id_pengaduan'] && $valuena['id_pengaduan'] == $value['id']) : ?>
+												<div class="row support-content-comment">
+													<div class="col-md-12">
+														<p>Ditanggapi oleh <?= $valuena['nama']; ?> | <?= $valuena['created_at'] ?></p>
+														<p><?= $valuena['isi'] ?></p>
+													</div>
+												</div>
+											<?php endif; ?>
+										<?php endforeach; ?>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- END DETAIL TICKET -->
+					</div>
+					<!-- END DETAIL TICKET -->
 				<?php endforeach; ?>
 			</ul>
 
@@ -523,24 +523,25 @@
 							<small>Gambar: png,jpg,jpeg</small><br>
 							<br><img id="blah" src="#" alt="gambar" class="img-responsive hidden" />
 						</div>
-							<div class="form-group">
-								<table>
-									<tr class="captcha"><td>&nbsp;</td>
-										<td>
-											<a href="#" id="b-captcha" onclick="document.getElementById('captcha').src = '<?= base_url()."securimage/securimage_show.php?"?>' + Math.random(); return false" style="color: #000000;">
-												<img id="captcha" src="<?= base_url('securimage/securimage_show'); ?>" alt="CAPTCHA Image"/>
-											</a>
-										</td>
-										<td>&nbsp;&nbsp;&nbsp;</td>
-										<td>
-											<input type="text" name="captcha_code" class="form-control" maxlength="6" required/>Isi Jawaban
-										</td>
-									</tr>
-								</table>
-							</div>
+						<div class="form-group">
+							<table>
+								<tr class="captcha">
+									<td>&nbsp;</td>
+									<td>
+										<a href="#" id="b-captcha" onclick="document.getElementById('captcha').src = '<?= base_url() . "securimage/securimage_show.php?" ?>' + Math.random(); return false" style="color: #000000;">
+											<img id="captcha" src="<?= base_url('securimage/securimage_show'); ?>" alt="CAPTCHA Image" />
+										</a>
+									</td>
+									<td>&nbsp;&nbsp;&nbsp;</td>
+									<td>
+										<input type="text" name="captcha_code" class="form-control" maxlength="6" required />Isi Jawaban
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger pull-left" data-dismiss="modal" aria-hidden="true"><i class="fa fa-times"></i> Tutup</button>
+						<a href="<?= site_url('pengaduan') ?> " class="btn btn-danger pull-left"><i class="fa fa-times"></i> Tutup</a>
 						<button type="submit" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> Kirim</button>
 					</div>
 				</form>
@@ -551,7 +552,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		window.setTimeout(function() {
-			$("#notifikasi").fadeTo(500, 0).slideUp(500, function(){
+			$("#notifikasi").fadeTo(500, 0).slideUp(500, function() {
 				$(this).remove();
 			});
 		}, 1000);
