@@ -68,6 +68,7 @@ class User_setting extends Admin_Controller
         } else {
             $this->user_model->update_setting($id);
             if ($this->session->success == -1) {
+                set_session('error', $this->session->error_msg);
                 redirect($_SERVER['HTTP_REFERER']);
             } else {
                 redirect('main');

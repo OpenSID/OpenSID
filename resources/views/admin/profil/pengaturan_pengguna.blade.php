@@ -10,7 +10,7 @@
           <div class="col-md-3">
             <div class="box box-primary">
               <div class="box-body box-profile">
-                <img class="profile-user-img img-responsive img-circle" src="{{ AmbilFoto($auth->foto, '', $auth->sex) }}" alt="Foto">
+                <img class="profile-user-img img-responsive img-circle" src="{{ AmbilFoto($auth->foto) }}" alt="Foto">
               </div>
             </div>
             @if ($auth->email_verified_at === null)
@@ -23,7 +23,7 @@
           </div>
           <div class="col-sm-9">
             <div class="box box-danger">
-              {!! form_open_multipart(route('user_setting.update'), 'id="validate_user"') !!}
+              {!! form_open_multipart(route('user_setting.update', $auth->id), 'id="validate_user"') !!}
                 <div class="box-body">
                   <div class="form-group">
                     <label for="tgl_peristiwa">Username</label>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 /*
  *
  * File ini bagian dari:
@@ -588,6 +590,10 @@ class User_model extends CI_Model
         $data['foto'] = $this->urusFoto($id);
         $hasil        = $this->db->where('id', $id)
             ->update('user', $data);
+
+        // Untuk Blade
+        $this->session->isAdmin = User::whereId($id)->first();
+
         status_sukses($hasil, $gagal_saja = true);
     }
 
