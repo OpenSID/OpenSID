@@ -56,6 +56,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 48. [#4921](https://github.com/OpenSID/OpenSID/issues/4921) Perbaiki tombol tipe pertanyaan masih berfungsi ketika indikator dihubungkan dengan data keluarga / KK pada modul analisis.
 49. [#4935](https://github.com/OpenSID/OpenSID/issues/4935) Perbaiki kesalahan ketika hapus kelompok dan lembaga.
 50. [#4915](https://github.com/OpenSID/OpenSID/issues/4915) Perbaiki pilihan jawaban hilang jika dilakukan edit data indikator dan pertanyaan di modul analisis.
+51. [#4951](https://github.com/OpenSID/OpenSID/issues/4951) Perbaiki cetak laporan lembaga tidak ada spasi antara sebutan kecamatan dan nama kecamatan.
 
 #### Perubahan Teknis
 
