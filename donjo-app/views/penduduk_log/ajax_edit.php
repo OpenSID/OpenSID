@@ -41,7 +41,7 @@
 						<div class="form-group mati">
 							<label for="penolong_mati">Yang menerangkan kematian</label>
 							<select id="penolong_mati" name="penolong_mati" class="form-control select2 input-sm required">
-								<option value="">Pilih Penyebab Kematian</option>
+								<option value="">Pilih Yang menerangkan kematian</option>
 								<?php foreach ($penolong_mati as $key => $value): ?>
 									<option value="<?= $key ?>" <?= selected($key, $log_status_dasar['penolong_mati']) ?>><?= $value ?></option>
 								<?php endforeach ?>
