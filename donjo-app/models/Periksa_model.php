@@ -40,6 +40,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 class Periksa_model extends CI_Model
 {
     public $email_ganda;
+    public $email_user_ganda;
     public $tag_id_ganda;
     public $migrasi_utk_diulang;
     public $kode_panjang;
@@ -108,7 +109,19 @@ class Periksa_model extends CI_Model
             $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
-        // Email ganda, menyebabkan migrasi 22.02 gagal.
+        // email user ganda
+        if ($this->session->db_error['code'] == 1062) {
+            $pos       = strpos($this->session->message_query, 'ALTER TABLE user ADD UNIQUE email');
+            $calon_ini = $current_version;
+            if ($pos !== false) {
+                $calon_ini              = '22.02';
+                $this->masalah[]        = 'email_user_ganda';
+                $this->email_user_ganda = $this->deteksi_email_user_ganda();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
         // Untuk masalah yg tidak melalui exception, letakkan sesuai urut migrasi
         $this->email_ganda = $this->deteksi_email_ganda();
         if ($this->session->db_error['code'] == 99001 || ! empty($this->email_ganda)) {
@@ -152,6 +165,18 @@ class Periksa_model extends CI_Model
         return $email;
     }
 
+    private function deteksi_email_user_ganda()
+    {
+        return $this->db
+            ->select('email, COUNT(id) as jml')
+            ->from('user')
+            ->where('email IS NOT NULL')
+            ->group_by('email')
+            ->having('jml >', 1)
+            ->get()
+            ->result_array();
+    }
+
     public function perbaiki()
     {
         // TODO: login
@@ -168,6 +193,10 @@ class Periksa_model extends CI_Model
 
                 case 'email_ganda':
                     $this->perbaiki_email();
+                    break;
+
+                case 'email_user_ganda':
+                    $this->perbaiki_email_user();
                     break;
 
                 case 'tag_id_ganda':
@@ -244,6 +273,41 @@ class Periksa_model extends CI_Model
             ->set('email', 'CONCAT(id, "_", email)', false)
             ->where_in('id', $email_ganda)
             ->update('tweb_penduduk');
+    }
+
+    // Migrasi 22.02 gagal jika ada email user ganda
+    private function perbaiki_email_user()
+    {
+        if (empty($this->email_user_ganda)) {
+            return;
+        }
+
+        // Ubah semua email kosong menjadi null
+        $this->db
+            ->set('email', null)
+            ->where('email', '')
+            ->update('user');
+        // Ubah semua email ganda
+        $email_ganda = [];
+
+        foreach ($this->email_user_ganda as $email) {
+            if (empty($email['email'])) {
+                continue;
+            }
+            $daftar_ubah = $this->db
+                ->select('id, username, nama, CONCAT(id, "_", email)')
+                ->from('user')
+                ->where('email', $email['email'])
+                ->get()
+                ->result_array();
+            log_message('error', 'Email user berikut telah diubah dengan menambah id: ' . print_r($daftar_ubah, true));
+            $email_ganda = array_merge($email_ganda, array_column($daftar_ubah, 'id'));
+        }
+        // Ubah email user ganda dengan menambah id
+        $this->db
+            ->set('email', 'CONCAT(id, "_", email)', false)
+            ->where_in('id', $email_ganda)
+            ->update('user');
     }
 
     // Migrasi 21.04 tidak antiCONCAT(id, "_", email)sipasi tag_id_card ganda

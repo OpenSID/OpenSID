@@ -190,8 +190,6 @@ class MY_Model extends CI_Model
             if ($duplikat > 0) {
                 session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
                 log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
-
-                return false;
             }
         }
 
