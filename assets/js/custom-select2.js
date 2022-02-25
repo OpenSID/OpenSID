@@ -11,6 +11,11 @@ $(document).ready(function()
 		dropdownAutoWidth : true
 	});
 
+	// Select2 tanpadrowdown width
+	$('.select2-non-auto').select2({
+		width: '100%',
+	});
+
 	// Select2 - Cari Nama Desa di API Server
 	$('.select-nama-desa').select2({
 		ajax: {
