@@ -61,6 +61,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 53. [#4953](https://github.com/OpenSID/OpenSID/issues/4953) Perbaiki nama anggota kelompok terdata masih tampil di list penambahan anggota.
 54. [#4955](https://github.com/OpenSID/OpenSID/issues/4955) Perbaiki pembangunan status aktif.
 55. [#4948](https://github.com/OpenSID/OpenSID/issues/4948) Perbaiki tampilan detail pengaduan di admin tidak bekerja semestinya.
+56. [#4930](https://github.com/OpenSID/OpenSID/issues/4930) Perbaiki error info covid.
 
 #### Perubahan Teknis
 
