@@ -147,7 +147,7 @@ class Kelompok extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $data['kelompok']      = $id;
-        $data['list_penduduk'] = $this->kelompok_model->list_penduduk();
+        $data['list_penduduk'] = $this->kelompok_model->list_penduduk($id, $id_a);
         $data['list_jabatan1'] = $this->referensi_model->list_ref(JABATAN_KELOMPOK);
         $data['list_jabatan2'] = $this->kelompok_model->list_jabatan($id);
 
