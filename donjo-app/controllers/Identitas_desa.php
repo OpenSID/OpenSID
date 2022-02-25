@@ -167,7 +167,7 @@ class Identitas_desa extends Admin_Controller
             $data->lat = $this->request['lat'];
             $data->lng = $this->request['lng'];
         } else {
-            $data->path = $this->request['path'];
+            $data->path  = $this->request['path'];
             $data->warna = $this->request['warna'];
         }
 
