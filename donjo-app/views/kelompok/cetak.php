@@ -48,11 +48,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<tbody>
 		<tr>
 			<td align="center">
-				<?php if ($aksi != 'unduh'): ?>
+				<?php if ($aksi != 'unduh') : ?>
 					<img src="<?= gambar_desa($config['logo']); ?>" alt="" style="width:100px; height:auto">
 				<?php endif; ?>
 				<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten']); ?> </h1>
-				<h1><?= strtoupper($this->setting->sebutan_kecamatan . '' . $config['nama_kecamatan']); ?> </h1>
+				<h1><?= strtoupper($this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan']); ?> </h1>
 				<h1><?= strtoupper($this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?></h1>
 			</td>
 		</tr>
@@ -61,9 +61,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<hr style="border-bottom: 2px solid #000000; height:0px;">
 			</td>
 		</tr>
-			<td align="center" >
-				<h4><u>DATA <?= strtoupper($this->controller); ?></u></h4>
-			</td>
+		<td align="center">
+			<h4><u>DATA <?= strtoupper($this->controller); ?></u></h4>
+		</td>
 		</tr>
 		<tr></tr>
 		<tr>
@@ -79,7 +79,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $key => $data): ?>
+						<?php foreach ($main as $key => $data) : ?>
 							<tr>
 								<td align="center"><?= ($key + 1); ?></td>
 								<td><?= $data['nama']; ?></td>
