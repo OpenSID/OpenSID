@@ -61,16 +61,21 @@ desa-contoh/cache/*
 .htaccess
 !desa-contoh/arsip/.htaccess
 !desa-contoh/upload/dokumen/.htaccess
-test/
 
 # Abaikan folder example di vendor (untuk commit update rilis)
 vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
 
 test/
+tests/
 doc/
+docs/
 example/
 examples/
 vendor/libreoffice/*
 vendor/mikey179/*
 .idea/*
+
+# Struktur Laravel
+storage/framework/
+
