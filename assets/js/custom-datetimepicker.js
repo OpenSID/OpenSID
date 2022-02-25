@@ -146,5 +146,10 @@ $(document).ready(function()
 		format: 'HH:mm',
 		locale:'id'
 	});
-
+	$('#tanggal_cetak_ktp').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id',
+		maxDate: new(Date)
+	});
 });

@@ -776,6 +776,10 @@ class Penduduk_model extends MY_Model
         if ($data['warganegara_id'] == 1 || empty($data['dokumen_kitas'])) {
             $data['dokumen_kitas'] = null;
         }
+        // Tanggal cetak ktp harus <= tanggal input
+        if ($data['tanggal_cetak_ktp'] > date('Y-m-d')) {
+            $data['tanggal_cetak_ktp'] = date('Y-m-d');
+        }
 
         switch ($data['status_kawin']) {
             case 1:
