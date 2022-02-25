@@ -22,7 +22,7 @@
     <div class="col-md-3">
       <div class="box box-primary">
         <div class="box-body box-profile">
-          <img class="profile-user-img img-responsive img-circle" src="{{ gambar_desa($main['logo']) }}" alt="Logo">
+          <img class="profile-user-img img-responsive img-circle" src="{{ gambar_desa($main->logo) }}" alt="Logo">
           <br/>
           <p class="text-center text-bold">Lambang {{ ucwords($setting->sebutan_desa) }}</p>
           <p class="text-muted text-center text-red">(Kosongkan, jika logo tidak berubah)</p>
@@ -30,7 +30,7 @@
           <div class="input-group input-group-sm">
             <input type="text" class="form-control" id="file_path" >
             <input type="file" class="hidden" id="file" name="logo">
-            <input type="hidden" name="old_logo" value="{{ $main['logo'] }}">
+            <input type="hidden" name="old_logo" value="{{ $main->logo }}">
             <span class="input-group-btn">
               <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i></button>
             </span>
@@ -39,7 +39,7 @@
       </div>
       <div class="box box-primary">
         <div class="box-body box-profile">
-          <img class="img-responsive" src="{{ gambar_desa($main['kantor_desa'], true) }}" alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
+          <img class="img-responsive" src="{{ gambar_desa($main->kantor_desa, true) }}" alt="Kantor {{ ucwords($setting->sebutan_desa) }}">
           <br/>
           <p class="text-center text-bold">Kantor {{ ucwords($setting->sebutan_desa) }}</p>
           <p class="text-muted text-center text-red">(Kosongkan, jika kantor {{ ucwords($setting->sebutan_desa) }} tidak berubah)</p>
@@ -47,7 +47,7 @@
           <div class="input-group input-group-sm">
             <input type="text" class="form-control" id="file_path2" >
             <input type="file" class="hidden" id="file2" name="kantor_desa">
-            <input type="hidden" name="old_kantor_desa" value="{{ $main['kantor_desa'] }}">
+            <input type="hidden" name="old_kantor_desa" value="{{ $main->kantor_desa }}">
             <span class="input-group-btn">
               <button type="button" class="btn btn-info btn-flat" id="file_browser2"><i class="fa fa-search"></i></button>
             </span>
@@ -65,21 +65,21 @@
             <label class="col-sm-3 control-label" for="nama">Nama {{ ucwords($setting->sebutan_desa) }}</label>
             <div class="col-sm-8">
               @if (cek_koneksi_internet())
-                <select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="{{ $main['nama_desa'] }} - {{ $main['nama_kecamatan'] }} - {{ $main['nama_kabupaten'] }} - {{ $main['nama_propinsi'] }}" data-token="{{ config_item('token_pantau') }}" data-tracker='{{ config_item('server_pantau') }}' style="display: none;"></select>
+                <select id="pilih_desa" name="pilih_desa" class="form-control input-sm select-nama-desa" data-placeholder="{{ $main->nama_desa }} - {{ $main->nama_kecamatan }} - {{ $main->nama_kabupaten }} - {{ $main->nama_propinsi }}" data-token="{{ config_item('token_pantau') }}" data-tracker='{{ config_item('server_pantau') }}' style="display: none;"></select>
               @endif
-              <input type="hidden" id="nama_desa" class="form-control input-sm nama_terbatas required" minlength="3" maxlength="50" name="nama_desa" value="{{ $main['nama_desa'] }}">
+              <input type="hidden" id="nama_desa" class="form-control input-sm nama_terbatas required" minlength="3" maxlength="50" name="nama_desa" value="{{ $main->nama_desa }}">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="kode_desa">Kode {{ ucwords($setting->sebutan_desa) }}</label>
             <div class="col-sm-2">
-              <input readonly id="kode_desa" name="kode_desa" class="form-control input-sm {{ jecho(cek_koneksi_internet(), false, 'bilangan') }} required" {{ jecho(cek_koneksi_internet(), false, 'minlength="10" maxlength="10"') }} type="text" onkeyup="tampil_kode_desa()" placeholder="Kode {{ ucwords($setting->sebutan_desa) }}" value="{{ $main['kode_desa'] }}" ></input>
+              <input readonly id="kode_desa" name="kode_desa" class="form-control input-sm {{ jecho(cek_koneksi_internet(), false, 'bilangan') }} required" {{ jecho(cek_koneksi_internet(), false, 'minlength="10" maxlength="10"') }} type="text" onkeyup="tampil_kode_desa()" placeholder="Kode {{ ucwords($setting->sebutan_desa) }}" value="{{ $main->kode_desa }}" ></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="kode_pos">Kode Pos {{ ucwords($setting->sebutan_desa) }}</label>
             <div class="col-sm-2">
-              <input id="kode_pos" name="kode_pos" class="form-control input-sm number" minlength="5" maxlength="5" type="text" placeholder="Kode Pos {{ ucwords($setting->sebutan_desa) }}" value="{{ $main['kode_pos'] }}"></input>
+              <input id="kode_pos" name="kode_pos" class="form-control input-sm number" minlength="5" maxlength="5" type="text" placeholder="Kode Pos {{ ucwords($setting->sebutan_desa) }}" value="{{ $main->kode_pos }}"></input>
             </div>
           </div>
           <div class="form-group">
@@ -88,7 +88,7 @@
               <select class="form-control input-sm" id="kades" name="pamong_id">
                 <option value="">--- Pilih {{ ucwords($setting->sebutan_kepala_desa) }} ---</option>
                 @foreach ($pamong as $data)
-                  <option value="{{ $data->pamong_id }}" data-nip="{{ $data->pamong_nip }}" {{ selected($data->pamong_id, $main['pamong_id']) }}>{{ ($data->id_pend ? $data->penduduk->nama : $data->pamong_nama) . ' (' . ($data->jabatan ?? ' - ') . ')' }}</option>
+                  <option value="{{ $data->pamong_id }}" data-nip="{{ $data->pamong_nip }}" {{ selected($data->pamong_id, $main->pamong_id) }}>{{ ($data->id_pend ? $data->penduduk->nama : $data->pamong_nama) . ' (' . ($data->jabatan ?? ' - ') . ')' }}</option>
                 @endforeach
               </select>
             </div>
@@ -96,79 +96,79 @@
           <div class="form-group">
             <label class="col-sm-3 control-label" for="nip_kepala_desa">NIP {{ ucwords($setting->sebutan_kepala_desa) }}</label>
             <div class="col-sm-8">
-              <input readonly id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP {{ ucwords($setting->sebutan_kepala_desa) }}" value="{{ $main['nip_kepala_desa'] }}"></input>
+              <input id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP {{ ucwords($setting->sebutan_kepala_desa) }}" value="{{ $main->pamong->pamong_nip }}" readonly></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="alamat_kantor">Alamat Kantor {{ ucwords($setting->sebutan_desa) }}</label>
             <div class="col-sm-8">
-              <textarea id="alamat_kantor" name="alamat_kantor" class="form-control input-sm alamat required" maxlength="100" placeholder="Alamat Kantor {{ ucwords($setting->sebutan_desa) }}" rows="3" style="resize:none;">{{ $main['alamat_kantor'] }}</textarea>
+              <textarea id="alamat_kantor" name="alamat_kantor" class="form-control input-sm alamat required" maxlength="100" placeholder="Alamat Kantor {{ ucwords($setting->sebutan_desa) }}" rows="3" style="resize:none;">{{ $main->alamat_kantor }}</textarea>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="email_desa">E-Mail {{ ucwords($setting->sebutan_desa) }}</label>
             <div class="col-sm-8">
-              <input id="email_desa" name="email_desa" class="form-control input-sm email" maxlength="50" type="text" placeholder="E-Mail {{ ucwords($setting->sebutan_desa) }}" value="{{ $main['email_desa'] }}"></input>
+              <input id="email_desa" name="email_desa" class="form-control input-sm email" maxlength="50" type="text" placeholder="E-Mail {{ ucwords($setting->sebutan_desa) }}" value="{{ $main->email_desa }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="telepon">Telpon {{ ucwords($setting->sebutan_desa) }}</label>
             <div class="col-sm-8">
-              <input id="telepon" name="telepon" class="form-control input-sm bilangan" type="text" maxlength="15" placeholder="Telpon {{ ucwords($setting->sebutan_desa) }}" value="{{ $main['telepon'] }}"></input>
+              <input id="telepon" name="telepon" class="form-control input-sm bilangan" type="text" maxlength="15" placeholder="Telpon {{ ucwords($setting->sebutan_desa) }}" value="{{ $main->telepon }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="website">Website {{ ucwords($setting->sebutan_desa) }}</label>
             <div class="col-sm-8">
-              <input id="website" name="website" class="form-control input-sm url" maxlength="50" type="text" placeholder="Website {{ ucwords($setting->sebutan_desa) }}" value="{{ $main['website'] }}"></input>
+              <input id="website" name="website" class="form-control input-sm url" maxlength="50" type="text" placeholder="Website {{ ucwords($setting->sebutan_desa) }}" value="{{ $main->website }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="nama_kecamatan">Nama {{ ucwords($setting->sebutan_kecamatan) }}</label>
             <div class="col-sm-8">
-              <input readonly id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm required" type="text" placeholder="Nama {{ ucwords($setting->sebutan_kecamatan) }}" value="{{ $main['nama_kecamatan'] }}"></input>
+              <input readonly id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm required" type="text" placeholder="Nama {{ ucwords($setting->sebutan_kecamatan) }}" value="{{ $main->nama_kecamatan }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="kode_kecamatan">Kode {{ ucwords($setting->sebutan_kecamatan) }}</label>
             <div class="col-sm-2">
-              <input readonly id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm required" type="text" placeholder="Kode {{ ucwords($setting->sebutan_kecamatan) }}" value="{{ $main['kode_kecamatan'] }}" ></input>
+              <input readonly id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm required" type="text" placeholder="Kode {{ ucwords($setting->sebutan_kecamatan) }}" value="{{ $main->kode_kecamatan }}" ></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="nama_kecamatan">Nama {{ ucwords($setting->sebutan_camat) }}</label>
             <div class="col-sm-8">
-              <input id="nama_kepala_camat" name="nama_kepala_camat" class="form-control input-sm nama required" maxlength="50" type="text" placeholder="Nama {{ ucwords($setting->sebutan_camat) }}" value="{{ $main['nama_kepala_camat'] }}"></input>
+              <input id="nama_kepala_camat" name="nama_kepala_camat" class="form-control input-sm nama required" maxlength="50" type="text" placeholder="Nama {{ ucwords($setting->sebutan_camat) }}" value="{{ $main->nama_kepala_camat }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="nip_kepala_camat">NIP {{ ucwords($setting->sebutan_camat) }}</label>
             <div class="col-sm-4">
-              <input id="nip_kepala_camat" name="nip_kepala_camat" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP {{ ucwords($setting->sebutan_camat) }}" value="{{ $main['nip_kepala_camat'] }}"></input>
+              <input id="nip_kepala_camat" name="nip_kepala_camat" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP {{ ucwords($setting->sebutan_camat) }}" value="{{ $main->nip_kepala_camat }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="nama_kabupaten">Nama {{ ucwords($setting->sebutan_kabupaten) }}</label>
             <div class="col-sm-8">
-              <input readonly id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm required" type="text" placeholder="Nama {{ ucwords($setting->sebutan_kabupaten) }}" value="{{ $main['nama_kabupaten'] }}"></input>
+              <input readonly id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm required" type="text" placeholder="Nama {{ ucwords($setting->sebutan_kabupaten) }}" value="{{ $main->nama_kabupaten }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="kode_kabupaten">Kode {{ ucwords($setting->sebutan_kabupaten) }}</label>
             <div class="col-sm-2">
-              <input readonly id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm required" type="text" placeholder="Kode {{ ucwords($setting->sebutan_kabupaten) }}" value="{{ $main['kode_kabupaten'] }}"></input>
+              <input readonly id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm required" type="text" placeholder="Kode {{ ucwords($setting->sebutan_kabupaten) }}" value="{{ $main->kode_kabupaten }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="nama_propinsi">Nama Provinsi</label>
             <div class="col-sm-8">
-              <input readonly id="nama_propinsi" name="nama_propinsi" class="form-control input-sm required" type="text" placeholder="Nama Propinsi" value="{{ $main['nama_propinsi'] }}"></input>
+              <input readonly id="nama_propinsi" name="nama_propinsi" class="form-control input-sm required" type="text" placeholder="Nama Propinsi" value="{{ $main->nama_propinsi }}"></input>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-3 control-label" for="kode_propinsi">Kode Provinsi</label>
             <div class="col-sm-2">
-              <input readonly id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="{{ $main['kode_propinsi'] }}"></input>
+              <input readonly id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="{{ $main->kode_propinsi }}"></input>
             </div>
           </div>
         </div>

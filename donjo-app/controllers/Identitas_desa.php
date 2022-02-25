@@ -71,7 +71,7 @@ class Identitas_desa extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $main   = Config::first();
+        $main   = Config::with('pamong')->first();
         $pamong = Pamong::with('penduduk')->status()->get();
 
         if ($main) {
@@ -161,14 +161,14 @@ class Identitas_desa extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $data       = Config::first();
-        $data->zoom = $this->request['zoom'];
+        $data->zoom = bilangan($this->request['zoom']);
 
         if ($tipe == 'kantor') {
-            $data->lat = $this->request['lat'];
-            $data->lng = $this->request['lng'];
+            $data->lat = koordinat($this->request['lat']);
+            $data->lng = koordinat($this->request['lng']);
         } else {
-            $data->path  = $this->request['path'];
-            $data->warna = $this->request['warna'];
+            $data->path  = htmlentities($this->request['path']);
+            $data->warna = warna($this->request['warna']);
         }
 
         if ($data->save()) {

@@ -1,4 +1,5 @@
 @extends('admin.layouts.index')
+@include('admin.layouts.components.asset_validasi')
 
 @section('title')
 <h1>
@@ -24,9 +25,9 @@
     {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
       <div class="box-body">
         <div class="form-group">
-          <label class="col-sm-3 control-label" >Nama Dokumen</label>
+          <label class="col-sm-3 control-label">Nama Dokumen</label>
           <div class="col-sm-8">
-              <input type="text" class="form-control input-sm required" id="ref_syarat_nama" name="ref_syarat_nama" placeholder="Nama Dokumen" value="{{ $ref_syarat_surat['ref_syarat_nama'] }}"/>
+              <input type="text" class="form-control input-sm nomor_sk required" id="ref_syarat_nama" name="ref_syarat_nama" placeholder="Nama Dokumen" value="{{ $ref_syarat_surat->ref_syarat_nama }}"/>
           </div>
         </div>
       </div>
@@ -35,7 +36,6 @@
         <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
       </div>
     </form>
-
   </div>
 </div>
 @endsection
