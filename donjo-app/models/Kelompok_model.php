@@ -463,8 +463,12 @@ class Kelompok_model extends MY_Model
             ->result_array();
     }
 
-    private function in_list_anggota($kelompok)
+    private function in_list_anggota($kelompok, $id_pend)
     {
+        if ($id_pend) {
+            $this->db->where_not_in('p.id', $id_pend);
+        }
+
         $anggota = $this->db
             ->select('p.id')
             ->from('kelompok_anggota k')
@@ -477,10 +481,10 @@ class Kelompok_model extends MY_Model
         return sql_in_list(array_column($anggota, 'id'));
     }
 
-    public function list_penduduk($ex_kelompok = '')
+    public function list_penduduk($ex_kelompok = 0, $id_pend = 0)
     {
         if ($ex_kelompok) {
-            $anggota = $this->in_list_anggota($ex_kelompok);
+            $anggota = $this->in_list_anggota($ex_kelompok, $id_pend);
             if ($anggota) {
                 $this->db->where("p.id not in ({$anggota})");
             }
