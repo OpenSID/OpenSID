@@ -84,6 +84,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 55. [#4948](https://github.com/OpenSID/OpenSID/issues/4948) Perbaiki tampilan detail pengaduan di admin tidak bekerja semestinya.
 56. [#4930](https://github.com/OpenSID/OpenSID/issues/4930) Perbaiki error info covid.
 57. [#4959](https://github.com/OpenSID/OpenSID/issues/4959) Perbaiki menyimpan data penduduk dengan tanggal penerbitan KTP dimasa akan datang.
+58. [#4941](https://github.com/OpenSID/OpenSID/issues/4941) Perbaiki input data keuangan setelah di input tekan tombol enter data tidak tersimpan.
 
 #### Perubahan Teknis
 

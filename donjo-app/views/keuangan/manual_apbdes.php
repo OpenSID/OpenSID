@@ -136,7 +136,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<h4 class="modal-title" id="myModalLabel">Tambah Anggaran / Realisasi</h4>
 			</div>
 
-			<form class="form-horizontal">
+			<form id="form-tambah" class="form-horizontal">
 				<div class="modal-body">
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Tahun</label>
@@ -225,7 +225,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">Ubah Anggaran / Realisasi</h4>
 			</div>
-			<form class="form-horizontal">
+			<form id="form-edit" class="form-horizontal">
 				<div class="modal-body">
 
 					<input type="hidden" id="id2" name="id_edit"/>
@@ -360,5 +360,25 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 		//MISC
 		tools();
+
+		//ENTER KEY UP
+		//ADD
+		$('#form-tambah').bind("enterKey",function(e){
+			$('#btn_simpan').click();
+		});
+		$('#form-tambah').keyup(function(e){
+			if(e.keyCode == 13){
+				$(this).trigger("enterKey");
+			}
+		});
+		//UPDATE
+		$('#form-edit').bind("enterKey",function(e){
+			$('#btn_update').click();
+		});
+		$('#form-edit').keyup(function(e){
+			if(e.keyCode == 13){
+				$(this).trigger("enterKey");
+			}
+		});
 	});
 </script>
