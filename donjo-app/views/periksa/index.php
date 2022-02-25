@@ -108,10 +108,30 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('email_user_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi email user ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($email_user_ganda as $email) : ?>
+                                                    <tr>
+                                                        <td><?= $email['email']; ?></td>
+                                                        <td><?= $email['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki email ganda dengan (1) mengubah email kosong menjadi null, dan (2) menambah id ke masing-masing email. Untuk melihat email yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <?php if (in_array('email_ganda', $masalah)) : ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <strong>Terdeteksi email ganda</strong>
+                                            <strong>Terdeteksi email penduduk ganda</strong>
                                             <table class="table">
                                                 <tr>
                                                     <th>Email</th>
