@@ -57,6 +57,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 49. [#4935](https://github.com/OpenSID/OpenSID/issues/4935) Perbaiki kesalahan ketika hapus kelompok dan lembaga.
 50. [#4915](https://github.com/OpenSID/OpenSID/issues/4915) Perbaiki pilihan jawaban hilang jika dilakukan edit data indikator dan pertanyaan di modul analisis.
 51. [#4951](https://github.com/OpenSID/OpenSID/issues/4951) Perbaiki cetak laporan lembaga tidak ada spasi antara sebutan kecamatan dan nama kecamatan.
+52. [#4952](https://github.com/OpenSID/OpenSID/issues/4952) Perbaiki tampilan tambah anggota kelompok tidak rapi.
 
 #### Perubahan Teknis
 
