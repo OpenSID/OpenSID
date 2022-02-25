@@ -1,4 +1,4 @@
-<div class="modal fade" id="profil_pengguna" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade in" id="profil_pengguna">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -23,7 +23,7 @@
           </div>
           <div class="col-sm-9">
             <div class="box box-danger">
-              {!! form_open_multipart(route('update_a'), 'id="validate_user"') !!}
+              {!! form_open_multipart(route('user_setting.update'), 'id="validate_user"') !!}
                 <div class="box-body">
                   <div class="form-group">
                     <label for="tgl_peristiwa">Username</label>
@@ -62,8 +62,8 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-                  <button id="btnSubmit" type="submit" class="btn btn-social btn-info btn-sm"><i class='fa fa-check'></i> Simpan</button>
+                  <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
+                  <button id="btnSubmit" type="submit" class="btn btn-social btn-info btn-sm"><i class="fa fa-check"></i> Simpan</button>
                 </div>
               </form>
             </div>
@@ -87,7 +87,7 @@
 
     $('#file_browser_user').click(function(e) {
       e.preventDefault();
-      $('#file').click();
+      $('#file_user').click();
     });
 
     $('#file_user').change(function() {

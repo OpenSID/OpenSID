@@ -174,13 +174,4 @@ class User_setting extends Admin_Controller
 
         return redirect('main');
     }
-
-    // Baru ORM
-    public function update_a()
-    {
-        $user = User::find($this->session->isAdmin->id) ?? show_404();
-        $user->update($this->request);
-
-        redirect($_SERVER['HTTP_REFERER']);
-    }
 }
