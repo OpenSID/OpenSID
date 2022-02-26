@@ -90,8 +90,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 61. [#4968](https://github.com/OpenSID/OpenSID/issues/4968) Perbaiki validasi isian kolom komentar.
 62. [#4969](https://github.com/OpenSID/OpenSID/issues/4969) Perbaiki Notifikasi tidak sesuai Halaman Module.
 63. [#4966](https://github.com/OpenSID/OpenSID/issues/4966) Perbaiki filter tahun Bumindes_inventaris_kekayaan.
-64. [#4973](https://github.com/OpenSID/OpenSID/issues/4973) Perbaiki validasi sosmed whatsup.
+64. [#4973](https://github.com/OpenSID/OpenSID/issues/4973) Perbaiki validasi sosmed WhatsApp.
 65. [#4957](https://github.com/OpenSID/OpenSID/issues/4957) Perbaiki jumlah bukan penerima pada laporan penerima bantuan keluarga tidak sama dengan jumlah pada kartu keluarga.
+66. [#4974](https://github.com/OpenSID/OpenSID/issues/4974) Perbaiki kurang satu kolom pada tabel pendapat.
 
 #### Perubahan Teknis
 
