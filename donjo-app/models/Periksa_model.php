@@ -39,20 +39,113 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Periksa_model extends CI_Model
 {
-    public $email_ganda;
-    public $email_user_ganda;
-    public $tag_id_ganda;
-    public $migrasi_utk_diulang;
-    public $kode_panjang;
-    public $masalah = [];
+    public $periksa = [];
 
     public function __construct()
     {
         parent::__construct();
-        $this->migrasi_utk_diulang = $this->deteksi_masalah();
+        $this->periksa['migrasi_utk_diulang'] = $this->deteksi_masalah();
     }
 
-    private function tag_id_ganda()
+    private function deteksi_masalah()
+    {
+        $db_error_code    = $this->session->db_error['code'];
+        $db_error_message = $this->session->db_error['message'];
+
+        $current_version = $this->db
+            ->select('value')
+            ->where('key', 'current_version')
+            ->get('setting_aplikasi')
+            ->row()->value;
+
+        $calon = $current_version;
+        // pamong_id belum ada
+        if ($db_error_code == 1406) {
+            $pos       = strpos($this->session->message_query, "CONCAT_WS('_', kode, id)");
+            $calon_ini = $current_version;
+            if ($pos !== false) {
+                $calon_ini                     = '20.12';
+                $this->periksa['masalah'][]    = 'kode_kelompok';
+                $this->periksa['kode_panjang'] = $this->deteksi_kode_panjang();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // tag_id_ganda
+        $tag_id_ganda_1 = ($db_error_code == 1054 && strpos($db_error_message, 'pamong_id') !== false);
+        $tag_id_ganda_2 = ($db_error_code == 1062 && strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE tag_id_card'));
+        if ($tag_id_ganda_1 || $tag_id_ganda_2) {
+            $calon_ini                     = '21.04';
+            $this->periksa['masalah'][]    = 'tag_id_ganda';
+            $this->periksa['tag_id_ganda'] = $this->deteksi_tag_id_ganda();
+            $calon                         = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // kartu_tempat_lahir atau kartu_alamat berisi null
+        if ($db_error_code == 1138) {
+            $pos1      = strpos($this->session->message_query, 'kartu_tempat_lahir');
+            $pos2      = strpos($this->session->message_query, 'kartu_alamat');
+            $calon_ini = $current_version;
+            if ($pos1 !== false && $pos2 !== false) {
+                $calon_ini                  = '21.05';
+                $this->periksa['masalah'][] = 'kartu_alamat';
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // NIK penduduk ganda
+        if ($db_error_code == 1062) {
+            $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE nik');
+            $calon_ini = $current_version;
+            if ($pos !== false) {
+                $calon_ini                  = '21.09';
+                $this->periksa['masalah'][] = 'nik_ganda';
+                $this->periksa['nik_ganda'] = $this->deteksi_nik_ganda();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // No KK terlalu panjang
+        if ($db_error_code == 1265 || $db_error_code == 1406) {
+            $pos1 = strpos($db_error_message, "Data too long for column 'no_kk' ");
+            $pos2 = strpos($db_error_message, "Data truncated for column 'no_kk'");
+            log_message('error', $pos2);
+            $calon_ini = $current_version;
+            if ($pos1 !== false || $pos2 !== false) {
+                log_message('error', 'kk_panjang');
+                $calon_ini                   = '21.11';
+                $this->periksa['masalah'][]  = 'kk_panjang';
+                $this->periksa['kk_panjang'] = $this->deteksi_kk_panjang();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // email user ganda
+        if ($db_error_code == 1062) {
+            $pos       = strpos($this->session->message_query, 'ALTER TABLE user ADD UNIQUE email');
+            $calon_ini = $current_version;
+            if ($pos !== false) {
+                $calon_ini                         = '22.02';
+                $this->periksa['masalah'][]        = 'email_user_ganda';
+                $this->periksa['email_user_ganda'] = $this->deteksi_email_user_ganda();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
+        // Untuk masalah yg tidak melalui exception, letakkan sesuai urut migrasi
+        $email_ganda = $this->deteksi_email_ganda();
+        if ($db_error_code == 99001 || ! empty($email_ganda)) {
+            $calon_ini                    = '22.02';
+            $this->periksa['email_ganda'] = $email_ganda;
+            $this->periksa['masalah'][]   = 'email_ganda';
+            $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        return $calon;
+    }
+
+    private function deteksi_tag_id_ganda()
     {
         return $this->db
             ->select('tag_id_card, COUNT(tag_id_card) as jml')
@@ -63,76 +156,6 @@ class Periksa_model extends CI_Model
             ->result_array();
     }
 
-    private function deteksi_masalah()
-    {
-        $current_version = $this->db
-            ->select('value')
-            ->where('key', 'current_version')
-            ->get('setting_aplikasi')
-            ->row()->value;
-
-        $calon = $current_version;
-
-        // pamong_id belum ada
-        if ($this->session->db_error['code'] == 1406) {
-            $pos       = strpos($this->session->message, "CONCAT_WS('_', kode, id)");
-            $calon_ini = $current_version;
-            if ($pos !== false) {
-                $calon_ini          = '20.12';
-                $this->masalah[]    = 'kode_kelompok';
-                $this->kode_panjang = $this->deteksi_kode_panjang();
-            }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // tag_id_ganda
-        if ($this->session->db_error['code'] == 1054) {
-            $pos       = strpos($this->session->db_error['message'], 'pamong_id');
-            $calon_ini = $current_version;
-            if ($pos !== false) {
-                $calon_ini          = '21.04';
-                $this->masalah[]    = 'tag_id_ganda';
-                $this->tag_id_ganda = $this->tag_id_ganda();
-            }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // kartu_tempat_lahir atau kartu_alamat berisi null
-        if ($this->session->db_error['code'] == 1138) {
-            $pos1      = strpos($this->session->message_query, 'kartu_tempat_lahir');
-            $pos2      = strpos($this->session->message_query, 'kartu_alamat');
-            $calon_ini = $current_version;
-            if ($pos1 !== false && $pos2 !== false) {
-                $calon_ini       = '21.05';
-                $this->masalah[] = 'kartu_alamat';
-            }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // email user ganda
-        if ($this->session->db_error['code'] == 1062) {
-            $pos       = strpos($this->session->message_query, 'ALTER TABLE user ADD UNIQUE email');
-            $calon_ini = $current_version;
-            if ($pos !== false) {
-                $calon_ini              = '22.02';
-                $this->masalah[]        = 'email_user_ganda';
-                $this->email_user_ganda = $this->deteksi_email_user_ganda();
-            }
-            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
-        // Untuk masalah yg tidak melalui exception, letakkan sesuai urut migrasi
-        $this->email_ganda = $this->deteksi_email_ganda();
-        if ($this->session->db_error['code'] == 99001 || ! empty($this->email_ganda)) {
-            $calon_ini       = '22.02';
-            $this->masalah[] = 'email_ganda';
-            $calon           = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
-        }
-
-        return $calon;
-    }
-
     private function deteksi_kode_panjang()
     {
         // Jika di CONCAT akan melebihi panjang yg diperbolehkan untuk kode (16)
@@ -140,6 +163,28 @@ class Periksa_model extends CI_Model
             ->select('id, kode')
             ->from('kelompok')
             ->where('CHAR_LENGTH(kode) + CHAR_LENGTH(id) + 1 > 16')
+            ->get()
+            ->result_array();
+    }
+
+    private function deteksi_kk_panjang()
+    {
+        // No KK melebihi 16 karakter
+        return $this->db
+            ->select('id, no_kk, CHAR_LENGTH(no_kk) AS panjang')
+            ->from('tweb_keluarga')
+            ->where('CHAR_LENGTH(no_kk) > 16')
+            ->get()
+            ->result_array();
+    }
+
+    private function deteksi_nik_ganda()
+    {
+        return $this->db
+            ->select('nik, COUNT(id) as jml')
+            ->from('tweb_penduduk')
+            ->group_by('nik')
+            ->having('jml >', 1)
             ->get()
             ->result_array();
     }
@@ -185,14 +230,22 @@ class Periksa_model extends CI_Model
         // Perbaiki masalah data yg terdeteksi untuk error yg dilaporkan
         log_message('error', '========= Perbaiki masalah data =========');
 
-        foreach ($this->masalah as $masalah_ini) {
+        foreach ($this->periksa['masalah'] as $masalah_ini) {
             switch ($masalah_ini) {
                 case 'kode_kelompok':
                     $this->perbaiki_kode_kelompok();
                     break;
 
+                case 'nik_ganda':
+                    $this->perbaiki_nik_ganda();
+                    break;
+
                 case 'email_ganda':
                     $this->perbaiki_email();
+                    break;
+
+                 case 'kk_panjang':
+                    $this->perbaiki_kk_panjang();
                     break;
 
                 case 'email_user_ganda':
@@ -218,7 +271,7 @@ class Periksa_model extends CI_Model
             ->where('versi_database', VERSI_DATABASE)
             ->delete('migrasi');
         $this->db
-            ->set('value', $this->migrasi_utk_diulang)
+            ->set('value', $this->periksa['migrasi_utk_diulang'])
             ->where('key', 'current_version')
             ->update('setting_aplikasi');
         $this->load->model('database_model');
@@ -227,12 +280,12 @@ class Periksa_model extends CI_Model
 
     private function perbaiki_kode_kelompok()
     {
-        if (empty($this->kode_panjang)) {
+        if (empty($this->periksa['kode_panjang'])) {
             return;
         }
 
-        $kode = array_column($this->kode_panjang, 'kode');
-        log_message('error', 'Kode kelompok berikut telah diperpendek: ' . print_r($this->kode_panjang, true));
+        $kode = array_column($this->periksa['kode_panjang'], 'kode');
+        log_message('error', 'Kode kelompok berikut telah diperpendek: ' . print_r($this->periksa['kode_panjang'], true));
         // Ubah kode kelompok dengan panjang id + 1
         $this->db
             ->set('kode', 'SUBSTRING(kode, 1, (CHAR_LENGTH(kode) - CHAR_LENGTH(id) - 1))', false)
@@ -240,10 +293,61 @@ class Periksa_model extends CI_Model
             ->update('kelompok');
     }
 
+    // Migrasi 21.09 gagal jika ada NIK ganda
+    private function perbaiki_nik_ganda()
+    {
+        if (empty($this->periksa['nik_ganda'])) {
+            return;
+        }
+
+        $this->load->model('penduduk_model');
+
+        // Catat semua NIK bukan numerik
+        $nik_ganda = $this->db
+            ->select('id, nik as nik_ganda, nama')
+            ->where("nik NOT REGEXP '^[0-9]+$'")
+            ->get('tweb_penduduk')
+            ->result_array();
+
+        // Catat semua NIK ganda numerik selain pertama
+        foreach ($this->periksa['nik_ganda'] as $nik) {
+            if (! is_numeric($nik['nik'])) {
+                continue;
+            }
+            $daftar_nik = $this->db
+                ->select('id, nik as nik_ganda, nama')
+                ->from('tweb_penduduk')
+                ->where('nik', $nik['nik'])
+                ->get()
+                ->result_array();
+            array_shift($daftar_nik);
+
+            $nik_ganda = array_merge($nik_ganda, $daftar_nik);
+        }
+
+        // Catat NIK sementara untuk NIK ganda yg akan diubah
+        $nik_sementara = $this->penduduk_model->nik_sementara();
+        $nik_sementara = str_split($nik_sementara, 11);
+
+        foreach ($nik_ganda as $key => $nik) {
+            $urut                             = sprintf('%05d', $nik_sementara[1] + $key);
+            $nik_ganda[$key]['nik_sementara'] = $nik_sementara[0] . $urut;
+        }
+
+        // Ubah NIK ganda dengan menjadi NIK sementara
+        foreach ($nik_ganda as $nik) {
+            $this->db
+                ->set('nik', $nik['nik_sementara'])
+                ->where('id', $nik['id'])
+                ->update('tweb_penduduk');
+        }
+        log_message('error', 'NIK penduduk berikut telah diubah menjadi NIK semenntara: ' . print_r($nik_ganda, true));
+    }
+
     // Migrasi 22.02 sengaja gagal jika ada email ganda
     private function perbaiki_email()
     {
-        if (empty($this->email_ganda)) {
+        if (empty($this->periksa['email_ganda'])) {
             return;
         }
 
@@ -255,7 +359,7 @@ class Periksa_model extends CI_Model
         // Ubah semua email ganda
         $email_ganda = [];
 
-        foreach ($this->email_ganda as $email) {
+        foreach ($this->periksa['email_ganda'] as $email) {
             if (empty($email['email'])) {
                 continue;
             }
@@ -275,10 +379,44 @@ class Periksa_model extends CI_Model
             ->update('tweb_penduduk');
     }
 
+    // Migrasi 21.11 gagal jika ada no KK melebihi 16 karakter
+    private function perbaiki_kk_panjang()
+    {
+        if (empty($this->periksa['kk_panjang'])) {
+            return;
+        }
+
+        $this->load->model('keluarga_model');
+
+        // Catat semua No KK panjang
+        $kk_panjang = $this->db
+            ->select('id, no_kk as kk_panjang, nik_kepala')
+            ->where('CHAR_LENGTH(no_kk) > 16')
+            ->get('tweb_keluarga')
+            ->result_array();
+
+        // Catat No KK sementara untuk No KK panjang yg akan diubah
+        $nokk_sementara = $this->keluarga_model->nokk_sementara();
+        $nokk_sementara = str_split($nokk_sementara, 11);
+
+        foreach ($kk_panjang as $key => $kk) {
+            $urut                               = sprintf('%05d', $nokk_sementara[1] + $key);
+            $kk_panjang[$key]['nokk_sementara'] = $nokk_sementara[0] . $urut;
+        }
+        // Ubah No KK panjang menjadi No KK sementara
+        foreach ($kk_panjang as $kk) {
+            $this->db
+                ->set('no_kk', $kk['nokk_sementara'])
+                ->where('id', $kk['id'])
+                ->update('tweb_keluarga');
+        }
+        log_message('error', ' No KK berikut telah diubah menjadi No KK sementara: ' . print_r($kk_panjang, true));
+    }
+
     // Migrasi 22.02 gagal jika ada email user ganda
     private function perbaiki_email_user()
     {
-        if (empty($this->email_user_ganda)) {
+        if (empty($this->periksa['email_user_ganda'])) {
             return;
         }
 
@@ -290,7 +428,7 @@ class Periksa_model extends CI_Model
         // Ubah semua email ganda
         $email_ganda = [];
 
-        foreach ($this->email_user_ganda as $email) {
+        foreach ($this->periksa['email_user_ganda'] as $email) {
             if (empty($email['email'])) {
                 continue;
             }
@@ -313,7 +451,7 @@ class Periksa_model extends CI_Model
     // Migrasi 21.04 tidak antiCONCAT(id, "_", email)sipasi tag_id_card ganda
     private function perbaiki_tag_id()
     {
-        if (empty($this->tag_id_ganda)) {
+        if (empty($this->periksa['tag_id_ganda'])) {
             return;
         }
         $daftar_tag_id = [];
@@ -324,11 +462,8 @@ class Periksa_model extends CI_Model
             ->where('tag_id_card', '')
             ->update('tweb_penduduk');
 
-        // Ubah semua email ganda
-        $email_ganda = [];
-
         // Ubah tag_id_card ganda menjadi kosong selain yg pertama
-        foreach ($this->tag_id_ganda as $tag_ganda) {
+        foreach ($this->periksa['tag_id_ganda'] as $tag_ganda) {
             if (empty($tag_ganda['tag_id_card'])) {
                 continue;
             }
