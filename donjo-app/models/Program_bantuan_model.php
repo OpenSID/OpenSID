@@ -211,10 +211,11 @@ class Program_bantuan_model extends MY_Model
             case 1:
                 // Data penduduk
                 if (! $jumlah) {
-                    $select_sql = 'p.*, o.nama, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk';
+                    $select_sql = 'p.*, o.nama, s.nama as status_dasar, x.nama AS sex, w.rt, w.rw, w.dusun, k.no_kk';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
-					RIGHT JOIN penduduk_hidup o ON p.peserta = o.nik
+					RIGHT JOIN tweb_penduduk o ON p.peserta = o.nik
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k ON k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
@@ -224,13 +225,14 @@ class Program_bantuan_model extends MY_Model
             case 2:
                 // Data KK
                 if (! $jumlah) {
-                    $select_sql = 'p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun';
+                    $select_sql = 'p.*, p.peserta as nama, k.nik_kepala, k.no_kk, o.nik as nik_kk, o.nama as nama_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . '
 					FROM program_peserta p
 					JOIN tweb_keluarga k ON p.peserta = k.no_kk
-					RIGHT JOIN penduduk_hidup o ON k.nik_kepala = o.id
-					RIGHT JOIN penduduk_hidup kartu on p.kartu_id_pend = kartu.id
+					RIGHT JOIN tweb_penduduk o ON k.nik_kepala = o.id
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
+					RIGHT JOIN tweb_penduduk kartu on p.kartu_id_pend = kartu.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = kartu.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id =' . $slug;
@@ -239,11 +241,12 @@ class Program_bantuan_model extends MY_Model
             case 3:
                 // Data RTM
                 if (! $jumlah) {
-                    $select_sql = 'p.*, o.nama, o.nik, r.no_kk, x.nama AS sex, w.rt, w.rw, w.dusun';
+                    $select_sql = 'p.*, o.nama, o.nik, r.no_kk, x.nama AS sex, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
 					LEFT JOIN tweb_rtm r ON r.no_kk = p.peserta
-					RIGHT JOIN penduduk_hidup o ON o.id = r.nik_kepala
+					RIGHT JOIN tweb_penduduk o ON o.id = r.nik_kepala
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
 					WHERE p.program_id=' . $slug;
@@ -252,11 +255,12 @@ class Program_bantuan_model extends MY_Model
             case 4:
                 // Data Kelompok
                 if (! $jumlah) {
-                    $select_sql = 'p.*, o.nama, o.nik, x.nama AS sex, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun';
+                    $select_sql = 'p.*, o.nama, o.nik, x.nama AS sex, k.no_kk, r.nama as nama_kelompok, w.rt, w.rw, w.dusun, s.nama as status_dasar';
                 }
                 $strSQL = 'SELECT ' . $select_sql . ' FROM program_peserta p
 					LEFT JOIN kelompok r ON r.id = p.peserta
-					RIGHT JOIN penduduk_hidup o ON o.id = r.id_ketua
+					RIGHT JOIN tweb_penduduk o ON o.id = r.id_ketua
+                    LEFT JOIN tweb_status_dasar s ON o.status_dasar = s.id
 					LEFT JOIN tweb_penduduk_sex x ON x.id = o.sex
 					LEFT JOIN tweb_keluarga k on k.id = o.id_kk
 					LEFT JOIN tweb_wil_clusterdesa w ON w.id = o.id_cluster
