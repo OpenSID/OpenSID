@@ -66,6 +66,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 58. [#4941](https://github.com/OpenSID/OpenSID/issues/4941) Perbaiki input data keuangan setelah di input tekan tombol enter data tidak tersimpan.
 58. [#4936](https://github.com/OpenSID/OpenSID/issues/4936) Perbaiki ada penduduk yang sudah meninggal/lainnya tidak tampil dan tambahkan keterangan.
 59. [#4965](https://github.com/OpenSID/OpenSID/issues/4965) Perbaiki Favicon tidak berubah setelah perbaharui logo desa.
+60. [#4968](https://github.com/OpenSID/OpenSID/issues/4968) Perbaiki validasi isian kolom komentar.
 
 #### Perubahan Teknis
 
