@@ -51,11 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Layanan Mandiri <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) ?></title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-		<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>"/>
-	<?php else: ?>
-		<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>"/>
-	<?php endif ?>
+	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 	<!-- Bootstrap 3.3.7 -->
 	<link rel="stylesheet" href="<?= asset('bootstrap/css/bootstrap.min.css') ?>">
 	<!-- Font Awesome -->

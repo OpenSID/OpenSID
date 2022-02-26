@@ -65,6 +65,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 57. [#4959](https://github.com/OpenSID/OpenSID/issues/4959) Perbaiki menyimpan data penduduk dengan tanggal penerbitan KTP dimasa akan datang.
 58. [#4941](https://github.com/OpenSID/OpenSID/issues/4941) Perbaiki input data keuangan setelah di input tekan tombol enter data tidak tersimpan.
 58. [#4936](https://github.com/OpenSID/OpenSID/issues/4936) Perbaiki ada penduduk yang sudah meninggal/lainnya tidak tampil dan tambahkan keterangan.
+59. [#4965](https://github.com/OpenSID/OpenSID/issues/4965) Perbaiki Favicon tidak berubah setelah perbaharui logo desa.
 
 #### Perubahan Teknis
 

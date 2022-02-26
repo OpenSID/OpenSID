@@ -3,12 +3,7 @@
 	<title>KIB C</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
-	<?php else: ?>
-		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-	<?php endif; ?>
-
+	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -105,19 +100,19 @@
 				<td>1</td>
 				<td>Asset Tetap Lainnya</td>
 				<td>
-					<?=$cetak_inventaris_asset_pribadi->total?>
+					<?= $cetak_inventaris_asset_pribadi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_asset_pemerintah->total?>
+					<?= $cetak_inventaris_asset_pemerintah->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_asset_provinsi->total?>
+					<?= $cetak_inventaris_asset_provinsi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_asset_kabupaten->total?>
+					<?= $cetak_inventaris_asset_kabupaten->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_asset_sumbangan->total?>
+					<?= $cetak_inventaris_asset_sumbangan->total?>
 				</td>
 				<td>Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.</td>
 			</tr>
@@ -126,19 +121,19 @@
 				<td>2</td>
 				<td>Gedung dan Bangunan</td>
 				<td>
-					<?=$cetak_inventaris_gedung_pribadi->total?>
+					<?= $cetak_inventaris_gedung_pribadi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_gedung_pemerintah->total?>
+					<?= $cetak_inventaris_gedung_pemerintah->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_gedung_provinsi->total?>
+					<?= $cetak_inventaris_gedung_provinsi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_gedung_kabupaten->total?>
+					<?= $cetak_inventaris_gedung_kabupaten->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_gedung_sumbangan->total?>
+					<?= $cetak_inventaris_gedung_sumbangan->total?>
 				</td>
 				<td>Informasi mengenai gedung dan bangunan yang dimiliki.</td>
 			</tr>
@@ -146,19 +141,19 @@
 				<td>3</td>
 				<td>Jalan Irigasi dan Jaringan</td>
 				<td>
-					<?=$cetak_inventaris_jalan_pribadi->total?>
+					<?= $cetak_inventaris_jalan_pribadi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_jalan_pemerintah->total?>
+					<?= $cetak_inventaris_jalan_pemerintah->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_jalan_provinsi->total?>
+					<?= $cetak_inventaris_jalan_provinsi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_jalan_kabupaten->total?>
+					<?= $cetak_inventaris_jalan_kabupaten->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_jalan_sumbangan->total?>
+					<?= $cetak_inventaris_jalan_sumbangan->total?>
 				</td>
 				<td>Informasi mengenai jaringan, seperti listrik atau Internet.</td>
 			</tr>
@@ -166,19 +161,19 @@
 				<td>4</td>
 				<td>Konstruksi Dalam Pengerjaan</td>
 				<td>
-					<?=$cetak_inventaris_kontruksi_pribadi->total?>
+					<?= $cetak_inventaris_kontruksi_pribadi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_kontruksi_pemerintah->total?>
+					<?= $cetak_inventaris_kontruksi_pemerintah->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_kontruksi_provinsi->total?>
+					<?= $cetak_inventaris_kontruksi_provinsi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_kontruksi_kabupaten->total?>
+					<?= $cetak_inventaris_kontruksi_kabupaten->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_kontruksi_sumbangan->total?>
+					<?= $cetak_inventaris_kontruksi_sumbangan->total?>
 				</td>
 				<td>Informasi mengenai bangunan yang masih dalam pengerjaan.</td>
 			</tr>
@@ -187,19 +182,19 @@
 				<td>5</td>
 				<td>Peralatan dan Mesin</td>
 				<td>
-					<?=$cetak_inventaris_peralatan_pribadi->total?>
+					<?= $cetak_inventaris_peralatan_pribadi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_peralatan_pemerintah->total?>
+					<?= $cetak_inventaris_peralatan_pemerintah->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_peralatan_provinsi->total?>
+					<?= $cetak_inventaris_peralatan_provinsi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_peralatan_kabupaten->total?>
+					<?= $cetak_inventaris_peralatan_kabupaten->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_peralatan_sumbangan->total?>
+					<?= $cetak_inventaris_peralatan_sumbangan->total?>
 				</td>
 				<td>Informasi mengenai peralatan dan mesin</td>
 			</tr>
@@ -208,19 +203,19 @@
 				<td>6</td>
 				<td>Tanah Kas Desa</td>
 				<td>
-					<?=$cetak_inventaris_tanah_pribadi->total?>
+					<?= $cetak_inventaris_tanah_pribadi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_tanah_pemerintah->total?>
+					<?= $cetak_inventaris_tanah_pemerintah->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_tanah_provinsi->total?>
+					<?= $cetak_inventaris_tanah_provinsi->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_tanah_kabupaten->total?>
+					<?= $cetak_inventaris_tanah_kabupaten->total?>
 				</td>
 				<td>
-					<?=$cetak_inventaris_tanah_sumbangan->total?>
+					<?= $cetak_inventaris_tanah_sumbangan->total?>
 				</td>
 				<td>
 				Informasi mengenai segala yang menyangkut dengan tanah
