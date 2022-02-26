@@ -108,6 +108,46 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('nik_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi NIK ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>NIK</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($nik_ganda as $nik) : ?>
+                                                    <tr>
+                                                        <td><?= $nik['nik']; ?></td>
+                                                        <td><?= $nik['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki NIK ganda dengan (1) mengubah semua NIK yang bukan numerik menjadi NIK sementara, dan (2) mengubah NIK ganda selain yang pertama menjadi NIK sementara. Untuk melihat NIK yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('kk_panjang', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi nomor KK melebihi 16 karakter</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>No KK</th>
+                                                    <th>Panjang</th>
+                                                </tr>
+                                                <?php foreach ($kk_panjang as $kk) : ?>
+                                                    <tr>
+                                                        <td><?= $kk['no_kk']; ?></td>
+                                                        <td><?= $kk['panjang']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki dengan mengubah semua nomor KK panjang menjadi KK sementara. Untuk melihat nomor KK yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <?php if (in_array('email_user_ganda', $masalah)) : ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
