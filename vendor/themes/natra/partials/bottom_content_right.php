@@ -17,7 +17,7 @@
 				<?php $this->load->view("../../{$widget['isi']}", $judul_widget) ?>
 			<?php else : ?>
 				<div class="single_bottom_rightbar">
-					<h2><i class="fa fa-folder"></i>&ensp;<?= $judul_widget ?></h2>
+					<h2><i class="fa fa-folder"></i>&ensp;<?= $judul_widget['judul_widget'] ?></h2>
 					<div class="box-body">
 						<?= html_entity_decode($widget['isi']) ?>
 					</div>

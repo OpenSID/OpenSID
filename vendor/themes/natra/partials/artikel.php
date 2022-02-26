@@ -157,7 +157,7 @@
 							<tr class="komentar nama">
 								<td width="20%">Nama</td>
 								<td>
-									<input class="form-group required" type="text" name="owner" maxlength="100" placeholder="ketik di sini" value="<?= $notif['data']['owner']; ?>">
+									<input class="form-group required" type="text" name="owner" maxlength="50" placeholder="ketik di sini" value="<?= $notif['data']['owner']; ?>">
 								</td>
 							</tr>
 							<tr class="komentar alamat">
@@ -169,7 +169,7 @@
 							<tr class="komentar alamat">
 								<td>E-mail</td>
 								<td>
-									<input class="form-group email" type="text" name="email" maxlength="100" placeholder="email@gmail.com" value="<?= $notif['data']['email']; ?>">
+									<input class="form-group email" type="text" name="email" maxlength="50" placeholder="email@gmail.com" value="<?= $notif['data']['email']; ?>">
 								</td>
 							</tr>
 							<tr class="komentar pesan">

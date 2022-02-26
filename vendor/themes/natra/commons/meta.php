@@ -23,8 +23,7 @@
 <?php endif; ?>
 </title>
 
-<?php	$favicon = LOKASI_LOGO_DESA . 'favicon.ico'; ?>
-<link rel="shortcut icon" href="<?= base_url(is_file($favicon) ? $favicon : 'favicon.ico') ?>"/>
+<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/bootstrap.min.css"); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/font-awesome.min.css"); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/animate.css"); ?>">

@@ -65,11 +65,7 @@
   <meta property='og:description' content="<?= $desa_title ?><?php !strpos($desa_title, NAMA_DESA) and print(NAMA_DESA) ?> <?= ucfirst($this->setting->sebutan_kecamatan) ?> <?= ucwords($desa['nama_kecamatan']) ?>, <?= ucfirst($this->setting->sebutan_kabupaten) ?> <?= ucwords($desa['nama_kabupaten']) ?>, Provinsi  <?= ucwords($desa['nama_propinsi']) ?>" />
 <?php endif; ?>
 <meta property='og:url' content="<?= current_url(); ?>" />
-<?php if(is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
-<link rel="shortcut icon" href="<?= base_url() . LOKASI_LOGO_DESA?>favicon.ico" />
-<?php else: ?>
-<link rel="shortcut icon" href="<?= base_url('favicon.ico')?>" />
-<?php endif; ?>
+<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 <noscript>You must have JavaScript enabled in order to use this theme. Please enable JavaScript and then reload this page in order to continue.</noscript>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.6.0/leaflet.js"></script>
