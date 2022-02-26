@@ -160,27 +160,21 @@ class Keuangan_manual extends Admin_Controller
     public function simpan_anggaran()
     {
         $this->redirect_hak_akses('u');
-        $Tahun           = $this->input->post('Tahun');
-        $Kd_Akun         = $this->input->post('Kd_Akun');
-        $Kd_Keg          = $this->input->post('Kd_Keg');
-        $Kd_Rincian      = $this->input->post('Kd_Rincian');
-        $Nilai_Anggaran  = $this->input->post('Nilai_Anggaran');
-        $Nilai_Realisasi = $this->input->post('Nilai_Realisasi');
-        $data            = $this->keuangan_manual_model->simpan_anggaran($Tahun, $Kd_Akun, $Kd_Keg, $Kd_Rincian, $Nilai_Anggaran, $Nilai_Realisasi);
+        $insert = $this->validation($this->input->post());
+        $data   = $this->keuangan_manual_model->simpan_anggaran($insert);
+
+        status_sukses($data);
         echo json_encode($data);
     }
 
     public function update_anggaran()
     {
         $this->redirect_hak_akses('u');
-        $id              = $this->input->post('id');
-        $Tahun           = $this->input->post('Tahun');
-        $Kd_Akun         = $this->input->post('Kd_Akun');
-        $Kd_Keg          = $this->input->post('Kd_Keg');
-        $Kd_Rincian      = $this->input->post('Kd_Rincian');
-        $Nilai_Anggaran  = $this->input->post('Nilai_Anggaran');
-        $Nilai_Realisasi = $this->input->post('Nilai_Realisasi');
-        $data            = $this->keuangan_manual_model->update_anggaran($id, $Tahun, $Kd_Akun, $Kd_Keg, $Kd_Rincian, $Nilai_Anggaran, $Nilai_Realisasi);
+        $id     = $this->input->post('id');
+        $update = $this->validation($this->input->post());
+        $data   = $this->keuangan_manual_model->update_anggaran($id, $update);
+
+        status_sukses($data);
         echo json_encode($data);
     }
 
@@ -199,7 +193,7 @@ class Keuangan_manual extends Admin_Controller
 
     public function salin_anggaran_tpl()
     {
-        $thn_apbdes               = $this->input->post('kode');
+        $thn_apbdes               = bilangan($this->input->post('kode'));
         $this->session->set_tahun = $thn_apbdes;
         $data                     = $this->keuangan_manual_model->salin_anggaran_tpl($thn_apbdes);
         echo json_encode($data);
@@ -231,5 +225,17 @@ class Keuangan_manual extends Admin_Controller
         $this->session->set_tahun = $post_tahun;
         $this->session->set_jenis = $post_jenis;
         redirect('keuangan_manual/manual_apbdes');
+    }
+
+    private function validation($post = [])
+    {
+        return [
+            'Tahun'           => bilangan($post['Tahun']),
+            'Kd_Akun'         => $post['Kd_Akun'],
+            'Kd_Keg'          => $post['Kd_Keg'],
+            'Kd_Rincian'      => $post['Kd_Rincian'],
+            'Nilai_Anggaran'  => ltrim(bilangan($post['Nilai_Anggaran']), '0'),
+            'Nilai_Realisasi' => ltrim(bilangan($post['Nilai_Realisasi']), '0'),
+        ];
     }
 }

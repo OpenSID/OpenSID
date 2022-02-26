@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keuangan_manual_model extends CI_model
 {
-    // Manual Input Anggaran dan Realisasi APBDes
+    private $tabel = 'keuangan_manual_rinci';
 
     public function list_tahun_anggaran_manual()
     {
@@ -70,9 +70,13 @@ class Keuangan_manual_model extends CI_model
         return $this->db->where($filter)->get('keuangan_manual_rinci')->result();
     }
 
-    public function simpan_anggaran($Tahun, $Kd_Akun, $Kd_Keg, $Kd_Rincian, $Nilai_Anggaran, $Nilai_Realisasi)
+    public function simpan_anggaran($data = [])
     {
-        return $this->db->query("INSERT INTO keuangan_manual_rinci (Tahun,Kd_Akun,Kd_Keg,Kd_Rincian,Nilai_Anggaran,Nilai_Realisasi) VALUES ('{$Tahun}','{$Kd_Akun}','{$Kd_Keg}','{$Kd_Rincian}','{$Nilai_Anggaran}','{$Nilai_Realisasi}')");
+        $output = $this->db->insert($this->tabel, $data);
+
+        status_sukses($output);
+
+        return $output;
     }
 
     public function get_anggaran($id)
@@ -95,9 +99,15 @@ class Keuangan_manual_model extends CI_model
         return $hasil;
     }
 
-    public function update_anggaran($id, $Tahun, $Kd_Akun, $Kd_Keg, $Kd_Rincian, $Nilai_Anggaran, $Nilai_Realisasi)
+    public function update_anggaran($id = null, $data = [])
     {
-        return $this->db->query("UPDATE keuangan_manual_rinci SET id='{$id}',Tahun='{$Tahun}',Kd_Akun='{$Kd_Akun}',Kd_Keg='{$Kd_Keg}',Kd_Rincian='{$Kd_Rincian}',Nilai_Anggaran='{$Nilai_Anggaran}',Nilai_Realisasi='{$Nilai_Realisasi}' WHERE id='{$id}'");
+        $output = $this->db
+            ->where('id', $id)
+            ->update($this->tabel, $data);
+
+        status_sukses($output);
+
+        return $output;
     }
 
     public function list_rek_pendapatan()
