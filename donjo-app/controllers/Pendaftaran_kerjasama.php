@@ -130,12 +130,12 @@ class Pendaftaran_kerjasama extends Admin_Controller
         } catch (ClientException $cx) {
             log_message('error', $cx);
             $this->session->set_flashdata(['errors' => json_decode($cx->getResponse()->getBody())]);
-            $this->session->success = -1;
+            session_error();
 
             return redirect('pendaftaran_kerjasama/form');
         } catch (Exception $e) {
             log_message('error', $e);
-            $this->session->success = -1;
+            session_error();
 
             return redirect('pendaftaran_kerjasama/form');
         }
