@@ -197,15 +197,17 @@ if (! function_exists('version')) {
  *
  * Mengembalikan path lengkap untuk file favico desa
  *
+ * @param mixed $favico
+ *
  * @return string
  */
-function favico_desa()
+function favico_desa($favico = 'favicon.ico')
 {
-    $favico = 'favicon.ico';
+    if (is_file(LOKASI_LOGO_DESA . $favico)) {
+        $favico = LOKASI_LOGO_DESA . $favico;
+    }
 
-    return (is_file(APPPATH . '../' . LOKASI_LOGO_DESA . $favico)) ?
-        base_url() . LOKASI_LOGO_DESA . $favico :
-        base_url() . $favico;
+    return base_url($favico) . '?v' . md5_file($favico);
 }
 
 /**

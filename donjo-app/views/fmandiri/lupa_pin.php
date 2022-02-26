@@ -9,11 +9,7 @@
 	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-		<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>"/>
-	<?php else: ?>
-		<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>"/>
-	<?php endif ?>
+	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 	<link rel="stylesheet" href="<?= asset('css/login-style.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/login-form-elements.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/siteman_mandiri.css') ?>" media="screen">

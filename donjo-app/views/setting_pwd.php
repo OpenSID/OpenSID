@@ -11,12 +11,7 @@
 		<?php if (is_file('desa/pengaturan/siteman/siteman.css')): ?>
 			<link rel='Stylesheet' href="<?= base_url('desa/pengaturan/siteman/siteman.css') ?>">
 		<?php endif; ?>
-		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-			<link rel="shortcut icon" href="<?= base_url(LOKASI_LOGO_DESA . 'favicon.ico') ?>"/>
-		<?php else: ?>
-			<link rel="shortcut icon" href="<?= base_url('favicon.ico') ?>"/>
-		<?php endif ?>
-
+		<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 		<style type="text/css">
 			span.input-group-btn {
 				position: absolute;

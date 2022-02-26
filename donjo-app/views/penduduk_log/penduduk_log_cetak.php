@@ -49,11 +49,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<title>Data Log Penduduk</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
-			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
-		<?php else: ?>
-			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
-		<?php endif; ?>
+		<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 		<!-- TODO: Pindahkan ke external css -->
 		<style>
 		.textx
