@@ -68,6 +68,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 59. [#4965](https://github.com/OpenSID/OpenSID/issues/4965) Perbaiki Favicon tidak berubah setelah perbaharui logo desa.
 60. [#4968](https://github.com/OpenSID/OpenSID/issues/4968) Perbaiki validasi isian kolom komentar.
 61. [#4969](https://github.com/OpenSID/OpenSID/issues/4969) Perbaiki Notifikasi tidak sesuai Halaman Module.
+62. [#4966](https://github.com/OpenSID/OpenSID/issues/4966) Perbaiki filter tahun Bumindes_inventaris_kekayaan.
 
 #### Perubahan Teknis
 
