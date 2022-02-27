@@ -9,7 +9,7 @@
 	<meta name="robots" content="noindex">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
+	<link rel="shortcut icon" href="<?= favico_desa() ?>" />
 	<link rel="stylesheet" href="<?= asset('css/login-style.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/login-form-elements.css') ?>" media="screen">
 	<link rel="stylesheet" href="<?= asset('css/siteman_mandiri.css') ?>" media="screen">
@@ -80,7 +80,7 @@
 										</div>
 									<?php else : ?>
 										<div class="form-group form-login">
-											<input type="text" autocomplete="off" value="" class="form-control required <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="nik" placeholder=" NIK">
+											<input type="text" autocomplete="off" value="" class="form-control required nik <?= jecho($cek_anjungan['keyboard'] == 1, true, 'kbvnumber'); ?>" name="nik" placeholder=" NIK" maxlength="16">
 										</div>
 										<div class="form-group">
 											<button type="submit" class="btn btn-block bg-green" name="send" value="telegram"><b>TELEGRAM</b></button>
@@ -170,4 +170,5 @@
 		}
 	</script>
 </body>
+
 </html>

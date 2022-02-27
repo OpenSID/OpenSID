@@ -94,6 +94,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 65. [#4957](https://github.com/OpenSID/OpenSID/issues/4957) Perbaiki jumlah bukan penerima pada laporan penerima bantuan keluarga tidak sama dengan jumlah pada kartu keluarga.
 66. [#4974](https://github.com/OpenSID/OpenSID/issues/4974) Perbaiki kurang satu kolom pada tabel pendapat.
 67. [#4975](https://github.com/OpenSID/OpenSID/issues/4975) Perbaiki keterangan vaksin sesuai filter yang terpilih.
+68. [#4970](https://github.com/OpenSID/OpenSID/issues/4970) Perbaiki validasi NIK pada lupa pin layanan mandiri.
 
 #### Perubahan Teknis
 
