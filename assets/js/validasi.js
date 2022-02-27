@@ -234,11 +234,6 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter numerik");
 
-	jQuery.validator.addMethod("bilangan-9", function(value, element) {
-		valid = /^[0-9]+.{0,9}$/.test(value);
-		return this.optional(element) || valid;
-	}, "Hanya boleh berisi karakter numerik dengan minimal 0 dan maksimal 9 digit");
-
 	jQuery.validator.addMethod("alamat", function(value, element) {
 		valid = /^[a-zA-Z0-9 '\.,\-\/]+$/.test(value);
 		return this.optional(element) || valid;
