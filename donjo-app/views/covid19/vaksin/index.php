@@ -142,17 +142,21 @@
 																<td><?= $data->dusun ?></td>
 																<td><?= $data->alamat ?></td>
 																<td>
-																	<?php if ($data->tunda == 1) : ?>
-																		Tunda - <?= $data->keterangan ?>
-																	<?php elseif ($data->vaksin_3) : ?>
-																		Vaksin Dosis ke 3
-																	<?php elseif ($data->vaksin_2) : ?>
-																		Vaksin Dosis ke 2
-																	<?php elseif ($data->vaksin_1) : ?>
-																		Vaksin Dosis ke 1
+																	<?php if ($vaksin == 1 || $vaksin == 2 || $vaksin == 3) : ?>
+																		Vaksin Dosis ke <?= $vaksin ?>
 																	<?php else : ?>
-																		Belum Vaksin
-																	<?php endif ?>
+																		<?php if ($data->tunda == 1) : ?>
+																			Tunda - <?= $data->keterangan ?>
+																		<?php elseif ($data->vaksin_3) : ?>
+																			Vaksin Dosis ke 3
+																		<?php elseif ($data->vaksin_2) : ?>
+																			Vaksin Dosis ke 2
+																		<?php elseif ($data->vaksin_1) : ?>
+																			Vaksin Dosis ke 1
+																		<?php else : ?>
+																			Belum Vaksin
+																		<?php endif ?>
+																<?php endif ?>
 																</td>
 															</tr>
 														<?php endforeach ?>
