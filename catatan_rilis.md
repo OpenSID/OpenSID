@@ -85,4 +85,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.
 7. Hapus session per_page yang tidak digunakan pada statistik web.
 8. Catat versi aplikasi di layanan.
-9. Perbaikan validasi siaga covid19 > pendataan, bumindes > pembangunan > kader pemberdayaan masyarakat
+9. Perbaikan validasi siaga covid19 > pendataan, bumindes > pembangunan > kader pemberdayaan masyarakat, pendaftaran kerjasama
