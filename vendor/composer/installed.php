@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'dd97ec007f2ffba6b91d8434f38cecacf578974f',
+    'reference' => 'a88b70fe472fdf0618467d184c964b1bd252ac7a',
     'name' => 'opendesa/opensid',
   ),
   'versions' => 
@@ -68,12 +68,12 @@
     ),
     'google/apiclient-services' => 
     array (
-      'pretty_version' => 'v0.236.0',
-      'version' => '0.236.0.0',
+      'pretty_version' => 'v0.237.0',
+      'version' => '0.237.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3aefd2914d9025a881ee93145de16f9e0f82443e',
+      'reference' => 'c10652adc29b4242237075acde318e83f88ab918',
     ),
     'google/auth' => 
     array (
@@ -280,7 +280,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'dd97ec007f2ffba6b91d8434f38cecacf578974f',
+      'reference' => 'a88b70fe472fdf0618467d184c964b1bd252ac7a',
     ),
     'paragonie/constant_time_encoding' => 
     array (
@@ -437,12 +437,12 @@
     ),
     'symfony/console' => 
     array (
-      'pretty_version' => 'v5.4.3',
-      'version' => '5.4.3.0',
+      'pretty_version' => 'v5.4.5',
+      'version' => '5.4.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a2a86ec353d825c75856c6fd14fac416a7bdb6b8',
+      'reference' => 'd8111acc99876953f52fe16d4c50eb60940d49ad',
     ),
     'symfony/deprecation-contracts' => 
     array (
@@ -536,12 +536,12 @@
     ),
     'symfony/translation' => 
     array (
-      'pretty_version' => 'v5.4.3',
-      'version' => '5.4.3.0',
+      'pretty_version' => 'v5.4.5',
+      'version' => '5.4.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'a9dd7403232c61e87e27fb306bbcd1627f245d70',
+      'reference' => '7e4d52d39e5d86f3f04bef46fa29a1091786bc73',
     ),
     'symfony/translation-contracts' => 
     array (
@@ -561,12 +561,12 @@
     ),
     'symfony/var-dumper' => 
     array (
-      'pretty_version' => 'v5.4.3',
-      'version' => '5.4.3.0',
+      'pretty_version' => 'v5.4.5',
+      'version' => '5.4.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '970a01f208bf895c5f327ba40b72288da43adec4',
+      'reference' => '6efddb1cf6af5270b21c48c6103e81f920c220f0',
     ),
     'tecnickcom/tcpdf' => 
     array (
@@ -585,7 +585,7 @@
       array (
         0 => '9999999-dev',
       ),
-      'reference' => '133cb1a584f8d0d806e849113e1f3fa3d1b517e1',
+      'reference' => '73963933d912e9c614d14962b7cfe456ebd93570',
     ),
     'themes/natra' => 
     array (

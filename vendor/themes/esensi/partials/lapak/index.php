@@ -23,8 +23,8 @@
   </div>
 </form>
 
-<div class="grid grid-cols-1 lg:grid-cols-4 gap-5 py-1">
-  <?php if($produk) : ?>
+<?php if($produk) : ?>
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 py-1">
     <?php foreach($produk as $in => $pro) : ?>
       <?php $foto = json_decode($pro->foto); ?>
       <div class="flex flex-col justify-between space-y-4 this-product">
@@ -66,62 +66,66 @@
         </div>
       </div>
     <?php endforeach ?>
-    <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="modalLokasi" tabindex="-1" aria-modal="true" role="dialog">
-      <div class="modal-dialog relative w-auto pointer-events-none">
-        <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
-          <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
-            <h5 class="text-h6">Lokasi Penjual</h5>
-          </div>
-          <div class="modal-body p-4">
-          </div>
+  </div>
+
+  <?php $p_data['paging_page'] = ($paging_page ?? 'lapak') ?>
+  <?php $this->load->view($folder_themes .'/commons/paging', $p_data) ?>
+
+  <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="modalLokasi" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog relative w-auto pointer-events-none">
+      <div class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+        <div class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+          <h5 class="text-h6">Lokasi Penjual</h5>
+        </div>
+        <div class="modal-body p-4">
         </div>
       </div>
     </div>
+  </div>
 
-    <script type="text/javascript">
-      var token = "<?= $this->setting->mapbox_key; ?>";
+  <script type="text/javascript">
+    var token = "<?= $this->setting->mapbox_key; ?>";
 
-      $(document).ready(function () {
-        document.querySelector('#modalLokasi').addEventListener('shown.bs.modal', function (event) {
-          const link = $(event.relatedTarget);
-          const title = link.data('title');
-          const modal = $(this);
-          modal.find('.modal-title').text(title);
-          modal.find('.modal-body').html("<div id='map' style='width: 100%; height:350px'></div>");
+    $(document).ready(function () {
+      document.querySelector('#modalLokasi').addEventListener('shown.bs.modal', function (event) {
+        const link = $(event.relatedTarget);
+        const title = link.data('title');
+        const modal = $(this);
+        modal.find('.modal-title').text(title);
+        modal.find('.modal-body').html("<div id='map' style='width: 100%; height:350px'></div>");
 
-          const popup = `
-            <div class="card">
-              <div class="text-xs">
-                <div class="py-1 space-y-1/2 text-sm flex flex-col">
-                  ${link.closest('.this-product').find('.detail').html()}
-                </div>
+        const popup = `
+          <div class="card">
+            <div class="text-xs">
+              <div class="py-1 space-y-1/2 text-sm flex flex-col">
+                ${link.closest('.this-product').find('.detail').html()}
               </div>
-            </div>`;
+            </div>
+          </div>`;
 
-          const posisi = [link.data('lat'), link.data('lng')];
-          const zoom = link.data('zoom') || 10;
-          $("#lat").val(link.data('lat'));
-          $("#lng").val(link.data('lng'));
+        const posisi = [link.data('lat'), link.data('lng')];
+        const zoom = link.data('zoom') || 10;
+        $("#lat").val(link.data('lat'));
+        $("#lng").val(link.data('lng'));
 
-          // Inisialisasi tampilan peta
-          pelapak = L.map('map').setView(posisi, zoom);
+        // Inisialisasi tampilan peta
+        pelapak = L.map('map').setView(posisi, zoom);
 
-          // Menampilkan BaseLayers Peta
-          getBaseLayers(pelapak, token);
+        // Menampilkan BaseLayers Peta
+        getBaseLayers(pelapak, token);
 
-          // Tampilkan Posisi Pelapak
-          marker = new L.Marker(posisi, {
-            draggable: false
-          });
-
-          pelapak.addLayer(marker);
-          L.marker(posisi).addTo(pelapak).bindPopup(popup);
-          L.control.scale().addTo(pelapak);
-          pelapak.invalidateSize();
+        // Tampilkan Posisi Pelapak
+        marker = new L.Marker(posisi, {
+          draggable: false
         });
+
+        pelapak.addLayer(marker);
+        L.marker(posisi).addTo(pelapak).bindPopup(popup);
+        L.control.scale().addTo(pelapak);
+        pelapak.invalidateSize();
       });
-    </script>
-    <?php else : ?>
-      <p class="py-2">Tidak ada produk yang tersedia</p>
+    });
+  </script>
+  <?php else : ?>
+    <p class="py-2">Tidak ada produk yang tersedia</p>
   <?php endif ?>
-</div>
