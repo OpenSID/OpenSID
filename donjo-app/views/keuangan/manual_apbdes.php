@@ -136,74 +136,60 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<h4 class="modal-title" id="myModalLabel">Tambah Anggaran / Realisasi</h4>
 			</div>
 
-			<form id="form-tambah" class="form-horizontal">
+			<form id="form-tambah">
 				<div class="modal-body">
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Tahun</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control input-sm" id="Tahun" name="Tahun" placeholder="Tahun"/>
-						</div>
+						<label>Tahun</label>
+						<input type="text" class="form-control input-sm bilangan required" minlength="4" maxlength="4" id="Tahun" name="Tahun" placeholder="Tahun Anggaran"/>
 					</div>
 
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Jenis Anggaran</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Akun" name="Kd_Akun">
-								<option value="">Pilih Jenis Anggaran</option>
-								<?php foreach ($lakun as $data): ?>
-									<option value="<?= $data['Akun']?><?= $data['Nama_Akun']?>" <?= selected($jenis, $data['Akun'] . $data['Nama_Akun']); ?>><?= $data['Akun'] ?><?= $data['Nama_Akun']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Jenis Anggaran</label>
+						<select class="form-control input-sm select2 required" id="Kd_Akun" name="Kd_Akun">
+							<option value="">Pilih Jenis Anggaran</option>
+							<?php foreach ($lakun as $data): ?>
+								<option value="<?= $data['Akun']?><?= $data['Nama_Akun']?>" <?= selected($jenis, $data['Akun'] . $data['Nama_Akun']); ?>><?= $data['Akun'] ?><?= $data['Nama_Akun']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group" id="Pendapatan" <?= jecho($jenis != '4.PENDAPATAN', true, 'style="display: none;"'); ?>>
-						<label class="col-sm-3 control-label">Kode Rincian</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Rincian_pd" name="Kd_Rincian_pd">
-								<option value="">Pilih Rekening Pendapatan</option>
-								<?php foreach ($lpendapatan as $data): ?>
-									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?= selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Kode Rincian</label>
+						<select class="form-control input-sm select2" id="Kd_Rincian_pd" name="Kd_Rincian_pd">
+							<option value="">Pilih Rekening Pendapatan</option>
+							<?php foreach ($lpendapatan as $data): ?>
+								<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?= selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group" id="Belanja" <?= jecho($jenis != '5.BELANJA', true, 'style="display: none;"'); ?>>
-						<label class="col-sm-3 control-label">Kode Kegiatan</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Keg" name="Kd_Keg">
-								<option value="">Pilih Rekening Belanja</option>
-								<?php foreach ($lbelanja as $data): ?>
-									<option value="<?= $data['Kd_Bid']?> <?= $data['Nama_Bidang']?>" <?= selected($main['Kd_Keg'], $data['Kd_Bid']); ?>><?= $data['Kd_Bid'] ?> <?= $data['Nama_Bidang']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Kode Kegiatan</label>
+						<select class="form-control input-sm select2" id="Kd_Keg" name="Kd_Keg">
+							<option value="">Pilih Rekening Belanja</option>
+							<?php foreach ($lbelanja as $data): ?>
+								<option value="<?= $data['Kd_Bid']?> <?= $data['Nama_Bidang']?>" <?= selected($main['Kd_Keg'], $data['Kd_Bid']); ?>><?= $data['Kd_Bid'] ?> <?= $data['Nama_Bidang']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group" id="Pembiayaan" <?= jecho($jenis != '6.PEMBIAYAAN', true, 'style="display: none;"'); ?>>
-						<label class="col-sm-3 control-label">Kode Rincian</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Rincian_by" name="Kd_Rincian_by">
-								<option value="">Pilih Rekening Pembiayaan</option>
-								<?php foreach ($lbiaya as $data): ?>
-									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?= selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Kode Rincian</label>
+						<select class="form-control input-sm select2" id="Kd_Rincian_by" name="Kd_Rincian_by">
+							<option value="">Pilih Rekening Pembiayaan</option>
+							<?php foreach ($lbiaya as $data): ?>
+								<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?= selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Nilai Anggaran</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control input-sm" id="Nilai_Anggaran" name="Nilai_Anggaran" placeholder="Nilai Anggaran"/>
-						</div>
+						<label>Nilai Anggaran</label>
+						<input type="text" class="form-control input-sm bilangan required" maxlength="50" id="Nilai_Anggaran" name="Nilai_Anggaran" placeholder="Nilai Anggaran"/>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Nilai Realisasi</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control input-sm" id="Nilai_Realisasi" name="Nilai_Realisasi" placeholder="Nilai Realisasi"/>
-						</div>
+						<label>Nilai Realisasi</label>
+						<input type="text" class="form-control input-sm bilangan required" maxlength="50" id="Nilai_Realisasi" name="Nilai_Realisasi" placeholder="Nilai Realisasi"/>
 					</div>
 				</div>
 
@@ -225,77 +211,63 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">Ubah Anggaran / Realisasi</h4>
 			</div>
-			<form id="form-edit" class="form-horizontal">
+			<form id="form-edit">
 				<div class="modal-body">
 
 					<input type="hidden" id="id2" name="id_edit"/>
 
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Tahun</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control input-sm" id="Tahun2" name="Tahun_edit" placeholder="Tahun"/>
-						</div>
+						<label>Tahun</label>
+						<input type="text" class="form-control input-sm bilangan required" minlength="4" maxlength="4" id="Tahun2" name="Tahun_edit" placeholder="Tahun Anggaran"/>
 					</div>
 
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Jenis Anggaran</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Akun2" name="Kd_Akun_edit" disabled>
-								<option value="">Pilih Jenis Anggaran</option>
-								<?php foreach ($lakun as $data): ?>
-									<option value="<?= $data['Akun']?><?= $data['Nama_Akun']?>" <?= selected($main['Kd_Akun'], $data['Akun']); ?>><?= $data['Akun'] ?><?= $data['Nama_Akun']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Jenis Anggaran</label>
+						<select class="form-control input-sm select2 required" id="Kd_Akun2" name="Kd_Akun_edit" disabled>
+							<option value="">Pilih Jenis Anggaran</option>
+							<?php foreach ($lakun as $data): ?>
+								<option value="<?= $data['Akun']?><?= $data['Nama_Akun']?>" <?= selected($main['Kd_Akun'], $data['Akun']); ?>><?= $data['Akun'] ?><?= $data['Nama_Akun']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group" id="Pendapatan_edit">
-						<label class="col-sm-3 control-label">Kode Rincian</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Rincian2_pd" name="Kd_Rincian_edit_pd">
-								<option value="">Pilih Rekening Pendapatan</option>
-								<?php foreach ($lpendapatan as $data): ?>
-									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>"><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Kode Rincian</label>
+						<select class="form-control input-sm select2" id="Kd_Rincian2_pd" name="Kd_Rincian_edit_pd">
+							<option value="">Pilih Rekening Pendapatan</option>
+							<?php foreach ($lpendapatan as $data): ?>
+								<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>"><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group" id="Belanja_edit">
-						<label class="col-sm-3 control-label">Kode Kegiatan</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Keg2_bl" name="Kd_Keg_edit_bl">
-								<option value="">Pilih Rekening Belanja</option>
-								<?php foreach ($lbelanja as $data): ?>
-									<option value="<?= $data['Kd_Bid']?> <?= $data['Nama_Bidang']?>"><?= $data['Kd_Bid'] ?> <?= $data['Nama_Bidang']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Kode Kegiatan</label>
+						<select class="form-control input-sm select2" id="Kd_Keg2_bl" name="Kd_Keg_edit_bl">
+							<option value="">Pilih Rekening Belanja</option>
+							<?php foreach ($lbelanja as $data): ?>
+								<option value="<?= $data['Kd_Bid']?> <?= $data['Nama_Bidang']?>"><?= $data['Kd_Bid'] ?> <?= $data['Nama_Bidang']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group" id="Pembiayaan_edit">
-						<label class="col-sm-3 control-label">Kode Rincian</label>
-						<div class="col-sm-8">
-							<select class="form-control input-sm select2" id="Kd_Rincian2_by" name="Kd_Rincian_edit_by">
-								<option value="">Pilih Rekening Pembiayaan</option>
-								<?php foreach ($lbiaya as $data): ?>
-									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>"><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach; ?>
-							</select>
-						</div>
+						<label>Kode Rincian</label>
+						<select class="form-control input-sm select2" id="Kd_Rincian2_by" name="Kd_Rincian_edit_by">
+							<option value="">Pilih Rekening Pembiayaan</option>
+							<?php foreach ($lbiaya as $data): ?>
+								<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>"><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
+							<?php endforeach; ?>
+						</select>
 					</div>
 
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Nilai Anggaran</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control input-sm" id="Nilai_Anggaran2" name="Nilai_Anggaran_edit" placeholder="Nilai Anggaran"/>
-						</div>
+						<label>Nilai Anggaran</label>
+						<input type="text" class="form-control input-sm bilangan required" maxlength="50" id="Nilai_Anggaran2" name="Nilai_Anggaran_edit" placeholder="Nilai Anggaran"/>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Nilai Realisasi</label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control input-sm" id="Nilai_Realisasi2" name="Nilai_Realisasi_edit" placeholder="Nilai Realisasi"/>
-						</div>
+						<label>Nilai Realisasi</label>
+						<input type="text" class="form-control input-sm bilangan required" maxlength="50" id="Nilai_Realisasi2" name="Nilai_Realisasi_edit" placeholder="Nilai Realisasi"/>
 					</div>
 
 				</div>
@@ -318,13 +290,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">Tambah dari Template</h4>
 			</div>
-			<form class="form-horizontal">
+			<form id="form-salin">
 				<div class="modal-body">
 					<div class="form-group">
-						<label class="col-sm-3 control-label">Tahun Anggaran</label>
-						<div class="col-sm-3">
-							<input type="text" class="form-control input-sm" id="kodetahun" name="kodetahun" placeholder="Tahun Anggaran"/>
-						</div>
+						<label>Tahun Anggaran</label>
+						<input type="text" class="form-control input-sm bilangan required" minlength="4" maxlength="4" id="kodetahun" name="kodetahun" placeholder="Tahun Anggaran"/>
 					</div>
 				</div>
 				<div class="modal-footer">

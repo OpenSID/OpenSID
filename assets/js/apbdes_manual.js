@@ -38,7 +38,7 @@ function generateTable(tabel, dataTable, ubah, hapus) {
 				'language': {
 					'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
 				},
-				'drawCallback': function (){
+				'drawCallback': function () {
 					$('.dataTables_paginate > .pagination').addClass('pagination-sm no-margin');
 				},
 			});
@@ -50,44 +50,49 @@ function generateTable(tabel, dataTable, ubah, hapus) {
 //CREATE
 function saveAdd() {
 	//Simpan Add Anggaran / Realisasi
-	$('#btn_simpan').on('click', function(){
-		var Tahun = $('#Tahun').val();
-		var Kd_Akun = $('#Kd_Akun').val();
+	$('#btn_simpan').on('click', function() {
+		$('#form-tambah').validate({
+			submitHandler: function() {
+				var Tahun = $('#Tahun').val();
+				var Kd_Akun = $('#Kd_Akun').val();
 
-		if ($("#Kd_Akun").val() == "4.PENDAPATAN") {
-			var Kd_Keg = $('#Kd_Keg').val();
-			var Kd_Rincian = $('#Kd_Rincian_pd').val();
-		} else if ($("#Kd_Akun").val() == "5.BELANJA") {
-			var Kd_Keg = $('#Kd_Keg').val();
-			var Kd_Rincian='5.0.0';
-		} else {
-			var Kd_Keg = $('#Kd_Keg').val();
-			var Kd_Rincian = $('#Kd_Rincian_by').val();
-		}
+				if ($("#Kd_Akun").val() == "4.PENDAPATAN") {
+					var Kd_Keg = $('#Kd_Keg').val();
+					var Kd_Rincian = $('#Kd_Rincian_pd').val();
+				} else if ($("#Kd_Akun").val() == "5.BELANJA") {
+					var Kd_Keg = $('#Kd_Keg').val();
+					var Kd_Rincian='5.0.0';
+				} else {
+					var Kd_Keg = $('#Kd_Keg').val();
+					var Kd_Rincian = $('#Kd_Rincian_by').val();
+				}
 
-		var Nilai_Anggaran = $('#Nilai_Anggaran').val();
-		var Nilai_Realisasi = $('#Nilai_Realisasi').val();
+				var Nilai_Anggaran = $('#Nilai_Anggaran').val();
+				var Nilai_Realisasi = $('#Nilai_Realisasi').val();
 
-		$.ajax({
-			type : "POST",
-			url  : 'simpan_anggaran',
-			dataType : "JSON",
-			data : {Tahun:Tahun, Kd_Akun:Kd_Akun, Kd_Keg:Kd_Keg, Kd_Rincian:Kd_Rincian, Nilai_Anggaran:Nilai_Anggaran, Nilai_Realisasi:Nilai_Realisasi},
-			success: function(data){
-				$('[name="Tahun_edit"]').val("");
-				$('[name="Kd_Akun_edit"]').val("");
-				$('[name="Kd_Keg_edit_bl"]').val("");
-				$('[name="Kd_Rincian_edit_pd"]').val("");
-				$('[name="Kd_Rincian_edit_by"]').val("");
-				$('[name="Nilai_Anggaran_edit"]').val("");
-				$('[name="Nilai_Realisasi_edit"]').val("");
-				$('#ModalAdd').modal('hide');
+				$.ajax({
+					type : "POST",
+					url  : 'simpan_anggaran',
+					dataType : "JSON",
+					data : {Tahun:Tahun, Kd_Akun:Kd_Akun, Kd_Keg:Kd_Keg, Kd_Rincian:Kd_Rincian, Nilai_Anggaran:Nilai_Anggaran, Nilai_Realisasi:Nilai_Realisasi},
+					success: function(data) {
+						$('[name="Tahun"]').val("");
+						$('[name="Kd_Akun"]').val("");
+						$('[name="Kd_Keg_bl"]').val("");
+						$('[name="Kd_Rincian_pd"]').val("");
+						$('[name="Kd_Rincian_by"]').val("");
+						$('[name="Nilai_Anggaran"]').val("");
+						$('[name="Nilai_Realisasi"]').val("");
+						$('#ModalAdd').modal('hide');
+					}
+				}).then(function() {
+					location.reload();
+				});
+				return false;
 			}
-		}).then(function() {
-			location.reload();
 		});
-		return false;
 	});
+
 	return saveAdd;
 }
 
@@ -139,70 +144,80 @@ function getEdit(table) {
 
 //Ubah Data Anggaran / Realisasi
 function saveEdit() {
-	$('#btn_update').on('click', function(){
-		var id = $('#id2').val();
-		var Tahun = $('#Tahun2').val();
-		var Kd_Akun = $('#Kd_Akun2').val();
+	$('#btn_update').on('click', function() {
+		$('#form-edit').validate({
+			submitHandler: function() {
+				var id = $('#id2').val();
+				var Tahun = $('#Tahun2').val();
+				var Kd_Akun = $('#Kd_Akun2').val();
 
-		if ($("#Kd_Akun2").val() == "4.PENDAPATAN") {
-			var Kd_Keg = $('#Kd_Keg2_bl').val();
-			var Kd_Rincian = $('#Kd_Rincian2_pd').val();
-		} else if ($("#Kd_Akun2").val() == "5.BELANJA") {
-			var Kd_Keg = $('#Kd_Keg2_bl').val();
-			var Kd_Rincian='5.0.0';
-		} else {
-			var Kd_Keg = $('#Kd_Keg2_bl').val();
-			var Kd_Rincian = $('#Kd_Rincian2_by').val();
-		}
+				if ($("#Kd_Akun2").val() == "4.PENDAPATAN") {
+					var Kd_Keg = $('#Kd_Keg2_bl').val();
+					var Kd_Rincian = $('#Kd_Rincian2_pd').val();
+				} else if ($("#Kd_Akun2").val() == "5.BELANJA") {
+					var Kd_Keg = $('#Kd_Keg2_bl').val();
+					var Kd_Rincian='5.0.0';
+				} else {
+					var Kd_Keg = $('#Kd_Keg2_bl').val();
+					var Kd_Rincian = $('#Kd_Rincian2_by').val();
+				}
 
-		var Nilai_Anggaran = $('#Nilai_Anggaran2').val();
-		var Nilai_Realisasi = $('#Nilai_Realisasi2').val();
+				var Nilai_Anggaran = $('#Nilai_Anggaran2').val();
+				var Nilai_Realisasi = $('#Nilai_Realisasi2').val();
 
-		$.ajax({
-			type : "POST",
-			url  : 'update_anggaran',
-			dataType : "JSON",
-			data : {id:id, Tahun:Tahun, Kd_Akun:Kd_Akun, Kd_Keg:Kd_Keg, Kd_Rincian:Kd_Rincian, Nilai_Anggaran:Nilai_Anggaran, Nilai_Realisasi:Nilai_Realisasi},
-			success: function(data){
-				$('[name="id_edit"]').val("");
-				$('[name="Tahun_edit"]').val("");
-				$('[name="Kd_Akun_edit"]').val("");
-				$('[name="Kd_Keg_edit_bl"]').val("");
-				$('[name="Kd_Rincian_edit_pd"]').val("");
-				$('[name="Kd_Rincian_edit_by"]').val("");
-				$('[name="Nilai_Anggaran_edit"]').val("");
-				$('[name="Nilai_Realisasi_edit"]').val("");
-				$('#ModalEdit').modal('hide');
+				$.ajax({
+					type : "POST",
+					url  : 'update_anggaran',
+					dataType : "JSON",
+					data : {id:id, Tahun:Tahun, Kd_Akun:Kd_Akun, Kd_Keg:Kd_Keg, Kd_Rincian:Kd_Rincian, Nilai_Anggaran:Nilai_Anggaran, Nilai_Realisasi:Nilai_Realisasi},
+					success: function(data) {
+						$('[name="id_edit"]').val("");
+						$('[name="Tahun_edit"]').val("");
+						$('[name="Kd_Akun_edit"]').val("");
+						$('[name="Kd_Keg_edit_bl"]').val("");
+						$('[name="Kd_Rincian_edit_pd"]').val("");
+						$('[name="Kd_Rincian_edit_by"]').val("");
+						$('[name="Nilai_Anggaran_edit"]').val("");
+						$('[name="Nilai_Realisasi_edit"]').val("");
+						$('#ModalEdit').modal('hide');
+					}
+				}).then(function() {
+					location.reload();
+				});
+				return false;
 			}
-		}).then(function() {
-			location.reload();
 		});
-		return false;
 	});
-return saveEdit;
+
+	return saveAdd;
 }
 
 //SALIN TEMPLATE DATA
 function salinData() {
-	$('#btn_salin').on('click', function(){
+	$('#btn_salin').on('click', function() {
 		$('#ModalSalin').modal('show');
 	});
 
-	$('#btn_salin1').on('click', function(){
-		var kode = $('#kodetahun').val();
-		$.ajax({
-			type : "POST",
-			url  : 'salin_anggaran_tpl',
-			dataType : "JSON",
-			data : {kode: kode},
-			success: function(data){
-				$('#ModalSalin').modal('hide');
+	$('#btn_salin1').on('click', function() {
+		$('#form-salin').validate({
+			submitHandler: function() {
+				var kode = $('#kodetahun').val();
+				$.ajax({
+					type : "POST",
+					url  : 'salin_anggaran_tpl',
+					dataType : "JSON",
+					data : {kode: kode},
+					success: function(data) {
+						$('#ModalSalin').modal('hide');
+					}
+				}).then(function() {
+					location.reload();
+				});
+				return false;
 			}
-		}).then(function() {
-			location.reload();
 		});
-		return false;
 	});
+
 	return salinData;
 }
 
