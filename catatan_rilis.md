@@ -64,9 +64,16 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 56. [#4930](https://github.com/OpenSID/OpenSID/issues/4930) Perbaiki error info covid.
 57. [#4959](https://github.com/OpenSID/OpenSID/issues/4959) Perbaiki menyimpan data penduduk dengan tanggal penerbitan KTP dimasa akan datang.
 58. [#4941](https://github.com/OpenSID/OpenSID/issues/4941) Perbaiki input data keuangan setelah di input tekan tombol enter data tidak tersimpan.
-58. [#4936](https://github.com/OpenSID/OpenSID/issues/4936) Perbaiki ada penduduk yang sudah meninggal/lainnya tidak tampil dan tambahkan keterangan.
-59. [#4965](https://github.com/OpenSID/OpenSID/issues/4965) Perbaiki Favicon tidak berubah setelah perbaharui logo desa.
-60. [#4968](https://github.com/OpenSID/OpenSID/issues/4968) Perbaiki validasi isian kolom komentar.
+59. [#4936](https://github.com/OpenSID/OpenSID/issues/4936) Perbaiki ada penduduk yang sudah meninggal/lainnya tidak tampil dan tambahkan keterangan.
+60. [#4965](https://github.com/OpenSID/OpenSID/issues/4965) Perbaiki Favicon tidak berubah setelah perbaharui logo desa.
+61. [#4968](https://github.com/OpenSID/OpenSID/issues/4968) Perbaiki validasi isian kolom komentar.
+62. [#4969](https://github.com/OpenSID/OpenSID/issues/4969) Perbaiki Notifikasi tidak sesuai Halaman Module.
+63. [#4966](https://github.com/OpenSID/OpenSID/issues/4966) Perbaiki filter tahun Bumindes_inventaris_kekayaan.
+64. [#4973](https://github.com/OpenSID/OpenSID/issues/4973) Perbaiki validasi sosmed WhatsApp.
+65. [#4957](https://github.com/OpenSID/OpenSID/issues/4957) Perbaiki jumlah bukan penerima pada laporan penerima bantuan keluarga tidak sama dengan jumlah pada kartu keluarga.
+66. [#4974](https://github.com/OpenSID/OpenSID/issues/4974) Perbaiki kurang satu kolom pada tabel pendapat.
+67. [#4975](https://github.com/OpenSID/OpenSID/issues/4975) Perbaiki keterangan vaksin sesuai filter yang terpilih.
+68. [#4970](https://github.com/OpenSID/OpenSID/issues/4970) Perbaiki validasi NIK pada lupa pin layanan mandiri.
 
 #### Perubahan Teknis
 
@@ -77,3 +84,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 5. Perbaiki penulisan pada view keuangan dan penduduk yang tidak sesuai penulisan.
 6. Perbaiki duplikasi pemanggilan web_dokumen_model pada controller first.php.
 7. Hapus session per_page yang tidak digunakan pada statistik web.
+8. Catat versi aplikasi di layanan.
+9. Perbaikan validasi siaga covid19 > pendataan, bumindes > pembangunan > kader pemberdayaan masyarakat, pendaftaran kerjasama

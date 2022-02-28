@@ -98,7 +98,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" style="text-align:left;">Anggaran</label>
-										<input class="form-control input-sm" readonly name="anggaran" id="anggaran" min="0" value="<?= $main->anggaran ?>" type="number" placeholder="Anggaran" />
+										<input class="form-control input-sm required bilangan" name="anggaran" id="anggaran" value="<?= $main->anggaran; ?>" type="text" placeholder="Anggaran" readonly/>
 									</div>
 								</div>
 							</div>
@@ -106,13 +106,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_pemerintah">Sumber Biaya Pemerintah</label>
-										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah" onkeyup="cek()" class="form-control input-sm required bilangan-9" type="text" placeholder="Sumber Biaya Pemerintah" value="<?= $main->sumber_biaya_pemerintah; ?>"></input>
+										<input id="sumber_biaya_pemerintah" name="sumber_biaya_pemerintah" onkeyup="cek()" class="form-control input-sm required bilangan" maxlength="9" type="text" placeholder="Sumber Biaya Pemerintah" value="<?= $main->sumber_biaya_pemerintah; ?>"></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_provinsi">Sumber Biaya Provinsi</label>
-										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi" onkeyup="cek()" class="form-control input-sm required bilangan-9" type="text" placeholder="Sumber Biaya Provinsi" value="<?= $main->sumber_biaya_provinsi; ?>"></input>
+										<input id="sumber_biaya_provinsi" name="sumber_biaya_provinsi" onkeyup="cek()" class="form-control input-sm required bilangan" maxlength="9" type="text" placeholder="Sumber Biaya Provinsi" value="<?= $main->sumber_biaya_provinsi; ?>"></input>
 									</div>
 								</div>
 							</div>
@@ -120,13 +120,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_kab_kota">Sumber Biaya Kab / Kota</label>
-										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required bilangan-9" onkeyup="cek()" type="text" placeholder="Sumber Biaya Kab / Kota" value="<?= $main->sumber_biaya_kab_kota; ?>"></input>
+										<input id="sumber_biaya_kab_kota" name="sumber_biaya_kab_kota" class="form-control input-sm required bilangan" maxlength="9" onkeyup="cek()" type="text" placeholder="Sumber Biaya Kab / Kota" value="<?= $main->sumber_biaya_kab_kota; ?>"></input>
 									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label class="control-label" for="sumber_biaya_swadaya">Sumber Biaya Swadaya</label>
-										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required bilangan-9" type="text" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" value="<?= $main->sumber_biaya_swadaya; ?>"></input>
+										<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required bilangan" maxlength="9" type="text" onkeyup="cek()" placeholder="Sumber Biaya Swadaya" value="<?= $main->sumber_biaya_swadaya; ?>"></input>
 									</div>
 								</div>
 							</div>
@@ -269,6 +269,5 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 	$(document).ready(function() {
 		pilih_lokasi(<?= (null === $main->id_lokasi && $main) ? 2 : 1 ?>);
-		// alert($main->id_lokasi);
 	});
 </script>

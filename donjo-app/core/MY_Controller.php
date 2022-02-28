@@ -290,6 +290,8 @@ class Premium extends MY_Controller
             redirect('peringatan');
         }
 
+        $this->kirimVersi();
+
         $this->session->unset_userdata('error_premium');
     }
 
@@ -317,8 +319,7 @@ class Premium extends MY_Controller
         if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['desa']['kode_desa']), '!=')) {
             $this->session->set_userdata('error_premium', ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
-            // Catat di daftar hitam layanan
-            $this->daftar_hitam();
+            $this->daftarHitam();
 
             return false;
         }
@@ -342,8 +343,7 @@ class Premium extends MY_Controller
         if (get_domain($jwtPayload->domain) != get_domain(APP_URL)) {
             $this->session->set_userdata('error_premium', 'Domain ' . get_domain(APP_URL) . ' tidak terdaftar di ' . config_item('server_layanan'));
 
-            // Catat di daftar hitam layanan
-            $this->daftar_hitam();
+            $this->daftarHitam();
 
             return false;
         }
@@ -351,7 +351,7 @@ class Premium extends MY_Controller
         return true;
     }
 
-    private function daftar_hitam()
+    private function daftarHitam()
     {
         $this->load->library('user_agent');
         if ($this->agent->is_browser()) {
@@ -368,10 +368,10 @@ class Premium extends MY_Controller
 
         try {
             $client = new \GuzzleHttp\Client();
-            $client->post(config_item('server_layanan') . 'api/v1/pelanggan/daftarhitam', [
+            $client->post(config_item('server_layanan') . 'index.php/api/v1/pelanggan/daftarhitam', [
                 'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                 'form_params' => [
-                    'kode_desa'  => $this->header['desa']['kode_desa'],
+                    'kode_desa'  => kode_wilayah($this->header['desa']['kode_desa']),
                     'ip_address' => $this->input->ip_address(),
                     'token'      => $this->setting->layanan_opendesa_token,
                     'waktu'      => date('Y-m-d h:i:sa'),
@@ -383,6 +383,30 @@ class Premium extends MY_Controller
                 ->getBody();
         } catch (Exception $e) {
             log_message('error', $e);
+        }
+    }
+
+    private function kirimVersi()
+    {
+        $this->load->driver('cache');
+
+        $versi = AmbilVersi();
+
+        if ($versi != $this->cache->file->get('versi_app_cache')) {
+            try {
+                $client = new \GuzzleHttp\Client();
+                $client->post(config_item('server_layanan') . 'index.php/api/v1/pelanggan/catat-versi', [
+                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                    'form_params' => [
+                        'kode_desa' => kode_wilayah($this->header['desa']['kode_desa']),
+                        'versi'     => $versi,
+                    ],
+                ])
+                    ->getBody();
+                $this->cache->file->save('versi_app_cache', $versi);
+            } catch (Exception $e) {
+                log_message('error', $e);
+            }
         }
     }
 }

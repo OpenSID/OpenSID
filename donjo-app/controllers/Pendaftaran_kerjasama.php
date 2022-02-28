@@ -116,13 +116,13 @@ class Pendaftaran_kerjasama extends Admin_Controller
             $response = $this->client->post("{$this->server}/api/v1/pelanggan/register", [
                 'headers'   => ['X-Requested-With' => 'XMLHttpRequest'],
                 'multipart' => [
-                    ['name' => 'user_id', 'contents' => $this->input->post('user_id')],
-                    ['name' => 'email', 'contents' => $this->input->post('email')],
-                    ['name' => 'desa', 'contents' => $this->input->post('desa')],
-                    ['name' => 'domain', 'contents' => $this->input->post('domain')],
-                    ['name' => 'kontak_no_hp', 'contents' => $this->input->post('kontak_no_hp')],
-                    ['name' => 'kontak_nama', 'contents' => $this->input->post('kontak_nama')],
-                    ['name' => 'status_langganan', 'contents' => $this->input->post('status_langganan_id')],
+                    ['name' => 'user_id', 'contents' => (int) $this->input->post('user_id')],
+                    ['name' => 'email', 'contents' => email($this->input->post('email'))],
+                    ['name' => 'desa', 'contents' => bilangan_titik($this->input->post('desa'))],
+                    ['name' => 'domain', 'contents' => alamat_web($this->input->post('domain'))],
+                    ['name' => 'kontak_no_hp', 'contents' => bilangan($this->input->post('kontak_no_hp'))],
+                    ['name' => 'kontak_nama', 'contents' => nama($this->input->post('kontak_nama'))],
+                    ['name' => 'status_langganan', 'contents' => (int) $this->input->post('status_langganan_id')],
                     ['name' => 'permohonan', 'contents' => Psr7\Utils::tryFopen(LOKASI_DOKUMEN . 'dokumen-permohonan.pdf', 'r')],
                 ],
             ])
@@ -130,12 +130,12 @@ class Pendaftaran_kerjasama extends Admin_Controller
         } catch (ClientException $cx) {
             log_message('error', $cx);
             $this->session->set_flashdata(['errors' => json_decode($cx->getResponse()->getBody())]);
-            $this->session->success = -1;
+            session_error();
 
             return redirect('pendaftaran_kerjasama/form');
         } catch (Exception $e) {
             log_message('error', $e);
-            $this->session->success = -1;
+            session_error();
 
             return redirect('pendaftaran_kerjasama/form');
         }

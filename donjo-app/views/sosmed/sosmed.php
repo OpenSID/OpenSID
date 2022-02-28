@@ -65,10 +65,16 @@
 		function ubah_pesan(tipe) {
 			if (tipe == '1') {
 				$('#link').attr('pattern', '(((https?:\\\/\\\/)?api\\.whatsapp\\.com\\\/send(?:\\\/|)[?&]+(\\w+)+=([^&]+).*)|\\d+)');
+				$('#link').addClass('bilangan');
+				$('#link').attr('minlength', '10');
+				$('#link').attr('maxlength', '13');
 				$('#link').attr('placeholder', '0851234567890');
 				$('#ex_whatsapp').text('Contoh : 0851234567890 (Nomor HP saja) atau https://api.whatsapp.com/send?phone=62851234567890');
 			} else {
 				$('#link').attr('pattern', '^((https?:\\\/\\\/)?chat\\.whatsapp\\.com\\\/(?:invite\\\/)?([a-zA-Z0-9_-]{22})|([a-zA-Z0-9_-]{22}))');
+				$('#link').removeClass('bilangan');
+				$('#link').attr('minlength', '20');
+				$('#link').attr('maxlength', '30');
 				$('#link').attr('placeholder', 'CryQ1VyOXghEVJUTFpwFPb');
 				$('#ex_whatsapp').text('Contoh : https://chat.whatsapp.com/CryQ1VyOXghEVJUTFpwFPb atau CryQ1VyOXghEVJUTFpwFPb');
 			}
