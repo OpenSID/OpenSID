@@ -33,7 +33,7 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2202_ke_2203 extends MY_model
+class Migrasi_2203_ke_2204 extends MY_model
 {
 	public function up()
 	{
@@ -41,7 +41,7 @@ class Migrasi_2202_ke_2203 extends MY_model
     
     // Migrasi fitur premium
     // Jalankan migrasi fitur premium yg digabungkan sejak rilis sebelumnya
-    $daftar_migrasi_premium = ['2012', '2101', '2102', '2103', '2104', '2105', '2106', '2107'];
+    $daftar_migrasi_premium = ['2012', '2101', '2102', '2103', '2104', '2105', '2106', '2107', '2108'];
     foreach ($daftar_migrasi_premium as $migrasi)
     {
       $migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;

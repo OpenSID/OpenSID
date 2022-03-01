@@ -1,8 +1,8 @@
-#### [v22.02-pasca]
+#### [v22.03]
 
-Di rilis ini, versi 22.02-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.03, menyediakan Tampilkan Data ID BDT Rumah Tangga dan Kirim laporan Siskeudes ke OpenDK melalu API. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada @afila yang terus berkontribusi.
 
 #### Penambahan Fitur
 
