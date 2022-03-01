@@ -62,7 +62,7 @@
   };
 </script>
 
-<h2 class="text-h2"><?= $indikator; ?></h2>
+<h2 class="text-h2"><?= $indikator['pertanyaan']; ?></h2>
 
 <div class="content space-y-5">
   <div class="ui-layout-center" id="chart" style="padding: 5px;"></div>

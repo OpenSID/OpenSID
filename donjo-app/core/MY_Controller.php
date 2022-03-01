@@ -352,7 +352,7 @@ class Premium extends MY_Controller
 
         try {
             $client = new \GuzzleHttp\Client();
-            $client->post(config_item('server_layanan') . 'index.php/api/v1/pelanggan/daftarhitam', [
+            $client->post(config_item('server_layanan') . '/api/v1/pelanggan/daftarhitam', [
                 'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                 'form_params' => [
                     'kode_desa'  => kode_wilayah($this->header['desa']['kode_desa']),
@@ -379,7 +379,7 @@ class Premium extends MY_Controller
         if ($versi != $this->cache->file->get('versi_app_cache')) {
             try {
                 $client = new \GuzzleHttp\Client();
-                $client->post(config_item('server_layanan') . 'index.php/api/v1/pelanggan/catat-versi', [
+                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
                     'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
                     'form_params' => [
                         'kode_desa' => kode_wilayah($this->header['desa']['kode_desa']),

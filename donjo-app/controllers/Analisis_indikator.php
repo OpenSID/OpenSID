@@ -112,6 +112,8 @@ class Analisis_indikator extends Admin_Controller
         } else {
             $data['analisis_indikator'] = null;
             $data['form_action']        = site_url("{$this->controller}/insert");
+
+            $data['ubah'] = true;
         }
 
         $data['list_kategori']   = $this->analisis_indikator_model->list_kategori();

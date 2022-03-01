@@ -1,28 +1,28 @@
-Di rilis ini, versi 22.02-premium-beta04 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.03-premium menyediakan tema esensi sebagai pengganti tema klasik. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada @Irvan1609 dan @totoprayogo1916 yang terus berkontribusi.
 
 #### Penambahan Fitur
 
 1. [#4803](https://github.com/OpenSID/OpenSID/issues/4803) Default no telpon pengguna saat buat surat di layanan mandiri.
 2. [#4767](https://github.com/OpenSID/OpenSID/issues/4767) Hanya tampilkan daftar Perangkat Desa yang aktif saat pilih Kepala Desa di Identitas Desa.
-3. [#4730](https://github.com/OpenSID/OpenSID/issues/4730) Urutan Nama Dusun Belum ter-Urut tampil pada menu cetak/rekap laporan Fitur Pendataan Vaksin.
+3. [#4730](https://github.com/OpenSID/OpenSID/issues/4730) Urutan nama dusun belum ter-Urut tampil pada menu cetak/rekap laporan fitur pendataan vaksin.
 4. [#4800](https://github.com/OpenSID/OpenSID/issues/4800) Penambahan autocomplete pada pencarian daftar penerima vaksin.
 5. [#4589](https://github.com/OpenSID/OpenSID/issues/4589) Pencarian berdasarkan tagIdCard pada suplemen dan program bantuan.
 6. [#4814](https://github.com/OpenSID/OpenSID/issues/4814) Informasi halaman home untuk jumlah data kelompok hanya untuk yang ketua nya masih hidup.
 7. [#4726](https://github.com/OpenSID/OpenSID/issues/4726) Penambahan jenis file unggah dokumen (jpeg, png dan pdf) pada pendataan vaksin dan perbaiki tampilan lihat dokumen.
 8. [#4831](https://github.com/OpenSID/OpenSID/issues/4831) Mengganti tema klasik dengan tema esensi.
 9. [#4816](https://github.com/OpenSID/OpenSID/issues/4816) Penambahan penyaringan status pada modul kelompok/lembaga.
-10. [#4784](https://github.com/OpenSID/OpenSID/issues/4784) Penambahan halaman pada modul Kelompok/Lembaga > Anggota.
+10. [#4784](https://github.com/OpenSID/OpenSID/issues/4784) Penambahan halaman pada modul kelompok/lembaga > anggota.
 11. [#4608](https://github.com/OpenSID/OpenSID/issues/4608) Unggah dokumen kependudukan menggunakan kamera.
 12. [#1032](https://github.com/OpenSID/OpenSID/issues/1032) Penambahan informasi jumlah dan rincian data ganda saat melakukan impor data penduduk.
-13. [#4750](https://github.com/OpenSID/OpenSID/issues/4750) Pilihan Tahun di Statistik Bantuan.
+13. [#4750](https://github.com/OpenSID/OpenSID/issues/4750) Pilihan tahun di statistik bantuan.
 14. [#4707](https://github.com/OpenSID/OpenSID/issues/4707) Penambahan captcha untuk form pengaduan.
 15. [#4706](https://github.com/OpenSID/OpenSID/issues/4706) Penambahan notifikasi telegram setiap ada pengaduan.
 16. [#2859](https://github.com/OpenSID/OpenSID/issues/2859) Penambahan kelengkapan data kematian saat ubah status dasar menjadi mati.
 17. [#4644](https://github.com/OpenSID/OpenSID/issues/4644) Penambahan halaman publikasi data warga yang sudah divaksin.
 18. [#4924](https://github.com/OpenSID/OpenSID/issues/4924) Pindahkan impor data rumah tangga ke modul Rumah Tangga.
-19. [#4806](https://github.com/OpenSID/OpenSID/issues/4806) Penambahan Lupa/reset PIN kirim melalui email.
+19. [#4806](https://github.com/OpenSID/OpenSID/issues/4806) Penambahan lupa/reset pin kirim melalui email.
 20. [#4643](https://github.com/OpenSID/OpenSID/issues/4643) Penambahan import data penerima vaksin.
 
 #### Perbaikan BUG
@@ -88,13 +88,13 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 59. [#4936](https://github.com/OpenSID/OpenSID/issues/4936) Perbaiki ada penduduk yang sudah meninggal/lainnya tidak tampil dan tambahkan keterangan.
 60. [#4965](https://github.com/OpenSID/OpenSID/issues/4965) Perbaiki Favicon tidak berubah setelah perbaharui logo desa.
 61. [#4968](https://github.com/OpenSID/OpenSID/issues/4968) Perbaiki validasi isian kolom komentar.
-62. [#4969](https://github.com/OpenSID/OpenSID/issues/4969) Perbaiki Notifikasi tidak sesuai Halaman Module.
-63. [#4966](https://github.com/OpenSID/OpenSID/issues/4966) Perbaiki filter tahun Bumindes_inventaris_kekayaan.
-64. [#4973](https://github.com/OpenSID/OpenSID/issues/4973) Perbaiki validasi sosmed WhatsApp.
+62. [#4969](https://github.com/OpenSID/OpenSID/issues/4969) Perbaiki notifikasi tidak sesuai halaman module.
+63. [#4966](https://github.com/OpenSID/OpenSID/issues/4966) Perbaiki filter tahun bumindes_inventaris_kekayaan.
+64. [#4973](https://github.com/OpenSID/OpenSID/issues/4973) Perbaiki validasi sosmed whatsApp.
 65. [#4957](https://github.com/OpenSID/OpenSID/issues/4957) Perbaiki jumlah bukan penerima pada laporan penerima bantuan keluarga tidak sama dengan jumlah pada kartu keluarga.
 66. [#4974](https://github.com/OpenSID/OpenSID/issues/4974) Perbaiki kurang satu kolom pada tabel pendapat.
 67. [#4975](https://github.com/OpenSID/OpenSID/issues/4975) Perbaiki keterangan vaksin sesuai filter yang terpilih.
-68. [#4970](https://github.com/OpenSID/OpenSID/issues/4970) Perbaiki validasi NIK pada lupa pin layanan mandiri.
+68. [#4970](https://github.com/OpenSID/OpenSID/issues/4970) Perbaiki validasi nik pada lupa pin layanan mandiri.
 
 #### Perubahan Teknis
 

@@ -25,8 +25,8 @@
           <?php if ($list_indikator): ?>
             <?php if (count($master_indikator) > 1) : ?>
               <form action="<?=site_url('data_analisis'); ?>" method="get">
-                <div class="space-y-1">
-                  <label for="" class="block text-sm">Password</label>
+                <div class="space-y-1 flex gap-3">
+                  <label for="" class="block text-sm">Analisis:</label>
                   <select class="form-select" name="master" onchange="this.form.submit()">
                     <?php foreach ($master_indikator as $master): ?>
                       <option value="<?= $master['id']?>" <?= selected($list_indikator['0']['id_master'], $master['id'])?>><?= "{$master['master']} ({$master['tahun']})"?></option>
@@ -60,7 +60,7 @@
                 <?php foreach ($list_indikator as $data): ?>
                   <tr>
                     <td><?= $data['nomor'].'.'; ?>
-                    <td><a href="<?= site_url("jawaban_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><h5><b><?= $data['indikator']?></b></h5></a></td>
+                    <td><a href="<?= site_url("jawaban_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><h5 class="text-h5"><?= $data['indikator']?></h5></a></td>
                   </tr>
                 <?php endforeach; ?>
               </table>
