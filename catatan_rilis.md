@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 1. [#4985](https://github.com/OpenSID/OpenSID/issues/4985) Perbaiki url sitemap.xml.
 2. [#4988](https://github.com/OpenSID/OpenSID/issues/4988) Perbaiki validasi log error yg ditampilkan pada modul Pengaturan > Info Sistem > Log.
+3. [#4991](https://github.com/OpenSID/OpenSID/issues/4991) Perbaiki unduh data rumah tangga yang tidak tampil.
 
 #### Perubahan Teknis
 
