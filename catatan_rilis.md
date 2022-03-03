@@ -4,8 +4,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
 
+#### Perbaikan BUG
+
 1. [#4985](https://github.com/OpenSID/OpenSID/issues/4985) Perbaiki url sitemap.xml.
+2. [#4988](https://github.com/OpenSID/OpenSID/issues/4988) Perbaiki validasi log error yg ditampilkan pada modul Pengaturan > Info Sistem > Log.
 
 #### Perubahan Teknis
 
-1. 

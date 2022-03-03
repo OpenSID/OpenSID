@@ -97,10 +97,10 @@
 																										<span class="glyphicon glyphicon-search"></span>
 																									</a>
 																								<?php endif; ?>
-																								<?= $log['content']; ?>
+																								<?= strip_tags($log['content']); ?>
 																								<?php if (array_key_exists('extra', $log)) : ?>
 																									<div class="collapse" id="collapse<?= $key ?>">
-																										<?= $log['extra'] ?>
+																										<?= strip_tags($log['extra']) ?>
 																									</div>
 																								<?php endif; ?>
 																							</td>
