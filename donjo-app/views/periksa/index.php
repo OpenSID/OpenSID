@@ -216,6 +216,14 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('autoincrement', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi ada tabel yang kehilangan autoincrement</strong>
+                                            <p>Klik tombol Perbaiki untuk mengembalikan autoincrement pada semua tabel yang memerlukan</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi <?= $migrasi_utk_diulang ?>.</p>
                                 <a href="#" data-href="<?= site_url('periksa/perbaiki') ?>" class="btn btn-social btn-flat btn-danger" role="button" title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin akan memperbaiki masalah data?"><i class="fa fa fa-wrench"></i>Perbaiki</a>
                             <?php endif; ?>
