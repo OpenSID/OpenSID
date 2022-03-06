@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <nav role="navigation" aria-label="navigation" class="breadcrumb">
   <ol>

@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Periksa_model extends CI_Model
+class Periksa_model extends MY_Model
 {
     public $periksa = [];
 
@@ -93,6 +93,19 @@ class Periksa_model extends CI_Model
             $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
+        // id_cluster Keluarga beserta anggota keluarganya ada yg null
+        if ($db_error_code == 1138) {
+            $pos       = strpos($this->session->message_query, 'id_cluster');
+            $calon_ini = $current_version;
+            if ($pos !== false) {
+                $calon_ini                        = '21.07';
+                $this->periksa['masalah'][]       = 'id_cluster_null';
+                $this->periksa['id_cluster_null'] = $this->deteksi_id_cluster_null();
+                $this->periksa['wilayah_pertama'] = $this->wilayah_pertama();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
         // NIK penduduk ganda
         if ($db_error_code == 1062) {
             $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE nik');
@@ -133,16 +146,63 @@ class Periksa_model extends CI_Model
         }
 
         // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
+        if ($db_error_code == 1062) {
+            $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE email');
+            $calon_ini = '22.02';
+            if ($pos !== false) {
+                $calon_ini                    = '22.02';
+                $this->periksa['masalah'][]   = 'email_ganda';
+                $this->periksa['email_ganda'] = $this->deteksi_email_ganda();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
+        // Autoincrement hilang, mungkin karena proses backup/restore yang tidak sempurna
         // Untuk masalah yg tidak melalui exception, letakkan sesuai urut migrasi
-        $email_ganda = $this->deteksi_email_ganda();
-        if ($db_error_code == 99001 || ! empty($email_ganda)) {
-            $calon_ini                    = '22.02';
-            $this->periksa['email_ganda'] = $email_ganda;
-            $this->periksa['masalah'][]   = 'email_ganda';
-            $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        if ($db_error_code == 1364) {
+            $pos = strpos($db_error_message, "Field 'id' doesn't have a default value");
+            if ($pos !== false) {
+                $this->periksa['masalah'][] = 'autoincrement';
+            }
         }
 
         return $calon;
+    }
+
+    private function wilayah_pertama()
+    {
+        $wilayah_pertama = [];
+        // Ambil sebutan dusun
+        $sebutan_dusun = $this->db
+            ->select('value')
+            ->where('key', 'sebutan_dusun')
+            ->get('setting_aplikasi')
+            ->row()->value;
+        // Ambil wilayah pada keluarga pertama yg tidak kosong
+        $id_wil = $this->db
+            ->select('id_cluster')
+            ->where('id_cluster IS NOT NULL')
+            ->order_by('id')
+            ->limit(1)
+            ->get('tweb_keluarga')
+            ->row()->id_cluster;
+        $wilayah_pertama['id'] = $id_wil;
+        $wil                   = $this->db
+            ->select('dusun, rw, rt')
+            ->where('id', $id_wil)
+            ->get('tweb_wil_clusterdesa')
+            ->row();
+        if ($wil->dusun) {
+            $wilayah_pertama['wil'] .= strtoupper($sebutan_dusun) . ' ' . $wil->dusun . ' ';
+        }
+        if ($wil->rw) {
+            $wilayah_pertama['wil'] .= 'RW ' . $wil->rw . ' ';
+        }
+        if ($wil->rt) {
+            $wilayah_pertama['wil'] .= 'RT ' . $wil->rt . ' ';
+        }
+
+        return $wilayah_pertama;
     }
 
     private function deteksi_tag_id_ganda()
@@ -174,6 +234,17 @@ class Periksa_model extends CI_Model
             ->select('id, no_kk, CHAR_LENGTH(no_kk) AS panjang')
             ->from('tweb_keluarga')
             ->where('CHAR_LENGTH(no_kk) > 16')
+            ->get()
+            ->result_array();
+    }
+
+    private function deteksi_id_cluster_null()
+    {
+        return $this->db
+            ->select('no_kk, p.nama')
+            ->from('tweb_keluarga k')
+            ->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
+            ->where('k.id_cluster IS NULL')
             ->get()
             ->result_array();
     }
@@ -236,6 +307,10 @@ class Periksa_model extends CI_Model
                     $this->perbaiki_kode_kelompok();
                     break;
 
+                case 'id_cluster_null':
+                    $this->perbaiki_id_cluster_null();
+                    break;
+
                 case 'nik_ganda':
                     $this->perbaiki_nik_ganda();
                     break;
@@ -244,7 +319,7 @@ class Periksa_model extends CI_Model
                     $this->perbaiki_email();
                     break;
 
-                 case 'kk_panjang':
+                case 'kk_panjang':
                     $this->perbaiki_kk_panjang();
                     break;
 
@@ -258,6 +333,10 @@ class Periksa_model extends CI_Model
 
                 case 'kartu_alamat':
                     $this->perbaiki_kartu_alamat();
+                    break;
+
+                case 'autoincrement':
+                    $this->perbaiki_autoincrement();
                     break;
 
                 default:
@@ -291,6 +370,23 @@ class Periksa_model extends CI_Model
             ->set('kode', 'SUBSTRING(kode, 1, (CHAR_LENGTH(kode) - CHAR_LENGTH(id) - 1))', false)
             ->where_in('kode', $kode)
             ->update('kelompok');
+    }
+
+    // Hanya terjadi pada keluarga yg tidak memiliki anggota lagi
+    private function perbaiki_id_cluster_null()
+    {
+        if (empty($this->periksa['id_cluster_null'])) {
+            return;
+        }
+
+        $kel_kosong = array_column($this->periksa['id_cluster_null'], 'no_kk');
+        log_message('error', 'Lokasi keluarga berikut telah diubah menjadi ' . $this->periksa['wilayah_pertama']['wil'] . ' : ' . print_r($kel_kosong, true));
+
+        // Ganti id_cluster kosong dengan wilayah pertama
+        $this->db
+            ->set('id_cluster', $this->periksa['wilayah_pertama']['id'])
+            ->where('id_cluster IS NULL')
+            ->update('tweb_keluarga');
     }
 
     // Migrasi 21.09 gagal jika ada NIK ganda
@@ -502,5 +598,52 @@ class Periksa_model extends CI_Model
             ->where('kartu_alamat is null')
             ->update('program_peserta');
         log_message('error', "Kolom kartu_tempat_lahir dan kartu_alamat peserta bantuan yang berisi null telah diubah menjadi '' ");
+    }
+
+    private function perbaiki_autoincrement()
+    {
+        // Tabel yang tidak memerlukan Auto_Increment
+        $exclude_table = [
+            'analisis_respon',
+            'analisis_respon_hasil',
+            'captcha_codes',
+            'password_resets',
+            'pertanyaan', // Tabel ini digunakan dimana?
+            'sentitems', // Belum tau bentuk datanya bagamana
+            'setting_sms',
+            'sys_traffic',
+            'tweb_penduduk_mandiri',
+            'tweb_penduduk_map', // id pada tabel tweb_penduduk_map == penduduk.id (buka id untuk AI)
+        ];
+
+        // Auto_Increment hanya diterapkan pada kolom berikut
+        $only_pk = [
+            'id',
+            'id_kontak',
+            'id_aset',
+        ];
+
+        // Daftar tabel yang tidak memiliki Auto_Increment
+        $tables = $this->db->query("SELECT `TABLE_NAME` FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$this->db->database}' AND AUTO_INCREMENT IS NULL");
+
+        foreach ($tables->result() as $tbl) {
+            $name = $tbl->TABLE_NAME;
+            if (! in_array($name, $exclude_table) && in_array($key = $this->db->list_fields($name)[0], $only_pk)) {
+                $fields = [
+                    $key => [
+                        'type'           => 'INT',
+                        'constraint'     => 11,
+                        'unsigned'       => true,
+                        'auto_increment' => true,
+                    ],
+                ];
+
+                if ($this->dbforge->modify_column($name, $fields)) {
+                    log_message('error', "Auto_Increment pada tabel {$name} dengan kolom {$key} telah ditambahkan.");
+                }
+            }
+        }
+
+        return true;
     }
 }

@@ -108,6 +108,26 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('id_cluster_null', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi lokasi keluarga kosong</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>No KK</th>
+                                                    <th>Nama Kepala Keluarga</th>
+                                                </tr>
+                                                <?php foreach ($id_cluster_null as $kel) : ?>
+                                                    <tr>
+                                                        <td><?= $kel['no_kk']; ?></td>
+                                                        <td><?= $kel['nama']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk mengubah lokasi keluarga kosong menjadi <strong><?= $wilayah_pertama['wil'] ?></strong>. Untuk melihat keluarga yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <?php if (in_array('nik_ganda', $masalah)) : ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
@@ -213,6 +233,14 @@
                                         <div class="panel-body">
                                             <strong>Terdeteksi ada kartu_tempat_lahir atau kartu_alamat berisi null, seharusnya ''</strong>
                                             <p>Klik tombol Perbaiki untuk mengubah nilai null menjadi ''</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('autoincrement', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi ada tabel yang kehilangan autoincrement</strong>
+                                            <p>Klik tombol Perbaiki untuk mengembalikan autoincrement pada semua tabel yang memerlukan</p>
                                         </div>
                                     </div>
                                 <?php endif; ?>

@@ -71,6 +71,7 @@ class Periksa extends CI_Controller
     // Login khusus untuk periksa
     public function login()
     {
+        $this->session->siteman_wait = 0;
         $this->user_model->login();
         $header = $this->db
             ->get('config')

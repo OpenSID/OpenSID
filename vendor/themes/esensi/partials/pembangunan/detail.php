@@ -1,3 +1,5 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
 <nav role="navigation" aria-label="navigation" class="breadcrumb">
   <ol>
     <li><a href="<?= site_url() ?>">Beranda</a></li>
