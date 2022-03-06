@@ -1,8 +1,22 @@
 <?php  defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
-<nav class="bg-primary-100 text-white lg:hidden block" x-data="{menuOpen: false}" role="navigation">
-  <button type="button" class="w-full block text-center uppercase p-3" @click="menuOpen = !menuOpen" ><i class="fas mr-1" :class="{'fa-bars':!menuOpen, 'fa-times': menuOpen}"></i> Menu</button>
-  <ul x-show="menuOpen" x-transition class="divide-y divide-primary-200">
+<nav
+  class="bg-primary-100 text-white lg:hidden block"
+  x-data="{menuOpen: false}"
+  role="navigation">
+  <button
+    type="button"
+    class="w-full block text-center uppercase p-3"
+    @click="menuOpen = !menuOpen" >
+    <i
+      class="fas mr-1"
+      :class="{'fa-bars':!menuOpen, 'fa-times': menuOpen}"></i> 
+      Menu
+  </button>
+  <ul 
+    x-show="menuOpen"
+    x-transition
+    class="divide-y divide-primary-200">
     <?php if($menu_atas) : ?>
       <?php foreach($menu_atas as $menu) : ?>
         <?php $has_dropdown = count($menu['submenu']) > 0 ?>
