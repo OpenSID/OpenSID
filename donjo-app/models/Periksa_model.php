@@ -93,6 +93,19 @@ class Periksa_model extends MY_Model
             $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
+        // id_cluster Keluarga beserta anggota keluarganya ada yg null
+        if ($db_error_code == 1138) {
+            $pos       = strpos($this->session->message_query, 'id_cluster');
+            $calon_ini = $current_version;
+            if ($pos !== false) {
+                $calon_ini                        = '21.07';
+                $this->periksa['masalah'][]       = 'id_cluster_null';
+                $this->periksa['id_cluster_null'] = $this->deteksi_id_cluster_null();
+                $this->periksa['wilayah_pertama'] = $this->wilayah_pertama();
+            }
+            $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
         // NIK penduduk ganda
         if ($db_error_code == 1062) {
             $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE nik');
@@ -156,6 +169,42 @@ class Periksa_model extends MY_Model
         return $calon;
     }
 
+    private function wilayah_pertama()
+    {
+        $wilayah_pertama = [];
+        // Ambil sebutan dusun
+        $sebutan_dusun = $this->db
+            ->select('value')
+            ->where('key', 'sebutan_dusun')
+            ->get('setting_aplikasi')
+            ->row()->value;
+        // Ambil wilayah pada keluarga pertama yg tidak kosong
+        $id_wil = $this->db
+            ->select('id_cluster')
+            ->where('id_cluster IS NOT NULL')
+            ->order_by('id')
+            ->limit(1)
+            ->get('tweb_keluarga')
+            ->row()->id_cluster;
+        $wilayah_pertama['id'] = $id_wil;
+        $wil                   = $this->db
+            ->select('dusun, rw, rt')
+            ->where('id', $id_wil)
+            ->get('tweb_wil_clusterdesa')
+            ->row();
+        if ($wil->dusun) {
+            $wilayah_pertama['wil'] .= strtoupper($sebutan_dusun) . ' ' . $wil->dusun . ' ';
+        }
+        if ($wil->rw) {
+            $wilayah_pertama['wil'] .= 'RW ' . $wil->rw . ' ';
+        }
+        if ($wil->rt) {
+            $wilayah_pertama['wil'] .= 'RT ' . $wil->rt . ' ';
+        }
+
+        return $wilayah_pertama;
+    }
+
     private function deteksi_tag_id_ganda()
     {
         return $this->db
@@ -185,6 +234,17 @@ class Periksa_model extends MY_Model
             ->select('id, no_kk, CHAR_LENGTH(no_kk) AS panjang')
             ->from('tweb_keluarga')
             ->where('CHAR_LENGTH(no_kk) > 16')
+            ->get()
+            ->result_array();
+    }
+
+    private function deteksi_id_cluster_null()
+    {
+        return $this->db
+            ->select('no_kk, p.nama')
+            ->from('tweb_keluarga k')
+            ->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
+            ->where('k.id_cluster IS NULL')
             ->get()
             ->result_array();
     }
@@ -247,6 +307,10 @@ class Periksa_model extends MY_Model
                     $this->perbaiki_kode_kelompok();
                     break;
 
+                case 'id_cluster_null':
+                    $this->perbaiki_id_cluster_null();
+                    break;
+
                 case 'nik_ganda':
                     $this->perbaiki_nik_ganda();
                     break;
@@ -306,6 +370,23 @@ class Periksa_model extends MY_Model
             ->set('kode', 'SUBSTRING(kode, 1, (CHAR_LENGTH(kode) - CHAR_LENGTH(id) - 1))', false)
             ->where_in('kode', $kode)
             ->update('kelompok');
+    }
+
+    // Hanya terjadi pada keluarga yg tidak memiliki anggota lagi
+    private function perbaiki_id_cluster_null()
+    {
+        if (empty($this->periksa['id_cluster_null'])) {
+            return;
+        }
+
+        $kel_kosong = array_column($this->periksa['id_cluster_null'], 'no_kk');
+        log_message('error', 'Lokasi keluarga berikut telah diubah menjadi ' . $this->periksa['wilayah_pertama']['wil'] . ' : ' . print_r($kel_kosong, true));
+
+        // Ganti id_cluster kosong dengan wilayah pertama
+        $this->db
+            ->set('id_cluster', $this->periksa['wilayah_pertama']['id'])
+            ->where('id_cluster IS NULL')
+            ->update('tweb_keluarga');
     }
 
     // Migrasi 21.09 gagal jika ada NIK ganda
