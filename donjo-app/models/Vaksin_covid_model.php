@@ -460,18 +460,17 @@ class Vaksin_covid_model extends MY_Model
                         $id_penduduk = $penduduk['id'];
 
                         if (empty((string) $cells[7])) {
-                            $tunda        = 0;
-                            $keterangan   = null;
-                            $tgl_vaksin_1 = $this->cekTgl($cells[1]);
-                            if (! empty($tgl_vaksin_1)) {
+                            $tunda      = 0;
+                            $keterangan = null;
+                            if (! empty($tgl_vaksin_1 = $this->cekTgl((string) $cells[1]))) {
                                 $vaksin_1       = 1;
                                 $jenis_vaksin_1 = $this->jenisVaksin($cells[2]);
-                                $tgl_vaksin_2   = $this->cekTgl($cells[3]);
-                                if (! empty($tgl_vaksin_2)) {
+
+                                if (! empty($tgl_vaksin_2 = $this->cekTgl((string) $cells[3]))) {
                                     $vaksin_2       = 1;
                                     $jenis_vaksin_2 = $this->jenisVaksin($cells[4], $jenis_vaksin_1);
-                                    $tgl_vaksin_3   = $this->cekTgl($cells[5]);
-                                    if (! empty($tgl_vaksin_3)) {
+
+                                    if (! empty($tgl_vaksin_3 = $this->cekTgl((string) $cells[5]))) {
                                         $vaksin_3       = 1;
                                         $jenis_vaksin_3 = $this->jenisVaksin($cells[6], $jenis_vaksin_2);
                                     } else {
@@ -569,7 +568,7 @@ class Vaksin_covid_model extends MY_Model
 
     protected function cekTgl(string $value = '')
     {
-        return (date('Y-m-d', strtotime($value)) == $value) ? $value : false;
+        return (date('Y-m-d', strtotime($value)) === $value) ? $value : false;
     }
 
     protected function jenisVaksin(string $cells = '', $default = '')

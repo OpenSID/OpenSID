@@ -595,21 +595,19 @@ class Periksa_model extends MY_Model
         // Ubah username user ganda dengan menambah id dan set tidak aktif
         if ($username_ganda) {
             $this->db
+                ->set('username', 'CONCAT(id, "_", username)', false)
+                ->set('active', 0)
                 ->where('id !=', 1)
                 ->where_in('id', $username_ganda)
-                ->update('user', [
-                    'username' => 'CONCAT(id, "_", username)',
-                    'active'   => 0,
-                ]);
+                ->update('user');
         }
 
         // Ubah semua username kosong menjadi null
         $this->db
+            ->set('username', null)
+            ->set('active', 0)
             ->where('username', '')
-            ->update('user', [
-                'username' => null,
-                'active'   => 0,
-            ]);
+            ->update('user');
     }
 
     // Migrasi 21.04 tidak antiCONCAT(id, "_", email)sipasi tag_id_card ganda
@@ -670,11 +668,14 @@ class Periksa_model extends MY_Model
 
     private function perbaiki_autoincrement()
     {
+        $hasil = true;
+
         // Tabel yang tidak memerlukan Auto_Increment
         $exclude_table = [
             'analisis_respon',
             'analisis_respon_hasil',
             'captcha_codes',
+            'detail_log_penduduk', // Tabel ini digunakan dimana?
             'password_resets',
             'pertanyaan', // Tabel ini digunakan dimana?
             'sentitems', // Belum tau bentuk datanya bagamana
@@ -706,12 +707,14 @@ class Periksa_model extends MY_Model
                     ],
                 ];
 
-                if ($this->dbforge->modify_column($name, $fields)) {
+                $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
+                if ($hasil = $hasil && $this->dbforge->modify_column($name, $fields)) {
                     log_message('error', "Auto_Increment pada tabel {$name} dengan kolom {$key} telah ditambahkan.");
                 }
+                $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
             }
         }
 
-        return true;
+        return $hasil;
     }
 }
