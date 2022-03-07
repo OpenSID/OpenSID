@@ -97,7 +97,6 @@ class Identitas_desa extends Admin_Controller
         if (Config::insert($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
-
         redirect_with('error', 'Gagal Tambah Data');
     }
 
@@ -119,7 +118,6 @@ class Identitas_desa extends Admin_Controller
             static::pamong($id_lama, $this->request['pamong_id']);
             redirect_with('success', 'Berhasil Ubah Data');
         }
-
         redirect_with('error', 'Gagal Ubah Data');
     }
 
@@ -176,7 +174,6 @@ class Identitas_desa extends Admin_Controller
         if ($data->save()) {
             redirect_with('success', 'Berhasil Ubah Peta ' . ucwords($tipe));
         }
-
         redirect_with('error', 'Gagal Ubah Peta ' . ucwords($tipe));
     }
 
@@ -197,7 +194,6 @@ class Identitas_desa extends Admin_Controller
         if ($data->save()) {
             redirect_with('success', 'Berhasil Kosongkan Peta');
         }
-
         redirect_with('error', 'Gagal Kosongkan Peta');
     }
 

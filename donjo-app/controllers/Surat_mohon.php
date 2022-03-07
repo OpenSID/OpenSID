@@ -110,7 +110,6 @@ class Surat_mohon extends Admin_Controller
         if (SyaratSurat::insert(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
-
         redirect_with('error', 'Gagal Tambah Data');
     }
 
@@ -124,7 +123,6 @@ class Surat_mohon extends Admin_Controller
         if ($data->update(static::validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
-
         redirect_with('error', 'Gagal Ubah Data');
     }
 
@@ -135,7 +133,6 @@ class Surat_mohon extends Admin_Controller
         if (SyaratSurat::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
-
         redirect_with('error', 'Gagal Hapus Data');
     }
 
@@ -146,7 +143,6 @@ class Surat_mohon extends Admin_Controller
         if (SyaratSurat::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
-
         redirect_with('error', 'Gagal Hapus Data');
     }
 

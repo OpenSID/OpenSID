@@ -46,6 +46,7 @@ class MY_Model extends CI_Model
     {
         parent::__construct();
         $this->load->driver('cache');
+        $this->load->dbforge();
     }
 
     // Konversi url menu menjadi slug tanpa mengubah data
