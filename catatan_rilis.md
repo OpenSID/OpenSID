@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 8. [#4999](https://github.com/OpenSID/OpenSID/issues/4999) Perbaiki notifikasi menonaktifkan/mengaktifkan dan kembali ke default penggunaa server pada modul.
 9. [#5007](https://github.com/OpenSID/OpenSID/issues/5007) Nonaktifkan widget jika file widget tidak ditemukan.
 10. [#5005](https://github.com/OpenSID/OpenSID/issues/5005) Perbaiki impor data vaksin (Illegal mix of collations).
+11. [#5009](https://github.com/OpenSID/OpenSID/issues/5009) Perbaiki validasi tamabah dan ubah data pada modul Pemetaan > Pengaturan Peta > Area.
 
 #### Perubahan Teknis
 

@@ -140,9 +140,9 @@ class Plan_area_model extends MY_Model
     private function validasi($post)
     {
         $data['nama']        = nomor_surat_keputusan($post['nama']);
-        $data['ref_polygon'] = $post['ref_polygon'];
+        $data['ref_polygon'] = bilangan($post['ref_polygon']);
         $data['desk']        = htmlentities($post['desk']);
-        $data['enabled']     = $post['enabled'];
+        $data['enabled']     = bilangan($post['enabled']);
 
         return $data;
     }
