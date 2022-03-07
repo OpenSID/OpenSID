@@ -50,6 +50,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Hom_sid extends Admin_Controller
 {
+    private $viewPath = 'admin.home';
+
     public function index()
     {
         $this->modul_ini = 1;
@@ -67,7 +69,7 @@ class Hom_sid extends Admin_Controller
             'catatan_rilis' => $this->catatan(),
         ];
 
-        return view('admin.home.index', $data);
+        return view("{$this->viewPath}.index", $data);
     }
 
     private function getUpdate()

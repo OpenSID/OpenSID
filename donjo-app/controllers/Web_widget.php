@@ -99,9 +99,8 @@ class Web_widget extends Admin_Controller
     public function form($p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('u');
-        $data['p'] = $p;
-        $data['o'] = $o;
-
+        $data['p']           = $p;
+        $data['o']           = $o;
         $data['list_widget'] = $this->web_widget_model->list_widget_baru();
 
         if ($id) {

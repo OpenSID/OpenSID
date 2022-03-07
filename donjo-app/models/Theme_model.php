@@ -39,20 +39,25 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Theme_model extends CI_Model
 {
-    protected $tema;
-    protected $folder;
+    public $tema;
+    public $folder;
 
     public function __construct()
     {
         parent::__construct();
         $this->tema   = str_replace('desa/', '', $this->setting->web_theme);
-        $this->folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'themes';
+        $this->folder = preg_match('/desa\\//', strtolower($this->setting->web_theme)) ? 'desa/themes' : 'vendor/themes';
+        if (empty($this->setting->web_theme) || ! is_dir(FCPATH . $this->folder . '/' . $this->tema)) {
+            $this->tema   = 'esensi';
+            $this->folder = 'vendor/themes';
+        }
     }
 
-    /*
+    /**
      * Tema sistem ada di subfolder themes/
      * Tema buatan sistem ada di subfolder desa/themes/
-    */
+     * Hanya tampilkan tema yang memiliki file template.php
+     */
     public function list_all()
     {
         $tema_sistem = glob('vendor/themes/*', GLOB_ONLYDIR);
@@ -61,7 +66,9 @@ class Theme_model extends CI_Model
         $list_tema   = [];
 
         foreach ($tema_semua as $tema) {
-            $list_tema[] = str_replace(['vendor/', 'themes/'], '', $tema);
+            if (is_file(FCPATH . $tema . '/template.php')) {
+                $list_tema[] = str_replace(['vendor/', 'themes/'], '', $tema);
+            }
         }
 
         return $list_tema;

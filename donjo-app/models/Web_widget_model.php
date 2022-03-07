@@ -39,6 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_widget_model extends MY_Model
 {
+    private $tabel = 'widget';
     private $urut_model;
 
     public function __construct()
@@ -48,18 +49,20 @@ class Web_widget_model extends MY_Model
         $this->load->model('laporan_penduduk_model');
         $this->load->model('pamong_model');
         $this->load->model('keuangan_grafik_model');
+        $this->load->model('theme_model');
         require_once APPPATH . '/models/Urut_model.php';
-        $this->urut_model = new Urut_Model('widget');
+        $this->urut_model = new Urut_Model($this->tabel);
+        $this->cekFileWidget();
     }
 
     public function autocomplete()
     {
-        return $this->autocomplete_str('judul', 'widget');
+        return $this->autocomplete_str('judul', $this->tabel);
     }
 
     public function get_widget($id = '')
     {
-        $data          = $this->db->where('id', $id)->get('widget')->row_array();
+        $data          = $this->db->where('id', $id)->get($this->tabel)->row_array();
         $data['judul'] = htmlentities($data['judul']);
         $data['isi']   = $this->security->xss_clean($data['isi']);
 
@@ -94,7 +97,7 @@ class Web_widget_model extends MY_Model
 
         return $this->db->where('enabled', 1)
             ->order_by('urut')
-            ->get('widget')
+            ->get($this->tabel)
             ->result_array();
     }
 
@@ -193,10 +196,16 @@ class Web_widget_model extends MY_Model
         return $this->urut_model->urut($id, $arah);
     }
 
-    public function lock($id = '', $val = 0)
+    /**
+     * @param string $id
+     * @param int    $val (1) Ya, (2) Tidak
+     *
+     * @return void
+     */
+    public function lock($id = '', $val = 2)
     {
-        $sql = 'UPDATE widget SET enabled = ? WHERE id = ?';
-        $this->db->query($sql, [$val, $id]);
+        $outp = $this->db->where('id', $id)->update($this->tabel, ['enabled' => $val]);
+        status_sukses($outp);
     }
 
     public function insert()
@@ -206,7 +215,7 @@ class Web_widget_model extends MY_Model
         // Widget diberi urutan terakhir
         $data['urut'] = $this->urut_model->urut_max() + 1;
 
-        $outp = $this->db->insert('widget', $data);
+        $outp = $this->db->insert($this->tabel, $data);
 
         status_sukses($outp);
     }
@@ -230,7 +239,7 @@ class Web_widget_model extends MY_Model
         $data = $this->validasi($_POST);
 
         $this->db->where('id', $id);
-        $outp = $this->db->update('widget', $data);
+        $outp = $this->db->update($this->tabel, $data);
 
         status_sukses($outp);
     }
@@ -240,7 +249,7 @@ class Web_widget_model extends MY_Model
         // Data di kolom setting dalam format json
         $setting = $this->db->select('setting')
             ->where('isi', $widget . '.php')
-            ->get('widget')
+            ->get($this->tabel)
             ->row_array();
         $setting = json_decode($setting['setting'], true);
 
@@ -311,7 +320,7 @@ class Web_widget_model extends MY_Model
         // Simpan semua setting di kolom setting sebagai json
         $setting = json_encode($setting);
         $data    = ['setting' => $setting];
-        $outp    = $this->db->where('isi', $widget . '.php')->update('widget', $data);
+        $outp    = $this->db->where('isi', $widget . '.php')->update($this->tabel, $data);
 
         status_sukses($outp);
     }
@@ -322,7 +331,7 @@ class Web_widget_model extends MY_Model
             $this->session->success = 1;
         }
 
-        $outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete('widget');
+        $outp = $this->db->where('id', $id)->where('jenis_widget <>', 1)->delete($this->tabel);
 
         status_sukses($outp, true); //Tampilkan Pesan
     }
@@ -359,7 +368,6 @@ class Web_widget_model extends MY_Model
     // widget statis di ambil dari folder desa/widget, vendor/themes/nama_tema/widgets dan desa/themes/nama_tema/widgets
     public function list_widget_baru()
     {
-        $this->load->model('theme_model');
         $tema_desa   = $this->theme_model->list_all();
         $list_widget = [];
         $widget_desa = $this->widget(LOKASI_WIDGET . '*.php');
@@ -388,9 +396,7 @@ class Web_widget_model extends MY_Model
         $l_widget      = [];
 
         foreach ($list_widget as $widget) {
-            if (array_search($widget, $widget_statis, true) === false) {
-                $l_widget[] = $widget;
-            }
+            $l_widget[] = $widget;
         }
 
         return $l_widget;
@@ -398,11 +404,31 @@ class Web_widget_model extends MY_Model
 
     private function list_widget_statis()
     {
-        $data = $this->db->select('isi')
+        $data = $this->db
+            ->select('isi')
             ->where('jenis_widget', 2)
-            ->get('widget')
+            ->get($this->tabel)
             ->result_array();
 
         return array_column($data, 'isi');
+    }
+
+    public function cekFileWidget()
+    {
+        $data = $this->db->where('jenis_widget <>', 3)->where('enabled', 1)->get($this->tabel)->result_array();
+
+        if ($data) {
+            foreach ($data as $widget) {
+                if ($widget['jenis_widget'] == 1) {
+                    $widget['isi'] = "{$this->theme_model->folder}/{$this->theme_model->tema}/widgets/{$widget['isi']}";
+                }
+
+                if (! file_exists($widget['isi'])) {
+                    $this->lock($widget['id'], 2);
+                    $this->session->success   = 'error';
+                    $this->session->error_msg = "File widget {$widget['judul']} tidak ditemukan sehingga otomatis terkunci";
+                }
+            }
+        }
     }
 }

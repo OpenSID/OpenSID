@@ -11,14 +11,14 @@
 	<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-          <?php $this->load->view('plan/nav.php')?>
+					<?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-            <div class="box-header with-border">
+						<div class="box-header with-border">
 							<a href="<?= site_url('area')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Area
-            	</a>
+							</a>
 						</div>
 						<div class="box-body">
 							<div class="form-group">
@@ -30,10 +30,10 @@
 							<div class="form-group">
 								<label class="control-label col-sm-3">Kategori</label>
 								<div class="col-sm-7">
-									<select class="form-control input-sm" id="ref_polygon" name="ref_polygon" style="width:100%;">
-									<option value="">Kategori</option>
+									<select class="form-control input-sm select2 required" id="ref_polygon" name="ref_polygon">
+									<option value="">Pilih Kategori</option>
 									<?php foreach ($list_polygon as $data): ?>
-										<option <?php if ($area['ref_polygon'] == $data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
+										<option value="<?= $data['id']?>" <?= selected($area['ref_polygon'], $data['id']) ?>><?= $data['nama'] ?></option>
 									<?php endforeach; ?>
 									</select>
 								</div>
@@ -53,7 +53,7 @@
 										<input type="text" class="form-control" id="file_path">
 										<input id="file" type="file" class="hidden" name="foto">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
+											<button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
 										</span>
 									</div>
 									<p class="help-block small text-red">Kosongkan jika tidak ingin mengubah foto.</p>
@@ -62,7 +62,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-7">
-									<textarea id="desk" name="desk" class="form-control input-sm" style="height: 200px;"><?= $area['desk']?></textarea>
+									<textarea id="desk" name="desk" class="form-control input-sm required" style="height: 200px;"><?= $area['desk']?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
@@ -78,10 +78,8 @@
 							</div>
 						</div>
 						<div class='box-footer'>
-							<div class='col-xs-12'>
-								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
-							</div>
+							<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
+							<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
 						</div>
 					</div>
 				</div>
@@ -90,8 +88,7 @@
 	</section>
 </div>
 <script>
-	function reset_form()
-	{
+	function reset_form() {
 		<?php if ($area['enabled'] == '1' || $area['enabled'] == null): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");

@@ -43,6 +43,8 @@ use App\Models\Wilayah;
 
 class Identitas_desa extends Admin_Controller
 {
+    private $viewPath = 'admin.identitas_desa';
+
     public function __construct()
     {
         parent::__construct();
@@ -57,7 +59,7 @@ class Identitas_desa extends Admin_Controller
      */
     public function index()
     {
-        return view('admin.identitas_desa.index', [
+        return view("{$this->viewPath}.index", [
             'main' => Config::with('pamong.penduduk')->first(),
         ]);
     }
@@ -80,7 +82,7 @@ class Identitas_desa extends Admin_Controller
             $form_action = route('identitas_desa.insert');
         }
 
-        return view('admin.identitas_desa.form', compact('main', 'pamong', 'form_action'));
+        return view("{$this->viewPath}.form", compact('main', 'pamong', 'form_action'));
     }
 
     /**
@@ -94,9 +96,9 @@ class Identitas_desa extends Admin_Controller
 
         if (Config::insert($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
-        } else {
-            redirect_with('error', 'Gagal Tambah Data');
         }
+
+        redirect_with('error', 'Gagal Tambah Data');
     }
 
     /**
@@ -116,9 +118,9 @@ class Identitas_desa extends Admin_Controller
         if ($data->update(static::validate($this->request))) {
             static::pamong($id_lama, $this->request['pamong_id']);
             redirect_with('success', 'Berhasil Ubah Data');
-        } else {
-            redirect_with('error', 'Gagal Ubah Data');
         }
+
+        redirect_with('error', 'Gagal Ubah Data');
     }
 
     /**
@@ -173,9 +175,9 @@ class Identitas_desa extends Admin_Controller
 
         if ($data->save()) {
             redirect_with('success', 'Berhasil Ubah Peta ' . ucwords($tipe));
-        } else {
-            redirect_with('error', 'Gagal Ubah Peta ' . ucwords($tipe));
         }
+
+        redirect_with('error', 'Gagal Ubah Peta ' . ucwords($tipe));
     }
 
     /**
@@ -194,9 +196,9 @@ class Identitas_desa extends Admin_Controller
 
         if ($data->save()) {
             redirect_with('success', 'Berhasil Kosongkan Peta');
-        } else {
-            redirect_with('error', 'Gagal Kosongkan Peta');
         }
+
+        redirect_with('error', 'Gagal Kosongkan Peta');
     }
 
     // Hanya filter inputan
