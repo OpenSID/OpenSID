@@ -145,6 +145,14 @@ class Periksa_model extends MY_Model
             $calon = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
+        // username user ganda
+        if (! empty($username = $this->deteksi_username_user_ganda())) {
+            $calon_ini                            = '22.02';
+            $this->periksa['masalah'][]           = 'username_user_ganda';
+            $this->periksa['username_user_ganda'] = $username;
+            $calon                                = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
         // Email penduduk ganda, menyebabkan migrasi 22.02 gagal.
         if ($db_error_code == 1062) {
             $pos       = strpos($this->session->message_query, 'ALTER TABLE tweb_penduduk ADD UNIQUE email');
@@ -293,6 +301,18 @@ class Periksa_model extends MY_Model
             ->result_array();
     }
 
+    private function deteksi_username_user_ganda()
+    {
+        return $this->db
+            ->select('username, COUNT(id) as jml')
+            ->from('user')
+            ->where('username IS NOT NULL')
+            ->group_by('username')
+            ->having('jml >', 1)
+            ->get()
+            ->result_array();
+    }
+
     public function perbaiki()
     {
         // TODO: login
@@ -325,6 +345,10 @@ class Periksa_model extends MY_Model
 
                 case 'email_user_ganda':
                     $this->perbaiki_email_user();
+                    break;
+
+                case 'username_user_ganda':
+                    $this->perbaiki_username_user();
                     break;
 
                 case 'tag_id_ganda':
@@ -542,6 +566,50 @@ class Periksa_model extends MY_Model
             ->set('email', 'CONCAT(id, "_", email)', false)
             ->where_in('id', $email_ganda)
             ->update('user');
+    }
+
+    // Migrasi 22.02 gagal jika ada username user ganda
+    private function perbaiki_username_user()
+    {
+        if (empty($this->periksa['username_user_ganda'])) {
+            return;
+        }
+
+        // Ubah semua usernamer ganda
+        $username_ganda = [];
+
+        foreach ($this->periksa['username_user_ganda'] as $username) {
+            if (empty($username['username'])) {
+                continue;
+            }
+            $daftar_ubah = $this->db
+                ->select('id, username, nama, CONCAT(id, "_", username)')
+                ->from('user')
+                ->where('username', $username['username'])
+                ->get()
+                ->result_array();
+            log_message('error', 'Username user berikut telah diubah dengan menambah id: ' . print_r($daftar_ubah, true));
+            $username_ganda = array_merge($username_ganda, array_column($daftar_ubah, 'id'));
+        }
+
+        // Ubah username user ganda dengan menambah id dan set tidak aktif
+        if ($username_ganda) {
+            $this->db
+                ->where('id !=', 1)
+                ->where_in('id', $username_ganda)
+                ->update('user', [
+                    'username' => 'CONCAT(id, "_", username)',
+                    'active'   => 0,
+                ]);
+        }
+
+        // Ubah semua username kosong menjadi null
+        $this->db
+            ->where('username', '')
+            ->update('user', [
+                'username' => null,
+                'active'   => 0,
+            ]);
     }
 
     // Migrasi 21.04 tidak antiCONCAT(id, "_", email)sipasi tag_id_card ganda
