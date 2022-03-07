@@ -229,8 +229,15 @@ class Surat_master_model extends MY_Model
     {
         $data = $_POST;
         $this->validasi_surat($data);
-        $this->db->where('id', $id);
-        $outp = $this->db->update('tweb_surat_format', $data);
+
+        $outp = $this->db
+            ->where('id', $id)
+            ->update($this->table, $data);
+
+        if ($outp) {
+            //ubah nama folder penyimpanan template surat
+            rename($this->get_surat_format($id)['lokasi_surat'], LOKASI_SURAT_DESA . 'surat_' . str_replace(' ', '_', $data['nama']));
+        }
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -278,10 +285,16 @@ class Surat_master_model extends MY_Model
         if (! $semua) {
             $this->session->success = 1;
         }
-        // Surat jenis sistem (nilai 1) tidak bisa dihapus
-        $outp = $this->db->where('id', $id)->where('jenis <>', 1)->delete('tweb_surat_format');
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        // Surat jenis sistem (nilai 1) tidak bisa dihapus
+        $outp = $this->db->where('id', $id)->where('jenis <>', 1)->delete($this->table);
+
+        if ($outp) {
+            //hapus file dan folder penyimpanan template surat
+            delete_files($this->get_surat_format($id)['lokasi_surat'], true);
+        }
+
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_all()
@@ -291,16 +304,19 @@ class Surat_master_model extends MY_Model
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
+            $this->delete($id, true);
         }
     }
 
     public function get_surat_format($id = 0)
     {
-        $sql   = 'SELECT * FROM tweb_surat_format WHERE id = ?';
-        $query = $this->db->query($sql, $id);
+        $surat = $this->db
+            ->get_where($this->table, ['id' => $id])
+            ->row_array();
 
-        return $query->row_array();
+        $surat['lokasi_surat'] = LOKASI_SURAT_DESA . $surat['url_surat'];
+
+        return $surat;
     }
 
     public function get_kode_isian($surat)
