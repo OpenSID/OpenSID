@@ -168,6 +168,26 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('username_user_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi username user ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Username</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($username_user_ganda as $username) : ?>
+                                                    <tr>
+                                                        <td><?= $username['username']; ?></td>
+                                                        <td><?= $username['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki username ganda dengan (1) mengubah username kosong menjadi null, dan (2) menambah id ke masing-masing username. Untuk melihat username yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <?php if (in_array('email_user_ganda', $masalah)) : ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
