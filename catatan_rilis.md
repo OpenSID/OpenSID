@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 6. [#4978](https://github.com/OpenSID/OpenSID/issues/4978) Perbaiki tidak dapat menghapus ataupun mengubah format surat desa tambahan.
 7. [#4986](https://github.com/OpenSID/OpenSID/issues/4986) Periksa dan perbaiki kasus username ganda pada tabel user.
 8. [#4999](https://github.com/OpenSID/OpenSID/issues/4999) Perbaiki notifikasi menonaktifkan/mengaktifkan dan kembali ke default penggunaa server pada modul.
+9. [#5007](https://github.com/OpenSID/OpenSID/issues/5007) Nonaktifkan widget jika file widget tidak ditemukan.
 
 #### Perubahan Teknis
 

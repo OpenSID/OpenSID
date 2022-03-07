@@ -95,8 +95,8 @@
 							notify = 'success';
 							notify_msg = 'Silahkan Cek Pesan di Email Anda';
 						} else {
-							notify = '';
-							notify_msg = '';
+							notify = '<?= addslashes($this->session->success) ?>';
+							notify_msg = '<?= addslashes($this->session->error_msg) ?>';
 						}
 						notification(notify, notify_msg);
 						$('#success-code').val('');
@@ -111,7 +111,7 @@
 						});
 					});
 				</script>
-				<?php $_SESSION['success'] = 0 ?>
+				<?php session_error_clear(); ?>
 				</body>
 
 				</html>
