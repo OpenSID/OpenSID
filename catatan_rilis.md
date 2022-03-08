@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 9. [#5007](https://github.com/OpenSID/OpenSID/issues/5007) Nonaktifkan widget jika file widget tidak ditemukan.
 10. [#5005](https://github.com/OpenSID/OpenSID/issues/5005) Perbaiki impor data vaksin (Illegal mix of collations).
 11. [#5009](https://github.com/OpenSID/OpenSID/issues/5009) Perbaiki validasi tamabah dan ubah data pada modul Pemetaan > Pengaturan Peta > Area.
+12. [#5018](https://github.com/OpenSID/OpenSID/issues/5018) Periksa dan perbaiki semua tabel dengan collation bukan utf8_general_ci.
 
 #### Perubahan Teknis
 
