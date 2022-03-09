@@ -52,7 +52,7 @@
 						<?php endif; ?>
 
 						//Menampilkan overlayLayers Peta Semua Wilayah
-						var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>");
+						var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>", true);
 
 						//Menampilkan BaseLayers Peta
 						var baseLayers = getBaseLayers(mymap, '<?= $this->setting->mapbox_key ?>');
