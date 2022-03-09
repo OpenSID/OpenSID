@@ -59,6 +59,15 @@ class Periksa_model extends MY_Model
             ->row()->value;
 
         $calon = $current_version;
+
+        // Table tweb_penduduk no_kk ganda
+        if (! empty($kk_ganda = $this->deteksi_tweb_keluarga_no_kk_ganda())) {
+            $calon_ini                    = '19.11';
+            $this->periksa['masalah'][]   = 'no_kk_ganda';
+            $this->periksa['no_kk_ganda'] = $kk_ganda;
+            $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
+        }
+
         // pamong_id belum ada
         if ($db_error_code == 1406) {
             $pos       = strpos($this->session->message_query, "CONCAT_WS('_', kode, id)");
@@ -321,6 +330,17 @@ class Periksa_model extends MY_Model
             ->result_array();
     }
 
+    private function deteksi_tweb_keluarga_no_kk_ganda()
+    {
+        return $this->db
+            ->select('no_kk, COUNT(id) as jml')
+            ->from('tweb_keluarga')
+            ->group_by('no_kk')
+            ->having('jml >', 1)
+            ->get()
+            ->result_array();
+    }
+
     private function deteksi_collation_table_tidak_sesuai()
     {
         return $this->db
@@ -356,6 +376,10 @@ class Periksa_model extends MY_Model
 
                 case 'kk_panjang':
                     $this->perbaiki_kk_panjang();
+                    break;
+
+                case 'no_kk_ganda':
+                    $this->perbaiki_no_kk_ganda();
                     break;
 
                 case 'email_user_ganda':
@@ -550,6 +574,31 @@ class Periksa_model extends MY_Model
                 ->update('tweb_keluarga');
         }
         log_message('error', ' No KK berikut telah diubah menjadi No KK sementara: ' . print_r($kk_panjang, true));
+    }
+
+    private function perbaiki_no_kk_ganda()
+    {
+        $this->load->model('keluarga_model');
+
+        if (empty($this->periksa['no_kk_ganda'])) {
+            return;
+        }
+
+        $duplikat = $this->db
+            ->select('id')
+            ->where_in('no_kk', 'SELECT tk.no_kk FROM tweb_keluarga as tk GROUP BY tk.no_kk HAVING COUNT(tk.no_kk) > 1', false)
+            ->get('tweb_keluarga')
+            ->result_array();
+
+        // Ubah No KK panjang menjadi No KK sementara
+        foreach ($duplikat as $item) {
+            $this->db
+                ->set('no_kk', $this->keluarga_model->nokk_sementara())
+                ->where('id', $item['id'])
+                ->update('tweb_keluarga');
+        }
+
+        log_message('error', ' No KK berikut telah diubah menjadi No KK sementara: ' . print_r($this->periksa['no_kk_ganda'], true));
     }
 
     // Migrasi 22.02 gagal jika ada email user ganda
