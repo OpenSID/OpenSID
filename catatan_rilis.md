@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 13. [#5008](https://github.com/OpenSID/OpenSID/issues/5008) Perbaiki popup rincian data wilayan(statistik, pengurus, dll) tidak tampil kosong pada tambah/ubah data peta.
 14. [#5021](https://github.com/OpenSID/OpenSID/issues/5021) Perbaiki export data suplemen tidak mengambil semua data yang ada.
 15. [#5015](https://github.com/OpenSID/OpenSID/issues/5015) Perbaiki nama hari di surat keterangan kematian yang tidak sesuai.
+16. [#5020](https://github.com/OpenSID/OpenSID/issues/5020) Periksa dan perbaiki kasus no_kk ganda pada tabel tweb_keluarga.
 
 #### Perubahan Teknis
 

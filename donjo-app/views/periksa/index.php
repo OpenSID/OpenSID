@@ -168,6 +168,26 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('no_kk_ganda', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi no_kk ganda</strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>No KK</th>
+                                                    <th>Ganda</th>
+                                                </tr>
+                                                <?php foreach ($no_kk_ganda as $no_kk) : ?>
+                                                    <tr>
+                                                        <td><?= $no_kk['no_kk']; ?></td>
+                                                        <td><?= $no_kk['jml']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki no_kk ganda dengan (1) menambah id ke masing-masing no_kk. Untuk melihat no_kk yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <?php if (in_array('username_user_ganda', $masalah)) : ?>
                                     <div class="panel panel-default">
                                         <div class="panel-body">
