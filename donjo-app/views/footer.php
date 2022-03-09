@@ -64,7 +64,7 @@
 						timeZone: `<?= date_default_timezone_get() ?>`
 					});
 
-						moment.tz.setDefault(`<?= date_default_timezone_get() ?>`);
+					moment.tz.setDefault(`<?= date_default_timezone_get() ?>`);
 				</script>
 
 				<!-- NOTIFICATION-->
