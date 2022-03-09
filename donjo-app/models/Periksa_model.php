@@ -174,6 +174,14 @@ class Periksa_model extends MY_Model
             }
         }
 
+        // Error collation table
+        $collation_table = $this->deteksi_collation_table_tidak_sesuai();
+        $error_msg       = strpos($this->session->message_query, 'Illegal mix of collations');
+        if (! empty($collation_table) || $error_msg) {
+            $this->periksa['masalah'][]       = 'collation';
+            $this->periksa['collation_table'] = $collation_table;
+        }
+
         return $calon;
     }
 
@@ -313,6 +321,13 @@ class Periksa_model extends MY_Model
             ->result_array();
     }
 
+    private function deteksi_collation_table_tidak_sesuai()
+    {
+        return $this->db
+            ->query("SELECT TABLE_NAME, TABLE_COLLATION FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{$this->db->database}' AND TABLE_COLLATION != 'utf8_general_ci'")
+            ->result_array();
+    }
+
     public function perbaiki()
     {
         // TODO: login
@@ -361,6 +376,10 @@ class Periksa_model extends MY_Model
 
                 case 'autoincrement':
                     $this->perbaiki_autoincrement();
+                    break;
+
+                case 'collation':
+                    $this->perbaiki_collation_table();
                     break;
 
                 default:
@@ -712,6 +731,24 @@ class Periksa_model extends MY_Model
                     log_message('error', "Auto_Increment pada tabel {$name} dengan kolom {$key} telah ditambahkan.");
                 }
                 $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
+            }
+        }
+
+        return $hasil;
+    }
+
+    private function perbaiki_collation_table()
+    {
+        $hasil  = true;
+        $tables = $this->periksa['collation_table'];
+
+        if ($tables) {
+            foreach ($tables as $tbl) {
+                if ($this->db->table_exists($tbl['TABLE_NAME'])) {
+                    $hasil = $hasil && $this->db->query("ALTER TABLE {$tbl['TABLE_NAME']} CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci");
+
+                    log_message('error', 'Tabel ' . $tbl['TABLE_NAME'] . ' collation diubah dari ' . $tbl['TABLE_COLLATION'] . ' menjadi utf8_general_ci.');
+                }
             }
         }
 

@@ -44,17 +44,6 @@ class Migrasi_fitur_premium_2204 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2203');
-
-        return $hasil && $this->migrasi_2022030751($hasil);
-    }
-
-    protected function migrasi_2022030751($hasil)
-    {
-        if ($this->db->table_exists('tweb_penduduk')) {
-            $hasil = $this->db->query('ALTER TABLE tweb_penduduk CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci');
-        }
-
-        return $hasil;
+        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2203');
     }
 }

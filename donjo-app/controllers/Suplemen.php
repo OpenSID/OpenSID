@@ -326,6 +326,10 @@ class Suplemen extends Admin_Controller
 
     public function ekspor($id = 0)
     {
+        $temp = $this->session->per_page;
+
+        $this->session->per_page = 0;
         $this->suplemen_model->ekspor($id);
+        $this->session->per_page = $temp;
     }
 }

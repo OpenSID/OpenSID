@@ -38,7 +38,9 @@
 if (! function_exists('asset')) {
     function asset($uri = '')
     {
-        return base_url('assets/' . $uri);
+        $path = FCPATH . 'assets/' . $uri;
+
+        return base_url('assets/' . $uri . '?v' . md5_file($path));
     }
 }
 

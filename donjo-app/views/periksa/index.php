@@ -264,6 +264,26 @@
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if (in_array('collation', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi collation table bukan <code>utf8_general_ci</code></strong>
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Tabel</th>
+                                                    <th>Collation</th>
+                                                </tr>
+                                                <?php foreach ($collation_table as $value) : ?>
+                                                    <tr>
+                                                        <td><?= $value['TABLE_NAME']; ?></td>
+                                                        <td><?= $value['TABLE_COLLATION']; ?></td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            </table>
+                                            <p>Klik tombol Perbaiki untuk memperbaiki semua collation table yang tidak sesuai menjadi collation <code>utf8_general_ci</code></p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                                 <p>Setelah diperbaiki, migrasi akan otomatis diulangi mulai dari versi <?= $migrasi_utk_diulang ?>.</p>
                                 <a href="#" data-href="<?= site_url('periksa/perbaiki') ?>" class="btn btn-social btn-flat btn-danger" role="button" title="Perbaiki masalah data" data-toggle="modal" data-target="#confirm-status" data-body="Apakah yakin akan memperbaiki masalah data?"><i class="fa fa fa-wrench"></i>Perbaiki</a>
                             <?php endif; ?>

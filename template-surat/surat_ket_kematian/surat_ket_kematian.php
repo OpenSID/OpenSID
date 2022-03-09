@@ -736,14 +736,8 @@
 
 	$('document').ready(function() {	
 		/* set otomatis hari */
-		$('input[name=tanggal_mati]').change(function() {
-			var hari = {
-				0 : 'Minggu', 1 : 'Senin', 2 : 'Selasa', 3 : 'Rabu', 4 : 'Kamis', 5 : 'Jumat', 6 : 'Sabtu'
-			};
-			var t = $(this).datepicker('getDate');
-			var i = t.getDay();
-			$(this).closest('.form-group').find('[name=hari]').val(hari[i]);
-			$(this).datepicker('destroy');
+		$('input[name=tanggal_mati]').change(function(e) {
+			$(this).closest('.form-group').find('[name=hari]').val(moment($(this).val(), "DD-MM-YYYY").format('dddd'));
 		});
 
 		/* pergi ke bagian halaman sesudah mengisi warga desa */

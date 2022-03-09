@@ -49,7 +49,7 @@ class MY_Exceptions extends CI_Exceptions
      *
      * @var array
      */
-    protected $db_error_codes = [1029, 1051, 1054, 1062, 1067, 1072, 1109, 1138, 1146, 1166, 1169, 1173, 1176, 1265, 1364, 1406, 1978];
+    protected $db_error_codes = [1029, 1051, 1054, 1062, 1067, 1072, 1109, 1138, 1146, 1166, 1169, 1173, 1176, 1265, 1271, 1364, 1406, 1978];
 
     public function __construct()
     {
