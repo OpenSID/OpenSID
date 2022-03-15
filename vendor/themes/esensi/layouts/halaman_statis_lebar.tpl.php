@@ -13,13 +13,20 @@
 
   <div class="container mx-auto lg:px-5 px-3 flex flex-col lg:flex-row my-5 gap-3 lg:gap-5 justify-between text-gray-600">
     <main class="w-full space-y-1 bg-white rounded-lg px-4 py-2 lg:py-4 lg:px-5 shadow">
-      <?php
-        if (preg_match("/halaman_statis/i", $halaman_statis)) {
-          $this->load->view($halaman_statis);
-        } else {
-          $this->load->view("{$folder_themes}/partials/{$halaman_statis}");
-        }
-      ?>
+      <?php if(IS_PREMIUM) : ?>
+        <?php if(preg_match("/halaman_statis/i", $halaman_statis)) : ?>
+          <?php $this->load->view($halaman_statis); ?>
+          <?php else : ?>
+            <?php $this->load->view("{$folder_themes}/partials/{$halaman_statis}"); ?>
+        <?php endif ?>
+        <?php else : ?>
+          <?php if (in_array($halaman_statis, ['web/halaman_statis/lapak', 'home/idm'])): ?>
+              <?php $halaman_statis = $halaman_statis === 'web/halaman_statis/lapak' ? 'lapak/index' : $halaman_statis ?>
+              <?php $this->load->view("{$folder_themes}/partials/{$halaman_statis}"); ?>
+            <?php else: ?>
+              <?php $this->load->view($halaman_statis); ?>
+          <?php endif; ?>
+      <?php endif ?>
     </main>
   </div>
 

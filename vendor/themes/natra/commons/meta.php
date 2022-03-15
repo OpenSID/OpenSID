@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
-<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v4.5') ?>
+<?php defined('THEME_VERSION') or define('THEME_VERSION', 'v22.04') ?>
 <?php $desa_title =  ucwords($this->setting->sebutan_desa) . ' '. $desa['nama_desa'] . ' '. ucwords($this->setting->sebutan_kecamatan) . ' '. $desa['nama_kecamatan'] . ' '. ucwords($this->setting->sebutan_kabupaten) . ' '. $desa['nama_kabupaten']; ?>
 
 <meta http-equiv="encoding" content="utf-8">
@@ -103,7 +103,7 @@
 			minutes = "0" + minutes;
 		if (seconds <= 9)
 			seconds = "0" + seconds;
-		document.getElementById("jam").innerHTML = "<B>"+days[day]+", "+daym+" "+months[month]+" "+year+"</B><br>"+hours+" : "+minutes+" : "+seconds;
+		$('#jam').html("<B>"+days[day]+", "+daym+" "+months[month]+" "+year+"</B><br>"+hours+" : "+minutes+" : "+seconds);
 		setTimeout("renderDate()",1000)
 	}
 </script>

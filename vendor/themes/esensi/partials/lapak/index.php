@@ -68,7 +68,7 @@
     <?php endforeach ?>
   </div>
 
-  <?php $p_data['paging_page'] = ($paging_page ?? 'lapak') ?>
+  <?php $p_data['paging_page'] = ($paging_page === 'lapak' ? $paging_page : 'lapak') ?>
   <?php $this->load->view($folder_themes .'/commons/paging', $p_data) ?>
 
   <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto" id="modalLokasi" tabindex="-1" aria-modal="true" role="dialog">

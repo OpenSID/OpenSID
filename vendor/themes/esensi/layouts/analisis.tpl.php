@@ -23,48 +23,73 @@
         <?php else : ?>
           <h2 class="text-h2">Daftar Agregasi Data Analisis Desa</h2>
           <?php if ($list_indikator): ?>
-            <?php if (count($master_indikator) > 1) : ?>
-              <form action="<?=site_url('data_analisis'); ?>" method="get">
-                <div class="space-y-1 flex gap-3">
-                  <label for="" class="block text-sm">Analisis:</label>
-                  <select class="form-select" name="master" onchange="this.form.submit()">
-                    <?php foreach ($master_indikator as $master): ?>
-                      <option value="<?= $master['id']?>" <?= selected($list_indikator['0']['id_master'], $master['id'])?>><?= "{$master['master']} ({$master['tahun']})"?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </form>
-            <?php endif; ?>
-            <div class="table-responsive content py-3">
-              <table>
-                <tr>
-                  <td width="200">Pendataan </td>
-                  <td width="20"> :</td>
-                  <td><?= $list_indikator['0']['master']; ?></td>
-                </tr>
-                <tr>
-                  <td>Subjek </td>
-                  <td> : </td>
-                  <td><?= $list_indikator['0']['subjek']; ?></td>
-                </tr>
-                <tr>
-                  <td>Tahun </td>
-                  <td> :</td>
-                  <td><?= $list_indikator['0']['tahun']; ?></td>
-                </tr>
-              </table>
-            </div>
-            <h4 class="text-h4 py-3">Indikator</h4>
-            <div class="table-responsive content">
-              <table>
-                <?php foreach ($list_indikator as $data): ?>
+            <?php if(IS_PREMIUM) : ?>
+              <?php if (count($master_indikator) > 1) : ?>
+                <form action="<?=site_url('data_analisis'); ?>" method="get">
+                  <div class="space-y-1 flex gap-3">
+                    <label for="" class="block text-sm">Analisis:</label>
+                    <select class="form-select" name="master" onchange="this.form.submit()">
+                      <?php foreach ($master_indikator as $master): ?>
+                        <option value="<?= $master['id']?>" <?= selected($list_indikator['0']['id_master'], $master['id'])?>><?= "{$master['master']} ({$master['tahun']})"?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </form>
+              <?php endif; ?>
+              <div class="table-responsive content py-2">
+                <table>
                   <tr>
-                    <td><?= $data['nomor'].'.'; ?>
-                    <td><a href="<?= site_url("jawaban_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><h5 class="text-h5"><?= $data['indikator']?></h5></a></td>
+                    <td width="200">Pendataan </td>
+                    <td width="20"> :</td>
+                    <td><?= $list_indikator['0']['master']; ?></td>
                   </tr>
+                  <tr>
+                    <td>Subjek </td>
+                    <td> : </td>
+                    <td><?= $list_indikator['0']['subjek']; ?></td>
+                  </tr>
+                  <tr>
+                    <td>Tahun </td>
+                    <td> :</td>
+                    <td><?= $list_indikator['0']['tahun']; ?></td>
+                  </tr>
+                </table>
+              </div>
+              <h4 class="text-h4 py-2">Indikator</h4>
+              <div class="table-responsive content">
+                <table>
+                  <?php foreach ($list_indikator as $data): ?>
+                    <tr>
+                      <td><?= $data['nomor'].'.'; ?>
+                      <td><a href="<?= site_url("jawaban_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>" class="font-bold"><?= $data['indikator']?></a></td>
+                    </tr>
+                  <?php endforeach; ?>
+                </table>
+              </div>
+              <?php else : ?>
+                <?php foreach ($list_indikator AS $data): ?>
+                  <a href="<?= site_url("data_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>"><?= $data['indikator']?></a>
+                  <div class="table-responsive">
+                    <table>
+                        <tr>
+                          <td width="20%">Pendataan </td>
+                          <td width="1%"> :</td>
+                          <td><?= $data['master']; ?></td>
+                        </tr>
+                        <tr>
+                          <td>Subjek </td>
+                          <td> : </td>
+                          <td><?= $data['subjek']; ?></td>
+                        </tr>
+                        <tr>
+                          <td>Tahun </td>
+                          <td> :</td>
+                          <td><?= $data['tahun']; ?></td>
+                        </tr>
+                    </table>
+                  </div>
                 <?php endforeach; ?>
-              </table>
-            </div>
+            <?php endif ?>
           <?php else: ?>
           <p>Data tidak tersedia</p>
         <?php endif; ?>

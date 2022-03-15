@@ -55,7 +55,7 @@
 								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
 									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php ($modul['aktif'] == '1' || $modul['aktif'] == null) && print 'active'; ?>">
-										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php ($modul['aktif'] == '1' || $modul['aktif'] == null) && print 'checked'; ?> autocomplete="off"> Aktif
+										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php ($modul['aktif'] == '1'       || $modul['aktif'] == null) && print 'checked'; ?> autocomplete="off"> Aktif
 									</label>
 									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php ($modul['aktif'] == '2') && print 'active'; ?>">
 										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php selected($modul['aktif'], '2', true); ?> autocomplete="off"> Tidak Aktif

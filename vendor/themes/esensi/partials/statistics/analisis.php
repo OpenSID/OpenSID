@@ -1,5 +1,29 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
+<h2 class="text-h2"><?= IS_PREMIUM ? $indikator['pertanyaan'] : $indikator; ?></h2>
+
+<div class="content space-y-5">
+  <div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
+  <table class="table table-responsive table-striped">
+    <thead>
+      <tr>
+        <th width="30%">No</th>
+        <th>Jawaban</th>
+        <th>Jumlah Responden</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach ($list_jawab as $data): ?>
+      <tr>
+        <td><?= $data['no']; ?></td>
+        <td><?= $data['jawaban']; ?></td>
+        <td><?= $data['nilai']; ?></td>
+      </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+</div>
+
 <script type="text/javascript">
   $(document).ready(function () {
     printChart();
@@ -15,7 +39,7 @@
         defaultSeriesType: 'column'
       },
       title: {
-        text: ''
+        text: '<?= IS_PREMIUM ? $indikator['pertanyaan'] : $indikator; ?>'
       },
       xAxis: {
         title: {
@@ -61,27 +85,3 @@
     });
   };
 </script>
-
-<h2 class="text-h2"><?= $indikator['pertanyaan']; ?></h2>
-
-<div class="content space-y-5">
-  <div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
-  <table class="table table-responsive table-striped">
-    <thead>
-      <tr>
-        <th width="30%">No</th>
-        <th>Jawaban</th>
-        <th>Jumlah Responden</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($list_jawab as $data): ?>
-      <tr>
-        <td><?= $data['no']; ?></td>
-        <td><?= $data['jawaban']; ?></td>
-        <td><?= $data['nilai']; ?></td>
-      </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-</div>
