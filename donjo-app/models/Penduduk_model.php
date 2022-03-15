@@ -513,8 +513,8 @@ class Penduduk_model extends MY_Model
 				WHEN u.status_kawin <> 2 THEN k.nama
 				ELSE
 					CASE
-                        WHEN u.akta_perkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
-						ELSE 'KAWIN TERCATAT'
+                    WHEN (u.akta_perkawinan IS NULL OR u.akta_perkawinan = '') AND u.tanggalperkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
+                    ELSE 'KAWIN TERCATAT'
 					END
 			END) AS kawin,
 			(DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(u.tanggallahir)), '%Y')+0) AS umur,
@@ -1284,8 +1284,8 @@ class Penduduk_model extends MY_Model
 				WHEN u.status_kawin <> 2 THEN k.nama
 				ELSE
 					case
-                        WHEN u.akta_perkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
-						ELSE 'KAWIN TERCATAT'
+                    WHEN (u.akta_perkawinan IS NULL OR u.akta_perkawinan = '') AND u.tanggalperkawinan IS NULL THEN 'KAWIN BELUM TERCATAT'
+                            ELSE 'KAWIN TERCATAT'
 					END
 			END) AS kawin,
 			DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0  AS umur,

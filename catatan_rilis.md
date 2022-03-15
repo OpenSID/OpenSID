@@ -24,6 +24,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 16. [#5020](https://github.com/OpenSID/OpenSID/issues/5020) Periksa dan perbaiki kasus no_kk ganda pada tabel tweb_keluarga.
 17. [#5029](https://github.com/OpenSID/OpenSID/issues/5029) Perbaiki Nama Pada Tempat Tanda Tangan Kepala Desa Pada Form Lampiran Surat Keterangan Pindah Penduduk Bukan Nama Kepala Desa Yang Dipilih.
 18. Perbaiki error jika url yg diakses adalah error code 404.
+19. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki Status Perkawinan "KAWIN TERCATAT SEMUA".
 
 #### Perubahan Teknis
 
