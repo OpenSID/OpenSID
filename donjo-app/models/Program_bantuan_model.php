@@ -163,7 +163,7 @@ class Program_bantuan_model extends MY_Model
 
             case 3:
                 // Data Penduduk; $peserta_id adalah No RTM (kolom no_kk)
-                $data                    = $this->rtm_model->get_kepala_rtm($peserta_id, $is_no_kk = true);
+                $data                    = $this->rtm_model->get_kepala_rtm($peserta_id, $is_no_kk                    = true);
                 $data['id_peserta']      = $data['no_kk']; // No RTM digunakan sebagai peserta
                 $data['nama_kepala_rtm'] = $data['nama'];
                 $data['kartu_nik']       = $data['nik'];

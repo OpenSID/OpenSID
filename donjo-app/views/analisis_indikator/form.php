@@ -104,7 +104,7 @@
 											<label id="aksi1" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['act_analisis'], '1', 'active') ?>">
 												<input id="aksi1" type="radio" name="act_analisis" class="form-check-input" type="radio" value="1" <?= jecho($analisis_indikator['act_analisis'], '1', 'checked') ?> autocomplete="off"> Ya
 											</label>
-											<label id="aksi2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['act_analisis'] == '2' || $analisis_indikator['act_analisis'] == null, true, 'active') ?>">
+											<label id="aksi2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['act_analisis'] == '2'   || $analisis_indikator['act_analisis'] == null, true, 'active') ?>">
 												<input id="aksi2" type="radio" name="act_analisis" class="form-check-input" type="radio" value="2" <?= jecho($analisis_indikator['act_analisis'] == '2' || $analisis_indikator['act_analisis'] == null, true, 'checked') ?> autocomplete="off"> Tidak
 											</label>
 										</div>
@@ -118,7 +118,7 @@
 												<input type="radio" name="is_publik" class="form-check-input" type="radio" value="1" <?= jecho($analisis_indikator['is_publik'], '1', 'checked') ?> autocomplete="off"> Ya
 											</label>
 											<label id="ss2" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?= jecho($analisis_indikator['is_publik'] == '0' || $analisis_indikator['is_publik'] == null, true, 'active') ?>">
-												<input type="radio" name="is_publik" class="form-check-input" type="radio" value="0" <?= jecho($analisis_indikator['is_publik'] == '0' || $analisis_indikator['is_publik'] == null, true, 'checked') ?> autocomplete="off"> Tidak
+												<input type="radio" name="is_publik" class="form-check-input" type="radio" value="0" <?= jecho($analisis_indikator['is_publik'] == '0'           || $analisis_indikator['is_publik'] == null, true, 'checked') ?> autocomplete="off"> Tidak
 											</label>
 										</div>
 										<label class="col-sm-3 control-label"></label>

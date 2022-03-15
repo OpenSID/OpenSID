@@ -1711,7 +1711,7 @@ class Database_model extends MY_Model
         $query = $this->db->where('kode_analisis', 'DDK02')
             ->get('analisis_master')->result_array();
         if (count($query) == 0) {
-            $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
+            $file_analisis                                                             = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
             $this->analisis_import_model->import_excel($file_analisis, 'DDK02', $jenis = 1);
         }
         // Impor analisis Data Anggota Keluarga kalau belum ada
@@ -1726,7 +1726,7 @@ class Database_model extends MY_Model
             ->get('analisis_master')->row();
         if (empty($dak)) {
             $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
-            $id_dak        = $this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis = 1);
+            $id_dak        = $this->analisis_import_model->import_excel($file_analisis, 'DAK02', $jenis        = 1);
         } else {
             $id_dak = $dak->id;
         }

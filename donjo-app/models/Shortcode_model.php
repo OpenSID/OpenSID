@@ -55,9 +55,9 @@ class Shortcode_model extends CI_Model
         $regex = '/\\[\\[(.*?)\\]\\]/';
 
         return preg_replace_callback($regex, function ($matches) {
-            $result = [];
+            $result         = [];
             $params_explode = explode(',', $matches[1]);
-            $fnName = 'extract_shortcode';
+            $fnName         = 'extract_shortcode';
 
             return $this->extract_shortcode($params_explode[0], $params_explode[1], $params_explode[2]);
         }, $str);
@@ -283,7 +283,7 @@ class Shortcode_model extends CI_Model
             $result = [];
 
             $params_explode = explode(',', $matches[1]);
-            $fnName = 'converted_sc_list';
+            $fnName         = 'converted_sc_list';
 
             return $this->converted_sc_list($params_explode[0], $params_explode[1], $params_explode[2]);
         }, $str);
