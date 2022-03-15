@@ -56,7 +56,6 @@ class MY_Exceptions extends CI_Exceptions
         parent::__construct();
 
         $this->ci = get_instance();
-        $this->ci->session->unset_userdata(['db_error', 'message', 'message_query', 'heading', 'message_exception']);
     }
 
     /**
