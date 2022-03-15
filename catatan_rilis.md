@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 15. [#5015](https://github.com/OpenSID/OpenSID/issues/5015) Perbaiki nama hari di surat keterangan kematian yang tidak sesuai.
 16. [#5020](https://github.com/OpenSID/OpenSID/issues/5020) Periksa dan perbaiki kasus no_kk ganda pada tabel tweb_keluarga.
 17. [#5029](https://github.com/OpenSID/OpenSID/issues/5029) Perbaiki Nama Pada Tempat Tanda Tangan Kepala Desa Pada Form Lampiran Surat Keterangan Pindah Penduduk Bukan Nama Kepala Desa Yang Dipilih.
+18. Perbaiki error jika url yg diakses adalah error code 404.
 
 #### Perubahan Teknis
 
