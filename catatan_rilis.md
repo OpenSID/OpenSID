@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 17. [#5029](https://github.com/OpenSID/OpenSID/issues/5029) Perbaiki Nama Pada Tempat Tanda Tangan Kepala Desa Pada Form Lampiran Surat Keterangan Pindah Penduduk Bukan Nama Kepala Desa Yang Dipilih.
 18. Perbaiki error jika url yg diakses adalah error code 404.
 19. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki Status Perkawinan "KAWIN TERCATAT SEMUA".
+20. [#5036](https://github.com/OpenSID/OpenSID/issues/5036) Perbaiki notifikasi kosongkan lokasi peta tidak berfungsi.
 
 #### Perubahan Teknis
 

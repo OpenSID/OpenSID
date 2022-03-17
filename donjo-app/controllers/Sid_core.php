@@ -579,7 +579,8 @@ class Sid_core extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->wilayah_model->kosongkan_path($id);
-        redirect($_SERVER['HTTP_REFERER']);
+
+        redirect($this->controller);
     }
 
     public function urut($tipe = '', $p = 1, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0)
