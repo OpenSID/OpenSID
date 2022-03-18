@@ -61,9 +61,9 @@
 
                 <!-- Main content -->
                 <section class="content">
-                    <?php if ($this->session->db_error) : ?>
+                    <?php if ($this->session->db_error || $masalah) : ?>
                         <div class="callout callout-warning">
-                            <h4><?= $this->session->heading ?></h4>
+                            <h4><?= $this->session->heading ?: 'Ditemukan masalah pada database'?></h4>
                             <p><?= $this->session->message ?></p>
                             <?php if (ENVIRONMENT == 'development') : ?>
                                 <pre><?= $this->session->message_query ?></pre>
@@ -105,6 +105,14 @@
                                                 <?php endforeach; ?>
                                             </table>
                                             <p>Klik tombol Perbaiki untuk memperpendek kode kelompok supaya dapat dibuat unik dengan menambahkan ID di akhir masing-masing kode. Untuk melihat kode yang diubah harap periksa berkas logs.</p>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (in_array('ref_inventaris_kosong', $masalah)) : ?>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <strong>Terdeteksi referensi pertanahan dan inventaris kosong</strong>
+                                            <p>Klik tombol Perbaiki untuk mengembalikan isi tabel referensi tersebut.</p>
                                         </div>
                                     </div>
                                 <?php endif; ?>

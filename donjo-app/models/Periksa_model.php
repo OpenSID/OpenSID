@@ -68,6 +68,11 @@ class Periksa_model extends MY_Model
             $calon                        = version_compare($calon, $calon_ini, '<') ? $calon : $calon_ini;
         }
 
+        // Tabel ref_persil_kelas dan tabel ref inventaris lain terhapus isinya
+        if ($db_error_code == 99001 && preg_match('/ref_persil_kelas|ref_persil_mutasi|ref_peruntukan_tanah_kas/', $db_error_message)) {
+            $this->periksa['masalah'][] = 'ref_inventaris_kosong';
+        }
+
         // pamong_id belum ada
         if ($db_error_code == 1406) {
             $pos       = strpos($this->session->message_query, "CONCAT_WS('_', kode, id)");
@@ -362,6 +367,10 @@ class Periksa_model extends MY_Model
                     $this->perbaiki_kode_kelompok();
                     break;
 
+                case 'ref_inventaris_kosong':
+                    $this->perbaiki_referensi_kosong();
+                    break;
+
                 case 'id_cluster_null':
                     $this->perbaiki_id_cluster_null();
                     break;
@@ -437,6 +446,18 @@ class Periksa_model extends MY_Model
             ->set('kode', 'SUBSTRING(kode, 1, (CHAR_LENGTH(kode) - CHAR_LENGTH(id) - 1))', false)
             ->where_in('kode', $kode)
             ->update('kelompok');
+    }
+
+    // Isi kembali tabel referensi:
+    // ref_persil_kelas, ref_persil_mutasi, ref_peruntukan_tanah_kas
+    private function perbaiki_referensi_kosong()
+    {
+        $this->load->model('migrations/Migrasi_2007_ke_2008', 'migrasi1');
+        $this->migrasi1->buat_ref_persil_kelas();
+        $this->migrasi1->buat_ref_persil_mutasi();
+        $this->load->model('migrations/Migrasi_fitur_premium_2106', 'migrasi2');
+        $this->migrasi2->add_value_ref_peruntukan_tanah_kas(true);
+        log_message('error', 'Isi tabel ref_persil_kelas, ref_persil_mutasi dan ref_peruntukan_tanah_kas telah dikembalikan');
     }
 
     // Hanya terjadi pada keluarga yg tidak memiliki anggota lagi
