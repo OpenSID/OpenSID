@@ -91,10 +91,8 @@ Highcharts.chart('container', {
 				{
 					id: <?= $pamong['pamong_id']?>,
 					title: '<?= $pamong['jabatan']?>',
-					name: "<?= $pamong['nama']?>",
-					<?php if (! empty($pamong['foto'])): ?>
-						image: '<?= base_url() . LOKASI_USER_PICT . 'kecil_' . $pamong['foto']?>',
-					<?php endif; ?>
+					name: '<?= $pamong['nama']?>',
+					image: '<?= AmbilFoto($pamong['foto']) ?>',
 					<?php if (! empty($pamong['bagan_tingkat'])): ?>
 						column: <?= $pamong['bagan_tingkat'] ?: ''?>,
 					<?php endif; ?>
