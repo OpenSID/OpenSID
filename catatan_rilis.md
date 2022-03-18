@@ -26,6 +26,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 18. Perbaiki error jika url yg diakses adalah error code 404.
 19. [#4836](https://github.com/OpenSID/OpenSID/issues/4836) Perbaiki Status Perkawinan "KAWIN TERCATAT SEMUA".
 20. [#5036](https://github.com/OpenSID/OpenSID/issues/5036) Perbaiki notifikasi kosongkan lokasi peta tidak berfungsi.
+21. [#5030](https://github.com/OpenSID/OpenSID/issues/5030) Periksa dan perbaiki tabel referensi persil dan inventaris kosong.
+22. [#5037](https://github.com/OpenSID/OpenSID/issues/5037) Perbaiki data lengenda pada peta agar tidak menutupi toolbar peta dengan menambahkan scroollbar.
+23. [#5044](https://github.com/OpenSID/OpenSID/issues/5044) Perbaiki struktur organisasi pemerintah desa.
 
 #### Perubahan Teknis
 

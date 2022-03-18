@@ -306,7 +306,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
         return $hasil && $this->dbforge->create_table('ref_peruntukan_tanah_kas', true);
     }
 
-    protected function add_value_ref_asal_tanah_kas($hasil)
+    public function add_value_ref_asal_tanah_kas($hasil)
     {
         $data = [
             ['id' => 1, 'nama' => 'Jual Beli'],
@@ -325,7 +325,7 @@ class Migrasi_fitur_premium_2106 extends MY_Model
         return $hasil;
     }
 
-    protected function add_value_ref_peruntukan_tanah_kas($hasil)
+    public function add_value_ref_peruntukan_tanah_kas($hasil)
     {
         $data = [
             ['id' => 1, 'nama' => 'Sewa'],

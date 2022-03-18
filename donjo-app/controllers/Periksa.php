@@ -55,8 +55,8 @@ class Periksa extends CI_Controller
             log_message('error', $this->session->message_query);
             log_message('error', $this->session->message_exception);
         }
-
         $data = $this->periksa_model->periksa;
+
         $this->load->view('periksa/index', $data);
     }
 
