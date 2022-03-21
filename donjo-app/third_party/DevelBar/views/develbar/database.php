@@ -20,6 +20,7 @@
                     $query = str_replace($bold, '<strong style="color:#e0e0e0">' . $bold . '</strong>', $query);
                 }
                 echo '
+                <hr>
                 <p>
                     <span class="left-col">' . $query . '</span>
                     <span class="right-col">' . $time . ' ' . lang('sec') . '</span>
