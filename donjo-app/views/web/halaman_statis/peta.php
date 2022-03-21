@@ -31,6 +31,7 @@
   <div class="row">
     <div class="col-md-12">
       <div id="map">
+        <?php $this->load->view('gis/cetak_peta') ?>
         <div class="leaflet-top leaflet-left">
           <?php $this->load->view('gis/content_desa_web.php', ['desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])]) ?>
           <?php $this->load->view('gis/content_dusun_web.php', ['dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>

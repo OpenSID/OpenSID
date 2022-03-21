@@ -31,6 +31,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 23. [#5044](https://github.com/OpenSID/OpenSID/issues/5044) Perbaiki struktur organisasi pemerintah desa.
 24. [#5053](https://github.com/OpenSID/OpenSID/issues/5053) Perbaiki judul grafik keuangan pada peta tidak sesuai dengan yang ditampilkan.
 25. [#5049](https://github.com/OpenSID/OpenSID/issues/5049) Perbaiki akses modul vaksinasi yang lambat.
+26. [#5054](https://github.com/OpenSID/OpenSID/issues/5054) Perbaiki cetak peta pada web tidak memunculkan nama desa dan arah mata angin.
+
 
 #### Perubahan Teknis
 
