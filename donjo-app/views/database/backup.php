@@ -1,4 +1,4 @@
-										<div class="tab-pane <?php if ($act_tab == 4): ?> active<?php endif ?>">
+										<div class="tab-pane <?= jecho($act_tab, 1, 'active') ?>">
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
@@ -46,10 +46,6 @@
 															<div class="col-sm-12">
 																<p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
 																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-																	<?php if (strlen(@$_SESSION['SIAK']) > 1): ?>
-																			<?=$_SESSION['SIAK']?>
-																	<?php endif ?>
-																	<?php $_SESSION['SIAK'] = ''; ?>
 																	<p>Batas maksimal pengunggahan berkas <strong><?= max_upload() ?> MB.</strong></p>
 																	<p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
 																	<p></p>

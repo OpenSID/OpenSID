@@ -3,6 +3,7 @@ Di rilis ini, versi 22.03-premium-beta02 menyediakan [untuk diisi]. Rilis ini ju
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
+1. [#4995](https://github.com/OpenSID/OpenSID/issues/4995) Pindahkan impor dan expor data penduduk ke modul penduduk.
 
 #### Perbaikan BUG
 

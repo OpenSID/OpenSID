@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="{{ asset('css/admin-style.css?v' . version()) }}"/>
 </head>
 <body id="sidebar_collapse" class="{{ $setting->warna_tema_admin }} fixed sidebar-mini">
-  <div class="wrapper">
+    <div class="wrapper">
 
     @include('admin.layouts.partials.header')
 
@@ -36,7 +36,7 @@
         @include('admin.layouts.components.breadcrumb')
       </section>
 
-      <section class="content">
+      <section id="maincontent" class="content">
         @yield('content')
       </section>
     </div>
@@ -72,6 +72,8 @@
   <script src="{{ asset('js/adminlte.min.js') }}"></script>
   <!-- jquery validasi -->
   <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+  <!-- Script-->
+  <script src="{{ asset('js/script.js?v' . version()) }}"></script>
   <!-- Modifikasi -->
   <script src="{{ asset('js/admin.js?v' . version()) }}"></script>
   @if (config_item('demo_mode'))

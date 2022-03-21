@@ -164,7 +164,6 @@ class Import_model extends CI_Model
 
             return false;
         }
-
         $mime_type_excel = ['application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel.sheet.macroenabled.12'];
         if (! in_array(strtolower($_FILES['userfile']['type']), $mime_type_excel)) {
             $this->session->error_msg .= ' -> Jenis file salah: ' . $_FILES['userfile']['type'];
@@ -599,9 +598,6 @@ class Import_model extends CI_Model
 
     public function import_excel($hapus = false)
     {
-        $this->session->error_msg = '';
-        $this->session->success   = 1;
-
         if ($this->file_import_valid() == false) {
             return;
         }
@@ -683,7 +679,7 @@ class Import_model extends CI_Model
             }
 
             if ($baris_data <= 0) {
-                return session_error(' -> Tidak ada data');
+                return set_session('error', 'Data penduduk gagal diimpor');
             }
 
             if ($gagal > 0) {
@@ -700,6 +696,8 @@ class Import_model extends CI_Model
             set_session('pesan_impor', $pesan_impor);
         }
         $reader->close();
+
+        return set_session('success', 'Data penduduk berhasil diimpor');
     }
 
     /* 	====================
@@ -709,8 +707,6 @@ class Import_model extends CI_Model
 
     public function import_bip($hapus = false)
     {
-        $this->session->error_msg = '';
-        $this->session->success   = 1;
         if ($this->file_import_valid() == false) {
             return;
         }
