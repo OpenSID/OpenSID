@@ -29,6 +29,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 21. [#5030](https://github.com/OpenSID/OpenSID/issues/5030) Periksa dan perbaiki tabel referensi persil dan inventaris kosong.
 22. [#5037](https://github.com/OpenSID/OpenSID/issues/5037) Perbaiki data lengenda pada peta agar tidak menutupi toolbar peta dengan menambahkan scroollbar.
 23. [#5044](https://github.com/OpenSID/OpenSID/issues/5044) Perbaiki struktur organisasi pemerintah desa.
+24. [#5053](https://github.com/OpenSID/OpenSID/issues/5053) Perbaiki judul grafik keuangan pada peta tidak sesuai dengan yang ditampilkan.
+25. [#5049](https://github.com/OpenSID/OpenSID/issues/5049) Perbaiki akses modul vaksinasi yang lambat.
+26. [#5054](https://github.com/OpenSID/OpenSID/issues/5054) Perbaiki cetak peta pada web tidak memunculkan nama desa dan arah mata angin.
+
 
 #### Perubahan Teknis
 

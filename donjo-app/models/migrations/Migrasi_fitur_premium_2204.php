@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2203');
+        $hasil = $hasil && $this->migrasi_2022031171($hasil);
 
-        return $hasil && $this->migrasi_2022031171($hasil);
+        return $hasil && $this->migrasi_2022032171($hasil);
     }
 
     protected function migrasi_2022031171($hasil)
@@ -57,5 +58,16 @@ class Migrasi_fitur_premium_2204 extends MY_model
             ->update('setting_modul');
 
         return $hasil && true;
+    }
+
+    protected function migrasi_2022032171($hasil)
+    {
+        // Ubah type data id penduduk
+        return $hasil && $this->dbforge->modify_column('covid19_vaksin', [
+            'id_penduduk' => [
+                'type'       => 'int',
+                'constraint' => 11,
+            ],
+        ]);
     }
 }

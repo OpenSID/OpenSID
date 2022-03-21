@@ -37,6 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property CI_DB_query_builder $db
+ */
 class MY_Model extends CI_Model
 {
     /**
