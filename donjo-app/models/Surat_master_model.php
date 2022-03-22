@@ -286,12 +286,15 @@ class Surat_master_model extends MY_Model
             $this->session->success = 1;
         }
 
+        // ambil data surat sebelum dihapus
+        $before = $this->get_surat_format($id);
+
         // Surat jenis sistem (nilai 1) tidak bisa dihapus
-        $outp = $this->db->where('id', $id)->where('jenis <>', 1)->delete($this->table);
+        $outp = $this->db->where('id', $id)->where('jenis !=', '1')->delete($this->table);
 
         if ($outp) {
             //hapus file dan folder penyimpanan template surat
-            delete_files($this->get_surat_format($id)['lokasi_surat'], true);
+            delete_files($before['lokasi_surat'], true, false, 1);
         }
 
         status_sukses($outp, true); //Tampilkan Pesan
