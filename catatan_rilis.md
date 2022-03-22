@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 25. [#5049](https://github.com/OpenSID/OpenSID/issues/5049) Perbaiki akses modul vaksinasi yang lambat.
 26. [#5054](https://github.com/OpenSID/OpenSID/issues/5054) Perbaiki cetak peta pada web tidak memunculkan nama desa dan arah mata angin.
 27. [#5055](https://github.com/OpenSID/OpenSID/issues/5055) Perbaiki pencarian nama non warga di arsip layanan surat.
+28. [#5065](https://github.com/OpenSID/OpenSID/issues/5065) Perbaiki hapus surat desa agar tidak menghapus keseluruhan surat desa yang ada.
 
 
 #### Perubahan Teknis
