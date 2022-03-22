@@ -979,6 +979,10 @@ class Penduduk extends Admin_Controller
 
     public function import_data_bip()
     {
+        if ($this->db->get('tweb_penduduk')->num_rows() > 0) {
+            redirect_with('error', 'Tidak dapat mengimpor BIP ketika data penduduk telah ada', 'penduduk/import_bip');
+        }
+
         $this->redirect_hak_akses('u');
         $hapus = isset($_POST['hapus_data']);
         $this->import_model->import_bip($hapus);

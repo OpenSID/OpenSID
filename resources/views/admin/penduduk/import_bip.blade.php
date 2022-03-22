@@ -20,6 +20,7 @@
     </div>
     <div class="box-body">
         {!! form_open($form_action, 'class="form-horizontal" id="impor" enctype="multipart/form-data"') !!}
+            <p><b>Penting: Import BIP hanya bisa dilakukan ketika data penduduk belum ada</b></p>
             <p>Proses ini untuk mengimpor data Buku Induk Penduduk (BIP) yang diperoleh dari Disdukcapil dalam format Excel.</p>
             <p>BIP yang dapat dibaca proses ini adalah yang tersusun berdasarkan keluarga, seperti contoh yang dapat dilihat pada tautan berikut :</P>
             <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2012.xls') }}" ><i class="fa fa-download"></i>Contoh BIP 2012</a>

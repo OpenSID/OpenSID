@@ -4,6 +4,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
 1. [#4995](https://github.com/OpenSID/OpenSID/issues/4995) Pindahkan impor dan expor data penduduk ke modul penduduk.
+2. [#4997](https://github.com/OpenSID/OpenSID/issues/4997) Penyesuaian aturan impor data BIP.
 
 #### Perbaikan BUG
 
