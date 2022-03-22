@@ -418,17 +418,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.238.1",
-            "version_normalized": "0.238.1.0",
+            "version": "v0.240.0",
+            "version_normalized": "0.240.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "a9866fd963f53e9a7d26d36f20c471f73a90a719"
+                "reference": "c6d39cda24d7ada02ecf8c464a1c8adb02607ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/a9866fd963f53e9a7d26d36f20c471f73a90a719",
-                "reference": "a9866fd963f53e9a7d26d36f20c471f73a90a719",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/c6d39cda24d7ada02ecf8c464a1c8adb02607ba7",
+                "reference": "c6d39cda24d7ada02ecf8c464a1c8adb02607ba7",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +437,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2022-03-07T18:23:49+00:00",
+            "time": "2022-03-21T01:20:11+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -459,7 +459,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.238.1"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.240.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -524,17 +524,17 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.1",
-            "version_normalized": "7.4.1.0",
+            "version": "7.4.2",
+            "version_normalized": "7.4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79"
+                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
-                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ac1ec1cd9b5624694c3a40be801d94137afb12b4",
+                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4",
                 "shasum": ""
             },
             "require": {
@@ -560,7 +560,7 @@
                 "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
-            "time": "2021-12-06T18:43:05+00:00",
+            "time": "2022-03-20T14:16:28+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -569,12 +569,12 @@
             },
             "installation-source": "dist",
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -631,7 +631,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.1"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.2"
             },
             "funding": [
                 {
@@ -738,17 +738,17 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.1.0",
-            "version_normalized": "2.1.0.0",
+            "version": "2.2.1",
+            "version_normalized": "2.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72"
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
-                "reference": "089edd38f5b8abba6cb01567c2a8aaa47cec4c72",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/c94a94f120803a18554c1805ef2e539f8285f9a2",
+                "reference": "c94a94f120803a18554c1805ef2e539f8285f9a2",
                 "shasum": ""
             },
             "require": {
@@ -769,11 +769,11 @@
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
-            "time": "2021-10-06T17:43:30+00:00",
+            "time": "2022-03-20T21:55:58+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "installation-source": "dist",
@@ -836,7 +836,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.1.0"
+                "source": "https://github.com/guzzle/psr7/tree/2.2.1"
             },
             "funding": [
                 {
@@ -856,8 +856,8 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -912,8 +912,8 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -969,8 +969,8 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1023,8 +1023,8 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1074,8 +1074,8 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -1145,8 +1145,8 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -1203,8 +1203,8 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
@@ -1268,8 +1268,8 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1317,8 +1317,8 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1370,8 +1370,8 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -1421,8 +1421,8 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -1492,8 +1492,8 @@
         },
         {
             "name": "illuminate/view",
-            "version": "v8.83.4",
-            "version_normalized": "8.83.4.0",
+            "version": "v8.83.5",
+            "version_normalized": "8.83.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/view.git",
@@ -1726,17 +1726,17 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.3.5",
-            "version_normalized": "2.3.5.0",
+            "version": "2.4.0",
+            "version_normalized": "2.4.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9"
+                "reference": "d7fd7450628561ba697b7097d86db72662f54aef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd4380d6fc37626e2f799f29d91195040137eba9",
-                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/d7fd7450628561ba697b7097d86db72662f54aef",
+                "reference": "d7fd7450628561ba697b7097d86db72662f54aef",
                 "shasum": ""
             },
             "require": {
@@ -1758,7 +1758,7 @@
                 "phpstan/phpstan": "^0.12.91",
                 "phpunit/phpunit": "^8.5",
                 "predis/predis": "^1.1",
-                "rollbar/rollbar": "^1.3",
+                "rollbar/rollbar": "^1.3 || ^2 || ^3",
                 "ruflin/elastica": ">=0.90@dev",
                 "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
@@ -1779,7 +1779,7 @@
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
-            "time": "2021-10-01T21:08:31+00:00",
+            "time": "2022-03-14T12:44:37+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1812,7 +1812,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.3.5"
+                "source": "https://github.com/Seldaek/monolog/tree/2.4.0"
             },
             "funding": [
                 {
@@ -4035,9 +4035,9 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "ea861a2e5a988f3e145e3bf2e2117569ad2a7842"
+                "reference": "c440f9dbbcf26659f6e8bfac859561f629df60a4"
             },
-            "time": "2022-03-08T08:02:11+00:00",
+            "time": "2022-03-18T07:03:36+00:00",
             "type": "library",
             "installation-source": "source",
             "license": [
