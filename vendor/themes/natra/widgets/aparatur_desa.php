@@ -34,7 +34,7 @@
 			data-cycle-caption-plugin=caption2
 			data-cycle-overlay-fx-out="slideUp"
 			data-cycle-overlay-fx-in="slideDown"
-			data-cycle-auto-height=<?= $aparatur_desa['foto_pertama'] ?>
+			data-cycle-auto-height=4:6
 			>
 			<?php if ($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true): ?>
 				<span class="cycle-prev"><img src="<?= base_url()?>assets/images/back_button.png" alt="Back"></span>
@@ -47,7 +47,8 @@
 
 				<?php foreach($aparatur_desa['daftar_perangkat'] as $data) : ?>
 					<img src="<?= $data['foto'] ?>"
-					data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>"
+					data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>
+						<span class='label label-success'><?= $data['tanggal'] == date('Y-m-d') ? 'Hadir' : '' ?></span>"
 					data-cycle-desc="<?= $data['jabatan'] ?>"
 					>
 				<?php endforeach; ?>
