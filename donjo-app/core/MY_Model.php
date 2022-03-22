@@ -50,6 +50,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @property CI_Output           $output
  * @property CI_Router           $router
  * @property CI_Security         $security
+ * @property CI_Session          $session
  * @property CI_URI              $uri
  * @property CI_Utf8             $utf8
  */
