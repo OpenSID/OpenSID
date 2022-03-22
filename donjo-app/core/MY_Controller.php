@@ -37,6 +37,20 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+/**
+ * @property CI_Benchmark        $benchmark
+ * @property CI_Config           $config
+ * @property CI_DB_query_builder $db
+ * @property CI_Input            $input
+ * @property CI_Lang             $lang
+ * @property CI_Loader           $loader
+ * @property CI_log              $log
+ * @property CI_Output           $output
+ * @property CI_Router           $router
+ * @property CI_Security         $security
+ * @property CI_URI              $uri
+ * @property CI_Utf8             $utf8
+ */
 class MY_Controller extends CI_Controller
 {
     // Common data
