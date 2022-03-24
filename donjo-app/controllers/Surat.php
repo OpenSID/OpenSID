@@ -99,7 +99,7 @@ class Surat extends Admin_Controller {
 		if (!empty($_POST['nik']))
 		{
 			$data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);
-			$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
+			$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => TRUE], TRUE);
 		}
 		else
 		{

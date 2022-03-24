@@ -70,7 +70,7 @@
 																						<a href="<?= site_url("sid_core/ajax_kantor_rt_maps/$id_dusun/$id_rw/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lokasi Kantor RT</a>
 																					</li>
 																					<li>
-																						<a href="<?= site_url("sid_core/ajax_wilayah_rt_maps/$id_dusun/$id_rw/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Peta Wilayah RT</a>
+																						<a href="<?= site_url("sid_core/ajax_wilayah_rt_maps/$id_dusun/$id_rw/$data[id]")?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map'></i> Peta Wilayah RT</a>
 																					</li>
 																				</ul>
 																			</div>

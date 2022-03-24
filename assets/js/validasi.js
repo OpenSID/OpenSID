@@ -145,6 +145,12 @@ $(document).ready(function() {
 			});
 	});
 
+	// TODO : Jika validasi no_kk sudah siap seperti nik sementara, silahkan gunakan validasi nik dengan pesan yg dinamis
+	jQuery.validator.addMethod("no_kk", function(value, element) {
+		no_kk_valid = /^\d*$/.test(value) && (value == 0 || value.length == 16);
+		return this.optional(element) || no_kk_valid;
+	}, "Nomor KK Harus 0 atau bilangan 16 digit");
+
 	jQuery.validator.addMethod("angka", function(value, element) {
 		angka_valid = /^\d*$/.test(value);
 		return this.optional(element) || angka_valid;

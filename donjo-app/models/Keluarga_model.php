@@ -657,7 +657,7 @@
 
 	// $options['dengan_kk'] = false jika hanya perlu tanggungan keluarga tanpa kepala keluarga
 	// $options['pilih'] untuk membatasi ke nik tertentu saja
-	public function list_anggota($id=0,$options=array('dengan_kk'=>true))
+	public function list_anggota($id = 0, $options = ['dengan_kk' => TRUE], $nik_sementara = FALSE)
 	{
 		$sql = "SELECT u.*, u.sex as sex_id, u.status_kawin as status_kawin_id,
 			DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(`tanggallahir`)), '%Y')+0 AS umur,
@@ -687,6 +687,14 @@
 		$sql .= " ORDER BY kk_level, tanggallahir";
 		$query = $this->db->query($sql, array($id));
 		$data = $query->result_array();
+
+		if ($nik_sementara)
+		{
+			for ($i = 0; $i < count($data); $i++)
+			{
+				$data[$i]['nik'] = get_nik($data[$i]['nik']);
+			}
+		}
 
 		return $data;
 	}

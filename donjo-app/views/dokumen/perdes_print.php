@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Data Peraturan Desa</title>
+		<title>Data Peraturan <?= ucwords($this->setting->sebutan_desa); ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
 		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
@@ -11,21 +11,17 @@
 		<?php endif; ?>
 		<!-- TODO: Pindahkan ke external css -->
 		<style>
-			.textx
-			{
+			.textx {
 				mso-number-format:"\@";
 			}
-			td, th
-			{
+			td, th {
 				font-size:9pt;
 			}
-			table#ttd td
-			{
+			table#ttd td {
 				text-align: center;
 				white-space: nowrap;
 			}
-			.underline
-			{
+			.underline {
 				text-decoration: underline;
 			}
 		</style>
@@ -34,8 +30,8 @@
 		<div id="container">
 			<div id="body">
 				<div class="header" align="center">
-					<h3>A.1 BUKU PERATURAN DESA <?= strtoupper($desa['nama_desa'])?></h3>
-					<h3><?= strtoupper($this->setting->sebutan_kecamatan.' '.$desa['nama_kecamatan'].' '.$this->setting->sebutan_kabupaten.' '.$desa['nama_kabupaten'])?></h3>
+					<h3>A.1 BUKU PERATURAN <?= strtoupper($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])?></h3>
+					<h3><?= strtoupper($this->setting->sebutan_kecamatan . ' ' . $desa['nama_kecamatan'] . ' ' . $this->setting->sebutan_kabupaten . ' ' . $desa['nama_kabupaten'])?></h3>
 					<h3><?= !empty($tahun) ? 'TAHUN '. $tahun : ''?></h3>
 					<br>
 				</div>

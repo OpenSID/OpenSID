@@ -5,7 +5,7 @@
  *
  * Model untuk modul database
  *
- * donjo-app/models/migrations/Migrasi_2109_ke_2110.php
+ * donjo-app/models/migrations/Migrasi_fitur_premium_2110.php
  *
  */
 
@@ -26,11 +26,9 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
@@ -42,23 +40,34 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2109_ke_2110 extends MY_Model
+
+class Migrasi_fitur_premium_2110 extends MY_Model
 {
 	public function up()
 	{
+		log_message('error', 'Jalankan ' . get_class($this));
 		$hasil = true;
-    // Migrasi fitur premium
-    // Jalankan migrasi fitur premium yg digabungkan sejak rilis sebelumnya
-    $daftar_migrasi_premium = ['2012', '2101', '2102', '2103'];
-    foreach ($daftar_migrasi_premium as $migrasi)
-    {
-      $migrasi_premium = 'migrasi_fitur_premium_'.$migrasi;
-      $file_migrasi = 'migrations/'.$migrasi_premium;
-        $this->load->model($file_migrasi);
-        $hasil = $hasil && $this->$migrasi_premium->up();
-    }
-	
+
+		$hasil = $hasil && $this->migrasi_2021091751($hasil);
+
 		status_sukses($hasil);
+		return $hasil;
+	}
+
+	protected function migrasi_2021091751($hasil)
+	{
+		$hasil = $hasil && $this->ubah_modul(101, ['modul'  => 'Status [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(301, ['modul'  => 'Buku Administrasi [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(311, ['modul'  => 'Buku Lembaran Dan Berita [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(319, ['modul'  => 'Buku Tanah Kas [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(320, ['modul'  => 'Buku Tanah di [Desa]']);
+
+		$hasil = $hasil && $this->ubah_modul(322, ['modul'  => 'Buku Inventaris dan Kekayaan [Desa]']);
+
 		return $hasil;
 	}
 }

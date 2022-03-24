@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define("VERSION", '22.03');
+define("VERSION", '22.03-premium');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -58,7 +58,7 @@ define("VERSION", '22.03');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022030101');
+define('VERSI_DATABASE', '2022032201');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -710,7 +710,7 @@ function sql_in_list($list_array)
  * unique_id : diperlukan jika nama file asli tidak sama dengan nama didatabase
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  */
-function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP)
+function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil=false)
 {
 	$CI =& get_instance();
 	$CI->load->helper('download');
@@ -1109,22 +1109,42 @@ function format_telpon(string $no_telpon, $kode_negara = '+62')
 // https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
 function strReplaceArrayRecursive($replacement = array(), $strArray = false, $isReplaceKey = false)
 {
-    if ( ! is_array($strArray))
-    {
-        return str_replace(array_keys($replacement), array_values($replacement), $strArray);
-    }
-    else {
-        $newArr = array();
-        foreach ($strArray as $key=>$value)
-        {
-            $replacedKey = $key;
-            if ($isReplaceKey)
-            {
-                $replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
-            }
-            $newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
-        }
+	if ( ! is_array($strArray))
+	{
+		return str_replace(array_keys($replacement), array_values($replacement), $strArray);
+	}
+	else
+	{
+		$newArr = array();
+		foreach ($strArray as $key=>$value)
+		{
+			$replacedKey = $key;
+			if ($isReplaceKey)
+			{
+				$replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
+			}
+			$newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
+		}
 
-        return $newArr;
-    }
+		return $newArr;
+	}
+}
+
+function get_domain(string $url)
+{
+	$parse = parse_url($url);
+
+	return preg_replace('#^(http(s)?://)?w{3}\.#', '$1', $parse['host']);
+}
+
+function get_antrian($antrian)
+{
+	return substr_replace($antrian, '-', 6, 0);
+}
+
+function get_nik($nik = '0')
+{
+	if (substr($nik, 0, 1) !== '0') return $nik;
+
+	return '0';
 }

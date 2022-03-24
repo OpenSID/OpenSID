@@ -248,7 +248,7 @@ class Database extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$hapus = isset($_POST['hapus_data']);
 		$this->import_model->import_excel($hapus);
-		redirect('database/import/1');
+		redirect('database/import');
 	}
 
 	public function import_data_bip()
@@ -256,7 +256,7 @@ class Database extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$hapus = isset($_POST['hapus_data']);
 		$this->import_model->import_bip($hapus);
-		redirect('database/import_bip/1');
+		redirect('database/import_bip');
 	}
 
 	public function migrasi_db_cri()
@@ -265,7 +265,7 @@ class Database extends Admin_Controller {
 		$this->session->unset_userdata('success');
 		$this->session->unset_userdata('error_msg');
 		$this->database_model->migrasi_db_cri();
-		redirect('database/migrasi_cri/1');
+		redirect('database/migrasi_cri');
 	}
 
 	public function kosongkan_db()
@@ -342,7 +342,7 @@ class Database extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$this->session->error_msg = null;
 		if ($this->setting->penggunaan_server != 6) return;
-		$this->load->view('database/ajax_sinkronkan', $data);
+		$this->load->view('database/ajax_sinkronkan');
 	}
 
 	public function proses_sinkronkan()

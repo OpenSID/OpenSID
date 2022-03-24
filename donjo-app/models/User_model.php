@@ -149,9 +149,19 @@ class User_model extends CI_Model {
 				$this->session->per_page = 10;
 				$this->session->siteman_wait = 0;
 				$this->session->siteman_try = 4;
+				$this->session->fm_key = $this->set_fm_key($row->id . $row->id_grup . $row->sesi);
 				$this->last_login($this->session->user);
 			}
 		}
+	}
+
+	private function set_fm_key($key = NULL) {
+		$fmHash = $key . date('Ymdhis');
+		$salt = rand(100000, 999999);
+		$salt = strrev($salt);
+		$fm_key = MD5($fmHash . 'OpenSID' . $salt);
+		
+		return $fm_key;
 	}
 
 	//mengupdate waktu login
@@ -206,8 +216,6 @@ class User_model extends CI_Model {
 
 	public function logout()
 	{
-		// Hapus file rfm ketika logout
-		unlink(sys_get_temp_dir(). '/config_rfm_' . $this->session->fm_key_file);
 		// Catat jumlah penduduk saat ini
 		$this->laporan_bulanan_model->tulis_log_bulanan();
 		// Hapus session -- semua session variable akan terhapus
@@ -738,35 +746,6 @@ class User_model extends CI_Model {
 			$ada_akses = $this->grup_model->ada_akses($group, $controller[0], $akses);
 
 		return $ada_akses;
-	}
-
-	// RFM Key - disimpan dalam file di folder sementara sys_get_temp_dir() yg kemudian
-	// dibaca di setting File Manager di assets/filemanager/config/config.php.
-	// Menggunakan tempnam untuk nama config file supaya unik untuk sesi pengguna.
-  // Key disimpan di $this->session->fm_key yg dipasang di setting tinymce
-	// dan di tempat memanggil filemanager, seperti di donjo-app/views/setting/setting_qr.php.
-  // Nama file disimpan di $this->session->fm_key_file untuk dihapus pada waktu logout.
-	public function get_fm_key()
-	{
-		$grup	= $this->sesi_grup($this->session->sesi);
-		if ($this->hak_akses($grup, 'web', 'b') == true)
-		{
-			$fmHash = $grup.date('Ymdhis');
-			$salt = rand(100000, 999999);
-			$salt = strrev($salt);
-			$fm_key = MD5($fmHash.'OpenSID'.$salt);
-			$this->session->fm_key = $fm_key;
-			// Gunakan cara penambahan prefix ini karena Windows hanya menggunakan 3 karakter dari prefix
-			$fname = tempnam(sys_get_temp_dir(), '');
-			$sesi = basename($fname);
-			$tmpfname = sys_get_temp_dir()."/config_rfm_".$sesi;
-			rename($fname, $tmpfname);
-			$this->session->fm_key_file = $sesi;
-			$rfm = '<?php $config["fm_key_'.$sesi.'"] ="' . $fm_key . '";';
-			$handle = fopen($tmpfname, "w");
-			fwrite($handle, $rfm);
-			fclose($handle);
-		}
 	}
 
 	public function jml_pengguna()

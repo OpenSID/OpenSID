@@ -124,15 +124,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<th>Aksi</th>
 											<th>Foto</th>
 											<th>No. Anggota</th>
-											<th width="5%">Jabatan</th>
-											<th width="10%">SK Jabatan</th>
-											<th width="10%">NIK</th>
-											<th width="10%">Nama</th>
-											<th width="10%">Tempat / Tanggal Lahir</th>
+											<th>NIK</th>
+											<th>Nama</th>
+											<th>Tempat / Tanggal Lahir</th>
 											<th>Umur (Tahun)</th>
 											<th>Jenis Kelamin</th>
-											<th width="30%">Alamat</th>
-											<th width="20%">Keterangan</th>
+											<th>Alamat</th>
+											<th>Jabatan</th>
+											<th>Nomor SK Jabatan</th>
+											<?php if ($this->controller == 'lembaga') : ?>
+												<th>Nomor SK Pengangkatan</th>
+												<th>Tanggal SK Pengangkatan</th>
+												<th>Nomor SK Pemberhentian</th>
+												<th>Tanggal SK Pemberhentian</th>
+												<th>Masa Jabatan (Usia/Periode)</th>
+											<?php endif ?>
+											<th>Keterangan</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -156,15 +163,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															</div>
 														</div>
 													</td>
-													<td class="padat"><?= $data['no_anggota']?></td>
-													<td><?= $this->referensi_model->list_ref(JABATAN_KELOMPOK)[$data['jabatan']] ?? $data['jabatan']; ?></td>
-													<td><?= $data['no_sk_jabatan']?>
+													<td class="padat"><?= $data['no_anggota'] ?></td>
 													<td><?= $data['nik']; ?></td>
 													<td nowrap><?= $data['nama']; ?></td>
 													<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir'])); ?></td>
 													<td class="padat"><?= $data['umur']; ?></td>
 													<td><?= $data['sex']; ?></td>
 													<td nowrap><?= $data['alamat']; ?></td>
+													<td><?= $data['jabatan']; ?></td>
+													<td><?= $data['no_sk_jabatan'] ?>
+													<?php if ($this->controller == 'lembaga') : ?>
+														<td><?= $data['nmr_sk_pengangkatan'] ?></td>
+														<td><?= tgl_indo_out($data['tgl_sk_pengangkatan']) ?></td>
+														<td><?= $data['nmr_sk_pemberhentian'] ?></td>
+														<td><?= tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
+														<td><?= $data['periode'] ?></td>
+													<?php endif ?>
 													<td><?= $data['keterangan']; ?></td>
 												</tr>
 											<?php endforeach; ?>

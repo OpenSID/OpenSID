@@ -118,20 +118,20 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="pamong_id"><?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></label>
+								<label class="col-sm-3 control-label" for="pamong_id">Nama <?= $this->setting->sebutan_kepala_desa; ?></label>
 								<div class="col-sm-8">
-									<select class="form-control input-sm required" id="kades" name="pamong_id">
-										<option value="">--- Pilih <?= $this->setting->sebutan_kepala_desa; ?>  <?= ucwords($this->setting->sebutan_desa)?> ---</option>
-										<?php foreach ($pamong as $data): ?>
+									<select class="form-control input-sm" id="kades" name="pamong_id">
+										<option value="">--- Pilih <?= $this->setting->sebutan_kepala_desa; ?> ---</option>
+										<?php foreach ($pamong AS $data): ?>
 											<option value="<?= $data['pamong_id']; ?>" data-nip="<?= $data['pamong_nip']; ?>" <?= selected($data['pamong_id'], $main['pamong_id']); ?> ><?= $data['nama'].' ('.$data['jabatan'].')'; ?></option>
 										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP <?= $this->setting->sebutan_kepala_desa; ?> <?= $desa; ?></label>
+								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP <?= $this->setting->sebutan_kepala_desa; ?></label>
 								<div class="col-sm-8">
-									<input readonly id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP Kepala <?= $desa; ?>" value="<?= $main["nip_kepala_desa"]; ?>"></input>
+									<input readonly id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm nomor_sk" maxlength="50" type="text" placeholder="NIP <?= $this->setting->sebutan_kepala_desa; ?>" value="<?= $main["nip_kepala_desa"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -238,14 +238,14 @@
 					url: server_pantau + '/index.php/api/wilayah/ambildesa?token=' + token_pantau + '&id_desa=' + $(this).val(),
 					dataType: 'json',
 					success: function(data) {
-								$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
-								$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
-								$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
-								$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
-								$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
-								$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
-								$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
-								$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
+						$('[name="nama_desa"]').val(data.KODE_WILAYAH[0].nama_desa);
+						$('[name="kode_desa"]').val(data.KODE_WILAYAH[0].kode_desa);
+						$('[name="nama_kecamatan"]').val(data.KODE_WILAYAH[0].nama_kec);
+						$('[name="kode_kecamatan"]').val(data.KODE_WILAYAH[0].kode_kec);
+						$('[name="nama_kabupaten"]').val(hapus_kab_kota(huruf_awal_besar(data.KODE_WILAYAH[0].nama_kab)));
+						$('[name="kode_kabupaten"]').val(data.KODE_WILAYAH[0].kode_kab);
+						$('[name="nama_propinsi"]').val(huruf_awal_besar(data.KODE_WILAYAH[0].nama_prov));
+						$('[name="kode_propinsi"]').val(data.KODE_WILAYAH[0].kode_prov);
 					}
 				});
 			});

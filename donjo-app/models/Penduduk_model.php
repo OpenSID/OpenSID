@@ -1108,7 +1108,7 @@ class Penduduk_model extends MY_Model {
 		return $data['id_kk'];
 	}
 
-	public function get_penduduk($id=0)
+	public function get_penduduk($id = 0, $nik_sementara = FALSE)
 	{
 		$sql = "SELECT bahasa.nama as bahasa_nama, u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar, polis.nama AS asuransi,
@@ -1180,6 +1180,8 @@ class Penduduk_model extends MY_Model {
 		$data['penolong_kelahiran_nama'] = strtoupper($this->penolong_kelahiran[$data['penolong_kelahiran']]);
 		// Tampilkan tanda kutip dalam nama
 		$data['nama'] =  str_replace ( "\"", "&quot;", $data['nama'] ) ;
+
+		if ($nik_sementara) $data['nik'] = get_nik($data['nik']);
 
 		return $data;
 	}

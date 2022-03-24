@@ -174,7 +174,7 @@
 					<tr>
 						<td align="center">&nbsp;</td>
 						<td align="center">&nbsp;</td>
-						<td align="center"><?= ucwords($this->setting->sebutan_kepala_desa)?> <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']); ?></td>
+						<td align="center"><?= ucwords($this->setting->sebutan_kepala_desa . ' ' . $desa['nama_desa']); ?></td>
 					</tr>
 					<tr>
 						<td align="center" colspan="3" height="90px">&nbsp;</td>
