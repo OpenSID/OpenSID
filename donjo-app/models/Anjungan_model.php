@@ -58,6 +58,7 @@ class Anjungan_model extends CI_Model
         $data = $this->db
             ->group_end()
             ->where('status', 1)
+            ->where('tipe', 'anjungan')
             ->get('anjungan');
 
         return ($data->num_rows() > 0) ? $data->row_array() : null;
@@ -65,7 +66,8 @@ class Anjungan_model extends CI_Model
 
     public function list_data()
     {
-        return $this->db->order_by('ip_address')
+        return $this->db->where('tipe', 'anjungan')
+            ->order_by('ip_address')
             ->get('anjungan')
             ->result_array();
     }
@@ -111,6 +113,7 @@ class Anjungan_model extends CI_Model
     public function get_anjungan($id)
     {
         return $this->db->where('id', $id)
+            ->where('tipe', 'anjungan')
             ->get('anjungan')->row_array();
     }
 

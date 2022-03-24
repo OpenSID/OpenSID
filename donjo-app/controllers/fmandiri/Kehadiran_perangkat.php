@@ -35,78 +35,43 @@
  *
  */
 
-namespace App\Models;
+use App\Models\AbsensiPengaduan;
+use App\Models\Pamong;
 
-use Illuminate\Database\Eloquent\Model;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-class Pamong extends Model
+class Kehadiran_perangkat extends Mandiri_Controller
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'tweb_desa_pamong';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'pamong_id';
-
-    /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['penduduk'];
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    public function penduduk()
+    public function index()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+        $kehadiran = Pamong::kehadiranPamong()->get();
+        $kehadiran = $kehadiran->each(function ($item) {
+            if ($item->id_penduduk != $this->session->is_login->id_pend) {
+                return $item->id_penduduk = 0;
+            }
+        })
+            ->sortBy([['tanggal', 'desc'], ['id_penduduk', 'desc']])
+            ->unique('pamong_nama')->values()->all();
+        $data = [
+            'perangkat' => $kehadiran,
+        ];
+
+        $this->render('kehadiran', $data);
     }
 
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function kehadiran()
+    public function lapor($id)
     {
-        return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
-    }
+        $data = [
+            'waktu'       => date('Y-m-d H:i:s'),
+            'status'      => 1,
+            'id_penduduk' => $this->session->is_login->id_pend,
+            'id_pamong'   => $id,
+        ];
 
-    /**
-     * Scope query untuk status pamong
-     *
-     * @param Builder $query
-     * @param mixed   $value
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, $value = 1)
-    {
-        return $query->where('pamong_status', $value);
-    }
+        if (AbsensiPengaduan::insert($data)) {
+            redirect('layanan-mandiri/kehadiran');
+        }
 
-    public function scopeKehadiranPamong($query)
-    {
-        return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
-            ->leftJoin('absensi_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
+        redirect('layanan-mandiri/kehadiran');
     }
 }

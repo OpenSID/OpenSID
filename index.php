@@ -116,6 +116,13 @@ switch (ENVIRONMENT) {
 
 /*
  *---------------------------------------------------------------
+ * KEHADIRAN DIRECTORY NAME
+ *---------------------------------------------------------------
+ */
+    $kehadiran_folder = 'kehadiran';
+
+/*
+ *---------------------------------------------------------------
  * SYSTEM DIRECTORY NAME
  *---------------------------------------------------------------
  *
@@ -356,6 +363,7 @@ switch (ENVIRONMENT) {
     define('MANDIRI', $mandiri_folder);
     define('ADMIN', $admin_folder);
     define('DESAPATH', $desa_path . DIRECTORY_SEPARATOR);
+    define('KEHADIRAN', $kehadiran_folder);
 
     // The path to the "resources" directory
     if (! isset($resources[0]) && is_dir(APPPATH . 'resources' . DIRECTORY_SEPARATOR)) {

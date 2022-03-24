@@ -51,7 +51,7 @@ class Pamong_model extends CI_Model
 
     public function list_data($offset = 0, $limit = 500)
     {
-        $this->db->select('u.*, p.nama, p.nik, p.tempatlahir, p.tanggallahir,
+        $this->db->select('u.*, p.nama, p.nik, p.tag_id_card, p.tempatlahir, p.tanggallahir,
 			(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex,
 			(case when p.foto is not null then p.foto else u.foto end) as foto,
 			x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama');
@@ -69,6 +69,7 @@ class Pamong_model extends CI_Model
                 // Dari luar desa
                 $data[$i]['nama']          = $data[$i]['pamong_nama'];
                 $data[$i]['nik']           = $data[$i]['pamong_nik'];
+                $data[$i]['tag_id_card']   = $data[$i]['pamong_tag_id_card'];
                 $data[$i]['tempatlahir']   = ! empty($data[$i]['pamong_tempatlahir']) ? $data[$i]['pamong_tempatlahir'] : '-';
                 $data[$i]['tanggallahir']  = $data[$i]['pamong_tanggallahir'];
                 $data[$i]['sex']           = $data[$i]['pamong_sex'];
@@ -277,23 +278,25 @@ class Pamong_model extends CI_Model
 
     private function siapkan_data($post)
     {
-        $data                    = [];
-        $data['id_pend']         = $post['id_pend'];
-        $data['pamong_nip']      = strip_tags($post['pamong_nip']);
-        $data['pamong_niap']     = strip_tags($post['pamong_niap']);
-        $data['jabatan']         = strip_tags($post['jabatan']);
-        $data['pamong_pangkat']  = strip_tags($post['pamong_pangkat']);
-        $data['pamong_status']   = $post['pamong_status'];
-        $data['pamong_nosk']     = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
-        $data['pamong_tglsk']    = ! empty($post['pamong_tglsk']) ? tgl_indo_in($post['pamong_tglsk']) : null;
-        $data['pamong_nohenti']  = ! empty($post['pamong_nohenti']) ? strip_tags($post['pamong_nohenti']) : null;
-        $data['pamong_tglhenti'] = ! empty($post['pamong_tglhenti']) ? tgl_indo_in($post['pamong_tglhenti']) : null;
-        $data['pamong_masajab']  = strip_tags($post['pamong_masajab']) ?: null;
-        $data['atasan']          = bilangan($post['atasan']) ?: null;
-        $data['bagan_tingkat']   = bilangan($post['bagan_tingkat']) ?: null;
-        $data['bagan_offset']    = (int) $post['bagan_offset'] ?: null;
-        $data['bagan_layout']    = htmlentities($post['bagan_layout']);
-        $data['bagan_warna']     = warna($post['bagan_warna']);
+        $data                       = [];
+        $data['id_pend']            = $post['id_pend'];
+        $data['pamong_nip']         = strip_tags($post['pamong_nip']);
+        $data['pamong_niap']        = strip_tags($post['pamong_niap']);
+        $data['pamong_tag_id_card'] = strip_tags($post['pamong_tag_id_card']) ?: null;
+        $data['pamong_pin']         = strip_tags($post['pamong_pin']);
+        $data['jabatan']            = strip_tags($post['jabatan']);
+        $data['pamong_pangkat']     = strip_tags($post['pamong_pangkat']);
+        $data['pamong_status']      = $post['pamong_status'];
+        $data['pamong_nosk']        = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
+        $data['pamong_tglsk']       = ! empty($post['pamong_tglsk']) ? tgl_indo_in($post['pamong_tglsk']) : null;
+        $data['pamong_nohenti']     = ! empty($post['pamong_nohenti']) ? strip_tags($post['pamong_nohenti']) : null;
+        $data['pamong_tglhenti']    = ! empty($post['pamong_tglhenti']) ? tgl_indo_in($post['pamong_tglhenti']) : null;
+        $data['pamong_masajab']     = strip_tags($post['pamong_masajab']) ?: null;
+        $data['atasan']             = bilangan($post['atasan']) ?: null;
+        $data['bagan_tingkat']      = bilangan($post['bagan_tingkat']) ?: null;
+        $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
+        $data['bagan_layout']       = htmlentities($post['bagan_layout']);
+        $data['bagan_warna']        = warna($post['bagan_warna']);
 
         if (empty($data['id_pend'])) {
             $data['id_pend']             = null;
@@ -324,6 +327,7 @@ class Pamong_model extends CI_Model
             ->select('m.*')
             ->select('(case when p.id is null then m.pamong_nama else p.nama end) as pamong_nama')
             ->select('(case when p.id is null then m.pamong_nik else p.nik end) as pamong_nik')
+            ->select('(case when p.id is null then m.pamong_tag_id_card else p.tag_id_card end) as pamong_tag_id_card')
             ->select('(case when p.id is null then m.pamong_tempatlahir else p.tempatlahir end) as pamong_tempatlahir')
             ->select('(case when p.id is null then m.pamong_tanggallahir else p.tanggallahir end) as pamong_tanggallahir')
             ->select('(case when p.id is null then m.pamong_sex else p.sex end) as pamong_sex')
@@ -373,13 +377,14 @@ class Pamong_model extends CI_Model
     // Ambil data untuk widget aparatur desa
     public function list_aparatur_desa()
     {
-        $data_query = $this->db->select('dp.jabatan, dp.pamong_niap,
+        $data_query = $this->db->select('dp.jabatan, dp.pamong_niap, k.tanggal,
 			CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
 			CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
 			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
 			ELSE p.nama END AS nama', false)
             ->from('tweb_desa_pamong dp')
             ->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
+            ->join('kehadiran_perangkat_desa k', 'k.pamong_id = dp.pamong_id', 'left')
             ->where('dp.pamong_status', '1')
             ->order_by('dp.urut')
             ->get()
@@ -387,13 +392,11 @@ class Pamong_model extends CI_Model
 
         foreach ($data_query as $key => $perangkat) {
             $perangkat['foto'] = AmbilFoto($perangkat['foto'], 'besar', $perangkat['id_sex']);
-            if (! $data['foto_pertama'] && $perangkat['foto'] != FOTO_DEFAULT_PRIA && $perangkat['foto'] != FOTO_DEFAULT_WANITA) {
-                $data['foto_pertama'] = $key;
-            }
-            $data['daftar_perangkat'][$key] = $perangkat;
+            $key               = $perangkat['nama'];
+            $data[$key]        = $perangkat;
         }
 
-        return $data;
+        return ['daftar_perangkat' => array_values($data)];
     }
 
     //----------------------------------------------------------------------------------------------------

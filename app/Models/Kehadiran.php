@@ -39,21 +39,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pamong extends Model
+class Kehadiran extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tweb_desa_pamong';
+    protected $table = 'kehadiran_perangkat_desa';
 
     /**
-     * The primary key for the model.
+     * The attributes that are mass assignable.
      *
-     * @var string
+     * @var array
      */
-    protected $primaryKey = 'pamong_id';
+    protected $fillable = [
+        'tanggal',
+        'pamong_id',
+        'jam_masuk',
+        'jam_keluar',
+        'status_kehadiran',
+    ];
 
     /**
      * The timestamps for the model.
@@ -63,50 +69,38 @@ class Pamong extends Model
     public $timestamps = false;
 
     /**
-     * The relations to eager load on every query.
+     * Define a many-to-one relationship.
      *
-     * @var array
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    protected $with = ['penduduk'];
-
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    public function penduduk()
+    public function pamong()
     {
-        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+        return $this->belongsTo(Pamong::class, 'pamong_id', 'pamong_id');
     }
 
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function kehadiran()
+    public function scopeLupaAbsen($query)
     {
-        return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
+        return $query->where('tanggal', '<', date('Y-m-d'))
+            ->where('status_kehadiran', 'hadir')
+            ->where('jam_pulang', null)
+            ->update(['status_kehadiran' => 'lupa melapor keluar']);
     }
 
-    /**
-     * Scope query untuk status pamong
-     *
-     * @param Builder $query
-     * @param mixed   $value
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, $value = 1)
+    public function scopeFilter($query, $daterange = null, $status = '', $pamong = '')
     {
-        return $query->where('pamong_status', $value);
-    }
+        if (! empty($daterange)) {
+            [$awal, $akhir] = explode(' - ', $daterange);
+            $query->whereBetween('tanggal', [$awal, $akhir]);
+        }
 
-    public function scopeKehadiranPamong($query)
-    {
-        return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
-            ->leftJoin('absensi_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
+        if ($status != '') {
+            $query->where('status_kehadiran', $status);
+        }
+
+        if ($pamong != '') {
+            $query->where('pamong_id', $pamong);
+        }
+
+        return $query;
     }
 }

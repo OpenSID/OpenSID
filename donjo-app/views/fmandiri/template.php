@@ -129,7 +129,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<li><a href="<?= site_url('layanan-mandiri/permohonan-surat') ?>">Surat</a></li>
 							<li><a href="<?= site_url('layanan-mandiri/pesan-masuk') ?>">Pesan</a></li>
 							<li><a href="<?= site_url('layanan-mandiri/lapak') ?>">Lapak</a></li>
-							<li><a href="<?= site_url('layanan-mandiri/bantuan') ?>">Bantuan</a></li>
+							<li><a href="<?= site_url('layanan-mandiri/kehadiran') ?>">Bantuan</a></li>
+							<li><a href="<?= site_url('layanan-mandiri/kehadiran') ?>">Perangkat</a></li>
 						</ul>
 					</div>
 					<div class="navbar-custom-menu">
@@ -209,12 +210,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								</div>
 							</div>
 						</a>
-						<a href="<?= site_url('layanan-mandiri/bantuan') ?>">
+						<a href="<?= site_url('layanan-mandiri/kehadiran') ?>">
 							<div class="col-md-3 col-sm-6 col-xs-12">
 								<div class="info-box bg-red">
-									<span class="info-box-icon"><i class="fa fa-handshake-o"></i></span>
+									<span class="info-box-icon"><i class="fa fa-users"></i></span>
 									<div class="info-box-content">
-										<span class="info-box-text-widget">Bantuan</span>
+										<span class="info-box-text-widget">Perangkat</span>
 									</div>
 								</div>
 							</div>
@@ -243,6 +244,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<?php endif; ?>
 									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/dokumen') ?>" class="btn btn-block btn-social bg-aqua">
 										<i class="fa fa-file"></i> Dokumen
+									</a>
+									<a href="<?= ($this->is_login->ganti_pin === '1') ? '#' : site_url('layanan-mandiri/bantuan') ?>" class="btn btn-block btn-social bg-aqua">
+										<i class="fa fa-handshake-o"></i> Bantuan
 									</a>
 									<a href="<?= site_url('layanan-mandiri/ganti-pin') ?>" class="btn btn-block btn-social bg-navy">
 										<i class="fa fa-key"></i> Ganti PIN

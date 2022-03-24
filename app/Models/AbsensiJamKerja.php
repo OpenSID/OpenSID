@@ -37,23 +37,17 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class Pamong extends Model
+class AbsensiJamKerja extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tweb_desa_pamong';
-
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'pamong_id';
+    protected $table = 'absensi_jam_kerja';
 
     /**
      * The timestamps for the model.
@@ -63,50 +57,44 @@ class Pamong extends Model
     public $timestamps = false;
 
     /**
-     * The relations to eager load on every query.
+     * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $with = ['penduduk'];
+    protected $fillable = [
+        'jam_mulai',
+        'jam_akhir',
+        'status',
+        'keterangan',
+    ];
 
     /**
-     * The guarded with the model.
+     * The attributes that should be cast.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 
-    public function penduduk()
+    public function scopeLibur($query)
     {
-        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+        return $query->where('status', 0)->where('nama_hari', $this->getNamaHari());
     }
 
-    /**
-     * Define a one-to-many relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
-     */
-    public function kehadiran()
+    public function scopeJamKerja($query)
     {
-        return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
+        $waktu = date('H:i');
+
+        return $query->where('nama_hari', $this->getNamaHari())
+            ->where(static function ($q) use ($waktu) {
+                $q->whereTime('jam_mulai', '>', $waktu)
+                    ->orWhereTime('jam_akhir', '<', $waktu);
+            });
     }
 
-    /**
-     * Scope query untuk status pamong
-     *
-     * @param Builder $query
-     * @param mixed   $value
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, $value = 1)
+    protected function getNamaHari()
     {
-        return $query->where('pamong_status', $value);
-    }
-
-    public function scopeKehadiranPamong($query)
-    {
-        return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
-            ->leftJoin('absensi_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
+        return Carbon::now()->dayName;
     }
 }

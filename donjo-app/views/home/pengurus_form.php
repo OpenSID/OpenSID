@@ -85,6 +85,13 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<label class="col-sm-4 control-label" for="pamong_tag_id_card">Tag ID Card</label>
+								<div class="col-sm-7">
+									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Tag ID Card" value="<?=$individu['tag_id_card']?>" disabled="disabled"></input>
+									<input id="pamong_tag_id_card" name="pamong_tag_id_card" class="form-control input-sm pengurus-luar-desa tag_id_card" type="text" maxlength="17" placeholder="Tag ID Card" value="<?=$pamong['pamong_tag_id_card']?>" style="display: none;"></input>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label" for="pamong_tempatlahir">Tempat Lahir</label>
 								<div class="col-sm-7">
 									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Tempat Lahir" value="<?= strtoupper($individu['tempatlahir'])?>" disabled="disabled"></input>

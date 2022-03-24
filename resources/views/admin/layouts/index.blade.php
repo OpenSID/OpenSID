@@ -66,6 +66,8 @@
   <script src="{{ asset('bootstrap/js/select2.full.min.js') }}"></script>
   <!-- Slimscroll -->
   <script src="{{ asset('bootstrap/js/jquery.slimscroll.min.js') }}"></script>
+  <!-- jquery validasi -->
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
   <!-- FastClick -->
   <script src="{{ asset('bootstrap/js/fastclick.js') }}"></script>
   <!-- AdminLTE -->

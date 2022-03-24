@@ -89,7 +89,8 @@ class Setting_model extends CI_Model
     private function apply_setting()
     {
         //  https://stackoverflow.com/questions/16765158/date-it-is-not-safe-to-rely-on-the-systems-timezone-settings
-        date_default_timezone_set($this->setting->timezone); //ganti ke timezone lokal
+        date_default_timezone_set($this->setting->timezone); // ganti ke timezone lokal
+
         // Ambil google api key dari desa/config/config.php kalau tidak ada di database
         if (empty($this->setting->mapbox_key)) {
             $this->setting->mapbox_key = config_item('mapbox_key');

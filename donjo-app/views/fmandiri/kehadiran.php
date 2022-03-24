@@ -5,9 +5,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 /*
  * File ini:
  *
- * View modul Layanan Mandiri > Bantuan
+ * View modul Layanan Mandiri > Kehadiran
  *
- * donjo-app/views/fmandiri/bantuan.php
+ * donjo-app/views/fmandiri/kehadiran.php
  */
 
 /*
@@ -42,36 +42,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
-
-<link rel="stylesheet" href="<?= asset('bootstrap/css/jquery-ui.min.css') ?>">
-<script src="<?= asset('bootstrap/js/jquery-ui.min.js') ?>"></script>
-<script>
-	function show_kartu_peserta(elem) {
-		var id = elem.attr('target');
-		var title = elem.attr('title');
-		var url = elem.attr('href');
-		$('#'+id+'').remove();
-
-		$('body').append('<div id="'+id+'" title="'+title+'" style="display:none;position:relative;overflow:scroll;"></div>');
-
-		$('#'+id+'').dialog({
-			resizable: true,
-			draggable: true,
-			width: 500,
-			height: 'auto',
-			open: function(event, ui) {
-				$('#'+id+'').load(url);
-			}
-		});
-		$('#'+id+'').dialog('open');
-	}
-</script>
 <div class="box box-solid">
-	<div class="box-header with-border bg-aqua">
-		<h4 class="box-title">Bantuan</h4>
+	<div class="box-header with-border bg-red">
+		<h4 class="box-title">KEHADIRAN PERANGKAT <?= strtoupper($this->setting->sebutan_desa) ?> </h4>
 	</div>
 	<div class="box-body box-line">
-		<h4><b>BANTUAN PENDUDUK</b></h4>
+		<h4><?= tgl_indo(date('Y-m-d')) ?></h4>
 	</div>
 	<div class="box-body box-line">
 		<div class="table-responsive">
@@ -79,26 +55,29 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<thead>
 					<tr class="judul">
 						<th>No</th>
+						<th>Nama</th>
+						<th>Jabatan</th>
+						<th>Status Kehadiran</th>
 						<th>Aksi</th>
-						<th width="20%">Waktu / Tanggal</th>
-						<th width="20%">Nama Program</th>
-						<th>Keterangan</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ($bantuan_penduduk):
-                        foreach ($bantuan_penduduk as $key => $item): ?>
+					<?php if ($perangkat):
+                        foreach ($perangkat as $key => $item): ?>
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
+								<td><?= $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?></td>
+								<td><?= $item->jabatan; ?></td>
+								<td><?= $item->tanggal == date('Y-m-d') ? 'Hadir' : '-'; ?></td>
 								<td class="padat">
-									<?php if ($item['no_id_kartu']) : ?>
-										<button type="button" target="data_peserta" title="Data Peserta" href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/tampil/{$item['id']}")?>" onclick="show_kartu_peserta($(this));" class="btn btn-success btn-sm" ><i class="fa fa-eye"></i></button>
-										<a href="<?= site_url(MANDIRI . "/bantuan/kartu_peserta/unduh/{$item['id']}")?>" class="btn bg-black btn-sm" title="Kartu Peserta" <?php empty($item['kartu_peserta']) && print 'disabled'?>><i class="fa fa-download"></i></a>
+									<?php if ($item->tanggal == date('Y-m-d')): ?>
+										<?php if ($item->status == 1 && $item->id_penduduk == $this->session->is_login->id_pend): ?>
+											<a class="btn btn-primary btn-sm btn-proses btn-social"><i class="fa fa-exclamation"></i> Telah dilaporkan</a>
+										<?php else: ?>
+											<a href="#" data-href="<?= site_url("layanan-mandiri/kehadiran/lapor/{$item->pamong_id}"); ?>" class="btn btn-primary btn-sm btn-social" title="Laporkan perangkat desa" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-exclamation"></i> Laporkan</a>
+										<?php endif; ?>
 									<?php endif; ?>
 								</td>
-								<td><?= fTampilTgl($item['sdate'], $item['edate']); ?></td>
-								<td><?= $item['nama']; ?></td>
-								<td><p align="justify"><?= $item['ndesc']; ?></p></td>
 							</tr>
 						<?php endforeach;
                     else: ?>
@@ -108,5 +87,24 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<?php endif; ?>
 			</tbody>
 		</table>
+	</div>
+</div>
+<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+	<div class='modal-dialog'>
+		<div class='modal-content'>
+			<div class='modal-header'>
+				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+					<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+			</div>
+			<div class='modal-body btn-info'>
+				Apakah Anda yakin ingin melaporkan perangkat ini?
+			</div>
+			<div class='modal-footer'>
+				<button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+					<a class='btn-ok'>
+						<button type="button" class="btn btn-social btn-danger btn-sm" id="ok-delete"><i class='fa fa-exclamation'></i> Laporkan</button>
+					</a>
+			</div>
+		</div>
 	</div>
 </div>

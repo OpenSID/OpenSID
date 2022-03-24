@@ -384,9 +384,17 @@ class User_model extends CI_Model
         $userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : false;
 
         if ($userSudahTerdaftar !== false) {
-            $this->session->success   = -1;
-            $this->session->error_msg = ' -> Username ini sudah ada. silahkan pilih username lain';
+            session_error(' -> Username ini sudah ada. silahkan pilih username lain');
             redirect('man_user');
+        }
+
+        // cek pamong apakah sudah mempunyai user atau belum
+        if ($data['pamong_id'] != null && $data['pamong_id'] != '') {
+            $pamong = $this->db->where('pamong_id', (int) $data['pamong_id'])->get('user')->num_rows();
+            if ($pamong > 0) {
+                session_error(' -> Pamong sudah dipilih oleh user lainnya. Silahkan pilih Pamong Lainnya');
+                redirect('man_user');
+            }
         }
 
         $pwHash           = $this->generatePasswordHash($data['password']);
@@ -421,6 +429,9 @@ class User_model extends CI_Model
         if (isset($post['id_grup'])) {
             $data['id_grup'] = $post['id_grup'];
         }
+        if (isset($post['pamong_id'])) {
+            $data['pamong_id'] = $post['pamong_id'];
+        }
         if (isset($post['foto'])) {
             $data['foto'] = $post['foto'];
         }
@@ -442,8 +453,7 @@ class User_model extends CI_Model
 
         $data = $this->sterilkan_input($this->input->post());
         if (empty($idUser)) {
-            $this->session->error_msg = ' -> Pengguna tidak ditemukan datanya.';
-            $this->session->success   = -1;
+            session_error(' -> Pengguna tidak ditemukan datanya.');
             redirect('man_user');
         }
 
@@ -451,8 +461,7 @@ class User_model extends CI_Model
             empty($data['username']) || empty($data['password'])
             || empty($data['nama']) || ! in_array((int) ($data['id_grup']), $this->grup_model->list_id_grup())
         ) {
-            $this->session->error_msg = ' -> Nama, Username dan Kata Sandi harus diisi';
-            $this->session->success   = -1;
+            session_error(' -> Nama, Username dan Kata Sandi harus diisi');
             redirect('man_user');
         }
 
@@ -469,10 +478,18 @@ class User_model extends CI_Model
             $data['password'] = $pwHash;
         }
 
+        // cek pamong apakah sudah mempunyai user atau belum
+        if ($data['pamong_id'] != null && $data['pamong_id'] != '') {
+            $pamong = $this->db->where('pamong_id', (int) $data['pamong_id'])->where('id != ', $idUser)->get('user')->num_rows();
+            if ($pamong > 0) {
+                session_error(' -> Pamong sudah dipilih oleh user lainnya. Silahkan pilih Pamong Lainnya');
+                redirect('man_user');
+            }
+        }
+
         $data['foto'] = $this->urusFoto($idUser);
         if (! $this->db->where('id', $idUser)->update('user', $data)) {
-            $this->session->success   = -1;
-            $this->session->error_msg = ' -> Gagal memperbarui data di database';
+            session_error(' -> Gagal memperbarui data di database');
         }
         $this->cache->file->delete("{$idUser}_cache_modul");
     }

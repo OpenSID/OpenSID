@@ -44,6 +44,7 @@ class Man_user extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 44;
+        $this->load->model(['pamong_model']);
     }
 
     public function clear()
@@ -100,6 +101,7 @@ class Man_user extends Admin_Controller
         }
 
         $data['user_group'] = $this->referensi_model->list_data('user_grup');
+        $data['pamong']     = $this->pamong_model->list_data(null, null);
 
         $this->render('man_user/manajemen_user_form', $data);
     }

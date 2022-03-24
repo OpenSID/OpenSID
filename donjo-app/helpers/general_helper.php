@@ -67,7 +67,7 @@ if (! function_exists('view')) {
         $factory->share([
             'auth'         => $CI->session->isAdmin,
             'controller'   => $CI->controller,
-            'desa'         => $CI->header['desa'],
+            'desa'         => \App\Models\Config::first(),
             'list_setting' => $CI->list_setting,
             'modul'        => $CI->header['modul'],
             'modul_ini'    => $CI->modul_ini,
