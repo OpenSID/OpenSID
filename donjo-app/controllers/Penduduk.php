@@ -991,11 +991,6 @@ class Penduduk extends Admin_Controller
 
     public function export()
     {
-        return view('admin.penduduk.export');
-    }
-
-    public function export_excel()
-    {
         $writer = WriterEntityFactory::createXLSXWriter();
 
         //Nama File
@@ -1022,15 +1017,15 @@ class Penduduk extends Admin_Controller
             ['Kawin', 'kawin'],
             ['Hub. Keluarga', 'hubungan_keluarga'],
             ['Kewarganegaraan', 'kewarganegaraan'],
+            ['NIK Ayah', 'nik_ayah'],
             ['Nama Ayah', 'nama_ayah'],
+            ['NIK Ibu', 'nik_ibu'],
             ['Nama Ibu', 'nama_ibu'],
             ['Gol. Darah', 'gol_darah'],
             ['Akta Lahir', 'akta_lahir'],
             ['Nomor Dokumen Paspor', 'nomor_dokumen_pasport'],
             ['Tanggal Akhir Paspor', 'tanggal_akhir_pasport'],
             ['Nomor Dokumen KITAS', 'nomor_dokumen_kitas'],
-            ['NIK Ayah', 'nik_ayah'],
-            ['NIK Ibu', 'nik_ibu'],
             ['Nomor Akta Perkawinan', 'nomor_akta_perkawinan'],
             ['Tanggal Perkawinan', 'tanggal_perkawinan'],
             ['Nomor Akta Perceraian', 'nomor_akta_perceraian'],
@@ -1053,7 +1048,7 @@ class Penduduk extends Admin_Controller
         $writer->addRow($header);
 
         //Isi Tabel
-        $get = $this->export_model->export_excel();
+        $get = $this->export_model->expor();
 
         foreach ($get as $row) {
             $penduduk = [
@@ -1074,15 +1069,15 @@ class Penduduk extends Admin_Controller
                 $row->status_kawin,
                 $row->kk_level,
                 $row->warganegara_id,
+                $row->ayah_nik,
                 $row->nama_ayah,
+                $row->ibu_nik,
                 $row->nama_ibu,
                 $row->golongan_darah_id,
                 $row->akta_lahir,
                 $row->dokumen_pasport,
                 $row->tanggal_akhir_pasport,
                 $row->dokumen_kitas,
-                $row->ayah_nik,
-                $row->ibu_nik,
                 $row->akta_perkawinan,
                 $row->tanggalperkawinan,
                 $row->akta_perceraian,
@@ -1103,16 +1098,5 @@ class Penduduk extends Admin_Controller
             $writer->addRow($rowFromValues);
         }
         $writer->close();
-    }
-
-    public function export_dasar()
-    {
-        $this->export_model->export_dasar();
-    }
-
-    public function export_csv()
-    {
-        $data['main'] = $this->export_model->export_csv();
-        $this->load->view('export/penduduk_csv', $data);
     }
 }
