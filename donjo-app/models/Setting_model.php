@@ -49,8 +49,11 @@ define('EKSTENSI_WAJIB', serialize([
     'tidy',
     'zip',
 ]));
-define('VERSI_PHP_MINIMAL', '7.2.0');
-define('VERSI_MYSQL_MINIMAL', '5.6.5');
+define('minPhpVersion', '7.3.0');
+define('maxPhpVersion', '8.0.0');
+define('minMySqlVersion', '5.6.0');
+define('maxMySqlVersion', '8.0.0');
+define('minMariaDBVersion', '10.3.0');
 
 class Setting_model extends CI_Model
 {
@@ -254,7 +257,7 @@ class Setting_model extends CI_Model
             ->result();
     }
 
-    public function cek_ekstensi()
+    public function cekEkstensi()
     {
         $e = get_loaded_extensions();
         usort($e, 'strcasecmp');
@@ -274,7 +277,7 @@ class Setting_model extends CI_Model
         return $data;
     }
 
-    public function disable_functions()
+    public function disableFunctions()
     {
         $wajib    = ['exec'];
         $disabled = explode(',', ini_get('disable_functions'));
@@ -293,22 +296,21 @@ class Setting_model extends CI_Model
         return $data;
     }
 
-    public function cek_php()
+    public function cekPhp()
     {
-        $data['versi']         = PHP_VERSION;
-        $data['versi_minimal'] = VERSI_PHP_MINIMAL;
-        $data['sudah_ok']      = version_compare(PHP_VERSION, VERSI_PHP_MINIMAL) > 0;
-
-        return $data;
+        return [
+            'versi' => PHP_VERSION,
+            'cek'   => (version_compare(PHP_VERSION, minPhpVersion) > 0 && version_compare(PHP_VERSION, maxPhpVersion) < 0),
+        ];
     }
 
-    public function cek_mysql()
+    public function cekDatabase()
     {
-        $data['versi'] = $this->db->query('SELECT VERSION() AS version')
-            ->row()->version;
-        $data['versi_minimal'] = VERSI_MYSQL_MINIMAL;
-        $data['sudah_ok']      = version_compare($data['versi'], VERSI_MYSQL_MINIMAL) > 0;
+        $versi = $this->db->query('SELECT VERSION() AS version')->row()->version;
 
-        return $data;
+        return [
+            'versi' => $versi,
+            'cek'   => (version_compare($versi, minMySqlVersion) > 0 && version_compare($versi, minMySqlVersion) > 0) || (version_compare($versi, minMariaDBVersion) > 0),
+        ];
     }
 }

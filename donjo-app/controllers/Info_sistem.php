@@ -52,10 +52,10 @@ class Info_sistem extends Admin_Controller
         $this->load->library('Log_Viewer');
 
         $data                      = $this->log_viewer->showLogs();
-        $data['ekstensi']          = $this->setting_model->cek_ekstensi();
-        $data['php']               = $this->setting_model->cek_php();
-        $data['mysql']             = $this->setting_model->cek_mysql();
-        $data['disable_functions'] = $this->setting_model->disable_functions();
+        $data['ekstensi']          = $this->setting_model->cekEkstensi();
+        $data['php']               = $this->setting_model->cekPhp();
+        $data['mysql']             = $this->setting_model->cekDatabase();
+        $data['disable_functions'] = $this->setting_model->disableFunctions();
         $data['free_space']        = $this->convertDisk(disk_free_space('/'));
         $data['total_space']       = $this->convertDisk(disk_total_space('/'));
 
@@ -79,7 +79,7 @@ class Info_sistem extends Admin_Controller
         redirect($this->controller);
     }
 
-    public function convertDisk($disk)
+    private function convertDisk($disk)
     {
         $si_prefix = ['B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB'];
         $base      = 1024;
