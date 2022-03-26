@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 3. [#4998](https://github.com/OpenSID/OpenSID/issues/4998) Penyesuaian expor data penduduk.
 4. [#4323](https://github.com/OpenSID/OpenSID/issues/4323) Penambahan fitur absensi perangkat desa.
 5. [#4996](https://github.com/OpenSID/OpenSID/issues/4996) Penyesuaian aturan impor penduduk.
+6. [#4590](https://github.com/OpenSID/OpenSID/issues/4590) Penambahan informasi disk space pada info sistem.
 
 #### Perbaikan BUG
 

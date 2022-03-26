@@ -3,6 +3,16 @@
 		height: 500px;
 		overflow-y: auto;
 	}
+
+	.huge {
+		font-size: 40px;
+	}
+
+	.bottom {
+		display: flex;
+		align-items: self-end;
+	}
+
 </style>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -13,6 +23,38 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel bg-yellow">
+				<div class="panel-heading">
+					<div class="row bottom">
+						<div class="col-xs-2">
+							<h1><i class="fa fa-database"></i></h1>
+						</div>
+						<div class="col-xs-10 text-right">
+							<div class="huge"><small style="font-size:60%"><?= $total_space ?></small></div>
+							<div>Total ruang penyimpanan</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel bg-green">
+				<div class="panel-heading">
+					<div class="row bottom">
+						<div class="col-xs-2">
+							<h1><i class="fa fa-database"></i></h1>
+						</div>
+						<div class="col-xs-10 text-right">
+							<div class="huge"><small style="font-size:60%"><?= $free_space ?></small></div>
+							<div>Sisa ruang penyimpanan</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 		<form id="mainform" name="mainform" method="post">
 		<div class="box box-primary">
 			<div class="box-body">

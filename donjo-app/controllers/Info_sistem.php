@@ -56,6 +56,8 @@ class Info_sistem extends Admin_Controller
         $data['php']               = $this->setting_model->cek_php();
         $data['mysql']             = $this->setting_model->cek_mysql();
         $data['disable_functions'] = $this->setting_model->disable_functions();
+        $data['free_space']        = $this->convertDisk(disk_free_space('/'));
+        $data['total_space']       = $this->convertDisk(disk_total_space('/'));
 
         $this->render('setting/info_sistem/index', $data);
     }
@@ -75,5 +77,14 @@ class Info_sistem extends Admin_Controller
         }
 
         redirect($this->controller);
+    }
+
+    public function convertDisk($disk)
+    {
+        $si_prefix = ['B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB'];
+        $base      = 1024;
+        $class     = min((int) log($disk, $base), count($si_prefix) - 1);
+
+        return sprintf('%1.2f', $disk / $base ** $class) . ' ' . $si_prefix[$class] . '<br />';
     }
 }
