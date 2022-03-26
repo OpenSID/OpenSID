@@ -730,19 +730,4 @@ class Import_model extends CI_Model
         $bip = new BIP_Model($data);
         $bip->impor_bip();
     }
-
-    private function hapus_rtm_penduduk()
-    {
-        // Hapus status rtm di tabel tweb_penduduk
-        $this->db
-            ->where('id_rtm <>', '0')
-            ->or_where('rtm_level <>', '0')
-            ->update('tweb_penduduk', [
-                'id_rtm'    => '0',
-                'rtm_level' => '0',
-            ]);
-
-        // Hapus data RTM
-        $this->db->truncate('tweb_rtm');
-    }
 }
