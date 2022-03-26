@@ -56,7 +56,7 @@ class Bumindes_kader extends Admin_Controller
             $order  = $this->kader_model::ORDER_ABLE[$this->input->post('order[0][column]')];
             $dir    = $this->input->post('order[0][dir]');
 
-            $this->json_output([
+            return json([
                 'draw'            => $this->input->post('draw'),
                 'recordsTotal'    => $this->kader_model->get_data()->count_all_results(),
                 'recordsFiltered' => $this->kader_model->get_data($search)->count_all_results(),

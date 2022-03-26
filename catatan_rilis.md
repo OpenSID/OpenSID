@@ -42,3 +42,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 1. [#5017](https://github.com/OpenSID/OpenSID/issues/5017) Nonaktifkan menu Buku Administrasi Desa > Buku Keuangan.
 2. Tambahkan docblock property pada MY_Controller.php dan MY_Model.php.
+3. Hapus $this->json_output() dan ganti dengan helper json() mengurangi duplikasi.

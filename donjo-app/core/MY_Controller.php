@@ -83,17 +83,6 @@ class MY_Controller extends CI_Controller
             $this->session->unset_userdata($session);
         }
     }
-
-    public function json_output($parm, $header = 200)
-    {
-        $this->output
-            ->set_status_header($header)
-            ->set_content_type('application/json', 'utf-8')
-            ->set_output(json_encode($parm))
-            ->_display();
-
-        exit();
-    }
 }
 
 class Web_Controller extends MY_Controller
