@@ -52,11 +52,7 @@ class Periksa_model extends MY_Model
         $db_error_code    = $this->session->db_error['code'];
         $db_error_message = $this->session->db_error['message'];
 
-        $current_version = $this->db
-            ->select('value')
-            ->where('key', 'current_version')
-            ->get('setting_aplikasi')
-            ->row()->value;
+        $current_version = setting('current_version');
 
         $calon = $current_version;
 
@@ -203,11 +199,8 @@ class Periksa_model extends MY_Model
     {
         $wilayah_pertama = [];
         // Ambil sebutan dusun
-        $sebutan_dusun = $this->db
-            ->select('value')
-            ->where('key', 'sebutan_dusun')
-            ->get('setting_aplikasi')
-            ->row()->value;
+        $sebutan_dusun = setting('sebutan_dusun');
+
         // Ambil wilayah pada keluarga pertama yg tidak kosong
         $id_wil = $this->db
             ->select('id_cluster')
@@ -429,6 +422,7 @@ class Periksa_model extends MY_Model
             ->set('value', $this->periksa['migrasi_utk_diulang'])
             ->where('key', 'current_version')
             ->update('setting_aplikasi');
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
         $this->load->model('database_model');
         $this->database_model->migrasi_db_cri();
     }

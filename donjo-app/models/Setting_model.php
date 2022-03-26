@@ -52,7 +52,7 @@ define('EKSTENSI_WAJIB', serialize([
 define('VERSI_PHP_MINIMAL', '7.2.0');
 define('VERSI_MYSQL_MINIMAL', '5.6.5');
 
-class Setting_model extends CI_Model
+class Setting_model extends MY_Model
 {
     public function __construct()
     {
@@ -147,6 +147,7 @@ class Setting_model extends CI_Model
 
         // Hapus Cache Pelanggan
         $this->cache->hapus_cache_untuk_semua('status_langganan');
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         return $data;
     }
@@ -195,6 +196,7 @@ class Setting_model extends CI_Model
         $this->session->success = 1;
 
         $outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
         if (! $outp) {
             $this->session->success = -1;
@@ -204,6 +206,8 @@ class Setting_model extends CI_Model
     public function aktifkan_tracking()
     {
         $outp = $this->db->where('key', 'enable_track')->update('setting_aplikasi', ['value' => 1]);
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+
         status_sukses($outp);
     }
 
@@ -212,6 +216,8 @@ class Setting_model extends CI_Model
         $_SESSION['success']                 = 1;
         $this->setting->sumber_gambar_slider = $this->input->post('pilihan_sumber');
         $outp                                = $this->db->where('key', 'sumber_gambar_slider')->update('setting_aplikasi', ['value' => $this->input->post('pilihan_sumber')]);
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+
         if (! $outp) {
             $_SESSION['success'] = -1;
         }
@@ -231,6 +237,8 @@ class Setting_model extends CI_Model
         $penggunaan_server                = $this->input->post('server_mana') ?: $this->input->post('jenis_server');
         $this->setting->penggunaan_server = $penggunaan_server;
         $out2                             = $this->db->where('key', 'penggunaan_server')->update('setting_aplikasi', ['value' => $penggunaan_server]);
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+
         if (! $out1 || ! $out2) {
             $_SESSION['success'] = -1;
         }
