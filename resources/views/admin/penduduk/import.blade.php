@@ -22,6 +22,8 @@
         {!! form_open($form_action, 'class="form-horizontal" id="impor" enctype="multipart/form-data"') !!}
             <div class="row">
                 <div class="col-sm-12">
+                    <p><b>Penting: fitur ini tidak dimaksudkan untuk Restore data penduduk dan Mengubah struktur dan keanggotaan keluarga</b></p>
+                    <p>Fitur ini dimaksudkan untuk memasukkan data penduduk awal dan data susulan serta mengubah data penduduk yang sudah ada secara masal</p>
                     <p>Mempersiapkan data dengan bentuk excel untuk Impor ke dalam database SID : </p>
                     <p>
                     <div class="row">
@@ -33,7 +35,10 @@
                                     <li> Kolom Nama, Dusun, RW, RT dan NIK harus diisi. Tanda '-' bisa dipakai di mana RW atau RT tidak diketahui atau tidak ada,</li>
                                     <li> Data Penduduk yang dapat menampilkan data RT/RW/Dusun pada tabel Kependudukan adalah Status Hubungan Dalam Keluarga = Kepala Keluarga atau penduduk yang memiliki Kepala Keluarga</li>
                                     <li> NIK harus bilangan dengan 16 angka atau 0 untuk menunjukkan belum ada NIK,</li>
-                                    <li> Data (Jenis Kelamin, Agama, Pendidikan, Pekerjaan, Status Perkawinan, Status Hubungan dalam Keluarga, Kewarganegaraan, Golongan darah) terwakili dengan Kode Nomor. Misal : laki-laki terwakili dengan nomor 1 dan perempuan dengan nomor 2</li>
+                                    <li> Kolom NIK merupakan data identitas wajib yang harus diisi</li>
+                                    <li> Selain data identitas wajib (NIK), kolom data tidak harus terurut ataupun lengkap. Sebagai contoh, dapat digunakan untuk mengubah nomor telepon saja secara masal</li>
+                                    <li> Data penduduk baru yang ditambah juga wajib berisi Nama, No KK, SHDK (status hubungan dalam keluarga), Dusun, RW, RT</li>
+                                    <li> Terdapat beberapa data yang terwakili dengan Kode Nomor yang dapat diisi dengan kode nomor ataupun tulisan seperti jenis kelamin. Selengkapnya dapat dilihat pada file <b>Aturan dan contoh format</b></li>
                                 </ul>
                             </div>
                             <li>Simpan (Save) file Excel sebagai .xlsx file </li>
@@ -98,8 +103,8 @@
                                 <tr>
                                     <td>
                                         <dl class="dl-horizontal">
-                                            <dt>Rician Pesan : </dt>
-                                            <dd>{{ $pesan_impor['pesan'] }}</dd>
+                                            <dt>Rincian Pesan : </dt>
+                                            <dd>{!! $pesan_impor['pesan'] !!}</dd>
                                         </dl>
                                     </td>
                                 </tr>

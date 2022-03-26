@@ -47,6 +47,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2203');
         $hasil = $hasil && $this->migrasi_2022031171($hasil);
         $hasil = $hasil && $this->migrasi_2022032171($hasil);
+        $hasil = $hasil && $this->migrasi_2022032371($hasil);
 
         return $hasil && $this->migrasi_2022032471($hasil);
     }
@@ -70,6 +71,26 @@ class Migrasi_fitur_premium_2204 extends MY_model
                 'constraint' => 11,
             ],
         ]);
+    }
+
+    protected function migrasi_2022032371($hasil)
+    {
+        // Tambahkan ulang data tabel tweb_status_ktp
+        if ($this->db->truncate('tweb_status_ktp')) {
+            $data = [
+                ['nama' => 'BELUM REKAM', 'ktp_el' => 1, 'status_rekam' => 2],
+                ['nama' => 'SUDAH REKAM', 'ktp_el' => 2, 'status_rekam' => 3],
+                ['nama' => 'CARD PRINTED', 'ktp_el' => 2, 'status_rekam' => 4],
+                ['nama' => 'PRINT READY RECORD', 'ktp_el' => 2, 'status_rekam' => 5],
+                ['nama' => 'CARD SHIPPED', 'ktp_el' => 2, 'status_rekam' => 6],
+                ['nama' => 'SENT FOR CARD PRINTING', 'ktp_el' => 2, 'status_rekam' => 7],
+                ['nama' => 'CARD ISSUED', 'ktp_el' => 2, 'status_rekam' => 8],
+                ['nama' => 'BELUM WAJIB', 'ktp_el' => 1, 'status_rekam' => 1],
+            ];
+            $hasil = $hasil && $this->db->insert_batch('tweb_status_ktp', $data);
+        }
+
+        return $hasil;
     }
 
     protected function migrasi_2022032471($hasil)

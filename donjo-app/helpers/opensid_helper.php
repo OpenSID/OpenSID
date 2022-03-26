@@ -51,7 +51,7 @@ define('VERSION', '22.03-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022032251');
+define('VERSI_DATABASE', '2022032371');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -807,6 +807,12 @@ function nomor_surat_keputusan($str)
 function nama($str)
 {
     return preg_replace("/[^a-zA-Z '\\.,\\-]/", '', strip_tags($str));
+}
+
+// Cek  nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
+function cekNama($str)
+{
+    return preg_match("/[^a-zA-Z '\\.,\\-]/", strip_tags($str));
 }
 
 // Nama hanya boleh berisi karakter alfanumerik, spasi dan strip

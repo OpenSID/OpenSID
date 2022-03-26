@@ -80,7 +80,7 @@
                             <td>
                                 <dl class="dl-horizontal">
                                     <dt>Letak Baris Data Gagal : </dt>
-                                    <dd>{{ $pesan_impor['baris'] }}</dd>
+                                    <dd>{!! $pesan_impor['baris'] !!}</dd>
                                 </dl>
                             </td>
                         </tr>

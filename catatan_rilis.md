@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. [#4997](https://github.com/OpenSID/OpenSID/issues/4997) Penyesuaian aturan impor data BIP.
 3. [#4998](https://github.com/OpenSID/OpenSID/issues/4998) Penyesuaian expor data penduduk.
 4. [#4323](https://github.com/OpenSID/OpenSID/issues/4323) Penambahan fitur absensi perangkat desa.
+5. [#4996](https://github.com/OpenSID/OpenSID/issues/4996) Penyesuaian aturan impor penduduk.
 
 #### Perbaikan BUG
 

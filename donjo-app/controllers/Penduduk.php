@@ -991,111 +991,65 @@ class Penduduk extends Admin_Controller
 
     public function export()
     {
-        $writer = WriterEntityFactory::createXLSXWriter();
-
-        //Nama File
-        $tgl      = date('d_m_Y');
-        $fileName = 'penduduk_' . $tgl . '.xlsx';
-        $writer->openToBrowser($fileName); // stream data directly to the browser
-
-        //Header Tabel
         $daftar_kolom = [
-            ['Alamat', 'alamat'],
-            ['Dusun', 'dusun'],
-            ['RW', 'rw'],
-            ['RT', 'rt'],
-            ['Nama', 'nama'],
-            ['Nomor KK', 'nomor_kk'],
-            ['Nomor NIK', 'nomor_nik'],
-            ['Jenis Kelamin', 'jenis_kelamin'],
-            ['Tempat Lahir', 'tempat_lahir'],
-            ['Tanggal Lahir', 'tanggal_lahir'],
-            ['Agama', 'agama'],
-            ['Pendidikan (dlm KK)', 'pendidikan_dlm_kk'],
-            ['Pendidikan (sdg ditempuh)', 'pendidikan_sdg_ditempuh'],
-            ['Pekerjaan', 'pekerjaan'],
-            ['Kawin', 'kawin'],
-            ['Hub. Keluarga', 'hubungan_keluarga'],
-            ['Kewarganegaraan', 'kewarganegaraan'],
-            ['NIK Ayah', 'nik_ayah'],
-            ['Nama Ayah', 'nama_ayah'],
-            ['NIK Ibu', 'nik_ibu'],
-            ['Nama Ibu', 'nama_ibu'],
-            ['Gol. Darah', 'gol_darah'],
-            ['Akta Lahir', 'akta_lahir'],
-            ['Nomor Dokumen Paspor', 'nomor_dokumen_pasport'],
-            ['Tanggal Akhir Paspor', 'tanggal_akhir_pasport'],
-            ['Nomor Dokumen KITAS', 'nomor_dokumen_kitas'],
-            ['Nomor Akta Perkawinan', 'nomor_akta_perkawinan'],
-            ['Tanggal Perkawinan', 'tanggal_perkawinan'],
-            ['Nomor Akta Perceraian', 'nomor_akta_perceraian'],
-            ['Tanggal Perceraian', 'tanggal_perceraian'],
-            ['Cacat', 'cacat'],
-            ['Cara KB', 'cara_kb'],
-            ['Hamil', 'hamil'],
-            ['KTP-el', 'ktp_el'],
-            ['Status Rekam', 'status_rekam'],
-            ['Alamat Sekarang', 'alamat_sekarang'],
-            ['Status Dasar', 'status_dasar'],
-            ['Suku', 'suku'],
-            ['Tag ID Card', 'tag_id_card'],
-            ['Asuransi', 'asuransi'],
-            ['No Asuransi', 'no_asuransi'],
+            'alamat',
+            'dusun',
+            'rw',
+            'rt',
+            'nama',
+            'no_kk',
+            'nik',
+            'sex',
+            'tempatlahir',
+            'tanggallahir',
+            'agama_id',
+            'pendidikan_kk_id',
+            'pendidikan_sedang_id',
+            'pekerjaan_id',
+            'status_kawin',
+            'kk_level',
+            'warganegara_id',
+            'ayah_nik',
+            'nama_ayah',
+            'ibu_nik',
+            'nama_ibu',
+            'golongan_darah_id',
+            'akta_lahir',
+            'dokumen_pasport',
+            'tanggal_akhir_paspor',
+            'dokumen_kitas',
+            'akta_perkawinan',
+            'tanggalperkawinan',
+            'akta_perceraian',
+            'tanggalperceraian',
+            'cacat_id',
+            'cara_kb_id',
+            'hamil',
+            'ktp_el',
+            'status_rekam',
+            'alamat_sekarang',
+            'status_dasar',
+            'suku',
+            'tag_id_card',
+            'id_asuransi',
+            'no_asuransi',
         ];
 
-        $judul  = array_column($daftar_kolom, 0);
-        $header = WriterEntityFactory::createRowFromArray($judul);
-        $writer->addRow($header);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToBrowser(namafile('penduduk') . '.xlsx');
+        $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
 
         //Isi Tabel
         $get = $this->export_model->expor();
 
         foreach ($get as $row) {
-            $penduduk = [
-                $row->alamat,
-                $row->dusun,
-                $row->rw,
-                $row->rt,
-                $row->nama,
-                $row->no_kk,
-                $row->nik,
-                $row->sex,
-                $row->tempatlahir,
-                $row->tanggallahir,
-                $row->agama_id,
-                $row->pendidikan_kk_id,
-                $row->pendidikan_sedang_id,
-                $row->pekerjaan_id,
-                $row->status_kawin,
-                $row->kk_level,
-                $row->warganegara_id,
-                $row->ayah_nik,
-                $row->nama_ayah,
-                $row->ibu_nik,
-                $row->nama_ibu,
-                $row->golongan_darah_id,
-                $row->akta_lahir,
-                $row->dokumen_pasport,
-                $row->tanggal_akhir_pasport,
-                $row->dokumen_kitas,
-                $row->akta_perkawinan,
-                $row->tanggalperkawinan,
-                $row->akta_perceraian,
-                $row->tanggalperceraian,
-                $row->cacat_id,
-                $row->cara_kb_id,
-                $row->hamil,
-                $row->ktp_el,
-                $row->status_rekam,
-                $row->alamat_sekarang,
-                $row->status_dasar,
-                $row->suku,
-                $row->tag_id_card,
-                $row->asuransi,
-                $row->no_asuransi,
-            ];
-            $rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
-            $writer->addRow($rowFromValues);
+            $penduduk = [];
+
+            foreach ($daftar_kolom as $kolom) {
+                $penduduk[] = $row->{$kolom};
+            }
+
+            $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
         }
         $writer->close();
     }
