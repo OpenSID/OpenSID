@@ -279,7 +279,8 @@ class Data_persil extends Admin_Controller
         $this->load->model('plan_area_model');
         $id   = $this->input->get('id');
         $data = $this->plan_area_model->get_area($id);
-        $this->json_output([
+
+        return json([
             'data'   => $data,
             'status' => true,
         ]);

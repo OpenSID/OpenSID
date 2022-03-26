@@ -274,9 +274,11 @@ class MY_Model extends CI_Model
 
     public function tambah_setting($setting)
     {
-        $sql = $this->db->insert_string('setting_aplikasi', $setting) . ' ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)';
+        $sql   = $this->db->insert_string('setting_aplikasi', $setting) . ' ON DUPLICATE KEY UPDATE keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)';
+        $hasil = $this->db->query($sql);
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
 
-        return $this->db->query($sql);
+        return $hasil;
     }
 
     // fungsi untuk format paginasi

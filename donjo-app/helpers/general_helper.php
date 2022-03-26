@@ -78,6 +78,7 @@ if (! function_exists('view')) {
                 'langganan' => $CI->header['notif_langganan'],
             ],
             'sub_modul_ini' => $CI->sub_modul_ini,
+            'session'       => $CI->session,
             'setting'       => $CI->setting,
             'token'         => $CI->security->get_csrf_token_name(),
         ]);
@@ -157,5 +158,27 @@ if (! function_exists('route')) {
         }
 
         return site_url($to);
+    }
+}
+
+// setting('sebutan_desa');
+if (! function_exists('setting')) {
+    function setting($params = null)
+    {
+        $getSetting = get_instance()->cache->pakai_cache(static function () {
+            return \Illuminate\Support\Facades\DB::table('setting_aplikasi')
+                ->get(['key', 'value'])
+                ->keyBy('key')
+                ->transform(static function ($setting) {
+                    return $setting->value;
+                })
+                ->toArray();
+        }, 'setting_aplikasi', 24 * 60 * 60);
+
+        if ($params) {
+            return $getSetting[$params];
+        }
+
+        return $getSetting;
     }
 }

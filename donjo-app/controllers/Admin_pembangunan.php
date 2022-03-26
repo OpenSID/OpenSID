@@ -65,7 +65,7 @@ class Admin_pembangunan extends Admin_Controller
 
             $this->pembangunan->set_tipe(''); // Ambil semua pembangunan
 
-            $this->json_output([
+            return json([
                 'draw'            => $this->input->post('draw'),
                 'recordsTotal'    => $this->pembangunan->get_data()->count_all_results(),
                 'recordsFiltered' => $this->pembangunan->get_data($search, $tahun)->count_all_results(),
@@ -214,7 +214,7 @@ class Admin_pembangunan extends Admin_Controller
             $order  = $this->dokumentasi::ORDER_ABLE[$this->input->post('order[0][column]')];
             $dir    = $this->input->post('order[0][dir]');
 
-            $this->json_output([
+            return json([
                 'draw'            => $this->input->post('draw'),
                 'recordsTotal'    => $this->dokumentasi->get_data($id)->count_all_results(),
                 'recordsFiltered' => $this->dokumentasi->get_data($id, $search)->count_all_results(),
