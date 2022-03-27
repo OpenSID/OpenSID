@@ -873,8 +873,17 @@ class Surat_model extends CI_Model {
         $buffer = $this->sisipkan_qr($data, 'empty.png', $buffer);
       }
 
-			//PRINSIP FUNGSI
-			//-> [kata_template] -> akan digantikan dengan data di bawah ini (sebelah kanan)
+			// SURAT PROPERTI
+			$array_replace = [
+				'/\{\\\\title\s.+?\}/' => '{\title ' . $surat['nama'] . '}',
+				'/\{\\\\author\s.+?\}/' => '{\author ' . ucwords($this->setting->sebutan_desa) . ' '. $config['nama_desa'] . '}',
+				'/\{\\\\operator\s.+?\}/' => '{\operator ' . $config['website'] . '}',
+			];
+
+			$buffer = preg_replace(array_keys($array_replace), array_values($array_replace), $buffer);
+
+			// PRINSIP FUNGSI
+			// -> [kata_template] -> akan digantikan dengan data di bawah ini (sebelah kanan)
 
 			// Proses surat yang membutuhkan pengambilan data khusus
 			$this->surat_rtf_khusus($url, $input, $buffer, $config, $individu, $ayah, $ibu);
@@ -959,7 +968,7 @@ class Surat_model extends CI_Model {
                 "[nama_ayah]"            => $individu['nama_ayah'],
                 "[nama_ibu]"             => $individu['nama_ibu'],
                 "[no_kk]"                => $individu['no_kk'],
-                "[no_ktp]"               => $individu['nik'],
+                "[no_ktp]"               => get_nik($individu['nik']),
                 "[pendidikan]"           => $individu['pendidikan'],
                 "[pekerjaan]"            => $individu['pekerjaan'],
                 "[rw]"                   => $individu['rw'],

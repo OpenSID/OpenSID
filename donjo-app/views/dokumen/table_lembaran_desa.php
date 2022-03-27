@@ -92,12 +92,12 @@
 															<a href="<?= site_url("{$this->controller}/form/$p/$o/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 														<?php endif; ?>
 														<?php if ($data['enabled'] == '2'): ?>
-															<a href="<?= site_url($this->controller.'/lock/'.$data['id'].'/1')?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+															<a href="<?= site_url("{$this->controller}/lock/{$data['id']}/1"); ?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 														<?php elseif ($data['enabled'] == '1'): ?>
-															<a href="<?= site_url($this->controller.'/lock/'.$data['id'].'/2')?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+															<a href="<?= site_url("{$this->controller}/lock/{$data['id']}/2"); ?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 														<?php endif ?>
 														<?php if (!empty($data['satuan'])): ?>
-															<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
+															<a href='<?= site_url("{$this->controller}/unduh_berkas/{$data['id']}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
 														<?php else: ?>
 															<a class="btn bg-purple btn-flat btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a>
 														<?php endif; ?>

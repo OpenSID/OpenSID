@@ -87,7 +87,7 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['submenu'] = $this->referensi_model->list_data('ref_dokumen');
 		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
 		$data['sub_kategori'] = $_SESSION['sub_kategori'];
-    	$_SESSION['menu_kategori'] = TRUE;
+		$_SESSION['menu_kategori'] = TRUE;
 
 		foreach ($data['submenu'] as $s)
 		{
@@ -140,7 +140,6 @@ class Dokumen_sekretariat extends Admin_Controller {
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
 
 		$this->_set_tab($kat);
-
 		$this->render('dokumen/form', $data);
 	}
 
@@ -237,5 +236,17 @@ class Dokumen_sekretariat extends Admin_Controller {
 				$this->tab_ini = 59;
 				break;
 		}
+	}
+
+	/**
+	 * Unduh berkas berdasarkan kolom dokumen.id
+	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
+	 * @return  void
+	 */
+	public function unduh_berkas($id_dokumen = 0, $kat = 1)
+	{
+		// Ambil nama berkas dari database
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+		ambilBerkas($data['satuan'], $this->controller . '/peraturan_desa/' . $kat, NULL, LOKASI_DOKUMEN);
 	}
 }

@@ -681,12 +681,6 @@ function UploadSimbol($fupload_name)
 	move_uploaded_file($_FILES["simbol"]["tmp_name"], $vfile_upload);
 }
 
-function AmbilDokumen($dokumen)
-{
-	$file_dokumen = base_url() . LOKASI_DOKUMEN . $dokumen;
-	return $file_dokumen;
-}
-
 // Upload umum. Parameter lokasi dan file di $_FILES
 function UploadKeLokasi($lokasi, $file, $fupload_name, $old_dokumen="")
 {

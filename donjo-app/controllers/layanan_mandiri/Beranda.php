@@ -131,10 +131,8 @@ class Beranda extends Mandiri_Controller
 	{
 		// Ambil nama berkas dari database
 		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $this->is_login->id_pend);
-		if ($berkas)
-			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
-		else
-			$this->output->set_status_header('404');
+		ambilBerkas($berkas, null, null, LOKASI_DOKUMEN);
+
 	}
 
 	public function pendapat(int $pilihan = 1)

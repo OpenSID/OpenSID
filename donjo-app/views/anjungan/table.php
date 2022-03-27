@@ -23,6 +23,8 @@
 									<th>Aksi</th>
 								<?php endif; ?>
 								<th>IP Address</th>
+								<th>IP Address Printer & Port</th>
+								<th>Mac Address</th>
 								<th>Virtual Keyboard</th>
 								<th>Keterangan</th>
 							</tr>
@@ -48,6 +50,8 @@
 											</td>
 										<?php endif; ?>
 										<td class="padat"><?= $data['ip_address']; ?></td>
+										<td class="padat"><?= "{$data['printer_ip']}:{$data['printer_port']}" ?></td>
+										<td class="padat"><?= $data['mac_address']; ?></td>
 										<td class="padat"><?= ($data['keyboard'] == 1) ? '<span class="label label-success">Aktif</span>' : '<span class="label label-danger">Tidak Aktif</span>'; ?></td>
 										<td><?= $data['keterangan']; ?></td>
 									</tr>

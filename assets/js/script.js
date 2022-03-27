@@ -348,10 +348,12 @@ function modalBox()
 		var modal = $(this)
 		modal.find('.modal-title').text(title)
 		$(this).find('.fetched-data').load(link.attr('href'));
-		setTimeout(function() {
-			// tambahkan csrf token
-			addCsrfField(modal.find("form")[0]);
-		}, 500);
+		// tambahkan csrf token kalau ada form
+		if (modal.find("form")[0]) {
+			setTimeout(function() {
+				addCsrfField(modal.find("form")[0]);
+			}, 500);
+		}
 	});
 	return false;
 }

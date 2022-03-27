@@ -105,7 +105,7 @@
 												<tr>
 													<td class="text-center" ><?= $key+1?></td>
 													<td><?= strtoupper($data['nama'])?></td>
-													<td><?= $data['nik']?></td>
+													<td><?= get_nik($data['nik']) ?></td>
 													<td><?= $data['sex']?></td>
 													<td><?= $data['tempatlahir']?></td>
 													<td><?= tgl_indo_out($data['tanggallahir'])?></td>

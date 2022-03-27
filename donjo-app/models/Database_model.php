@@ -247,7 +247,7 @@ class Database_model extends CI_Model {
 	{
 		// Paksa menjalankan migrasi kalau belum
 		// Migrasi direkam di tabel migrasi
-		if ( ! $this->versi_database_terbaru())
+		if ( ! $this->versi_database_terbaru() && empty($this->session->error_premium))
 		{
 			// Ulangi migrasi terakhir
 			$terakhir = key(array_slice($this->versionMigrate, -1, 1, true));

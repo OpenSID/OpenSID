@@ -891,9 +891,9 @@ class Program_bantuan_model extends MY_Model {
 		$this->session->error_msg = '';
 		$data = $this->validasi_peserta($this->input->post());
 
-		if ($data['gambar_hapus'])
+		if ($this->input->post('gambar_hapus'))
 		{
-			unlink(LOKASI_DOKUMEN . $data['gambar_hapus']);
+			unlink(LOKASI_DOKUMEN . $this->input->post('gambar_hapus'));
 			$data['kartu_peserta'] = '';
 		}
 

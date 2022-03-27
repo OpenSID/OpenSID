@@ -1,27 +1,13 @@
 <?php
 
+defined('BASEPATH') or exit('No direct script access allowed');
+
 class Inventaris_tanah_Model extends CI_Model
 {
 
 	protected $table = 'inventaris_tanah';
 	protected $table_mutasi = 'mutasi_inventaris_tanah';
 	protected $mutasi_key = 'id_inventaris_tanah';
-	protected $table_pamong = 'tweb_desa_pamong';
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	public function list_aset()
-	{
-		$this->db
-			->select('*')
-			->from('tweb_aset u')
-			->where('golongan',1);
-		$data = $this->db->get()->result_array();
-		return $data;
-	}
 
 	function count_reg()
 	{

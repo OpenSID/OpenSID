@@ -111,7 +111,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<?php if ( ! $cek_anjungan): ?>
 										<br/><br/><br/>IP Address: <?= $this->input->ip_address(); ?>
 									<?php else: ?>
-										<br/><br/><br/>IP Address :	<?= $cek_anjungan['ip_address'] . "<br/>Anjungan Mandiri" ?>
+										<br/><br/><br/>IP Address :	<?= $cek_anjungan['ip_address']?>
+										<br/>Mac Address :	<?= $cek_anjungan['mac_address']?>
+										<br/>Anjungan Mandiri
 										<?= jecho($cek_anjungan['keyboard'] == 1, TRUE, ' | Virtual Keyboard : Aktif'); ?>
 									<?php endif; ?>
 								</h3>

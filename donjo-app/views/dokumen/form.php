@@ -42,8 +42,8 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label">Dokumen</label>
 							<div class="col-sm-4">
-								<input type="hidden" name="old_file" value="<?= $dokumen['satuan']?>">
-								<img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_DOKUMEN.$dokumen['satuan']?>" alt="<?= $dokumen['satuan']?>">
+								<input type="hidden" name="old_file" value="">
+								<img class="attachment-img img-responsive img-circle" src="<?= site_url().$this->controller.'/unduh_berkas/'.$dokumen['id']?>" alt="<?= $dokumen['nama']?>">
 							</div>
 						</div>
 					<?php endif; ?>

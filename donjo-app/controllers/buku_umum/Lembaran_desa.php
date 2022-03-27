@@ -94,12 +94,10 @@ class Lembaran_desa extends Admin_Controller {
 		$data['main_content'] = 'dokumen/table_lembaran_desa';
 		$data['subtitle'] = "Buku Lembaran Desa Dan Berita Desa";
 		$data['selected_nav'] = 'lembaran';
-		$this->set_minsidebar(1);
 
-		$this->load->view('header', $this->header);
-		$this->load->view('nav', $nav);
-		$this->load->view('bumindes/umum/main', $data);
-		$this->load->view('footer');
+		$this->set_minsidebar(1);
+		$this->render('bumindes/umum/main', $data);
+
 	}
 
 	public function clear()
@@ -193,4 +191,15 @@ class Lembaran_desa extends Admin_Controller {
 		return $data;
 	}
 
+	/**
+	 * Unduh berkas berdasarkan kolom dokumen.id
+	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
+	 * @return  void
+	 */
+	public function unduh_berkas($id_dokumen = 0)
+	{
+		// Ambil nama berkas dari database
+		$data = $this->web_dokumen_model->get_dokumen($id_dokumen);
+		ambilBerkas($data['satuan'], $this->controller, NULL, LOKASI_DOKUMEN);
+	}
 }

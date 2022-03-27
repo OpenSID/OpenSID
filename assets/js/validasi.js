@@ -134,16 +134,15 @@ $(document).ready(function() {
 	});
 
 	jQuery.validator.addMethod("nik", function(value, element) {
-		nik_valid = /^\d*$/.test(value) && (value == 0 || value.length == 16);
+		nik_valid = /^\d*$/.test(value) && (value.length == 16) && (value.indexOf('0') != 0);
 		return this.optional(element) || nik_valid;
-	}, "Harus 0 atau bilangan 16 digit");
+	}, "NIK harus bilangan 16 digit dan tidak boleh diawali 0");
 
-	$('.nik').each(function() {
-		$(this).rules("add",
-			{
-				nik: true,
-			});
-	});
+	// TODO : Jika validasi no_kk sudah siap seperti nik sementara, silahkan gunakan validasi nik dengan pesan yg dinamis
+	jQuery.validator.addMethod("no_kk", function(value, element) {
+		no_kk_valid = /^\d*$/.test(value) && (value == 0 || value.length == 16);
+		return this.optional(element) || no_kk_valid;
+	}, "Nomor KK Harus 0 atau bilangan 16 digit");
 
 	// TODO : Jika validasi no_kk sudah siap seperti nik sementara, silahkan gunakan validasi nik dengan pesan yg dinamis
 	jQuery.validator.addMethod("no_kk", function(value, element) {
@@ -255,6 +254,11 @@ $(document).ready(function() {
 		valid = /^(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))\.(\d|[1-9]\d|1\d\d|2([0-4]\d|5[0-5]))$/.test(value);
 		return this.optional(element) || valid;
 	}, "Isi IP address yang valid");
+
+	jQuery.validator.addMethod("mac_address", function(value, element) {
+		valid = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(value);
+		return this.optional(element) || valid;
+	}, "Isi Mac address yang valid");
 
 	// Untuk tanggal lapor dan tanggal peristiwa
 	jQuery.validator.addMethod("tgl_lebih_besar", function(value, element, params)  {

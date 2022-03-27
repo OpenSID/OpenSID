@@ -50,3 +50,5 @@ Terima kasih pada Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasi
 1. Perbaiki migrasi gagal pada penambahan indeks dengan nama kolom tertentu.
 2. Sesuaikan contoh data awal modul menu.
 3. Penanganan pelanggan premium. [security]
+4. Perbaiki migrasi yang gagal.
+5. Sesuaikan icon peta wilayah dan widget info pelanggan.

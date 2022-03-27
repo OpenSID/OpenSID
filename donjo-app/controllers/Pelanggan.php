@@ -69,5 +69,4 @@ class Pelanggan extends Admin_Controller {
 
 		$this->render('pelanggan/index', ['response' => $response]);
 	}
-
 }

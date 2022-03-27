@@ -85,7 +85,7 @@
 							<label class="col-sm-3 control-label" for="kode_pos"></label>
 							<div class="col-sm-6">
 								<div class="mailbox-attachment-info">
-									<a href="<?= site_url("/surat_masuk/unduh_berkas_scan/$surat_masuk[id]");?>" title=""><i class="fa fa-paperclip"></i> <?= $surat_masuk['berkas_scan'];?></a>
+									<img class="attachment-img img-responsive img-circle" src="<?= site_url().$this->controller.'/unduh_berkas_scan/'.$surat_masuk['id']?>" alt="Berkas <?= $surat_keluar['nomor_urut']?>">
 									<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $surat_masuk['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
 								</div>
 							</div>
