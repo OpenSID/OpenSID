@@ -43,8 +43,6 @@ use App\Models\Wilayah;
 
 class Identitas_desa extends Admin_Controller
 {
-    private $viewPath = 'admin.identitas_desa';
-
     public function __construct()
     {
         parent::__construct();
@@ -59,7 +57,7 @@ class Identitas_desa extends Admin_Controller
      */
     public function index()
     {
-        return view("{$this->viewPath}.index", [
+        return view('admin.identitas_desa.index', [
             'main' => Config::with('pamong.penduduk')->first(),
         ]);
     }
@@ -82,7 +80,7 @@ class Identitas_desa extends Admin_Controller
             $form_action = route('identitas_desa.insert');
         }
 
-        return view("{$this->viewPath}.form", compact('main', 'pamong', 'form_action'));
+        return view('admin.identitas_desa.form', compact('main', 'pamong', 'form_action'));
     }
 
     /**

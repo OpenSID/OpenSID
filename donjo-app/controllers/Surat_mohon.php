@@ -41,8 +41,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat_mohon extends Admin_Controller
 {
-    private $viewPath = 'admin.syaratan_surat';
-
     public function __construct()
     {
         parent::__construct();
@@ -52,7 +50,7 @@ class Surat_mohon extends Admin_Controller
 
     public function index()
     {
-        return view("{$this->viewPath}.index");
+        return view('admin.syaratan_surat.index');
     }
 
     public function datatables()
@@ -100,7 +98,7 @@ class Surat_mohon extends Admin_Controller
             $ref_syarat_surat = null;
         }
 
-        return view("{$this->viewPath}.form", compact('action', 'form_action', 'ref_syarat_surat'));
+        return view('admin.syaratan_surat.form', compact('action', 'form_action', 'ref_syarat_surat'));
     }
 
     public function insert()
