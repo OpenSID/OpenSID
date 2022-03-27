@@ -36,6 +36,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 28. [#5065](https://github.com/OpenSID/OpenSID/issues/5065) Perbaiki hapus surat desa agar tidak menghapus keseluruhan surat desa yang ada.
 29. [#5022](https://github.com/OpenSID/OpenSID/issues/5022) Perbaiki jenis peraturan desa pada Bumindes-> Buku Peraturan Desa.
 30. [#5066](https://github.com/OpenSID/OpenSID/issues/5066) Perbaiki validasi pembuatan surat baru.
+31. [#5084](https://github.com/OpenSID/OpenSID/issues/5084) Perbaiki error console pada daftar arsip / permohonan surat layanan mandiri.
 
 
 #### Perubahan Teknis
