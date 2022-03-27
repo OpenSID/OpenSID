@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
+        'pretty_version' => 'dev-rilis-dev',
+        'version' => 'dev-rilis-dev',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'f21ecedc22fb7cc9648c164655fc45f9fbd6b7e6',
+        'reference' => '8f4a4ef0d912c94d65ef5b172845c371e5c9f8b6',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -74,12 +74,12 @@
             'dev_requirement' => false,
         ),
         'google/auth' => array(
-            'pretty_version' => 'v1.18.0',
-            'version' => '1.18.0.0',
+            'pretty_version' => 'v1.19.0',
+            'version' => '1.19.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/auth',
             'aliases' => array(),
-            'reference' => '21dd478e77b0634ed9e3a68613f74ed250ca9347',
+            'reference' => '31e5d24d5fa0eaf6adc7e596292dc4732f4b60c5',
             'dev_requirement' => false,
         ),
         'guzzlehttp/guzzle' => array(
@@ -263,12 +263,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
+            'pretty_version' => 'dev-rilis-dev',
+            'version' => 'dev-rilis-dev',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'f21ecedc22fb7cc9648c164655fc45f9fbd6b7e6',
+            'reference' => '8f4a4ef0d912c94d65ef5b172845c371e5c9f8b6',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -379,8 +379,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -568,7 +568,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => 'c443999fa19cd6af6dddcf66dac5f9668fd2c12c',
+            'reference' => '34f9736615e5737c0892f50ae51ea7731a13d298',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(

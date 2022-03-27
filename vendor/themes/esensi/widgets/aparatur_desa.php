@@ -11,7 +11,10 @@
       <?php foreach($aparatur_desa['daftar_perangkat'] as $data) : ?>
         <div class="relative space-y-2">
           <img src="<?= $data['foto'] ?>" alt="<?= $data['nama'] ?>" class="lg:w-3/4 mx-auto object-cover object-center bg-gray-300">
-          <?php if($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true) : ?>
+          <?php if ($data['tanggal'] == date('Y-m-d')): ?>
+            <span class="btn btn-primary w-auto mx-auto inline-block">Hadir</span>
+          <?php endif; 
+            if($this->web_widget_model->get_setting('aparatur_desa', 'overlay') == true) : ?>
             <div class="space-y-1 text-sm text-center z-10">
               <span class="text-h6"><?= $data['nama'] ?></span>
               <span class="block"><?= $data['jabatan'] ?></span>
