@@ -64,14 +64,8 @@ class Admin_kehadiran extends Admin_Controller
             $status  = $this->input->get('status');
             $pamong  = $this->input->get('pamong');
 
-            return datatables()->of(Kehadiran::with(['pamong'])->filter($tanggal, $status, $pamong))
+            return datatables()->of(Kehadiran::with(['pamong.penduduk'])->filter($tanggal, $status, $pamong))
                 ->addIndexColumn()
-                ->editColumn('nama', static function ($row) {
-                    return $row['pamong']['pamong_nama'] != null ? $row['pamong']['pamong_nama'] : $row['pamong']['penduduk']['nama'];
-                })
-                ->editColumn('jabatan', static function ($row) {
-                    return $row['pamong']['jabatan'];
-                })
                 ->editColumn('tanggal', static function ($row) {
                     return tgl_indo($row['tanggal']);
                 })

@@ -144,8 +144,14 @@
       },
       columns: [
         { data: 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
-        { data: 'nama', name: 'nama', searchable: true, orderable: true },
-        { data: 'jabatan', name: 'nama', searchable: true, orderable: true },
+        {
+          data: function (data) {
+            return (data.pamong.pamong_nama) ? data.pamong.pamong_nama : data.pamong.penduduk.nama
+          },
+          name: 'pamong.pamong_nama',
+          searchable: true, orderable: true
+        },
+        { data: 'pamong.jabatan', name: 'pamong.jabatan', searchable: true, orderable: true },
         { data: 'tanggal', name: 'tanggal', searchable: true, orderable: true },
         { data: 'jam_masuk', name: 'jam_masuk', searchable: true, orderable: true },
         { data: 'jam_pulang', name: 'jam_pulang', searchable: true, orderable: true },
