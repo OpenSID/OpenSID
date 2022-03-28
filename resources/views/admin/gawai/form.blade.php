@@ -46,8 +46,8 @@
 					<label id="sx3" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label {{ jecho($gawai->status, '1', 'active') }}">
 						<input type="radio" name="status" class="form-check-input" type="radio" value="1"  {{ jecho($gawai->status, '1', 'checked') }} > Aktif
 					</label>
-					<label id="sx4" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label  {{ jecho($gawai->status != '1', true, 'active') }}">
-						<input type="radio" name="status" class="form-check-input" type="radio" value="0" {{ jecho($anjungan->status != '1', true, 'checked') }} > Tidak Aktif
+					<label id="sx4" class="btn btn-info btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label  {{ jecho($gawai->status, '0', 'active') }}">
+						<input type="radio" name="status" class="form-check-input" type="radio" value="0" {{ jecho($anjungan->status, '0', 'checked') }} > Tidak Aktif
 					</label>
 				</div>
 			</div>

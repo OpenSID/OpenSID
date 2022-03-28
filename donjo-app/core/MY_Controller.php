@@ -96,37 +96,22 @@ class Web_Controller extends MY_Controller
         $this->theme_folder = $this->theme_model->folder;
 
         // Variabel untuk tema
-        $this->template                  = "../../{$this->theme_folder}/{$this->theme}/template.php";
-        $this->includes['folder_themes'] = '../../' . $this->theme_folder . '/' . $this->theme;
+        $this->set_template();
+        $this->includes['folder_themes'] = "../../{$this->theme_folder}/{$this->theme}";
 
         $this->load->model('web_menu_model');
     }
 
     /**
-     * Set Template
-     * sometime, we want to use different template for different page
-     * for example, 404 template, login template, full-width template, sidebar template, etc.
-     * so, use this function
-     * --------------------------------------
+     * set_template function
      *
-     * @since	Version 3.1.0
+     * @param string $template_file
      *
-     * @param	string, template file name
-     * @param mixed $template_file
-     *
-     * @return chained object
+     * @return void
      */
-    public function set_template($template_file = 'template.php')
+    public function set_template($template_file = 'template')
     {
-        // make sure that $template_file has .php extension
-        $template_file = substr($template_file, -4) == '.php' ? $template_file : ($template_file . '.php');
-
-        $template_file_path = FCPATH . $this->theme_folder . '/' . $this->theme . '/' . $template_file;
-        if (is_file($template_file_path)) {
-            $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
-        } else {
-            $this->template = '../../vendor/themes/esensi/' . $template_file;
-        }
+        $this->template = "../../{$this->theme_folder}/{$this->theme}/{$template_file}";
     }
 
     public function _get_common_data(&$data)

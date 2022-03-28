@@ -37,7 +37,9 @@
     </form>
   </div>
 </div>
+
 @include('admin.layouts.components.konfirmasi_hapus')
+
 @endsection
 
 @push('scripts')

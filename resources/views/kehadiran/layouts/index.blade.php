@@ -33,7 +33,7 @@
 </head>
 
 <body class="hold-transition login-page">
-    <div class="" style="margin: 0%; padding-right: 15px; padding-left: 15px;">
+    <div style="margin: 0%; padding-right: 15px; padding-left: 15px;">
 
         @yield('content')
 

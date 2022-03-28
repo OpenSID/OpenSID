@@ -534,7 +534,7 @@
 									</td>
 									<td>&nbsp;&nbsp;&nbsp;</td>
 									<td>
-										<input type="text" name="captcha_code" class="form-control" maxlength="6" required />Isi Jawaban
+										<input type="text" name="captcha_code" class="form-control" maxlength="6" placeholder="Isikan jawaban" required />
 									</td>
 								</tr>
 							</table>

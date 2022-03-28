@@ -24,6 +24,7 @@
 @include('admin.layouts.components.notifikasi')
 
 @include('admin.home.rilis')
+
 @include('admin.home.bantuan')
 
 <div class="row">
@@ -331,4 +332,5 @@
     </div>
   </div>
 </div>
+
 @endsection

@@ -52,7 +52,7 @@ class Admin_kehadiran extends Admin_Controller
 
     public function index()
     {
-        $pamong = Pamong::all();
+        $pamong = Pamong::status()->get();
 
         return view('admin.kehadiran.index', compact('pamong'));
     }
@@ -93,29 +93,22 @@ class Admin_kehadiran extends Admin_Controller
         $status  = $this->input->get('status');
         $pamong  = $this->input->get('pamong');
 
-        $writer = WriterEntityFactory::createXLSXWriter();
-
-        //Nama File
-        $tgl      = date('d_m_Y');
-        $fileName = 'kehadiran_' . $tgl . '.xlsx';
-        $writer->openToBrowser($fileName); // stream data directly to the browser
-
-        $daftar_kolom = [
-            ['Nama', 'nama'],
-            ['Jabatan', 'jabatan'],
-            ['Tanggal', 'tanggal'],
-            ['Jam Masuk', 'jam_masuk'],
-            ['Jam Pulang', 'jam_pulang'],
-            ['Status Kehadiran', 'status_kehadiran'],
+        $judul = [
+            'Nama',
+            'Jabatan',
+            'Tanggal',
+            'Jam Masuk',
+            'Jam Pulang',
+            'Status Kehadiran',
         ];
 
-        $judul  = array_column($daftar_kolom, 0);
-        $header = WriterEntityFactory::createRowFromArray($judul);
-        $writer->addRow($header);
+        $writer = WriterEntityFactory::createXLSXWriter();
+        $writer->openToBrowser(namafile('kehadiran') . '.xlsx');
+        $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
 
-        $get = Kehadiran::with(['pamong'])->filter($tanggal, $status, $pamong)->get();
+        $data_kehadiran = Kehadiran::with(['pamong'])->filter($tanggal, $status, $pamong)->get();
 
-        foreach ($get as $row) {
+        foreach ($data_kehadiran as $row) {
             $data = [
                 $row->pamong->pamong_nama != null ? $row->pamong->pamong_nama : $row->pamong->penduduk->nama,
                 $row->pamong->jabatan,
@@ -124,8 +117,7 @@ class Admin_kehadiran extends Admin_Controller
                 $row->jam_pulang,
                 $row->status_kehadiran,
             ];
-            $rowFromValues = WriterEntityFactory::createRowFromArray($data);
-            $writer->addRow($rowFromValues);
+            $writer->addRow(WriterEntityFactory::createRowFromArray($data));
         }
         $writer->close();
     }

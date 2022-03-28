@@ -5937,6 +5937,9 @@ INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `ur
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (116, 'Peta', 'peta', 0, 5, 1, 7);
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (117, 'Produk Hukum', 'peraturan_desa', 115, 5, 1, 1);
 INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (118, 'Informasi Publik', 'informasi_publik', 115, 5, 1, 2);
+INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (119, 'Masuk', '#', 0, 99, 1, 8);
+INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (120, 'Administrator', 'https://berputar.opendesa.id/siteman', 119, 99, 1, 1);
+INSERT INTO `menu` (`id`, `nama`, `link`, `parrent`, `link_tipe`, `enabled`, `urut`) VALUES (121, 'Layanan Mandiri', 'https://berputar.opendesa.id/layanan-mandiri', 119, 99, 1, 2);
 
 
 #

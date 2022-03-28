@@ -1,6 +1,7 @@
 @extends('kehadiran.layouts.index')
 
 @section('content')
+
 <div class="row vertical-align" style="background-color: #ffffff">
     <div class="col-sm-8 hidden-xs" style="padding: 0px;">
         @include('kehadiran.absensi.left')
@@ -46,6 +47,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 
 @push('scripts')

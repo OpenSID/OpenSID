@@ -48,9 +48,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 |
 */
 
-$hook['display_override'][] = [
-    'class'    => 'Develbar',
-    'function' => 'debug',
-    'filename' => 'Develbar.php',
-    'filepath' => 'third_party/DevelBar/hooks',
-];
+if (DEV_TOOLS_BAR) {
+    $hook['display_override'][] = [
+        'class'    => 'Develbar',
+        'function' => 'debug',
+        'filename' => 'Develbar.php',
+        'filepath' => 'third_party/DevelBar/hooks',
+    ];
+}

@@ -16,8 +16,6 @@
 @include('admin.layouts.components.notifikasi')
 
 <div class="box box-info">
-  <div class="box-header with-border">  
-  </div>
   <div class="box-body">
     {!! form_open(null, 'id="mainform" name="mainform"') !!}
     <div class="table-responsive">
@@ -38,7 +36,9 @@
     </form>
   </div>
 </div>
+
 @include('admin.layouts.components.konfirmasi_hapus')
+
 @endsection
 
 @push('scripts')

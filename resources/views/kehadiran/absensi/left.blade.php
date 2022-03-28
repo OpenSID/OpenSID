@@ -47,7 +47,7 @@
 <script>
     $(function () {
 
-        //refrensi https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
+        // Refrensi https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
         function startTime() {
             const today = moment();
             let h = today.hours();

@@ -4,7 +4,6 @@
     <div class="callout callout-success update">
       <h4><i class="fa fa-bullhorn"></i>&nbsp;&nbsp;Update Tersedia!</h4>
       <p align="justify">
-        <!-- <a href="https://github.com/OpenSID/OpenSID/archive/{!! $rilis['latest_version'] !!}.zip"></a>  -->
         OpenSID <code>{{ $rilis['latest_version'] }}</code> telah tersedia. Periksa catatan rilis untuk melihat daftar perubahan di versi ini. Sangat dianjurkan untuk update ke versi terkini, karena setiap rilis berisi perbaikan termasuk peningkatan keamanan data sejak versi yang anda gunakan saat ini <code>{{ $rilis['current_version'] }}</code>. Petunjuk melakukan update dapat dilihat di <a href="https://github.com/OpenSID/OpenSID/wiki/Panduan-Update-OpenSID" target="_blank">sini</a>.
       </p>
       <button class="btn btn-social btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
