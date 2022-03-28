@@ -51,7 +51,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</div>
 	<div class="box-body box-line">
 		<div class="table-responsive">
-		<table class="table table-bordered table-hover table-data datatable-polos">
+			<table class="table table-bordered table-hover table-data" id="tabeldata">
 				<thead>
 					<tr class="judul">
 						<th>No</th>
@@ -62,31 +62,26 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ($perangkat):
-                        foreach ($perangkat as $key => $item): ?>
-							<tr>
-								<td class="padat"><?= ($key + 1); ?></td>
-								<td><?= $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?></td>
-								<td><?= $item->jabatan; ?></td>
-								<td><?= $item->tanggal == date('Y-m-d') ? 'Hadir' : '-'; ?></td>
-								<td class="padat">
-									<?php if ($item->tanggal == date('Y-m-d')): ?>
-										<?php if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item->waktu)) == date('Y-m-d')): ?>
-											<a class="btn btn-primary btn-sm btn-proses btn-social"><i class="fa fa-exclamation"></i> Telah dilaporkan</a>
-										<?php else: ?>
-											<a href="#" data-href="<?= site_url("layanan-mandiri/kehadiran/lapor/{$item->pamong_id}"); ?>" class="btn btn-primary btn-sm btn-social" title="Laporkan perangkat desa" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-exclamation"></i> Laporkan</a>
-										<?php endif; ?>
-									<?php endif; ?>
-								</td>
-							</tr>
-						<?php endforeach;
-                    else: ?>
+					<?php foreach ($perangkat as $key => $item): ?>
 						<tr>
-							<td class="text-center" colspan="5">Data tidak tersedia</td>
+							<td class="padat"></td>
+							<td><?= $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?></td>
+							<td><?= $item->jabatan; ?></td>
+							<td class="padat"><?= $item->tanggal == date('Y-m-d') ? 'Hadir' : '-'; ?></td>
+							<td class="padat">
+								<?php if ($item->tanggal == date('Y-m-d')): ?>
+									<?php if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item->waktu)) == date('Y-m-d')): ?>
+										<a class="btn btn-primary btn-sm btn-proses btn-social"><i class="fa fa-exclamation"></i> Telah dilaporkan</a>
+									<?php else: ?>
+										<a href="#" data-href="<?= site_url("layanan-mandiri/kehadiran/lapor/{$item->pamong_id}"); ?>" class="btn btn-primary btn-sm btn-social" title="Laporkan perangkat desa" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-exclamation"></i> Laporkan</a>
+									<?php endif ?>
+								<?php endif ?>
+							</td>
 						</tr>
-				<?php endif; ?>
-			</tbody>
-		</table>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 <div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
@@ -108,3 +103,35 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function() {
+		var tabelData = $('#tabeldata').DataTable({
+			'processing': false,
+			'order': [[1, 'desc']],
+			'pageLength': 10,
+			'lengthMenu': [
+				[10, 25, 50, 100, -1],
+				[10, 25, 50, 100, "Semua"]
+			],
+			'columnDefs': [
+				{
+					'searchable': false,
+					'targets': [0, 4]
+				},
+				{
+					'orderable': false,
+					'targets': [0, 4]
+				}
+			],
+			'language': {
+				'url': BASE_URL + '/assets/bootstrap/js/dataTables.indonesian.lang'
+			},
+		});
+
+		tabelData.on( 'order.dt search.dt', function () {
+			tabelData.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+				cell.innerHTML = i + 1;
+			});
+		}).draw();
+	});
+</script>

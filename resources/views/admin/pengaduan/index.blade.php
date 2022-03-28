@@ -54,8 +54,14 @@
         { data: 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
         { data: 'aksi', class: 'aksi', searchable: false, orderable: false},
         { data: 'waktu', name: 'waktu', searchable: true, orderable: true },
-        { data: 'penduduk', name: 'penduduk', searchable: true, orderable: true },
-        { data: 'pamong', name: 'pamong', searchable: true, orderable: true },
+        { data: 'mandiri.penduduk.nama', name: 'mandiri.penduduk.nama', searchable: true, orderable: true },
+        {
+          data: function (data) {
+            return (data.pamong.pamong_nama) ? data.pamong.pamong_nama : data.pamong.penduduk.nama
+          },
+          name: 'pamong.pamong_nama',
+          searchable: true, orderable: true
+        },
         { data: 'keterangan', name: 'keterangan', searchable: true, orderable: true },
       ],
       order: [[ 2, 'desc' ]]

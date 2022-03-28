@@ -56,7 +56,7 @@ class Absensi_pengaduan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AbsensiPengaduan::with(['pamong', 'mandiri']))
+            return datatables()->of(AbsensiPengaduan::with(['pamong.penduduk', 'mandiri.penduduk']))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
@@ -66,12 +66,6 @@ class Absensi_pengaduan extends Admin_Controller
                 ->rawColumns(['aksi'])
                 ->editColumn('waktu', static function ($row) {
                     return tgl_indo2($row['waktu']);
-                })
-                ->editColumn('penduduk', static function ($row) {
-                    return $row['mandiri']['penduduk']['nama'];
-                })
-                ->editColumn('pamong', static function ($row) {
-                    return $row['pamong']['pamong_nama'] ?? $row['pamong']['penduduk']['nama'];
                 })
                 ->make();
         }

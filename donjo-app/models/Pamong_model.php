@@ -280,6 +280,7 @@ class Pamong_model extends CI_Model
     {
         $data                       = [];
         $data['id_pend']            = $post['id_pend'];
+        $data['pamong_nama']        = null;
         $data['pamong_nip']         = strip_tags($post['pamong_nip']);
         $data['pamong_niap']        = strip_tags($post['pamong_niap']);
         $data['pamong_tag_id_card'] = strip_tags($post['pamong_tag_id_card']) ?: null;
@@ -300,7 +301,7 @@ class Pamong_model extends CI_Model
 
         if (empty($data['id_pend'])) {
             $data['id_pend']             = null;
-            $data['pamong_nama']         = strip_tags($post['pamong_nama']) ?: null;
+            $data['pamong_nama']         = strip_tags($post['pamong_nama']);
             $data['pamong_nik']          = strip_tags($post['pamong_nik']) ?: null;
             $data['pamong_tempatlahir']  = strip_tags($post['pamong_tempatlahir']) ?: null;
             $data['pamong_tanggallahir'] = ! empty($post['pamong_tanggallahir']) ? tgl_indo_in($post['pamong_tanggallahir']) : null;
