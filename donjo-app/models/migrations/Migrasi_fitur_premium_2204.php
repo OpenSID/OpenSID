@@ -48,8 +48,9 @@ class Migrasi_fitur_premium_2204 extends MY_model
         $hasil = $hasil && $this->migrasi_2022031171($hasil);
         $hasil = $hasil && $this->migrasi_2022032171($hasil);
         $hasil = $hasil && $this->migrasi_2022032371($hasil);
+        $hasil = $hasil && $this->migrasi_2022032471($hasil);
 
-        return $hasil && $this->migrasi_2022032471($hasil);
+        return $hasil && $this->migrasi_2022032871($hasil);
     }
 
     protected function migrasi_2022031171($hasil)
@@ -426,6 +427,23 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $this->dbforge->add_field($fields);
 
             $hasil = $hasil && $this->dbforge->create_table('absensi_pengaduan', true);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022032871($hasil)
+    {
+        if (! $this->db->field_exists('kehadiran', 'tweb_desa_pamong')) {
+            $fields = [
+                'kehadiran' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                    'default'    => 1,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_desa_pamong', $fields);
         }
 
         return $hasil;

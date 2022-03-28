@@ -183,6 +183,13 @@ class Pengurus extends Admin_Controller
         redirect('pengurus');
     }
 
+    public function kehadiran($id = 0, $val = 1)
+    {
+        $this->redirect_hak_akses('u');
+        $this->pamong_model->kehadiran($id, $val);
+        redirect('pengurus');
+    }
+
     // $aksi = cetak/unduh
     public function dialog($aksi = 'cetak')
     {

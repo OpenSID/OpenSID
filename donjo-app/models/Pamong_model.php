@@ -262,7 +262,7 @@ class Pamong_model extends CI_Model
 
         $outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
 
-        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+        status_sukses($outp, true); //Tampilkan Pesan
     }
 
     public function delete_all()
@@ -272,7 +272,7 @@ class Pamong_model extends CI_Model
         $id_cb = $_POST['id_cb'];
 
         foreach ($id_cb as $id) {
-            $this->delete($id, $semua = true);
+            $this->delete($id, true);
         }
     }
 
@@ -318,7 +318,10 @@ class Pamong_model extends CI_Model
             // Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
             $this->db->where($jenis, 1)->update('tweb_desa_pamong', [$jenis => 0]);
         }
-        $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
+
+        $outp = $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
+
+        status_sukses($outp);
     }
 
     private function select_data_pamong()
@@ -360,7 +363,9 @@ class Pamong_model extends CI_Model
     // 		2 - naik
     public function urut($id, $arah)
     {
-        $this->urut_model->urut($id, $arah);
+        $outp = $this->urut_model->urut($id, $arah);
+
+        status_sukses($outp);
     }
 
     // Mengambil semua data penduduk kecuali yg sdh menjadi pamong dan tdk termasuk yang di ubah untuk pilihan drop-down form
@@ -407,9 +412,24 @@ class Pamong_model extends CI_Model
      */
     public function lock($id, $val)
     {
-        $this->db
+        $outp = $this->db
             ->where('pamong_id', $id)
             ->update('tweb_desa_pamong', ['pamong_status' => $val]);
+
+        status_sukses($outp);
+    }
+
+    /**
+     * @param $id id
+     * @param $val status : 1 = Aktif, 0 = Tidak aktif
+     */
+    public function kehadiran($id, $val)
+    {
+        $outp = $this->db
+            ->where('pamong_id', $id)
+            ->update('tweb_desa_pamong', ['kehadiran' => $val]);
+
+        status_sukses($outp);
     }
 
     public function list_bagan()
@@ -472,9 +492,12 @@ class Pamong_model extends CI_Model
         if ($post['bagan_warna']) {
             $data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? null : warna($post['bagan_warna']);
         }
-        $this->db
+
+        $outp = $this->db
             ->where("pamong_id in ({$list_id})")
             ->update('tweb_desa_pamong', $data);
+
+        status_sukses($outp);
     }
 
     public function status_aktif()

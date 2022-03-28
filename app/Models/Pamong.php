@@ -104,6 +104,19 @@ class Pamong extends Model
         return $query->where('pamong_status', $value);
     }
 
+    /**
+     * Scope query untuk daftar kehadiran pamong
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeDaftar($query, $value = 1)
+    {
+        return $query->where('pamong_status', 1)->where('absensi', $value);
+    }
+
     public function scopeKehadiranPamong($query)
     {
         return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')

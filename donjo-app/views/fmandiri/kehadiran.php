@@ -71,7 +71,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td><?= $item->tanggal == date('Y-m-d') ? 'Hadir' : '-'; ?></td>
 								<td class="padat">
 									<?php if ($item->tanggal == date('Y-m-d')): ?>
-										<?php if ($item->status == 1 && $item->id_penduduk == $this->session->is_login->id_pend): ?>
+										<?php if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item->waktu)) == date('Y-m-d')): ?>
 											<a class="btn btn-primary btn-sm btn-proses btn-social"><i class="fa fa-exclamation"></i> Telah dilaporkan</a>
 										<?php else: ?>
 											<a href="#" data-href="<?= site_url("layanan-mandiri/kehadiran/lapor/{$item->pamong_id}"); ?>" class="btn btn-primary btn-sm btn-social" title="Laporkan perangkat desa" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-exclamation"></i> Laporkan</a>

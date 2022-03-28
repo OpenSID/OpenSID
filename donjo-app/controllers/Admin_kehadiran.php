@@ -52,7 +52,7 @@ class Admin_kehadiran extends Admin_Controller
 
     public function index()
     {
-        $pamong = Pamong::status()->get();
+        $pamong = Pamong::daftar()->get();
 
         return view('admin.kehadiran.index', compact('pamong'));
     }

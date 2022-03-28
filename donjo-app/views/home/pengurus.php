@@ -60,6 +60,26 @@
 				<?php endif; ?>
 			</ul>
 		</div>
+		<div class="btn-group btn-group-vertical">
+			<a class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Kehadiran Perangkat</a>
+			<ul class="dropdown-menu" role="menu">
+				<li>
+					<a href="<?= site_url('gawai')?>" title="Pengaturan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-gear"></i> Pengaturan</a>
+				</li>
+				<li>
+					<a href="<?= site_url('absensi_jam_kerja')?>" title="Jam Kerja" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-clock-o"></i> Jam Kerja</a>
+				</li>
+				<li>
+					<a href="<?= site_url('absensi_libur')?>" title="Hari Libur" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-calendar"></i> Hari Libur</a>
+				</li>
+				<li>
+					<a href="<?= site_url('admin_kehadiran')?>" title="Kehadiran" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-list"></i> Kehadiran</a>
+				</li>
+				<li>
+					<a href="<?= site_url('absensi_pengaduan')?>" title="Pengaduan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-exclamation"></i> Pengaduan</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 	<div class="box-body">
 		<div class="row">
@@ -133,6 +153,11 @@
 																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																<?php else: ?>
 																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/1")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock"></i></a>
+																<?php endif ?>
+																<?php if ($data['kehadiran'] == '1'): ?>
+																	<a href="<?= site_url("pengurus/kehadiran/{$data['pamong_id']}/0")?>" class="btn bg-aqua btn-flat btn-sm" title="Non Aktifkan Kehadiran Perangkat"><i class="fa fa-check"></i></a>
+																<?php else: ?>
+																	<a href="<?= site_url("pengurus/kehadiran/{$data['pamong_id']}/1")?>" class="btn bg-aqua btn-flat btn-sm" title="Aktifkan Kehadiran Perangkat"><i class="fa fa-ban"></i></a>
 																<?php endif ?>
 																<?php if ($data['pamong_ttd'] == '1'): ?>
 																	<a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>

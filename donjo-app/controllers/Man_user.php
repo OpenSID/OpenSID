@@ -37,6 +37,8 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Pamong;
+
 class Man_user extends Admin_Controller
 {
     public function __construct()
@@ -101,7 +103,7 @@ class Man_user extends Admin_Controller
         }
 
         $data['user_group'] = $this->referensi_model->list_data('user_grup');
-        $data['pamong']     = $this->pamong_model->list_data(null, null);
+        $data['pamong']     = Pamong::daftar()->get();
 
         $this->render('man_user/manajemen_user_form', $data);
     }

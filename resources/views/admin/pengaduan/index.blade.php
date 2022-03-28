@@ -58,7 +58,7 @@
         { data: 'pamong', name: 'pamong', searchable: true, orderable: true },
         { data: 'keterangan', name: 'keterangan', searchable: true, orderable: true },
       ],
-      order: [[ 2, 'asc' ]]
+      order: [[ 2, 'desc' ]]
     });
   });
 </script>

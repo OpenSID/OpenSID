@@ -54,7 +54,8 @@
 									<select class="form-control select2 input-sm" id="pamong_id" name="pamong_id">
 										<option value>-- Silakan Masukan Nama Staf --</option>
 										<?php foreach ($pamong as $item) : ?>
-											<option value="<?= $item['pamong_id'] ?>" data-nama="<?= $item['nama'] ?>" <?php selected($user['pamong_id'], $item['pamong_id']); ?>><?= $item['jabatan'] . ' - ' . $item['nama'] ?></option>
+											<?php $pamong_nama = $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?>
+											<option value="<?= $item->pamong_id ?>" data-nama="<?= $pamong_nama ?>" <?= selected($user['pamong_id'], $item->pamong_id); ?>><?= $item->jabatan . ' - ' . $pamong_nama ?></option>
 										<?php endforeach ?>
 									</select>
 								</div>
