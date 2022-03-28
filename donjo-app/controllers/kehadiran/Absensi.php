@@ -54,7 +54,7 @@ class Absensi extends Web_Controller
     {
         parent::__construct();
         $this->tgl = date('Y-m-d');
-        $this->jam = date('h:i');
+        $this->jam = date('H:i');
         $this->ip  = $this->input->ip_address();
         $this->mac = $this->input->get('mac_address', true);
     }

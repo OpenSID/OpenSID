@@ -86,19 +86,19 @@ class Kehadiran extends Model
             ->update(['status_kehadiran' => 'lupa melapor keluar']);
     }
 
-    public function scopeFilter($query, $daterange = null, $status = '', $pamong = '')
+    public function scopeFilter($query, array $filters)
     {
-        if (! empty($daterange)) {
-            [$awal, $akhir] = explode(' - ', $daterange);
+        if (! empty($filters['tanggal'])) {
+            [$awal, $akhir] = explode(' - ', $filters['tanggal']);
             $query->whereBetween('tanggal', [$awal, $akhir]);
         }
 
-        if ($status != '') {
-            $query->where('status_kehadiran', $status);
+        if (! empty($filters['status'])) {
+            $query->where('status_kehadiran', $filters['status']);
         }
 
-        if ($pamong != '') {
-            $query->where('pamong_id', $pamong);
+        if (! empty($filters['pamong'])) {
+            $query->where('pamong_id', $filters['pamong']);
         }
 
         return $query;

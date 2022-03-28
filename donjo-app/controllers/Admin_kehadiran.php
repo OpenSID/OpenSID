@@ -60,11 +60,13 @@ class Admin_kehadiran extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            $tanggal = $this->input->get('daterange');
-            $status  = $this->input->get('status');
-            $pamong  = $this->input->get('pamong');
+            $filters = [
+                'tanggal' => $this->input->get('daterange'),
+                'status'  => $this->input->get('status'),
+                'pamong'  => $this->input->get('pamong'),
+            ];
 
-            return datatables()->of(Kehadiran::with(['pamong.penduduk'])->filter($tanggal, $status, $pamong))
+            return datatables()->of(Kehadiran::with(['pamong.penduduk'])->filter($filters))
                 ->addIndexColumn()
                 ->editColumn('tanggal', static function ($row) {
                     return tgl_indo($row['tanggal']);
