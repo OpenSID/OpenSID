@@ -23,6 +23,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
+	<?php if ($disk) : ?>
 	<div class="row">
 		<div class="col-md-6">
 			<div class="panel bg-yellow">
@@ -55,6 +56,8 @@
 			</div>
 		</div>
 	</div>
+	<?php endif ?>
+
 		<form id="mainform" name="mainform" method="post">
 			<div class="nav-tabs-custom">
 				<ul class="nav nav-tabs">
