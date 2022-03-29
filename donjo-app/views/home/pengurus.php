@@ -60,26 +60,33 @@
 				<?php endif; ?>
 			</ul>
 		</div>
+		<?php if (can('u', 'kehadiran_jam_kerja') || can('u', 'kehadiran_hari_libur') || can('u', 'kehadiran_rekapitulasi') || can('u', 'kehadiran_pengaduan')): ?>
 		<div class="btn-group btn-group-vertical">
 			<a class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Kehadiran</a>
 			<ul class="dropdown-menu" role="menu">
-				<li>
-					<a href="<?= site_url('kehadiran_gawai')?>" title="Pengaturan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-gear"></i> Pengaturan</a>
-				</li>
+				<?php if (can('u', 'kehadiran_jam_kerja')): ?>
 				<li>
 					<a href="<?= site_url('kehadiran_jam_kerja')?>" title="Jam Kerja" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-clock-o"></i> Jam Kerja</a>
 				</li>
+				<?php endif ?>
+				<?php if (can('u', 'kehadiran_hari_libur')): ?>
 				<li>
 					<a href="<?= site_url('kehadiran_hari_libur')?>" title="Hari Libur" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-calendar"></i> Hari Libur</a>
 				</li>
+				<?php endif ?>
+				<?php if (can('u', 'kehadiran_rekapitulasi')): ?>
 				<li>
 					<a href="<?= site_url('kehadiran_rekapitulasi')?>" title="Kehadiran" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-list"></i> Kehadiran</a>
 				</li>
+				<?php endif ?>
+				<?php if (can('u', 'kehadiran_pengaduan')): ?>
 				<li>
 					<a href="<?= site_url('kehadiran_pengaduan')?>" title="Pengaduan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-exclamation"></i> Pengaduan</a>
 				</li>
+				<?php endif ?>
 			</ul>
 		</div>
+		<?php endif ?>
 	</div>
 	<div class="box-body">
 		<div class="row">
