@@ -74,7 +74,13 @@
           @elseif ($set->jenis == 'textarea')
               <textarea {{ jecho($set->kategori, 'readonly', 'disabled') }} class="form-control input-sm" name="{{ $set->key }}" placeholder="{{ $set->keterangan }}" rows="5">{{ $set->value }} </textarea>
           @else
-              <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm {{ ($set->jenis != 'int') || print 'digits' }}" type="text" value="{{ $set->value }}" {{ jecho($set->kategori, 'readonly', 'disabled') }}></input>
+              @if ($set->key == 'mac_adress_kehadiran')
+                <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm mac_address" type="text" value="{{ $set->value }}" placeholder="00:1B:44:11:3A:B7" />
+              @elseif ($set->key == 'ip_adress_kehadiran')
+                <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm ip_address" type="text" value="{{ $set->value }}" placeholder="127.0.0.1" />
+              @else
+                <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm {{ jecho($set->jenis == 'int', false, 'digits') }}" type="text" value="{{ $set->value }}" {{ jecho($set->kategori, 'readonly', 'disabled') }}></input>
+              @endif
           @endif
           <label><code>{{ $set->keterangan }}</code></label>
         </div>

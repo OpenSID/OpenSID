@@ -97,12 +97,10 @@ class Migrasi_fitur_premium_2204 extends MY_model
     protected function migrasi_2022032471($hasil)
     {
         $hasil = $hasil && $this->tambahModulKehadiran($hasil);
-        $hasil = $hasil && $this->tambahModulPengaturan($hasil);
         $hasil = $hasil && $this->tambahModulRekapitulasi($hasil);
         $hasil = $hasil && $this->modifikasiTabelTwebDesaPamong($hasil);
         $hasil = $hasil && $this->modifikasiTabelUser($hasil);
         $hasil = $hasil && $this->tambahTabelKehadiranPerangkatDesa($hasil);
-        $hasil = $hasil && $this->modifikasiTabelAnjungan($hasil);
         $hasil = $hasil && $this->hariLibur($hasil);
         $hasil = $hasil && $this->jamKerja($hasil);
         $hasil = $hasil && $this->tambahModulPengaduan($hasil);
@@ -124,23 +122,6 @@ class Migrasi_fitur_premium_2204 extends MY_model
             'parent'     => '0',
             'hidden'     => '0',
             'ikon_kecil' => 'fa-calendar-check-o',
-        ]);
-    }
-
-    protected function tambahModulPengaturan($hasil)
-    {
-        // Tambah menu kehadiran > pengaturan
-        return $hasil && $this->tambah_modul([
-            'id'         => '338',
-            'modul'      => 'Pengaturan',
-            'url'        => 'kehadiran_gawai',
-            'aktif'      => '1',
-            'ikon'       => 'fa-gear',
-            'urut'       => '2',
-            'level'      => '0',
-            'parent'     => '337',
-            'hidden'     => '0',
-            'ikon_kecil' => 'fa-gear',
         ]);
     }
 
@@ -244,23 +225,6 @@ class Migrasi_fitur_premium_2204 extends MY_model
         return $hasil;
     }
 
-    protected function modifikasiTabelAnjungan($hasil)
-    {
-        if (! $this->db->field_exists('tipe', 'anjungan')) {
-            $fields = [
-                'tipe' => [
-                    'type'       => 'VARCHAR',
-                    'constraint' => 255,
-                    'default'    => 'anjungan',
-                ],
-            ];
-
-            $hasil = $hasil && $this->dbforge->add_column('anjungan', $fields);
-        }
-
-        return $hasil;
-    }
-
     public function hariLibur($hasil)
     {
         if (! $this->db->table_exists('kehadiran_hari_libur')) {
@@ -284,22 +248,20 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $this->dbforge->add_key('id', true);
             $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->create_table('kehadiran_hari_libur', true);
-
-            $hasil = $hasil && $this->tambah_modul([
-                'id'         => '340',
-                'modul'      => 'Hari Libur',
-                'url'        => 'kehadiran_hari_libur',
-                'aktif'      => '1',
-                'ikon'       => 'fa-calendar',
-                'urut'       => '2',
-                'level'      => '0',
-                'parent'     => '337',
-                'hidden'     => '0',
-                'ikon_kecil' => 'fa-credit-card',
-            ]);
         }
 
-        return $hasil;
+        return $hasil && $this->tambah_modul([
+            'id'         => '340',
+            'modul'      => 'Hari Libur',
+            'url'        => 'kehadiran_hari_libur',
+            'aktif'      => '1',
+            'ikon'       => 'fa-calendar',
+            'urut'       => '2',
+            'level'      => '0',
+            'parent'     => '337',
+            'hidden'     => '0',
+            'ikon_kecil' => 'fa-credit-card',
+        ]);
     }
 
     public function jamKerja($hasil)
@@ -353,22 +315,20 @@ class Migrasi_fitur_premium_2204 extends MY_model
             ];
 
             $hasil = $hasil && $this->db->insert_batch('kehadiran_jam_kerja', $hari);
-
-            $hasil = $hasil && $this->tambah_modul([
-                'id'         => '339',
-                'modul'      => 'Jam Kerja',
-                'url'        => 'kehadiran_jam_kerja',
-                'aktif'      => '1',
-                'ikon'       => 'fa-clock-o',
-                'urut'       => '2',
-                'level'      => '0',
-                'parent'     => '337',
-                'hidden'     => '0',
-                'ikon_kecil' => 'fa-credit-card',
-            ]);
         }
 
-        return $hasil;
+        return $hasil && $this->tambah_modul([
+            'id'         => '339',
+            'modul'      => 'Jam Kerja',
+            'url'        => 'kehadiran_jam_kerja',
+            'aktif'      => '1',
+            'ikon'       => 'fa-clock-o',
+            'urut'       => '2',
+            'level'      => '0',
+            'parent'     => '337',
+            'hidden'     => '0',
+            'ikon_kecil' => 'fa-credit-card',
+        ]);
     }
 
     protected function tambahModulPengaduan($hasil)
@@ -442,11 +402,27 @@ class Migrasi_fitur_premium_2204 extends MY_model
     protected function settingKehadiran($hasil)
     {
         // Pengaturan Kehadiran
-        return $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'tampilkan_kehadiran',
             'value'      => 1,
             'keterangan' => 'Aktif / Non-aktifkan Halaman Websiten Kehadiran',
             'jenis'      => 'boolean',
+            'kategori'   => 'kehadiran',
+        ]);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'ip_adress_kehadiran',
+            'value'      => '',
+            'keterangan' => 'IP Address Perangkat Kehadiran',
+            'jenis'      => null,
+            'kategori'   => 'kehadiran',
+        ]);
+
+        return $hasil && $this->tambah_setting([
+            'key'        => 'mac_adress_kehadiran',
+            'value'      => '',
+            'keterangan' => 'MAC Address Perangkat Kehadiran',
+            'jenis'      => null,
             'kategori'   => 'kehadiran',
         ]);
     }

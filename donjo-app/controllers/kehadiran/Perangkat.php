@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\Anjungan;
 use App\Models\HariLibur;
 use App\Models\JamKerja;
 use App\Models\Kehadiran;
@@ -152,13 +151,7 @@ class Perangkat extends Web_Controller
 
     public function masuk($ektp = false)
     {
-        $cek_gawai = Anjungan::where(function ($query) {
-            $query->where('ip_address', $this->ip)->orWhere('mac_address', $this->mac);
-        })
-            ->where('tipe', 'kehadiran')
-            ->where('status', 1)
-            ->first();
-
+        $cek_gawai   = (setting('ip_adress_kehadiran') === $this->ip || setting('mac_adress_kehadiran') === $this->mac);
         $cek_hari    = HariLibur::where('tanggal', '=', date('Y-m-d'))->first();
         $cek_weekend = JamKerja::libur()->first();
         $cek_jam     = JamKerja::jamKerja()->first();
@@ -168,7 +161,7 @@ class Perangkat extends Web_Controller
             'mac_address' => $this->mac,
             'ektp'        => $ektp,
             'cek'         => [
-                'status' => null === $cek_hari && null === $cek_jam && null === $cek_weekend && null !== $cek_gawai,
+                'status' => null === $cek_hari && null === $cek_jam && null === $cek_weekend && $cek_gawai === true,
                 'judul'  => 'Tidak bisa masuk!',
                 'pesan'  => $this->getStatusPesan([
                     'cek_gawai'   => $cek_gawai,
@@ -224,7 +217,7 @@ class Perangkat extends Web_Controller
         $pesan = '';
 
         switch (true) {
-            case $cek['cek_gawai'] === null:
+            case $cek['cek_gawai'] === false:
                 $pesan = 'Gawai ini belum terdaftar.';
                 break;
 
