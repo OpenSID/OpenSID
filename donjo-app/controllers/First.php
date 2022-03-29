@@ -44,20 +44,6 @@ class First extends Web_Controller
         parent::__construct();
         parent::clear_cluster_session();
 
-        // Jika offline_mode dalam level yang menyembunyikan website,
-        // tidak perlu menampilkan halaman website
-        if ($this->setting->offline_mode == 2) {
-            redirect('main');
-        } elseif ($this->setting->offline_mode == 1) {
-            // Hanya tampilkan website jika user mempunyai akses ke menu admin/web
-            // Tampilkan 'maintenance mode' bagi pengunjung website
-            $this->load->model('user_model');
-            $grup = $this->user_model->sesi_grup($_SESSION['sesi']);
-            if (! $this->user_model->hak_akses($grup, 'web', 'b')) {
-                redirect('main/maintenance_mode');
-            }
-        }
-
         // Load library statistik pengunjung
         $this->load->library('statistik_pengunjung');
 
