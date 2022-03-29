@@ -39,6 +39,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 31. [#5084](https://github.com/OpenSID/OpenSID/issues/5084) Perbaiki error console pada daftar arsip / permohonan surat layanan mandiri.
 32. [#5083](https://github.com/OpenSID/OpenSID/issues/5083) Perbaiki error console saat masuk layanan mandiri.
 33. [#5086](https://github.com/OpenSID/OpenSID/issues/5086) Perbaiki maintenance mode untuk pilihan web non-aktif sama sekali.
+34. [#5039](https://github.com/OpenSID/OpenSID/issues/5039) Perbaiki collation ketika restore database.
 
 
 #### Perubahan Teknis
