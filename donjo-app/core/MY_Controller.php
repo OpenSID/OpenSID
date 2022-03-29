@@ -91,6 +91,16 @@ class Web_Controller extends MY_Controller
     public function __construct()
     {
         parent::__construct();
+        if ($this->setting->offline_mode == 2) {
+            $this->view_maintenance();
+        } elseif ($this->setting->offline_mode == 1) {
+            $this->load->model('user_model');
+            $grup = $this->user_model->sesi_grup($this->session->sesi);
+            if (! $this->user_model->hak_akses($grup, 'web', 'b')) {
+                $this->view_maintenance();
+            }
+        }
+
         $this->load->model('theme_model');
         $this->theme        = $this->theme_model->tema;
         $this->theme_folder = $this->theme_model->folder;
@@ -160,6 +170,22 @@ class Web_Controller extends MY_Controller
         foreach ($list_kolom as $kolom) {
             $data[$kolom] = $this->security->xss_clean($data[$kolom]);
         }
+    }
+
+    private function view_maintenance()
+    {
+        $this->load->model('pamong_model');
+
+        $data['main']         = $this->header;
+        $data['pamong_kades'] = $this->pamong_model->get_ttd();
+
+        if (file_exists(DESAPATH . 'offline_mode.php')) {
+            include DESAPATH . 'offline_mode.php';
+        } else {
+            include VIEWPATH . 'offline_mode.php';
+        }
+
+        exit();
     }
 }
 
