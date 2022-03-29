@@ -78,7 +78,7 @@
             </li>
           </ul>
 
-          @if ($controller == 'pelanggan' && can('u', $controller))
+          @if ($kategori && can('u', $controller))
           <li>
             <a href="#" data-remote="false" data-toggle="modal" data-target="#pengaturan">
               <span><i class="fa fa-gear"></i>&nbsp;</span>

@@ -35,28 +35,34 @@
  *
  */
 
-use App\Models\AbsensiJamKerja;
-use App\Models\AbsensiLibur;
 use App\Models\Anjungan;
+use App\Models\HariLibur;
+use App\Models\JamKerja;
 use App\Models\Kehadiran;
 use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Absensi extends Web_Controller
+class Perangkat extends Web_Controller
 {
     private $tgl;
     private $jam;
     private $ip;
     private $mac;
+    private $url;
 
     public function __construct()
     {
         parent::__construct();
+        if ($this->setting->tampilkan_kehadiran == '0') {
+            return show_404();
+        }
+
         $this->tgl = date('Y-m-d');
         $this->jam = date('H:i');
         $this->ip  = $this->input->ip_address();
         $this->mac = $this->input->get('mac_address', true);
+        $this->url = 'kehadiran/masuk';
     }
 
     public function index()
@@ -71,13 +77,13 @@ class Absensi extends Web_Controller
             'kehadiran'   => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->first(),
         ];
 
-        return view('kehadiran.absensi.index', $data);
+        return view('kehadiran.index', $data);
     }
 
-    public function cek($ektp = false, $url = 'kehadiran/masuk')
+    public function cek($ektp = false)
     {
         if (! $this->input->post()) {
-            redirect($url);
+            redirect($this->url);
         }
 
         $username = trim($this->request['username']);
@@ -100,12 +106,12 @@ class Absensi extends Web_Controller
         if ($ektp) {
             if (! $user) {
                 set_session('error', 'ID Card Salah. Coba Lagi');
-                redirect($url);
+                redirect($this->url);
             }
         } else {
             if (password_verify($password, $user->password) === false) {
                 set_session('error', 'Username atau Password Salah');
-                redirect($url);
+                redirect($this->url);
             }
         }
 
@@ -117,7 +123,7 @@ class Absensi extends Web_Controller
 
         if ($keluar) {
             set_session('error', 'Anda sudah melakukan absen keluar hari ini');
-            redirect($url);
+            redirect($this->url);
         }
 
         $this->session->masuk = [
@@ -133,14 +139,15 @@ class Absensi extends Web_Controller
         redirect('kehadiran');
     }
 
-    public function masuk_ektp()
+    public function masukEktp()
     {
         $this->masuk(true);
     }
 
-    public function cek_ektp()
+    public function cekEktp()
     {
-        $this->cek(true, 'kehadiran/masuk-ektp');
+        $this->url = 'kehadiran/masuk-ektp';
+        $this->cek(true);
     }
 
     public function masuk($ektp = false)
@@ -148,13 +155,13 @@ class Absensi extends Web_Controller
         $cek_gawai = Anjungan::where(function ($query) {
             $query->where('ip_address', $this->ip)->orWhere('mac_address', $this->mac);
         })
-            ->where('tipe', 'absensi')
+            ->where('tipe', 'kehadiran')
             ->where('status', 1)
             ->first();
 
-        $cek_hari    = AbsensiLibur::where('tanggal', '=', date('Y-m-d'))->first();
-        $cek_weekend = AbsensiJamKerja::libur()->first();
-        $cek_jam     = AbsensiJamKerja::jamKerja()->first();
+        $cek_hari    = HariLibur::where('tanggal', '=', date('Y-m-d'))->first();
+        $cek_weekend = JamKerja::libur()->first();
+        $cek_jam     = JamKerja::jamKerja()->first();
 
         $data = [
             'ip_address'  => $this->ip,
@@ -172,13 +179,12 @@ class Absensi extends Web_Controller
             ],
         ];
 
-        return view('kehadiran.absensi.masuk', $data);
+        return view('kehadiran.masuk', $data);
     }
 
-    public function check_in_out()
+    public function checkInOut()
     {
         $this->cekLogin();
-
         $pamong_id        = $this->session->masuk['pamong_id'];
         $status_kehadiran = $this->request['status_kehadiran'];
 
@@ -209,7 +215,7 @@ class Absensi extends Web_Controller
     private function cekLogin()
     {
         if (! $this->session->masuk) {
-            redirect('kehadiran/masuk');
+            redirect($this->url);
         }
     }
 

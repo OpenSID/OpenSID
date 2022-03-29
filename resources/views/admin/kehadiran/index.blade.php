@@ -135,7 +135,7 @@
       processing: true,
       serverSide: true,
       ajax: {
-        url: "{{ route('admin_kehadiran.datatables') }}",
+        url: "{{ route('kehadiran_rekapitulasi.datatables') }}",
         data: function(req) {
           req.daterange = $('#daterange').val();  
           req.status = $('#status').val();
@@ -182,7 +182,7 @@
 
     $(document).on('click', '#excel', function(e) {
         $.ajax({
-            url: "{{ route('admin_kehadiran.export') }}",
+            url: "{{ route('kehadiran_rekapitulasi.export') }}",
             type:"GET",
             data: {
                 daterange: $('#daterange').val(),

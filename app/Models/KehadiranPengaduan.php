@@ -39,14 +39,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AbsensiPengaduan extends Model
+class KehadiranPengaduan extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'absensi_pengaduan';
+    protected $table = 'kehadiran_pengaduan';
 
     /**
      * The timestamps for the model.

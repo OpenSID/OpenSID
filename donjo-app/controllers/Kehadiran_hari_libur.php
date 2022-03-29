@@ -35,28 +35,29 @@
  *
  */
 
-use App\Models\Anjungan;
+use App\Models\HariLibur;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Gawai extends Admin_Controller
+class Kehadiran_hari_libur extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 337;
-        $this->sub_modul_ini = 338;
+        $this->modul_ini          = 337;
+        $this->sub_modul_ini      = 340;
+        $this->header['kategori'] = 'kehadiran';
     }
 
     public function index()
     {
-        return view('admin.gawai.index');
+        return view('admin.hari_libur.index');
     }
 
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(Anjungan::tipe('absensi'))
+            return datatables()->of(HariLibur::query())
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
@@ -67,19 +68,19 @@ class Gawai extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('gawai.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . route('kehadiran_hari_libur.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('gawai.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . route('kehadiran_hari_libur.delete', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
                 })
-                ->editColumn('status', static function ($row) {
-                    return ($row->status == 1) ? '<span class="label label-success">AKTIF</span>' : '<span class="label label-danger">TIDAK AKTIF</span>';
+                ->rawColumns(['ceklist', 'aksi'])
+                ->editColumn('tanggal', static function ($row) {
+                    return tgl_indo($row['tanggal']);
                 })
-                ->rawColumns(['ceklist', 'aksi', 'status'])
                 ->make();
         }
 
@@ -92,22 +93,24 @@ class Gawai extends Admin_Controller
 
         if ($id) {
             $action      = 'Ubah';
-            $form_action = route('gawai.update', $id);
-            $gawai       = Anjungan::find($id) ?? show_404();
+            $form_action = route('kehadiran_hari_libur.update', $id);
+            // TODO: Gunakan findOrFail
+            $kehadiran_hari_libur          = HariLibur::find($id) ?? show_404();
+            $kehadiran_hari_libur->tanggal = date('d-m-Y', strtotime($kehadiran_hari_libur->tanggal));
         } else {
-            $action      = 'Tambah';
-            $form_action = route('gawai.create');
-            $gawai       = null;
+            $action               = 'Tambah';
+            $form_action          = route('kehadiran_hari_libur.create');
+            $kehadiran_hari_libur = null;
         }
 
-        return view('admin.gawai.form', compact('action', 'form_action', 'gawai'));
+        return view('admin.hari_libur.form', compact('action', 'form_action', 'kehadiran_hari_libur'));
     }
 
     public function create()
     {
         $this->redirect_hak_akses('u');
 
-        if (Anjungan::insert($this->validate($this->request))) {
+        if (HariLibur::insert($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Tambah Data');
         }
 
@@ -119,9 +122,9 @@ class Gawai extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         // TODO: Gunakan findOrFail
-        $update = Anjungan::find($id) ?? show_404();
+        $update = HariLibur::find($id) ?? show_404();
 
-        if ($update->update($this->validate($this->request, $id))) {
+        if ($update->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
@@ -132,7 +135,7 @@ class Gawai extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if (Anjungan::destroy($id)) {
+        if (HariLibur::destroy($id)) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
@@ -143,28 +146,39 @@ class Gawai extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if (Anjungan::destroy($this->request['id_cb'])) {
+        if (HariLibur::destroy($this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
         redirect_with('error', 'Gagal Hapus Data');
     }
 
-    private function validate($request = [], $id = null)
+    private function validate($request = [])
     {
-        $validate = [
-            'ip_address'  => bilangan_titik(($request['ip_address'])),
-            'mac_address' => alfanumerik_kolon(($request['mac_address'])),
-            'keterangan'  => strip_tags($request['keterangan']),
-            'status'      => (int) ($request['status']),
-            'tipe'        => 'absensi',
-            'updated_by'  => $this->session->isAdmin->id,
+        return [
+            'tanggal'    => date('Y-m-d', strtotime($request['tanggal'])),
+            'keterangan' => strip_tags($request['keterangan']),
         ];
+    }
 
-        if (null === $id) {
-            $validate['created_by'] = $this->session->isAdmin->id;
-        }
+    public function import()
+    {
+        $this->redirect_hak_akses('u');
 
-        return $validate;
+        $kalender = file_get_contents('https://raw.githubusercontent.com/guangrei/Json-Indonesia-holidays/master/calendar.json');
+        $tanggal  = json_decode($kalender, true);
+
+        $batch = collect($tanggal)->map(static function ($item, $key) {
+            return [
+                'tanggal'    => date_format(date_create($key), 'Y-m-d'),
+                'keterangan' => $item['deskripsi'],
+            ];
+        })->filter(static function ($value, $key) {
+            return $value['tanggal'] > date('Y') . '-01-01';
+        })->slice(0, -2);
+
+        HariLibur::upsert($batch->values()->toArray(), ['tanggal'], ['keterangan']);
+
+        redirect_with('success', 'Berhasil Tambah Data');
     }
 }

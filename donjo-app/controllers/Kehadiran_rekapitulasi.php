@@ -41,13 +41,14 @@ use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Admin_kehadiran extends Admin_Controller
+class Kehadiran_rekapitulasi extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 337;
-        $this->sub_modul_ini = 341;
+        $this->modul_ini          = 337;
+        $this->sub_modul_ini      = 341;
+        $this->header['kategori'] = 'kehadiran';
     }
 
     public function index()

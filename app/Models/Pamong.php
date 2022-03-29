@@ -120,6 +120,6 @@ class Pamong extends Model
     public function scopeKehadiranPamong($query)
     {
         return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
-            ->leftJoin('absensi_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
+            ->leftJoin('kehadiran_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
     }
 }

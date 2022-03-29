@@ -35,7 +35,7 @@
  *
  */
 
-use App\Models\AbsensiPengaduan;
+use App\Models\KehadiranPengaduan;
 use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -69,7 +69,7 @@ class Kehadiran_perangkat extends Mandiri_Controller
             'id_pamong'   => $id,
         ];
 
-        if (AbsensiPengaduan::insert($data)) {
+        if (KehadiranPengaduan::insert($data)) {
             redirect('layanan-mandiri/kehadiran');
         }
 

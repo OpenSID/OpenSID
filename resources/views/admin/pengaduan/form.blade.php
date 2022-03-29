@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('absensi_pengaduan') }}">Pengaduan Perangkat Desa</a></li>
+<li class="breadcrumb-item"><a href="{{ route('kehadiran_pengaduan') }}">Pengaduan Perangkat Desa</a></li>
 <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -19,14 +19,14 @@
 
 <div class="box box-info">
 	<div class="box-header with-border">
-		<a href="{{ route('absensi_pengaduan') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Hari Libur</a>
+		<a href="{{ route('kehadiran_pengaduan') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Hari Libur</a>
 	</div>
 	{!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
 		<div class="box-body">
 			<div class="form-group">
 				<label class="col-sm-3 control-label" for="keterangan">Keterangan</label>
 				<div class="col-sm-7">
-					<textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;">{{ $absensi_pengaduan->keterangan }}</textarea>
+					<textarea name="keterangan" class="form-control input-sm" maxlength="300" placeholder="Keterangan" rows="3" style="resize:none;">{{ $kehadiran_pengaduan->keterangan }}</textarea>
 				</div>
 			</div>
 		</div>

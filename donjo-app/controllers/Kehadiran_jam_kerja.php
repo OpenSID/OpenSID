@@ -35,17 +35,18 @@
  *
  */
 
-use App\Models\AbsensiJamKerja;
+use App\Models\JamKerja;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Absensi_jam_kerja extends Admin_Controller
+class Kehadiran_jam_kerja extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 337;
-        $this->sub_modul_ini = 339;
+        $this->modul_ini          = 337;
+        $this->sub_modul_ini      = 339;
+        $this->header['kategori'] = 'kehadiran';
     }
 
     public function index()
@@ -56,11 +57,11 @@ class Absensi_jam_kerja extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AbsensiJamKerja::query())
+            return datatables()->of(JamKerja::query())
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . route('absensi_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        return '<a href="' . route('kehadiran_jam_kerja.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
                 ->editColumn('status', static function ($row) {
@@ -84,11 +85,11 @@ class Absensi_jam_kerja extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $action      = 'Ubah';
-        $form_action = route('absensi_jam_kerja.update', $id);
+        $form_action = route('kehadiran_jam_kerja.update', $id);
         // TODO: Gunakan findOrFail
-        $absensi_jam_kerja = AbsensiJamKerja::find($id) ?? show_404();
+        $kehadiran_jam_kerja = JamKerja::find($id) ?? show_404();
 
-        return view('admin.jam_kerja.form', compact('action', 'form_action', 'absensi_jam_kerja'));
+        return view('admin.jam_kerja.form', compact('action', 'form_action', 'kehadiran_jam_kerja'));
     }
 
     public function update($id = '')
@@ -96,7 +97,7 @@ class Absensi_jam_kerja extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         // TODO: Gunakan findOrFail
-        $update = AbsensiJamKerja::find($id) ?? show_404();
+        $update = JamKerja::find($id) ?? show_404();
 
         if ($update->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');

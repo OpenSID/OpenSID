@@ -77,6 +77,7 @@ if (! function_exists('view')) {
                 'komentar'  => $CI->header['notif_komentar'],
                 'langganan' => $CI->header['notif_langganan'],
             ],
+            'kategori'      => $CI->header['kategori'],
             'sub_modul_ini' => $CI->sub_modul_ini,
             'session'       => $CI->session,
             'setting'       => $CI->setting,

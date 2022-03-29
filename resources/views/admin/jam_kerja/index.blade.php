@@ -48,7 +48,7 @@
       responsive: true,
       processing: true,
       serverSide: true,
-      ajax: "{{ route('absensi_jam_kerja.datatables') }}",
+      ajax: "{{ route('kehadiran_jam_kerja.datatables') }}",
       columns: [
         { data: 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
         { data: 'aksi', class: 'aksi', searchable: false, orderable: false},

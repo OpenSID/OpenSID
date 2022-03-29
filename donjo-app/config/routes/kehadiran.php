@@ -37,11 +37,10 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-$kehadiran                           = 'kehadiran';
-$route[$kehadiran]                   = KEHADIRAN . '/absensi';
-$route[$kehadiran . '/masuk']        = KEHADIRAN . '/absensi/masuk';
-$route[$kehadiran . '/masuk-ektp']   = KEHADIRAN . '/absensi/masuk_ektp';
-$route[$kehadiran . '/cek']          = KEHADIRAN . '/absensi/cek';
-$route[$kehadiran . '/cek-ektp']     = KEHADIRAN . '/absensi/cek_ektp';
-$route[$kehadiran . '/check-in-out'] = KEHADIRAN . '/absensi/check_in_out';
-$route[$kehadiran . '/logout']       = KEHADIRAN . '/absensi/logout';
+$route[KEHADIRAN]                   = KEHADIRAN . '/perangkat';
+$route[KEHADIRAN . '/masuk']        = KEHADIRAN . '/perangkat/masuk';
+$route[KEHADIRAN . '/masuk-ektp']   = KEHADIRAN . '/perangkat/masukEktp';
+$route[KEHADIRAN . '/cek']          = KEHADIRAN . '/perangkat/cek';
+$route[KEHADIRAN . '/cek-ektp']     = KEHADIRAN . '/perangkat/cekEktp';
+$route[KEHADIRAN . '/check-in-out'] = KEHADIRAN . '/perangkat/checkInOut';
+$route[KEHADIRAN . '/logout']       = KEHADIRAN . '/perangkat/logout';

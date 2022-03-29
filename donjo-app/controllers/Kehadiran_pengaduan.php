@@ -35,17 +35,18 @@
  *
  */
 
-use App\Models\AbsensiPengaduan;
+use App\Models\KehadiranPengaduan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Absensi_pengaduan extends Admin_Controller
+class Kehadiran_pengaduan extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->modul_ini     = 337;
-        $this->sub_modul_ini = 342;
+        $this->modul_ini          = 337;
+        $this->sub_modul_ini      = 342;
+        $this->header['kategori'] = 'kehadiran';
     }
 
     public function index()
@@ -56,11 +57,11 @@ class Absensi_pengaduan extends Admin_Controller
     public function datatables()
     {
         if ($this->input->is_ajax_request()) {
-            return datatables()->of(AbsensiPengaduan::with(['pamong.penduduk', 'mandiri.penduduk']))
+            return datatables()->of(KehadiranPengaduan::with(['pamong.penduduk', 'mandiri.penduduk']))
                 ->addIndexColumn()
                 ->addColumn('aksi', static function ($row) {
                     if (can('u')) {
-                        return '<a href="' . route('absensi_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        return '<a href="' . route('kehadiran_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
                 ->rawColumns(['aksi'])
@@ -78,11 +79,11 @@ class Absensi_pengaduan extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         $action      = 'Ubah';
-        $form_action = route('absensi_pengaduan.update', $id);
+        $form_action = route('kehadiran_pengaduan.update', $id);
         // TODO: Gunakan findOrFail
-        $absensi_pengaduan = AbsensiPengaduan::find($id) ?? show_404();
+        $kehadiran_pengaduan = KehadiranPengaduan::find($id) ?? show_404();
 
-        return view('admin.pengaduan.form', compact('action', 'form_action', 'absensi_pengaduan'));
+        return view('admin.pengaduan.form', compact('action', 'form_action', 'kehadiran_pengaduan'));
     }
 
     public function update($id = '')
@@ -90,7 +91,7 @@ class Absensi_pengaduan extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         // TODO: Gunakan findOrFail
-        $update = AbsensiPengaduan::find($id) ?? show_404();
+        $update = KehadiranPengaduan::find($id) ?? show_404();
 
         if ($update->update($this->validate($this->request))) {
             redirect_with('success', 'Berhasil Ubah Data');

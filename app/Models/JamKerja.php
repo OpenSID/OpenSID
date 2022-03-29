@@ -37,16 +37,17 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class AbsensiLibur extends Model
+class JamKerja extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'absensi_hari_libur';
+    protected $table = 'kehadiran_jam_kerja';
 
     /**
      * The timestamps for the model.
@@ -61,7 +62,39 @@ class AbsensiLibur extends Model
      * @var array
      */
     protected $fillable = [
-        'tanggal',
+        'jam_mulai',
+        'jam_akhir',
+        'status',
         'keterangan',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
+    public function scopeLibur($query)
+    {
+        return $query->where('status', 0)->where('nama_hari', $this->getNamaHari());
+    }
+
+    public function scopeJamKerja($query)
+    {
+        $waktu = date('H:i');
+
+        return $query->where('nama_hari', $this->getNamaHari())
+            ->where(static function ($q) use ($waktu) {
+                $q->whereTime('jam_mulai', '>', $waktu)
+                    ->orWhereTime('jam_akhir', '<', $waktu);
+            });
+    }
+
+    protected function getNamaHari()
+    {
+        return Carbon::now()->dayName;
+    }
 }

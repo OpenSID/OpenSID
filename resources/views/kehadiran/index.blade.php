@@ -4,7 +4,7 @@
 
 <div class="row vertical-align" style="background-color: #ffffff">
     <div class="col-sm-8 hidden-xs" style="padding: 0px;">
-        @include('kehadiran.absensi.left')
+        @include('kehadiran.left')
     </div>
     <div class="col-sm-4 col-xm-4">
         <div class="row">

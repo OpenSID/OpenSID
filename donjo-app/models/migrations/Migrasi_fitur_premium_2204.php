@@ -96,9 +96,9 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
     protected function migrasi_2022032471($hasil)
     {
-        $hasil = $hasil && $this->tambahModulAbsensi($hasil);
-        $hasil = $hasil && $this->tambahModulPengaturan($hasil);
         $hasil = $hasil && $this->tambahModulKehadiran($hasil);
+        $hasil = $hasil && $this->tambahModulPengaturan($hasil);
+        $hasil = $hasil && $this->tambahModulRekapitulasi($hasil);
         $hasil = $hasil && $this->modifikasiTabelTwebDesaPamong($hasil);
         $hasil = $hasil && $this->modifikasiTabelUser($hasil);
         $hasil = $hasil && $this->tambahTabelKehadiranPerangkatDesa($hasil);
@@ -107,19 +107,19 @@ class Migrasi_fitur_premium_2204 extends MY_model
         $hasil = $hasil && $this->jamKerja($hasil);
         $hasil = $hasil && $this->tambahModulPengaduan($hasil);
 
-        return $hasil && $this->tambahTabelAbsensiPengaduan($hasil);
+        return $hasil && $this->tambahTabelKehadiranPengaduan($hasil);
     }
 
-    protected function tambahModulAbsensi($hasil)
+    protected function tambahModulKehadiran($hasil)
     {
-        // Tambah menu absensi
+        // Tambah menu kehadiran
         return $hasil && $this->tambah_modul([
             'id'         => '337',
-            'modul'      => 'Absensi',
+            'modul'      => 'Kehadiran',
             'url'        => '',
             'aktif'      => '1',
             'ikon'       => 'fa-calendar-check-o',
-            'urut'       => '170',
+            'urut'       => '41',
             'level'      => '0',
             'parent'     => '0',
             'hidden'     => '0',
@@ -129,11 +129,11 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
     protected function tambahModulPengaturan($hasil)
     {
-        // Tambah menu absensi > pengaturan
+        // Tambah menu kehadiran > pengaturan
         return $hasil && $this->tambah_modul([
             'id'         => '338',
             'modul'      => 'Pengaturan',
-            'url'        => 'gawai',
+            'url'        => 'kehadiran_gawai',
             'aktif'      => '1',
             'ikon'       => 'fa-gear',
             'urut'       => '2',
@@ -144,13 +144,13 @@ class Migrasi_fitur_premium_2204 extends MY_model
         ]);
     }
 
-    protected function tambahModulKehadiran($hasil)
+    protected function tambahModulRekapitulasi($hasil)
     {
-        // Tambah menu absensi > kehadiran
+        // Tambah menu kehadiran > rekapitulasi
         return $hasil && $this->tambah_modul([
             'id'         => '341',
-            'modul'      => 'Kehadiran',
-            'url'        => 'admin_kehadiran',
+            'modul'      => 'Rekapitulasi',
+            'url'        => 'kehadiran_rekapitulasi',
             'aktif'      => '1',
             'ikon'       => 'fa-list',
             'urut'       => '2',
@@ -263,7 +263,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
     public function hariLibur($hasil)
     {
-        if (! $this->db->table_exists('absensi_hari_libur')) {
+        if (! $this->db->table_exists('kehadiran_hari_libur')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -283,12 +283,12 @@ class Migrasi_fitur_premium_2204 extends MY_model
             ];
             $this->dbforge->add_key('id', true);
             $this->dbforge->add_field($fields);
-            $hasil = $hasil && $this->dbforge->create_table('absensi_hari_libur', true);
+            $hasil = $hasil && $this->dbforge->create_table('kehadiran_hari_libur', true);
 
             $hasil = $hasil && $this->tambah_modul([
                 'id'         => '340',
                 'modul'      => 'Hari Libur',
-                'url'        => 'absensi_libur',
+                'url'        => 'kehadiran_hari_libur',
                 'aktif'      => '1',
                 'ikon'       => 'fa-calendar',
                 'urut'       => '2',
@@ -304,7 +304,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
     public function jamKerja($hasil)
     {
-        if (! $this->db->table_exists('absensi_jam_kerja')) {
+        if (! $this->db->table_exists('kehadiran_jam_kerja')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -339,7 +339,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $this->dbforge->add_key('id', true);
             $this->dbforge->add_field($fields);
 
-            $hasil = $hasil && $this->dbforge->create_table('absensi_jam_kerja', true);
+            $hasil = $hasil && $this->dbforge->create_table('kehadiran_jam_kerja', true);
 
             // tambahkan data hari awal
             $hari = [
@@ -352,12 +352,12 @@ class Migrasi_fitur_premium_2204 extends MY_model
                 ['nama_hari' => 'Minggu', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 0],
             ];
 
-            $hasil = $hasil && $this->db->insert_batch('absensi_jam_kerja', $hari);
+            $hasil = $hasil && $this->db->insert_batch('kehadiran_jam_kerja', $hari);
 
             $hasil = $hasil && $this->tambah_modul([
                 'id'         => '339',
                 'modul'      => 'Jam Kerja',
-                'url'        => 'absensi_jam_kerja',
+                'url'        => 'kehadiran_jam_kerja',
                 'aktif'      => '1',
                 'ikon'       => 'fa-clock-o',
                 'urut'       => '2',
@@ -373,11 +373,11 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
     protected function tambahModulPengaduan($hasil)
     {
-        // Tambah menu absensi > kehadiran
+        // Tambah menu kehadiran > pengaduan
         return $hasil && $this->tambah_modul([
             'id'         => '342',
             'modul'      => 'Pengaduan',
-            'url'        => 'absensi_pengaduan',
+            'url'        => 'kehadiran_pengaduan',
             'aktif'      => '1',
             'ikon'       => 'fa-exclamation',
             'urut'       => '2',
@@ -388,9 +388,9 @@ class Migrasi_fitur_premium_2204 extends MY_model
         ]);
     }
 
-    public function tambahTabelAbsensiPengaduan($hasil)
+    public function tambahTabelKehadiranPengaduan($hasil)
     {
-        if (! $this->db->table_exists('absensi_pengaduan')) {
+        if (! $this->db->table_exists('kehadiran_pengaduan')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -426,13 +426,32 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $this->dbforge->add_key('id', true);
             $this->dbforge->add_field($fields);
 
-            $hasil = $hasil && $this->dbforge->create_table('absensi_pengaduan', true);
+            $hasil = $hasil && $this->dbforge->create_table('kehadiran_pengaduan', true);
         }
 
         return $hasil;
     }
 
     protected function migrasi_2022032871($hasil)
+    {
+        $hasil = $hasil && $this->settingKehadiran($hasil);
+
+        return $hasil && $this->settingPamongKehadiran($hasil);
+    }
+
+    protected function settingKehadiran($hasil)
+    {
+        // Pengaturan Kehadiran
+        return $hasil && $this->tambah_setting([
+            'key'        => 'tampilkan_kehadiran',
+            'value'      => 1,
+            'keterangan' => 'Aktif / Non-aktifkan Halaman Websiten Kehadiran',
+            'jenis'      => 'boolean',
+            'kategori'   => 'kehadiran',
+        ]);
+    }
+
+    protected function settingPamongKehadiran($hasil)
     {
         if (! $this->db->field_exists('kehadiran', 'tweb_desa_pamong')) {
             $fields = [
