@@ -58,7 +58,7 @@ class Info_sistem extends Admin_Controller
         $data['disable_functions'] = $this->setting_model->disableFunctions();
         // $data['free_space']        = $this->convertDisk(disk_free_space('/'));
         // $data['total_space']       = $this->convertDisk(disk_total_space('/'));
-        $data['disk']              = false;
+        $data['disk'] = false;
 
         $this->render('setting/info_sistem/index', $data);
     }
