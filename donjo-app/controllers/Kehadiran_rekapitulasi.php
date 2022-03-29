@@ -86,9 +86,11 @@ class Kehadiran_rekapitulasi extends Admin_Controller
 
     public function export()
     {
-        $tanggal = $this->input->get('daterange');
-        $status  = $this->input->get('status');
-        $pamong  = $this->input->get('pamong');
+        $filters = [
+            'tanggal' => $this->input->get('daterange'),
+            'status'  => $this->input->get('status'),
+            'pamong'  => $this->input->get('pamong'),
+        ];
 
         $judul = [
             'Nama',
@@ -103,15 +105,15 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         $writer->openToBrowser(namafile('kehadiran') . '.xlsx');
         $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
 
-        $data_kehadiran = Kehadiran::with(['pamong'])->filter($tanggal, $status, $pamong)->get();
+        $data_kehadiran = Kehadiran::with(['pamong'])->filter($filters)->get();
 
         foreach ($data_kehadiran as $row) {
             $data = [
                 $row->pamong->pamong_nama != null ? $row->pamong->pamong_nama : $row->pamong->penduduk->nama,
                 $row->pamong->jabatan,
-                $row->tanggal,
-                $row->jam_masuk,
-                $row->jam_pulang,
+                tgl_indo($row->tanggal),
+                date('H:i', strtotime($row->jam_masuk)),
+                $row->jam_pulang == null ? '' : date('H:i', strtotime($row->jam_pulang)),
                 $row->status_kehadiran,
             ];
             $writer->addRow(WriterEntityFactory::createRowFromArray($data));
