@@ -250,20 +250,18 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $hasil = $hasil && $this->dbforge->create_table('kehadiran_hari_libur', true);
         }
 
-        $hasil = $hasil && $this->tambah_modul([
-                'id'         => '340',
-                'modul'      => 'Hari Libur',
-                'url'        => 'kehadiran_hari_libur',
-                'aktif'      => '1',
-                'ikon'       => 'fa-calendar',
-                'urut'       => '2',
-                'level'      => '0',
-                'parent'     => '337',
-                'hidden'     => '0',
-                'ikon_kecil' => 'fa-credit-card',
-            ]);
-
-        return $hasil;
+        return $hasil && $this->tambah_modul([
+            'id'         => '340',
+            'modul'      => 'Hari Libur',
+            'url'        => 'kehadiran_hari_libur',
+            'aktif'      => '1',
+            'ikon'       => 'fa-calendar',
+            'urut'       => '2',
+            'level'      => '0',
+            'parent'     => '337',
+            'hidden'     => '0',
+            'ikon_kecil' => 'fa-credit-card',
+        ]);
     }
 
     public function jamKerja($hasil)
@@ -319,7 +317,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $hasil = $hasil && $this->db->insert_batch('kehadiran_jam_kerja', $hari);
         }
 
-        $hasil = $hasil && $this->tambah_modul([
+        return $hasil && $this->tambah_modul([
             'id'         => '339',
             'modul'      => 'Jam Kerja',
             'url'        => 'kehadiran_jam_kerja',
@@ -331,8 +329,6 @@ class Migrasi_fitur_premium_2204 extends MY_model
             'hidden'     => '0',
             'ikon_kecil' => 'fa-credit-card',
         ]);
-
-        return $hasil;
     }
 
     protected function tambahModulPengaduan($hasil)
