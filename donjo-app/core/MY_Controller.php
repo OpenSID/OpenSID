@@ -304,7 +304,7 @@ class Premium extends MY_Controller
         $tokenParts   = explode('.', $token);
         $tokenPayload = base64_decode($tokenParts[1], true);
         $jwtPayload   = json_decode($tokenPayload);
-        $date         = new DateTime('20' . str_replace('.', '-', $this->setting->current_version) . '-01');
+        $date         = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
         $version      = $date->format('Y-m-d');
 
         if (version_compare($jwtPayload->desa_id, kode_wilayah($this->header['desa']['kode_desa']), '!=')) {
