@@ -76,9 +76,4 @@ class Anjungan extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
-
-    public function scopeTipe($query, $value = 'anjungan')
-    {
-        return $query->where('tipe', $value);
-    }
 }
