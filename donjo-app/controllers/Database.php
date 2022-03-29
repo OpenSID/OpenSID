@@ -91,6 +91,9 @@ class Database extends Admin_Controller
 
     public function kosongkan_db()
     {
+        if (config_item('demo_mode')) {
+            redirect($this->controller);
+        }
         $this->redirect_hak_akses('h');
         $this->database_model->kosongkan_db();
         redirect('database/kosongkan');
@@ -113,6 +116,10 @@ class Database extends Admin_Controller
     public function restore()
     {
         $this->redirect_hak_akses('h');
+
+        if (config_item('demo_mode')) {
+            redirect($this->controller);
+        }
 
         try {
             $this->session->success        = 1;

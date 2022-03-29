@@ -10,12 +10,6 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<div class="row">
-			<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-body">
-								<div class="row">
-									<div class="col-xs-12">
 											<div class="nav-tabs-custom">
 												<ul class="nav nav-tabs">
 													<li <?= jecho($act_tab, 1, 'class="active"') ?>><a href="<?= site_url('database'); ?>">Backup <?= jecho(config_item('demo_mode'), false, ' /Restore'); ?></a></li>

@@ -193,10 +193,8 @@ class Database_model extends MY_Model
          * Update current_version di db.
          * 'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
          */
-        $versi      = AmbilVersi();
-        $versi      = preg_replace('/-premium.*|pasca-|-pasca/', '', $versi);
         $newVersion = [
-            'value' => $versi,
+            'value' => currentVersion(),
         ];
         $this->db->where(['key' => 'current_version'])->update('setting_aplikasi', $newVersion);
         $this->catat_versi_database();
