@@ -201,10 +201,8 @@ class Database_model extends CI_Model {
 			Update current_version di db.
 			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
 		*/
-		$versi = AmbilVersi();
-		$versi = preg_replace('/-premium.*|pasca-|-pasca/', '', $versi);
 		$newVersion = array(
-			'value' => $versi
+			'value' => currentVersion()
 		);
 		$this->db->where(array('key' => 'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
