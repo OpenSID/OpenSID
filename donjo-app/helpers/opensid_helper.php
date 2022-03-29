@@ -181,6 +181,18 @@ function AmbilVersi()
 }
 
 /**
+ * Ambil Current Version
+ *
+ * Mengembalikan nomor current_version
+ *
+ * @return string
+ */
+function currentVersion()
+{
+    return preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi());
+}
+
+/**
  * Mengembalikan nomor versi database
  *
  * @return string

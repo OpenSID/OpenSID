@@ -47,3 +47,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. Tambahkan docblock property pada MY_Controller.php dan MY_Model.php.
 3. Hapus $this->json_output() dan ganti dengan helper json() mengurangi duplikasi.
 4. Gunakan view blade untuk halaman periksa database.
+5. Gunakan helper currentVersion() untuk pengecekan.
