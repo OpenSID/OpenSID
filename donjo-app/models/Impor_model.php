@@ -39,7 +39,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
-class Import_model extends CI_Model
+class Impor_model extends CI_Model
 {
     public $error_tulis_penduduk; // error pada pemanggilan terakhir tulis_tweb_penduduk()
 
@@ -107,7 +107,7 @@ class Import_model extends CI_Model
 
     /**
      * ========================================================
-     * IMPORT EXCEL
+     * IMPOR EXCEL
      * ========================================================
      */
     private function file_import_valid()
@@ -631,130 +631,138 @@ class Import_model extends CI_Model
         return ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap);
     }
 
-    public function import_excel($hapus = false)
+    public function impor_excel($hapus = false)
     {
-        if ($this->file_import_valid() == false) {
-            return;
-        }
-
-        // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
-        // atau tidak sebelum melakukan impor
-        if ($hapus && $this->boleh_hapus_penduduk()) {
-            $this->hapus_data_penduduk();
-        }
-
-        $reader = ReaderEntityFactory::createXLSXReader();
-        $reader->setShouldPreserveEmptyRows(true);
-        $reader->open($_FILES['userfile']['tmp_name']);
-
-        foreach ($reader->getSheetIterator() as $sheet) {
-            $gagal         = 0;
-            $ganda         = 0;
-            $pesan         = '';
-            $baris_data    = 0;
-            $baris_pertama = false;
-            $data_penduduk = [];
-            $header        = [];
-
-            if ($sheet->getName() == 'Kode Data') {
-                continue;
+        try {
+            if ($this->file_import_valid() == false) {
+                return;
             }
 
-            foreach ($sheet->getRowIterator() as $row) {
-                $rowData = [];
-                $cells   = $row->getCells();
+            $reader = ReaderEntityFactory::createXLSXReader();
+            $reader->setShouldPreserveEmptyRows(true);
+            $reader->open($_FILES['userfile']['tmp_name']);
 
-                foreach ($cells as $cell) {
-                    $rowData[] = $cell->getValue();
-                }
+            // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+            // atau tidak sebelum melakukan impor
+            if ($hapus && $this->boleh_hapus_penduduk()) {
+                $this->hapus_data_penduduk();
+            }
 
-                // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
-                if ($rowData[1] == '###') {
-                    break;
-                }
+            foreach ($reader->getSheetIterator() as $sheet) {
+                $gagal         = 0;
+                $ganda         = 0;
+                $pesan         = '';
+                $baris_data    = 0;
+                $baris_pertama = false;
+                $data_penduduk = [];
+                $header        = [];
 
-                // Baris pertama diabaikan, berisi nama kolom
-                if (! $baris_pertama) {
-                    $baris_pertama = true;
-                    $header        = $rowData;
-
+                if ($sheet->getName() == 'Kode Data') {
                     continue;
                 }
 
-                $baris_data++;
+                foreach ($sheet->getRowIterator() as $row) {
+                    $baris_data++;
 
-                $this->db->query('SET character_set_connection = utf8');
-                $this->db->query('SET character_set_client = utf8');
-                $isi_baris      = $this->get_isi_baris($header, $rowData);
-                $error_validasi = $this->data_import_valid($isi_baris);
-                if (empty($error_validasi)) {
-                    $this->tulis_tweb_wil_clusterdesa($isi_baris);
-                    $this->tulis_tweb_keluarga($isi_baris);
+                    $rowData = [];
+                    $cells   = $row->getCells();
 
-                    // Untuk pesan jika data yang sama akan diganti
-                    if ($index = array_search($isi_baris['nik'], $data_penduduk)) {
-                        $ganda++;
-                        $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
+                    foreach ($cells as $cell) {
+                        $rowData[] = $cell->getValue();
                     }
-                    $data_penduduk[] = $isi_baris['nik'];
 
-                    $this->tulis_tweb_penduduk($isi_baris);
-                    if ($error = $this->error_tulis_penduduk) {
+                    // Baris kedua = '###' menunjukkan telah sampai pada baris data terakhir
+                    if ($rowData[1] == '###') {
+                        break;
+                    }
+
+                    // Baris pertama diabaikan, berisi nama kolom
+                    if (! $baris_pertama) {
+                        $baris_pertama = true;
+                        $header        = $rowData;
+
+                        continue;
+                    }
+
+                    $this->db->query('SET character_set_connection = utf8');
+                    $this->db->query('SET character_set_client = utf8');
+                    $isi_baris      = $this->get_isi_baris($header, $rowData);
+                    $error_validasi = $this->data_import_valid($isi_baris);
+                    if (empty($error_validasi)) {
+                        $this->tulis_tweb_wil_clusterdesa($isi_baris);
+                        $this->tulis_tweb_keluarga($isi_baris);
+
+                        // Untuk pesan jika data yang sama akan diganti
+                        if ($index = array_search($isi_baris['nik'], $data_penduduk)) {
+                            $ganda++;
+                            $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
+                        }
+                        $data_penduduk[] = $isi_baris['nik'];
+
+                        $this->tulis_tweb_penduduk($isi_baris);
+                        if ($error = $this->error_tulis_penduduk) {
+                            $gagal++;
+                            $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
+                        }
+                    } else {
                         $gagal++;
-                        $pesan .= $baris_data . ') ' . $error['message'] . '<br>';
+                        $pesan .= $baris_data . ') ' . $error_validasi . '<br>';
                     }
-                } else {
-                    $gagal++;
-                    $pesan .= $baris_data . ') ' . $error_validasi . '<br>';
                 }
+
+                if (($baris_data - 1) <= 0 || $gagal > 0) {
+                    return set_session('error', 'Data penduduk gagal diimpor');
+                }
+
+                $pesan_impor = [
+                    'gagal'  => $gagal,
+                    'ganda'  => $ganda,
+                    'pesan'  => $pesan,
+                    'sukses' => ($baris_data - 1) - $gagal,
+                ];
+
+                set_session('pesan_impor', $pesan_impor);
             }
+            $reader->close();
 
-            if ($baris_data <= 0) {
-                return set_session('error', 'Data penduduk gagal diimpor');
-            }
+            return set_session('success', 'Data penduduk berhasil diimpor');
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
 
-            if ($gagal > 0) {
-                session_error();
-            }
-
-            $pesan_impor = [
-                'gagal'  => $gagal,
-                'ganda'  => $ganda,
-                'pesan'  => $pesan,
-                'sukses' => ($baris_data - $gagal),
-            ];
-
-            set_session('pesan_impor', $pesan_impor);
+            return set_session('error', 'Data penduduk gagal diimpor.');
         }
-        $reader->close();
-
-        return set_session('success', 'Data penduduk berhasil diimpor');
     }
 
     /* 	====================
-            Selesai IMPORT EXCEL
+            Selesai IMPOR EXCEL
             ====================
     */
 
-    public function import_bip($hapus = false)
+    public function impor_bip($hapus = false)
     {
-        if ($this->file_import_valid() == false) {
-            return;
+        try {
+            if ($this->file_import_valid() == false) {
+                return;
+            }
+
+            $data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
+
+            $this->db->query('SET character_set_connection = utf8');
+            $this->db->query('SET character_set_client = utf8');
+
+            // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
+            // atau tidak sebelum melakukan impor
+            if ($hapus) {
+                $this->hapus_data_penduduk();
+            }
+
+            require_once APPPATH . '/models/Bip_model.php';
+            $bip = new BIP_Model($data);
+            $bip->impor_bip();
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+
+            return set_session('error', 'Data penduduk gagal diimpor.');
         }
-
-        $data = new Spreadsheet_Excel_Reader($_FILES['userfile']['tmp_name']);
-
-        $this->db->query('SET character_set_connection = utf8');
-        $this->db->query('SET character_set_client = utf8');
-
-        // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
-        // atau tidak sebelum melakukan impor
-        if ($hapus) {
-            $this->hapus_data_penduduk();
-        }
-
-        require_once APPPATH . '/models/Bip_model.php';
-        $bip = new BIP_Model($data);
-        $bip->impor_bip();
     }
 }

@@ -20,7 +20,7 @@
     </div>
     <div class="box-body">
         {!! form_open($form_action, 'class="form-horizontal" id="impor" enctype="multipart/form-data"') !!}
-            <p><b>Penting: Import BIP hanya bisa dilakukan ketika data penduduk belum ada</b></p>
+            <p><b>Penting: Impor BIP hanya bisa dilakukan ketika data penduduk belum ada</b></p>
             <p>Proses ini untuk mengimpor data Buku Induk Penduduk (BIP) yang diperoleh dari Disdukcapil dalam format Excel.</p>
             <p>BIP yang dapat dibaca proses ini adalah yang tersusun berdasarkan keluarga, seperti contoh yang dapat dilihat pada tautan berikut :</P>
             <a class="btn btn-social btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="{{ asset('import/format_bip_2012.xls') }}" ><i class="fa fa-download"></i>Contoh BIP 2012</a>
@@ -47,21 +47,21 @@
                     <tr>
                         <td style="padding-top:20px;padding-bottom:10px;">
                             <div class="form-group">
-                                <label for="file" class="col-md-3 control-label">Pilih File .xls:</label>
-                                <div class="col-md-5">
+                                <label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .xls:</label>
+                                <div class="col-sm-12 col-md-5 col-lg-5">
                                     <div class="input-group input-group-sm">
                                         <input type="text" class="form-control" id="file_path" name="userfile">
                                         <input type="file" class="hidden" id="file" name="userfile">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+                                            <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                         </span>
                                     </div>
                                     @if ($boleh_hapus_penduduk)
                                         <p class="help-block"><input type="checkbox" name="hapus_data" value="hapus"></input>	Hapus data penduduk sebelum Impor</p>
                                     @endif
                                 </div>
-                                <div class="col-md-2">
-                                    <a href="#" class="btn btn-block btn-success btn-sm"  title="Impor Database" onclick="document.getElementById('impor').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor</a>
+                                <div class="col-sm-12 col-md-5 col-lg-4">
+                                    <a href="#" class="btn btn-block btn-success btn-sm" title="Impor Database" onclick="document.getElementById('impor').submit();" data-toggle="modal" data-target="#loading"> <i class="fa fa-spin fa-refresh"></i> Impor Data Penduduk</a>
                                 </div>
                             </div>
                         </td>
