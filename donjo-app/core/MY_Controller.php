@@ -298,7 +298,7 @@ class Premium extends MY_Controller
 
         $this->kirimVersi();
 
-        $this->session->unset_userdata('error_premium');
+        $this->session->unset_userdata(['error_premium', 'error_premium_pesan']);
     }
 
     /**
@@ -330,7 +330,8 @@ class Premium extends MY_Controller
             return false;
         }
 
-        $berakhir = $jwtPayload->tanggal_berlangganan->akhir;
+        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
+        $disarankan = 'v' . str_replace('-', '.', substr($berakhir, 2, 5)) . '-premium';
 
         if ($version > $berakhir) {
             // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
@@ -338,6 +339,7 @@ class Premium extends MY_Controller
             $this->versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
             $this->versi_setara = str_replace('-', '.', substr($this->versi_setara, 2, 5));
             $this->session->set_userdata('error_premium', 'Masa aktif berlangganan fitur premium sudah berakhir.');
+            $this->session->set_userdata('error_premium_pesan', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$this->versi_setara} umum.");
 
             return false;
         }
