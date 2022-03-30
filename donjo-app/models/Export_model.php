@@ -397,7 +397,37 @@ class Export_model extends CI_Model
             }
         }
 
+        $this->perbaiki_collation();
+
         return true;
+    }
+
+    protected function perbaiki_collation()
+    {
+        $list = $this->db
+            ->select(
+                "
+                concat(
+                    'ALTER TABLE ',
+                    TABLE_NAME,
+                    ' CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;'
+                ) as execute
+                "
+            )
+            ->from('INFORMATION_SCHEMA.TABLES')
+            ->where([
+                'TABLE_SCHEMA' => $this->db->database,
+                'TABLE_TYPE'   => 'BASE TABLE',
+                'TABLE_COLLATION != utf8_general_ci',
+            ])
+            ->get()
+            ->result();
+
+        if ($list) {
+            foreach ($list as $script) {
+                $this->db->query("{$script->execute}");
+            }
+        }
     }
 
     private function _build_schema($nama_tabel, $nama_tanda)

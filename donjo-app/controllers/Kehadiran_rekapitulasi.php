@@ -67,17 +67,28 @@ class Kehadiran_rekapitulasi extends Admin_Controller
                 'pamong'  => $this->input->get('pamong'),
             ];
 
-            return datatables()->of(Kehadiran::with(['pamong.penduduk'])->filter($filters))
+            return datatables()->of(Kehadiran::with(['pamong.penduduk'])
+                ->select('*', Kehadiran::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
+                ->filter($filters))
                 ->addIndexColumn()
                 ->editColumn('tanggal', static function ($row) {
-                    return tgl_indo($row['tanggal']);
+                    return tgl_indo($row->tanggal);
                 })
                 ->editColumn('jam_masuk', static function ($row) {
-                    return date('H:i', strtotime($row['jam_masuk']));
+                    return date('H:i', strtotime($row->jam_masuk));
                 })
-                ->editColumn('jam_pulang', static function ($row) {
-                    return $row['jam_pulang'] == null ? '' : date('H:i', strtotime($row['jam_pulang']));
+                ->editColumn('jam_keluar', static function ($row) {
+                    return $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar));
                 })
+                ->editColumn('total', static function ($row) {
+                    return date('H:i', strtotime($row->total));
+                })
+                ->editColumn('status_kehadiran', static function ($row) {
+                    $tipe = ($row->status_kehadiran === 'hadir') ? 'success' : (($row->status_kehadiran == 'keluar') ? 'danger' : 'warning');
+
+                    return '<span class="label label-' . $tipe . '">' . ucwords($row->status_kehadiran) . ' </span>';
+                })
+                ->rawColumns(['status_kehadiran'])
                 ->make();
         }
 
@@ -97,7 +108,8 @@ class Kehadiran_rekapitulasi extends Admin_Controller
             'Jabatan',
             'Tanggal',
             'Jam Masuk',
-            'Jam Pulang',
+            'Jam Keluar',
+            'Total Waktu',
             'Status Kehadiran',
         ];
 
@@ -105,7 +117,10 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         $writer->openToBrowser(namafile('kehadiran') . '.xlsx');
         $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
 
-        $data_kehadiran = Kehadiran::with(['pamong'])->filter($filters)->get();
+        $data_kehadiran = Kehadiran::with(['pamong'])
+            ->select('*', Kehadiran::raw('TIMEDIFF( jam_keluar, jam_masuk ) as total'))
+            ->filter($filters)
+            ->get();
 
         foreach ($data_kehadiran as $row) {
             $data = [
@@ -113,8 +128,9 @@ class Kehadiran_rekapitulasi extends Admin_Controller
                 $row->pamong->jabatan,
                 tgl_indo($row->tanggal),
                 date('H:i', strtotime($row->jam_masuk)),
-                $row->jam_pulang == null ? '' : date('H:i', strtotime($row->jam_pulang)),
-                $row->status_kehadiran,
+                $row->jam_keluar == null ? '-' : date('H:i', strtotime($row->jam_keluar)),
+                date('H:i', strtotime($row->total)),
+                ucwords($row->status_kehadiran),
             ];
             $writer->addRow(WriterEntityFactory::createRowFromArray($data));
         }

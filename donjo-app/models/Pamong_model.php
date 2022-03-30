@@ -383,7 +383,7 @@ class Pamong_model extends CI_Model
     // Ambil data untuk widget aparatur desa
     public function list_aparatur_desa()
     {
-        $data_query = $this->db->select('dp.jabatan, dp.pamong_niap, k.tanggal,
+        $data_query = $this->db->select('dp.jabatan, dp.pamong_niap, k.status_kehadiran,
 			CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
 			CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
 			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama

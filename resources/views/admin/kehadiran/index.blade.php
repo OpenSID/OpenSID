@@ -42,6 +42,7 @@
             <select id="status" name="status" class="form-control input-sm select2">
               <option value="">Semua Status</option>
               <option value="hadir">Hadir</option>
+              <option value="keluar">Keluar</option>
               <option value="lupa melapor keluar">Lupa Melapor Keluar</option>
             </select>
         </div>
@@ -68,8 +69,9 @@
             <th>JABATAN</th>
             <th>TANGGAL</th>
             <th>JAM MASUK</th>
-            <th>JAM PULANG</th>
-            <th>STATUS</th>
+            <th>JAM KELUAR</th>
+            <th>TOTAL WAKTU</th>
+            <th class="padat">STATUS</th>
           </tr>
         </thead>
       </table>
@@ -154,10 +156,11 @@
         { data: 'pamong.jabatan', name: 'pamong.jabatan', searchable: true, orderable: true },
         { data: 'tanggal', name: 'tanggal', searchable: true, orderable: true },
         { data: 'jam_masuk', name: 'jam_masuk', searchable: true, orderable: true },
-        { data: 'jam_pulang', name: 'jam_pulang', searchable: true, orderable: true },
+        { data: 'jam_keluar', name: 'jam_keluar', searchable: true, orderable: true },
+        { data: 'total', name: 'total', searchable: true, orderable: true },
         { data: 'status_kehadiran', name: 'status_kehadiran', searchable: true, orderable: true },
       ],
-      order: [[ 4, 'desc' ]]
+      order: [[ 3, 'desc' ]]
     });
 
     $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {

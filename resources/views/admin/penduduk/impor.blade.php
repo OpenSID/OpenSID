@@ -45,8 +45,8 @@
                             <li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
                             <li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan di bawah ini :
                                 <div class="timeline-footer row">
-                                    <a href="{{ asset('import/FormatImportExcel.xlsm') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan contoh format</a>
-                                    <a href="{{ asset('import/contoh_penduduk.xlsx') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Contoh penduduk ekspor</a>
+                                    <a href="{{ asset('import/FormatImporExcel.xlsm') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Aturan dan Contoh Format Data</a>
+                                    <a href="{{ asset('import/contoh_penduduk.xlsx') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block margin" wrap><i class="fa fa-download"></i> Contoh Data Penduduk Ekspor</a>
                                 </div>
                             </li>
                         </ol>
@@ -55,13 +55,12 @@
                 <p>File pada tautan itu dapat dipergunakan untuk memasukkan data penduduk. Klik 'Enable Macros' pada waktu membuka file itu.</p>
                 <p>
                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
-                    <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan
-                        spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
+                    <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
                 </p>
                 <table class="table table-bordered" >
                     <tbody>
                         <tr>
-                            <td>
+                            <td style="padding-top:20px;padding-bottom:10px;">
                                 <div class="form-group">
                                     <label for="file"  class="col-md-2 col-lg-3 control-label">Pilih File .xlsx:</label>
                                     <div class="col-sm-12 col-md-5 col-lg-5">
@@ -69,7 +68,7 @@
                                             <input type="text" class="form-control" id="file_path" name="userfile">
                                             <input type="file" class="hidden" id="file" name="userfile">
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-info btn-flat" id="file_browser"><i class="fa fa-search"></i> Browse</button>
+                                                <button type="button" class="btn btn-info" id="file_browser"><i class="fa fa-search"></i> Browse</button>
                                             </span>
                                         </div>
                                         @if ($boleh_hapus_penduduk)

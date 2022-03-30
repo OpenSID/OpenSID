@@ -49,8 +49,9 @@ class Migrasi_fitur_premium_2204 extends MY_model
         $hasil = $hasil && $this->migrasi_2022032171($hasil);
         $hasil = $hasil && $this->migrasi_2022032371($hasil);
         $hasil = $hasil && $this->migrasi_2022032471($hasil);
+        $hasil = $hasil && $this->migrasi_2022032871($hasil);
 
-        return $hasil && $this->migrasi_2022032871($hasil);
+        return $hasil && $this->migrasi_2022032951($hasil);
     }
 
     protected function migrasi_2022031171($hasil)
@@ -189,7 +190,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
                     'type' => 'TIME',
                     'null' => true,
                 ],
-                'jam_pulang' => [
+                'jam_keluar' => [
                     'type' => 'TIME',
                     'null' => true,
                 ],
@@ -279,11 +280,11 @@ class Migrasi_fitur_premium_2204 extends MY_model
                     'constraint' => 65,
                     'null'       => false,
                 ],
-                'jam_mulai' => [
+                'jam_masuk' => [
                     'type' => 'TIME',
                     'null' => false,
                 ],
-                'jam_akhir' => [
+                'jam_keluar' => [
                     'type' => 'TIME',
                     'null' => false,
                 ],
@@ -305,13 +306,13 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
             // tambahkan data hari awal
             $hari = [
-                ['nama_hari' => 'Senin', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Selasa', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Rabu', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Kamis', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Jumat', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Sabtu', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 0],
-                ['nama_hari' => 'Minggu', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 0],
+                ['nama_hari' => 'Senin', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Selasa', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Rabu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Kamis', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Jumat', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Sabtu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
+                ['nama_hari' => 'Minggu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
             ];
 
             $hasil = $hasil && $this->db->insert_batch('kehadiran_jam_kerja', $hari);
@@ -442,5 +443,18 @@ class Migrasi_fitur_premium_2204 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022032951($hasil)
+    {
+        $this->db
+            ->where([
+                'id'   => 6,
+                'nama' => 'Di Bawah 1 Tahun',
+            ])
+            ->set('nama', '0 S/D 1 TAHUN')
+            ->update('tweb_penduduk_umur');
+
+        return $hasil && true;
     }
 }

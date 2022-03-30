@@ -62,8 +62,8 @@ class JamKerja extends Model
      * @var array
      */
     protected $fillable = [
-        'jam_mulai',
-        'jam_akhir',
+        'jam_masuk',
+        'jam_keluar',
         'status',
         'keterangan',
     ];
@@ -88,8 +88,8 @@ class JamKerja extends Model
 
         return $query->where('nama_hari', $this->getNamaHari())
             ->where(static function ($q) use ($waktu) {
-                $q->whereTime('jam_mulai', '>', $waktu)
-                    ->orWhereTime('jam_akhir', '<', $waktu);
+                $q->whereTime('jam_masuk', '>', $waktu)
+                    ->orWhereTime('jam_keluar', '<', $waktu);
             });
     }
 

@@ -25,8 +25,8 @@
             <th class="padat">NO</th>
             <th class="padat">AKSI</th>
             <th>HARI</th>
-            <th>JAM MULAI</th>
-            <th>JAM SELESAI</th>
+            <th>JAM MASUK</th>
+            <th>JAM KELUAR</th>
             <th>KETERANGAN</th>
             <th class="padat">STATUS</th>
           </tr>
@@ -53,8 +53,8 @@
         { data: 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
         { data: 'aksi', class: 'aksi', searchable: false, orderable: false},
         { data: 'nama_hari', name: 'nama_hari', searchable: true, orderable: true },
-        { data: 'jam_mulai', name: 'jam_mulai', searchable: true, orderable: true },
-        { data: 'jam_akhir', name: 'jam_akhir', searchable: true, orderable: true },
+        { data: 'jam_masuk', name: 'jam_masuk', searchable: true, orderable: true },
+        { data: 'jam_keluar', name: 'jam_keluar', searchable: true, orderable: true },
         { data: 'keterangan', name: 'keterangan', searchable: true, orderable: true },
         { data: 'status', name: 'status', searchable: true, orderable: true },
       ],
