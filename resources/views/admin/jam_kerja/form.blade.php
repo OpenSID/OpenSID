@@ -24,15 +24,15 @@
 	{!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
 		<div class="box-body">
 			<div class="form-group">
-				<label class="col-sm-3 control-label" for="jam_mulai">Jam Mulai</label>
+				<label class="col-sm-3 control-label" for="jam_mulai">Jam Masuk</label>
 				<div class="col-sm-7">
-					<input class="form-control input-sm required" placeholder="Jam Mulai" type="text" id="jammenit_1" name="jam_mulai" value="{{ date('H:i', strtotime($kehadiran_jam_kerja->jam_mulai)) }}">
+					<input class="form-control input-sm required" placeholder="Jam Masuk" type="text" id="jammenit_1" name="jam_masuk" value="{{ date('H:i', strtotime($kehadiran_jam_kerja->jam_masuk)) }}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="col-sm-3 control-label" for="jam_akhir">Jam Akhir</label>
+				<label class="col-sm-3 control-label" for="jam_akhir">Jam Keluar</label>
 				<div class="col-sm-7">
-					<input class="form-control input-sm required" placeholder="Jam Selesai" type="text" id="jammenit_2" name="jam_akhir" value="{{ date('H:i', strtotime($kehadiran_jam_kerja->jam_akhir)) }}">
+					<input class="form-control input-sm required" placeholder="Jam Keluar" type="text" id="jammenit_2" name="jam_keluar" value="{{ date('H:i', strtotime($kehadiran_jam_kerja->jam_keluar)) }}">
 				</div>
 			</div>
 			<div class="form-group">

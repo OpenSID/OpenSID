@@ -67,11 +67,11 @@ class Kehadiran_jam_kerja extends Admin_Controller
                 ->editColumn('status', static function ($row) {
                     return ($row->status == 1) ? '<span class="label label-success">Hari Kerja</span>' : '<span class="label label-danger">Hari Libur</span>';
                 })
-                ->editColumn('jam_mulai', static function ($row) {
-                    return date('H:i', strtotime($row['jam_mulai']));
+                ->editColumn('jam_masuk', static function ($row) {
+                    return date('H:i', strtotime($row->jam_masuk));
                 })
-                ->editColumn('jam_akhir', static function ($row) {
-                    return date('H:i', strtotime($row['jam_akhir']));
+                ->editColumn('jam_keluar', static function ($row) {
+                    return date('H:i', strtotime($row->jam_keluar));
                 })
                 ->rawColumns(['aksi', 'status'])
                 ->make();
@@ -109,8 +109,8 @@ class Kehadiran_jam_kerja extends Admin_Controller
     private function validate($request = [])
     {
         return [
-            'jam_mulai'  => (string) date('H:i:s', strtotime($request['jam_mulai'])),
-            'jam_akhir'  => (string) date('H:i:s', strtotime($request['jam_akhir'])),
+            'jam_masuk'  => (string) date('H:i:s', strtotime($request['jam_masuk'])),
+            'jam_keluar' => (string) date('H:i:s', strtotime($request['jam_keluar'])),
             'status'     => (int) ($request['status']),
             'keterangan' => strip_tags($request['keterangan']),
         ];

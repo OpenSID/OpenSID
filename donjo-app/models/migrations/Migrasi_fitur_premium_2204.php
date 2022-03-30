@@ -190,7 +190,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
                     'type' => 'TIME',
                     'null' => true,
                 ],
-                'jam_pulang' => [
+                'jam_keluar' => [
                     'type' => 'TIME',
                     'null' => true,
                 ],
@@ -280,11 +280,11 @@ class Migrasi_fitur_premium_2204 extends MY_model
                     'constraint' => 65,
                     'null'       => false,
                 ],
-                'jam_mulai' => [
+                'jam_masuk' => [
                     'type' => 'TIME',
                     'null' => false,
                 ],
-                'jam_akhir' => [
+                'jam_keluar' => [
                     'type' => 'TIME',
                     'null' => false,
                 ],
@@ -306,13 +306,13 @@ class Migrasi_fitur_premium_2204 extends MY_model
 
             // tambahkan data hari awal
             $hari = [
-                ['nama_hari' => 'Senin', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Selasa', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Rabu', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Kamis', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Jumat', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Sabtu', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 0],
-                ['nama_hari' => 'Minggu', 'jam_mulai' => '08:00:00', 'jam_akhir' => '16:00:00', 'status' => 0],
+                ['nama_hari' => 'Senin', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Selasa', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Rabu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Kamis', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Jumat', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                ['nama_hari' => 'Sabtu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
+                ['nama_hari' => 'Minggu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
             ];
 
             $hasil = $hasil && $this->db->insert_batch('kehadiran_jam_kerja', $hari);

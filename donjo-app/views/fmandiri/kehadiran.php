@@ -67,9 +67,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<td class="padat"></td>
 							<td><?= $item->pamong_nama != null ? $item->pamong_nama : $item->penduduk->nama ?></td>
 							<td><?= $item->jabatan; ?></td>
-							<td class="padat"><?= $item->tanggal == date('Y-m-d') ? 'Hadir' : '-'; ?></td>
+							<td class="padat"><?= $item->status_kehadiran == 'hadir' ? 'Hadir' : '-'; ?></td>
 							<td class="padat">
-								<?php if ($item->tanggal == date('Y-m-d')): ?>
+								<?php if ($item->status_kehadiran == 'hadir' && setting('tampilkan_kehadiran') == '1'): ?>
 									<?php if ($item->id_penduduk == $this->session->is_login->id_pend && date('Y-m-d', strtotime($item->waktu)) == date('Y-m-d')): ?>
 										<a class="btn btn-primary btn-sm btn-proses btn-social"><i class="fa fa-exclamation"></i> Telah dilaporkan</a>
 									<?php else: ?>
@@ -84,6 +84,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</div>
 </div>
+<?php if (setting('tampilkan_kehadiran') == '1') : ?>
 <div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
 	<div class='modal-dialog'>
 		<div class='modal-content'>
@@ -103,8 +104,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</div>
 	</div>
 </div>
+<?php endif ?>
 <script>
 	$(document).ready(function() {
+		var kehadiran = '<?= setting('tampilkan_kehadiran') ?>';
 		var tabelData = $('#tabeldata').DataTable({
 			'processing': false,
 			'order': [[1, 'desc']],
@@ -133,5 +136,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				cell.innerHTML = i + 1;
 			});
 		}).draw();
+
+		if (kehadiran == 0) {
+      tabelData.column(3).visible(false);
+      tabelData.column(4).visible(false);
+    }
 	});
 </script>

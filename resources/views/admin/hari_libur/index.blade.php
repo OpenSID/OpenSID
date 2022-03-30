@@ -22,7 +22,7 @@
       <a href="{{ route('kehadiran_hari_libur.import') }}" class="btn btn-social btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-calendar"></i> Import</a>
     @endif
     @if (can('h'))
-      <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('kehadiran_hari_libur.deleteAll') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus</a>
+      <a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '{{ route('kehadiran_hari_libur.delete') }}')" class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus</a>
     @endif  
   </div>
   <div class="box-body">

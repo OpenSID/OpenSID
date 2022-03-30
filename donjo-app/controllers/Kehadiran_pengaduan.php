@@ -64,10 +64,10 @@ class Kehadiran_pengaduan extends Admin_Controller
                         return '<a href="' . route('kehadiran_pengaduan.form', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
                 })
-                ->rawColumns(['aksi'])
                 ->editColumn('waktu', static function ($row) {
-                    return tgl_indo2($row['waktu']);
+                    return tgl_indo2($row->waktu);
                 })
+                ->rawColumns(['aksi'])
                 ->make();
         }
 

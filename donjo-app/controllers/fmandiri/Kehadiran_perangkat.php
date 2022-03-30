@@ -50,7 +50,7 @@ class Kehadiran_perangkat extends Mandiri_Controller
                 return $item->id_penduduk = 0;
             }
         })
-            ->sortBy([['tanggal', 'desc'], ['id_penduduk', 'desc'], ['waktu', 'desc']])
+            ->sortBy([['tanggal', 'desc'], ['jam_masuk', 'desc'], ['id_penduduk', 'desc'], ['waktu', 'desc']])
             ->unique('pamong_nama')->values()->all();
 
         $data = [

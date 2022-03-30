@@ -37,6 +37,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Kehadiran extends Model
@@ -78,12 +79,18 @@ class Kehadiran extends Model
         return $this->belongsTo(Pamong::class, 'pamong_id', 'pamong_id');
     }
 
-    public function scopeLupaAbsen($query)
+    public function scopeLupaAbsen($query, $tanggal)
     {
-        return $query->where('tanggal', '<', date('Y-m-d'))
+        $jam = JamKerja::where('nama_hari', Carbon::createFromFormat('Y-m-d', $tanggal)->dayName)->first('jam_keluar');
+
+        return $query->where('tanggal', $tanggal)
             ->where('status_kehadiran', 'hadir')
-            ->where('jam_pulang', null)
-            ->update(['status_kehadiran' => 'lupa melapor keluar']);
+            ->where('jam_keluar', null)
+            ->take(1)
+            ->update([
+                'jam_keluar'       => $jam->jam_keluar,
+                'status_kehadiran' => 'lupa melapor keluar',
+            ]);
     }
 
     public function scopeFilter($query, array $filters)

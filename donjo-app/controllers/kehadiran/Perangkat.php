@@ -53,9 +53,11 @@ class Perangkat extends Web_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->setting->tampilkan_kehadiran == '0') {
+        if (setting('tampilkan_kehadiran') == '0') {
             return show_404();
         }
+
+        $this->cekAbsenKeluar();
 
         $this->tgl = date('Y-m-d');
         $this->jam = date('H:i');
@@ -73,7 +75,7 @@ class Perangkat extends Web_Controller
             'success'     => $this->session->kehadiran,
             'ip_address'  => $this->ip,
             'mac_address' => $this->mac,
-            'kehadiran'   => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->first(),
+            'kehadiran'   => Kehadiran::where('tanggal', '=', $this->tgl)->where('pamong_id', '=', $this->session->masuk['pamong_id'])->where('status_kehadiran', '=', 'hadir')->first(),
         ];
 
         return view('kehadiran.index', $data);
@@ -114,17 +116,6 @@ class Perangkat extends Web_Controller
             }
         }
 
-        // cek absen keluar sudah atau belum. jika sudah tampilkan warning
-        $keluar = Kehadiran::where('tanggal', '=', $this->tgl)
-            ->where('pamong_id', '=', $user->pamong_id)
-            ->whereNotNull('jam_pulang')
-            ->first();
-
-        if ($keluar) {
-            set_session('error', 'Anda sudah melakukan absen keluar hari ini');
-            redirect($this->url);
-        }
-
         $this->session->masuk = [
             'pamong_id'   => $user->pamong_id,
             'pamong_nama' => $user->pamong->penduduk->nama ?? $user->pamong->pamong_nama ?? $user->nama,
@@ -132,8 +123,6 @@ class Perangkat extends Web_Controller
             'sex'         => $user->pamong->penduduk->sex ?? $user->pamong->pamong_sex,
             'foto'        => $user->pamong->penduduk->foto ?? $user->pamong->foto ?? $user->foto,
         ];
-
-        $this->cekAbsenKeluar();
 
         redirect('kehadiran');
     }
@@ -191,7 +180,10 @@ class Perangkat extends Web_Controller
 
             $this->session->kehadiran = $check_in ? true : false;
         } else {
-            $check_out = Kehadiran::where('tanggal', $this->tgl)->where('pamong_id', $pamong_id)->update(['jam_pulang' => $this->jam]);
+            $check_out = Kehadiran::where('tanggal', $this->tgl)->where('pamong_id', $pamong_id)->latest('jam_masuk')->take(1)->update([
+                'jam_keluar'       => $this->jam,
+                'status_kehadiran' => $status_kehadiran,
+            ]);
 
             $this->session->kehadiran = $check_out ? true : false;
         }
@@ -230,7 +222,7 @@ class Perangkat extends Web_Controller
                 break;
 
             case $cek['cek_jam'] !== null:
-                $pesan = "Jam kerja hari ini di mulai dari {$cek['cek_jam']->jam_mulai} hingga {$cek['cek_jam']->jam_akhir}";
+                $pesan = "Jam kerja hari ini di mulai dari {$cek['cek_jam']->jam_masuk} hingga {$cek['cek_jam']->jam_keluar}";
                 break;
 
             default:
@@ -244,7 +236,11 @@ class Perangkat extends Web_Controller
     private function cekAbsenKeluar()
     {
         if ($this->session->masuk) {
-            Kehadiran::lupaAbsen();
+            $kehadiran = Kehadiran::select('tanggal')->whereNull('jam_keluar')->where('tanggal', '<', date('Y-m-d'))->get();
+
+            foreach ($kehadiran as $data) {
+                Kehadiran::lupaAbsen($data->tanggal);
+            }
         }
     }
 }

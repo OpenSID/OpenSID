@@ -77,10 +77,10 @@ class Kehadiran_hari_libur extends Admin_Controller
 
                     return $aksi;
                 })
-                ->rawColumns(['ceklist', 'aksi'])
                 ->editColumn('tanggal', static function ($row) {
-                    return tgl_indo($row['tanggal']);
+                    return tgl_indo($row->tanggal);
                 })
+                ->rawColumns(['ceklist', 'aksi'])
                 ->make();
         }
 
@@ -131,22 +131,11 @@ class Kehadiran_hari_libur extends Admin_Controller
         redirect_with('error', 'Gagal Ubah Data');
     }
 
-    public function delete($id = '')
+    public function delete($id = null)
     {
         $this->redirect_hak_akses('h');
 
-        if (HariLibur::destroy($id)) {
-            redirect_with('success', 'Berhasil Hapus Data');
-        }
-
-        redirect_with('error', 'Gagal Hapus Data');
-    }
-
-    public function deleteAll()
-    {
-        $this->redirect_hak_akses('h');
-
-        if (HariLibur::destroy($this->request['id_cb'])) {
+        if (HariLibur::destroy($id ?? $this->request['id_cb'])) {
             redirect_with('success', 'Berhasil Hapus Data');
         }
 
