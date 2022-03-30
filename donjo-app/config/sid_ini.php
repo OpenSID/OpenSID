@@ -63,7 +63,7 @@ $config['useDatabaseConfig'] = true;
 */
 // $config["environment"] = "development";
 
-// Untuk situs yang digunakan untuk demo, seperti https://demo.opensid.my.id,
+// Untuk situs yang digunakan untuk demo, seperti https://demosid.opendesa.id,
 // buat setting berikut menjadi 'y'
 $config['demo_mode'] = false;
 

@@ -49,8 +49,9 @@ class Migrasi_fitur_premium_2204 extends MY_model
         $hasil = $hasil && $this->migrasi_2022032171($hasil);
         $hasil = $hasil && $this->migrasi_2022032371($hasil);
         $hasil = $hasil && $this->migrasi_2022032471($hasil);
+        $hasil = $hasil && $this->migrasi_2022032871($hasil);
 
-        return $hasil && $this->migrasi_2022032871($hasil);
+        return $hasil && $this->migrasi_2022032951($hasil);
     }
 
     protected function migrasi_2022031171($hasil)
@@ -442,5 +443,18 @@ class Migrasi_fitur_premium_2204 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022032951($hasil)
+    {
+        $this->db
+            ->where([
+                'id'   => 6,
+                'nama' => 'Di Bawah 1 Tahun',
+            ])
+            ->set('nama', '0 S/D 1 TAHUN')
+            ->update('tweb_penduduk_umur');
+
+        return $hasil && true;
     }
 }
