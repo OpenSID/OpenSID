@@ -53,7 +53,7 @@
 																		<a href="<?= site_url()?>surat/form/<?= $data['url_surat']?>" class="btn btn-social btn-flat bg-olive btn-sm"  title="Buat Surat"><i class="fa fa-file-word-o"></i>Buat Surat</a>
 																		<a href="<?= site_url("surat/favorit/{$data['id']}/{$data['favorit']}")?>" class="btn bg-purple btn-flat btn-sm" title="Keluarkan dari Daftar Favorit" ><i class="fa fa-star"></i></a>
 																	</td>
-																	<td><?= $data['nama']?></td>
+																	<td><?= ucwords($data['nama'])?></td>
 																	<td><?= $data['kode_surat']?></td>
 																	<td><?= kode_format($data['lampiran']); ?></td>
 																</tr>
@@ -106,7 +106,7 @@
 																			<a href="<?= site_url("surat/favorit/{$data['id']}/{$data['favorit']}")?>" class="btn bg-purple btn-flat btn-sm"  title="Tambahkan ke Daftar Favorit" ><i class="fa fa-star-o"></i></a>
 																		<?php endif; ?>
 																	</td>
-																	<td><?= $data['nama']?></td>
+																	<td><?= ucwords($data['nama'])?></td>
 																	<td><?= $data['kode_surat']?></td>
 																	<td><?= kode_format($data['lampiran']); ?></td>
 																</tr>
