@@ -281,7 +281,7 @@
                 <a href="http://opendesa.id" target="_blank">http://opendesa.id</a>
                 <li>Website Resmi OpenSID: </li>
                 <a href="http://opensid.my.id" target="_blank">Website Resmi OpenSID</a>
-                <li>Group Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
+                <li>Grup Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
                 <a href="https://www.facebook.com/groups/opensid" target="_blank">Forum Pengguna dan Pegiat OpenSID</a>
                 <li>Tempat mengunduh rilis OpenSID:</li>
                 <a href="https://github.com/OpenSID/OpenSID/releases" target="_blank">https://github.com/OpenSID/OpenSID/releases</a>

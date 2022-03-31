@@ -3,13 +3,13 @@
 
 @section('title')
 <h1>
-  Pengaduan Perangkat Desa
+  Pengaduan Kehadiran
   <small>{{ $action }} Data</small>
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('kehadiran_pengaduan') }}">Pengaduan Perangkat Desa</a></li>
+<li class="breadcrumb-item"><a href="{{ route('kehadiran_pengaduan') }}">Pengaduan Kehadiran</a></li>
 <li class="active">{{ $action }} Data</li>
 @endsection
 

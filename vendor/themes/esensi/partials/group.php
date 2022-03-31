@@ -8,57 +8,59 @@
 </nav>
 
 <h2 class="text-h2">Data Kelompok - <?= $detail['nama']; ?></h2>
+<div class="space-y-3 content py-3">
+  
+  <p class="py-4"><?= $detail['keterangan'] ?></p>
 
-<p class="py-4"><?= $detail['keterangan'] ?></p>
-
-<h3 class="text-h4">Daftar Pengurus</h3>
-<div class="table-responsive content">
-  <table class="w-full text-sm">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Jabatan</th>
-        <th>Nama</th>
-        <th>Alamat</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($pengurus as $key => $data): ?>
+  <h3 class="text-h4">Daftar Pengurus</h3>
+  <div class="table-responsive content">
+    <table class="w-full text-sm">
+      <thead>
         <tr>
-          <td><?= $key + 1?></td>
-          <td><?= $data['jabatan'] ?></td>
-          <td nowrap><?= $data['nama']?></td>
-          <td><?= $data['alamat']?></td>
+          <th>No</th>
+          <th>Jabatan</th>
+          <th>Nama</th>
+          <th>Alamat</th>
         </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        <?php foreach ($pengurus as $key => $data): ?>
+          <tr>
+            <td><?= $key + 1?></td>
+            <td><?= $data['jabatan'] ?></td>
+            <td nowrap><?= $data['nama']?></td>
+            <td><?= $data['alamat']?></td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 
-<h3 class="text-h4">Daftar Anggota</h3>
-<div class="table-responsive content">
-  <table class="w-full text-sm" id="tabel-data">
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>No. Anggota</th>
-        <th>Nama</th>
-        <th>Alamat</th>
-        <th>Jenis Kelamin</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($anggota as $key => $data): ?>
-      <tr>
-        <td></td>
-        <td><?= $data['no_anggota'] ?:'-' ?></td>
-        <td nowrap><?= $data['nama'] ?></td>
-        <td><?= $data['alamat'] ?></td>
-        <td><?= $data['sex'] ?></td>
-      </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
+  <h3 class="text-h4">Daftar Anggota</h3>
+  <div class="table-responsive content">
+    <table class="w-full text-sm" id="tabel-data">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>No. Anggota</th>
+          <th>Nama</th>
+          <th>Alamat</th>
+          <th>Jenis Kelamin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($anggota as $key => $data): ?>
+        <tr>
+          <td></td>
+          <td><?= $data['no_anggota'] ?:'-' ?></td>
+          <td nowrap><?= $data['nama'] ?></td>
+          <td><?= $data['alamat'] ?></td>
+          <td><?= $data['sex'] ?></td>
+        </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
 </div>
 <script>
   $(document).ready(function(){

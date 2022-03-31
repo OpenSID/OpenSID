@@ -55,7 +55,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
     {
         $pamong = Pamong::daftar()->get();
 
-        return view('admin.kehadiran.index', compact('pamong'));
+        return view('admin.rekapitulasi.index', compact('pamong'));
     }
 
     public function datatables()

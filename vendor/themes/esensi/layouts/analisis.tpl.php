@@ -26,9 +26,9 @@
             <?php if(IS_PREMIUM) : ?>
               <?php if (count($master_indikator) > 1) : ?>
                 <form action="<?=site_url('data_analisis'); ?>" method="get">
-                  <div class="space-y-1 flex gap-3">
-                    <label for="" class="block text-sm">Analisis:</label>
-                    <select class="form-select" name="master" onchange="this.form.submit()">
+                  <div class="space-y-1 flex gap-3 items-center">
+                    <label for="master" class="block text-sm">Analisis:</label>
+                    <select class="form-input inline-block w-auto" name="master" onchange="this.form.submit()" id="master">
                       <?php foreach ($master_indikator as $master): ?>
                         <option value="<?= $master['id']?>" <?= selected($list_indikator['0']['id_master'], $master['id'])?>><?= "{$master['master']} ({$master['tahun']})"?></option>
                       <?php endforeach; ?>
@@ -61,7 +61,7 @@
                   <?php foreach ($list_indikator as $data): ?>
                     <tr>
                       <td><?= $data['nomor'].'.'; ?>
-                      <td><a href="<?= site_url("jawaban_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>" class="font-bold"><?= $data['indikator']?></a></td>
+                      <td><a href="<?= site_url("jawaban_analisis/$data[id]/$data[subjek_tipe]/$data[id_periode]"); ?>" class="font-semibold"><?= $data['indikator']?></a></td>
                     </tr>
                   <?php endforeach; ?>
                 </table>
@@ -91,7 +91,7 @@
                 <?php endforeach; ?>
             <?php endif ?>
           <?php else: ?>
-          <p>Data tidak tersedia</p>
+          <p class="py-3">Data tidak tersedia</p>
         <?php endif; ?>
       <?php endif; ?>
     </main>

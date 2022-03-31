@@ -3,12 +3,12 @@
 
 @section('title')
 <h1>
-  Pengaduan Perangkat Desa
+  Pengaduan Kehadiran
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">Pengaduan Perangkat Desa</li>
+<li class="active">Pengaduan Kehadiran</li>
 @endsection
 
 @section('content')
