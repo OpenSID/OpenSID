@@ -1007,49 +1007,7 @@ class Penduduk extends Admin_Controller
 
     public function ekspor()
     {
-        $daftar_kolom = [
-            'alamat',
-            'dusun',
-            'rw',
-            'rt',
-            'nama',
-            'no_kk',
-            'nik',
-            'sex',
-            'tempatlahir',
-            'tanggallahir',
-            'agama_id',
-            'pendidikan_kk_id',
-            'pendidikan_sedang_id',
-            'pekerjaan_id',
-            'status_kawin',
-            'kk_level',
-            'warganegara_id',
-            'ayah_nik',
-            'nama_ayah',
-            'ibu_nik',
-            'nama_ibu',
-            'golongan_darah_id',
-            'akta_lahir',
-            'dokumen_pasport',
-            'tanggal_akhir_paspor',
-            'dokumen_kitas',
-            'akta_perkawinan',
-            'tanggalperkawinan',
-            'akta_perceraian',
-            'tanggalperceraian',
-            'cacat_id',
-            'cara_kb_id',
-            'hamil',
-            'ktp_el',
-            'status_rekam',
-            'alamat_sekarang',
-            'status_dasar',
-            'suku',
-            'tag_id_card',
-            'id_asuransi',
-            'no_asuransi',
-        ];
+        $daftar_kolom = $this->impor_model->daftar_kolom;
 
         $writer = WriterEntityFactory::createXLSXWriter();
         $writer->openToBrowser(namafile('penduduk') . '.xlsx');
