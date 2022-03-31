@@ -36,7 +36,7 @@
               <div class="small-box bg-purple">
                 <div class="inner">
                   <h3>{{ $dusun }}</h3>
-                  <p>Wilayah Dusun</p>
+                  <p>Wilayah {{ ucwords($setting->sebutan_dusun) }}</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-location"></i>

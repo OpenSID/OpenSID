@@ -43,7 +43,7 @@ class Job extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('file');
-        $this->load->model(['export_model', 'database_model']);
+        $this->load->model(['ekspor_model', 'database_model']);
     }
 
     public function restore($database = null)
@@ -76,7 +76,7 @@ class Job extends CI_Controller
         log_message('error', 'Normalkan folder desa');
 
         // Proses Restore Database
-        if ($this->export_model->proses_restore($this->cek_db($database))) {
+        if ($this->ekspor_model->proses_restore($this->cek_db($database))) {
             log_message('error', 'Proses Restore Database Berhasil');
 
             // Proses migrasi database

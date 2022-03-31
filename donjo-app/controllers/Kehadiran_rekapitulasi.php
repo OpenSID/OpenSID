@@ -95,7 +95,7 @@ class Kehadiran_rekapitulasi extends Admin_Controller
         return show_404();
     }
 
-    public function export()
+    public function ekspor()
     {
         $filters = [
             'tanggal' => $this->input->get('daterange'),

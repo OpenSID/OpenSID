@@ -42,14 +42,9 @@ class Database extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['export_model', 'database_model']);
+        $this->load->model(['ekspor_model', 'database_model']);
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 45;
-    }
-
-    public function clear()
-    {
-        redirect('export');
     }
 
     public function index()
@@ -101,7 +96,7 @@ class Database extends Admin_Controller
 
     public function exec_backup()
     {
-        $this->export_model->backup();
+        $this->ekspor_model->backup();
     }
 
     public function desa_backup()
@@ -125,7 +120,7 @@ class Database extends Admin_Controller
             $this->session->success        = 1;
             $this->session->error_msg      = '';
             $this->session->sedang_restore = 1;
-            $this->export_model->restore();
+            $this->ekspor_model->restore();
         } catch (Exception $e) {
             $this->session->success   = -1;
             $this->session->error_msg = $e->getMessage();
