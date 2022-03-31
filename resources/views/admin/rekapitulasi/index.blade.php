@@ -4,12 +4,12 @@
 
 @section('title')
 <h1>
-  Kehadiran Perangkat Desa
+  Rekapitulasi Kehadiran
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">Kehadiran Perangkat Desa</li>
+<li class="active">Rekapitulasi Kehadiran</li>
 @endsection
 
 @section('content')
@@ -27,7 +27,7 @@
       </div>
       <div class="col-md-2">
         <div class="form-group">
-            <label>Perangkat Desa</label>
+            <label>Perangkat {{ ucwords(setting('sebutan_desa')) }}</label>
             <select id="pamong" name="pamong" class="form-control input-sm required select2">
               <option value="">Semua Perangkat</option>
               @foreach ($pamong as $data)

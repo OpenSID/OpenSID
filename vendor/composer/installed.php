@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
+        'pretty_version' => 'dev-testing',
+        'version' => 'dev-testing',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '1589087837aeb35e12d2eeb9205c45fcc0c7e2b0',
+        'reference' => 'a515533d495f1b6cd57de2f9b4111d9c125cd49c',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -263,12 +263,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
+            'pretty_version' => 'dev-testing',
+            'version' => 'dev-testing',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '1589087837aeb35e12d2eeb9205c45fcc0c7e2b0',
+            'reference' => 'a515533d495f1b6cd57de2f9b4111d9c125cd49c',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -566,7 +566,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
             'aliases' => array(),
-            'reference' => '4f40c5d427cf8869dd3937c61bc573e7f3cdb4d7',
+            'reference' => 'e1fbe92ff6990247f9009e3d1aca51cd443d32cc',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(

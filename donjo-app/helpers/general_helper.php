@@ -36,11 +36,14 @@
  */
 
 if (! function_exists('asset')) {
-    function asset($uri = '')
+    function asset($uri = '', $default = true)
     {
-        $path = FCPATH . 'assets/' . $uri;
+        if ($default) {
+            $uri = 'assets/' . $uri;
+        }
+        $path = FCPATH . $uri;
 
-        return base_url('assets/' . $uri . '?v' . md5_file($path));
+        return base_url($uri . '?v' . md5_file($path));
     }
 }
 
