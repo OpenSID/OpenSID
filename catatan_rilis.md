@@ -1,6 +1,6 @@
-#### [v22.03-pasca]
+#### [v22.04]
 
-Di rilis ini, versi 22.03-pasca, menyediakan Modul pendataan lembaga desa dan buku rencana kerja pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.04, menyediakan Modul pendataan lembaga desa dan buku rencana kerja pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada Agung Sugiarto dan afa28 yang terus berkontribusi. Terima kasih pula pada Cahyo Wicaksono yang baru mulai berkontribusi.
 
