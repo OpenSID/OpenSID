@@ -42,6 +42,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 34. [#5039](https://github.com/OpenSID/OpenSID/issues/5039) Perbaiki collation ketika restore database.
 35. [#5071](https://github.com/OpenSID/OpenSID/issues/5071) Perbaiki penamaan kategori umur dibawah 1 tahun menjadi 0 s/d 1 tahun.
 36. [#5099](https://github.com/OpenSID/OpenSID/issues/5099) Perbaiki surat ubahan desa tidak tampil saat mau cetak surat setelah mengubahan nama surat.
+37. [#5100](https://github.com/OpenSID/OpenSID/issues/5100) Perbaiki data anggota kelompok pada web tidak tampil.
 
 
 #### Perubahan Teknis
