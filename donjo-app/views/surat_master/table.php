@@ -22,11 +22,14 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<?php if ($this->CI->cek_hak_akses('u')): ?>
+						<?php if (can('u')): ?>
 							<a href="<?= site_url('surat_master/form')?>" title="Tambah Format Surat" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Format Surat</a>
 						<?php endif; ?>
-						<?php if ($this->CI->cek_hak_akses('h')): ?>
+						<?php if (can('h')): ?>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("surat_master/delete_all/{$p}/{$o}")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<?php endif; ?>
+						<?php if (can('u')): ?>
+							<a href="<?= site_url('surat_master/perbaharui')?>" title="Perbaharui Surat Desa" class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-recycle"></i> Perbaharui Surat Desa</a>
 						<?php endif; ?>
 					</div>
 					<div class="box-body">
@@ -87,7 +90,7 @@
 																	<td><input type="checkbox" name="id_cb[]" value="<?= $data['id']?>" /></td>
 																	<td><?= $data['no']?></td>
 																	<td nowrap>
-																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<?php if (can('u')): ?>
 																			<a href="<?= site_url("surat_master/form/{$p}/{$o}/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php if ($data['kunci'] == '0'): ?>
 																				<a href="<?= site_url("surat_master/lock/{$data['id']}/{$data['kunci']}")?>" class="btn bg-navy btn-flat btn-sm" title="Non-Aktifkan Surat" ><i class="fa fa-unlock"></i></a>
@@ -100,19 +103,19 @@
 																				<a href="<?= site_url("surat_master/lock/{$data['id']}/{$data['kunci']}")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan Surat"><i class="fa fa-lock"></i></a>
 																			<?php endif ?>
 																		<?php endif; ?>
-																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<?php if (can('u')): ?>
 																			<?php if ($data['jenis'] != 1): ?>
 																				<a href="#" data-href="<?= site_url("surat_master/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
 																		<?php endif; ?>
 																	</td>
-																	<td><?= $data['nama']?></td>
+																	<td><?= ucwords($data['nama'])?></td>
 																	<td><?= $data['kode_surat']?></td>
 																	<td><?= $data['url_surat']?></td>
 																	<td><?= kode_format($data['lampiran']); ?></td>
 																	<td nowrap>
 																		<a href="<?= site_url("surat_master/kode_isian/{$p}/{$o}/{$data['id']}")?>" class="btn btn-social btn-flat btn-info btn-sm"  title="Kode Isian"><i class="fa fa-code"></i>Kode Isian</a>
-																		<?php if ($this->CI->cek_hak_akses('u')): ?>
+																		<?php if (can('u')): ?>
 																			<a href="<?= site_url("surat_master/form_upload/{$p}/{$o}/{$data['url_surat']}")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" title="Unggah Template Format Surat" data-title="Unggah Template Format Surat" class="btn btn-social btn-flat bg-orange btn-sm"><i class='fa fa-upload'></i> Unggah</a>
 																		<?php endif; ?>
 																		<?php $surat = SuratExport($data['url_surat']); ?>

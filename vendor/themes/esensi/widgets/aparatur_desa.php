@@ -17,10 +17,10 @@
               <span class="block"><?= $data['jabatan'] ?></span>
               <?php if ($data['pamong_niap']) : ?>
                 <span class="block"><?= $this->setting->sebutan_nip_desa ?> : <?= $data['pamong_niap'] ?></span>
-              <?php endif; ?>
-              <?php if ($data['tanggal'] == date('Y-m-d')): ?>
+              <?php endif ?>
+              <?php if ($data['status_kehadiran'] == 'hadir'): ?>
                 <span class="btn btn-primary w-auto mx-auto inline-block">Hadir</span>
-              <?php endif; ?>
+              <?php endif ?>
             </div>
           <?php endif ?>
         </div>

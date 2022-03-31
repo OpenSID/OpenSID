@@ -44,7 +44,6 @@ class Surat_master_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->impor_surat_desa();
     }
 
     public function autocomplete()
@@ -230,13 +229,24 @@ class Surat_master_model extends MY_Model
         $data = $_POST;
         $this->validasi_surat($data);
 
+        $before = $this->get_surat_format($id);
+
         $outp = $this->db
             ->where('id', $id)
             ->update($this->table, $data);
 
         if ($outp) {
-            //ubah nama folder penyimpanan template surat
-            rename($this->get_surat_format($id)['lokasi_surat'], LOKASI_SURAT_DESA . 'surat_' . str_replace(' ', '_', $data['nama']));
+            $surat_baru  = 'surat_' . str_replace(' ', '_', strtolower($data['nama']));
+            $lokasi_baru = LOKASI_SURAT_DESA . $surat_baru;
+
+            // Ubah nama folder penyimpanan template surat
+            rename($before['lokasi_surat'], $lokasi_baru);
+
+            // Ubah nama file surat
+            rename($lokasi_baru . '/' . $before['url_surat'] . '.rtf', $lokasi_baru . '/' . $surat_baru . '.rtf');
+            rename($lokasi_baru . '/' . $before['url_surat'] . '.php', $lokasi_baru . '/' . $surat_baru . '.php');
+            rename($lokasi_baru . '/data_rtf_' . $before['url_surat'] . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
+            rename($lokasi_baru . '/data_form_' . $before['url_surat'] . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
         }
 
         status_sukses($outp); //Tampilkan Pesan
@@ -417,7 +427,7 @@ class Surat_master_model extends MY_Model
     }
 
     // Tambahkan surat desa jika folder surat tidak ada di surat master
-    public function impor_surat_desa()
+    public function perbaharui_surat_desa()
     {
         $folder_surat_desa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
         $daftar_surat      = [];
@@ -425,14 +435,14 @@ class Surat_master_model extends MY_Model
         if ($folder_surat_desa) {
             foreach ($folder_surat_desa as $surat) {
                 $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
-                $hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
-                if ($hasil->num_rows() == 0) {
+
+                if (! $this->isExist($surat)) {
                     $data              = [];
                     $data['jenis']     = 2;
                     $data['url_surat'] = $surat;
-                    $data['nama']      = ucwords(trim(str_replace(['surat', '-', '_'], ' ', $surat)));
-                    $sql               = $this->db->insert_string('tweb_surat_format', $data) . ' ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)';
-                    $this->db->query($sql);
+                    $data['nama']      = strtolower(trim(str_replace(['surat', '-', '_'], ' ', $surat)));
+
+                    $this->db->insert('tweb_surat_format', $data);
                 }
 
                 $daftar_surat[] = $surat;
@@ -444,6 +454,8 @@ class Surat_master_model extends MY_Model
                 ->where_not_in('url_surat', $daftar_surat)
                 ->delete($this->table);
         }
+
+        status_sukses(true);
     }
 
     /**

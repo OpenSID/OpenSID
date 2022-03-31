@@ -32,6 +32,11 @@
 							<h6>
 								<?php foreach ($response->body->pemesanan as $pemesanan) : ?>
 									<?php foreach ($pemesanan->layanan as $layanan) : ?>
+										<?php
+                                            if (preg_match('/Hosting|Domain/', $layanan->nama) && ! file_exists('mitra')) {
+                                                fopen('mitra', 'wb');
+                                            }
+                                        ?>
 										<li><?= $layanan->nama ?></li>
 									<?php endforeach ?>
 								<?php endforeach ?>
