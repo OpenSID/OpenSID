@@ -159,7 +159,7 @@
         <div class="panel box box-default">
           <div class="box-header with-border">
             <h4 class="box-title">
-              <a data-toggle="collapse" data-parent="#accordion" href="#catatan-rilis">Catatan Rilis </a>
+              <a data-toggle="collapse" data-parent="#accordion" href="#catatan-rilis">Catatan Rilis</a>
             </h4>
           </div>
           <div id="catatan-rilis" class="panel-collapse collapse">
@@ -277,24 +277,24 @@
           <div id="collapse6" class="panel-collapse collapse">
             <div class="box-body">
               <ol>
-                <li>Website OpenDesa, pengelola OpenSID: </li>
-                <a href="http://opendesa.id/" target="_blank">http://opendesa.id </a>
-                <li>Website resmi OpenSID: </li>
-                <a href="http://opensid.my.id/" target="_blank">http://opensid.or.id </a>
+                <li>Website Resmi OpenDesa, pengelola OpenSID: </li>
+                <a href="http://opendesa.id" target="_blank">http://opendesa.id</a>
+                <li>Website Resmi OpenSID: </li>
+                <a href="http://opensid.my.id" target="_blank">Website Resmi OpenSID</a>
                 <li>Group Facebook, tempat mendapatkan bantuan dan berbagi pengalaman: </li>
-                <a href="https://www.facebook.com/groups/opensid/" target="_blank">Forum Pengguna dan Pegiat OpenSID </a>
+                <a href="https://www.facebook.com/groups/opensid" target="_blank">Forum Pengguna dan Pegiat OpenSID</a>
                 <li>Tempat mengunduh rilis OpenSID:</li>
-                <a href="https://github.com/OpenSID/OpenSID/releases" target="_blank">https://github.com/OpenSID/OpenSID/releases </a>
+                <a href="https://github.com/OpenSID/OpenSID/releases" target="_blank">https://github.com/OpenSID/OpenSID/releases</a>
                 <li>Panduan OpenSID:</li>
-                <a href="https://github.com/OpenSID/OpenSID/wiki" target="_blank">https://github.com/OpenSID/OpenSID/wiki </a>
+                <a href="https://github.com/OpenSID/OpenSID/wiki" target="_blank">https://github.com/OpenSID/OpenSID/wiki</a>
                 <li>Channel Youtube OpenSID: </li>
-                <a href="https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q" target="_blank">Kumpulan tutorial video OpenSID </a>
-                <li>Repository (tempat pengelolaan) OpenSID:</li>
-                <a href="https://github.com/OpenSID/OpenSID" target="_blank">https://github.com/OpenSID/OpenSID </a>
+                <a href="https://www.youtube.com/channel/UCvZuSYtrWYuE8otM4SsdT0Q" target="_blank">Kumpulan tutorial video OpenSID</a>
+                <li>Forum OpenDesa:</li>
+                <a href="https://forum.opendesa.id" target="_blank">https://forum.opendesa.id</a>
                 <li>Tempat mendaftarkan masalah dan usulan fitur:</li>
-                <a href="https://github.com/OpenSID/OpenSID/issues" target="_blank" sclass="text-green">https://github.com/OpenSID/OpenSID/issues </a>
+                <a href="https://github.com/OpenSID/OpenSID/issues" target="_blank" sclass="text-green">https://github.com/OpenSID/OpenSID/issues</a>
                 <li>Forum diskusi teknis pengembangan OpenSID:</li>
-                <a href="https://opensid.slack.com" target="_blank">https://opensid.slack.com </a>
+                <a href="https://opensid.slack.com" target="_blank">https://opensid.slack.com</a>
               </ol>
             </div>
           </div>
