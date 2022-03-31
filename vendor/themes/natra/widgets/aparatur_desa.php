@@ -48,7 +48,7 @@
 				<?php foreach($aparatur_desa['daftar_perangkat'] as $data) : ?>
 					<img src="<?= $data['foto'] ?>"
 					data-cycle-title="<span class='cycle-overlay-title'><?= $data['nama'] ?></span>
-						<span class='label label-success'><?= $data['tanggal'] == date('Y-m-d') ? 'Hadir' : '' ?></span>"
+						<span class='label label-success'><?= $data['status_kehadiran'] == 'hadir' ? 'Hadir' : '' ?></span>"
 					data-cycle-desc="<?= $data['jabatan'] ?>"
 					>
 				<?php endforeach; ?>
