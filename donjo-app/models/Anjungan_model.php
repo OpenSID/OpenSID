@@ -52,14 +52,16 @@ class Anjungan_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function cek_anjungan()
+	public function cek_anjungan($mac_address = null)
 	{
-		if ($this->input->server('HTTP_USER_AGENT') == 'Anjungan OpenSID') return true;
-
 		$ip = $this->input->ip_address();
 
+		$this->db
+			->group_start()
+				->where('ip_address', $ip);
+		if ($mac_address) $this->db->or_where('mac_address', $mac_address);
 		$data = $this->db
-			->where('ip_address', $ip)
+			->group_end()
 			->where('status', 1)
 			->get('anjungan');
 
@@ -88,10 +90,14 @@ class Anjungan_model extends CI_Model {
 	private function validasi($post)
 	{
 		$data['ip_address'] = bilangan_titik($post['ip_address']);
+		$data['printer_ip'] = bilangan_titik($post['printer_ip']);
+		$data['printer_port'] = bilangan($post['printer_port']);
+		$data['mac_address'] = alfanumerik_kolon($post['mac_address']);
 		$data['keterangan'] = htmlentities($post['keterangan']);
 		$data['keyboard'] = bilangan($post['keyboard']);
 		$data['status'] = bilangan($post['status']);
 		$data['updated_by'] = $this->session->user;
+
 		return $data;
 	}
 

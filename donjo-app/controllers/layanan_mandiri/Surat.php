@@ -45,9 +45,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
+require_once 'vendor/escpos-php/vendor/autoload.php';
+
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+
 class Surat extends Mandiri_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -64,7 +68,8 @@ class Surat extends Mandiri_Controller
 		$data = [
 			'kat' => $kat,
 			'judul' => ($kat == 1) ? 'Permohonan Surat' : 'Arsip Surat',
-			'main' => ($kat == 1) ? $permohonan : $arsip
+			'main' => ($kat == 1) ? $permohonan : $arsip,
+			'printer' => $this->print_connector(),
 		];
 
 		$this->render('surat', $data);
@@ -349,4 +354,69 @@ class Surat extends Mandiri_Controller
 		redirect('layanan-mandiri/permohonan-surat');
 	}
 
+	public function cetak_no_antrian(string $no_antrian)
+	{
+		try
+		{
+			$connector = new NetworkPrintConnector($this->cek_anjungan['printer_ip'], $this->cek_anjungan['printer_port'], 5);
+			$printer = new Printer($connector);
+
+			$printer->initialize();
+			$printer->setJustification(Printer::JUSTIFY_CENTER);
+			$printer->setTextSize(2, 2);
+			$printer->setEmphasis(true);
+			$printer->text("ANJUNGAN MANDIRI");
+			$printer->setEmphasis(false);
+			$printer->feed(1);
+
+			$printer->setTextSize(1, 1);
+			$printer->text("SELAMAT DATANG \n");
+			$printer->text("NOMOR ANTRIAN ANDA");
+			$printer->feed();
+
+			$printer->setTextSize(4, 4);
+			$printer->text(get_antrian($no_antrian));
+			$printer->feed();
+
+			$printer->setTextSize(1, 1);
+			$printer->text("TERIMA KASIH \n");
+			$printer->text("ANDA TELAH MENUNGGU");
+			$printer->feed();
+
+			$printer->cut();
+		}
+		catch (Exception $e)
+		{
+			log_message('error', $e->getMessage());
+
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+		finally
+		{
+			$printer->close();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	protected function print_connector()
+	{
+		if (is_null($anjungan = $this->cek_anjungan))
+		{
+			return;
+		}
+
+		try
+		{
+			$connector = new NetworkPrintConnector($anjungan['printer_ip'], $anjungan['printer_port'], 5);
+		}
+		catch (Exception $e)
+		{
+			log_message('error', $e->getMessage());
+
+			return false;
+		}
+
+		return $connector;
+	}
 }

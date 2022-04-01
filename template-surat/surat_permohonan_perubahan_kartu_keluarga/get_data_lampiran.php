@@ -4,8 +4,8 @@
 
 	$this->load->model('keluarga_model');
 	$this->load->model('pamong_model');
-	$anggota = $this->keluarga_model->list_anggota($individu['id_kk']);
-	$anggota_ikut = $this->keluarga_model->list_anggota($individu['id_kk'],array('dengan_kk'=>false));
+	$anggota = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => TRUE], TRUE);
+	$anggota_ikut = $this->keluarga_model->list_anggota($individu['id_kk'], ['dengan_kk' => FALSE], TRUE);
 
 	$id = $this->input->post('pamong_id');
 	$kepala_desa = $this->pamong_model->get_data($id);

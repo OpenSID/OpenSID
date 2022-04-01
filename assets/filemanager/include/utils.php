@@ -1036,39 +1036,42 @@ function get_file_by_url($url)
 *
 * @return  bool
 */
-function is_really_writable($dir)
+if ( ! function_exists('is_really_writable'))
 {
-	$dir = rtrim($dir, '/');
-	// linux, safe off
-	if (DIRECTORY_SEPARATOR == '/' && @ini_get("safe_mode") == false)
+	function is_really_writable($dir)
 	{
-		return is_writable($dir);
-	}
+		$dir = rtrim($dir, '/');
+		// linux, safe off
+		if (DIRECTORY_SEPARATOR == '/' && @ini_get("safe_mode") == false)
+		{
+			return is_writable($dir);
+		}
 
-	// Windows, safe ON. (have to write a file :S)
-	if (is_dir($dir))
-	{
-		$dir = $dir . '/' . md5(mt_rand(1, 1000) . mt_rand(1, 1000));
+		// Windows, safe ON. (have to write a file :S)
+		if (is_dir($dir))
+		{
+			$dir = $dir . '/' . md5(mt_rand(1, 1000) . mt_rand(1, 1000));
 
-		if (($fp = @fopen($dir, 'ab')) === false)
+			if (($fp = @fopen($dir, 'ab')) === false)
+			{
+				return false;
+			}
+
+			fclose($fp);
+			@chmod($dir, 0755);
+			@unlink($dir);
+
+			return true;
+		}
+		elseif ( ! is_file($dir) || ($fp = @fopen($dir, 'ab')) === false)
 		{
 			return false;
 		}
 
 		fclose($fp);
-		@chmod($dir, 0755);
-		@unlink($dir);
 
 		return true;
 	}
-	elseif ( ! is_file($dir) || ($fp = @fopen($dir, 'ab')) === false)
-	{
-		return false;
-	}
-
-	fclose($fp);
-
-	return true;
 }
 
 /**
@@ -1309,24 +1312,26 @@ function debugger($input, $trace = false, $halt = false)
 	{
 		exit();
 	}
-}
+} 
 
 /**
 * @param  string  $version
 *
 * @return  bool
 */
-function is_php($version = '5.0.0')
-{
-	static $phpVer;
-	$version = (string) $version;
-
-	if ( ! isset($phpVer[ $version ]))
+if ( ! function_exists('is_php')) {
+	function is_php($version = '5.0.0')
 	{
-		$phpVer[ $version ] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;
-	}
+		static $phpVer;
+		$version = (string) $version;
 
-	return $phpVer[ $version ];
+		if ( ! isset($phpVer[ $version ]))
+		{
+			$phpVer[ $version ] = (version_compare(PHP_VERSION, $version) < 0) ? false : true;
+		}
+
+		return $phpVer[ $version ];
+	}
 }
 
 /**

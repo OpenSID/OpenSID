@@ -5,17 +5,17 @@
 		if ($i < count($input['id_cb']))
 		{
 			$id = trim($input['id_cb'][$i],"'");
-			$penduduk = $this->penduduk_model->get_penduduk($id);
+			$penduduk = $this->penduduk_model->get_penduduk($id, TRUE);
 			$array_replace = array(
-			"[bpl_no_$nomor]"   => $nomor,
-			"[bpl_nik_$nomor]"  => $penduduk['nik'],
-			"[bpl_nama_$nomor]" => ucwords(strtolower($penduduk['nama'])),
-			"[bpl_sex_$nomor]" => ucwords(strtolower($penduduk['sex'])),
-			"[bpl_tempat_$nomor]" => ucwords(strtolower($penduduk['tempatlahir'])),
-			"[bpl_tanggal_$nomor]" => ucwords(strtolower($penduduk['tanggallahir'])),
-			"[bpl_shdk_$nomor]" => ucwords(strtolower($penduduk['hubungan'])),
-			"[ket_$nomor]"  => $input["ket_$id"],
-        	);
+				"[bpl_no_$nomor]"   => $nomor,
+				"[bpl_nik_$nomor]"  => $penduduk['nik'],
+				"[bpl_nama_$nomor]" => ucwords(strtolower($penduduk['nama'])),
+				"[bpl_sex_$nomor]" => ucwords(strtolower($penduduk['sex'])),
+				"[bpl_tempat_$nomor]" => ucwords(strtolower($penduduk['tempatlahir'])),
+				"[bpl_tanggal_$nomor]" => ucwords(strtolower($penduduk['tanggallahir'])),
+				"[bpl_shdk_$nomor]" => ucwords(strtolower($penduduk['hubungan'])),
+				"[ket_$nomor]"  => $input["ket_$id"],
+			);
 			$buffer = str_replace(array_keys($array_replace), array_values($array_replace), $buffer);
 		}
 		else

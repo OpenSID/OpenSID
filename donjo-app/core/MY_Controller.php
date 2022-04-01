@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /**
  * File ini:
  *
@@ -43,8 +45,6 @@
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 class MY_Controller extends CI_Controller {
 
 	/*
@@ -57,6 +57,7 @@ class MY_Controller extends CI_Controller {
 	public $theme;
 	public $template;
 	public $error;
+	public $header;
 
 	/*
 	 * Constructor
@@ -164,18 +165,16 @@ class Web_Controller extends MY_Controller {
 
 }
 
-class Mandiri_Controller extends MY_Controller {
+class Mandiri_Controller extends MY_Controller
+{
 
-	public $header;
 	public $cek_anjungan;
 	public $is_login;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['config_model', 'anjungan_model']);
-
-		$this->header = $this->config_model->get_data();
+		$this->load->model('anjungan_model');
 		$this->cek_anjungan = $this->anjungan_model->cek_anjungan();
 		$this->is_login = $this->session->is_login;
 
@@ -230,8 +229,6 @@ class Admin_Controller extends MY_Controller {
 	public $grup;
 	public $CI = NULL;
 	public $pengumuman = NULL;
-	public $header;
-	protected $nav = 'nav';
 	protected $minsidebar = 0;
 	public function __construct()
 	{

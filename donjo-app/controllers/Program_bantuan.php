@@ -622,4 +622,19 @@ class Program_bantuan extends Admin_Controller {
 		$this->session->per_page = $temp;
 	}
 
+	/**
+	 * Unduh kartu peserta berdasarkan kolom program_peserta.kartu_peserta
+	 * @param   integer  $id_peserta  Id peserta program bantuan
+	 * @return  void
+	 */
+	public function unduh_kartu_peserta($id_peserta = 0)
+	{
+		// Ambil nama berkas dari database
+		$kartu_peserta = $this->db
+			->select('kartu_peserta')
+			->where('id', $id_peserta)
+			->get('program_peserta')->row()->kartu_peserta;
+		ambilBerkas($kartu_peserta, $this->controller . '/detail/' . $id_peserta, NULL, LOKASI_DOKUMEN);
+	}
+
 }

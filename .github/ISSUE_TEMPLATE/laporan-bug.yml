@@ -24,7 +24,7 @@ body:
       label: Jelaskan error yg dialami
       description: |
         Berikan keterangan yg jelas dan singkat mengenai error yg dialami. 
-        Pastikan error ini juga ditemukan di https://demo.opensid.or.id (untuk RIlis Umum) atau di https://berputar.opensid.or.id (untuk RIlis Premium).
+        Pastikan error ini juga ditemukan di https://demosid.opendesa.id (untuk Rilis Umum) atau di https://berputar.opendesa.id (untuk Rilis Premium).
     validations:
       required: true
 

@@ -49,19 +49,8 @@ class Setting_model extends CI_Model {
 			$pre = (object) $CI->config->config;
 		}
 		$CI->setting = (object) $pre;
-		$CI->list_setting = $this->sterilkan_setting_demo($pr); // Untuk tampilan daftar setting
+		$CI->list_setting = $pr; // Untuk tampilan daftar setting
 		$this->apply_setting();
-	}
-
-	// Sembunyikan setting yg tidak untuk ditampilkan di demo, seperti token layanan
-	private function sterilkan_setting_demo($pr)
-	{
-		if ( ! config_item('demo_mode')) return $pr;
-		foreach ($pr as $key => $setting)
-		{
-			if ($setting->key == 'layanan_opendesa_token') $pr[$key]->value = '';
-		}
-		return $pr;
 	}
 
 	// Setting untuk PHP

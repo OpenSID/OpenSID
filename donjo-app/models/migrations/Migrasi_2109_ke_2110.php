@@ -3,7 +3,7 @@
 /**
  * File ini:
  *
- * Model untuk migrasi database
+ * Model untuk modul database
  *
  * donjo-app/models/migrations/Migrasi_2109_ke_2110.php
  *
@@ -20,7 +20,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -42,7 +42,7 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2109_ke_2110 extends MY_model
+class Migrasi_2109_ke_2110 extends MY_Model
 {
 	public function up()
 	{

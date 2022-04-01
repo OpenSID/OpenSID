@@ -7,7 +7,7 @@
 					<tr>
 						<td width="8%">NIK</td>
 						<td width="2%">:</td>
-						<td width="90%"><?= $penduduk['nik']?></td>
+						<td width="90%"><?= get_nik($penduduk['nik'])?></td>
 					</tr>
 					<tr>
 						<td width="8%">No.KK</td>
@@ -174,7 +174,7 @@
 					<tr>
 						<td align="center">&nbsp;</td>
 						<td align="center">&nbsp;</td>
-						<td align="center"><?= ucwords($this->setting->sebutan_kepala_desa)?> <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']); ?></td>
+						<td align="center"><?= ucwords($this->setting->sebutan_kepala_desa . ' ' . $desa['nama_desa']); ?></td>
 					</tr>
 					<tr>
 						<td align="center" colspan="3" height="90px">&nbsp;</td>

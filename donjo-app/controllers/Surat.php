@@ -99,7 +99,7 @@ class Surat extends Admin_Controller {
 		if (!empty($_POST['nik']))
 		{
 			$data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);
-			$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
+			$data['anggota'] = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => TRUE], TRUE);
 		}
 		else
 		{
@@ -192,6 +192,7 @@ class Surat extends Admin_Controller {
 
 		if ($lampiran)
 		{
+			// TO DO : Gunakan library CI3
 			$nama_file = pathinfo($nama_surat, PATHINFO_FILENAME).".zip";
 			$berkas_zip = array();
 			$berkas_zip[] = LOKASI_ARSIP.$nama_surat;
@@ -206,8 +207,7 @@ class Surat extends Admin_Controller {
 		}
 		else
 		{
-			header($this->security->get_csrf_token_name().':'.$this->security->get_csrf_hash());
-			header("location:".base_url(LOKASI_ARSIP.$nama_surat));
+			ambilBerkas($nama_surat, $this->controller);
 		}
 	}
 

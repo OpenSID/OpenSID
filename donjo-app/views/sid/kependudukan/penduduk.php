@@ -120,6 +120,9 @@ $( function() {
 									<a href="<?= site_url("penduduk/search_kumpulan_nik"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan NIK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan NIK"><i class="fa fa-users"></i> Pilihan Kumpulan NIK</a>
 								</li>
 								<li>
+									<a href="<?= site_url("{$this->controller}/nik_sementara"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK Sementara</a>
+								</li>
+								<li>
 									<a href="<?= site_url("penduduk_log/clear"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Log Data Penduduk"><i class="fa fa-book"></i> Log Penduduk</a>
 								</li>
 							</ul>
@@ -195,7 +198,7 @@ $( function() {
 										<tbody>
 											<?php if($main): ?>
 												<?php foreach ($main as $key => $data): ?>
-													<tr>
+													<tr <?= jecho(get_nik($data['nik']), '0', 'class="danger"') ?>>
 														<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
 														<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 														<td class="aksi">

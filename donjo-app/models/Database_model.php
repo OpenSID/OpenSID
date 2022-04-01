@@ -107,7 +107,8 @@ class Database_model extends CI_Model {
 		'21.12' => array('migrate' => 'migrasi_2112_ke_2201', 'nextVersion' => '22.01'),
 		'22.01' => array('migrate' => 'migrasi_2201_ke_2202', 'nextVersion' => '22.02'),
 		'22.02' => array('migrate' => 'migrasi_2202_ke_2203', 'nextVersion' => '22.03'),
-		'22.03' => array('migrate' => 'migrasi_2203_ke_2204', 'nextVersion' => NULL),
+		'22.03' => array('migrate' => 'migrasi_2203_ke_2204', 'nextVersion' => '22.04'),
+		'22.04' => array('migrate' => 'migrasi_2204_ke_2205', 'nextVersion' => NULL),
 	);
 
 	public function __construct()
@@ -201,10 +202,8 @@ class Database_model extends CI_Model {
 			Update current_version di db.
 			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
 		*/
-		$versi = AmbilVersi();
-		$versi = preg_replace('/-premium.*|pasca-|-pasca/', '', $versi);
 		$newVersion = array(
-			'value' => $versi
+			'value' => currentVersion()
 		);
 		$this->db->where(array('key' => 'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
@@ -247,7 +246,7 @@ class Database_model extends CI_Model {
 	{
 		// Paksa menjalankan migrasi kalau belum
 		// Migrasi direkam di tabel migrasi
-		if ( ! $this->versi_database_terbaru())
+		if ( ! $this->versi_database_terbaru() && empty($this->session->error_premium))
 		{
 			// Ulangi migrasi terakhir
 			$terakhir = key(array_slice($this->versionMigrate, -1, 1, true));

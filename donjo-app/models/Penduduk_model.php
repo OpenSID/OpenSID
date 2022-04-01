@@ -133,13 +133,21 @@ class Penduduk_model extends MY_Model {
 		if ( ! empty($kf))
 		{
 			if ($kf == JUMLAH)
-				$this->db->where("($kolom IS NOT NULL OR $kolom != '')");
+				$this->db->where("($kolom IS NOT NULL && $kolom != '')");
 			else if ($kf == BELUM_MENGISI)
-				$this->db->where("($kolom IS NULL OR $kolom = '')");
+				$this->db->where("($kolom IS NULL && $kolom = '')");
 			else if ($kf == $this->session->status_dasar)
 				$this->db->where_in($kolom, $kf);
 			else
 				$this->db->where($kolom, $kf);
+		}
+	}
+
+	protected function nik_sementara_sql()
+	{
+		if ($this->session->nik_sementara == '0')
+		{
+			$this->db->like('nik', '0', 'after');
 		}
 	}
 
@@ -356,6 +364,7 @@ class Penduduk_model extends MY_Model {
 		$this->umur_sql(); // Kode 13, 15
 		$this->akta_kelahiran_sql(); // Kode 17
 		$this->hamil_sql(); // Filter blum digunakan
+		$this->nik_sementara_sql(); // NIK Sementara
 	}
 
 	// Perlu di urut sebelum paging dan sesudah paging
@@ -608,7 +617,7 @@ class Penduduk_model extends MY_Model {
 		return $this->db->get()->result_array();
 	}
 
-	public function validasi_data_penduduk(&$data)
+	public function validasi_data_penduduk(&$data, $id=null)
 	{
 		$data['tanggallahir'] = empty($data['tanggallahir']) ? NULL : tgl_indo_in($data['tanggallahir']);
 		$data['tanggal_akhir_paspor'] = empty($data['tanggal_akhir_paspor']) ? NULL : tgl_indo_in($data['tanggal_akhir_paspor']);
@@ -633,7 +642,7 @@ class Penduduk_model extends MY_Model {
 		$data['panjang_lahir'] = $data['panjang_lahir'] ?: NULL;
 		$data['cacat_id'] = $data['cacat_id'] ?: NULL;
 		$data['sakit_menahun_id'] = $data['sakit_menahun_id'] ?: NULL;
-		$data['kk_level'] = $data['kk_level'] ?: 0;
+		$data['kk_level'] = $data['kk_level'];
 		$data['email'] = strip_tags($data['email']);
 		if (empty($data['id_asuransi']) or $data['id_asuransi'] == 1)
 			$data['no_asuransi'] = NULL;
@@ -677,6 +686,7 @@ class Penduduk_model extends MY_Model {
 		$data['akta_perkawinan'] = nomor_surat_keputusan($data['akta_perkawinan']);
 		$data['akta_perceraian'] = nomor_surat_keputusan($data['akta_perceraian']);
 		$data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
+		$data['suku'] = nama_terbatas($data['suku']);
 
 		$valid = array();
 		if (preg_match("/[^a-zA-Z '\.,\-]/", $data['nama']))
@@ -691,6 +701,7 @@ class Penduduk_model extends MY_Model {
 			}
 			else
 			{
+				if ($id) $this->db->where('id <>', $id); //Tidak termasuk penduduk yg diupdate
 				$existing_data = $this->db
 					->select('nik, status_dasar')
 					->from('tweb_penduduk')
@@ -755,7 +766,6 @@ class Penduduk_model extends MY_Model {
 
 		unset($data['file_foto']);
 		unset($data['old_foto']);
-		unset($data['nik_lama']);
 		unset($data['kk_level_lama']);
 		unset($data['dusun']);
 		unset($data['rw']);
@@ -812,15 +822,7 @@ class Penduduk_model extends MY_Model {
 		unset($_SESSION['success']);
 		unset($_SESSION['error_msg']);
 		$data = $_POST;
-
-		// Jangan update nik apabila tidak berubah
-		if ($data['nik_lama'] == $data['nik'])
-		{
-			unset($data['nik']);
-		}
-		unset($data['nik_lama']);
-
-		$error_validasi = $this->validasi_data_penduduk($data);
+		$error_validasi = $this->validasi_data_penduduk($data, $id);
 		if (!empty($error_validasi))
 		{
 			foreach ($error_validasi as $error)
@@ -1108,7 +1110,7 @@ class Penduduk_model extends MY_Model {
 		return $data['id_kk'];
 	}
 
-	public function get_penduduk($id=0)
+	public function get_penduduk($id = 0, $nik_sementara = FALSE)
 	{
 		$sql = "SELECT bahasa.nama as bahasa_nama, u.sex as id_sex, u.*, a.dusun, a.rw, a.rt, t.id AS id_status, t.nama AS status, o.nama AS pendidikan_sedang, m.nama as golongan_darah, h.nama as hubungan,
 			b.nama AS pendidikan_kk, d.no_kk AS no_kk, d.alamat, u.id_cluster as id_cluster, ux.nama as nama_pengubah, ucreate.nama as nama_pendaftar, polis.nama AS asuransi,
@@ -1180,6 +1182,8 @@ class Penduduk_model extends MY_Model {
 		$data['penolong_kelahiran_nama'] = strtoupper($this->penolong_kelahiran[$data['penolong_kelahiran']]);
 		// Tampilkan tanda kutip dalam nama
 		$data['nama'] =  str_replace ( "\"", "&quot;", $data['nama'] ) ;
+
+		if ($nik_sementara) $data['nik'] = get_nik($data['nik']);
 
 		return $data;
 	}
@@ -1555,11 +1559,25 @@ class Penduduk_model extends MY_Model {
 			->distinct()
 			->select('suku')
 			->where('suku IS NOT NULL')
-			// ->where('suku NOT IN('.$this->db->last_query().')') // NOT IN REF PENDUDUK
+			->where('suku <>', '')
 			->order_by('suku')
 			->get('tweb_penduduk')->result_array();
-			 
 		return $suku;
 	}
+	
+	public function nik_sementara()
+	{
+		$digit = $this->db
+			->select('RIGHT(nik, 5) as digit')
+			->order_by('RIGHT(nik, 5) DESC')
+			->like('nik', '0', 'after')
+			->where('nik !=', '0')
+			->get('tweb_penduduk')
+			->row()->digit;
 
+		// NIK Sementara menggunakan format 0[kode-desa][nomor-urut]
+	  $desa = $this->config_model->get_data();
+
+		return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1);
+	}
 }

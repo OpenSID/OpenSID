@@ -55,7 +55,6 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 		$hasil = $hasil && $this->migrasi_2021072971($hasil);
 		$hasil = $hasil && $this->migrasi_2021072972($hasil);
 		$hasil = $hasil && $this->migrasi_2021072951($hasil);
-		$hasil = $hasil && $this->migrasi_2021081851($hasil);
 
 		status_sukses($hasil);
 		return $hasil;
@@ -267,25 +266,6 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 			$list_menu = $this->db->select('id')->get_where('menu', ['parrent' => 0])->result_array();
 			$hapus = sql_in_list(array_column($list_menu, 'id'));
 			if ($hapus) $hasil = $hasil && $this->db->where("parrent NOT IN ($hapus) AND parrent != 0")->delete('menu');
-		}
-
-		return $hasil;
-	}
-
-	// Migrasi tambahan dari rev02
-	protected function migrasi_2021081851($hasil)
-	{
-		// Cek log surat, hapus semua file view verifikasi berdasrkan surat yg sudah di cetak
-		$list_data = $this->db->select('nama_surat')->get('log_surat')->result();
-
-		foreach ($list_data as $data)
-		{
-			// Hapus file
-			$file = LOKASI_ARSIP . '/' . str_replace('.rtf', '.php', $data->nama_surat);
-			if (file_exists($file))
-			{
-				$hasil = $hasil && unlink($file);
-			}
 		}
 
 		return $hasil;

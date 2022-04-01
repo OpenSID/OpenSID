@@ -59,7 +59,7 @@
                                             <div class="col-sm-12 col-md-4">
                                                 <input id="api_opendk_server" name="api_opendk_server" class="form-control input-sm required" type="text" onkeyup="cek_input()" value="<?= $this->setting->api_opendk_server; ?>"/>
                                             </div>
-                                            <label class="col-sm-12 col-md-5 pull-left" for="nama">Alamat Server OpenDK <code>(contoh: https://demo.opendk.my.id)</code></label>
+                                            <label class="col-sm-12 col-md-5 pull-left" for="nama">Alamat Server OpenDK <code>(contoh: https://demodk.opendesa.id)</code></label>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-12 col-md-3" for="nama">Api Opendk User</label>

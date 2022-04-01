@@ -105,7 +105,7 @@
 												<tr>
 													<td class="text-center" ><?= $key+1?></td>
 													<td><?= strtoupper($data['nama'])?></td>
-													<td><?= $data['nik']?></td>
+													<td><?= get_nik($data['nik']) ?></td>
 													<td><?= $data['sex']?></td>
 													<td><?= $data['tempatlahir']?></td>
 													<td><?= tgl_indo_out($data['tanggallahir'])?></td>
@@ -165,7 +165,7 @@
 												<tr>
 													<td class="text-center">KEPALA KELUARGA</td>
 													<td>&nbsp;</td>
-													<td class="text-center"><?= strtoupper($this->setting->sebutan_kepala_desa)?> <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
+													<td class="text-center"><?= strtoupper($this->setting->sebutan_kepala_desa . ' ' . $desa['nama_desa']); ?></td>
 												</tr>
 												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>

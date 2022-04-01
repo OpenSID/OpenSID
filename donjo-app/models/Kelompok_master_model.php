@@ -47,50 +47,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Kelompok_master_model extends MY_Model {
 
+	protected $table = 'kelompok_master';
+	protected $tipe = 'kelompok';
+
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
+	public function set_tipe(string $tipe)
+	{
+		$this->tipe = $tipe;
+
+		return $this;
+	}
+
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('kelompok', 'kelompok_master');
+		return $this->autocomplete_str('kelompok', $this->table);
 	}
 
 	private function search_sql()
 	{
-		$value = $this->session->cari;
-		if (isset($value))
+		if ($search = $this->session->cari)
 		{
-			$kw = $this->db->escape_like_str($value);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND (u.kelompok LIKE '$kw' OR u.kelompok LIKE '$kw')";
-			return $search_sql;
+			$this->db
+				->group_start()
+					->like('u.kelompok', $search)
+					->or_like('u.deskripsi', $search)
+				->group_end();
 		}
+
+		return $this->db;
 	}
 
-	public function paging($p = 1, $o = 0)
+	public function paging($p = 1)
 	{
-		$sql = "SELECT COUNT(*) AS jml ";
-		$sql .= $this->list_data_sql();
+		$jml_data = $this->list_data_sql()->count_all_results();
 
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $row['jml'];
-		$this->paging->init($cfg);
-
-		return $this->paging;
+		return $this->paginasi($p, $jml_data);
 	}
 
 	private function list_data_sql()
 	{
-		$sql = "FROM kelompok_master u WHERE 1 ";
-		$sql .= $this->search_sql();
-		return $sql;
+		$this->db
+			->select('u.*')
+			->select('(SELECT COUNT(k.id) FROM kelompok k WHERE k.id_master = u.id) AS jumlah')
+			->from("$this->table u")
+			->where('tipe', $this->tipe);
+
+		$this->search_sql();
+
+		return $this->db;
 	}
 
 	// $limit = 0 mengambil semua
@@ -98,28 +106,23 @@ class Kelompok_master_model extends MY_Model {
 	{
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.kelompok'; break;
-			case 2: $order_sql = ' ORDER BY u.kelompok DESC'; break;
-			default:$order_sql = ' ORDER BY u.kelompok';
+			case 1: $this->db->order_by('u.kelompok'); break;
+			case 2: $this->db->order_by('u.kelompok', 'desc'); break;
+			default: $this->db->order_by('u.kelompok'); break;
 		}
 
-		$paging_sql = $limit > 0 ? ' LIMIT ' . $offset . ',' . $limit : '';
+		$this->list_data_sql();
 
-		$sql = "SELECT u.* " . $this->list_data_sql();
-
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-
-		return $data;
+		return $this->db
+			->limit($limit, $offset)
+			->get()
+			->result_array();
 	}
 
 	public function insert()
 	{
 		$data = $this->validasi($this->input->post());
-		$outp = $this->db->insert('kelompok_master', $data);
+		$outp = $this->db->insert($this->table, $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -128,7 +131,8 @@ class Kelompok_master_model extends MY_Model {
 	{
 		$data = $this->validasi($this->input->post());
 		$this->db->where('id', $id);
-		$outp = $this->db->update('kelompok_master', $data);
+		$outp = $this->db->update($this->table, $data);
+
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
@@ -137,16 +141,19 @@ class Kelompok_master_model extends MY_Model {
 		if ($post['id']) $data['id'] = bilangan($post['id']);
 		$data['kelompok'] = nama_terbatas($post['kelompok']);
 		$data['deskripsi'] = htmlentities($post['deskripsi']);
+		$data['tipe'] = $this->tipe;
+
 		return $data;
 	}
 
 	public function delete($id = '', $semua = FALSE)
 	{
-		if ( ! $semua) $this->session->success = 1;
+		$outp = $this->db
+			->where('id', $id)
+			->where('tipe', $this->tipe)
+			->delete($this->table);
 
-		$outp = $this->db->where('id', $id)->delete('kelompok_master');
-
-		status_sukses($outp, $gagal_saja = TRUE); //Tampilkan Pesan
+		status_sukses($outp, $semua); //Tampilkan Pesan
 	}
 
 	public function delete_all()
@@ -156,23 +163,20 @@ class Kelompok_master_model extends MY_Model {
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id, $semua=true);
+			$this->delete($id, TRUE);
 		}
 	}
 
 	public function get_kelompok_master($id = 0)
 	{
-		$sql = "SELECT * FROM kelompok_master WHERE id = ?";
-		$query = $this->db->query($sql,$id);
-		$data = $query->row_array();
-		return $data;
+		return $this->db
+			->where([
+				'id' => $id,
+				'tipe' => $this->tipe,
+			])
+			->get($this->table)
+			->row();
+		
+		return $this->db;
 	}
-
-	public function list_subjek()
-	{
-		$sql = "SELECT * FROM kelompok_ref_subjek";
-		$query = $this->db->query($sql);
-		return $query->result_array();
-	}
-
 }

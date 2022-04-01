@@ -49,12 +49,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<tr>
 			<td align="center">
 				<?php if ($aksi != 'unduh'): ?>
-					<img src="<?= gambar_desa($config['logo']);?>" alt="" style="width:100px; height:auto">
+					<img src="<?= gambar_desa($config['logo']); ?>" alt="" style="width:100px; height:auto">
 				<?php endif; ?>
-				<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten); ?> <?= strtoupper($config['nama_kabupaten']); ?> </h1>
-				<h1 style="text-transform: uppercase;"></h1>
-				<h1><?= strtoupper($this->setting->sebutan_kecamatan); ?> <?= strtoupper($config['nama_kecamatan']); ?> </h1>
-				<h1><?= strtoupper($this->setting->sebutan_desa)." ".strtoupper($config['nama_desa']); ?></h1>
+				<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten']); ?> </h1>
+				<h1><?= strtoupper($this->setting->sebutan_kecamatan . '' . $config['nama_kecamatan']); ?> </h1>
+				<h1><?= strtoupper($this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?></h1>
 			</td>
 		</tr>
 		<tr>
@@ -63,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</td>
 		</tr>
 			<td align="center" >
-				<h4><u>DATA KELOMPOK</u></h4>
+				<h4><u>DATA <?= strtoupper($this->controller); ?></u></h4>
 			</td>
 		</tr>
 		<tr></tr>
@@ -73,9 +72,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<thead>
 						<tr class="border thick">
 							<th>NO</th>
-							<th>NAMA KELOMPOK</th>
+							<th>NAMA <?= strtoupper($this->controller); ?></th>
 							<th>NAMA KETUA</th>
-							<th>KATEGORI KELOMPOK</th>
+							<th>KATEGORI <?= strtoupper($this->controller); ?></th>
 							<th>JUMLAH ANGGOTA</th>
 						</tr>
 					</thead>

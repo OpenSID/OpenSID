@@ -60,7 +60,7 @@ class Migrasi_fitur_premium_2101 extends MY_model {
 				[
 					'key' => 'api_opendk_server',
 					'value' => '',
-					'keterangan' => 'Alamat Server OpenDK (contoh: https://demo.opendk.my.id)',
+					'keterangan' => 'Alamat Server OpenDK (contoh: https://demodk.opendesa.id)',
 				],
 				[
 					'key' => 'api_opendk_key',

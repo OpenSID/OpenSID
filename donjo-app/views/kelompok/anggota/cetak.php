@@ -50,12 +50,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<tr>
 			<td align="center">
 				<?php if ($aksi != 'unduh'): ?>
-					<img src="<?= gambar_desa($config['logo']);?>" alt="" style="width:100px; height:auto">
+					<img src="<?= gambar_desa($config['logo']); ?>" alt="" style="width:100px; height:auto">
 				<?php endif; ?>
-				<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($config['nama_kabupaten'])?> </h1>
-				<h1 style="text-transform: uppercase;"></h1>
-				<h1><?= strtoupper($this->setting->sebutan_kecamatan)?> <?= strtoupper($config['nama_kecamatan'])?> </h1>
-				<h1><?= strtoupper($this->setting->sebutan_desa)." ".strtoupper($config['nama_desa'])?></h1>
+				<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten']); ?> </h1>
+				<h1><?= strtoupper($this->setting->sebutan_kecamatan . '' . $config['nama_kecamatan']); ?> </h1>
+				<h1><?= strtoupper($this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?></h1>
 			</td>
 		</tr>
 		<tr>
@@ -65,14 +64,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</tr>
 		<tr>
 			<td align="center" >
-				<h4><u>Daftar Anggota Kelopok <?= ucwords($kelompok['nama']); ?></u></h4>
+				<h4><u>Daftar Anggota <?= ucwords($this->controller . ' ' . $kelompok['nama']); ?></u></h4>
 			</td>
 		</tr>
 		<tr>
 			<td style="padding: 5px 20px;">
-				<strong>Nama Kelompok : </strong><?= $kelompok['nama']; ?><br>
-				<strong>Ketua Kelompok : </strong><?= $kelompok['nama_ketua']; ?><br>
-				<strong>Kategori Kelompok : </strong><?= $kelompok['kategori']; ?><br>
+				<strong>Nama <?= ucwords($this->controller); ?> : </strong><?= $kelompok['nama']; ?><br>
+				<strong>Ketua <?= ucwords($this->controller); ?> : </strong><?= $kelompok['nama_ketua']; ?><br>
+				<strong>Kategori <?= ucwords($this->controller); ?> : </strong><?= $kelompok['kategori']; ?><br>
 				<strong>Keterangan : </strong><?= $kelompok['keterangan'];?>
 			</td>
 		</tr>
@@ -81,32 +80,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
-							<th>NO.</th>
-							<th>NO. ANGGOTA</th>
-							<th>JABATAN</th>
-							<th>SK JABATAN</th>
+							<th>No.</th>
+							<th>No. Anggota</th>
 							<th>NIK</th>
-							<th>NAMA</th>
-							<th>TEMPAT / TANGGAL LAHIR</th>
-							<th>UMUR (TAHUN)</th>
-							<th>JENIS KELAMIN</th>
-							<th>ALAMAT</th>
-							<th>KETERANGAN</th>
+							<th>Nama Lengkap</th>							
+							<th>Jenis Kelamin</th>
+							<th>Tempat / Tanggal Lahir</th>
+							<th>Agama</th>
+							<th>Jabatan</th>
+							<th>Pendidikan Terakhir</th>
+							<?php if ($this->controller == 'lembaga') : ?>
+								<th>Nomor Dan Tanggal Keputusan Pengangkatan</th>
+								<th>Nomor Dan Tanggal Keputusan Pemberhentian</th>
+							<?php endif ?>
+							<th>Ket.</th>
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ($main as $key => $data): ?>
+					<?php foreach ($main as $key => $data): ?>
 							<tr>
 								<td align="center"><?= ($key + 1)?></td>
 								<td class="textx" align="center"><?= $data['no_anggota']?></td>
-								<td><?= $data['jabatan']?></td>
-								<td><?= $data['no_sk_jabatan']?></td>
 								<td class="textx"><?= $data['nik']?></td>
 								<td><?= $data['nama']?></td>
-								<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
-								<td class="textx" align="center"><?= $data['umur']?></td>
 								<td><?= $data['sex']?></td>
-								<td><?= $data['alamat']?></td>
+								<td><?= strtoupper($data['tempatlahir'] . ' / ' . tgl_indo($data['tanggallahir']))?></td>
+								<td><?= $data['agama'] ?></td>
+								<td><?= $data['jabatan'] ?></td>
+								<td><?= $data['pendidikan']?></td>
+								<?php if ($this->controller == 'lembaga') : ?>
+									<td><?= $data['nmr_sk_pengangkatan'] . " / " . tgl_indo_out($data['tgl_sk_pengangkatan'])?></td>
+									<td><?= $data['nmr_sk_pemberhentian'] . " / " .  tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
+								<?php endif ?>
 								<td><?= $data['keterangan']; ?></td>
 							</tr>
 						<?php endforeach; ?>

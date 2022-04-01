@@ -113,7 +113,7 @@
 					</tr>
 					<td width="25%" align="center">KEPALA KELUARGA</td>
 					<td width="50%"></td>
-					<td align="center" width="150"><?= strtoupper($this->setting->sebutan_kepala_desa)?> <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
+					<td align="center" width="150"><?= strtoupper($this->setting->sebutan_kepala_desa . ' ' . $desa['nama_desa']) ?></td>
 				</tr>
 				<tr><td>&nbsp;</td></tr>
 				<tr><td>&nbsp;</td></tr>

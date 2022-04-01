@@ -111,7 +111,7 @@ class Pembangunan extends Admin_Controller
 			$data['form_action'] = site_url("pembangunan/insert");
 		}
 
-		$this->render('pembangunan/form', $data);
+		$this->load->view('pembangunan/form', $data);
 	}
 
 	public function insert()

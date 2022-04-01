@@ -100,7 +100,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<th>Judul</th>
 									<th>Tahun</th>
 									<th>Semester</th>
-									<th>File</th>
 									<th>Tanggal Upload</th>
 									<th>Tanggal Kirim</th>
 								</tr>
@@ -164,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'order': [[4, 'desc']],
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0, 1, 2] },
-				{ 'className' : 'padat', 'targets': [0, 1, 7, 8] },
+				{ 'className' : 'padat', 'targets': [0, 1, 6, 7] },
 				{ 'className' : 'aksi', 'targets': [2] },
 			],
 			'ajax': {
@@ -197,8 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				{ 'data': 'judul' },
 				{ 'data': 'tahun' },
 				{ 'data': 'semester' },
-				{ 'data': 'nama_file' },
-                { 'data': 'updated_at' },
+				{ 'data': 'updated_at' },
 				{ 'data': 'kirim' },
 			],
 			'language': {

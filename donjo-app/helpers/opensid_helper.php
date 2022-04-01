@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define("VERSION", '22.03');
+define("VERSION", '22.04');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -58,7 +58,7 @@ define("VERSION", '22.03');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022030101');
+define('VERSI_DATABASE', '2022040101');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -358,6 +358,18 @@ define("NILAI_PENDAPAT", serialize([
 function AmbilVersi()
 {
     return VERSION;
+}
+
+/**
+ * Ambil Current Version
+ *
+ * Mengembalikan nomor current_version
+ *
+ * @return string
+ */
+function currentVersion()
+{
+    return preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi());
 }
 
 /**
@@ -709,17 +721,21 @@ function sql_in_list($list_array)
  * redirect_url : jika terjadi error, maka halaman akan dialihkan ke redirect_url
  * unique_id : diperlukan jika nama file asli tidak sama dengan nama didatabase
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
+ * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = LOKASI_ARSIP)
+function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil=false)
 {
 	$CI =& get_instance();
 	$CI->load->helper('download');
+
+	// Batasi akses LOKASI_ARSIP hanya untuk admin
+	if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) redirect('/'); 
 	
 	// Tentukan path berkas (absolut)
 	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
 	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
 	// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-	if (!file_exists($pathBerkas))
+	if ( ! file_exists($pathBerkas))
 	{
 		$_SESSION['success'] = -1;
 		$_SESSION['error_msg'] = 'Berkas tidak ditemukan';
@@ -733,8 +749,10 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 		}
 	}
 	// OK, berkas ada. Ambil konten berkasnya
+
 	$data = file_get_contents($pathBerkas);
-	if (!is_null($unique_id))
+
+	if ( ! is_null($unique_id))
 	{
 		// Buang unique id pada nama berkas download
 		$nama_berkas = explode($unique_id, $nama_berkas);
@@ -743,6 +761,23 @@ function ambilBerkas($nama_berkas, $redirect_url, $unique_id = null, $lokasi = L
 		$ekstensiFile = end($ekstensiFile);
 		$nama_berkas = $namaFile . '.' . $ekstensiFile;
 	}
+
+	// Kalau $tampil, tampilkan secara inline.
+	if ($tampil)
+	{
+		// Set the default MIME type to send
+		$mime = get_extension($nama_berkas) == '.pdf' ? 'application/pdf' : 'application/octet-stream';
+		// Generate the server headers
+		header('Content-Type: '.$mime);
+		header('Content-Disposition: inline; filename="'.$nama_berkas.'"');
+		header('Expires: 0');
+		header('Content-Transfer-Encoding: binary');
+		header('Content-Length: '.strlen($data));
+		header('Cache-Control: private, no-transform, no-store, must-revalidate');
+
+		exit($data);
+	}
+
 	force_download($nama_berkas, $data);
 }
 
@@ -891,6 +926,11 @@ function bilangan_spasi($str)
 function bilangan_titik($str)
 {
     return preg_replace('/[^0-9\.]/', '', strip_tags($str));
+}
+
+function alfanumerik_kolon($str)
+{
+	return preg_replace('/[^a-zA-Z0-9:]/', '', strip_tags($str));
 }
 
 function nomor_surat_keputusan($str)
@@ -1109,22 +1149,42 @@ function format_telpon(string $no_telpon, $kode_negara = '+62')
 // https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
 function strReplaceArrayRecursive($replacement = array(), $strArray = false, $isReplaceKey = false)
 {
-    if ( ! is_array($strArray))
-    {
-        return str_replace(array_keys($replacement), array_values($replacement), $strArray);
-    }
-    else {
-        $newArr = array();
-        foreach ($strArray as $key=>$value)
-        {
-            $replacedKey = $key;
-            if ($isReplaceKey)
-            {
-                $replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
-            }
-            $newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
-        }
+	if ( ! is_array($strArray))
+	{
+		return str_replace(array_keys($replacement), array_values($replacement), $strArray);
+	}
+	else
+	{
+		$newArr = array();
+		foreach ($strArray as $key=>$value)
+		{
+			$replacedKey = $key;
+			if ($isReplaceKey)
+			{
+				$replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
+			}
+			$newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
+		}
 
-        return $newArr;
-    }
+		return $newArr;
+	}
+}
+
+function get_domain(string $url)
+{
+	$parse = parse_url($url);
+
+	return preg_replace('#^(http(s)?://)?w{3}\.#', '$1', $parse['host']);
+}
+
+function get_antrian($antrian)
+{
+	return substr_replace($antrian, '-', 6, 0);
+}
+
+function get_nik($nik = '0')
+{
+	if (substr($nik, 0, 1) !== '0') return $nik;
+
+	return '0';
 }

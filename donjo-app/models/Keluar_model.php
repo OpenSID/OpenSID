@@ -187,15 +187,6 @@
 		$data[$i]['file_lampiran'] = LOKASI_ARSIP.$berkas_lampiran;
 	}
 
-	public function list_data_keterangan($id)
-	{
-		$this->db->select('id, keterangan');
-		$this->db->from('log_surat');
-		$this->db->where('id', $id);
-
-		return $this->db->get()->row_array();
-	}
-
 	public function update_keterangan($id, $data)
 	{
 		$this->db->where('id', $id);
@@ -358,11 +349,6 @@
 		return $data;
 	}
 
-	public function update($id=0)
-	{
-		status_sukses($outp); //Tampilkan Pesan
-	}
-
 	public function delete($id='')
 	{
 		$_SESSION['success'] = 1;
@@ -465,6 +451,17 @@
 		];
 		
 		$data->nomor_surat = $this->penomoran_surat_model->format_penomoran_surat($format);
+
+		return $data;
+	}
+
+	public function get_surat($id = 0)
+	{
+		$data = $this->db
+			->select('nama_surat, lampiran, keterangan')
+			->where('id', $id)
+			->get('log_surat')
+			->row();
 
 		return $data;
 	}

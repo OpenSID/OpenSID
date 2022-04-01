@@ -201,8 +201,8 @@ class Suplemen_model extends MY_Model {
 
 		// Daftar keluarga, tidak termasuk keluarga yang sudah terdata
 		$data = $this->db->select('k.id as id, k.no_kk, p.nama, w.rt, w.rw, w.dusun')
-			->from('tweb_keluarga k')
-			->join('tweb_penduduk p', 'p.id = k.nik_kepala', 'left')
+			->from('keluarga_aktif k')
+			->join('penduduk_hidup p', 'p.id = k.nik_kepala', 'left')
 			->join('tweb_wil_clusterdesa w', 'w.id = p.id_cluster', 'left')
 			->get()
 			->result_array();

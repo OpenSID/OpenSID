@@ -32,18 +32,20 @@ class Folder_desa_model extends CI_Model {
 	public function amankan_folder_desa()
 	{
 		$this->salin_file('desa', 'index.html', 'desa-contoh/index.html');
+		$this->salin_file('desa/arsip', '.htaccess', 'desa-contoh/arsip/.htaccess');
 		$this->salin_file('desa/upload', '.htaccess', 'desa-contoh/upload/media/.htaccess');
+		$this->salin_file('desa/upload/dokumen', '.htaccess', 'desa-contoh/upload/dokumen/.htaccess', $ganti=true);
 	}
 
-	public function salin_file($cek, $cari, $contoh)
+	public function salin_file($cek, $cari, $contoh, $ganti=false)
 	{
-		if (!file_exists("$cek/$cari")) copy($contoh, "$cek/$cari");
+		if ( $ganti || ! file_exists("$cek/$cari")) copy($contoh, "$cek/$cari");
 
 		foreach (glob("$cek/*", GLOB_ONLYDIR) as $folder)
 		{
 			$file = "$folder/$cari";
 
-			if (!file_exists($file)) copy($contoh, $file);
+			if ( $ganti || ! file_exists($file)) copy($contoh, $file);
 
 			$this->salin_file($folder, $cari, $contoh);
 		}

@@ -92,9 +92,7 @@ class Job extends CI_Controller
     private function cek_db($filename = null)
     {
         if (! $filename) {
-            $versi    = AmbilVersi();
-            $versi    = preg_replace('/-premium.*|pasca-|-pasca/', '', $versi);
-            $filename = FCPATH . 'contoh_data_awal_' . str_replace('.', '', '20' . $versi) . '01.sql';
+            $filename = FCPATH . 'contoh_data_awal_' . str_replace('.', '', '20' . currentVersion()) . '01.sql';
         }
 
         return $this->cek_file($filename);
