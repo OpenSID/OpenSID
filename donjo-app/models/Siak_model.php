@@ -66,7 +66,7 @@ define('KOLOM_IMPOR_SIAK', serialize([
     'tgl_entri'         => '37',
 ]));
 
-class Siak_model extends Import_model
+class Siak_model extends Impor_model
 {
     public function __construct()
     {

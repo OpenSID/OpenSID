@@ -157,6 +157,14 @@ class Release
         $current = $this->fix_versioning($this->get_current_version());
         $latest  = $this->fix_versioning($this->get_latest_version());
 
+        if (strlen($current) <= 5) {
+            $current = (int) ($current . '99');
+        }
+
+        if (strlen($latest) <= 5) {
+            $latest = (int) ($latest . '99');
+        }
+
         return $current < $latest;
     }
 

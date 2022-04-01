@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Bip2016_luwutimur_model extends Import_model
+class Bip2016_luwutimur_model extends Impor_model
 {
     public function __construct()
     {

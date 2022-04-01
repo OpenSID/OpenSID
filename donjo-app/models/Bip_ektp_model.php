@@ -37,7 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Bip_ektp_model extends Import_model
+class Bip_ektp_model extends Impor_model
 {
     public function __construct()
     {

@@ -333,6 +333,7 @@ class Impor_model extends CI_Model
 
     private function get_isi_baris($kolom, $rowData)
     {
+        $kolom               = array_flip(array_filter($kolom, 'strlen'));
         $isi_baris['alamat'] = trim($rowData[$kolom['alamat']]);
         $dusun               = ltrim(trim($rowData[$kolom['dusun']]), "'");
         $dusun               = str_replace('_', ' ', $dusun);
@@ -721,7 +722,7 @@ class Impor_model extends CI_Model
                     // Baris pertama diabaikan, berisi nama kolom
                     if (! $baris_pertama) {
                         $baris_pertama = true;
-                        $daftar_kolom  = array_filter($rowData, 'strlen');
+                        $daftar_kolom  = $rowData;
 
                         foreach ($daftar_kolom as $kolom) {
                             if (! in_array($kolom, $this->daftar_kolom)) {
@@ -781,9 +782,10 @@ class Impor_model extends CI_Model
         }
     }
 
-    /* 	====================
-            Selesai IMPOR EXCEL
-            ====================
+    /*
+     * ====================
+     * Selesai IMPOR EXCEL
+     * ====================
     */
 
     public function impor_bip($hapus = false)
