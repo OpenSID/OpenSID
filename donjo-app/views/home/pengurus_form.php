@@ -7,7 +7,7 @@
 			<li class="active">Staf Pemerintahan <?= ucwords($this->setting->sebutan_desa); ?></li>
 		</ol>
 	</section>
-	<section class="content">
+	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<a href="<?= site_url('pengurus'); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Staf</a>

@@ -100,7 +100,10 @@ class Perangkat extends Web_Controller
                     });
             })
             ->orWhereHas('pamong', static function ($query) use ($tag) {
-                $query->where('pamong_tag_id_card', $tag);
+                $query->where('pamong_tag_id_card', $tag)
+                    ->orWhereHas('penduduk', static function ($query) use ($tag) {
+                        $query->where('tag_id_card', $tag);
+                    });
             })
             ->first();
 
