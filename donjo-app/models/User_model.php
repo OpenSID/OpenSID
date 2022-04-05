@@ -378,23 +378,8 @@ class User_model extends CI_Model
 
         $data = $this->sterilkan_input($this->input->post());
 
-        $sql                = 'SELECT username FROM user WHERE username = ?';
-        $dbQuery            = $this->db->query($sql, [$data['username']]);
-        $userSudahTerdaftar = $dbQuery->row();
-        $userSudahTerdaftar = is_object($userSudahTerdaftar) ? $userSudahTerdaftar->username : false;
-
-        if ($userSudahTerdaftar !== false) {
-            session_error(' -> Username ini sudah ada. silahkan pilih username lain');
-            redirect('man_user');
-        }
-
-        // cek pamong apakah sudah mempunyai user atau belum
-        if ($data['pamong_id'] != null && $data['pamong_id'] != '') {
-            $pamong = $this->db->where('pamong_id', (int) $data['pamong_id'])->get('user')->num_rows();
-            if ($pamong > 0) {
-                session_error(' -> Pamong sudah dipilih oleh user lainnya. Silahkan pilih Pamong Lainnya');
-                redirect('man_user');
-            }
+        if (empty($data['pamong_id'])) {
+            $data['pamong_id'] = null;
         }
 
         $pwHash           = $this->generatePasswordHash($data['password']);
@@ -452,6 +437,11 @@ class User_model extends CI_Model
         $this->session->success   = 1;
 
         $data = $this->sterilkan_input($this->input->post());
+
+        if (empty($data['pamong_id'])) {
+            $data['pamong_id'] = null;
+        }
+
         if (empty($idUser)) {
             session_error(' -> Pengguna tidak ditemukan datanya.');
             redirect('man_user');
