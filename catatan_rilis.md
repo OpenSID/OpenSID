@@ -9,6 +9,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Perbaikan BUG
 
 1. [#5110](https://github.com/OpenSID/OpenSID/issues/5110) Perbaiki gagal tambah dan ubah pengguna yang tidak diperuntukkan untuk rekam kehadiran serta validasi kolom unik untuk email, username, dan pamong_id.
+2. [#5109](https://github.com/OpenSID/OpenSID/issues/5109) Perbaiki gagal ekspor data rekapitulasi kehadiran.
 
 
 #### Perubahan Teknis

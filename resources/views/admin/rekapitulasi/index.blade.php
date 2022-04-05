@@ -185,7 +185,7 @@
 
     $(document).on('click', '#excel', function(e) {
         $.ajax({
-            url: "{{ route('kehadiran_rekapitulasi.export') }}",
+            url: "{{ route('kehadiran_rekapitulasi.ekspor') }}",
             type:"GET",
             data: {
                 daterange: $('#daterange').val(),
