@@ -12,7 +12,7 @@
                 <img class="user-image" src="{{ AmbilFoto($masuk['foto'], '', $masuk['sex']) }}" alt="Foto Penduduk" height="120px">
                 @if ($success != 0)
                 <div class="alert alert-success alert-dismissible fade in" role="alert"> 
-                    <strong>{{ ($kehadiran->jam_keluar) ? 'Absen Keluar Berhasil' : 'Absen Hadir Berhasil' }}</strong>  
+                    <strong>{{ 'Rekam Kehadiran ' . ($kehadiran ? 'Masuk' : 'Keluar') . ' Berhasil' }}</strong>  
                 </div>
                 <div class="alert alert-warning alert-dismissible fade in" role="alert">
                     Halaman akan keluar otomatis dalam 5 detik 
@@ -20,8 +20,8 @@
                 @endif
             </div>
             <div class="col-xm-12 text-center">
-                <h2>{{  $masuk['pamong_nama'] }}</h2> 
-                <h4>{{  $masuk['jabatan'] }}</h4>
+                <h2>{{ $masuk['pamong_nama'] }}</h2> 
+                <h4>{{ $masuk['jabatan'] }}</h4>
             </div>
             <div class="col-xm-12 text-center">
                 {!! form_open_multipart(route('kehadiran.check-in-out'), 'name="check" id="validasi"') !!}
