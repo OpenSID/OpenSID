@@ -3,7 +3,7 @@ Di rilis ini, versi 22.04-premium-rev01 menyediakan [untuk diisi]. Rilis ini jug
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
-1. 
+1. [#5095](https://github.com/OpenSID/OpenSID/issues/5095) Tambahkan informasi data kelaurga dengan No KK sementara.
 
 
 #### Perbaikan BUG
