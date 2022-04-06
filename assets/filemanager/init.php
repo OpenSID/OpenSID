@@ -7,8 +7,8 @@ define('FMPATH', dirname(dirname(dirname(__FILE__))) . $ds);
 define('FCPATH', FMPATH . $ds);
 define('APPPATH', FMPATH . "donjo-app{$ds}");
 define('DESAPATH', FMPATH . "desa{$ds}");
-define('RESOURCES', FMPATH . "resources{$ds}");
-define('STORAGE', FMPATH . "storage{$ds}");
+define('RESOURCESPATH', FMPATH . "resources{$ds}");
+define('STORAGEPATH', FMPATH . "storage{$ds}");
 define('BASEPATH', FMPATH . "vendor{$ds}codeigniter{$ds}framework{$ds}system{$ds}");
 define('APP_URL', ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}" . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
 

@@ -16,5 +16,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Perubahan Teknis
 
-1. 
+1. Update index.php
 

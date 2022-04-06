@@ -37,6 +37,17 @@
 
 /*
  *---------------------------------------------------------------
+ * .ENV
+ *---------------------------------------------------------------
+ *
+ * Pengaturan lain yang tersimpan difile .env (di .gitignore)
+ */
+    if (file_exists('.env')) {
+        include '.env';
+    }
+
+/*
+ *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
  *
@@ -52,16 +63,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-
-  // pengaturan lain yang tersimpan difile .env (di .gitignore)
-    if (file_exists('.env')) {
-        include '.env';
-    }
-
     defined('ENVIRONMENT') || define('ENVIRONMENT', 'production');
-
-    // Setting devtoolsbar
-    defined('DEV_TOOLS_BAR') || define('DEV_TOOLS_BAR', false);
 
 /*
  *---------------------------------------------------------------
@@ -71,55 +73,24 @@
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
-switch (ENVIRONMENT) {
-    case 'development':
-        error_reporting(-1);
-        ini_set('display_errors', 1);
-    break;
+    switch (ENVIRONMENT) {
+        case 'development':
+            error_reporting(-1);
+            ini_set('display_errors', 1);
+        break;
 
-    case 'testing':
-    case 'production':
-        ini_set('display_errors', 0);
-        if (version_compare(PHP_VERSION, '5.3', '>=')) {
+        case 'testing':
+        case 'production':
+            ini_set('display_errors', 0);
             error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
-        } else {
-            error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
-        }
-    break;
+        break;
 
-    default:
-        header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'The application environment is not set correctly.';
+        default:
+            header('HTTP/1.1 503 Service Unavailable.', true, 503);
+            echo 'The application environment is not set correctly.';
 
-        exit(1); // EXIT_ERROR
-}
-
-/*
- *---------------------------------------------------------------
- * CATATAN
- *---------------------------------------------------------------
- *
- * Setiap kali melakukan define folder,
- * Lakukan juga di file assets/filemanager/init.php
- *
- */
-
-/*
- *---------------------------------------------------------------
- * DESA DIRECTORY NAME
- *---------------------------------------------------------------
- *
- * This variable must contain the name of your "desa" directory.
- * Set the path if it is not in the same directory as this file.
- */
-    $desa_path = 'desa';
-
-/*
- *---------------------------------------------------------------
- * KEHADIRAN DIRECTORY NAME
- *---------------------------------------------------------------
- */
-    $kehadiran_folder = 'kehadiran';
+            exit(1); // EXIT_ERROR
+    }
 
 /*
  *---------------------------------------------------------------
@@ -142,7 +113,7 @@ switch (ENVIRONMENT) {
  * use an absolute (full) server path.
  * For more info please see the user guide:
  *
- * https://codeigniter.com/user_guide/general/managing_apps.html
+ * https://codeigniter.com/userguide3/general/managing_apps.html
  *
  * NO TRAILING SLASH!
  */
@@ -162,41 +133,6 @@ switch (ENVIRONMENT) {
  * NO TRAILING SLASH!
  */
     $view_folder = '';
-
-    /**
-     *---------------------------------------------------------------
-     * WEB DIRECTORY NAME
-     *---------------------------------------------------------------
-     */
-    $web_folder = 'fweb';
-
-    /**
-     *---------------------------------------------------------------
-     * MANDIRI DIRECTORY NAME
-     *---------------------------------------------------------------
-     */
-    $mandiri_folder = 'fmandiri';
-
-    /**
-     *---------------------------------------------------------------
-     * ADMIN DIRECTORY NAME
-     *---------------------------------------------------------------
-     */
-    $admin_folder = 'fadmin';
-
-    /**
-     *---------------------------------------------------------------
-     * RESOURCES DIRECTORY NAME
-     *---------------------------------------------------------------
-     */
-    $resources_folder = 'resources';
-
-    /**
-     *---------------------------------------------------------------
-     * STORAGE DIRECTORY NAME
-     *---------------------------------------------------------------
-     */
-    $storage_folder = 'storage';
 
 /*
  * --------------------------------------------------------------------
@@ -347,81 +283,8 @@ switch (ENVIRONMENT) {
     }
 
     define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
-    /**
-     * https://stackoverflow.com/questions/11792268/how-to-set-proper-codeigniter-base-url
-     * Define APP_URL Dynamically
-     * Write this at the bottom of index.php
-     *
-     * Automatic base url
-     */
-    define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}" . str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']));
 
-    /**
-     * Custom path
-     */
-    define('WEB', $web_folder);
-    define('MANDIRI', $mandiri_folder);
-    define('ADMIN', $admin_folder);
-    define('DESAPATH', $desa_path . DIRECTORY_SEPARATOR);
-    define('KEHADIRAN', $kehadiran_folder);
-
-    // The path to the "resources" directory
-    if (! isset($resources[0]) && is_dir(APPPATH . 'resources' . DIRECTORY_SEPARATOR)) {
-        $resources_folder = APPPATH . 'resources';
-    } elseif (is_dir($resources_folder)) {
-        if (($_temp = realpath($resources_folder)) !== false) {
-            $resources_folder = $_temp;
-        } else {
-            $resources_folder = strtr(
-                rtrim($resources_folder, '/\\'),
-                '/\\',
-                DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-            );
-        }
-    } elseif (is_dir(APPPATH . $resources_folder . DIRECTORY_SEPARATOR)) {
-        $resources_folder = APPPATH . strtr(
-            trim($resources_folder, '/\\'),
-            '/\\',
-            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-        );
-    } else {
-        header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: ' . self;
-
-        exit(3); // EXIT_CONFIG
-    }
-
-    define('RESOURCES', $resources_folder . DIRECTORY_SEPARATOR);
-
-    // The path to the "storage" directory
-    if (! isset($storage[0]) && is_dir(APPPATH . 'storage' . DIRECTORY_SEPARATOR)) {
-        $storage_folder = APPPATH . 'storage';
-    } elseif (is_dir($storage_folder)) {
-        if (($_temp = realpath($storage_folder)) !== false) {
-            $storage_folder = $_temp;
-        } else {
-            $storage_folder = strtr(
-                rtrim($storage_folder, '/\\'),
-                '/\\',
-                DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-            );
-        }
-    } elseif (is_dir(APPPATH . $storage_folder . DIRECTORY_SEPARATOR)) {
-        $storage_folder = APPPATH . strtr(
-            trim($storage_folder, '/\\'),
-            '/\\',
-            DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR
-        );
-    } else {
-        header('HTTP/1.1 503 Service Unavailable.', true, 503);
-        echo 'Your view folder path does not appear to be set correctly. Please open the following file and correct this: ' . self;
-
-        exit(3); // EXIT_CONFIG
-    }
-
-    define('STORAGE', $storage_folder . DIRECTORY_SEPARATOR);
-
-/**
+/*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
  * --------------------------------------------------------------------
