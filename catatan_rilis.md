@@ -4,6 +4,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
 1. [#5095](https://github.com/OpenSID/OpenSID/issues/5095) Tambahkan informasi data kelaurga dengan No KK sementara.
+2. [$5091](https://github.com/OpenSID/OpenSID/issues/5091) Tambahkan fitur bersihkan pada bantuan / daftar peserta bantuan.
 
 
 #### Perbaikan BUG
