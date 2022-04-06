@@ -119,6 +119,14 @@ class Program_bantuan extends Admin_Controller
         $this->render('program_bantuan/panduan');
     }
 
+    public function detail_clear($program_id)
+    {
+        $this->session->per_page = $this->_set_page[0];
+        $this->session->unset_userdata('cari');
+
+        redirect("program_bantuan/detail/{$program_id}");
+    }
+
     public function detail($program_id = 0, $p = 1)
     {
         $per_page = $this->input->post('per_page');
