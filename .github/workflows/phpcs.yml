@@ -1,10 +1,6 @@
 name: Fix styling
 
 on:
-  push:
-    branches:
-      - bug-fix
-      - rilis-dev
   pull_request:
     branches:
       - bug-fix
