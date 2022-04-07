@@ -1195,3 +1195,40 @@ function except($array, $keys)
 
     return $array;
 }
+
+/**
+ * Get the directory size
+ *
+ * @param string $directory
+ *
+ * @return int
+ *
+ * https://stackoverflow.com/questions/478121/how-to-get-directory-size-in-php
+ */
+function dirSize($directory)
+{
+    $size = 0;
+
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory)) as $file) {
+        $size += $file->getSize();
+    }
+
+    return $size;
+}
+
+function getSizeDB()
+{
+    $CI = &get_instance();
+
+    $query = "SELECT
+        TABLE_SCHEMA AS DB_Name,
+        count(TABLE_SCHEMA) AS total_tables,
+        SUM(TABLE_ROWS) AS total_tables_row,
+        ROUND(sum(data_length + index_length)) AS 'size'
+        FROM information_schema.TABLES
+        WHERE TABLE_SCHEMA = '{$CI->db->database}'
+        GROUP BY TABLE_SCHEMA
+    ";
+
+    return $CI->db->query($query)->row();
+}
