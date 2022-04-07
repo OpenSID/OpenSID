@@ -22,4 +22,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Perubahan Teknis
 
 1. Update index.php
+2. Sesuaikan notifikasi rilis untuk rilis resmi
 
