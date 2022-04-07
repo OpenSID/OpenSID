@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. [#5091](https://github.com/OpenSID/OpenSID/issues/5091) Tambahkan fitur bersihkan pada bantuan / daftar peserta bantuan.
 3. [#5124](https://github.com/OpenSID/OpenSID/issues/5124) Tambahkan informasi ukuran file database dan folder desa.
 4. [#4389](https://github.com/OpenSID/OpenSID/issues/4389) Tambahkan fitur disable tombol perbaharui Status IDM jika tersedia informasi data.
+5. [#5131](https://github.com/OpenSID/OpenSID/issues/5131) Pisahkan halaman idm web dan admin.
 
 
 #### Perbaikan BUG
