@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-rilis-dev',
-        'version' => 'dev-rilis-dev',
+        'pretty_version' => 'dev-bug-fix',
+        'version' => 'dev-bug-fix',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'bc56bc747a1e79370343921e63c1b60fe87e60db',
+        'reference' => '263c37afd88a6fe625dedab75fd2a2cf76f25d8c',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -263,12 +263,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-rilis-dev',
-            'version' => 'dev-rilis-dev',
+            'pretty_version' => 'dev-bug-fix',
+            'version' => 'dev-bug-fix',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'bc56bc747a1e79370343921e63c1b60fe87e60db',
+            'reference' => '263c37afd88a6fe625dedab75fd2a2cf76f25d8c',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -577,7 +577,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => '1ed200fd8ed66237c143897d62579eb8062ef528',
+            'reference' => '12d4c26b4644d8faf420abeaafaa73a4319889cb',
             'dev_requirement' => false,
         ),
         'voku/portable-ascii' => array(

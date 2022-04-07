@@ -28,6 +28,7 @@
 								if (preg_match("/halaman_statis/i", $halaman_statis)) {
 									$this->load->view($halaman_statis);
 								} else {
+									$halaman_statis = str_replace('home/idm', 'idm/index', $halaman_statis);
 									$this->load->view("{$folder_themes}/partials/{$halaman_statis}");
 								}
 							?>
