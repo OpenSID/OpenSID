@@ -1007,26 +1007,32 @@ class Penduduk extends Admin_Controller
 
     public function ekspor()
     {
-        $daftar_kolom = $this->impor_model->daftar_kolom;
+        try {
+            $daftar_kolom = $this->impor_model->daftar_kolom;
 
-        $writer = WriterEntityFactory::createXLSXWriter();
-        $writer->openToBrowser(namafile('penduduk') . '.xlsx');
-        $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
+            $writer = WriterEntityFactory::createXLSXWriter();
+            $writer->openToBrowser(namafile('penduduk') . '.xlsx');
+            $writer->addRow(WriterEntityFactory::createRowFromArray($daftar_kolom));
 
-        //Isi Tabel
-        $get = $this->ekspor_model->expor();
+            //Isi Tabel
+            $get = $this->ekspor_model->expor();
 
-        foreach ($get as $row) {
-            $penduduk = [];
+            foreach ($get as $row) {
+                $penduduk = [];
 
-            foreach ($daftar_kolom as $kolom) {
-                $penduduk[] = $row->{$kolom};
+                foreach ($daftar_kolom as $kolom) {
+                    $penduduk[] = $row->{$kolom};
+                }
+
+                $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
             }
+            $writer->close();
+        } catch (\Exception $e) {
+            log_message('error', $e);
 
-            $writer->addRow(WriterEntityFactory::createRowFromArray($penduduk));
+            $this->session->set_flashdata('notif', 'Tidak berhasil mengekspor data penduduk, harap mencoba kembali.');
+
+            redirect('penduduk');
         }
-        $writer->close();
-
-        redirect('penduduk');
     }
 }

@@ -89,7 +89,7 @@
 									</li>
 								<?php endif ?>
 								<li>
-									<a href="<?= route('penduduk.ekspor') ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk"><i class="fa fa-download"></i> Ekspor Penduduk</a>
+									<a href="<?= route('penduduk.ekspor') ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm" title="Ekspor Penduduk"><i class="fa fa-download"></i> Ekspor Penduduk</a>
 								</li>
 							</ul>
 						</div>
