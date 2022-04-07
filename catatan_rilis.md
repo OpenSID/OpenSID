@@ -14,10 +14,12 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 4. [#5112](https://github.com/OpenSID/OpenSID/issues/5112) Sesuaikan notifikasi rekam kehadiran untuk kehadiran masuk dan keluar yang tidak sesuai.
 5. [#5123](https://github.com/OpenSID/OpenSID/issues/5123) Perbaiki gagal ekspor excel data penduduk.
 6. [#5128](https://github.com/OpenSID/OpenSID/issues/5128) Perbaiki statistik bpjs ketenagakerjaan.
+7. [#4950](https://github.com/OpenSID/OpenSID/issues/4950) Perbaiki tampilan tombol impor pada menu rumah tangga di tampilan handphone.
 
 
 #### Perubahan Teknis
 
 1. Update index.php
 2. Sesuaikan notifikasi rilis untuk rilis resmi
+
 
