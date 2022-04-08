@@ -48,6 +48,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	.table, th {
 		text-align: center;
 	}
+
+	.dataTable {
+		width: 100%!important;
+		table-layout: auto!important;
+		border-collapse: collapse!important;
+		padding-top: 1.25rem!important;
+		padding-bottom: 1.25rem!important;
+	}
+
 </style>
 <div class="modal-body">
 	<form id="mainform" name="mainform" method="post">
