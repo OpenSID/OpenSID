@@ -131,8 +131,7 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->set_validasi();
-        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]');
-        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_penduduk.tag_id_card]');
+        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card]]');
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
@@ -147,8 +146,8 @@ class Pengurus extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->set_validasi();
-        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_desa_pamong.pamong_tag_id_card,id,{id}]');
-        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', 'is_unique[tweb_penduduk.tag_id_card,id,{id}]');
+
+        $this->form_validation->set_rules('pamong_tag_id_card', 'Tag ID Card', "is_unique[tweb_desa_pamong.pamong_tag_id_card,pamong_id,{$id}]");
 
         if ($this->form_validation->run() !== true) {
             session_error(trim(validation_errors()));
