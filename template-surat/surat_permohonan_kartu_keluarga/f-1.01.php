@@ -365,7 +365,7 @@
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
-			<td class="left">.........................................., .............................20..</td>
+			<td class="left"><?= $config['nama_desa'] ?>, <?= tgl_indo(date('Y-m-d')); ?></td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
