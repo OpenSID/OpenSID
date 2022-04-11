@@ -157,14 +157,6 @@ class Release
         $current = $this->fixVersioning($this->getCurrentVersion());
         $latest  = $this->fixVersioning($this->getLatestVersion());
 
-        if (strlen($current) < 5) {
-            $current = (int) ($current . '0900');
-        }
-
-        if (strlen($latest) < 5) {
-            $latest = (int) ($latest . '0000');
-        }
-
         return $current < $latest;
     }
 
