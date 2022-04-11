@@ -759,7 +759,7 @@ class Impor_model extends CI_Model
                     }
                 }
 
-                if (($baris_data - 1) <= 0 || $gagal > 0) {
+                if (($baris_data - 1) <= 0) {
                     return set_session('error', 'Data penduduk gagal diimpor');
                 }
 

@@ -242,8 +242,6 @@ class Bip2012_model extends Impor_model
 
         if ($gagal_penduduk == 0) {
             $baris_gagal = 'tidak ada data yang gagal di import.';
-        } else {
-            return set_session('error', 'Data penduduk gagal diimpor');
         }
 
         $pesan_impor = [
