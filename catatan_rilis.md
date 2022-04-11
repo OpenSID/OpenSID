@@ -21,7 +21,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 7. [#4950](https://github.com/OpenSID/OpenSID/issues/4950) Perbaiki tampilan tombol impor pada menu rumah tangga di tampilan handphone.
 8. [#4163](https://github.com/OpenSID/OpenSID/issues/4163) Perbaiki hasil ekspor lampiran f.101, f.15, f16 di tanggal pembuatan surat.
 9. [#5050](https://github.com/OpenSID/OpenSID/issues/5050) Perbaiki tampilan tabel statistik pada halaman peta yang bertumpuk.
-
+10. [#5118](https://github.com/OpenSID/OpenSID/issues/5118) Perbaiki perhitungan dan grafik APBDes pada Pelaksanaan Pembiayaan.
+11. [#5042](https://github.com/OpenSID/OpenSID/issues/5042) Perbaiki laporan ulang meengenai info layanan.
 
 #### Perubahan Teknis
 

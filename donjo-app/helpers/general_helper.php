@@ -35,6 +35,8 @@
  *
  */
 
+use Carbon\Carbon;
+
 if (! function_exists('asset')) {
     function asset($uri = '', $default = true)
     {
@@ -184,5 +186,36 @@ if (! function_exists('setting')) {
         }
 
         return $getSetting;
+    }
+}
+
+if (! function_exists('calculate_days')) {
+    /**
+     * Calculate minute between 2 date.
+     *
+     * @return int
+     */
+    function calculate_days(string $dateStart, string $format = 'Y-m-d')
+    {
+        return abs(Carbon::createFromFormat($format, $dateStart)->getTimestamp() - Carbon::now()->getTimestamp()) / (60 * 60 * 24);
+    }
+}
+
+if (! function_exists('calculate_date_intervals')) {
+    /**
+     * Calculate list dates interval to minutes.
+     *
+     * @return int
+     */
+    function calculate_date_intervals(array $date)
+    {
+        $reference = Carbon::now();
+        $endTime   = clone $reference;
+
+        foreach ($date as $dateInterval) {
+            $endTime = $endTime->add(DateInterval::createFromDateString(calculate_days($dateInterval) . 'days'));
+        }
+
+        return $reference->diff($endTime)->days;
     }
 }
