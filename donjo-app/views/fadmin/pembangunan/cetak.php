@@ -10,8 +10,8 @@
 <table>
 	<tbody>
 		<tr>
-			<td>
-				<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
+			<td class="text-center">
+				<img class="logo " src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
 				<h1 class="judul">DOKUMENTASI BIDANG PELAKSANAAN PEMBANGUNAN</h1>
 				<h1 class="judul">
 					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
@@ -56,7 +56,7 @@
 					<tr>
 						<td class="text-center">
 							<h4><?= $value->keterangan . ' ' . $value->persentase ?></h4>
-							<img class="gambar-pembangunan" src="<?= base_url() . LOKASI_GALERI . $value->gambar ?>" alt="<?= $pembangunan->judul ?>">
+							<img class="gambar-pembangunan" src="<?= base_url() . LOKASI_GALERI . $value->gambar ?>" width="400" height="200" alt="<?= $pembangunan->judul ?>">
 						</td>
 					</tr>
 					<tr>

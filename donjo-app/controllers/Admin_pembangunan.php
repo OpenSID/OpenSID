@@ -176,6 +176,7 @@ class Admin_pembangunan extends Admin_Controller
         $data['pamong_ttd']     = $this->pamong_model->get_data($request['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($request['pamong_ketahui']);
         $data['aksi']           = $aksi;
+        $data['ekstensi']       = 'doc';
         $data['file']           = 'Laporan Pembangunan';
         $data['isi']            = ADMIN . '/pembangunan/cetak';
 
