@@ -53,7 +53,7 @@
 									<b>Latar Login Mandiri</b>
 								</div>
 								<div class="box-body box-profile text-center">
-									<img class="img-responsive" src="<?= base_url($latar_login_mandiri ?: 'assets/css/images/latar_login_mandiri.jpg'); ?>" alt="Latar Halaman Login" width="100%">
+									<img class="img-responsive" src="<?= asset($latar_login_mandiri ?: 'assets/css/images/latar_login_mandiri.jpg?v', false); ?>" alt="Latar Halaman Login" width="100%">
 									<p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
 									<div class="input-group">
 										<input type="text" class="form-control input-sm" id="file_path2" name="latar_login_mandiri">
