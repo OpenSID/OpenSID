@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.04-premium-rev02 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.04-premium-beta02 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
