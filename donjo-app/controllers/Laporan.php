@@ -43,41 +43,37 @@ class Laporan extends Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model('laporan_bulanan_model');
-        $this->load->model('pamong_model');
-        $this->controller = 'laporan';
-
-        //Initialize Session ------------
-        $_SESSION['success'] = 0;
-        $_SESSION['cari']    = '';
-        //-------------------------------
-
-        $this->modul_ini     = 3;
-        $this->sub_modul_ini = 28;
+        $this->load->model(['laporan_bulanan_model', 'pamong_model']);
+        $this->modul_ini          = 3;
+        $this->sub_modul_ini      = 28;
+        $this->header['kategori'] = 'data_lengkap';
     }
 
     public function clear()
     {
-        $_SESSION['bulanku']  = date('n');
-        $_SESSION['tahunku']  = date('Y');
-        $_SESSION['per_page'] = 200;
+        session_error_clear();
+        $this->session->unset_userdata(['cari']);
+        $this->session->bulanku  = date('n');
+        $this->session->tahunku  = date('Y');
+        $this->session->per_page = 200;
+
         redirect('laporan');
     }
 
     public function index()
     {
-        if (isset($_SESSION['bulanku'])) {
-            $data['bulanku'] = $_SESSION['bulanku'];
+        if (isset($this->session->bulanku)) {
+            $data['bulanku'] = $this->session->bulanku;
         } else {
-            $data['bulanku']     = date('n');
-            $_SESSION['bulanku'] = $data['bulanku'];
+            $data['bulanku']        = date('n');
+            $this->session->bulanku = $data['bulanku'];
         }
 
-        if (isset($_SESSION['tahunku'])) {
-            $data['tahunku'] = $_SESSION['tahunku'];
+        if (isset($this->session->tahunku)) {
+            $data['tahunku'] = $this->session->tahunku;
         } else {
-            $data['tahunku']     = date('Y');
-            $_SESSION['tahunku'] = $data['tahunku'];
+            $data['tahunku']        = date('Y');
+            $this->session->tahunku = $data['tahunku'];
         }
 
         $data['bulan']                = $data['bulanku'];
@@ -144,8 +140,8 @@ class Laporan extends Admin_Controller
     {
         $data                   = [];
         $data['config']         = $this->config_model->get_data();
-        $data['bulan']          = $_SESSION['bulanku'];
-        $data['tahun']          = $_SESSION['tahunku'];
+        $data['bulan']          = $this->session->bulanku;
+        $data['tahun']          = $this->session->tahunku;
         $data['bln']            = getBulan($data['bulan']);
         $data['penduduk_awal']  = $this->laporan_bulanan_model->penduduk_awal();
         $data['kelahiran']      = $this->laporan_bulanan_model->kelahiran();
@@ -164,16 +160,16 @@ class Laporan extends Admin_Controller
     {
         $bulanku = $this->input->post('bulan');
         if ($bulanku != '') {
-            $_SESSION['bulanku'] = $bulanku;
+            $this->session->bulanku = $bulanku;
         } else {
-            unset($_SESSION['bulanku']);
+            unset($this->session->bulanku);
         }
 
         $tahunku = $this->input->post('tahun');
         if ($tahunku != '') {
-            $_SESSION['tahunku'] = $tahunku;
+            $this->session->tahunku = $tahunku;
         } else {
-            unset($_SESSION['tahunku']);
+            unset($this->session->tahunku);
         }
         redirect('laporan');
     }

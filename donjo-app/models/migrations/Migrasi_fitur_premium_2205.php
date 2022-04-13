@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2205 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
+        $hasil = $hasil && $this->pengaturanStatusDesa($hasil);
 
-        return $hasil && $this->pengaturanStatusDesa($hasil);
+        return $hasil && $this->pengaturanDataLengkap($hasil);
     }
 
     protected function pengaturanStatusDesa($hasil)
@@ -57,5 +58,12 @@ class Migrasi_fitur_premium_2205 extends MY_model
             'keterangan' => 'Default tahun IDM saat pertamakali dibuka',
             'kategori'   => 'status desa',
         ]);
+    }
+
+    protected function pengaturanDataLengkap($hasil)
+    {
+        return $hasil && $this->db
+            ->where_in('key', ['tgl_data_lengkap', 'tgl_data_lengkap_aktif'])
+            ->update('setting_aplikasi', ['kategori' => 'data_lengkap']);
     }
 }
