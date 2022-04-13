@@ -12,7 +12,7 @@
                 <h1>Aplikasi Rekam Kehadiran Perangkat {{ ucwords($setting->sebutan_desa) }}</h1>
                 <h5>IP Address : {{ $ip_address }}</h5>
                 @if($mac_address)
-                    <h5> Mac Address : $mac_address</h5>
+                    <h5> MAC Address : {{ $mac_address }}</h5>
                 @endif
             </div>
         </div>
