@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.04-premium-rev01 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.04-premium-rev02 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
@@ -22,6 +22,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 12. [#5137](https://github.com/OpenSID/OpenSID/issues/5137) Perbaiki notifikasi baris gagal ketika impor penduduk tidak muncul.
 13. [#5140](https://github.com/OpenSID/OpenSID/issues/5140) Perbaiki latar login mandiri gambar tidak berubah.
 14. [#5122](https://github.com/OpenSID/OpenSID/issues/5122) Perbaiki unduh excel pembangunan berantakan.
+15. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki deteksi MAC Address gawai kehadiran.
+16. [#5147](https://github.com/OpenSID/OpenSID/issues/5147) Perbaiki MAC Address terbypass oleh perangkat / gawai yang tidak terdaftar.
 
 #### Perubahan Teknis
 

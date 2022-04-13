@@ -219,3 +219,27 @@ if (! function_exists('calculate_date_intervals')) {
         return $reference->diff($endTime)->days;
     }
 }
+
+if (! function_exists('macAddress')) {
+    /**
+     * macAddress function
+     *
+     * macAddress() => 00:16:3e:f3:6b:40
+     *
+     * https://programmierfrage.com/items/not-able-to-get-mac-address-of-client-machine-using-php
+     *
+     * @return void
+     */
+    function macAddress()
+    {
+        $mac = str_replace('-', ':', strtok(exec('getmac'), ' '));
+        if (empty($mac)) {
+            $mac = shell_exec("ip link | awk '{print $2}'");
+            preg_match_all('/([a-z0-9]+):\s+((?:[0-9a-f]{2}:){5}[0-9a-f]{2})/i', $mac, $matches);
+            $output = array_combine($matches[1], $matches[2]);
+            $mac    = $output['eth0'];
+        }
+
+        return $mac;
+    }
+}
