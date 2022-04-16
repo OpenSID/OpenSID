@@ -413,11 +413,16 @@ class Import_model extends CI_Model {
 
 		// Update nik_kepala dan id_cluster di keluarga apabila baris ini kepala keluarga
 		// dan sudah ada NIK
-		if ($data['kk_level'] == 1)
-		{
-      $this->db->where('id', $data['id_kk']);
-      $this->db->update('tweb_keluarga', array('nik_kepala' => $id, 'id_cluster' => $isi_baris['id_cluster'], 'alamat' => $isi_baris['alamat']));
+		if ($data['kk_level'] == 1) {
+			$this->db
+                ->where('id', $data['id_kk'])
+                ->update('tweb_keluarga', [
+                    'nik_kepala' => $penduduk_baru,
+                    'id_cluster' => $isi_baris['id_cluster'],
+                    'alamat'     => $isi_baris['alamat'],
+                ]);
 		}
+		
 		return $penduduk_baru;
 	}
 
