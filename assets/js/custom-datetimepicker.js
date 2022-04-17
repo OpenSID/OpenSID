@@ -111,8 +111,15 @@ $(document).ready(function()
 	});
 	$('#tgl_6').datetimepicker(
 	{
-			format: 'DD-MM-YYYY',
-			locale:'id'
+		format: 'DD-MM-YYYY',
+		locale:'id',
+		minDate: moment(new Date())
+	});
+	$('#tgl_7').datetimepicker(
+	{
+		format: 'DD-MM-YYYY',
+		locale:'id',
+		minDate: moment(new Date())
 	});
 	$('#jam_1').datetimepicker(
 	{
