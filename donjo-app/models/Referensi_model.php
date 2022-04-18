@@ -77,6 +77,7 @@ define('LINK_TIPE', serialize([
     '5'  => 'Halaman Statis Lainnya',
     '6'  => 'Artikel Keuangan',
     '7'  => 'Kelompok',
+    '11' => 'Lembaga',
     '9'  => 'Data Suplemen',
     '10' => 'Status IDM',
     '99' => 'Eksternal',

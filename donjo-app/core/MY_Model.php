@@ -91,7 +91,7 @@ class MY_Model extends CI_Model
                 $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
                 break;
 
-            case 'data-kelompok':
+            case 'data-kelompok' || 'data-lembaga':
                 $this->load->model('kelompok_model');
                 $data = $this->kelompok_model->get_kelompok($cut[1]);
                 $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);

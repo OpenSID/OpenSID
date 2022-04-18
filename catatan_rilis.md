@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 11. [#4798](https://github.com/OpenSID/OpenSID/issues/4798) Tambahkan penyesuaian modul laporan rentan.
 12. [#4979](https://github.com/OpenSID/OpenSID/issues/4979) File unduh kartu keluarga menggunakan format date dd-mm-yyyy.
 13. [#4839](https://github.com/OpenSID/OpenSID/issues/4839) Tambahkan pengurutan data keluarga berdasarkan tanggal cetak.
+14. [#4552](https://github.com/OpenSID/OpenSID/issues/4552) Tambahkan data lembaga ke halaman web.
 
 
 #### Perbaikan BUG
