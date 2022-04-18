@@ -60,7 +60,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<?php if (! empty($menu['link'])): ?>
 			<div class="form-group">
 				<label class="control-label" for="link_sebelumnya">Link Sebelumnya</label>
-				<input class="form-control input-sm" type="text" value="<?=$menu['link']?>" disabled></input>
+				<input class="form-control input-sm" type="text" value="<?=$menu['url']?>" disabled></input>
 			</div>
 		<?php endif; ?>
 		<div class="form-group">

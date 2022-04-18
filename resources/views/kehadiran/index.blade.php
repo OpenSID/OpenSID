@@ -35,7 +35,7 @@
 
                         @if ($kehadiran && ! $success)
                         <label>
-                            <input type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="small" data-on="-" data-off="KELUAR" name="cek" {{ ($success ) ? 'checked' : '' }} >
+                            <input id="cek_keluar" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-size="small" data-on="-" data-off="KELUAR" name="cek" {{ ($success ) ? 'checked' : '' }} >
                         </label>
                         @endif
                     </div>
@@ -61,11 +61,27 @@
                 location.href = url;
             }, 5000);
         }
+
+        var waktu = "{{ $kehadiran->jam_masuk }}";
+        var sekarang = "{{ date('H:i') }}";
         
-        // ajax 
-        $('input[name="cek"]').change(function() {
-            $('form[name="check"]').submit();
-        })
+        if (waktu < sekarang) {
+            $('input[name="cek"]').change(function() {
+                $('form[name="check"]').submit();
+            })
+        } else {
+            $('#cek_keluar').change(function() {
+                if ($(this).checked == false) {
+                    return true;
+                } else {
+                var box= confirm("Anda masuk kurang dari 1 menit, apakah anda yakin ingin keluar?");
+                    if (box==true)
+                        $('form[name="check"]').submit();
+                    else
+                    $(this).checked = false;
+                }
+            })
+        }
     });
 </script>
 @endpush
