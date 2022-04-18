@@ -43,5 +43,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. Sesuaikan notifikasi rilis untuk rilis resmi.
 3. Perbaiki kesalahan penulisan domain berputar.
 4. Perbaiki helper setting.
+5. [#5010](https://github.com/OpenSID/OpenSID/pull/5010), [#5011](https://github.com/OpenSID/OpenSID/pull/5011) Update htaccess.txt
 
 
