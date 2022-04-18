@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 9. [#5136](https://github.com/OpenSID/OpenSID/issues/5136) Tambahkan noindex pada halaman /periksa.
 10. [#4956](https://github.com/OpenSID/OpenSID/issues/4956) Tambahkan tombol lihat dokumen pada Buku Agenda Surat Keluar.
 11. [#4798](https://github.com/OpenSID/OpenSID/issues/4798) Tambahkan penyesuaian modul laporan rentan.
+12. [#4979](https://github.com/OpenSID/OpenSID/issues/4979) File unduh kartu keluarga menggunakan format date dd-mm-yyyy.
 
 
 #### Perbaikan BUG
