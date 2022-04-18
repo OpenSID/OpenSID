@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 15. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki deteksi MAC Address gawai kehadiran.
 16. [#5147](https://github.com/OpenSID/OpenSID/issues/5147) Perbaiki MAC Address terbypass oleh perangkat / gawai yang tidak terdaftar.
 17. [#5145](https://github.com/OpenSID/OpenSID/issues/5145) Perbaiki artikel yang di awali dengan angka akan di arahkan ke artikel lain.
+18. [#5113](https://github.com/OpenSID/OpenSID/issues/5113) Perbaiki konfirmasi jika kehadiran kurang 1 menit.
 
 #### Perubahan Teknis
 
