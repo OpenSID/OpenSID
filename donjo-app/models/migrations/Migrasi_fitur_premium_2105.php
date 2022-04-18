@@ -184,7 +184,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         // Menambahkan data Redirect URI Google API pada Setting Aplikasi
         $data_setting = [
             'key'        => 'api_gform_redirect_uri',
-            'value'      => 'https://beputar.opendesa.id/index.php/first/get_form_info',
+            'value'      => 'https://berputar.opendesa.id/index.php/first/get_form_info',
             'keterangan' => 'Redirecet URI untuk Google API',
             'kategori'   => 'setting_analisis',
         ];

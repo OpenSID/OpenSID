@@ -44,7 +44,7 @@ Sistem ini dikelola dengan merujuk pada lisensi **GNU General Public License Ver
 
 Demo aplikasi OpenSID Versi Umum dapat diujicoba di https://demosid.opendesa.id. Versi yang terlihat di demo itu adalah rilis Umum terkini. Modul administrasi demo OpenSID dapat diaskses pada https://demosid.opendesa.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
 
-Demo aplikasi OpenSID Versi Premium dapat diujicoba di https://beputar.opendesa.id. Versi ini disediakan bagi pelanggan fitur Premium. Modul administrasi demo versi Premium dapat diaskses pada https://beputar.opendesa.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
+Demo aplikasi OpenSID Versi Premium dapat diujicoba di https://berputar.opendesa.id. Versi ini disediakan bagi pelanggan fitur Premium. Modul administrasi demo versi Premium dapat diaskses pada https://berputar.opendesa.id/index.php/siteman. Masukkan Username = admin dan Password = sid304.
 
 ### 💬 FORUM
 
