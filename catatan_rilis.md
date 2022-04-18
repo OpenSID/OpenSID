@@ -23,10 +23,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 13. [#5140](https://github.com/OpenSID/OpenSID/issues/5140) Perbaiki latar login mandiri gambar tidak berubah.
 14. [#5122](https://github.com/OpenSID/OpenSID/issues/5122) Perbaiki unduh excel pembangunan berantakan.
 15. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki deteksi MAC Address gawai kehadiran.
-16. [#5147](https://github.com/OpenSID/OpenSID/issues/5147) Perbaiki MAC Address terbypass oleh perangkat / gawai yang tidak terdaftar.
-17. [#5145](https://github.com/OpenSID/OpenSID/issues/5145) Perbaiki artikel yang di awali dengan angka akan di arahkan ke artikel lain.
-18. [#5113](https://github.com/OpenSID/OpenSID/issues/5113) Perbaiki konfirmasi jika kehadiran kurang 1 menit.
-19. [#5135](https://github.com/OpenSID/OpenSID/issues/5135) Perbaiki menu tidak terpilih saat melakukan ubah data.
+16. [#5145](https://github.com/OpenSID/OpenSID/issues/5145) Perbaiki artikel yang di awali dengan angka akan di arahkan ke artikel lain.
+17. [#5113](https://github.com/OpenSID/OpenSID/issues/5113) Perbaiki konfirmasi jika kehadiran kurang 1 menit.
+18. [#5135](https://github.com/OpenSID/OpenSID/issues/5135) Perbaiki menu tidak terpilih saat melakukan ubah data.
 #### Perubahan Teknis
 
 1. Update index.php

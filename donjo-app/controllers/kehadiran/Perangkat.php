@@ -62,7 +62,7 @@ class Perangkat extends Web_Controller
         $this->tgl = date('Y-m-d');
         $this->jam = date('H:i');
         $this->ip  = $this->input->ip_address();
-        $this->mac = macAddress();
+        $this->mac = $this->input->get('mac_address', true);
         $this->url = 'kehadiran/masuk';
     }
 
