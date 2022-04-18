@@ -36,8 +36,7 @@ header('Expires: 0');
 					<tr>
 						<td>Laporan Bulan</td>
 						<td width="3%">:</td>
-						<?php $bln = date('m'); ?>
-						<td><?= $bln?> </td>
+						<td><?= getBulan(date('m')) ?></td>
 						<td width="40%"></td>
 					</tr>
 					<?php if ($dusun): ?>
