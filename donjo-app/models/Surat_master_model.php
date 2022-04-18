@@ -159,7 +159,7 @@ class Surat_master_model extends MY_Model
 
         $pemohon_surat = $data['pemohon_surat'];
         unset($data['pemohon_surat']);
-        $data['url_surat'] = str_replace(' ', '_', $data['nama']);
+        $data['url_surat'] = str_replace([' ', '-'], '_', $data['nama']);
         $data['url_surat'] = 'surat_' . strtolower($data['url_surat']);
         /** pastikan belum ada url suratnya */
         if ($this->isExist($data['url_surat'])) {
@@ -221,7 +221,7 @@ class Surat_master_model extends MY_Model
 
     private function validasi_surat(&$data)
     {
-        $data['nama'] = alfanumerik_spasi($data['nama']);
+        $data['nama'] = nama_terbatas($data['nama']);
     }
 
     public function update($id = 0)
@@ -236,7 +236,7 @@ class Surat_master_model extends MY_Model
             ->update($this->table, $data);
 
         if ($outp) {
-            $surat_baru  = 'surat_' . str_replace(' ', '_', strtolower($data['nama']));
+            $surat_baru  = 'surat_' . str_replace([' ', '-'], '_', strtolower($data['nama']));
             $lokasi_baru = LOKASI_SURAT_DESA . $surat_baru;
 
             // Ubah nama folder penyimpanan template surat
