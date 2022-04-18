@@ -11,6 +11,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 6. [#4940](https://github.com/OpenSID/OpenSID/issues/4940) Pisahkan pengaturan tanggal data lengkap dan tanggal data lengkap aktif sesuai modul.
 7. [#2600](https://github.com/OpenSID/OpenSID/issues/2600) Tambahkan data widget jam pelayanan desa.
 8. [#5066](https://github.com/OpenSID/OpenSID/issues/5066) Tambahkan validasi penamaan surat.
+9. [#5136](https://github.com/OpenSID/OpenSID/issues/5136) Tambahkan noindex pada halaman /periksa.
 
 
 #### Perbaikan BUG
