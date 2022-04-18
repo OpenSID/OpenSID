@@ -21,7 +21,7 @@ OpenSID (https://github.com/OpenSID/OpenSID) adalah Sistem Informasi Desa (SID) 
 - Memudahkan pengguna menyerap rilis SID baru
 - Memungkinkan pegiat SID untuk membuat kontribusi langsung pada _source code_ aplikasi SID
 
-**OpenSID dikelola di Github untuk:**
+**OpenSID dikelola di GitHub untuk:**
 
 - Merekam semua perubahan yg dibuat
 - Memungkinkan kembali ke revisi sebelumnya, apabila diperlukan
@@ -38,7 +38,7 @@ Aplikasi Sistem Informasi Desa (SID) dibangun dan dikembangkan pada awalnya oleh
 
 Sistem ini dikelola dengan merujuk pada lisensi **GNU General Public License Version 3** (http://www.gnu.org/licenses/gpl.html).
 
-**Versi di Github ini dikembangkan sejak Mei 2016, gratis dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa. Hak Cipta OpenSID sekarang dipegang oleh Perkumpulan Desa Digital Terbuka (https://opendesa.id), lembaga hukum yang sengaja dibentuk untuk mengelola OpenSID.**
+**Versi di GitHub ini dikembangkan sejak Mei 2016, gratis dan bebas untuk dimanfaatkan dan dikembangkan oleh semua desa. Hak Cipta OpenSID sekarang dipegang oleh Perkumpulan Desa Digital Terbuka (https://opendesa.id), lembaga hukum yang sengaja dibentuk untuk mengelola OpenSID.**
 
 ## 💻 DEMO
 
