@@ -11,9 +11,9 @@
 </nav>
 
 <article>
-  <h2 class="text-h2">
+  <h1 class="text-h2">
     <?= $post['judul'] ?>
-  </h2>
+  </h1>
   
   <span class="inline-flex flex-wrap gap-x-3 gap-y-2 text-xs lg:text-sm py-2 text-accent-200">
     <span><?= $post['owner'] ?> <i class="fas fa-check text-xs bg-green-500 h-4 w-4 inline-flex items-center justify-center rounded-full text-white"></i></span>
@@ -24,7 +24,7 @@
 
 <div class="content space-y-2 py-4">
   <?php if($post['gambar'] && is_file(LOKASI_FOTO_ARTIKEL.'sedang_'.$post['gambar'])) : ?>
-    <a href="<?= AmbilFotoArtikel($post['gambar'],'sedang') ?>" class="float-left w-1/2 h-auto pr-3 lg:pr-5 pb-3 lg:pb-5" data-fancybox="images">
+    <a href="<?= AmbilFotoArtikel($post['gambar'],'sedang') ?>" class="h-auto block pb-3" data-fancybox="images">
       <figure>
         <img src="<?= AmbilFotoArtikel($post['gambar'],'sedang') ?>" alt="<?= $post['judul'] ?>" class="w-full h-auto">
       </figure>

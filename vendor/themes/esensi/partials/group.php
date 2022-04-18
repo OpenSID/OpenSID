@@ -7,12 +7,12 @@
   </ol>
 </nav>
 
-<h2 class="text-h2">Data Kelompok - <?= $detail['nama']; ?></h2>
+<h1 class="text-h2">Data Kelompok - <?= $detail['nama']; ?></h1>
 <div class="space-y-3 content py-3">
   
   <p class="py-4"><?= $detail['keterangan'] ?></p>
 
-  <h3 class="text-h4">Daftar Pengurus</h3>
+  <h2 class="text-h4">Daftar Pengurus</h2>
   <div class="table-responsive content">
     <table class="w-full text-sm">
       <thead>
@@ -36,7 +36,7 @@
     </table>
   </div>
 
-  <h3 class="text-h4">Daftar Anggota</h3>
+  <h2 class="text-h4">Daftar Anggota</h2>
   <div class="table-responsive content">
     <table class="w-full text-sm" id="tabel-data">
       <thead>

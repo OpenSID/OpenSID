@@ -7,7 +7,7 @@
     <li aria-current="page"><?= $pembangunan->judul ?></li>
   </ol>
 </nav>
-<h2 class="text-h2"></i> <?= $pembangunan->judul ?></h2>
+<h1 class="text-h2"></i> <?= $pembangunan->judul ?></h1>
 <div class="flex flex-col lg:flex-row justify-between gap-3 lg:gap-5 py-5">
   <div class="w-full px-2">
     <?php if($pembangunan->foto && is_file(LOKASI_GALERI . $pembangunan->foto)) : ?>
@@ -63,7 +63,7 @@
     </div>
   </div>
   <div class="w-full px-2 space-y-5">
-    <h3 class="text-h4">Progres Pembangunan</h3>
+    <h2 class="text-h4">Progres Pembangunan</h2>
     <hr>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
       <?php foreach ($dokumentasi as $value): ?>
@@ -82,7 +82,7 @@
     </div>
 
     <div class="mt-5">
-      <h3 class="text-h4">Lokasi Pembangunan</h3>
+      <h2 class="text-h4">Lokasi Pembangunan</h2>
       <div id="map" style="max-width: 100%; max-height: 340px"></div>
     </div>
   </div>

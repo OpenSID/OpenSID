@@ -5,9 +5,9 @@
   </ol>
 </nav>
 
-<h2 class="text-h2">
+<h1 class="text-h2">
   Status Indeks Desa Membangun (IDM) <?= $idm->SUMMARIES->TAHUN ?>
-</h2>
+</h1>
 <section class="content pt-2">
   <?php if ($idm->error_msg): ?>
   <div class="alert alert-error px-3 py-5 my-3">

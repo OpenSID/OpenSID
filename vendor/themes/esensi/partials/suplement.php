@@ -7,9 +7,9 @@
   </ol>
 </nav>
 
-<h2 class="text-h2">Data Suplemen - <?= $main['suplemen']['nama']; ?></h2>
+<h1 class="text-h2">Data Suplemen - <?= $main['suplemen']['nama']; ?></h1>
 
-<h3 class="text-h4">Rincian Data Suplemen</h3>
+<h2 class="text-h4">Rincian Data Suplemen</h2>
 <div class="table-responsive content">
   <table class="w-full text-sm">
     <tbody>
@@ -32,7 +32,7 @@
   </table>
 </div>
 
-<h3 class="text-h4">Daftar Terdata</h3>
+<h2 class="text-h4">Daftar Terdata</h2>
 <div class="table-responsive content">
   <table class="w-full text-sm" id="tabel-data">
     <thead class="bg-gray disabled color-palette">

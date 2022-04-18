@@ -21,7 +21,7 @@
       <?php if($list_jawab): ?>
         <?php $this->load->view("$folder_themes/partials/statistics/analisis.php"); ?>
         <?php else : ?>
-          <h2 class="text-h2">Daftar Agregasi Data Analisis Desa</h2>
+          <h1 class="text-h2">Daftar Agregasi Data Analisis Desa</h1>
           <?php if ($list_indikator): ?>
             <?php if(IS_PREMIUM) : ?>
               <?php if (count($master_indikator) > 1) : ?>
