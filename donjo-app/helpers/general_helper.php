@@ -172,17 +172,11 @@ if (! function_exists('setting')) {
     function setting($params = null)
     {
         $getSetting = get_instance()->cache->pakai_cache(static function () {
-            return \Illuminate\Support\Facades\DB::table('setting_aplikasi')
-                ->get(['key', 'value'])
-                ->keyBy('key')
-                ->transform(static function ($setting) {
-                    return $setting->value;
-                })
-                ->toArray();
+            return get_instance()->setting;
         }, 'setting_aplikasi', 24 * 60 * 60);
 
-        if ($params) {
-            return $getSetting[$params];
+        if ($params && $getSetting->{$params}) {
+            return $getSetting->{$params};
         }
 
         return $getSetting;
