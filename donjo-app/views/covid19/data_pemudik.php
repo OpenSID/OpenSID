@@ -35,6 +35,7 @@
 												<th>Usia</th>
 												<th>JK</th>
 												<th>Alamat</th>
+												<th>Pantau Warga</th>
 												<th>Asal Pemudik</th>
 												<th>Tanggal Tiba</th>
 												<th>Tujuan Pemudik</th>
@@ -71,6 +72,7 @@
                                                 ?>
 												<td><?= $jk?></td>
 												<td><?= $item['info']; ?></td>
+												<td>Warga <?= $item['pantau'] == 1 ? 'Pemudik' : ucwords($this->setting->sebutan_desa) ?></td>
 												<td><?= $item['asal_mudik']; ?></td>
 												<td><?= $item['tanggal_datang']; ?></td>
 												<td><?= $item['tujuan_mudik']; ?></td>

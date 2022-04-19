@@ -19,6 +19,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 14. [#4552](https://github.com/OpenSID/OpenSID/issues/4552) Tambahkan data lembaga ke halaman web.
 15. [#5067](https://github.com/OpenSID/OpenSID/issues/5067) Sesuaikan tampilan informasi yang ada di home ke sidebar kanan.
 16. [#4982](https://github.com/OpenSID/OpenSID/issues/4982) Sesuaikan panjang karakter pada kolom klasifikasi analisis.
+17. [#4367](https://github.com/OpenSID/OpenSID/issues/4367) Sesuaikan menyimpan pendataan warga terkena covid yang bukan dari asal mudik.
 
 
 #### Perbaikan BUG

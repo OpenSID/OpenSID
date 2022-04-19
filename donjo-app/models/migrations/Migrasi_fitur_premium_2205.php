@@ -47,8 +47,9 @@ class Migrasi_fitur_premium_2205 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
         $hasil = $hasil && $this->pengaturanStatusDesa($hasil);
         $hasil = $hasil && $this->pengaturanDataLengkap($hasil);
+        $hasil = $hasil && $this->ubahKolomNama($hasil);
 
-        return $hasil && $this->ubahKolomNama($hasil);
+        return $hasil && $this->pantauWarga($hasil);
     }
 
     protected function pengaturanStatusDesa($hasil)
@@ -80,6 +81,24 @@ class Migrasi_fitur_premium_2205 extends MY_model
             ];
 
             $hasil = $hasil && $this->dbforge->modify_column('analisis_klasifikasi', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function pantauWarga($hasil)
+    {
+        if (! $this->db->field_exists('pantau', 'covid19_pemudik')) {
+            $fields = [
+                'pantau' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => 1,
+                    'after'      => 'id_terdata',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('covid19_pemudik', $fields);
         }
 
         return $hasil;
