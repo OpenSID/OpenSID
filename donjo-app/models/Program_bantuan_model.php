@@ -1188,7 +1188,9 @@ class Program_bantuan_model extends MY_Model
             $this->db->where_in('peserta', $data_diubah)->where('program_id', $program_id)->delete('program_peserta');
         }
 
-        $outp = $this->db->insert_batch('program_peserta', $data_peserta);
+        if ($data_peserta != null) {
+            $outp = $this->db->insert_batch('program_peserta', $data_peserta);
+        }
         status_sukses($outp, true);
     }
 
