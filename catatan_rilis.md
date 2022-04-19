@@ -31,6 +31,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 21. [#5165](https://github.com/OpenSID/OpenSID/issues/5165) Perbaiki urutan tanggal pada info sistem logs.
 22. [#5166](https://github.com/OpenSID/OpenSID/issues/5166) Perbaiki ejaan sinkronisasi.
 23. [#5153](https://github.com/OpenSID/OpenSID/issues/5153) Perbaiki pengaturan hapus spasi pada input ip.
+24. [#5163](https://github.com/OpenSID/OpenSID/issues/5163) Perbaiki database contoh data awal mengikuti standar.
 
 #### Perubahan Teknis
 
