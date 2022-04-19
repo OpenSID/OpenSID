@@ -6,20 +6,20 @@
 
   <nav class="navbar navbar-static-top">
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
+      <span class="sr-only">Toggle navigation</span>
     </a>
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
 
         @if ($notif['langganan'])
-            <li>
-                <a href="{{ route('pelanggan') }}">
-                    <span><i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;</span>
-                    @if ($notif['langganan']['status'] > 2)
-                        <span class="badge" id="b_langganan"></span>
-                    @endif
-                </a>
-            </li>
+          <li>
+            <a href="{{ route('pelanggan') }}">
+              <span><i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;</span>
+              @if ($notif['langganan']['status'] > 2)
+                <span class="badge" id="b_langganan"></span>
+              @endif
+            </a>
+          </li>
         @endif
 
         @if (can('b', 'permohonan_surat_admin'))
@@ -77,7 +77,9 @@
               </div>
             </li>
           </ul>
-
+          <li>
+            <a href="#" data-toggle="control-sidebar" title="Informasi"><i class="fa fa-question-circle fa-lg"></i></a>
+          </li>
           @if ($kategori && can('u', $controller))
           <li>
             <a href="#" data-remote="false" data-toggle="modal" data-target="#pengaturan">
@@ -85,7 +87,6 @@
             </a>
           </li>
           @endif
-
         </li>
       </ul>
     </div>

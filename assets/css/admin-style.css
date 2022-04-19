@@ -709,3 +709,13 @@ div.form-surat .content-header {
 #dok_warga label {
     padding-left: 10px;
 }
+
+.control-sidebar {
+    right: -40%;
+    width: 40%;
+}
+
+.control-sidebar.control-sidebar-open {
+    right: 0;
+    width: 40%;
+}

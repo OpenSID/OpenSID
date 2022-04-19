@@ -122,7 +122,7 @@
 									</a>
 								</li>
 							<?php endif ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'permohonan_surat_admin')): ?>
+							<?php if (can('b', 'permohonan_surat_admin')): ?>
 								<li>
 									<a href="<?= site_url('permohonan_surat_admin/clear') ?>">
 										<span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
@@ -132,7 +132,7 @@
 									</a>
 								</li>
 							<?php endif ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'komentar')): ?>
+							<?php if (can('b', 'komentar')): ?>
 								<li>
 									<a href="<?= site_url('komentar') ?>">
 										<span><i class="fa fa-commenting-o fa-lg" title="Komentar"></i>&nbsp;</span>
@@ -142,7 +142,7 @@
 									</a>
 								</li>
 							<?php endif ?>
-							<?php if ($this->CI->cek_hak_akses('b', 'mailbox')): ?>
+							<?php if (can('b', 'mailbox')): ?>
 								<li>
 									<a href="<?= site_url('mailbox') ?>">
 										<span><i class="fa fa-envelope-o fa-lg" title="Pesan Masuk"></i>&nbsp;</span>
@@ -174,6 +174,11 @@
 										</div>
 									</li>
 								</ul>
+							</li>
+							<li>
+								<a href="#" data-toggle="control-sidebar" title="Informasi">
+									<span><i class="fa fa-question-circle fa-lg""></i>&nbsp;</span>
+								</a>
 							</li>
 							<?php if ($this->header['kategori'] && can('u', $this->controller)): ?>
 							<li>

@@ -213,3 +213,17 @@ if (! function_exists('calculate_date_intervals')) {
         return $reference->diff($endTime)->days;
     }
 }
+
+// Parsedown
+if (! function_exists('parsedown')) {
+    function parsedown($params = null)
+    {
+        $parsedown = new \App\Libraries\Parsedown();
+
+        if (null !== $params) {
+            return $parsedown->text(file_get_contents(FCPATH . $params));
+        }
+
+        return $parsedown;
+    }
+}

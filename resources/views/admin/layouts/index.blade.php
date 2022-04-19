@@ -18,9 +18,9 @@
   <link rel="stylesheet" href="{{ asset('css/AdminLTE.min.css') }}"/>
   <!-- AdminLTE Skins. -->
   <link rel="stylesheet" href="{{ asset('css/skins/_all-skins.min.css') }}"/>
-  @stack('css')
   <!-- Modifikasi -->
   <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}"/>
+  @stack('css')
 </head>
 <body id="sidebar_collapse" class="{{ $setting->warna_tema_admin }} fixed sidebar-mini">
     <div class="wrapper">
@@ -47,6 +47,8 @@
 
     @include('admin.layouts.partials.footer')
 
+    @include('admin.layouts.partials.control_sidebar')
+    
   </div>
   <!-- jQuery 3 -->
   <script src="{{ asset('bootstrap/js/jquery.min.js') }}"></script>
