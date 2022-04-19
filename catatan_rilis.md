@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 17. [#5113](https://github.com/OpenSID/OpenSID/issues/5113) Perbaiki konfirmasi jika kehadiran kurang 1 menit.
 18. [#5135](https://github.com/OpenSID/OpenSID/issues/5135) Perbaiki menu tidak terpilih saat melakukan ubah data.
 19. [#5158](https://github.com/OpenSID/OpenSID/issues/5158) Perbaiki impor data program bantuan.
+20. [#5164](https://github.com/OpenSID/OpenSID/issues/5164) Perbaiki form penduduk jika tanggal pindah masuk dan lapor melampaui hari penginputan.
 #### Perubahan Teknis
 
 1. Update index.php

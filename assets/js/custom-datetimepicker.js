@@ -109,17 +109,11 @@ $(document).ready(function()
 		format: 'DD-MM-YYYY',
 		locale:'id'
 	});
-	$('#tgl_6').datetimepicker(
+	$('.tgl_sekarang').datetimepicker(
 	{
 		format: 'DD-MM-YYYY',
 		locale:'id',
-		minDate: moment(new Date())
-	});
-	$('#tgl_7').datetimepicker(
-	{
-		format: 'DD-MM-YYYY',
-		locale:'id',
-		minDate: moment(new Date())
+		maxDate: moment(new Date())
 	});
 	$('#jam_1').datetimepicker(
 	{
