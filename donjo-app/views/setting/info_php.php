@@ -1,7 +1,7 @@
 <style>
 	.scroll {
 		height: 500px;
-		overflow-y: scroll;
+		overflow-y: auto;
 	}
 </style>
 <div class="content-wrapper">
@@ -13,6 +13,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
+		<form id="mainform" name="mainform" method="post">
 		<div class="box box-primary">
 			<div class="box-body">
 				<div class="nav-tabs-custom">
@@ -28,6 +29,9 @@
 									<div class="box box-info">
 										<div class="box-header with-border">
 											<h3 class="box-title">File logs</h3>
+											<div class="box-tools">
+												<span class="label pull-right"><input type="checkbox" id="checkall" class="checkall"/>
+											</div>
 										</div>
 										<div class="box-body no-padding">
 											<ul class="nav nav-pills nav-stacked scroll">
@@ -35,7 +39,12 @@
 													<li><a href="#"><?= $file; ?>File log tidak ditemukan</a></li>
 												<?php else : ?>
 													<?php foreach ($files as $file) : ?>
-														<li class="<?= $currentFile === $file ? 'active' : '' ?>"><a href="?f=<?= base64_encode($file) ?>"><i class='fa fa-list'></i><?= $file; ?></a></li>
+														<li <?= jecho($currentFile, $file, 'class="active"'); ?>><a href="?f=<?= base64_encode($file); ?>">
+															<?= $file; ?>
+															<span class="pull-right-container">
+																<span class="label pull-right"><input type="checkbox" class="checkbox" name="id_cb[]" value="<?= $file?>"/></a></span>
+															</span>
+														</li>
 													<?php endforeach ?>
 												<?php endif ?>
 											</ul>
@@ -49,6 +58,7 @@
 												<a href="?dl=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
 												<?php if ($this->CI->cek_hak_akses_url('u')): ?>
 													<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btm-social btn-flat btn-danger btn-sm" title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
+													<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("setting/remove_log?f=".base64_encode($currentFile))?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 												<?php endif; ?>
 											<?php endif ?>
 										</div>
@@ -66,19 +76,19 @@
 																		</div>
 																	<?php else : ?>
 																		<div class="table-responsive">
-																			<table id="tabel-logs" class="table table-bordered dataTable table-hover">
+																			<table id="tabel-logs" class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 																				<thead class="bg-gray">
 																					<tr>
-																						<th width="5%">Level</th>
-																						<th width="15%">Tanggal</th>
+																						<th>Level</th>
+																						<th>Tanggal</th>
 																						<th>Pesan</th>
 																					</tr>
 																				</thead>
 																				<tbody>
 																					<?php foreach ($logs as $key => $log) : ?>
 																						<tr>
-																							<td><h6><span class="label label-<?= $log['class'] ?>"><?= $log['level'] ?></span></h6></td>
-																							<td><?= $log['date'] ?></td>
+																							<td class="padat"><h6><span class="label label-<?= $log['class'] ?>"><?= $log['level'] ?></span></h6></td>
+																							<td class="padat"><?= $log['date'] ?></td>
 																							<td class="text">
 																								<?php if (array_key_exists("extra", $log)) : ?>
 																									<a class="pull-right btn btn-primary btn-xs" data-toggle="collapse" href="#collapse<?= $key ?>" aria-expanded="false" aria-controls="collapse<?= $key ?>">
@@ -206,6 +216,8 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		</form>
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
@@ -221,5 +233,37 @@
 				"orderable": false
 			}]
 		});
+
+		function checkAll(id = "#checkall") {
+			$('.box-header').on('click', id, function() {
+				if ($(this).is(':checked')) {
+					$(".nav input[type=checkbox]").each(function () {
+						$(this).prop("checked", true);
+					});
+				} else {
+					$(".nav input[type=checkbox]").each(function () {
+						$(this).prop("checked", false);
+					});
+				}
+				$(".nav input[type=checkbox]").change();
+				enableHapusTerpilih();
+			});
+			$("[data-toggle=tooltip]").tooltip();
+		}
+
+		checkAll();
+		$('ul.nav').on('click', "input[name='id_cb[]']", function() {
+			enableHapusTerpilih();
+		});
+
+		function enableHapusTerpilih() {
+			if ($("input[name='id_cb[]']:checked:not(:disabled)").length <= 0) {
+				$(".hapus-terpilih").addClass('disabled');
+				$(".hapus-terpilih").attr('href','#');
+			} else {
+				$(".hapus-terpilih").removeClass('disabled');
+				$(".hapus-terpilih").attr('href','#confirm-delete');
+			}
+		}
 	});
 </script>

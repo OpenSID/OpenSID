@@ -46,6 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Pembangunan_model extends CI_Model
 {
+	protected $tipe = 'rencana';
 	protected $table = 'pembangunan';
 
 	const ENABLE = 1;
@@ -62,17 +63,29 @@ class Pembangunan_model extends CI_Model
 		9  => 'alamat',
 	];
 
-	public function get_data(string $search = '', $tahun = '')
+	public function set_tipe(string $tipe)
+	{
+		$this->tipe = $tipe;
+
+		return $this;
+	}
+
+	public function get_data(string $search = '', $tahun = 'semua')
 	{
 		$this->lokasi_pembangunan_query();
 		$this->db->select([
 			'p.*',
+			'IF(p.sifat_proyek = "BARU", "&#10004", "-") as sifat_proyek_baru',
+			'IF(p.sifat_proyek = "LANJUTAN", "&#10004", "-") as sifat_proyek_lanjutan',
 			'(CASE WHEN MAX(CAST(d.persentase as UNSIGNED INTEGER)) IS NOT NULL THEN CONCAT(MAX(CAST(d.persentase as UNSIGNED INTEGER)), "%") ELSE CONCAT("belum ada progres") END) AS max_persentase',
+			'max(cast(d.persentase as unsigned integer)) as progress'
 		])
 		->from("{$this->table} p")
 		->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')
 		->join('tweb_wil_clusterdesa w', 'p.id_lokasi = w.id', 'left')
 		->group_by('p.id');
+
+		$this->get_tipe();
 
 		if ($search)
 		{
@@ -93,7 +106,6 @@ class Pembangunan_model extends CI_Model
 		{
 			$this->db->where('p.tahun_anggaran', $tahun);
 		}
-
 		return $this->db;
 	}
 
@@ -149,6 +161,7 @@ class Pembangunan_model extends CI_Model
 			'sumber_dana' => $post['sumber_dana'],
 			'judul' => $post['judul'],
 			'volume' => $post['volume'],
+			'waktu' => $post['waktu'],
 			'tahun_anggaran' => $post['tahun_anggaran'],
 			'pelaksana_kegiatan' => $post['pelaksana_kegiatan'],
 			'id_lokasi' => $post['lokasi'] ? NULL : $post['id_lokasi'],
@@ -161,7 +174,8 @@ class Pembangunan_model extends CI_Model
 			'sumber_biaya_kab_kota' => $post['sumber_biaya_kab_kota'],
 			'sumber_biaya_swadaya' => $post['sumber_biaya_swadaya'],
 			'sumber_biaya_jumlah' => $post['sumber_biaya_pemerintah'] + $post['sumber_biaya_provinsi'] + $post['sumber_biaya_kab_kota'] + $post['sumber_biaya_swadaya'],
-			'manfaat' => $post['manfaat']
+			'manfaat' => $post['manfaat'],
+			'sifat_proyek' => $post['sifat_proyek'],
 		];
 
 		return $data;
@@ -246,10 +260,15 @@ class Pembangunan_model extends CI_Model
 
 	public function list_filter_tahun()
 	{
-		return $this->db->select('tahun_anggaran')
+		$this->get_tipe();
+		
+		return $this->db
+			->select('p.tahun_anggaran')
 			->distinct()
-			->order_by('tahun_anggaran', 'desc')
-			->get($this->table)
+			->from("{$this->table} p")
+			->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')
+			->order_by('p.tahun_anggaran', 'desc')
+			->get()
 			->result();
 	}
 
@@ -265,6 +284,22 @@ class Pembangunan_model extends CI_Model
 		return $this->db->set('status', static::DISABLE)
 			->where('id', $id)
 			->update($this->table);
+	}
+
+	public function get_tipe()
+	{
+		if (empty($this->tipe)) return; // Untuk semua pembangunan
+
+		if($this->tipe == 'kegiatan')
+		{
+			$this->db->where('d.persentase !=', NULL);
+			$this->db->where('d.persentase !=', '100%');
+		}
+
+		if($this->tipe == 'rencana')
+		{
+			$this->db->where('d.persentase is NULL', null, false);
+		}
 	}
 
 	protected function lokasi_pembangunan_query()

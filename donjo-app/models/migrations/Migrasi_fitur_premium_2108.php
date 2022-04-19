@@ -116,46 +116,48 @@ class Migrasi_fitur_premium_2108 extends MY_Model
 	// Tabel Laporan APBDes
 	protected function tambah_table_laporan_apbdes($hasil)
 	{
-		$fields = [
-			'id' => [
-				'type' => 'INT',
-				'constraint' => 11,
-				'auto_increment' => true
-			],
+		if (! $this->db->table_exists('laporan_sinkronisasi'))
+		{
+			$fields = [
+				'id' => [
+					'type' => 'INT',
+					'constraint' => 11,
+					'auto_increment' => true
+				],
 
-			'judul' => [
-				'type' => 'VARCHAR',
-				'constraint' => 100
-			],
+				'judul' => [
+					'type' => 'VARCHAR',
+					'constraint' => 100
+				],
 
-			'tahun' => [
-				'type' => 'INT',
-				'constraint' => 11
-			],
+				'tahun' => [
+					'type' => 'INT',
+					'constraint' => 11
+				],
 
-			'semester' => [
-				'type' => 'INT',
-				'constraint' => 11
-			],
+				'semester' => [
+					'type' => 'INT',
+					'constraint' => 11
+				],
 
-			'nama_file' => [
-				'type' => 'VARCHAR',
-				'constraint' => 100
-			],
-			
-			'kirim' => [
-				'type' => 'DATETIME',
-				'null' => true
-			],
+				'nama_file' => [
+					'type' => 'VARCHAR',
+					'constraint' => 100
+				],
+				
+				'kirim' => [
+					'type' => 'DATETIME',
+					'null' => true
+				],
 
-			'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-			'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
-		];
+				'created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+				'updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
+			];
 
-		$this->dbforge->add_key('id', true);
-		$this->dbforge->add_field($fields);
-		$hasil = $hasil && $this->dbforge->create_table('laporan_apbdes', true);
-
+			$this->dbforge->add_key('id', true);
+			$this->dbforge->add_field($fields);
+			$hasil = $hasil && $this->dbforge->create_table('laporan_apbdes', true);
+		}
 		return $hasil;
 	}
 

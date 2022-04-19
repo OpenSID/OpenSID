@@ -1,3 +1,8 @@
+<style type="text/css">
+	.form-group a {
+		color: #3c8dbc;
+	}
+</style>
 <script>
 	$('#file_browser2').click(function(e)
 	{
@@ -30,8 +35,8 @@
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser2"><i class="fa fa-search"></i> Browse</button>
 								</span>
 							</div>
-							<p class="help-block small">1. Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut <a href="<?= base_url() ?>assets/import/analisis.xls">Aturan Data</a></p>
-							<p class="help-block small">2. Contoh format upload Sensus dapat dilihat pada tautan berikut <a href="<?= base_url() ?>assets/import/ppls2.xls">Contoh</a></p>
+							<p class="help-block small">1. Data yang dibutuhkan untuk Impor dengan memenuhi aturan data sebagai berikut <a href="<?= base_url() ?>assets/import/analisis.xlsx">Aturan Data</a></p>
+							<p class="help-block small">2. Contoh format upload Sensus dapat dilihat pada tautan berikut <a href="<?= base_url() ?>assets/import/ppls2.xlsx">Contoh</a></p>
 						</div>
 					</div>
 					<div class="modal-footer">

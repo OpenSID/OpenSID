@@ -18,6 +18,8 @@ Library Javascript yang digunakan:
 - http://eonasdan.github.io/bootstrap-datetimepicker/, untuk memilih tanggal/waktu di form
 - https://momentjs.com/, setting waktu yang diperlukan bootstrap-datetimepicker
 - http://jquery.malsup.com/cycle2/, untuk semua slideshow termasuk teks berjalan, widget aparatur desa
+- https://github.com/jhuckaby/webcamjs/, untuk mengambil gambar lewat kamera
+- 
 
 Library PHP yang digunakan:
 
@@ -26,3 +28,9 @@ Library PHP yang digunakan:
 - https://github.com/monperrus/crawler-user-agents/, tambahan data crawler
 - https://github.com/esyede/curly/, untuk melakukan http request via cURL
 - http://phpqrcode.sourceforge.net/, Porting Ci https://github.com/dwisetiyadi/CodeIgniter-PHP-QR-Code, untuk membuat QRCode, Porting asli telah dimodifikasi untuk pemakaian di OpenSID dan ditambahkan fungsi Sisipan Logo dan Warna back/foreground
+- https://www.responsivefilemanager.com/, pengelolaan berkas
+- https://github.com/mike42/escpos-php/, membuat dan mencetak tanda terima printer yang kompatibel
+- https://github.com/googleapis/google-api-php-client, menangani impor data dari google form
+- https://github.com/spipu/html2pdf, pengonversi HTML ke PDF yang ditulis dalam PHP
+- https://www.github.com/box/spout, untuk membaca dan menulis file spreadsheet (CSV, XLSX, dan ODS)
+

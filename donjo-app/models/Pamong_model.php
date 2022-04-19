@@ -292,7 +292,7 @@ class Pamong_model extends CI_Model {
 		$data['bagan_tingkat'] = bilangan($post['bagan_tingkat']) ?: NULL;
 		$data['bagan_offset'] = (integer)$post['bagan_offset'] ?: NULL;
 		$data['bagan_layout'] = htmlentities($post['bagan_layout']);
-		$data['bagan_warna'] = $post['bagan_warna'];
+		$data['bagan_warna'] = warna($post['bagan_warna']);
 
 		if (empty($data['id_pend']))
 		{
@@ -469,7 +469,7 @@ class Pamong_model extends CI_Model {
 		if ($post['bagan_tingkat'])
 			$data['bagan_tingkat'] = ($post['bagan_tingkat'] <= 0) ? NULL : $post['bagan_tingkat'];
 		if ($post['bagan_warna'])
-			$data['bagan_warna'] = ($post['bagan_warna'] == '#000000') ? NULL : $post['bagan_warna'];
+			$data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? NULL : warna($post['bagan_warna']);
 		$this->db
 			->where("pamong_id in ($list_id)")
 			->update('tweb_desa_pamong', $data);

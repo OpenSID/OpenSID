@@ -46,11 +46,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
  */
 /**
  * VERSION
- * rilis-bugsfix => premium-rev[nomor urut dua digit]
+ * rilis-bugs-fix => premium-rev[nomor urut dua digit]
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define("VERSION", '22.04');
+define("VERSION", '22.04-pasca');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -58,7 +58,7 @@ define("VERSION", '22.04');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022040101');
+define('VERSI_DATABASE', '2022041901');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -406,20 +406,6 @@ function gambar_desa($nama_file, $type = false, $file = false)
     // type FALSE = logo, TRUE = kantor
     $default = ($type)  ? 'opensid_kantor.jpg' : 'opensid_logo.png';
     return $logo_desa = ($file ? APPPATH.'../' : base_url()). "assets/files/logo/$default";
-}
-
-/**
- * KonfigurasiDatabase
- *
- * Mengembalikan path file konfigurasi database desa
- *
- * @access  public
- * @return  string
- */
-function KonfigurasiDatabase()
-{
-    $konfigurasi_database = LOKASI_CONFIG_DESA . 'database.php';
-    return $konfigurasi_database;
 }
 
 function session_error($pesan = '')
@@ -782,19 +768,22 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
 }
 
 /**
- * @param array 		(0 => (kolom => teks), 1 => (kolom => teks), ..)
- * @return string 	dalam bentuk siap untuk autocomplete
+ * @param array 		(0 => (kolom1 => teks, kolom2 => teks, ..), 1 => (kolom1 => teks, kolom2 => teks. ..), ..)
+ * @return string 	dalam bentuk siap untuk autocomplete, mengambil teks dari setiap kolom
  */
 function autocomplete_data_ke_str($data)
 {
-    $str = '';
-    foreach ($data as $baris) {
-        $keys = array_keys($baris);
-        $first_key = $keys[0];
-        $str .= ','.json_encode(substr($baris[$first_key], 0, 30));
-    }
-    $str = '[' . strtolower(substr($str, 1)) . ']';
-    return $str;
+	$str = '';
+	$keys = array_keys($data[0]);
+	$values = [];
+	foreach ($keys as $key)
+	{
+		$values = array_merge($values, array_column($data, $key));
+	}
+	$values = array_unique($values);
+	sort($values);
+	$str = '["' . strtolower(implode('","', $values)) . '"]';
+	return $str;
 }
 
 // Periksa apakah nilai bilangan Romawi
@@ -915,7 +904,9 @@ function alfanumerik_spasi($str)
 
 function bilangan($str)
 {
-    return preg_replace('/[^0-9]/', '', strip_tags($str));
+	if ($str == NULL) return NULL;
+	
+	return preg_replace('/[^0-9]/', '', strip_tags($str));
 }
 
 function bilangan_spasi($str)
@@ -972,6 +963,15 @@ function email($str)
 function alamat_web($str)
 {
     return preg_replace("/[^a-zA-Z0-9:\/\.\-]/", '', htmlentities($str));
+}
+
+// Format wanrna #803c3c
+if (! function_exists('warna'))
+{
+	function warna($length = 32)
+	{
+		return preg_replace("/[^a-zA-Z0-9\#]/", '', $str);
+	}
 }
 
 function buat_slug($data_slug)

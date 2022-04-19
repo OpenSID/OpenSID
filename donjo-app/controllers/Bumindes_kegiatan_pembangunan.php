@@ -5,9 +5,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 /**
  * File ini:
  *
- * View untuk modul Buku Pembangunan Desa > Buku Rencana Pembangunan
+ * Controller untuk modul Buku Pembangunan Desa > Buku Kegiatan Pembangunan
  *
- * donjo-app/views/bumindes/pembangunan/rencana_kerja/ajax_dialog.php,
+ * donjo-app/controllers/Bumindes_kegiatan_pembangunan.php,
  *
  */
 
@@ -44,24 +44,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
-?>
 
-<div class="form-group">
-	<label for="tahun">Tahun Anggaran</label>
-	<select class="form-control input-sm" name="tahun">
-		<option value="semua">Semua Tahun</option>
-		<?php foreach ($list_tahun as $list): ?>
-			<option value="<?= $list->tahun_anggaran; ?>" <?= selected($tahun, $list->tahun_anggaran); ?>><?= $list->tahun_anggaran; ?></option>
-		<?php endforeach; ?>
-	</select>
-</div>
+require_once APPPATH . 'controllers/Bumindes_rencana_pembangunan.php';
 
-<div class="form-group">
-	<label for="tgl_cetak">Tanggal Cetak</label>
-	<div class="input-group input-group-sm date">
-		<div class="input-group-addon">
-			<i class="fa fa-calendar"></i>
-		</div>
-		<input class="form-control input-sm pull-right required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y'); ?>">
-	</div>
-</div>
+class Bumindes_kegiatan_pembangunan extends Bumindes_rencana_pembangunan {
+
+	protected $tipe = 'kegiatan';
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->modul_ini = 301;
+		$this->sub_modul_ini = 305;
+	}
+}

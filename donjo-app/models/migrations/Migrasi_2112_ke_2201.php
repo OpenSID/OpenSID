@@ -49,7 +49,6 @@ class Migrasi_2112_ke_2201 extends MY_model
       $this->load->model($file_migrasi);
       $hasil = $hasil && $this->$migrasi_premium->up();
     }
-
 		status_sukses($hasil);
 		return $hasil;
 	}

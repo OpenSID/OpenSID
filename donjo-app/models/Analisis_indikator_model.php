@@ -316,13 +316,28 @@
 		return $query->result_array();
 	}
 
+	public function raw_analisis_indikator_by_id_master($id='')
+	{
+		$raw_indikator = $this->db
+			->select('i.*, k.kategori')
+			->from('analisis_indikator i')
+			->join('analisis_kategori_indikator k', 'k.id = i.id_kategori', 'left')
+			->where('i.id_master', $id)
+			->get('')->result_array();
+		return $raw_indikator;
+	}
+
 	public function get_analisis_indikator_by_id_master($id='')
 	{
 		$result = array();
 		$list_indikator = array();
 		$list_parameter = array();
 
-		$raw_indikator = $this->db->where('id_master', $id)->get('analisis_indikator')->result_array();
+		$raw_indikator = $this->db
+			->select('i.*')
+			->from('analisis_indikator i')
+			->where('i.id_master', $id)
+			->get('')->result_array();
 
 		// Setting key array sesuai id
 		foreach ($raw_indikator as $val_indikator)
@@ -345,7 +360,6 @@
 			'indikator' => $list_indikator,
 			'parameter' => $list_parameter
 		];
-
 		return $result;
 	}
 }

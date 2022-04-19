@@ -387,7 +387,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
 			-- Operator --
 			(2,43,3), -- Aplikasi --
-			(2,44,3), -- Pengguna --
+			(2,44,1), -- Pengguna --
 			(2,45,3), -- Database --
 			(2,46,3), -- Info Sistem --
 			(2,214,3), -- C-Desa --

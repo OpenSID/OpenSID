@@ -1,19 +1,9 @@
-<?php
-	$subjek_tipe  = $_SESSION['subjek_tipe'];
-	switch ($subjek_tipe ):
-		case 1: $sql = $nama="Nama"; $nomor="NIK";$asubjek="Penduduk"; break;
-		case 2: $sql = $nama="Kepala Keluarga"; $nomor="Nomor KK";$asubjek="Keluarga"; break;
-		case 3: $sql = $nama="Kepala Rumah Tangga"; $nomor="Nomor Rumah Tangga";$asubjek="Rumah Tangga"; break;
-		case 4: $sql = $nama="Nama Kelompok"; $nomor="ID Kelompok";$asubjek="Kelompok"; break;
-		default: return null;
-	endswitch;
-?>
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>Laporan Hasil Analisis</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('analisis_master') ?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url('analisis_master/clear') ?>"> Master Analisis</a></li>
 			<li><a href="<?= site_url() ?>analisis_laporan/leave"><?= $analisis_master['nama']?></a></li>
 			<li class="active">Laporan Hasil Klasifikasi</li>
 		</ol>

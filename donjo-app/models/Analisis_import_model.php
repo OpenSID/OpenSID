@@ -1,5 +1,8 @@
 <?php
 require_once 'vendor/google-api-php-client/vendor/autoload.php';
+require_once 'vendor/spout/src/Spout/Autoloader/autoload.php';
+
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
 class Analisis_import_Model extends CI_Model {
 
@@ -15,105 +18,193 @@ class Analisis_import_Model extends CI_Model {
 		$this->load->library('Spreadsheet_Excel_Reader');
 	}
 
-	public function import_excel($file='', $kode='00000', $jenis=2)
+	private function upload_file_analisis()
 	{
-		if (empty($file)) $file = $_FILES['userfile']['tmp_name'];
-		$data = new Spreadsheet_Excel_Reader($file);
-		$sheet=0;
+		$this->load->library('upload');
 
-		$master['nama']	= $data->val(1, 2, $sheet);
-		$master['subjek_tipe'] = $data->val(2, 2, $sheet);
-		$master['lock']	= $data->val(3, 2, $sheet);
-		$master['pembagi'] = $data->val(4, 2, $sheet);
-		$master['deskripsi'] = $data->val(5, 2, $sheet);
+		$config['upload_path'] = sys_get_temp_dir();
+		$config['allowed_types'] = 'xlsx|xlsm';
+
+		$this->upload->initialize($config);
+		if ( ! $this->upload->do_upload('userfile'))
+		{
+			$this->session->error_msg = $this->upload->display_errors();
+			$this->session->success = -1;
+			return;
+		}
+		$upload = $this->upload->data();
+		return $upload['full_path'];
+	}
+
+	public function impor_analisis($file = '', $kode = '00000', $jenis = 2)
+	{
+		$this->session->success = 1;
+
+		if (empty($file)) $file = $this->upload_file_analisis();
+		if (empty($file)) return;
+
+		$reader = ReaderEntityFactory::createReaderFromFile($file);
+		$reader->open($file);
+
+		foreach ($reader->getSheetIterator() as $sheet)
+		{
+			switch ($sheet->getName())
+			{
+				case "master":
+					$id_master = $this->impor_master($sheet, $kode, $jenis);
+					break;
+				case "pertanyaan":
+					$this->impor_pertanyaan($sheet, $id_master);
+					break;
+				case "jawaban":
+					$this->impor_jawaban($sheet, $id_master);
+					break;
+				case "klasifikasi":
+					$this->impor_klasifikasi($sheet, $id_master);
+					break;
+				default:
+					$this->session->success = -1;
+					$this->session->error_msg = "Bukan file impor master analisis";
+					break;
+			}
+			if ($this->session->success == -1)
+			{
+				$reader->close();
+				return;
+			}
+		}
+		$reader->close();
+	}
+
+	private function impor_master($sheet, $kode, $jenis)
+	{
+		$master = [];
+    foreach ($sheet->getRowIterator() as $index => $row)
+    {
+      $cells = $row->getCells();
+			switch ($index)
+			{
+				case 1: // Nama analisis
+					$master['nama'] = $cells[1]->getValue();
+					break;
+				case 2: // Subjek
+					$master['subjek_tipe'] = $cells[1]->getValue();
+					break;
+				case 3: // Status
+					$master['lock'] = $cells[1]->getValue();
+					break;
+				case 4: // Bilangan Pembagi
+					$master['pembagi'] = $cells[1]->getValue();
+					break;
+				case 5: // Deskripsi Analisis
+					$master['deskripsi'] = $cells[1]->getValue();
+					$periode['keterangan'] = $cells[1]->getValue();
+					break;
+				case 6: // Nama Periode
+					$periode['nama'] = $cells[1]->getValue();
+					break;
+				case 7: // Tahun Pendataan
+					$periode['tahun_pelaksanaan'] = $cells[1]->getValue();
+					break;
+			}
+		}
 		$master['kode_analisis'] = $kode;
 		$master['jenis'] = $jenis;
 
-		$outp = $this->db->insert('analisis_master',$master);
+		if ( ! $this->db->insert('analisis_master',$master)) return $this->impor_error();
 		$id_master = $this->db->insert_id();
 
 		$periode['id_master']	= $id_master;
-		$periode['nama'] = $data->val(6, 2, $sheet);
-		$periode['tahun_pelaksanaan']	= $data->val(7, 2, $sheet);
-		$periode['keterangan'] = $data->val(5, 2, $sheet);
 		$periode['aktif']	= 1;
-		$this->db->insert('analisis_periode', $periode);
-
-		$sheet = 1;
-		$baris = $data->rowcount($sheet_index=$sheet);
-		$kolom = $data->colcount($sheet_index=$sheet);
-
-		for ($i=2; $i<=$baris; $i++)
-		{
-			$sql = "SELECT * FROM analisis_kategori_indikator WHERE kategori=? AND id_master=?";
-			$query = $this->db->query($sql, array($data->val($i, 3, $sheet), $id_master));
-			$cek = $query->row_array();
-
-			if (!$cek)
-			{
-				$kategori['id_master'] = $id_master;
-				$kategori['kategori']	= $data->val($i, 3, $sheet);
-				$this->db->insert('analisis_kategori_indikator', $kategori);
-			}
-		}
-
-		for ($i=2; $i<=$baris; $i++)
-		{
-			$indikator['id_master']	= $id_master;
-			$indikator['nomor']	= $data->val($i, 1, $sheet);
-			$indikator['pertanyaan'] = $data->val($i, 2, $sheet);
-
-			$sql = "SELECT * FROM analisis_kategori_indikator WHERE kategori=? AND id_master=?";
-			$query = $this->db->query($sql, array($data->val($i, 3, $sheet), $id_master));
-			$kategori = $query->row_array();
-
-			$indikator['id_kategori']	= $kategori['id'];
-			$indikator['id_tipe']	= $data->val($i, 4, $sheet);
-			$indikator['bobot']	= $data->val($i, 5, $sheet) ?: 0;
-			$indikator['act_analisis'] = $data->val($i, 6, $sheet) ?: 2;
-
-			$this->db->insert('analisis_indikator', $indikator);
-		}
-
-		$sheet = 2;
-		$baris = $data->rowcount($sheet_index=$sheet);
-		$kolom = $data->colcount($sheet_index=$sheet);
-
-		for ($i=2; $i<=$baris; $i++)
-		{
-			$kode	= explode(".", $data->val($i, 3, $sheet));
-
-			$parameter['kode_jawaban'] = $data->val($i, 2, $sheet);
-			$parameter['jawaban']	= $data->val($i, 3, $sheet);
-
-			$sql = "SELECT id FROM analisis_indikator WHERE nomor=? AND id_master=?";
-			$query = $this->db->query($sql, array($data->val($i, 1, $sheet), $id_master));
-			$indikator = $query->row_array();
-
-			$parameter['id_indikator'] = $indikator['id'];
-			$parameter['nilai']	= $data->val($i, 4, $sheet) ?: 0;
-			$parameter['asign']	= 1;
-
-			$this->db->insert('analisis_parameter',$parameter);
-		}
-
-		$sheet = 3;
-		$baris = $data->rowcount($sheet_index=$sheet);
-		$kolom = $data->colcount($sheet_index=$sheet);
-
-		for ($i=2; $i<=$baris; $i++)
-		{
-			$klasifikasi['id_master']	= $id_master;
-			$klasifikasi['nama'] = $data->val($i, 1, $sheet);
-			$klasifikasi['minval'] = $data->val($i, 2, $sheet);
-			$klasifikasi['maxval'] = $data->val($i, 3, $sheet);
-
-			$this->db->insert('analisis_klasifikasi', $klasifikasi);
-		}
-
-		status_sukses($outp); //Tampilkan Pesan
+		if ( ! $this->db->insert('analisis_periode', $periode)) return $this->impor_error();
 
 		return $id_master;
+	}
+
+	private function impor_error()
+	{
+		$error = $this->db->error();
+		$this->session->success = -1;
+		$this->session->error_msg = $error['message'];
+	}
+
+	private function impor_pertanyaan($sheet, $id_master)
+	{
+    foreach ($sheet->getRowIterator() as $index => $row)
+    {
+   	if ($index == 1) continue; // Abaikan baris judul
+      $cells = $row->getCells();
+      // Tambahkan indikator
+      $indikator = [];
+			$indikator['id_master']	= $id_master;
+			$indikator['nomor']	= $cells[0]->getValue();
+			$indikator['pertanyaan'] = $cells[1]->getValue();
+			$indikator['id_kategori']	= $this->get_id_kategori($cells[2]->getValue(), $id_master);
+			$indikator['id_tipe']	= $cells[3]->getValue();
+			$indikator['bobot']	= $cells[4]->getValue() ?? 0;
+			$indikator['act_analisis'] = $cells[5]->getValue() ?? 2;
+			if ( ! $this->db->insert('analisis_indikator', $indikator)) return $this->impor_error();;
+    }
+	}
+
+	private function get_id_kategori($kategori, $id_master)
+	{
+		$ada_kategori = $this->db
+			->select('id')
+			->from('analisis_kategori_indikator')
+			->where('kategori', $kategori)
+			->where('id_master', $id_master)
+			->get();
+		if ($ada_kategori->num_rows()) return $ada_kategori->row()->id;
+
+		if ( ! $this->db
+			->set('id_master', $id_master)
+			->set('kategori', $kategori)
+			->insert('analisis_kategori_indikator')) return $this->impor_error();
+		return $this->db->insert_id();
+	}
+
+	private function impor_jawaban($sheet, $id_master)
+	{
+    foreach ($sheet->getRowIterator() as $index => $row)
+    {
+    	if ($index == 1) continue; // Abaikan baris judul
+      $cells = $row->getCells();
+      // Tambahkan parameter
+      $parameter = [];
+			$parameter['id_indikator'] = $this->get_id_indikator($cells[0]->getValue(), $id_master);
+			$parameter['kode_jawaban'] = $cells[1]->getValue();
+			$parameter['jawaban']	= $cells[2]->getValue();
+			$parameter['nilai'] = $cells[3]->getValue();
+			if ( ! $this->db->insert('analisis_parameter', $parameter)) return $this->impor_error();;
+    }
+	}
+
+	private function get_id_indikator($kode_pertanyaan, $id_master)
+	{
+		$id_indikator = $this->db
+			->select('id')
+			->where('id_master', $id_master)
+			->where('nomor', $kode_pertanyaan)
+			->get('analisis_indikator')
+			->row()->id;
+		return $id_indikator;
+	}
+
+	private function impor_klasifikasi($sheet, $id_master)
+	{
+    foreach ($sheet->getRowIterator() as $index => $row)
+    {
+    	if ($index == 1) continue; // Abaikan baris judul
+      $cells = $row->getCells();
+      // Tambahkan parameter
+      $klasifikasi = [];
+      $klasifikasi['id_master'] = $id_master;
+			$klasifikasi['nama'] = $cells[0]->getValue();
+			$klasifikasi['minval'] = $cells[1]->getValue();
+			$klasifikasi['maxval'] = $cells[2]->getValue();
+			if ( ! $this->db->insert('analisis_klasifikasi', $klasifikasi)) return $this->impor_error();;
+    }
 	}
 
 	public function save_import_gform()

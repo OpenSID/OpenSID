@@ -16,7 +16,7 @@
 		<h1>Pengaturan Master Analisis</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid') ?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url('analisis_master') ?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url('analisis_master/clear') ?>"> Master Analisis</a></li>
 			<li class="active">Pengaturan Master Analisis</li>
 		</ol>
 	</section>
@@ -25,7 +25,7 @@
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url('analisis_master') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Master Analisis</a>
+						<a href="<?= site_url('analisis_master/clear') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Master Analisis</a>
 					</div>
 					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
 						<div class="box-body">
@@ -43,10 +43,9 @@
 										<label class="col-sm-3 control-label" for="nama">Subjek/Unit Analisis</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm required" id="subjek_tipe" name="subjek_tipe">
-												<option value="1" <?php ($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == '') and print('selected') ?>>Penduduk</option>
-												<option value="2" <?php selected($analisis_master['subjek_tipe'], '2') ?>>Keluarga / KK</option>
-												<option value="3" <?php selected($analisis_master['subjek_tipe'], '3') ?>>Rumah Tangga</option>
-												<option value="4" <?php selected($analisis_master['subjek_tipe'], '4') ?>>Kelompok Masyarakat</option>
+												<?php foreach ($list_subjek as $subjek) : ?>
+													<option value="<?= $subjek['id'] ?>" <?php selected($analisis_master['subjek_tipe'], $subjek['id']) ?>><?= $subjek['subjek'] ?></option>
+												<?php endforeach; ?>
 											</select>
 										</div>
 									</div>

@@ -21,6 +21,7 @@
 			'awal_respon_rt' => 14,
 			'awal_respon_penduduk' => 82
 		);
+		$this->load->model('analisis_master_model');
 	}
 
 	private function file_import_valid()
@@ -97,7 +98,7 @@
 		$gagal = 0;
 		$ada = 0;
 		$sudah_proses = array();
-		$per = $this->analisis_respon_model->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 		$indikator = $this->db->where('id_master', $_SESSION['analisis_master'])
 				->order_by('id')->get('analisis_indikator')
 				->result_array();
@@ -153,7 +154,7 @@
 	{
 		if (empty($list_id_subjek)) return;
 
-		$per = $this->analisis_respon_model->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 		$prefix = $list_id_subjek_str = '';
 		foreach ($list_id_subjek as $subjek => $id)
 		{
