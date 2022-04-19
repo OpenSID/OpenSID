@@ -9,7 +9,8 @@ on:
 jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
-
+    # Check if contains [ci skip] will be skip github action
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,4 +25,4 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "[ci skip] Fix styling"
+          commit_message: "Fix styling"
