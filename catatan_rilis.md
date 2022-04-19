@@ -17,7 +17,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 12. [#4979](https://github.com/OpenSID/OpenSID/issues/4979) File unduh kartu keluarga menggunakan format date dd-mm-yyyy.
 13. [#4839](https://github.com/OpenSID/OpenSID/issues/4839) Tambahkan pengurutan data keluarga berdasarkan tanggal cetak.
 14. [#4552](https://github.com/OpenSID/OpenSID/issues/4552) Tambahkan data lembaga ke halaman web.
-15. [#5067](https://github.com/OpenSID/OpenSID/issues/5067) Sesuakan tampilan informasi yang ada di home ke sidebar kanan.
+15. [#5067](https://github.com/OpenSID/OpenSID/issues/5067) Sesuaikan tampilan informasi yang ada di home ke sidebar kanan.
+16. [#4982](https://github.com/OpenSID/OpenSID/issues/4982) Sesuaikan panjang karakter pada kolom klasifikasi analisis.
 
 
 #### Perbaikan BUG

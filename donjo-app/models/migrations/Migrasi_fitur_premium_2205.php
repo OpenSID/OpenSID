@@ -46,8 +46,9 @@ class Migrasi_fitur_premium_2205 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
         $hasil = $hasil && $this->pengaturanStatusDesa($hasil);
+        $hasil = $hasil && $this->pengaturanDataLengkap($hasil);
 
-        return $hasil && $this->pengaturanDataLengkap($hasil);
+        return $hasil && $this->ubahKolomNama($hasil);
     }
 
     protected function pengaturanStatusDesa($hasil)
@@ -65,5 +66,22 @@ class Migrasi_fitur_premium_2205 extends MY_model
         return $hasil && $this->db
             ->where_in('key', ['tgl_data_lengkap', 'tgl_data_lengkap_aktif'])
             ->update('setting_aplikasi', ['kategori' => 'data_lengkap']);
+    }
+
+    protected function ubahKolomNama($hasil)
+    {
+        if ($this->db->field_exists('nama', 'analisis_klasifikasi')) {
+            $fields = [
+                'nama' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => false,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge->modify_column('analisis_klasifikasi', $fields);
+        }
+
+        return $hasil;
     }
 }
