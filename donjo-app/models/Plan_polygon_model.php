@@ -139,7 +139,7 @@ class Plan_polygon_model extends MY_Model {
 	private function validasi($post)
 	{
 		$data['nama'] = nomor_surat_keputusan($post['nama']);
-		$data['color'] = htmlentities($post['color']);
+		$data['color'] = warna($post['color']);
 		return $data;
 	}
 

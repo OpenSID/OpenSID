@@ -1,116 +1,192 @@
 <?php class Analisis_respon_model extends CI_Model {
 
+	protected $per;
+	protected $master;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->library('Spreadsheet_Excel_Reader');
+		$this->load->model('analisis_master_model');
+		$this->per = $this->analisis_master_model->get_aktif_periode();
+		$this->master = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 	}
 
 	public function autocomplete()
 	{
-		$subjek = $_SESSION['subjek_tipe'];
+		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT nik AS no_kk FROM penduduk_hidup UNION SELECT u.nama FROM penduduk_hidup u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id "; break;
-			case 2: $sql = "SELECT no_kk FROM keluarga_aktif UNION SELECT p.nama FROM keluarga_aktif u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id "; break;
-			case 3: $sql = "SELECT no_kk FROM tweb_rtm UNION SELECT p.nama FROM tweb_rtm u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
-			case 4: $sql = "SELECT u.nama AS no_kk FROM kelompok u LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1"; break;
-			default: return null;
+			case 1:
+				$this->db
+					->select('nik, u.nama')
+					->from('penduduk_hidup u')
+					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+				break;
+			case 2:
+				$this->db
+					->select('no_kk, p.nama')
+					->from('keluarga_aktif u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
+			case 3:
+				$this->db
+					->select('no_kk, p.nama')
+					->from('tweb_rtm u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
+			case 4:
+				$this->db
+					->select('u.nama AS no_kk, p.nama')
+					->from('kelompok u')
+					->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
+			case 5:
+				$this->db
+					->select('u.kode_desa AS no_kk, u.nama_desa as nama')
+					->from('config u');
+				break;
+			case 6:
+				$this->db
+					->select("u.dusun")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+			case 7:
+				$this->db
+					->select("u.dusun, u.rw")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0');
+				break;
+			case 8:
+				$this->db
+					->select("u.dusun, u.rw, u.rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt <> 0')
+					->where('u.rt <> "-"');
+				break;
 		}
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$this->dusun_sql();
+		$this->rw_sql();
+		$this->rt_sql();
+		$data = $this->db->get()->result_array();
 
-		$outp = '';
-		for ($i=0; $i < count($data); $i++)
-		{
-			$outp .= ',"' .$data[$i]['no_kk']. '"';
-		}
-		$outp = strtolower(substr($outp, 1));
-		$outp = '[' .$outp. ']';
+		$outp = autocomplete_data_ke_str($data);
 		return $outp;
 	}
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
+		if (empty($cari = $this->session->cari)) return;
+
+		$subjek = $this->session->subjek_tipe;
+		switch ($subjek)
 		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.no_kk LIKE '$kw' OR p.nama LIKE '$kw')";
-			$subjek = $_SESSION['subjek_tipe'];
-			switch ($subjek)
-			{
-				case 1: $search_sql = " AND (u.nik LIKE '$kw' OR u.nama LIKE '$kw')"; break;
-				case 2: $search_sql = " AND (u.no_kk LIKE '$kw' OR p.nama LIKE '$kw')"; break;
-				case 3: $search_sql = " AND ((u.no_kk LIKE '$kw' OR p.nama LIKE '$kw') OR ((SELECT COUNT(id) FROM penduduk_hidup WHERE nik LIKE '$kw' AND id_rtm = u.id) > 1) OR ((SELECT COUNT(id) FROM penduduk_hidup WHERE nama LIKE '$kw' AND id_rtm = u.id) > 1))"; break;
-				case 4: $search_sql = " AND (u.nama LIKE '$kw' OR p.nama LIKE '$kw')"; break;
-				default: return null;
-			}
-			return $search_sql;
+			case 1:
+				$this->db
+					->group_start()
+						->like('u.nik', $cari)
+						->or_like('u.nama', $cari)
+					->group_end();
+				break;
+			case 2:
+				$this->db
+					->group_start()
+						->like('u.no_kk', $cari)
+						->or_like('p.nama', $cari)
+					->group_end();
+				break;
+			case 3:
+				$kw = $this->db->escape_like_str($cari);
+				$kw = '%' .$kw. '%';
+				$this->db
+					->group_start()
+						->group_start()
+							->like('u.no_kk', $cari)
+							->or_like('p.nama', $cari)
+						->group_end()
+						->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nik LIKE '{$kw}' AND id_rtm = u.id) > 1")
+						->or_where("(SELECT COUNT(id) FROM penduduk_hidup WHERE nama LIKE '{$kw}' AND id_rtm = u.id) > 1")
+					->group_end();
+				break;
+			case 4:
+				$this->db
+					->group_start()
+						->like('u.nama', $cari)
+						->or_like('p.nama', $cari)
+					->group_end();
+				break;
+			case 6:
+				$this->db
+					->like('u.dusun', $cari);
+				break;
+			case 7:
+				$this->db
+					->group_start()
+						->like('u.dusun', $cari)
+						->or_like('u.rw', $cari)
+					->group_end();
+				break;
+			case 8:
+				$this->db
+					->group_start()
+						->like('u.dusun', $cari)
+						->or_like('u.rw', $cari)
+						->or_like('u.rt', $cari)
+					->group_end();
+				break;
+			default: return null;
 		}
 	}
 
 	private function dusun_sql()
 	{
-		if (isset($_SESSION['dusun']))
-		{
-			$kf = $_SESSION['dusun'];
-			$dusun_sql = " AND c.dusun = '$kf'";
-			return $dusun_sql;
-		}
+		if (empty($this->session->dusun) || $this->session->subjek_tipe == 5) return;
+
+		$this->db->where('dusun', $this->session->dusun);
 	}
 
 	private function rw_sql()
 	{
-		if (isset($_SESSION['rw']))
-		{
-			$kf = $_SESSION['rw'];
-			$rw_sql = " AND c.rw = '$kf'";
-			return $rw_sql;
-		}
+		if (empty($this->session->rw) || $this->session->subjek_tipe == 5) return;
+
+		$this->db->where('rw', $this->session->rw);
 	}
 
 	private function rt_sql()
 	{
-		if (isset($_SESSION['rt']))
-		{
-			$kf = $_SESSION['rt'];
-			$rt_sql = " AND c.rt = '$kf'";
-			return $rt_sql;
-		}
+		if (empty($this->session->rt) || $this->session->subjek_tipe == 5) return;
+
+		$this->db->where('rt', $this->session->rt);
 	}
 
+	// Pertanyaan telah diisi atau belum
+	// $this->session->isi == 1 untuk pertanyaan yg telah diisi
 	private function isi_sql()
 	{
-		if (isset($_SESSION['isi']))
-		{
-			$per = $this->get_aktif_periode();
-			$kf = $_SESSION['isi'];
-			if ($kf == 1)
-				$isi_sql = " AND (SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode=$per ) = 1 ";
-			else
-				$isi_sql = " AND (SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode=$per ) = 0 ";
-			return $isi_sql;
-		}
+		if (empty($isi = $this->session->isi)) return;
+
+		$isi = $isi == 1 ? 1 : 0;
+		$this->db
+			->where("(SELECT COUNT(id_subjek) FROM analisis_respon_hasil WHERE id_subjek = u.id AND id_periode = $this->per) = $isi");
 	}
 
 	private function kelompok_sql($kf=0)
 	{
-		$kelompok_sql = " AND id_master = $kf ";
-		return $kelompok_sql;
+		$this->db->where('id_master', $kf);
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(u.id) AS id ";
-		$sql .= $this->list_data_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['id'];
+		$this->list_data_sql();
+		$jml_data = $this->db
+			->select('COUNT(*) AS jml_data')
+			->get()->row()->jml_data;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -123,120 +199,149 @@
 
 	private function list_data_sql()
 	{
-		$per = $this->get_aktif_periode();
-		$master = $this->get_analisis_master();
-		$id_kelompok = $master['id_kelompok'];
+		$id_kelompok = $this->master['id_kelompok'];
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
 			case 1:
-				$sql = " FROM penduduk_hidup u
-					LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id
-					WHERE 1
-				";
+				$this->db
+					->from('penduduk_hidup u')
+					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
 				break;
 
 			case 2:
-				$sql = " FROM keluarga_aktif u
-					LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id
-					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-					WHERE 1
-				" ;
+				$this->db
+					->from('keluarga_aktif u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
 				break;
 
 			case 3:
-				$sql = " FROM tweb_rtm u
-					LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id
-					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-					WHERE 1
-				";
+				$this->db
+					->from('tweb_rtm u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
 				break;
 
 			case 4:
-				$sql = " FROM kelompok u
-					LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id
-					LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id
-					WHERE 1
-				";
+				$this->db
+					->from('kelompok u')
+					->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
+
+			case 5:
+				$this->db
+					->from('config u');
+				break;
+
+			case 6:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+
+			case 7:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0')
+					->where('u.rw <>', '-');
+				break;
+
+			case 8:
+				$this->db
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt <> 0')
+					->where('u.rt <> "-"');
 				break;
 
 			default: return null;
 		}
-		if ($id_kelompok != 0)
-			$sql .= $this->kelompok_sql($id_kelompok);
+		if ($id_kelompok != 0) $this->kelompok_sql($id_kelompok);
 
-		$sql .= $this->search_sql();
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
-		$sql .= $this->isi_sql();
-		return $sql;
+		$this->search_sql();
+		$this->dusun_sql();
+		$this->rw_sql();
+		$this->rt_sql();
+		$this->isi_sql();
 	}
 
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
-		$per = $this->get_aktif_periode();
-		$master = $this->get_analisis_master();
-
-		switch ($o)
-		{
-			case 1: $order_sql = ' ORDER BY u.id'; break;
-			case 2: $order_sql = ' ORDER BY u.id DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.id'; break;
-			case 4: $order_sql = ' ORDER BY u.id DESC'; break;
-			default:$order_sql = ' ORDER BY u.id';
-		}
-
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		$subjek = $_SESSION['subjek_tipe'];
+		$this->db
+			->select("(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode = {$this->per} LIMIT 1) as cek")
+			->select("(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = {$this->master['id']} AND b.id_periode = {$this->per} AND b.id_subjek = u.id) as bukti_pengesahan");
+		$subjek = $this->session->subjek_tipe;
 		switch ($subjek)
 		{
 			case 1:
-				$sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek,
-					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-				";
+				$this->db
+					->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
 				break;
 
 			case 2:
-				$sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode = ? LIMIT 1) as cek,
-					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-				" ;
+				$this->db
+					->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
 				break;
 
 			case 3:
-				$sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek,
-					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-				";
+				$this->db
+					->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
 				break;
 
 			case 4:
-				$sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt,(SELECT id_subjek FROM analisis_respon WHERE id_subjek = u.id AND id_periode=? LIMIT 1) as cek,
-					(SELECT pengesahan from analisis_respon_bukti b WHERE b.id_master = ? AND b.id_periode = ? AND b.id_subjek = u.id) as bukti_pengesahan
-				";
+				$this->db
+					->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
+				break;
+
+			case 5:
+				$this->db
+					->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+				break;
+
+			case 6:
+				$this->db->select("u.id, u.dusun AS nid, CONCAT(UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+				break;
+
+			case 7:
+				$this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
+				break;
+
+			case 8:
+				$this->db
+					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
 				break;
 
 			default: return null;
 		}
-		$sql .= $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
+		$this->list_data_sql();
 
-		$query = $this->db->query($sql, array($per, $master['id'], $per));
-		$data =$query->result_array();
+		switch ($o)
+		{
+			case 1: $this->db->order_by('u.id'); break;
+			case 2: $this->db->order_by('u.id DESC'); break;
+			case 3: $this->db->order_by('nama'); break;
+			case 4: $this->db->order_by('nama DESC'); break;
+			default:$this->db->order_by('u.id');
+		}
 
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
+
+		$data = $this->db->get()->result_array();
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $j + 1;
 
-			if($data[$i]['cek'])
+			if ($data[$i]['cek'])
 				$data[$i]['set'] = "<img src='".base_url()."assets/images/icon/ok.png'>";
 			else
 				$data[$i]['set'] = "<img src='".base_url()."assets/images/icon/nok.png'>";
 
 			$data[$i]['jk'] = "-";
-			if($data[$i]['sex'] == 1)
+			if ($data[$i]['sex'] == 1)
 				$data[$i]['jk'] = "L";
 			else
 				$data[$i]['jk'] = "P";
@@ -247,13 +352,90 @@
 		return $data;
 	}
 
+	public function data_unduh($p, $o)
+	{
+		$per = $this->analisis_master_model->get_aktif_periode();
+		$subjek = $this->session->subjek_tipe;
+		switch ($subjek)
+		{
+			case 1:
+				$this->db->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt');
+				break;
+			case 2:
+				$this->db->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt');
+				break;
+			case 3:
+				$this->db->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw,c.rt');
+				break;
+			case 4:
+				$this->db->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt');
+				break;
+			case 5:
+				$this->db->select('u.id, u.kode_desa as nid, u.nama_desa as nama, "-" as sex, "-" as dusun, "-" as rw, "-" as rt');
+				break;
+			case 6:
+				$this->db->select("u.id, u.dusun AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun) as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt");
+				break;
+			case 7:
+				$this->db->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt");
+				break;
+			case 8:
+				$this->db->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt");
+				break;
+			default:
+				return null;
+				break;
+		}
+
+		$this->list_data_sql();
+
+		switch ($o)
+		{
+			case 1: $this->db->order_by('u.id'); break;
+			case 2: $this->db->order_by('u.id DESC'); break;
+			case 3: $this->db->order_by('nama'); break;
+			case 4: $this->db->order_by('nama DESC'); break;
+			default:$this->db->order_by('u.id');
+		}
+
+		$data = $this->db->get()->result_array();
+
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['no'] = $i + 1;
+			if ($p == 1)
+			{
+				$par = $this->db
+					->select('kode_jawaban, asign, jawaban, r.id_indikator, r.id_parameter AS korek')
+					->from('analisis_respon r')
+					->join('analisis_parameter p', 'p.id = r.id_parameter', 'left')
+					->where('r.id_periode', $per)
+					->where('r.id_subjek', $data[$i]['id'])
+					->order_by('r.id_indikator')
+					->get()->result_array();
+				$data[$i]['par'] = $par;
+			}
+			else
+			{
+				$data[$i]['par'] = null;
+			}
+
+			$data[$i]['jk'] = "-";
+			if ($data[$i]['sex'] == 1)
+				$data[$i]['jk'] = "L";
+			else
+				$data[$i]['jk'] = "P";
+		}
+		return $data;
+	}
+
 	public function update_kuisioner($id=0, $per=0)
 	{
 		$outp = true;
 		$this->session->error_msg = '';
 		if ($per == 0)
 		{
-			$per = $this->get_aktif_periode();
+			$per = $this->analisis_master_model->get_aktif_periode();
 			$id_master = $_SESSION['analisis_master'];
 		}
 		else
@@ -515,7 +697,7 @@
 
 	public function list_indikator($id=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 
 		$data = $this->db
 			->select('u.id, u.id_kategori, u.nomor, u.id_tipe, u.pertanyaan, k.kategori')
@@ -641,7 +823,7 @@
 
 	public function list_bukti($id=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 		$sql = "SELECT pengesahan FROM analisis_respon_bukti WHERE id_subjek = ? AND id_master = ? AND id_periode = ? ";
 		$sql .= " ORDER BY tgl_update DESC";
 		$query = $this->db->query($sql, array($id, $_SESSION['analisis_master'], $per));
@@ -655,18 +837,74 @@
 		$subjek = $_SESSION['subjek_tipe'];
 		switch ($subjek)
 		{
-			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM penduduk_hidup u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE u.id = ? "; break;
+			case 1:
+				$this->db
+					->select('u.id, u.nik AS nid, u.nama, u.sex, c.dusun, c.rw, c.rt')
+					->from('penduduk_hidup u')
+					->join('tweb_wil_clusterdesa c', 'u.id_cluster = c.id', 'left');
+				break;
 
-			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM keluarga_aktif u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? " ; break;
+			case 2:
+				$this->db
+					->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
+					->from('keluarga_aktif u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
 
-			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 3:
+				$this->db
+					->select('u.id, u.no_kk AS nid, p.nama, p.sex, c.dusun, c.rw, c.rt')
+					->from('tweb_rtm u')
+					->join('penduduk_hidup p', 'u.nik_kepala = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
 
-			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE u.id = ? "; break;
+			case 4: $
+				$this->db
+					->select('u.id, u.kode AS nid, u.nama, p.sex, c.dusun, c.rw, c.rt')
+					->join('penduduk_hidup p', 'u.id_ketua = p.id', 'left')
+					->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left');
+				break;
+
+			case 5:
+				$this->db
+					->select("u.id, u.kode_desa AS nid, u.nama_desa as nama, '-' as sex, '-' as dusun, '-' as rw, '-' as rt")
+					->from('config u');
+				break;
+
+			case 6:
+				$this->db
+					->select("u.id, u.dusun AS nid, UPPER('{$this->setting->sebutan_dusun}') as nama, '-' as sex, u.dusun, '-' as rw, '-' as rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw', '0');
+				break;
+
+			case 7:
+				$this->db
+					->select("u.id, u.rw AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw) as nama, '-' as sex, u.dusun, u.rw, '-' as rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt', '0')
+					->where('u.rw <>', '0');
+				break;
+
+			case 8:
+				$this->db
+					->select("u.id, u.rt AS nid, CONCAT( UPPER('{$this->setting->sebutan_dusun} '), u.dusun, ' RW ', u.rw, ' RT ', u.rt) as nama, '-' as sex, u.dusun, u.rw, u.rt")
+					->from('tweb_wil_clusterdesa u')
+					->where('u.rt <> 0')
+					->where('u.rt <> "-"');
+				break;
 
 			default: return null;
 		}
-		$query = $this->db->query($sql, $id);
-		return $query->row_array();
+		$data = $this->db
+			->where('u.id', $id)
+			->limit(1)
+			->get()->row_array();
+
+		return $data;
 	}
 
 	public function list_anggota($id=0)
@@ -699,7 +937,7 @@
 		$query = $this->db->query($sql, $_SESSION['analisis_master']);
 		$data=$query->result_array();
 
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
@@ -723,76 +961,8 @@
 		return $data;
 	}
 
-	public function data_unduh($p, $o)
-	{
-		$per = $this->get_aktif_periode();
-		$master = $this->get_analisis_master();
-		$id_kelompok = $master['id_kelompok'];
-
-		switch ($o)
-		{
-			case 1: $order_sql = ' ORDER BY u.id'; break;
-			case 2: $order_sql = ' ORDER BY u.id DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.id'; break;
-			case 4: $order_sql = ' ORDER BY u.id DESC'; break;
-			default:$order_sql = ' ORDER BY u.id';
-		}
-
-		$sql = "SELECT * FROM analisis_indikator WHERE id_master = ? ORDER BY nomor";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		$indikator = $query->result_array();
-
-		$subjek = $_SESSION['subjek_tipe'];
-		switch ($subjek)
-		{
-			case 1: $sql = "SELECT u.id,u.nik AS nid,u.nama,u.sex,c.dusun,c.rw,c.rt FROM penduduk_hidup u LEFT JOIN tweb_wil_clusterdesa c ON u.id_cluster = c.id WHERE 1 "; break;
-			case 2: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM keluarga_aktif u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 "; break;
-			case 3: $sql = "SELECT u.id,u.no_kk AS nid,p.nama,p.sex,c.dusun,c.rw,c.rt FROM tweb_rtm u LEFT JOIN penduduk_hidup p ON u.nik_kepala = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1" ; break;
-			case 4: $sql = "SELECT u.id,u.kode AS nid,u.nama,p.sex,c.dusun,c.rw,c.rt FROM kelompok u LEFT JOIN penduduk_hidup p ON u.id_ketua = p.id LEFT JOIN tweb_wil_clusterdesa c ON p.id_cluster = c.id WHERE 1 "; break;
-
-			default: return null; break;
-		}
-		if ($id_kelompok != 0)
-			$sql .= $this->kelompok_sql($id_kelompok);
-
-		$sql .= $this->search_sql();
-		$sql .= $this->dusun_sql();
-		$sql .= $this->rw_sql();
-		$sql .= $this->rt_sql();
-		$sql .= $this->isi_sql();
-		$sql .= $order_sql;
-
-		$query = $this->db->query($sql, $per);
-		$data=$query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-			if ($p == 1)
-			{
-				$sql2 	= "SELECT kode_jawaban,asign,jawaban,r.id_indikator,r.id_parameter AS korek FROM analisis_respon r LEFT JOIN analisis_parameter p ON p.id = r.id_parameter WHERE r.id_periode = ? AND r.id_subjek = ? ORDER BY r.id_indikator";
-				$query2 = $this->db->query($sql2, array($per, $data[$i]['id']));
-				$par = $query2->result_array();
-				$data[$i]['par'] = $par;
-			}
-			else
-			{
-				$data[$i]['par'] = null;
-			}
-
-			$data[$i]['jk'] = "-";
-			if ($data[$i]['sex'] == 1)
-				$data[$i]['jk'] = "L";
-			else
-				$data[$i]['jk'] = "P";
-		}
-		return $data;
-	}
-
 	public function indikator_data_unduh()
 	{
-		$master = $this->get_analisis_master();
-
 		$order_sql = ' ORDER BY u.nomor';
 
 		$sql = "SELECT u.* FROM analisis_indikator u WHERE u.id_master = ? ";
@@ -815,8 +985,6 @@
 
 	public function indikator_unduh($p=0)
 	{
-		$master = $this->get_analisis_master();
-
 		$data = $this->db
 			->select('u.*')
 			->where('u.id_master', $this->session->analisis_master)
@@ -837,10 +1005,6 @@
 					->where('asign', 1)
 					->get('analisis_parameter')
 					->result_array();
-
-				// $sql2 = "SELECT * FROM analisis_parameter WHERE id_indikator = ? AND asign = 1 ";
-				// $query2 = $this->db->query($sql2, $data[$i]['id']);
-				// $par = $query2->result_array();
 				$data[$i]['par'] = $par;
 			}
 		}
@@ -850,7 +1014,7 @@
 	public function pre_update($pr=0)
 	{
 		if ($pr == 0)
-			$per = $this->get_aktif_periode();
+			$per = $this->analisis_master_model->get_aktif_periode();
 		else
 			$per = $pr;
 
@@ -884,7 +1048,7 @@
 
 	public function update_hasil($id=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 
 		$sql = "SELECT SUM(i.bobot * nilai) as jml FROM analisis_respon r LEFT JOIN analisis_indikator i ON r.id_indikator = i.id LEFT JOIN analisis_parameter z ON r.id_parameter = z.id WHERE r.id_subjek = ? AND i.act_analisis = 1 AND r.id_periode = ?";
 		$query = $this->db->query($sql, array($id, $per));
@@ -902,7 +1066,7 @@
 
 	public function import_respon($op=0)
 	{
-		$per = $this->get_aktif_periode();
+		$per = $this->analisis_master_model->get_aktif_periode();
 
 		$subjek = $_SESSION['subjek_tipe'];
 		$mas = $_SESSION['analisis_master'];
@@ -1103,29 +1267,6 @@
 					'id_periode' => $per);
 			}
 		}
-	}
-
-	public function get_aktif_periode()
-	{
-		$sql = "SELECT * FROM analisis_periode WHERE aktif = 1 AND id_master = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		$data = $query->row_array();
-		return $data['id'];
-	}
-
-	public function get_analisis_master()
-	{
-		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		return $query->row_array();
-	}
-
-	public function get_periode()
-	{
-		$sql = "SELECT * FROM analisis_periode WHERE aktif = 1 AND id_master = ?";
-		$query = $this->db->query($sql, $_SESSION['analisis_master']);
-		$data = $query->row_array();
-		return $data['nama'];
 	}
 
 	public function get_respon_by_id_periode($id_periode = 0, $subjek = 1)

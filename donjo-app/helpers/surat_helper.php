@@ -1,5 +1,10 @@
 <?php
 
+require_once 'vendor/html2pdf/vendor/autoload.php';
+use Spipu\Html2Pdf\Html2Pdf;
+use Spipu\Html2Pdf\Exception\Html2PdfException;
+use Spipu\Html2Pdf\Exception\ExceptionFormatter;
+
 /**
  * SuratExportDesa
  *
@@ -97,3 +102,29 @@ function strip_kosong($str)
 {
 	return empty($str) ? '-' : $str;
 }
+
+// Simpan laporan html sebagai file PDF
+function buat_pdf($isi, $file, $style = null, $orientation = 'P', $page_size = 'A4')
+{
+	// CSS perlu ditambahkan secara eksplisit
+	$style = $style ?: APPPATH.'../assets/css/report.css';
+	$style_isi = "<style>\n " . file_get_contents($style) . "</style>\n" . $isi;
+
+	// Konversi ke PDF menggunakan html2pdf
+	try
+	{
+    $html2pdf = new Html2Pdf($orientation, $page_size);
+		$html2pdf->setDefaultFont('Arial');
+    $html2pdf->writeHTML($style_isi);
+    $html2pdf->output($file.'.pdf', 'FI');
+	} catch (Html2PdfException $e)
+	{
+		file_put_contents($file.'_asli', $isi);
+		echo $isi;
+		echo '<br>================================================<br>';
+    $html2pdf->clean();
+    $formatter = new ExceptionFormatter($e);
+    echo $formatter->getHtmlMessage();
+	}
+}
+

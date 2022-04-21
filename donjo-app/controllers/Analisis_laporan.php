@@ -48,7 +48,7 @@ class Analisis_laporan extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['pamong_model', 'wilayah_model', 'analisis_laporan_model', 'analisis_respon_model']);
+		$this->load->model(['pamong_model', 'wilayah_model', 'analisis_laporan_model', 'analisis_respon_model', 'analisis_master_model']);
 		$this->modul_ini = 5;
 		$this->session->submenu = "Laporan Analisis";
 		$this->session->asubmenu = "analisis_laporan";
@@ -72,7 +72,7 @@ class Analisis_laporan extends Admin_Controller {
 
 	public function index($p = 1, $o = 0)
 	{
-		if (empty($this->analisis_respon_model->get_periode()))
+		if (empty($this->analisis_master_model->get_aktif_periode()))
 		{
 			$this->session->success = -1;
 			$this->session->error_msg = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';
@@ -123,9 +123,8 @@ class Analisis_laporan extends Admin_Controller {
 		$data['paging'] = $this->analisis_laporan_model->paging($p, $o);
 		$data['main']  = $this->analisis_laporan_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_laporan_model->autocomplete();
-		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
-		$data['analisis_periode'] = $this->analisis_laporan_model->get_periode();
-
+		$data['analisis_master'] = $this->analisis_master_model->analisis_master;
+		$data['analisis_periode'] = $this->analisis_master_model->periode;
 		$this->set_minsidebar(1);
 		$this->render('analisis_laporan/table', $data);
 	}
@@ -136,7 +135,7 @@ class Analisis_laporan extends Admin_Controller {
 		$data['o'] = $o;
 		$data['id'] = $id;
 
-		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->analisis_master;
 		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
 		$data['total'] = $this->analisis_laporan_model->get_total($id);
 
@@ -145,6 +144,10 @@ class Analisis_laporan extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['list_jawab'] = $this->analisis_laporan_model->list_indikator($id);
 		$data['form_action'] = site_url("analisis_laporan/update_kuisioner/$p/$o/$id");
+		if ($master['subjek_tipe'] == 5)
+			$data['asubjek'] = ucwords($this->setting->sebutan_desa);
+		else
+			$data['asubjek'] = $this->referensi_model->list_by_id('analisis_ref_subjek')[$master['subjek_tipe']]['subjek'];
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_laporan/form', $data);
@@ -182,7 +185,7 @@ class Analisis_laporan extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->analisis_master;
 		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
 		$data['asubjek'] = $this->subjek_tipe();
 		$data['total'] = $this->analisis_laporan_model->get_total($id);
@@ -224,7 +227,7 @@ class Analisis_laporan extends Admin_Controller {
 		$data['judul'] = $this->analisis_laporan_model->get_judul();
 		$data['file'] = "Laporan Hasil Analisis " . $data['judul']['asubjek'];
 		$data['isi'] = "analisis_laporan/table_print";
-		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->analisis_master;
 		$data['main'] = $this->analisis_laporan_model->list_data($o, 0, 10000);
 		$data['letak_ttd'] = ['2', '2', '1'];
 

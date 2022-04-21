@@ -1,24 +1,26 @@
-<?php 
+<?php
 
-class Laporan_apbdes_model extends CI_Model {
+class Laporan_sinkronisasi_model extends MY_Model {
 
-	private $table = "laporan_apbdes";
+	private $table = "laporan_sinkronisasi";
+	protected $tipe = 'laporan_apbdes';
 	
-	const ORDER_ABLE_APBDES = [
+	const ORDER = [
 		2 => 'nama',
-		3 => 'tahun',
-		4 => 'semester',
-		5 => 'nama_file',
-		6 => 'updated_at',
-		7 => 'kirim'
+		3 => 'semester', // atau bulan
+		4 => 'tahun',
+		5 => 'updated_at',
+		6 => 'kirim'
 	];
 	
-	public function __construct()
+	public function set_tipe(string $tipe)
 	{
-		parent::__construct();
+		$this->tipe = $tipe;
+
+		return $this;
 	}
 	
-	public function get_apbdes(string $search = '', $tahun = NULL)
+	public function get_data(string $search = '', $tahun = NULL)
 	{
 		$this->db->from($this->table);
 
@@ -35,12 +37,16 @@ class Laporan_apbdes_model extends CI_Model {
 
 		if ($tahun) $this->db->where('tahun', $tahun);
 		
-		return $this->db;
+		return $this->db->where('tipe', $this->tipe);
 	}
 
 	public function find($id)
 	{
-		return $this->db->get_where($this->table, ['id' => $id])->row();
+		return $this->db
+			->where('tipe', $this->tipe)
+			->where('id', $id)
+			->get($this->table)
+			->row();
 	}
 
 	public function get_tahun()
@@ -48,37 +54,49 @@ class Laporan_apbdes_model extends CI_Model {
 		$data = $this->db
 			->distinct()
 			->select('tahun')
+			->where('tipe', $this->tipe)
 			->get($this->table)
 			->result();
 
 		return $data;
 	}
 
-	public function insert()
+	public function insert($data = null)
 	{
-		$data = $this->validasi();
+		// $data bisa dikirim dari laporan yg dibuat otomatis; kalau kosong ambil dari form
+		$data = $data ?: $this->validasi();
 		$outp = $this->db->insert($this->table, $data);
 
 		status_sukses($outp);
 	}
 
-	public function update($id)
+	public function update($id, $data = null)
 	{
-		$data = $this->validasi();
+		$data = $data ?: $this->validasi();
 		$data['updated_at'] = date('Y-m-d H:i:s');
-		$outp = $this->db->where('id', $id)->where('kirim', NULL)->update($this->table, $data);
+		$data['kirim'] = NULL;
+		$outp = $this->db->where('id', $id)->update($this->table, $data);
+
+		status_sukses($outp);
+	}
+
+	public function insert_or_update($where = null, $data = null)
+	{
+		$id = $this->db->select('id')->get_where($this->table, $where)->row()->id;
+
+		$outp = ($id) ? $this->update($id, $data) : $this->insert($data);
 
 		status_sukses($outp);
 	}
 
 	public function delete($id)
-	{	
-		if ($nama_file = $this->find($id)->nama_file)
+	{
+		$outp = $this->db->where('id', $id)->where('kirim', NULL)->delete($this->table);
+
+		if ($outp && ($nama_file = $this->find($id)->nama_file))
 		{
 			unlink(LOKASI_DOKUMEN . $nama_file);
 		}
-
-		$outp = $this->db->where('id', $id)->delete($this->table);
 
 		status_sukses($outp);
 	}
@@ -96,10 +114,11 @@ class Laporan_apbdes_model extends CI_Model {
 		$post = $this->input->post();
 
 		$data = [
-			'judul' => alfanumerik($post['judul']),
+			'judul' => alfanumerik_spasi($post['judul']),
+			'semester' => bilangan( ($this->tipe == 'laporan_apbdes') ? $post['semester'] : $post['bulan']),
 			'tahun' => bilangan($post['tahun']),
-			'semester' => bilangan($post['semester']),
 			'nama_file' => $this->upload($post['judul'], $post['old_file']),
+			'tipe' => $this->tipe,
 		];
 
 		return $data;
@@ -142,9 +161,16 @@ class Laporan_apbdes_model extends CI_Model {
 		{
 			$kirim[$key]['id'] = $data['id'];
 			$kirim[$key]['judul'] = $data['judul'];
-			$kirim[$key]['tahun'] = $data['tahun'];
-			$kirim[$key]['semester'] = $data['semester'];
+			if ($this->tipe == 'laporan_apbdes')
+			{
+				$kirim[$key]['semester'] =  $data['semester'];
+			}
+			else
+			{
+				$kirim[$key]['bulan'] =  $data['semester'];
+			}			
 			$kirim[$key]['nama_file'] = $data['nama_file'];
+			$kirim[$key]['tahun'] = $data['tahun'];
 			$kirim[$key]['created_at'] = $data['created_at'];
 			$kirim[$key]['updated_at'] = $data['updated_at'];
 			$kirim[$key]['file'] = $this->file($data['nama_file']);

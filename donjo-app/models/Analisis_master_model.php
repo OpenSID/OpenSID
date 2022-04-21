@@ -1,9 +1,16 @@
 <?php
 class Analisis_master_model extends MY_Model {
 
+	public $analisis_master;
+	public $periode;
+
 	function __construct()
 	{
 		parent::__construct();
+		$this->load->model('referensi_model');
+		$this->analisis_master = $this->get_analisis_master($this->session->analisis_master);
+		$this->periode = $this->get_periode();
+
 	}
 
 	public function autocomplete()
@@ -13,45 +20,33 @@ class Analisis_master_model extends MY_Model {
 
 	private function search_sql()
 	{
-		if (isset($_SESSION['cari']))
-		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
-			return $search_sql;
-			}
-		}
+		if (empty($cari = $this->session->cari)) return;
+
+		$this->db
+			->like('u.nama', $cari);
+	}
 
 	private function filter_sql()
 	{
-		if (isset($_SESSION['filter']))
-		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND u.subjek_tipe = $kf";
-			return $filter_sql;
-		}
+		if (empty($kf = $this->session->filter)) return;
+
+		$this->db
+			->where('u.subjek_tipe', $kf);
 	}
 
 	private function state_sql()
 	{
-		if (isset($_SESSION['state']))
-		{
-			$kf = $_SESSION['state'];
-			$filter_sql = " AND u.lock = $kf";
-		return $filter_sql;
-		}
+		if (empty($kf = $this->session->state)) return;
+
+		$this->db
+			->where('u.lock', $kf);
 	}
 
 	public function paging($p=1, $o=0)
 	{
-		$sql = "SELECT COUNT(id) AS id FROM analisis_master u WHERE 1";
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->state_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['id'];
+		$this->list_data_query();
+		$jml_data = $this->db->select('COUNT(u.id) as jml_data')
+			->get()->row()->jml_data;
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -62,31 +57,35 @@ class Analisis_master_model extends MY_Model {
 		return $this->paging;
 	}
 
+	private function list_data_query()
+	{
+		$this->db
+			->from('analisis_master u')
+			->join('analisis_ref_subjek s', 'u.subjek_tipe = s.id', 'left');
+		$this->search_sql();
+		$this->filter_sql();
+		$this->state_sql();
+	}
+
 	public function list_data($o=0, $offset=0, $limit=500)
 	{
+		$desa = ucwords($this->setting->sebutan_desa);
+		$this->db->select('u.*')
+			->select("(case when u.subjek_tipe = 5 then '{$desa}' else s.subjek end) as subjek");
+		$this->list_data_query();
 		switch ($o)
 		{
-			case 1: $order_sql = ' ORDER BY u.lock'; break;
-			case 2: $order_sql = ' ORDER BY u.lock DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.nama'; break;
-			case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
-			case 5: $order_sql = ' ORDER BY s.subjek'; break;
-			case 6: $order_sql = ' ORDER BY s.subjek DESC'; break;
-			default:$order_sql = ' ORDER BY u.id';
+			case 1: $this->db->order_by('u.lock'); break;
+			case 2: $this->db->order_by('u.lock DESC'); break;
+			case 3: $this->db->order_by('u.nama'); break;
+			case 4: $this->db->order_by('u.nama DESC'); break;
+			case 5: $this->db->order_by('s.subjek'); break;
+			case 6: $this->db->order_by('s.subjek DESC'); break;
+			default:$this->db->order_by('u.id');
 		}
+		if ($limit > 0 ) $this->db->limit($limit, $offset);
 
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
-
-		$sql = "SELECT u.*,s.subjek FROM analisis_master u LEFT JOIN analisis_ref_subjek s ON u.subjek_tipe = s.id WHERE 1 ";
-
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->state_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
-
-		$query = $this->db->query($sql);
-		$data=$query->result_array();
+		$data = $this->db->get()->result_array();
 
 		$j = $offset;
 		for ($i=0; $i < count($data); $i++)
@@ -204,11 +203,32 @@ class Analisis_master_model extends MY_Model {
 		return $data;
 	}
 
+	// periode aktif
+	public function get_periode($id=null)
+	{
+		$id = $id ?: $this->session->analisis_master;
+
+		$periode = $this->db
+			->select('*')
+			->from('analisis_periode')
+			->where('aktif', 1)
+			->where('id_master', $id)
+			->get()->row();
+		return $periode;
+	}
+
+	// id dari periode aktif
+	public function get_aktif_periode()
+	{
+		return $this->periode->id;
+	}
+
 	public function list_subjek()
 	{
-		$sql = "SELECT * FROM analisis_ref_subjek";
-		$query = $this->db->query($sql);
-		return $query->result_array();
+		$subjek = $this->referensi_model->list_data('analisis_ref_subjek');
+		$desa = array_search('5', array_column($subjek, 'id'));
+		$subjek[$desa]['subjek'] = ucwords($this->setting->sebutan_desa);
+		return $subjek;
 	}
 
 	public function list_kelompok()

@@ -54,13 +54,13 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller {
 	{
 		parent::__construct();
 
-		$this->load->model(['pamong_model', 'penduduk_model', 'referensi_model']);
+		$this->load->model(['pamong_model', 'penduduk_model', 'referensi_model', 'laporan_sinkronisasi_model']);
 
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 303;
 
 		$this->_set_page = ['10', '20', '50', '100'];
-		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+		$this->_list_session = ['filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 	}
 
 	public function index($page_number=1)
@@ -135,7 +135,35 @@ class Bumindes_penduduk_rekapitulasi extends Admin_Controller {
 			'isi' => "bumindes/penduduk/rekapitulasi/content_rekapitulasi_cetak",
 			'letak_ttd' => ['1', '2', '28'],
 		];
-		$this->load->view('global/format_cetak', $data);
+		if ($aksi == 'pdf')
+		{
+			$this->laporan_pdf($data);
+		}
+		else
+			$this->load->view('global/format_cetak', $data);
+	}
+
+	private function laporan_pdf($data)
+	{
+		$nama_file =  "rekap_jumlah_penduduk_" . date("Y_m_d");
+		$file = FCPATH . LOKASI_DOKUMEN . $nama_file;
+		$data = array_merge($data, ['width' => 400]); // lebar dalam mm
+		$laporan = $this->load->view('global/format_cetak', $data, true);
+		buat_pdf($laporan, $file, null, 'L', array(200, 400)); // perlu berikan dimensi eksplisit dalam mm
+		
+		$where = [
+			'semester' => $this->session->filter_bulan,
+			'tahun' => $this->session->filter_tahun,
+		];
+
+		$lap_sinkron = [
+			'judul' => 'Rekap Jumlah Penduduk',
+			'semester' => $this->session->filter_bulan,
+			'tahun' => $this->session->filter_tahun,
+			'nama_file' => $nama_file . '.pdf',
+			'tipe' => 'laporan_penduduk',
+		];
+		$this->laporan_sinkronisasi_model->insert_or_update($where, $lap_sinkron);
 	}
 
 	public function autocomplete()

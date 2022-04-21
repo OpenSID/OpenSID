@@ -22,4 +22,3 @@ $db['default']['database'] = 'umum';
 | Sesuaikan dengan ketentuan hosting
 */
 $db['default']['stricton'] = TRUE;
-?>

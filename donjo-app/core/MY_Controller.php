@@ -323,6 +323,15 @@ class Admin_Controller extends MY_Controller {
 		return $this->user_model->hak_akses($this->grup, $controller, $akses);
 	}
 
+	public function redirect_tidak_valid($valid)
+	{
+		if ($valid) return;
+
+		$this->session->success = -1;
+		$this->session->error_msg = "Aksi ini tidak diperbolehkan";
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
 	public function render($view, Array $data = NULL)
 	{
 		$this->header['minsidebar'] = $this->get_minsidebar();

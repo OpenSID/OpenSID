@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="content-wrapper">
 	<section class="content-header">
 		<h1>
-			LAPORAN APDES
+			<?= strtoupper($judul); ?>
 			<small>Daftar Data</small>
 		</h1>
 		<ol class="breadcrumb">
@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<?php if ($this->CI->cek_hak_akses('u')): ?>
-					<a href="<?= site_url("$this->controller/form/$main->id"); ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Tambah Laporan APBDes"><i class="fa fa-plus"></i> Tambah Data</a>
+					<a href="<?= site_url("$this->controller/form/$main->id"); ?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Tambah <?= $judul; ?>"><i class="fa fa-plus"></i> Tambah Data</a>
 				<?php endif; ?>
 				<?php if ($this->CI->cek_hak_akses('h')): ?>
 					<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("$this->controller/delete_all"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
@@ -91,15 +91,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
-						<table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-keuangan">
+						<table class="table table-bordered table-striped dataTable table-hover tabel-daftar" id="tabel-data">
 							<thead class="bg-gray disabled color-palette">
 								<tr>
 									<th><input type="checkbox" id="checkall"/></th>
 									<th>No</th>
 									<th>Aksi</th>
 									<th>Judul</th>
+									<th><?= $kolom; ?></th>
 									<th>Tahun</th>
-									<th>Semester</th>
 									<th>Tanggal Upload</th>
 									<th>Tanggal Kirim</th>
 								</tr>
@@ -118,7 +118,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<h4 class="modal-title">Proses Sinkronisasi</h4>
 			</div>
 			<div class="modal-body">
-				Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirmkan.
+				Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirimkan.
 				<div class='text-center'>
 					<img src="<?= base_url('assets/images/background/loading.gif')?>">
 				</div>
@@ -155,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->load->view('global/confirm_delete'); ?>
 <script>
 	$(document).ready(function() {
-		let tabel_keuangan = $('#tabel-keuangan').DataTable({
+		let tabel_keuangan = $('#tabel-data').DataTable({
 			'processing': true,
 			'serverSide': true,
 			'autoWidth': false,
@@ -163,7 +163,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			'order': [[4, 'desc']],
 			'columnDefs': [
 				{ 'orderable': false, 'targets': [0, 1, 2] },
-				{ 'className' : 'padat', 'targets': [0, 1, 6, 7] },
+				{ 'className' : 'padat', 'targets': [0, 1, 4, 5, 6, 7] },
 				{ 'className' : 'aksi', 'targets': [2] },
 			],
 			'ajax': {
@@ -184,18 +184,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					'data': function(data) {
 						return `
 						<?php if ($this->CI->cek_hak_akses('u')): ?>
-							<a href="<?= site_url("$this->controller/form/"); ?>${data.id}" title="Edit APBDes" class="btn bg-orange btn-flat btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah Laporan APBDes"><i class="fa fa-edit"></i></a>
-						<?php endif; ?>
-						<?php if ($this->CI->cek_hak_akses('h')): ?>
-							<a href="#" data-href="<?= site_url("$this->controller/delete/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete" ${data.kirim ? "disabled" : ""}><i class="fa fa-trash-o"></i></a>
+							<a href="<?= site_url("$this->controller/form/"); ?>${data.id}" title="Edit" class="btn bg-orange btn-flat btn-sm" data-target="#modalBox" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false" data-title="Ubah <?= $judul; ?>"><i class="fa fa-edit"></i></a>
 						<?php endif; ?>
 						<a href="<?= site_url("$this->controller/unduh/"); ?>${data.id}" class="btn bg-purple btn-flat btn-sm"  title="Unduh"><i class="fa fa-download"></i></a>
 						`
 					}
 				},
 				{ 'data': 'judul' },
-				{ 'data': 'tahun' },
 				{ 'data': 'semester' },
+				{ 'data': 'tahun' },
 				{ 'data': 'updated_at' },
 				{ 'data': 'kirim' },
 			],
@@ -205,7 +202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		});
 
 		tabel_keuangan.on('draw.dt', function() {
-			let PageInfo = $('#tabel-keuangan').DataTable().page.info();
+			let PageInfo = $('#tabel-data').DataTable().page.info();
 			tabel_keuangan.column(1, {
 				page: 'current'
 			}).nodes().each(function(cell, i) {

@@ -55,6 +55,7 @@ class Anjungan_model extends CI_Model {
 	public function cek_anjungan($mac_address = null)
 	{
 		$ip = $this->input->ip_address();
+		$mac_address = $mac_address ?: $this->session->mac_address;
 
 		$this->db
 			->group_start()

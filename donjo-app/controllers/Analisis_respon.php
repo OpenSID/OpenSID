@@ -46,7 +46,7 @@ class Analisis_respon extends Admin_Controller {
 	{
 		parent::__construct();
 		UNSET($_SESSION['delik']);
-		$this->load->model(['analisis_respon_model', 'wilayah_model']);
+		$this->load->model(['analisis_respon_model', 'wilayah_model', 'analisis_master_model']);
 
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
@@ -73,7 +73,7 @@ class Analisis_respon extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-		if (empty($this->analisis_respon_model->get_periode()))
+		if (empty($this->analisis_master_model->get_aktif_periode()))
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = 'Tidak ada periode aktif. Entri data respon harus ada periode aktif.';
@@ -121,10 +121,77 @@ class Analisis_respon extends Admin_Controller {
 		$data['paging'] = $this->analisis_respon_model->paging($p, $o);
 		$data['main'] = $this->analisis_respon_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_respon_model->autocomplete();
-		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
-		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
+		$data['analisis_periode'] = $this->analisis_master_model->periode;
+		$data = array_merge($data, $this->judul_subjek($data['analisis_master']['subjek_tipe']));
 		$this->set_minsidebar(1);
 		$this->render('analisis_respon/table', $data);
+	}
+
+	private function judul_subjek($subjek_tipe)
+	{
+		$asubjek = 	$this->referensi_model->list_by_id('analisis_ref_subjek')[$subjek_tipe]['subjek'];
+
+		switch ($subjek_tipe)
+		{
+			case 1:
+				$judul = [
+					'nama' => 'Nama',
+					'nomor' => 'NIK',
+					'asubjek' => $asubjek
+				];
+				break;
+			case 2: $judul = [
+					'nama' => "Kepala Keluarga",
+					'nomor' => "Nomor KK",
+					'asubjek' => $asubjek
+				];
+				break;
+			case 3: $judul = [
+					'nama' => "Kepala Rumah Tangga",
+					'nomor' => "Nomor Rumah Tangga",
+					'asubjek' => $asubjek
+				];
+				break;
+			case 4: $judul = [
+					'nama' => "Nama Kelompok",
+					'nomor' => "ID Kelompok",
+					'asubjek' => $asubjek
+				];
+				break;
+			case 5:
+				$desa = ucwords($this->setting->sebutan_desa);
+				$judul = [
+					'nama' => "Nama $desa",
+					'nomor' => "Kode $desa",
+					'asubjek' => ucwords($this->setting->sebutan_desa)
+				];
+				break;
+			case 6:
+				$dusun = ucwords($this->setting->sebutan_dusun);
+				$judul = [
+					'nama' => "Nama {$dusun}",
+					'nomor' => $dusun,
+					'asubjek' => $asubjek
+				];
+				break;
+			case 7:
+				$judul = [
+					'nama' => "Nama {$this->setting->sebutan_dusun}/RW",
+					'nomor' => "RW",
+					'asubjek' => $asubjek
+				];
+				break;
+			case 8:
+				$judul = [
+					'nama' => "Nama {$this->setting->sebutan_dusun}/RW/RT",
+					'nomor' => "RT",
+					'asubjek' => $asubjek
+				];
+				break;
+			default: $judul = null;
+		}
+		return $judul;
 	}
 
 	public function kuisioner($p=1, $o=0, $id='', $fs=0)
@@ -142,7 +209,7 @@ class Analisis_respon extends Admin_Controller {
 		$data['o'] = $o;
 		$data['id'] = $id;
 
-		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['subjek'] = $this->analisis_respon_model->get_subjek($id);
 		$data['list_jawab'] = $this->analisis_respon_model->list_indikator($id);
 		$data['list_bukti'] = $this->analisis_respon_model->list_bukti($id);
@@ -199,9 +266,33 @@ class Analisis_respon extends Admin_Controller {
 
 	public function data_unduh($p=0, $o=0)
 	{
+		$data['subjek_tipe'] = $this->session->subjek_tipe;
 		$data['main'] = $this->analisis_respon_model->data_unduh($p, $o);
-		$data['periode'] = $this->analisis_respon_model->get_aktif_periode();
+		$data['periode'] = $this->analisis_master_model->get_aktif_periode();
 		$data['indikator'] = $this->analisis_respon_model->indikator_unduh($p, $o);
+
+		$key = ($data['periode'] + 3) * ($this->session->analisis_master + 7) * ($this->session->subjek_tipe * 3);
+		$data['key'] = "AN" . $key;
+		switch ($this->session->subjek_tipe)
+		{
+			case 5:
+				$data['span_kolom'] = 3;
+				break;
+			case 6:
+				$data['span_kolom'] = 3;
+				break;
+			case 7:
+				$data['span_kolom'] = 5;
+				break;
+			case 8:
+				$data['span_kolom'] = 6;
+				break;
+			default:
+				$data['span_kolom'] = 7;
+				break;
+		}
+		$data['judul'] = $this->judul_subjek($this->session->subjek_tipe);
+
 		$this->load->view('analisis_respon/import/data_unduh', $data);
 	}
 
