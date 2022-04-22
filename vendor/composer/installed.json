@@ -284,17 +284,17 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.1.1",
-            "version_normalized": "6.1.1.0",
+            "version": "v6.1.2",
+            "version_normalized": "6.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "e67638d067a537731e3f9c03e097c7c1b1f31fe8"
+                "reference": "c297139da7c6873dbd67cbd1093f09ec0bbd0c50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/e67638d067a537731e3f9c03e097c7c1b1f31fe8",
-                "reference": "e67638d067a537731e3f9c03e097c7c1b1f31fe8",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/c297139da7c6873dbd67cbd1093f09ec0bbd0c50",
+                "reference": "c297139da7c6873dbd67cbd1093f09ec0bbd0c50",
                 "shasum": ""
             },
             "require": {
@@ -306,7 +306,7 @@
             "suggest": {
                 "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
             },
-            "time": "2022-04-13T23:27:14+00:00",
+            "time": "2022-04-21T14:37:18+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -338,23 +338,23 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.1.1"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.1.2"
             },
             "install-path": "../firebase/php-jwt"
         },
         {
             "name": "google/apiclient",
-            "version": "v2.12.2",
-            "version_normalized": "2.12.2.0",
+            "version": "v2.12.4",
+            "version_normalized": "2.12.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client.git",
-                "reference": "a18b0e1ef5618523c607c01a41ec137c7f9af3b1"
+                "reference": "702eed9ae7022ba20dc7118c8161060cb50ee9f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/a18b0e1ef5618523c607c01a41ec137c7f9af3b1",
-                "reference": "a18b0e1ef5618523c607c01a41ec137c7f9af3b1",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/702eed9ae7022ba20dc7118c8161060cb50ee9f8",
+                "reference": "702eed9ae7022ba20dc7118c8161060cb50ee9f8",
                 "shasum": ""
             },
             "require": {
@@ -382,7 +382,7 @@
             "suggest": {
                 "cache/filesystem-adapter": "For caching certs and tokens (using Google\\Client::setCache)"
             },
-            "time": "2022-04-05T16:19:05+00:00",
+            "time": "2022-04-20T16:44:03+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -412,7 +412,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client/issues",
-                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.12.2"
+                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.12.4"
             },
             "install-path": "../google/apiclient"
         },
@@ -858,8 +858,8 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -914,8 +914,8 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -971,8 +971,8 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1025,8 +1025,8 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1076,8 +1076,8 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
@@ -1147,8 +1147,8 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -1205,8 +1205,8 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
@@ -1270,8 +1270,8 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1319,8 +1319,8 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1372,8 +1372,8 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -1423,8 +1423,8 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
@@ -1494,17 +1494,17 @@
         },
         {
             "name": "illuminate/view",
-            "version": "v8.83.8",
-            "version_normalized": "8.83.8.0",
+            "version": "v8.83.9",
+            "version_normalized": "8.83.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/view.git",
-                "reference": "f9f3ab882025d61d72a6383679fcadd08e79fbcf"
+                "reference": "5e73eef48d9242532f81fadc14c816a01bfb1388"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/view/zipball/f9f3ab882025d61d72a6383679fcadd08e79fbcf",
-                "reference": "f9f3ab882025d61d72a6383679fcadd08e79fbcf",
+                "url": "https://api.github.com/repos/illuminate/view/zipball/5e73eef48d9242532f81fadc14c816a01bfb1388",
+                "reference": "5e73eef48d9242532f81fadc14c816a01bfb1388",
                 "shasum": ""
             },
             "require": {
@@ -1518,7 +1518,7 @@
                 "illuminate/support": "^8.0",
                 "php": "^7.3|^8.0"
             },
-            "time": "2022-02-02T21:02:36+00:00",
+            "time": "2022-04-14T13:47:10+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4033,9 +4033,9 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "83632bd58d41c6544d408ee704942bd7b6f7b470"
+                "reference": "14e55b4525292eb0a24a0243c49f7e5190b2d75f"
             },
-            "time": "2022-04-18T05:48:04+00:00",
+            "time": "2022-04-22T06:49:39+00:00",
             "type": "library",
             "installation-source": "source",
             "license": [
