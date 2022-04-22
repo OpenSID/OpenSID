@@ -119,6 +119,7 @@ class MY_Model extends CI_Model
             case 'galeri':
             case 'pengaduan':
             case 'data-vaksinasi':
+            case 'pemerintah':
                 break;
 
             default:

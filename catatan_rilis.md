@@ -3,7 +3,7 @@ Di rilis ini, versi 22.04-premium-beta02 menyediakan [untuk diisi]. Rilis ini ju
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
-1. [#5095](https://github.com/OpenSID/OpenSID/issues/5095) Tambahkan informasi data kelaurga dengan No KK sementara.
+1. [#5095](https://github.com/OpenSID/OpenSID/issues/5095) Tambahkan informasi data keluarga dengan No KK sementara.
 2. [#5091](https://github.com/OpenSID/OpenSID/issues/5091) Tambahkan fitur bersihkan pada bantuan / daftar peserta bantuan.
 3. [#5124](https://github.com/OpenSID/OpenSID/issues/5124) Tambahkan informasi ukuran file database dan folder desa.
 4. [#4389](https://github.com/OpenSID/OpenSID/issues/4389) Tambahkan fitur disable tombol perbaharui Status IDM jika tersedia informasi data.
@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 15. [#5067](https://github.com/OpenSID/OpenSID/issues/5067) Sesuaikan tampilan informasi yang ada di home ke sidebar kanan.
 16. [#4982](https://github.com/OpenSID/OpenSID/issues/4982) Sesuaikan panjang karakter pada kolom klasifikasi analisis.
 17. [#4367](https://github.com/OpenSID/OpenSID/issues/4367) Sesuaikan menyimpan pendataan warga terkena covid yang bukan dari asal mudik.
+18. [#712](https://github.com/OpenSID/OpenSID/issues/712) Tambahakan halaman pemerintah desa.
 
 
 #### Perbaikan BUG
