@@ -61,7 +61,7 @@ class Migrasi_2012_ke_2101 extends MY_model
         if (! $this->cek_indeks('kelompok', 'kode')) {
             $hasil = $hasil && $this->db->query("UPDATE kelompok SET kode=CONCAT_WS('_', kode, id) WHERE id IS NOT NULL");
             // Field unik pd tabel kelompok
-            $hasil = $hasil && $this->tambah_indeks('kelompok', 'kode');
+            $hasil = $hasil && $this->tambahIndeks('kelompok', 'kode');
         }
 
         status_sukses($hasil);

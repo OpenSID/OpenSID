@@ -35,88 +35,43 @@
  *
  */
 
-interface OTP_interface
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class GrupKontak extends Model
 {
     /**
-     * Kirim otp ke user.
+     * The table associated with the model.
      *
-     * @param mixed $user
-     * @param mixed $otp
-     *
-     * @throws \Exception
-     *
-     * @return void
+     * @var string
      */
-    public function kirim_otp($user, $otp);
+    protected $table = 'kontak_grup';
 
     /**
-     * Verifikasi otp user.
+     * The primary key for the model.
      *
-     * @param mixed $otp
-     * @param mixed $user
-     *
-     * @return bool
+     * @var string
      */
-    public function verifikasi_otp($otp, $user = null);
+    protected $primaryKey = 'id_grup';
 
     /**
-     * Kirim pesan ke user telegram.
+     * The fillable with the model.
      *
-     * @param mixed $user
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
+     * @var array
      */
-    public function verifikasi_berhasil($user, $nama);
+    protected $fillable = [
+        'nama_grup',
+        'keterangan',
+    ];
 
     /**
-     * Cek verifikasi otp user.
+     * Define a one-to-many relationship.
      *
-     * @param mixed $user
-     *
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
      */
-    public function cek_verifikasi_otp($user);
-
-    /**
-     * Kirim pesan permintaan pin baru ke user telegram.
-     *
-     * @param mixed $user = chatID
-     * @param mixed $pin
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
-     */
-    public function kirim_pin_baru($user, $pin, $nama);
-
-    /**
-     * Cek akun sudah terdaftar.
-     *
-     * @param mixed $user
-     * @param mixed $chat_id
-     *
-     * @return bool
-     */
-    public function cek_akun_terdaftar($chat_id);
-
-    /**
-     * Kirim Pesan
-     *
-     * ```php
-     * $data = [
-     *     'tujuan' => 'conto@mail.com',
-     *     'subjek' => 'Subjek',
-     *     'isi'    => 'Isi Pesan',
-     * ];
-     * ```
-     *
-     * @throws \Exception
-     *
-     * @return bool
-     */
-    public function kirim_pesan(array $data = []);
+    public function anggota()
+    {
+        return $this->hasMany(AnggotaGrup::class, 'id_grup', 'id_grup');
+    }
 }

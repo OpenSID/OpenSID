@@ -35,88 +35,78 @@
  *
  */
 
-interface OTP_interface
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class HubungWarga extends Model
 {
     /**
-     * Kirim otp ke user.
+     * The table associated with the model.
      *
-     * @param mixed $user
-     * @param mixed $otp
-     *
-     * @throws \Exception
-     *
-     * @return void
+     * @var string
      */
-    public function kirim_otp($user, $otp);
+    protected $table = 'hubung_warga';
 
     /**
-     * Verifikasi otp user.
+     * The primary key for the model.
      *
-     * @param mixed $otp
-     * @param mixed $user
-     *
-     * @return bool
+     * @var string
      */
-    public function verifikasi_otp($otp, $user = null);
+    protected $primaryKey = 'id';
 
     /**
-     * Kirim pesan ke user telegram.
+     * The relations to eager load on every query.
      *
-     * @param mixed $user
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
+     * @var array
      */
-    public function verifikasi_berhasil($user, $nama);
+    protected $with = [
+        'kontak',
+        'createdBy',
+        'updatedBy',
+    ];
 
     /**
-     * Cek verifikasi otp user.
+     * The fillable with the model.
      *
-     * @param mixed $user
-     *
-     * @return bool
+     * @var array
      */
-    public function cek_verifikasi_otp($user);
+    protected $fillable = [
+        'id_group',
+        'subjek',
+        'isi',
+        'pengirim',
+        'created_by',
+        'updated_by',
+    ];
 
     /**
-     * Kirim pesan permintaan pin baru ke user telegram.
+     * Define a one-to-one relationship.
      *
-     * @param mixed $user = chatID
-     * @param mixed $pin
-     * @param mixed $nama
-     *
-     * @throws \Exception
-     *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function kirim_pin_baru($user, $pin, $nama);
+    public function kontak()
+    {
+        return $this->hasOne(GrupKontak::class, 'id_grup', 'id_grup');
+    }
 
     /**
-     * Cek akun sudah terdaftar.
+     * Define a one-to-one relationship.
      *
-     * @param mixed $user
-     * @param mixed $chat_id
-     *
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function cek_akun_terdaftar($chat_id);
+    public function createdBy()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
 
     /**
-     * Kirim Pesan
+     * Define a one-to-one relationship.
      *
-     * ```php
-     * $data = [
-     *     'tujuan' => 'conto@mail.com',
-     *     'subjek' => 'Subjek',
-     *     'isi'    => 'Isi Pesan',
-     * ];
-     * ```
-     *
-     * @throws \Exception
-     *
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function kirim_pesan(array $data = []);
+    public function updatedBy()
+    {
+        return $this->hasOne(User::class, 'id', 'updated_by');
+    }
 }

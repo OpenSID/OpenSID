@@ -753,8 +753,6 @@ class Penduduk_model extends MY_Model
         $data['cacat_id']           = $data['cacat_id'] ?: null;
         $data['sakit_menahun_id']   = $data['sakit_menahun_id'] ?: null;
         $data['kk_level']           = $data['kk_level'];
-        $data['email']              = empty($data['email']) ? null : strip_tags($data['email']);
-        $data['telegram']           = empty($data['telegram']) ? null : strip_tags($data['telegram']);
         if (empty($data['id_asuransi']) || $data['id_asuransi'] == 1) {
             $data['no_asuransi'] = null;
         }
@@ -808,13 +806,16 @@ class Penduduk_model extends MY_Model
         $data['dokumen_pasport']      = nomor_surat_keputusan($data['dokumen_pasport']);
         $data['nama_ayah']            = nama($data['nama_ayah']);
         $data['nama_ibu']             = nama($data['nama_ibu']);
-        $data['telepon']              = preg_replace('/[^0-9 \-\+\.]/', '', strip_tags($data['telepon']));
         $data['alamat_sebelumnya']    = strip_tags($data['alamat_sebelumnya']);
         $data['alamat_sekarang']      = strip_tags($data['alamat_sekarang']);
         $data['akta_perkawinan']      = nomor_surat_keputusan($data['akta_perkawinan']);
         $data['akta_perceraian']      = nomor_surat_keputusan($data['akta_perceraian']);
         $data['bpjs_ketenagakerjaan'] = nomor_surat_keputusan($data['bpjs_ketenagakerjaan']);
         $data['suku']                 = nama_terbatas($data['suku']);
+
+        $data['telepon']  = empty($data['telepon']) ? null : bilangan($data['telepon']);
+        $data['email']    = empty($data['email']) ? null : email($data['email']);
+        $data['telegram'] = empty($data['telegram']) ? null : bilangan($data['telegram']);
 
         $valid = [];
         if (preg_match("/[^a-zA-Z '\\.,\\-]/", $data['nama'])) {

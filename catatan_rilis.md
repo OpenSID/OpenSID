@@ -21,6 +21,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 16. [#4982](https://github.com/OpenSID/OpenSID/issues/4982) Sesuaikan panjang karakter pada kolom klasifikasi analisis.
 17. [#4367](https://github.com/OpenSID/OpenSID/issues/4367) Sesuaikan menyimpan pendataan warga terkena covid yang bukan dari asal mudik.
 18. [#712](https://github.com/OpenSID/OpenSID/issues/712) Tambahakan halaman pemerintah desa.
+19. [#4481](https://github.com/OpenSID/OpenSID/issues/4481) Mekarkan modul SMS menjadi modul Hubung Warga.
 
 
 #### Perbaikan BUG

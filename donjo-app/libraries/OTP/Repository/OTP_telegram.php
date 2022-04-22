@@ -194,4 +194,26 @@ class OTP_telegram implements OTP_interface
             ? ($this->ci->db->where('telegram', $user['telegram'])->where_not_in('id', $user['id'])->get('tweb_penduduk')->num_rows() === 0)
             : false;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function kirim_pesan($data = [])
+    {
+        try {
+            $this->telegram->sendMessage([
+                'chat_id' => $data['tujuan'],
+                'text'    => <<<EOD
+                    SUBJEK :
+                    {$data['subjek']}
+
+                    ISI :
+                    {$data['isi']}
+                    EOD,
+                'parse_mode' => 'Markdown',
+            ]);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 }

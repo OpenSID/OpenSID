@@ -135,7 +135,7 @@ class Migrasi_fitur_premium_2104 extends MY_model
             ->where('tag_id_card', '')
             ->update('tweb_penduduk');
 
-        return $hasil && $this->tambah_indeks('tweb_penduduk', 'tag_id_card');
+        return $hasil && $this->tambahIndeks('tweb_penduduk', 'tag_id_card');
     }
 
     // Tabel Config

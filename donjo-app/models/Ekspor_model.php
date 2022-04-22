@@ -153,11 +153,6 @@ class Ekspor_model extends CI_Model
         // semua views ditambah di belakang.
         $views = $this->database_model->get_views();
 
-        // Urutan kedua view berikut perlu diubah karena bergantungan
-        unset($views[array_search('daftar_anggota_grup', $views, true)], $views[array_search('daftar_kontak', $views, true)]);
-
-        $views = array_merge($views, ['daftar_kontak', 'daftar_anggota_grup']);
-
         // Cek tabel yang memiliki FK (SELECT DISTINCT TABLE_NAME FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = 'nama_database')
         // Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
         $ada_foreign_key = [

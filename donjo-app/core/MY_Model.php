@@ -195,7 +195,7 @@ class MY_Model extends CI_Model
         return true;
     }
 
-    public function tambah_indeks($tabel, $kolom, $index = 'UNIQUE')
+    public function tambahIndeks($tabel, $kolom, $index = 'UNIQUE')
     {
         if ($index == 'UNIQUE') {
             $duplikat = $this->db
@@ -296,7 +296,7 @@ class MY_Model extends CI_Model
     }
 
     // Buat FOREIGN KEY $nama_constraint $di_tbl untuk $fk menunjuk $ke_tbl di $ke_kolom
-    public function tambah_foreign_key($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom)
+    public function tambahForeignKey($nama_constraint, $di_tbl, $fk, $ke_tbl, $ke_kolom)
     {
         $query = $this->db
             ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
@@ -332,16 +332,41 @@ class MY_Model extends CI_Model
         return false;
     }
 
-    public function timestamps($tabel = '')
+    public function timestamps($tabel = '', $creator = false)
     {
+        $hasil  = true;
+        $fields = [];
+
         // Kolom created_at
         if (! $this->db->field_exists('created_at', $tabel)) {
-            $hasil = $this->dbforge->add_column($tabel, 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
+            $fields[] = 'created_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP';
+        }
+
+        // Kolom created_by
+        if ($creator && ! $this->db->field_exists('created_by', $tabel)) {
+            $fields['created_by'] = [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => false,
+            ];
         }
 
         // Kolom updated_at
         if (! $this->db->field_exists('updated_at', $tabel)) {
-            $hasil = $this->dbforge->add_column($tabel, 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+            $fields[] = 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
+        }
+
+        // Kolom updated_by
+        if ($creator && ! $this->db->field_exists('updated_by', $tabel)) {
+            $fields['updated_by'] = [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => false,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column($tabel, $fields);
         }
 
         return $hasil;

@@ -762,7 +762,6 @@ class Periksa_model extends MY_Model
             'password_resets',
             'pertanyaan', // Tabel ini digunakan dimana?
             'sentitems', // Belum tau bentuk datanya bagamana
-            'setting_sms',
             'sys_traffic',
             'tweb_penduduk_mandiri',
             'tweb_penduduk_map', // id pada tabel tweb_penduduk_map == penduduk.id (buka id untuk AI)
