@@ -243,6 +243,7 @@ class Premium extends MY_Controller
 {
     // Hanya domain terdaftar yg bisa melewati validasi premium dengan mode demo
     protected $domain = [
+        'beta.opendesa.id',
         'beta2.opensid.or.id',
         'berputar.opendesa.id',
     ];
