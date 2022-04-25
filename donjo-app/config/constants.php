@@ -143,8 +143,3 @@ define('KEHADIRAN', 'kehadiran');
 define('DESAPATH', 'desa' . DIRECTORY_SEPARATOR);
 define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
 define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
-
-/**
- * Custom devtoolsbar
- */
-defined('DEV_TOOLS_BAR') || define('DEV_TOOLS_BAR', false);
