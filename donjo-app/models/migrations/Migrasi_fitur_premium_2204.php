@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\JamKerja;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2204 extends MY_model
@@ -303,19 +306,23 @@ class Migrasi_fitur_premium_2204 extends MY_model
             $this->dbforge->add_field($fields);
 
             $hasil = $hasil && $this->dbforge->create_table('kehadiran_jam_kerja', true);
+        }
 
-            // tambahkan data hari awal
-            $hari = [
-                ['nama_hari' => 'Senin', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Selasa', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Rabu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Kamis', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Jumat', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
-                ['nama_hari' => 'Sabtu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
-                ['nama_hari' => 'Minggu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
-            ];
+        if (Schema::hasTable('kehadiran_jam_kerja') && JamKerja::count() != 7) {
+            if (JamKerja::truncate()) {
+                // Tambahkan data kehadiran jam kerja
+                $hari = [
+                    ['nama_hari' => 'Senin', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                    ['nama_hari' => 'Selasa', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                    ['nama_hari' => 'Rabu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                    ['nama_hari' => 'Kamis', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                    ['nama_hari' => 'Jumat', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 1],
+                    ['nama_hari' => 'Sabtu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
+                    ['nama_hari' => 'Minggu', 'jam_masuk' => '08:00:00', 'jam_keluar' => '16:00:00', 'status' => 0],
+                ];
 
-            $hasil = $hasil && $this->db->insert_batch('kehadiran_jam_kerja', $hari);
+                $hasil = $hasil && JamKerja::insert($hari);
+            }
         }
 
         return $hasil && $this->tambah_modul([

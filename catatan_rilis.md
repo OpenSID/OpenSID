@@ -33,6 +33,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 23. [#5153](https://github.com/OpenSID/OpenSID/issues/5153) Perbaiki pengaturan hapus spasi pada input ip.
 24. [#5163](https://github.com/OpenSID/OpenSID/issues/5163) Perbaiki database contoh data awal mengikuti standar.
 25. [#5173](https://github.com/OpenSID/OpenSID/issues/5173) Perbaiki perhitungan laporan keuangan impor dan manual tidak konsisten.
+26. [#5187](https://github.com/OpenSID/OpenSID/issues/5187) Perbaiki kosongkan DB, jam kerja pada modul kehadiran juga terhapus.
 
 #### Perubahan Teknis
 
