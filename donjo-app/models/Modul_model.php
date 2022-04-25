@@ -75,7 +75,7 @@ class Modul_model extends CI_Model
 
         for ($i = 0; $i < count($data); $i++) {
             if ($this->ada_sub_modul($data[$i]['id'])) {
-                $data[$i]['modul']    = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+                $data[$i]['modul']    = SebuatanDesa($data[$i]['modul']);
                 $data[$i]['submodul'] = $this->list_sub_modul_aktif($data[$i]['id']);
                 // Kelompok submenu yg kosong tidak dimasukkan
                 if (! empty($data[$i]['submodul']) || ! empty($data[$i]['url'])) {
@@ -84,7 +84,7 @@ class Modul_model extends CI_Model
             } else {
                 // Modul yang tidak boleh diakses tidak dimasukkan
                 if ($this->user_model->hak_akses($_SESSION['grup'], $data[$i]['url'], 'b')) {
-                    $data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+                    $data[$i]['modul'] = SebuatanDesa($data[$i]['modul']);
                     $aktif[]           = $data[$i];
                 }
             }
@@ -132,7 +132,7 @@ class Modul_model extends CI_Model
 
         for ($i = 0; $i < count($data); $i++) {
             $data[$i]['no']    = $i + 1;
-            $data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
+            $data[$i]['modul'] = SebuatanDesa($data[$i]['modul']);
         }
 
         return $data;
