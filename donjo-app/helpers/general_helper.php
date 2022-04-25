@@ -171,9 +171,7 @@ if (! function_exists('route')) {
 if (! function_exists('setting')) {
     function setting($params = null)
     {
-        $getSetting = get_instance()->cache->pakai_cache(static function () {
-            return get_instance()->setting;
-        }, 'setting_aplikasi', 24 * 60 * 60);
+        $getSetting = get_instance()->setting;
 
         if ($params && $getSetting->{$params}) {
             return $getSetting->{$params};
@@ -211,5 +209,13 @@ if (! function_exists('calculate_date_intervals')) {
         }
 
         return $reference->diff($endTime)->days;
+    }
+}
+
+// SebuatanDesa('Surat [Desa]');
+if (! function_exists('SebuatanDesa')) {
+    function SebuatanDesa($params = null)
+    {
+        return str_replace('[Desa]', ucwords(setting('sebutan_desa')), $params);
     }
 }

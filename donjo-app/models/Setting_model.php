@@ -155,10 +155,6 @@ class Setting_model extends MY_Model
             $this->upload_img('latar_login_mandiri', LATAR_LOGIN);
         } // latar_login_mandiri
 
-        // Hapus Cache Pelanggan
-        $this->cache->hapus_cache_untuk_semua('status_langganan');
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
-
         return $data;
     }
 
@@ -203,13 +199,14 @@ class Setting_model extends MY_Model
 
     public function update($key = 'enable_track', $value = 1)
     {
-        $this->session->success = 1;
-        $outp                   = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
-        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        $outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
 
-        if (! $outp) {
-            $this->session->success = -1;
-        }
+        // Hapus Cache
+        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        $this->cache->hapus_cache_untuk_semua('setting_aplikasi');
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        status_sukses($outp);
     }
 
     public function aktifkan_tracking()
