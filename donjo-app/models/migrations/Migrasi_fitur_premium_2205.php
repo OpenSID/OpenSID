@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2205 extends MY_model
         $hasil = $hasil && $this->pengaturanDataLengkap($hasil);
         $hasil = $hasil && $this->ubahKolomNama($hasil);
         $hasil = $hasil && $this->pantauWarga($hasil);
+        $hasil = $hasil && $this->modulPesanOpenDK($hasil);
 
         return $hasil && $this->tambahkanModulHubungWarga($hasil);
     }
@@ -413,5 +414,121 @@ class Migrasi_fitur_premium_2205 extends MY_model
         return $hasil && $this->ubah_modul(39, [
             'modul' => 'Kirim Pesan',
         ]);
+    }
+
+    public function modulPesanOpenDK($hasil)
+    {
+        // Tambah modul
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => '343',
+            'modul'      => 'OpenDK',
+            'url'        => '',
+            'aktif'      => '1',
+            'ikon'       => 'fa-university',
+            'urut'       => '124',
+            'level'      => '2',
+            'parent'     => '0',
+            'hidden'     => '0',
+            'ikon_kecil' => 'fa-university',
+        ]);
+
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => '344',
+            'modul'      => 'Pesan',
+            'url'        => 'opendkpesan/clear',
+            'aktif'      => '1',
+            'ikon'       => 'fa-envelope',
+            'urut'       => '124',
+            'level'      => '2',
+            'parent'     => '343',
+            'hidden'     => '0',
+            'ikon_kecil' => 'fa-envelope',
+        ]);
+
+        // pindah modul sinkronisasi
+        $hasil = $hasil && $this->ubah_modul(326, ['parent' => 343, 'urut' => 125]);
+
+        // Buat tabel pesan
+        if (! $this->db->table_exists('pesan')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'unsigned'       => true,
+                    'auto_increment' => false,
+                ],
+                'judul' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 255,
+                    'null'       => true,
+                ],
+                'jenis' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                ],
+                'sudah_dibaca' => [
+                    'type'       => 'INT',
+                    'constraint' => 2,
+                    'default'    => 1,
+                ],
+                'diarsipkan' => [
+                    'type'       => 'INT',
+                    'constraint' => 2,
+                    'default'    => 0,
+                ],
+                'created_at' => [
+                    'type' => 'timestamp',
+                    'null' => true,
+                ],
+                'updated_at' => [
+                    'type' => 'timestamp',
+                    'null' => true,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->add_key('id', true);
+            $hasil = $hasil && $this->dbforge->create_table('pesan', true);
+        }
+
+        if (! $this->db->table_exists('pesan_detail')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'unsigned'       => true,
+                    'auto_increment' => false,
+                ],
+                'pesan_id' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                ],
+                'text' => [
+                    'type' => 'TEXT',
+                ],
+                'pengirim' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                ],
+                'nama_pengirim' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                ],
+                'created_at' => [
+                    'type' => 'timestamp',
+                    'null' => true,
+                ],
+                'updated_at' => [
+                    'type' => 'timestamp',
+                    'null' => true,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->add_key('id', true);
+            $hasil = $hasil && $this->dbforge->create_table('pesan_detail', true);
+        }
+
+        return $hasil;
     }
 }
