@@ -758,9 +758,7 @@ class Periksa_model extends MY_Model
             'analisis_respon',
             'analisis_respon_hasil',
             'captcha_codes',
-            'detail_log_penduduk', // Tabel ini digunakan dimana?
             'password_resets',
-            'pertanyaan', // Tabel ini digunakan dimana?
             'sentitems', // Belum tau bentuk datanya bagamana
             'sys_traffic',
             'tweb_penduduk_mandiri',

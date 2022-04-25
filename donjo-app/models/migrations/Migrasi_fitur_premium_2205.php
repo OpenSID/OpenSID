@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\AnggotaGrup;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2205 extends MY_model
@@ -51,8 +54,9 @@ class Migrasi_fitur_premium_2205 extends MY_model
         $hasil = $hasil && $this->pengaturanDataLengkap($hasil);
         $hasil = $hasil && $this->ubahKolomNama($hasil);
         $hasil = $hasil && $this->pantauWarga($hasil);
+        $hasil = $hasil && $this->tambahkanModulHubungWarga($hasil);
 
-        return $hasil && $this->tambahkanModulHubungWarga($hasil);
+        return $hasil && $this->hapusTabelTidakDigunakan($hasil);
     }
 
     protected function pengaturanStatusDesa($hasil)
@@ -413,5 +417,21 @@ class Migrasi_fitur_premium_2205 extends MY_model
         return $hasil && $this->ubah_modul(39, [
             'modul' => 'Kirim Pesan',
         ]);
+    }
+
+    protected function hapusTabelTidakDigunakan($hasil)
+    {
+        $daftartabel = [
+            'detail_log_penduduk',
+            'klasifikasi_analisis_keluarga',
+            'pertanyaan',
+            'tweb_surat_atribut',
+        ];
+
+        foreach ($daftartabel as $tabel) {
+            Schema::dropIfExists($tabel);
+        }
+
+        return $hasil;
     }
 }
