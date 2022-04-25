@@ -35,6 +35,8 @@
  *
  */
 
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2205 extends MY_model
@@ -44,6 +46,24 @@ class Migrasi_fitur_premium_2205 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
+
+        return $hasil && $this->hapusTabelTidakDigunakan($hasil);
+    }
+
+    protected function hapusTabelTidakDigunakan($hasil)
+    {
+        $daftartabel = [
+            'detail_log_penduduk',
+            'klasifikasi_analisis_keluarga',
+            'pertanyaan',
+            'tweb_surat_atribut',
+        ];
+
+        foreach ($daftartabel as $tabel) {
+            Schema::dropIfExists($tabel);
+        }
+
+        return $hasil;
     }
 }
