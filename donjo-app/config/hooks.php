@@ -48,7 +48,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 |
 */
 
-if (DEV_TOOLS_BAR) {
+if (ENVIRONMENT === 'development') {
     $hook['display_override'][] = [
         'class'    => 'Develbar',
         'function' => 'debug',
