@@ -23,7 +23,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 18. [#712](https://github.com/OpenSID/OpenSID/issues/712) Tambahakan halaman pemerintah desa.
 19. [#4481](https://github.com/OpenSID/OpenSID/issues/4481) Mekarkan modul SMS menjadi modul Hubung Warga.
 20. [#310](https://github.com/OpenSID/OpenDK/issues/310) Tambahkan sinkronisasi profil desa OpenSID ke OpenDK.
-21. [#218](https://github.com/OpenSID/OpenDK/issues/218) Sediakan kotak pesan untuk komunikasi dengan desa.
 
 
 #### Perbaikan BUG

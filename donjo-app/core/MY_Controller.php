@@ -35,8 +35,6 @@
  *
  */
 
-use App\Models\Pesan;
-
 defined('BASEPATH') || exit('No direct script access allowed');
 
 /**
@@ -447,7 +445,6 @@ class Admin_Controller extends Premium
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
-        $this->header['notif_pesan_opendk']     = Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count();
     }
 
     private function cek_pengumuman()

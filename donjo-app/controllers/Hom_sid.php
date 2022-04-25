@@ -51,7 +51,6 @@ class Hom_sid extends Admin_Controller
 {
     public function index()
     {
-        get_pesan_opendk(); //ambil pesan baru di opendk
         $this->modul_ini = 1;
 
         $data = [

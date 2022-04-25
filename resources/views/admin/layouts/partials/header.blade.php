@@ -11,17 +11,6 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
 
-         @if (can('b', 'opendkpesan'))
-          <li>
-            <a href="{{ route('OpendkPesan.clear') }}">
-              <span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
-              @if ($notif['opendkpesan'])
-                <span class="badge" id="b_opendkpesan">{{ $notif['opendkpesan'] }}</span>
-              @endif
-            </a>
-          </li>
-        @endif
-
         @if ($notif['langganan'])
           <li>
             <a href="{{ route('pelanggan') }}">
