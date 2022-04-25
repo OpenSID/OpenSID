@@ -42,7 +42,7 @@ class Keuangan_grafik_manual_model extends CI_model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('keuangan_manual_model');
+        $this->load->model(['keuangan_manual_model', 'keuangan_grafik_model']);
     }
 
     public function rp_apbd_widget($thn, $opt = false)
@@ -335,18 +335,8 @@ class Keuangan_grafik_manual_model extends CI_model
                     continue;
                 }
 
-                $data['judul']     = $raw['nama'];
-                $data['anggaran']  = $raw['anggaran'];
-                $data['realisasi'] = $raw['realisasi'] + $raw['realisasi_pendapatan'] + $raw['realisasi_belanja'];
-
-                if ($data['anggaran'] != 0 && $data['realisasi'] != 0) {
-                    $data['persen'] = $data['realisasi'] / $data['anggaran'] * 100;
-                } elseif ($data['realisasi'] != 0) {
-                    $data['persen'] = 100;
-                } else {
-                    $data['persen'] = 0;
-                }
-                $data['persen'] = round($data['persen'], 2);
+                $data          = $this->keuangan_grafik_model->raw_perhitungan($raw);
+                $data['judul'] = $raw['nama'];
 
                 $result['data_widget'][$keys][] = $data;
             }

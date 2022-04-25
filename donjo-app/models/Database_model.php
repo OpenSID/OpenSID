@@ -3521,9 +3521,10 @@ class Database_model extends MY_Model
             'analisis_ref_state',
             'analisis_ref_subjek',
             'analisis_tipe_indikator',
-            'artikel', //remove everything except widgets 1003
-            'config', //Karena terkait validasi pengguna premium
+            'artikel', // Remove everything except widgets 1003
+            'config', // Karena terkait validasi pengguna premium
             'gis_simbol',
+            'kehadiran_jam_kerja',
             'klasifikasi_surat',
             'keuangan_manual_ref_bidang',
             'keuangan_manual_ref_kegiatan',
