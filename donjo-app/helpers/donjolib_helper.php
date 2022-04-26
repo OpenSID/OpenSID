@@ -745,3 +745,55 @@ function delete_col(&$array, $offset)
     });
 }
 // =======================================
+
+function get_pesan_opendk()
+{
+    $ci = &get_instance();
+    if (! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) {
+        return;
+    }
+    $model_pesan        = new \App\Models\Pesan();
+    $model_detail_pesan = new \App\Models\PesanDetail();
+    $id_terakhir        = $model_detail_pesan::latest('id')->first()->id;
+
+    try {
+        $client   = new \GuzzleHttp\Client();
+        $response = $client->post("{$ci->setting->api_opendk_server}/api/v1/pesan/getpesan", [
+            'headers' => [
+                'X-Requested-With' => 'XMLHttpRequest',
+                'Authorization'    => "Bearer {$ci->setting->api_opendk_key}",
+            ],
+            'form_params' => [
+                'kode_desa' => kode_wilayah($ci->header['desa']['kode_desa']),
+                'id'        => (int) $id_terakhir,
+            ],
+        ])->getBody()->getContents();
+        $data_respon = json_decode($response);
+
+        foreach ($data_respon->data as $pesan) {
+            $row = [
+                'id'         => $pesan->id,
+                'judul'      => $pesan->judul,
+                'jenis'      => $pesan->jenis,
+                'diarsipkan' => $pesan->diarsipkan,
+            ];
+            $model_pesan::firstOrCreate(['id' => $pesan->id], $row);
+
+            foreach ($pesan->detail_pesan as $pesan_detail) {
+                $row = [
+                    'id'            => $pesan_detail->id,
+                    'pesan_id'      => $pesan_detail->pesan_id,
+                    'text'          => $pesan_detail->text,
+                    'pengirim'      => $pesan_detail->pengirim,
+                    'nama_pengirim' => $pesan_detail->nama_pengirim,
+                ];
+                $model_detail_pesan::firstOrCreate(['id' => $pesan_detail->id], $row);
+                if ($pesan_detail->pengirim == 'kecamatan') {
+                    $model_pesan::where('id', '=', $pesan_detail->pesan_id)->update(['sudah_dibaca' => 0]);
+                }
+            }
+        }
+    } catch (Exception $e) {
+        log_message('error', $e);
+    }
+}

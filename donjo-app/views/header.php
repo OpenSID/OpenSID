@@ -112,6 +112,16 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
+							<?php if ($notif_pesan_opendk): ?>
+								<li>
+									<a href="<?= site_url('pelanggan') ?>">
+										<span><i class="fa fa fa-university fa-lg" title="SKomunikasi OpenDk" ></i>&nbsp;</span>
+										<?php if ($notif_pesan_opendk) : ?>
+											<span class="badge" id="b_pesan"><?= $notif_pesan_opendk ?></span>
+										<?php endif ?>
+									</a>
+								</li>
+							<?php endif ?>
 							<?php if ($notif_langganan): ?>
 								<li>
 									<a href="<?= site_url('pelanggan') ?>">

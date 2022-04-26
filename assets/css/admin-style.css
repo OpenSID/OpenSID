@@ -710,6 +710,15 @@ div.form-surat .content-header {
     padding-left: 10px;
 }
 
+.mailbox-read-info{
+    border-bottom: 1px solid #e6e6e6;
+    border-top: 1px solid #e6e6e6;
+}
+
+.mailbox-read-message{
+    border-bottom: 1px solid #e6e6e6;
+}
+
 .control-sidebar {
     right: -40%;
     width: 40%;
