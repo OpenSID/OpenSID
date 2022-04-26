@@ -532,8 +532,9 @@ class Migrasi_fitur_premium_2205 extends MY_model
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('pesan_detail', true);
 
-            return $hasil;
         }
+        
+        return $hasil;
     }
     
     protected function hapusTabelTidakDigunakan($hasil)
