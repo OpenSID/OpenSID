@@ -74,19 +74,13 @@ $active_group = 'default';
 // $active_record = TRUE;
 $query_builder = TRUE;
 
-$konfigurasi_db = KonfigurasiDatabase();
-if (is_file($konfigurasi_db)) 
-{
-  include($konfigurasi_db);
-}
-else
-{
-	$db['default']['hostname'] = 'localhost';
-	$db['default']['username'] = 'root';
-	$db['default']['password'] = '';
-	$db['default']['database'] = 'opensid';
-	$db['default']['stricton'] = TRUE;
-}
+// Pengaturan basisdata standar
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
+$db['default']['database'] = 'opensid';
+$db['default']['port']     = 3306;
+$db['default']['stricton'] = TRUE;
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
@@ -101,4 +95,6 @@ $db['default']['encrypt'] = FALSE;
 $db['default']['compress'] = FALSE;
 $db['default']['failover'] = array();
 $db['default']['save_queries'] = TRUE;
-	
+
+// Ganti pegaturan basisdata sesuai yg ada pada file desa/config/database.php
+include(LOKASI_CONFIG_DESA . 'database.php');

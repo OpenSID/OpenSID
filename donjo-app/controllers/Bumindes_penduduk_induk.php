@@ -62,7 +62,7 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 		$this->_set_page = ['10', '20', '50', '100'];
 
 		// Samakan dengan donjo-app/controllers/Penduduk.php, karena memanggil penduduk_model
-		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'penerima_bantuan', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
+		$this->_list_session = ['filter_tahun', 'filter_bulan', 'status_hanya_tetap', 'jenis_peristiwa', 'filter', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari', 'umur_min', 'umur_max', 'umurx', 'pekerjaan_id', 'status', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'judul_statistik', 'cacat', 'cara_kb_id', 'akta_kelahiran', 'status_ktp', 'id_asuransi', 'status_covid', 'bantuan_penduduk', 'log', 'warganegara', 'menahun', 'hubungan', 'golongan_darah', 'hamil', 'kumpulan_nik'];
 
 	}
 
@@ -78,6 +78,7 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 		// Menampilkan hanya status penduduk TETAP
 		$this->session->status_penduduk = 1;
 
+		$list_data = $this->penduduk_model->list_data($order_by, $page_number);
 		$data = [
 			'main_content' => "bumindes/penduduk/induk/content_induk",
 			'subtitle' => "Buku Induk Penduduk",
@@ -89,12 +90,12 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 			'tahun' => $this->session->filter_tahun,
 			'func' => 'index',
 			'set_page' => $this->_set_page,
-			'paging' => $this->penduduk_model->paging($page_number),
+			'paging' => $list_data['paging'],
 			'list_tahun' => $this->penduduk_log_model->list_tahun(),
 		];
 
 		// TODO : Cari cara agar bisa digabungkan ke array $data = [] (tdk terpisah)
-		$data['main'] = $this->penduduk_model->list_data($order_by, $data['paging']->offset, $data['paging']->per_page);
+		$data['main'] = $list_data['main'];
 
 		$this->set_minsidebar(1);
 		$this->render('bumindes/penduduk/main', $data);
@@ -136,7 +137,7 @@ class Bumindes_penduduk_induk extends Admin_Controller {
 			'config' => $this->header['desa'],
 			'pamong_ketahui' => $this->pamong_model->get_ttd(),
 			'pamong_ttd' => $this->pamong_model->get_ub(),
-			'main' => $this->penduduk_model->list_data($o, NULL, NULL),
+			'main' => $this->penduduk_model->list_data($o, 0),
 			'bulan' => $this->session->filter_bulan,
 			'tahun' => $this->session->filter_tahun,
 			'tgl_cetak' => $_POST['tgl_cetak'],

@@ -47,6 +47,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Bumindes_rencana_pembangunan extends Admin_Controller {
 
+	protected $tipe = 'rencana';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -55,6 +57,7 @@ class Bumindes_rencana_pembangunan extends Admin_Controller {
 		$this->modul_ini = 301;
 		$this->sub_modul_ini = 305;
 		$this->set_minsidebar(1);
+		$this->model->set_tipe($this->tipe);
 	}
 
 	public function index()
@@ -77,10 +80,11 @@ class Bumindes_rencana_pembangunan extends Admin_Controller {
 		}
 
 		$this->render('bumindes/pembangunan/main', [
+			'tipe' => ucwords($this->tipe),
 			'list_tahun' => $this->model->list_filter_tahun(),
-			'selected_nav' => 'rencana',
-			'subtitle' => 'Buku Rencana Pembangunan',
-			'main_content' => 'bumindes/pembangunan/rencana_kerja/index',
+			'selected_nav' => $this->tipe,
+			'subtitle' => 'Buku ' . ucwords($this->tipe) . ' Pembangunan',
+			'main_content' => 'bumindes/pembangunan/' . $this->tipe . '/index',
 		]);
 	}
 
@@ -88,8 +92,8 @@ class Bumindes_rencana_pembangunan extends Admin_Controller {
 	{
 		$data = [
 			'aksi' => $aksi,
-			'form_action' => site_url("bumindes_rencana_pembangunan/cetak/$aksi"),
-			'isi' => "bumindes/pembangunan/rencana_kerja/ajax_dialog",
+			'form_action' => site_url('bumindes_' . $this->tipe . '_pembangunan/cetak/' . $aksi),
+			'isi' => 'bumindes/pembangunan/ajax_dialog',
 			'list_tahun' => $this->model->list_filter_tahun(),
 		];
 
@@ -107,8 +111,8 @@ class Bumindes_rencana_pembangunan extends Admin_Controller {
 			'pamong_ttd' => $this->pamong_model->get_ub(),
 			'main' => $this->model->get_data('', $tahun)->get()->result(),
 			'tgl_cetak' => $this->input->post('tgl_cetak'),
-			'file' => "Buku Rencana Kerja Pembangunan",
-			'isi' => "bumindes/pembangunan/rencana_kerja/cetak",
+			'file' => 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan',
+			'isi' => 'bumindes/pembangunan/' . $this->tipe . '/cetak',
 			'letak_ttd' => ['2', '2', '5'],
 		];
 

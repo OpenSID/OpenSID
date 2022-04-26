@@ -47,7 +47,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['analisis_statistik_jawaban_model', 'analisis_respon_model', 'wilayah_model']);
+		$this->load->model(['analisis_statistik_jawaban_model', 'analisis_respon_model', 'wilayah_model', 'analisis_master_model']);
 
 		$_SESSION['submenu'] = "Statistik Jawaban";
 		$_SESSION['asubmenu'] = "analisis_statistik_jawaban";
@@ -78,7 +78,7 @@ class Analisis_statistik_jawaban extends Admin_Controller {
 
 	public function index($p=1, $o=0)
 	{
-		if (empty($this->analisis_respon_model->get_periode()))
+		if (empty($this->analisis_master_model->get_aktif_periode()))
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';

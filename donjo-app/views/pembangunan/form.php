@@ -58,6 +58,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<input maxlength="50" class="form-control input-sm required" name="volume" id="volume" value="<?= $main->volume ?>" type="text" placeholder="Volume Pembangunan" />
 		</div>
 		<div class="form-group">
+			<label class="control-label" style="text-align:left;">Waktu</label>
+			<input maxlength="50" class="form-control number input-sm required" name="waktu" id="waktu" value="<?= $main->waktu ?>" type="text" placeholder="Lamanya pembangunan (bulan)" />
+		</div>
+		<div class="form-group">
 			<label class="control-label" for="sumber_dana">Sumber Dana</label>
 			<select class="form-control input-sm select2" id="sumber_dana" name="sumber_dana" style="width:100%;">
 				<?php foreach ($sumber_dana as $value) : ?>
@@ -110,6 +114,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<input id="sumber_biaya_swadaya" name="sumber_biaya_swadaya" class="form-control input-sm required" type="number" placeholder="Sumber Biaya Swadaya" minlength="1" maxlength="100" value="<?= $main->sumber_biaya_swadaya; ?>" ></input>
 				</div>
 			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label" style="text-align:left;">Sifat Proyek</label>
+			<select class="form-control input-sm select2 required" id="sifat_proyek" name="sifat_proyek">
+				<option value="">-- Pilih Sifat Proyek --</option>
+				<option value="BARU" <?php selected($main->sifat_proyek, 'BARU') ?>>BARU</option>
+				<option value="LANJUTAN" <?php selected($main->sifat_proyek, 'LANJUTAN') ?>>LANJUTAN</option>
+			</select>
 		</div>
 		<div class="form-group">
 			<label class="control-label" style="text-align:left;">Pelaksana Kegiatan</label>

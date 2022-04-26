@@ -70,8 +70,8 @@
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
 																					<a href="#" data-href="<?= site_url("line/delete_sub_line/$line[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
-																		  </td>
-																		 <?php endif; ?>
+																			</td>
+																		<?php endif; ?>
 																		<td width="70%"><?= $data['nama']?></td>
 																		<td><?= $data['aktif']?></td>
 																		<td><div style="background-color:<?= $data['color']?>">&nbsp;<div></td>

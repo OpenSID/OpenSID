@@ -16,6 +16,7 @@
 							<a href="<?=site_url('program_bantuan/impor')?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Impor Program Bantuan" data-target="#impor" data-remote="false" data-toggle="modal" data-backdrop="false" data-keyboard="false"><i class="fa fa-upload"></i> Impor</a>
 						<?php endif; ?>
 						<a href="<?=site_url('program_bantuan/panduan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Panduan"><i class="fa fa-question-circle"></i> Panduan</a>
+						<a href="#" data-href="<?= site_url("program_bantuan/bersihkan_data")?>" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Data Peserta Tidak Valid" data-remote="false"  data-toggle="modal" data-target="#confirm-status" data-body="<?= $penjelasan_pembersihan; ?>"><i class="fa fa-wrench"></i>Bersihkan Data Peserta Tidak Valid</a>
 						<?php if ($tampil != 0): ?>
 							<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
 						<?php endif; ?>
@@ -96,5 +97,6 @@
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/konfirmasi'); ?>
 
 <?php include('donjo-app/views/program_bantuan/impor.php'); ?>
