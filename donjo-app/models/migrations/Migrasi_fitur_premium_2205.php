@@ -420,7 +420,7 @@ class Migrasi_fitur_premium_2205 extends MY_model
         ]);
     }
 
-    public function modulPesanOpenDK($hasil)
+    protected function modulPesanOpenDK($hasil)
     {
         // Tambah modul
         $hasil = $hasil && $this->tambah_modul([
@@ -531,6 +531,9 @@ class Migrasi_fitur_premium_2205 extends MY_model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('pesan_detail', true);
+
+            return $hasil;
+        }
     }
     
     protected function hapusTabelTidakDigunakan($hasil)
