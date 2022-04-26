@@ -75,7 +75,6 @@ class MY_Model extends CI_Model
 
         switch ($cut[0]) {
             case 'artikel':
-
                 $data = $this->first_artikel_m->get_artikel($cut[1]);
                 $url  = ($data) ? ($cut[0] . '/' . buat_slug($data)) : ($url);
                 break;
@@ -91,7 +90,8 @@ class MY_Model extends CI_Model
                 $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
                 break;
 
-            case 'data-kelompok' || 'data-lembaga':
+            case 'data-kelompok':
+            case 'data-lembaga':
                 $this->load->model('kelompok_model');
                 $data = $this->kelompok_model->get_kelompok($cut[1]);
                 $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
