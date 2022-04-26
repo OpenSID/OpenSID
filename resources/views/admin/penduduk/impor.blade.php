@@ -31,17 +31,18 @@
                             <li value="1">Pastikan format data yang akan diImpor sudah sesuai dengan aturan Impor data:</li>
                             <div class="row">
                                 <ul>
-                                    <li> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama,</li>
-                                    <li> Kolom Nama, Dusun, RW, RT dan NIK harus diisi. Tanda '-' bisa dipakai di mana RW atau RT tidak diketahui atau tidak ada,</li>
+                                    <li> Boleh menggunakan tanda ' (petik satu) dalam penggunaan nama</li>
+                                    <li> Kolom Nama, Dusun, RW, RT dan NIK harus diisi. Tanda '-' bisa dipakai di mana RW atau RT tidak diketahui atau tidak ada</li>
                                     <li> Data Penduduk yang dapat menampilkan data RT/RW/Dusun pada tabel Kependudukan adalah Status Hubungan Dalam Keluarga = Kepala Keluarga atau penduduk yang memiliki Kepala Keluarga</li>
-                                    <li> NIK harus bilangan dengan 16 angka atau 0 untuk menunjukkan belum ada NIK,</li>
+                                    <li> NIK harus bilangan dengan 16 angka atau 0 untuk menunjukkan belum ada NIK</li>
                                     <li> Kolom NIK merupakan data identitas wajib yang harus diisi</li>
                                     <li> Selain data identitas wajib (NIK), kolom data tidak harus terurut ataupun lengkap. Sebagai contoh, dapat digunakan untuk mengubah nomor telepon saja secara masal</li>
                                     <li> Data penduduk baru yang ditambah juga wajib berisi Nama, No KK, SHDK (status hubungan dalam keluarga), Dusun, RW, RT</li>
-                                    <li> Terdapat beberapa data yang terwakili dengan Kode Nomor yang dapat diisi dengan kode nomor ataupun tulisan seperti jenis kelamin. Selengkapnya dapat dilihat pada file <b>Aturan dan contoh format</b></li>
+                                    <li> Terdapat beberapa data yang terwakili dengan Kode Nomor yang dapat diisi dengan kode nomor ataupun tulisan seperti jenis kelamin. Selengkapnya dapat dilihat pada berkas <b>Aturan dan contoh format</b></li>
+                                    <li> <b>Penduduk baru tidak dapat ditambahkan apabila data dinyatakan sudah lengkap</b></li>
                                 </ul>
                             </div>
-                            <li>Simpan (Save) file Excel sebagai .xlsx file </li>
+                            <li>Simpan (Save) berkas Excel sebagai .xlsx </li>
                             <li>Pastikan format excel ber-ekstensi .xlsx (format Excel versi 2007 ke atas)</li>
                             <li>Data yang dibutuhkan untuk Impor dengan memenuhi urutan format dan aturan data pada tautan di bawah ini :
                                 <div class="timeline-footer row">
@@ -52,7 +53,7 @@
                         </ol>
                     </div>
                 </p>
-                <p>File pada tautan itu dapat dipergunakan untuk memasukkan data penduduk. Klik 'Enable Macros' pada waktu membuka file itu.</p>
+                <p>Berkas pada tautan tersebut dapat dipergunakan untuk memasukkan data penduduk. Klik 'Enable Macros' pada waktu membuka berkas tersebut.</p>
                 <p>
                     <p>Batas maksimal pengunggahan berkas <strong>{{ max_upload() }} MB.</strong></p>
                     <p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
