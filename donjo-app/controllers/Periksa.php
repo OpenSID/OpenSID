@@ -84,9 +84,18 @@ class Periksa extends CI_Controller
             'header'      => $this->header,
             'form_action' => site_url('periksa/auth'),
         ];
-        $this->setting->sebutan_desa      = setting('sebutan_desa');
-        $this->setting->sebutan_kabupaten = setting('sebutan_kabupaten');
+        $this->setting->sebutan_desa      = $this->getSetting('sebutan_desa');
+        $this->setting->sebutan_kabupaten = $this->getSetting('sebutan_kabupaten');
         $this->load->view('siteman', $data);
+    }
+
+    private function getSetting($key)
+    {
+        return $this->db
+            ->select('value')
+            ->where('key', $key)
+            ->get('setting_aplikasi')
+            ->row()->value;
     }
 
     // Login khusus untuk periksa

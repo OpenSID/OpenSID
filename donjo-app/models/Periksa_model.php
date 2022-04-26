@@ -52,7 +52,11 @@ class Periksa_model extends MY_Model
         $db_error_code    = $this->session->db_error['code'];
         $db_error_message = $this->session->db_error['message'];
 
-        $current_version = setting('current_version');
+        $current_version = $this->db
+            ->select('value')
+            ->where('key', 'current_version')
+            ->get('setting_aplikasi')
+            ->row()->value;
 
         $calon = $current_version;
 
