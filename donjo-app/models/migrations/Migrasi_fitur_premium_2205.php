@@ -237,7 +237,7 @@ class Migrasi_fitur_premium_2205 extends MY_model
         // Hapus kolom id_pend tabel kontak
         if ($this->db->field_exists('id_pend', 'kontak')) {
             $this->db->simple_query('SET FOREIGN_KEY_CHECKS=0');
-            $hasil = $hasil && $this->db->query('ALTER TABLE `kontak` DROP FOREIGN KEY `kontak_ke_tweb_penduduk`');
+            $hasil = $hasil && $this->hapus_foreign_key('tweb_penduduk', 'kontak_ke_tweb_penduduk', 'kontak');
             $hasil = $hasil && $this->hapus_indeks('kontak', 'kontak_ke_tweb_penduduk');
             $hasil = $hasil && $this->dbforge->drop_column('kontak', 'id_pend');
             $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
@@ -531,12 +531,11 @@ class Migrasi_fitur_premium_2205 extends MY_model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('pesan_detail', true);
-
         }
-        
+
         return $hasil;
     }
-    
+
     protected function hapusTabelTidakDigunakan($hasil)
     {
         $daftartabel = [

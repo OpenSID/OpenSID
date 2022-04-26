@@ -313,6 +313,24 @@ class MY_Model extends CI_Model
         return $hasil;
     }
 
+    // Hapus FOREIGN KEY $tabel, $nama_constraint
+    public function hapus_foreign_key($tabel, $nama_constraint, $drop)
+    {
+        $query = $this->db
+            ->from('INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS')
+            ->where('CONSTRAINT_SCHEMA', $this->db->database)
+            ->where('REFERENCED_TABLE_NAME', $tabel)
+            ->where('CONSTRAINT_NAME', $nama_constraint)
+            ->get();
+
+        $hasil = true;
+        if ($query->num_rows() > 0) {
+            $hasil = $hasil && $this->db->query("ALTER TABLE `{$drop}` DROP FOREIGN KEY `{$nama_constraint}`");
+        }
+
+        return $hasil;
+    }
+
     public function jalankan_migrasi($migrasi)
     {
         if (in_array($migrasi, $this->session->daftar_migrasi)) {
