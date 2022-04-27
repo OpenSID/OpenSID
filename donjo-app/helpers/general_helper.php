@@ -82,6 +82,7 @@ if (! function_exists('view')) {
                 'inbox'       => $CI->header['notif_inbox'],
                 'komentar'    => $CI->header['notif_komentar'],
                 'langganan'   => $CI->header['notif_langganan'],
+                'pengumuman'  => $CI->header['notif_pengumuman'],
             ],
             'kategori'      => $CI->header['kategori'],
             'sub_modul_ini' => $CI->sub_modul_ini,

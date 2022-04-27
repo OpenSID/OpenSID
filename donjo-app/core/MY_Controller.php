@@ -431,6 +431,7 @@ class Admin_Controller extends Premium
             session_error('Fitur ini tidak aktif');
             redirect($_SERVER['HTTP_REFERER']);
         }
+
         if (! $this->user_model->hak_akses($this->grup, $this->controller, 'b')) {
             if (empty($this->grup)) {
                 $_SESSION['request_uri'] = $_SERVER['REQUEST_URI'];
@@ -441,28 +442,35 @@ class Admin_Controller extends Premium
                 redirect('main');
             }
         }
-        $cek_kotak_pesan = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
-        $this->cek_pengumuman();
+        $cek_kotak_pesan                        = $this->db->table_exists('pesan') && $this->db->table_exists('pesan_detail');
         $this->header                           = $this->header_model->get_data();
         $this->header['notif_permohonan_surat'] = $this->notif_model->permohonan_surat_baru();
         $this->header['notif_inbox']            = $this->notif_model->inbox_baru();
         $this->header['notif_komentar']         = $this->notif_model->komentar_baru();
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
+        $this->header['notif_pengumuman']       = $this->cek_pengumuman();
     }
 
     private function cek_pengumuman()
     {
-        if ($this->grup == 1) { // hanya utk user administrator
+        if (config_item('demo_mode') || ENVIRONMENT === 'development') {
+            return null;
+        }
+
+        // Hanya untuk user administrator
+        if ($this->grup == 1) {
             $notifikasi = $this->notif_model->get_semua_notif();
 
             foreach ($notifikasi as $notif) {
-                $this->pengumuman = $this->notif_model->notifikasi($notif);
+                $pengumuman = $this->notif_model->notifikasi($notif);
                 if ($notif['jenis'] == 'persetujuan') {
                     break;
                 }
             }
         }
+
+        return $pengumuman;
     }
 
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah

@@ -201,6 +201,7 @@
 					</div>
 				</nav>
 			</header>
+
 			<!-- Untuk menampilkan modal bootstrap umum -->
 			<div class="modal fade" id="modalBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -229,5 +230,8 @@
 				</div>
 			<?php endif ?>
 
-			<!-- Untuk menampilkan dialog pengumuman -->
-			<?= $this->pengumuman ?>
+			<?php
+                if ($notif_pengumuman):
+                    $this->load->view('notif/pengumuman', $notif_pengumuman);
+                endif
+            ?>
