@@ -166,7 +166,7 @@
 				} else {
 					document.getElementById("countdown").innerHTML = "<b>Gagal 3 kali silakan coba kembali dalam " + menit + " MENIT " + detik + " DETIK </b>";
 				}
-			}, 500);
+			}, 1000);
 		}
 	</script>
 </body>

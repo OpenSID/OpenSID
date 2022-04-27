@@ -57,7 +57,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 27. [#5189](https://github.com/OpenSID/OpenSID/issues/5189) Perbaiki nilai setting tidak tampil saat periksa database.
 18. [#5174](https://github.com/OpenSID/OpenSID/issues/5174) Perbaiki hapus fitur sebaran data covid di peta web.
 19. [#5175](https://github.com/OpenSID/OpenSID/issues/5175) Perbaiki hapus fitur covid provinsi di web.
-
+20. [#5192](https://github.com/OpenSID/OpenSID/issues/5192) Perbaiki notifikasi saat kembalikan ke pengaturan default server selalu error.
+21. [#5181](https://github.com/OpenSID/OpenSID/issues/5181) Perbaiki sesi login gagal mengulangi waktu hitung tunggu untuk login kembali.
 #### Perubahan Teknis
 
 1. Update index.php
