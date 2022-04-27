@@ -48,6 +48,7 @@ class Migrasi_fitur_premium_2205 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2204');
         $hasil = $hasil && $this->hapusTabelTidakDigunakan($hasil);
+        $hasil = $hasil && $this->pebaikiNotifikasi($hasil);
 
         return $hasil && $this->migrasi_2022042751($hasil);
     }
@@ -74,5 +75,10 @@ class Migrasi_fitur_premium_2205 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function pebaikiNotifikasi($hasil)
+    {
+        return $hasil && $this->db->where('kode', 'persetujuan_penggunaan')->update('notifikasi', ['aksi' => 'notif/update_pengumuman,siteman/logout']);
     }
 }

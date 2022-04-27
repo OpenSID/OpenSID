@@ -42,7 +42,11 @@
     </div>
 
     @include('admin.layouts.components.pengaturan')
-    
+
+    @if ($notif['pengumuman'])
+      @include('admin.layouts.components.pengumuman', $notif['pengumuman'])
+		@endif
+
     @include('admin.profil.pengaturan_pengguna')
 
     @include('admin.layouts.partials.footer')

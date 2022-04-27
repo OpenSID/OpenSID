@@ -140,18 +140,11 @@ class Notif_model extends CI_Model
 
     public function notifikasi($notif)
     {
-        $pengumuman = null;
-        // Simpan view pengumuman dalam variabel
-        $data['isi_pengumuman'] = $notif['isi'];
-        $data['kode']           = $notif['kode'];
-        $data['judul']          = $notif['judul'];
-        $data['jenis']          = $notif['jenis'];
-        $data['aksi']           = $notif['aksi'];
-        $aksi                   = explode(',', $notif['aksi']);
-        $data['aksi_ya']        = $aksi[0];
-        $data['aksi_tidak']     = $aksi[1];
+        $aksi                = explode(',', $notif['aksi']);
+        $notif['aksi_ya']    = $aksi[0];
+        $notif['aksi_tidak'] = $aksi[1];
 
-        return $this->load->view('notif/pengumuman', $data, true); // TRUE utk ambil content view sebagai output
+        return $notif;
     }
 
     private function masih_berlaku($notif)
