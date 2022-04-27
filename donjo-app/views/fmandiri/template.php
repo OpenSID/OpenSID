@@ -129,7 +129,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 							<li><a href="<?= site_url('layanan-mandiri/permohonan-surat') ?>">Surat</a></li>
 							<li><a href="<?= site_url('layanan-mandiri/pesan-masuk') ?>">Pesan</a></li>
 							<li><a href="<?= site_url('layanan-mandiri/lapak') ?>">Lapak</a></li>
-							<li><a href="<?= site_url('layanan-mandiri/kehadiran') ?>">Bantuan</a></li>
+							<li><a href="<?= site_url('layanan-mandiri/bantuan') ?>">Bantuan</a></li>
 							<li><a href="<?= site_url('layanan-mandiri/kehadiran') ?>">Perangkat</a></li>
 						</ul>
 					</div>
