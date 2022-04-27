@@ -197,6 +197,8 @@ class Modul_model extends CI_Model
 
     private function set_aktif_submodul($id, $aktif)
     {
+        $outp = true;
+
         $submodul      = $this->db->select('id')->where('parent', $id)->get('setting_modul')->result_array();
         $list_submodul = array_column($submodul, 'id');
         if (empty($list_submodul)) {
@@ -208,8 +210,10 @@ class Modul_model extends CI_Model
             $list_submodul = array_merge($list_submodul, array_column($sub, 'id'));
         }
         $list_id = implode(',', $list_submodul);
-        $this->db->where('id IN (' . $list_id . ')')->update('setting_modul', ['aktif' => $aktif]);
+        $outp    = $outp && $this->db->where('id IN (' . $list_id . ')')->update('setting_modul', ['aktif' => $aktif]);
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $outp;
     }
 
     /*
