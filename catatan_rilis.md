@@ -40,7 +40,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 20. [#5181](https://github.com/OpenSID/OpenSID/issues/5181) Perbaiki sesi login gagal mengulangi waktu hitung tunggu untuk login kembali.
 21. [#5183](https://github.com/OpenSID/OpenSID/issues/5183) Perbaiki notifikasi persetujuan penggunaan aplikasi OpenSID.
 22. [#5194](https://github.com/OpenSID/OpenSID/issues/5194) Perbaiki error ketika klik bantuan pada layanan mandiri.
-23. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki Perbaiki deteksi MAC Address Gawai Kehadiran.
+23. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki deteksi MAC Address Gawai Kehadiran.
 
 #### Perubahan Teknis
 
