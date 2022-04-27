@@ -449,7 +449,7 @@ class Migrasi_fitur_premium_2205 extends MY_model
         $hasil = $hasil && $this->tambah_modul([
             'id'         => '344',
             'modul'      => 'Pesan',
-            'url'        => 'opendkpesan/clear',
+            'url'        => 'opendk_pesan/clear',
             'aktif'      => '1',
             'ikon'       => 'fa-envelope',
             'urut'       => '124',

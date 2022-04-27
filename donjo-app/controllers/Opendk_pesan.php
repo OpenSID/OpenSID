@@ -40,7 +40,7 @@ use GuzzleHttp\Exception\ClientException;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class OpendkPesan extends Admin_Controller
+class Opendk_pesan extends Admin_Controller
 {
     protected $_list_session;
 
@@ -56,7 +56,7 @@ class OpendkPesan extends Admin_Controller
     {
         // cek setting server ke opendk
         if (empty($this->setting->api_opendk_key)) {
-            $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . route(sinkronisasi) . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
+            $message = "Pengaturan sinkronisasi masih kosong. Periksa Pengaturan Sinkronisasi di <a href='" . route('sinkronisasi') . '#tab_buat_key' . "' style='text-decoration:none;'' ><strong>Sinkronisasi&nbsp;(<i class='fa fa-gear'></i>)</strong></a>";
 
             return view('admin.opendkpesan.error', compact('message'));
         }
