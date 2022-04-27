@@ -56,8 +56,17 @@ class Migrasi_fitur_premium_2205 extends MY_model
         $hasil = $hasil && $this->pantauWarga($hasil);
         $hasil = $hasil && $this->modulPesanOpenDK($hasil);
         $hasil = $hasil && $this->tambahkanModulHubungWarga($hasil);
+        $hasil = $hasil && $this->hapusTabelTidakDigunakan($hasil);
 
-        return $hasil && $this->hapusTabelTidakDigunakan($hasil);
+        return $hasil && $this->migrasi_2022042751($hasil);
+    }
+
+    protected function migrasi_2022042751($hasil)
+    {
+        // Hapus key covid_data dan provinsi_covid
+        return $hasil && $this->db
+            ->where_in('key', ['covid_data', 'provinsi_covid'])
+            ->delete('setting_aplikasi');
     }
 
     protected function pengaturanStatusDesa($hasil)
