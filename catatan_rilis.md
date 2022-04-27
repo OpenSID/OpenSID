@@ -39,6 +39,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 19. [#5192](https://github.com/OpenSID/OpenSID/issues/5192) Perbaiki notifikasi saat kembalikan ke pengaturan default server selalu error.
 20. [#5181](https://github.com/OpenSID/OpenSID/issues/5181) Perbaiki sesi login gagal mengulangi waktu hitung tunggu untuk login kembali.
 21. [#5183](https://github.com/OpenSID/OpenSID/issues/5183) Perbaiki notifikasi persetujuan penggunaan aplikasi OpenSID.
+22. [#5194](https://github.com/OpenSID/OpenSID/issues/5194) Perbaiki error ketika klik bantuan pada layanan mandiri.
+
 #### Perubahan Teknis
 
 1. Update index.php
