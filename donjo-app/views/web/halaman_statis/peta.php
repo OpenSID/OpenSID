@@ -283,11 +283,8 @@
       var mylayer = L.featureGroup();
       var layer_desa = L.featureGroup();
       var layer_desa_sid = {
-        "Peta Sebaran Covid19": mylayer,
         "Desa Pengguna OpenSID": layer_desa
       }
-
-      peta_covid(mylayer, mymap, "<?= asset('images/covid.png') ?>");
 
       mylayer.on('add', function() {
         setTimeout(function() {
