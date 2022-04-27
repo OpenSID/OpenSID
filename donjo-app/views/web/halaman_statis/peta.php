@@ -37,11 +37,6 @@
           <?php $this->load->view('gis/content_dusun_web.php', ['dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
           <?php $this->load->view('gis/content_rw_web.php', ['rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
           <?php $this->load->view('gis/content_rt_web.php', ['rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
-          <div id="covid_status" style="display: none;">
-            <?php if ($this->setting->covid_data) {
-    $this->load->view('gis/covid_peta.php');
-} ?>
-          </div>
         </div>
         <div id="desa_online" style="display: none;">
           <div class="leaflet-top leaflet-right">

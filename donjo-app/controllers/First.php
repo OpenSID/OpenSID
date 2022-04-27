@@ -540,21 +540,6 @@ class First extends Web_Controller
         $this->load->view('gis/aparatur_wilayah', $data);
     }
 
-    public function ambil_data_covid()
-    {
-        if ($content = getUrlContent($this->input->post('endpoint'))) {
-            echo $content;
-
-            return;
-        }
-
-        // Apabila API yang digunakan masih belum ditemukan maka fitur di non aktifkan (data tidak ditemukan).
-        $this->db
-            ->where('key', 'covid_data')
-            ->set('value', false)
-            ->update('setting_aplikasi');
-    }
-
     public function status_idm(int $tahun)
     {
         if (! $this->web_menu_model->menu_aktif('status-idm/' . $tahun)) {
