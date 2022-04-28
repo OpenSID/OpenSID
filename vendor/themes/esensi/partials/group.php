@@ -7,7 +7,7 @@
   </ol>
 </nav>
 
-<h1 class="text-h2">Data Kelompok - <?= $detail['nama']; ?></h1>
+<h1 class="text-h2"><?= $title ?></h1>
 <div class="space-y-3 content py-3">
   
   <p class="py-4"><?= $detail['keterangan'] ?></p>

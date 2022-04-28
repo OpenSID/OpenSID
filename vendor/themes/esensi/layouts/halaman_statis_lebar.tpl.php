@@ -17,11 +17,12 @@
         <?php if(preg_match("/halaman_statis/i", $halaman_statis)) : ?>
           <?php $this->load->view($halaman_statis); ?>
           <?php else : ?>
+            <?php $halaman_statis = str_replace('home/idm', 'idm/index', $halaman_statis); ?>
             <?php $this->load->view("{$folder_themes}/partials/{$halaman_statis}"); ?>
         <?php endif ?>
         <?php else : ?>
-          <?php if (in_array($halaman_statis, ['web/halaman_statis/lapak', 'home/idm'])): ?>
-              <?php $halaman_statis = $halaman_statis === 'web/halaman_statis/lapak' ? 'lapak/index' : $halaman_statis ?>
+          <?php if (in_array($halaman_statis, ['web/halaman_statis/lapak', 'home/idm', 'idm/index'])): ?>
+              <?php $halaman_statis = $halaman_statis === 'web/halaman_statis/lapak' ? 'lapak/index' : ($halaman_statis === 'home/idm' ? 'idm/index' : $halaman_statis) ?>
               <?php $this->load->view("{$folder_themes}/partials/{$halaman_statis}"); ?>
             <?php else: ?>
               <?php $this->load->view($halaman_statis); ?>
