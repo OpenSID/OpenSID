@@ -137,7 +137,7 @@ class Opendk_pesan extends Admin_Controller
             ->where('id', '=', $id)
             ->first();
 
-        $form_action = route('opendkpesan.insert.' . $id);
+        $form_action = route('opendk_pesan.insert.' . $id);
         Pesan::where('id', '=', $id)
             ->update([
                 'sudah_dibaca' => 1,
@@ -149,7 +149,7 @@ class Opendk_pesan extends Admin_Controller
     public function form()
     {
         $this->redirect_hak_akses('u');
-        $form_action = route('opendkpesan.insert');
+        $form_action = route('opendk_pesan.insert');
 
         return view('admin.opendkpesan.form', compact('action', 'form_action'));
     }

@@ -33,7 +33,7 @@
 
 <div class="box box-info">
   <div class="box-header with-border">
-    <a href="{{ site_url('opendkpesan') }}"
+    <a href="{{ site_url('opendk_pesan') }}"
       class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
       <i class="fa fa-arrow-circle-left "></i>Kembali ke Pesan
     </a>
@@ -61,7 +61,6 @@
               @else
                 <img class="img-responsive" src="{{ gambar_desa($desa['logo']) }}">
               @endif
-
             </div>
           </div>
           <div class="col-xs-11">
@@ -76,6 +75,7 @@
         </div>
       </div>
     @endforeach
+    @if($pesan->diarsipkan == '0')
     <div class="form-group" style="padding: 20px;">
       {!! form_open($form_action, 'class="form-horizontal" id="validasi"') !!}
       <div class="col-sm-12">
@@ -88,8 +88,7 @@
       </div>
       </form>
     </div>
-
-
+    @endif
   </div>
 
   @endsection

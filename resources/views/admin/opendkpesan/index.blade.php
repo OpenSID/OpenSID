@@ -13,14 +13,14 @@
 <div class="row">
   <div class="col-md-4 col-lg-3">
     @if (can('u'))
-    <a href="{{ site_url('opendkpesan/form') }}" class="btn btn-primary btn-block margin-bottom">Buat Pesan</a>
+    <a href="{{ site_url('opendk_pesan/form') }}" class="btn btn-primary btn-block margin-bottom">Buat Pesan</a>
     @endif
     <div class="box box-solid">
       <div class="box-body no-padding">
         <div class="box-footer no-padding">
           <ul class="nav nav-stacked">
-            <li {{ jecho($selected_nav, 'pesan', 'class="active"'); }}><a href="{{ route('opendkpesan.clear') }}" >Pesan</a></li>
-            <li {{ jecho($selected_nav, 'arsip', 'class="active"'); }} ><a href="{{ route('opendkpesan.clear.arsip') }}">Arsip</a></li>
+            <li {{ jecho($selected_nav, 'pesan', 'class="active"'); }}><a href="{{ route('opendk_pesan.clear') }}" >Pesan</a></li>
+            <li {{ jecho($selected_nav, 'arsip', 'class="active"'); }} ><a href="{{ route('opendk_pesan.clear.arsip') }}">Arsip</a></li>
            </ul>
         </div>
       </div>
@@ -35,7 +35,7 @@
       </div>
       <div class="box-body no-padding">
         <div class="box-footer no-padding">
-          {!! form_open(site_url('opendkpesan/filter/status'), 'id="label" name="label"', array('status'=>'1')) !!}
+          {!! form_open(site_url('opendk_pesan/filter/status'), 'id="label" name="label"', array('status'=>'1')) !!}
           <ul class="nav nav-stacked" id="label">
             <li {{ jecho($status, '1', 'class="active"'); }} data-status='1'><a href="javascript:;" >Sudah Dibaca</a></li>
             <li {{ jecho($status, '0', 'class="active"'); }} data-status='0'><a href="javascript:;" >Belum Dibaca</a></li>
@@ -54,15 +54,15 @@
           <div class="col-sm-4 col-md-2  pull-right">
              {!! form_open('', 'id="mainform" name="mainform"') !!}
              <div class="input-group input-group-sm">
-              <input name="cari" id="cari" class="form-control ui-autocomplete-input" placeholder="Cari..." type="text" value="{{ $cari }}" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '{{ site_url('opendkpesan/search') }}');$('#'+'mainform').submit();}" autocomplete="off">
+              <input name="cari" id="cari" class="form-control ui-autocomplete-input" placeholder="Cari..." type="text" value="{{ $cari }}" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '{{ site_url('opendk_pesan/search') }}');$('#'+'mainform').submit();}" autocomplete="off">
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default" onclick="$('#mainform').attr('action', '{{ site_url('opendkpesan/search/') }}');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+                <button type="button" class="btn btn-default" onclick="$('#mainform').attr('action', '{{ site_url('opendk_pesan/search/') }}');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
               </div>
             </div>
             </form>
           </div>
 
-          <a href="{{ route('opendkpesan.clear') }}" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
+          <a href="{{ route('opendk_pesan.clear') }}" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
         </form>
       </div>
       <div class="box-body">
@@ -85,7 +85,7 @@
                       <td>{{ $key+1 }}</td>
                       <td class="aksi">
                         @if (can('u'))
-                          <a href="{{ site_url('opendkpesan/show/'.$data->id) }}" title="Tampilkan Pesan" class="btn bg-blue btn-flat btn-sm"  ><i class="fa fa-eye"></i></a>
+                          <a href="{{ site_url('opendk_pesan/show/'.$data->id) }}" title="Tampilkan Pesan" class="btn bg-blue btn-flat btn-sm"  ><i class="fa fa-eye"></i></a>
                         @endif
                       </td>
                       <td> {{ $data->judul }} - {{ strip_tags($data->detailpesan[0]->text) ?? '' }} </td>
@@ -127,7 +127,7 @@
           Apakah Anda yakin ingin Arsipkan Pesan ini ?
         </div>
         <div class="modal-footer">
-          {!! form_open(site_url('opendkpesan/arsipkan') , 'name="arsip"') !!}
+          {!! form_open(site_url('opendk_pesan/arsipkan') , 'name="arsip"') !!}
            <input type="hidden" name="array_id">
             <button type="button" class="btn btn-social btn-warning btn-sm" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
             <a class="btn-ok">
