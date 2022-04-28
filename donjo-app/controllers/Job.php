@@ -48,57 +48,54 @@ class Job extends CI_Controller
 
     public function restore($database = null)
     {
-        $ip = 'IP : ' . $this->input->ip_address();
-
-        if (! $this->input->is_cli_request()) {
-            // echo 'Skrip ini hanya dapat diakses melalui baris perintah' . PHP_EOL;
-            log_message('error', $ip . ' | Skrip ini hanya dapat diakses melalui baris perintah');
-
+        /**
+         * Job hanya bisa digunakan jika :
+         * 1. Diakses lewat CLI dan Config demo true
+         * 2. Diakses lewat CLI dan ENV development
+         *
+         * Selain itu akan menampilkan halaman tidak ditemukan.
+         */
+        if (! is_cli() || (! config_item('demo_mode') && ENVIRONMENT === 'production')) {
             show_404();
         }
 
-        if (! config_item('demo_mode')) {
-            // echo 'Skrip ini hanya dapat diakses melalui web demo' . PHP_EOL;
-            log_message('error', $ip . ' | Skrip ini hanya dapat diakses melalui web demo');
-        }
-
         delete_files(config_item('log_path'), true);
-        log_message('error', 'Mulai normalkan website demo');
-        log_message('error', 'Hapus folder logs');
+        log_message('error', '>_ Mulai');
+
+        // Kecuali folder
+        $exclude = [
+            'desa/config',
+            'desa/themes',
+        ];
 
         // Kosongkan folder desa dan copy isi folder desa-contoh
         foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
-            if ($folder != 'desa/config') {
+            if (! in_array($folder, $exclude)) {
                 delete_files(FCPATH . $folder, true);
             }
         }
         xcopy('desa-contoh', 'desa', ['config']);
-        log_message('error', 'Normalkan folder desa');
 
         // Proses Restore Database
-        if ($this->export_model->proses_restore($this->cek_db($database))) {
-            log_message('error', 'Proses Restore Database Berhasil');
-
-            // Proses migrasi database
-            log_message('error', 'Proses Migrasi Database');
+        if ($this->export_model->proses_restore($this->cekDB($database))) {
             $this->database_model->migrasi_db_cri();
         } else {
             log_message('error', 'Proses Restore Database Gagal');
         }
 
-        log_message('error', 'Selesai normalkan website demo');
+        log_message('error', '>_ Selesai');
     }
 
-    private function cek_db($filename = null)
+    private function cekDB($filename = null)
     {
         if (! $filename) {
             $filename = FCPATH . 'contoh_data_awal_' . str_replace('.', '', '20' . currentVersion()) . '01.sql';
         }
 
-        return $this->cek_file($filename);
+        return $this->cekFile($filename);
     }
 
-    private function cek_file($filename = null)
+    private function cekFile($filename = null)
     {
         if (file_exists($filename)) {
             return $filename;
