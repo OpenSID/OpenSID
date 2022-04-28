@@ -6,6 +6,12 @@
     height: 400px;
     overflow-y: scroll;
   }
+
+  @media (max-width: 576px) {
+    .komunikasi-opendk {
+      display: none !important;
+    }
+  }
 </style>
 @endpush
 

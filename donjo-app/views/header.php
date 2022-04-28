@@ -51,6 +51,14 @@
 		<link rel="stylesheet" href="<?= asset('css/peta.css') ?>">
 		<link rel="stylesheet" href="<?= asset('css/toastr.min.css') ?>">
 
+		<style>
+			@media (max-width: 576px) {
+				.komunikasi-opendk {
+					display: none !important;
+				}
+			}
+		</style>
+
 		<!-- Untuk ubahan style desa -->
 		<?php if (is_file('desa/css/siteman.css')): ?>
 			<link rel='Stylesheet' href="<?= base_url('desa/css/siteman.css') ?>">
@@ -113,9 +121,9 @@
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
 							<?php if ($notif_pesan_opendk): ?>
-								<li>
+								<li class="komunikasi-opendk">
 									<a href="<?= site_url('pelanggan') ?>">
-										<span><i class="fa fa fa-university fa-lg" title="SKomunikasi OpenDk" ></i>&nbsp;</span>
+										<span><i class="fa fa fa-university fa-lg" title="Komunikasi OpenDk" ></i>&nbsp;</span>
 										<?php if ($notif_pesan_opendk) : ?>
 											<span class="badge" id="b_pesan"><?= $notif_pesan_opendk ?></span>
 										<?php endif ?>

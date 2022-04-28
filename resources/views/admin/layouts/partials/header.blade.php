@@ -12,7 +12,7 @@
       <ul class="nav navbar-nav">
 
          @if (can('b', 'opendkpesan'))
-          <li>
+          <li class="komunikasi-opendk">
             <a href="{{ route('OpendkPesan.clear') }}">
               <span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
               @if ($notif['opendkpesan'])
