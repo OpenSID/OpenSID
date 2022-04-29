@@ -11,23 +11,23 @@
     <div class="navbar-custom-menu">
       <ul class="nav navbar-nav">
 
-         @if (can('b', 'opendkpesan'))
-          <li class="komunikasi-opendk">
-            <a href="{{ route('OpendkPesan.clear') }}">
-              <span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
-              @if ($notif['opendkpesan'])
-                <span class="badge" id="b_opendkpesan">{{ $notif['opendkpesan'] }}</span>
-              @endif
-            </a>
-          </li>
-        @endif
-
         @if ($notif['langganan'])
           <li>
             <a href="{{ route('pelanggan') }}">
               <span><i class="fa {{ $notif['langganan']['ikon'] }} fa-lg" title="Status Langganan {{ $notif['langganan']['masa'] }} hari" style="color: {{ $notif['langganan']['warna'] }}"></i>&nbsp;</span>
               @if ($notif['langganan']['status'] > 2)
                 <span class="badge" id="b_langganan"></span>
+              @endif
+            </a>
+          </li>
+        @endif
+
+        @if (can('b', 'opendk_pesan'))
+          <li class="komunikasi-opendk">
+            <a href="{{ route('opendk_pesan.clear') }}">
+              <span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
+              @if ($notif['opendkpesan'])
+                <span class="badge" id="b_opendkpesan">{{ $notif['opendkpesan'] }}</span>
               @endif
             </a>
           </li>

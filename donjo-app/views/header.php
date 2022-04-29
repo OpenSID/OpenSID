@@ -120,22 +120,22 @@
 					</a>
 					<div class="navbar-custom-menu">
 						<ul class="nav navbar-nav">
-							<?php if ($notif_pesan_opendk): ?>
-								<li class="komunikasi-opendk">
-									<a href="<?= site_url('pelanggan') ?>">
-										<span><i class="fa fa fa-university fa-lg" title="Komunikasi OpenDk" ></i>&nbsp;</span>
-										<?php if ($notif_pesan_opendk) : ?>
-											<span class="badge" id="b_pesan"><?= $notif_pesan_opendk ?></span>
-										<?php endif ?>
-									</a>
-								</li>
-							<?php endif ?>
 							<?php if ($notif_langganan): ?>
 								<li>
 									<a href="<?= site_url('pelanggan') ?>">
 										<span><i class="fa <?= $notif_langganan['ikon'] ?> fa-lg" title="Status Langganan <?= $notif_langganan['masa'] ?> hari" style="color: <?= $notif_langganan['warna'] ?>;"></i>&nbsp;</span>
 										<?php if ($notif_langganan['status'] > 2) : ?>
 											<span class="badge" id="b_langganan">!</span>
+										<?php endif ?>
+									</a>
+								</li>
+							<?php endif ?>
+							<?php if (can('b', 'opendk_pesan')) : ?>
+								<li class="komunikasi-opendk">
+									<a href="<?=  route('opendk_pesan.clear') ?>">
+										<span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>
+										<?php if ($notif_pesan_opendk) : ?>
+											<span class="badge" id="b_opendkpesan"><?=  $notif_pesan_opendk ?></span>
 										<?php endif ?>
 									</a>
 								</li>
