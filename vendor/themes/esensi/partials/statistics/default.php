@@ -6,16 +6,16 @@
     <li>Data Statistik</li>
   </ol>
 </div>
-<h2 class="text-h2">Data Penduduk Menurut <?= $heading ?></h2>
+<h1 class="text-h2">Data Penduduk Menurut <?= $heading ?></h1>
 <div class="flex justify-between items-center space-x-1 py-5">
-  <h3 class="text-h4">Grafik <?= $heading ?></h3>
+  <h2 class="text-h4">Grafik <?= $heading ?></h2>
   <div class="text-right space-x-2 text-sm space-y-2 md:space-y-0">
     <button class="btn btn-secondary button-switch" data-type="column">Bar Graph</button>
     <button class="btn btn-secondary button-switch is-active" data-type="pie">Pie Graph</button>
   </div>
 </div>
 <div id="statistics"></div>
-<h3 class="text-h4">Tabel <?= $heading ?></h3>
+<h2 class="text-h4">Tabel <?= $heading ?></h2>
 <div class="content py-3">
   <div class="table-responsive">
     <table class="w-full text-sm">
@@ -79,7 +79,7 @@
     </script>
 
     <input id="stat" type="hidden" value="<?=$st?>">
-    <h3 class="text-h4">Daftar <?= $heading ?></h3>
+    <h2 class="text-h4">Daftar <?= $heading ?></h2>
 
     <div class="table-responsive content py-3">
       <table class="w-full text-sm" id="peserta_program">

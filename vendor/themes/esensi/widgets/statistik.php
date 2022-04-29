@@ -2,7 +2,7 @@
 
 <div class="box box-primary box-solid">
   <div class="box-header">
-    <h3 class="box-title"><a href="<?= site_url("first/statistik/4")?>"><i class="fa fa-chart-pie mr-2"></i>&ensp;<?= $judul_widget ?></a></h3>
+    <h3 class="box-title"><a href="<?= site_url("first/statistik/4")?>"><i class="fa fa-chart-pie mr-2 mr-1"></i><?= $judul_widget ?></a></h3>
   </div>
   <div class="box-body">
     <script type="text/javascript">

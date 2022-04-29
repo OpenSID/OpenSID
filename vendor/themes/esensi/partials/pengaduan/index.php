@@ -6,7 +6,7 @@
     <li aria-current="page">Pengaduan</li>
   </ol>
 </nav>
-<h2 class="text-h2">Pengaduan</h2>
+<h1 class="text-h2">Pengaduan</h1>
 <form action="<?= $search_action; ?>" method="get">
   <div class="flex gap-3 lg:w-7/12 flex-col lg:flex-row py-5">
     <button type="button" class="btn btn-primary flex-shrink-0" data-bs-toggle="modal" data-bs-target="#newpengaduan"><i class="fas fa-pencil-alt mr-1"></i> Buat Pengaduan</button>

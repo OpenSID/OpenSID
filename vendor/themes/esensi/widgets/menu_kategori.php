@@ -2,7 +2,7 @@
 
 <div class="box">
   <div class="box-header">
-    <h3 class="box-title"><i class="fas fa-bars"></i>&ensp;<?= $judul_widget ?></h3>
+    <h3 class="box-title"><i class="fas fa-bars mr-1"></i><?= $judul_widget ?></h3>
   </div>
   <div class="box-body content">
     <ul class="divide-y">

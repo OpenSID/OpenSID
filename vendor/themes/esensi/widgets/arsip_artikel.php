@@ -3,7 +3,7 @@
 <div class="box">
   <div class="box-header">
     <h3 class="box-title">
-      <i class="fas fa-folder-open"></i>&ensp;<?= $judul_widget ?>
+      <i class="fas fa-folder-open mr-1"></i><?= $judul_widget ?>
     </h3>
   </div>
   <div class="box-body" style="padding-top: .1rem;">
