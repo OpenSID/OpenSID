@@ -460,7 +460,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
 
         $hasil = $hasil && $this->modul_tambahan($hasil);
         $hasil = $hasil && $this->ubah_grup($hasil);
-        $hasil = $hasil && $this->tambah_grup_akses($hasil);
+        $hasil = $hasil && $this->tambah_grupAkses($hasil);
         $hasil = $hasil && $this->urut_modul($hasil);
         $hasil = $hasil && $this->bersihkan_modul($hasil);
 
@@ -486,7 +486,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         return $hasil && $this->db->where('id >', 4)->update('user_grup', ['jenis' => 2]);
     }
 
-    private function tambah_grup_akses($hasil)
+    private function tambah_grupAkses($hasil)
     {
         if ($this->db->table_exists('grup_akses')) {
             return $hasil;
@@ -702,15 +702,15 @@ class Migrasi_fitur_premium_2105 extends MY_model
         // Hanya isi jika grup Satgas Covid masih ada dan grup_akses belum ada (Jangan ubah grup_akses satgas covid jika sudah ada)
         if ($this->db->get_where('user_grup', ['id' => 5])->row()) {
             if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 3])->row()) {
-                $this->grup_akses(5, 3, 0);
+                $this->grupAkses(5, 3, 0);
             }
 
             if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 206])->row()) {
-                $this->grup_akses(5, 206, 0);
+                $this->grupAkses(5, 206, 0);
             }
 
             if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 208])->row()) {
-                $this->grup_akses(5, 208, 7);
+                $this->grupAkses(5, 208, 7);
             }
         }
 

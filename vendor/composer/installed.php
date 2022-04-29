@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '0d38d970912624275d551d25178e1ca363adebb4',
+        'reference' => 'ee6ac0ddff922d349dfb405f50d872d4ce248d4b',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -268,7 +268,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '0d38d970912624275d551d25178e1ca363adebb4',
+            'reference' => 'ee6ac0ddff922d349dfb405f50d872d4ce248d4b',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -379,8 +379,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0.0 || 2.0.0 || 3.0.0',
-                1 => '1.0|2.0',
+                0 => '1.0|2.0',
+                1 => '1.0.0 || 2.0.0 || 3.0.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -565,7 +565,9 @@
             'version' => 'dev-main',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
-            'aliases' => array(),
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'reference' => '2b1252e0d6eaeef312d1d74f245cf6fa4ee540a1',
             'dev_requirement' => false,
         ),
@@ -575,7 +577,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => '5bf84f66b38b8bdd675067cda2215279ea2aa226',
+            'reference' => 'c13d6fe4ae28de019b1ce0a1e282950208c00126',
             'dev_requirement' => false,
         ),
         'voku/portable-ascii' => array(
