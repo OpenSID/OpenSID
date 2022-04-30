@@ -1,6 +1,7 @@
-Di rilis ini, versi 22.04-premium-beta03 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.05-premium menyediakan modul hubung warga dan komunikasi antar desa dan kecamatan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi.
+Terima kasih pada  totoprayogo1916 yang terus berkontribusi. Terima kasih pula pada eltociear dan  balongbesuk yang baru mulai berkontribusi.
+
 
 #### Penambahan Fitur
 1. [#5095](https://github.com/OpenSID/OpenSID/issues/5095) Tambahkan informasi data keluarga dengan No KK sementara.
@@ -62,6 +63,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 22. [#5194](https://github.com/OpenSID/OpenSID/issues/5194) Perbaiki error ketika klik bantuan pada layanan mandiri.
 23. [#5106](https://github.com/OpenSID/OpenSID/issues/5106) Perbaiki deteksi MAC Address Gawai Kehadiran.
 24. [#5197](https://github.com/OpenSID/OpenSID/issues/5197) Perbaiki tampilan produk lapak mandiri berantakan.
+
 
 #### Perubahan Teknis
 

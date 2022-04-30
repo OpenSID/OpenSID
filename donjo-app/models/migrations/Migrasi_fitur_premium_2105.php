@@ -460,7 +460,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
 
         $hasil = $hasil && $this->modul_tambahan($hasil);
         $hasil = $hasil && $this->ubah_grup($hasil);
-        $hasil = $hasil && $this->tambah_grupAkses($hasil);
+        $hasil = $hasil && $this->tambah_grup_akses($hasil);
         $hasil = $hasil && $this->urut_modul($hasil);
         $hasil = $hasil && $this->bersihkan_modul($hasil);
 
@@ -486,7 +486,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         return $hasil && $this->db->where('id >', 4)->update('user_grup', ['jenis' => 2]);
     }
 
-    private function tambah_grupAkses($hasil)
+    private function tambah_grup_akses($hasil)
     {
         if ($this->db->table_exists('grup_akses')) {
             return $hasil;

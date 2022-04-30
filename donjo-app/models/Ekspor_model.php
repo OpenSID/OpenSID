@@ -236,6 +236,7 @@ class Ekspor_model extends CI_Model
             'keuangan_ta_triwulan_rinci',
             'cdesa_penduduk',
             'mutasi_cdesa',
+            'hubung_warga',
         ];
 
         $prefs = [

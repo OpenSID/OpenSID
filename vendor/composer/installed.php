@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-update',
-        'version' => 'dev-update',
+        'pretty_version' => 'dev-v22.05-premium',
+        'version' => 'dev-v22.05-premium',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ee6ac0ddff922d349dfb405f50d872d4ce248d4b',
+        'reference' => '00a3e30a3407704a05dbc479f1dd741ff34bc143',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -263,12 +263,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-update',
-            'version' => 'dev-update',
+            'pretty_version' => 'dev-v22.05-premium',
+            'version' => 'dev-v22.05-premium',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ee6ac0ddff922d349dfb405f50d872d4ce248d4b',
+            'reference' => '00a3e30a3407704a05dbc479f1dd741ff34bc143',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -379,8 +379,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -565,9 +565,7 @@
             'version' => 'dev-main',
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/esensi',
-            'aliases' => array(
-                0 => '9999999-dev',
-            ),
+            'aliases' => array(),
             'reference' => '2b1252e0d6eaeef312d1d74f245cf6fa4ee540a1',
             'dev_requirement' => false,
         ),
@@ -577,7 +575,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => 'c13d6fe4ae28de019b1ce0a1e282950208c00126',
+            'reference' => 'aba308307e70f97de2067c41a99a3bc0707a59f6',
             'dev_requirement' => false,
         ),
         'voku/portable-ascii' => array(
