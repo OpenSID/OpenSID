@@ -1,8 +1,8 @@
-#### [v22.04-pasca]
+#### [v22.05]
 
-Di rilis ini, versi 22.04-pasca, menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.05, menyediakan  Buku Kegiatan Pembangunan di Buku Administrasi Pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pula pada Cahyo Wicaksono yang baru mulai berkontribusi.
 
 #### Penambahan Fitur
 1. [#4179](https://github.com/OpenSID/OpenSID/issues/4179) Sediakan Buku Kegiatan Pembangunan di Buku Administrasi Pembangunan.
