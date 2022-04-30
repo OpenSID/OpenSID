@@ -268,11 +268,14 @@ class Admin_Controller extends MY_Controller {
 
 	private function cek_pengumuman()
 	{
-		if ($this->grup == 1) // hanya utk user administrator
-		{
+		if (config_item('demo_mode') || ENVIRONMENT === 'development') {
+			return null;
+		}
+
+		// Hanya untuk user administrator
+		if ($this->grup == 1) {
 			$notifikasi = $this->notif_model->get_semua_notif();
-			foreach($notifikasi as $notif)
-			{
+			foreach($notifikasi as $notif) {
 				$this->pengumuman = $this->notif_model->notifikasi($notif);
 				if ($notif['jenis'] == 'persetujuan') break;
 			}

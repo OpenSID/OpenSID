@@ -33,7 +33,7 @@
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  */
-class Migrasi_2204_ke_2205 extends MY_model
+class Migrasi_2205_ke_2206 extends MY_model
 {
   public function up()
   {
