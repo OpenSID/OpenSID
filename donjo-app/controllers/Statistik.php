@@ -351,7 +351,7 @@ class Statistik extends Admin_Controller
 
     public function chart_gis_desa($lap = 0, $desa = '')
     {
-        ($desa) ? $this->session->set_userdata('desa', ununderscore($desa)) : $this->session->unset_userdata('desa');
+        ($desa) ? $this->session->set_userdata('desa', underscore($dusun, false))) : $this->session->unset_userdata('desa');
         $this->session->unset_userdata('dusun');
         $this->session->unset_userdata('rw');
         $this->session->unset_userdata('rt');
@@ -361,7 +361,7 @@ class Statistik extends Admin_Controller
 
     public function chart_gis_dusun($lap = 0, $dusun = '')
     {
-        ($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
+        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
         $this->session->unset_userdata('rw');
         $this->session->unset_userdata('rt');
 
@@ -370,8 +370,8 @@ class Statistik extends Admin_Controller
 
     public function chart_gis_rw($lap = 0, $dusun = '', $rw = '')
     {
-        ($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
-        ($rw) ? $this->session->set_userdata('rw', ununderscore($rw)) : $this->session->unset_userdata('rw');
+        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
+        ($rw) ? $this->session->set_userdata('rw', underscore($rw, false)) : $this->session->unset_userdata('rw');
         $this->session->unset_userdata('rt');
 
         redirect("statistik/load_chart_gis/{$lap}");
@@ -379,9 +379,9 @@ class Statistik extends Admin_Controller
 
     public function chart_gis_rt($lap = 0, $dusun = '', $rw = '', $rt = '')
     {
-        ($dusun) ? $this->session->set_userdata('dusun', ununderscore($dusun)) : $this->session->unset_userdata('dusun');
-        ($rw) ? $this->session->set_userdata('rw', ununderscore($rw)) : $this->session->unset_userdata('rw');
-        ($rt) ? $this->session->set_userdata('rt', ununderscore($rt)) : $this->session->unset_userdata('rt');
+        ($dusun) ? $this->session->set_userdata('dusun', underscore($dusun, false)) : $this->session->unset_userdata('dusun');
+        ($rw) ? $this->session->set_userdata('rw', underscore($rw, false)) : $this->session->unset_userdata('rw');
+        ($rt) ? $this->session->set_userdata('rt', underscore($rt, false)) : $this->session->unset_userdata('rt');
 
         redirect("statistik/load_chart_gis/{$lap}");
     }

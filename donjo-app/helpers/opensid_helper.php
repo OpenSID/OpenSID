@@ -862,7 +862,7 @@ function namafile($str)
 {
     $tgl = date('d_m_Y');
 
-    return urlencode(underscore(strtolower($str)) . '_' . $tgl);
+    return urlencode(underscore($str, true, true) . '_' . $tgl);
 }
 
 function luas($int = 0, $satuan = 'meter')
