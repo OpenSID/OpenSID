@@ -79,11 +79,6 @@ class Migrasi_layanan extends MY_model
     // Dari migrasi premium 2107
     protected function pengaturan_aplikasi_untuk_layanan($hasil)
     {
-        // Ubah type data ke text, agar bisa menampung banyak karakter
-        $hasil = $hasil && $this->dbforge->modify_column('setting_aplikasi', [
-            'value' => ['type' => 'text'],
-        ]);
-
         // Url production layanan opendesa
         $hasil = $hasil && $this->tambah_setting([
             'key'        => 'layanan_opendesa_server',

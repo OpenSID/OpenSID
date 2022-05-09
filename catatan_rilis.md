@@ -14,3 +14,4 @@ Terima kasih pada  [untuk diisi] yang terus berkontribusi. Terima kasih pula pad
 
 1. Hapus menu login admin dan layanan mandiri pada contoh_data_awal.
 2. Satukan helper underscore() dan ununderscore().
+3. Perbaiki migrasi berulang tipe data kolom value dari varchar ke text.
