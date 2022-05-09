@@ -16,3 +16,4 @@ Terima kasih pada  [untuk diisi] yang terus berkontribusi. Terima kasih pula pad
 2. Satukan helper underscore() dan ununderscore().
 3. Perbaiki migrasi berulang tipe data kolom value dari varchar ke text.
 4. Penyesuaian pengecekan rilis aplikasi OpenSID Premium dan Umum.
+5. Penyesuaian repositori rilis premium dari berputar menjadi rilis-premium.
