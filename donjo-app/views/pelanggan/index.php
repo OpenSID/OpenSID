@@ -80,6 +80,35 @@
 						</div>
 					</div>
 				</div>
+                <?php if ($response->body->status_langganan === 'menunggu verifikasi pendaftaran') : ?>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="box box-info">
+                        <div class="box-header with-border">
+                            <i class="icon fa fa-info"></i>
+                            <h3 class="box-title">Info</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="callout callout-info">
+                                <h5>Saat ini tanggal akhir berlangganan Anda berada dalam masa uji coba dikarenakan dokumen permohonan Desa Anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php elseif ($response->body->status_langganan === 'suspended' || $response->body->status_langganan === 'tidak aktif' || $response->body->status_langganan === 'menunggu verifikasi email') : ?>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="box box-warning">
+                            <div class="box-header with-border">
+                                <i class="icon fa fa-info"></i>
+                                <h3 class="box-title">Info</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="callout callout-warning">
+                                    <h5>Silahkan lakukan Pendaftaran Kerjasama minimal sampai verifikasi email, agar layanan bisa diaktifkan.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
 			</div>
 			<div class="box box-info">
 				<div class="box-body">
@@ -132,6 +161,7 @@
 											<th>Layanan</th>
 											<th>Tanggal Mulai</th>
 											<th>Tanggal Berakhir</th>
+                                            <th>Tanggal Akhir Masa Uji Coba</th>
 											<th>Status Pemesanan</th>
 											<th>Status Pembayaran</th>
 										</tr>
@@ -157,8 +187,13 @@
 												</td>
 												<td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
 												<td class="padat"><?= tgl_indo($pemesanan->tgl_akhir); ?></td>
+                                                <td class="padat"><?= tgl_indo($pemesanan->tgl_akhir_masa_percobaan); ?></td>
 												<td class="padat">
-													<span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
+                                                    <?php if (! empty($response->body->tanggal_berlangganan->akhir)): ?>
+                                                        <span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
+                                                    <?php else: ?>
+                                                        <span class="label label-warning">Belum Aktif</span>
+                                                    <?php endif; ?>
 												</td>
 												<td class="padat">
 													<span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
