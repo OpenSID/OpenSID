@@ -341,7 +341,7 @@
 	<div class='col-sm-4'>
 		<div class='form-group'>
 			<label for="warganegara_id">Status Warga Negara</label>
-			<select class="form-control input-sm required" id="warganegara_id" name="warganegara_id" onchange="show_hide_negara_asal($(this).find(':selected').val())">
+			<select class="form-control input-sm required" id="warganegara_id" name="warganegara_id" onchange="show_hide_status_warga_negara($(this).find(':selected').val())">
 				<option value="">Pilih Warga Negara</option>
 				<?php foreach ($warganegara as $data) : ?>
 					<option value="<?= $data['id'] ?>" <?php selected($penduduk['warganegara_id'], $data['id']); ?>><?= strtoupper($data['nama']) ?></option>
@@ -366,7 +366,7 @@
 			</div>
 		</div>
 	</div>
-	<div class='col-sm-8'>
+	<div class='col-sm-8' id='field_dokumen_kitas'>
 		<div class='form-group'>
 			<label for="dokumen_kitas">Nomor KITAS/KITAP </label>
 			<input id="dokumen_kitas" name="dokumen_kitas" class="form-control input-sm number" maxlength="45" type="text" placeholder="Nomor KITAS/KITAP" value="<?= strtoupper($penduduk['dokumen_kitas']) ?>"></input>
@@ -758,7 +758,7 @@
 		$('#nik_sementara').change();
 
 		show_hide_penduduk_tidak_tetap($('#status_penduduk').val());
-		show_hide_negara_asal($('#warganegara_id').val());
+		show_hide_status_warga_negara($('#warganegara_id').val());
 		show_hide_ktp_el($('#ktp_el').val());
 
 	});
@@ -857,12 +857,14 @@
 		}
 	}
 
-	function show_hide_negara_asal(warganegaraId) {
+	function show_hide_status_warga_negara(warganegaraId) {
 		// warganegara_id 1 = WNI, 2 = WNA, 3 = DUA KEWARGANEGARAAN
 		if (warganegaraId == 2 || warganegaraId == 3) {
 			$('#field_negara_asal').fadeIn();
+			$('#field_dokumen_kitas').fadeIn();
 		} else {
 			$('#field_negara_asal').fadeOut();
+			$('#field_dokumen_kitas').fadeOut();
 		}
 	}
 

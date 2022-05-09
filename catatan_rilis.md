@@ -4,7 +4,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 
 #### Penambahan Fitur
 
-1. [#885](https://github.com/OpenSID/premium/pull/885) Sesuaikan aturan mengaktifkan pemesanan layanan OpenSID.
+1. [#34](https://github.com/OpenSID/wiki-layanan-opendesa/issues/34) Sesuaikan aturan mengaktifkan pemesanan layanan OpenSID.
+2. [#4919](https://github.com/OpenSID/OpenSID/issues/4919) Munculkan isian KITAS hanya pada status WNA.
 
 #### Perbaikan BUG
 
