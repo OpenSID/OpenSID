@@ -37,6 +37,7 @@
 
 namespace App\Libraries;
 
+use Esyede\Curly;
 use Exception;
 use stdClass;
 
@@ -80,16 +81,12 @@ class Release
      */
     public function __construct()
     {
-        if (! class_exists('Esyede\Curly')) {
-            require_once __DIR__ . DIRECTORY_SEPARATOR . 'Curly.php';
-        }
-
         if (! $this->cache) {
             $this->setCacheFolder(config_item('cache_path'));
         }
 
         if (! $this->interval) {
-            $this->setInterval(7);
+            $this->setInterval(1);
         }
     }
 
@@ -251,7 +248,7 @@ class Release
     /**
      * Sinkronisasi file cache dengan data di repositori.
      *
-     * @return array
+     * @return object
      */
     public function resync()
     {
@@ -260,10 +257,10 @@ class Release
         }
 
         if ($this->cacheIsOutdated()) {
-            \Esyede\Curly::$certificate = FCPATH . 'cacert.pem';
+            Curly::$certificate = FCPATH . 'cacert.pem';
 
             $options  = [CURLOPT_HTTPHEADER => ['Accept' => 'application/vnd.github.v3+json']];
-            $response = \Esyede\Curly::get($this->api, [], $options);
+            $response = Curly::get($this->api, [], $options);
 
             if ($response instanceof stdClass) {
                 $response = [
@@ -304,16 +301,16 @@ class Release
      *
      * @param string $version
      *
-     * @return int
+     * @return float
      */
     public function fixVersioning($version)
     {
         $version = preg_replace('/rev/', '05', $version); // 'v22.04-premium-rev01 -> 22.07.05.01
         $version = preg_replace('/beta/', '07', $version); // 'v22.04-premium-beta01 -> 22.07.07.01
-        $version = preg_replace('/[^0-9.]/', '', $version); // 'v20.07-premium' -> '20.07'
-        $version = str_replace('.', '', $version); // '20.07' -> '2007' atau '20070501' atau '20070701'
+        $version = preg_replace('/[^0-9]/', '', $version); // 'v20.07-premium' -> '20.07'
+        $patch   = (float) (strlen($version) > 4) ? ('0.' . substr($version, 4, 8)) : 0; // 2007.0501, 2007.0701, 2007
 
-        return (int) $version;
+        return (float) substr($version, 0, 4) + $patch;
     }
 
     /**
@@ -325,8 +322,7 @@ class Release
      */
     public function write($cache)
     {
-        $file     = $this->cache;
-        $interval = $this->interval;
+        $file = $this->cache;
 
         if ($this->cacheIsOutdated()) {
             if (is_file($file)) {
