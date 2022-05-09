@@ -44,6 +44,19 @@ class Migrasi_fitur_premium_2206 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2205');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2205');
+
+        return $hasil && $this->migrasi_2022050951($hasil);
+    }
+
+    protected function migrasi_2022050951($hasil)
+    {
+        $parrent = $this->db->select('parrent')->like('link', 'https://berputar.opendesa.id/')->get('menu')->row()->parrent;
+
+        if ($parrent) {
+            $hasil = $hasil && $this->db->where('id', $parrent)->delete('menu');
+        }
+
+        return $hasil && $this->db->like('link', 'https://berputar.opendesa.id/')->delete('menu');
     }
 }
