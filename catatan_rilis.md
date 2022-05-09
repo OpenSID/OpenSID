@@ -7,6 +7,7 @@ Terima kasih pada  [untuk diisi] yang terus berkontribusi. Terima kasih pula pad
 
 
 #### Perbaikan BUG
+1. [#5207](https://github.com/OpenSID/OpenSID/issues/5207) Perbaiki gagal impor siskuedes (Error : Data too long for column 'Keterangan' tabel keuangan_ta_spj_sisa).
 
 
 
