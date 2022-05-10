@@ -46,7 +46,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2205');
 
-        return $hasil && $this->migrasi_2022050951($hasil);
+        $hasil = $hasil && $this->migrasi_2022050951($hasil);
+
+        return $hasil && $this->migrasi_2022051051($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -58,5 +60,12 @@ class Migrasi_fitur_premium_2206 extends MY_model
         }
 
         return $hasil && $this->db->like('link', 'https://berputar.opendesa.id/')->delete('menu');
+    }
+
+    protected function migrasi_2022051051($hasil)
+    {
+        return $hasil && $this->dbforge->modify_column('keuangan_ta_spj_sisa', [
+            'keterangan' => ['type' => 'text', 'null' => true],
+        ]);
     }
 }

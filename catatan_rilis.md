@@ -8,6 +8,10 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 2. [#4919](https://github.com/OpenSID/OpenSID/issues/4919) Munculkan isian KITAS hanya pada status WNA.
 
 #### Perbaikan BUG
+1. [#5207](https://github.com/OpenSID/OpenSID/issues/5207) Perbaiki gagal impor siskuedes (Error : Data too long for column 'Keterangan' tabel keuangan_ta_spj_sisa).
+2. [#5170](https://github.com/OpenSID/OpenSID/issues/5170) Perbaiki tampilan informasi staf untuk absensi pada modul pengguna.
+3. [#5198](https://github.com/OpenSID/OpenSID/issues/5198) Perbaiki gagal simpan pemudik non domisili pada modul siaga covid-19.
+
 
 #### Perubahan Teknis
 

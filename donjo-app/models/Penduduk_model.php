@@ -930,7 +930,7 @@ class Penduduk_model extends MY_Model
             return;
         }
 
-        unset($data['file_foto'], $data['old_foto'], $data['kk_level_lama'], $data['dusun'], $data['rw'], $data['no_kk']);
+        unset($data['file_foto'], $data['old_foto'], $data['nik_lama'], $data['kk_level_lama'], $data['dusun'], $data['rw'], $data['no_kk']);
 
         $maksud_tujuan = $data['maksud_tujuan_kedatangan'];
         unset($data['maksud_tujuan_kedatangan']);
