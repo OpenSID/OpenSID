@@ -832,15 +832,15 @@
 				$('#wajib_ktp').text('WAJIB');
 				break;
 			case '3':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
 				$("#akta_perceraian").attr('disabled', false);
 				$("input[name=tanggalperceraian]").attr('disabled', false);
 				$('#wajib_ktp').text('WAJIB');
 				break;
 			case '4':
-				$("#akta_perkawinan").attr('disabled', true);
-				$("input[name=tanggalperkawinan]").attr('disabled', true);
+				$("#akta_perkawinan").attr('disabled', false);
+				$("input[name=tanggalperkawinan]").attr('disabled', false);
 				$("#akta_perceraian").attr('disabled', true);
 				$("input[name=tanggalperceraian]").attr('disabled', true);
 				$('#wajib_ktp').text('WAJIB');
