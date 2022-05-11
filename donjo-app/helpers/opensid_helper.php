@@ -51,7 +51,7 @@ define('VERSION', '22.05-premium-rev01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022051051');
+define('VERSI_DATABASE', '2022051171');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -79,6 +79,7 @@ define('LOKASI_PRODUK', 'desa/upload/produk/');
 define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
 define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+define('LATAR_KEHADIRAN', 'desa/pengaturan/siteman/images/');
 define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 
 // Sistem

@@ -47,8 +47,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2205');
 
         $hasil = $hasil && $this->migrasi_2022050951($hasil);
+        $hasil = $hasil && $this->migrasi_2022051051($hasil);
 
-        return $hasil && $this->migrasi_2022051051($hasil);
+        return $hasil && $this->migrasi_2022051171($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -66,6 +67,18 @@ class Migrasi_fitur_premium_2206 extends MY_model
     {
         return $hasil && $this->dbforge->modify_column('keuangan_ta_spj_sisa', [
             'keterangan' => ['type' => 'text', 'null' => true],
+        ]);
+    }
+
+    protected function migrasi_2022051171($hasil)
+    {
+        // Tambahkan Pengaturan latar kehadiran
+        return $hasil && $this->tambah_setting([
+            'key'        => 'latar_kehadiran',
+            'value'      => null,
+            'keterangan' => 'Latar Kehadiran',
+            'jenis'      => 'unggah',
+            'kategori'   => 'kehadiran',
         ]);
     }
 }

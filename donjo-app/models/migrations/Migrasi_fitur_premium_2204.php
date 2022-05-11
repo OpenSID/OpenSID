@@ -413,7 +413,7 @@ class Migrasi_fitur_premium_2204 extends MY_model
         $hasil = $hasil && $this->tambah_setting([
             'key'        => 'tampilkan_kehadiran',
             'value'      => 1,
-            'keterangan' => 'Aktif / Non-aktifkan Halaman Websiten Kehadiran',
+            'keterangan' => 'Aktif / Non-aktifkan Halaman Website Kehadiran',
             'jenis'      => 'boolean',
             'kategori'   => 'kehadiran',
         ]);

@@ -69,6 +69,18 @@ if (! function_exists('view')) {
             return $factory;
         }
 
+        $factory->directive('selected', static function ($condition) {
+            return "<?php if({$condition}): echo 'selected'; endif; ?>";
+        });
+
+        $factory->directive('checked', static function ($condition) {
+            return "<?php if({$condition}): echo 'checked'; endif; ?>";
+        });
+
+        $factory->directive('disabled', static function ($condition) {
+            return "<?php if({$condition}): echo 'disabled'; endif; ?>";
+        });
+
         $factory->share([
             'auth'         => $CI->session->isAdmin,
             'controller'   => $CI->controller,
