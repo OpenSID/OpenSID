@@ -739,7 +739,7 @@ function delete_col(&$array, $offset)
 function get_pesan_opendk()
 {
     $ci = &get_instance();
-    if (! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) {
+    if ((! $ci->db->table_exists('pesan') && ! $ci->db->table_exists('pesan_detail')) || empty($ci->setting->api_opendk_key)) {
         return;
     }
     $model_pesan        = new \App\Models\Pesan();
