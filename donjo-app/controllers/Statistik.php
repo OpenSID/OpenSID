@@ -351,7 +351,7 @@ class Statistik extends Admin_Controller
 
     public function chart_gis_desa($lap = 0, $desa = '')
     {
-        ($desa) ? $this->session->set_userdata('desa', underscore($dusun, false))) : $this->session->unset_userdata('desa');
+        ($desa) ? $this->session->set_userdata('desa', underscore($desa, false)) : $this->session->unset_userdata('desa');
         $this->session->unset_userdata('dusun');
         $this->session->unset_userdata('rw');
         $this->session->unset_userdata('rt');
