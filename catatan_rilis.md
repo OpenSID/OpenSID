@@ -7,6 +7,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 1. [#34](https://github.com/OpenSID/wiki-layanan-opendesa/issues/34) Sesuaikan aturan mengaktifkan pemesanan layanan OpenSID.
 2. [#4919](https://github.com/OpenSID/OpenSID/issues/4919) Munculkan isian KITAS hanya pada status WNA.
 3. [#5132](https://github.com/OpenSID/OpenSID/issues/5132) Sediakan pengaturan untuk mengganti latar halaman rekam kehadiran.
+4. [#5127](https://github.com/OpenSID/OpenSID/issues/5127) Wajibkan isian alamat sebelumnya pada penambahan penduduk datang / masuk.
+
 
 #### Perbaikan BUG
 1. [#5207](https://github.com/OpenSID/OpenSID/issues/5207) Perbaiki gagal impor siskuedes (Error : Data too long for column 'Keterangan' tabel keuangan_ta_spj_sisa).

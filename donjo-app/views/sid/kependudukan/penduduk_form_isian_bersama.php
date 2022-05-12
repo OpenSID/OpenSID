@@ -460,7 +460,7 @@
 	<div class='col-sm-12'>
 		<div class='form-group'>
 			<label for="alamat_sebelumnya">Alamat Sebelumnya </label>
-			<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm nomor_sk" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya'] ?>"></input>
+			<input id="alamat_sebelumnya" name="alamat_sebelumnya" class="form-control input-sm nomor_sk <?= jecho($jenis_peristiwa, 5, 'required') ?>" maxlength="200" type="text" placeholder="Alamat Sebelumnya" value="<?= $penduduk['alamat_sebelumnya'] ?>"></input>
 		</div>
 	</div>
 	<?php if (! $penduduk['no_kk'] && ! $kk_baru) : ?>
