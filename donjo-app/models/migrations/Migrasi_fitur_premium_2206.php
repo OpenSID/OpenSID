@@ -48,8 +48,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
 
         $hasil = $hasil && $this->migrasi_2022050951($hasil);
         $hasil = $hasil && $this->migrasi_2022051051($hasil);
+        $hasil = $hasil && $this->migrasi_2022051171($hasil);
 
-        return $hasil && $this->migrasi_2022051171($hasil);
+        return $hasil && $this->migrasi_2022051271($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -78,6 +79,17 @@ class Migrasi_fitur_premium_2206 extends MY_model
             'value'      => null,
             'keterangan' => 'Latar Kehadiran',
             'jenis'      => 'unggah',
+            'kategori'   => 'kehadiran',
+        ]);
+    }
+
+    protected function migrasi_2022051271($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'id_pengunjung_kehadiran',
+            'value'      => '',
+            'keterangan' => 'ID Pengunjung Perangkat Kehadiran',
+            'jenis'      => null,
             'kategori'   => 'kehadiran',
         ]);
     }

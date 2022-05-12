@@ -19,7 +19,7 @@ Library Javascript yang digunakan:
 - https://momentjs.com/, setting waktu yang diperlukan bootstrap-datetimepicker
 - http://jquery.malsup.com/cycle2/, untuk semua slideshow termasuk teks berjalan, widget aparatur desa
 - https://github.com/jhuckaby/webcamjs/, untuk mengambil gambar lewat kamera
-- 
+- https://fingerprintjs.com/, untuk identifikasi perangkat dengan akurasi tinggi untuk seluler dan web
 
 Library PHP yang digunakan:
 

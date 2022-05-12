@@ -87,6 +87,8 @@
                 <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm mac_address" type="text" value="{{ $set->value }}" placeholder="00:1B:44:11:3A:B7" />
               @elseif ($set->key == 'ip_adress_kehadiran')
                 <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm ip_address" type="text" value="{{ $set->value }}" placeholder="127.0.0.1" />
+              @elseif ($set->key == 'id_pengunjung_kehadiran')
+                <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm alfanumerik" type="text" value="{{ $set->value }}" placeholder="ad02c373c2a8745d108aff863712fe92" />
               @else
                 <input id="{{ $set->key }}" name="{{ $set->key }}" class="form-control input-sm {{ jecho($set->jenis == 'int', false, 'digits') }}" type="text" value="{{ $set->value }}" @disabled($set->kategori == 'readonly')></input>
               @endif
@@ -104,6 +106,7 @@
 </form>
 
 @push('scripts')
+<script src="{{ asset('js/validasi.js') }}"></script>
 <script>
   $(document).ready(function() {
     $("#main_setting").validate();

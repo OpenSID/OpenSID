@@ -14,6 +14,7 @@
                 @if($mac_address)
                     <h5> MAC Address : {{ $mac_address }}</h5>
                 @endif
+                <h5> ID Pengunjung : {{ $id_pengunjung }}</h5>
             </div>
         </div>
         <div class="col-xm-12 col-sm-2"></div>
@@ -65,5 +66,38 @@
         }
         startTime();
     });
+
+    $(document).ready(function () { 
+        // Initialize the agent at application startup.
+        const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3')
+            .then(FingerprintJS => FingerprintJS.load())
+
+        // Get the visitor identifier when you need it.
+        fpPromise
+            .then(fp => fp.get())
+            .then(result => {
+            // This is the visitor identifier:
+            const browserId = result.visitorId
+            createCookie("pengunjung", browserId, "1");
+            })
+        });
+
+        // Function to create the cookie 
+        function createCookie(name, value, days) { 
+        var expires; 
+
+        if (days) { 
+            var date = new Date(); 
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
+            expires = "; expires=" + date.toGMTString(); 
+        } 
+
+        else { 
+            expires = ""; 
+        } 
+
+        document.cookie = escape(name) + "=" +  
+        escape(value) + expires + "; path=/"; 
+        } 
 </script>
 @endpush

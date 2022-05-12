@@ -136,6 +136,10 @@ class Setting_model extends MY_Model
                     $value = trim($value);
                 }
 
+                if ($key == 'id_pengunjung_kehadiran') {
+                    $value = alfanumerik(trim($value));
+                }
+
                 $this->update($key, $value);
                 $this->setting->{$key} = $value;
                 if ($key == 'enable_track') {
