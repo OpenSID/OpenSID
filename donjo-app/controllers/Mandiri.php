@@ -98,7 +98,7 @@ class Mandiri extends Admin_Controller
     public function ajax_pin($id_pend = '')
     {
         session_error_clear();
-        
+
         $this->redirect_hak_akses('u');
         $data['penduduk'] = $this->mandiri_model->list_penduduk();
 

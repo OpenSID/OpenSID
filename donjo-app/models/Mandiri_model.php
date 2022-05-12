@@ -495,9 +495,9 @@ class Mandiri_model extends CI_Model
         $this->session->aktif = false;
 
         if (akun_demo($data->id_pend, false)) {
-            $data->pin = hash_pin(config_item('demo_akun')[$data->id_pend]);
+            $data->pin       = hash_pin(config_item('demo_akun')[$data->id_pend]);
             $data->ganti_pin = 1;
-            $data->aktif = 1;
+            $data->aktif     = 1;
         }
 
         if ($data->aktif == 1) {
@@ -550,7 +550,7 @@ class Mandiri_model extends CI_Model
 
         if (akun_demo($data->id_pend, false)) {
             $data->ganti_pin = 1;
-            $data->aktif = 1;
+            $data->aktif     = 1;
         }
 
         if ($data->aktif == 1) {
