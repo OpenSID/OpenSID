@@ -108,7 +108,7 @@ class Beranda extends Mandiri_Controller
 
     public function proses_ganti_pin()
     {
-        $data = $this->mandiri_model->ganti_pin();
+        $this->mandiri_model->ganti_pin();
         redirect('layanan-mandiri/ganti-pin');
     }
 

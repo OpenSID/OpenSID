@@ -280,3 +280,23 @@ if (! function_exists('underscore')) {
         return $str;
     }
 }
+
+if (! function_exists('akun_demo')) {
+    /**
+     * Membuat batasan agar akun demo tidak dapat dihapus pada demo_mode
+     *
+     * @param int $id
+     */
+    function akun_demo($id, $redirect = true)
+    {
+        if (config_item('demo_mode') && in_array($id, array_keys(config_item('demo_akun')))) {
+
+            if ($redirect) {
+                session_error(', tidak dapat mengubah / menghapus akun demo');
+                redirect($_SERVER['HTTP_REFERER']);
+            }
+            
+            return true;
+        }
+    }
+}
