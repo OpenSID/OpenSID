@@ -175,7 +175,7 @@ if (! function_exists('setting')) {
     {
         $getSetting = get_instance()->setting;
 
-        if ($params && $getSetting->{$params}) {
+        if ($params && property_exists($getSetting, $params)) {
             return $getSetting->{$params};
         }
 
