@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 5. [#4883](https://github.com/OpenSID/OpenSID/issues/4883) Perbaiki tombol kembali pada arsip desa untuk dokumen penduduk.
 6. [#5217](https://github.com/OpenSID/OpenSID/issues/5217) Perbaiki pengaturan aktif/nonaktifkan halaman kehadiran yang tidak berfungsi.
 7. [#5214](https://github.com/OpenSID/OpenSID/issues/5214) Perbaiki daftar dokumen surat keterangan kematian yang tampil tidak sesuai.
+8. [#5176](https://github.com/OpenSID/OpenSID/issues/5176) Perbaiki akta perkawinan dan tanggal menikah ikut terhapus ketika status status kawin diubah menjadi cerai hidup / cerai mati.
 
 #### Perubahan Teknis
 
@@ -31,3 +32,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 4. Penyesuaian pengecekan rilis aplikasi OpenSID Premium dan Umum.
 5. Penyesuaian repositori rilis premium dari berputar menjadi rilis-premium.
 6. Lewati ganti passwod default untuk ENVIRONMENT Development.
+7. Pindahkan versi kirim aplikasi ke layanan hanya jika melakukan migrasi.

@@ -284,8 +284,6 @@ class Premium extends MY_Controller
             redirect('peringatan');
         }
 
-        $this->kirimVersi();
-
         $this->session->unset_userdata(['error_premium', 'error_premium_pesan']);
     }
 
@@ -379,30 +377,6 @@ class Premium extends MY_Controller
                 ->getBody();
         } catch (Exception $e) {
             log_message('error', $e);
-        }
-    }
-
-    private function kirimVersi()
-    {
-        $this->load->driver('cache');
-
-        $versi = AmbilVersi();
-
-        if ($versi != $this->cache->file->get('versi_app_cache')) {
-            try {
-                $client = new \GuzzleHttp\Client();
-                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
-                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
-                    'form_params' => [
-                        'kode_desa' => kode_wilayah($this->header['desa']['kode_desa']),
-                        'versi'     => $versi,
-                    ],
-                ])
-                    ->getBody();
-                $this->cache->file->save('versi_app_cache', $versi);
-            } catch (Exception $e) {
-                log_message('error', $e);
-            }
         }
     }
 }
