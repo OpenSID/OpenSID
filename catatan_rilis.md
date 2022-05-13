@@ -25,3 +25,4 @@ Terima kasih pada  [untuk diisi] yang terus berkontribusi. Terima kasih pula pad
 5. Penyesuaian repositori rilis premium dari berputar menjadi rilis-premium.
 6. Lewati ganti passwod default untuk ENVIRONMENT Development.
 7. Pindahkan versi kirim aplikasi ke layanan hanya jika melakukan migrasi.
+8. Sesuaikan tampilan halaman home.
