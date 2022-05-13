@@ -150,8 +150,7 @@ class Surat extends Admin_Controller
 
         if ($id) {
             $log_surat['id_pend'] = $id;
-            $nik                  = $this->db->select('nik')->where('id', $id)->get('tweb_penduduk')
-                ->row()->nik;
+            $nik                  = $this->db->select('nik')->where('id', $id)->get('tweb_penduduk')->row()->nik;
         } else {
             // Surat untuk non-warga
             $log_surat['nama_non_warga'] = $_POST['nama_non_warga'];
@@ -168,7 +167,11 @@ class Surat extends Admin_Controller
         }
         $this->keluar_model->log_surat($log_surat);
 
-        $nama_surat = $this->surat_model->buat_surat($url, $nama_surat, $lampiran);
+        $surat      = $this->surat_model->buat_surat($url, $nama_surat, $lampiran);
+        $nama_surat = $surat['namaSurat'];
+
+        // Update urls_id log_surat (untuk link qrcode)
+        $this->db->where('nama_surat', $nama_surat)->update('log_surat', ['urls_id' => $surat['qrCode']['urls_id']]);
 
         if (function_exists('exec') && $this->input->post('submit_cetak') == 'cetak_pdf') {
             $nama_surat = $this->surat_model->rtf_to_pdf($nama_surat);

@@ -130,47 +130,22 @@ class Setting extends Admin_Controller
         $this->render('setting/setting_form', $data);
     }
 
-    public function qrcode($aksi = '', $file = '')
+    public function qrcode($aksi = '')
     {
-        switch ($aksi) {
-            case 'clear':
-                $this->session->unset_userdata('qrcode');
-                redirect('setting/qrcode');
+        $this->modul_ini     = 11;
+        $this->sub_modul_ini = 212;
 
-                // no break
-            case 'hapus':
-                $this->redirect_hak_akses_url('u');
-                unlink(LOKASI_MEDIA . '' . $file . '.png');
-                redirect('setting/qrcode/clear');
+        $data['qrcode']        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000']; // Default
+        $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
+        $data['list_sizeqr']   = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
 
-                // no break
-            case 'unduh':
-                $this->load->helper('download');
-                force_download(LOKASI_MEDIA . $file . '.png', null);
-                redirect('setting/qrcode');
-
-                // no break
-            default:
-                $this->modul_ini     = 11;
-                $this->sub_modul_ini = 212;
-
-                $data['qrcode']        = $this->session->qrcode ?: $qrcode        = ['changeqr' => '1', 'sizeqr' => '6', 'foreqr' => '#000000'];
-                $data['list_changeqr'] = ['Otomatis (Logo Desa)', 'Manual'];
-                $data['list_sizeqr']   = ['25', '50', '75', '100', '125', '150', '175', '200', '225', '250'];
-
-                $this->render('setting/setting_qr', $data);
-
-                break;
-        }
+        $this->render('setting/setting_qr', $data);
     }
 
     public function qrcode_generate()
     {
         $this->redirect_hak_akses_url('u');
-        $pathqr   = LOKASI_MEDIA; // Lokasi default simpan file qrcode
         $post     = $this->input->post();
-        $namaqr   = $post['namaqr']; // Nama file gambar asli
-        $namaqr1  = str_replace(' ', '_', nama_terbatas($namaqr)); // Nama file gambar yg akan disimpan
         $changeqr = $post['changeqr'];
 
         // $logoqr = yg akan ditampilkan, url
@@ -178,7 +153,7 @@ class Setting extends Admin_Controller
         if ($changeqr == '1') {
             $desa = $this->header['desa'];
             // Ambil absolute path, bukan url
-            $logoqr1 = gambar_desa($desa['logo'], false, $file = true);
+            $logoqr1 = gambar_desa($desa['logo'], false, true);
         } else {
             $logoqr = $post['logoqr'];
             // Ubah url (http) menjadi absolute path ke file di lokasi media
@@ -188,24 +163,15 @@ class Setting extends Admin_Controller
         }
 
         $qrcode = [
-            'namaqr'   => $namaqr, // Nama file
-            'namaqr1'  => $namaqr1, // Nama file untuk download
             'isiqr'    => $post['isiqr'], // Isi / arti dr qrcode
             'changeqr' => $changeqr, // Pilihan jenis sisipkan logo
             'logoqr'   => $logoqr,
             'sizeqr'   => bilangan($post['sizeqr']), // Ukuran qrcode
             'foreqr'   => $post['foreqr'],
-            'pathqr'   => base_url(LOKASI_MEDIA . '' . $namaqr1 . '.png'), // Tampilkan gambar qrcode
         ];
 
-        $this->session->qrcode = $qrcode;
+        $base64 = qrcode_generate($qrcode['isiqr'], $logoqr1, $qrcode['sizeqr'], $qrcode['foreqr'], true);
 
-        if ($post) {
-            $this->session->success = 1;
-            $data                   = qrcode_generate($pathqr, $namaqr1, $qrcode['isiqr'], $logoqr1, $qrcode['sizeqr'], $qrcode['foreqr']);
-            echo json_encode($data);
-        } else {
-            $this->session->success = -1;
-        }
+        json($base64);
     }
 }

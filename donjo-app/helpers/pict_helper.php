@@ -793,9 +793,12 @@ function periksa_file($upload, $mime_types, $exts)
     return '';
 }
 
-function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
+function qrcode_generate(array $qrcode = [], $base64 = false)
 {
-    $barcodeobj = new TCPDF2DBarcode($isiqr, 'QRCODE,H');
+    $sizeqr = $qrcode['sizeqr'];
+    $foreqr = $qrcode['foreqr'];
+
+    $barcodeobj = new TCPDF2DBarcode($qrcode['isiqr'], 'QRCODE,H');
 
     if (! empty($foreqr)) {
         if ($foreqr[0] == '#') {
@@ -809,7 +812,7 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
 
     //Hasilkan QRCode
     $imgData  = $barcodeobj->getBarcodePngData($sizeqr, $sizeqr, [$r, $g, $b]);
-    $filename = FCPATH . $pathqr . $namaqr . '.png';
+    $filename = sys_get_temp_dir() . '\qrcode_' . date('Y_m_d_H_i_s') . '_temp.png';
     file_put_contents($filename, $imgData);
 
     //Ubah backround transparan ke warna putih supaya terbaca qrcode scanner
@@ -827,7 +830,7 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
     imagedestroy($backcol);
 
     //Tambah Logo
-    $logopath = $logoqr; // Logo yg tampil di tengah QRCode
+    $logopath = $qrcode['logoqr']; // Logo yg tampil di tengah QRCode
     $QR       = imagecreatefrompng($filename);
     $logo     = imagecreatefromstring(file_get_contents($logopath));
     imagecolortransparent($logo, imagecolorallocatealpha($logo, 0, 0, 0, 127));
@@ -840,9 +843,16 @@ function qrcode_generate($pathqr, $namaqr, $isiqr, $logoqr, $sizeqr, $foreqr)
     $logo_qr_width  = $QR_width / 4;
     $scale          = $logo_width / $logo_qr_width;
     $logo_qr_height = $logo_height / $scale;
-    imagecopyresampled($QR, $logo, $QR_width / 2.5, $QR_height / 2.5, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+    $from_width     = ($QR_width - $logo_qr_width) / 2;
+    imagecopyresampled($QR, $logo, $from_width, $from_width, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
     imagepng($QR, $filename);
     imagedestroy($QR);
+
+    if ($base64) {
+        return 'data:image/png;base64,' . base64_encode(file_get_contents($filename));
+    }
+
+    return $filename;
 }
 
 function upload_foto_penduduk($id, $nik)

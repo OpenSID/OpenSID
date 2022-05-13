@@ -49,8 +49,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
         $hasil = $hasil && $this->migrasi_2022050951($hasil);
         $hasil = $hasil && $this->migrasi_2022051051($hasil);
         $hasil = $hasil && $this->migrasi_2022051171($hasil);
+        $hasil = $hasil && $this->migrasi_2022051271($hasil);
 
-        return $hasil && $this->migrasi_2022051271($hasil);
+        return $hasil && $this->migrasi_2022051371($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -92,5 +93,52 @@ class Migrasi_fitur_premium_2206 extends MY_model
             'jenis'      => null,
             'kategori'   => 'kehadiran',
         ]);
+    }
+
+    protected function migrasi_2022051371($hasil)
+    {
+        $hasil = $hasil && $this->hapusFileQrCode($hasil);
+
+        return $hasil && $this->perbaikiTabelUrls($hasil);
+    }
+
+    protected function hapusFileQrCode($hasil)
+    {
+        $log_surat = $this->db->get('log_surat')->result();
+
+        if ($log_surat) {
+            foreach ($log_surat as $log) {
+                unlink(LOKASI_MEDIA . pathinfo($log->nama_surat, PATHINFO_FILENAME) . '.png');
+            }
+        }
+
+        return $hasil;
+    }
+
+    protected function perbaikiTabelUrls($hasil)
+    {
+        // Tambahkan kolom urls_id pada tabel log_surat
+        if (! $this->db->field_exists('urls_id', 'log_surat')) {
+            $fields = [
+                'urls_id' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'unique'     => true,
+                    'null'       => true,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        $dataUrl = $this->db->get('urls')->result();
+
+        if ($dataUrl) {
+            foreach ($dataUrl as $data) {
+                $urlsId = str_replace([site_url('c1/'), 'index.php'], '', $data->url);
+                $hasil  = $hasil && $this->db->where('id', $urlsId)->update('log_surat', ['urls_id' => $data->id]);
+            }
+        }
+
+        return $hasil;
     }
 }
