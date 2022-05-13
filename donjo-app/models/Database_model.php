@@ -202,6 +202,9 @@ class Database_model extends MY_Model
         $this->catat_versi_database();
         $this->load->model('track_model');
         $this->track_model->kirim_data();
+        if (empty($this->session->error_premium) && PREMIUM) {
+            $this->kirimVersi();
+        }
     }
 
     private function catat_versi_database()
@@ -3632,5 +3635,29 @@ class Database_model extends MY_Model
         $data  = $query->result_array();
 
         return array_column($data, 'TABLE_NAME');
+    }
+
+    private function kirimVersi()
+    {
+        $this->load->driver('cache');
+
+        $versi = AmbilVersi();
+
+        if ($versi != $this->cache->file->get('versi_app_cache')) {
+            try {
+                $client = new \GuzzleHttp\Client();
+                $client->post(config_item('server_layanan') . '/api/v1/pelanggan/catat-versi', [
+                    'headers'     => ['X-Requested-With' => 'XMLHttpRequest'],
+                    'form_params' => [
+                        'kode_desa' => kode_wilayah($this->header['desa']['kode_desa']),
+                        'versi'     => $versi,
+                    ],
+                ])
+                    ->getBody();
+                $this->cache->file->save('versi_app_cache', $versi);
+            } catch (Exception $e) {
+                log_message('error', $e);
+            }
+        }
     }
 }
