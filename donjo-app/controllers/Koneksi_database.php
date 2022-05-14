@@ -37,25 +37,19 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Config_model extends CI_Model
+class Koneksi_database extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
     }
 
-    // Digunakan dibanyak tempat
-    public function get_data()
+    public function index()
     {
-        $this->db->reset_query(); // TODO: cari query yg menggantung terkait pemanggilan first/dpt
+        if ($this->session->db_error['code'] !== 1049) {
+            redirect(site_url());
+        }
 
-        return $this->db
-            ->select('c.*, u.pamong_nip AS nip_kepala_desa')
-            ->select('(case when p.nama is not null then p.nama else u.pamong_nama end) AS nama_kepala_desa')
-            ->from('config c')
-            ->join('tweb_desa_pamong u', 'c.pamong_id = u.pamong_id', 'left')
-            ->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
-            ->get()
-            ->row_array();
+        return view('periksa.koneksi');
     }
 }

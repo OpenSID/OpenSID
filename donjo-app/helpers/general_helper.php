@@ -81,27 +81,32 @@ if (! function_exists('view')) {
             return "<?php if({$condition}): echo 'disabled'; endif; ?>";
         });
 
-        $factory->share([
-            'auth'         => $CI->session->isAdmin,
-            'controller'   => $CI->controller,
-            'desa'         => \App\Models\Config::first(),
-            'list_setting' => $CI->list_setting,
-            'modul'        => $CI->header['modul'],
-            'modul_ini'    => $CI->modul_ini,
-            'notif'        => [
-                'surat'       => $CI->header['notif_permohonan_surat'],
-                'opendkpesan' => $CI->header['notif_pesan_opendk'],
-                'inbox'       => $CI->header['notif_inbox'],
-                'komentar'    => $CI->header['notif_komentar'],
-                'langganan'   => $CI->header['notif_langganan'],
-                'pengumuman'  => $CI->header['notif_pengumuman'],
-            ],
-            'kategori'      => $CI->header['kategori'],
-            'sub_modul_ini' => $CI->sub_modul_ini,
-            'session'       => $CI->session,
-            'setting'       => $CI->setting,
-            'token'         => $CI->security->get_csrf_token_name(),
-        ]);
+        if ($CI->session->db_error['code'] === 1049) {
+            $CI->session->error_db = null;
+            $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
+        } else {
+            $factory->share([
+                'auth'         => $CI->session->isAdmin,
+                'controller'   => $CI->controller,
+                'desa'         => \App\Models\Config::first(),
+                'list_setting' => $CI->list_setting,
+                'modul'        => $CI->header['modul'],
+                'modul_ini'    => $CI->modul_ini,
+                'notif'        => [
+                    'surat'       => $CI->header['notif_permohonan_surat'],
+                    'opendkpesan' => $CI->header['notif_pesan_opendk'],
+                    'inbox'       => $CI->header['notif_inbox'],
+                    'komentar'    => $CI->header['notif_komentar'],
+                    'langganan'   => $CI->header['notif_langganan'],
+                    'pengumuman'  => $CI->header['notif_pengumuman'],
+                ],
+                'kategori'      => $CI->header['kategori'],
+                'sub_modul_ini' => $CI->sub_modul_ini,
+                'session'       => $CI->session,
+                'setting'       => $CI->setting,
+                'token'         => $CI->security->get_csrf_token_name(),
+            ]);
+        }
 
         echo $factory->render($view, $data, $mergeData);
     }

@@ -284,29 +284,34 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.1.2",
-            "version_normalized": "6.1.2.0",
+            "version": "v6.2.0",
+            "version_normalized": "6.2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "c297139da7c6873dbd67cbd1093f09ec0bbd0c50"
+                "reference": "d28e6df83830252650da4623c78aaaf98fb385f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/c297139da7c6873dbd67cbd1093f09ec0bbd0c50",
-                "reference": "c297139da7c6873dbd67cbd1093f09ec0bbd0c50",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/d28e6df83830252650da4623c78aaaf98fb385f3",
+                "reference": "d28e6df83830252650da4623c78aaaf98fb385f3",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1||^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5||9.5"
+                "guzzlehttp/guzzle": "^6.5||^7.4",
+                "phpspec/prophecy-phpunit": "^1.1",
+                "phpunit/phpunit": "^7.5||^9.5",
+                "psr/cache": "^1.0||^2.0",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0"
             },
             "suggest": {
                 "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
             },
-            "time": "2022-04-21T14:37:18+00:00",
+            "time": "2022-05-13T20:54:50+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -338,7 +343,7 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.1.2"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.2.0"
             },
             "install-path": "../firebase/php-jwt"
         },
@@ -418,17 +423,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.247.0",
-            "version_normalized": "0.247.0.0",
+            "version": "v0.248.0",
+            "version_normalized": "0.248.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "1fc6eab7512b4e2dd4b6c96b2697f9b6bfbaddc2"
+                "reference": "5967583706b1b09c49d04e3c1c3c05e459b0767e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/1fc6eab7512b4e2dd4b6c96b2697f9b6bfbaddc2",
-                "reference": "1fc6eab7512b4e2dd4b6c96b2697f9b6bfbaddc2",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/5967583706b1b09c49d04e3c1c3c05e459b0767e",
+                "reference": "5967583706b1b09c49d04e3c1c3c05e459b0767e",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +442,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2022-05-02T01:12:12+00:00",
+            "time": "2022-05-09T01:06:12+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -459,7 +464,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.247.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.248.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -858,8 +863,8 @@
         },
         {
             "name": "illuminate/bus",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/bus.git",
@@ -914,8 +919,8 @@
         },
         {
             "name": "illuminate/collections",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/collections.git",
@@ -971,8 +976,8 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -1025,8 +1030,8 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -1076,17 +1081,17 @@
         },
         {
             "name": "illuminate/database",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/database.git",
-                "reference": "5a09b780d86613127cddbeb05e4dde22aeccbedf"
+                "reference": "cb2696e8f41e3770f1f30d623aebbb73644f34d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/database/zipball/5a09b780d86613127cddbeb05e4dde22aeccbedf",
-                "reference": "5a09b780d86613127cddbeb05e4dde22aeccbedf",
+                "url": "https://api.github.com/repos/illuminate/database/zipball/cb2696e8f41e3770f1f30d623aebbb73644f34d9",
+                "reference": "cb2696e8f41e3770f1f30d623aebbb73644f34d9",
                 "shasum": ""
             },
             "require": {
@@ -1108,7 +1113,7 @@
                 "illuminate/pagination": "Required to paginate the result set (^8.0).",
                 "symfony/finder": "Required to use Eloquent model factories (^5.4)."
             },
-            "time": "2022-04-07T15:04:12+00:00",
+            "time": "2022-05-06T13:44:23+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1147,8 +1152,8 @@
         },
         {
             "name": "illuminate/events",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/events.git",
@@ -1205,8 +1210,8 @@
         },
         {
             "name": "illuminate/filesystem",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/filesystem.git",
@@ -1270,8 +1275,8 @@
         },
         {
             "name": "illuminate/macroable",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/macroable.git",
@@ -1319,8 +1324,8 @@
         },
         {
             "name": "illuminate/pagination",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pagination.git",
@@ -1372,8 +1377,8 @@
         },
         {
             "name": "illuminate/pipeline",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/pipeline.git",
@@ -1423,17 +1428,17 @@
         },
         {
             "name": "illuminate/support",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "3f1de19528fc235d666f73d540d13a684da6bf3a"
+                "reference": "89245b6e19017f627a35af3874ad9251b76b02cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/3f1de19528fc235d666f73d540d13a684da6bf3a",
-                "reference": "3f1de19528fc235d666f73d540d13a684da6bf3a",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/89245b6e19017f627a35af3874ad9251b76b02cc",
+                "reference": "89245b6e19017f627a35af3874ad9251b76b02cc",
                 "shasum": ""
             },
             "require": {
@@ -1458,7 +1463,7 @@
                 "symfony/var-dumper": "Required to use the dd function (^5.4).",
                 "vlucas/phpdotenv": "Required to use the Env class and env helper (^5.4.1)."
             },
-            "time": "2022-04-11T14:26:37+00:00",
+            "time": "2022-05-09T16:28:53+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1494,8 +1499,8 @@
         },
         {
             "name": "illuminate/view",
-            "version": "v8.83.11",
-            "version_normalized": "8.83.11.0",
+            "version": "v8.83.12",
+            "version_normalized": "8.83.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/view.git",
@@ -1728,17 +1733,17 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.5.0",
-            "version_normalized": "2.5.0.0",
+            "version": "2.6.0",
+            "version_normalized": "2.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "4192345e260f1d51b365536199744b987e160edc"
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/4192345e260f1d51b365536199744b987e160edc",
-                "reference": "4192345e260f1d51b365536199744b987e160edc",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/247918972acd74356b0a91dfaa5adcaec069b6c0",
+                "reference": "247918972acd74356b0a91dfaa5adcaec069b6c0",
                 "shasum": ""
             },
             "require": {
@@ -1751,18 +1756,23 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
                 "doctrine/couchdb": "~1.0@dev",
-                "elasticsearch/elasticsearch": "^7",
+                "elasticsearch/elasticsearch": "^7 || ^8",
+                "ext-json": "*",
                 "graylog2/gelf-php": "^1.4.2",
+                "guzzlehttp/guzzle": "^7.4",
+                "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
                 "php-console/php-console": "^3.1.3",
-                "phpspec/prophecy": "^1.6.1",
+                "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
-                "phpunit/phpunit": "^8.5",
+                "phpunit/phpunit": "^8.5.14",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3 || ^2 || ^3",
-                "ruflin/elastica": ">=0.90@dev",
-                "swiftmailer/swiftmailer": "^5.3|^6.0"
+                "ruflin/elastica": "^7",
+                "swiftmailer/swiftmailer": "^5.3|^6.0",
+                "symfony/mailer": "^5.4 || ^6",
+                "symfony/mime": "^5.4 || ^6"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -1781,7 +1791,7 @@
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
-            "time": "2022-04-08T15:43:54+00:00",
+            "time": "2022-05-10T09:36:00+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1814,7 +1824,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.5.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.6.0"
             },
             "funding": [
                 {

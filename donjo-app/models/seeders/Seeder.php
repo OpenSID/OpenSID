@@ -37,25 +37,51 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Config_model extends CI_Model
+/*
+| Class ini digunakan untuk mengisi data awal pada waktu install.
+| Jika koneksi database gagal akan diarahkan ke donjo-app/controllers/Periksa.php/koneksi_database
+| melalui exception yang diproses oleh show_error() di donjo-app/core/MY_Exceptions.php.
+*/
+
+class Seeder extends CI_Model
 {
     public function __construct()
     {
         parent::__construct();
+
+        // TODO :: Ganti cara lama untuk membuat folder desa
+        // Buat folder desa kalau belum ada
+        $this->load->model('folder_desa_model', 'folder_desa');
+        $this->folder_desa->periksa_folder_desa();
+
+        // Untuk kasus koneksi database gagal
+        if ($this->db) {
+            $this->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);
+        } elseif (! $this->session->sudah_mulai) {
+            $this->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception']);
+            $this->session->sudah_mulai = true;
+        }
+
+        if ($this->session->db_error) {
+            return;
+        }
+
+        $this->load->database();
+        if (empty($this->db->list_tables())) {
+            $this->run();
+        }
     }
 
-    // Digunakan dibanyak tempat
-    public function get_data()
+    public function run()
     {
-        $this->db->reset_query(); // TODO: cari query yg menggantung terkait pemanggilan first/dpt
+        $this->load->model('seeders/data_awal_seeder', 'data_awal');
+        $this->data_awal->run();
 
-        return $this->db
-            ->select('c.*, u.pamong_nip AS nip_kepala_desa')
-            ->select('(case when p.nama is not null then p.nama else u.pamong_nama end) AS nama_kepala_desa')
-            ->from('config c')
-            ->join('tweb_desa_pamong u', 'c.pamong_id = u.pamong_id', 'left')
-            ->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
-            ->get()
-            ->row_array();
+        // Database perlu dibuka ulang supaya cachenya berfungsi benar setelah diubah
+        $this->db->close();
+        $this->load->database();
+        $this->load->model('database_model');
+        $this->database_model->impor_data_awal_analisis();
+        $this->database_model->cek_migrasi();
     }
 }

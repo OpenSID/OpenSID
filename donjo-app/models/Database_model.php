@@ -1690,8 +1690,6 @@ class Database_model extends MY_Model
 
     private function migrasi_210_ke_211()
     {
-        $this->load->model('analisis_import_model');
-
         // Tambah kolom jenis untuk analisis_master
         $fields = [];
         if (! $this->db->field_exists('jenis', 'analisis_master')) {
@@ -3603,11 +3601,8 @@ class Database_model extends MY_Model
             }
         }
         $this->db->simple_query('SET FOREIGN_KEY_CHECKS=1');
-        // Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
-        $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
-        $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', 1);
-        $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
-        $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', 1);
+
+        $this->impor_data_awal_analisis();
 
         // Kecuali folder
         $exclude = [
@@ -3627,6 +3622,17 @@ class Database_model extends MY_Model
         session_success();
     }
 
+    public function impor_data_awal_analisis()
+    {
+        $this->load->model('analisis_import_model');
+
+        // Tambahkan kembali Analisis DDK Profil Desa dan Analisis DAK Profil Desa
+        $file_analisis = FCPATH . 'assets/import/analisis_DDK_Profil_Desa.xlsx';
+        $this->analisis_import_model->impor_analisis($file_analisis, 'DDK02', 1);
+        $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
+        $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', 1);
+    }
+
     public function get_views()
     {
         $db    = $this->db->database;
@@ -3639,6 +3645,10 @@ class Database_model extends MY_Model
 
     private function kirimVersi()
     {
+        if (empty($this->header['desa']['kode_desa'])) {
+            return;
+        }
+
         $this->load->driver('cache');
 
         $versi = AmbilVersi();

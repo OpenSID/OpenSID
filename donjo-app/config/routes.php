@@ -214,6 +214,9 @@ $route[$mandiri . '/kehadiran/lapor/(:num)'] = MANDIRI . '/kehadiran_perangkat/l
 // Peringatan
 $route['peringatan'] = 'pelanggan/peringatan';
 
+// Koneksi Database
+$route['koneksi-database'] = 'Koneksi_database/index';
+
 // GROUP ROUTES
 foreach (glob(APPPATH . '/config/routes/*.php') as $routes_file) {
     require_once $routes_file;

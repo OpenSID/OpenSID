@@ -12,6 +12,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. [#5147](https://github.com/OpenSID/OpenSID/issues/5147) Sediakan metode pengenalan gawai rekam kehadiran yang lebih aman.
 7. [#5004](https://github.com/OpenSID/OpenSID/issues/5004) Sederhanakan penggunaan qrcode agar tidak membebankan hosting.
 8. [#4895](https://github.com/OpenSID/OpenSID/issues/4895) Sembunyikan harga jual jika status jenis mutasi "Disumbangkan" pada detail mutasi.
+9. [#5014](https://github.com/OpenSID/OpenSID/issues/5014) Sediakan seeder untuk instalasi awal.
 
 
 #### Perbaikan BUG

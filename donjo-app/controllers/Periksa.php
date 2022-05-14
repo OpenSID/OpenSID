@@ -46,6 +46,11 @@ class Periksa extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+
+        if ($this->session->db_error['code'] === 1049) {
+            redirect('koneksi-database');
+        }
+
         $this->load->model(['periksa_model', 'user_model']);
         $this->header = Config::first();
     }
