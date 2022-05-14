@@ -87,7 +87,7 @@ $finder = Symfony\Component\Finder\Finder::create()
         __DIR__ . '/.php-cs-fixer.php',
     ])
     ->name('*.php')
-    ->notName('*.blade.php')
+    ->notName(['*.blade.php', 'Data_awal_seeder.php'])
     ->ignoreDotFiles(true)
     ->ignoreVCS(true);
 
