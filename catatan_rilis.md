@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 8. [#4895](https://github.com/OpenSID/OpenSID/issues/4895) Sembunyikan harga jual jika status jenis mutasi "Disumbangkan" pada detail mutasi.
 9. [#5014](https://github.com/OpenSID/OpenSID/issues/5014) Sediakan seeder untuk instalasi awal.
 10. [#302](https://github.com/OpenSID/OpenDK/issues/302) Kirim peta desa ke OpenDK.
+11. [#5085](https://github.com/OpenSID/OpenSID/issues/5085) Tambah captcha pada fitur lupa password siteman.
 
 
 #### Perbaikan BUG
