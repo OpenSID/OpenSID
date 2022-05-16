@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-issue-5014-squash',
-        'version' => 'dev-issue-5014-squash',
+        'pretty_version' => 'dev-bug-fix',
+        'version' => 'dev-bug-fix',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'bd3c7e01a71ad6e902a9dc5eb3a2b3040aea5e53',
+        'reference' => '4d0c81ed5306e272fd033981b1dca53e4cf7f417',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -65,12 +65,12 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.248.0',
-            'version' => '0.248.0.0',
+            'pretty_version' => 'v0.249.0',
+            'version' => '0.249.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
-            'reference' => '5967583706b1b09c49d04e3c1c3c05e459b0767e',
+            'reference' => '95df14183356e45291e1c686cea57850281101db',
             'dev_requirement' => false,
         ),
         'google/auth' => array(
@@ -263,12 +263,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-issue-5014-squash',
-            'version' => 'dev-issue-5014-squash',
+            'pretty_version' => 'dev-bug-fix',
+            'version' => 'dev-bug-fix',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'bd3c7e01a71ad6e902a9dc5eb3a2b3040aea5e53',
+            'reference' => '4d0c81ed5306e272fd033981b1dca53e4cf7f417',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(

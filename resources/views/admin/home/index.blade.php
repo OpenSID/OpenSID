@@ -35,7 +35,7 @@
 
 <div class="row">
   @if (can('u', 'sid_core'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box bg-purple">
       <div class="inner">
         <h3>{{ $dusun }}</h3>
@@ -50,7 +50,7 @@
   @endif
   
   @if (can('u', 'penduduk'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box bg-aqua">
       <div class="inner">
         <h3>{{ $penduduk }}</h3>
@@ -65,7 +65,7 @@
   @endif
   
   @if (can('u', 'keluarga'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box bg-green">
       <div class="inner">
         <h3>{{ $keluarga }}</h3>
@@ -80,7 +80,7 @@
   @endif
   
   @if (can('u', 'keluar'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box bg-blue">
       <div class="inner">
         <h3>{{ $surat }}</h3>
@@ -95,7 +95,7 @@
   @endif
   
   @if (can('u', 'kelompok'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box bg-red">
       <div class="inner">
         <h3>{{ $kelompok }}</h3>
@@ -110,7 +110,7 @@
   @endif
   
   @if (can('u', 'rtm'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box bg-gray">
       <div class="inner">
         <h3>{{ $rtm }}</h3>
@@ -125,7 +125,7 @@
   @endif
   
   @if (can('u', 'program_bantuan'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box bg-yellow">
       <div class="inner">
         <h3>{{ $bantuan['jumlah'] }}</h3>
@@ -143,7 +143,7 @@
   @endif
   
   @if (can('u', 'mandiri'))
-  <div class="col-lg-4 col-sm-6 col-xs-12">
+  <div class="col-lg-3 col-sm-6 col-xs-6">
     <div class="small-box" style="background-color: #39CCCC;">
       <div class="inner">
         <h3>{{ $pendaftaran }}</h3>
