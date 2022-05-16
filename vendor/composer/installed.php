@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
+        'pretty_version' => 'dev-rilis-dev',
+        'version' => 'dev-rilis-dev',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '4d0c81ed5306e272fd033981b1dca53e4cf7f417',
+        'reference' => '2cf782a6fc561bd280e1c76bfbcc2395372f7517',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -263,12 +263,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
+            'pretty_version' => 'dev-rilis-dev',
+            'version' => 'dev-rilis-dev',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '4d0c81ed5306e272fd033981b1dca53e4cf7f417',
+            'reference' => '2cf782a6fc561bd280e1c76bfbcc2395372f7517',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
