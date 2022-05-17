@@ -40,24 +40,23 @@ Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi.
 16. [#4492](https://github.com/OpenSID/OpenSID/issues/4492) Perbaiki gagal akses modul Inventaris dan Kekayaan Desa jika data masih kosong/tidak ada.
 17. [#4483](https://github.com/OpenSID/OpenSID/issues/4483) Perbaiki gagal menampilkan file/gambar dengan nama yang berkarakter kshsus (misalnya persen (%)).
 18. [#4494](https://github.com/OpenSID/OpenSID/issues/4494) Perbaiki ubah menu untuk kelompok yang salah.
-[#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
-
-19. [#4466](https://github.com/OpenSID/OpenSID/issues/4466) Perbaiki pencarian produk beserta halaman pada web lapak.
-20. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
-21. [#4531](https://github.com/OpenSID/OpenSID/issues/4531) Perbaiki tampilkan daftar rumah tangga sesuai statistik RTM.
-22. Perbaiki statistik kependudukan berbasis rentang umur, yaitu Umur (Rentang), Umur (Kategori) dan Akta Kelahiran.
-23. Perbaiki statistik kependudukan hubungan keluarga, untuk menangani kasus data yang belum diisi.
-24. [#4530](https://github.com/OpenSID/OpenSID/issues/4530) Ubah data Akseptor KB yang tidak valid supaya statistik Akseptor KB tampil benar.
-25. [#4530](https://github.com/OpenSID/OpenSID/issues/4532) Perbaiki link detail pembangunan pada halaman peta.
-26. [#4502](https://github.com/OpenSID/OpenSID/issues/4502) Perbaiki status hubungan dalam keluarga untuk famili menjadi famili lain.
-27. [#4514](https://github.com/OpenSID/OpenSID/issues/4514) Perbaiki dan sederhanakan tombol kemabli pada modul analisis.
-28. [#4513](https://github.com/OpenSID/OpenSID/issues/4513) Jangan tampilkan aksi pecah kk untuk keluarga tidak aktif dengan anggota keluarga 0.
-29. [#4498](https://github.com/OpenSID/OpenSID/issues/4498) Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4.
-30. [#4499](https://github.com/OpenSID/OpenSID/issues/4499) Perbaiki lampiran surat_ket_kelahiran (F-21.01).
-31. Perbaiki format waktu (jam) pesan yang dikirimkan lewat telegram.
-32. Perbaiki tampilan kelengkapan dokumen di layanan mandiri.
-33. [#4538](https://github.com/OpenSID/OpenSID/issues/4538) Perbaiki error impor program bantuan untuk kasus template menggunakan format date untuk tanggal.
-34. [#4535](https://github.com/OpenSID/OpenSID/issues/4535) Perbaiki NIK dan No KK Sementara pada Surat Permohonan Kartu Keluarga Baru.
+19. [#4510](https://github.com/OpenSID/OpenSID/issues/4510) Perbaiki cetak dokumen kesepakatan kerjasama desa.
+20. [#4466](https://github.com/OpenSID/OpenSID/issues/4466) Perbaiki pencarian produk beserta halaman pada web lapak.
+21. [#4435](https://github.com/OpenSID/OpenSID/issues/4435) Perbaiki daftar permohonan surat.
+22. [#4531](https://github.com/OpenSID/OpenSID/issues/4531) Perbaiki tampilkan daftar rumah tangga sesuai statistik RTM.
+23. Perbaiki statistik kependudukan berbasis rentang umur, yaitu Umur (Rentang), Umur (Kategori) dan Akta Kelahiran.
+24. Perbaiki statistik kependudukan hubungan keluarga, untuk menangani kasus data yang belum diisi.
+25. [#4530](https://github.com/OpenSID/OpenSID/issues/4530) Ubah data Akseptor KB yang tidak valid supaya statistik Akseptor KB tampil benar.
+26. [#4530](https://github.com/OpenSID/OpenSID/issues/4532) Perbaiki link detail pembangunan pada halaman peta.
+27. [#4502](https://github.com/OpenSID/OpenSID/issues/4502) Perbaiki status hubungan dalam keluarga untuk famili menjadi famili lain.
+28. [#4514](https://github.com/OpenSID/OpenSID/issues/4514) Perbaiki dan sederhanakan tombol kemabli pada modul analisis.
+29. [#4513](https://github.com/OpenSID/OpenSID/issues/4513) Jangan tampilkan aksi pecah kk untuk keluarga tidak aktif dengan anggota keluarga 0.
+30. [#4498](https://github.com/OpenSID/OpenSID/issues/4498) Hapus data analisis_parameter dengan responden 0 untuk tipe pertanyaan 3 dan 4.
+31. [#4499](https://github.com/OpenSID/OpenSID/issues/4499) Perbaiki lampiran surat_ket_kelahiran (F-21.01).
+32. Perbaiki format waktu (jam) pesan yang dikirimkan lewat telegram.
+33. Perbaiki tampilan kelengkapan dokumen di layanan mandiri.
+34. [#4538](https://github.com/OpenSID/OpenSID/issues/4538) Perbaiki error impor program bantuan untuk kasus template menggunakan format date untuk tanggal.
+35. [#4535](https://github.com/OpenSID/OpenSID/issues/4535) Perbaiki NIK dan No KK Sementara pada Surat Permohonan Kartu Keluarga Baru.
 
 
 #### Perubahan Teknis
