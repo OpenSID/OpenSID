@@ -2,8 +2,13 @@
 <form action="<?= $form_action?>" method="post" id="validasi">
 	<div class="modal-body">
 		<div class="form-group">
-			<label for="no_kk">Nomor KK</label>
-			<input class="form-control input-sm required no_kk" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
+			<label for="no_kk">Nomor KK <code id="tampil_nokk" style="display: none;"> (Sementara) </code></label>
+			<div class="input-group input-group-sm">
+				<span class="input-group-addon">
+					<input type="checkbox" title="Centang jika belum memiliki No. KK" id="nokk_sementara" <?= jecho($cek_nokk, '0', 'checked ="checked"') ?>>
+				</span>
+				<input id="no_kk" name="no_kk" class="form-control input-sm required no_kk" type="text" placeholder="Nomor KK" value="<?= $kk['no_kk']?>" <?= jecho($cek_nokk, '0', 'readonly') ?>></input>
+			</div>
 			<input name="id" type="hidden" value="<?= $kk['id']; ?>">
 			<input name="id_cluster_lama" type="hidden" value="<?= $kk['id_cluster']; ?>">
 		</div>
@@ -102,5 +107,26 @@
 				$('#isi_rt').hide();
 			}
 		});
+
+		$('#nokk_sementara').change(function() {
+			var cek_nokk = '<?= $cek_nokk ?>';
+			var nokk_sementara_berikut = '<?= $nokk_sementara; ?>';
+			var nokk_asli = '<?= $kk['no_kk'] ?>';
+
+			if ($('#nokk_sementara').prop('checked')) {
+				$('#no_kk').removeClass('no_kk');
+				if (cek_nokk != '0') $('#no_kk').val(nokk_sementara_berikut);
+				$('#no_kk').prop('readonly', true);
+				$('#tampil_nokk').show();
+			} else {
+				$('#no_kk').addClass('no_kk');
+				$('#no_kk').val(nokk_asli);
+				$('#no_kk').prop('readonly', false);
+				$('#tampil_nokk').hide();
+			}
+		});
+
+		$('#nokk_sementara').change();
+
 	});
 </script>

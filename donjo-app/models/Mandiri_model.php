@@ -305,10 +305,11 @@ class Mandiri_model extends CI_Model {
 		$pin = hash_pin(bilangan($masuk['pin']));
 
 		$data = $this->db
-						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk')
+						->select('pm.*, p.nama, p.nik, p.tag_id_card, p.foto, p.kk_level, p.id_kk, k.no_kk, c.rt, c.rw, c.dusun')
 						->from('tweb_penduduk_mandiri pm')
 						->join('tweb_penduduk p', 'pm.id_pend = p.id', 'left')
 						->join('tweb_keluarga k', 'p.id_kk = k.id', 'left')
+						->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
 						->where('p.nik',$nik)
 						->get()
 						->row();

@@ -3,7 +3,7 @@
 			<div align="center">
 				<h3>KARTU KELUARGA</h3>
 				<h4>SALINAN</h4>
-				<h5>No. <?= $kepala_kk['no_kk']?> </h4>
+				<h5>No. <?= get_nokk($kepala_kk['no_kk'])?> </h4>
 			</div>
 			<br>
 			<table width="100%" cellpadding="3" cellspacing="4">

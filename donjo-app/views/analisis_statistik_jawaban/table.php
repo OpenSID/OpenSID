@@ -13,7 +13,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid'); ?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('analisis_master/clear'); ?>"> Master Analisis</a></li>
-			<li><a href="<?= site_url('analisis_statistik_jawaban/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
+			<li><a href="<?= site_url('analisis_master/leave'); ?>"><?= $analisis_master['nama']; ?></a></li>
 			<li class="active">Laporan Per Indikator</li>
 		</ol>
 	</section>
@@ -33,7 +33,7 @@
 							<a href="<?=site_url("analisis_statistik_jawaban/excel/$o"); ?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
 								<i class="fa fa-download"></i>Unduh
 							</a>
-							<a href="<?= site_url(); ?>analisis_laporan/leave" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RW">
+							<a href="<?= site_url('analisis_master/leave'); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar RW">
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke <?= $analisis_master['nama']; ?>
 							</a>
 						</div>
@@ -125,11 +125,11 @@
 														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/5"); ?>">Tipe Pertanyaan <i class='fa fa-sort fa-sm'></i></a></th>
 													<?php endif; ?>
 													<?php if ($o==6): ?>
-														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/5"); ?>">Kategori/Variabel <i class='fa fa-sort-asc fa-sm'></i></a></th>
+														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/5"); ?>">Kategori / Variabel <i class='fa fa-sort-asc fa-sm'></i></a></th>
 													<?php elseif ($o==5): ?>
-														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/6"); ?>">Kategori/Variabel <i class='fa fa-sort-desc fa-sm'></i></a></th>
+														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/6"); ?>">Kategori / Variabel <i class='fa fa-sort-desc fa-sm'></i></a></th>
 													<?php else: ?>
-														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/5"); ?>">Kategori/Variabel <i class='fa fa-sort fa-sm'></i></a></th>
+														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/5"); ?>">Kategori / Variabel <i class='fa fa-sort fa-sm'></i></a></th>
 													<?php endif; ?>
 													<?php if ($o==2): ?>
 														<th><a href="<?= site_url("analisis_statistik_jawaban/index/$p/1"); ?>">Aksi Analisis <i class='fa fa-sort-asc fa-sm'></i></a></th>

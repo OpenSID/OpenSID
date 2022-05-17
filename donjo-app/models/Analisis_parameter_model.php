@@ -1,4 +1,6 @@
-<?php class Analisis_parameter_model extends MY_Model {
+<?php
+
+class Analisis_parameter_model extends MY_Model {
 
 	public function __construct()
 	{
@@ -14,7 +16,7 @@
 			->where('i.id_master', $id_master)
 			->order_by('LPAD(i.nomor, 10, " ") ASC', 'p.kode_jawaban ASC')
 			->get()->result_array();
+
 		return $data;
 	}
 }
-?>

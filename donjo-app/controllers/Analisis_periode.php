@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Analisis_periode.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -45,28 +49,21 @@ class Analisis_periode extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('analisis_periode_model');
-
-		$_SESSION['submenu'] = "Data Periode";
-		$_SESSION['asubmenu'] = "analisis_periode";
+		$this->load->model(['analisis_periode_model', 'analisis_master_model']);
+		$this->session->submenu = "Data Periode";
+		$this->session->asubmenu = "analisis_periode";
 		$this->modul_ini = 5;
+		$this->sub_modul_ini = 110;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['state']);
-		redirect('analisis_periode');
+		$this->session->unset_userdata(['cari', 'state']);
+
+		redirect($this->controller);
 	}
 
-	public function leave()
-	{
-		$id = $_SESSION['analisis_master'];
-		unset($_SESSION['analisis_master']);
-		redirect("analisis_master/menu/$id");
-	}
-
-	public function index($p=1, $o=0)
+	public function index($p = 1, $o=0)
 	{
 		unset($_SESSION['cari2']);
 		$data['p'] = $p;
@@ -86,14 +83,14 @@ class Analisis_periode extends Admin_Controller {
 		$data['paging'] = $this->analisis_periode_model->paging($p,$o);
 		$data['main'] = $this->analisis_periode_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_periode_model->autocomplete();
-		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['list_state'] = $this->analisis_periode_model->list_state();
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_periode/table', $data);
 	}
 
-	public function form($p=1, $o=0, $id='')
+	public function form($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$data['p'] = $p;
@@ -102,15 +99,15 @@ class Analisis_periode extends Admin_Controller {
 		if ($id)
 		{
 			$data['analisis_periode'] = $this->analisis_periode_model->get_analisis_periode($id);
-			$data['form_action'] = site_url("analisis_periode/update/$p/$o/$id");
+			$data['form_action'] = site_url("{$this->controller}/update/$p/$o/$id");
 		}
 		else
 		{
 			$data['analisis_periode'] = null;
-			$data['form_action'] = site_url("analisis_periode/insert");
+			$data['form_action'] = site_url("{$this->controller}/insert");
 		}
 
-		$data['analisis_master'] = $this->analisis_periode_model->get_analisis_master();
+		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 
 		$this->set_minsidebar(1);
 		$this->render('analisis_periode/form', $data);
@@ -122,7 +119,8 @@ class Analisis_periode extends Admin_Controller {
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
-		redirect('analisis_periode');
+
+		redirect($this->controller);
 	}
 
 	public function state()
@@ -131,35 +129,40 @@ class Analisis_periode extends Admin_Controller {
 		if ($filter != 0)
 			$_SESSION['state']=$filter;
 		else unset($_SESSION['state']);
-		redirect('analisis_periode');
+		
+		redirect($this->controller);
 	}
 
 	public function insert()
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_periode_model->insert();
-		redirect('analisis_periode');
+
+		redirect($this->controller);
 	}
 
-	public function update($p=1, $o=0, $id='')
+	public function update($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_periode_model->update($id);
-		redirect("analisis_periode/index/$p/$o");
+
+		redirect("{$this->controller}/index/{$p}/{$o}");
 	}
 
-	public function delete($p=1, $o=0, $id='')
+	public function delete($p = 1, $o = 0, $id = 0)
 	{
-		$this->redirect_hak_akses('h', "analisis_periode/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->analisis_periode_model->delete($id);
-		redirect("analisis_periode/index/$p/$o");
+
+		redirect("{$this->controller}/index/{$p}/{$o}");
 	}
 
-	public function delete_all($p=1, $o=0)
+	public function delete_all($p = 1, $o=0)
 	{
-		$this->redirect_hak_akses('h', "analisis_periode/index/$p/$o");
+		$this->redirect_hak_akses('h');
 		$this->analisis_periode_model->delete_all();
-		redirect("analisis_periode/index/$p/$o");
+
+		redirect("{$this->controller}/index/{$p}/{$o}");
 	}
 
 	public function list_state()

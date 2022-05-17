@@ -195,12 +195,15 @@ class Analisis_master_model extends MY_Model {
 		$this->db->query($sql, $id);
 	}
 
-	public function get_analisis_master($id=0)
+	public function get_analisis_master($id = 0)
 	{
-		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
+		return $this->db
+			->select('u.*, s.subjek as subjek_nama')
+			->from('analisis_master u')
+			->join('analisis_ref_subjek s', 'u.subjek_tipe = s.id', 'left')
+			->where('u.id', $id)
+			->get()
+			->row_array();
 	}
 
 	// periode aktif

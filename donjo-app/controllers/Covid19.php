@@ -95,7 +95,6 @@ class Covid19 extends Admin_Controller {
 		}
 
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
-		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
 
 		$data['dusun'] = $this->wilayah_model->list_dusun();
 		$data['rw'] = $this->wilayah_model->list_rw($data['penduduk']['dusun']);
@@ -104,11 +103,13 @@ class Covid19 extends Admin_Controller {
 		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
 		$data['jenis_kelamin'] = $this->referensi_model->list_data("tweb_penduduk_sex");
 		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
+		$data['select_status_covid'] = $this->referensi_model->list_data("ref_status_covid");
 
 		$nav['act'] = 206;
 
 		$data['form_action'] = site_url("covid19/add_pemudik");
 		$data['form_action_penduduk'] = site_url("covid19/insert_penduduk");
+		
 		$this->render('covid19/form_pemudik', $data);
 	}
 
@@ -122,21 +123,24 @@ class Covid19 extends Admin_Controller {
 		$id = $this->penduduk_model->insert();
 		if ($_SESSION['success'] == -1)
 			$_SESSION['dari_internal'] = true;
-		redirect("covid19/form_pemudik");
+
+		redirect("{$this->controller}/form_pemudik");
 	}
 
 	public function add_pemudik()
 	{
 		$this->redirect_hak_akses('u');
 		$this->covid19_model->add_pemudik($_POST);
-		redirect("covid19");
+
+		redirect($this->controller);
 	}
 
 	public function hapus_pemudik($id_pemudik)
 	{
 		$this->redirect_hak_akses('h');
 		$this->covid19_model->delete_pemudik_by_id($id_pemudik);
-		redirect("covid19");
+
+		redirect($this->controller);
 	}
 
 	public function edit_pemudik_form($id = 0)
@@ -144,20 +148,21 @@ class Covid19 extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$data = $this->covid19_model->get_pemudik_by_id($id);
 		$data['select_tujuan_mudik'] = $this->covid19_model->list_tujuan_mudik();
-		$data['select_status_covid'] = $this->covid19_model->list_status_covid();
+		$data['select_status_covid'] = $this->referensi_model->list_data("ref_status_covid");
+		$data['form_action'] = site_url("{$this->controller}/edit_pemudik/{$id}");
 
-		$data['form_action'] = site_url("covid19/edit_pemudik/$id");
 		$this->load->view('covid19/edit_pemudik', $data);
 	}
 
-	public function edit_pemudik($id)
+	public function edit_pemudik($id = 0)
 	{
 		$this->redirect_hak_akses('u');
-		$this->covid19_model->update_pemudik_by_id($_POST, $id);
-		redirect("covid19");
+		$this->covid19_model->update_pemudik_by_id($this->input->post(), $id);
+
+		redirect($this->controller);
 	}
 
-	public function detil_pemudik($id)
+	public function detil_pemudik($id = 0)
 	{
 		$nav['act'] = 206;
 
@@ -179,8 +184,8 @@ class Covid19 extends Admin_Controller {
 		$data['golongan_darah'] = $this->referensi_model->list_data("tweb_golongan_darah");
 		$data['jenis_kelamin'] = $this->referensi_model->list_data("tweb_penduduk_sex");
 		$data['status_penduduk'] = $this->referensi_model->list_data("tweb_penduduk_status");
-
 		$data['form_action_penduduk'] = site_url("covid19/update_penduduk/".$data['terdata']['id_terdata']."/".$id);
+
 		$this->render('covid19/detil_pemudik', $data);
 	}
 
@@ -190,7 +195,8 @@ class Covid19 extends Admin_Controller {
 		$this->penduduk_model->update($id_pend);
 		if ($_SESSION['success'] == -1)
 			$_SESSION['dari_internal'] = true;
-		redirect("covid19/detil_pemudik/$id_pemudik");
+
+		redirect("{$this->controller}/detil_pemudik/{$id_pemudik}");
 	}
 
 	public function pantau($page=1, $filter_tgl=null, $filter_nik=null)
@@ -239,6 +245,7 @@ class Covid19 extends Admin_Controller {
 		$this->redirect_hak_akses('u', '', 'covid19/pantau');
 		$this->covid19_model->add_pantau_pemudik($_POST);
 		$url = "covid19/pantau/".$_POST["page"]."/".$_POST["data_h_plus"];
+
 		redirect($url);
 	}
 
@@ -250,6 +257,7 @@ class Covid19 extends Admin_Controller {
 		$url = "covid19/pantau";
 		$url .= (isset($page) ? "/$page" : "");
 		$url .= (isset($h_plus) ? "/$h_plus" : "");
+
 		redirect($url);
 	}
 

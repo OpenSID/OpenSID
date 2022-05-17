@@ -1,81 +1,7 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');?>
-<style type="text/css">
-table.disdukcapil
-{
-	width: 100%;
-	border: solid 1px #000000;
-	/*border-collapse: collapse;*/
-}
-table.disdukcapil td
-{
-	padding: 1px 1px 1px 3px;
-	margin: 0px;
-}
-table.disdukcapil td.padat
-{
-	padding: 0px;
-	margin: 0px;
-}
-table.disdukcapil td.anggota
-{
-	border-left: solid 1px #000000;
-	border-right: solid 1px #000000;
-	border-top: dashed 1px #000000;
-	border-bottom: dashed 1px #000000;
-}
-table.disdukcapil td.judul
-{
-	border-left: solid 1px #000000;
-	border-right: solid 1px #000000;
-	border-top: double 1px #000000;
-	border-bottom: double 1px #000000;
-}
-table.disdukcapil td.bawah {border-bottom: solid 1px #000000;}
-table.disdukcapil td.atas {border-top: solid 1px #000000;}
-table.disdukcapil td.tengah_blank
-{
-	border-left: solid 1px #000000;
-	border-right: solid 1px #000000;
-}
-table.disdukcapil td.pinggir_kiri {border-left: solid 1px #000000;}
-table.disdukcapil td.pinggir_kanan {border-right: solid 1px #000000;}
-table.disdukcapil td.kotak {border: solid 1px #000000;}
-table.disdukcapil td.abu {background-color: lightgrey;}
-table.disdukcapil td.kode {background-color: lightgrey;}
-table.disdukcapil td.kode div
-{
-	margin: 0px 15px 0px 15px;
-	border: solid 1px black;
-	background-color: white;
-	text-align: center;
-}
-table.disdukcapil td.pakai-padding
-{
-	padding-left: 20px;
-	padding-right: 2px;
-}
-table.disdukcapil td.kiri { text-align: left; }
-table.disdukcapil td.kanan { text-align: right; }
-table.disdukcapil td.tengah { text-align: center; }
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-table#kop
-{
-	margin-top: -5px;
-	margin-bottom: 0px;
-	padding: 0px;
-	border: 0px;
-	border-collapse: collapse;
-}
-table#kop td {padding: 0px; margin: 0px;}
-table#kop tr {padding: 0px; margin: 0px;}
-table#kode
-{
-	padding: 2px 10px;
-	border: solid 1px black;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	font-size: 11pt;
-}
+<style type="text/css">
+	<?php include(FCPATH . "/assets/css/lampiran-surat.css"); ?>
 </style>
 
 <page orientation="portrait" format="210x330" style="font-size: 7pt">
@@ -115,10 +41,10 @@ table#kode
 		</tr>
 		<tr>
 			<td colspan="11">&nbsp;</td>
-			<?php for ($i=0; $i<9; $i++): ?>
+			<?php for ($i=0; $i<10; $i++): ?>
 				<td style="border-bottom: 1px solid black;">&nbsp;</td>
 			<?php endfor; ?>
-			<td colspan="14">&nbsp;</td>
+			<td colspan="13">&nbsp;</td>
 			<td colspan="4">Lembar 4</td>
 			<td>: </td>
 			<td colspan="9">Kecamatan</td>
@@ -126,12 +52,16 @@ table#kode
 		<tr>
 			<td colspan="10">Kode Wilayah</td>
 			<td style="border-right: 1px solid black;">:</td>
-			<?php for ($i=0; $i<9; $i++): ?>
+			<?php for ($i=0; $i<10; $i++): ?>
 				<td class="kotak padat tengah">
-					&nbsp;
+					<?php if (isset($config['kode_desa'][$i])): ?>
+						<?= $config['kode_desa'][$i];?>
+					<?php else: ?>
+						&nbsp;
+					<?php endif; ?>
 				</td>
 			<?php endfor; ?>
-			<td colspan="28">&nbsp;</td>
+			<td colspan="27">&nbsp;</td>
 		</tr>
 		<!-- Untuk memaksa penampilan setiap kolom -->
 		<tr>

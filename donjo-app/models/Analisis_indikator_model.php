@@ -126,19 +126,23 @@
 
 	private function validasi_data($post)
 	{
-		$data = array();
-		$data['id_tipe'] = $post['id_tipe'] ?: null;
-		$data['nomor'] = nomor_surat_keputusan($post['nomor']);
-		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
-		$data['id_kategori'] = $post['id_kategori'] ?: null;
-		$data['bobot'] = bilangan($post['bobot']);
-		$data['act_analisis'] = $post['act_analisis'];
-		$data['is_publik'] = $post['is_publik'];
+		$data = [
+			'id_tipe' => $post['id_tipe'],
+			'referensi' => $post['referensi'] ?? null,
+			'nomor' => nomor_surat_keputusan($post['nomor']),
+			'pertanyaan' => htmlentities($post['pertanyaan']),
+			'id_kategori' => $post['id_kategori'] ?? null,
+			'bobot' => bilangan($post['bobot']),
+			'act_analisis' => $post['act_analisis'],
+			'is_publik' => $post['is_publik'],
+		];
+
 		if ($data['id_tipe'] != 1)
-			{
-				$data['act_analisis'] = 2;
-				$data['bobot'] = 0;
-			}
+		{
+			$data['act_analisis'] = 2;
+			$data['bobot'] = 0;
+		}
+
 		return $data;
 	}
 
@@ -151,6 +155,23 @@
 
 		$data['id_master'] = $this->session->analisis_master;
 		$outp = $this->db->insert('analisis_indikator', $data);
+		$id = $this->db->insert_id();
+
+		// Tambahkan Isi dari pertanyaan berdasarkan referensi
+		if ($id && $data['id_tipe'] == 1)
+		{
+			$referensi = $this->data_tabel($this->session->subjek_tipe)[$data['referensi']]['referensi'];
+			if ($referensi)
+			{
+				foreach ($referensi as $value)
+				{
+					$insert['kode_jawaban'] = bilangan($value['id']);
+					$insert['jawaban'] = htmlentities($value['nama']);
+					$insert['nilai'] = 1;
+					$this->p_insert($id, $insert);
+				}
+			}
+		}
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
@@ -160,10 +181,10 @@
 		// Hanya kolom yang boleh diubah untuk analisis sistem
 		$data['is_publik'] = $_POST['is_publik'];
 		$this->db->where('id',$id)->update('analisis_indikator', $data);
-		$_SESSION['success'] = 1;
+		$this->session->success = 1;
 	}
 
-	public function update($id=0)
+	public function update($id = 0)
 	{
 		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master))
 		{
@@ -173,28 +194,28 @@
 
 		$data = $this->validasi_data($this->input->post());
 
-		if ($data['id_tipe'] == 3 OR $data['id_tipe'] == 4)
+		if (($data['id_tipe'] == 1 OR $data['id_tipe'] == 2) && ! $data['referensi'])
 		{
-			$sql = "DELETE FROM analisis_parameter WHERE id_indikator=?";
-			$this->db->query($sql, $id);
-
+			$this->db->where('id_indikator', $id)->delete('analisis_parameter');
 		}
 
 		$data['id_master'] = $this->session->analisis_master;
-		$this->db->where('id', $id);
-		$outp = $this->db->update('analisis_indikator', $data);
+		$outp = $this->db->where('id', $id)->update('analisis_indikator', $data);
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id = 0, $semua = false)
 	{
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
+		// Hapus data analisis master
+		$outp = $this->db->where('id_indikator', $id)->delete('analisis_parameter');
+
 		if (!$semua) $this->session->success = 1;
 		$outp = $this->db->where('id', $id)->delete('analisis_indikator');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, true); //Tampilkan Pesan
 	}
 
 
@@ -205,36 +226,39 @@
 		$id_cb = $_POST['id_cb'];
 		foreach ($id_cb as $id)
 		{
-			$this->delete($id, $semua=true);
+			$this->delete($id, true);
 		}
 	}
 
 	private function validasi_parameter($post)
 	{
-		$data = array();
-		$data['kode_jawaban'] = bilangan($post['kode_jawaban']);
-		$data['jawaban'] = htmlentities($post['jawaban']);
-		$data['nilai'] = bilangan($post['nilai']);
+		$data = [
+			'kode_jawaban' => bilangan($post['kode_jawaban']),
+			'jawaban' => htmlentities($post['jawaban']),
+			'nilai' => bilangan($post['nilai']),
+		];
+
 		return $data;
 	}
 
-	public function p_insert($in='')
+	public function p_insert($in = 0, $data_referensi = null)
 	{
 		// Analisis sistem tidak boleh diubah
 		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
 
-		$data = $this->validasi_parameter($this->input->post());
+		$data = $data_referensi ?? $this->validasi_parameter($this->input->post());
 		$data['id_indikator'] = $in;
 		$outp = $this->db->insert('analisis_parameter', $data);
 
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function p_update($id=0)
+	public function p_update($id = 0)
 	{
 		$data = $this->validasi_parameter($this->input->post());
 		// Analisis sistem hanya kolom tertentu boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)){
+		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master) || $this->input->post('referensi'))
+		{
 			unset($data['kode_jawaban']);
 			unset($data['jawaban']);
 		}
@@ -243,7 +267,7 @@
 		status_sukses($outp); //Tampilkan Pesan
 	}
 
-	public function p_delete($id='')
+	public function p_delete($id = 0)
 	{
 		$this->session->success = 1;
 		// Analisis sistem tidak boleh dihapus
@@ -251,7 +275,7 @@
 
 		$outp = $this->db->where('id', $id)->delete('analisis_parameter');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		status_sukses($outp, true); //Tampilkan Pesan
 	}
 
 	public function p_delete_all()
@@ -264,47 +288,32 @@
 		}
 	}
 
-	public function list_indikator($id=0)
+	public function list_indikator($id = 0)
 	{
-		$sql = "SELECT * FROM analisis_parameter WHERE id_indikator = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->result_array();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $i + 1;
-		}
-		return $data;
+		return $this->db
+			->get_where('analisis_parameter', ['id_indikator' => $id])
+			->result_array();
 	}
 
-	public function get_analisis_indikator($id=0)
+	public function get_analisis_indikator($id = 0)
 	{
-		$sql = "SELECT * FROM analisis_indikator WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
+		return $this->db
+			->get_where('analisis_indikator', ['id' => $id])
+			->row_array();
 	}
 
-	// TODO: ganti semua method get_analisis_master menggunakan yg di analisis_master_model
-	public function get_analisis_master()
+	public function get_analisis_parameter($id = 0)
 	{
-		$sql = "SELECT * FROM analisis_master WHERE id = ?";
-		$query = $this->db->query($sql,$_SESSION['analisis_master']);
-		return $query->row_array();
-	}
-
-	public function get_analisis_parameter($id='')
-	{
-		$sql = "SELECT * FROM analisis_parameter WHERE id = ?";
-		$query = $this->db->query($sql,$id);
-		return $query->row_array();
+		return $this->db
+			->get_where('analisis_parameter', ['id' => $id])
+			->row_array();
 	}
 
 	public function list_tipe()
 	{
-		$sql = "SELECT * FROM analisis_tipe_indikator";
-		$query = $this->db->query($sql);
-		return $query->result_array();
+		return $this->db
+			->get('analisis_tipe_indikator')
+			->result_array();
 	}
 
 	// TODO: pindahkan ke analisis_kategori_model
@@ -316,7 +325,7 @@
 		return $query->result_array();
 	}
 
-	public function raw_analisis_indikator_by_id_master($id='')
+	public function raw_analisis_indikator_by_id_master($id = 0)
 	{
 		$raw_indikator = $this->db
 			->select('i.*, k.kategori')
@@ -327,7 +336,7 @@
 		return $raw_indikator;
 	}
 
-	public function get_analisis_indikator_by_id_master($id='')
+	public function get_analisis_indikator_by_id_master($id = 0)
 	{
 		$result = array();
 		$list_indikator = array();
@@ -362,5 +371,251 @@
 		];
 		return $result;
 	}
+
+	public function data_tabel($sasaran)
+	{
+		$this->load->model('referensi_model');
+
+		switch ($sasaran)
+		{
+			/*
+			 * Keterangan Tipe : 
+			 * 1 => Pilihan (Tunggal)
+			 * 2 => Pilihan (Ganda) 
+			 * 3 => Isian Jumlah (Kuantitatif) / Isian berupa angka
+			 * 4 => Isian Teks
+			 */
+		
+			// Penduduk
+			case 1:
+				$data = [
+					'kk_level' => [
+						'judul' => 'Hubungan Dalam Keluarga',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_hubungan'),
+					],
+					'rtm_level' => [
+						'judul' => 'Hubungan Dalam Rumah Tangga',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_rtm_hubungan'),
+					],
+					'sex' => [
+						'judul' => 'Jenis Kelamin',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_sex'),
+					],
+					'tempatlahir' => [
+						'judul' => 'Tempat Lahir',
+					],
+					'tanggallahir' => [
+						'judul' => 'Tanggal Lahir',
+					],
+					'agama_id' => [
+						'judul' => 'Agama',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_agama'),
+					],
+					'pendidikan_kk_id' => [
+						'judul' => 'Pendidikan Dalam KK',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_pendidikan_kk'),
+					],
+					'pendidikan_sedang_id' => [
+						'judul' => 'Pendidikan Sedang Ditempuh',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_pendidikan'),
+					],
+					'pekerjaan_id' => [
+						'judul' => 'Pekerjaan',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_pekerjaan'),
+					],
+					'status_kawin' => [
+						'judul' => 'Status_perkawinan',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_kawin'),
+					],
+					'warganegara_id' => [
+						'judul' => 'Kewarganegaraan',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_warganegara'),
+					],
+					'dokumen_pasport' => [
+						'judul' => 'Dokumen Passport',
+					],
+					'dokumen_kitas' => [
+						'judul' => 'Dokumen KITAS',
+					],
+					'ayah_nik' => [
+						'judul' => 'NIK Ayah',
+					],
+					'nama_ayah' => [
+						'judul' => 'Nama Ayah',
+					],
+					'ibu_nik' => [
+						'judul' => 'NIK Ibu',
+					],
+					'nama_ibu' => [
+						'judul' => 'Nama Ibu',
+					],
+					'golongan_darah_id' => [
+						'judul' => 'Golongan Darah',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_golongan_darah'),
+					],
+					// id_cluster => wilayah, agar tdk duplikasi
+					'wilayah' => [
+						'judul' => 'Wilayah (Dusun/RW/RT)',
+					],
+					'status' => [
+						'judul' => 'Status Penduduk',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_status'),
+					],
+					'alamat_sebelumnya' => [
+						'judul' => 'Alamat Sebelumnya',
+					],
+					'alamat_sekarang' => [
+						'judul' => 'Alamat Sekarang',
+					],
+					'status_dasar' => [
+						'judul' => 'Status Dasar',
+						'referensi' => $this->referensi_model->list_data('tweb_status_dasar'),
+					],
+					'hamil' => [
+						'judul' => 'Status Kehamilan',
+					],
+					'cacat_id' => [
+						'judul' => 'Jenis Cacat',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_cacat'),
+					],
+					'sakit_menahun_id' => [
+						'judul' => 'Sakit Menahun',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_sakit_menahun'),
+					],
+					'akta_lahir' => [
+						'judul' => 'Akta Lahir',
+					],
+					'akta_perkawinan' => [
+						'judul' => 'Akta Perkawinan',
+					],
+					'tanggalperkawinan' => [
+						'judul' => 'Tanggal Perkawinan',
+					],
+					'akta_perceraian' => [
+						'judul' => 'Akta Perceraian',
+					],
+					'tanggalperceraian' => [
+						'judul' => 'Tanggal Perceraian',
+					],
+					'cara_kb_id' => [
+						'judul' => 'Akseptor KB',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_cara_kb'),
+					],
+					'telepon' => [
+						'judul' => 'Telepon',
+					],
+					'tanggal_akhir_paspor' => [
+						'judul' => 'Tanggal Akhir Paspor',
+					],
+					'no_kk_sebelumnya' => [
+						'judul' => 'No. KK Sebelumnya',
+					],
+					'ktp_el' => [
+						'judul' => 'E-KTP',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_status_ktp'),
+					],
+					'status_rekam' => [
+						'judul' => 'Status Rekam',
+						'referensi' =>  $this->referensi_model->list_status_rekam(),
+					],
+					'waktu_lahir' => [
+						'judul' => 'Waktu Lahir',
+					],
+					'tempat_dilahirkan' => [
+						'judul' => 'Tempat Dilahirkan',
+					],
+					'jenis_kelahiran' => [
+						'judul' => 'Jenis Kelahiran',
+					],
+					'kelahiran_anak_ke' => [
+						'judul' => 'Kelahiran Anak Ke - ',
+						'tipe' => 3,
+					],
+					'penolong_kelahiran' => [
+						'judul' => 'Penolong Kelahiran',
+					],
+					'berat_lahir' => [
+						'judul' => 'Berat lahir',
+						'tipe' => 3,
+					],
+					'panjang_lahir' => [
+						'judul' => 'Panjang Lahir',
+						'tipe' => 3,
+					],
+					'tag_id_card' => [
+						'judul' => 'Tag ID Card',
+					],
+					'id_asuransi' => [
+						'judul' => 'ID Asuransi',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('tweb_penduduk_asuransi'),
+					],
+					'no_asuransi' => [
+						'judul' => 'No. Asusransi',
+					],
+					'email' => [
+						'judul' => 'Email',
+					],
+					'bahasa_id' => [
+						'judul' => 'Dapat Membaca Huruf',
+						'tipe' => 1,
+						'referensi' =>  $this->referensi_model->list_data('ref_penduduk_bahasa'),
+					],
+					'negara_asal' => [
+						'judul' => 'Negara Asal',
+					],
+					'tempat_cetak_ktp' => [
+						'judul' => 'Tempat Cetak KTP',
+					],
+					'tanggal_cetak_ktp' => [
+						'judul' => 'Tanggal Cetak KTP',
+					],
+					'suku' => [
+						'judul' => 'Suku/Etnis',
+					],
+					'bpjs_ketenagakerjaan' => [
+						'judul' => 'BPJS Ketenagakerjaan',
+					],
+				];
+				break;
+			
+			// Keluarga
+			default:
+				$data = [
+					'nik_kepala' => [
+						'judul' => 'NIK Kepala KK',
+					],
+					'kelas_sosial' => [
+						'judul' => 'Kelas Sosial',
+						'tipe' => 1,
+						'referensi' => $this->referensi_model->list_data('tweb_keluarga_sejahtera'),
+					],
+					'alamat' => [
+						'judul' => 'Alamat',
+					],
+					// id_cluster => wilayah, agar tdk duplikasi
+					'wilayah' => [
+						'judul' => 'Wilayah (Dusun/RW/RT)',
+					],
+				];
+				break;
+		}
+
+		return $data;
+	}
 }
-?>
