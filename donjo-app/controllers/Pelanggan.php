@@ -70,4 +70,12 @@ class Pelanggan extends Admin_Controller
 
         $this->render('pelanggan/peringatan');
     }
+
+    public function perbarui()
+    {
+        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        session_success();
+        sleep(3);
+        redirect($this->controller);
+    }
 }
