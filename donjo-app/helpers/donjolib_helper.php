@@ -788,6 +788,44 @@ function get_pesan_opendk()
     }
 }
 
+function opendk_api($path_url, $options, $method = 'get')
+{
+    $ci = &get_instance();
+
+    try {
+        $client   = new \GuzzleHttp\Client();
+        $response = $client->{$method}("{$ci->setting->api_opendk_server}{$path_url}", array_merge(
+            [
+                'headers' => [
+                    'X-Requested-With' => 'XMLHttpRequest',
+                    'Authorization'    => "Bearer {$ci->setting->api_opendk_key}",
+                ],
+            ],
+            $options
+        ))->getBody()->getContents();
+
+        $data_respon = json_decode($response);
+        $notif       = [
+            'status' => $data_respon->status,
+            'pesan'  => $data_respon->message,
+        ];
+    } catch (GuzzleHttp\Exception\ConnectException $e) {
+        $message = $e->getHandlerContext()['error'];
+        $notif   = [
+            'status' => 'danger',
+            'pesan'  => "<br/>{$message}<br/>",
+        ];
+    } catch (GuzzleHttp\Exception\ClientException $e) {
+        $message = $e->getResponse()->getBody()->getContents();
+        $notif   = [
+            'status' => 'danger',
+            'pesan'  => "<br/>{$message}<br/>",
+        ];
+    }
+
+    return $notif;
+}
+
 if (! function_exists('sikronisasi_opendk')) {
     function sikronisasi_opendk(string $to = '', array $data = [])
     {

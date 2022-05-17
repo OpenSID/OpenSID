@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Pembangunan;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class Sinkronisasi extends Admin_Controller
@@ -54,7 +55,7 @@ class Sinkronisasi extends Admin_Controller
     public function index()
     {
         $data = [
-            'kirim_data' => ['Penduduk', 'Laporan Penduduk', 'Laporan APBDes', 'Identitas Desa'],
+            'kirim_data' => ['Penduduk', 'Laporan Penduduk', 'Laporan APBDes', 'Pembangunan', 'Identitas Desa'],
         ];
 
         $this->render("{$this->controller}/index", $data);
@@ -88,6 +89,11 @@ class Sinkronisasi extends Admin_Controller
             case 'laporan-apbdes':
                 // Laporan APBDes
                 redirect('laporan_apbdes');
+                break;
+
+            case 'pembangunan':
+                // Pembangunan
+                redirect('admin_pembangunan');
                 break;
 
             case 'identitas-desa':
@@ -321,13 +327,13 @@ class Sinkronisasi extends Admin_Controller
 
     private function sinkronisasi_identitas_desa()
     {
-        return sikronisasi_opendk('identitas-desa', [
+        return opendk_api('/api/v1/identitas-desa', [
             'form_params' => [
                 'kode_desa'    => kode_wilayah($this->header['desa']['kode_desa']),
                 'sebutan_desa' => $this->setting->sebutan_desa,
                 'website'      => empty($this->header['desa']['website']) ? base_url() : $this->header['desa']['website'],
                 'path'         => $this->header['desa']['path'],
             ],
-        ]);
+        ], 'post');
     }
 }

@@ -58,6 +58,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<div class="box-header with-border">
 					<?php if ($this->CI->cek_hak_akses('u')): ?>
 						<a href="<?= site_url("{$this->controller}/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data Baru"><i class="fa fa-plus"></i>Tambah Data</a>
+						<?php if ($this->setting->api_opendk_key): ?>
+							<a href="javascript:;" title="Kirim Ke OpenDK" id="kirim" onclick="formAction('mainformexcel','<?=site_url("{$this->controller}/kirim_opendk"); ?>')" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block aksi-terpilih" title="Kirim Ke OpenDK"><i class="fa fa-random"></i> Kirim Ke OpenDK</a>
+						<?php else: ?>
+							<a href="#" title="API Key Belum Ditentukan"  id="kirim" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Ke OpenDK</a>
+						<?php endif; ?>
 					<?php endif; ?>
 				</div>
 				<div class="box-body">
@@ -76,6 +81,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<table id="tabel-pembangunan" class="table table-bordered dataTable table-hover">
 							<thead class="bg-gray">
 								<tr>
+									<th class="text-center padat"><input type="checkbox" id="checkall"></th>
 									<th class="text-center">No</th>
 									<th width="230px" class="text-center">Aksi</th>
 									<th class="text-center">Nama Kegiatan</th>
@@ -99,6 +105,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</section>
 </div>
 <?php $this->load->view('global/confirm_delete'); ?>
+<?php $this->load->view('global/sinkronisasi_notif'); ?>
 <script>
 	$(document).ready(function() {
 		let tabelPembangunan = $('#tabel-pembangunan').DataTable({
@@ -107,11 +114,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			'autoWidth': false,
 			'pageLength': 10,
 			'order': [
-				[7, 'desc'],
+				[8, 'desc'],
 			],
 			'columnDefs': [{
 				'orderable': false,
-				'targets': [0, 1, 10],
+				'targets': [0, 1, 2, 11],
 			}],
 			'ajax': {
 				'url': "<?= site_url($this->controller) ?>",
@@ -122,8 +129,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			},
 			'columns': [
 				{
-					'data': null,
+					'data': function(data) {
+						return `<input type="checkbox" name="id_cb[]" value="${data.id}"/>`
+					}
 				},
+				{ 'data': null },
 				{
 					'data': function(data) {
 						let status;
@@ -191,7 +201,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 		tabelPembangunan.on('draw.dt', function() {
 			let PageInfo = $('#tabel-pembangunan').DataTable().page.info();
-			tabelPembangunan.column(0, {
+			tabelPembangunan.column(1, {
 				page: 'current'
 			}).nodes().each(function(cell, i) {
 				cell.innerHTML = i + 1 + PageInfo.start;

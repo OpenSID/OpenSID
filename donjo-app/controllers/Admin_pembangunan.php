@@ -37,12 +37,18 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Pembangunan;
+use App\Models\PembangunanRefDokumentasi;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use GuzzleHttp\Psr7;
+
 class Admin_pembangunan extends Admin_Controller
 {
     public function __construct()
     {
         parent::__construct();
         $this->modul_ini = 220;
+        $this->load->library('zip');
         $this->load->library('upload');
         $this->load->model('pembangunan_model', 'pembangunan');
         $this->load->model('pembangunan_dokumentasi_model', 'dokumentasi');
@@ -274,5 +280,163 @@ class Admin_pembangunan extends Admin_Controller
         }
 
         redirect("{$this->controller}/dokumentasi/{$id_pembangunan}");
+    }
+
+    public function kirim_opendk()
+    {
+        $id = $this->input->post('id_cb');
+
+        if ($id) {
+            // Sikronisasi data pembangunan
+            $file_pembangunan = $this->make_data_pembangunan();
+
+            $notif = opendk_api('/api/v1/pembangunan', [
+                'multipart' => [
+                    [
+                        'name'     => 'file',
+                        'contents' => Psr7\Utils::tryFopen(LOKASI_SINKRONISASI_ZIP . $file_pembangunan, 'r'),
+                        'filename' => $file_pembangunan,
+                    ],
+                    [
+                        'name'     => 'desa_id',
+                        'contents' => kode_wilayah($this->header['desa']['kode_desa']),
+                    ],
+                ],
+            ], 'post');
+        // End sikronisasi data pembangunan
+        } else {
+            $notif = [
+                'status' => 'danger',
+                'pesan'  => 'Tidak ada data yang dikirim',
+            ];
+        }
+
+        redirect_with('notif', $notif);
+    }
+
+    public function make_data_pembangunan(array $id = [])
+    {
+        $writer = WriterEntityFactory::createCSVWriter();
+
+        // Membuat Data Pembangunana
+        $data_pembangunan = LOKASI_SINKRONISASI_ZIP . namafile('Pembangunan OpenDK') . '.csv';
+        $writer->openToFile($data_pembangunan);
+
+        // Header Tabel
+        $daftar_kolom = [
+            'id',
+            'sumber_dana',
+            'lokasi',
+            'judul',
+            'keterangan',
+            'volume',
+            'tahun_anggaran',
+            'pelaksana_kegiatan',
+            'status',
+            'anggaran',
+            'perubahan_anggaran',
+            'sumber_biaya_pemerintah',
+            'sumber_biaya_provinsi',
+            'sumber_biaya_kab_kota',
+            'sumber_biaya_swadaya',
+            'sumber_biaya_jumlah',
+            'manfaat',
+            'waktu',
+            'sifat_proyek',
+            'foto',
+            'desa_id',
+        ];
+        $header = WriterEntityFactory::createRowFromArray($daftar_kolom);
+        $writer->addRow($header);
+        $get = Pembangunan::with(['pembangunanrefdokumentasi', 'wilayah'])->whereIn('id', $id)->get();
+
+        foreach ($get as $row) {
+            $penduduk = [
+                $row->id,
+                $row->sumber_dana,
+                $row->lokasi_pemb,
+                $row->judul,
+                $row->keterangan,
+                $row->volume,
+                $row->tahun_anggaran,
+                $row->pelaksana_kegiatan,
+                $row->status,
+                $row->anggaran,
+                $row->perubahan_anggaran,
+                $row->sumber_biaya_pemerintah,
+                $row->sumber_biaya_provinsi,
+                $row->sumber_biaya_kab_kota,
+                $row->sumber_biaya_swadaya,
+                $row->sumber_biaya_jumlah,
+                $row->manfaat,
+                $row->waktu,
+                $row->sifat_proyek,
+                $row->foto,
+                kode_wilayah($this->header['desa']['kode_desa']),
+            ];
+
+            $file_foto = LOKASI_GALERI . $row->foto;
+            if (is_file($file_foto)) {
+                $this->zip->read_file($file_foto);
+            }
+
+            $rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
+            $writer->addRow($rowFromValues);
+        }
+
+        $writer->close();
+        $this->zip->read_file($data_pembangunan);
+        unlink($data_pembangunan);
+
+        // Membuat Data Dokumentasi Pembangunan
+        $data_dokumentasi = LOKASI_SINKRONISASI_ZIP . namafile('Dokumentasi Pembangunan OpenDK') . '.csv';
+        $writer->openToFile($data_dokumentasi);
+
+        // Header Tabel
+        $daftar_kolom_dokumentasi = [
+            'id',
+            'id_pembangunan',
+            'gambar',
+            'persentase',
+            'keterangan',
+            'created_at',
+            'updated_at',
+            'desa_id',
+        ];
+        $header = WriterEntityFactory::createRowFromArray($daftar_kolom_dokumentasi);
+        $writer->addRow($header);
+        $get_dokumentasi = PembangunanRefDokumentasi::whereHas('pembangunan', static function ($q) use ($id) {
+            $q->whereIn('id', $id);
+        })->get();
+
+        foreach ($get_dokumentasi as $row) {
+            $dokumentasi = [
+                $row->id,
+                $row->id_pembangunan,
+                $row->gambar,
+                $row->persentase,
+                $row->keterangan,
+                $row->created_at->format('Y-m-d'),
+                $row->updated_at->format('Y-m-d'),
+                kode_wilayah($this->header['desa']['kode_desa']),
+            ];
+
+            $file_foto = LOKASI_GALERI . $row->gambar;
+            if (is_file($file_foto)) {
+                $this->zip->read_file($file_foto);
+            }
+
+            $rowFromValues = WriterEntityFactory::createRowFromArray($dokumentasi);
+            $writer->addRow($rowFromValues);
+        }
+
+        $writer->close();
+        $this->zip->read_file($data_dokumentasi);
+        unlink($data_dokumentasi);
+
+        $filename = namafile('Pembangunan OpenDK') . '.zip';
+        $this->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
+
+        return $filename;
     }
 }
