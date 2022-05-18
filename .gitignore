@@ -58,6 +58,7 @@ Obfuscator.php
 make_obfuscate.php
 composer.lock
 .htaccess
+*.sql
 
 # Abaikan folder example di vendor (untuk commit update rilis)
 vendor/codeigniter/framework/*
@@ -75,4 +76,3 @@ vendor/mikey179/*
 
 # Struktur Laravel
 storage/framework/
-
