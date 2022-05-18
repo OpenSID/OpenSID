@@ -16,6 +16,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 10. [#302](https://github.com/OpenSID/OpenDK/issues/302) Kirim peta desa ke OpenDK.
 11. [#5085](https://github.com/OpenSID/OpenSID/issues/5085) Tambah captcha pada fitur lupa password siteman.
 12. [#3909](https://github.com/OpenSID/OpenSID/issues/3909) Kirim data pembangunan ke OpenDK.
+13. [#5208](https://github.com/OpenSID/OpenSID/issues/5208) Hapus folder desa-contoh dan buat folder desa menggunakan script.
 
 
 #### Perbaikan BUG

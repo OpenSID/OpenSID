@@ -95,12 +95,6 @@ class Migrasi_fitur_premium_2202 extends MY_model
 
     protected function migrasi_2022011071($hasil)
     {
-        $folder = 'upload/pendaftaran';
-        if (! file_exists('/desa/' . $folder)) {
-            mkdir('desa/' . $folder, 0755, true);
-            xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
-        }
-
         if (! $this->db->field_exists('aktif', 'tweb_penduduk_mandiri')) {
             $fields = [
                 'aktif' => [

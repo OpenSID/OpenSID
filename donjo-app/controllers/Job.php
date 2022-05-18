@@ -68,13 +68,15 @@ class Job extends CI_Controller
             'desa/themes',
         ];
 
-        // Kosongkan folder desa dan copy isi folder desa-contoh
+        // Kosongkan folder desa
         foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
             if (! in_array($folder, $exclude)) {
                 delete_files(FCPATH . $folder, true);
             }
         }
-        xcopy('desa-contoh', 'desa', ['config']);
+
+        // Buat folder desa
+        folder_desa();
 
         // Proses Restore Database
         if ($this->ekspor_model->proses_restore($this->cekDB($database))) {

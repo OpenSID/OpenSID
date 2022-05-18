@@ -33,26 +33,6 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   Deny from all
 </FilesMatch>
 
-# Periksa apakah full-path perlu disesuaikan untuk server anda
-# Contoh berikut untuk path seperti /home/opensidm/demosid.opendesa.id/desa/upload
-<Directory /home/*/*/desa/upload>
-	php_flag engine off
-	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
-		Order Deny,Allow
-		Deny from All
-	</FilesMatch>
-</Directory>
-
-# Periksa apakah full-path perlu disesuaikan untuk server anda
-# Contoh berikut untuk path seperti /home/opensidm/demosid.opendesa.id/desa-contoh
-<Directory /home/*/*/desa-contoh>
-	php_flag engine off
-	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
-		Order Deny,Allow
-		Deny from All
-	</FilesMatch>
-</Directory>
-
 # Expire Caching
 <IfModule mod_expires.c>
   ExpiresActive On

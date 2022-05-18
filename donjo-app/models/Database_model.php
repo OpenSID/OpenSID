@@ -160,7 +160,6 @@ class Database_model extends MY_Model
 
     public function migrasi_db_cri()
     {
-        $this->load->model('folder_desa_model');
         // Tunggu restore selesai sebelum migrasi
         if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) {
             return;
@@ -189,7 +188,6 @@ class Database_model extends MY_Model
 
         // Jalankan migrasi layanan
         $this->jalankan_migrasi('migrasi_layanan');
-        $this->folder_desa_model->amankan_folder_desa();
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
         /*
          * Update current_version di db.
@@ -2220,15 +2218,6 @@ class Database_model extends MY_Model
 				modul = VALUES(modul),
 				url = VALUES(url)";
         $this->db->query($query);
-        // Tambah folder desa/upload/media
-        if (! file_exists('/desa/upload/media')) {
-            mkdir('desa/upload/media');
-            xcopy('desa-contoh/upload/media', 'desa/upload/media');
-        }
-        if (! file_exists('/desa/upload/thumbs')) {
-            mkdir('desa/upload/thumbs');
-            xcopy('desa-contoh/upload/thumbs', 'desa/upload/thumbs');
-        }
         // Tambah kolom kode di tabel kelompok
         if (! $this->db->field_exists('kode', 'kelompok')) {
             $fields = [
@@ -3610,14 +3599,14 @@ class Database_model extends MY_Model
             'desa/themes',
         ];
 
-        // Kosongkan folder desa dan copy isi folder desa-contoh
+        // Kosongkan folder desa
         foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
             if (! in_array($folder, $exclude)) {
                 delete_files(FCPATH . $folder, true);
             }
         }
-
-        xcopy('desa-contoh', 'desa', ['config'], ['.htaccess', 'index.html', 'baca-ini.txt']);
+        // Buat folder desa
+        folder_desa();
 
         session_success();
     }

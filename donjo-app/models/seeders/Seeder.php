@@ -49,10 +49,8 @@ class Seeder extends CI_Model
     {
         parent::__construct();
 
-        // TODO :: Ganti cara lama untuk membuat folder desa
-        // Buat folder desa kalau belum ada
-        $this->load->model('folder_desa_model', 'folder_desa');
-        $this->folder_desa->periksa_folder_desa();
+        // Buat folder desa
+        folder_desa();
 
         // Untuk kasus koneksi database gagal
         if ($this->db) {

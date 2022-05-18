@@ -82,7 +82,6 @@ class Migrasi_fitur_premium_2107 extends MY_Model
         $hasil = $hasil && $this->tambah_table_produk_kategori($hasil);
         $hasil = $hasil && $this->tambah_table_produk($hasil);
         $hasil = $hasil && $this->tambah_modul_produk($hasil);
-        $hasil = $hasil && $this->tambah_folder_produk($hasil);
 
         return $hasil && $this->tambah_pengaturan_aplikasi($hasil);
     }
@@ -263,17 +262,6 @@ class Migrasi_fitur_premium_2107 extends MY_Model
             'ikon_kecil' => 'fa-cart-plus',
             'parent'     => 0,
         ]);
-    }
-
-    protected function tambah_folder_produk($hasil)
-    {
-        $folder = 'upload/produk';
-        if (! file_exists('/desa/' . $folder)) {
-            mkdir('desa/' . $folder, 0755, true);
-            xcopy('desa-contoh/' . $folder, 'desa/' . $folder);
-        }
-
-        return $hasil;
     }
 
     // Menambahkan data ke setting_aplikasi
