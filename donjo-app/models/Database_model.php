@@ -189,6 +189,8 @@ class Database_model extends MY_Model
         // Jalankan migrasi layanan
         $this->jalankan_migrasi('migrasi_layanan');
         $this->db->where('id', 13)->update('setting_aplikasi', ['value' => true]);
+        // Lengkapi folder desa
+        folder_desa();
         /*
          * Update current_version di db.
          * 'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
