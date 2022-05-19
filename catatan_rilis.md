@@ -28,6 +28,9 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. [#5217](https://github.com/OpenSID/OpenSID/issues/5217) Perbaiki pengaturan aktif/nonaktifkan halaman kehadiran yang tidak berfungsi.
 7. [#5214](https://github.com/OpenSID/OpenSID/issues/5214) Perbaiki daftar dokumen surat keterangan kematian yang tampil tidak sesuai.
 8. [#5176](https://github.com/OpenSID/OpenSID/issues/5176) Perbaiki akta perkawinan dan tanggal menikah ikut terhapus ketika status status kawin diubah menjadi cerai hidup / cerai mati.
+9. [#5202](https://github.com/OpenSID/OpenSID/issues/5202) Sembunyikan icon pesan OpenDK pada header jika modul dimatikan.
+10. [#5224](https://github.com/OpenSID/OpenSID/issues/5224) Perbaiki hari kelahiran pada lampiran Surat Keterangan Kelahiran yang tampil tidak benar.
+11. [#5219](https://github.com/OpenSID/OpenSID/issues/5219) Perbaiki daftar perangkat desa di kehadiran yang tidak tampil dengan benar.
 
 #### Perubahan Teknis
 
@@ -39,3 +42,5 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 6. Lewati ganti passwod default untuk ENVIRONMENT Development.
 7. Pindahkan versi kirim aplikasi ke layanan hanya jika melakukan migrasi.
 8. Sesuaikan tampilan halaman home.
+9. Sediakan tombol perbarui cache layanan pelanggan.
+10. Sesuaikan sebutan desa pada modul identitas desa yang tidak sesuai.

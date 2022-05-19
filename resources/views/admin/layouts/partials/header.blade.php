@@ -22,7 +22,7 @@
           </li>
         @endif
 
-        @if (can('b', 'opendk_pesan'))
+        @if (in_array('343', array_column($modul, 'id')) && can('b', 'opendk_pesan'))
           <li class="komunikasi-opendk">
             <a href="{{ route('opendk_pesan.clear') }}">
               <span><i class="fa fa-university fa-lg" title="Komunikasi OpenDk"></i>&nbsp;</span>

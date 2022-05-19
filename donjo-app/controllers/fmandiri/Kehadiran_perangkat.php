@@ -49,9 +49,11 @@ class Kehadiran_perangkat extends Mandiri_Controller
             if ($item->id_penduduk != $this->session->is_login->id_pend) {
                 return $item->id_penduduk = 0;
             }
+
+            return $item;
         })
             ->sortBy([['tanggal', 'desc'], ['jam_masuk', 'desc'], ['id_penduduk', 'desc'], ['waktu', 'desc']])
-            ->unique('pamong_nama')->values()->all();
+            ->values()->all();
 
         $data = [
             'perangkat' => $kehadiran,

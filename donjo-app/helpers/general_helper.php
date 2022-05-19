@@ -249,7 +249,7 @@ if (! function_exists('parsedown')) {
 if (! function_exists('SebuatanDesa')) {
     function SebuatanDesa($params = null)
     {
-        return str_replace('[Desa]', ucwords(setting('sebutan_desa')), $params);
+        return str_replace(['[Desa]', '[desa]'], ucwords(setting('sebutan_desa')), $params);
     }
 }
 

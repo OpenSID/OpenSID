@@ -62,7 +62,7 @@ class Status_desa extends Admin_Controller
 
             $idm = $this->data_publik->get_url_content();
             if ($idm->body->error) {
-                $idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '</a><br><br>Periksa Kode Desa di Identitas Desa dan masukkan kode lengkap. Contoh : 3507012006 <br>';
+                $idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '</a><br><br>Periksa Kode Desa di ' . SebuatanDesa('Identitas [Desa]') . ' dan masukkan kode lengkap. Contoh : 3507012006 <br>';
             }
 
             $data = [
