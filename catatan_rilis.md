@@ -30,3 +30,4 @@ Terima kasih pada  [untuk diisi] yang terus berkontribusi. Terima kasih pula pad
 7. Pindahkan versi kirim aplikasi ke layanan hanya jika melakukan migrasi.
 8. Sesuaikan tampilan halaman home.
 9. Sediakan tombol perbarui cache layanan pelanggan.
+10. Sesuaikan sebutan desa pada modul identitas desa yang tidak sesuai.
