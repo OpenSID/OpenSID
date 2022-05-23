@@ -17,6 +17,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 11. [#5085](https://github.com/OpenSID/OpenSID/issues/5085) Tambah captcha pada fitur lupa password siteman.
 12. [#3909](https://github.com/OpenSID/OpenSID/issues/3909) Kirim data pembangunan ke OpenDK.
 13. [#5208](https://github.com/OpenSID/OpenSID/issues/5208) Hapus folder desa-contoh dan buat folder desa menggunakan script.
+14. [#5179](https://github.com/OpenSID/OpenSID/issues/5179) Sediakan Daftar Kontak Penduduk pada modul Hubung Warga.
 
 
 #### Perbaikan BUG

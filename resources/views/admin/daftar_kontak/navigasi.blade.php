@@ -7,8 +7,9 @@
   </div>
   <div class="box-body no-padding">
     <ul class="nav nav-pills nav-stacked">
-      <li {{ jecho($controller, 'daftar_kontak', 'class="active"') }}><a href="{{ route('daftar_kontak') }}"><i class="fa fa-list-alt"></i> Daftar Kontak</a></li>
-      <li {{ jecho($controller, 'grup_kontak', 'class="active"') }}><a href="{{ route('grup_kontak') }}"><i class="fa fa-th"></i> Grup Kontak</a></li>
+      <li class="@active($navigasi === 'penduduk')"><a href="{{ route('daftar_kontak/penduduk') }}"><i class="fa fa-list-alt"></i> Daftar Kontak Penduduk</a></li>
+      <li class="@active($navigasi === 'eksternal')"><a href="{{ route('daftar_kontak') }}"><i class="fa fa-list-alt"></i> Daftar Kontak Eksternal</a></li>
+      <li class="@active($controller === 'grup_kontak')"><a href="{{ route('grup_kontak') }}"><i class="fa fa-th"></i> Grup Kontak</a></li>
     </ul>
   </div>
 </div>
