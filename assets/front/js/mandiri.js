@@ -66,7 +66,7 @@ $(document).ready(function() {
 		],
 		'aoColumnDefs': [
 			{
-				"sClass": "padat", "aTargets": [0]
+				"sClass": "padat", "aTargets": [0, 2]
 			}
 		],
 		'language': {

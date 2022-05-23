@@ -61,20 +61,23 @@ class Status_desa extends Admin_Controller {
 		$tahun = $this->session->flashdata('tahun') ?? ($this->input->post('tahun') ?? date('Y'));
 		$cache = 'idm_' . $tahun . '_' . $kode_desa;
 
-		$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", $cache)
-			->set_interval(7)
-			->set_cache_folder(FCPATH . 'cache');
-
-		$idm = $this->data_publik->get_url_content();
-		if ($idm->body->error)
+		if (cek_koneksi_internet())
 		{
-			$idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '<br><br> Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh : 3507012006 <br>';
-		}
+			$this->data_publik->set_api_url("https://idm.kemendesa.go.id/open/api/desa/rumusan/$kode_desa/$tahun", $cache)
+				->set_interval(7)
+				->set_cache_folder($this->config->item('cache_path'));
 
-		$data = [
-			'idm' => $idm->body->mapData,
-			'tahun' => $tahun
-		];
+			$idm = $this->data_publik->get_url_content();
+			if ($idm->body->error)
+			{
+				$idm->body->mapData->error_msg = $idm->body->message . ' : <a href="' . $idm->header->url . ' ">' . $idm->header->url . '<br><br> Periksa Kode Desa di Identitas Desa. Masukkan kode lengkap, contoh : 3507012006 <br>';
+			}
+
+			$data = [
+				'idm' => $idm->body->mapData,
+				'tahun' => $tahun
+			];
+		}
 
 		$this->render('home/idm', $data);
 	}

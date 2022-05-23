@@ -68,7 +68,8 @@
 	/*
 		1 - tampilkan keluarga di mana KK mempunyai status dasar 'hidup'
 		2 - tampilkan keluarga di mana KK mempunyai status dasar 'hilang/pindah/mati'
-		3 - tampilkan keluarga di mana KK tidak ada'
+		3 - tampilkan keluarga di mana KK tidak ada
+		4 - tampilkan keluarga dengan nomor KK sementara
 	*/
 	private function status_dasar_sql()
 	{
@@ -77,12 +78,14 @@
 		if ($value == '1') $this->db
 			->where('t.status_dasar', 1)
 			->where('t.kk_level', 1);
+		elseif ($value == '2') $this->db->where('t.status_dasar <>', 1);
 		elseif ($value == '3') $this->db
 			->group_start()
 				->where('t.status_dasar IS NULL')
 				->or_where(' t.kk_level <>', 1)
 			->group_end();
-		else $this->db->where('t.status_dasar <>', 1);
+		elseif ($value == '4') $this->db
+			->like('u.no_kk', '0', 'after');
 	}
 
 	private function search_sql()
@@ -233,7 +236,6 @@
 			$this->db->limit($paging->per_page, $paging->offset);
 		}
 		$data = $this->db->get()->result_array();
-
 		//Formating Output
 		$j = $paging->offset ?: 0;
 		for ($i=0; $i<count($data); $i++)
@@ -633,7 +635,7 @@
 	public function get_keluarga($id = 0)
 	{
 		$data = $this->db
-			->select('k.*, p.status_dasar, b.dusun as dusun, b.rw as rw')
+			->select('k.*, p.nama, p.nik, p.status_dasar, b.dusun as dusun, b.rw as rw, b.rt as rt')
 			->from('tweb_keluarga k')
 			->join('tweb_penduduk p', 'k.nik_kepala = p.id')
 			->join('tweb_wil_clusterdesa b', 'k.id_cluster = b.id', 'left')
@@ -641,6 +643,11 @@
 			->get()->row_array();
 		$data['alamat_plus_dusun'] = $data['alamat'];
 		$data['tgl_cetak_kk'] = tgl_indo_out($data['tgl_cetak_kk']);
+		if ( ! isset($data['alamat'])) $data['alamat'] = '';
+		if ( ! isset($data['rt'])) $data['rt'] = '';
+		if ( ! isset($data['rw'])) $data['rw'] = '';
+		$str_dusun = (empty($data['dusun']) or $data['dusun'] == '-') ? '' : ikut_case($data['dusun'], $this->setting->sebutan_dusun." ".$data['dusun']);
+		$data['alamat_wilayah'] = trim("$data[alamat] RT $data[rt] / RW $data[rw] ".$str_dusun);
 
 		return $data;
 	}
@@ -1138,4 +1145,64 @@
 				->get('tweb_keluarga')
 				->row_array();
 	}
+
+	public function nokk_sementara()
+	{
+		$digit = $this->db
+			->select('RIGHT(no_kk, 5) as digit')
+			->order_by('RIGHT(no_kk, 5) DESC')
+			->like('no_kk', '0', 'after')
+			->where('no_kk !=', '0')
+			->get('tweb_keluarga')
+			->row()->digit;
+
+		// No_kk Sementara menggunakan format 0[kode-desa][nomor-urut]
+	  $desa = $this->config_model->get_data();
+
+		return '0' . $desa['kode_desa'] . sprintf("%05d", $digit + 1);
+	}
+
+	public function pecah_semua($id, $post)
+	{
+		$this->session->unset_userdata(['success', 'error_msg']);
+		// Buat keluarga baru
+		$kel = $this->db
+			->where('id', $id)
+			->get('tweb_keluarga')->row_array();
+		unset($kel['id']);
+		$no_kk_lama = $kel['no_kk'];
+		$kel['nik_kepala'] = bilangan($post['nik_kepala']);
+		$kel['no_kk'] = bilangan($post['no_kk']);
+		$kel['updated_at'] = date('Y-m-d H:i:s');
+		$kel['updated_by'] = $this->session->user;
+		$hasil = $this->db->insert('tweb_keluarga', $kel);
+		$kk_id = $this->db->insert_id();
+		// Untuk statistik perkembangan keluarga
+		$this->log_keluarga($kk_id, $kel['nik_kepala'], 1);
+
+		// Masukkan semua anggota lama
+		$list_anggota = $this->db
+			->select('id')
+			->where('id_kk', $id)
+			->get('tweb_penduduk')->result_array();
+		foreach ($list_anggota as $anggota)
+		{
+			$data = [
+				'id_kk' => $kk_id,
+				'no_kk_sebelumnya' => $no_kk_lama,
+				'updated_at' => date('Y-m-d H:i:s'),
+				'updated_by' => $this->session->user
+			];
+			if ($anggota['id'] == $post['nik_kepala']) $data['kk_level'] = 1;
+			$hasil = $hasil && $this->db
+				->where('id', $anggota['id'])
+				->update('tweb_penduduk', $data);
+		}
+
+		// Hapus dokumen bersama dengan kepala KK sebelumnya
+		$hasil = $hasil && $this->web_dokumen_model->hard_delete_dokumen_bersama($id);
+
+		status_sukses($hasil, true); //Tampilkan Pesan
+	}
+
 }

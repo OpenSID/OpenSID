@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * Controller untuk modul Pembangunan
  *
- * donjo-app/controllers/Pembangunan.php
+ * donjo-app/controllers/Admin_pembangunan.php
  *
  */
 
@@ -45,26 +45,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link 	https://github.com/OpenSID/OpenSID
  */
 
-class Pembangunan extends Admin_Controller
+class Admin_pembangunan extends Admin_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->modul_ini = 220;
-		$this->set_minsidebar(1);
-
 		$this->load->library('upload');
 		$this->load->model('pembangunan_model', 'model');
 		$this->load->model('pembangunan_dokumentasi_model');
 		$this->load->model('referensi_model');
-		$this->load->model('config_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('pamong_model');
 		$this->load->model('plan_lokasi_model');
 		$this->load->model('plan_area_model');
 		$this->load->model('plan_garis_model');
-		$this->load->model('pamong_model');
 	}
 
 	public function index()
@@ -80,17 +75,15 @@ class Pembangunan extends Admin_Controller
 
 			$this->model->set_tipe(''); // Ambil semua pembangunan
 
-			return $this->output
-				->set_content_type('application/json')
-				->set_output(json_encode([
-					'draw'            => $this->input->post('draw'),
-					'recordsTotal'    => $this->model->get_data()->count_all_results(),
-					'recordsFiltered' => $this->model->get_data($search, $tahun)->count_all_results(),
-					'data'            => $this->model->get_data($search, $tahun)->order_by($order, $dir)->limit($length, $start)->get()->result(),
-				]));
+			$this->json_output([
+				'draw'            => $this->input->post('draw'),
+				'recordsTotal'    => $this->model->get_data()->count_all_results(),
+				'recordsFiltered' => $this->model->get_data($search, $tahun)->count_all_results(),
+				'data'            => $this->model->get_data($search, $tahun)->order_by($order, $dir)->limit($length, $start)->get()->result(),
+			]);
 		}
 
-		$this->render('pembangunan/index', [
+		$this->render(ADMIN . '/pembangunan/index', [
 			'list_tahun' => $this->model->list_filter_tahun(),
 		]);
 	}
@@ -101,33 +94,33 @@ class Pembangunan extends Admin_Controller
 		if ($id)
 		{
 			$data['main'] = $this->model->find($id);
-			$data['list_lokasi'] = $this->wilayah_model->list_semua_wilayah();
-			$data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
-			$data['form_action'] = site_url("pembangunan/update/$id");
+			$data['form_action'] = site_url("$this->controller/update/$id");
 		}
 		else
 		{
 			$data['main'] = NULL;
-			$data['list_lokasi'] = $this->wilayah_model->list_semua_wilayah();
-			$data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
-			$data['form_action'] = site_url("pembangunan/insert");
+			
+			$data['form_action'] = site_url("$this->controller/insert");
 		}
 
-		$this->load->view('pembangunan/form', $data);
+		$data['list_lokasi'] = $this->wilayah_model->list_semua_wilayah();
+		$data['sumber_dana'] = $this->referensi_model->list_ref(SUMBER_DANA);
+
+		$this->render(ADMIN . '/pembangunan/form', $data);
 	}
 
 	public function insert()
 	{
 		$this->redirect_hak_akses('u');
 		$this->model->insert();
-		redirect('pembangunan');
+		redirect($this->controller);
 	}
 
 	public function update($id = '')
 	{
 		$this->redirect_hak_akses('u');
 		$this->model->update($id);
-		redirect("pembangunan");
+		redirect($this->controller);
 	}
 
 	public function delete($id)
@@ -144,7 +137,7 @@ class Pembangunan extends Admin_Controller
 			$this->session->success = -4;
 		}
 
-		redirect('pembangunan');
+		redirect($this->controller);
 	}
 
 	public function lokasi_maps($id)
@@ -163,13 +156,13 @@ class Pembangunan extends Admin_Controller
 
 			$this->session->success = 1;
 
-			redirect('pembangunan');
+			redirect($this->controller);
 		}
 
-		$this->render('pembangunan/lokasi_maps', [
+		$this->render(ADMIN . '/pembangunan/lokasi_maps', [
 			'data'      => $data,
-			'desa'      => $this->config_model->get_data(),
-			'wil_atas'  => $this->config_model->get_data(),
+			'desa'      => $this->header['desa'],
+			'wil_atas'  => $this->header['desa'],
 			'dusun_gis' => $this->wilayah_model->list_dusun(),
 			'rw_gis'    => $this->wilayah_model->list_rw(),
 			'rt_gis'    => $this->wilayah_model->list_rt(),
@@ -187,7 +180,7 @@ class Pembangunan extends Admin_Controller
 			'pamong' => $this->pamong_model->list_data(),
 			'pamong_ttd' => $this->pamong_model->get_ub(),
 			'pamong_ketahui' => $this->pamong_model->get_ttd(),
-			'form_action' => site_url("pembangunan/daftar/$id/$aksi"),
+			'form_action' => site_url("$this->controller/daftar/$id/$aksi"),
 		]);
 	}
 
@@ -205,21 +198,9 @@ class Pembangunan extends Admin_Controller
 		$data['pamong_ketahui'] = $this->pamong_model->get_data($request['pamong_ketahui']);
 		$data['aksi']           = $aksi;
 		$data['file']           = "Laporan Pembangunan";
-		$data['isi']            = "pembangunan/cetak";
+		$data['isi']            = ADMIN . '/pembangunan/cetak';
 
 		$this->load->view('global/format_cetak', $data);
-	}
-
-	public function info_pembangunan($id = 0)
-	{
-		$pembangunan = $this->model->find($id);
-		$dokumentasi = $this->pembangunan_dokumentasi_model->find_dokumentasi($pembangunan->id);
-
-		$data['pembangunan']    = $pembangunan;
-		$data['dokumentasi']    = $dokumentasi;
-		$data['config']         = $this->header['desa'];
-
-		$this->load->view('pembangunan/informasi', $data);
 	}
 
 	public function unlock($id)
@@ -228,7 +209,7 @@ class Pembangunan extends Admin_Controller
 
 		$this->session->success = 1;
 
-		redirect('pembangunan');
+		redirect($this->controller);
 	}
 
 	public function lock($id)
@@ -238,6 +219,6 @@ class Pembangunan extends Admin_Controller
 
 		$this->session->success = 1;
 
-		redirect('pembangunan');
+		redirect($this->controller);
 	}
 }

@@ -42,7 +42,7 @@
                             <a href="<?= site_url('layanan-mandiri'); ?>" rel="noopener noreferrer" target="_blank">Layanan Mandiri</a>
                         </li>
                     </ul>
-                </li>
+                </li>                
             </ul>
 		</div>
     </div>

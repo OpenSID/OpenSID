@@ -4,12 +4,13 @@ define('ENVIRONMENT', 'production');
 $ds = DIRECTORY_SEPARATOR;
 define('BASEPATH', dirname(dirname(dirname(__FILE__))));
 define('FCPATH', BASEPATH . $ds);
+define('DESAPATH', BASEPATH . $ds . 'desa' . $ds);
 define('APPPATH', BASEPATH . $ds . 'donjo-app' . $ds);
-define('LIBBATH', BASEPATH . "{$ds}system{$ds}libraries{$ds}Session{$ds}");
+define('LIBPATH', BASEPATH . "{$ds}system{$ds}libraries{$ds}Session{$ds}");
 define('APP_URL', ($_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http') . "://{$_SERVER['HTTP_HOST']}".str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']));
 
-require_once LIBBATH . 'Session_driver.php';
-require_once LIBBATH . "drivers{$ds}Session_files_driver.php";
+require_once LIBPATH . 'Session_driver.php';
+require_once LIBPATH . "drivers{$ds}Session_files_driver.php";
 require_once BASEPATH . "{$ds}system{$ds}core{$ds}Common.php";
 
 $config = get_config();
@@ -48,4 +49,3 @@ if (is_php('5.4')) {
 }
 
 session_name($config['cookie_name']);
-

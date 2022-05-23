@@ -737,7 +737,6 @@
 			var cek_nik = '<?= $cek_nik ?>';
 			var nik_sementara_berikut = '<?= $nik_sementara; ?>';
 			var nik_asli = '<?= $penduduk['nik']; ?>';
-
 			if ($('#nik_sementara').prop('checked')) {
 				$('#nik').removeClass('nik');
 				if (cek_nik != '0') $('#nik').val(nik_sementara_berikut);

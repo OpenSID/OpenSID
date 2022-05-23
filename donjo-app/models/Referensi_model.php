@@ -134,13 +134,14 @@ define("STAT_BANTUAN", serialize([
 // Statistik Lainnya
 define("STAT_LAINNYA", serialize([
 	'dpt' => 'Calon Pemilih',
-	'wilayah' => 'Wilayah Administratif',
+	'data-wilayah' => 'Wilayah Administratif',
 	'peraturan_desa' => 'Produk Hukum',
 	'informasi_publik' => 'Informasi Publik',
 	'peta' => 'Peta',
 	'data_analisis' => 'Data Analisis',
 	'status-sdgs'	=> 'SDGs Desa',
-	'lapak'	=> 'Lapak Desa'
+	'lapak'	=> 'Lapak Desa',
+	'pembangunan' => 'Pembangunan'
 ]));
 
 // Jabatan Kelompok

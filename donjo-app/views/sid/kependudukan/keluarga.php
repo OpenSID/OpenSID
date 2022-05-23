@@ -83,6 +83,7 @@
 									<option value="1" <?= selected($status_dasar, 1); ?>>KK Aktif</option>
 									<option value="2" <?= selected($status_dasar, 2); ?>>KK Hilang/Pindah/Mati</option>
 									<option value="3" <?= selected($status_dasar, 3); ?>>KK Kosong</option>
+									<option value="4" <?= selected($status_dasar, 4); ?>>No. KK Sementara</option>
 								</select>
 								<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?=site_url('keluarga/filter/sex')?>')">
 									<option value="">Pilih Jenis Kelamin</option>
@@ -135,7 +136,7 @@
 										<th>Foto</th>
 										<?php if ($o==2): ?>
 											<th><a href="<?= site_url("keluarga/index/$p/1")?>">Nomor KK <i class='fa fa-sort-asc fa-sm'></i></a></th>
-										 <?php elseif ($o==1): ?>
+										<?php elseif ($o==1): ?>
 											<th><a href="<?= site_url("keluarga/index/$p/2")?>">Nomor KK <i class='fa fa-sort-desc fa-sm'></i></a></th>
 										<?php else: ?>
 											<th><a href="<?= site_url("keluarga/index/$p/1")?>">Nomor KK <i class='fa fa-sort fa-sm'></i></a></th>
@@ -189,6 +190,9 @@
 													<?php if ($data['status_dasar'] == 1): ?>
 														<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Data KK" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 													<?php else: ?>
+														<?php if ($data['jumlah_anggota'] > 0): ?>
+															<a href="<?= site_url("keluarga/form_pecah_semua/$data[id]")?>" title="Pecah semua anggota ke keluarga baru" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pecah menjadi keluarga baru" class="btn bg-purple btn-flat btn-sm"><i class="fa fa-cut"></i></a>
+														<?php endif; ?>
 														<a href="<?= site_url("keluarga/edit_nokk/$p/$o/$data[id]")?>" title="Lihat Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Data KK" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 													<?php endif; ?>
 												<?php endif; ?>

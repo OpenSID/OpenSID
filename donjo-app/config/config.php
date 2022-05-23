@@ -100,7 +100,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = TRUE;
+$config['enable_hooks'] = (ENVIRONMENT == 'development') ? TRUE : FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -303,7 +303,7 @@ $config['error_views_path'] = '';
 | application/cache/ directory.  Use a full server path with trailing slash.
 |
 */
-$config['cache_path'] = 'cache/';
+$config['cache_path'] = DESAPATH . 'cache/';
 
 /*
 |--------------------------------------------------------------------------

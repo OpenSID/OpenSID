@@ -50,7 +50,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define("VERSION", '22.05');
+define("VERSION", '22.05-pasca');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -58,7 +58,7 @@ define("VERSION", '22.05');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022050101');
+define('VERSI_DATABASE', '2022051701');
 define("LOKASI_LOGO_DESA", 'desa/logo/');
 define("LOKASI_ARSIP", 'desa/arsip/');
 define("LOKASI_CONFIG_DESA", 'desa/config/');
@@ -974,6 +974,15 @@ if (! function_exists('warna'))
 	}
 }
 
+// Format wanrna #803c3c
+if (! function_exists('warna'))
+{
+	function warna($length = 32)
+	{
+		return preg_replace("/[^a-zA-Z0-9\#]/", '', $str);
+	}
+}
+
 function buat_slug($data_slug)
 {
     $slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
@@ -1187,4 +1196,18 @@ function get_nik($nik = '0')
 	if (substr($nik, 0, 1) !== '0') return $nik;
 
 	return '0';
+}
+
+// Sama dengan nik sementara
+function get_nokk($nokk = '0')
+{
+	return get_nik($nokk);
+}
+
+// https://stackoverflow.com/questions/24043400/php-check-if-ipaddress-is-local/37725041
+function isLocalIPAddress($IPAddress)
+{
+    if( strpos($IPAddress, '127.0.') === 0 )
+        return true;
+    return ( ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) );
 }

@@ -91,13 +91,13 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 	protected function migrasi_2021050653($hasil)
 	{
 		// Anggap link status_idm menuju statu idm tahun 2021
-		$hasil =& $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
+		$hasil = $hasil && $hasil && $this->db->where('link', 'status_idm')->update('menu', ['link' => 'status-idm/2021', 'link_tipe' => 10]);
 		return $hasil;
 	}
 
 	protected function migrasi_2021050654($hasil)
 	{
-		$hasil =& $hasil && $this->db->where('link', 'status_sdgs')->update('menu', ['link' => 'status-sdgs']);
+		$hasil = $hasil && $hasil && $this->db->where('link', 'status_sdgs')->update('menu', ['link' => 'status-sdgs']);
 
 		return $hasil;
 	}
@@ -112,11 +112,11 @@ class Migrasi_fitur_premium_2106 extends MY_Model
 
 	protected function migrasi_2021051003($hasil)
 	{
-		$hasil =& $this->db->query("UPDATE `menu` SET `link` = REPLACE(`link`, 'kelompok/', 'data-kelompok/') WHERE `link_tipe` = '7' AND link NOT LIKE '%data-kelompok%'");
+		$hasil = $hasil && $this->db->query("UPDATE `menu` SET `link` = REPLACE(`link`, 'kelompok/', 'data-kelompok/') WHERE `link_tipe` = '7' AND link NOT LIKE '%data-kelompok%'");
 
 		// Hapus kolem foto pada tabel kelompok_anggota yang tidak digunakan
 		if ( $this->db->field_exists('foto', 'kelompok_anggota'))
-		$hasil =& $this->dbforge->drop_column('kelompok_anggota', 'foto');
+		$hasil = $hasil && $this->dbforge->drop_column('kelompok_anggota', 'foto');
 
 		return $hasil;
 	}

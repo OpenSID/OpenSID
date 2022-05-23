@@ -67,6 +67,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			Silakan cari nama / NIK dari data penduduk yang sudah terinput.
 			Penduduk yang dipilih otomatis berstatus sebagai Kepala Rumah Tangga baru tersebut.
 		</p>
+
+		<div class="form-group">
+			<label for="bdt">BDT</label>
+			<input class="form-control input-sm angka" type="text" placeholder="BDT" name="bdt" value="<?= $kk['bdt']; ?>" minlength="16" maxlength="16"/>
+		</div>
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>

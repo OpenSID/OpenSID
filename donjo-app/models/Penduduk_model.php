@@ -348,6 +348,13 @@ class Penduduk_model extends MY_Model {
 			->join('log_penduduk log', 'log_max.max_id = log.id', 'left');
 		if ($this->session->bantuan_penduduk) $this->bantuan_penduduk_sql();
 
+		if ($this->session->status_covid)
+		{
+			$this->db
+				->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
+				->join('ref_status_covid cv', 'cv.id = c.status_covid', 'left');
+		}
+
 		$this->search_sql();
 		$this->kumpulan_nik_sql();
 		$this->dusun_sql();
@@ -374,7 +381,7 @@ class Penduduk_model extends MY_Model {
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
 			array('hubungan', 'u.kk_level'), // Kode hubungan_kk
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
-			array('status_covid', 'rc.id'),  // Kode covid
+			array('status_covid', 'cv.id'),  // Kode covid
 			array('suku', 'u.suku'), // Kode suku
 			array('bpjs_ketenagakerjaan', 'u.bpjs_ketenagakerjaan') // Kode bpjs_ketenagakerjaan
 		);
@@ -441,7 +448,7 @@ class Penduduk_model extends MY_Model {
 
 		// Proses berikutnya dilakukan setelah paginasi, untuk mempercepat proses join di lookup_ref_penduduk
 		// yang cukup banyak.
-		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, u.suku, u.bpjs_ketenagakerjaan, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, rc.id as status_covid, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
+		$this->db->select("u.id, u.nik, u.tanggallahir, u.tempatlahir, u.foto, u.status, u.status_dasar, u.id_kk, u.nama, u.nama_ayah, u.nama_ibu, u.alamat_sebelumnya, u.suku, u.bpjs_ketenagakerjaan, a.dusun, a.rw, a.rt, d.alamat, d.no_kk AS no_kk, u.kk_level, u.tag_id_card, u.created_at, u.sex as id_sex, u.negara_asal, u.tempat_cetak_ktp, u.tanggal_cetak_ktp, v.nama AS warganegara, l.inisial as bahasa, l.nama as bahasa_nama, u.ket, log.tgl_peristiwa, log.maksud_tujuan_kedatangan, log.tgl_lapor,
 			(CASE
 				when u.status_kawin IS NULL then ''
 				when u.status_kawin <> 2 then k.nama
@@ -534,7 +541,6 @@ class Penduduk_model extends MY_Model {
 			$data[$i]['no'] = $j + 1;
 			$j++;
 		}
-
 		if ($page > 0)
 			return ['paging' => $paging, 'main' => $data];
 		else
@@ -569,7 +575,7 @@ class Penduduk_model extends MY_Model {
 			->join('log_penduduk log', 'log_max.max_id = log.id')
 			->join('ref_peristiwa ra', 'ra.id = log.kode_peristiwa', 'left')
 			->join('covid19_pemudik c', 'c.id_terdata = u.id', 'left')
-			->join('ref_status_covid rc', 'c.status_covid = rc.nama', 'left');
+			->join('ref_status_covid cv', 'cv.id = c.status_covid', 'left');
 	}
 
 	// TODO : Apakah function ini masih digunakan? 
@@ -640,7 +646,7 @@ class Penduduk_model extends MY_Model {
 			array('golongan_darah', 'u.golongan_darah_id'), // Kode 7
 			array('hubungan', 'u.kk_level'), // Kode 11
 			array('id_asuransi', 'u.id_asuransi'), // Kode 19
-			array('status_covid', 'rc.id'), // Kode covid
+			array('status_covid', 'cv.id'), // Kode covid
 			array('suku', 'u.suku'), // Kode suku
 			array('bpjs_ketenagakerjaan', 'u.bpjs_ketenagakerjaan') // Kode bpjs_ketenagakerjaan
 		);
@@ -692,7 +698,7 @@ class Penduduk_model extends MY_Model {
 		if (empty($data['warganegara_id'])) $data['warganegara_id'] = 1; //default WNI
 
 		// Hanya status 'kawin' yang boleh jadi akseptor kb
-		if ($data['status_kawin'] != 2 or empty($data['cara_kb_id'])) $data['cara_kb_id'] = NULL;
+		if ($data['status_kawin'] != 2 or ! in_array($data['cara_kb_id'], [1, 2, 3, 4, 5, 6, 7, 99])) $data['cara_kb_id'] = NULL;
 		// Status hamil tidak berlaku bagi laki-laki
 		if ($data['sex'] == 1) $data['hamil'] = 0;
 		if (empty($data['kelahiran_anak_ke'])) $data['kelahiran_anak_ke'] = NULL;

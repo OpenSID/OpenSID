@@ -70,30 +70,30 @@
 	h3{ margin-left: 10px; }
 </style>
 
-<h3><?= $indikator?></h3><br>
+<h3><?= $indikator['pertanyaan'] ?></h3><br>
 <div class="middin-center" style="padding: 5px;">
 	<div id="contentpane">
 		<div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="30">No</th>
+					<th width="1%">No</th>
 					<th>Jawaban</th>
-					<th>Jumlah Responden</th>
+					<th width="20%" nowrap>Jumlah Responden</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php foreach($list_jawab as $data): ?>
 					<tr>
-						<td><?= $data['no']?></td>
+						<td class="text-center"><?= $data['no']?></td>
 						<td><?= $data['jawaban']?></td>
-						<td><?= $data['nilai']?></td>
+						<td class="text-center"><?= $data['nilai']?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
 		<div>
-			<a href="<?= site_url()?>first/data_analisis" class="uibutton icon prev">Kembali</a>
+			<a href="<?= site_url("data_analisis?master={$indikator['id_master']}"); ?>" class="btn btn-primary">Kembali</a>
 		</div>
 	</div>
 </div>

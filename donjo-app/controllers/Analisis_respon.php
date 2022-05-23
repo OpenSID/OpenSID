@@ -1,4 +1,7 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 /*
  *  File ini:
  *
@@ -7,6 +10,7 @@
  * donjo-app/controllers/Analisis_respon.php
  *
  */
+
 /*
  *  File ini bagian dari:
  *
@@ -45,38 +49,29 @@ class Analisis_respon extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		UNSET($_SESSION['delik']);
+		$this->session->unset_userdata(['delik']);
 		$this->load->model(['analisis_respon_model', 'wilayah_model', 'analisis_master_model']);
-
-		$_SESSION['submenu'] = "Input Data";
-		$_SESSION['asubmenu'] = "analisis_respon";
+		$this->session->submenu = "Input Data";
+		$this->session->asubmenu = "{$this->controller}";
 		$this->modul_ini = 5;
+		$this->sub_modul_ini = 110;
 	}
 
 	public function clear()
 	{
-		unset($_SESSION['cari']);
-		unset($_SESSION['dusun']);
-		unset($_SESSION['rw']);
-		unset($_SESSION['rt']);
-		unset($_SESSION['isi']);
-		$_SESSION['per_page'] = 50;
-		redirect('analisis_respon');
+		$this->session->unset_userdata(['cari', 'dusun', 'rw', 'rt', 'isi']);
+		$this->session->per_page = 50;
+		
+		redirect($this->controller);
 	}
 
-	public function leave()
-	{
-		$id = $_SESSION['analisis_master'];
-		unset($_SESSION['analisis_master']);
-		redirect("analisis_master/menu/$id");
-	}
-
-	public function index($p=1, $o=0)
+	public function index($p = 1, $o = 0)
 	{
 		if (empty($this->analisis_master_model->get_aktif_periode()))
 		{
-			$_SESSION['success'] = -1;
-			$_SESSION['error_msg'] = 'Tidak ada periode aktif. Entri data respon harus ada periode aktif.';
+			$this->session->success = -1;
+			$this->session->error_msg = 'Tidak ada periode aktif. Entri data respon harus ada periode aktif.';
+
 			redirect('analisis_periode');
 		}
 		unset($_SESSION['cari2']);
@@ -124,6 +119,7 @@ class Analisis_respon extends Admin_Controller {
 		$data['analisis_master'] = $this->analisis_master_model->get_analisis_master($this->session->analisis_master);
 		$data['analisis_periode'] = $this->analisis_master_model->periode;
 		$data = array_merge($data, $this->judul_subjek($data['analisis_master']['subjek_tipe']));
+
 		$this->set_minsidebar(1);
 		$this->render('analisis_respon/table', $data);
 	}
@@ -194,16 +190,11 @@ class Analisis_respon extends Admin_Controller {
 		return $judul;
 	}
 
-	public function kuisioner($p=1, $o=0, $id='', $fs=0)
+	public function kuisioner($p = 1, $o = 0, $id = 0, $fs = 0)
 	{
-		if ($fs == 1)
-			$_SESSION['fullscreen'] = 1;
-
-		if($fs == 2)
-			unset($_SESSION['fullscreen']);
-
-		if ($fs != 0)
-			redirect("analisis_respon/kuisioner/$p/$o/$id");
+		if ($fs == 1) $this->session->fullscreen = 1;
+		if ($fs == 2) $this->session->unset_userdata('fullscreen');
+		if ($fs != 0) redirect("analisis_respon/kuisioner/$p/$o/$id");
 
 		$data['p'] = $p;
 		$data['o'] = $o;
@@ -214,43 +205,47 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_jawab'] = $this->analisis_respon_model->list_indikator($id);
 		$data['list_bukti'] = $this->analisis_respon_model->list_bukti($id);
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
-		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
+		$data['form_action'] = site_url("{$this->controller}/update_kuisioner/$p/$o/$id");
+		$data['perbaharui'] = site_url("{$this->controller}/perbaharui/$p/$o/$id");
 
-		$this->set_minsidebar(1);		if (isset($_SESSION['fullscreen']))
-			$data['layarpenuh']= 1;
-		else
-		{
-			$data['layarpenuh']= 2;
-		}
-
+		$this->set_minsidebar(1);
 		$this->render('analisis_respon/form', $data);
 	}
 
-	public function update_kuisioner($p=1, $o=0, $id='')
+	public function perbaharui($p = 1, $o = 0, $id_subjek = 0)
+	{
+		$this->redirect_hak_akses('u');
+		$data = $this->analisis_respon_model->perbaharui($id_subjek);
+
+		redirect("{$this->controller}/kuisioner/$p/$o/$id_subjek");
+	}
+
+	public function update_kuisioner($p = 1, $o = 0, $id = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_respon_model->update_kuisioner($id);
-		redirect("analisis_respon/kuisioner/$p/$o/$id");
+
+		redirect("{$this->controller}/kuisioner/$p/$o/$id");
 	}
 
 	//CHILD--------------------
-	public function kuisioner_child($p=1, $o=0, $id='', $idc='')
+	public function kuisioner_child($p = 1, $o = 0, $id = 0, $idc = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
 
 		$data['list_jawab'] = $this->analisis_respon_model->list_indikator_child($idc);
-		$data['form_action'] = site_url("analisis_respon/update_kuisioner_child/$p/$o/$id/$idc");
+		$data['form_action'] = site_url("{$this->controller}/update_kuisioner_child/$p/$o/$id/$idc");
 
 		$this->load->view('analisis_respon/form_ajax', $data);
 	}
 
-	public function update_kuisioner_child($p=1, $o=0, $id='', $idc='')
+	public function update_kuisioner_child($p = 1, $o = 0, $id = 0, $idc = '')
 	{
 		$this->redirect_hak_akses('u');
 		$per = $this->analisis_respon_model->get_periode_child();
 		$this->analisis_respon_model->update_kuisioner($idc, $per);
-		redirect("analisis_respon/kuisioner/$p/$o/$id");
+		redirect("{$this->controller}/kuisioner/$p/$o/$id");
 	}
 
 	public function aturan_unduh()
@@ -264,7 +259,7 @@ class Analisis_respon extends Admin_Controller {
 		$this->load->view('analisis_respon/import/data_ajax');
 	}
 
-	public function data_unduh($p=0, $o=0)
+	public function data_unduh($p=0, $o = 0)
 	{
 		$data['subjek_tipe'] = $this->session->subjek_tipe;
 		$data['main'] = $this->analisis_respon_model->data_unduh($p, $o);
@@ -296,17 +291,20 @@ class Analisis_respon extends Admin_Controller {
 		$this->load->view('analisis_respon/import/data_unduh', $data);
 	}
 
-	public function import($op=0){
+	public function import($op = 0)
+{
 		$this->redirect_hak_akses('u');
-		$data['form_action'] = site_url("analisis_respon/import_proses/$op");
+		$data['form_action'] = site_url("{$this->controller}/import_proses/{$op}");
+
 		$this->load->view('analisis_respon/import/import', $data);
 	}
 
-	public function import_proses($op=0)
+	public function import_proses($op = 0)
 	{
 		$this->redirect_hak_akses('u');
 		$this->analisis_respon_model->import_respon($op);
-		redirect('analisis_respon');
+
+		redirect($this->controller);
 	}
 
 	public function search()
@@ -315,7 +313,8 @@ class Analisis_respon extends Admin_Controller {
 		if ($cari != '')
 			$_SESSION['cari'] = $cari;
 		else unset($_SESSION['cari']);
-		redirect('analisis_respon');
+
+		redirect($this->controller);
 	}
 
 	public function isi()
@@ -324,7 +323,8 @@ class Analisis_respon extends Admin_Controller {
 		if ($isi != "")
 			$_SESSION['isi'] = $isi;
 		else unset($_SESSION['isi']);
-		redirect('analisis_respon');
+
+		redirect($this->controller);
 	}
 
 	public function dusun()
@@ -335,7 +335,8 @@ class Analisis_respon extends Admin_Controller {
 		if ($dusun != "")
 			$_SESSION['dusun'] = $dusun;
 		else unset($_SESSION['dusun']);
-		redirect('analisis_respon');
+
+		redirect($this->controller);
 	}
 
 	public function rw()
@@ -345,7 +346,8 @@ class Analisis_respon extends Admin_Controller {
 		if ($rw != "")
 			$_SESSION['rw'] = $rw;
 		else unset($_SESSION['rw']);
-		redirect('analisis_respon');
+
+		redirect($this->controller);
 	}
 
 	public function rt()
@@ -354,12 +356,15 @@ class Analisis_respon extends Admin_Controller {
 		if ($rt != "")
 			$_SESSION['rt'] = $rt;
 		else unset($_SESSION['rt']);
-		redirect('analisis_respon');
+
+		redirect($this->controller);
 	}
 
-	public function form_impor_bdt(){
+	public function form_impor_bdt()
+{
 		$this->redirect_hak_akses('u');
-		$data['form_action'] = site_url("analisis_respon/impor_bdt/");
+		$data['form_action'] = site_url("{$this->controller}/impor_bdt/");
+
 		$this->load->view('analisis_respon/import/impor_bdt', $data);
 	}
 
@@ -368,6 +373,8 @@ class Analisis_respon extends Admin_Controller {
 		$this->redirect_hak_akses('u');
 		$this->load->model('bdt_model');
 		$this->bdt_model->impor();
+
+		redirect($this->controller);
 	}
 
 	public function unduh_form_bdt()
