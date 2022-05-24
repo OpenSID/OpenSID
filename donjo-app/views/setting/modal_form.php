@@ -1,6 +1,6 @@
 <?php foreach ($this->list_setting as $setting): ?>
 	<?php $key = ucwords(str_replace('_', ' ', $setting->key)) ?>
-	<?php if ($setting->key != 'penggunaan_server' && $setting->jenis != 'upload' && in_array($setting->kategori, $kategori) && ($setting->key != 'token_opensid')): ?>
+	<?php if ($setting->key != 'penggunaan_server' && $setting->jenis != 'upload' && in_array($setting->kategori, $kategori)): ?>
 		<?php $setting->kategori = ($setting->kategori == 'setting_analisis' && config_item('demo_mode')) ? 'readonly' : $setting->kategori ?>
 		<?php $setting->value    = ($setting->key == 'layanan_opendesa_token' && config_item('demo_mode')) ? '' : $setting->value ?>
 		<div class="form-group" id="form_<?= $setting->key ?>">

@@ -815,9 +815,4 @@ class User_model extends CI_Model
 
         return $ada_akses;
     }
-
-    public function jml_pengguna()
-    {
-        return $this->db->get('user')->num_rows();
-    }
 }
