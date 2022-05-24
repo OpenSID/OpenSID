@@ -53,7 +53,7 @@ class Daftar_kontak extends Admin_Controller
     public function index()
     {
         $data = [
-            'title' => 'Daftar Kontak Eksternal',
+            'title'    => 'Daftar Kontak Eksternal',
             'navigasi' => 'eksternal',
         ];
 
@@ -93,7 +93,7 @@ class Daftar_kontak extends Admin_Controller
     public function penduduk()
     {
         $data = [
-            'title' => 'Daftar Kontak Penduduk',
+            'title'    => 'Daftar Kontak Penduduk',
             'navigasi' => 'penduduk',
         ];
 
@@ -120,8 +120,8 @@ class Daftar_kontak extends Admin_Controller
     public function form($id = null)
     {
         $this->redirect_hak_akses('u');
-        
-        $title = 'Daftar Kontak Eksternal';
+
+        $title    = 'Daftar Kontak Eksternal';
         $navigasi = 'eksternal';
 
         if ($id) {
