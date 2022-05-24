@@ -35,44 +35,23 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Models;
 
-class Migrasi_fitur_premium_2206 extends MY_model
+use Illuminate\Database\Eloquent\Model;
+
+class Persil extends Model
 {
-    public function up()
-    {
-        $hasil = true;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'persil';
 
-        // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2205');
-
-        $hasil = $hasil && $this->migrasi_2022050951($hasil);
-        $hasil = $hasil && $this->migrasi_2022051051($hasil);
-
-        return $hasil && $this->migrasi_2022052451($hasil);
-    }
-
-    protected function migrasi_2022050951($hasil)
-    {
-        $parrent = $this->db->select('parrent')->like('link', 'https://berputar.opendesa.id/')->get('menu')->row()->parrent;
-
-        if ($parrent) {
-            $hasil = $hasil && $this->db->where('id', $parrent)->delete('menu');
-        }
-
-        return $hasil && $this->db->like('link', 'https://berputar.opendesa.id/')->delete('menu');
-    }
-
-    protected function migrasi_2022051051($hasil)
-    {
-        return $hasil && $this->dbforge->modify_column('keuangan_ta_spj_sisa', [
-            'keterangan' => ['type' => 'text', 'null' => true],
-        ]);
-    }
-
-    protected function migrasi_2022052451($hasil)
-    {
-        // Hapus token_opensid; cukup gunakan token_pantau
-        return $hasil && $this->db->where('key', 'token_opensid')->delete('setting_aplikasi');
-    }
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }

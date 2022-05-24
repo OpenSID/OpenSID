@@ -613,11 +613,6 @@ class Web_artikel_model extends MY_Model
         status_sukses($outp); //Tampilkan Pesan
     }
 
-    public function jml_artikel()
-    {
-        return $this->db->select('count(*) as jml')->get('artikel')->row()->jml;
-    }
-
     public function boleh_ubah($id, $user)
     {
         // Kontributor hanya boleh mengubah artikel yg ditulisnya sendiri

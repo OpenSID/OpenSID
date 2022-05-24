@@ -1775,11 +1775,6 @@ class Penduduk_model extends MY_Model
         return ($umur > 16) || (! empty($data['status_kawin']) && $data['status_kawin'] != 1);
     }
 
-    public function jml_penduduk()
-    {
-        return $this->db->select('count(id) as jml')->where('status', '1')->get('tweb_penduduk')->row()->jml;
-    }
-
     public function get_suku()
     {
         $suku = [];

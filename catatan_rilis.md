@@ -31,3 +31,4 @@ Terima kasih pada  [untuk diisi] yang terus berkontribusi. Terima kasih pula pad
 8. Sesuaikan tampilan halaman home.
 9. Sediakan tombol perbarui cache layanan pelanggan.
 10. Sesuaikan sebutan desa pada modul identitas desa yang tidak sesuai.
+11. [#5237](https://github.com/OpenSID/OpenSID/issues/5237) Sederhanakan pemanggilan tracksid dengan menghapus token_opensid, gunakan token_pantau.
