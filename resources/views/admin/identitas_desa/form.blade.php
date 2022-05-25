@@ -3,13 +3,13 @@
 
 @section('title')
 <h1>
-  {{ SebuatanDesa('Identitas [Desa]') }}
+  {{ SebutanDesa('Identitas [Desa]') }}
   <small>Ubah Data</small>
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('identitas_desa') }}">{{ SebuatanDesa('Identitas [Desa]') }}</a></li>
+<li class="breadcrumb-item"><a href="{{ route('identitas_desa') }}">{{ SebutanDesa('Identitas [Desa]') }}</a></li>
 <li class="active">Ubah Data</li>
 @endsection
 
