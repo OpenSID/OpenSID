@@ -3,13 +3,13 @@
 
 @section('title')
 <h1>
-  {{ $title }}
+  Kontak {{ $navigasi }}
   <small>{{ $action }} Data</small>
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ $_SERVER['HTTP_REFERER'] }}">{{ $title }}</a></li>
+<li class="breadcrumb-item"><a href="{{ $_SERVER['HTTP_REFERER'] }}">Kontak {{ $navigasi }}</a></li>
 <li class="active">{{ $action }} Data</li>
 @endsection
 
@@ -25,7 +25,7 @@
     <div class="box box-info">
       <div class="box-header with-border">
         <a href="{{ $_SERVER['HTTP_REFERER'] }}" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-          <i class="fa fa-arrow-circle-left "></i>Kembali ke {{ $title }}
+          <i class="fa fa-arrow-circle-left "></i>Kembali ke {{ $navigasi }}
         </a>
       </div>
       {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}

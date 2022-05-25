@@ -28,7 +28,7 @@
       <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#data-penduduk" data-toggle="tab"> {{ SebuatanDesa('Daftar Penduduk [desa]') }}</a></li>
-          <li ><a href="#data-kontak" data-toggle="tab">Daftar Kontak Eksternal</a></li>
+          <li ><a href="#data-kontak" data-toggle="tab">Kontak Eksternal</a></li>
         </ul>
         <div class="tab-content">
           <div class="tab-pane active" id="data-penduduk">

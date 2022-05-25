@@ -52,12 +52,9 @@ class Daftar_kontak extends Admin_Controller
 
     public function index()
     {
-        $data = [
-            'title'    => 'Daftar Kontak Eksternal',
-            'navigasi' => 'eksternal',
-        ];
-
-        return view('admin.daftar_kontak.index', $data);
+        return view('admin.daftar_kontak.index', [
+            'navigasi' => 'Eksternal',
+        ]);
     }
 
     public function datatables()
@@ -92,12 +89,9 @@ class Daftar_kontak extends Admin_Controller
 
     public function penduduk()
     {
-        $data = [
-            'title'    => 'Daftar Kontak Penduduk',
-            'navigasi' => 'penduduk',
-        ];
-
-        return view('admin.daftar_kontak.penduduk', $data);
+        return view('admin.daftar_kontak.penduduk', [
+            'navigasi' => 'Penduduk',
+        ]);
     }
 
     public function datatablesPenduduk()
@@ -121,8 +115,7 @@ class Daftar_kontak extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $title    = 'Daftar Kontak Eksternal';
-        $navigasi = 'eksternal';
+        $navigasi = 'Eksternal';
 
         if ($id) {
             $action       = 'Ubah';
@@ -141,8 +134,7 @@ class Daftar_kontak extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $title        = 'Daftar Kontak Penduduk';
-        $navigasi     = 'penduduk';
+        $navigasi     = 'Penduduk';
         $action       = 'Ubah';
         $formAction   = route('daftar_kontak.update_penduduk', $id);
         $daftarKontak = Penduduk::find($id) ?? show_404();

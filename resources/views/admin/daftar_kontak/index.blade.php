@@ -4,12 +4,12 @@
 
 @section('title')
 <h1>
-  {{ $title }}
+  Kontak {{ $navigasi }}
 </h1>
 @endsection
 
 @section('breadcrumb')
-<li class="active">{{ $title }}</li>
+<li class="active">Kontak {{ $navigasi }}</li>
 @endsection
 
 @section('content')
