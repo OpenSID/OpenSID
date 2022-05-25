@@ -51,8 +51,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
         $hasil = $hasil && $this->migrasi_2022051171($hasil);
         $hasil = $hasil && $this->migrasi_2022051271($hasil);
         $hasil = $hasil && $this->migrasi_2022051371($hasil);
+        $hasil = $hasil && $this->migrasi_2022052451($hasil);
 
-        return $hasil && $this->migrasi_2022052451($hasil);
+        return $hasil && $this->migrasi_2022052571($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -147,5 +148,22 @@ class Migrasi_fitur_premium_2206 extends MY_model
     {
         // Hapus token_opensid; cukup gunakan token_pantau
         return $hasil && $this->db->where('key', 'token_opensid')->delete('setting_aplikasi');
+    }
+
+    protected function migrasi_2022052571($hasil)
+    {
+        if (! $this->db->field_exists('logo_garuda', 'tweb_surat_format')) {
+            $fields = [
+                'logo_garuda' => [
+                    'type'       => 'tinyint',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => 0,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+        }
+
+        return $hasil;
     }
 }

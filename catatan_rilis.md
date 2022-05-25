@@ -18,7 +18,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 12. [#3909](https://github.com/OpenSID/OpenSID/issues/3909) Kirim data pembangunan ke OpenDK.
 13. [#5208](https://github.com/OpenSID/OpenSID/issues/5208) Hapus folder desa-contoh dan buat folder desa menggunakan script.
 14. [#5179](https://github.com/OpenSID/OpenSID/issues/5179) Sediakan Daftar Kontak Penduduk pada modul Hubung Warga.
-
+15. [#5167](https://github.com/OpenSID/OpenSID/issues/5167) Tambah pengaturan logo burung garuda pada surat.
 
 #### Perbaikan BUG
 1. [#5207](https://github.com/OpenSID/OpenSID/issues/5207) Perbaiki gagal impor siskuedes (Error : Data too long for column 'Keterangan' tabel keuangan_ta_spj_sisa).

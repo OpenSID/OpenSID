@@ -614,12 +614,14 @@ class Surat_model extends CI_Model
         return str_replace('[kop_surat]', $kop_surat, $buffer);
     }
 
-    private function sisipkan_logo($nama_logo, $buffer)
+    private function sisipkan_logo($nama_logo, $logo_garuda, $buffer)
     {
-        $file_logo = APPPATH . '../' . LOKASI_LOGO_DESA . $nama_logo;
+        $file_logo = FCPATH . (($logo_garuda) ? 'assets/images/garuda.png' : LOKASI_LOGO_DESA . $nama_logo);
+
         if (! is_file($file_logo)) {
             return $buffer;
         }
+
         // Akhiran dan awalan agak panjang supaya unik
         $akhiran_logo      = 'e33874670000000049454e44ae426082';
         $awalan_logo       = '89504e470d0a1a0a0000000d4948445200000040000000400806000000aa';
@@ -799,6 +801,7 @@ class Surat_model extends CI_Model
         $surat       = $data['surat'];
         $id          = $input['nik'];
         $url         = $surat['url_surat'];
+        $logo_garuda = $surat['logo_garuda'];
         $tgl         = tgl_indo(date('Y m d'));
         $tgl_hijri   = Hijri_date_id::date('j F Y');
         $thn         = date('Y');
@@ -818,8 +821,7 @@ class Surat_model extends CI_Model
             $buffer = stream_get_contents($handle);
             $buffer = $this->bersihkan_kode_isian($buffer);
             $buffer = $this->sisipkan_kop_surat($buffer);
-            $buffer = $this->sisipkan_logo($config['logo'], $buffer);
-
+            $buffer = $this->sisipkan_logo($config['logo'], $logo_garuda, $buffer);
             $buffer = $this->sisipkan_foto($data, $tampil_foto ? $individu['foto'] : 'empty.png', $buffer);
             $buffer = $this->sisipkan_qr($data['qrCode']['viewqr'] ?? FCPATH . LOKASI_SISIPAN_DOKUMEN . 'empty.png', $buffer);
 
