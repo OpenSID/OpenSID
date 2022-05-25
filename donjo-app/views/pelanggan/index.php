@@ -164,6 +164,9 @@
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<b>Rincian Pemesanan</b>
+                    <?php if ($permohonan = $this->session->errors->messages->permohonan) : ?>
+                        <p class="error"><?= $permohonan ?></p>
+                    <?php endif ?>
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
@@ -189,8 +192,11 @@
                                                                                                         $token  = $this->setting->layanan_opendesa_token;
                                                                                                 ?>
 											<a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
-											<a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
-										</td>
+											<a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
+                                            <?php if ($notif_langganan['warna'] == 'orange'): ?>
+                                                <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
+                                            <?php endif; ?>
+                                        </td>
 										<td>
 											<?php foreach ($pemesanan->layanan as $key => $layanan) : ?>
 												<li>
@@ -201,7 +207,11 @@
 										<td class="padat"><?= tgl_indo($pemesanan->tgl_mulai); ?></td>
 										<td class="padat"><?= tgl_indo($pemesanan->tgl_akhir); ?></td>
 										<td class="padat">
-											<span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
+                                            <?php if ($notif_langganan['warna'] == 'orange'): ?>
+                                                <span class="label label-warning">perlu diperpanjang</span>
+                                            <?php else: ?>
+                                                <span class="label label-<?= $pemesanan->status_pemesanan === 'aktif' ? 'success' : 'danger' ?>"><?= $pemesanan->status_pemesanan ?></span>
+                                            <?php endif; ?>
 										</td>
 										<td class="padat">
 											<span class="label label-<?= $pemesanan->status_pembayaran == 1 ? 'success' : 'danger' ?>"><?= $pemesanan->status_pembayaran == 1 ? 'lunas' : 'belum lunas' ?></span>
