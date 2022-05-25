@@ -249,9 +249,9 @@ if (! function_exists('parsedown')) {
     }
 }
 
-// SebuatanDesa('Surat [Desa]');
-if (! function_exists('SebuatanDesa')) {
-    function SebuatanDesa($params = null)
+// SebutanDesa('Surat [Desa]');
+if (! function_exists('SebutanDesa')) {
+    function SebutanDesa($params = null)
     {
         return str_replace(['[Desa]', '[desa]'], ucwords(setting('sebutan_desa')), $params);
     }
