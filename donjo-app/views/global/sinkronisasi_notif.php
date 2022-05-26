@@ -1,30 +1,29 @@
 <script type="text/javascript">
-
-	$(function() {
-		$('#response').modal({backdrop: 'static', keyboard: false}).show();
-		$('#kirim').on('click', function(e) {
-			e.preventDefault();
-			$('#loading').modal({backdrop: 'static', keyboard: false}).show();
-		});
-	});
+    $(function() {
+        $('#response').modal({backdrop: 'static', keyboard: false}).show();
+        $('#kirim').on('click', function(e) {
+            e.preventDefault();
+            $('#loading').modal({backdrop: 'static', keyboard: false}).show();
+        });
+    });
 </script>
 <div class="modal fade" id='loading' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header btn-warning">
-				<h4 class="modal-title">Proses Sinkronisasi</h4>
-			</div>
-			<div class="modal-body">
-				Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirimkan.
-				<div class='text-center'>
-					<img src="<?= base_url('assets/images/background/loading.gif')?>">
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header btn-warning">
+                <h4 class="modal-title">Proses Sinkronisasi</h4>
+            </div>
+            <div class="modal-body">
+                Harap tunggu sampai proses sinkronisasi selesai. Proses ini bisa memakan waktu beberapa menit tergantung data yang dikirimkan.
+                <div class='text-center'>
+                    <img src="<?= base_url('assets/images/background/loading.gif')?>">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <?php if ($notif = $this->session->flashdata('notif')): ?>
-	<div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="response" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

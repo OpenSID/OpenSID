@@ -366,7 +366,7 @@ class MY_Model extends CI_Model
             $fields['created_by'] = [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'null'       => false,
+                'null'       => true,
             ];
         }
 
@@ -380,7 +380,7 @@ class MY_Model extends CI_Model
             $fields['updated_by'] = [
                 'type'       => 'INT',
                 'constraint' => 11,
-                'null'       => false,
+                'null'       => true,
             ];
         }
 

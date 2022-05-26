@@ -37,8 +37,12 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Bantuan;
+use App\Models\BantuanPeserta;
+use App\Models\LogSinkronisasi;
 use App\Models\Pembangunan;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+use GuzzleHttp\Psr7;
 
 class Sinkronisasi extends Admin_Controller
 {
@@ -54,8 +58,24 @@ class Sinkronisasi extends Admin_Controller
 
     public function index()
     {
+        $modul = [
+            'Program Bantuan' => [
+                [
+                    'path'  => 'kirim_program_bantuan',
+                    'modul' => 'program-bantuan',
+                    'model' => 'Bantuan',
+                ],
+                [
+                    'path'  => 'kirim_peserta_program_bantuan',
+                    'modul' => 'program-bantuan-peserta',
+                    'model' => 'BantuanPeserta',
+                ],
+            ],
+        ];
+
         $data = [
-            'kirim_data' => ['Penduduk', 'Laporan Penduduk', 'Laporan APBDes', 'Pembangunan', 'Identitas Desa'],
+            'kirim_data' => ['Penduduk', 'Laporan Penduduk', 'Laporan APBDes', 'Pembangunan', 'Program Bantuan', 'Identitas Desa'],
+            'modul'      => $modul,
         ];
 
         $this->render("{$this->controller}/index", $data);
@@ -84,18 +104,18 @@ class Sinkronisasi extends Admin_Controller
             case 'laporan-penduduk':
                 // Laporan Penduduk
                 redirect('laporan_penduduk');
-                break;
 
+                // no break
             case 'laporan-apbdes':
                 // Laporan APBDes
                 redirect('laporan_apbdes');
-                break;
 
+                // no break
             case 'pembangunan':
                 // Pembangunan
                 redirect('admin_pembangunan');
-                break;
 
+                // no break
             case 'identitas-desa':
                 // identitas desa
                 $notif = $this->sinkronisasi_identitas_desa();
@@ -325,6 +345,21 @@ class Sinkronisasi extends Admin_Controller
         return $notif;
     }
 
+    public function total()
+    {
+        if ($this->input->is_ajax_request()) {
+            $modul            = $this->input->post('modul');
+            $model            = $this->input->post('model');
+            $model            = 'App\\Models\\' . $model;
+            $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', $modul)->first()->updated_at ?? null;
+            if ($tgl_sinkronisasi) {
+                return json(1); // jika sudah pernah sinkronisasi, tidak usah paginasi
+            }
+
+            return json(ceil($model::count() / 100));
+        }
+    }
+
     private function sinkronisasi_identitas_desa()
     {
         return opendk_api('/api/v1/identitas-desa', [
@@ -335,5 +370,202 @@ class Sinkronisasi extends Admin_Controller
                 'path'         => $this->header['desa']['path'],
             ],
         ], 'post');
+    }
+
+    public function kirim_program_bantuan()
+    {
+        $filename = $this->data_program_bantuan();
+        $akhir    = $this->input->get('akhir');
+        // kirim ke api opendk
+        $multipart = [
+            [
+                'name'     => 'file',
+                'contents' => Psr7\Utils::tryFopen(LOKASI_SINKRONISASI_ZIP . $filename, 'r'),
+                'filename' => $filename,
+            ],
+            [
+                'name'     => 'desa_id',
+                'contents' => kode_wilayah($this->header['desa']['kode_desa']),
+            ],
+        ];
+        $options = ['multipart' => $multipart];
+        $notif   = opendk_api('/api/v1/program-bantuan', $options, 'post');
+        unlink(LOKASI_SINKRONISASI_ZIP . $filename);
+
+        if ($akhir && $notif['status'] != 'danger') {
+            $log             = LogSinkronisasi::firstOrCreate(['modul' => 'program-bantuan'], ['created_by' => $this->session->user]);
+            $log->updated_by = $this->session->user;
+            $log->save();
+        }
+
+        return json($notif);
+    }
+
+    public function data_program_bantuan()
+    {
+        $limit = 100;
+        $p     = $this->input->get('p');
+
+        // cek tanggal akhir sinkronisasi
+        $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'program-bantuan')->first()->updated_at ?? null;
+        $writer           = WriterEntityFactory::createCSVWriter();
+
+        // Buat data Program bantuan
+        // Nama File
+        $bantuan_opendk = LOKASI_SINKRONISASI_ZIP . namafile('bantuan_opendk') . '.csv';
+        $writer->openToFile($bantuan_opendk);
+
+        //Header Tabel
+        $judul = [
+            'id',
+            'nama',
+            'sasaran',
+            'ndesc',
+            'sdate',
+            'edate',
+            'userid',
+            'status',
+            'asaldana',
+            'kode_desa',
+        ];
+
+        $header = WriterEntityFactory::createRowFromArray($judul);
+        $writer->addRow($header);
+
+        $get = Bantuan::when($tgl_sinkronisasi != null, static function ($q) use ($tgl_sinkronisasi) {
+            return $q->where('updated_at', '>', $tgl_sinkronisasi);
+        })
+            ->when($tgl_sinkronisasi == null, static function ($q) use ($limit, $p) {
+                return $q->skip($p * $limit)->take($limit);
+            })->get();
+
+        foreach ($get as $row) {
+            $program = [
+                $row->id,
+                $row->nama,
+                $row->sasaran,
+                $row->ndesc,
+                $row->sdate,
+                $row->edate,
+                $row->userid,
+                $row->status,
+                $row->asaldana,
+                kode_wilayah($this->header['desa']['kode_desa']),
+            ];
+
+            $rowFromValues = WriterEntityFactory::createRowFromArray($program);
+            $writer->addRow($rowFromValues);
+        }
+
+        $writer->close();
+        $this->zip->read_file($bantuan_opendk);
+        unlink($bantuan_opendk);
+
+        // Masukan ke File Zip
+        $filename = namafile('bantuan_opendk') . '.zip';
+        $this->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
+
+        return $filename;
+    }
+
+    public function kirim_peserta_program_bantuan()
+    {
+        $filename = $this->data_peserta_program_bantuan();
+        $akhir    = $this->input->get('akhir');
+        // kirim ke api opendk
+        $multipart = [
+            [
+                'name'     => 'file',
+                'contents' => Psr7\Utils::tryFopen(LOKASI_SINKRONISASI_ZIP . $filename, 'r'),
+                'filename' => $filename,
+            ],
+            [
+                'name'     => 'desa_id',
+                'contents' => kode_wilayah($this->header['desa']['kode_desa']),
+            ],
+        ];
+        $options = ['multipart' => $multipart];
+        $notif   = opendk_api('/api/v1/program-bantuan/peserta', $options, 'post');
+        unlink(LOKASI_SINKRONISASI_ZIP . $filename);
+
+        if ($akhir && $notif['status'] != 'danger') {
+            $log             = LogSinkronisasi::firstOrCreate(['modul' => 'peserta-bantuan'], ['created_by' => $this->session->user]);
+            $log->updated_by = $this->session->user;
+            $log->save();
+        }
+
+        return json($notif);
+    }
+
+    public function data_peserta_program_bantuan()
+    {
+        $limit = 100;
+        $p     = $this->input->get('p');
+
+        // cek tanggal akhir sinkronisasi
+        $tgl_sinkronisasi = LogSinkronisasi::where('modul', '=', 'peserta-bantuan')->first()->updated_at ?? null;
+
+        // Buat data Peserta Program Bantuan
+        $writer  = WriterEntityFactory::createCSVWriter();
+        $peserta = LOKASI_SINKRONISASI_ZIP . namafile('peserta_bantuan_opendk') . '.csv';
+        $writer->openToFile($peserta);
+        //Header Tabel
+        $judul = [
+            'id',
+            'peserta',
+            'program_id',
+            'no_id_kartu',
+            'kartu_nik',
+            'kartu_nama',
+            'kartu_tempat_lahir',
+            'kartu_tanggal_lahir',
+            'kartu_alamat',
+            'kartu_peserta',
+            'kartu_id_pend',
+            'kode_desa',
+            'sasaran',
+        ];
+
+        $header = WriterEntityFactory::createRowFromArray($judul);
+        $writer->addRow($header);
+
+        $get = BantuanPeserta::when($tgl_sinkronisasi != null, static function ($q) use ($tgl_sinkronisasi) {
+            return $q->where('updated_at', '>', $tgl_sinkronisasi);
+        })
+            ->when($tgl_sinkronisasi == null, static function ($q) use ($limit, $p) {
+                return $q->skip($p * $limit)->take($limit);
+            })
+            ->get();
+
+        foreach ($get as $row) {
+            $program = [
+                $row->id,
+                $row->peserta,
+                $row->program_id,
+                $row->no_id_kartu,
+                $row->kartu_nik,
+                $row->kartu_nama,
+                $row->kartu_tempat_lahir,
+                $row->kartu_tanggal_lahir,
+                $row->kartu_alamat,
+                $row->kartu_peserta,
+                $row->kartu_id_pend,
+                kode_wilayah($this->header['desa']['kode_desa']),
+                $row->bantuan->sasaran,
+            ];
+
+            $rowFromValues = WriterEntityFactory::createRowFromArray($program);
+            $writer->addRow($rowFromValues);
+        }
+
+        $writer->close();
+        $this->zip->read_file($peserta);
+        unlink($peserta);
+
+        // Masukan ke File Zip
+        $filename = namafile('peserta_bantuan_opendk') . '.zip';
+        $this->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
+
+        return $filename;
     }
 }

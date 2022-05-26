@@ -566,3 +566,14 @@ function refresh_badge(elem, url)
 function huruf_awal_besar(str) {
 	return str.replace(/\S+/g, str => str.charAt(0).toUpperCase() + str.substr(1).toLowerCase());
 }
+
+// cek suport es6/es2015
+var supportsES6 = function() {
+  try {
+    new Function("(a = 0) => a");
+    return true;
+  }
+  catch (err) {
+    return false;
+  }
+}();

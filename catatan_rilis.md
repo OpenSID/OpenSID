@@ -15,12 +15,13 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 9. [#5014](https://github.com/OpenSID/OpenSID/issues/5014) Sediakan seeder untuk instalasi awal.
 10. [#302](https://github.com/OpenSID/OpenDK/issues/302) Kirim peta desa ke OpenDK.
 11. [#5085](https://github.com/OpenSID/OpenSID/issues/5085) Tambah captcha pada fitur lupa password siteman.
-12. [#3909](https://github.com/OpenSID/OpenSID/issues/3909) Kirim data pembangunan ke OpenDK.
+12. [#3909](https://github.com/OpenSID/OpenSID/issues/3909) Sinkronisasi data Pembangunan OpenSID ke OpenDK.
 13. [#5208](https://github.com/OpenSID/OpenSID/issues/5208) Hapus folder desa-contoh dan buat folder desa menggunakan script.
 14. [#5179](https://github.com/OpenSID/OpenSID/issues/5179) Sediakan Daftar Kontak Penduduk pada modul Hubung Warga.
 15. [#5167](https://github.com/OpenSID/OpenSID/issues/5167) Tambah pengaturan logo burung garuda pada surat.
 16. [#5205](https://github.com/OpenSID/OpenSID/issues/5205) Isi kode desa dari desa/config/config.php saat instalasi awal.
 17. [#5209](https://github.com/OpenSID/OpenSID/issues/5209) Sediakan backup folder desa berukuran besar melalui aplikasi.
+18. [#5245](https://github.com/OpenSID/OpenSID/issues/5245) Sinkronisasi data Program Bantuan OpenSID ke OpenDK.
 
 #### Perbaikan BUG
 

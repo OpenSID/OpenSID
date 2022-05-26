@@ -52,8 +52,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
         $hasil = $hasil && $this->migrasi_2022051271($hasil);
         $hasil = $hasil && $this->migrasi_2022051371($hasil);
         $hasil = $hasil && $this->migrasi_2022052451($hasil);
+        $hasil = $hasil && $this->migrasi_2022052571($hasil);
 
-        return $hasil && $this->migrasi_2022052571($hasil);
+        return $hasil && $this->migrasi_2022052771($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -165,5 +166,36 @@ class Migrasi_fitur_premium_2206 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022052771($hasil)
+    {
+        // Buat tabel log sinkronisasi
+        if (! $this->db->table_exists('log_sinkronisasi')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'modul' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'unique'     => true,
+                    'null'       => false,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('log_sinkronisasi', true);
+
+            $hasil = $hasil && $this->timestamps('log_sinkronisasi', true);
+        }
+
+        $hasil = $hasil && $this->timestamps('program', true);
+
+        return $hasil && $this->timestamps('program_peserta', true);
     }
 }
