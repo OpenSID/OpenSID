@@ -725,6 +725,33 @@ function masukkan_zip($files = [])
     return $tmp_file;
 }
 
+// https://www.tutorialspoint.com/how-to-download-large-files-through-php-script
+// Baca file sepotong-sepotong untuk mengunduh file besar sebagai pengganti readfile()
+function readfile_chunked($filename, $retbytes = true)
+{
+    $chunksize = 1 * (1024 * 1024); // how many bytes per chunk the user wishes to read
+    $buffer    = '';
+    $cnt       = 0;
+    $handle    = fopen($filename, 'rb');
+    if ($handle === false) {
+        return false;
+    }
+
+    while (! feof($handle)) {
+        $buffer = fread($handle, $chunksize);
+        echo $buffer;
+        if ($retbytes) {
+            $cnt += strlen($buffer);
+        }
+    }
+    $status = fclose($handle);
+    if ($retbytes && $status) {
+        return $cnt; // return number of bytes delivered like readfile() does.
+    }
+
+    return $status;
+}
+
 function alfa_spasi($str)
 {
     return preg_replace('/[^a-zA-Z ]/', '', strip_tags($str));

@@ -20,6 +20,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 14. [#5179](https://github.com/OpenSID/OpenSID/issues/5179) Sediakan Daftar Kontak Penduduk pada modul Hubung Warga.
 15. [#5167](https://github.com/OpenSID/OpenSID/issues/5167) Tambah pengaturan logo burung garuda pada surat.
 16. [#5205](https://github.com/OpenSID/OpenSID/issues/5205) Isi kode desa dari desa/config/config.php saat instalasi awal.
+17. [#5209](https://github.com/OpenSID/OpenSID/issues/5209) Sediakan backup folder desa berukuran besar melalui aplikasi.
 
 #### Perbaikan BUG
 
