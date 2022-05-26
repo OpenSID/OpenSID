@@ -83,10 +83,11 @@ class Sinkronisasi extends Admin_Controller
 
     public function sterilkan()
     {
-        foreach (glob(LOKASI_DOKUMEN . '*_opendk.zip') as $file) {
+        $lokasi = array_merge(glob(LOKASI_DOKUMEN . '*_opendk.*'), glob(LOKASI_SINKRONISASI_ZIP . '*_opendk.*'));
+
+        foreach ($lokasi as $file) {
             if (file_exists($file)) {
                 unlink($file);
-                break;
             }
         }
     }
@@ -136,6 +137,13 @@ class Sinkronisasi extends Admin_Controller
                 // Data Penduduk
                 $filename = $this->data_penduduk();
                 ambilBerkas($filename, null, null, LOKASI_DOKUMEN);
+                break;
+
+            case 'program-bantuan':
+                // Data Program Bantuan
+                $this->data_peserta_program_bantuan();
+                $filename = $this->data_program_bantuan();
+                ambilBerkas($filename, null, null, LOKASI_SINKRONISASI_ZIP);
                 break;
 
             default:
@@ -266,7 +274,6 @@ class Sinkronisasi extends Admin_Controller
 
         $writer->close();
         $this->zip->read_file($lokasi);
-        unlink($lokasi);
 
         $filename = 'penduduk_' . $tgl . '_opendk.zip';
         $this->zip->archive(LOKASI_DOKUMEN . $filename);
@@ -302,7 +309,6 @@ class Sinkronisasi extends Admin_Controller
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         curl_close($curl);
-        unlink(LOKASI_DOKUMEN . $filename);
 
         //Hapus Data
         $curl = curl_init();
@@ -390,7 +396,6 @@ class Sinkronisasi extends Admin_Controller
         ];
         $options = ['multipart' => $multipart];
         $notif   = opendk_api('/api/v1/program-bantuan', $options, 'post');
-        unlink(LOKASI_SINKRONISASI_ZIP . $filename);
 
         if ($akhir && $notif['status'] != 'danger') {
             $log             = LogSinkronisasi::firstOrCreate(['modul' => 'program-bantuan'], ['created_by' => $this->session->user]);
@@ -412,7 +417,7 @@ class Sinkronisasi extends Admin_Controller
 
         // Buat data Program bantuan
         // Nama File
-        $bantuan_opendk = LOKASI_SINKRONISASI_ZIP . namafile('bantuan_opendk') . '.csv';
+        $bantuan_opendk = LOKASI_SINKRONISASI_ZIP . namafile('bantuan') . '_opendk.csv';
         $writer->openToFile($bantuan_opendk);
 
         //Header Tabel
@@ -459,10 +464,9 @@ class Sinkronisasi extends Admin_Controller
 
         $writer->close();
         $this->zip->read_file($bantuan_opendk);
-        unlink($bantuan_opendk);
 
         // Masukan ke File Zip
-        $filename = namafile('bantuan_opendk') . '.zip';
+        $filename = namafile('bantuan') . '_opendk.zip';
         $this->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
 
         return $filename;
@@ -486,7 +490,6 @@ class Sinkronisasi extends Admin_Controller
         ];
         $options = ['multipart' => $multipart];
         $notif   = opendk_api('/api/v1/program-bantuan/peserta', $options, 'post');
-        unlink(LOKASI_SINKRONISASI_ZIP . $filename);
 
         if ($akhir && $notif['status'] != 'danger') {
             $log             = LogSinkronisasi::firstOrCreate(['modul' => 'peserta-bantuan'], ['created_by' => $this->session->user]);
@@ -507,7 +510,7 @@ class Sinkronisasi extends Admin_Controller
 
         // Buat data Peserta Program Bantuan
         $writer  = WriterEntityFactory::createCSVWriter();
-        $peserta = LOKASI_SINKRONISASI_ZIP . namafile('peserta_bantuan_opendk') . '.csv';
+        $peserta = LOKASI_SINKRONISASI_ZIP . namafile('peserta bantuan') . '_opendk.csv';
         $writer->openToFile($peserta);
         //Header Tabel
         $judul = [
@@ -560,10 +563,9 @@ class Sinkronisasi extends Admin_Controller
 
         $writer->close();
         $this->zip->read_file($peserta);
-        unlink($peserta);
 
         // Masukan ke File Zip
-        $filename = namafile('peserta_bantuan_opendk') . '.zip';
+        $filename = namafile('peserta bantuan') . '_opendk.zip';
         $this->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
 
         return $filename;

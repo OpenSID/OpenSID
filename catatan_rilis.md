@@ -22,6 +22,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 16. [#5205](https://github.com/OpenSID/OpenSID/issues/5205) Isi kode desa dari desa/config/config.php saat instalasi awal.
 17. [#5209](https://github.com/OpenSID/OpenSID/issues/5209) Sediakan backup folder desa berukuran besar melalui aplikasi.
 18. [#5245](https://github.com/OpenSID/OpenSID/issues/5245) Sinkronisasi data Program Bantuan OpenSID ke OpenDK.
+19. [#5246](https://github.com/OpenSID/OpenSID/issues/5246) Sediakan ekspor data Program Bantuan untuk Impor di OpenDK.
 
 #### Perbaikan BUG
 
