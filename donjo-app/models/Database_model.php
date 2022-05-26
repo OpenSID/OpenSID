@@ -202,9 +202,6 @@ class Database_model extends MY_Model
         $this->catat_versi_database();
         $this->load->model('track_model');
         $this->track_model->kirim_data();
-        if (empty($this->session->error_premium) && PREMIUM) {
-            $this->kirimVersi();
-        }
     }
 
     private function catat_versi_database()
@@ -246,21 +243,27 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi()
     {
+        if (! $this->validasi()) {
+            // Tidak bisa di ridirect ke peringatan karena harus login sedangkan cek_migrasi selalu dicek diawal.
+
+            return null;
+        }
+
         // Paksa menjalankan migrasi kalau belum
         // Migrasi direkam di tabel migrasi
         if (! $this->versi_database_terbaru()) {
-            if (empty($this->session->error_premium)) {
-                // Ulangi migrasi terakhir
-                $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
-                $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
-                $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
+            // Ulangi migrasi terakhir
+            $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
+            $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
+            $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
 
-                $this->migrasi_db_cri();
-            } else {
-                // Selalu jalankan migrasi ini
-                $this->jalankan_migrasi('migrasi_layanan');
-            }
+            $this->migrasi_db_cri();
+
+            // Kirim versi aplikasi ke layanan setelah migrasi selesai
+            $this->kirimVersi();
         }
+
+        $this->jalankan_migrasi('migrasi_layanan');
     }
 
     // Migrasi dengan fuction
@@ -3660,5 +3663,38 @@ class Database_model extends MY_Model
                 log_message('error', $e);
             }
         }
+    }
+
+    // TODO: Sederhanakan cara ini dengan membuat library
+    protected function validasi()
+    {
+        if (empty($token = $this->setting->layanan_opendesa_token)) {
+            log_message('error', 'Token pelanggan kosong / tidak valid.');
+
+            return false;
+        }
+
+        $tokenParts   = explode('.', $token);
+        $tokenPayload = base64_decode($tokenParts[1], true);
+        $jwtPayload   = json_decode($tokenPayload);
+        $date         = new DateTime('20' . str_replace('.', '-', currentVersion()) . '-01');
+        $version      = $date->format('Y-m-d');
+
+        $berakhir   = $jwtPayload->tanggal_berlangganan->akhir;
+        $disarankan = 'v' . str_replace('-', '.', substr($berakhir, 2, 5)) . '-premium';
+
+        if ($version > $berakhir) {
+            // Versi premium setara dengan umum adalah 6 bulan setelahnya + 1 bulan untuk versi pembaharuan
+            // Misalnya 21.05-premium setara dengan 21.12-umum, notifikasi tampil jika ada umum di atas 21.12-umum
+            $versi_setara = date('Y-m-d', strtotime('+7 month', strtotime($berakhir)));
+            $versi_setara = str_replace('-', '.', substr($versi_setara, 2, 5));
+
+            log_message('error', 'Masa aktif berlangganan fitur premium sudah berakhir.');
+            log_message('error', "Hanya diperbolehkan menggunakan {$disarankan} (maupun versi revisinya) atau menggunakan versi rilis {$versi_setara} umum.");
+
+            return false;
+        }
+
+        return true;
     }
 }

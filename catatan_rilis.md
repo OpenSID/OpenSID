@@ -50,3 +50,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 10. Sesuaikan sebutan desa pada modul identitas desa yang tidak sesuai.
 11. [#5237](https://github.com/OpenSID/OpenSID/issues/5237) Sederhanakan pemanggilan tracksid dengan menghapus token_opensid, gunakan token_pantau.
 12. Perpanjang layanan.
+13. [#63](https://github.com/OpenSID/wiki-layanan-opendesa/issues/63) Batasi jalankan migrasi sesuai versi dan masa langganan.
