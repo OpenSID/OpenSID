@@ -40,7 +40,6 @@ defined('BASEPATH') || exit('No direct script access allowed');
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
 use App\Models\LogSinkronisasi;
-use App\Models\Pembangunan;
 use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 use GuzzleHttp\Psr7;
 
@@ -83,9 +82,7 @@ class Sinkronisasi extends Admin_Controller
 
     public function sterilkan()
     {
-        $lokasi = array_merge(glob(LOKASI_DOKUMEN . '*_opendk.*'), glob(LOKASI_SINKRONISASI_ZIP . '*_opendk.*'));
-
-        foreach ($lokasi as $file) {
+        foreach (glob(LOKASI_SINKRONISASI_ZIP . '*_opendk.*') as $file) {
             if (file_exists($file)) {
                 unlink($file);
             }
@@ -136,7 +133,7 @@ class Sinkronisasi extends Admin_Controller
             case 'penduduk':
                 // Data Penduduk
                 $filename = $this->data_penduduk();
-                ambilBerkas($filename, null, null, LOKASI_DOKUMEN);
+                ambilBerkas($filename, null, null, LOKASI_SINKRONISASI_ZIP);
                 break;
 
             case 'program-bantuan':
@@ -160,7 +157,7 @@ class Sinkronisasi extends Admin_Controller
 
         //Nama File
         $tgl    = date('d_m_Y');
-        $lokasi = LOKASI_DOKUMEN . 'penduduk_' . $tgl . '_opendk.xlsx';
+        $lokasi = LOKASI_SINKRONISASI_ZIP . 'penduduk_' . $tgl . '_opendk.xlsx';
         $writer->openToFile($lokasi);
 
         //Header Tabel
@@ -276,7 +273,7 @@ class Sinkronisasi extends Admin_Controller
         $this->zip->read_file($lokasi);
 
         $filename = 'penduduk_' . $tgl . '_opendk.zip';
-        $this->zip->archive(LOKASI_DOKUMEN . $filename);
+        $this->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
 
         return $filename;
     }
@@ -298,7 +295,7 @@ class Sinkronisasi extends Admin_Controller
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => 'POST',
-            CURLOPT_POSTFIELDS     => ['file' => new CURLFILE(LOKASI_DOKUMEN . $filename)],
+            CURLOPT_POSTFIELDS     => ['file' => new CURLFILE(LOKASI_SINKRONISASI_ZIP . $filename)],
             CURLOPT_HTTPHEADER     => [
                 'content-Type: multipart/form-data',
                 "Authorization: Bearer {$this->setting->api_opendk_key}",
