@@ -48,8 +48,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
 
         $hasil = $hasil && $this->migrasi_2022050951($hasil);
         $hasil = $hasil && $this->migrasi_2022051051($hasil);
+        $hasil = $hasil && $this->migrasi_2022052451($hasil);
 
-        return $hasil && $this->migrasi_2022052451($hasil);
+        return $hasil && $this->migrasi_2022053051($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -74,5 +75,23 @@ class Migrasi_fitur_premium_2206 extends MY_model
     {
         // Hapus token_opensid; cukup gunakan token_pantau
         return $hasil && $this->db->where('key', 'token_opensid')->delete('setting_aplikasi');
+    }
+
+    protected function migrasi_2022053051($hasil)
+    {
+        $result = $this->db->get_where('setting_aplikasi', [
+            'key'   => 'sebutan_kepala_desa',
+            'value' => 'Kepala',
+        ])->row();
+
+        if (! $result) {
+            return $hasil;
+        }
+
+        return $hasil && $this->db->update(
+            'setting_aplikasi',
+            ['value' => 'Kepala Desa'],
+            ['key'   => 'sebutan_kepala_desa']
+        );
     }
 }
