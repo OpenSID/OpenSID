@@ -241,9 +241,9 @@ class Database_model extends MY_Model
     }
 
     // Cek apakah migrasi perlu dijalankan
-    public function cek_migrasi()
+    public function cek_migrasi($install = false)
     {
-        if (! $this->validasi()) {
+        if (! $this->validasi() && ! $install) {
             // Tidak bisa di ridirect ke peringatan karena harus login sedangkan cek_migrasi selalu dicek diawal.
 
             return null;

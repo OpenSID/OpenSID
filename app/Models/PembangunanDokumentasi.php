@@ -39,7 +39,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class pembangunanRefDokumentasi extends Model
+class PembangunanDokumentasi extends Model
 {
     /**
      * The table associated with the model.

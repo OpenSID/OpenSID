@@ -91,7 +91,7 @@ class Job extends CI_Controller
     private function cekDB($filename = null)
     {
         if (! $filename) {
-            $filename = FCPATH . 'contoh_data_awal_' . str_replace('.', '', '20' . currentVersion()) . '01.sql';
+            $filename = DESAPATH . '/config/contoh_data_awal.sql';
         }
 
         return $this->cekFile($filename);

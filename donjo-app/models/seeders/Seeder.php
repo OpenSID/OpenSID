@@ -80,7 +80,7 @@ class Seeder extends CI_Model
         $this->load->database();
         $this->load->model('database_model');
         $this->database_model->impor_data_awal_analisis();
-        $this->database_model->cek_migrasi();
+        $this->database_model->cek_migrasi(true);
         $this->load->model('config_model');
         $this->config_model->isi_config();
     }

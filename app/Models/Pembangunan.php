@@ -77,9 +77,9 @@ class Pembangunan extends Model
         'manfaat',
     ];
 
-    public function pembangunanRefDokumentasi()
+    public function pembangunanDokumentasi()
     {
-        return $this->hasMany(PembangunanRefDokumentasi::class, 'id_pembangunan');
+        return $this->hasMany(PembangunanDokumentasi::class, 'id_pembangunan');
     }
 
     public function wilayah()

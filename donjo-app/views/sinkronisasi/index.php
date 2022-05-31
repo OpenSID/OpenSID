@@ -29,21 +29,20 @@
                                         <tr>
                                             <td class="padat"><?= ($key + 1); ?></td>
                                             <td><?= $data; ?></td>
-                                            <td class="padat">
+                                            <td class="aksi">
                                                 <?php $slug = url_title($data, 'dash', true); ?>
-                                                <?php if (in_array($slug, ['penduduk', 'program-bantuan', 'pembangunan'])) : ?>
-                                                    <a href="<?= site_url('sinkronisasi/unduh/') . $slug ?>" title="Unduh Data" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-download"></i> Unduh Data</a>
-                                                <?php endif; ?>
                                                 <?php if (in_array($slug, ['penduduk', 'identitas-desa', 'program-bantuan', 'pembangunan'])) : ?>
                                                     <?php if ($this->setting->api_opendk_key) : ?>
-                                                        <a href="#" data-href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block kirim_data" title="Kirim Data" data-modul='<?= (isset($modul[$data])) ? json_encode($modul[$data]) : '' ?>' data-body="Apakah yakin mengirim data <?= $data; ?> ke OpenDK?"><i class="fa fa-random"></i> Kirim Data</a>
+                                                        <a href="#" data-href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block kirim_data" title="Kirim Data" data-modul='<?= (isset($modul[$data])) ? json_encode($modul[$data]) : '' ?>' data-body="Apakah yakin mengirim data <?= $data; ?> ke OpenDK?"><i class="fa fa-random"></i> Kirim Data</a>
                                                     <?php else : ?>
-                                                        <a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Data</a>
+                                                        <a href="#" title="API Key Belum Ditentukan" class="btn btn-social btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" disabled><i class="fa fa-random"></i> Kirim Data</a>
                                                     <?php endif; ?>
                                                 <?php else : ?>
-                                                    <a href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-flat btn-warning btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Buka Modul"><i class="fa fa-link"></i> Buka Modul</a>
+                                                    <a href="<?= site_url('sinkronisasi/kirim/') . $slug ?>" class="btn btn-social btn-warning btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Buka Modul"><i class="fa fa-link"></i> Buka Modul</a>
                                                 <?php endif; ?>
-
+                                                <?php if (in_array($slug, ['penduduk', 'program-bantuan'])) : ?>
+                                                    <a href="<?= site_url('sinkronisasi/unduh/') . $slug ?>" title="Unduh Data" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-download"></i> Unduh Data</a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
@@ -93,8 +92,8 @@
                                         <div class="form-group">
                                             <label for="token" class="col-sm-3 control-label"></label>
                                             <div class="col-sm-4">
-                                                <a class="btn btn-social btn-flat btn-success btn-sm" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
-                                                <button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan Pengaturan</button>
+                                                <a class="btn btn-social btn-success btn-sm" id="btn_buat_key"><i class='fa fa-key'></i>Buat Key</a>
+                                                <button type="submit" class="btn btn-social btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan Pengaturan</button>
                                             </div>
                                         </div>
                                     </td>
@@ -134,7 +133,7 @@
                         <?= $notif['pesan']; ?>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                        <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
                     </div>
                 </div>
             </div>
@@ -243,7 +242,7 @@
                                                     ${status.pesan}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                            <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
                         </div>
                     `);
                     return; // paksa loop berhenti
@@ -266,7 +265,7 @@
                                         ${status.pesan}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
             </div>
         `);
 
@@ -330,7 +329,7 @@
                                                     ${status.pesan}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                            <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
                         </div>
                     `);
                     return; // paksa loop berhenti
@@ -353,7 +352,7 @@
                                         ${status.pesan}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+                <button type="button" class="btn btn-social btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
             </div>
         `);
 
