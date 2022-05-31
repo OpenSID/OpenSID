@@ -1,6 +1,6 @@
-#### [v22.05-pasca]
+#### [v22.06]
 
-Di rilis ini, versi 22.05-pasca, menyediakan Kaitkan indikator/pertanyaan analisis dengan data saran penduduk dan keluarga, Tampilkan data Pembangunan di halaman WEB. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.06, menyediakan Kaitkan indikator/pertanyaan analisis dengan data saran penduduk dan keluarga, Tampilkan data Pembangunan di halaman WEB. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi.
 
