@@ -53,8 +53,9 @@ class Migrasi_fitur_premium_2206 extends MY_model
         $hasil = $hasil && $this->migrasi_2022051371($hasil);
         $hasil = $hasil && $this->migrasi_2022052451($hasil);
         $hasil = $hasil && $this->migrasi_2022052571($hasil);
+        $hasil = $hasil && $this->migrasi_2022052771($hasil);
 
-        return $hasil && $this->migrasi_2022052771($hasil);
+        return $hasil && $this->migrasi_2022053051($hasil);
     }
 
     protected function migrasi_2022050951($hasil)
@@ -197,5 +198,23 @@ class Migrasi_fitur_premium_2206 extends MY_model
         $hasil = $hasil && $this->timestamps('program', true);
 
         return $hasil && $this->timestamps('program_peserta', true);
+    }
+
+    protected function migrasi_2022053051($hasil)
+    {
+        $result = $this->db->get_where('setting_aplikasi', [
+            'key'   => 'sebutan_kepala_desa',
+            'value' => 'Kepala',
+        ])->row();
+
+        if (! $result) {
+            return $hasil;
+        }
+
+        return $hasil && $this->db->update(
+            'setting_aplikasi',
+            ['value' => 'Kepala Desa'],
+            ['key'   => 'sebutan_kepala_desa']
+        );
     }
 }

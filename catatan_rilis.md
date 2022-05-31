@@ -23,6 +23,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 17. [#5209](https://github.com/OpenSID/OpenSID/issues/5209) Sediakan backup folder desa berukuran besar melalui aplikasi.
 18. [#5245](https://github.com/OpenSID/OpenSID/issues/5245) Sinkronisasi data Program Bantuan OpenSID ke OpenDK.
 19. [#5246](https://github.com/OpenSID/OpenSID/issues/5246) Sediakan ekspor data Program Bantuan untuk Impor di OpenDK.
+20. [#5003](https://github.com/OpenSID/OpenSID/issues/5003) Sediakan tombol untuk hapus foto profil penduduk yang sudah di unggah.
 
 #### Perbaikan BUG
 
@@ -37,7 +38,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada
 9. [#5202](https://github.com/OpenSID/OpenSID/issues/5202) Sembunyikan icon pesan OpenDK pada header jika modul dimatikan.
 10. [#5224](https://github.com/OpenSID/OpenSID/issues/5224) Perbaiki hari kelahiran pada lampiran Surat Keterangan Kelahiran yang tampil tidak benar.
 11. [#5219](https://github.com/OpenSID/OpenSID/issues/5219) Perbaiki daftar perangkat desa di kehadiran yang tidak tampil dengan benar.
-12. [#5003](https://github.com/OpenSID/OpenSID/issues/5003) Sediakan tombol untuk hapus foto profil penduduk yang sudah di unggah.
+12. [#5243](https://github.com/OpenSID/OpenSID/issues/5243) Perbaiki sebutan kepala desa dan sebutan desa pada template surat yang tidak sesuai.
 
 #### Perubahan Teknis
 
