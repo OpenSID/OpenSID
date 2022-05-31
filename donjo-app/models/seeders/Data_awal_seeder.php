@@ -49,7 +49,7 @@ class Data_awal_seeder extends CI_Model
         $db = DB::getDatabaseName();
         // Error menggunakan Illuminate untuk alter database ini
         // DB::statement("ALTER DATABASE {$db} CHARACTER SET utf8 COLLATE utf8_general_ci;");
-        $this->db->query("ALTER DATABASE {$db} CHARACTER SET utf8 COLLATE utf8_general_ci;");
+        $this->db->query("ALTER DATABASE `{$db}` CHARACTER SET utf8 COLLATE utf8_general_ci;");
         $this->tabel_analisis();
         $this->tabel_mandiri();
         $this->tabel_peta();

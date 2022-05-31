@@ -122,8 +122,8 @@ class Pembangunan_model extends MY_Model
 
     public function insert()
     {
-        $post = $this->input->post();
-        $data = $this->validasi($post);
+        $post               = $this->input->post();
+        $data               = $this->validasi($post);
         $data['created_at'] = date('Y-m-d H:i:s');
 
         if (empty($data['foto'])) {
@@ -139,8 +139,8 @@ class Pembangunan_model extends MY_Model
 
     public function update($id = 0)
     {
-        $post               = $this->input->post();
-        $data               = $this->validasi($post);
+        $post = $this->input->post();
+        $data = $this->validasi($post);
 
         if (empty($data['foto'])) {
             unset($data['foto']);

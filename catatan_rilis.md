@@ -1,6 +1,6 @@
-Di rilis ini, versi 22.05-premium-beta01 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.06-premium menyediakan Sinkronisasi data Program Bantuan dan Pembangunan ke OpenDK. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
-Terima kasih pada [untuk diisi] yang terus berkontribusi. Terima kasih pula pada [untuk diisi] yang baru mulai berkontribusi.
+Terima kasih pada balongbesuk yang terus berkontribusi.
 
 #### Penambahan Fitur
 
