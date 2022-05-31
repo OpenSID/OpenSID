@@ -124,6 +124,7 @@ class Pembangunan_model extends MY_Model
     {
         $post = $this->input->post();
         $data = $this->validasi($post);
+        $data['created_at'] = date('Y-m-d H:i:s');
 
         if (empty($data['foto'])) {
             unset($data['foto']);
@@ -140,7 +141,6 @@ class Pembangunan_model extends MY_Model
     {
         $post               = $this->input->post();
         $data               = $this->validasi($post);
-        $data['updated_at'] = date('Y-m-d H:i:s');
 
         if (empty($data['foto'])) {
             unset($data['foto']);
@@ -154,6 +154,7 @@ class Pembangunan_model extends MY_Model
         status_sukses($outp);
     }
 
+    // TODO: Gunakan timestamps dan seragamkan.
     private function validasi($post, $id = null)
     {
         return [
@@ -176,6 +177,7 @@ class Pembangunan_model extends MY_Model
             'sumber_biaya_jumlah'     => $post['sumber_biaya_pemerintah'] + $post['sumber_biaya_provinsi'] + $post['sumber_biaya_kab_kota'] + $post['sumber_biaya_swadaya'],
             'manfaat'                 => $post['manfaat'],
             'sifat_proyek'            => $post['sifat_proyek'],
+            'updated_at'              => date('Y-m-d H:i:s'),
         ];
     }
 

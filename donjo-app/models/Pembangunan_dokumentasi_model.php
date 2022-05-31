@@ -97,7 +97,6 @@ class Pembangunan_dokumentasi_model extends CI_Model
         $data['gambar']         = $this->upload_gambar_pembangunan('gambar');
         $data['persentase']     = $post['persentase'] ?: $post['id_persentase'];
         $data['keterangan']     = $post['keterangan'];
-        $data['created_at']     = date('Y-m-d H:i:s');
         $data['updated_at']     = date('Y-m-d H:i:s');
 
         if (empty($data['gambar'])) {
