@@ -519,7 +519,7 @@ class Sinkronisasi extends Admin_Controller
 
         // Buat data Peserta Program Bantuan
         $writer  = WriterEntityFactory::createCSVWriter();
-        $peserta = LOKASI_SINKRONISASI_ZIP . namafile('peserta bantuan') . '_opendk.csv';
+        $peserta = LOKASI_SINKRONISASI_ZIP . namafile('peserta program bantuan') . '_opendk.csv';
         $writer->openToFile($peserta);
         //Header Tabel
         $judul = [
@@ -574,7 +574,7 @@ class Sinkronisasi extends Admin_Controller
         $this->zip->read_file($peserta);
 
         // Masukan ke File Zip
-        $filename = namafile('peserta bantuan') . '_opendk.zip';
+        $filename = namafile('peserta program bantuan') . '_opendk.zip';
         $this->zip->archive(LOKASI_SINKRONISASI_ZIP . $filename);
 
         return $filename;
