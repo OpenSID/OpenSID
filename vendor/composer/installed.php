@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-susulan-rilisdev',
-        'version' => 'dev-susulan-rilisdev',
+        'pretty_version' => 'dev-rilis-dev',
+        'version' => 'dev-rilis-dev',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c6092876ec788b14b112f7942ff163e92b6c0b30',
+        'reference' => '0b9e118df474cce405f19dd3bf89c6c791947cb6',
         'name' => 'opendesa/opensid',
         'dev' => false,
     ),
@@ -56,12 +56,12 @@
             'dev_requirement' => false,
         ),
         'google/apiclient' => array(
-            'pretty_version' => 'v2.12.4',
-            'version' => '2.12.4.0',
+            'pretty_version' => 'v2.12.5',
+            'version' => '2.12.5.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient',
             'aliases' => array(),
-            'reference' => '702eed9ae7022ba20dc7118c8161060cb50ee9f8',
+            'reference' => 'eb10f733eb0ebec058776cda206009d01af9f9e3',
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
@@ -263,12 +263,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-susulan-rilisdev',
-            'version' => 'dev-susulan-rilisdev',
+            'pretty_version' => 'dev-rilis-dev',
+            'version' => 'dev-rilis-dev',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c6092876ec788b14b112f7942ff163e92b6c0b30',
+            'reference' => '0b9e118df474cce405f19dd3bf89c6c791947cb6',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
