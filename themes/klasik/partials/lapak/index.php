@@ -1,57 +1,28 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * View halaman lapak pada website
- *
- *
- * donjo-app/views/web/halaman_statis/lapak.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-?>
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <div class="box box-primary">
 	<div class="box-header with-border">
-		<h3 class="box-title">Lapak Desa</h3>
+		<h3 class="box-title text-center">Lapak</h3>
 	</div>
 	<div class="box-body">
+		<form method="get" class="form-inline text-center">
+			<div class="row">
+				<div class="col-sm-12">
+					<select class="form-control input-sm select2" id="id_kategori" name="id_kategori">
+						<option selected value="">Semua Kategori</option>
+						<?php foreach ($kategori as $kategori_item) : ?>
+							<option value="<?= $kategori_item->id ?>" <?= selected($id_kategori, $kategori_item->id) ?>><?= $kategori_item->kategori ?></option>
+						<?php endforeach; ?>
+					</select>
+					<input type="text" name="keyword" maxlength="50" class="form-control" value="<?= $keyword; ?>" placeholder="Cari Produk" style="width: 400px;">
+					<button type="submit" class="btn btn-primary">Cari</button>
+					<?php if ($keyword): ?>
+						<a href="<?=site_url('lapak')?>" class="btn btn-info">Tampilkan Semua</a>
+					<?php endif ?>
+				</div>
+			</div>
+		</form>
+		<br/>
 		<?php if ($produk): ?>
 			<div class="row">
 				<?php foreach ($produk as $in => $pro): ?>
@@ -141,65 +112,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 			</div>
 
-			<?php
-				$paging_page = 'lapak';
-				if ($paging->num_rows > $paging->per_page):
-			?>
-				<div class="box-footer text-center">
-					<div>Halaman <?= $paging->page ?> dari <?= $paging->end_link ?></div>
-					<ul class="pagination pagination-sm no-margin">
-						<?php if ($paging->start_link): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
-						<?php endif; ?>
-						<?php if ($paging->prev): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
-						<?php endif; ?>
+			<?php $this->load->view("$folder_themes/cummons/page"); ?>
 
-						<?php foreach ($pages as $i): ?>
-							<li <?= jecho($paging->page, $i, 'class="active"'); ?>>
-								<a href="<?= site_url($paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
-							</li>
-						<?php endforeach; ?>
-
-						<?php if ($paging->next): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
-						<?php endif; ?>
-						<?php if ($paging->end_link): ?>
-							<li><a href="<?= site_url($paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
-						<?php endif; ?>
-					</ul>
-				</div>
-			<?php endif; ?>
 		<?php else: ?>
 			<h5>Belum ada produk yang ditawarkan.</h5>
 		<?php endif;?>
 	</div>
 </div>
 <script type="text/javascript">
-	var token = "<?= $this->setting->mapbox_key; ?>";
+	var map_key = "<?= $this->setting->mapbox_key; ?>";
 
 	$(document).ready(function() {
 		$(document).on('shown.bs.modal','#map-modal', function(event) {
-			var link = $(event.relatedTarget);
-			var title = link.data('title');
-			var modal = $(this);
+			let link = $(event.relatedTarget);
+			let title = link.data('title');
+			let modal = $(this);
 			modal.find('.modal-title').text(title);
 			modal.find('.modal-body').html("<div id='map' style='width: 100%;'></div>");
 
-			var posisi = [link.data('lat'), link.data('lng')];
-			var zoom = link.data('zoom');
+			let posisi = [link.data('lat'), link.data('lng')];
+			let zoom = link.data('zoom');
+			let logo = L.icon({
+				iconUrl: "<?= base_url('assets/images/gis/point/fastfood.png'); ?>",
+			});
+			
 			$("#lat").val(link.data('lat'));
 			$("#lng").val(link.data('lng'));
 
-			// Inisialisasi tampilan peta
 			pelapak = L.map('map').setView(posisi, zoom);
-
-			// Menampilkan BaseLayers Peta
-			getBaseLayers(pelapak, token);
-
-			// Tampilkan Posisi Pelapak
-			marker = new L.Marker(posisi, {draggable:false});
-			pelapak.addLayer(marker);
+			getBaseLayers(pelapak, map_key);
+			pelapak.addLayer(new L.Marker(posisi, {icon:logo}));
 		});
 	});
 </script>

@@ -7,7 +7,7 @@
 			<div class="col-sm-12">
 				<div class="box-body">
 					<div class="form-group">
-						<label class="control-label" for="kategori">Nama Kategori/Variabel 	</label>
+						<label class="control-label" for="kategori">Nama Kategori / Variabel 	</label>
 						<input  id="kategori" class="form-control input-sm required nomor_sk" maxlength="50" type="text" placeholder="Kategori Indikator" name="kategori" value="<?= $analisis_kategori['kategori']?>">
 					</div>
 				</div>

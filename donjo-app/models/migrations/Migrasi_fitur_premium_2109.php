@@ -131,10 +131,13 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
 		// Ubah NIK 0 jadi 0[kode-desa-10-digit];
 		$list_data = $this->db->select('id, nik')->get_where('tweb_penduduk', ['nik' => '0'])->result();
-		foreach ($list_data as $data)
+		if ($list_data)
 		{
-			$nik_sementara = $this->penduduk_model->nik_sementara();
-			$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_penduduk', ['nik' => $nik_sementara]);
+			foreach ($list_data as $data)
+			{
+				$nik_sementara = $this->penduduk_model->nik_sementara();
+				$hasil = $hasil && $this->db->where('id', $data->id)->update('tweb_penduduk', ['nik' => $nik_sementara]);
+			}
 		}
 
 		$hasil = $hasil && $this->tambah_indeks('tweb_penduduk', 'nik');

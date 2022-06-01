@@ -5,7 +5,7 @@
 		<div style="margin-top:0px;">
 			<?php if (!empty($teks_berjalan)): ?>
 				<marquee onmouseover="this.stop()" onmouseout="this.start()">
-					<?php $this->load->view($folder_themes.'/layouts/teks_berjalan.php'); ?>
+					<?php $this->load->view("$folder_themes/layouts/teks_berjalan"); ?>
 				</marquee>
 			<?php endif; ?>
 		</div>
@@ -71,7 +71,7 @@
 				</div>
 				<div class="teks"><?= $single_artikel["isi"]?></div>
 				<?php if ($single_artikel['dokumen']!='' and is_file(LOKASI_DOKUMEN.$single_artikel['dokumen'])): ?>
-					<p>Unduh Lampiran:<br><a href='<?= site_url("first/unduh_dokumen_artikel/{$single_artikel[id]}") ?>' title=""><?= $single_artikel['link_dokumen']?></a></p>
+					<p>Download Lampiran:<br><a href="<?= site_url("first/unduh_dokumen_artikel/{$single_artikel[id]}") ?>" title=""><?= $single_artikel['link_dokumen']?></a></p>
 				<?php endif; ?>
 				<?php if ($single_artikel['gambar1']!='' and is_file(LOKASI_FOTO_ARTIKEL."sedang_".$single_artikel['gambar1'])): ?>
 					<div class="sampul">
@@ -174,7 +174,7 @@
 							</tr>
 							<tr class="captcha"><td>&nbsp;</td>
 								<td>
-									<img id="captcha" src="<?= base_url('securimage/securimage_show.php'); ?>" alt="CAPTCHA Image"/>
+									<img id="captcha" src="<?= base_url('securimage/securimage_show'); ?>" alt="CAPTCHA Image"/>
 									<a href="#" onclick="document.getElementById('captcha').src = '<?= base_url()."securimage/securimage_show.php?"?>' + Math.random(); return false" style="color: #000000;">[ Ganti gambar ]</a>
 								</td>
 							</tr>
@@ -206,7 +206,7 @@
 				<h1>404</h1>
 				<h2>Maaf</h2>
 				<h3>Halaman ini belum tersedia atau sedang dalam perbaikan</h3>
-				<p class="wow fadeInLeftBig">Silahkan kembali lagi ke halaman <a href="<?= site_url(); ?>first">Beranda</a></p>
+				<p class="wow fadeInLeftBig">Silakan kembali lagi ke halaman <a href="<?= site_url(); ?>first">Beranda</a></p>
 			</div>
 		</div>
 	</div>

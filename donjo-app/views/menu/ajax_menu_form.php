@@ -125,7 +125,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<select id="kelompok" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 7, 'link'); ?>" style="<?php ($menu['link_tipe'] != 7 ) and print('display:none;') ?>">
 				<option value="">Pilih Kelompok</option>
 				<?php foreach ($kelompok as $kel): ?>
-					<option value="<?= "data-kelompok/$kel[id]"; ?>" <?= selected($menu['link'], "kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
+					<option value="<?= "data-kelompok/$kel[id]"; ?>" <?= selected($menu['link'], "data-kelompok/$kel[id]") ?>><?= $kel['nama'] . ' (' .$kel['master'] . ')'; ?></option>
 				<?php endforeach; ?>
 			</select>
 			<select id="suplemen" class="form-control input-sm jenis_link required" name="<?= jecho($menu['link_tipe'], 9, 'link'); ?>" style="<?php ($menu['link_tipe'] != 9) and print('display:none;'); ?>">

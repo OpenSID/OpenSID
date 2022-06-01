@@ -74,7 +74,7 @@
 </style>
 <div class="box box-danger">
 	<div class="box-header with-border">
-		<h3 class="box-title"><?= $indikator; ?></h3>
+		<h3 class="box-title"><?= $indikator['pertanyaan']; ?></h3>
 	</div>
 	<div class="box-body">
 		<div class="ui-layout-center" id="chart" style="padding: 5px;"></div>
@@ -83,23 +83,23 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="30%">No</th>
+					<th width="1%">No</th>
 					<th>Jawaban</th>
-					<th>Jumlah Responden</th>
+					<th width="20%" nowrap>Jumlah Responden</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php foreach ($list_jawab as $data): ?>
 					<tr>
-						<td><?= $data['no']; ?></td>
-						<td><?= $data['jawaban']; ?></td>
-						<td><?= $data['nilai']; ?></td>
+						<td class="text-center"><?= $data['no']?></td>
+						<td><?= $data['jawaban']?></td>
+						<td class="text-center"><?= $data['nilai']?></td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
 		<div>
-			<a href="<?= site_url('data_analisis'); ?>" class="uibutton icon prev">Kembali</a>
+			<a href="<?= site_url("data_analisis?master={$indikator['id_master']}"); ?>" class="uibutton icon prev">Kembali</a>
 		</div>
 	</div>
 </div>

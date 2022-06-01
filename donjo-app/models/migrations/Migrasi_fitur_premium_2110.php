@@ -41,7 +41,7 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 {
     public function up()
     {
-		log_message('error', 'Jalankan ' . get_class($this));
+        log_message('error', 'Jalankan ' . get_class($this));
         $hasil = true;
 
         $hasil = $hasil && $this->migrasi_2021090971($hasil);
@@ -49,13 +49,9 @@ class Migrasi_fitur_premium_2110 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021091751($hasil);
         $hasil = $hasil && $this->migrasi_2021092071($hasil);
         $hasil = $hasil && $this->migrasi_2021092171($hasil);
-
-		// hapus di next release
-		$hasil = $hasil && $this->migrasi_2021101051($hasil);
-		$hasil = $hasil && $this->migrasi_2021101351($hasil);
-	
-		status_sukses($hasil);
-		return $hasil;
+    
+        status_sukses($hasil);
+        return $hasil;
     }
 
     protected function migrasi_2021090971($hasil)
@@ -165,31 +161,4 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 
         return $hasil && $this->db->query($sql);
     }
-
-	// hapus di next release
-	protected function migrasi_2021101051($hasil)
-	{
-		$fields = [
-			'kode_pos' => [
-				'type' => 'INT',
-				'constraint' => 5,
-				'null' => TRUE,
-				'default' => NULL
-			],
-		];
-
-		$hasil = $hasil && $this->dbforge->modify_column('config', $fields);
-
-		return $hasil;
-	}
-
-	// hapus di next release
-	protected function migrasi_2021101351($hasil)
-	{
-		$hasil = $hasil && $this->hapus_indeks('log_keluarga', 'id_kk');
-		if (!$this->cek_indeks('log_keluarga', 'id_kk'))
-		$hasil = $hasil && $this->db->query("ALTER TABLE log_keluarga ADD UNIQUE id_kk (id_kk, id_peristiwa, tgl_peristiwa, id_pend)");
-
-		return $hasil;
-	}
 }

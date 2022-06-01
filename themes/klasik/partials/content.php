@@ -77,9 +77,8 @@
 				</ul>
 			</div>
 
-		<!--
-			Pengaturan halaman
-		-->
+		<?php $this->load->view("$folder_themes/cummons/page"); ?>
+			
 		<?php else: ?>
 			<div class="artikel" id="artikel-blank">
 				<div class="box box-warning box-solid">
@@ -92,31 +91,4 @@
 			</div>
 		<?php endif; ?>
 	</div>
-
-	<?php if ($artikel AND $paging->num_rows > $paging->per_page): ?>
-		<div class="box-footer">
-			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
-			<ul class="pagination pagination-sm no-margin">
-				<?php if ($paging->start_link): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->start_link" . $paging->suffix) ?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-				<?php if ($paging->prev): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->prev" . $paging->suffix) ?>" title="Halaman Sebelumnya"><i class="fa fa-backward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-
-				<?php foreach ($pages as $i): ?>
-					<li <?= ($p == $i) ? 'class="active"' : "" ?>>
-						<a href="<?= site_url("first/".$paging_page."/$i" . $paging->suffix) ?>" title="Halaman <?= $i ?>"><?= $i ?></a>
-					</li>
-				<?php endforeach; ?>
-
-				<?php if ($paging->next): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->next" . $paging->suffix) ?>" title="Halaman Selanjutnya"><i class="fa fa-forward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-				<?php if ($paging->end_link): ?>
-					<li><a href="<?= site_url("first/".$paging_page."/$paging->end_link" . $paging->suffix) ?>" title="Halaman Terakhir"><i class="fa fa-fast-forward"></i>&nbsp;</a></li>
-				<?php endif; ?>
-			</ul>
-		</div>
-	<?php endif; ?>
 </div>

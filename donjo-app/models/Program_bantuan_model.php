@@ -1209,7 +1209,7 @@ class Program_bantuan_model extends MY_Model {
 	public function impor_program($program_id = NULL, $data_program = [], $ganti_program = 0)
 	{
 		$this->session->success = 1;
-		$sekarang = date("Y m d");
+		$sekarang = $data_program['sdate'] ?? date('Y m d');
 		$data_tambahan = [
 			'userid' => $this->session->user,
 			'status' => ($data_program['edate'] < $sekarang) ? 0 : 1,
@@ -1312,7 +1312,7 @@ class Program_bantuan_model extends MY_Model {
 		$data = [
 			'id' => $data[0]['id'], // untuk nik, no_kk, no_rtm, kode konversi menjadi id issue #3417
 			'sasaran_peserta' => $sasaran_peserta,
-			'valid' => str_replace("'", "", explode (", ", sql_in_list(array_column($data, 'nik')))) // untuk daftar valid anggota keluarga
+			'valid' => array_column($data, 'nik') // untuk daftar valid anggota keluarga
 		];
 
 		return $data;

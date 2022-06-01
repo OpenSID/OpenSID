@@ -361,7 +361,23 @@ class Rtm extends Admin_Controller {
 		{		
 			case 'bdt':
 				$session = 'bdt';
-				$kategori = 'KLASIFIKASI BDT ';
+				$kategori = 'KLASIFIKASI BDT :';
+				break;
+			case ($tipe > 50):
+				$program_id = preg_replace('/^50/', '', $tipe);
+				$this->session->program_bantuan = $program_id;
+				$nama = $this->db->select('nama')
+					->where('id', $program_id)
+					->get('program')->row()
+					->nama;
+				if ( ! in_array($nomor, [BELUM_MENGISI, TOTAL]))
+				{
+					$this->session->status_dasar = null; // tampilkan semua peserta walaupun bukan hidup/aktif
+					$nomor = $program_id;
+				}
+				$kategori = $nama . ' : ';
+				$session = 'penerima_bantuan';
+				$tipe = 'penerima_bantuan';
 				break;
 			case ($tipe > 50):
 				$program_id = preg_replace('/^50/', '', $tipe);
@@ -380,11 +396,9 @@ class Rtm extends Admin_Controller {
 				$tipe = 'penerima_bantuan';
 				break;
 		}
-
 		$this->session->$session = ($nomor != TOTAL) ? $nomor : NULL;
 
 		$judul = $this->rtm_model->get_judul_statistik($tipe, $nomor, $sex);
-		
 		$this->session->unset_userdata('judul_statistik');
 		if ($judul['nama']) $this->session->judul_statistik = $kategori . $judul['nama'];
 

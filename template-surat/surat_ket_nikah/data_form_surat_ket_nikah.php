@@ -1,4 +1,7 @@
-<?php if (!defined('BASEPATH')) exit ('No direct script access allowed');
+<?php
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
 	// Perlu disimpan di SESSION karena belum ketemu cara
 	// memanggil flexbox memakai ajax atau menyimpan data
 	// TODO: cari pengganti flexbox yang sudah tidak di-support lagi
@@ -52,31 +55,39 @@
 
 		$this->session->post->unset_userdata($array);
 	}
+
 	$status_kawin_pria = array(
 		"BELUM KAWIN" => "Jejaka",
 		"KAWIN" => "Beristri",
 		"CERAI HIDUP" => "Duda",
-		"CERAI MATI" => "Duda");
+		"CERAI MATI" => "Duda"
+	);
+
 	$status_kawin_wanita = array(
 		"BELUM KAWIN" => "Perawan",
 		"KAWIN" => "Bersuami",
 		"CERAI HIDUP" => "Janda",
-		"CERAI MATI" => "Janda");
+		"CERAI MATI" => "Janda"
+	);
+
 	$data['warganegara'] = $this->penduduk_model->list_warganegara();
 	$data['agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
 	$data['pekerjaan'] = $this->penduduk_model->list_pekerjaan();
 	$data['laki'] = $this->surat_model->list_penduduk_laki();
 	$data['nomor'] = $this->input->post('nomor_main');
+
 	if (isset($this->session->id_pria))
 	{
 		$id = $this->session->id_pria;
 		$data['ayah_pria'] = $this->surat_model->get_data_ayah($id);
 		$data['ibu_pria'] = $this->surat_model->get_data_ibu($id);
 	}
+
 	if (isset($data['pria']))
 	{
 		$data['pria']['status_kawin_pria'] = $status_kawin_pria[$data['pria']['status_kawin']];
 	}
+
 	if (isset($this->session->id_wanita))
 	{
 		$id = $this->session->id_wanita;
@@ -89,12 +100,14 @@
 	}
 
 	$data['kode']['status_kawin_pria'] = array(
-	  "Jejaka",
-	  "Duda",
-	  "Beristri"
+		"Jejaka",
+		"Duda",
+		"Beristri"
 	);
+
 	$data['kode']['status_kawin_wanita'] = array(
-	  "Perawan",
-	  "Janda"
+		"Perawan",
+		"Janda",
+		"Bersuami"
 	);
 ?>

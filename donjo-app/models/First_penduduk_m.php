@@ -29,16 +29,37 @@ class First_penduduk_m extends CI_Model {
 		return $data;
 	}
 
-	public function list_indikator()
+	public function master_indikator()
 	{
-		$sql = "SELECT u.id,u.pertanyaan AS indikator,s.subjek,p.nama AS periode,p.tahun_pelaksanaan AS tahun,m.nama AS master,m.subjek_tipe,p.id AS id_periode
-			FROM analisis_indikator u
-			LEFT JOIN analisis_master m ON u.id_master = m.id
-			LEFT JOIN analisis_ref_subjek s ON m.subjek_tipe = s.id
-			LEFT JOIN analisis_periode p ON p.id_master = m.id AND p.aktif = 1
-			WHERE u.is_publik = 1 ORDER BY u.nomor ASC";
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+		$data = $this->db
+			->select('m.id, m.nama AS master, m.subjek_tipe, s.subjek, p.nama AS periode, p.tahun_pelaksanaan AS tahun,  p.id AS id_periode')
+			->distinct()
+			->from('analisis_indikator u')
+			->join('analisis_master m', 'u.id_master = m.id', 'left')
+			->join('analisis_ref_subjek s', 'm.subjek_tipe = s.id', 'left')
+			->join('analisis_periode p', 'p.id_master = m.id', 'left')
+			->where('u.is_publik', 1)
+			->where('p.aktif', 1)
+			->order_by('m.nama')
+			->get()->result_array();
+		return $data;
+	}
+
+	public function list_indikator($master = null)
+	{
+		if (empty($master)) $master = $this->master_indikator()[0]['id'];
+
+		$data = $this->db
+			->select('u.id, u.nomor, u.id_master, u.pertanyaan AS indikator, s.subjek, p.nama AS periode, p.tahun_pelaksanaan AS tahun, m.nama AS master, m.subjek_tipe, p.id AS id_periode')
+			->from('analisis_indikator u')
+			->join('analisis_master m', 'u.id_master = m.id', 'left')
+			->join('analisis_ref_subjek s', 'm.subjek_tipe = s.id', 'left')
+			->join('analisis_periode p', 'p.id_master = m.id', 'left')
+			->where('u.is_publik', 1)
+			->where('p.aktif', 1)
+			->where('u.id_master', $master)
+			->order_by('LPAD(u.nomor, 10, " ")')
+			->get()->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
@@ -49,10 +70,13 @@ class First_penduduk_m extends CI_Model {
 
 	public function get_indikator($id=0)
 	{
-		$sql = "SELECT pertanyaan FROM analisis_indikator WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data= $query->row_array();
-		return $data['pertanyaan'];
+		$indikator = $this->db
+			->select('id_master, pertanyaan')
+			->from('analisis_indikator')
+			->where('id', $id)
+			->get()->row_array();
+
+		return $indikator;
 	}
 
 	public function list_jawab($id=0, $sb=0, $per=0)

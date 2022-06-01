@@ -78,9 +78,11 @@ class User_model extends CI_Model {
 
 	public function siteman()
 	{
+		$this->load->library('Telegram/telegram');
+
 		$this->_username = $username = trim($this->input->post('username'));
 		$this->_password = $password = trim($this->input->post('password'));
-		$sql = "SELECT id, password, id_grup, session FROM user WHERE username = ?";
+		$sql = "SELECT id, password, id_grup, nama, session FROM user WHERE username = ?";
 
 		// User 'admin' tidak bisa di-non-aktifkan
 		if ($username !== 'admin')
@@ -151,6 +153,22 @@ class User_model extends CI_Model {
 				$this->session->siteman_try = 4;
 				$this->session->fm_key = $this->set_fm_key($row->id . $row->id_grup . $row->sesi);
 				$this->last_login($this->session->user);
+
+				if (cek_koneksi_internet())
+				{
+					try
+					{
+						$this->telegram->sendMessage([
+							"text" => sprintf("%s login Halaman Admin %s pada tanggal %s", $row->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),
+							"parse_mode" => "Markdown",
+							"chat_id" => $this->setting->telegram_user_id,
+						]);
+					}
+					catch (Exception $e)
+					{
+						log_message('error', $e->getMessage());
+					}
+				}
 			}
 		}
 	}

@@ -37,7 +37,7 @@
 																<th>NIK/KK</th>
 																<th>Pertanyaan</th>
 																<th>Tipe Pertanyaan</th>
-																<th>Kategori/Variabel</th>
+																<th>Kategori / Variabel</th>
 																<th>Bobot</th>
 															</tr>
 														</thead>

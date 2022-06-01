@@ -29,9 +29,11 @@
 									<div class="box box-info">
 										<div class="box-header with-border">
 											<h3 class="box-title">File logs</h3>
-											<div class="box-tools">
-												<span class="label pull-right"><input type="checkbox" id="checkall" class="checkall"/>
-											</div>
+											<?php if ($files) : ?>
+												<div class="box-tools">
+													<span class="label pull-right"><input type="checkbox" id="checkall" class="checkall"/>
+												</div>
+											<?php endif ?>
 										</div>
 										<div class="box-body no-padding">
 											<ul class="nav nav-pills nav-stacked scroll">
@@ -58,7 +60,7 @@
 												<a href="?dl=<?= base64_encode($currentFile) ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Unduh file log"><i class="fa fa-download"></i> Unduh</a>
 												<?php if ($this->CI->cek_hak_akses_url('u')): ?>
 													<a href="#" data-href="?del=<?= base64_encode($currentFile) ?>" class="btn btm-social btn-flat btn-danger btn-sm" title="Hapus log file" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i>Hapus log file</a>
-													<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url("setting/remove_log?f=".base64_encode($currentFile))?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+													<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?=site_url($this->controller . "/remove_log?f=".base64_encode($currentFile))?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 												<?php endif; ?>
 											<?php endif ?>
 										</div>
@@ -152,13 +154,11 @@
 								</p>
 							<?php endif; ?>
 							<?php foreach ($ekstensi['ekstensi'] as $key => $value) : ?>
-								<div class="form-group">
-									<div class="input-group col-xs-3">
-										<span><?= $key ?></span>
-										<span class="input-group-btn">
-											<button class="btn <?= $value ? 'btn-success' : 'btn-danger' ?>" type="button"><i class="fa fa-<?= $value ? 'check' : 'times' ?> fa-lg"></i></button>
-										</span>
-									</div>
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button type="button" class="btn btn-flat <?= $value ? 'btn-success' : 'btn-danger' ?>"><i class="fa fa-<?= $value ? 'check' : 'times' ?>"></i></button>
+									</span>
+									<span class="form-control" style="border: 0px;"><?= $key ?></span>
 								</div>
 							<?php endforeach; ?>
 						</div>

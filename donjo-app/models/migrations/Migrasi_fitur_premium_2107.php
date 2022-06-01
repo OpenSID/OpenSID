@@ -275,7 +275,7 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 			'parent' => 0
 		];
 
-		$hasil =& $this->tambah_modul($fields);
+		$hasil = $hasil && $this->tambah_modul($fields);
 
 		// Hapus cache menu navigasi
 		$this->load->driver('cache');

@@ -53,7 +53,7 @@
 						<?php foreach ($main as $data): ?>
 							<tr>
 								<td><?= $data['no']?></td>
-								<td><?= $privasi_kk ? sensor_nik_kk($data['no_kk']) : $data['no_kk']?></td>
+								<td><?= $privasi_kk ? sensor_nik_kk(get_nokk($data['no_kk'])) : get_nokk($data['no_kk'])?></td>
 								<td><?= strtoupper($data['kepala_kk'])?></td>
 								<td><?= $privasi_kk ? sensor_nik_kk($data['nik']) : $data['nik']?></td>
 								<td><?= $data['jumlah_anggota']?></td>
