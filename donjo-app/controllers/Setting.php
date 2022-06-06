@@ -151,27 +151,24 @@ class Setting extends Admin_Controller
         // $logoqr = yg akan ditampilkan, url
         // $logoqr1 = yg akan disimpan, directory
         if ($changeqr == '1') {
-            $desa = $this->header['desa'];
             // Ambil absolute path, bukan url
-            $logoqr1 = gambar_desa($desa['logo'], false, true);
+            $logoqr1 = gambar_desa($this->header['desa']['logo'], false, true);
         } else {
             $logoqr = $post['logoqr'];
             // Ubah url (http) menjadi absolute path ke file di lokasi media
             $lokasi_media = preg_quote(LOKASI_MEDIA, '/');
             $file_logoqr  = preg_split('/' . $lokasi_media . '/', $logoqr)[1];
-            $logoqr1      = APPPATH . '../' . LOKASI_MEDIA . $file_logoqr;
+            $logoqr1      = FCPATH . LOKASI_MEDIA . $file_logoqr;
         }
 
-        $qrcode = [
+        $qrCode = [
             'isiqr'    => $post['isiqr'], // Isi / arti dr qrcode
             'changeqr' => $changeqr, // Pilihan jenis sisipkan logo
-            'logoqr'   => $logoqr,
+            'logoqr'   => $logoqr1,
             'sizeqr'   => bilangan($post['sizeqr']), // Ukuran qrcode
             'foreqr'   => $post['foreqr'],
         ];
 
-        $base64 = qrcode_generate($qrcode['isiqr'], $logoqr1, $qrcode['sizeqr'], $qrcode['foreqr'], true);
-
-        json($base64);
+        json(qrcode_generate($qrCode, true));
     }
 }

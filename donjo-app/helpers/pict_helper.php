@@ -812,7 +812,7 @@ function qrcode_generate(array $qrcode = [], $base64 = false)
 
     //Hasilkan QRCode
     $imgData  = $barcodeobj->getBarcodePngData($sizeqr, $sizeqr, [$r, $g, $b]);
-    $filename = sys_get_temp_dir() . '\qrcode_' . date('Y_m_d_H_i_s') . '_temp.png';
+    $filename = sys_get_temp_dir() . '/qrcode_' . date('Y_m_d_H_i_s') . '_temp.png';
     file_put_contents($filename, $imgData);
 
     //Ubah backround transparan ke warna putih supaya terbaca qrcode scanner

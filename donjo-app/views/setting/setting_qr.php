@@ -176,7 +176,6 @@
 	$('#generate').on('click', function() {
 		if (!$('#mainform').valid()) return false;
 
-		var namaqr = $('#namaqr').val();
 		var isiqr = $('#isiqr').val();
 		var changeqr = $('#changeqr').val();
 		var logoqr = $('#logoqr').val();
@@ -184,9 +183,9 @@
 		var foreqr = $('#foreqr').val();
 
 		$.ajax({
-			url : 'qrcode_generate',
+			url : SITE_URL + 'setting/qrcode_generate',
 			type : 'POST',
-			data : {namaqr:namaqr, isiqr:isiqr, changeqr:changeqr, logoqr:logoqr, sizeqr:sizeqr, foreqr:foreqr},
+			data : {isiqr:isiqr, changeqr:changeqr, logoqr:logoqr, sizeqr:sizeqr, foreqr:foreqr},
 			success: function(data) {
 				$("#hasil_qrcode").show();
 				$("#file_qrcode").attr('src', data);
