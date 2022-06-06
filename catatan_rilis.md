@@ -12,3 +12,5 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 
 
 #### Perubahan Teknis
+
+1. [#1070](https://github.com/OpenSID/premium/pull/1070) Teknis perbaiki view database blank, rubah ke error 500.
