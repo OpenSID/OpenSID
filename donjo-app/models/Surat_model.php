@@ -1062,10 +1062,10 @@ class Surat_model extends CI_Model
 
     public function lampiran($data, $nama_surat, &$lampiran)
     {
-        $surat = $data['surat'];
-        $config = $data['config'];
+        $surat    = $data['surat'];
+        $config   = $data['config'];
         $individu = $data['individu'];
-        $input = $data['input'];
+        $input    = $data['input'];
 
         if (! $surat['lampiran']) {
             return;
