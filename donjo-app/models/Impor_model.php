@@ -742,7 +742,7 @@ class Impor_model extends CI_Model
                         $this->tulis_tweb_keluarga($isi_baris);
 
                         // Untuk pesan jika data yang sama akan diganti
-                        if ($index = array_search($isi_baris['nik'], $data_penduduk)) {
+                        if ($index = array_search($isi_baris['nik'], $data_penduduk) && $isi_baris['nik'] != '0') {
                             $ganda++;
                             $pesan .= $baris_data . ') NIK ' . $isi_baris['nik'] . ' sama dengan baris ' . ($index + 2) . '<br>';
                         }
