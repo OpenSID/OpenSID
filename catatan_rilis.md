@@ -8,6 +8,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 #### Perbaikan BUG
 
 1. [#5249](https://github.com/OpenSID/OpenSID/issues/5249) Perbaiki impor data penduduk terbaca ganda.
+2. [#5255](https://github.com/OpenSID/OpenSID/issues/5255) Perbaiki qr code surat yaang mengarah ke github opensid.
 
 
 #### Perubahan Teknis
