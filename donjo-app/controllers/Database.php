@@ -52,10 +52,14 @@ class Database extends Admin_Controller
 
     public function index()
     {
-        $data['form_action'] = site_url('database/restore');
+        $data = [
+            'act_tab'     => 1,
+            'content'     => 'database/backup',
+            'form_action' => site_url('database/restore'),
+            'size_folder' => byte_format(dirSize(DESAPATH)),
+            'size_sql'    => byte_format(getSizeDB()->size),
+        ];
 
-        $data['act_tab'] = 1;
-        $data['content'] = 'database/backup';
         $this->load->view('database/database.tpl.php', $data);
     }
 
