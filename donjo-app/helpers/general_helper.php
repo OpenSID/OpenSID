@@ -277,11 +277,11 @@ if (! function_exists('underscore')) {
             $str = MB_ENABLED ? mb_strtolower($str) : strtolower($str);
         }
 
-        // mengganti spasi dengan underscore
-        $str = str_replace(' ', '_', $str);
-
-        // mengganti underscore dengan spasi
         if ($to_underscore) {
+            // mengganti spasi dengan underscore
+            $str = str_replace(' ', '_', $str);
+        } else {
+            // mengganti underscore dengan spasi
             $str = str_replace('_', ' ', $str);
         }
 
