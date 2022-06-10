@@ -35,40 +35,30 @@
  *
  */
 
-use App\Models\Keluarga;
-use App\Models\LogKeluarga;
-use App\Models\Penduduk;
+namespace App\Models;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use Illuminate\Database\Eloquent\Model;
 
-class Migrasi_fitur_premium_2207 extends MY_model
+class LogKeluarga extends Model
 {
-    public function up()
-    {
-        $hasil = true;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'log_keluarga';
 
-        // Jalankan migrasi sebelumnya
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2206');
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
-        return $hasil && $this->migrasi_2022060851($hasil);
-    }
-
-    protected function migrasi_2022060851($hasil)
-    {
-        if ($sudahAda = LogKeluarga::pluck('id_kk')) {
-            if ($belumAdaLog = Keluarga::whereNotIn('id', $sudahAda)->get()) {
-                foreach ($belumAdaLog as $data) {
-                    $hasil = $hasil && LogKeluarga::insert([
-                        'id_kk'         => $data->id,
-                        'kk_sex'        => Penduduk::select('sex')->find($data->nik_kepala)->sex,
-                        'id_peristiwa'  => 1, // KK Baru
-                        'tgl_peristiwa' => $data->tgl_daftar,
-                        'updated_by'    => $this->session->user,
-                    ]);
-                }
-            }
-        }
-
-        return $hasil;
-    }
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 }
