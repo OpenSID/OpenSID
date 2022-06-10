@@ -35,6 +35,15 @@
  *
  */
 
+use App\Models\Bantuan;
+use App\Models\BantuanPeserta;
+use App\Models\Keluarga;
+use App\Models\LogKeluarga;
+use App\Models\Penduduk;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2207 extends MY_model
@@ -44,6 +53,76 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2206');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2206');
+        $hasil = $hasil && $this->migrasi_2022060851($hasil);
+
+        return $hasil && $this->migrasi_2022060951($hasil);
+    }
+
+    protected function migrasi_2022060851($hasil)
+    {
+        if ($sudahAda = LogKeluarga::pluck('id_kk')) {
+            if ($belumAdaLog = Keluarga::whereNotIn('id', $sudahAda)->get()) {
+                foreach ($belumAdaLog as $data) {
+                    $hasil = $hasil && LogKeluarga::insert([
+                        'id_kk'         => $data->id,
+                        'kk_sex'        => Penduduk::select('sex')->find($data->nik_kepala)->sex,
+                        'id_peristiwa'  => 1, // KK Baru
+                        'tgl_peristiwa' => $data->tgl_daftar,
+                        'updated_by'    => $this->session->user,
+                    ]);
+                }
+            }
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022060951($hasil)
+    {
+        // Cek data ganda
+        $akanDihapus = [];
+
+        if ($daftarBantuan = Bantuan::pluck('id')) {
+            foreach ($daftarBantuan as $program_id) {
+                $duplikat = BantuanPeserta::select('id')
+                    ->where('program_id', $program_id)
+                    ->whereIn('kartu_id_pend', static function ($query) use ($program_id) {
+                        $query->select('kartu_id_pend')
+                            ->from('program_peserta')
+                            ->where('program_id', $program_id)
+                            ->groupBy('kartu_id_pend')
+                            ->having(DB::raw('count(kartu_id_pend)'), '>', 1);
+                    })
+                    ->orderBy('updated_at', 'desc')
+                    ->pluck('id');
+
+                // Hapus Peserta Lama dan Sisakan 1 yang paling baru
+                $akanDihapus = collect($duplikat)
+                    ->except([0])
+                    ->values()
+                    ->merge($akanDihapus);
+            }
+        }
+
+        // Hapus data yang duplikasi
+        if ($akanDihapus) {
+            foreach ($akanDihapus as $peserta) {
+                $data = BantuanPeserta::find($peserta);
+
+                log_message('error', "ID : {$peserta}, Peserta : {$data->peserta}, Nama : {$data->kartu_nama} sudah di hapus.");
+
+                $hasil = $hasil && $data->delete();
+            }
+        }
+
+        // Tambahkan index pada program_id dan kartu_id_pend
+        if (! $this->cek_indeks('program_peserta', 'program_peserta_program_id_kartu_id_pend_unique')) {
+            Schema::table('program_peserta', static function (Blueprint $table) {
+                $table->unique(['program_id', 'kartu_id_pend']);
+            });
+        }
+
+        return $hasil;
     }
 }

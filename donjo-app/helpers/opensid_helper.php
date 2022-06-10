@@ -51,7 +51,7 @@ define('VERSION', '22.06-premium-beta01');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022060171');
+define('VERSI_DATABASE', '2022060851');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -890,7 +890,7 @@ function namafile($str)
 {
     $tgl = date('d_m_Y');
 
-    return urlencode(underscore($str, false, true) . '_' . $tgl);
+    return urlencode(underscore($str, true, true) . '_' . $tgl);
 }
 
 function luas($int = 0, $satuan = 'meter')

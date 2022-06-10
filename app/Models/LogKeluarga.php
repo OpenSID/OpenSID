@@ -39,14 +39,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BantuanPeserta extends Model
+class LogKeluarga extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'program_peserta';
+    protected $table = 'log_keluarga';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * The guarded with the model.
@@ -54,28 +61,4 @@ class BantuanPeserta extends Model
      * @var array
      */
     protected $guarded = [];
-
-    /**
-     * The relations to eager load on every query.
-     *
-     * @var array
-     */
-    protected $with = ['bantuan'];
-
-    public function bantuan()
-    {
-        return $this->belongsTo(Bantuan::class, 'program_id');
-    }
-
-    /**
-     * Scope query untuk peserta.
-     *
-     * @param Builder $query
-     *
-     * @return Builder
-     */
-    public function scopePeserta($query)
-    {
-        // return $query->where('peserta', auth('jwt')->user()->penduduk->nik);
-    }
 }
