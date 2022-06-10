@@ -35,8 +35,6 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
-
 namespace App\Libraries;
 
 use ZipArchive;
