@@ -230,7 +230,7 @@ class MY_Model extends CI_Model
             ->where('table_schema', $db)
             ->where('table_name', $tabel)
             ->where('index_name', $kolom)
-            ->get()->row()->ada;
+            ->get()->row()->ada > 0;
     }
 
     public function tambah_modul($modul)

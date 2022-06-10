@@ -14,6 +14,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 5. [#5263](https://github.com/OpenSID/OpenSID/issues/5263) Perbaiki statistik pada peta wilayah dusun tidak tampil.
 6. [#5177](https://github.com/OpenSID/OpenSID/issues/5177) Perbaiki data jumlah keluarga tidak tampil pada Statistik Penduduk Laporan Bulanan.
 7. [#5267](https://github.com/OpenSID/OpenSID/issues/5267) Perbaiki isian jumlah biaya pembangunan tidak bisa lebih dari 9 digit.
+8. [#5265](https://github.com/OpenSID/OpenSID/issues/5265) Perbaiki duplikasi peserta program bantuan pada semua sasaran bantuan.
 
 #### Perubahan Teknis
 

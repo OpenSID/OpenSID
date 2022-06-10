@@ -49,13 +49,6 @@ class BantuanPeserta extends Model
     protected $table = 'program_peserta';
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The guarded with the model.
      *
      * @var array
