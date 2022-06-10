@@ -13,6 +13,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 4. [#5264](https://github.com/OpenSID/OpenSID/issues/5264) Perbaiki IDM Kemendes tidak dapat di perbaharui jika respon dari api tidak sesuai.
 5. [#5263](https://github.com/OpenSID/OpenSID/issues/5263) Perbaiki statistik pada peta wilayah dusun tidak tampil.
 6. [#5177](https://github.com/OpenSID/OpenSID/issues/5177) Perbaiki data jumlah keluarga tidak tampil pada Statistik Penduduk Laporan Bulanan.
+7. [#5267](https://github.com/OpenSID/OpenSID/issues/5267) Perbaiki isian jumlah biaya pembangunan tidak bisa lebih dari 9 digit.
 
 #### Perubahan Teknis
 
