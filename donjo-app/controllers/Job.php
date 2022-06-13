@@ -79,7 +79,7 @@ class Job extends CI_Controller
         folder_desa();
 
         // Proses Restore Database
-        if ($this->ekspor_model->proses_restore($this->cekDB($database))) {
+        if ($this->ekspor_model->proses_restore($this->cekDB($database ?? 'contoh_data_awal'))) {
             $this->database_model->migrasi_db_cri();
         } else {
             log_message('error', 'Proses Restore Database Gagal');
@@ -88,7 +88,7 @@ class Job extends CI_Controller
         log_message('error', '>_ Selesai');
     }
 
-    private function cekDB($filename = 'contoh_data_awal')
+    private function cekDB($filename)
     {
         $filename = DESAPATH . "/config/{$filename}.sql";
 
