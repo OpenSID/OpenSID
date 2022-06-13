@@ -95,6 +95,10 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $akanDihapus = [];
 
         if ($daftarBantuan = Bantuan::pluck('id')) {
+
+            // Hapus semua peserta dengan program bantuan yang sudah tidak ada
+            BantuanPeserta::whereNotIn('program_id', $daftarBantuan)->delete();
+
             foreach ($daftarBantuan as $program_id) {
                 $duplikat = BantuanPeserta::select('id')
                     ->where('program_id', $program_id)
