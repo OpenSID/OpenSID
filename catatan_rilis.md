@@ -21,3 +21,4 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 
 1. [#1070](https://github.com/OpenSID/premium/pull/1070) Teknis perbaiki view database blank, rubah ke error 500.
 2. [#1075](https://github.com/OpenSID/premium/pull/1075) Teknis perbaiki backup tidak jalan di VPS.
+3. [#1080](https://github.com/OpenSID/premium/pull/1080) Teknis perbaiki hapus fungsi yang tidak diperlukan.
