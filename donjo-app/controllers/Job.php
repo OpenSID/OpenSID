@@ -88,17 +88,10 @@ class Job extends CI_Controller
         log_message('error', '>_ Selesai');
     }
 
-    private function cekDB($filename = null)
+    private function cekDB($filename = 'contoh_data_awal')
     {
-        if (! $filename) {
-            $filename = DESAPATH . '/config/contoh_data_awal.sql';
-        }
+        $filename = DESAPATH . "/config/{$filename}.sql";
 
-        return $this->cekFile($filename);
-    }
-
-    private function cekFile($filename = null)
-    {
         if (file_exists($filename)) {
             return $filename;
         }

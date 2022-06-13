@@ -61,6 +61,17 @@ class Migrasi_fitur_premium_2207 extends MY_model
 
     protected function migrasi_2022060851($hasil)
     {
+        // updated_by default null
+        if ($this->db->field_exists('updated_by', 'log_keluarga')) {
+            return $hasil && $this->dbforge->modify_column('log_keluarga', [
+                'updated_by' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => true,
+                ],
+            ]);
+        }
+
         if ($sudahAda = LogKeluarga::pluck('id_kk')) {
             if ($belumAdaLog = Keluarga::whereNotIn('id', $sudahAda)->get()) {
                 foreach ($belumAdaLog as $data) {
@@ -84,6 +95,10 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $akanDihapus = [];
 
         if ($daftarBantuan = Bantuan::pluck('id')) {
+
+            // Hapus semua peserta dengan program bantuan yang sudah tidak ada
+            BantuanPeserta::whereNotIn('program_id', $daftarBantuan)->delete();
+
             foreach ($daftarBantuan as $program_id) {
                 $duplikat = BantuanPeserta::select('id')
                     ->where('program_id', $program_id)

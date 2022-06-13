@@ -318,11 +318,9 @@ class Web_artikel_model extends MY_Model
 
     public function update($cat, $id = 0)
     {
-        $this->group_akses();
+        session_error_clear();
 
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        $data                  = $_POST;
+        $data = $_POST;
         if (empty($data['judul']) || empty($data['isi'])) {
             $_SESSION['error_msg'] .= ' -> Data harus diisi';
             $_SESSION['success'] = -1;
@@ -362,7 +360,6 @@ class Web_artikel_model extends MY_Model
         }
 
         // Upload dokumen lampiran
-
         $lokasi_file = $_FILES['dokumen']['tmp_name'];
         $tipe_file   = TipeFile($_FILES['dokumen']);
         $nama_file   = $_FILES['dokumen']['name'];
@@ -401,21 +398,20 @@ class Web_artikel_model extends MY_Model
 
         $data['slug'] = unique_slug('artikel', $data['judul'], $id);
 
+        $this->group_akses();
+
         if ($cat == AGENDA) {
             $outp = $this->update_agenda($id, $data);
         } else {
             $this->db->where('a.id', $id);
             $outp = $this->db->update('artikel a', $data);
         }
-        if (! $outp) {
-            $_SESSION['success'] = -1;
-        }
+
+        status_sukses($outp);
     }
 
     private function update_agenda($id_artikel, $data)
     {
-        $this->group_akses();
-
         $agenda = $this->ambil_data_agenda($data);
         $id     = $data['id_agenda'];
         unset($data['id_agenda']);
