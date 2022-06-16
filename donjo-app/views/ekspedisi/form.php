@@ -19,7 +19,7 @@
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<a href="<?= site_url("ekspedisi")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Buku Ekspedisi">
+				<a href="<?= site_url('ekspedisi')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Buku Ekspedisi">
 					<i class="fa fa-arrow-circle-left "></i>Kembali Ke Buku Ekspedisi
 				</a>
 			</div>
@@ -39,8 +39,8 @@
 							<select class="form-control input-sm select2-tags required" id="kode_surat" disabled name="kode_surat" style="width: 100%;">
 								<option value=''>-- Pilih Kode/Klasifikasi Surat --</option>
 								<?php foreach ($klasifikasi as $item): ?>
-									<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_keluar["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
-								<?php endforeach;?>
+									<option value="<?= $item['kode'] ?>" <?php selected($item['kode'], $surat_keluar['kode_surat'])?>><?= $item['kode'] . ' - ' . $item['nama']?></option>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
@@ -84,12 +84,12 @@
 							</div>
 						</div>
 					</div>
-					<?php if (!is_null($surat_keluar['tanda_terima']) && $surat_keluar['tanda_terima'] != '.'): ?>
+					<?php if (null !== $surat_keluar['tanda_terima'] && $surat_keluar['tanda_terima'] != '.'): ?>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="tanda_terima"></label>
 							<div class="col-sm-8">
 								<div class="mailbox-attachment-info">
-									<a href="<?= site_url('/surat_keluar/unduh_berkas_scan/'.$surat_keluar['id']);?>" title=""><i class="fa fa-paperclip"></i> <?= $surat_keluar['tanda_terima'];?></a>
+									<a href="<?= site_url('/surat_keluar/unduh_berkas_scan/' . $surat_keluar['id']); ?>" title=""><i class="fa fa-paperclip"></i> <?= $surat_keluar['tanda_terima']; ?></a>
 									<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?=  $surat_keluar['tanda_terima']?>" /> Hapus Berkas Lama</label></p>
 								</div>
 							</div>

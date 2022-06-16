@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
@@ -34,7 +34,7 @@
 										</div>
 										<?php if ($list_indikator): ?>
 											<?php if (count($master_indikator) > 1) : ?>
-												<form action="<?=site_url('data_analisis');?>" method="get">
+												<form action="<?=site_url('data_analisis'); ?>" method="get">
 													<div class="row" style="margin-bottom: 20px;">
 														<label style="padding-top: 5px;" class="col-sm-1 control-label" >Analisis: </label>
 														<div class="col-sm-6">

@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') || exit('No direct script access allowed');
+
 /*
  * File ini:
  *
@@ -34,8 +35,8 @@
  *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
@@ -46,7 +47,7 @@
 		<tr>
 			<td colspan="8">
 				<?php if ($aksi != 'unduh'): ?>
-					<img class="logo" src="<?= gambar_desa($config['logo']);?>" alt="logo-desa">
+					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
 				<?php endif; ?>
 				<h1 class="judul">
 					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
@@ -69,11 +70,11 @@
 		<tr class="border thick">
 			<th width="10">NO</th>
 			<th align="left"><?= strtoupper($judul['nomor']) ?></th>
-			<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3])): ?>
+			<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3])): ?>
 				<th align="left"><?= strtoupper($judul['nomor_kk']) ?></th>
-			<?php endif;?>
+			<?php endif; ?>
 			<th align="left"><?= strtoupper($judul['nama']) ?></th>
-			<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
+			<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4])): ?>
 				<th align="left">JENIS KELAMIN</th>
 				<th align="left">ALAMAT</th>
 			<?php endif; ?>
@@ -86,13 +87,13 @@
 			<tr>
 				<td align="center" width="2"><?= ($key + 1); ?></td>
 				<td class="textx" ><?= $data['uid'] ?></td>
-				<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3])): ?>
+				<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3])): ?>
 					<td class="textx"><?= $data['kk'] ?></td>
-				<?php endif;?>
+				<?php endif; ?>
 				<td><?= $data['nama'] ?></td>
-				<?php if (in_array($analisis_master['subjek_tipe'], [1,2,3,4])): ?>
+				<?php if (in_array($analisis_master['subjek_tipe'], [1, 2, 3, 4])): ?>
 					<td align="center"><?= $data['jk'] ?></td>
-					<td><?= strtoupper($data['alamat'] . " "  .  "RT/RW ". $data['rt']."/".$data['rw'] . " - " . $this->setting->sebutan_dusun . " " . $data['dusun']) ?></td>
+					<td><?= strtoupper($data['alamat'] . ' ' . 'RT/RW ' . $data['rt'] . '/' . $data['rw'] . ' - ' . $this->setting->sebutan_dusun . ' ' . $data['dusun']) ?></td>
 				<?php endif; ?>
 				<td align="right"><?= $data['nilai'] ?></td>
 				<td align="right"><?= $data['klasifikasi'] ?></td>

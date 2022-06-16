@@ -14,15 +14,15 @@
 		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<?php $this->load->view('analisis_master/left', $data);?>
+					<?php $this->load->view('analisis_master/left', $data); ?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("analisis_statistik_jawaban/cetak2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+							<a href="<?= site_url("analisis_statistik_jawaban/cetak2/{$analisis_statistik_pertanyaan['id']}/{$analisis_statistik_jawaban['id']}")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
 								<i class="fa fa-print"></i>Cetak
 							</a>
-							<a href="<?= site_url("analisis_statistik_jawaban/excel2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
+							<a href="<?= site_url("analisis_statistik_jawaban/excel2/{$analisis_statistik_pertanyaan['id']}/{$analisis_statistik_jawaban['id']}")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank">
 								<i class="fa fa-download"></i>Unduh
 							</a>
 							<a href="<?= site_url()?>analisis_statistik_jawaban" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Laporan Per Indikator</a>
@@ -53,26 +53,26 @@
 										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-12">
-													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/dusun2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
+													<select class="form-control input-sm " name="dusun" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/dusun2/{$analisis_statistik_pertanyaan['id']}/{$analisis_statistik_jawaban['id']}")?>')">
 														<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
-														<?php foreach ($list_dusun AS $data): ?>
+														<?php foreach ($list_dusun as $data): ?>
 															<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif ?>><?= strtoupper($data['dusun'])?></option>
-														<?php endforeach;?>
+														<?php endforeach; ?>
 													</select>
 													<?php if ($dusun): ?>
-														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rw2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')" >
+														<select class="form-control input-sm" name="rw" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rw2/{$analisis_statistik_pertanyaan['id']}/{$analisis_statistik_jawaban['id']}")?>')" >
 															<option value="">RW</option>
-															<?php foreach ($list_rw AS $data): ?>
+															<?php foreach ($list_rw as $data): ?>
 																<option value="<?= $data['rw']?>" <?php if ($rw == $data['rw']): ?>selected<?php endif ?>><?= $data['rw']?></option>
-															<?php endforeach;?>
+															<?php endforeach; ?>
 														</select>
 													<?php endif; ?>
 													<?php if ($rw): ?>
-														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rt2/$analisis_statistik_pertanyaan[id]/$analisis_statistik_jawaban[id]")?>')">
+														<select class="form-control input-sm" name="rt" onchange="formAction('mainform','<?= site_url("analisis_statistik_jawaban/rt2/{$analisis_statistik_pertanyaan['id']}/{$analisis_statistik_jawaban['id']}")?>')">
 															<option value="">RT</option>
-															<?php foreach ($list_rt AS $data): ?>
+															<?php foreach ($list_rt as $data): ?>
 																<option value="<?= $data['rt']?>" <?php if ($rt == $data['rt']): ?>selected<?php endif ?>><?= $data['rt']?></option>
-															<?php endforeach;?>
+															<?php endforeach; ?>
 														</select>
 													<?php endif; ?>
 												</div>
@@ -97,8 +97,8 @@
 																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<td align="center" width="2"><?= $data['no']?></td>
-																		<td><a href="<?= site_url("penduduk/detail/1/0/$data[id_pend]");?>" target="_blank"><?= $data['nik']?></a></td>
-																		<td nowrap width="30%"><a href="<?= site_url("penduduk/detail/1/0/$data[id_pend]");?>" target="_blank"><?= $data['nama']?></a></td>
+																		<td><a href="<?= site_url("penduduk/detail/1/0/{$data['id_pend']}"); ?>" target="_blank"><?= $data['nik']?></a></td>
+																		<td nowrap width="30%"><a href="<?= site_url("penduduk/detail/1/0/{$data['id_pend']}"); ?>" target="_blank"><?= $data['nama']?></a></td>
 																		<td><?= strtoupper($data['dusun'])?></td>
 																		<td><?= $data['rw']?></td>
 																		<td><?= $data['rt']?></td>

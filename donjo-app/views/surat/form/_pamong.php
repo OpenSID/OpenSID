@@ -4,7 +4,7 @@
 		<select class="form-control input-sm select2" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
 			<option value="">-- Atas Nama --</option>
 			<?php foreach ($atas_nama as $data): ?>
-				<option value="<?= $data?>" <?php if ($data==$_SESSION['post']['atas_nama']): ?>selected<?php endif; ?>>
+				<option value="<?= $data?>" <?php if ($data == $_SESSION['post']['atas_nama']): ?>selected<?php endif; ?>>
 					<?= $data?>
 				</option>
 			<?php endforeach; ?>
@@ -16,10 +16,10 @@
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control required input-sm" id="pamong" name="pamong" onchange="ambil_pamong($(this).find(':selected'))">
 			<option value='' selected="selected">-- Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?>--</option>
-			<?php foreach ($pamong AS $data): ?>
-				<?php $tmp_nip = trim($data['pamong_nip'],'-'); ?>
-				<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?php if ($data['pamong_ttd']==1): $pamong_nip =	$data['pamong_nip']; ?>selected <?php endif; ?> data-nip="<?= $data['pamong_nip']?>" data-pamong-id="<?= $data['pamong_id']?>" data-ttd="<?= $data['pamong_ttd']?>" data-ub="<?= $data['pamong_ub']?>">
-					<?= $data['pamong_nama']?> (<?= $data['jabatan']?>) <?php if (!empty($tmp_nip)): ?>NIP: <?= $data['pamong_nip'];?><?php endif; ?>
+			<?php foreach ($pamong as $data): ?>
+				<?php $tmp_nip                                                                                                                           = trim($data['pamong_nip'], '-'); ?>
+				<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?php if ($data['pamong_ttd'] == 1): $pamong_nip = $data['pamong_nip']; ?>selected <?php endif; ?> data-nip="<?= $data['pamong_nip']?>" data-pamong-id="<?= $data['pamong_id']?>" data-ttd="<?= $data['pamong_ttd']?>" data-ub="<?= $data['pamong_ub']?>">
+					<?= $data['pamong_nama']?> (<?= $data['jabatan']?>) <?php if (! empty($tmp_nip)): ?>NIP: <?= $data['pamong_nip']; ?><?php endif; ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
@@ -32,8 +32,8 @@
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm required" id="jabatan" name="jabatan">
 			<option value='' selected="selected" >-- Pilih Jabatan--</option>
-			<?php foreach ($pamong AS $data): ?>
-				<option <?php if ($data['pamong_ttd']==1): ?>selected<?php endif; ?>><?= $data['jabatan']?></option>
+			<?php foreach ($pamong as $data): ?>
+				<option <?php if ($data['pamong_ttd'] == 1): ?>selected<?php endif; ?>><?= $data['jabatan']?></option>
 			<?php endforeach; ?>
 		</select>
 	</div>

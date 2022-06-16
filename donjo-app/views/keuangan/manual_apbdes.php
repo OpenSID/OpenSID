@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
  * File ini:
@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<a href="#" id="btn_salin" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i>Tambah Template</a>
 					<?php endif; ?>
 					<?php if ($this->CI->cek_hak_akses('u')): ?>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("keuangan_manual/delete_all")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url('keuangan_manual/delete_all')?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>
@@ -124,7 +124,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 
 <?php if ($this->CI->cek_hak_akses('u')): ?>
 <!-- MODAL ADD GLOBAL-->
@@ -152,43 +152,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="">Pilih Jenis Anggaran</option>
 								<?php foreach ($lakun as $data): ?>
 									<option value="<?= $data['Akun']?><?= $data['Nama_Akun']?>" <?= selected($jenis, $data['Akun'] . $data['Nama_Akun']); ?>><?= $data['Akun'] ?><?= $data['Nama_Akun']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
 
-					<div class="form-group" id="Pendapatan" <?= jecho($jenis != '4.PENDAPATAN', TRUE, 'style="display: none;"'); ?>>
+					<div class="form-group" id="Pendapatan" <?= jecho($jenis != '4.PENDAPATAN', true, 'style="display: none;"'); ?>>
 						<label class="col-sm-3 control-label">Kode Rincian</label>
 						<div class="col-sm-8">
 							<select class="form-control input-sm select2" id="Kd_Rincian_pd" name="Kd_Rincian_pd">
 								<option value="">Pilih Rekening Pendapatan</option>
 								<?php foreach ($lpendapatan as $data): ?>
 									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?= selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
 
-					<div class="form-group" id="Belanja" <?= jecho($jenis != '5.BELANJA', TRUE, 'style="display: none;"'); ?>>
+					<div class="form-group" id="Belanja" <?= jecho($jenis != '5.BELANJA', true, 'style="display: none;"'); ?>>
 						<label class="col-sm-3 control-label">Kode Kegiatan</label>
 						<div class="col-sm-8">
 							<select class="form-control input-sm select2" id="Kd_Keg" name="Kd_Keg">
 								<option value="">Pilih Rekening Belanja</option>
 								<?php foreach ($lbelanja as $data): ?>
 									<option value="<?= $data['Kd_Bid']?> <?= $data['Nama_Bidang']?>" <?= selected($main['Kd_Keg'], $data['Kd_Bid']); ?>><?= $data['Kd_Bid'] ?> <?= $data['Nama_Bidang']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
 
-					<div class="form-group" id="Pembiayaan" <?= jecho($jenis != '6.PEMBIAYAAN', TRUE, 'style="display: none;"'); ?>>
+					<div class="form-group" id="Pembiayaan" <?= jecho($jenis != '6.PEMBIAYAAN', true, 'style="display: none;"'); ?>>
 						<label class="col-sm-3 control-label">Kode Rincian</label>
 						<div class="col-sm-8">
 							<select class="form-control input-sm select2" id="Kd_Rincian_by" name="Kd_Rincian_by">
 								<option value="">Pilih Rekening Pembiayaan</option>
 								<?php foreach ($lbiaya as $data): ?>
 									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>" <?= selected($main['Kd_Rincian'], $data['Jenis']); ?>><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
@@ -244,7 +244,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="">Pilih Jenis Anggaran</option>
 								<?php foreach ($lakun as $data): ?>
 									<option value="<?= $data['Akun']?><?= $data['Nama_Akun']?>" <?= selected($main['Kd_Akun'], $data['Akun']); ?>><?= $data['Akun'] ?><?= $data['Nama_Akun']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
@@ -256,7 +256,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="">Pilih Rekening Pendapatan</option>
 								<?php foreach ($lpendapatan as $data): ?>
 									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>"><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
@@ -268,7 +268,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="">Pilih Rekening Belanja</option>
 								<?php foreach ($lbelanja as $data): ?>
 									<option value="<?= $data['Kd_Bid']?> <?= $data['Nama_Bidang']?>"><?= $data['Kd_Bid'] ?> <?= $data['Nama_Bidang']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>
@@ -280,7 +280,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<option value="">Pilih Rekening Pembiayaan</option>
 								<?php foreach ($lbiaya as $data): ?>
 									<option value="<?= $data['Jenis']?> <?= $data['Nama_Jenis']?>"><?= $data['Jenis'] ?> <?= $data['Nama_Jenis']?></option>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</select>
 						</div>
 					</div>

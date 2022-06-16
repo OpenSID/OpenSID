@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
  * File ini:
@@ -37,8 +37,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 						<div class="box-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
-								<?php foreach ($list_master AS $data): ?>
+								<?php foreach ($list_master as $data): ?>
 									<li <?= jecho($filter, $data['id'], 'class="active"'); ?>>
 										<a href="<?= site_url("{$this->controller}/to_master/{$data['id']}"); ?>"><?= $data['kelompok']; ?></a>
 									</li>
@@ -107,16 +107,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 										<div class="col-sm-9">
 											<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url("{$this->controller}/filter/filter"); ?>')">
 												<option value="">Pilih Kategori <?= $tipe; ?></option>
-												<?php foreach ($list_master AS $data): ?>
+												<?php foreach ($list_master as $data): ?>
 													<option value="<?= $data['id']; ?>" <?php selected($filter, $data['id']); ?> ><?= $data['kelompok']; ?></option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
 											</select>
 										</div>
 										<div class="col-sm-3">
 											<div class="input-group input-group-sm pull-right">
-												<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("$this->controller/filter/cari"); ?>');$('#'+'mainform').submit();}">
+												<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/filter/cari"); ?>');$('#'+'mainform').submit();}">
 												<div class="input-group-btn">
-													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("$this->controller/filter/cari"); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/filter/cari"); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 												</div>
 											</div>
 										</div>
@@ -129,9 +129,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<th>No</th>
 													<th>Aksi</th>
 													<th>Kode <?= $this->controller ?></th>
-													<th width="50%"><?= url_order($o, "{$this->controller}/{$func}/$p", 1, "Nama {$this->controller}"); ?></th>
-													<th><?= url_order($o, "{$this->controller}/{$func}/$p", 3, "Ketua {$this->controller}"); ?></th>
-													<th><?= url_order($o, "{$this->controller}/{$func}/$p", 5, "Kategori {$this->controller}"); ?></th>
+													<th width="50%"><?= url_order($o, "{$this->controller}/{$func}/{$p}", 1, "Nama {$this->controller}"); ?></th>
+													<th><?= url_order($o, "{$this->controller}/{$func}/{$p}", 3, "Ketua {$this->controller}"); ?></th>
+													<th><?= url_order($o, "{$this->controller}/{$func}/{$p}", 5, "Kategori {$this->controller}"); ?></th>
 													<th>Jumlah Anggota</th>
 												</tr>
 											</thead>
@@ -144,7 +144,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 															<td class="aksi">
 																<a href="<?= site_url("{$this->controller}/anggota/{$data['id']}"); ?>" class="btn bg-purple btn-flat btn-sm" title="Rincian <?= $this->controller ?>"><i class="fa fa-list-ol"></i></a>
 																<?php if ($this->CI->cek_hak_akses('u')): ?>
-																	<a href="<?= site_url("{$this->controller}/form/$p/$o/{$data['id']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data <?= $this->controller ?>"><i class='fa fa-edit'></i></a>
+																	<a href="<?= site_url("{$this->controller}/form/{$p}/{$o}/{$data['id']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data <?= $this->controller ?>"><i class='fa fa-edit'></i></a>
 																<?php endif; ?>
 																<?php if ($this->CI->cek_hak_akses('h')): ?>
 																	<a href="#" data-href="<?= site_url("{$this->controller}/delete/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>

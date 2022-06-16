@@ -53,12 +53,12 @@
 	font-size: 1.4em;
 }
 
-/* Modifikasi size gambar mini */
-.user-panel > .image2 > img
-{
-	width: auto;
-	max-width: 45px;
-	height: auto;
+.user-panel {
+	padding: 5px 0 0 0;
+}
+
+.user-panel > .info {
+	font-size: 12px;
 }
 
 /* Modifikasi margin antar button */
@@ -87,14 +87,6 @@
 .content-wrapper, .main-footer
 {
 	margin-left: 270px;
-}
-.user-panel
-{
-	padding: 5px 0px 0px 0px;
-}
-.user-panel > .info
-{
-	font-size: 12px;
 }
 .sidebar-menu, .main-sidebar .user-panel, .sidebar-menu > li.header
 {
@@ -349,6 +341,12 @@ table.head
 img { margin-bottom: 5px; }
 .no-padding { padding: 0px; }
 
+/* User Header */
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
+	border-color: transparent;
+	height: auto;
+}
+
 /* Notif */
 .badge {
 	display: inline-block;
@@ -367,12 +365,25 @@ img { margin-bottom: 5px; }
 	border-radius: 6px;
 }
 
-/* Penduduk */
-img.profile-user-img.penduduk
-{
+/* Foto Penduduk Besar */
+img.penduduk {
 	width: auto;
 	max-height: 250px;
 	max-width: 200px;
+	border-radius: 15px;
+	display: block;
+	margin: 0 auto;
+	padding: 2px;
+	border: 2px solid #d2d6de;
+}
+
+/* Foto Penduduk Kecil (Mini) */
+img.penduduk_kecil {
+	width: auto;
+	max-width: 45px;
+	height: auto;
+	border-radius: 10%;
+	margin: 5px 0;
 }
 
 /* Tabel umum */
@@ -589,4 +600,22 @@ div.form-surat .content-header {
     width: 90%;
     margin-top: 20px;
   }
+}
+
+/* Token Field */
+.tokenfield .token {
+	background-color: #3c8dbc;
+	border-color: #367fa9;
+	border-radius: 5px;
+	padding: 1px 5px;
+	font-size: 12px;
+	color: #fff;
+}
+
+.tokenfield .token .close {
+	font-size: 12px;
+}
+
+#dok_warga label {
+	padding-left: 10px;
 }

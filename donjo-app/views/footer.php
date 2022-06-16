@@ -47,8 +47,9 @@
 		<script src="<?= base_url('assets/js/custom-select2.js'); ?>"></script>
 		<script src="<?= base_url('assets/js/custom-datetimepicker.js'); ?>"></script>
 
-		<?php if (config_item('demo_mode')): ?>
-			<script src="<?= base_url('assets/js/demo.js'); ?>"></script>
+		<!-- Token Field -->
+		<?php if ($this->controller == 'bumindes_kader'): ?>
+			<script src="<?= base_url('assets/bootstrap/js/bootstrap-tokenfield.min.js'); ?>"></script>
 		<?php endif; ?>
 
 
@@ -87,6 +88,15 @@
 				}
 				notification(notify, notify_msg);
 				$('#success-code').val('');
+
+				// Sidebar
+				if (typeof (Storage) !== 'undefined' && localStorage.getItem('sidebar') === 'false') {
+					$("#sidebar_collapse").addClass('sidebar-collapse');
+				}
+
+				$('.sidebar-toggle').on('click', function() {
+					localStorage.setItem('sidebar', $("#sidebar_collapse").hasClass('sidebar-collapse'));
+				});
 			});
 		</script>
 		<?php $_SESSION['success'] = 0; ?>

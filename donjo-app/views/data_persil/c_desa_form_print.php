@@ -11,8 +11,8 @@
 			<div id="content-main">
 			 <div class="header">
 				<h4 class="kop">LETTER C-DESA</h4>
-				<h4 class="kop">NOMOR : <?= sprintf("%04s", $cdesa['nomor'])?></h4>
-				<h5 class="kop2">DESA <?= strtoupper($desa["nama_desa"])?> KECAMATAN <?= strtoupper($desa["nama_kecamatan"])?> KABUPATEN <?= strtoupper($desa["nama_kabupaten"])?></h5>
+				<h4 class="kop">NOMOR : <?= sprintf('%04s', $cdesa['nomor'])?></h4>
+				<h5 class="kop2">DESA <?= strtoupper($desa['nama_desa'])?> KECAMATAN <?= strtoupper($desa['nama_kecamatan'])?> KABUPATEN <?= strtoupper($desa['nama_kabupaten'])?></h5>
 				<div style="text-align: center;">
 					<hr class="style" />
 				</div>
@@ -24,12 +24,12 @@
 					<tr>
 						<td width="150">PEMILIK TANAH</td>
 						<td width="10">:</td>
-						<td><b><?= strtoupper($cdesa["namapemilik"])?></b></td>
+						<td><b><?= strtoupper($cdesa['namapemilik'])?></b></td>
 					</tr>
 					<tr>
 						<td>ALAMAT</td>
 						<td>:</td>
-						<td><?= strtoupper($cdesa["alamat"])?></td>
+						<td><?= strtoupper($cdesa['alamat'])?></td>
 					</tr>
 				</table>
 				<div align="center">
@@ -65,20 +65,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php for ($i=0; $i < 16; $i++): ?>
+							<?php for ($i = 0; $i < 16; $i++): ?>
 								<tr>
-									<td class="row" ><?= $basah[$i]["nopersil"]?></td>
-									<td class="row" ><?= $basah[$i]["kelas_tanah"]?></td>
-									<td class="row" ><?= luas($basah[$i]["luas"], "ha")?></td>
-									<td class="row" ><?= luas($basah[$i]["luas"], "meter")?></td>
-									<td class="row" ><?= $basah[$i]["pajak"]?></td>
+									<td class="row" ><?= $basah[$i]['nopersil']?></td>
+									<td class="row" ><?= $basah[$i]['kelas_tanah']?></td>
+									<td class="row" ><?= luas($basah[$i]['luas'], 'ha')?></td>
+									<td class="row" ><?= luas($basah[$i]['luas'], 'meter')?></td>
+									<td class="row" ><?= $basah[$i]['pajak']?></td>
 									<td class="row batas"><?= $basah[$i]['mutasi']?></td>
 
-									<td class="row" ><?= $kering[$i]["nopersil"]?></td>
-									<td class="row" ><?= $kering[$i]["kelas_tanah"]?></td>
-									<td class="row" ><?= luas($kering[$i]["luas"], "ha")?></td>
-									<td class="row" ><?= luas($kering[$i]["luas"], "meter")?></td>
-									<td class="row" ><?= $kering[$i]["pajak"]?></td>
+									<td class="row" ><?= $kering[$i]['nopersil']?></td>
+									<td class="row" ><?= $kering[$i]['kelas_tanah']?></td>
+									<td class="row" ><?= luas($kering[$i]['luas'], 'ha')?></td>
+									<td class="row" ><?= luas($kering[$i]['luas'], 'meter')?></td>
+									<td class="row" ><?= $kering[$i]['pajak']?></td>
 									<td class="row"><?= $kering[$i]['mutasi']?></td>
 								</tr>
 							<?php endfor; ?>
@@ -99,7 +99,7 @@
 								</p>
 							</td>
 							<td>
-								<p align="center"> <?= $desa['nama_desa'] ?>, <?= tgl_indo(date("Y m d"))?><br>
+								<p align="center"> <?= $desa['nama_desa'] ?>, <?= tgl_indo(date('Y m d'))?><br>
 									Mengetahui <br>
 									KEPALA  <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?> <br>
 									<br>

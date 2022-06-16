@@ -1,4 +1,4 @@
-<?php if(!empty($widget_keuangan['tahun']) && !is_null($widget_keuangan['tahun'])): ?>
+<?php if (! empty($widget_keuangan['tahun']) && null !== $widget_keuangan['tahun']): ?>
 <!-- widget Statistik -->
 <style type="text/css">
 
@@ -113,7 +113,7 @@
               <li><a class="dropdown-item" onclick="gantiTipe('pelaksanaan'); gantiTahun('<?= $key ?>')">Pelaksanaan APBDes</a></li>
               <li><a class="dropdown-item" onclick="gantiTipe('pendapatan'); gantiTahun('<?= $key ?>')">Pendapatan APBDes</a></li>
               <li><a class="dropdown-item" onclick="gantiTipe('belanja'); gantiTahun('<?= $key ?>')">Belanja APBDes</a></li>
-            <?php endforeach;?>
+            <?php endforeach; ?>
           </ul>
         </div>
         <h3></h3>

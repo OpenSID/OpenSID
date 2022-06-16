@@ -6,31 +6,31 @@
 	</div>
 	<div class="box-body">
 		<?php
-		function num_toimage($tot,$jumlah)
-		{
-			$pattern='';
-			for($j=0; $j<strlen($jumlah ); $j++)
-			{
-				$pattern .= '0';
-			}
+        function num_toimage($tot, $jumlah)
+        {
+            $pattern = '';
 
-			$len = strlen($tot);
-			$length = strlen($pattern)-$len;
-			$start = substr($pattern,0,$length).substr($tot,0,$len-1);
-			$last = substr($tot,$len-1,1);
-			$last_rpc= '<img src="_BASE_URL_/assets/images/counter/animasi/'.$last.'.gif" align="absmiddle" />';
-			$inc = str_replace($last,$last_rpc,$last);
-			for($i=0;$i<=9;$i++)
-			{
-				$rpc ='<img src="_BASE_URL_/assets/images/counter/'.$i.'.gif" align="absmiddle"/>';
-				$start=str_replace($i,$rpc,$start);
-			}
+            for ($j = 0; $j < strlen($jumlah); $j++) {
+                $pattern .= '0';
+            }
 
-			$num = $start.$inc;
-			$num = str_replace('_BASE_URL_',base_url(),$num);
-			return $num;
-		}
-		?>
+            $len      = strlen($tot);
+            $length   = strlen($pattern) - $len;
+            $start    = substr($pattern, 0, $length) . substr($tot, 0, $len - 1);
+            $last     = substr($tot, $len - 1, 1);
+            $last_rpc = '<img src="_BASE_URL_/assets/images/counter/animasi/' . $last . '.gif" align="absmiddle" />';
+            $inc      = str_replace($last, $last_rpc, $last);
+
+            for ($i = 0; $i <= 9; $i++) {
+                $rpc   = '<img src="_BASE_URL_/assets/images/counter/' . $i . '.gif" align="absmiddle"/>';
+                $start = str_replace($i, $rpc, $start);
+            }
+
+            $num = $start . $inc;
+
+            return str_replace('_BASE_URL_', base_url(), $num);
+        }
+        ?>
 		<div id="container" align="center">
 			<table cellpadding="0" cellspacing="0" class="counter">
 				<tr>

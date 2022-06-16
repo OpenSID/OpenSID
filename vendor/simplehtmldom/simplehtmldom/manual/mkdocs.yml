@@ -1,0 +1,152 @@
+site_name: Simple HTML DOM documentation
+site_url: http://simplehtmldom.sourceforge.net/
+site_description: A simple HTML DOM parser written in PHP
+
+repo_name: SourceForge
+repo_url: https://sourceforge.net/projects/simplehtmldom/
+
+theme:
+  name: readthedocs
+  custom_dir: 'custom_theme/'
+
+markdown_extensions:
+  - footnotes
+
+google_analytics: ['UA-3452027-2', 'simplehtmldom.sourceforge.net']
+
+extra_css: [extra.css]
+
+nav:
+  - 'index.md'
+  - 'requirements.md'
+  - 'quick-start.md'
+  - FAQ:
+    - 'faq/0001.md'
+  - Manual:
+    - 'manual/creating-dom-objects.md'
+    - 'manual/finding-html-elements.md'
+    - 'manual/accessing-element-attributes.md'
+    - 'manual/traversing-dom-tree.md'
+    - 'manual/saving-dom-objects.md'
+    - 'manual/customizing-parsing-behavior.md'
+    - 'manual/adding-nodes.md'
+  - API:
+    - 'api/constants.md'
+    - HtmlDocument:
+      - 'api/HtmlDocument/index.md'
+      - 'api/HtmlDocument/__call.md'
+      - 'api/HtmlDocument/__construct.md'
+      - 'api/HtmlDocument/__debugInfo.md'
+      - 'api/HtmlDocument/__destruct.md'
+      - 'api/HtmlDocument/load.md'
+      - 'api/HtmlDocument/set_callback.md'
+      - 'api/HtmlDocument/remove_callback.md'
+      - 'api/HtmlDocument/save.md'
+      - 'api/HtmlDocument/expect.md'
+      - 'api/HtmlDocument/find.md'
+      - 'api/HtmlDocument/decode.md'
+      - 'api/HtmlDocument/dump.md'
+      - 'api/HtmlDocument/prepare.md'
+      - 'api/HtmlDocument/parse.md'
+      - 'api/HtmlDocument/parse_charset.md'
+      - 'api/HtmlDocument/read_tag.md'
+      - 'api/HtmlDocument/parse_attr.md'
+      - 'api/HtmlDocument/link_nodes.md'
+      - 'api/HtmlDocument/as_text_node.md'
+      - 'api/HtmlDocument/skip.md'
+      - 'api/HtmlDocument/copy_skip.md'
+      - 'api/HtmlDocument/copy_until.md'
+      - 'api/HtmlDocument/copy_until_char.md'
+      - 'api/HtmlDocument/remove_noise.md'
+      - 'api/HtmlDocument/restore_noise.md'
+      - 'api/HtmlDocument/search_noise.md'
+      - 'api/HtmlDocument/__toString.md'
+      - 'api/HtmlDocument/__get.md'
+      - 'api/HtmlDocument/childNodes.md'
+      - 'api/HtmlDocument/firstChild.md'
+      - 'api/HtmlDocument/lastChild.md'
+      - 'api/HtmlDocument/createElement.md'
+      - 'api/HtmlDocument/createTextNode.md'
+      - 'api/HtmlDocument/getElementById.md'
+      - 'api/HtmlDocument/getElementsById.md'
+      - 'api/HtmlDocument/getElementByTagName.md'
+      - 'api/HtmlDocument/getElementsByTagName.md'
+      - 'api/HtmlDocument/loadFile.md'
+    - HtmlNode:
+      - 'api/HtmlNode/index.md'
+      - 'api/HtmlNode/definitions.md'
+      - 'api/HtmlNode/__call.md'
+      - 'api/HtmlNode/__construct.md'
+      - 'api/HtmlNode/__debugInfo.md'
+      - 'api/HtmlNode/__destruct.md'
+      - 'api/HtmlNode/__get.md'
+      - 'api/HtmlNode/__isset.md'
+      - 'api/HtmlNode/__set.md'
+      - 'api/HtmlNode/__toString.md'
+      - 'api/HtmlNode/__unset.md'
+      - 'api/HtmlNode/addClass.md'
+      - 'api/HtmlNode/appendChild.md'
+      - 'api/HtmlNode/childNodes.md'
+      - 'api/HtmlNode/clear.md'
+      - 'api/HtmlNode/convert_text.md'
+      - 'api/HtmlNode/dump.md'
+      - 'api/HtmlNode/dump_node.md'
+      - 'api/HtmlNode/expect.md'
+      - 'api/HtmlNode/find.md'
+      - 'api/HtmlNode/find_ancestor_tag.md'
+      - 'api/HtmlNode/firstChild.md'
+      - 'api/HtmlNode/get_display_size.md'
+      - 'api/HtmlNode/getAllAttributes.md'
+      - 'api/HtmlNode/getAttribute.md'
+      - 'api/HtmlNode/getElementById.md'
+      - 'api/HtmlNode/getElementByTagName.md'
+      - 'api/HtmlNode/getElementsById.md'
+      - 'api/HtmlNode/getElementsByTagName.md'
+      - 'api/HtmlNode/hasAttribute.md'
+      - 'api/HtmlNode/hasChildNodes.md'
+      - 'api/HtmlNode/hasClass.md'
+      - 'api/HtmlNode/innertext.md'
+      - 'api/HtmlNode/is_block_element.md'
+      - 'api/HtmlNode/is_inline_element.md'
+      - 'api/HtmlNode/is_utf8.md'
+      - 'api/HtmlNode/lastChild.md'
+      - 'api/HtmlNode/makeup.md'
+      - 'api/HtmlNode/match.md'
+      - 'api/HtmlNode/nextSibling.md'
+      - 'api/HtmlNode/nodeName.md'
+      - 'api/HtmlNode/outertext.md'
+      - 'api/HtmlNode/parent.md'
+      - 'api/HtmlNode/parentNode.md'
+      - 'api/HtmlNode/parse_selector.md'
+      - 'api/HtmlNode/previousSibling.md'
+      - 'api/HtmlNode/remove.md'
+      - 'api/HtmlNode/removeAttribute.md'
+      - 'api/HtmlNode/removeChild.md'
+      - 'api/HtmlNode/removeClass.md'
+      - 'api/HtmlNode/save.md'
+      - 'api/HtmlNode/seek.md'
+      - 'api/HtmlNode/setAttribute.md'
+      - 'api/HtmlNode/text.md'
+      - 'api/HtmlNode/xmltext.md'
+    - Debug:
+      - 'api/Debug/index.md'
+      - 'api/Debug/enable.md'
+      - 'api/Debug/disable.md'
+      - 'api/Debug/log.md'
+      - 'api/Debug/log_once.md'
+      - 'api/Debug/setDebugHandler.md'
+
+plugins:
+  - redirects:
+      redirect_maps:
+        'api/HtmlDocument/load_file.md': 'api/HtmlDocument/loadFile.md'
+        'api/HtmlDocument/clear.md': 'api/HtmlDocument/__destruct.md'
+        'api/HtmlNode/children.md': 'api/HtmlNode/childNodes.md'
+        'api/HtmlNode/first_child.md': 'api/HtmlNode/firstChild.md'
+        'api/HtmlNode/has_child.md': 'api/HtmlNode/hasChildNodes.md'
+        'api/HtmlNode/last_child.md': 'api/HtmlNode/lastChild.md'
+        'api/HtmlNode/next_sibling.md': 'api/HtmlNode/nextSibling.md'
+        'api/HtmlNode/prev_sibling.md': 'api/HtmlNode/previousSibling.md'
+        'api/HtmlNode/prevSibling.md': 'api/HtmlNode/previousSibling.md'
+
+docs_dir: 'docs'

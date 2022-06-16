@@ -1,4 +1,5 @@
-<!-- widget Peta Wilayah Desa -->
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <div class="">
 	<div class="single_bottom_rightbar">
 		<h2>

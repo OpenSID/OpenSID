@@ -23,7 +23,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?=site_url("web_widget")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
+							<a href="<?=site_url('web_widget')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Widget
 							</a>
 						</div>
@@ -47,7 +47,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php $kosong = 20 - count($setting); $s = 0;?>
+																<?php $kosong = 20 - count($setting); $s = 0; ?>
 																<?php foreach ($setting as $program): ?>
 																	<?php $s++; ?>
 																	<tr>
@@ -58,8 +58,8 @@
 																			<div class="form-group">
 																				<select class="form-control input-sm" name="setting[<?= $s?>][baris]">
 																					<option value="">-- Pilih Baris --</option>
-																					<?php for ($i=1; $i<11; $i++): ?>
-																						<option value="<?= $i;?>" <?php if ($program['baris']==$i): ?>selected<?php endif ?>><?= $i;?></option>
+																					<?php for ($i = 1; $i < 11; $i++): ?>
+																						<option value="<?= $i; ?>" <?php if ($program['baris'] == $i): ?>selected<?php endif ?>><?= $i; ?></option>
 																					<?php endfor?>
 																				</select>
 																			</div>
@@ -68,8 +68,8 @@
 																			<div class="form-group">
 																				<select class="form-control input-sm" name="setting[<?= $s?>][kolom]">
 																					<option value="">-- Pilih Kolom --</option>
-																					<?php for ($i=1; $i<4; $i++): ?>
-																						<option value="<?= $i;?>" <?php if ($program['kolom']==$i): ?>selected<?php endif ?>><?= $i;?></option>
+																					<?php for ($i = 1; $i < 4; $i++): ?>
+																						<option value="<?= $i; ?>" <?php if ($program['kolom'] == $i): ?>selected<?php endif ?>><?= $i; ?></option>
 																					<?php endfor?>
 																				</select>
 																			</div>
@@ -79,7 +79,7 @@
 																		</td>
 																		<td>
 																			<input type="hidden" name="setting[<?= $s?>][old_gambar]" value="<?= $program['gambar']?>"/>
-																			<img class="profile-user-img img-responsive img-circle" src="<?= base_url().LOKASI_GAMBAR_WIDGET.$program['gambar']?>" alt="Gambar">
+																			<img class="profile-user-img img-responsive img-circle" src="<?= base_url() . LOKASI_GAMBAR_WIDGET . $program['gambar']?>" alt="Gambar">
 																			<input type="file" name="setting[<?= $s?>][gambar]"/>
 																			<p class="help-block">(Kosongkan jika tidak ingin mengubah gambar)</p>
 																		</td>
@@ -88,7 +88,7 @@
 																		</td>
 																	</tr>
 																<?php endforeach; ?>
-																<?php for ($s=count($setting)+1; $s <count($setting)+$kosong; $s++): ?>
+																<?php for ($s = count($setting) + 1; $s < count($setting) + $kosong; $s++): ?>
 																	<tr>
 																		<td>
 																			<a href="#" class="btn bg-olive btn-flat btn-sm" title="Kosongkan" onclick="kosongkan(<?= $s; ?>)"><i class='fa fa-refresh'></i> </a>
@@ -97,8 +97,8 @@
 																			<div class="form-group">
 																				<select class="form-control input-sm" name="setting[<?= $s?>][baris]">
 																					<option value="">-- Pilih Baris --</option>
-																					<?php for ($i=1; $i<11; $i++): ?>
-																						<option value="<?= $i;?>"><?= $i;?></option>
+																					<?php for ($i = 1; $i < 11; $i++): ?>
+																						<option value="<?= $i; ?>"><?= $i; ?></option>
 																					<?php endfor?>
 																				</select>
 																			</div>
@@ -107,8 +107,8 @@
 																			<div class="form-group">
 																				<select class="form-control input-sm" name="setting[<?= $s?>][kolom]">
 																					<option value="">-- Pilih Kolom --</option>
-																					<?php for ($i=1; $i<4; $i++): ?>
-																						<option value="<?= $i;?>"><?= $i;?></option>
+																					<?php for ($i = 1; $i < 4; $i++): ?>
+																						<option value="<?= $i; ?>"><?= $i; ?></option>
 																					<?php endfor?>
 																				</select>
 																			</div>

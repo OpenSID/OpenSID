@@ -21,7 +21,7 @@
 				<option value="">-- Pilih Jenis Kelamin --</option>
 				<?php foreach ($jenis_kelamin as $data): ?>
 					<option <?php selected($penduduk['id_sex'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
-				<?php endforeach;?>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>
@@ -33,7 +33,7 @@
 				<option value="">-- Pilih Agama --</option>
 				<?php foreach ($agama as $data): ?>
 					<option <?php selected($penduduk['agama_id'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
-				<?php endforeach;?>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>
@@ -64,7 +64,7 @@
 				<option value="">Pilih Golongan Darah</option>
 				<?php foreach ($golongan_darah as $data): ?>
 					<option <?php selected($penduduk['golongan_darah_id'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
-				<?php endforeach;?>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>
@@ -76,8 +76,8 @@
 				<?php foreach ($status_penduduk as $data): ?>
 					<?php if ($data['id'] != '1'): ?>
 						<option <?php selected($penduduk['id_status'], $data['id']); ?> value="<?= $data['id']?>"> <?= strtoupper($data['nama'])?> </option>
-					<?php endif;?>
-				<?php endforeach;?>
+					<?php endif; ?>
+				<?php endforeach; ?>
 			</select>
 		</div>
 	</div>

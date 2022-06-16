@@ -22,8 +22,8 @@
 				},
         categories: [
 					<?php foreach ($main['pengunjung']as $data): ?>
-					['<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?>', ],
-				<?php endforeach;?>
+					['<?= ($main['lblx'] == 'Bulan') ? getBulan($data['Tanggal']) . ' ' . date('Y') : tgl_indo2($data['Tanggal']); ?>', ],
+				<?php endforeach; ?>
 					]
 			},
 			yAxis:
@@ -55,9 +55,9 @@
 			shadow:1,
 			border:1,
 			data: [
-				<?php foreach ($main ['pengunjung']as $data): ?>
-					['<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?>',<?= $data['Jumlah']?>],
-				<?php endforeach;?>]
+				<?php foreach ($main['pengunjung']as $data): ?>
+					['<?= ($main['lblx'] == 'Bulan') ? getBulan($data['Tanggal']) . ' ' . date('Y') : tgl_indo2($data['Tanggal']); ?>',<?= $data['Jumlah']?>],
+				<?php endforeach; ?>]
 			}]
 		});
 	});
@@ -85,8 +85,8 @@
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<div class="row">
 											<div class="col-sm-12">
-												<a href="<?=site_url("pengunjung/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" target="_blank"><i class="fa fa-print "></i>Cetak</a>
-												<a href="<?=site_url("pengunjung/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" target="_blank"><i class="fa fa-print "></i>Unduh</a>
+												<a href="<?=site_url('pengunjung/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Laporan" target="_blank"><i class="fa fa-print "></i>Cetak</a>
+												<a href="<?=site_url('pengunjung/unduh')?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Laporan" target="_blank"><i class="fa fa-print "></i>Unduh</a>
 											</div>
 										</div>
 									</div>
@@ -199,26 +199,26 @@
 														<?php $no = 1; ?>
 														<?php foreach ($main['pengunjung'] as $data): ?>
 															<tr>
-																<td class="text-center"><?= $no++;?></td>
+																<td class="text-center"><?= $no++; ?></td>
 																<td class="text-center">
-																	<?= ($main['lblx']=='Bulan') ? getBulan($data['Tanggal'])." ".date('Y') : tgl_indo2($data['Tanggal']); ?>
+																	<?= ($main['lblx'] == 'Bulan') ? getBulan($data['Tanggal']) . ' ' . date('Y') : tgl_indo2($data['Tanggal']); ?>
 																</td>
-																<td class="text-center"><?= ribuan($data['Jumlah']);?></td>
+																<td class="text-center"><?= ribuan($data['Jumlah']); ?></td>
 															</tr>
-														<?php endforeach;?>
+														<?php endforeach; ?>
 														</tbody>
 														<tfoot class="bg-gray disabled color-palette">
 															<tr>
 																<th colspan="2" class="text-center">Total</th>
-																<th class="text-center"><?= ribuan($main['Total']);?></th>
+																<th class="text-center"><?= ribuan($main['Total']); ?></th>
 															</tr>
 														</tfoot>
 													</table>
 												</div>
 											</div>
 										</div>
-									</div>	
-								</div>									
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

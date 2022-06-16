@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
  * File ini:
@@ -12,8 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -38,12 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -53,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h1>Lokasi Pelapak <?= $pelapak->pelapak; ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url("produdk/pelapak")?>"> Pelapak</a></li>
+			<li><a href="<?= site_url('produdk/pelapak')?>"> Pelapak</a></li>
 			<li class="active">Lokasi Pelapak <?= $pelapak->pelapak; ?></a></li>
 		</ol>
 	</section>
@@ -79,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</div>
 					</div>
 
-					<a href="<?= site_url("lapak_admin/pelapak"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+					<a href="<?= site_url('lapak_admin/pelapak'); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
 					<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 					<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" id="resetme"><i class="fa fa-times"></i> Reset</button>
 					<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class='fa fa-check'></i> Simpan</button>
@@ -90,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <script>
 	window.onload = function() {
-		var posisi = [<?= $lokasi['lat'] . "," . $lokasi['lng']; ?>];
+		var posisi = [<?= $lokasi['lat'] . ',' . $lokasi['lng']; ?>];
 		var zoom = <?= $lokasi['zoom']; ?>;
 
 		//Inisialisasi tampilan peta
@@ -103,27 +101,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		var marker_rt = [];
 
 		//WILAYAH DESA
-		<?php if ( ! empty($desa['path'])): ?>
-		set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>");
+		<?php if (! empty($desa['path'])): ?>
+		set_marker_desa(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>");
 		<?php endif; ?>
 
 		//WILAYAH DUSUN
-		<?php if ( ! empty($dusun_gis)): ?>
+		<?php if (! empty($dusun_gis)): ?>
 			set_marker_multi(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '#FFFF00', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun');
 		<?php endif; ?>
 
 		//WILAYAH RW
-		<?php if ( ! empty($rw_gis)): ?>
+		<?php if (! empty($rw_gis)): ?>
 			set_marker(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', '#8888dd', 'RW', 'rw');
 		<?php endif; ?>
 
 		//WILAYAH RT
-		<?php if ( ! empty($rt_gis)): ?>
+		<?php if (! empty($rt_gis)): ?>
 			set_marker(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', '#008000', 'RT', 'rt');
 		<?php endif; ?>
 
 		//2. Menampilkan overlayLayers Peta Semua Wilayah
-		<?php if ( ! empty($wil_atas['path'])): ?>
+		<?php if (! empty($wil_atas['path'])): ?>
 			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?= ucwords($this->setting->sebutan_dusun); ?>");
 		<?php else: ?>
 			var overlayLayers = {};

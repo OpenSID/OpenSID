@@ -13,7 +13,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?=site_url("komentar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?=site_url('komentar')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Komentar
             	</a>
 						</div>
@@ -45,11 +45,11 @@
               <div class="form-group">
 								<label class="col-xs-12 col-sm-2 col-lg-2 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>active<?php endif ?>">
-										<input id="sx1" type="radio" name="status" class="form-check-input" type="radio" value="1" <?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '1' || $komentar['status'] == null): ?>active<?php endif ?>">
+										<input id="sx1" type="radio" name="status" class="form-check-input" type="radio" value="1" <?php if ($komentar['status'] == '1' || $komentar['status'] == null): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '2' ): ?>active<?php endif ?>">
-										<input id="sx2" type="radio" name="status" class="form-check-input" type="radio" value="2" <?php if ($komentar['status'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['status'] == '2'): ?>active<?php endif ?>">
+										<input id="sx2" type="radio" name="status" class="form-check-input" type="radio" value="2" <?php if ($komentar['status'] == '2'): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
@@ -70,11 +70,11 @@
 <script>
 	function reset_form()
 	{
-		<?php if ($komentar['status'] =='1' OR $komentar['status'] == NULL): ?>
+		<?php if ($komentar['status'] == '1' || $komentar['status'] == null): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
 		<?php endif ?>
-		<?php if ($komentar['status'] =='2'): ?>
+		<?php if ($komentar['status'] == '2'): ?>
 			$("#sx4").addClass('active');
 			$("#sx3").removeClass("active");
 		<?php endif ?>

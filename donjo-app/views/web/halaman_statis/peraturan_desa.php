@@ -11,7 +11,7 @@
   					<label for="jenis_dokumen">Jenis</label>
   					<select class="form-control" name="kategori" id="kategori" onchange="formAction()">
   						<option value="">Semua</option>
-  						<?php foreach($kategori as $s): ?>
+  						<?php foreach ($kategori as $s): ?>
   							<option value="<?= $s['id'] ?>" <?php selected($s['id'], $kategori_dokumen) ?>><?= $s['nama'] ?></option>
   						<?php endforeach; ?>
   					</select>
@@ -22,7 +22,7 @@
   					<label for="jenis_dokumen">Tahun</label>
   					<select class="form-control" name="tahun" id="tahun" onchange="formAction()">
   						<option value="">Semua</option>
-  						<?php foreach($tahun as $t): ?>
+  						<?php foreach ($tahun as $t): ?>
   							<option value="<?= $t['tahun'] ?>" <?php selected($t['tahun'], $tahun_dokumen) ?> ><?= $t['tahun'] ?></option>
   						<?php endforeach; ?>
   					</select>

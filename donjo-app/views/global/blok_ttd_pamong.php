@@ -6,7 +6,7 @@
 						<td colspan="<?= $spasi_kiri ?>" style="width: 20%">&nbsp;</td>
 						<td>Mengetahui</td>
 						<td colspan="<?= $spasi_tengah ?>" style="width: 30%">&nbsp;</td>
-						<td colspan="2" class="nowrap"><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date("Y m d"))?></td>
+						<td colspan="2" class="nowrap"><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date('Y m d'))?></td>
 						<td style="width: 20%">&nbsp;</td>
 					</tr>
 					<tr>

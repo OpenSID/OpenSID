@@ -53,7 +53,7 @@
 				<tbody>
 				<?php foreach ($main as $key => $data): ?>
 					<tr class="data">
-						<td class="text-center" width="2"><?= $key+1?></td>
+						<td class="text-center" width="2"><?= $key + 1?></td>
 						<td><?= strtoupper($data['nama'])?></td>
 						<td><?= $data['nik']?></td>
 						<td><?= $data['sex']?></td>
@@ -88,7 +88,7 @@
 				<tbody>
 					<?php foreach ($main as $key => $data): ?>
 						<tr class="data">
-							<td class="text-center" width="2"><?= $key+1?></td>
+							<td class="text-center" width="2"><?= $key + 1?></td>
 							<td><?= $data['status_kawin']?></td>
 							<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
 							<td class="text-center"><?= tgl_indo_out($data['tanggalperceraian'])?></td>
@@ -109,7 +109,7 @@
 				<tr>
 					<td width="25%"></td>
 					<td width="50%"></td>
-					<td width="25%" align="center"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date("Y m d"))?></td>
+					<td width="25%" align="center"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date('Y m d'))?></td>
 					</tr>
 					<td width="25%" align="center">KEPALA KELUARGA</td>
 					<td width="50%"></td>

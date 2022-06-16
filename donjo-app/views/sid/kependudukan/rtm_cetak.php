@@ -56,7 +56,7 @@
 			</div>
 			<br>
 			<label>Tanggal cetak : &nbsp; </label>
-			<?= tgl_indo(date("Y m d"))?>
+			<?= tgl_indo(date('Y m d'))?>
 		</div>
 	</body>
 </html>

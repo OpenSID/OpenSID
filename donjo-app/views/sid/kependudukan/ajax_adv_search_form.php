@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk pencarian spesifik modul penduduk
  *
  * donjo-app/views/sid/kependudukan/ajax_adv_search_form.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -68,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="pekerjaan">Pekerjaan</label>
 					<select class="form-control input-sm" id="pekerjaan_id" name="pekerjaan_id">
 						<option value=""> -- </option>
-						<?php foreach ($list_pekerjaan AS $data): ?>
+						<?php foreach ($list_pekerjaan as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($pekerjaan_id, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -79,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="status_dasar">Status Perkawinan</label>
 					<select class="form-control input-sm" id="status" name="status">
 						<option value=""> -- </option>
-						<?php foreach ($list_status_kawin AS $data): ?>
+						<?php foreach ($list_status_kawin as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($status, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -90,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="agama">Agama</label>
 					<select class="form-control input-sm" id="agama" name="agama">
 						<option value=""> -- </option>
-						<?php foreach ($list_agama AS $data): ?>
+						<?php foreach ($list_agama as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($agama, $data['id']); ?> ><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -101,9 +98,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh</label>
 					<select class="form-control input-sm" id="pendidikan_sedang_id"  name="pendidikan_sedang_id">
 						<option value=""> -- </option>
-						<?php foreach ($list_pendidikan AS $data): ?>
+						<?php foreach ($list_pendidikan as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($pendidikan_sedang_id, $data['id']); ?> ><?= $data['nama']?></option>
-						<?php endforeach;?>
+						<?php endforeach; ?>
 					</select>
 				</div>
 			</div>
@@ -112,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="pendidikan_kk_id">Pendidikan Dalam KK</label>
 					<select class="form-control input-sm" id="pendidikan_kk_id" name="pendidikan_kk_id">
 						<option value=""> -- </option>
-						<?php foreach ($list_pendidikan_kk AS $data): ?>
+						<?php foreach ($list_pendidikan_kk as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($pendidikan_kk_id, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>
@@ -123,7 +120,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<label for="status_penduduk">Status Penduduk</label>
 					<select class="form-control input-sm" id="status_penduduk" name="status_penduduk">
 						<option value=""> -- </option>
-						<?php foreach ($list_status_penduduk AS $data): ?>
+						<?php foreach ($list_status_penduduk as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($status_penduduk, $data['id']); ?>><?= $data['nama']?></option>
 						<?php endforeach; ?>
 					</select>

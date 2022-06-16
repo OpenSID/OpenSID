@@ -53,14 +53,16 @@
               <?php $jumlah = count($main); ?>
               <?php if ($jumlah != 0): ?>
                 <table class="table table-bordered dataTable nowrap">
-                  <?php $last=""; foreach ($main AS $data):?>
-                    <?php	if ($data['pertanyaan']!=$last):?>
+                  <?php $last = '';
+
+foreach ($main as $data):?>
+                    <?php	if ($data['pertanyaan'] != $last):?>
                       <tr><td><label><?= $data['pertanyaan']?></label></td></tr>
                       <tr>
                         <td id="opsi">
                           <div style="display:inline-block;">
-                            <input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']):?>checked<?php endif;?>>
-                            <label><?= $data['kode_jawaban'].". ".$data['jawaban']?></label>
+                            <input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']):?>checked<?php endif; ?>>
+                            <label><?= $data['kode_jawaban'] . '. ' . $data['jawaban']?></label>
                           </div>
                         </td>
                       </tr>
@@ -68,14 +70,14 @@
                       <tr>
                         <td id="opsi">
                           <div style="display:inline-block;">
-                            <input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']):?>checked<?php endif;?>>
-                            <label><?= $data['kode_jawaban'].". ".$data['jawaban']?></label>
+                            <input type="checkbox" name="id_cb[]" value="<?= $data['id_jawaban']?>"<?php if ($data['cek']):?>checked<?php endif; ?>>
+                            <label><?= $data['kode_jawaban'] . '. ' . $data['jawaban']?></label>
                           </div>
                         </td>
                       </tr>
                     <?php	endif;
-                    $last=$data['pertanyaan'];
-                  endforeach;?>
+                    $last = $data['pertanyaan'];
+                  endforeach; ?>
                 </table>
               <?php else: ?>
                 <div class="text-center"><h4>Tidak Ada Data...</h4></div>
@@ -84,7 +86,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
-						<?php if($jumlah != 0):?>
+						<?php if ($jumlah != 0):?>
               <button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
 					  <?php endif; ?>
           </div>

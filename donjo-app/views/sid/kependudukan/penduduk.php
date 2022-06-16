@@ -1,76 +1,26 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * View Penduduk untuk modul Kependudukan > Penduduk
- *
- * donjo-app/views/sid/kependudukan/penduduk.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-
-?>
-
 <script>
-$(document).ready(function()
-{
-	$('#cari').focus();
-});
+	$(document).ready(function() {
+		$('#cari').focus();
+	});
 
-$( function() {
-	$( "#cari" ).autocomplete( {
-		source: function( request, response ) {
-			$.ajax( {
-				type: "POST",
-				url: '<?= site_url("penduduk/autocomplete"); ?>',
-				dataType: "json",
-				data: {
-					cari: request.term
-				},
-				success: function( data ) {
-					response( JSON.parse( data ));
-				}
-			} );
-		},
-		minLength: 2,
-	} );
-} );
+	$( function() {
+		$( "#cari" ).autocomplete( {
+			source: function( request, response ) {
+				$.ajax( {
+					type: "POST",
+					url: '<?= site_url('penduduk/autocomplete'); ?>',
+					dataType: "json",
+					data: {
+						cari: request.term
+					},
+					success: function( data ) {
+						response( JSON.parse( data ));
+					}
+				});
+			},
+			minLength: 2,
+		} );
+	});
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
@@ -99,31 +49,31 @@ $( function() {
 							</div>
 						<?php endif; ?>
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
-							<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?= site_url("penduduk/delete_all/$p/$o"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+							<a href="#confirm-delete" title="Hapus Data Terpilih" onclick="deleteAllBox('mainform', '<?= site_url("penduduk/delete_all/{$p}/{$o}"); ?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						<?php endif; ?>
 						<div class="btn-group-vertical">
 							<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
 							<ul class="dropdown-menu" role="menu">
 								<li>
-									<a href="<?= site_url("penduduk/ajax_cetak/$o/cetak"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print"></i> Cetak</a>
+									<a href="<?= site_url("penduduk/ajax_cetak/{$o}/cetak"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data"><i class="fa fa-print"></i> Cetak</a>
 								</li>
 								<li>
-									<a href="<?= site_url("penduduk/ajax_cetak/$o/unduh"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
+									<a href="<?= site_url("penduduk/ajax_cetak/{$o}/unduh"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data"><i class="fa fa-download"></i> Unduh</a>
 								</li>
 								<li>
-									<a href="<?= site_url("penduduk/ajax_adv_search"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Spesifik" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"><i class="fa fa-search"></i> Pencarian Spesifik</a>
+									<a href="<?= site_url('penduduk/ajax_adv_search'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Spesifik" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik"><i class="fa fa-search"></i> Pencarian Spesifik</a>
 								</li>
 								<li>
-									<a href="<?= site_url("penduduk/program_bantuan")?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
+									<a href="<?= site_url('penduduk/program_bantuan')?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pencarian Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Program Bantuan"><i class="fa fa-search"></i> Pencarian Program Bantuan</a>
 								</li>
 								<li>
-									<a href="<?= site_url("penduduk/search_kumpulan_nik"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan NIK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan NIK"><i class="fa fa-users"></i> Pilihan Kumpulan NIK</a>
+									<a href="<?= site_url('penduduk/search_kumpulan_nik'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Pilihan Kumpulan NIK" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pilihan Kumpulan NIK"><i class="fa fa-users"></i> Pilihan Kumpulan NIK</a>
 								</li>
 								<li>
 									<a href="<?= site_url("{$this->controller}/nik_sementara"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="NIK Sementara"><i class="fa fa-search"></i> NIK Sementara</a>
 								</li>
 								<li>
-									<a href="<?= site_url("penduduk_log/clear"); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Log Data Penduduk"><i class="fa fa-book"></i> Log Penduduk</a>
+									<a href="<?= site_url('penduduk_log/clear'); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Log Data Penduduk"><i class="fa fa-book"></i> Log Penduduk</a>
 								</li>
 							</ul>
 						</div>
@@ -136,19 +86,19 @@ $( function() {
 									<div class="col-sm-9">
 										<select class="form-control input-sm" name="filter" onchange="formAction('mainform', '<?= site_url('penduduk/filter/filter'); ?>')">
 											<option value="">Status Penduduk</option>
-											<?php foreach ($list_status_penduduk AS $data): ?>
+											<?php foreach ($list_status_penduduk as $data): ?>
 												<option value="<?= $data['id']; ?>" <?= selected($filter, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
 											<?php endforeach; ?>
 										</select>
 										<select class="form-control input-sm" name="status_dasar" onchange="formAction('mainform', '<?= site_url('penduduk/filter/status_dasar'); ?>')">
 											<option value="">Status Dasar</option>
-											<?php foreach ($list_status_dasar AS $data): ?>
+											<?php foreach ($list_status_dasar as $data): ?>
 												<option value="<?= $data['id']; ?>" <?= selected($status_dasar, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
 											<?php endforeach; ?>
 										</select>
 										<select class="form-control input-sm" name="sex" onchange="formAction('mainform', '<?= site_url('penduduk/filter/sex'); ?>')">
 											<option value="">Jenis Kelamin</option>
-											<?php foreach ($list_jenis_kelamin AS $data): ?>
+											<?php foreach ($list_jenis_kelamin as $data): ?>
 												<option value="<?= $data['id']; ?>" <?= selected($sex, $data['id']); ?>><?= set_ucwords($data['nama']); ?></option>
 											<?php endforeach; ?>
 										</select>
@@ -156,9 +106,9 @@ $( function() {
 									</div>
 									<div class="col-sm-3">
 										<div class="input-group input-group-sm pull-right">
-											<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" title="Pencarian berdasarkan nama penduduk" value="<?=html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("penduduk/filter/cari"); ?>');$('#'+'mainform').submit();}">
+											<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" title="Pencarian berdasarkan nama penduduk" value="<?=html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url('penduduk/filter/cari'); ?>');$('#'+'mainform').submit();}">
 											<div class="input-group-btn">
-												<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("penduduk/filter/cari"); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+												<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url('penduduk/filter/cari'); ?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 											</div>
 										</div>
 									</div>
@@ -196,7 +146,7 @@ $( function() {
 											</tr>
 										</thead>
 										<tbody>
-											<?php if($main): ?>
+											<?php if ($main): ?>
 												<?php foreach ($main as $key => $data): ?>
 													<tr <?= jecho(get_nik($data['nik']), '0', 'class="danger"') ?>>
 														<td class="padat"><input type="checkbox" name="id_cb[]" value="<?= $data['id']; ?>" /></td>
@@ -206,36 +156,34 @@ $( function() {
 																<button type="button" class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi</button>
 																<ul class="dropdown-menu" role="menu">
 																	<li>
-																		<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
+																		<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-list-ol"></i> Lihat Detail Biodata Penduduk</a>
 																	</li>
-																	<?php if ($data['status_dasar']==9): ?>
+																	<?php if ($data['status_dasar'] == 9 && $this->CI->cek_hak_akses('u')): ?>
 																		<li>
-																			<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/$p/$o/$data[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?"><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
+																			<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?"><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
 																		</li>
 																	<?php endif; ?>
-																	<?php if ($data['status_dasar']==1): ?>
+																	<?php if ($data['status_dasar'] == 1): ?>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<li>
-																				<a href="<?= site_url("penduduk/form/$p/$o/$data[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
+																				<a href="<?= site_url("penduduk/form/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-edit"></i> Ubah Biodata Penduduk</a>
+																			</li>
+																			<li>
+																				<a href="<?= site_url("penduduk/ajax_penduduk_maps/{$p}/{$o}/{$data['id']}/0"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
+																			</li>
+																			<li>
+																				<a href="<?= site_url("penduduk/edit_status_dasar/{$p}/{$o}/{$data['id']}"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
 																			</li>
 																		<?php endif; ?>
 																		<li>
-																			<a href="<?= site_url("penduduk/ajax_penduduk_maps/$p/$o/$data[id]/0"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-map-marker'></i> Lihat Lokasi Tempat Tinggal</a>
+																			<a href="<?= site_url("penduduk/dokumen/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
 																		</li>
-																		<?php if ($this->CI->cek_hak_akses('u')): ?>
-																			<li>
-																				<a href="<?= site_url("penduduk/edit_status_dasar/$p/$o/$data[id]"); ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Status Dasar" class="btn btn-social btn-flat btn-block btn-sm"><i class='fa fa-sign-out'></i> Ubah Status Dasar</a>
-																			</li>
-																			<li>
-																				<a href="<?= site_url("penduduk/dokumen/$data[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-upload"></i> Upload Dokumen Penduduk</a>
-																			</li>
-																		<?php endif; ?>
 																		<li>
-																			<a href="<?= site_url("penduduk/cetak_biodata/$data[id]"); ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
+																			<a href="<?= site_url("penduduk/cetak_biodata/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print"></i> Cetak Biodata Penduduk</a>
 																		</li>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
 																			<li>
-																				<a href="#" data-href="<?= site_url("penduduk/delete/$p/$o/$data[id]"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
+																				<a href="#" data-href="<?= site_url("penduduk/delete/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i> Hapus</a>
 																			</li>
 																		<?php endif; ?>
 																	<?php endif; ?>
@@ -243,25 +191,19 @@ $( function() {
 															</div>
 														</td>
 														<td class="padat">
-															<div class="user-panel">
-																<div class="image2">
-																	<img class="img-circle" alt="Foto Penduduk"
-																		src="<?= AmbilFoto($data['foto'], '', $data['id_sex']) ?>"
-																	/>
-																</div>
-															</div>
+															<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
 														</td>
 														<td>
-															<a href="<?= site_url("penduduk/detail/$p/$o/$data[id]"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a>
+															<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}"); ?>" id="test" name="<?= $data['id']; ?>"><?= $data['nik']; ?></a>
 														</td>
 														<td nowrap><?= $data['tag_id_card']; ?></td>
 														<td nowrap><?= strtoupper($data['nama']); ?></td>
-														<td><a href="<?= site_url("keluarga/kartu_keluarga/$p/$o/$data[id_kk]"); ?>"><?= $data['no_kk']; ?> </a></td>
+														<td class="padat"><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}"); ?>"><?= $data['no_kk']; ?> </a></td>
 														<!-- tambah kolom orang tua-->
 														<td nowrap><?= $data['nama_ayah']; ?></td>
 														<td nowrap><?= $data['nama_ibu']; ?></td>
 														<!-- tambah kolom orang tua-->
-														<td><a href="<?= site_url("rtm/anggota/$data[id_rtm]"); ?>"><?= $data['no_rtm']; ?></a></td>
+														<td><a href="<?= site_url("rtm/anggota/{$data['id_rtm']}"); ?>"><?= $data['no_rtm']; ?></a></td>
 														<td><?= strtoupper($data['alamat']); ?></td>
 														<td nowrap><?= strtoupper($data['dusun']); ?></td>
 														<td><?= $data['rw']; ?></td>

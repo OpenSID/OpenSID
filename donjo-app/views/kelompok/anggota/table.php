@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View daftar anggota kelompok di modul Kelompok
  *
  * donjo-app/views/kelompok/anggota/table.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
  * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
  * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -67,20 +64,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 									<a class="btn btn-social btn-flat btn-success btn-sm" data-toggle="dropdown"><i class='fa fa-plus'></i> Tambah Anggota <?= $tipe; ?></a>
 									<ul class="dropdown-menu" role="menu">
 										<li>
-											<a href="<?= site_url("$this->controller/aksi/1/" . $kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Satu Peserta Baru "><i class="fa fa-plus"></i> Tambah Satu Anggota <?= $tipe; ?></a>
+											<a href="<?= site_url("{$this->controller}/aksi/1/" . $kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Satu Peserta Baru "><i class="fa fa-plus"></i> Tambah Satu Anggota <?= $tipe; ?></a>
 										</li>
 										<li>
-											<a href="<?= site_url("$this->controller/aksi/2/" . $kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Beberapa Peserta Baru"><i class="fa fa-plus"></i> Tambah Beberapa Anggota <?= $tipe; ?></a>
+											<a href="<?= site_url("{$this->controller}/aksi/2/" . $kelompok['id']); ?>" class="btn btn-social btn-flat btn-block btn-sm" title="Tambah Beberapa Peserta Baru"><i class="fa fa-plus"></i> Tambah Beberapa Anggota <?= $tipe; ?></a>
 										</li>
 									</ul>
 								</div>
 							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')) : ?>
-								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("$this->controller/delete_anggota_all/$kelompok[id]"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("{$this->controller}/delete_anggota_all/{$kelompok['id']}"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
-							<a href="<?= site_url("$this->controller/dialog_anggota/cetak/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Daftar Anggota <?= ucwords($tipe . ' ' . $kelompok['nama']); ?>"><i class="fa fa-print"></i> Cetak</a>
-							<a href="<?= site_url("$this->controller/dialog_anggota/unduh/$kelompok[id]"); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Daftar Anggota <?= ucwords($tipe . ' ' . $kelompok['nama']); ?>"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?= site_url("$this->controller"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar <?= $tipe; ?></a>
+							<a href="<?= site_url("{$this->controller}/dialog_anggota/cetak/{$kelompok['id']}"); ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Daftar Anggota <?= ucwords($tipe . ' ' . $kelompok['nama']); ?>"><i class="fa fa-print"></i> Cetak</a>
+							<a href="<?= site_url("{$this->controller}/dialog_anggota/unduh/{$kelompok['id']}"); ?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Daftar Anggota <?= ucwords($tipe . ' ' . $kelompok['nama']); ?>"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?= site_url("{$this->controller}"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar <?= $tipe; ?></a>
 						</div>
 						<div class="box-body">
 							<h5><b>Rincian <?= $tipe; ?></b></h5>
@@ -151,18 +148,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 													<td class="padat"><?= ($key + 1); ?></td>
 													<td class="aksi">
 														<?php if ($this->CI->cek_hak_akses('u')) : ?>
-															<a href="<?= site_url("$this->controller/form_anggota/$kelompok[id]/$data[id_penduduk]"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a>
+															<a href="<?= site_url("{$this->controller}/form_anggota/{$kelompok['id']}/{$data['id_penduduk']}"); ?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Anggota"><i class="fa fa-edit"></i></a>
 														<?php endif; ?>
 														<?php if ($this->CI->cek_hak_akses('h')) : ?>
-															<a href="#" data-href="<?= site_url("$this->controller/delete_anggota/$kelompok[id]/$data[id]"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															<a href="#" data-href="<?= site_url("{$this->controller}/delete_anggota/{$kelompok['id']}/{$data['id']}"); ?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<?php endif; ?>
 													</td>
-													<td class="text-center">
-														<div class="user-panel">
-															<div class="image2">
-																<img src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" class="img-circle" alt="User Image" />
-															</div>
-														</div>
+													<td class="padat">
+														<img class="penduduk_kecil" src="<?= AmbilFoto($data['foto'], '', $data['id_sex']); ?>" alt="Foto Penduduk"/>
 													</td>
 													<td class="padat"><?= $data['no_anggota'] ?></td>
 													<td><?= $data['nik']; ?></td>

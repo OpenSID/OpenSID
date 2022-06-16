@@ -18,12 +18,12 @@
 					<tr>
 						<td align="center">
 							<?php if ($aksi != 'unduh'): ?>
-								<img src="<?= gambar_desa($config['logo']);?>" alt="" style="width:100px; height:auto">
+								<img src="<?= gambar_desa($config['logo']); ?>" alt="" style="width:100px; height:auto">
 							<?php endif; ?>
 							<h1>PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten)?> <?= strtoupper($config['nama_kabupaten'])?> </h1>
 							<h1 style="text-transform: uppercase;"></h1>
 							<h1><?= strtoupper($this->setting->sebutan_kecamatan)?> <?= strtoupper($config['nama_kecamatan'])?> </h1>
-							<h1><?= strtoupper($this->setting->sebutan_desa)." ".strtoupper($config['nama_desa'])?></h1>
+							<h1><?= strtoupper($this->setting->sebutan_desa) . ' ' . strtoupper($config['nama_desa'])?></h1>
 						</td>
 					</tr>
 					<tr>
@@ -63,24 +63,26 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php	$i=1;	foreach ($query_array as $key=>$item): ?>
+									<?php	$i = 1;
+
+foreach ($query_array as $key => $item): ?>
 										<tr>
 											<td><?= $i?></td>
-											<td><?= "H+".$item["date_diff"] ?></td>
-											<td><?= $item["tanggal_datang"] ?></td>
-											<td><?= $item["tanggal_jam"]?></td>
-											<td><?= $item["nik"] ?></td>
-											<td class='textx'><?= $item["nama"]?></td>
-											<td><?= $item["umur"]?></td>
-											<td><?= ($item["sex"]==='1' ? 'Lk' : 'Pr'); ?></td>
-											<td><?= $item["suhu_tubuh"];?></td>
-											<td><?= ($item["batuk"]==='1' ? 'Ya' : 'Tidak');?></td>
-											<td><?= ($item["flu"]==='1' ? 'Ya' : 'Tidak');?></td>
-											<td><?= ($item["sesak_nafas"]==='1' ? 'Ya' : 'Tidak');?></td>
-											<td><?= $item["keluhan_lain"];?></td>
-											<td><?= $item["status_covid"];?></td>
+											<td><?= 'H+' . $item['date_diff'] ?></td>
+											<td><?= $item['tanggal_datang'] ?></td>
+											<td><?= $item['tanggal_jam']?></td>
+											<td><?= $item['nik'] ?></td>
+											<td class='textx'><?= $item['nama']?></td>
+											<td><?= $item['umur']?></td>
+											<td><?= ($item['sex'] === '1' ? 'Lk' : 'Pr'); ?></td>
+											<td><?= $item['suhu_tubuh']; ?></td>
+											<td><?= ($item['batuk'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+											<td><?= ($item['flu'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+											<td><?= ($item['sesak_nafas'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+											<td><?= $item['keluhan_lain']; ?></td>
+											<td><?= $item['status_covid']; ?></td>
 										</tr>
-									<?php $i++;	endforeach;	?>
+									<?php $i++; endforeach; ?>
 								</tbody>
 							</table>
 						</td>

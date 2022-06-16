@@ -1,17 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Helper berisi function umum
- *
- * donjo-app/helpers/opensid_helper.php
- *
- */
-
-/**
+/*
  *
  * File ini bagian dari:
  *
@@ -22,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -37,20 +26,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
 /**
  * VERSION
  * rilis-bugs-fix => premium-rev[nomor urut dua digit]
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define("VERSION", '22.06');
+define('VERSION', '21.12-premium-rev03');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -58,35 +51,35 @@ define("VERSION", '22.06');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022060101');
-define("LOKASI_LOGO_DESA", 'desa/logo/');
-define("LOKASI_ARSIP", 'desa/arsip/');
-define("LOKASI_CONFIG_DESA", 'desa/config/');
-define("LOKASI_SURAT_DESA", 'desa/template-surat/');
-define("LOKASI_SURAT_FORM_DESA", 'desa/template-surat/form/');
-define("LOKASI_SURAT_PRINT_DESA", 'desa/template-surat/print/');
-define("LOKASI_SURAT_EXPORT_DESA", 'desa/template-surat/export/');
-define("LOKASI_USER_PICT", 'desa/upload/user_pict/');
-define("LOKASI_GALERI", 'desa/upload/galeri/');
-define("LOKASI_FOTO_ARTIKEL", 'desa/upload/artikel/');
-define("LOKASI_FOTO_LOKASI", 'desa/upload/gis/lokasi/');
-define("LOKASI_FOTO_AREA", 'desa/upload/gis/area/');
-define("LOKASI_FOTO_GARIS", 'desa/upload/gis/garis/');
-define("LOKASI_DOKUMEN", 'desa/upload/dokumen/');
-define("LOKASI_PENGESAHAN", 'desa/upload/pengesahan/');
-define("LOKASI_WIDGET", 'desa/widgets/');
-define("LOKASI_GAMBAR_WIDGET", 'desa/upload/widgets/');
-define("LOKASI_KEUANGAN_ZIP", 'desa/upload/keuangan/');
-define("LOKASI_MEDIA", 'desa/upload/media/');
-define("LOKASI_SIMBOL_LOKASI", 'desa/upload/gis/lokasi/point/');
-define("LOKASI_SIMBOL_LOKASI_DEF", 'assets/images/gis/point/');
-define("LOKASI_SISIPAN_DOKUMEN", 'assets/files/sisipan/');
-define("LOKASI_SINKRONISASI_ZIP", 'desa/upload/sinkronisasi/');
-define("PENDAPAT", 'assets/images/layanan_mandiri/');
-define("LOKASI_PRODUK", 'desa/upload/produk/');
+define('VERSI_DATABASE', '2021122251');
+define('LOKASI_LOGO_DESA', 'desa/logo/');
+define('LOKASI_ARSIP', 'desa/arsip/');
+define('LOKASI_CONFIG_DESA', 'desa/config/');
+define('LOKASI_SURAT_DESA', 'desa/template-surat/');
+define('LOKASI_SURAT_FORM_DESA', 'desa/template-surat/form/');
+define('LOKASI_SURAT_PRINT_DESA', 'desa/template-surat/print/');
+define('LOKASI_SURAT_EXPORT_DESA', 'desa/template-surat/export/');
+define('LOKASI_USER_PICT', 'desa/upload/user_pict/');
+define('LOKASI_GALERI', 'desa/upload/galeri/');
+define('LOKASI_FOTO_ARTIKEL', 'desa/upload/artikel/');
+define('LOKASI_FOTO_LOKASI', 'desa/upload/gis/lokasi/');
+define('LOKASI_FOTO_AREA', 'desa/upload/gis/area/');
+define('LOKASI_FOTO_GARIS', 'desa/upload/gis/garis/');
+define('LOKASI_DOKUMEN', 'desa/upload/dokumen/');
+define('LOKASI_PENGESAHAN', 'desa/upload/pengesahan/');
+define('LOKASI_WIDGET', 'desa/widgets/');
+define('LOKASI_GAMBAR_WIDGET', 'desa/upload/widgets/');
+define('LOKASI_KEUANGAN_ZIP', 'desa/upload/keuangan/');
+define('LOKASI_MEDIA', 'desa/upload/media/');
+define('LOKASI_SIMBOL_LOKASI', 'desa/upload/gis/lokasi/point/');
+define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
+define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
+define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
+define('PENDAPAT', 'assets/images/layanan_mandiri/');
+define('LOKASI_PRODUK', 'desa/upload/produk/');
 
 // Pengaturan Latar
-define("LATAR_LOGIN", 'desa/pengaturan/siteman/images/');
+define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -99,252 +92,73 @@ define('LAPORAN_MANDIRI', 775);
 // Kode artikel terkait agenda
 define('AGENDA', 1000);
 
-//
-define("MAX_PINDAH", 7);
-define("MAX_ANGGOTA", 7);
+define('MAX_PINDAH', 7);
+define('MAX_ANGGOTA', 7);
+define('SASARAN', serialize([
+    '1' => 'Penduduk',
+    '2' => 'Keluarga / KK',
+    '3' => 'Rumah Tangga',
+    '4' => 'Kelompok/Organisasi Kemasyarakatan',
+]));
+define('ASALDANA', serialize([
+    'Pusat'             => 'Pusat',
+    'Provinsi'          => 'Provinsi',
+    'Kab/Kota'          => 'Kab/Kota',
+    'Dana Desa'         => 'Dana Desa',
+    'Lain-lain (Hibah)' => 'Lain-lain (Hibah)',
+]));
+define('KTP_EL', serialize([
+    strtolower('BELUM')  => '1',
+    strtolower('KTP-EL') => '2',
+    strtolower('KIA')    => '3',
+]));
+define('TEMPAT_DILAHIRKAN', serialize([
+    'RS/RB'    => '1',
+    'Puskemas' => '2',
+    'Polindes' => '3',
+    'Rumah'    => '4',
+    'Lainnya'  => '5',
+]));
+define('JENIS_KELAHIRAN', serialize([
+    'Tunggal'  => '1',
+    'Kembar 2' => '2',
+    'Kembar 3' => '3',
+    'Kembar 4' => '4',
+]));
+define('PENOLONG_KELAHIRAN', serialize([
+    'Dokter'        => '1',
+    'Bidan Perawat' => '2',
+    'Dukun'         => '3',
+    'Lainnya'       => '4',
+]));
+define('JENIS_MUTASI', serialize([
+    'Hapus barang masih baik' => '1',
+    'Hapus barang rusak'      => '4',
+    'Status rusak'            => '2',
+    'Status diperbaiki'       => '3',
+]));
+define('JENIS_PENGHAPUSAN', serialize([
+    'Rusak'     => '1',
+    'Dijual'    => '2',
+    'Disumbang' => '3',
+]));
+define('ASAL_INVENTARIS', serialize([
+    'Dibeli Sendiri'     => '1',
+    'Bantuan Pemerintah' => '2',
+    'Bantuan Provinsi'   => '3',
+    'Bantuan Kabupaten'  => '4',
+    'Sumbangan'          => '5',
+]));
+define('KATEGORI_MAILBOX', serialize([
+    'Kotak Masuk'  => '1',
+    'Kotak Keluar' => '2',
+]));
 
-define("KODE_SEX", serialize(array(
-    "L" => "1",
-    "Lk" => "1",
-    "Laki-Laki" => "1",
-    "P" => "2",
-    "Pr" => "2",
-    "Perempuan" => "2"
-)));
-define("KODE_AGAMA", serialize(array(
-    strtolower("Islam") => "1",
-    strtolower("Kristen") => "2",
-    strtolower("Katholik") => "3",
-    strtolower("Hindu") => "4",
-    strtolower("Budha") => "5",
-    strtolower("Konghuchu") => "6",
-    strtolower("Aliran Kepercayaan") => "7"
-)));
-define("KODE_STATUS", serialize(array(
-    strtolower("BELUM KAWIN") => "1",
-    strtolower("BK") => "1",
-    strtolower("KAWIN") => "2",
-    strtolower("K") => "2",
-    strtolower("CERAI HIDUP") => "3",
-    strtolower("CH") => "3",
-    strtolower("CERAI MATI") => "4",
-    strtolower("CM") => "4"
-)));
-define("KODE_HUBUNGAN", serialize(array(
-    strtolower("KEPALA KELUARGA") => "1",
-    strtolower("SUAMI") => "2",
-    strtolower("ISTRI") => "3",
-    strtolower("ANAK") => "4",
-    strtolower("MENANTU") => "5",
-    strtolower("CUCU") => "6",
-    strtolower("ORANG TUA") => "7",
-    strtolower("MERTUA") => "8",
-    strtolower("FAMILI LAIN") => "9",
-    strtolower("PEMBANTU") => "10",
-    strtolower("LAINNYA") => "11"
-)));
-define("KODE_PENDIDIKAN", serialize(array(
-    strtolower("Tidak/Belum Sekolah") => "1",
-    strtolower("Tidak/Blm Sekolah") => "1",
-    strtolower("Belum Tamat SD/Sederajat") => "2",
-    strtolower("Tidak Tamat SD/Sederajat") => "2",
-    strtolower("Tamat SD/Sederajat") => "3",
-    strtolower("Tamat SD / Sederajat") => "3",
-    strtolower("SLTP/Sederajat") => "4",
-    strtolower("SLTA/Sederajat") => "5",
-    strtolower("Diploma I/II") => "6",
-    strtolower("Akademi/Diploma III/S. Muda") => "7",
-    strtolower("Akademi/Diploma III/Sarjana Muda") => "7",
-    strtolower("Diploma IV/Strata I") => "8",
-    strtolower("Strata II") => "9",
-    strtolower("Strata-II") => "9",
-    strtolower("Strata III") => "10"
-)));
-define("KODE_PEKERJAAN", serialize(array(
-    strtolower("BELUM/TIDAK BEKERJA") => "1",
-    strtolower("MENGURUS RUMAH TANGGA") => "2",
-    strtolower("PELAJAR/MAHASISWA") => "3",
-    strtolower("PENSIUNAN") => "4",
-    strtolower("PEGAWAI NEGERI SIPIL") => "5",
-    strtolower("PEGAWAI NEGERI SIPIL (PNS)") => "5",
-    strtolower("TENTARA NASIONAL INDONESIA") => "6",
-    strtolower("TENTARA NASIONAL INDONESIA (TNI)") => "6",
-    strtolower("KEPOLISIAN RI") => "7",
-    strtolower("KEPOLISIAN RI (POLRI)") => "7",
-    strtolower("PERDAGANGAN") => "8",
-    strtolower("PETANI/PEKEBUN") => "9",
-    strtolower("PETERNAK") => "10",
-    strtolower("NELAYAN/PERIKANAN") => "11",
-    strtolower("INDUSTRI") => "12",
-    strtolower("KONSTRUKSI") => "13",
-    strtolower("TRANSPORTASI") => "14",
-    strtolower("KARYAWAN SWASTA") => "15",
-    strtolower("KARYAWAN BUMN") => "16",
-    strtolower("KARYAWAN BUMD") => "17",
-    strtolower("KARYAWAN HONORER") => "18",
-    strtolower("BURUH HARIAN LEPAS") => "19",
-    strtolower("BURUH TANI/PERKEBUNAN") => "20",
-    strtolower("BURUH NELAYAN/PERIKANAN") => "21",
-    strtolower("BURUH PETERNAKAN") => "22",
-    strtolower("PEMBANTU RUMAH TANGGA") => "23",
-    strtolower("TUKANG CUKUR") => "24",
-    strtolower("TUKANG LISTRIK") => "25",
-    strtolower("TUKANG BATU") => "26",
-    strtolower("TUKANG KAYU") => "27",
-    strtolower("TUKANG SOL SEPATU") => "28",
-    strtolower("TUKANG LAS/PANDAI BESI") => "29",
-    strtolower("TUKANG JAHIT") => "30",
-    strtolower("TUKANG GIGI") => "31",
-    strtolower("PENATA RIAS") => "32",
-    strtolower("PENATA BUSANA") => "33",
-    strtolower("PENATA RAMBUT") => "34",
-    strtolower("MEKANIK") => "35",
-    strtolower("SENIMAN") => "36",
-    strtolower("TABIB") => "37",
-    strtolower("PARAJI") => "38",
-    strtolower("PERANCANG BUSANA") => "39",
-    strtolower("PENTERJEMAH") => "40",
-    strtolower("IMAM MESJID") => "41",
-    strtolower("PENDETA") => "42",
-    strtolower("PASTOR") => "43",
-    strtolower("WARTAWAN") => "44",
-    strtolower("USTADZ/MUBALIGH") => "45",
-    strtolower("JURU MASAK") => "46",
-    strtolower("PROMOTOR ACARA") => "47",
-    strtolower("ANGGOTA DPR-RI") => "48",
-    strtolower("ANGGOTA DPD") => "49",
-    strtolower("ANGGOTA BPK") => "50",
-    strtolower("PRESIDEN") => "51",
-    strtolower("WAKIL PRESIDEN") => "52",
-    strtolower("ANGGOTA MAHKAMAH KONSTITUSI") => "53",
-    strtolower("ANGGOTA KABINET/KEMENTERIAN") => "54",
-    strtolower("DUTA BESAR") => "55",
-    strtolower("GUBERNUR") => "56",
-    strtolower("WAKIL GUBERNUR") => "57",
-    strtolower("BUPATI") => "58",
-    strtolower("WAKIL BUPATI") => "59",
-    strtolower("WALIKOTA") => "60",
-    strtolower("WAKIL WALIKOTA") => "61",
-    strtolower("ANGGOTA DPRD PROVINSI") => "62",
-    strtolower("ANGGOTA DPRD KABUPATEN/KOTA") => "63",
-    strtolower("DOSEN") => "64",
-    strtolower("GURU") => "65",
-    strtolower("PILOT") => "66",
-    strtolower("PENGACARA") => "67",
-    strtolower("NOTARIS") => "68",
-    strtolower("ARSITEK") => "69",
-    strtolower("AKUNTAN") => "70",
-    strtolower("KONSULTAN") => "71",
-    strtolower("DOKTER") => "72",
-    strtolower("BIDAN") => "73",
-    strtolower("PERAWAT") => "74",
-    strtolower("APOTEKER") => "75",
-    strtolower("PSIKIATER/PSIKOLOG") => "76",
-    strtolower("PENYIAR TELEVISI") => "77",
-    strtolower("PENYIAR RADIO") => "78",
-    strtolower("PELAUT") => "79",
-    strtolower("PENELITI") => "80",
-    strtolower("SOPIR") => "81",
-    strtolower("PIALANG") => "82",
-    strtolower("PARANORMAL") => "83",
-    strtolower("PEDAGANG") => "84",
-    strtolower("PERANGKAT DESA") => "85",
-    strtolower("KEPALA DESA") => "86",
-    strtolower("BIARAWATI") => "87",
-    strtolower("WIRASWASTA") => "88",
-    strtolower("PEKERJAAN LAINNYA") => "89",
-    strtolower("LAINNYA") => "89"
-)));
-define("KODE_GOLONGAN_DARAH", serialize(array(
-    strtolower('A') => '1',
-    strtolower('B') => '2',
-    strtolower('AB') => '3',
-    strtolower('O') => '4',
-    strtolower('A+') => '5',
-    strtolower('A-') => '6',
-    strtolower('B+') => '7',
-    strtolower('B-') => '8',
-    strtolower('AB+') => '9',
-    strtolower('AB-') => '10',
-    strtolower('O+') => '11',
-    strtolower('O-') => '12',
-    strtolower('TIDAK TAHU') => '13',
-    strtolower('Tdk Th') => '13'
-)));
-define("KODE_CACAT", serialize(array(
-    strtolower('CACAT FISIK') => '1',
-    strtolower('CACAT NETRA/BUTA') => '2',
-    strtolower('CACAT RUNGU/WICARA') => '3',
-    strtolower('CACAT MENTAL/JIWA') => '4',
-    strtolower('CACAT FISIK DAN MENTAL') => '5',
-    strtolower('CACAT LAINNYA') => '6',
-    strtolower('TIDAK CACAT') => '7'
-)));
-define("SASARAN", serialize(array(
-    "1" => "Penduduk",
-    "2" => "Keluarga / KK",
-    "3" => "Rumah Tangga",
-    "4" => "Kelompok/Organisasi Kemasyarakatan"
-)));
-define("ASALDANA", serialize(array(
-    "Pusat" => "Pusat",
-    "Provinsi" => "Provinsi",
-    "Kab/Kota" => "Kab/Kota",
-    "Dana Desa" => "Dana Desa",
-    "Lain-lain (Hibah)" => "Lain-lain (Hibah)"
-)));
-define("KTP_EL", serialize(array(
-    strtolower("BELUM") => "1",
-    strtolower("KTP-EL") => "2",
-    strtolower("KIA") => "3"
-)));
-define("TEMPAT_DILAHIRKAN", serialize(array(
-    "RS/RB" => "1",
-    "Puskemas" => "2",
-    "Polindes" => "3",
-    "Rumah" => "4",
-    "Lainnya" => "5"
-)));
-define("JENIS_KELAHIRAN", serialize(array(
-    "Tunggal" => "1",
-    "Kembar 2" => "2",
-    "Kembar 3" => "3",
-    "Kembar 4" => "4"
-)));
-define("PENOLONG_KELAHIRAN", serialize(array(
-    "Dokter" => "1",
-    "Bidan Perawat" => "2",
-    "Dukun" => "3",
-    "Lainnya" => "4"
-)));
-define("JENIS_MUTASI", serialize(array(
-    "Hapus barang masih baik" => "1",
-    "Hapus barang rusak" => "4",
-    "Status rusak" => "2",
-    "Status diperbaiki" => "3"
-)));
-define("JENIS_PENGHAPUSAN", serialize(array(
-    "Rusak" => "1",
-    "Dijual" => "2",
-    "Disumbang" => "3"
-)));
-define("ASAL_INVENTARIS", serialize(array(
-    "Dibeli Sendiri" => "1",
-    "Bantuan Pemerintah" => "2",
-    "Bantuan Provinsi" => "3",
-    "Bantuan Kabupaten" => "4",
-    "Sumbangan" => "5"
-)));
-define("KATEGORI_MAILBOX", serialize(array(
-    "Kotak Masuk" => "1",
-    "Kotak Keluar" => "2"
-)));
-
-define("NILAI_PENDAPAT", serialize([
-	1 => 'Sangat Puas',
-	2 => 'Puas',
-	3 => 'Cukup',
-	4 => 'Buruk'
+define('NILAI_PENDAPAT', serialize([
+    1 => 'Sangat Puas',
+    2 => 'Puas',
+    3 => 'Cukup',
+    4 => 'Buruk',
 ]));
 
 /**
@@ -352,8 +166,7 @@ define("NILAI_PENDAPAT", serialize([
  *
  * Mengembalikan nomor versi aplikasi
  *
- * @access  public
- * @return  string
+ * @return string
  */
 function AmbilVersi()
 {
@@ -361,32 +174,19 @@ function AmbilVersi()
 }
 
 /**
- * Ambil Current Version
- *
- * Mengembalikan nomor current_version
- *
- * @return string
- */
-function currentVersion()
-{
-    return preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi());
-}
-
-/**
  * favico_desa
  *
  * Mengembalikan path lengkap untuk file favico desa
  *
- * @access  public
- * @return  string
+ * @return string
  */
 function favico_desa()
 {
     $favico = 'favicon.ico';
-    $favico_desa = (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $favico)) ?
+
+    return (is_file(APPPATH . '../' . LOKASI_LOGO_DESA . $favico)) ?
         base_url() . LOKASI_LOGO_DESA . $favico :
         base_url() . $favico;
-    return $favico_desa;
 }
 
 /**
@@ -394,18 +194,22 @@ function favico_desa()
  *
  * Mengembalikan path lengkap untuk file logo desa / kantor desa
  *
- * @access  public
- * @return  string
+ * @param mixed $nama_file
+ * @param mixed $type
+ * @param mixed $file
+ *
+ * @return string
  */
 function gambar_desa($nama_file, $type = false, $file = false)
 {
-    if (is_file(APPPATH .'../'. LOKASI_LOGO_DESA . $nama_file)) {
-        return $logo_desa = ($file ? APPPATH.'../' : base_url()) . LOKASI_LOGO_DESA . $nama_file;
+    if (is_file(APPPATH . '../' . LOKASI_LOGO_DESA . $nama_file)) {
+        return $logo_desa = ($file ? APPPATH . '../' : base_url()) . LOKASI_LOGO_DESA . $nama_file;
     }
 
     // type FALSE = logo, TRUE = kantor
-    $default = ($type)  ? 'opensid_kantor.jpg' : 'opensid_logo.png';
-    return $logo_desa = ($file ? APPPATH.'../' : base_url()). "assets/files/logo/$default";
+    $default = ($type) ? 'opensid_kantor.jpg' : 'opensid_logo.png';
+
+    return $logo_desa = ($file ? APPPATH . '../' : base_url()) . "assets/files/logo/{$default}";
 }
 
 function session_error($pesan = '')
@@ -429,60 +233,57 @@ function session_success()
 // Untuk mengirim data ke OpenSID tracker
 function httpPost($url, $params)
 {
-	if (!extension_loaded('curl') OR isset($_SESSION['no_curl']))
-	{
-		log_message('error', 'curl tidak bisa dijalankan 1.'.$_SESSION['no_curl'].' 2.'.extension_loaded('curl'));
-		return;
-	}
+    if (! extension_loaded('curl') || isset($_SESSION['no_curl'])) {
+        log_message('error', 'curl tidak bisa dijalankan 1.' . $_SESSION['no_curl'] . ' 2.' . extension_loaded('curl'));
 
-	$postData = '';
-	//create name value pairs seperated by &
-	foreach ($params as $k => $v)
-	{
-		$postData .= $k . '=' . $v . '&';
-	}
-	$postData = rtrim($postData, '&');
+        return;
+    }
 
-	try
-	{
-		$ch = curl_init();
+    $postData = '';
+    //create name value pairs seperated by &
+    foreach ($params as $k => $v) {
+        $postData .= $k . '=' . $v . '&';
+    }
+    $postData = rtrim($postData, '&');
 
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_POST, count($postData));
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+    try {
+        $ch = curl_init();
 
-		// Batasi waktu koneksi dan ambil data, supaya tidak menggantung kalau ada error koneksi
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POST, count($postData));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
-		/*curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
-		curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
-		curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 1);*/
-		$output = curl_exec($ch);
+        // Batasi waktu koneksi dan ambil data, supaya tidak menggantung kalau ada error koneksi
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
-		if ($output === false)
-		{
-			log_message('error', 'Curl error: ' . curl_error($ch));
-			log_message('error', print_r(curl_getinfo($ch), true));
-		}
-		curl_close($ch);
-		return $output;
-	}
-	catch (Exception $e)
-	{
-		return $e;
-	}
+        /*curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);*/
+        $output = curl_exec($ch);
+
+        if ($output === false) {
+            log_message('error', 'Curl error: ' . curl_error($ch));
+            log_message('error', print_r(curl_getinfo($ch), true));
+        }
+        curl_close($ch);
+
+        return $output;
+    } catch (Exception $e) {
+        return $e;
+    }
 }
 
 /**
  * Cek ada koneksi internet.
  *
- * @param            string $sCheckHost Default: www.google.com
- * @return           boolean
+ * @param string $sCheckHost Default: www.google.com
+ *
+ * @return bool
  */
 function cek_koneksi_internet($sCheckHost = 'www.google.com')
 {
@@ -490,8 +291,10 @@ function cek_koneksi_internet($sCheckHost = 'www.google.com')
 
     if ($connected) {
         fclose($connected);
+
         return true;
     }
+
     return false;
 }
 
@@ -504,9 +307,10 @@ function cek_bisa_akses_site($url)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $content = curl_exec($ch);
-    $error = curl_error($ch);
+    $error   = curl_error($ch);
 
     curl_close($ch);
+
     return empty($error);
 }
 
@@ -524,9 +328,9 @@ function myErrorHandler($code, $message, $file, $line)
     // Khusus untuk mencatat masalah dalam pemanggilan httpPost di track_model.php
     if (strpos($message, 'curl_exec') !== false) {
         $_SESSION['no_curl'] = 'y';
-        echo "<strong>Apabila halamannya tidak tampil, coba di-refresh.</strong>";
+        echo '<strong>Apabila halamannya tidak tampil, coba di-refresh.</strong>';
         // Ulangi url yang memanggil fungsi tracker.
-        redirect(base_url() . "index.php/" . $_SESSION['balik_ke']);
+        redirect(base_url() . 'index.php/' . $_SESSION['balik_ke']);
     }
     // Uncomment apabila melakukan debugging
     // else {
@@ -548,36 +352,40 @@ function fatalErrorShutdownHandler()
 
 function get_dynamic_title_page_from_path()
 {
-    $parse = str_replace(array(
-        '/first'
-    ), '', $_SERVER['PATH_INFO']);
+    $parse = str_replace([
+        '/first',
+    ], '', $_SERVER['PATH_INFO']);
     $explo = explode('/', $parse);
 
     $title = '';
+
     for ($i = 0; $i < count($explo); $i++) {
         $t = trim($explo[$i]);
-        if (!empty($t) && $t != '1' && $t != '0') {
+        if (! empty($t) && $t != '1' && $t != '0') {
             $title .= ((is_numeric($t)) ? ' ' : ' - ') . $t;
         }
     }
-    return ucwords(str_replace(array(
+
+    return ucwords(str_replace([
         '  ',
-        '_'
-    ), ' ', $title));
+        '_',
+    ], ' ', $title));
 }
 
 function show_zero_as($val, $str)
 {
-    return (empty($val) ? $str : $val);
+    return empty($val) ? $str : $val;
 }
 
 function log_time($msg)
 {
     $now = DateTime::createFromFormat('U.u', microtime(true));
-    error_log($now->format("m-d-Y H:i:s.u") . " : " . $msg . "\n", 3, "opensid.log");
+    error_log($now->format('m-d-Y H:i:s.u') . ' : ' . $msg . "\n", 3, 'opensid.log');
 }
 
-/*
+/**
+ * @param mixed $tgl_lahir
+ *
  * @return - null, kalau tgl_lahir bukan string tanggal
  */
 function umur($tgl_lahir)
@@ -595,7 +403,7 @@ function umur($tgl_lahir)
 // Dari https://stackoverflow.com/questions/4117555/simplest-way-to-detect-a-mobile-device
 function isMobile()
 {
-    return preg_match("/\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌​como|hiptop|i(?:emob‌​ile|p[ao]d)|kitkat|m‌​(?:ini|obi)|palm|(?:‌​i|smart|windows )phone|symbian|up\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER["HTTP_USER_AGENT"]);
+    return preg_match("/\\b(?:a(?:ndroid|vantgo)|b(?:lackberry|olt|o?ost)|cricket|do‌\u{200b}como|hiptop|i(?:emob‌\u{200b}ile|p[ao]d)|kitkat|m‌\u{200b}(?:ini|obi)|palm|(?:‌\u{200b}i|smart|windows )phone|symbian|up\\.(?:browser|link)|tablet(?: browser| pc)|(?:hp-|rim |sony )tablet|w(?:ebos|indows ce|os))/i", $_SERVER['HTTP_USER_AGENT']);
 }
 
 /*
@@ -612,21 +420,23 @@ function isPHP($file, $filename)
         return true;
     }
 
-    $handle = fopen($file, 'r');
+    $handle = fopen($file, 'rb');
     $buffer = stream_get_contents($handle);
     if (preg_match('/<\?php|<script/i', $buffer)) {
         fclose($handle);
+
         return true;
     }
     fclose($handle);
+
     return false;
 }
 
 function get_extension($filename)
 {
     $ext = explode('.', strtolower($filename));
-    $ext = '.' . end($ext);
-    return $ext;
+
+    return '.' . end($ext);
 }
 
 function max_upload()
@@ -640,44 +450,33 @@ function max_upload()
 function get_external_ip()
 {
     // Batasi waktu mencoba
-    $options = stream_context_create(array('http'=>
-        array(
-        'timeout' => 2 //2 seconds
-        )
-    ));
+    $options = stream_context_create(['http' => [
+        'timeout' => 2, //2 seconds
+    ],
+    ]);
     $externalContent = file_get_contents('http://checkip.dyndns.com/', false, $options);
     preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
-    $externalIp = $m[0];
-    return $externalIp;
+
+    return $m[0];
 }
 
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
 function xcopy($src = '', $dest = '', $exclude = [], $only = [])
 {
-    if (! file_exists($dest)) {
-        mkdir($dest, 0755, true);
-    }
-
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
-
-        if (! is_readable($srcfile) || ($exclude && in_array($file, $exclude))) {
+        if (! is_readable($srcfile)) {
             continue;
         }
-        
         if ($file != '.' && $file != '..') {
             if (is_dir($srcfile)) {
-                if (!file_exists($destfile)) {
+                if (! file_exists($destfile)) {
                     mkdir($destfile);
                 }
-                xcopy($srcfile, $destfile, $exclude, $only);
+                xcopy($srcfile, $destfile);
             } else {
-                if ($only && ! in_array($file, $only)) {
-                    continue;
-                }
-
                 copy($srcfile, $destfile);
             }
         }
@@ -698,7 +497,6 @@ function sql_in_list($list_array)
     return $list;
 }
 
-
 /*
  * ambilBerkas
  * Method untuk mengambil berkas
@@ -709,112 +507,115 @@ function sql_in_list($list_array)
  * lokasi : lokasi folder berkas berada (contoh : desa/arsip)
  * tampil : true kalau berkas akan ditampilkan inline (tidak diunduh)
  */
-function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil=false)
+function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lokasi = LOKASI_ARSIP, $tampil = false)
 {
-	$CI =& get_instance();
-	$CI->load->helper('download');
+    $CI = &get_instance();
+    $CI->load->helper('download');
 
-	// Batasi akses LOKASI_ARSIP hanya untuk admin
-	if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) redirect('/'); 
-	
-	// Tentukan path berkas (absolut)
-	$pathBerkas = FCPATH . $lokasi . $nama_berkas;
-	$pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
-	// Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
-	if ( ! file_exists($pathBerkas))
-	{
-		$_SESSION['success'] = -1;
-		$_SESSION['error_msg'] = 'Berkas tidak ditemukan';
-		if ($redirect_url)
-			redirect($redirect_url);
-		else
-		{
-			http_response_code(404);
-			include(FCPATH . 'donjo-app/views/errors/html/error_404.php');
-			die();
-		}
-	}
-	// OK, berkas ada. Ambil konten berkasnya
+    // Batasi akses LOKASI_ARSIP hanya untuk admin
+    if ($lokasi == LOKASI_ARSIP && $CI->session->siteman != 1) {
+        redirect('/');
+    }
 
-	$data = file_get_contents($pathBerkas);
+    // Tentukan path berkas (absolut)
+    $pathBerkas = FCPATH . $lokasi . $nama_berkas;
+    $pathBerkas = str_replace('/', DIRECTORY_SEPARATOR, $pathBerkas);
+    // Redirect ke halaman surat masuk jika path berkas kosong atau berkasnya tidak ada
+    if (! file_exists($pathBerkas)) {
+        $_SESSION['success']   = -1;
+        $_SESSION['error_msg'] = 'Berkas tidak ditemukan';
+        if ($redirect_url) {
+            redirect($redirect_url);
+        } else {
+            http_response_code(404);
+            include FCPATH . 'donjo-app/views/errors/html/error_404.php';
 
-	if ( ! is_null($unique_id))
-	{
-		// Buang unique id pada nama berkas download
-		$nama_berkas = explode($unique_id, $nama_berkas);
-		$namaFile = $nama_berkas[0];
-		$ekstensiFile = explode('.', end($nama_berkas));
-		$ekstensiFile = end($ekstensiFile);
-		$nama_berkas = $namaFile . '.' . $ekstensiFile;
-	}
+            exit();
+        }
+    }
+    // OK, berkas ada. Ambil konten berkasnya
 
-	// Kalau $tampil, tampilkan secara inline.
-	if ($tampil)
-	{
-		// Set the default MIME type to send
-		$mime = get_extension($nama_berkas) == '.pdf' ? 'application/pdf' : 'application/octet-stream';
-		// Generate the server headers
-		header('Content-Type: '.$mime);
-		header('Content-Disposition: inline; filename="'.$nama_berkas.'"');
-		header('Expires: 0');
-		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: '.strlen($data));
-		header('Cache-Control: private, no-transform, no-store, must-revalidate');
+    $data = file_get_contents($pathBerkas);
 
-		exit($data);
-	}
+    if (null !== $unique_id) {
+        // Buang unique id pada nama berkas download
+        $nama_berkas  = explode($unique_id, $nama_berkas);
+        $namaFile     = $nama_berkas[0];
+        $ekstensiFile = explode('.', end($nama_berkas));
+        $ekstensiFile = end($ekstensiFile);
+        $nama_berkas  = $namaFile . '.' . $ekstensiFile;
+    }
 
-	force_download($nama_berkas, $data);
+    // Kalau $tampil, tampilkan secara inline.
+    if ($tampil) {
+        // Set the default MIME type to send
+        $mime = get_extension($nama_berkas) == '.pdf' ? 'application/pdf' : 'application/octet-stream';
+        // Generate the server headers
+        header('Content-Type: ' . $mime);
+        header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
+        header('Expires: 0');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . strlen($data));
+        header('Cache-Control: private, no-transform, no-store, must-revalidate');
+
+        exit($data);
+    }
+
+    force_download($nama_berkas, $data);
 }
 
 /**
  * @param array 		(0 => (kolom1 => teks, kolom2 => teks, ..), 1 => (kolom1 => teks, kolom2 => teks. ..), ..)
- * @return string 	dalam bentuk siap untuk autocomplete, mengambil teks dari setiap kolom
+ * @param mixed $data
+ *
+ * @return string dalam bentuk siap untuk autocomplete, mengambil teks dari setiap kolom
  */
 function autocomplete_data_ke_str($data)
 {
-	$str = '';
-	$keys = array_keys($data[0]);
-	$values = [];
-	foreach ($keys as $key)
-	{
-		$values = array_merge($values, array_column($data, $key));
-	}
-	$values = array_unique($values);
-	sort($values);
-	$str = '["' . strtolower(implode('","', $values)) . '"]';
-	return $str;
+    $str    = '';
+    $keys   = array_keys($data[0]);
+    $values = [];
+
+    foreach ($keys as $key) {
+        $values = array_merge($values, array_column($data, $key));
+    }
+    $values = array_unique($values);
+    sort($values);
+
+    return '["' . strtolower(implode('","', $values)) . '"]';
 }
 
 // Periksa apakah nilai bilangan Romawi
 // https://recalll.co/?q=How%20to%20convert%20a%20Roman%20numeral%20to%20integer%20in%20PHP?&type=code
 function is_angka_romawi($roman)
 {
-    $roman_regex='/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/';
+    $roman_regex = '/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/';
+
     return preg_match($roman_regex, $roman) > 0;
 }
 
 function bulan_romawi($bulan)
 {
-    if ($bulan < 1 or $bulan > 12) {
+    if ($bulan < 1 || $bulan > 12) {
         return false;
     }
 
-    $bulan_romawi = array(
-        1 => "I",
-        2 => "II",
-        3 => "III",
-        4 => "IV",
-        5 => "V",
-        6 => "VI",
-        7 => "VII",
-        8 => "VIII",
-        9 => "IX",
-        10 => "X",
-        11 => "XI",
-        12 => "XII"
-    );
-    return ($bulan_romawi[$bulan]);
+    $bulan_romawi = [
+        1  => 'I',
+        2  => 'II',
+        3  => 'III',
+        4  => 'IV',
+        5  => 'V',
+        6  => 'VI',
+        7  => 'VII',
+        8  => 'VIII',
+        9  => 'IX',
+        10 => 'X',
+        11 => 'XI',
+        12 => 'XII',
+    ];
+
+    return $bulan_romawi[$bulan];
 }
 
 function buang_nondigit($str)
@@ -823,21 +624,20 @@ function buang_nondigit($str)
 }
 
 /**
- * @param array 		$files = array($file1, $file2, ...)
- * @return string 	path ke zip file
-
-    Masukkan setiap berkas ke dalam zip.
-
-    $file bisa:
-        - array('nama' => nama-file-yg diinginkan, 'file' => full-path-ke-berkas); atau
-        - full-path-ke-berkas
-    Untuk membuat folder di dalam zip gunakan:
-        $file = array('nama' => 'dir', 'file' => nama-folder)
-*/
-function masukkan_zip($files=array())
+ * @param array $files = array($file1, $file2, ...)
+ *
+ * @return string path ke zip file
+ *                Masukkan setiap berkas ke dalam zip.
+ *                $file bisa:
+ *                - array('nama' => nama-file-yg diinginkan, 'file' => full-path-ke-berkas); atau
+ *                - full-path-ke-berkas
+ *                Untuk membuat folder di dalam zip gunakan:
+ *                $file = array('nama' => 'dir', 'file' => nama-folder)
+ */
+function masukkan_zip($files = [])
 {
     $zip = new ZipArchive();
-    # create a temp file & open it
+    // create a temp file & open it
     $tmp_file = tempnam(sys_get_temp_dir(), '');
     $zip->open($tmp_file, ZipArchive::CREATE);
 
@@ -845,11 +645,12 @@ function masukkan_zip($files=array())
         if (is_array($file)) {
             if ($file['nama'] == 'dir') {
                 $zip->addEmptyDir($file['file']);
+
                 continue;
-            } else {
-                $nama_file = $file['nama'];
-                $file = $file['file'];
             }
+
+            $nama_file = $file['nama'];
+            $file      = $file['file'];
         } else {
             $nama_file = basename($file);
         }
@@ -868,7 +669,8 @@ function alfa_spasi($str)
 // https://www.php.net/manual/en/function.array-column.php
 function array_column_ext($array, $columnkey, $indexkey = null)
 {
-    $result = array();
+    $result = [];
+
     foreach ($array as $subarray => $value) {
         if (array_key_exists($columnkey, $value)) {
             $val = $array[$subarray][$columnkey];
@@ -881,9 +683,10 @@ function array_column_ext($array, $columnkey, $indexkey = null)
         if ($indexkey === null) {
             $result[] = $val;
         } elseif ($indexkey == -1 || array_key_exists($indexkey, $value)) {
-            $result[($indexkey == -1)?$subarray:$array[$subarray][$indexkey]] = $val;
+            $result[($indexkey == -1) ? $subarray : $array[$subarray][$indexkey]] = $val;
         }
     }
+
     return $result;
 }
 
@@ -904,9 +707,11 @@ function alfanumerik_spasi($str)
 
 function bilangan($str)
 {
-	if ($str == NULL) return NULL;
-	
-	return preg_replace('/[^0-9]/', '', strip_tags($str));
+    if ($str == null) {
+        return null;
+    }
+
+    return preg_replace('/[^0-9]/', '', strip_tags($str));
 }
 
 function bilangan_spasi($str)
@@ -921,7 +726,7 @@ function bilangan_titik($str)
 
 function alfanumerik_kolon($str)
 {
-	return preg_replace('/[^a-zA-Z0-9:]/', '', strip_tags($str));
+    return preg_replace('/[^a-zA-Z0-9:]/', '', strip_tags($str));
 }
 
 function nomor_surat_keputusan($str)
@@ -932,121 +737,111 @@ function nomor_surat_keputusan($str)
 // Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip
 function nama($str)
 {
-    return preg_replace("/[^a-zA-Z '\.,\-]/", '', strip_tags($str));
+    return preg_replace("/[^a-zA-Z '\\.,\\-]/", '', strip_tags($str));
 }
 
 // Nama hanya boleh berisi karakter alfanumerik, spasi dan strip
 function nama_terbatas($str)
 {
-    return preg_replace("/[^a-zA-Z0-9 \-]/", '', $str);
+    return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
 }
 
 // Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring
 function alamat($str)
 {
-    return preg_replace("/[^a-zA-Z0-9 \.,\-]/", '', htmlentities($str));
+    return preg_replace('/[^a-zA-Z0-9 \\.,\\-]/', '', htmlentities($str));
 }
 
 // Koordinat peta hanya boleh berisi numerik ,minus dan desimal
 function koordinat($str)
 {
-    return preg_replace("/[^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$]/", '', htmlentities($str));
+    return preg_replace('/[^-?(?:\\d+|\\d{1,3}(?:,\\d{3})+)(?:\\.\\d+)?$]/', '', htmlentities($str));
 }
 
 // Email hanya boleh berisi karakter alpha, numeric, titik, strip dan Tanda et,
 function email($str)
 {
-    return preg_replace("/[^a-zA-Z0-9@\.\-]/", '', htmlentities($str));
+    return preg_replace('/[^a-zA-Z0-9@\\.\\-]/', '', htmlentities($str));
 }
 
 // website hanya boleh berisi karakter alpha, numeric, titik, titik dua dan garis miring
 function alamat_web($str)
 {
-    return preg_replace("/[^a-zA-Z0-9:\/\.\-]/", '', htmlentities($str));
+    return preg_replace('/[^a-zA-Z0-9:\\/\\.\\-]/', '', htmlentities($str));
 }
 
 // Format wanrna #803c3c
-if (! function_exists('warna'))
-{
-	function warna($length = 32)
-	{
-		return preg_replace("/[^a-zA-Z0-9\#]/", '', $str);
-	}
-}
-
-// Format wanrna #803c3c
-if (! function_exists('warna'))
-{
-	function warna($length = 32)
-	{
-		return preg_replace("/[^a-zA-Z0-9\#]/", '', $str);
-	}
+if (! function_exists('warna')) {
+    function warna($str)
+    {
+        return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str ?? '#000000');
+    }
 }
 
 function buat_slug($data_slug)
 {
-    $slug = $data_slug['thn'].'/'.$data_slug['bln'].'/'.$data_slug['hri'].'/'.$data_slug['slug'];
-    return $slug;
+    return $data_slug['thn'] . '/' . $data_slug['bln'] . '/' . $data_slug['hri'] . '/' . $data_slug['slug'];
 }
 
 function namafile($str)
 {
-    $tgl =  date('d_m_Y');
-    $filename = urlencode(underscore(strtolower($str))."_".$tgl);
-    return $filename;
+    $tgl = date('d_m_Y');
+
+    return urlencode(underscore(strtolower($str)) . '_' . $tgl);
 }
 
-function luas($int=0, $satuan="meter")
+function luas($int = 0, $satuan = 'meter')
 {
     if (($int / 10000) >= 1) {
-        $ukuran = $int/10000;
-        $pisah = explode('.', $ukuran);
-        $luas['ha'] = number_format($pisah[0]);
-        $luas['meter'] = round(($ukuran-$luas["ha"])*10000, 2);
+        $ukuran        = $int / 10000;
+        $pisah         = explode('.', $ukuran);
+        $luas['ha']    = number_format($pisah[0]);
+        $luas['meter'] = round(($ukuran - $luas['ha']) * 10000, 2);
     } else {
-        $luas['ha'] =0;
+        $luas['ha']    = 0;
         $luas['meter'] = round($int, 2);
     }
-    $hasil = ($int!=0)?$luas[$satuan]:null;
-    return $hasil;
+
+    return ($int != 0) ? $luas[$satuan] : null;
 }
 
-function list_mutasi($mutasi=[])
+function list_mutasi($mutasi = [])
 {
     if ($mutasi) {
         foreach ($mutasi as $item) {
-            $div = ($item['jenis_mutasi'] == 2)? 'class="error"':null;
-            $hasil = "<p $div>";
+            $div   = ($item['jenis_mutasi'] == 2) ? 'class="error"' : null;
+            $hasil = "<p {$div}>";
             $hasil .= $item['sebabmutasi'];
-            $hasil .= !empty($item['no_c_desa']) ? " ".ket_mutasi_persil($item['jenis_mutasi'])." C No ".sprintf("%04s", $item['no_c_desa']): null;
-            $hasil .= !empty($item['luasmutasi']) ? ", Seluas ".number_format($item['luasmutasi'])." m<sup>2</sup>, " : null;
-            $hasil .= !empty($item['tanggalmutasi']) ? tgl_indo_out($item['tanggalmutasi'])."<br />" : null;
-            $hasil .= !empty($item['keterangan']) ? $item['keterangan']: null;
-            $hasil .= "</p>";
+            $hasil .= ! empty($item['no_c_desa']) ? ' ' . ket_mutasi_persil($item['jenis_mutasi']) . ' C No ' . sprintf('%04s', $item['no_c_desa']) : null;
+            $hasil .= ! empty($item['luasmutasi']) ? ', Seluas ' . number_format($item['luasmutasi']) . ' m<sup>2</sup>, ' : null;
+            $hasil .= ! empty($item['tanggalmutasi']) ? tgl_indo_out($item['tanggalmutasi']) . '<br />' : null;
+            $hasil .= ! empty($item['keterangan']) ? $item['keterangan'] : null;
+            $hasil .= '</p>';
 
             echo $hasil;
         }
     }
 }
 
-function ket_mutasi_persil($id=0)
+function ket_mutasi_persil($id = 0)
 {
-    if ($id==1) {
-        $ket = "dari";
+    if ($id == 1) {
+        $ket = 'dari';
     } else {
-        $ket = "ke";
+        $ket = 'ke';
     }
+
     return $ket;
 }
 
-function status_sukses($outp, $gagal_saja=false, $msg='')
+function status_sukses($outp, $gagal_saja = false, $msg = '')
 {
-    $CI =& get_instance();
+    $CI = &get_instance();
     if ($msg) {
         $CI->session->error_msg = $msg;
     }
     if ($gagal_saja) {
-        if (!$outp) {
+        if (! $outp) {
             $CI->session->success = -1;
         }
     } else {
@@ -1057,7 +852,7 @@ function status_sukses($outp, $gagal_saja=false, $msg='')
 // https://stackoverflow.com/questions/11807115/php-convert-kb-mb-gb-tb-etc-to-bytes
 function convertToBytes(string $from)
 {
-    $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+    $units  = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
     $number = substr($from, 0, -2);
     $suffix = strtoupper(substr($from, -2));
 
@@ -1067,7 +862,7 @@ function convertToBytes(string $from)
     }
 
     $exponent = array_flip($units);
-    $exponent = isset($exponent[$suffix]) ? $exponent[$suffix] : null;
+    $exponent = $exponent[$suffix] ?? null;
     if ($exponent === null) {
         return null;
     }
@@ -1075,54 +870,58 @@ function convertToBytes(string $from)
     return $number * (1024 ** $exponent);
 }
 
-  /**
-  * Disalin dari FeedParser.php
-    * Load the whole contents of a web page
-    *
-    * @access   public
-    * @param    string
-    * @return   string
-    */
+    /**
+     * Disalin dari FeedParser.php
+     * Load the whole contents of a web page
+     *
+     * @param    string
+     * @param mixed $url
+     *
+     * @return string
+     */
     function getUrlContent($url)
     {
         if (empty($url)) {
-            throw new Exception("URL to parse is empty!.");
+            throw new Exception('URL to parse is empty!.');
+
             return false;
         }
-        if (!in_array(explode(':', $url)[0], array('http', 'https'))) {
-            throw new Exception("URL harus http atau https");
+        if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
+            throw new Exception('URL harus http atau https');
+
             return false;
         }
         if ($content = @file_get_contents($url)) {
             return $content;
-        } else {
-            $ch = curl_init();
-
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            $content = curl_exec($ch);
-            $error = curl_error($ch);
-
-            curl_close($ch);
-
-            if (empty($error)) {
-                return $content;
-            } else {
-                log_message('error', "Error occured while loading url by cURL. <br />\n" . $error) ;
-                return false;
-            }
         }
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $content = curl_exec($ch);
+        $error   = curl_error($ch);
+
+        curl_close($ch);
+
+        if (empty($error)) {
+            return $content;
+        }
+
+        log_message('error', "Error occured while loading url by cURL. <br />\n" . $error);
+
+        return false;
     }
 
 function crawler()
 {
-    $file = APPPATH.'config/crawler-user-agents.json';
+    $file = APPPATH . 'config/crawler-user-agents.json';
     $data = json_decode(file_get_contents($file), true);
 
     foreach ($data as $entry) {
-        if (preg_match('/'.strtolower($entry['pattern']).'/', $_SERVER['HTTP_USER_AGENT'])) {
+        if (preg_match('/' . strtolower($entry['pattern']) . '/', $_SERVER['HTTP_USER_AGENT'])) {
             return true;
         }
     }
@@ -1132,7 +931,7 @@ function crawler()
 
 function pre_print_r($data)
 {
-    print("<pre>".print_r($data, true)."</pre>");
+    echo '<pre>' . print_r($data, true) . '</pre>';
 }
 
 // Kode Wilayah Dengan Titik
@@ -1140,74 +939,99 @@ function pre_print_r($data)
 function kode_wilayah($kode_wilayah)
 {
     $kode_prov_kab_kec = str_split(substr($kode_wilayah, 0, 6), 2);
-    $kode_desa = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
-    $kode_standar = implode('.', $kode_prov_kab_kec) . $kode_desa;
-    return $kode_standar;
+    $kode_desa         = (strlen($kode_wilayah) > 6) ? '.' . substr($kode_wilayah, 6) : '';
+
+    return implode('.', $kode_prov_kab_kec) . $kode_desa;
 }
 
 // Dari 0892611042612 --> +6292611042612 untuk redirect WA
 function format_telpon(string $no_telpon, $kode_negara = '+62')
 {
-	$awalan = substr($no_telpon, 0, 2);
+    $awalan = substr($no_telpon, 0, 2);
 
-	if ($awalan == "62") return '+' . $no_telpon;
+    if ($awalan == '62') {
+        return '+' . $no_telpon;
+    }
 
-	return $kode_negara . substr($no_telpon, 1, strlen($no_telpon));
+    return $kode_negara . substr($no_telpon, 1, strlen($no_telpon));
 }
 
 // https://stackoverflow.com/questions/6158761/recursive-php-function-to-replace-characters/24482733
-function strReplaceArrayRecursive($replacement = array(), $strArray = false, $isReplaceKey = false)
+function strReplaceArrayRecursive($replacement = [], $strArray = false, $isReplaceKey = false)
 {
-	if ( ! is_array($strArray))
-	{
-		return str_replace(array_keys($replacement), array_values($replacement), $strArray);
-	}
-	else
-	{
-		$newArr = array();
-		foreach ($strArray as $key=>$value)
-		{
-			$replacedKey = $key;
-			if ($isReplaceKey)
-			{
-				$replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
-			}
-			$newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
-		}
+    if (! is_array($strArray)) {
+        return str_replace(array_keys($replacement), array_values($replacement), $strArray);
+    }
 
-		return $newArr;
-	}
+    $newArr = [];
+
+    foreach ($strArray as $key => $value) {
+        $replacedKey = $key;
+        if ($isReplaceKey) {
+            $replacedKey = str_replace(array_keys($replacement), array_values($replacement), $key);
+        }
+        $newArr[$replacedKey] = strReplaceArrayRecursive($replacement, $value, $isReplaceKey);
+    }
+
+    return $newArr;
 }
 
 function get_domain(string $url)
 {
-	$parse = parse_url($url);
+    $parse = parse_url($url);
 
-	return preg_replace('#^(http(s)?://)?w{3}\.#', '$1', $parse['host']);
+    return preg_replace('#^(http(s)?://)?w{3}\.#', '$1', $parse['host']);
 }
 
 function get_antrian($antrian)
 {
-	return substr_replace($antrian, '-', 6, 0);
+    return substr_replace($antrian, '-', 6, 0);
 }
 
 function get_nik($nik = '0')
 {
-	if (substr($nik, 0, 1) !== '0') return $nik;
+    if (substr($nik, 0, 1) !== '0') {
+        return $nik;
+    }
 
-	return '0';
+    return '0';
 }
 
 // Sama dengan nik sementara
 function get_nokk($nokk = '0')
 {
-	return get_nik($nokk);
+    return get_nik($nokk);
 }
 
 // https://stackoverflow.com/questions/24043400/php-check-if-ipaddress-is-local/37725041
 function isLocalIPAddress($IPAddress)
 {
-    if( strpos($IPAddress, '127.0.') === 0 )
+    if (strpos($IPAddress, '127.0.') === 0) {
         return true;
-    return ( ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) );
+    }
+
+    return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+}
+
+function unique_slug($tabel = null, $str = null)
+{
+    if ($tabel && $str) {
+        $CI = &get_instance();
+
+        $slug      = url_title($str, 'dash', true);
+        $cek_slug  = true;
+        $n         = 1;
+        $slug_unik = $slug;
+
+        while ($cek_slug) {
+            $cek_slug = $CI->db->get_where($tabel, ['slug' => $slug_unik])->num_rows();
+            if ($cek_slug) {
+                $slug_unik = $slug . '-' . $n++;
+            }
+        }
+
+        return $slug_unik;
+    }
+
+    return null;
 }

@@ -15,7 +15,7 @@
 			<div class="box-body">
 				<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 					<form id="mainform" name="mainform" method="post">
-						<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
+						<input type="hidden" name="id" value="<?= $this->uri->segment(4) ?>">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="box-header with-border">
@@ -27,34 +27,34 @@
 											<tr>
 												<td width="20%">No. Persil : No. Urut Bidang</td>
 												<td width="1%">:</td>
-												<td><?= $persil['nomor'].' : '.$persil['nomor_urut_bidang']?></td>
+												<td><?= $persil['nomor'] . ' : ' . $persil['nomor_urut_bidang']?></td>
 											</tr>
 											<tr>
 												<th>Kelas Tanah</td>
 												<td>:</td>
-												<td><?= $persil["kode"].' - '.$persil["ndesc"]?></td>
+												<td><?= $persil['kode'] . ' - ' . $persil['ndesc']?></td>
 											</tr>
 											<tr>
 												<th>Alamat</td>
 												<td>:</td>
-												<td><?= $persil["alamat"] ?: $persil["lokasi"]?></td>
+												<td><?= $persil['alamat'] ?: $persil['lokasi']?></td>
 											</tr>
 											<?php if ($persil['cdesa_awal']): ?>
 												<tr>
 													<td>C-Desa Pemilik Awal</td>
 													<td>:</td>
-													<td><a href="<?= site_url("cdesa/mutasi/$persil[cdesa_awal]/$persil[id]")?>"><?= $persil["nomor_cdesa_awal"]?></a></td>
+													<td><a href="<?= site_url("cdesa/mutasi/{$persil['cdesa_awal']}/{$persil['id']}")?>"><?= $persil['nomor_cdesa_awal']?></a></td>
 												</tr>
 											<?php endif; ?>
-											<?php if ($persil['path'] != null || $persil['path']!= ''): ?>
+											<?php if ($persil['path'] != null || $persil['path'] != ''): ?>
 												<tr>
 													<td colspan="3" id="map">
-														<input type="hidden" id="path" name="path" value="<?= $persil["path"] ?>">
+														<input type="hidden" id="path" name="path" value="<?= $persil['path'] ?>">
 														<input type="hidden" id="zoom" name="zoom" value="">
 													</td>
 												</tr>
 											<?php endif ?>
-											
+
 										</tbody>
 									</table>
 								</div>
@@ -79,12 +79,12 @@
 												</tr>
 											</thead>
 											<tbody>
-												<?php $nomer = 0;?>
-												<?php foreach ($mutasi as $key => $item): $nomer++;?>
+												<?php $nomer = 0; ?>
+												<?php foreach ($mutasi as $key => $item): $nomer++; ?>
 													<tr>
 														<td class="text-center"><?= $nomer?></td>
-														<td><a href="<?= site_url("cdesa/rincian/".$item["id_cdesa_masuk"])?>"><?= $item['cdesa_masuk']?></a></td>
-														<td><a href="<?= site_url("cdesa/rincian/".$item["cdesa_keluar"])?>"><?= $item['cdesa_keluar']?></a></td>
+														<td><a href="<?= site_url('cdesa/rincian/' . $item['id_cdesa_masuk'])?>"><?= $item['cdesa_masuk']?></a></td>
+														<td><a href="<?= site_url('cdesa/rincian/' . $item['cdesa_keluar'])?>"><?= $item['cdesa_keluar']?></a></td>
 														<td><?= $item['no_bidang_persil']?></td>
 														<td><?= $item['luas']?></td>
 														<td><?= $item['no_objek_pajak']?></td>
@@ -108,8 +108,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// tampilkan map
-		<?php if (!empty($desa['lat']) && !empty($desa['lng'])): ?>
-  		var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+		<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
+  		var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
   		var zoom = <?=$desa['zoom'] ?: 18?>;
   	<?php else: ?>
   		var posisi = [-1.0546279422758742,116.71875000000001];

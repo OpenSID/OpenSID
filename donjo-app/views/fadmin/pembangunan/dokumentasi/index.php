@@ -107,23 +107,19 @@
 						'data': function(data) {
 							return `
 								<?php if ($this->CI->cek_hak_akses('u')): ?>
-									<a href="<?= site_url("pembangunan_dokumentasi/form/"); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+									<a href="<?= site_url('pembangunan_dokumentasi/form/'); ?>${data.id}" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 								<?php endif; ?>
 								<?php if ($this->CI->cek_hak_akses('u')): ?>
 									<a href="#" data-href="<?= site_url("pembangunan_dokumentasi/delete/{$pembangunan->id}/"); ?>${data.id}" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 								<?php endif; ?>
 							`
-						}, 'class': 'text-center'
+						}, 'class': 'aksi'
 					},
 				<?php endif; ?>
 				{
 					'data': function (data) {
-						return `<div class="user-panel">
-									<div class="image2">
-										<img src="<?= base_url(LOKASI_GALERI) ?>${data.gambar}" class="img-circle" alt="Foto Dokumentasi">
-									</div>
-								</div>`
-					}
+						return `<img src="<?= base_url(LOKASI_GALERI) ?>${data.gambar}" class="penduduk_kecil" alt="Foto Dokumentasi">`
+					}, 'class': 'padat'
 				},
 				{'data': 'persentase'},
 				{'data': 'keterangan'},

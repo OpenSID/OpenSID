@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_category wow fadeInDown">
 	<h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <span class="title_text">Pembangunan</span></h2>
@@ -43,7 +43,7 @@
                     </tr>
 									</tbody>
 								</table>
-								<a href="<?= site_url("pembangunan/detail/$data->id"); ?>" class="btn btn-primary">Selengkapnya</a>
+								<a href="<?= site_url("pembangunan/$data->slug"); ?>" class="btn btn-primary">Selengkapnya</a>
 							</div>
 						</div>
 					</div>
