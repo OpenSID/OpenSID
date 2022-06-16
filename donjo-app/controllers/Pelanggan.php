@@ -61,12 +61,11 @@ class Pelanggan extends Admin_Controller
         $this->render('pelanggan/index', ['response' => $response]);
     }
 
-    public function peringatan()
+    public function perbarui()
     {
-        if (empty($this->session->error_premium)) {
-            redirect('hom_sid');
-        }
-
-        $this->render('pelanggan/peringatan');
+        $this->cache->hapus_cache_untuk_semua('status_langganan');
+        session_success();
+        sleep(3);
+        redirect($this->controller);
     }
 }
