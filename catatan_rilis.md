@@ -16,6 +16,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 7. [#5267](https://github.com/OpenSID/OpenSID/issues/5267) Perbaiki isian jumlah biaya pembangunan tidak bisa lebih dari 9 digit.
 8. [#5265](https://github.com/OpenSID/OpenSID/issues/5265) Perbaiki duplikasi peserta program bantuan pada semua sasaran bantuan.
 9. [#5269](https://github.com/OpenSID/OpenSID/issues/5269) Perbaiki error saat ubah artikel dengan grup pengguna bukan bawaan sistem.
+10. [#5272](https://github.com/OpenSID/OpenSID/issues/5272) Perbaiki tidak bisa tampilkan feed.
 
 #### Perubahan Teknis
 
