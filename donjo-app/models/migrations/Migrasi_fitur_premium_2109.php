@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -181,11 +181,11 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
         // Tambah hak ases group operator
         $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,327,3), -- Lembaga --
-			(2,328,3) -- Kategori Lembaga --
-		';
+            INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+            -- Operator --
+            (2,327,3), -- Lembaga --
+            (2,328,3) -- Kategori Lembaga --
+        ';
 
         return $hasil && $this->db->query($query);
     }
@@ -239,10 +239,10 @@ class Migrasi_fitur_premium_2109 extends MY_Model
 
         // Tambah hak ases group operator
         $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,305,3) -- Bumindes Rencana Kerja Pembangunan --
-		';
+            INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+            -- Operator --
+            (2,305,3) -- Bumindes Rencana Kerja Pembangunan --
+        ';
 
         return $hasil && $this->db->query($query);
     }

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -265,16 +265,16 @@ class Migrasi_fitur_premium_2102 extends MY_model
         foreach ($data as $modul) {
             $sql = $this->db->insert_string('setting_modul', $modul);
             $sql .= ' ON DUPLICATE KEY UPDATE
-					id = VALUES(id),
-					modul = VALUES(modul),
-					url = VALUES(url),
-					aktif = VALUES(aktif),
-					ikon = VALUES(ikon),
-					urut = VALUES(urut),
-					level = VALUES(level),
-					hidden = VALUES(hidden),
-					ikon_kecil = VALUES(ikon_kecil),
-					parent = VALUES(parent)';
+                    id = VALUES(id),
+                    modul = VALUES(modul),
+                    url = VALUES(url),
+                    aktif = VALUES(aktif),
+                    ikon = VALUES(ikon),
+                    urut = VALUES(urut),
+                    level = VALUES(level),
+                    hidden = VALUES(hidden),
+                    ikon_kecil = VALUES(ikon_kecil),
+                    parent = VALUES(parent)';
             $hasil = $hasil && $this->db->query($sql);
         }
 
@@ -327,9 +327,9 @@ class Migrasi_fitur_premium_2102 extends MY_model
         foreach ($data as $bahasa) {
             $sql = $this->db->insert_string('ref_penduduk_bahasa', $bahasa);
             $sql .= ' ON DUPLICATE KEY UPDATE
-					id = VALUES(id),
-					nama = VALUES(nama),
-					inisial = VALUES(inisial)';
+                    id = VALUES(id),
+                    nama = VALUES(nama),
+                    inisial = VALUES(inisial)';
             $hasil = $hasil && $this->db->query($sql);
         }
 
@@ -439,8 +439,8 @@ class Migrasi_fitur_premium_2102 extends MY_model
         foreach ($data as $peristiwa) {
             $sql = $this->db->insert_string('ref_peristiwa', $peristiwa);
             $sql .= ' ON DUPLICATE KEY UPDATE
-					id = VALUES(id),
-					nama = VALUES(nama)';
+                    id = VALUES(id),
+                    nama = VALUES(nama)';
             $hasil = $hasil && $this->db->query($sql);
         }
 
@@ -467,12 +467,12 @@ class Migrasi_fitur_premium_2102 extends MY_model
         // Hapus log untuk penduduk yg sudah terhapus
         $hasil = $hasil && $this->db
             ->where('id_pend IN
-				(select id_pend from
-					(select l.id_pend
-						from log_penduduk l
-						left join tweb_penduduk p on l.id_pend = p.id
-						where p.id is null) x
-				)')
+                (select id_pend from
+                    (select l.id_pend
+                        from log_penduduk l
+                        left join tweb_penduduk p on l.id_pend = p.id
+                        where p.id is null) x
+                )')
             ->delete('log_penduduk');
 
         // Konversi id_detail ke kode_peristiwa di log_penduduk
@@ -519,27 +519,27 @@ class Migrasi_fitur_premium_2102 extends MY_model
         // Menambahkan data yang sudah ada ke tabel log_penduduk kalau belum ada
         $hasil = $hasil && $this->db->query(
             '
-			INSERT INTO log_penduduk (id_pend, tgl_lapor, tgl_peristiwa, created_at, kode_peristiwa)
-			SELECT p.id, p.created_at, p.created_at, p.created_at,
-			(CASE when YEAR(p.tanggallahir) = YEAR(p.created_at) AND MONTH(p.tanggallahir) = MONTH(p.created_at) then 1 else 5 end)
-			FROM tweb_penduduk p
-			LEFT JOIN log_penduduk l on l.id_pend = p.id and l.kode_peristiwa in (1,5)
-			WHERE l.tgl_lapor IS NULL'
+            INSERT INTO log_penduduk (id_pend, tgl_lapor, tgl_peristiwa, created_at, kode_peristiwa)
+            SELECT p.id, p.created_at, p.created_at, p.created_at,
+            (CASE when YEAR(p.tanggallahir) = YEAR(p.created_at) AND MONTH(p.tanggallahir) = MONTH(p.created_at) then 1 else 5 end)
+            FROM tweb_penduduk p
+            LEFT JOIN log_penduduk l on l.id_pend = p.id and l.kode_peristiwa in (1,5)
+            WHERE l.tgl_lapor IS NULL'
         );
 
         // Hapus log tertua untuk duplikat (id_pend, kode_peristiwa).
         // Misalnya hapus kalau ada dua entri 'mati' untuk penduduk yg sama.
         // https://stackoverflow.com/questions/6107167/mysql-delete-duplicate-records-but-keep-latest/6108860
         $hapus_dupl_sql = 'delete log_penduduk
-	   	from log_penduduk
-	  	inner join (
-	    	select max(id) as last_id, id_pend, kode_peristiwa
-	      	from log_penduduk
-	      	group by id_pend, kode_peristiwa
-	     		having count(*) > 1
-	     	) dup
-	    	on dup.id_pend = log_penduduk.id_pend and dup.kode_peristiwa = log_penduduk.kode_peristiwa
-	  	where log_penduduk.id < dup.last_id';
+            from log_penduduk
+                inner join (
+                    select max(id) as last_id, id_pend, kode_peristiwa
+                    from log_penduduk
+                    group by id_pend, kode_peristiwa
+                        having count(*) > 1
+                    ) dup
+                on dup.id_pend = log_penduduk.id_pend and dup.kode_peristiwa = log_penduduk.kode_peristiwa
+            where log_penduduk.id < dup.last_id';
         $hasil = $hasil && $this->db->query($hapus_dupl_sql);
 
         // Menambahkan data ke setting_aplikasi
@@ -551,8 +551,8 @@ class Migrasi_fitur_premium_2102 extends MY_model
         foreach ($data_setting as $setting) {
             $sql = $this->db->insert_string('setting_aplikasi', $setting);
             $sql .= ' ON DUPLICATE KEY UPDATE
-					keterangan = VALUES(keterangan),
-					jenis = VALUES(jenis)';
+                    keterangan = VALUES(keterangan),
+                    jenis = VALUES(jenis)';
             $hasil = $hasil && $this->db->query($sql);
         }
 

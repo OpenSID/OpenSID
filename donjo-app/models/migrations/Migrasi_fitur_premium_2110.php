@@ -75,10 +75,10 @@ class Migrasi_fitur_premium_2110 extends MY_Model
 
         // Tambah hak ases group operator
         $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,329,3) -- Bumindes Kegiatan Pembangunan --
-			';
+            INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+            -- Operator --
+            (2,329,3) -- Bumindes Kegiatan Pembangunan --
+            ';
 
         return $hasil && $this->db->query($query);
     }
@@ -146,12 +146,12 @@ class Migrasi_fitur_premium_2110 extends MY_Model
     {
         // Tambah hak ases group operator
         $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,325,3), -- Laporan APBDes --
-			(2,326,3), -- Sinkronisasi --
+            INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+            -- Operator --
+            (2,325,3), -- Laporan APBDes --
+            (2,326,3), -- Sinkronisasi --
       (2,330,3) -- Laporan Penduduk --
-		';
+        ';
 
         return $hasil && $this->db->query($query);
     }
@@ -187,9 +187,9 @@ class Migrasi_fitur_premium_2110 extends MY_Model
     protected function migrasi_2021092171($hasil)
     {
         $sql = "INSERT INTO analisis_ref_subjek (id, subjek) VALUES
-			(6, 'Dusun'), (7, 'Rukun Warga (RW)'), (8, 'Rukun Tetangga (RT)')
-			ON DUPLICATE KEY UPDATE subjek = VALUES(subjek)
-		";
+            (6, 'Dusun'), (7, 'Rukun Warga (RW)'), (8, 'Rukun Tetangga (RT)')
+            ON DUPLICATE KEY UPDATE subjek = VALUES(subjek)
+        ";
 
         return $hasil && $this->db->query($sql);
     }
