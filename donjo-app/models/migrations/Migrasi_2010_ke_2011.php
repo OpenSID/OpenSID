@@ -43,9 +43,6 @@ class Migrasi_2010_ke_2011 extends MY_model
     {
         $hasil = true;
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2011');
-
         $hasil = $hasil && $this->tambah_kolom_ket($hasil);
         // Ubah tipe data field nilai menjadi INT
         $hasil = $hasil && $this->db->query('ALTER TABLE `analisis_parameter` MODIFY COLUMN nilai INT(3) NOT NULL DEFAULT 0');

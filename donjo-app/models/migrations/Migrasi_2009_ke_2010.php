@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -43,9 +43,6 @@ class Migrasi_2009_ke_2010 extends MY_model
     {
         $hasil = true;
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2010');
-
         // Sesuaikan panjang judul dokumen menjadi 200
         $this->db->query('ALTER TABLE `dokumen` CHANGE COLUMN `nama` `nama` VARCHAR(200) NOT NULL');
         // Bolehkan C-Desa berbeda berisi nama kepemilikan sama
@@ -53,10 +50,10 @@ class Migrasi_2009_ke_2010 extends MY_model
         // Key di setting_aplikasi seharusnya unik
         $hasil = $hasil && $this->tambah_indeks('setting_aplikasi', 'key');
         $hasil = $hasil && $this->db->query("INSERT INTO setting_aplikasi (`key`,value,keterangan) VALUES ('sebutan_nip_desa','NIPD','Pengganti sebutan label niap/nipd')
-							ON DUPLICATE KEY UPDATE
-							value = VALUES(value),
-							keterangan = VALUES(keterangan)
-							");
+                            ON DUPLICATE KEY UPDATE
+                            value = VALUES(value),
+                            keterangan = VALUES(keterangan)
+                            ");
 
         return $hasil && $this->db->query('ALTER TABLE tweb_desa_pamong MODIFY COLUMN pamong_niap varchar(25) default 0');
     }
