@@ -2,7 +2,7 @@
 
 /*
  *
- * File ini bagian dari:
+ * File yang ada disini bagian dari:
  *
  * OpenSID
  *
