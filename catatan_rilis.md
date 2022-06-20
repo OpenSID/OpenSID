@@ -18,6 +18,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 9. [#5269](https://github.com/OpenSID/OpenSID/issues/5269) Perbaiki error saat ubah artikel dengan grup pengguna bukan bawaan sistem.
 10. [#5272](https://github.com/OpenSID/OpenSID/issues/5272) Perbaiki tidak bisa tampilkan feed.
 11. [#5279](https://github.com/OpenSID/OpenSID/issues/5279) Perbaiki an/ub pada menu permohonan surat tidak muncul.
+12. [#5277](https://github.com/OpenSID/OpenSID/issues/5277) Perbaiki masih bisa hapus pengguna yang sudah lakukan absensi kehadiran.
 
 #### Perubahan Teknis
 
