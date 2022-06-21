@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Kehadiran;
+use App\Models\KehadiranPengaduan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Pamong_model extends CI_Model
@@ -250,6 +253,11 @@ class Pamong_model extends CI_Model
 
     public function delete($id = '', $semua = false)
     {
+        // Cek boleh hapus
+        if ($this->boleh_hapus($id)) {
+            return session_error("ID : {$id} tidak dapat dihapus, data sudah tersedia di kehadiran perangkat dan pengaduan kehadiran.");
+        }
+
         if (! $semua) {
             $this->session->success = 1;
         }
@@ -509,5 +517,13 @@ class Pamong_model extends CI_Model
         $this->db->where('u.pamong_status', 1);
 
         return $this;
+    }
+
+    public function boleh_hapus($id = null)
+    {
+        $kehadiranPerangkat = Kehadiran::where('pamong_id', $id)->exists();
+        $kehadiranPengaduan = KehadiranPengaduan::where('id_pamong', $id)->exists();
+
+        return $kehadiranPerangkat || $kehadiranPengaduan;
     }
 }
