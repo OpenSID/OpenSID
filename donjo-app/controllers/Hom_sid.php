@@ -54,6 +54,8 @@ class Hom_sid extends Admin_Controller
         get_pesan_opendk(); //ambil pesan baru di opendk
         $this->modul_ini = 1;
 
+        $this->load->library('saas');
+
         $data = [
             'rilis'       => $this->getUpdate(),
             'bantuan'     => $this->bantuan(),
@@ -64,6 +66,7 @@ class Hom_sid extends Admin_Controller
             'dusun'       => Wilayah::dusun()->count(),
             'pendaftaran' => PendudukMandiri::status()->count(),
             'surat'       => LogSurat::count(),
+            'saas'        => $this->saas->peringatan(),
         ];
 
         return view('admin.home.index', $data);
