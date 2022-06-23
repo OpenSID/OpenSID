@@ -21,7 +21,8 @@
 		"spipu/html2pdf": "^5.2",
 		"symfony/var-dumper": "^5.4",
 		"themes/esensi": "dev-main",
-		"themes/natra": "dev-premium"
+		"themes/natra": "dev-premium",
+		"symfony/process": "^5.4"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*"

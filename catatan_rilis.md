@@ -5,6 +5,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 #### Penambahan Fitur
 
 1. [#5206](https://github.com/OpenSID/OpenSID/issues/5206) Tampilkan peringatan langganan SaaS akan berakhir.
+1. [#5210](https://github.com/OpenSID/OpenSID/issues/5210) Backup folder desa secara inkremental.
 
 
 #### Perbaikan BUG
