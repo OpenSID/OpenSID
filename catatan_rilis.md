@@ -4,7 +4,6 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 
 #### Penambahan Fitur
 
-
 #### Perbaikan BUG
 
 1. [#5249](https://github.com/OpenSID/OpenSID/issues/5249) Perbaiki impor data penduduk terbaca ganda.
@@ -19,6 +18,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 10. [#5272](https://github.com/OpenSID/OpenSID/issues/5272) Perbaiki tidak bisa tampilkan feed.
 11. [#5279](https://github.com/OpenSID/OpenSID/issues/5279) Perbaiki an/ub pada menu permohonan surat tidak muncul.
 12. [#5277](https://github.com/OpenSID/OpenSID/issues/5277) Perbaiki masih bisa hapus pengguna yang sudah lakukan absensi kehadiran.
+13. [#5285](https://github.com/OpenSID/OpenSID/issues/5285) Perbaiki notifikasi status langganan.
 
 #### Perubahan Teknis
 

@@ -98,7 +98,7 @@
                         </div>
                         <div class="box-body">
                             <div class="callout callout-info">
-                                <h5>Saat ini tanggal akhir berlangganan Anda berada dalam masa uji coba dikarenakan dokumen permohonan Desa Anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
+                                <h5>Saat ini dokumen permohonan Desa Anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
                             </div>
                         </div>
                     </div>
