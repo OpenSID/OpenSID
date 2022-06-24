@@ -38,6 +38,9 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\FlxZipArchive;
+use App\Models\LogBackup;
+use Carbon\Carbon;
+use Symfony\Component\Process\Process;
 
 class Database extends Admin_Controller
 {
@@ -58,6 +61,8 @@ class Database extends Admin_Controller
             'form_action' => site_url('database/restore'),
             'size_folder' => byte_format(dirSize(DESAPATH)),
             'size_sql'    => byte_format(getSizeDB()->size),
+            'act_tab'     => 1,
+            'inkremental' => $this->db->table_exists('log_backup') ? LogBackup::latest()->first() : null,
         ];
 
         $this->load->view('database/database.tpl.php', $data);
@@ -111,6 +116,53 @@ class Database extends Admin_Controller
         $za = new FlxZipArchive();
         $za->read_dir(DESAPATH);
         $za->download('backup_folder_desa_' . date('Y_m_d') . '.zip');
+    }
+
+    public function desa_inkremental()
+    {
+        if ($this->input->is_ajax_request()) {
+            return datatables(LogBackup::query())
+                ->addIndexColumn()
+                ->make();
+        }
+
+        return view('admin.database.inkremental');
+    }
+
+    public function inkremental_job()
+    {
+        // cek tanggal
+        // job hanya bisa dilakukan 1 hari 1 kali
+        $now  = Carbon::now()->format('Y-m-d');
+        $last = LogBackup::latest()->first();
+
+        if ($last != null && $now == $last->created_at->format('Y-m-d')) {
+            return json([
+                'status'  => false,
+                'message' => 'Anda sudah melakukan Backup inkremental hari ini',
+            ]);
+        }
+
+        if ($last != null && $last->status == '2') {
+            unlink($last->path);
+        }
+
+        $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'backup_inkremental']);
+        $process->disableOutput()->setOptions(['create_new_console' => true]);
+        $process->start();
+
+        return json([
+            'status'  => true,
+            'message' => 'Backup inkremental sedang berlangsung',
+        ]);
+    }
+
+    public function inkremental_download()
+    {
+        $file = LogBackup::latest()->first();
+        $file->update(['downloaded_at' => Carbon::now(), 'status' => 2]);
+
+        ambilBerkas(basename($file->path), $this->controller, null, DESAPATH . 'cache' . DIRECTORY_SEPARATOR, false);
     }
 
     public function restore()

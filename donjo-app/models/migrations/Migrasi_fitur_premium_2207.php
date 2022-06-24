@@ -55,8 +55,9 @@ class Migrasi_fitur_premium_2207 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2206');
         $hasil = $hasil && $this->migrasi_2022060851($hasil);
+        $hasil = $hasil && $this->migrasi_2022060951($hasil);
 
-        return $hasil && $this->migrasi_2022060951($hasil);
+        return $hasil && $this->migrasi_2022060371($hasil);
     }
 
     protected function migrasi_2022060851($hasil)
@@ -136,6 +137,49 @@ class Migrasi_fitur_premium_2207 extends MY_model
             Schema::table('program_peserta', static function (Blueprint $table) {
                 $table->unique(['program_id', 'kartu_id_pend']);
             });
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022060371($hasil)
+    {
+        // Buat tabel log sinkronisasi
+        if (! $this->db->table_exists('log_backup')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'ukuran' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'null'       => true,
+                ],
+                'path' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 150,
+                    'null'       => true,
+                ],
+                'downloaded_at' => [
+                    'type' => 'TIMESTAMP',
+                    'null' => true,
+                ],
+                'status' => [
+                    'type'    => 'int',
+                    'null'    => false,
+                    'default' => 0,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('log_backup', true);
+
+            $hasil = $hasil && $this->timestamps('log_backup', false);
         }
 
         return $hasil;
