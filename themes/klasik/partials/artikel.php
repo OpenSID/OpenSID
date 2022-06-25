@@ -36,8 +36,8 @@
  *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
@@ -89,14 +89,15 @@
 			</div>
 		<?php endif; ?>
 
-		<div class="form-group" style="clear:both;">
-			<ul id="pageshare" title="Bagikan ke teman anda" class="pagination">
-				<li class="sbutton" id="fb"><a name="fb_share" href="http://www.facebook.com/sharer.php?u=<?= site_url('artikel/'.buat_slug($single_artikel))?>" target="_blank"><i class="fa fa-facebook-square"></i>&nbsp;Facebook</a></li>
-				<li class="sbutton" id="rt"><a href="http://twitter.com/share?url=<?= site_url('artikel/'.buat_slug($single_artikel)) ?>" class="twitter-share-button" target="_blank"><i class="fa fa-twitter"></i>&nbsp;Tweet</a></li>
-				<li class="sbutton" id="wa_share"><a href="https://api.whatsapp.com/send?text=<?= site_url('artikel/'.buat_slug($single_artikel))?>" target="_blank"><i class="fa fa-whatsapp" style="color:green"></i>&nbsp;WhatsApp</a></li>
-				<li class="sbutton" id="tele_share"><a href="https://telegram.me/share/url?url=<?= site_url('artikel/'.buat_slug($single_artikel))?>&text=<?= htmlspecialchars($single_artikel["judul"]); ?>" target="_blank"><i class="fa fa-telegram" style="color:blue"></i>&nbsp;Telegram</a></li>
-			</ul>
-		</div>
+		<?php
+
+			$share = [
+				'link' => site_url('artikel/' . buat_slug($single_artikel)),
+				'judul' => $single_artikel["judul"],
+			];
+			$this->load->view("$folder_themes/commons/share", $share);
+		
+		?>
 
 		<div class="form-group" id="kolom-komentar">
 			<?php if(!empty($komentar)): ?>
@@ -188,12 +189,5 @@
 		</div>
 	</div>
 <?php else: ?>
-	<div class="artikel" id="artikel-blank">
-		<div class="box box-danger box-solid">
-			<div class="box-header"><h3 class="box-title">Maaf, data tidak ditemukan</h3></div>
-			<div class="box-body">
-				Anda telah terdampar di halaman yang datanya tidak ada lagi di web ini. Mohon periksa kembali, atau laporkan kepada kami.
-			</div>
-		</div>
-	</div>
+	<?php $this->load->view("$folder_themes/commons/not_found"); ?>
 <?php endif; ?>

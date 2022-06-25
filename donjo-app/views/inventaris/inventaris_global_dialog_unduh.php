@@ -12,7 +12,7 @@
                         <div class="col-sm-9">
                             <select name="tahun" id="tahun" class="form-control select2 input-sm" style="width:100%;">
                                 <option value="1">Semua Tahun</option>
-                                <?php for ($i = date("Y"); $i >= date("Y") - 30; $i--) : ?>
+                                <?php for ($i = date('Y'); $i >= date('Y') - 30; $i--) : ?>
                                     <option value="<?= $i ?>"><?= $i ?></option>
                                 <?php endfor; ?>
                             </select>

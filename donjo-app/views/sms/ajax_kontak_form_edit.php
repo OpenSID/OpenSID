@@ -7,7 +7,7 @@
 		$('.select2').select2()
 	})
 </script>
-<form action="<?=$form_action?>" method="post" id="validasi">
+<form action="<?= $form_action?>" method="post" id="validasi">
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
@@ -15,12 +15,12 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label for="nama">Nama</label>
-							<input name="no_hp" class="form-control input-sm" type="text" value="<?=$kontak['nama'];?>" disabled=""></input>
-							<input name="id_kontak" type="hidden" value="<?=$kontak['id_kontak']?>"></input>
+							<input name="no_hp" class="form-control input-sm" type="text" value="<?= $kontak['nama']; ?>" disabled=""></input>
+							<input name="id_kontak" type="hidden" value="<?= $kontak['id_kontak']?>"></input>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="hp">No HP</label>
-							<input name="no_hp" class="form-control input-sm required bilangan" minlength="8" maxlength="15" type="text" value="<?=$kontak['no_hp']?>"></input>
+							<input name="no_hp" class="form-control input-sm required bilangan" minlength="8" maxlength="15" type="text" value="<?= $kontak['no_hp']?>"></input>
 						</div>
 					</div>
 				</div>

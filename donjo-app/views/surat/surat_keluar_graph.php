@@ -38,7 +38,7 @@
 					name: 'Persentase',
 					data: [
 						<?php foreach ($stat as $data): ?>
-							<?php if ($data['jumlah'] != "-"): ?>
+							<?php if ($data['jumlah'] != '-'): ?>
 								['<?= $data['nama']?>',<?= $data['jumlah']?>],
 							<?php endif; ?>
 						<?php endforeach; ?>

@@ -21,7 +21,7 @@
 			<option value="">-- Pilih Tujuan Mudik --</option>
 			<?php foreach ($select_tujuan_mudik as $id => $nama): ?>
 			<option value="<?= $id?>" <?= selected($tujuan_mudik, $nama); ?> > <?= strtoupper($nama)?> </option>
-			<?php endforeach;?>
+			<?php endforeach; ?>
 		</select>
 	</div>
 	<div class="col-sm-4">
@@ -46,7 +46,7 @@
 			<option value="">-- Pilih Status Covid-19 --</option>
 			<?php foreach ($select_status_covid as $covid): ?>
 				<option value="<?= $covid['id']; ?>" <?= selected($covid_id, $covid['id']); ?>><?= $covid['nama']; ?> </option>
-			<?php endforeach;?>
+			<?php endforeach; ?>
 		</select>
 	</div>
 </div>

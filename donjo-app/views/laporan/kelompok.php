@@ -13,8 +13,8 @@
 				<form id="mainform" name="mainform" action="<?= site_url('laporan/bulan')?>" method="post" class="form-horizontal">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("laporan_rentan/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("laporan_rentan/excel/$lap")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa  fa-download"></i> Unduh</a>
+							<a href="<?= site_url('laporan_rentan/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("laporan_rentan/excel/{$lap}")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						</div>
 						<div class="box-header  with-border">
 							<h4 class="text-center"><strong>PEMERINTAH KABUPATEN/KOTA <?= strtoupper($config['nama_kabupaten'])?></strong></h4>
@@ -30,7 +30,7 @@
 								<div class="col-sm-4 col-md-2">
 									<input type="text" class="form-control input-sm" value="<?= $config['nama_kecamatan']?>" disabled/></input>
 								</div>
-								<?php $bln = date("m");?>
+								<?php $bln = date('m'); ?>
 								<label class="col-sm-2 col-md-2 control-label" for="laporan">Lap. Bulan</label>
 								<div class="col-sm-4 col-md-1">
 									<input type="text" class="form-control input-sm" value="<?= $bln?>" disabled/></input>
@@ -40,8 +40,8 @@
 									<select class="form-control input-sm" name="dusun" onchange="formAction('mainform','<?= site_url('laporan_rentan/dusun')?>')">
 										<option value="">Pilih <?= ucwords($this->setting->sebutan_dusun)?></option>
 										<?php foreach ($list_dusun as $data): ?>
-											<option value="<?= $data['dusun']?>" <?php if ($dusun==$data['dusun']): ?>selected<?php endif; ?>><?= $data['dusun']?></option>
-										<?php endforeach;?>
+											<option value="<?= $data['dusun']?>" <?php if ($dusun == $data['dusun']): ?>selected<?php endif; ?>><?= $data['dusun']?></option>
+										<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
@@ -49,7 +49,7 @@
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<?php if ($dusun!=''): ?>
+									<?php if ($dusun != ''): ?>
 										<h4>DATA PILAH <?= strtoupper($this->setting->sebutan_dusun)?> <?= $dusun ?></h4>
 									<?php endif; ?>
 									<div class="table-responsive">
@@ -87,72 +87,73 @@
 											</thead>
 											<tbody>
 												<?php
-													$bayi=0;
-													$balita=0;
-													$sd=0;
-													$smp=0;
-													$sma=0;
-													$lansia=0;
-													$cacat=0;
-													$sakit_L=0;
-													$sakit_P=0;
-													$hamil=0;
-													$jenis_cacat=array('cacat_fisik','cacat_netra','cacat_rungu','cacat_mental','cacat_fisik_mental','cacat_lainnya','tidak_cacat');
-													$total_cacat=array();
-												?>
-												<?php foreach ($main as $data): $id_cluster=$data['id_cluster'];?>
+                                                    $bayi        = 0;
+                                                    $balita      = 0;
+                                                    $sd          = 0;
+                                                    $smp         = 0;
+                                                    $sma         = 0;
+                                                    $lansia      = 0;
+                                                    $cacat       = 0;
+                                                    $sakit_L     = 0;
+                                                    $sakit_P     = 0;
+                                                    $hamil       = 0;
+                                                    $jenis_cacat = ['cacat_fisik', 'cacat_netra', 'cacat_rungu', 'cacat_mental', 'cacat_fisik_mental', 'cacat_lainnya', 'tidak_cacat'];
+                                                    $total_cacat = [];
+                                                ?>
+												<?php foreach ($main as $data): $id_cluster = $data['id_cluster']; ?>
 													<tr>
 														<td class="text-right"><?= $data['dusunnya']?></td>
 														<td class="text-right"><?= $data['rw']?></td>
 														<td class="text-right"><?= $data['rt']?></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/1")?>"><?= $data['L']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/2")?>"><?= $data['P']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/3")?>"><?= $data['bayi']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/4")?>"><?= $data['balita']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/5")?>"><?= $data['sd']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/6")?>"><?= $data['smp']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/7")?>"><?= $data['sma']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/8")?>"><?= $data['lansia']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/1")?>"><?= $data['L']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/2")?>"><?= $data['P']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/3")?>"><?= $data['bayi']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/4")?>"><?= $data['balita']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/5")?>"><?= $data['sd']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/6")?>"><?= $data['smp']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/7")?>"><?= $data['sma']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/8")?>"><?= $data['lansia']?></a></td>
 														<?php foreach ($jenis_cacat as $key => $cacat): ?>
-															<?php $kode_cacat = $key + 1;?>
-															<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/9$kode_cacat")?>"><?= $data[$cacat]?></a></td>
+															<?php $kode_cacat = $key + 1; ?>
+															<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/9{$kode_cacat}")?>"><?= $data[$cacat]?></a></td>
 														<?php endforeach; ?>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/10")?>"><?= $data['sakit_L']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/11")?>"><?= $data['sakit_P']?></a></td>
-														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/$id_cluster/12")?>"><?= $data['hamil']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/10")?>"><?= $data['sakit_L']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/11")?>"><?= $data['sakit_P']?></a></td>
+														<td class="text-right"><a href="<?= site_url("penduduk/lap_statistik/{$id_cluster}/12")?>"><?= $data['hamil']?></a></td>
 														<?php
-															$bayi=$bayi+$data['bayi'];
-															$balita=$balita+$data['balita'];
-															$sd=$sd+$data['sd'];
-															$smp=$smp+$data['smp'];
-															$sma=$sma+$data['sma'];
-															$lansia=$lansia+$data['lansia'];
-															$cacat=$cacat+$data['cacat'];
-															$sakit_L=$sakit_L+$data['sakit_L'];
-															$sakit_P=$sakit_P+$data['sakit_P'];
-															$hamil=$hamil+$data['hamil'];
-															foreach ($jenis_cacat as $key => $val):
-																$total_cacat[$key] += $data[$val];
-															endforeach;
-														?>
+                                                            $bayi    = $bayi + $data['bayi'];
+                                                            $balita  = $balita + $data['balita'];
+                                                            $sd      = $sd + $data['sd'];
+                                                            $smp     = $smp + $data['smp'];
+                                                            $sma     = $sma + $data['sma'];
+                                                            $lansia  = $lansia + $data['lansia'];
+                                                            $cacat   = $cacat + $data['cacat'];
+                                                            $sakit_L = $sakit_L + $data['sakit_L'];
+                                                            $sakit_P = $sakit_P + $data['sakit_P'];
+                                                            $hamil   = $hamil + $data['hamil'];
+
+                                                            foreach ($jenis_cacat as $key => $val):
+                                                                $total_cacat[$key] += $data[$val];
+                                                            endforeach;
+                                                        ?>
 													</tr>
-											  <?php endforeach;?>
+											  <?php endforeach; ?>
 											</tbody>
 											<tfoot class="bg-gray disabled color-palette">
 												<tr>
 													<th colspan="5" class="text-right">Total</th>
-													<th class="text-right"><?= $bayi;?></th>
-													<th class="text-right"><?= $balita;?></th>
-													<th class="text-right"><?= $sd;?></th>
-													<th class="text-right"><?= $smp;?></th>
-													<th class="text-right"><?= $sma;?></th>
-													<th class="text-right"><?= $lansia;?></th>
+													<th class="text-right"><?= $bayi; ?></th>
+													<th class="text-right"><?= $balita; ?></th>
+													<th class="text-right"><?= $sd; ?></th>
+													<th class="text-right"><?= $smp; ?></th>
+													<th class="text-right"><?= $sma; ?></th>
+													<th class="text-right"><?= $lansia; ?></th>
 													<?php foreach ($total_cacat as $cacat): ?>
-														<th class="total text-right"><?= $cacat;?></th>
+														<th class="total text-right"><?= $cacat; ?></th>
 													<?php endforeach; ?>
-													<th class="text-right"><?= $sakit_L;?></th>
-													<th class="text-right"><?= $sakit_P;?></th>
-													<th class="text-right"><?= $hamil;?></th>
+													<th class="text-right"><?= $sakit_L; ?></th>
+													<th class="text-right"><?= $sakit_P; ?></th>
+													<th class="text-right"><?= $hamil; ?></th>
 												</tr>
 											</tfoot>
 										</table>

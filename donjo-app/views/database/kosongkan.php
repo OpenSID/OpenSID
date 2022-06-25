@@ -1,5 +1,5 @@
 										<?php if ($this->CI->cek_hak_akses('h')): ?>
-											<div class="tab-pane <?php if ($act_tab==6): ?> active<?php endif ?>">
+											<div class="tab-pane <?php if ($act_tab == 6): ?> active<?php endif ?>">
 												<div class="row">
 													<div class="col-md-12">
 														<div class="box-header with-border">
@@ -16,7 +16,7 @@
 																	<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																		<small><strong><i class="fa fa-info-circle text-red"></i> Sebelum melalukan proses ini, backup dulu database SID.</strong></small>
 																	</p>
-																	<form id="kosongkan" action="<?= site_url("database/kosongkan_db")?>" method="post" class="form-horizontal">
+																	<form id="kosongkan" action="<?= site_url('database/kosongkan_db')?>" method="post" class="form-horizontal">
 																		<table class="table table-bordered">
 																			<tbody>
 																				<tr>

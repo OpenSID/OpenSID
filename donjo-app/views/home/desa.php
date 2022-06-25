@@ -5,11 +5,9 @@
  * View untuk halaman dashboard Admin
  *
  * donjo-app/views/home/desa.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -34,12 +32,11 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -189,7 +186,7 @@
 										<?php if ($this->CI->cek_hak_akses('u')): ?>
 											<a href="<?= site_url("{$this->controller}/dialog_pengaturan")?>" class="inner text-white rilis_pengaturan" title="Pengaturan Program Bantuan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pengaturan Program Bantuan"><i class="fa fa-gear"></i></a>
 										<?php endif; ?>
-										<a href="<?=site_url().$bantuan['link_detail']?>" class="inner text-white">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
+										<a href="<?=site_url() . $bantuan['link_detail']?>" class="inner text-white">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
 							</div>
@@ -199,7 +196,7 @@
 			</div>
 			<div class='col-md-6'>
 				<div class='box box-info'>
-					<?php $this->load->view('home/about.php');?>
+					<?php $this->load->view('home/about.php'); ?>
 				</div>
 			</div>
 		</div>

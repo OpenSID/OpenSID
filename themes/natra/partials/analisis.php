@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <script src="<?= base_url()?>assets/js/highcharts/highcharts.js"></script>
 <script src="<?= base_url()?>assets/js/highcharts/highcharts-more.js"></script>

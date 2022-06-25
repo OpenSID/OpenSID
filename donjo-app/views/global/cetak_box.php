@@ -20,7 +20,7 @@
 										<div class="input-group-addon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y');?>">
+										<input class="form-control input-sm required" id="tgl_1" name="tgl_cetak" type="text" value="<?= date('d-m-Y'); ?>">
 									</div>
 								</div>
 							</div>

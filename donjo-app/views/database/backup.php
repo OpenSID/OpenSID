@@ -1,4 +1,4 @@
-										<div class="tab-pane <?php if ($act_tab==4): ?> active<?php endif ?>">
+										<div class="tab-pane <?php if ($act_tab == 4): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
 													<div class="box-header with-border">
@@ -13,13 +13,13 @@
 																			<tr>
 																				<td class="col-sm-10"><b>Backup Seluruh Database SID (.sql)</b></td>
 																				<td class="col-sm-2">
-																					<a href="<?= site_url("database/exec_backup")?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Database</a>
+																					<a href="<?= site_url('database/exec_backup')?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Database</a>
 																				</td>
 																			</tr>
 																			<tr>
 																				<td class="col-sm-10"><b>Backup Seluruh Folder Desa SID (.zip)</b> </td>
 																				<td class="col-sm-2">
-																					<a href="<?= site_url("database/desa_backup"); ?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Folder Desa</a>
+																					<a href="<?= site_url('database/desa_backup'); ?>" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i> Unduh Folder Desa</a>
 																				</td>
 																			</tr>
 																		</tbody>
@@ -46,10 +46,10 @@
 															<div class="col-sm-12">
 																<p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
 																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-																	<?php if (strlen(@$_SESSION["SIAK"])>1): ?>
-																			<?=$_SESSION["SIAK"]?>
+																	<?php if (strlen(@$_SESSION['SIAK']) > 1): ?>
+																			<?=$_SESSION['SIAK']?>
 																	<?php endif ?>
-																	<?php $_SESSION["SIAK"] = ""; ?>
+																	<?php $_SESSION['SIAK'] = ''; ?>
 																	<p>Batas maksimal pengunggahan berkas <strong><?= max_upload() ?> MB.</strong></p>
 																	<p>Proses ini akan membutuhkan waktu beberapa menit, menyesuaikan dengan spesifikasi komputer server SID dan sambungan internet yang tersedia.</p>
 																	<p></p>

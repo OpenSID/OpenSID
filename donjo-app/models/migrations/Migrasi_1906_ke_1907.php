@@ -1,11 +1,49 @@
 <?php
-class Migrasi_1906_ke_1907 extends CI_model {
 
-  public function up() {
-	// Menambahkan Tabel tweb_aset yang digunakan unhtuk autofield pada pemilihan aset
-	if (!$this->db->table_exists('tweb_aset'))
-	{
-		$query = "
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Migrasi_1906_ke_1907 extends CI_model
+{
+    public function up()
+    {
+        // Menambahkan Tabel tweb_aset yang digunakan unhtuk autofield pada pemilihan aset
+        if (! $this->db->table_exists('tweb_aset')) {
+            $query = '
 			CREATE TABLE `tweb_aset` (
 				`id_aset` int(11) NOT NULL,
 				`golongan` varchar(11) NOT NULL,
@@ -16,12 +54,12 @@ class Migrasi_1906_ke_1907 extends CI_model {
 				`nama` varchar(255) NOT NULL,
 				PRIMARY KEY (id_aset)
 			)
-				";
+				';
 
-		$this->db->query($query);
+            $this->db->query($query);
 
-		$this->db->truncate('tweb_aset');
-		$query = "
+            $this->db->truncate('tweb_aset');
+            $query = "
 			INSERT INTO tweb_aset (`id_aset`, `golongan`, `bidang`, `kelompok`, `sub_kelompok`, `sub_sub_kelompok`, `nama`) VALUES
 			(1, '1', '00', '00', '00', '000', 'TANAH'),
 			(2, '1', '01', '00', '00', '000', 'TANAH DESA'),
@@ -4275,74 +4313,71 @@ class Migrasi_1906_ke_1907 extends CI_model {
 			(4250, '6', '01', '01', '01', '999', 'KONSTRUKSI DALAM PENGERJAAN LAINNYA')
 		";
 
-		$this->db->query($query);
-	}
+            $this->db->query($query);
+        }
 
-		$fields['berat_lahir'] = array(
-				'type' => 'SMALLINT',
-				'constraint' => 6,
-			  'null' => TRUE,
-				'default' => NULL
-		);
-	  $this->dbforge->modify_column('tweb_penduduk', $fields);
-		// Tambahkan setting aplikasi untuk format penomoran surat
-		$query = $this->db->select('1')->where('key', 'format_nomor_surat')->get('setting_aplikasi');
-		if (!$query->result())
-		{
-			$data = array(
-				'key' => 'format_nomor_surat',
-				'value' => '[kode_surat]/[nomor_surat, 3]/PEM/[tahun]',
-				'keterangan' => 'Fomat penomoran surat'
-			);
-			$this->db->insert('setting_aplikasi', $data);
-		}
-		// Ubah setting aplikasi current_version menjadi readonly
-		$this->db->where('key', 'current_version')->update('setting_aplikasi', array('kategori' => 'readonly'));
-		// Tambahkan setting aplikasi untuk jabatan pimpinan desa
-		$query = $this->db->select('1')->where('key', 'sebutan_pimpinan_desa')->get('setting_aplikasi');
-		if (!$query->result())
-		{
-			$data = array(
-				'key' => 'sebutan_pimpinan_desa',
-				'value' => 'Kepala Desa',
-				'keterangan' => 'Sebutan pimpinan desa',
-				'kategori' => 'pemerintahan'
-			);
-			$this->db->insert('setting_aplikasi', $data);
-		}
-		// Tambah folder desa untuk menyimpan kop surat
-		if (!file_exists('/desa/surat/raw'))
-		{
-			mkdir('desa/surat/raw');
-		}
-		// Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas
-		$data = array();
-		$data[] = array(
-			'nama'=>'Pengantar Permohonan Penerbitan Buku Pas Lintas',
-			'url_surat'=>'surat_permohonan_penerbitan_buku_pas_lintas',
-			'kode_surat'=>'S-43',
-			'jenis'=>1);
-		// Tambah surat keterangan penghasilan ayah
-		$data[] = array(
-			'nama'=>'Keterangan Penghasilan Ayah',
-			'url_surat'=>'surat_ket_penghasilan_ayah',
-			'kode_surat'=>'S-44',
-			'jenis'=>1);
-		// Tambah surat keterangan penghasilan ibu
-		$data[] = array(
-			'nama'=>'Keterangan Penghasilan Ibu',
-			'url_surat'=>'surat_ket_penghasilan_ibu',
-			'kode_surat'=>'S-45',
-			'jenis'=>1);
-		foreach ($data as $surat)
-		{
-			$sql = $this->db->insert_string('tweb_surat_format', $surat);
-			$sql .= " ON DUPLICATE KEY UPDATE
+        $fields['berat_lahir'] = [
+            'type'       => 'SMALLINT',
+            'constraint' => 6,
+            'null'       => true,
+            'default'    => null,
+        ];
+        $this->dbforge->modify_column('tweb_penduduk', $fields);
+        // Tambahkan setting aplikasi untuk format penomoran surat
+        $query = $this->db->select('1')->where('key', 'format_nomor_surat')->get('setting_aplikasi');
+        if (! $query->result()) {
+            $data = [
+                'key'        => 'format_nomor_surat',
+                'value'      => '[kode_surat]/[nomor_surat, 3]/PEM/[tahun]',
+                'keterangan' => 'Fomat penomoran surat',
+            ];
+            $this->db->insert('setting_aplikasi', $data);
+        }
+        // Ubah setting aplikasi current_version menjadi readonly
+        $this->db->where('key', 'current_version')->update('setting_aplikasi', ['kategori' => 'readonly']);
+        // Tambahkan setting aplikasi untuk jabatan pimpinan desa
+        $query = $this->db->select('1')->where('key', 'sebutan_pimpinan_desa')->get('setting_aplikasi');
+        if (! $query->result()) {
+            $data = [
+                'key'        => 'sebutan_pimpinan_desa',
+                'value'      => 'Kepala Desa',
+                'keterangan' => 'Sebutan pimpinan desa',
+                'kategori'   => 'pemerintahan',
+            ];
+            $this->db->insert('setting_aplikasi', $data);
+        }
+        // Tambah folder desa untuk menyimpan kop surat
+        if (! file_exists('/desa/surat/raw')) {
+            mkdir('desa/surat/raw');
+        }
+        // Tambah Surat Pengantar Permohonan Penerbitan Buku Pas Lintas
+        $data   = [];
+        $data[] = [
+            'nama'       => 'Pengantar Permohonan Penerbitan Buku Pas Lintas',
+            'url_surat'  => 'surat_permohonan_penerbitan_buku_pas_lintas',
+            'kode_surat' => 'S-43',
+            'jenis'      => 1, ];
+        // Tambah surat keterangan penghasilan ayah
+        $data[] = [
+            'nama'       => 'Keterangan Penghasilan Ayah',
+            'url_surat'  => 'surat_ket_penghasilan_ayah',
+            'kode_surat' => 'S-44',
+            'jenis'      => 1, ];
+        // Tambah surat keterangan penghasilan ibu
+        $data[] = [
+            'nama'       => 'Keterangan Penghasilan Ibu',
+            'url_surat'  => 'surat_ket_penghasilan_ibu',
+            'kode_surat' => 'S-45',
+            'jenis'      => 1, ];
+
+        foreach ($data as $surat) {
+            $sql = $this->db->insert_string('tweb_surat_format', $surat);
+            $sql .= ' ON DUPLICATE KEY UPDATE
 					nama = VALUES(nama),
 					url_surat = VALUES(url_surat),
 					kode_surat = VALUES(kode_surat),
-					jenis = VALUES(jenis)";
-			$this->db->query($sql);
-		}
-  }
+					jenis = VALUES(jenis)';
+            $this->db->query($sql);
+        }
+    }
 }

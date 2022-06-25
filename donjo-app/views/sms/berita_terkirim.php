@@ -34,7 +34,7 @@
 					<div class="box box-info">
 						<?php if ($this->CI->cek_hak_akses('h')): ?>
 							<div class="box-header with-border">
-								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("sms/delete_all/$p/$o/2")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("sms/delete_all/{$p}/{$o}/2")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							</div>
 						<?php endif; ?>
 						<div class="box-body">
@@ -54,20 +54,20 @@
 																<th>Aksi</th>
 															<?php endif; ?>
 															<th>Nama</th>
-															<?php if ($o==2): ?>
-																<th><a href="<?= site_url("sms/sentitem/$p/1")?>">Nomor HP <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==1): ?>
-																	<th><a href="<?= site_url("sms/sentitem/$p/2")?>">Nomor HP <i class='fa fa-sort-desc fa-sm'></i></a></th>
+															<?php if ($o == 2): ?>
+																<th><a href="<?= site_url("sms/sentitem/{$p}/1")?>">Nomor HP <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 1): ?>
+																	<th><a href="<?= site_url("sms/sentitem/{$p}/2")?>">Nomor HP <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th><a href="<?= site_url("sms/sentitem/$p/1")?>">Nomor HP <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th><a href="<?= site_url("sms/sentitem/{$p}/1")?>">Nomor HP <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Isi Pesan</th>
-																<?php if ($o==6): ?>
-																	<th nowrap><a href="<?= site_url("sms/sentitem/$p/5")?>">Dikirim <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==5): ?>
-																	<th nowrap><a href="<?= site_url("sms/sentitem/$p/6")?>">Dikirim <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 6): ?>
+																	<th nowrap><a href="<?= site_url("sms/sentitem/{$p}/5")?>">Dikirim <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 5): ?>
+																	<th nowrap><a href="<?= site_url("sms/sentitem/{$p}/6")?>">Dikirim <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("sms/sentitem/$p/5")?>">Dikirim <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("sms/sentitem/{$p}/5")?>">Dikirim <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																</tr>
 															</thead>
@@ -80,9 +80,9 @@
 																		<td><?=$data['no']?></td>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<td nowrap>
-																				<a href="<?= site_url("sms/form/$p/$o/2/$data[ID]")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lihat Pesan" title="Tampilkan dan Balas"><i class="fa fa-reply"></i></a>
+																				<a href="<?= site_url("sms/form/{$p}/{$o}/2/{$data['ID']}")?>" class="btn bg-orange btn-flat btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Lihat Pesan" title="Tampilkan dan Balas"><i class="fa fa-reply"></i></a>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
-																					<a href="#" data-href="<?= site_url("sms/delete/$p/$o/2/$data[ID]")?>" class="btn bg-maroon btn-flat btn-sm"title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																					<a href="#" data-href="<?= site_url("sms/delete/{$p}/{$o}/2/{$data['ID']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																			</td>
 																		<?php endif; ?>
@@ -101,7 +101,7 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("sms/sentitem")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url('sms/sentitem')?>" method="post" class="form-horizontal">
 													<label>
 													Tampilkan
 													<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
@@ -120,19 +120,19 @@
 											<div class="dataTables_paginate paging_simple_numbers">
 											<ul class="pagination">
 												<?php if ($paging->start_link): ?>
-													<li><a href="<?= site_url("sms/sentitem/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+													<li><a href="<?= site_url("sms/sentitem/{$paging->start_link}/{$o}")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 												<?php endif; ?>
 												<?php if ($paging->prev): ?>
-													<li><a href="<?= site_url("sms/sentitem/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+													<li><a href="<?= site_url("sms/sentitem/{$paging->prev}/{$o}")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 												<?php endif; ?>
-												<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-													<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/sentitem/$i/$o")?>"><?= $i?></a></li>
+												<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++): ?>
+													<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/sentitem/{$i}/{$o}")?>"><?= $i?></a></li>
 												<?php endfor; ?>
 												<?php if ($paging->next): ?>
-													<li><a href="<?= site_url("sms/sentitem/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+													<li><a href="<?= site_url("sms/sentitem/{$paging->next}/{$o}")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 												<?php endif; ?>
 												<?php if ($paging->end_link): ?>
-													<li><a href="<?= site_url("sms/sentitem/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+													<li><a href="<?= site_url("sms/sentitem/{$paging->end_link}/{$o}")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 												<?php endif; ?>
 											</ul>
 										</div>
@@ -146,4 +146,4 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>

@@ -57,7 +57,7 @@
 										<label class="col-sm-3 control-label " style="text-align:left;" for="panjang">Panjang</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input value="<?= (!empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm" id="panjang" name="panjang" type="number" disabled/>
+												<input value="<?= (! empty($main->panjang) ? $main->panjang : '0'); ?>" class="form-control input-sm" id="panjang" name="panjang" type="number" disabled/>
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 											</div>
 										</div>
@@ -66,7 +66,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="lebar">Lebar</label>
 										<div class="col-sm-4">
 										<div class="input-group">
-											<input type="number" value="<?= (!empty($main->lebar) ? $main->lebar : '0'); ?>"  class="form-control input-sm" id="lebar" name="lebar" type="number" disabled/>
+											<input type="number" value="<?= (! empty($main->lebar) ? $main->lebar : '0'); ?>"  class="form-control input-sm" id="lebar" name="lebar" type="number" disabled/>
 											<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M</span>
 										</div>
 										</div>
@@ -75,7 +75,7 @@
 										<label class="col-sm-3 control-label " style="text-align:left;" for="luas">Luas</label>
 										<div class="col-sm-4">
 											<div class="input-group">
-												<input type="number" value="<?= (!empty($main->luas) ? $main->luas : '0'); ?>"  class="form-control input-sm" id="luas" name="luas" type="number" disabled/>
+												<input type="number" value="<?= (! empty($main->luas) ? $main->luas : '0'); ?>"  class="form-control input-sm" id="luas" name="luas" type="number" disabled/>
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">M<sup>2</sup></span>
 											</div>
 										</div>
@@ -89,13 +89,13 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="no_bangunan">Nomor Kepemilikan</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (!empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control input-sm" name="no_bangunan" id="no_bangunan" type="text" disabled/>
+											<input maxlength="50" value="<?= (! empty($main->no_dokument) ? $main->no_dokument : '-'); ?>" class="form-control input-sm" name="no_bangunan" id="no_bangunan" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="tanggal_bangunan">Tanggal Dokumen Kepemilikan</label>
 										<div class="col-sm-8">
-											<input maxlength="50" value="<?= (strtotime($main->tanggal_dokument != '0000-00-00') ? '-' : date('d M Y', strtotime($main->tanggal_dokument)) ); ?>" class="form-control input-sm" name="tanggal_bangunan" id="tanggal_bangunan" disabled/>
+											<input maxlength="50" value="<?= (strtotime($main->tanggal_dokument != '0000-00-00') ? '-' : date('d M Y', strtotime($main->tanggal_dokument))); ?>" class="form-control input-sm" name="tanggal_bangunan" id="tanggal_bangunan" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -109,7 +109,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="kode_tanah">Nomor Kode Tanah</label>
 										<div class="col-sm-8">
-											<input maxlength="50"value="<?= (!empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>"  class="form-control input-sm" name="kode_tanah" id="kode_tanah" type="text" disabled/>
+											<input maxlength="50"value="<?= (! empty($main->kode_tanah) ? $main->kode_tanah : '-'); ?>"  class="form-control input-sm" name="kode_tanah" id="kode_tanah" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -125,7 +125,7 @@
 										<div class="col-sm-4">
 											<div class="input-group">
 												<span class="input-group-addon input-sm" id="koefisien_dasar_bangunan-addon">Rp</span>
-												<input type="text"  value="<?= number_format($main->harga,0,".","."); ?>" class="form-control number input-sm" id="harga" name="harga" disabled/>
+												<input type="text"  value="<?= number_format($main->harga, 0, '.', '.'); ?>" class="form-control number input-sm" id="harga" name="harga" disabled/>
 											</div>
 										</div>
 									</div>

@@ -1,10 +1,10 @@
-<img src="<?php echo $icon ?>"
-     alt="<?php echo lang('config') ?>" title="<?php echo lang('config') ?>"/> <?php echo lang('config') ?>
+<img src="<?= $icon ?>"
+     alt="<?= lang('config') ?>" title="<?= lang('config') ?>"/> <?= lang('config') ?>
     <div class="detail config">
         <div class="scroll">
             <?php
             foreach ($configuration as $config => $val) {
-                if (is_array($val) OR is_object($val)) {
+                if (is_array($val) || is_object($val)) {
                     $val = print_r($val, true);
                 }
                 echo '<p>';

@@ -56,7 +56,7 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="id_kelompok" name="id_kelompok" style="width:100%">
 												<option value="">--Kategori Kelompok--</option>
-												<?php foreach ($list_kelompok AS $data): ?>
+												<?php foreach ($list_kelompok as $data): ?>
 													 <option value="<?= $data['id'] ?>" <?php selected($analisis_master['id_kelompok'], $data['id']) ?>><?= $data['kelompok'] ?></option>
 												<?php endforeach; ?>
 											</select>
@@ -68,7 +68,7 @@
 										<label class="col-sm-3 control-label" for="nama">Status Analisis</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="lock" name="lock">
-												<option value="1" <?php ($analisis_master['lock'] == '1' OR $analisis_master['lock'] == '') and print('selected') ?>>Tidak Terkunci</option>
+												<option value="1" <?php ($analisis_master['lock'] == '1' || $analisis_master['lock'] == '') && print 'selected' ?>>Tidak Terkunci</option>
 												<option value="2" <?php if ($analisis_master['lock'] == '2'): ?>selected<?php endif; ?>> Terkunci</option>
 											</select>
 										</div>
@@ -80,7 +80,7 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="format_impor" name="format_impor" <?php selected($analisis_master['jenis'], 1) ?>>
 												<option value="">--Pilih Format Impor--</option>
-												<?php foreach ($list_format_impor AS $key => $nama): ?>
+												<?php foreach ($list_format_impor as $key => $nama): ?>
 													<option value="<?= $key?>" <?php selected($analisis_master['format_impor'], $key) ?>><?= $nama?></option>
 												<?php endforeach; ?>
 											</select>
@@ -112,7 +112,7 @@
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="id_child" name="id_child">
 												<option value="">-- Silakan Masukan Analisis Terhubung--</option>
-												<?php foreach ($list_analisis AS $data): ?>
+												<?php foreach ($list_analisis as $data): ?>
 													<option value="<?= $data['id'] ?>" <?php selected($analisis_master['id_child'], $data['id']) ?>><?= $data['nama'] ?></option>
 											 	<?php endforeach; ?>
 											</select>

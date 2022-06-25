@@ -55,7 +55,7 @@
 												<?php if (count($data['desa_ganda']) > 1): ?>
 													<a href="<?= site_url("keuangan/pilih_desa/{$data['id']}")?>" title="Bersihkan desa ganda" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Bersihkan Desa Ganda" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-minus-square"></i></a>
 												<?php endif; ?>
-												<a href="#" data-href="<?= site_url("keuangan/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+												<a href="#" data-href="<?= site_url("keuangan/delete/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 											</td>
 										<?php endif; ?>
 										<td><?=$data['versi_database']?></td>
@@ -63,7 +63,7 @@
 											<?=$data['tahun_anggaran']?>
 											<?php if (count($data['desa_ganda']) > 1): ?>
 												<span style="padding-left: 5px;">(Berisi data dari beberapa desa. Bersihkan dulu data desa ganda.)</span>
-											<?php endif; ?>																
+											<?php endif; ?>
 										</td>
 										<td><?=tgl_indo_out($data['tanggal_impor'])?></td>
 									</tr>
@@ -116,7 +116,7 @@
 	</div>
 <?php endif; ?>
 
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 <script type="text/javascript">
 	$(document).ready(function()
 	{
@@ -145,7 +145,7 @@
 		{
 			$.ajax(
 			{
-				url: '<?= site_url("keuangan/cek_versi_database")?>',
+				url: '<?= site_url('keuangan/cek_versi_database')?>',
 				type: "POST",
 				datatype:"json",
 				data: formdata,

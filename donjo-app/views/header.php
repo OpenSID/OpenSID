@@ -1,48 +1,3 @@
-<?php
-/**
- * File ini:
- *
- * Modul Header OpenSID
- *
- * /donjo-app/views/header.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
-
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package OpenSID
- * @author Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html GPL V3
- * @link https://github.com/OpenSID/OpenSID
- */
-?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -50,13 +5,13 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>
 			<?=$this->setting->admin_title
-				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($desa['nama_desa']) ? ' ' . $desa['nama_desa']: '')
-				. get_dynamic_title_page_from_path();
-			?>
+                . ' ' . ucwords($this->setting->sebutan_desa)
+                . (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : '')
+                . get_dynamic_title_page_from_path();
+            ?>
 		</title>
 		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -86,6 +41,10 @@
 		<!-- AdminLTE Skins. -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
 		<!-- Style Admin Modification Css -->
+		<!-- Token Field -->
+		<?php if ($this->controller == 'bumindes_kader'): ?>
+			<link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/bootstrap-tokenfield.min.css'); ?>">
+		<?php endif; ?>
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/admin-style.css">
 		<!-- OpenStreetMap Css -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
@@ -101,7 +60,7 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/toastr.min.css">
 
 		<!-- Untuk ubahan style desa -->
-		<?php if (is_file("desa/css/siteman.css")): ?>
+		<?php if (is_file('desa/css/siteman.css')): ?>
 			<link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
 		<!-- Diperlukan untuk script jquery khusus halaman -->
@@ -146,9 +105,9 @@
 		<script src="<?= base_url()?>assets/js/highcharts/organization.js"></script>
 		<script src="<?= base_url()?>assets/js/highcharts/accessibility.js"></script>
 
-		<?php require __DIR__ .'/head_tags.php' ?>
+		<?php require __DIR__ . '/head_tags.php' ?>
 	</head>
-	<body class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed <?php if ($minsidebar==1): ?>sidebar-collapse<?php endif ?>">
+	<body id="sidebar_collapse" class="<?= $this->setting->warna_tema_admin; ?> sidebar-mini fixed">
 		<div class="wrapper">
 			<header class="main-header">
 				<a href="<?= site_url(); ?>" target="_blank" class="logo">
@@ -210,8 +169,8 @@
 									<li class="user-header">
 										<img src="<?= AmbilFoto($foto); ?>" class="img-circle" alt="User Image"/>
 										<p>
-											Anda Login Sebagai
-											<strong><?=$nama?></strong>
+											<small>Anda Masuk Sebagai</small>
+											<?= $nama; ?>
 										</p>
 									</li>
 									<li class="user-footer">
@@ -258,7 +217,7 @@
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 								<h4 class="modal-title" id="myModalLabel"> Pengaturan <?= ucwords($this->controller); ?></h4>
 							</div>
-							<?php $this->load->view("global/modal_setting", ['kategori' => [$this->controller]]); ?>
+							<?php $this->load->view('global/modal_setting', ['kategori' => [$this->controller]]); ?>
 						</div>
 					</div>
 				</div>

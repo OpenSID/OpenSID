@@ -1,49 +1,3 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * View untuk modul Kelompok > Kelompok Master
- *
- * donjo-app/views/kelompok_master/table.php
- *
- */
-/*
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-?>
-
 <script>
 	$(function() {
 		var keyword = <?= $keyword; ?> ;
@@ -68,10 +22,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<?php if ($this->CI->cek_hak_akses('u')): ?>
-						<a href="<?= site_url("$this->controller/form"); ?>" title="Tambah Kategori <?= $tipe; ?> Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori <?= $tipe; ?> Baru</a>
+						<a href="<?= site_url("{$this->controller}/form"); ?>" title="Tambah Kategori <?= $tipe; ?> Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kategori <?= $tipe; ?> Baru</a>
 					<?php endif; ?>
 					<?php if ($this->CI->cek_hak_akses('h')): ?>
-						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("$this->controller/delete_all"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+						<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("{$this->controller}/delete_all"); ?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 					<?php endif; ?>
 					<a href="<?= site_url($tipe); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar <?= $tipe; ?></a>
 				</div>
@@ -81,9 +35,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="input-group input-group-sm pull-right">
-										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("$this->controller/filter/cari")?>');$('#'+'mainform').submit();}">
+										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?= html_escape($cari); ?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/filter/cari")?>');$('#'+'mainform').submit();}">
 										<div class="input-group-btn">
-											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("$this->controller/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("{$this->controller}/filter/cari")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 										</div>
 									</div>
 								</div>
@@ -95,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 											<th><input type="checkbox" id="checkall"/></th>
 											<th>No</th>
 											<th>Aksi</th>
-											<th><?= url_order($o, "{$this->controller}/{$func}/$p", 1, "Kategori $tipe"); ?></th>
+											<th><?= url_order($o, "{$this->controller}/{$func}/{$p}", 1, "Kategori {$tipe}"); ?></th>
 											<th width="70%">Deskripsi <?= $tipe; ?></th>
 											<th>Jumlah <?= $tipe; ?></th>
 										</tr>
@@ -108,10 +62,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 													<td class="padat"><?= ($key + $paging->offset + 1); ?></td>
 													<td class="aksi">
 														<?php if ($this->CI->cek_hak_akses('u')): ?>
-															<a href="<?= site_url("$this->controller/form/$data[id]")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Kategori <?= $tipe; ?>"><i class="fa fa-edit"></i></a>
+															<a href="<?= site_url("{$this->controller}/form/{$data['id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Kategori <?= $tipe; ?>"><i class="fa fa-edit"></i></a>
 														<?php endif; ?>
 														<?php if ($this->CI->cek_hak_akses('h')): ?>
-															<a href="#" data-href="<?= site_url("$this->controller/delete/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+															<a href="#" data-href="<?= site_url("{$this->controller}/delete/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 														<?php endif; ?>
 													</td>
 													<td nowrap><?= $data['kelompok']?></td>
@@ -129,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								</table>
 							</div>
 						</form>
-						<?php $this->load->view('global/paging');?>
+						<?php $this->load->view('global/paging'); ?>
 					</div>
 				</div>
 			</div>

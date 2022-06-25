@@ -5,11 +5,9 @@
  * Form penambahan dan perubahan Surat Masuk
  *
  * donjo-app/views/surat_masuk/form.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -25,21 +23,20 @@
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
  * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
  * asal tunduk pada syarat berikut:
-
+ *
  * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
  * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
  * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
+ *
  * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -55,7 +52,7 @@
 	<section class="content" id="maincontent">
 		<div class="box box-info">
 			<div class="box-header with-border">
-				<a href="<?= site_url("surat_masuk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
+				<a href="<?= site_url('surat_masuk')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Wilayah">
 					<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Surat Masuk
 				</a>
 			</div>
@@ -80,12 +77,12 @@
 							</div>
 						</div>
 					</div>
-					<?php if ( ! is_null($surat_masuk['berkas_scan']) && $surat_masuk['berkas_scan'] != '.'): ?>
+					<?php if (null !== $surat_masuk['berkas_scan'] && $surat_masuk['berkas_scan'] != '.'): ?>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="kode_pos"></label>
 							<div class="col-sm-6">
 								<div class="mailbox-attachment-info">
-									<img class="attachment-img img-responsive img-circle" src="<?= site_url().$this->controller.'/unduh_berkas_scan/'.$surat_masuk['id']?>" alt="Berkas <?= $surat_keluar['nomor_urut']?>">
+									<img class="attachment-img img-responsive img-circle" src="<?= site_url() . $this->controller . '/unduh_berkas_scan/' . $surat_masuk['id']?>" alt="Berkas <?= $surat_keluar['nomor_urut']?>">
 									<p><label class="control-label"><input type="checkbox" name="gambar_hapus" value="<?= $surat_masuk['berkas_scan']?>" /> Hapus Berkas Lama</label></p>
 								</div>
 							</div>
@@ -110,8 +107,8 @@
 							<select class="form-control input-sm select2 required" id="kode_surat" name="kode_surat">
 								<option value="">-- Pilih Kode/Klasifikasi Surat --</option>
 								<?php foreach ($klasifikasi as $item): ?>
-									<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_masuk["kode_surat"])?>><?= $item['kode'].' - '.$item['nama']?></option>
-								<?php endforeach;?>
+									<option value="<?= $item['kode'] ?>" <?= selected($item['kode'], $surat_masuk['kode_surat'])?>><?= $item['kode'] . ' - ' . $item['nama']?></option>
+								<?php endforeach; ?>
 							</select>
 							</div>
 					</div>
@@ -159,7 +156,7 @@
 											<?= strtoupper($data); ?>
 										</label>
 									</div>
-								<?php endforeach;?>
+								<?php endforeach; ?>
 							</div>
 						</div>
 					</div>

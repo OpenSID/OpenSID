@@ -12,7 +12,7 @@
 
 			<div class="box-header with-border">
 				<a href="<?= site_url('covid19')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Pemudik</a>
-				<?php if ($penduduk['id_status'] === '2' OR $penduduk['id_status'] === '3'): ?>
+				<?php if ($penduduk['id_status'] === '2' || $penduduk['id_status'] === '3'): ?>
 					<a href="#" class="btn btn-social btn-success btn-sm" data-toggle="modal" data-target="#edit-warga">
 						<i class="fa fa-edit"></i>
 						Ubah Data Penduduk Non Domisili
@@ -30,7 +30,7 @@
 						<tbody>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >NIK /Nama</td>
-								<td> <?= $terdata["terdata_nama"]." / ".$terdata["terdata_info"]?></td>
+								<td> <?= $terdata['terdata_nama'] . ' / ' . $terdata['terdata_info']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;width:20%;" >Alamat</td>
@@ -50,39 +50,39 @@
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Asal Pemudik</td>
-								<td> <?= $terdata["asal_mudik"]?></td>
+								<td> <?= $terdata['asal_mudik']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Tiba Tanggal</td>
-								<td> <?= $terdata["tanggal_datang"]?></td>
+								<td> <?= $terdata['tanggal_datang']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Tujuan Mudik</td>
-								<td> <?= $terdata["tujuan_mudik"]?></td>
+								<td> <?= $terdata['tujuan_mudik']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Durasi Mudik</td>
-								<td> <?= $terdata["durasi_mudik"]?></td>
+								<td> <?= $terdata['durasi_mudik']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >HP</td>
-								<td> <?= $terdata["no_hp"]?></td>
+								<td> <?= $terdata['no_hp']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Email</td>
-								<td> <?= $terdata["email"]?></td>
+								<td> <?= $terdata['email']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Status Covid-19</td>
-								<td> <?= $terdata["status_covid"]?></td>
+								<td> <?= $terdata['status_covid']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Keluhan Kesehatan</td>
-								<td> <?= $terdata["keluhan_kesehatan"]?></td>
+								<td> <?= $terdata['keluhan_kesehatan']?></td>
 							</tr>
 							<tr>
 								<td style="padding-top : 10px;padding-bottom : 10px;" >Keterangan</td>
-								<td> <?= $terdata["keterangan"]?></td>
+								<td> <?= $terdata['keterangan']?></td>
 							</tr>
 						</tbody>
 					</table>
@@ -102,7 +102,7 @@
 
 			<div class='modal-body'>
 				<div class="row">
-					<?php include("donjo-app/views/covid19/form_isian_penduduk.php"); ?>
+					<?php include 'donjo-app/views/covid19/form_isian_penduduk.php'; ?>
 				</div>
 			</div>
 

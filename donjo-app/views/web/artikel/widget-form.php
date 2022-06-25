@@ -14,7 +14,7 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("web_widget")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+							<a href="<?= site_url('web_widget')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Widget
 							</a>
 						</div>
@@ -30,32 +30,36 @@
 								<div class="col-sm-6">
 									<select id="jenis_widget" name="jenis_widget" class="form-control input-sm">
 										<option value="">-- Pilih Jenis Widget --</option>
-										<option value="2" <?php selected($widget['jenis_widget'], 2);?>>Statis</option>
-										<option value="3" <?php selected($widget['jenis_widget'], 3);?>>Dinamis</option>
+										<option value="2" <?php selected($widget['jenis_widget'], 2); ?>>Statis</option>
+										<option value="3" <?php selected($widget['jenis_widget'], 3); ?>>Dinamis</option>
 									</select>
 								</div>
 							</div>
-							<?php if ($widget['jenis_widget'] AND $widget['jenis_widget'] != 1 AND $widget['jenis_widget'] !=2) $dinamis = true; ?>
-							<div id="dinamis" class="form-group" <?php !$dinamis and print('style="display:none;"') ?>>
+							<?php if ($widget['jenis_widget'] && $widget['jenis_widget'] != 1 && $widget['jenis_widget'] != 2) {
+    $dinamis = true;
+} ?>
+							<div id="dinamis" class="form-group" <?php ! $dinamis && print 'style="display:none;"' ?>>
 								<label class="col-sm-4 control-label" for="alamat_kantor">Kode Widget</label>
 								<div class="col-sm-6">
 									<textarea style="resize:none;height:150px;" id="isi-dinamis" name="isi-dinamis" class="form-control input-sm" placeholder="Kode Widget"><?=$widget['isi']?></textarea>
 								</div>
 							</div>
-							<?php if ($widget['jenis_widget'] AND $widget['jenis_widget'] ==2) $statis = true; ?>
-							<div id="statis" class="form-group" <?php !$statis and print('style="display:none;"') ?>>
+							<?php if ($widget['jenis_widget'] && $widget['jenis_widget'] == 2) {
+    $statis = true;
+} ?>
+							<div id="statis" class="form-group" <?php ! $statis && print 'style="display:none;"' ?>>
 								<label class="col-sm-4 control-label" for="isi-statis">Nama File Widget (.php)</label>
 								<div class="col-sm-6">
-									<?php if($list_widget):?>
+									<?php if ($list_widget):?>
 										<select id="isi-statis" name="isi-statis" class="form-control input-sm">
 											<option value="">-- Pilih Widget --</option>
 											<?php foreach ($list_widget as $list):?>
 												<option value="<?=$list?>" <?php selected($list, $widget['isi']); ?>><?=$list?></option>
-											<?php endforeach;?>
+											<?php endforeach; ?>
 										</select>
 									<?php else:?>
 										<span class="help-block"><code>Widget tidak tersedia atau sudah ditambahkan semua (desa/widgets atau desa/themes/nama_tema/widgets)</code></span>
-									<?php endif;?>
+									<?php endif; ?>
 									</div>
 								</div>
 							</div>

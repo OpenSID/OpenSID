@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_gedung/add_mutasi"); ?>">
+		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url('api_inventaris_gedung/add_mutasi'); ?>">
 			<div class="row">
 				<div class="col-md-3">
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
@@ -57,7 +57,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Jenis Mutasi</label>
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm">
-												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
+												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi; ?></option>
 												<optgroup label="Penghapusan">
 													<option value="Baik">Status Baik</option>
 													<option value="Rusak">Status Rusak</option>
@@ -70,7 +70,7 @@
 													<option value="Masih Baik Dijual">Masih Baik</option>
 													<option value="Barang Rusak Dijual">Rusak</option>
 												</optgroup>
-											 
+
 											</select>
 										</div>
 									</div>
@@ -90,7 +90,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
 										<div class="col-sm-4">
 											<select name="" id="" class="form-control input-sm required" disabled>
-												<option value="<?= $main->tanggal_dokument; ?>"><?= date('Y',strtotime($main->tanggal_dokument)); ?></option>
+												<option value="<?= $main->tanggal_dokument; ?>"><?= date('Y', strtotime($main->tanggal_dokument)); ?></option>
 											</select>
 										</div>
 									</div>
@@ -138,17 +138,17 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} 
+			}
 			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").hide();
 			}
 		});
-		$("#status").change(function() 
+		$("#status").change(function()
 		{
 			var status = $(this).val();
-			if (status == "Hapus") 
+			if (status == "Hapus")
 			{
 				$("#mutasi").parent().parent().show();
 				$("#mutasi").addClass('required');

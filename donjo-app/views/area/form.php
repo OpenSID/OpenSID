@@ -16,7 +16,7 @@
 				<div class="col-md-9">
 					<div class="box box-info">
             <div class="box-header with-border">
-							<a href="<?= site_url("area")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+							<a href="<?= site_url('area')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Area
             	</a>
 						</div>
@@ -32,17 +32,17 @@
 								<div class="col-sm-7">
 									<select class="form-control input-sm" id="ref_polygon" name="ref_polygon" style="width:100%;">
 									<option value="">Kategori</option>
-									<?php foreach ($list_polygon AS $data): ?>
-										<option <?php if ($area['ref_polygon']==$data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
-									<?php endforeach;?>
+									<?php foreach ($list_polygon as $data): ?>
+										<option <?php if ($area['ref_polygon'] == $data['id']): ?>selected<?php endif ?> value="<?= $data['id']?>"><?= $data['nama']?></option>
+									<?php endforeach; ?>
 									</select>
 								</div>
 							</div>
-							<?php if ($area["foto"]): ?>
+							<?php if ($area['foto']): ?>
 								<div class="form-group">
 									<label class="control-label col-sm-3"></label>
 									<div class="col-sm-7">
-									  <img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_FOTO_AREA?>kecil_<?= $area['foto']?>" alt="Foto">
+									  <img class="attachment-img img-responsive img-circle" src="<?= base_url() . LOKASI_FOTO_AREA?>kecil_<?= $area['foto']?>" alt="Foto">
 									</div>
 								</div>
 							<?php endif; ?>
@@ -68,11 +68,11 @@
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-3 col-lg-3 control-label" for="status">Status</label>
 								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($area['enabled'] =='1' OR $area['enabled'] == NULL): ?>active<?php endif ?>">
-										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($area['enabled'] =='1' OR $area['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($area['enabled'] == '1' || $area['enabled'] == null): ?>active<?php endif ?>">
+										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($area['enabled'] == '1' || $area['enabled'] == null): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($area['enabled'] == '2' ): ?>active<?php endif ?>">
-										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($area['enabled'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($area['enabled'] == '2'): ?>active<?php endif ?>">
+										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($area['enabled'] == '2'): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
@@ -92,11 +92,11 @@
 <script>
 	function reset_form()
 	{
-		<?php if ($area['enabled'] =='1' OR $area['enabled'] == NULL): ?>
+		<?php if ($area['enabled'] == '1' || $area['enabled'] == null): ?>
 			$("#sx3").addClass('active');
 			$("#sx4").removeClass("active");
 		<?php endif ?>
-		<?php if ($area['enabled'] =='2'): ?>
+		<?php if ($area['enabled'] == '2'): ?>
 			$("#sx4").addClass('active');
 			$("#sx3").removeClass("active");
 		<?php endif ?>

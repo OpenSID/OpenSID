@@ -12,9 +12,9 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<?php $this->load->view('keuangan/filter_laporan_manual', array('data' => $tahun_anggaran)); ?>
+			<?php $this->load->view('keuangan/filter_laporan_manual', ['data' => $tahun_anggaran]); ?>
 			<div class="col-md-9">
-				<?php include("donjo-app/views/keuangan/tabel_laporan_rp_apbd_manual.php"); ?>
+				<?php include 'donjo-app/views/keuangan/tabel_laporan_rp_apbd_manual.php'; ?>
 			</div>
 		</div>
 	</section>

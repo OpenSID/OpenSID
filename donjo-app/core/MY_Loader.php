@@ -1,14 +1,50 @@
 <?php
 
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
 class MY_Loader extends CI_Loader
 {
-
     /**
      * List of loaded views
      *
      * @return array
      */
-    protected $_ci_views = array();
+    protected $_ci_views = [];
 
     /**
      * List of loaded helpers
@@ -35,7 +71,8 @@ class MY_Loader extends CI_Loader
      *
      * @return mixed
      */
-    public function get_models(){
+    public function get_models()
+    {
         return $this->_ci_models;
     }
 
@@ -50,50 +87,51 @@ class MY_Loader extends CI_Loader
      * @used-by    CI_Loader::view()
      * @used-by    CI_Loader::file()
      *
-     * @param    array $_ci_data Data to load
+     * @param array $_ci_data Data to load
      *
-     * @return    object
+     * @return object
      */
     protected function _ci_load($_ci_data)
     {
         // Set the default data variables
-        foreach (array('_ci_view', '_ci_vars', '_ci_path', '_ci_return') as $_ci_val) {
-            $$_ci_val = isset($_ci_data[$_ci_val]) ? $_ci_data[$_ci_val] : false;
+        foreach (['_ci_view', '_ci_vars', '_ci_path', '_ci_return'] as $_ci_val) {
+            ${$_ci_val} = $_ci_data[$_ci_val] ?? false;
         }
 
         $file_exists = false;
 
         // Set the path to the requested file
         if (is_string($_ci_path) && $_ci_path !== '') {
-            $_ci_x = explode('/', $_ci_path);
+            $_ci_x    = explode('/', $_ci_path);
             $_ci_file = end($_ci_x);
         } else {
-            $_ci_ext = pathinfo($_ci_view, PATHINFO_EXTENSION);
+            $_ci_ext  = pathinfo($_ci_view, PATHINFO_EXTENSION);
             $_ci_file = ($_ci_ext === '') ? $_ci_view . '.php' : $_ci_view;
 
             foreach ($this->_ci_view_paths as $_ci_view_file => $cascade) {
                 if (file_exists($_ci_view_file . $_ci_file)) {
-                    $_ci_path = $_ci_view_file . $_ci_file;
+                    $_ci_path    = $_ci_view_file . $_ci_file;
                     $file_exists = true;
                     break;
                 }
 
-                if (!$cascade) {
+                if (! $cascade) {
                     break;
                 }
             }
         }
 
-        if (!$file_exists && !file_exists($_ci_path)) {
+        if (! $file_exists && ! file_exists($_ci_path)) {
             show_error('Unable to load the requested file: ' . $_ci_file);
         }
 
         // This allows anything loaded using $this->load (views, files, etc.)
         // to become accessible from within the Controller and Model functions.
-        $_ci_CI =& get_instance();
+        $_ci_CI = &get_instance();
+
         foreach (get_object_vars($_ci_CI) as $_ci_key => $_ci_var) {
-            if (!isset($this->$_ci_key)) {
-                $this->$_ci_key =& $_ci_CI->$_ci_key;
+            if (! isset($this->{$_ci_key})) {
+                $this->{$_ci_key} = &$_ci_CI->{$_ci_key};
             }
         }
 
@@ -127,14 +165,14 @@ class MY_Loader extends CI_Loader
         // If the PHP installation does not support short tags we'll
         // do a little string replacement, changing the short tags
         // to standard PHP echo statements.
-        if (!is_php('5.4') && !ini_get('short_open_tag') && config_item('rewrite_short_tags') === true && function_usable('eval')) {
+        if (! is_php('5.4') && ! ini_get('short_open_tag') && config_item('rewrite_short_tags') === true && function_usable('eval')) {
             echo eval('?>' . preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($_ci_path))));
         } else {
-            include($_ci_path); // include() vs include_once() allows for multiple views with the same name
+            include $_ci_path; // include() vs include_once() allows for multiple views with the same name
         }
 
         // New : Add the the loaded view file to the list
-        $this->_ci_views[$_ci_path] = isset($_ci_vars) ? $_ci_vars : array();;
+        $this->_ci_views[$_ci_path] = $_ci_vars ?? [];
 
         log_message('info', 'File loaded: ' . $_ci_path);
 

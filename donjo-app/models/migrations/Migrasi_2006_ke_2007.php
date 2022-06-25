@@ -1,43 +1,80 @@
 <?php
-class Migrasi_2006_ke_2007 extends CI_model {
 
-	public function up()
-	{
-		// Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
-		$this->db->query("ALTER TABLE area MODIFY COLUMN id_cluster INT(11) NULL DEFAULT NULL");
-		$this->db->query("ALTER TABLE area MODIFY COLUMN foto VARCHAR(100) NULL DEFAULT NULL");
-		$this->db->query("ALTER TABLE area MODIFY COLUMN path TEXT NULL");
-		$this->data_apbdes_manual();
-		$this->konfigurasi_web();
-		$this->konfigurasi_qrcode();
-	}
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
 
-	private function data_apbdes_manual()
-	{
+defined('BASEPATH') || exit('No direct script access allowed');
 
-		// Update Menu Keuangan - perbaikan urutan sub menu
-		$this->db->where('id', 202)
-			->set('urut', '1')
-			->update('setting_modul');
+class Migrasi_2006_ke_2007 extends CI_model
+{
+    public function up()
+    {
+        // Sesuaikan dengan sql_mode STRICT_TRANS_TABLES
+        $this->db->query('ALTER TABLE area MODIFY COLUMN id_cluster INT(11) NULL DEFAULT NULL');
+        $this->db->query('ALTER TABLE area MODIFY COLUMN foto VARCHAR(100) NULL DEFAULT NULL');
+        $this->db->query('ALTER TABLE area MODIFY COLUMN path TEXT NULL');
+        $this->data_apbdes_manual();
+        $this->konfigurasi_web();
+        $this->konfigurasi_qrcode();
+    }
 
-		// Update Menu Keuangan - perbaikan urutan sub menu
-		$this->db->where('id', 203)
-			->set('urut', '2')
-			->update('setting_modul');
+    private function data_apbdes_manual()
+    {
 
-		// Update Menu Keuangan - Tambah menu Input Apbdes Manual
-		$query = "
+        // Update Menu Keuangan - perbaikan urutan sub menu
+        $this->db->where('id', 202)
+            ->set('urut', '1')
+            ->update('setting_modul');
+
+        // Update Menu Keuangan - perbaikan urutan sub menu
+        $this->db->where('id', 203)
+            ->set('urut', '2')
+            ->update('setting_modul');
+
+        // Update Menu Keuangan - Tambah menu Input Apbdes Manual
+        $query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
 			('209', 'Input Data', 'keuangan_manual/manual_apbdes', '1', 'fa-keyboard-o', '3', '2', '201', '0', 'fa-keyboard-o'),
 			('210', 'Laporan Manual', 'keuangan_manual/laporan_manual', '1', 'fa-bar-chart', '4', '2', '201', '0', 'fa-bar-chart')
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
-		$this->db->query($query);
+        $this->db->query($query);
 
-		//insert keuangan_manual_rinci
-		if (!$this->db->table_exists('keuangan_manual_rinci') )
-		{
-			$query = "
+        //insert keuangan_manual_rinci
+        if (! $this->db->table_exists('keuangan_manual_rinci')) {
+            $query = '
 			CREATE TABLE IF NOT EXISTS `keuangan_manual_rinci` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`Tahun` varchar(100) NOT NULL,
@@ -47,81 +84,75 @@ class Migrasi_2006_ke_2007 extends CI_model {
 				`Nilai_Anggaran` varchar(100) NOT NULL,
 				`Nilai_Realisasi` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-		}
+			)';
+            $this->db->query($query);
+        }
 
-		//insert keuangan_manual_ref_rek1
-		if (!$this->db->table_exists('keuangan_manual_ref_rek1') )
-		{
-			$query = "
+        //insert keuangan_manual_ref_rek1
+        if (! $this->db->table_exists('keuangan_manual_ref_rek1')) {
+            $query = '
 			CREATE TABLE IF NOT EXISTS `keuangan_manual_ref_rek1` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`Akun` varchar(100) NOT NULL,
 				`Nama_Akun` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-		}
+			)';
+            $this->db->query($query);
+        }
 
-		//insert keuangan_manual_ref_rek2
-		if (!$this->db->table_exists('keuangan_manual_ref_rek2') )
-		{
-			$query = "
+        //insert keuangan_manual_ref_rek2
+        if (! $this->db->table_exists('keuangan_manual_ref_rek2')) {
+            $query = '
 			CREATE TABLE IF NOT EXISTS `keuangan_manual_ref_rek2` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`Akun` varchar(100) NOT NULL,
 				`Kelompok` varchar(100) NOT NULL,
 				`Nama_Kelompok` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-		}
+			)';
+            $this->db->query($query);
+        }
 
-		//insert keuangan_manual_ref_rek3
-		if (!$this->db->table_exists('keuangan_manual_ref_rek3') )
-		{
-			$query = "
+        //insert keuangan_manual_ref_rek3
+        if (! $this->db->table_exists('keuangan_manual_ref_rek3')) {
+            $query = '
 			CREATE TABLE IF NOT EXISTS `keuangan_manual_ref_rek3` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`Kelompok` varchar(100) NOT NULL,
 				`Jenis` varchar(100) NOT NULL,
 				`Nama_Jenis` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-		}
+			)';
+            $this->db->query($query);
+        }
 
-		//insert keuangan_manual_ref_bidang
-		if (!$this->db->table_exists('keuangan_manual_ref_bidang') )
-		{
-			$query = "
+        //insert keuangan_manual_ref_bidang
+        if (! $this->db->table_exists('keuangan_manual_ref_bidang')) {
+            $query = '
 			CREATE TABLE IF NOT EXISTS `keuangan_manual_ref_bidang` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`Kd_Bid` varchar(50) NOT NULL,
 				`Nama_Bidang` varchar(250) NOT NULL,
 				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-		}
+			)';
+            $this->db->query($query);
+        }
 
-		//insert keuangan_manual_ref_kegiatan
-		if (!$this->db->table_exists('keuangan_manual_ref_kegiatan') )
-		{
-			$query = "
+        //insert keuangan_manual_ref_kegiatan
+        if (! $this->db->table_exists('keuangan_manual_ref_kegiatan')) {
+            $query = '
 			CREATE TABLE IF NOT EXISTS `keuangan_manual_ref_kegiatan` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`ID_Keg` varchar(100) NOT NULL,
 				`Nama_Kegiatan` varchar(250) NOT NULL,
 				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-		}
+			)';
+            $this->db->query($query);
+        }
 
-		//insert keuangan_manual_rinci_tpl
-		if (!$this->db->table_exists('keuangan_manual_rinci_tpl') )
-		{
-			$query = "
+        //insert keuangan_manual_rinci_tpl
+        if (! $this->db->table_exists('keuangan_manual_rinci_tpl')) {
+            $query = '
 			CREATE TABLE IF NOT EXISTS `keuangan_manual_rinci_tpl` (
 				`id` int(11) NOT NULL AUTO_INCREMENT,
 				`Tahun` varchar(100) NOT NULL,
@@ -131,24 +162,24 @@ class Migrasi_2006_ke_2007 extends CI_model {
 				`Nilai_Anggaran` varchar(100) NOT NULL,
 				`Nilai_Realisasi` varchar(100) NOT NULL,
 				PRIMARY KEY (`id`)
-			)";
-			$this->db->query($query);
-		}
+			)';
+            $this->db->query($query);
+        }
 
-		//insert keuangan_manual_ref_bidang
-		$this->db->truncate('keuangan_manual_ref_bidang');
-		$query = "INSERT INTO `keuangan_manual_ref_bidang` (`id`, `Kd_Bid`, `Nama_Bidang`) VALUES
+        //insert keuangan_manual_ref_bidang
+        $this->db->truncate('keuangan_manual_ref_bidang');
+        $query = "INSERT INTO `keuangan_manual_ref_bidang` (`id`, `Kd_Bid`, `Nama_Bidang`) VALUES
 		(1, '00.0000.01', 'BIDANG PENYELENGGARAN PEMERINTAHAN DESA'),
 		(2, '00.0000.02', 'BIDANG PELAKSANAAN PEMBANGUNAN DESA'),
 		(3, '00.0000.03', 'BIDANG PEMBINAAN KEMASYARAKATAN'),
 		(4, '00.0000.04', 'BIDANG PEMBERDAYAAN MASYARAKAT'),
 		(5, '00.0000.05', 'BIDANG PENANGGULANGAN BENCANA, DARURAT DAN MENDESAK DESA')";
 
-		$this->db->query($query);
+        $this->db->query($query);
 
-		//insert keuangan_manual_ref_kegiatan
-		$this->db->truncate('keuangan_manual_ref_kegiatan');
-		$query = "INSERT INTO `keuangan_manual_ref_kegiatan` (`id`, `ID_Keg`, `Nama_Kegiatan`) VALUES
+        //insert keuangan_manual_ref_kegiatan
+        $this->db->truncate('keuangan_manual_ref_kegiatan');
+        $query = "INSERT INTO `keuangan_manual_ref_kegiatan` (`id`, `ID_Keg`, `Nama_Kegiatan`) VALUES
 		(1, '01.01.01.', 'Penyediaan Penghasilan Tetap dan Tunjangan Kepala Desa'),
 		(2, '01.01.02.', 'Penyediaan Penghasilan Tetap dan Tunjangan Perangkat Desa'),
 		(3, '01.01.03.', 'Penyediaan Jaminan Sosial bagi Kepala Desa dan Perangkat Desa'),
@@ -389,11 +420,11 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		(238, '04.07.90', 'Pelatihan usaha ekonomi dan Perdagangan'),
 		(239, '04.07.91', 'Sosialisasi Teknologi Tepat Guna/Posyantekdes dan/atau antar Desa/percontohan Teknologi Tepat Guna untuk produksi pertanian/pengembangan sumber energi perdesaan/pengemban')";
 
-		$this->db->query($query);
+        $this->db->query($query);
 
-		//insert keuangan_manual_ref_rek1
-		$this->db->truncate('keuangan_manual_ref_rek1');
-		$query = "INSERT INTO `keuangan_manual_ref_rek1` (`id`, `Akun`, `Nama_Akun`) VALUES
+        //insert keuangan_manual_ref_rek1
+        $this->db->truncate('keuangan_manual_ref_rek1');
+        $query = "INSERT INTO `keuangan_manual_ref_rek1` (`id`, `Akun`, `Nama_Akun`) VALUES
 		(1, '1.', 'ASET'),
 		(2, '2.', 'KEWAJIBAN'),
 		(3, '3.', 'EKUITAS'),
@@ -402,11 +433,11 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		(6, '6.', 'PEMBIAYAAN'),
 		(7, '7.', 'NON ANGGARAN')";
 
-		$this->db->query($query);
+        $this->db->query($query);
 
-		//insert keuangan_manual_ref_rek2
-		$this->db->truncate('keuangan_manual_ref_rek2');
-		$query = "INSERT INTO `keuangan_manual_ref_rek2` (`id`, `Akun`, `Kelompok`, `Nama_Kelompok`) VALUES
+        //insert keuangan_manual_ref_rek2
+        $this->db->truncate('keuangan_manual_ref_rek2');
+        $query = "INSERT INTO `keuangan_manual_ref_rek2` (`id`, `Akun`, `Kelompok`, `Nama_Kelompok`) VALUES
 		(1, '1.', '1.1.', 'Aset Lancar'),
 		(2, '1.', '1.2.', 'Investasi'),
 		(3, '1.', '1.3.', 'Aset Tetap'),
@@ -425,11 +456,11 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		(16, '6.', '6.2.', 'Pengeluaran Pembiayaan'),
 		(17, '7.', '7.1.', 'Perhitungan Fihak Ketiga')";
 
-		$this->db->query($query);
+        $this->db->query($query);
 
-		//insert keuangan_manual_ref_rek3
-		$this->db->truncate('keuangan_manual_ref_rek3');
-		$query = "INSERT INTO `keuangan_manual_ref_rek3` (`id`, `Kelompok`, `Jenis`, `Nama_Jenis`) VALUES
+        //insert keuangan_manual_ref_rek3
+        $this->db->truncate('keuangan_manual_ref_rek3');
+        $query = "INSERT INTO `keuangan_manual_ref_rek3` (`id`, `Kelompok`, `Jenis`, `Nama_Jenis`) VALUES
 		(1, '1.1.', '1.1.1.', 'Kas dan Bank'),
 		(2, '1.1.', '1.1.2.', 'Piutang'),
 		(3, '1.1.', '1.1.3.', 'Persediaan'),
@@ -504,11 +535,11 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		(72, '7.1.', '7.1.2.', 'Perhitungan PFK - Potongan Pajak Daerah'),
 		(73, '7.1.', '7.1.3.', 'Perhitungan PFK - Uang Muka dan Jaminan')";
 
-		$this->db->query($query);
+        $this->db->query($query);
 
-		//insert keuangan_manual_rinci_tpl
-		$this->db->truncate('keuangan_manual_rinci_tpl');
-		$query = "INSERT INTO `keuangan_manual_rinci_tpl` (`id`, `Tahun`, `Kd_Akun`, `Kd_Keg`, `Kd_Rincian`, `Nilai_Anggaran`, `Nilai_Realisasi`) VALUES
+        //insert keuangan_manual_rinci_tpl
+        $this->db->truncate('keuangan_manual_rinci_tpl');
+        $query = "INSERT INTO `keuangan_manual_rinci_tpl` (`id`, `Tahun`, `Kd_Akun`, `Kd_Keg`, `Kd_Rincian`, `Nilai_Anggaran`, `Nilai_Realisasi`) VALUES
 		(1, '2020', '4.PENDAPATAN', '', '4.1.1. Hasil Usaha Desa', '0', '0'),
 		(2, '2020', '4.PENDAPATAN', '', '4.1.2. Hasil Aset Desa', '0', '0'),
 		(3, '2020', '4.PENDAPATAN', '', '4.1.3. Swadaya, Partisipasi dan Gotong Royong', '0', '0'),
@@ -538,24 +569,24 @@ class Migrasi_2006_ke_2007 extends CI_model {
 		(27, '2020', '6.PEMBIAYAAN', '', '6.2.2. Penyertaan Modal Desa', '0', '0'),
 		(28, '2020', '6.PEMBIAYAAN', '', '6.2.9. Pengeluaran Pembiayaan Lainnya', '0', '0')";
 
-		$this->db->query($query);
-	}
+        $this->db->query($query);
+    }
 
-	private function konfigurasi_web()
-	{
-		// Ambil config code provinsi
-		$this->load->model('config_model');
-		$desa = $this->config_model->get_data();
-		// Tambah menu Admin Web -> Konfigurasi
-		$query = "
+    private function konfigurasi_web()
+    {
+        // Ambil config code provinsi
+        $this->load->model('config_model');
+        $desa = $this->config_model->get_data();
+        // Tambah menu Admin Web -> Konfigurasi
+        $query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `parent`, `hidden`, `ikon_kecil`) VALUES
 			('211', 'Pengaturan', 'setting/web', '1', 'fa-gear', '11', '4', '13', '0', 'fa-gear')
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
-		$this->db->query($query);
+        $this->db->query($query);
 
-		// Tambah parameter konfigurasi (sebelumnya parameter conf ini ada di /desa/config/config.php)
-		$query = "
+        // Tambah parameter konfigurasi (sebelumnya parameter conf ini ada di /desa/config/config.php)
+        $query = "
 			INSERT INTO `setting_aplikasi` (`id`, `key`, `value`, `keterangan`, `jenis`, `kategori`) VALUES
 			(31, 'daftar_penerima_bantuan', '1', 'Apakah akan tampilkan daftar penerima bantuan di statistik halaman muka', 'boolean', 'conf_web'),
 			(32, 'apbdes_footer', '1', 'Apakah akan tampilkan grafik APBDes di halaman muka', 'boolean', 'conf_web'),
@@ -564,21 +595,20 @@ class Migrasi_2006_ke_2007 extends CI_model {
 			(35, 'covid_data', '1', 'Apakah akan tampilkan status Covid-19 Provinsi di halaman muka', 'boolean', 'conf_web'),
 			(36, 'covid_desa', '1', 'Apakah akan tampilkan status Covid-19 Desa di halaman muka', 'boolean', 'conf_web'),
 			(37, 'covid_rss', '0', 'Apakah akan tampilkan RSS Covid-19 di halaman muka', 'boolean', 'conf_web'),
-			(38, 'provinsi_covid', '$desa[kode_propinsi]', 'Kode provinsi status Covid-19 ', 'int', 'conf_web'),
+			(38, 'provinsi_covid', '{$desa['kode_propinsi']}', 'Kode provinsi status Covid-19 ', 'int', 'conf_web'),
 			(39, 'statistik_chart_3d', '1', 'Apakah akan tampilkan Statistik Chart 3D', 'boolean', 'conf_web')
 			ON DUPLICATE KEY UPDATE `key` = VALUES(`key`), keterangan = VALUES(keterangan), jenis = VALUES(jenis), kategori = VALUES(kategori)";
-		$this->db->query($query);
-	}
+        $this->db->query($query);
+    }
 
-	private function konfigurasi_qrcode()
-	{
-		// Tambah menu Pengaturan -> Hasilkan QRCode
-		$query = "
+    private function konfigurasi_qrcode()
+    {
+        // Tambah menu Pengaturan -> Hasilkan QRCode
+        $query = "
 			INSERT INTO setting_modul (`id`, `modul`, `url`, `aktif`, `ikon`, `urut`, `level`, `hidden`, `ikon_kecil`, `parent`) VALUES
 			(212, 'QR Code', 'setting/qrcode/clear', 1, 'fa-qrcode', 6, 1, 0, 'fa-qrcode', 11)
 			ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), level = VALUES(level), parent = VALUES(parent), hidden = VALUES(hidden);
 		";
-		$this->db->query($query);
-	}
-
+        $this->db->query($query);
+    }
 }

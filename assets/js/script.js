@@ -78,7 +78,7 @@ $(document).ready(function()
 		}
 		else
 		{
-			$('#'+$(this).data('submit')).removeAttr('disabled');;
+			$('#'+$(this).data('submit')).removeAttr('disabled');
 		}
 	});
 	$('#file_path').click(function()

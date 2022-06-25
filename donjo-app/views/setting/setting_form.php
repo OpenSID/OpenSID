@@ -16,12 +16,12 @@
 							<b>Latar Website</b>
 						</div>
 						<div class="box-body box-profile text-center">
-							<img class="img-responsive" src="<?= base_url($latar_website ? $latar_website : 'assets/front/css/images/latar_website.jpg'); ?>" alt="Latar Halaman Website" width="100%">
+							<img class="img-responsive" src="<?= base_url($latar_website ?: 'assets/front/css/images/latar_website.jpg'); ?>" alt="Latar Halaman Website" width="100%">
 							<p class="text-muted text-center text-red">(Kosongkan, jika latar website <?= 'tema ' . $this->theme; ?> tidak berubah)</p>
 							<div class="input-group">
 								<input type="text" class="form-control input-sm" id="file_path" name="latar_website">
 								<input type="file" class="hidden" id="file" name="latar_website">
-								<input type="text" class="hidden" name="lokasi" value="<?=$lokasi;?>">
+								<input type="text" class="hidden" name="lokasi" value="<?=$lokasi; ?>">
 								<span class="input-group-btn">
 									<button type="button" class="btn btn-info btn-flat btn-sm" id="file_browser"><i class="fa fa-search"></i>&nbsp;</button>
 								</span>
@@ -33,7 +33,7 @@
 							<b>Latar Login Admin</b>
 						</div>
 						<div class="box-body box-profile text-center">
-							<img class="img-responsive" src="<?= base_url($latar_login ? $latar_login : 'assets/css/images/latar_login.jpg'); ?>" alt="Latar Halaman Login" width="100%">
+							<img class="img-responsive" src="<?= base_url($latar_login ?: 'assets/css/images/latar_login.jpg'); ?>" alt="Latar Halaman Login" width="100%">
 							<p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
 							<div class="input-group">
 								<input type="text" class="form-control input-sm" id="file_path1" name="latar_login">
@@ -49,7 +49,7 @@
 							<b>Latar Login Mandiri</b>
 						</div>
 						<div class="box-body box-profile text-center">
-							<img class="img-responsive" src="<?= base_url($latar_login_mandiri ? $latar_login_mandiri : 'assets/css/images/latar_login_mandiri.jpg'); ?>" alt="Latar Halaman Login" width="100%">
+							<img class="img-responsive" src="<?= base_url($latar_login_mandiri ?: 'assets/css/images/latar_login_mandiri.jpg'); ?>" alt="Latar Halaman Login" width="100%">
 							<p class="text-muted text-center text-red">(Kosongkan, jika latar login tidak berubah)</p>
 							<div class="input-group">
 								<input type="text" class="form-control input-sm" id="file_path2" name="latar_login_mandiri">
@@ -70,7 +70,7 @@
 							<b>Pengaturan Dasar</b>
 						</div>
 						<div class="box-body">
-							<?php include("donjo-app/views/setting/form.php"); ?>
+							<?php include 'donjo-app/views/setting/form.php'; ?>
 						</div>
 						<div class="box-footer">
 							<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>

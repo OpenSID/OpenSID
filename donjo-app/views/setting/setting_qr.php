@@ -55,7 +55,7 @@
 											<select class="form-control input-sm" id="changeqr" name="changeqr" onchange="load(this.value);">
 												<?php foreach ($list_changeqr as $key => $list): ?>
 													<option value="<?= $key + 1; ?>" <?= selected($qrcode['changeqr'], $key + 1); ?>><?= $list; ?></option>
-												<?php endforeach;?>
+												<?php endforeach; ?>
 											</select>
 										</div>
 									</div>
@@ -77,8 +77,8 @@
 										<label for="sizeqr" >Ukuran :</label>
 										<select class="form-control input-sm" id="sizeqr" name="sizeqr">
 											<?php foreach ($list_sizeqr as $key => $list): ?>
-												<option value="<?= $key + 1; ?>" <?= selected($qrcode['sizeqr'], $key + 1); ?>><?= $list.' x '.$list.'px'; ?></option>
-											<?php endforeach;?>
+												<option value="<?= $key + 1; ?>" <?= selected($qrcode['sizeqr'], $key + 1); ?>><?= $list . ' x ' . $list . 'px'; ?></option>
+											<?php endforeach; ?>
 										</select>
 									</div>
 									<div class="form-group col-md-6">
@@ -127,9 +127,9 @@
 							<div class="form-group">
 								<label for="pathqr"></label>
 								<center>
-									<a href="<?= site_url("setting/qrcode/clear"); ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Baru"><i class="fa fa-plus"></i> Baru</a>
-									<a href="<?= site_url("setting/qrcode/hapus/$qrcode[namaqr1]"); ?>" class="btn btn-social btn-flat btn-danger btn-sm <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Buat Baru"><i class="fa fa-trash"></i> Hapus</a>
-									<a href="<?= site_url("setting/qrcode/unduh/$qrcode[namaqr1]"); ?>" class="btn btn-social btn-flat bg-navy btn-sm <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
+									<a href="<?= site_url('setting/qrcode/clear'); ?>" class="btn btn-social btn-flat btn-success btn-sm" title="Baru"><i class="fa fa-plus"></i> Baru</a>
+									<a href="<?= site_url("setting/qrcode/hapus/{$qrcode['namaqr1']}"); ?>" class="btn btn-social btn-flat btn-danger btn-sm <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Buat Baru"><i class="fa fa-trash"></i> Hapus</a>
+									<a href="<?= site_url("setting/qrcode/unduh/{$qrcode['namaqr1']}"); ?>" class="btn btn-social btn-flat bg-navy btn-sm <?= jecho($qrcode['pathqr'], '', 'disabled'); ?>" title="Unduh"><i class="fa fa-download"></i> Unduh</a>
 									<a href="#" class="btn btn-social btn-flat bg-purple btn-sm" title="Atur" data-toggle="modal" data-target="#myModal"><i class="fa fa-file"></i> Atur</a>
 									<?php if ($qrcode['namaqr1']) : ?>
 										<br><br>

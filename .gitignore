@@ -1,5 +1,4 @@
 # File ini untuk branch master, berisi source code inti OpenSID
-donjo-app/config/db_donjo.php
 backup/
 assets/sync/
 # Jangan simpan isi folder logo. Isinya khusus desa, kecuali
@@ -10,9 +9,10 @@ assets/files/logo/*
 !assets/files/logo/opensid_kantor.*
 # Jangan simpan isi folder foto pengguna. Isinya khusus desa, kecuali
 # file foto contoh yg tersedia dalam release sid304 inti.
-assets/files/user_pict/*
-!assets/files/user_pict/index.html
-!assets/files/user_pict/kuser.png
+assets/images/pengguna/*
+!assets/images/pengguna/index.html
+!assets/images/pengguna/kuser.png
+!assets/images/pengguna/wuser.png
 # Jangan simpan isi folder galeri.
 assets/files/galeri/*
 !assets/files/galeri/index.html
@@ -43,6 +43,7 @@ info.php
 **/.DS_Store
 mitra
 sftp-config.json
+.php-cs-fixer.cache
 
 # Abaikan file milik library Release dan Curly
 *.pem
@@ -55,9 +56,20 @@ version.json
 # obfuscator
 Obfuscator.php
 make_obfuscate.php
-cache/*
-vendor/libreoffice/*
+composer.lock
+desa-contoh/cache/*
 .htaccess
 !desa-contoh/arsip/.htaccess
 !desa-contoh/upload/dokumen/.htaccess
 test/
+
+# Abaikan folder example di vendor (untuk commit update rilis)
+vendor/codeigniter/framework/*
+!vendor/codeigniter/framework/system/
+
+test/
+doc/
+example/
+examples/
+vendor/libreoffice/*
+vendor/mikey179/*

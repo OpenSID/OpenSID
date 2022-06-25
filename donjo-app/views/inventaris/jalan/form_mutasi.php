@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_jalan/add_mutasi"); ?>">
+		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url('api_inventaris_jalan/add_mutasi'); ?>">
 			<div class="row">
 				<div class="col-md-3">
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
@@ -59,7 +59,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" >Jenis mutasi</label>
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm ">
-												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
+												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi; ?></option>
 												<optgroup label="Penghapusan">
  													<option value="Rusak">Status Rusak</option>
 												</optgroup>
@@ -83,7 +83,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
 										<div class="col-sm-4">
-										<input maxlength="50"  class="form-control input-sm required" name="tahun" id="tahun" type="text" value="<?= (strtotime($main->tanggal_dokument != '0000-00-00') ? '-' : date('d M Y', strtotime($main->tanggal_dokument)) ); ?>" disabled/>
+										<input maxlength="50"  class="form-control input-sm required" name="tahun" id="tahun" type="text" value="<?= (strtotime($main->tanggal_dokument != '0000-00-00') ? '-' : date('d M Y', strtotime($main->tanggal_dokument))); ?>" disabled/>
 										</div>
 									</div>
 									<div class="form-group harga_jual">
@@ -136,7 +136,7 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} 
+			}
 			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
@@ -155,7 +155,7 @@
 				$("#mutasi").removeClass('required');
 			}
 		});
-		
+
 	});
 </script>
 

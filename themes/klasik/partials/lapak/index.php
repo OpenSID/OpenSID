@@ -112,7 +112,7 @@
 				</div>
 			</div>
 
-			<?php $this->load->view("$folder_themes/cummons/page"); ?>
+			<?php $this->load->view("$folder_themes/commons/page"); ?>
 
 		<?php else: ?>
 			<h5>Belum ada produk yang ditawarkan.</h5>

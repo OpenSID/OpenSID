@@ -1,153 +1,199 @@
-<?php class Analisis_klasifikasi_model extends MY_Model {
+<?php
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
 
-	public function autocomplete()
-	{
-		return $this->autocomplete_str('nama', 'analisis_klasifikasi');
-	}
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function search_sql()
-	{
-		if (isset($_SESSION['cari']))
-		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.nama LIKE '$kw')";
-			return $search_sql;
-		}
-	}
+class Analisis_klasifikasi_model extends MY_Model
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	public function master_sql()
-	{
-		if (isset($_SESSION['analisis_master']))
-		{
-			$kf = $_SESSION['analisis_master'];
-			$filter_sql= " AND u.id_master = $kf";
-			return $filter_sql;
-		}
-	}
+    public function autocomplete()
+    {
+        return $this->autocomplete_str('nama', 'analisis_klasifikasi');
+    }
 
-	public function paging($p=1, $o=0)
-	{
-		$sql = "SELECT COUNT(id) AS id FROM analisis_klasifikasi u WHERE 1";
-		$sql .= $this->search_sql();
-		$sql .= $this->master_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['id'];
+    public function search_sql()
+    {
+        if (isset($_SESSION['cari'])) {
+            $cari       = $_SESSION['cari'];
+            $kw         = $this->db->escape_like_str($cari);
+            $kw         = '%' . $kw . '%';
+            $search_sql = " AND (u.nama LIKE '{$kw}')";
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
+            return $search_sql;
+        }
+    }
 
-		return $this->paging;
-	}
+    public function master_sql()
+    {
+        if (isset($_SESSION['analisis_master'])) {
+            $kf         = $_SESSION['analisis_master'];
+            $filter_sql = " AND u.id_master = {$kf}";
 
-	public function list_data($o=0, $offset=0, $limit=500)
-	{
-		switch ($o)
-		{
-			case 1: $order_sql = ' ORDER BY u.minval'; break;
-			case 2: $order_sql = ' ORDER BY u.minval DESC'; break;
-			case 3: $order_sql = ' ORDER BY u.minval'; break;
-			case 4: $order_sql = ' ORDER BY u.minval DESC'; break;
-			case 5: $order_sql = ' ORDER BY g.minval'; break;
-			case 6: $order_sql = ' ORDER BY g.minval DESC'; break;
-			default:$order_sql = ' ORDER BY u.minval';
-		}
+            return $filter_sql;
+        }
+    }
 
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+    public function paging($p = 1, $o = 0)
+    {
+        $sql = 'SELECT COUNT(id) AS id FROM analisis_klasifikasi u WHERE 1';
+        $sql .= $this->search_sql();
+        $sql .= $this->master_sql();
+        $query    = $this->db->query($sql);
+        $row      = $query->row_array();
+        $jml_data = $row['id'];
 
-		$sql = "SELECT u.* FROM analisis_klasifikasi u WHERE 1 ";
+        $this->load->library('paging');
+        $cfg['page']     = $p;
+        $cfg['per_page'] = $_SESSION['per_page'];
+        $cfg['num_rows'] = $jml_data;
+        $this->paging->init($cfg);
 
-		$sql .= $this->search_sql();
-		$sql .= $this->master_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
+        return $this->paging;
+    }
 
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+    public function list_data($o = 0, $offset = 0, $limit = 500)
+    {
+        switch ($o) {
+            case 1: $order_sql = ' ORDER BY u.minval'; break;
 
-		$j = $offset;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $j + 1;
-			$j++;
-		}
-		return $data;
-	}
+            case 2: $order_sql = ' ORDER BY u.minval DESC'; break;
 
-	private function validasi_data($post)
-	{
-		$data = array();
-		$data['nama'] = nomor_surat_keputusan($post['nama']);
-		$data['minval'] = bilangan_titik($post['minval']);
-		$data['maxval'] = bilangan_titik($post['maxval']);
-		return $data;
-	}
+            case 3: $order_sql = ' ORDER BY u.minval'; break;
 
-	public function insert()
-	{
-		$data = $this->validasi_data($this->input->post());
-		$data['id_master'] = $this->session->analisis_master;
-		$outp = $this->db->insert('analisis_klasifikasi', $data);
+            case 4: $order_sql = ' ORDER BY u.minval DESC'; break;
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+            case 5: $order_sql = ' ORDER BY g.minval'; break;
 
-	public function update($id = 0)
-	{
-		$data = $this->validasi_data($this->input->post());
-		$data['id_master'] = $this->session->analisis_master;
-		$this->db->where('id', $id);
-		$outp = $this->db->update('analisis_klasifikasi', $data);
-		status_sukses($outp); //Tampilkan Pesan
-	}
+            case 6: $order_sql = ' ORDER BY g.minval DESC'; break;
 
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
+            default:$order_sql = ' ORDER BY u.minval';
+        }
 
-		$outp = $this->db->where('id', $id)->delete('analisis_klasifikasi');
+        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
+        $sql = 'SELECT u.* FROM analisis_klasifikasi u WHERE 1 ';
 
-	public function delete_all()
-	{
-		$this->session->success = 1;
+        $sql .= $this->search_sql();
+        $sql .= $this->master_sql();
+        $sql .= $order_sql;
+        $sql .= $paging_sql;
 
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-		}
-	}
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
 
-	public function get_analisis_klasifikasi($id=0)
-	{
-		$sql = "SELECT * FROM analisis_klasifikasi WHERE id = ?";
-		$query = $this->db->query($sql, $id);
-		$data = $query->row_array();
-		return $data;
-	}
+        $j = $offset;
 
-	public function list_klasifikasi_by_id_master($id_master)
-	{
-		$data = $this->db
-			->select('nama, minval, maxval')
-			->from('analisis_klasifikasi')
-			->where('id_master', $id_master)
-			->order_by('id')
-			->get()->result_array();
-		return $data;
-	}
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['no'] = $j + 1;
+            $j++;
+        }
+
+        return $data;
+    }
+
+    private function validasi_data($post)
+    {
+        $data           = [];
+        $data['nama']   = nomor_surat_keputusan($post['nama']);
+        $data['minval'] = bilangan_titik($post['minval']);
+        $data['maxval'] = bilangan_titik($post['maxval']);
+
+        return $data;
+    }
+
+    public function insert()
+    {
+        $data              = $this->validasi_data($this->input->post());
+        $data['id_master'] = $this->session->analisis_master;
+        $outp              = $this->db->insert('analisis_klasifikasi', $data);
+
+        status_sukses($outp); //Tampilkan Pesan
+    }
+
+    public function update($id = 0)
+    {
+        $data              = $this->validasi_data($this->input->post());
+        $data['id_master'] = $this->session->analisis_master;
+        $this->db->where('id', $id);
+        $outp = $this->db->update('analisis_klasifikasi', $data);
+        status_sukses($outp); //Tampilkan Pesan
+    }
+
+    public function delete($id = '', $semua = false)
+    {
+        if (! $semua) {
+            $this->session->success = 1;
+        }
+
+        $outp = $this->db->where('id', $id)->delete('analisis_klasifikasi');
+
+        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+    }
+
+    public function delete_all()
+    {
+        $this->session->success = 1;
+
+        $id_cb = $_POST['id_cb'];
+
+        foreach ($id_cb as $id) {
+            $this->delete($id, $semua = true);
+        }
+    }
+
+    public function get_analisis_klasifikasi($id = 0)
+    {
+        $sql   = 'SELECT * FROM analisis_klasifikasi WHERE id = ?';
+        $query = $this->db->query($sql, $id);
+
+        return $query->row_array();
+    }
+
+    public function list_klasifikasi_by_id_master($id_master)
+    {
+        return $this->db
+            ->select('nama, minval, maxval')
+            ->from('analisis_klasifikasi')
+            ->where('id_master', $id_master)
+            ->order_by('id')
+            ->get()->result_array();
+    }
 }
-?>

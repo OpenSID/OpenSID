@@ -4,7 +4,7 @@
 	<title>Buku Inventaris Dan Kekayaan Desa</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 	<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 	<?php else: ?>
 	<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -73,7 +73,7 @@
 		<div id="body">
 			<div class="" align="center">
 				<h3> Buku Inventaris Dan Kekayaan Desa
-					<br><?= 'Tahun '. $tahun; ?>
+					<br><?= 'Tahun ' . $tahun; ?>
 				</h3>
 				<br>
 			</div>
@@ -82,19 +82,19 @@
 					<table>
 						<tr>
 							<td><?= strtoupper($this->setting->sebutan_desa) ?></td>
-							<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_desa']) ?></td>
+							<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_desa']) ?></td>
 						</tr>
 						<tr>
 							<td><?= strtoupper($this->setting->sebutan_kecamatan) ?></td>
-							<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_kecamatan']) ?></td>
+							<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_kecamatan']) ?></td>
 						</tr>
 						<tr>
 							<td><?= strtoupper($this->setting->sebutan_kabupaten) ?></td>
-							<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_kabupaten']) ?></td>
+							<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_kabupaten']) ?></td>
 						</tr>
 					</table>
 					<br>
-					 
+
 				</div>
 			</div>
 			<br>

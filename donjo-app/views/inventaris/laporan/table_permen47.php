@@ -36,9 +36,9 @@
 											<div class="dataTables_wrapper form-inline dt-bootstrap">
 												<div class="form-group">
 													<select class="form-control input-sm " name="tahun"
-														onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
+														onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun')?>')">
 														<option value="">Tahun</option>
-														<?php for ($i=date("Y"); $i>=1900; $i--): ?>
+														<?php for ($i = date('Y'); $i >= 1900; $i--): ?>
 														<option value="<?= $i ?>" <?php selected($tahun, $i) ?>><?= $i ?></option>
 														<?php endfor; ?>
 													</select>
@@ -140,16 +140,16 @@
 </div>
 <?php $this->load->view('inventaris/inventaris_permen47_cetak') ?>
 <?php $this->load->view('inventaris/inventaris_permen47_unduh') ?>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 
 <script>
 $("#form_cetak").click(function(event) {
-	var link = '<?= site_url("laporan_inventaris/permendagri_47_cetak"); ?>' + '/' + $('#kades').val() + '/' + $(
+	var link = '<?= site_url('laporan_inventaris/permendagri_47_cetak'); ?>' + '/' + $('#kades').val() + '/' + $(
 		'#sekdes').val();
 	window.open(link, '_blank');
 });
 $("#form_download").click(function(event) {
-	var link = '<?= site_url("laporan_inventaris/permendagri_47_excel"); ?>' + '/' + $('#kades_unduh').val() + '/' +
+	var link = '<?= site_url('laporan_inventaris/permendagri_47_excel'); ?>' + '/' + $('#kades_unduh').val() + '/' +
 		$('#sekdes_unduh').val();
 	window.open(link, '_blank');
 });

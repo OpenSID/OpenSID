@@ -398,3 +398,8 @@ a.pendapat > p {
 	text-transform: uppercase;
 }
 
+/* User Header */
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
+	border-color: transparent;
+	height: auto;
+}

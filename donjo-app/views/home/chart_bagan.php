@@ -8,7 +8,7 @@ Highcharts.chart('container', {
 	},
 
 	title: {
-		text: 'Struktur Organisasi Pemerintahan <?= ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa'])?>'
+		text: 'Struktur Organisasi Pemerintahan <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])?>'
 	},
 
 	accessibility: {
@@ -25,7 +25,7 @@ Highcharts.chart('container', {
 
 	series: [{
 		type: 'organization',
-		name: "<?= ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa'])?>",
+		name: "<?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])?>",
 		keys: ['from', 'to'],
 		data: [
 			<?php if ($ada_bpd): ?>
@@ -33,7 +33,7 @@ Highcharts.chart('container', {
 			<?php endif; ?>
 			<?php foreach ($bagan['struktur'] as $struktur): ?>
 				[<?= key($struktur) ?>,<?= current($struktur)?>],
-			<?php endforeach;?>
+			<?php endforeach; ?>
 		],
 		levels: [{
 			level: 0,
@@ -93,7 +93,7 @@ Highcharts.chart('container', {
 					title: '<?= $pamong['jabatan']?>',
 					name: "<?= $pamong['nama']?>",
 					<?php if (! empty($pamong['foto'])): ?>
-						image: '<?= base_url().LOKASI_USER_PICT.'kecil_'.$pamong['foto']?>',
+						image: '<?= base_url() . LOKASI_USER_PICT . 'kecil_' . $pamong['foto']?>',
 					<?php endif; ?>
 					<?php if (! empty($pamong['bagan_tingkat'])): ?>
 						column: <?= $pamong['bagan_tingkat'] ?: ''?>,

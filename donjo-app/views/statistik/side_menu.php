@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk menu pilihan Statistik Kependudukan
  *
  * donjo-app/views/statistik/side_menu.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -56,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<?php foreach ($stat_penduduk as $id => $nama): ?>
-				<li <?= jecho((string)$id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
+				<li <?= jecho((string) $id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/{$id}", $nama); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
@@ -71,7 +68,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<?php foreach ($stat_keluarga as $id => $nama): ?>
-				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
+				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/{$id}", $nama); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
@@ -86,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<?php foreach ($stat_rtm as $id => $nama): ?>
-				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
+				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/{$id}", $nama); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
@@ -101,10 +98,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="box-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<?php foreach ($stat_kategori_bantuan as $id => $nama): ?>
-				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$id", $nama); ?></li>
+				<li <?= jecho($id, $lap, 'class="active"'); ?>><?= anchor("statistik/clear/{$id}", $nama); ?></li>
 			<?php endforeach; ?>
 			<?php foreach ($stat_bantuan as $bantuan): ?>
-				<li <?= jecho($bantuan['lap'], $lap, 'class="active"'); ?>><?= anchor("statistik/clear/$bantuan[lap]", "$bantuan[nama] ($bantuan[lap])"); ?></li>
+				<li <?= jecho($bantuan['lap'], $lap, 'class="active"'); ?>><?= anchor("statistik/clear/{$bantuan['lap']}", "{$bantuan['nama']} ({$bantuan['lap']})"); ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>

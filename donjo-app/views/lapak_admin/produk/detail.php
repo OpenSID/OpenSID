@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
  * File ini:
@@ -12,8 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -38,12 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -57,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php for ($i = 0; $i < $this->setting->banyak_foto_tiap_produk; $i++): ?>
 							<?php if ($foto[$i]): ?>
 								<div class="item <?= jecho($i, 0, 'active'); ?>">
-									<img src="<?= base_url(LOKASI_PRODUK . $foto[$i]); ?>" alt="Foto <?= ($i+1); ?>">
+									<img src="<?= base_url(LOKASI_PRODUK . $foto[$i]); ?>" alt="Foto <?= ($i + 1); ?>">
 									<div class="carousel-caption">
 										Foto <?= ($i == 0) ? 'Utama' : 'Tambahan'; ?>
 									</div>
@@ -132,5 +130,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <div class="modal-footer">
 	<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left" data-dismiss="modal"><i class="fa fa-sign-out"></i> Tutup</button>
-	<a href="<?= site_url("lapak_admin/produk_form/$main->id"); ?>" class="btn btn-social btn-flat bg-orange btn-sm"><i class="fa fa-edit"></i> Ubah</a>
+	<a href="<?= site_url("lapak_admin/produk_form/{$main->id}"); ?>" class="btn btn-social btn-flat bg-orange btn-sm"><i class="fa fa-edit"></i> Ubah</a>
 </div>

@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update_mutasi/$main->id"); ?>">
+		<form class="form-horizontal" id="validasi" name="form_mutasi_jalan" method="post" action="<?= site_url("api_inventaris_jalan/update_mutasi/{$main->id}"); ?>">
 			<div class="row">
 				<div class="col-md-3">
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
@@ -87,7 +87,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="tahun">Tahun Pengadaan </label>
 										<div class="col-sm-4">
 											<select name="tahun" id="tahun" class="form-control input-sm required" disabled>
-												<option value="<?= $main->tahun_pengadaan; ?>"><?= date('d M Y',strtotime($main->tanggal_dokument));?></option>
+												<option value="<?= $main->tahun_pengadaan; ?>"><?= date('d M Y', strtotime($main->tanggal_dokument)); ?></option>
 											</select>
 										</div>
 									</div>
@@ -124,8 +124,8 @@
 		var status = $("#status").val();
 		if (status == 'Hapus') {
 			$("#mutasi").parent().parent().show();
-		} 
-		else 
+		}
+		else
 		{
 			$("#mutasi").parent().parent().hide();
 		}
@@ -133,12 +133,12 @@
 		{
 			$(".disumbangkan").show();
 			$(".harga_jual").hide();
-		} 
+		}
 		else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
 		{
 			$(".disumbangkan").hide();
 			$(".harga_jual").show();
-		} 
+		}
 		else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 		{
 			$(".disumbangkan").hide();
@@ -151,12 +151,12 @@
 			{
 				$(".disumbangkan").show();
 				$(".harga_jual").hide();
-			} 
+			}
 			else if ($("#mutasi").val() == "Masih Baik Dijual" | $("#mutasi").val() == "Barang Rusak Dijual" )
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} 
+			}
 			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
@@ -164,10 +164,10 @@
 			}
 		});
 
-		$("#status").change(function() 
+		$("#status").change(function()
 		{
 			var status = $(this).val();
-			if (status == "Hapus") 
+			if (status == "Hapus")
 			{
 				$("#mutasi").parent().parent().show();
 				$("#mutasi").addClass('required');

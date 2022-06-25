@@ -11,7 +11,7 @@
 			</tr>
 		</table>
 
-		<?php $this->load->view('keuangan/tabel_laporan_rp_apbd_isi.php', array('jenis' => 'bidang')); ?>
+		<?php $this->load->view('keuangan/tabel_laporan_rp_apbd_isi.php', ['jenis' => 'bidang']); ?>
 
 	</div>
 </div>

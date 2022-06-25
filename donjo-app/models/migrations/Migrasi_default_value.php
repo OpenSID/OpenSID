@@ -1,40 +1,76 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
 
-class Migrasi_default_value extends CI_model {
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
 
-	public function up() {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-		$this->dbforge->modify_column('tweb_penduduk', array('id_rtm' => array('id_rtm','type' => 'VARCHAR(30)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('rtm_level' => array('rtm_level','type' => 'INT(11)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('tempatlahir' => array('tempatlahir','type' => 'VARCHAR(100)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('agama_id' => array('agama_id','type' => 'INT(1)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('pendidikan_kk_id' => array('pendidikan_kk_id','type' => 'INT(1)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('pendidikan_sedang_id' => array('pendidikan_sedang_id','type' => 'INT(1)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('pekerjaan_id' => array('pekerjaan_id','type' => 'INT(1)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('status_kawin' => array('status_kawin','type' => 'TINYINT', 'null' => true)));
-		$this->dbforge->modify_column('tweb_penduduk', array('ayah_nik' => array('ayah_nik','type' => 'VARCHAR(16)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('ibu_nik' => array('ibu_nik','type' => 'VARCHAR(16)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('nama_ayah' => array('nama_ayah','type' => 'VARCHAR(100)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('nama_ibu' => array('nama_ibu','type' => 'VARCHAR(100)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('foto' => array('foto','type' => 'VARCHAR(100)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('golongan_darah_id' => array('golongan_darah_id','type' => 'INT(11)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('alamat_sebelumnya' => array('alamat_sebelumnya','type' => 'VARCHAR(200)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('alamat_sekarang' => array('alamat_sekarang','type' => 'VARCHAR(200)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('akta_lahir' => array('akta_lahir','type' => 'VARCHAR(40)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('akta_perkawinan' => array('akta_perkawinan','type' => 'VARCHAR(40)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('akta_perceraian' => array('akta_perceraian','type' => 'VARCHAR(40)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk', array('waktu_lahir' => array('waktu_lahir','type' => 'VARCHAR(5)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk_agama', array('nama' => array('nama','type' => 'VARCHAR(100)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_penduduk_asuransi', array('nama' => array('nama','type' => 'VARCHAR(50)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_penduduk_hubungan', array('nama' => array('nama','type' => 'VARCHAR(100)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_penduduk_kawin', array('nama' => array('nama','type' => 'VARCHAR(100)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_penduduk_mandiri', array('pin' => array('pin','type' => 'CHAR(32)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_penduduk_map', array('id' => array('id','type' => 'INT(11)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_penduduk_map', array('lat' => array('lat','type' => 'VARCHAR(24)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk_map', array('lng' => array('lng','type' => 'VARCHAR(24)', 'null' => true, 'default' => NULL)));
-		$this->dbforge->modify_column('tweb_penduduk_pendidikan', array('nama' => array('nama','type' => 'VARCHAR(50)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_penduduk_pendidikan_kk', array('nama' => array('nama','type' => 'VARCHAR(50)', 'null' => false)));
-		$this->dbforge->modify_column('tweb_rtm', array('kelas_sosial' => array('kelas_sosial','type' => 'INT(11)', 'null' => true, 'default' => NULL)));
-	}
-
+class Migrasi_default_value extends CI_model
+{
+    public function up()
+    {
+        $this->dbforge->modify_column('tweb_penduduk', ['id_rtm' => ['id_rtm', 'type' => 'VARCHAR(30)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['rtm_level' => ['rtm_level', 'type' => 'INT(11)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['tempatlahir' => ['tempatlahir', 'type' => 'VARCHAR(100)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['agama_id' => ['agama_id', 'type' => 'INT(1)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['pendidikan_kk_id' => ['pendidikan_kk_id', 'type' => 'INT(1)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['pendidikan_sedang_id' => ['pendidikan_sedang_id', 'type' => 'INT(1)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['pekerjaan_id' => ['pekerjaan_id', 'type' => 'INT(1)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['status_kawin' => ['status_kawin', 'type' => 'TINYINT', 'null' => true]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['ayah_nik' => ['ayah_nik', 'type' => 'VARCHAR(16)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['ibu_nik' => ['ibu_nik', 'type' => 'VARCHAR(16)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['nama_ayah' => ['nama_ayah', 'type' => 'VARCHAR(100)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['nama_ibu' => ['nama_ibu', 'type' => 'VARCHAR(100)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['foto' => ['foto', 'type' => 'VARCHAR(100)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['golongan_darah_id' => ['golongan_darah_id', 'type' => 'INT(11)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['alamat_sebelumnya' => ['alamat_sebelumnya', 'type' => 'VARCHAR(200)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['alamat_sekarang' => ['alamat_sekarang', 'type' => 'VARCHAR(200)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['akta_lahir' => ['akta_lahir', 'type' => 'VARCHAR(40)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['akta_perkawinan' => ['akta_perkawinan', 'type' => 'VARCHAR(40)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['akta_perceraian' => ['akta_perceraian', 'type' => 'VARCHAR(40)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk', ['waktu_lahir' => ['waktu_lahir', 'type' => 'VARCHAR(5)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk_agama', ['nama' => ['nama', 'type' => 'VARCHAR(100)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_penduduk_asuransi', ['nama' => ['nama', 'type' => 'VARCHAR(50)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_penduduk_hubungan', ['nama' => ['nama', 'type' => 'VARCHAR(100)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_penduduk_kawin', ['nama' => ['nama', 'type' => 'VARCHAR(100)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_penduduk_mandiri', ['pin' => ['pin', 'type' => 'CHAR(32)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_penduduk_map', ['id' => ['id', 'type' => 'INT(11)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_penduduk_map', ['lat' => ['lat', 'type' => 'VARCHAR(24)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk_map', ['lng' => ['lng', 'type' => 'VARCHAR(24)', 'null' => true, 'default' => null]]);
+        $this->dbforge->modify_column('tweb_penduduk_pendidikan', ['nama' => ['nama', 'type' => 'VARCHAR(50)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_penduduk_pendidikan_kk', ['nama' => ['nama', 'type' => 'VARCHAR(50)', 'null' => false]]);
+        $this->dbforge->modify_column('tweb_rtm', ['kelas_sosial' => ['kelas_sosial', 'type' => 'INT(11)', 'null' => true, 'default' => null]]);
+    }
 }

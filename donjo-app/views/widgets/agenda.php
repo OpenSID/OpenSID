@@ -14,10 +14,10 @@
 				<li class="active"><a data-toggle="tab" href="#hari-ini">Hari ini</a></li>
 			<?php endif; ?>
 			<?php if (count($yad) > 0): ?>
-				<li class="<?php count($hari_ini) == 0 and print('active')?>"><a data-toggle="tab" href="#yad">Yang akan datang</a></li>
+				<li class="<?php count($hari_ini) == 0 && print 'active'?>"><a data-toggle="tab" href="#yad">Yang akan datang</a></li>
 			<?php endif; ?>
 			<?php if (count($lama) > 0): ?>
-				<li class="<?php count(array_merge($hari_ini, $yad)) == 0 and print('active')?>"><a data-toggle="tab" href="#lama">Lama</a></li>
+				<li class="<?php count(array_merge($hari_ini, $yad)) == 0 && print 'active'?>"><a data-toggle="tab" href="#lama">Lama</a></li>
 			<?php endif; ?>
 		</ul>
 
@@ -29,7 +29,7 @@
 							<li>
 								<table id="table-agenda" width="100%">
 									<tr>
-										<td colspan="3"><a href="<?= site_url('artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
+										<td colspan="3"><a href="<?= site_url('artikel/' . buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
 									</tr>
 									<tr>
 										<th id="label-meta-agenda" width="40%">Waktu</th>
@@ -52,14 +52,14 @@
 					</ul>
 				</div>
 
-				<div id="yad" class="tab-pane fade <?php count($hari_ini) == 0 and print('in active')?>">
+				<div id="yad" class="tab-pane fade <?php count($hari_ini) == 0 && print 'in active'?>">
 					<ul class="sidebar-latest">
 						<?php if (count($yad) > 0): ?>
 							<?php foreach ($yad as $agenda): ?>
 								<li>
 									<table id="table-agenda" width="100%">
 										<tr>
-											<td colspan="3"><a href="<?= site_url('artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
+											<td colspan="3"><a href="<?= site_url('artikel/' . buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
 										</tr>
 										<tr>
 											<th id="label-meta-agenda" width="40%">Waktu</th>
@@ -83,14 +83,14 @@
 					</ul>
 				</div>
 
-				<div id="lama" class="tab-pane fade <?php count(array_merge($hari_ini, $yad)) == 0 and print('in active')?>">
+				<div id="lama" class="tab-pane fade <?php count(array_merge($hari_ini, $yad)) == 0 && print 'in active'?>">
 					<marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" align="center" behavior=”alternate”>
 						<ul class="sidebar-latest">
 							<?php foreach ($lama as $agenda): ?>
 								<li>
 									<table id="table-agenda" width="100%">
 										<tr>
-											<td colspan="3"><a href="<?= site_url('artikel/'.buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
+											<td colspan="3"><a href="<?= site_url('artikel/' . buat_slug($agenda))?>"><?= $agenda['judul']?></a></td>
 										</tr>
 										<tr>
 											<th id="label-meta-agenda" width="40%">Waktu</th>

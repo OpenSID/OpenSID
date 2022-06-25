@@ -3,7 +3,7 @@
 		<title>KIB C</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -65,15 +65,15 @@
 						<table>
 							<tr>
 								<td><?= strtoupper($this->setting->sebutan_desa) ?></td>
-								<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_desa']) ?></td>
+								<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_desa']) ?></td>
 							</tr>
 							<tr>
 								<td><?= strtoupper($this->setting->sebutan_kecamatan) ?></td>
-								<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_kecamatan']) ?></td>
+								<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_kecamatan']) ?></td>
 							</tr>
 							<tr>
 								<td><?= strtoupper($this->setting->sebutan_kabupaten) ?></td>
-								<td style="padding-left: 10px"><?= strtoupper(' : '.$header['nama_kabupaten']) ?></td>
+								<td style="padding-left: 10px"><?= strtoupper(' : ' . $header['nama_kabupaten']) ?></td>
 							</tr>
 						</table>
 					</div>
@@ -120,25 +120,25 @@
 								<td><?= $data->register; ?></td>
 								<td><?= $data->kondisi_bangunan; ?></td>
 								<td><?= $data->kontruksi_bertingkat; ?></td>
-								<td><?= ($data->kontruksi_beton == '1' ? 'Ya': 'Tidak'); ?></td>
+								<td><?= ($data->kontruksi_beton == '1' ? 'Ya' : 'Tidak'); ?></td>
 								<td><?= $data->luas_bangunan; ?></td>
 								<td><?= $data->letak; ?></td>
-								<td><?= date('d M Y',strtotime($data->tanggal_dokument)); ?></td>
-								<td><?= (!empty($data->no_dokument) ? $data->no_dokument : '-'); ?></td>
+								<td><?= date('d M Y', strtotime($data->tanggal_dokument)); ?></td>
+								<td><?= (! empty($data->no_dokument) ? $data->no_dokument : '-'); ?></td>
 								<td><?= $data->luas; ?></td>
 								<td><?= $data->status_tanah; ?></td>
-								<td><?= (!empty($main->no_tanah) ? $main->no_tanah : '-'); ?></td>
+								<td><?= (! empty($main->no_tanah) ? $main->no_tanah : '-'); ?></td>
 								<td><?= $data->asal; ?></td>
-								<td><?= number_format($data->harga,0,".","."); ?></td>
+								<td><?= number_format($data->harga, 0, '.', '.'); ?></td>
 								<td><?= $data->keterangan; ?></td>
 							</tr>
-							<?php $i = $i+1 ?>
+							<?php $i = $i + 1 ?>
 						<?php endforeach; ?>
 					</tbody>
 					<tfooot>
 						<tr>
 							<th colspan="15" style="text-align:right">Total:</th>
-							<th colspan="2"><?= number_format($total,0,".","."); ?></th>
+							<th colspan="2"><?= number_format($total, 0, '.', '.'); ?></th>
 						</tr>
 					</tfooot>
 				</table>
@@ -152,7 +152,7 @@
 						-->
 						<td colspan="2" width="10%">&nbsp;</td>
 						<td colspan="3" width="30%"></td>
-						<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$header['nama_desa'].','.$header['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
+						<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa . ' ' . $header['nama_desa'] . ',' . $header['nama_kecamatan'] . ',' . tgl_indo(date('Y m d')))?></span></td>
 						<td colspan="5" width="5%">&nbsp;</td>
 					</tr>
 

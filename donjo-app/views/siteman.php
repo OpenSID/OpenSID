@@ -5,11 +5,9 @@
  * Form login modul Admin
  *
  * donjo-app/views/siteman.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -34,12 +32,11 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -57,20 +54,20 @@
 		<meta charset="UTF-8">
 		<title>
 			<?=$this->setting->login_title
-				. ' ' . ucwords($this->setting->sebutan_desa)
-				. (($header['nama_desa']) ? ' ' . $header['nama_desa']: '')
-				. get_dynamic_title_page_from_path();
-			?>
+                . ' ' . ucwords($this->setting->sebutan_desa)
+                . (($header['nama_desa']) ? ' ' . $header['nama_desa'] : '')
+                . get_dynamic_title_page_from_path();
+            ?>
 		</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="robots" content="noindex">
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-style.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/login-form-elements.css" media="screen" type="text/css" />
 		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap.bar.css" media="screen" type="text/css" />
-		<?php if (is_file("desa/pengaturan/siteman/siteman.css")): ?>
+		<?php if (is_file('desa/pengaturan/siteman/siteman.css')): ?>
 			<link type='text/css' href="<?= base_url()?>desa/pengaturan/siteman/siteman.css" rel='Stylesheet' />
 		<?php endif; ?>
-		<?php if (is_file(LOKASI_LOGO_DESA ."favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?=LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -79,7 +76,7 @@
 		<script type="text/javascript" src="<?= base_url() ?>assets/js/jquery.validate.min.js"></script>
 		<script type="text/javascript" src="<?= base_url() ?>assets/js/validasi.js"></script>
 		<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
-		<?php require __DIR__ .'/head_tags.php' ?>
+		<?php require __DIR__ . '/head_tags.php' ?>
 	</head>
 	<body class="login">
 		<div class="top-content">
@@ -88,7 +85,7 @@
 					<div class="row">
 						<div class="col-sm-4 col-sm-offset-4 form-box">
 							<div class="form-top">
-								<a href="<?=site_url(); ?>"><img src="<?=gambar_desa($header['logo']);?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
+								<a href="<?=site_url(); ?>"><img src="<?=gambar_desa($header['logo']); ?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
 								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 									<h3>
 										<br /><?=$header['alamat_kantor']?><br />Kodepos <?=$header['kode_pos']?>
@@ -105,10 +102,10 @@
 										</div>
 									<?php else: ?>
 										<div class="form-group">
-											<input name="username" type="text" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, "disabled") ?> value="" class="form-username form-control required">
+											<input name="username" type="text" placeholder="Nama pengguna" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> value="" class="form-username form-control required">
 										</div>
 										<div class="form-group">
-											<input name="password" id="password" type="password" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, "disabled") ?> value="" class="form-username form-control required">
+											<input name="password" id="password" type="password" placeholder="Kata sandi" <?php jecho($this->session->siteman_wait, 1, 'disabled') ?> value="" class="form-username form-control required">
 										</div>
 										<div class="form-group">
 											<input type="checkbox" id="checkbox" class="form-checkbox"> Tampilkan kata sandi

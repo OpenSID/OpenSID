@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
 /*
  * File ini:
@@ -12,8 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -38,12 +37,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -57,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<span class="info-box-number"><?= $jml_produk['aktif']; ?></span>
 
 					<div class="progress">
-						<div class="progress-bar" style="width: <?= ($jml_produk['aktif']/$jml_produk['total']) * 100; ?>%"></div>
+						<div class="progress-bar" style="width: <?= ($jml_produk['aktif'] / $jml_produk['total']) * 100; ?>%"></div>
 					</div>
 					<span class="progress-description">Total : <b><?= $jml_produk['total']; ?></b></span>
 				</div>
@@ -73,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<span class="info-box-number"><?= $jml_pelapak['aktif']; ?></span>
 
 					<div class="progress">
-						<div class="progress-bar" style="width: <?= ($jml_pelapak['aktif']/$jml_pelapak['total']) * 100; ?>%"></div>
+						<div class="progress-bar" style="width: <?= ($jml_pelapak['aktif'] / $jml_pelapak['total']) * 100; ?>%"></div>
 					</div>
 					<span class="progress-description">Total : <b><?= $jml_pelapak['total']; ?></b></span>
 				</div>
@@ -89,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<span class="info-box-number"><?= $jml_kategori['aktif']; ?></span>
 
 					<div class="progress">
-						<div class="progress-bar" style="width: <?= ($jml_kategori['aktif']/$jml_kategori['total']) * 100; ?>%"></div>
+						<div class="progress-bar" style="width: <?= ($jml_kategori['aktif'] / $jml_kategori['total']) * 100; ?>%"></div>
 					</div>
 					<span class="progress-description">Total : <b><?= $jml_kategori['total']; ?></b></span>
 				</div>
