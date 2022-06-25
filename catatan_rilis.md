@@ -1,11 +1,8 @@
-Di rilis ini, versi 22.06-premium-beta02 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.06-premium-rev02 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada balongbesuk yang terus berkontribusi.
 
 #### Penambahan Fitur
-
-1. [#5206](https://github.com/OpenSID/OpenSID/issues/5206) Tampilkan peringatan langganan SaaS akan berakhir.
-2. [#5210](https://github.com/OpenSID/OpenSID/issues/5210) Backup folder desa secara inkremental.
 
 #### Perbaikan BUG
 
@@ -28,4 +25,3 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 1. [#1070](https://github.com/OpenSID/premium/pull/1070) Teknis perbaiki view database blank, rubah ke error 500.
 2. [#1075](https://github.com/OpenSID/premium/pull/1075) Teknis perbaiki backup tidak jalan di VPS.
 3. [#1080](https://github.com/OpenSID/premium/pull/1080) Teknis perbaiki hapus fungsi yang tidak diperlukan.
-4. Teknis agar tidak bisa cetak nota jika ada layanan yg belum lunas.

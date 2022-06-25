@@ -43,7 +43,6 @@ class Job extends CI_Controller
     {
         parent::__construct();
         $this->load->helper('file');
-        $this->load->library('backup_desa');
         $this->load->model(['ekspor_model', 'database_model']);
     }
 
@@ -100,14 +99,5 @@ class Job extends CI_Controller
         log_message('error', 'File ' . $filename . ' tidak ditemukan');
 
         return false;
-    }
-
-    public function backup_inkremental()
-    {
-        if (! is_cli()) {
-            return;
-        }
-
-        $this->backup_desa->inkremental();
     }
 }

@@ -167,8 +167,6 @@
                     <?php if ($permohonan = $this->session->errors->messages->permohonan) : ?>
                         <p class="error"><?= $permohonan ?></p>
                     <?php endif ?>
-                    <br><br>
-                    <span class="text-danger">Info: Nota faktur dapat dicetak hanya untuk pembayaran yang sudah lunas.</span>
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
@@ -193,10 +191,8 @@
                                                                                                         $server = config_item('server_layanan');
                                                                                                         $token  = $this->setting->layanan_opendesa_token;
                                                                                                 ?>
-                                            <?php if ($pemesanan->status_pembayaran == 1): ?>
 											<a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
-											<?php endif; ?>
-                                            <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
+											<a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
                                             <?php if ($notif_langganan['warna'] == 'orange'): ?>
                                                 <a href="<?= site_url('pelanggan/perpanjang_layanan?pemesanan_id=' . $pemesanan->id . '&server=' . $server . '&invoice=' . $pemesanan->faktur . '&token=' . $token) ?>" class="btn btn-social bg-green btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Perpanjang Layanan"><i class="fa fa-refresh"></i>Perpanjang</a>
                                             <?php endif; ?>
