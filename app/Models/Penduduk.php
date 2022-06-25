@@ -133,6 +133,26 @@ class Penduduk extends Model
     }
 
     /**
+     * Define a one-to-one relationship.
+     *
+     * @return HasOne
+     */
+    public function kia_ibu()
+    {
+        return $this->hasOne(KIA::class, 'ibu_id');
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return HasOne
+     */
+    public function kia_anak()
+    {
+        return $this->hasOne(KIA::class, 'anak_id');
+    }
+
+    /**
      * Define an inverse one-to-one or many relationship.
      *
      * @return BelongsTo

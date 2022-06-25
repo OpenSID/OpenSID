@@ -56,8 +56,9 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2206');
         $hasil = $hasil && $this->migrasi_2022060851($hasil);
         $hasil = $hasil && $this->migrasi_2022060951($hasil);
+        $hasil = $hasil && $this->migrasi_2022060371($hasil);
 
-        return $hasil && $this->migrasi_2022060371($hasil);
+        return $hasil && $this->migrasi_2022062471($hasil);
     }
 
     protected function migrasi_2022060851($hasil)
@@ -183,5 +184,327 @@ class Migrasi_fitur_premium_2207 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022062471($hasil)
+    {
+        // Ubah modul Siaga Covid-19 menjadi Kesehatan
+        $hasil = $hasil && $this->ubah_modul(206, [
+            'modul' => 'Kesehatan',
+            'urut'  => 41,
+        ]);
+
+        // Tambah modul kesehatan
+        $hasil = $hasil && $this->tambah_modul([
+            'id'         => 346,
+            'modul'      => 'Stunting',
+            'url'        => 'stunting',
+            'aktif'      => 1,
+            'ikon'       => 'fa-stethoscope',
+            'urut'       => 4,
+            'level'      => 0,
+            'parent'     => 206,
+            'hidden'     => 0,
+            'ikon_kecil' => 'fa-stethoscope',
+        ]);
+
+        // Tabel posyandu
+
+        $posyandu = [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'unsigned'       => true,
+            ],
+            'nama' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'alamat' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+            ],
+        ];
+
+        $hasil = $hasil && $this->dbforge
+            ->add_key('id', true)
+            ->add_field($posyandu)
+            ->create_table('posyandu', true);
+
+        $hasil = $hasil && $this->timestamps('posyandu', true);
+
+        // Tabel ibu_hamil
+        $ibu_hamil = [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'unsigned'       => true,
+            ],
+            'posyandu_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
+            'kia_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
+            'status_kehamilan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'NORMAL','RISTI','KEK',
+            ],
+            'usia_kehamilan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 255,
+            ],
+            'tanggal_melahirkan' => [
+                'type' => 'DATE',
+            ],
+            'pemeriksaan_kehamilan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'konsumsi_pil_fe' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'butir_pil_fe' => [
+                'type'       => 'INT',
+                'constraint' => 11, // 'YA','TIDAK',
+            ],
+            'pemeriksaan_nifas' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'konseling_gizi' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'kunjungan_rumah' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'akses_air_bersih' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'kepemilikan_jamban' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'jaminan_kesehatan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+        ];
+
+        $hasil = $hasil && $this->dbforge
+            ->add_key('id', true)
+            ->add_field($ibu_hamil)
+            ->create_table('ibu_hamil', true);
+
+        $hasil = $hasil && $this->timestamps('ibu_hamil', true);
+
+        // Tabel kia
+        $kia = [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'unsigned'       => true,
+            ],
+            'no_kia' => [
+                'type'       => 'VARCHAR',
+                'constraint' => 255,
+            ],
+            'ibu_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
+            'anak_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'       => true,
+                'default'    => null,
+            ],
+            'hari_perkiraan_lahir' => [
+                'type'    => 'DATE',
+                'null'    => true,
+                'default' => null,
+            ],
+        ];
+
+        $hasil = $hasil && $this->dbforge
+            ->add_key('id', true)
+            ->add_field($kia)
+            ->create_table('kia', true);
+
+        $hasil = $hasil && $this->tambahIndeks('kia', 'no_kia', 'INDEX');
+
+        $hasil = $hasil && $this->timestamps('kia', true);
+
+        // Tabel bulanan_anak
+        $bulanan_anak = [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'unsigned'       => true,
+            ],
+            'posyandu_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
+            'kia_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
+            'status_gizi' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'N','GK','GB','S'
+            ],
+            'umur_bulan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 3,
+            ],
+            'status_tikar' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'TD','M','K','H'
+            ],
+            'pemberian_imunisasi_dasar' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'pemberian_imunisasi_campak' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+                'null'       => true,
+            ],
+            'pengukuran_berat_badan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'pengukuran_tinggi_badan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'konseling_gizi_ayah' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'konseling_gizi_ibu' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'kunjungan_rumah' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'air_bersih' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'kepemilikan_jamban' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'akta_lahir' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'jaminan_kesehatan' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+            'pengasuhan_paud' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'YA','TIDAK',
+            ],
+        ];
+
+        $hasil = $hasil && $this->dbforge
+            ->add_key('id', true)
+            ->add_field($bulanan_anak)
+            ->create_table('bulanan_anak', true);
+
+        $hasil = $hasil && $this->timestamps('bulanan_anak', true);
+
+        // Tabel sasaran_paud
+        $sasaran_paud = [
+            'id' => [
+                'type'           => 'INT',
+                'constraint'     => 11,
+                'auto_increment' => true,
+                'unsigned'       => true,
+            ],
+            'posyandu_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
+            'kia_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+            ],
+            'kategori_usia' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Anak Usia 2 - < 3 Tahun','Anak Usia 3 - 6 Tahun'
+            ],
+            'januari' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'februari' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'maret' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'april' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'mei' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'juni' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'juli' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'agustus' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'september' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'oktober' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'november' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+            'desember' => [
+                'type'       => 'TINYINT',
+                'constraint' => 1, // 'Belum','Mengikuti', 'Tidak Mengikuti'
+            ],
+        ];
+
+        $hasil = $hasil && $this->dbforge
+            ->add_key('id', true)
+            ->add_field($sasaran_paud)
+            ->create_table('sasaran_paud', true);
+
+        return $hasil && $this->timestamps('sasaran_paud', true);
     }
 }

@@ -388,11 +388,6 @@ class User_model extends CI_Model
 
         $data['foto'] = $this->urusFoto();
         $data['nama'] = strip_tags($data['nama']);
-
-        if (! $this->db->insert('user', $data)) {
-            $this->session->success   = -1;
-            $this->session->error_msg = ' -> Gagal memperbarui data di database';
-        }
     }
 
     private function sterilkan_input($post)
