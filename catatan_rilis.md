@@ -25,7 +25,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 12. [#5277](https://github.com/OpenSID/OpenSID/issues/5277) Perbaiki masih bisa hapus pengguna yang sudah lakukan absensi kehadiran.
 13. [#5285](https://github.com/OpenSID/OpenSID/issues/5285) Perbaiki notifikasi status langganan.
 14. [#5286](https://github.com/OpenSID/OpenSID/issues/5286) Perbaiki error console [Uncaught TypeError: Cannot read properties of undefined (reading 'settings')]
-
+15. [#5287](https://github.com/OpenSID/OpenSID/issues/5287) Perbaiki surat keterangan pindah penduduk.
 #### Perubahan Teknis
 
 1. [#1070](https://github.com/OpenSID/premium/pull/1070) Teknis perbaiki view database blank, rubah ke error 500.
