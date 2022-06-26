@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.06-premium-rev02 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.06-premium-rev03 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada balongbesuk yang terus berkontribusi.
 
@@ -25,3 +25,4 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 1. [#1070](https://github.com/OpenSID/premium/pull/1070) Teknis perbaiki view database blank, rubah ke error 500.
 2. [#1075](https://github.com/OpenSID/premium/pull/1075) Teknis perbaiki backup tidak jalan di VPS.
 3. [#1080](https://github.com/OpenSID/premium/pull/1080) Teknis perbaiki hapus fungsi yang tidak diperlukan.
+4. [#109](https://github.com/OpenSID/wiki-layanan-opendesa/issues/109) Teknis tidak bisa cetak nota pelanggan jika ada layanan yg belum lunas.
