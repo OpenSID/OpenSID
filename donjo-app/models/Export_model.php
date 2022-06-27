@@ -337,6 +337,8 @@ class Export_model extends CI_Model
                 }
             }
         }
+
+        return true;
     }
 
     private function _build_schema($nama_tabel, $nama_tanda)

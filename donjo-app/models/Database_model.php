@@ -3589,7 +3589,22 @@ class Database_model extends MY_Model
         $file_analisis = FCPATH . 'assets/import/analisis_DAK_Profil_Desa.xlsx';
         $this->analisis_import_model->impor_analisis($file_analisis, 'DAK02', $jenis = 1);
 
-        $this->session->success = 1;
+        // Kecuali folder
+        $exclude = [
+            'desa/config',
+            'desa/themes',
+        ];
+
+        // Kosongkan folder desa dan copy isi folder desa-contoh
+        foreach (glob('desa/*', GLOB_ONLYDIR) as $folder) {
+            if (! in_array($folder, $exclude)) {
+                delete_files(FCPATH . $folder, true);
+            }
+        }
+
+        xcopy('desa-contoh', 'desa', ['config'], ['.htaccess', 'index.html', 'baca-ini.txt']);
+
+        session_success();
     }
 
     public function get_views()
