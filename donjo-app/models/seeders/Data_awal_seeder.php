@@ -43,6 +43,12 @@ use Illuminate\Support\Facades\DB;
 
 class Data_awal_seeder extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        ini_set('memory_limit', '512M');
+        set_time_limit(3600);
+    }
 
     public function run()
     {
@@ -50,6 +56,7 @@ class Data_awal_seeder extends CI_Model
         // Error menggunakan Illuminate untuk alter database ini
         // DB::statement("ALTER DATABASE {$db} CHARACTER SET utf8 COLLATE utf8_general_ci;");
         $this->db->query("ALTER DATABASE `{$db}` CHARACTER SET utf8 COLLATE utf8_general_ci;");
+
         $this->tabel_analisis();
         $this->tabel_mandiri();
         $this->tabel_peta();
@@ -96,96 +103,96 @@ class Data_awal_seeder extends CI_Model
             $table->index('id_tipe');
             $table->index('id_kategori');
         });
+        
+        DB::statement("
+            CREATE TABLE `analisis_kategori_indikator` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_master` tinyint(4) NOT NULL,
+                `kategori` varchar(50) NOT NULL,
+                `kategori_kode` varchar(3) DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `id_master` (`id_master`)
+            );
+        ");
+        
+        DB::statement("
+            CREATE TABLE `analisis_klasifikasi` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_master` int(11) NOT NULL,
+                `nama` varchar(20) NOT NULL,
+                `minval` double(7,2) NOT NULL,
+                `maxval` double(7,2) NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `id_master` (`id_master`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `analisis_kategori_indikator` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_master` tinyint(4) NOT NULL,
-          `kategori` varchar(50) NOT NULL,
-          `kategori_kode` varchar(3) DEFAULT NULL,
-          PRIMARY KEY (`id`),
-          KEY `id_master` (`id_master`)
-        );
-      ");
-
-      DB::statement("
-        CREATE TABLE `analisis_klasifikasi` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_master` int(11) NOT NULL,
-          `nama` varchar(20) NOT NULL,
-          `minval` double(7,2) NOT NULL,
-          `maxval` double(7,2) NOT NULL,
-          PRIMARY KEY (`id`),
-          KEY `id_master` (`id_master`)
-        );
-      ");
-
-      DB::statement("
-        CREATE TABLE `analisis_master` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `nama` varchar(40) NOT NULL,
-          `subjek_tipe` tinyint(4) NOT NULL,
-          `lock` tinyint(1) NOT NULL DEFAULT 1,
-          `deskripsi` text NOT NULL,
-          `kode_analisis` varchar(5) NOT NULL DEFAULT '00000',
-          `id_kelompok` int(11) DEFAULT NULL,
-          `pembagi` varchar(10) NOT NULL DEFAULT '100',
-          `id_child` smallint(4) DEFAULT NULL,
-          `format_impor` tinyint(2) DEFAULT NULL,
-          `jenis` tinyint(2) NOT NULL DEFAULT 2,
-          `gform_id` text DEFAULT NULL,
-          `gform_nik_item_id` text DEFAULT NULL,
-          `gform_last_sync` datetime DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
-
-
-      DB::statement("
-        CREATE TABLE `analisis_parameter` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_indikator` int(11) NOT NULL,
-          `jawaban` varchar(200) NOT NULL,
-          `nilai` int(3) NOT NULL DEFAULT 0,
-          `kode_jawaban` int(3) DEFAULT 0,
-          `asign` tinyint(1) NOT NULL DEFAULT 0,
-          PRIMARY KEY (`id`),
-          KEY `id_indikator` (`id_indikator`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `analisis_master` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(40) NOT NULL,
+                `subjek_tipe` tinyint(4) NOT NULL,
+                `lock` tinyint(1) NOT NULL DEFAULT 1,
+                `deskripsi` text NOT NULL,
+                `kode_analisis` varchar(5) NOT NULL DEFAULT '00000',
+                `id_kelompok` int(11) DEFAULT NULL,
+                `pembagi` varchar(10) NOT NULL DEFAULT '100',
+                `id_child` smallint(4) DEFAULT NULL,
+                `format_impor` tinyint(2) DEFAULT NULL,
+                `jenis` tinyint(2) NOT NULL DEFAULT 2,
+                `gform_id` text DEFAULT NULL,
+                `gform_nik_item_id` text DEFAULT NULL,
+                `gform_last_sync` datetime DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
 
-      DB::statement("
-        CREATE TABLE `analisis_partisipasi` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_subjek` int(11) NOT NULL,
-          `id_master` int(11) NOT NULL,
-          `id_periode` int(11) NOT NULL,
-          `id_klassifikasi` int(11) NOT NULL DEFAULT 1,
-          PRIMARY KEY (`id`),
-          KEY `id_subjek` (`id_subjek`,`id_master`,`id_periode`,`id_klassifikasi`),
-          KEY `id_master` (`id_master`),
-          KEY `id_periode` (`id_periode`),
-          KEY `id_klassifikasi` (`id_klassifikasi`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `analisis_parameter` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_indikator` int(11) NOT NULL,
+                `jawaban` varchar(200) NOT NULL,
+                `nilai` int(3) NOT NULL DEFAULT 0,
+                `kode_jawaban` int(3) DEFAULT 0,
+                `asign` tinyint(1) NOT NULL DEFAULT 0,
+                PRIMARY KEY (`id`),
+                KEY `id_indikator` (`id_indikator`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `analisis_periode` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_master` int(11) NOT NULL,
-          `nama` varchar(50) NOT NULL,
-          `id_state` tinyint(4) NOT NULL DEFAULT 1,
-          `aktif` tinyint(1) NOT NULL DEFAULT 0,
-          `keterangan` varchar(100) NOT NULL,
-          `tahun_pelaksanaan` year(4) NOT NULL,
-          PRIMARY KEY (`id`),
-          KEY `id_master` (`id_master`),
-          KEY `id_state` (`id_state`)
-        );
-      ");
 
-      DB::statement("
+        DB::statement("
+            CREATE TABLE `analisis_partisipasi` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_subjek` int(11) NOT NULL,
+                `id_master` int(11) NOT NULL,
+                `id_periode` int(11) NOT NULL,
+                `id_klassifikasi` int(11) NOT NULL DEFAULT 1,
+                PRIMARY KEY (`id`),
+                KEY `id_subjek` (`id_subjek`,`id_master`,`id_periode`,`id_klassifikasi`),
+                KEY `id_master` (`id_master`),
+                KEY `id_periode` (`id_periode`),
+                KEY `id_klassifikasi` (`id_klassifikasi`)
+            );
+        ");
+
+        DB::statement("
+            CREATE TABLE `analisis_periode` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_master` int(11) NOT NULL,
+                `nama` varchar(50) NOT NULL,
+                `id_state` tinyint(4) NOT NULL DEFAULT 1,
+                `aktif` tinyint(1) NOT NULL DEFAULT 0,
+                `keterangan` varchar(100) NOT NULL,
+                `tahun_pelaksanaan` year(4) NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `id_master` (`id_master`),
+                KEY `id_state` (`id_state`)
+            );
+        ");
+
+        DB::statement("
         CREATE TABLE `analisis_ref_state` (
           `id` tinyint(4) NOT NULL AUTO_INCREMENT,
           `nama` varchar(40) NOT NULL,
@@ -199,13 +206,13 @@ class Data_awal_seeder extends CI_Model
             2 => ['id' => 3, 'nama' => 'Selesai Entri / Pendataan'],
         ]);
 
-      DB::statement("
-        CREATE TABLE `analisis_ref_subjek` (
-          `id` tinyint(4) NOT NULL AUTO_INCREMENT,
-          `subjek` varchar(20) NOT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `analisis_ref_subjek` (
+                `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+                `subjek` varchar(20) NOT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
         DB::table('analisis_ref_subjek')->insert([
             ['id' => 1, 'subjek' => 'Penduduk'],
@@ -218,147 +225,151 @@ class Data_awal_seeder extends CI_Model
             ['id' => 8, 'subjek' => 'Rukun Tetangga (RT)'],
         ]);
 
-      DB::statement("
-        CREATE TABLE `analisis_respon` (
-          `id_indikator` int(11) NOT NULL,
-          `id_parameter` int(11) NOT NULL,
-          `id_subjek` int(11) NOT NULL,
-          `id_periode` int(11) NOT NULL,
-          KEY `id_parameter` (`id_parameter`,`id_subjek`),
-          KEY `id_periode` (`id_periode`),
-          KEY `id_indikator` (`id_indikator`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `analisis_respon` (
+                `id_indikator` int(11) NOT NULL,
+                `id_parameter` int(11) NOT NULL,
+                `id_subjek` int(11) NOT NULL,
+                `id_periode` int(11) NOT NULL,
+                KEY `id_parameter` (`id_parameter`,`id_subjek`),
+                KEY `id_periode` (`id_periode`),
+                KEY `id_indikator` (`id_indikator`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `analisis_respon_bukti` (
-          `id_master` tinyint(4) NOT NULL,
-          `id_periode` tinyint(4) NOT NULL,
-          `id_subjek` int(11) NOT NULL,
-          `pengesahan` varchar(100) NOT NULL,
-          `tgl_update` timestamp NOT NULL DEFAULT current_timestamp()
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `analisis_respon_bukti` (
+                `id_master` tinyint(4) NOT NULL,
+                `id_periode` tinyint(4) NOT NULL,
+                `id_subjek` int(11) NOT NULL,
+                `pengesahan` varchar(100) NOT NULL,
+                `tgl_update` timestamp NOT NULL DEFAULT current_timestamp()
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `analisis_respon_hasil` (
-          `id_master` tinyint(4) NOT NULL,
-          `id_periode` tinyint(4) NOT NULL,
-          `id_subjek` int(11) NOT NULL,
-          `akumulasi` double(8,3) NOT NULL,
-          `tgl_update` timestamp NOT NULL DEFAULT current_timestamp(),
-          UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `analisis_respon_hasil` (
+                `id_master` tinyint(4) NOT NULL,
+                `id_periode` tinyint(4) NOT NULL,
+                `id_subjek` int(11) NOT NULL,
+                `akumulasi` double(8,3) NOT NULL,
+                `tgl_update` timestamp NOT NULL DEFAULT current_timestamp(),
+                UNIQUE KEY `id_master` (`id_master`,`id_periode`,`id_subjek`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `analisis_tipe_indikator` (
-          `id` tinyint(4) NOT NULL AUTO_INCREMENT,
-          `tipe` varchar(20) NOT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `analisis_tipe_indikator` (
+                `id` tinyint(4) NOT NULL AUTO_INCREMENT,
+                `tipe` varchar(20) NOT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::table('analisis_tipe_indikator')->insert([
-          ['id' => 1, 'tipe' => 'Pilihan (Tunggal)'],
-          ['id' => 2, 'tipe' => 'Pilihan (Multivalue)'],
-          ['id' => 3, 'tipe' => 'sian Angka'],
-          ['id' => 4, 'tipe' => 'sian Tulisan'],
-      ]);
+        DB::table('analisis_tipe_indikator')->insert([
+            ['id' => 1, 'tipe' => 'Pilihan (Tunggal)'],
+            ['id' => 2, 'tipe' => 'Pilihan (Multivalue)'],
+            ['id' => 3, 'tipe' => 'sian Angka'],
+            ['id' => 4, 'tipe' => 'sian Tulisan'],
+        ]);
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_mandiri()
     {
-      DB::statement("
-        CREATE TABLE `anjungan` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `ip_address` varchar(100) NOT NULL,
-          `keterangan` varchar(300) DEFAULT NULL,
-          `keyboard` tinyint(1) DEFAULT 1,
-          `status` tinyint(1) NOT NULL DEFAULT 1,
-          `created_by` int(11) NOT NULL,
-          `updated_by` int(11) NOT NULL,
-          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `mac_address` varchar(100) DEFAULT NULL,
-          `printer_ip` varchar(100) DEFAULT NULL,
-          `printer_port` varchar(100) DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `anjungan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `ip_address` varchar(100) NOT NULL,
+                `keterangan` varchar(300) DEFAULT NULL,
+                `keyboard` tinyint(1) DEFAULT 1,
+                `status` tinyint(1) NOT NULL DEFAULT 1,
+                `created_by` int(11) NOT NULL,
+                `updated_by` int(11) NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `mac_address` varchar(100) DEFAULT NULL,
+                `printer_ip` varchar(100) DEFAULT NULL,
+                `printer_port` varchar(100) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `pendapat` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `pengguna` text NOT NULL,
-          `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
-          `pilihan` int(1) NOT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `pendapat` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `pengguna` text NOT NULL,
+                `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
+                `pilihan` int(1) NOT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `pengaduan` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_pengaduan` int(11) DEFAULT NULL,
-          `nik` varchar(16) DEFAULT NULL,
-          `nama` varchar(100) NOT NULL,
-          `email` varchar(100) DEFAULT NULL,
-          `telepon` varchar(20) DEFAULT NULL,
-          `judul` varchar(100) DEFAULT NULL,
-          `isi` text NOT NULL,
-          `status` int(1) NOT NULL DEFAULT 1 COMMENT '1 = menunggu proses, 2 = Sedang Diproses, 3 = Selesai Diproses',
-          `foto` varchar(100) DEFAULT NULL,
-          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `pengaduan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_pengaduan` int(11) DEFAULT NULL,
+                `nik` varchar(16) DEFAULT NULL,
+                `nama` varchar(100) NOT NULL,
+                `email` varchar(100) DEFAULT NULL,
+                `telepon` varchar(20) DEFAULT NULL,
+                `judul` varchar(100) DEFAULT NULL,
+                `isi` text NOT NULL,
+                `status` int(1) NOT NULL DEFAULT 1 COMMENT '1 = menunggu proses, 2 = Sedang Diproses, 3 = Selesai Diproses',
+                `foto` varchar(100) DEFAULT NULL,
+                `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                PRIMARY KEY (`id`)
+            );
+        ");
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_peta()
     {
-      DB::statement("
-        CREATE TABLE `area` (
-          `id` int(4) NOT NULL AUTO_INCREMENT,
-          `nama` varchar(50) NOT NULL,
-          `path` text DEFAULT NULL,
-          `enabled` int(11) NOT NULL DEFAULT 1,
-          `ref_polygon` int(9) NOT NULL,
-          `foto` varchar(100) DEFAULT NULL,
-          `id_cluster` int(11) DEFAULT NULL,
-          `desk` text NOT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `area` (
+                `id` int(4) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(50) NOT NULL,
+                `path` text DEFAULT NULL,
+                `enabled` int(11) NOT NULL DEFAULT 1,
+                `ref_polygon` int(9) NOT NULL,
+                `foto` varchar(100) DEFAULT NULL,
+                `id_cluster` int(11) DEFAULT NULL,
+                `desk` text NOT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `garis` (
-          `id` int(4) NOT NULL AUTO_INCREMENT,
-          `nama` varchar(50) NOT NULL,
-          `path` text DEFAULT NULL,
-          `enabled` int(11) NOT NULL DEFAULT 1,
-          `ref_line` int(9) NOT NULL,
-          `foto` varchar(100) DEFAULT NULL,
-          `desk` text DEFAULT NULL,
-          `id_cluster` int(11) DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `garis` (
+                `id` int(4) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(50) NOT NULL,
+                `path` text DEFAULT NULL,
+                `enabled` int(11) NOT NULL DEFAULT 1,
+                `ref_line` int(9) NOT NULL,
+                `foto` varchar(100) DEFAULT NULL,
+                `desk` text DEFAULT NULL,
+                `id_cluster` int(11) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `gis_simbol` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `simbol` varchar(40) DEFAULT NULL,
-          PRIMARY KEY (`id`),
-          UNIQUE KEY `simbol` (`simbol`),
-          UNIQUE KEY `simbol_2` (`simbol`),
-          UNIQUE KEY `simbol_3` (`simbol`),
-          UNIQUE KEY `simbol_4` (`simbol`),
-          UNIQUE KEY `simbol_5` (`simbol`),
-          UNIQUE KEY `simbol_6` (`simbol`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `gis_simbol` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `simbol` varchar(40) DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `simbol` (`simbol`),
+                UNIQUE KEY `simbol_2` (`simbol`),
+                UNIQUE KEY `simbol_3` (`simbol`),
+                UNIQUE KEY `simbol_4` (`simbol`),
+                UNIQUE KEY `simbol_5` (`simbol`),
+                UNIQUE KEY `simbol_6` (`simbol`)
+            );
+        ");
 
         DB::table('gis_simbol')->insert([
             ['id' => 611, 'simbol' => 'aa_bni.png'],
@@ -1001,163 +1012,165 @@ class Data_awal_seeder extends CI_Model
             ['id' => 610, 'simbol' => 'zoo_2.png'],
         ]);
 
-      DB::statement("
-        CREATE TABLE `line` (
-          `id` int(4) NOT NULL AUTO_INCREMENT,
-          `nama` varchar(50) NOT NULL,
-          `simbol` varchar(50) DEFAULT NULL,
-          `color` varchar(25) DEFAULT NULL,
-          `tipe` int(4) DEFAULT 0,
-          `tebal` int(2) DEFAULT 3,
-          `jenis` varchar(10) DEFAULT 'solid',
-          `parrent` int(4) DEFAULT 1,
-          `enabled` int(11) NOT NULL DEFAULT 1,
-          PRIMARY KEY (`id`),
-          KEY `parrent` (`parrent`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `line` (
+                `id` int(4) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(50) NOT NULL,
+                `simbol` varchar(50) DEFAULT NULL,
+                `color` varchar(25) DEFAULT NULL,
+                `tipe` int(4) DEFAULT 0,
+                `tebal` int(2) DEFAULT 3,
+                `jenis` varchar(10) DEFAULT 'solid',
+                `parrent` int(4) DEFAULT 1,
+                `enabled` int(11) NOT NULL DEFAULT 1,
+                PRIMARY KEY (`id`),
+                KEY `parrent` (`parrent`)
+            );
+        ");
 
-      DB::statement("
-         CREATE TABLE `lokasi` (
-          `id` int(4) NOT NULL AUTO_INCREMENT,
-          `desk` text NOT NULL,
-          `nama` varchar(50) NOT NULL,
-          `enabled` int(11) NOT NULL DEFAULT 1,
-          `lat` varchar(30) DEFAULT NULL,
-          `lng` varchar(30) DEFAULT NULL,
-          `ref_point` int(9) NOT NULL,
-          `foto` varchar(100) DEFAULT NULL,
-          `id_cluster` int(11) DEFAULT NULL,
-          PRIMARY KEY (`id`),
-          KEY `ref_point` (`ref_point`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `lokasi` (
+                `id` int(4) NOT NULL AUTO_INCREMENT,
+                `desk` text NOT NULL,
+                `nama` varchar(50) NOT NULL,
+                `enabled` int(11) NOT NULL DEFAULT 1,
+                `lat` varchar(30) DEFAULT NULL,
+                `lng` varchar(30) DEFAULT NULL,
+                `ref_point` int(9) NOT NULL,
+                `foto` varchar(100) DEFAULT NULL,
+                `id_cluster` int(11) DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `ref_point` (`ref_point`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `point` (
-          `id` int(4) NOT NULL AUTO_INCREMENT,
-          `nama` varchar(50) NOT NULL,
-          `simbol` varchar(50) DEFAULT NULL,
-          `tipe` int(4) DEFAULT 0,
-          `parrent` int(4) NOT NULL DEFAULT 1,
-          `enabled` int(11) NOT NULL DEFAULT 1,
-          PRIMARY KEY (`id`),
-          KEY `parrent` (`parrent`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `point` (
+                `id` int(4) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(50) NOT NULL,
+                `simbol` varchar(50) DEFAULT NULL,
+                `tipe` int(4) DEFAULT 0,
+                `parrent` int(4) NOT NULL DEFAULT 1,
+                `enabled` int(11) NOT NULL DEFAULT 1,
+                PRIMARY KEY (`id`),
+                KEY `parrent` (`parrent`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `polygon` (
-          `id` int(4) NOT NULL AUTO_INCREMENT,
-          `nama` varchar(50) NOT NULL,
-          `simbol` varchar(50) DEFAULT NULL,
-          `color` varchar(25) DEFAULT NULL,
-          `tipe` int(4) DEFAULT 0,
-          `parrent` int(4) DEFAULT 1,
-          `enabled` int(11) NOT NULL DEFAULT 1,
-          PRIMARY KEY (`id`),
-          KEY `parrent` (`parrent`)
-        );
-      ");
-   }
+        DB::statement("
+            CREATE TABLE `polygon` (
+                `id` int(4) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(50) NOT NULL,
+                `simbol` varchar(50) DEFAULT NULL,
+                `color` varchar(25) DEFAULT NULL,
+                `tipe` int(4) DEFAULT 0,
+                `parrent` int(4) DEFAULT 1,
+                `enabled` int(11) NOT NULL DEFAULT 1,
+                PRIMARY KEY (`id`),
+                KEY `parrent` (`parrent`)
+            );
+        ");
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
+    }
 
     private function tabel_web()
     {
-      DB::statement("
-        CREATE TABLE `artikel` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `gambar` varchar(200) DEFAULT NULL,
-          `isi` text NOT NULL,
-          `enabled` int(2) NOT NULL DEFAULT 1,
-          `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
-          `id_kategori` int(4) NOT NULL,
-          `id_user` int(4) NOT NULL,
-          `judul` varchar(100) NOT NULL,
-          `headline` int(1) NOT NULL DEFAULT 0,
-          `gambar1` varchar(200) DEFAULT NULL,
-          `gambar2` varchar(200) DEFAULT NULL,
-          `gambar3` varchar(200) DEFAULT NULL,
-          `dokumen` varchar(400) DEFAULT NULL,
-          `link_dokumen` varchar(200) DEFAULT NULL,
-          `boleh_komentar` tinyint(1) NOT NULL DEFAULT 1,
-          `slug` varchar(200) DEFAULT NULL,
-          `hit` int(11) DEFAULT 0,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `artikel` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `gambar` varchar(200) DEFAULT NULL,
+                `isi` text NOT NULL,
+                `enabled` int(2) NOT NULL DEFAULT 1,
+                `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+                `id_kategori` int(4) NOT NULL,
+                `id_user` int(4) NOT NULL,
+                `judul` varchar(100) NOT NULL,
+                `headline` int(1) NOT NULL DEFAULT 0,
+                `gambar1` varchar(200) DEFAULT NULL,
+                `gambar2` varchar(200) DEFAULT NULL,
+                `gambar3` varchar(200) DEFAULT NULL,
+                `dokumen` varchar(400) DEFAULT NULL,
+                `link_dokumen` varchar(200) DEFAULT NULL,
+                `boleh_komentar` tinyint(1) NOT NULL DEFAULT 1,
+                `slug` varchar(200) DEFAULT NULL,
+                `hit` int(11) DEFAULT 0,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `captcha_codes` (
-          `id` varchar(40) NOT NULL,
-          `namespace` varchar(32) NOT NULL,
-          `code` varchar(32) NOT NULL,
-          `code_display` varchar(32) NOT NULL,
-          `created` int(11) NOT NULL,
-          `audio_data` mediumblob DEFAULT NULL,
-          PRIMARY KEY (`id`,`namespace`),
-          KEY `created` (`created`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `captcha_codes` (
+                `id` varchar(40) NOT NULL,
+                `namespace` varchar(32) NOT NULL,
+                `code` varchar(32) NOT NULL,
+                `code_display` varchar(32) NOT NULL,
+                `created` int(11) NOT NULL,
+                `audio_data` mediumblob DEFAULT NULL,
+                PRIMARY KEY (`id`,`namespace`),
+                KEY `created` (`created`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `gambar_gallery` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `parrent` int(4) DEFAULT 0,
-          `gambar` varchar(200) NOT NULL,
-          `nama` varchar(50) NOT NULL,
-          `enabled` int(2) NOT NULL DEFAULT 1,
-          `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
-          `tipe` int(4) DEFAULT 0,
-          `slider` tinyint(1) DEFAULT NULL,
-          `urut` int(5) DEFAULT NULL,
-          PRIMARY KEY (`id`),
-          KEY `parrent` (`parrent`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `gambar_gallery` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `parrent` int(4) DEFAULT 0,
+                `gambar` varchar(200) NOT NULL,
+                `nama` varchar(50) NOT NULL,
+                `enabled` int(2) NOT NULL DEFAULT 1,
+                `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+                `tipe` int(4) DEFAULT 0,
+                `slider` tinyint(1) DEFAULT NULL,
+                `urut` int(5) DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `parrent` (`parrent`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `kategori` (
-          `id` int(5) NOT NULL AUTO_INCREMENT,
-          `kategori` varchar(100) NOT NULL,
-          `tipe` int(4) NOT NULL DEFAULT 1,
-          `urut` tinyint(4) NOT NULL,
-          `enabled` tinyint(4) NOT NULL,
-          `parrent` tinyint(4) NOT NULL DEFAULT 0,
-          `slug` varchar(100) DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `kategori` (
+                `id` int(5) NOT NULL AUTO_INCREMENT,
+                `kategori` varchar(100) NOT NULL,
+                `tipe` int(4) NOT NULL DEFAULT 1,
+                `urut` tinyint(4) NOT NULL,
+                `enabled` tinyint(4) NOT NULL,
+                `parrent` tinyint(4) NOT NULL DEFAULT 0,
+                `slug` varchar(100) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `komentar` (
-          `id` int(5) NOT NULL AUTO_INCREMENT,
-          `id_artikel` int(7) NOT NULL,
-          `owner` varchar(50) NOT NULL,
-          `email` varchar(50) DEFAULT NULL,
-          `subjek` tinytext DEFAULT NULL,
-          `komentar` text NOT NULL,
-          `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
-          `status` tinyint(1) DEFAULT NULL,
-          `tipe` tinyint(1) DEFAULT NULL,
-          `no_hp` varchar(15) DEFAULT NULL,
-          `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `is_archived` tinyint(1) DEFAULT 0,
-          `permohonan` text DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        )
-      ");
+        DB::statement("
+            CREATE TABLE `komentar` (
+                `id` int(5) NOT NULL AUTO_INCREMENT,
+                `id_artikel` int(7) NOT NULL,
+                `owner` varchar(50) NOT NULL,
+                `email` varchar(50) DEFAULT NULL,
+                `subjek` tinytext DEFAULT NULL,
+                `komentar` text NOT NULL,
+                `tgl_upload` timestamp NOT NULL DEFAULT current_timestamp(),
+                `status` tinyint(1) DEFAULT NULL,
+                `tipe` tinyint(1) DEFAULT NULL,
+                `no_hp` varchar(15) DEFAULT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `is_archived` tinyint(1) DEFAULT 0,
+                `permohonan` text DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            )
+        ");
 
-      DB::statement("
-        CREATE TABLE `media_sosial` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `gambar` text NOT NULL,
-          `link` text DEFAULT NULL,
-          `nama` varchar(100) NOT NULL,
-          `tipe` tinyint(1) DEFAULT 1,
-          `enabled` int(11) NOT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `media_sosial` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `gambar` text NOT NULL,
+                `link` text DEFAULT NULL,
+                `nama` varchar(100) NOT NULL,
+                `tipe` tinyint(1) DEFAULT 1,
+                `enabled` int(11) NOT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
         DB::table('media_sosial')->insert([
             ['id' => 1, 'gambar' => 'fb.png', 'link' => 'https://www.facebook.com/groups/OpenSID/', 'nama' => 'Facebook', 'tipe' => 1, 'enabled' => 1],
@@ -1168,72 +1181,72 @@ class Data_awal_seeder extends CI_Model
             ['id' => 7, 'gambar' => 'tg.png', 'link' => NULL, 'nama' => 'Telegram', 'tipe' => 1, 'enabled' => 2],
         ]);
 
-      DB::statement("
-        CREATE TABLE `menu` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `nama` varchar(50) NOT NULL,
-          `link` varchar(500) NOT NULL,
-          `parrent` int(11) DEFAULT 0,
-          `link_tipe` tinyint(1) NOT NULL DEFAULT 0,
-          `enabled` tinyint(1) DEFAULT 1,
-          `urut` int(5) DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `menu` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama` varchar(50) NOT NULL,
+                `link` varchar(500) NOT NULL,
+                `parrent` int(11) DEFAULT 0,
+                `link_tipe` tinyint(1) NOT NULL DEFAULT 0,
+                `enabled` tinyint(1) DEFAULT 1,
+                `urut` int(5) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `pelapak` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_pend` int(11) DEFAULT NULL,
-          `telepon` varchar(20) DEFAULT NULL,
-          `lat` varchar(20) DEFAULT NULL,
-          `lng` varchar(20) DEFAULT NULL,
-          `zoom` tinyint(4) NOT NULL DEFAULT 10,
-          `status` tinyint(1) NOT NULL DEFAULT 1,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `pelapak` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_pend` int(11) DEFAULT NULL,
+                `telepon` varchar(20) DEFAULT NULL,
+                `lat` varchar(20) DEFAULT NULL,
+                `lng` varchar(20) DEFAULT NULL,
+                `zoom` tinyint(4) NOT NULL DEFAULT 10,
+                `status` tinyint(1) NOT NULL DEFAULT 1,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `teks_berjalan` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `teks` text DEFAULT NULL,
-          `urut` int(5) DEFAULT NULL,
-          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `created_by` int(11) NOT NULL,
-          `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `updated_by` int(11) DEFAULT NULL,
-          `status` int(1) NOT NULL DEFAULT 0,
-          `tautan` varchar(150) DEFAULT NULL,
-          `judul_tautan` varchar(150) DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `teks_berjalan` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `teks` text DEFAULT NULL,
+                `urut` int(5) DEFAULT NULL,
+                `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `updated_by` int(11) DEFAULT NULL,
+                `status` int(1) NOT NULL DEFAULT 0,
+                `tautan` varchar(150) DEFAULT NULL,
+                `judul_tautan` varchar(150) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `urls` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `url` varchar(255) NOT NULL,
-          `alias` varchar(100) NOT NULL,
-          `created` datetime NOT NULL,
-          PRIMARY KEY (`id`),
-          KEY `alias` (`alias`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `urls` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `url` varchar(255) NOT NULL,
+                `alias` varchar(100) NOT NULL,
+                `created` datetime NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `alias` (`alias`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `widget` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `isi` text DEFAULT NULL,
-          `enabled` int(2) DEFAULT NULL,
-          `judul` varchar(100) DEFAULT NULL,
-          `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
-          `urut` int(5) DEFAULT NULL,
-          `form_admin` varchar(100) DEFAULT NULL,
-          `setting` text DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `widget` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `isi` text DEFAULT NULL,
+                `enabled` int(2) DEFAULT NULL,
+                `judul` varchar(100) DEFAULT NULL,
+                `jenis_widget` tinyint(2) NOT NULL DEFAULT 3,
+                `urut` int(5) DEFAULT NULL,
+                `form_admin` varchar(100) DEFAULT NULL,
+                `setting` text DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
         DB::table('widget')->insert([
             ['id' => 1, 'isi' => '<p><iframe src=\"https://www.google.co.id/maps?f=q&source=s_q&hl=en&geocode=&q=Logandu,+Karanggayam&aq=0&oq=logan&sll=-2.550221,118.015568&sspn=52.267573,80.332031&t=h&ie=UTF8&hq=&hnear=Logandu,+Karanggayam,+Kebumen,+Central+Java&ll=-7.55854,109.634173&spn=0.052497,0.078449&z=14&output=embed\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\" width=\"100%\"></iframe></p> ', 'enabled' => 2, 'judul' => 'Peta Desa', 'jenis_widget' => 3, 'urut' => 1, 'form_admin' => '', 'setting' => ''],
@@ -1251,55 +1264,57 @@ class Data_awal_seeder extends CI_Model
             ['id' => 14, 'isi' => 'peta_wilayah_desa.php', 'enabled' => 1, 'judul' => 'Peta Wilayah Desa', 'jenis_widget' => 1, 'urut' => 12, 'form_admin' => 'identitas_desa/maps/wilayah', 'setting' => ''],
             ['id' => 15, 'isi' => 'keuangan.php', 'enabled' => 1, 'judul' => 'Keuangan', 'jenis_widget' => 1, 'urut' => 15, 'form_admin' => 'keuangan/impor_data', 'setting' => ''],
         ]);
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pertanahan()
     {
-      DB::statement("
-        CREATE TABLE `cdesa` (
-          `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
-          `nomor` varchar(20) NOT NULL,
-          `nama_kepemilikan` varchar(100) NOT NULL,
-          `jenis_pemilik` tinyint(1) NOT NULL DEFAULT 0,
-          `nama_pemilik_luar` varchar(100) DEFAULT NULL,
-          `alamat_pemilik_luar` varchar(200) DEFAULT NULL,
-          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `created_by` int(11) NOT NULL,
-          `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `updated_by` int(11) NOT NULL,
-          PRIMARY KEY (`id`),
-          UNIQUE KEY `nomor` (`nomor`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `cdesa` (
+                `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+                `nomor` varchar(20) NOT NULL,
+                `nama_kepemilikan` varchar(100) NOT NULL,
+                `jenis_pemilik` tinyint(1) NOT NULL DEFAULT 0,
+                `nama_pemilik_luar` varchar(100) DEFAULT NULL,
+                `alamat_pemilik_luar` varchar(200) DEFAULT NULL,
+                `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `created_by` int(11) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `updated_by` int(11) NOT NULL,
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `nomor` (`nomor`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `persil` (
-          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-          `nomor` varchar(20) NOT NULL,
-          `nomor_urut_bidang` smallint(6) DEFAULT 1,
-          `kelas` int(5) NOT NULL,
-          `luas_persil` decimal(7,0) DEFAULT NULL,
-          `id_wilayah` int(11) DEFAULT NULL,
-          `lokasi` text DEFAULT NULL,
-          `path` text DEFAULT NULL,
-          `cdesa_awal` int(11) unsigned DEFAULT NULL,
-          `id_peta` int(60) DEFAULT NULL,
-          PRIMARY KEY (`id`),
-          KEY `nomor_nomor_urut_bidang` (`nomor`,`nomor_urut_bidang`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `persil` (
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                `nomor` varchar(20) NOT NULL,
+                `nomor_urut_bidang` smallint(6) DEFAULT 1,
+                `kelas` int(5) NOT NULL,
+                `luas_persil` decimal(7,0) DEFAULT NULL,
+                `id_wilayah` int(11) DEFAULT NULL,
+                `lokasi` text DEFAULT NULL,
+                `path` text DEFAULT NULL,
+                `cdesa_awal` int(11) unsigned DEFAULT NULL,
+                `id_peta` int(60) DEFAULT NULL,
+                PRIMARY KEY (`id`),
+                KEY `nomor_nomor_urut_bidang` (`nomor`,`nomor_urut_bidang`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `ref_persil_kelas` (
-          `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
-          `tipe` varchar(20) NOT NULL,
-          `kode` varchar(20) NOT NULL,
-          `ndesc` text DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
-
-         DB::table('ref_persil_kelas')->insert([
+        DB::statement("
+            CREATE TABLE `ref_persil_kelas` (
+                `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
+                `tipe` varchar(20) NOT NULL,
+                `kode` varchar(20) NOT NULL,
+                `ndesc` text DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
+        
+        DB::table('ref_persil_kelas')->insert([
             ['id' => 1, 'tipe' => 'BASAH', 'kode' => 'S-I', 'ndesc' => 'Persawahan Dekat dengan Pemukiman'],
             ['id' => 2, 'tipe' => 'BASAH', 'kode' => 'S-II', 'ndesc' => 'Persawahan Agak Dekat dengan Pemukiman'],
             ['id' => 3, 'tipe' => 'BASAH', 'kode' => 'S-III', 'ndesc' => 'Persawahan Jauh dengan Pemukiman'],
@@ -1310,132 +1325,134 @@ class Data_awal_seeder extends CI_Model
             ['id' => 8, 'tipe' => 'KERING', 'kode' => 'D-IV', 'ndesc' => 'Lahan Kering Sanga Jauh dengan Pemukiman'],
         ]);
 
-      DB::statement("
+        DB::statement("
             CREATE TABLE `ref_persil_mutasi` (
-              `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
-              `nama` varchar(20) NOT NULL,
-              `ndesc` text DEFAULT NULL,
-              PRIMARY KEY (`id`)
+                `id` tinyint(5) unsigned NOT NULL AUTO_INCREMENT,
+                `nama` varchar(20) NOT NULL,
+                `ndesc` text DEFAULT NULL,
+                PRIMARY KEY (`id`)
             );
-      ");
+        ");
 
-         DB::table('ref_persil_mutasi')->insert([
+        DB::table('ref_persil_mutasi')->insert([
             ['id' => 1, 'nama' => 'Jual Beli', 'ndesc' => 'Didapat dari proses Jual Beli'],
             ['id' => 2, 'nama' => 'Hibah', 'ndesc' => 'Didapat dari proses Hibah'],
             ['id' => 3, 'nama' => 'Waris', 'ndesc' => 'Didapat dari proses Waris'],
         ]);
 
-      DB::statement("
-        CREATE TABLE `tanah_desa` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `id_penduduk` int(10) NOT NULL,
-          `nik` decimal(16,0) DEFAULT NULL,
-          `jenis_pemilik` text DEFAULT NULL,
-          `nama_pemilik_asal` varchar(200) NOT NULL,
-          `luas` int(10) NOT NULL,
-          `hak_milik` int(11) DEFAULT NULL,
-          `hak_guna_bangunan` int(11) DEFAULT NULL,
-          `hak_pakai` int(11) DEFAULT NULL,
-          `hak_guna_usaha` int(11) DEFAULT NULL,
-          `hak_pengelolaan` int(11) DEFAULT NULL,
-          `hak_milik_adat` int(11) DEFAULT NULL,
-          `hak_verponding` int(11) DEFAULT NULL,
-          `tanah_negara` int(11) DEFAULT NULL,
-          `perumahan` int(11) DEFAULT NULL,
-          `perdagangan_jasa` int(11) DEFAULT NULL,
-          `perkantoran` int(11) DEFAULT NULL,
-          `industri` int(11) DEFAULT NULL,
-          `fasilitas_umum` int(11) DEFAULT NULL,
-          `sawah` int(11) DEFAULT NULL,
-          `tegalan` int(11) DEFAULT NULL,
-          `perkebunan` int(11) DEFAULT NULL,
-          `peternakan_perikanan` int(11) DEFAULT NULL,
-          `hutan_belukar` int(11) DEFAULT NULL,
-          `hutan_lebat_lindung` int(11) DEFAULT NULL,
-          `tanah_kosong` int(11) DEFAULT NULL,
-          `lain` int(11) DEFAULT NULL,
-          `mutasi` text NOT NULL,
-          `keterangan` text NOT NULL,
-          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `created_by` int(10) NOT NULL,
-          `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `updated_by` int(10) NOT NULL,
-          `visible` tinyint(3) NOT NULL DEFAULT 1,
-          PRIMARY KEY (`id`),
-          KEY `id_penduduk` (`id_penduduk`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `tanah_desa` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `id_penduduk` int(10) NOT NULL,
+                `nik` decimal(16,0) DEFAULT NULL,
+                `jenis_pemilik` text DEFAULT NULL,
+                `nama_pemilik_asal` varchar(200) NOT NULL,
+                `luas` int(10) NOT NULL,
+                `hak_milik` int(11) DEFAULT NULL,
+                `hak_guna_bangunan` int(11) DEFAULT NULL,
+                `hak_pakai` int(11) DEFAULT NULL,
+                `hak_guna_usaha` int(11) DEFAULT NULL,
+                `hak_pengelolaan` int(11) DEFAULT NULL,
+                `hak_milik_adat` int(11) DEFAULT NULL,
+                `hak_verponding` int(11) DEFAULT NULL,
+                `tanah_negara` int(11) DEFAULT NULL,
+                `perumahan` int(11) DEFAULT NULL,
+                `perdagangan_jasa` int(11) DEFAULT NULL,
+                `perkantoran` int(11) DEFAULT NULL,
+                `industri` int(11) DEFAULT NULL,
+                `fasilitas_umum` int(11) DEFAULT NULL,
+                `sawah` int(11) DEFAULT NULL,
+                `tegalan` int(11) DEFAULT NULL,
+                `perkebunan` int(11) DEFAULT NULL,
+                `peternakan_perikanan` int(11) DEFAULT NULL,
+                `hutan_belukar` int(11) DEFAULT NULL,
+                `hutan_lebat_lindung` int(11) DEFAULT NULL,
+                `tanah_kosong` int(11) DEFAULT NULL,
+                `lain` int(11) DEFAULT NULL,
+                `mutasi` text NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `created_by` int(10) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `updated_by` int(10) NOT NULL,
+                `visible` tinyint(3) NOT NULL DEFAULT 1,
+                PRIMARY KEY (`id`),
+                KEY `id_penduduk` (`id_penduduk`)
+            );
+        ");
 
-      DB::statement("
-        CREATE TABLE `tanah_kas_desa` (
-          `id` int(11) NOT NULL AUTO_INCREMENT,
-          `nama_pemilik_asal` varchar(200) NOT NULL,
-          `letter_c` text NOT NULL,
-          `kelas` text NOT NULL,
-          `luas` int(10) NOT NULL,
-          `asli_milik_desa` int(11) DEFAULT NULL,
-          `pemerintah` int(11) DEFAULT NULL,
-          `provinsi` int(11) DEFAULT NULL,
-          `kabupaten_kota` int(11) DEFAULT NULL,
-          `lain_lain` int(11) DEFAULT NULL,
-          `sawah` int(11) DEFAULT NULL,
-          `tegal` int(11) DEFAULT NULL,
-          `kebun` int(11) DEFAULT NULL,
-          `tambak_kolam` int(11) DEFAULT NULL,
-          `tanah_kering_darat` int(11) DEFAULT NULL,
-          `ada_patok` int(11) DEFAULT NULL,
-          `tidak_ada_patok` int(11) DEFAULT NULL,
-          `ada_papan_nama` int(11) DEFAULT NULL,
-          `tidak_ada_papan_nama` int(11) DEFAULT NULL,
-          `tanggal_perolehan` date DEFAULT NULL,
-          `lokasi` text NOT NULL,
-          `peruntukan` text NOT NULL,
-          `mutasi` text NOT NULL,
-          `keterangan` text NOT NULL,
-          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `created_by` int(10) NOT NULL,
-          `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
-          `updated_by` int(10) NOT NULL,
-          `visible` tinyint(2) NOT NULL DEFAULT 1,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `tanah_kas_desa` (
+                `id` int(11) NOT NULL AUTO_INCREMENT,
+                `nama_pemilik_asal` varchar(200) NOT NULL,
+                `letter_c` text NOT NULL,
+                `kelas` text NOT NULL,
+                `luas` int(10) NOT NULL,
+                `asli_milik_desa` int(11) DEFAULT NULL,
+                `pemerintah` int(11) DEFAULT NULL,
+                `provinsi` int(11) DEFAULT NULL,
+                `kabupaten_kota` int(11) DEFAULT NULL,
+                `lain_lain` int(11) DEFAULT NULL,
+                `sawah` int(11) DEFAULT NULL,
+                `tegal` int(11) DEFAULT NULL,
+                `kebun` int(11) DEFAULT NULL,
+                `tambak_kolam` int(11) DEFAULT NULL,
+                `tanah_kering_darat` int(11) DEFAULT NULL,
+                `ada_patok` int(11) DEFAULT NULL,
+                `tidak_ada_patok` int(11) DEFAULT NULL,
+                `ada_papan_nama` int(11) DEFAULT NULL,
+                `tidak_ada_papan_nama` int(11) DEFAULT NULL,
+                `tanggal_perolehan` date DEFAULT NULL,
+                `lokasi` text NOT NULL,
+                `peruntukan` text NOT NULL,
+                `mutasi` text NOT NULL,
+                `keterangan` text NOT NULL,
+                `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `created_by` int(10) NOT NULL,
+                `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                `updated_by` int(10) NOT NULL,
+                `visible` tinyint(2) NOT NULL DEFAULT 1,
+                PRIMARY KEY (`id`)
+            );
+        ");
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_desa()
     {
-      DB::statement("
-        CREATE TABLE `config` (
-          `id` int(5) NOT NULL AUTO_INCREMENT,
-          `nama_desa` varchar(100) NOT NULL,
-          `kode_desa` varchar(100) NOT NULL,
-          `kode_pos` int(5) DEFAULT NULL,
-          `nama_kecamatan` varchar(100) NOT NULL,
-          `kode_kecamatan` varchar(100) NOT NULL,
-          `nama_kepala_camat` varchar(100) NOT NULL,
-          `nip_kepala_camat` varchar(100) NOT NULL,
-          `nama_kabupaten` varchar(100) NOT NULL,
-          `kode_kabupaten` varchar(100) NOT NULL,
-          `nama_propinsi` varchar(100) NOT NULL,
-          `kode_propinsi` varchar(100) NOT NULL,
-          `logo` varchar(100) DEFAULT NULL,
-          `lat` varchar(20) DEFAULT NULL,
-          `lng` varchar(20) DEFAULT NULL,
-          `zoom` tinyint(4) DEFAULT NULL,
-          `map_tipe` varchar(20) DEFAULT NULL,
-          `path` text DEFAULT NULL,
-          `alamat_kantor` varchar(200) DEFAULT NULL,
-          `email_desa` varchar(50) DEFAULT NULL,
-          `telepon` varchar(50) DEFAULT NULL,
-          `website` varchar(100) DEFAULT NULL,
-          `kantor_desa` varchar(100) DEFAULT NULL,
-          `warna` varchar(25) DEFAULT NULL,
-          `pamong_id` int(11) DEFAULT NULL,
-          PRIMARY KEY (`id`)
-        );
-      ");
+        DB::statement("
+            CREATE TABLE `config` (
+                `id` int(5) NOT NULL AUTO_INCREMENT,
+                `nama_desa` varchar(100) NOT NULL,
+                `kode_desa` varchar(100) NOT NULL,
+                `kode_pos` int(5) DEFAULT NULL,
+                `nama_kecamatan` varchar(100) NOT NULL,
+                `kode_kecamatan` varchar(100) NOT NULL,
+                `nama_kepala_camat` varchar(100) NOT NULL,
+                `nip_kepala_camat` varchar(100) NOT NULL,
+                `nama_kabupaten` varchar(100) NOT NULL,
+                `kode_kabupaten` varchar(100) NOT NULL,
+                `nama_propinsi` varchar(100) NOT NULL,
+                `kode_propinsi` varchar(100) NOT NULL,
+                `logo` varchar(100) DEFAULT NULL,
+                `lat` varchar(20) DEFAULT NULL,
+                `lng` varchar(20) DEFAULT NULL,
+                `zoom` tinyint(4) DEFAULT NULL,
+                `map_tipe` varchar(20) DEFAULT NULL,
+                `path` text DEFAULT NULL,
+                `alamat_kantor` varchar(200) DEFAULT NULL,
+                `email_desa` varchar(50) DEFAULT NULL,
+                `telepon` varchar(50) DEFAULT NULL,
+                `website` varchar(100) DEFAULT NULL,
+                `kantor_desa` varchar(100) DEFAULT NULL,
+                `warna` varchar(25) DEFAULT NULL,
+                `pamong_id` int(11) DEFAULT NULL,
+                PRIMARY KEY (`id`)
+            );
+        ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_wil_clusterdesa` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `rt` varchar(10) NOT NULL DEFAULT '0',
@@ -1455,11 +1472,13 @@ class Data_awal_seeder extends CI_Model
           KEY `id_kepala` (`id_kepala`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_covid19()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `covid19_vaksin` (
           `id_penduduk` varchar(100) NOT NULL,
           `vaksin_1` int(1) DEFAULT NULL,
@@ -1481,7 +1500,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_status_covid` (
           `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -1489,7 +1508,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-         DB::table('ref_status_covid')->insert([
+        DB::table('ref_status_covid')->insert([
             ['id' => 1, 'nama' => 'Kasus Suspek'],
             ['id' => 2, 'nama' => 'Kasus Probable'],
             ['id' => 3, 'nama' => 'Kasus Konfirmasi'],
@@ -1498,11 +1517,14 @@ class Data_awal_seeder extends CI_Model
             ['id' => 6, 'nama' => 'Discarded'],
             ['id' => 7, 'nama' => 'Selesai Isolasi'],
          ]);
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
+      return ;
    }
 
     private function tabel_penduduk()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `kelompok` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_master` int(11) NOT NULL,
@@ -1520,7 +1542,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `kelompok_master` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `kelompok` varchar(50) NOT NULL,
@@ -1530,7 +1552,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `log_hapus_penduduk` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_pend` int(11) NOT NULL,
@@ -1542,7 +1564,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `log_perubahan_penduduk` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_pend` int(11) NOT NULL,
@@ -1552,7 +1574,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_penduduk_bahasa` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) NOT NULL,
@@ -1569,7 +1591,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 6, 'nama' => 'Arab, Latin dan Daerah', 'inisial' => 'ALD'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_penduduk_bidang` (
           `id` int(12) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -1601,7 +1623,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 21, 'nama' => 'Internet Marketing'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_penduduk_hamil` (
           `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -1614,7 +1636,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 2, 'nama' => 'Tidak Hamil'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_penduduk_kursus` (
           `id` int(12) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -1669,7 +1691,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 44, 'nama' => 'Kursus Pengobatan Tradisional'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_penduduk_suku` (
           `id` int(65) unsigned NOT NULL AUTO_INCREMENT,
           `suku` varchar(100) NOT NULL,
@@ -1678,7 +1700,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-       DB::table('ref_penduduk_suku')->insert([
+         DB::table('ref_penduduk_suku')->insert([
             ['id' => 1, 'suku' => 'Aceh', 'deskripsi' => 'Aceh'],
             ['id' => 2, 'suku' => 'Alas', 'deskripsi' => 'Aceh'],
             ['id' => 3, 'suku' => 'Alor', 'deskripsi' => 'NTT'],
@@ -1844,7 +1866,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 163, 'suku' => 'Wolio', 'deskripsi' => 'Wolio di Sulawesi Tenggara (Buton)'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_peristiwa` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) NOT NULL,
@@ -1861,7 +1883,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 6, 'nama' => 'Pergi'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_pindah` (
           `id` tinyint(4) NOT NULL,
           `nama` varchar(50) NOT NULL,
@@ -1876,7 +1898,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'nama' => 'Pindah keluar Provinsi'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `suplemen` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) DEFAULT NULL,
@@ -1888,7 +1910,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_cacat` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -1906,7 +1928,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 7, 'nama' => 'TIDAK CACAT'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_cara_kb` (
           `id` tinyint(5) NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) NOT NULL,
@@ -1926,7 +1948,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 99,'nama' => 'Lainnya', 'sex' => 3],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_golongan_darah` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(15) DEFAULT NULL,
@@ -1950,7 +1972,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 13, 'nama' => 'TIDAK TAHU'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -2035,7 +2057,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_agama` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -2053,7 +2075,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 7, 'nama' => 'Kepercayaan Terhadap Tuhan YME / Lainnya'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_asuransi` (
           `id` tinyint(5) NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) NOT NULL,
@@ -2068,7 +2090,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 99, 'nama' => 'Asuransi Lainnya'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_hubungan` (
           `id` int(10) NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -2090,7 +2112,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 11, 'nama' => 'LAINNYA'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_kawin` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -2105,7 +2127,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'nama'=> 'CERAI MATI'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_map` (
           `id` int(11) NOT NULL,
           `lat` varchar(24) DEFAULT NULL,
@@ -2113,7 +2135,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_pekerjaan` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) DEFAULT NULL,
@@ -2213,7 +2235,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 89, 'nama' => 'LAINNYA'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_pendidikan` (
           `id` tinyint(3) NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) NOT NULL,
@@ -2242,7 +2264,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 18, 'nama' => 'TIDAK SEDANG SEKOLAH'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_pendidikan_kk` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) NOT NULL,
@@ -2263,7 +2285,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 10, 'nama' => 'STRATA III'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_sex` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(15) DEFAULT NULL,
@@ -2276,7 +2298,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 2, 'nama' => 'PEREMPUAN'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_status` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) DEFAULT NULL,
@@ -2289,7 +2311,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 2, 'nama' => 'TIDAK TETAP'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_umur` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(25) DEFAULT NULL,
@@ -2324,7 +2346,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 26, 'nama' => 'Di atas 75 Tahun', 'dari' => 75, 'sampai' => 99999, 'status' => 1],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_warganegara` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(25) DEFAULT NULL,
@@ -2338,7 +2360,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 3, 'nama' => 'DUA KEWARGANEGARAAN'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_rtm` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nik_kepala` int(11) NOT NULL,
@@ -2352,7 +2374,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_rtm_hubungan` (
           `id` tinyint(4) NOT NULL AUTO_INCREMENT,
           `nama` varchar(20) NOT NULL,
@@ -2365,7 +2387,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 2, 'nama' => 'Anggota'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_sakit_menahun` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(255) NOT NULL,
@@ -2390,7 +2412,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 14, 'nama' => 'TIDAK ADA/TIDAK SAKIT'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_status_dasar` (
           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) DEFAULT NULL,
@@ -2407,7 +2429,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 9, 'nama' => 'TIDAK VALID'],
        ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_status_ktp` (
           `id` tinyint(5) NOT NULL AUTO_INCREMENT,
           `nama` varchar(50) NOT NULL,
@@ -2426,11 +2448,13 @@ class Data_awal_seeder extends CI_Model
             ['id' => 6, 'nama' => 'SENT FOR CARD PRINTING', 'ktp_el' => 2, 'status_rekam' => '7'],
             ['id' => 7, 'nama' => 'CARD ISSUED', 'ktp_el' => 2, 'status_rekam' => '8'],
        ]);
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_dokumen()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `dokumen` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `satuan` varchar(200) DEFAULT NULL,
@@ -2455,7 +2479,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_dokumen` (
           `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -2468,11 +2492,13 @@ class Data_awal_seeder extends CI_Model
             ['id' => 2, 'nama' => 'SK Kades'],
             ['id' => 3, 'nama' => 'Perdes'],
         ]);
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_hubung_warga()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `inbox` (
           `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
           `ReceivingDateTime` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -2490,7 +2516,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `kontak_grup` (
           `id_grup` int(11) NOT NULL AUTO_INCREMENT,
           `nama_grup` varchar(30) NOT NULL,
@@ -2498,7 +2524,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `outbox` (
           `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
           `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -2524,7 +2550,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `sentitems` (
           `UpdatedInDB` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
           `InsertIntoDB` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -2553,7 +2579,7 @@ class Data_awal_seeder extends CI_Model
         );
        ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `setting_sms` (
           `autoreply_text` varchar(160) DEFAULT NULL
         );
@@ -2562,11 +2588,14 @@ class Data_awal_seeder extends CI_Model
         DB::table('setting_sms')->insert([
             ['autoreply_text' => 'Terima kasih pesan Anda telah kami terima.'],
         ]);
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
+      return ;
    }
 
     private function tabel_inventaris()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `inventaris_asset` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama_barang` varchar(255) NOT NULL,
@@ -2597,7 +2626,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `inventaris_gedung` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama_barang` varchar(255) NOT NULL,
@@ -2626,7 +2655,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `inventaris_jalan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama_barang` varchar(255) NOT NULL,
@@ -2655,7 +2684,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `inventaris_kontruksi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama_barang` varchar(255) NOT NULL,
@@ -2682,7 +2711,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `inventaris_peralatan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama_barang` varchar(255) NOT NULL,
@@ -2710,7 +2739,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `inventaris_tanah` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama_barang` varchar(255) NOT NULL,
@@ -2736,7 +2765,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_asal_tanah_kas` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` text NOT NULL,
@@ -2750,7 +2779,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 3, 'nama' => 'Lain - lain'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_peruntukan_tanah_kas` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` text NOT NULL,
@@ -2765,7 +2794,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'nama' => 'Bangun Guna Serah atau Bangun Serah Guna'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_aset` (
           `id_aset` int(11) NOT NULL,
           `golongan` varchar(11) NOT NULL,
@@ -7030,11 +7059,13 @@ class Data_awal_seeder extends CI_Model
             ['id_aset' => 4249, 'golongan' => '7', 'bidang' => '01', 'kelompok' => '01', 'sub_kelompok' => '01', 'sub_sub_kelompok' => '005', 'nama' => 'ASET TETAP LAINNYA DALAM PENGERJAAN'],
             ['id_aset' => 4250, 'golongan' => '7', 'bidang' => '01', 'kelompok' => '01', 'sub_kelompok' => '01', 'sub_sub_kelompok' => '999', 'nama' => 'KONSTRUKSI DALAM PENGERJAAN LAINNYA'],
         ]);
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_buku_admin()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `kader_pemberdayaan_masyarakat` (
           `id` int(12) unsigned NOT NULL AUTO_INCREMENT,
           `penduduk_id` int(12) NOT NULL,
@@ -7044,11 +7075,13 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`id`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_keuangan()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_manual_ref_bidang` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `Kd_Bid` varchar(50) NOT NULL,
@@ -7065,7 +7098,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 5, 'Kd_Bid' => '00.0000.05', 'Nama_Bidang' => 'BIDANG PENANGGULANGAN BENCANA, DARURAT DAN MENDESAK DESA'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_manual_ref_kegiatan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `ID_Keg` varchar(100) NOT NULL,
@@ -7316,7 +7349,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 239, 'ID_Keg' => '04.07.91', 'Nama_Kegiatan' => 'Sosialisasi Teknologi Tepat Guna/Posyantekdes dan/atau antar Desa/percontohan Teknologi Tepat Guna untuk produksi pertanian/pengembangan sumber energi perdesaan/pengemban'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_manual_ref_rek1` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `Akun` varchar(100) NOT NULL,
@@ -7335,7 +7368,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 7, 'Akun' => '7.', 'Nama_Akun' => 'NON ANGGARAN'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_manual_ref_rek2` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `Akun` varchar(100) NOT NULL,
@@ -7365,7 +7398,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 17, 'Akun' => '7.', 'Kelompok' => '7.1.', 'Nama_Kelompok' => 'Perhitungan Fihak Ketiga'],
         ]);
 
-      DB::statement("
+        DB::statement("
             CREATE TABLE `keuangan_manual_ref_rek3` (
               `id` int(11) NOT NULL AUTO_INCREMENT,
               `Kelompok` varchar(100) NOT NULL,
@@ -7451,7 +7484,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 73, 'Kelompok' => '7.1.', 'Jenis' => '7.1.3.', 'Nama_Jenis' => 'Perhitungan PFK - Uang Muka dan Jaminan'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_manual_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `Tahun` varchar(100) NOT NULL,
@@ -7464,7 +7497,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_manual_rinci_tpl` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `Tahun` varchar(100) NOT NULL,
@@ -7477,7 +7510,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_master` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `versi_database` varchar(50) NOT NULL,
@@ -7487,11 +7520,13 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`id`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_surat()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `klasifikasi_surat` (
           `id` int(4) NOT NULL AUTO_INCREMENT,
           `kode` varchar(50) NOT NULL,
@@ -9841,7 +9876,7 @@ class Data_awal_seeder extends CI_Model
 
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `log_surat` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_format_surat` int(3) NOT NULL,
@@ -9862,7 +9897,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `permohonan_surat` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_pemohon` int(11) NOT NULL,
@@ -9879,7 +9914,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_syarat_surat` (
           `ref_syarat_id` int(1) unsigned NOT NULL AUTO_INCREMENT,
           `ref_syarat_nama` varchar(255) NOT NULL,
@@ -9902,7 +9937,7 @@ class Data_awal_seeder extends CI_Model
             ['ref_syarat_id' => 12, 'ref_syarat_nama' => 'Surat imigrasi / STMD (Surat Tanda Melapor Diri)'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `statistics` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `url_id` int(11) NOT NULL,
@@ -9912,7 +9947,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `surat_keluar` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nomor_urut` smallint(5) DEFAULT NULL,
@@ -9936,7 +9971,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `surat_masuk` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nomor_urut` smallint(5) DEFAULT NULL,
@@ -9953,7 +9988,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_surat_format` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -10019,11 +10054,12 @@ class Data_awal_seeder extends CI_Model
             ['id' => 181, 'nama' => 'Keterangan Untuk Nikah Warga Non Muslim', 'url_surat' => 'surat_ket_nikah_non_muslim', 'kode_surat' => 'S-50', 'lampiran' => 'f-2.12.php', 'kunci' => 0, 'favorit' => 0, 'jenis' => 1, 'mandiri' => 0, 'masa_berlaku' => 1, 'satuan_masa_berlaku' => 'M', 'qr_code' => 0],
         ]);
 
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_sinkronisasi()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `laporan_sinkronisasi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `tipe` varchar(50) DEFAULT NULL,
@@ -10038,7 +10074,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `log_ekspor` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `tgl_ekspor` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -10050,7 +10086,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `migrasi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `versi_database` varchar(10) NOT NULL,
@@ -10058,7 +10094,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `password_resets` (
           `email` varchar(255) NOT NULL,
           `token` varchar(255) NOT NULL,
@@ -10067,7 +10103,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `ref_sinkronisasi` (
           `tabel` varchar(100) NOT NULL,
           `server` varchar(255) DEFAULT NULL,
@@ -10080,11 +10116,13 @@ class Data_awal_seeder extends CI_Model
             ['tabel' => 'tweb_keluarga', 'server' => '6', 'jenis_update' => 1, 'tabel_hapus' => 'log_keluarga'],
             ['tabel' => 'tweb_penduduk', 'server' => '6', 'jenis_update' => 1, 'tabel_hapus' => 'log_hapus_penduduk'],
         ]);
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_dashboard()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `notifikasi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `kode` varchar(100) NOT NULL,
@@ -10129,11 +10167,13 @@ class Data_awal_seeder extends CI_Model
                 'aksi' => 'setting/aktifkan_tracking,notif/update_pengumuman',
                 'aktif' => 0],
         ]);
+
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pembangunan()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `pembangunan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_lokasi` int(11) DEFAULT NULL,
@@ -10167,7 +10207,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `pembangunan_ref_dokumentasi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_pembangunan` int(11) NOT NULL,
@@ -10180,11 +10220,13 @@ class Data_awal_seeder extends CI_Model
           KEY `id_pembangunan` (`id_pembangunan`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_lapak()
     {
-      DB::statement("
+        DB::statement("
           CREATE TABLE `produk_kategori` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `kategori` varchar(50) DEFAULT NULL,
@@ -10193,11 +10235,13 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`id`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_bantuan()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `program` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `nama` varchar(100) NOT NULL,
@@ -10212,7 +10256,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `program_peserta` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `peserta` varchar(30) NOT NULL,
@@ -10228,11 +10272,13 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`id`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_sistem()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `setting_aplikasi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `key` varchar(50) DEFAULT NULL,
@@ -10311,7 +10357,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 873, 'key' => 'branding_desa', 'value' => 'LAYANAN MANDIRI', 'keterangan' => 'Nama Branding Aplikasi Layanan Mandiri Android', 'jenis' => NULL, 'kategori' => 'mobile'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `setting_modul` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `modul` varchar(50) NOT NULL,
@@ -10468,7 +10514,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 336, 'modul' => 'Arsip [Desa]', 'url' => 'bumindes_arsip', 'aktif' => 1, 'ikon' => 'fa-archive', 'urut' => 5, 'level' => 2, 'hidden' => 0, 'ikon_kecil' => 'fa fa-archive', 'parent' => 301],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `sys_traffic` (
           `Tanggal` date NOT NULL,
           `ipAddress` text NOT NULL,
@@ -10476,11 +10522,13 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`Tanggal`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pamong()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_desa_pamong` (
           `pamong_id` int(5) NOT NULL AUTO_INCREMENT,
           `pamong_nama` varchar(100) DEFAULT NULL,
@@ -10514,11 +10562,13 @@ class Data_awal_seeder extends CI_Model
           PRIMARY KEY (`pamong_id`)
         );
       ");
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_keluarga()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_keluarga` (
           `id` int(10) NOT NULL AUTO_INCREMENT,
           `no_kk` varchar(16) DEFAULT NULL,
@@ -10536,7 +10586,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_keluarga_sejahtera` (
           `id` int(10) NOT NULL DEFAULT 0,
           `nama` varchar(100) DEFAULT NULL,
@@ -10551,11 +10601,13 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'nama' => 'Keluarga Sejahtera III'],
             ['id' => 5, 'nama' => 'Keluarga Sejahtera III Plus'],
         ]);
+        
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function tabel_pengguna()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `user` (
           `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
           `username` varchar(100) DEFAULT NULL,
@@ -10580,7 +10632,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 1, 'username' => 'admin', 'password' => '$2y$10$CfFhuvLXa3RNotqOPYyW2.JujLbAbZ4YO0PtxIRBz4QDLP0/pfH6.', 'id_grup' => 1, 'email' => 'info@opendesa.id', 'last_login' => '2022-02-28 19:55:01', 'email_verified_at' => NULL, 'active' => 1, 'nama' => 'Administrator', 'company' => 'OpenDesa', 'phone' => '321', 'foto' => 'kuser.png', 'session' => 'a8d4080245664ed2049c1b2ded7cac30'],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `user_grup` (
           `id` int(5) NOT NULL AUTO_INCREMENT,
           `nama` varchar(20) NOT NULL,
@@ -10600,13 +10652,15 @@ class Data_awal_seeder extends CI_Model
             ['id' => 4, 'nama' => 'Kontributor', 'jenis' => 1, 'created_at' => '2021-05-01 01:45:38', 'created_by' => NULL, 'updated_at' => '2021-05-01 01:45:38', 'updated_by' => 0],
             ['id' => 5, 'nama' => 'Satgas Covid-19', 'jenis' => 2, 'created_at' => '2021-05-01 01:45:38', 'created_by' => NULL, 'updated_at' => '2021-05-01 01:45:38', 'updated_by' => 0],
         ]);
+
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     // TODO: Pisahkan pembuatan tabel dengan pembuatan foreign key constraint
     // supaya pembuatan tabel bisa dilakukan di masing2 modul
     private function tabel_ada_foreign_key()
     {
-      DB::statement("
+        DB::statement("
         CREATE TABLE `suplemen_terdata` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_suplemen` int(10) DEFAULT NULL,
@@ -10619,7 +10673,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `kontak` (
           `id_kontak` int(11) NOT NULL AUTO_INCREMENT,
           `id_pend` int(11) DEFAULT NULL,
@@ -10630,7 +10684,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `anggota_grup_kontak` (
           `id_grup_kontak` int(11) NOT NULL AUTO_INCREMENT,
           `id_grup` int(11) NOT NULL,
@@ -10643,7 +10697,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `mutasi_inventaris_asset` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_inventaris_asset` int(11) DEFAULT NULL,
@@ -10664,7 +10718,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `mutasi_inventaris_gedung` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_inventaris_gedung` int(11) DEFAULT NULL,
@@ -10685,7 +10739,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `mutasi_inventaris_jalan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_inventaris_jalan` int(11) DEFAULT NULL,
@@ -10706,7 +10760,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `mutasi_inventaris_peralatan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_inventaris_peralatan` int(11) DEFAULT NULL,
@@ -10727,7 +10781,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `mutasi_inventaris_tanah` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_inventaris_tanah` int(11) DEFAULT NULL,
@@ -10748,7 +10802,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `disposisi_surat_masuk` (
           `id_disposisi` int(11) NOT NULL AUTO_INCREMENT,
           `id_surat_masuk` int(11) NOT NULL,
@@ -10762,7 +10816,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `tweb_penduduk_mandiri` (
           `pin` char(32) NOT NULL,
           `last_login` datetime DEFAULT NULL,
@@ -10781,7 +10835,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `setting_aplikasi_options` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_setting` int(11) NOT NULL,
@@ -10817,7 +10871,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 54, 'id_setting' => 605, 'value' => 'Video', 'kode' => 2],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `log_penduduk` (
           `id` int(10) NOT NULL AUTO_INCREMENT,
           `id_pend` int(11) NOT NULL,
@@ -10846,7 +10900,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `agenda` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_artikel` int(11) NOT NULL,
@@ -10859,7 +10913,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `syarat_surat` (
           `id` int(10) NOT NULL AUTO_INCREMENT,
           `surat_format_id` int(10) NOT NULL,
@@ -10909,7 +10963,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 36, 'surat_format_id' => 15, 'ref_syarat_id' => 3],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `covid19_pemudik` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_terdata` int(11) DEFAULT NULL,
@@ -10929,7 +10983,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `covid19_pantau` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_pemudik` int(11) DEFAULT NULL,
@@ -10946,7 +11000,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `kelompok_anggota` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_kelompok` int(11) NOT NULL,
@@ -10967,7 +11021,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `log_keluarga` (
           `id` int(10) NOT NULL AUTO_INCREMENT,
           `id_kk` int(11) NOT NULL,
@@ -10984,7 +11038,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `grup_akses` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_grup` int(11) NOT NULL,
@@ -11162,7 +11216,7 @@ class Data_awal_seeder extends CI_Model
             ['id' => 163, 'id_grup' => 2, 'id_modul' => 331, 'akses' => 3],
         ]);
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `produk` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_pelapak` int(11) DEFAULT NULL,
@@ -11185,7 +11239,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_bank_desa` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11206,7 +11260,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_bel_operasional` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11217,7 +11271,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_bidang` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11229,7 +11283,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_bunga` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11241,7 +11295,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_desa` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11254,7 +11308,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_kecamatan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11266,7 +11320,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_kegiatan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11281,7 +11335,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_korolari` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11295,7 +11349,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_neraca_close` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11307,7 +11361,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_perangkat` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11319,7 +11373,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_potongan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11331,7 +11385,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_rek1` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11344,7 +11398,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_rek2` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11357,7 +11411,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_rek3` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11371,7 +11425,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_rek4` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11385,7 +11439,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_sbu` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11401,7 +11455,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ref_sumber` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11414,7 +11468,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_anggaran` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11438,7 +11492,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_anggaran_log` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11458,7 +11512,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_anggaran_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11485,7 +11539,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_bidang` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11499,7 +11553,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_desa` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11530,7 +11584,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_jurnal_umum` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11552,7 +11606,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_jurnal_umum_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11574,7 +11628,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_kegiatan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11603,7 +11657,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_mutasi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11625,7 +11679,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_pajak` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11651,7 +11705,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_pajak_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11667,7 +11721,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_pemda` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11690,7 +11744,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_pencairan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11714,7 +11768,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_perangkat` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11733,7 +11787,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rab` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11751,7 +11805,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rab_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11778,7 +11832,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rab_sub` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11797,7 +11851,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_bidang` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11810,7 +11864,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_kegiatan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11840,7 +11894,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_misi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11855,7 +11909,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_pagu_indikatif` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11875,7 +11929,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_pagu_tahunan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11902,7 +11956,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_sasaran` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11917,7 +11971,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_tujuan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11932,7 +11986,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_rpjm_visi` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11948,7 +12002,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_saldo_awal` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11966,7 +12020,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spj` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -11986,7 +12040,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spj_bukti` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12016,7 +12070,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spj_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12038,7 +12092,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spj_sisa` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12059,7 +12113,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spjpot` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12077,7 +12131,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spp` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12098,7 +12152,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spp_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12116,7 +12170,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_sppbukti` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12146,7 +12200,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_spppot` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12164,7 +12218,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_sts` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12185,7 +12239,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_sts_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12201,7 +12255,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_tbp` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12228,7 +12282,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_tbp_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12247,7 +12301,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_triwulan` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12284,7 +12338,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `keuangan_ta_triwulan_rinci` (
           `id` int(11) NOT NULL AUTO_INCREMENT,
           `id_keuangan_master` int(11) NOT NULL,
@@ -12321,7 +12375,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `cdesa_penduduk` (
           `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
           `id_cdesa` int(5) unsigned NOT NULL,
@@ -12332,7 +12386,7 @@ class Data_awal_seeder extends CI_Model
         );
       ");
 
-      DB::statement("
+        DB::statement("
         CREATE TABLE `mutasi_cdesa` (
           `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
           `id_cdesa_masuk` int(5) unsigned DEFAULT NULL,
@@ -12351,6 +12405,8 @@ class Data_awal_seeder extends CI_Model
           CONSTRAINT `cdesa_mutasi_fk` FOREIGN KEY (`id_cdesa_masuk`) REFERENCES `cdesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
         );
       ");
+    
+      log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 
     private function buat_view()
@@ -12386,5 +12442,7 @@ class Data_awal_seeder extends CI_Model
             from (`kontak` `a` left join `tweb_penduduk` `b` on((`a`.`id_pend` = `b`.`id`)))");
 
         DB::statement('CREATE VIEW `daftar_anggota_grup` AS select `a`.`id_grup_kontak` AS `id_grup_kontak`,`a`.`id_grup` AS `id_grup`,`c`.`nama_grup` AS `nama_grup`,`b`.`id_kontak` AS `id_kontak`,`b`.`nama` AS `nama`,`b`.`no_hp` AS `no_hp`,`b`.`sex` AS `sex`,`b`.`alamat_sekarang` AS `alamat_sekarang` from ((`anggota_grup_kontak` `a` left join `daftar_kontak` `b` on((`a`.`id_kontak` = `b`.`id_kontak`))) left join `kontak_grup` `c` on((`a`.`id_grup` = `c`.`id_grup`)))');
+      
+        log_message('error', 'Jalankan ' . __FUNCTION__);
     }
 }

@@ -21,6 +21,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 13. [#5285](https://github.com/OpenSID/OpenSID/issues/5285) Perbaiki notifikasi status langganan.
 14. [#5286](https://github.com/OpenSID/OpenSID/issues/5286) Perbaiki error console [Uncaught TypeError: Cannot read properties of undefined (reading 'settings')]
 15. [#5287](https://github.com/OpenSID/OpenSID/issues/5287) Perbaiki surat keterangan pindah penduduk.
+16. [#5289](https://github.com/OpenSID/OpenSID/issues/5289) Perbaiki gagal install v22.06-premium di shared hosting.
 #### Perubahan Teknis
 
 1. [#1070](https://github.com/OpenSID/premium/pull/1070) Teknis perbaiki view database blank, rubah ke error 500.

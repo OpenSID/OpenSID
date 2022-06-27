@@ -244,24 +244,21 @@ class Database_model extends MY_Model
     // Cek apakah migrasi perlu dijalankan
     public function cek_migrasi($install = false)
     {
-        if (! $this->validasi() && ! $install) {
-            // Tidak bisa di ridirect ke peringatan karena harus login sedangkan cek_migrasi selalu dicek diawal.
+        if ($this->validasi() || $install) {
 
-            return null;
-        }
+            // Paksa menjalankan migrasi kalau belum
+            // Migrasi direkam di tabel migrasi
+            if (! $this->versi_database_terbaru()) {
+                // Ulangi migrasi terakhir
+                $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
+                $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
+                $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
 
-        // Paksa menjalankan migrasi kalau belum
-        // Migrasi direkam di tabel migrasi
-        if (! $this->versi_database_terbaru()) {
-            // Ulangi migrasi terakhir
-            $terakhir                                                                                  = key(array_slice($this->versionMigrate, -1, 1, true));
-            $sebelumnya                                                                                = key(array_slice($this->versionMigrate, -2, 1, true));
-            $this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
+                $this->migrasi_db_cri();
 
-            $this->migrasi_db_cri();
-
-            // Kirim versi aplikasi ke layanan setelah migrasi selesai
-            $this->kirimVersi();
+                // Kirim versi aplikasi ke layanan setelah migrasi selesai
+                $this->kirimVersi();
+            }
         }
 
         $this->jalankan_migrasi('migrasi_layanan');
