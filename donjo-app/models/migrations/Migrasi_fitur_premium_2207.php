@@ -260,6 +260,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             ],
             'tanggal_melahirkan' => [
                 'type' => 'DATE',
+                'null' => true,
             ],
             'pemeriksaan_kehamilan' => [
                 'type'       => 'TINYINT',

@@ -408,7 +408,7 @@ class Stunting extends Admin_Controller
             'kia_id'                => $request['id_kia'],
             'status_kehamilan'      => $request['status_kehamilan'],
             'usia_kehamilan'        => $request['usia_kehamilan'],
-            'tanggal_melahirkan'    => date('Y-m-d', strtotime($request['tanggal_melahirkan'])),
+            'tanggal_melahirkan'    => empty($request['tanggal_melahirkan']) ? null : date('Y-m-d', strtotime($request['tanggal_melahirkan'])),
             'pemeriksaan_kehamilan' => $request['pemeriksaan_kehamilan'],
             'konsumsi_pil_fe'       => $request['konsumsi_pil_fe'],
             'butir_pil_fe'          => $request['butir_pil_fe'] ?? 0,
