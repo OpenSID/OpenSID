@@ -37,6 +37,10 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\Dokumen;
+use App\Models\PermohonanSurat;
+use App\Models\SyaratSurat;
+
 class Permohonan_surat_model extends CI_Model
 {
     public function __construct()
@@ -253,31 +257,18 @@ class Permohonan_surat_model extends CI_Model
 
     public function get_syarat_permohonan($id)
     {
-        $permohonan = $this->db->where('id', $id)
-            ->get('permohonan_surat')
-            ->row_array();
-        $syarat_permohonan = json_decode($permohonan['syarat'], true);
-        $dok_syarat        = array_values($syarat_permohonan);
-        if ($dok_syarat) {
-            $this->db->where_in('id', $dok_syarat);
-        }
-        $dokumen_kelengkapan = $this->db
-            ->select('id, nama')
-            ->get('dokumen')
-            ->result_array();
+        $permohonan   = PermohonanSurat::select(['syarat'])->find($id) ?? show_404();
+        $syarat_surat = collect($permohonan->syarat)->map(static function ($item, $key) {
+            $syaratSurat        = SyaratSurat::select(['ref_syarat_nama'])->find($key);
+            $dokumenKelengkapan = Dokumen::select(['nama'])->find($item);
 
-        $dok_syarat = [];
-
-        foreach ($dokumen_kelengkapan as $dok) {
-            $dok_syarat[$dok['id']] = $dok['nama'];
-        }
-        $syarat_surat = $this->surat_master_model->get_syarat_surat($permohonan['id_surat']);
-
-        for ($i = 0; $i < count($syarat_surat); $i++) {
-            $dok_id                       = $syarat_permohonan[$syarat_surat[$i]['ref_syarat_id']];
-            $syarat_surat[$i]['dok_id']   = $dok_id;
-            $syarat_surat[$i]['dok_nama'] = ($dok_id == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dok_syarat[$dok_id];
-        }
+            return [
+                'ref_syarat_id'   => $key,
+                'ref_syarat_nama' => $syaratSurat->ref_syarat_nama,
+                'dok_id'          => $item,
+                'dok_nama'        => ($item == '-1') ? 'Bawa bukti fisik ke Kantor Desa' : $dokumenKelengkapan->nama,
+            ];
+        })->values();
 
         return $syarat_surat;
     }

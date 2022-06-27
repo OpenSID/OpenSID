@@ -177,6 +177,8 @@ class Keluar_model extends CI_Model
         $this->db
             ->select('u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend')
             ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
+            ->select('k.url_surat, k.jenis', )
+            ->where('u.status !=', null)
             ->limit($limit, $offset);
 
         $data = $this->list_data_sql()->result_array();
@@ -192,7 +194,9 @@ class Keluar_model extends CI_Model
                 $data[$i]['id_pend'] = 'Masuk';
             } else {
                 $data[$i]['id_pend'] = 'Keluar';
-                $this->rincian_file($data, $i);
+                if (in_array($data[$i]['jenis'], [1, 2])) {
+                    $this->rincian_file($data, $i);
+                }
             }
 
             $j++;

@@ -35,6 +35,8 @@
  *
  */
 
+namespace App\Libraries;
+
 /**
  * Class Date_conv
  *
@@ -43,8 +45,23 @@
  *
  * @license MIT
  */
-class Date_conv
+class DateConv
 {
+    private $months = [
+        'Muharram',
+        'Safar',
+        "Rabi'ul Awal",
+        "Rabi'ul akhir",
+        'Jumadil Awal',
+        'Jumadil Akhir',
+        'Rajab',
+        "Sya'ban",
+        'Ramadhan',
+        'Syawal',
+        'Dzulqaidah',
+        'Dzulhijjah',
+    ];
+
     /**
      * The Julian Day for a given Gregorian date.
      *
@@ -54,16 +71,15 @@ class Date_conv
      *
      * @return float
      */
-    public static function gregorianToJulian($year, $month, $day)
+    public function gregorianToJulian($year, $month, $day)
     {
         if ($month < 3) {
             $year--;
             $month += 12;
         }
+
         $a = floor($year / 100.0);
-        $b = ($year === 1582 && ($month > 10 || ($month === 10 && $day > 4)) ? -10 :
-            ($year === 1582 && $month === 10 ? 0 :
-                ($year < 1583 ? 0 : 2 - $a + floor($a / 4.0))));
+        $b = ($year === 1582 && ($month > 10 || ($month === 10 && $day > 4)) ? -10 : ($year === 1582 && $month === 10 ? 0 : ($year < 1583 ? 0 : 2 - $a + floor($a / 4.0))));
 
         return floor(365.25 * ($year + 4716)) + floor(30.6001 * ($month + 1)) + $day + $b - 1524;
     }
@@ -77,10 +93,9 @@ class Date_conv
      *
      * @return float
      */
-    public static function hijriToJulian($year, $month, $day)
+    public function hijriToJulian($year, $month, $day)
     {
-        return floor((11 * $year + 3) / 30) + floor(354 * $year) + floor(30 * $month)
-            - floor(($month - 1) / 2) + $day + 1948440 - 386;
+        return floor((11 * $year + 3) / 30) + floor(354 * $year) + floor(30 * $month) - floor(($month - 1) / 2) + $day + 1948440 - 386;
     }
 
     /**
@@ -90,7 +105,7 @@ class Date_conv
      *
      * @return array
      */
-    public static function julianToGregorian($julianDay)
+    public function julianToGregorian($julianDay)
     {
         $b = 0;
         if ($julianDay > 2299160) {
@@ -119,7 +134,7 @@ class Date_conv
      *
      * @return array
      */
-    public static function julianToHijri($julianDay)
+    public function julianToHijri($julianDay)
     {
         $y          = 10631.0 / 30.0;
         $epochAstro = 1948084;
@@ -139,29 +154,24 @@ class Date_conv
         return ['year' => (int) $year, 'month' => (int) $month, 'day' => (int) $day];
     }
 
-    public static function gregorianToHijri($year, $month, $day)
+    public function gregorianToHijri($year, $month, $day)
     {
-        $jd = self::gregorianToJulian($year, $month, $day);
+        $jd = $this->gregorianToJulian($year, $month, $day);
 
-        return self::julianToHijri($jd);
+        return $this->julianToHijri($jd);
     }
-}
 
-class Hijri_date_id
-{
-    private static $months = [1 => 'Muharram', 'Safar', "Rabi'ul Awal", "Rabi'ul akhir", 'Jumadil Awal', 'Jumadil Akhir', 'Rajab', "Sya'ban", 'Ramadhan', 'Syawal', 'Dzulqaidah', 'Dzulhijjah'];
-
-    public static function date($format, $time = null)
+    public function HijriDateId($format, $time = null)
     {
         //greg
         [$Y, $n, $j] = explode('/', date('Y/n/j', $time ?: time()));
         // hijri
-        $hijri = Date_conv::gregorianToHijri($Y, $n, $j);
+        $hijri = $this->gregorianToHijri($Y, $n, $j);
 
         $n = $hijri['month'];
         $Y = $hijri['year'];
         $j = $hijri['day'];
-        $F = self::$months[$n];
+        $F = $this->months[$n];
 
         return strtr($format, compact('F', 'Y', 'j', 'n')) . ' H';
     }

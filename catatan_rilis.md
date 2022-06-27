@@ -7,6 +7,7 @@ Terima kasih pada balongbesuk yang terus berkontribusi.
 1. [#5206](https://github.com/OpenSID/OpenSID/issues/5206) Tampilkan peringatan langganan SaaS akan berakhir.
 2. [#5210](https://github.com/OpenSID/OpenSID/issues/5210) Backup folder desa secara inkremental.
 3. [#4680](https://github.com/OpenSID/OpenSID/issues/4680) Integrasikan aplikasi stunting oleh komunitas ke OpenSID.
+4. [#5108](https://github.com/OpenSID/OpenSID/issues/5108) Buat template surat menggunakan TinyMCE.
 
 
 #### Perbaikan BUG

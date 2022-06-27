@@ -51,7 +51,7 @@ define('VERSION', '22.06-premium-beta03');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022060851');
+define('VERSI_DATABASE', '2022062771');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');

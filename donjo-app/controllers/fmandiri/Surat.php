@@ -37,6 +37,9 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Models\FormatSurat;
+use App\Models\PermohonanSurat;
+use App\Models\SyaratSurat;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\Printer;
 
@@ -97,28 +100,29 @@ class Surat extends Mandiri_Controller
     public function cek_syarat()
     {
         $id_permohonan = $this->input->post('id_permohonan');
-        $permohonan    = $this->db
-            ->where('id', $id_permohonan)
-            ->get('permohonan_surat')
-            ->row_array();
+        $id_surat      = $this->input->post('id_surat');
 
-        $syarat_permohonan = json_decode($permohonan['syarat'], true);
+        $syarat_permohonan = PermohonanSurat::select(['syarat'])->find($id_permohonan);
+        $suratMaster       = FormatSurat::select(['syarat_surat'])->find($id_surat);
+        $syaratSurat       = SyaratSurat::get();
         $dokumen           = $this->penduduk_model->list_dokumen($this->is_login->id_pend);
-        $id                = $this->input->post('id_surat');
-        $syarat_surat      = $this->surat_master_model->get_syarat_surat($id);
-        $data              = [];
-        $no                = $_POST['start'];
 
-        if ($syarat_surat) {
-            foreach ($syarat_surat as $no => $baris) {
-                $no++;
-                $row   = [];
-                $row[] = $no;
-                $row[] = $baris['ref_syarat_nama'];
-                // Gunakan view sebagai string untuk mempermudah pembuatan pilihan
-                $pilihan_dokumen = $this->load->view(MANDIRI . '/pilihan_syarat', ['dokumen' => $dokumen, 'syarat_permohonan' => $syarat_permohonan, 'syarat_id' => $baris['ref_syarat_id'], 'cek_anjungan' => $this->cek_anjungan], true);
-                $row[]           = $pilihan_dokumen;
-                $data[]          = $row;
+        $data = [];
+        $no   = $_POST['start'];
+
+        if ($syaratSurat) {
+            $no = 1;
+
+            foreach ($syaratSurat as $baris) {
+                if (in_array($baris->ref_syarat_id, json_decode($suratMaster->syarat_surat))) {
+                    $row   = [];
+                    $row[] = $no++;
+                    $row[] = $baris->ref_syarat_nama;
+                    // Gunakan view sebagai string untuk mempermudah pembuatan pilihan
+                    $pilihan_dokumen = $this->load->view(MANDIRI . '/pilihan_syarat', ['dokumen' => $dokumen, 'syarat_permohonan' => json_decode($syarat_permohonan, true), 'syarat_id' => $baris->ref_syarat_id, 'cek_anjungan' => $this->cek_anjungan], true);
+                    $row[]           = $pilihan_dokumen;
+                    $data[]          = $row;
+                }
             }
         }
 
@@ -183,8 +187,9 @@ class Surat extends Mandiri_Controller
         $this->load->library('Telegram/telegram');
 
         $data_permohonan = $this->session->data_permohonan;
-        $post            = $this->input->post();
-        $data            = [
+
+        $post = $this->input->post();
+        $data = [
             'id_pemohon'  => $post['nik'],
             'id_surat'    => $post['id_surat'],
             'isian_form'  => json_encode($post),

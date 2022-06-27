@@ -64,4 +64,11 @@ class SettingAplikasi extends Model
         'key',
         'value',
     ];
+
+    /**
+     * The table update parameter.
+     *
+     * @var string
+     */
+    public $primaryKey = 'key';
 }

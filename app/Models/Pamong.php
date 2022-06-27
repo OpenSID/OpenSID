@@ -117,6 +117,29 @@ class Pamong extends Model
         return $query->where('pamong_status', 1)->where('kehadiran', $value);
     }
 
+    /**
+     * Scope query untuk Penanda Tangan
+     *
+     * @param Builder    $query
+     * @param mixed      $value
+     * @param mixed|null $jenis
+     *
+     * @return Builder
+     */
+    public function scopeTtd($query, $jenis = null)
+    {
+        if ($jenis == 'an') {
+            $query->where('pamong_ttd', 1);
+        } elseif ($jenis == 'ub') {
+            $query->where('pamong_ub', 1);
+        }
+
+        return $query
+            ->select(['pamong_nama', 'jabatan', 'pamong_nip', 'pamong_niap'])
+            ->where('pamong_status', 1)
+            ->first();
+    }
+
     public function scopeKehadiranPamong($query)
     {
         return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')

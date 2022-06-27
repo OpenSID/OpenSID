@@ -57,6 +57,13 @@ class LogSurat extends Model
     public $timestamps = false;
 
     /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * The relations to eager load on every query.
      *
      * @var array

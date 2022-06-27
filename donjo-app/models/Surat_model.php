@@ -37,6 +37,7 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
+use App\Libraries\DateConv;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -791,7 +792,8 @@ class Surat_model extends CI_Model
 
     public function surat_rtf($data)
     {
-        $this->load->library('date_conv');
+        $DateConv = new DateConv();
+
         // Ambil data
         $input       = $data['input'];
         $individu    = $data['individu'];
@@ -803,7 +805,7 @@ class Surat_model extends CI_Model
         $url         = $surat['url_surat'];
         $logo_garuda = $surat['logo_garuda'];
         $tgl         = tgl_indo(date('Y m d'));
-        $tgl_hijri   = Hijri_date_id::date('j F Y');
+        $tgl_hijri   = $DateConv->HijriDateId('j F Y');
         $thn         = date('Y');
         $tampil_foto = $input['tampil_foto'];
 
@@ -816,9 +818,13 @@ class Surat_model extends CI_Model
             $file = "template-surat/{$url}/{$url}.rtf";
         }
 
+        // if (is_file($file) || $surat['jenis'] == 3 || $surat['jenis'] == 4) {
         if (is_file($file)) {
             $handle = fopen($file, 'rb');
             $buffer = stream_get_contents($handle);
+            // if ($surat['jenis'] == 3 || $surat['jenis'] == 4) {
+            //     $buffer = preg_replace('/\\\\/', '', $this->setting->header_surat) . '[pemisah]' . $surat['template_desa'] . '[pemisah]' . preg_replace('/\\\\/', '', $this->setting->footer_surat);
+            // }
             $buffer = $this->bersihkan_kode_isian($buffer);
             $buffer = $this->sisipkan_kop_surat($buffer);
             $buffer = $this->sisipkan_logo($config['logo'], $logo_garuda, $buffer);
@@ -879,11 +885,15 @@ class Surat_model extends CI_Model
                 '[kode_kabupaten]'    => $config['kode_kabupaten'],
                 '[kode_pos]'          => $config['kode_pos'],
                 '[kode_provinsi]'     => $config['kode_propinsi'],
+                '[NAMA_DES]'          => strtoupper($config['nama_desa']),
                 '[nama_des]'          => $config['nama_desa'],
+                '[NAMA_KAB]'          => strtoupper($config['nama_kabupaten']),
                 '[nama_kab]'          => ucwords(strtolower($config['nama_kabupaten'])),
                 '[nama_kabupaten]'    => $config['nama_kabupaten'],
+                '[NAMA_KEC]'          => strtoupper($config['nama_kecamatan']),
                 '[nama_kec]'          => $config['nama_kecamatan'],
                 '[nama_kecamatan]'    => $config['nama_kecamatan'],
+                '[NAMA_PROV]'         => strtoupper($config['nama_propinsi']),
                 '[nama_provinsi]'     => ucwords(strtolower($config['nama_propinsi'])),
                 '[nama_kepala_camat]' => $config['nama_kepala_camat'],
                 '[nama_kepala_desa]'  => $config['nama_kepala_desa'],
@@ -1100,6 +1110,7 @@ class Surat_model extends CI_Model
     public function get_data_untuk_surat($url)
     {
         $data['input'] = $_POST;
+
         // Ambil data
         $data['config']                      = $this->header['desa'];
         $data['surat']                       = $this->get_surat($url);
@@ -1119,8 +1130,7 @@ class Surat_model extends CI_Model
 
     public function buat_surat($url, &$nama_surat, &$lampiran)
     {
-        $data = $this->get_data_untuk_surat($url);
-
+        $data           = $this->get_data_untuk_surat($url);
         $data['qrCode'] = null;
         if ($data['surat']['qr_code'] == 1) {
             $data['qrCode'] = $this->buatQrCode($nama_surat);
@@ -1258,26 +1268,6 @@ class Surat_model extends CI_Model
         $qrCode['viewqr'] = qrcode_generate($qrCode);
 
         return $qrCode;
-    }
-
-    // Periksa apakah template rtf berisi sematan qrcode
-    public function cek_sisipan_qrcode($url)
-    {
-        $ada = false;
-        // Pakai surat ubahan desa apabila ada
-        $file = SuratExportDesa($url);
-        if ($file == '') {
-            $file = "template-surat/{$url}/{$url}.rtf";
-        }
-
-        if (is_file($file)) {
-            $handle = fopen($file, 'rb');
-            $buffer = stream_get_contents($handle);
-            $ada    = strpos($buffer, $this->awalan_qr) !== false;
-            fclose($handle);
-        }
-
-        return $ada;
     }
 
     public function cek_surat_mandiri($id)

@@ -35,45 +35,57 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Models;
 
-class Lapor_model extends CI_Model
+use Illuminate\Database\Eloquent\Model;
+
+class KlasifikasiSurat extends Model
 {
-    // Dipakai di penduduk, surat master dan surat fmandiri
-    public function get_surat_ref_all()
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'klasifikasi_surat';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'kode',
+        'nama',
+        'uraian',
+        'enabled',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'enabled' => 'boolean',
+    ];
+
+    /**
+     * Scope query untuk enabled
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeEnabled($query, $value = 1)
     {
-        $this->db->select('*')
-            ->from('ref_syarat_surat');
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
-    // Dipakai di surat master
-    public function get_current_surat_ref($id)
-    {
-        $this->db->select('*')
-            ->from('tweb_surat_format')
-            ->join('syarat_surat', 'tweb_surat_format.id = syarat_surat.surat_format_id')
-            ->join('ref_syarat_surat', 'ref_syarat_surat.ref_syarat_id = syarat_surat.ref_syarat_id')
-            ->where('syarat_surat.surat_format_id', $id);
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
-    // Dipakai di surat master
-    public function update_syarat_surat($surat_format_id, $syarat_surat, $mandiri = 0)
-    {
-        if (empty($surat_format_id)) {
-            return false;
-        }
-
-        if ($mandiri == 1) {
-            // Update syarat baru yg dipilih
-            $this->db
-                ->where('id', $surat_format_id)
-                ->update('tweb_surat_format', ['syarat_surat' => json_encode($syarat_surat)]);
-        }
+        return $query->where('enabled', $value);
     }
 }

@@ -1315,38 +1315,40 @@ class Penduduk_model extends MY_Model
 			LEFT JOIN tweb_penduduk_asuransi polis ON polis.id = u.id_asuransi
 			LEFT JOIN ref_penduduk_bahasa bahasa ON bahasa.id = u.bahasa_id
 			WHERE u.id=?";
-        $query                        = $this->db->query($sql, $id);
-        $data                         = $query->row_array();
-        $data['tanggallahir']         = tgl_indo_out($data['tanggallahir']);
-        $data['tanggal_akhir_paspor'] = tgl_indo_out($data['tanggal_akhir_paspor']);
-        $data['tanggalperkawinan']    = tgl_indo_out($data['tanggalperkawinan']);
-        $data['tanggalperceraian']    = tgl_indo_out($data['tanggalperceraian']);
-        $data['tanggal_cetak_ktp']    = tgl_indo_out($data['tanggal_cetak_ktp']);
-        // Penduduk lepas, pakai alamat penduduk
-        if ($data['id_kk'] == 0 || $data['id_kk'] == '') {
-            $data['alamat'] = $data['alamat_sekarang'];
-            $this->db->where('id', $data['id_cluster']);
-            $query         = $this->db->get('tweb_wil_clusterdesa');
-            $cluster       = $query->row_array();
-            $data['dusun'] = $cluster['dusun'];
-            $data['rw']    = $cluster['rw'];
-            $data['rt']    = $cluster['rt'];
-        }
-        // Data ektp: cari tulisan untuk kode
-        $wajib_ktp = $this->is_wajib_ktp($data);
-        if ($wajib_ktp !== null) {
-            $data['wajib_ktp'] = $wajib_ktp ? 'WAJIB' : 'BELUM';
-        }
-        $data['ktp_el']                  = strtoupper($this->ktp_el[$data['ktp_el']]);
-        $data['status_rekam']            = strtoupper($this->status_rekam[$data['status_rekam']]);
-        $data['tempat_dilahirkan_nama']  = strtoupper($this->tempat_dilahirkan[$data['tempat_dilahirkan']]);
-        $data['jenis_kelahiran_nama']    = strtoupper($this->jenis_kelahiran[$data['jenis_kelahiran']]);
-        $data['penolong_kelahiran_nama'] = strtoupper($this->penolong_kelahiran[$data['penolong_kelahiran']]);
-        // Tampilkan tanda kutip dalam nama
-        $data['nama'] = str_replace('"', '&quot;', $data['nama']);
+        $query = $this->db->query($sql, $id);
+        $data  = $query->row_array();
+        if ($data) {
+            $data['tanggallahir']         = tgl_indo_out($data['tanggallahir']);
+            $data['tanggal_akhir_paspor'] = tgl_indo_out($data['tanggal_akhir_paspor']);
+            $data['tanggalperkawinan']    = tgl_indo_out($data['tanggalperkawinan']);
+            $data['tanggalperceraian']    = tgl_indo_out($data['tanggalperceraian']);
+            $data['tanggal_cetak_ktp']    = tgl_indo_out($data['tanggal_cetak_ktp']);
+            // Penduduk lepas, pakai alamat penduduk
+            if ($data['id_kk'] == 0 || $data['id_kk'] == '') {
+                $data['alamat'] = $data['alamat_sekarang'];
+                $this->db->where('id', $data['id_cluster']);
+                $query         = $this->db->get('tweb_wil_clusterdesa');
+                $cluster       = $query->row_array();
+                $data['dusun'] = $cluster['dusun'];
+                $data['rw']    = $cluster['rw'];
+                $data['rt']    = $cluster['rt'];
+            }
+            // Data ektp: cari tulisan untuk kode
+            $wajib_ktp = $this->is_wajib_ktp($data);
+            if ($wajib_ktp !== null) {
+                $data['wajib_ktp'] = $wajib_ktp ? 'WAJIB' : 'BELUM';
+            }
+            $data['ktp_el']                  = strtoupper($this->ktp_el[$data['ktp_el']]);
+            $data['status_rekam']            = strtoupper($this->status_rekam[$data['status_rekam']]);
+            $data['tempat_dilahirkan_nama']  = strtoupper($this->tempat_dilahirkan[$data['tempat_dilahirkan']]);
+            $data['jenis_kelahiran_nama']    = strtoupper($this->jenis_kelahiran[$data['jenis_kelahiran']]);
+            $data['penolong_kelahiran_nama'] = strtoupper($this->penolong_kelahiran[$data['penolong_kelahiran']]);
+            // Tampilkan tanda kutip dalam nama
+            $data['nama'] = str_replace('"', '&quot;', $data['nama']);
 
-        if ($nik_sementara) {
-            $data['nik'] = get_nik($data['nik']);
+            if ($nik_sementara) {
+                $data['nik'] = get_nik($data['nik']);
+            }
         }
 
         return $data;

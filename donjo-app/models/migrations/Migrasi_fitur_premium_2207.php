@@ -35,10 +35,13 @@
  *
  */
 
+use App\Libraries\TinyMCE;
 use App\Models\Bantuan;
 use App\Models\BantuanPeserta;
+use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogKeluarga;
+use App\Models\LogSurat;
 use App\Models\Penduduk;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -57,8 +60,9 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = $hasil && $this->migrasi_2022060851($hasil);
         $hasil = $hasil && $this->migrasi_2022060951($hasil);
         $hasil = $hasil && $this->migrasi_2022060371($hasil);
+        $hasil = $hasil && $this->migrasi_2022062471($hasil);
 
-        return $hasil && $this->migrasi_2022062471($hasil);
+        return $hasil && $this->migrasi_2022062771($hasil);
     }
 
     protected function migrasi_2022060851($hasil)
@@ -507,5 +511,333 @@ class Migrasi_fitur_premium_2207 extends MY_model
             ->create_table('sasaran_paud', true);
 
         return $hasil && $this->timestamps('sasaran_paud', true);
+    }
+
+    public function migrasi_2022062771($hasil)
+    {
+        $hasil = $hasil && $this->sesuaikanTabelFormatSurat($hasil);
+        $hasil = $hasil && $this->sesuaikanTabelLogSurat($hasil);
+        $hasil = $hasil && $this->sesuaikanTabelFormatSurat($hasil);
+        $hasil = $hasil && $this->headerFooterSurat($hasil);
+        $hasil = $hasil && $this->tambahKolomIsianSurat($hasil);
+        $hasil = $hasil && $this->penyesuaianModul($hasil);
+
+        return $hasil && $this->suratRawTinyMCE($hasil);
+    }
+
+    protected function sesuaikanTabelFormatSurat($hasil)
+    {
+        // Sesuaikan struktur tabel tweb_surat_format
+        $table  = 'tweb_surat_format';
+        $fields = [];
+
+        if (! $this->db->field_exists('syarat_surat', $table)) {
+            $fields['syarat_surat'] = [
+                'type' => 'LONGTEXT',
+                'null' => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('template', $table)) {
+            $fields['template'] = [
+                'type' => 'LONGTEXT',
+                'null' => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('template_desa', $table)) {
+            $fields['template_desa'] = [
+                'type' => 'LONGTEXT',
+                'null' => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('kode_isian', $table)) {
+            $fields['kode_isian'] = [
+                'type' => 'LONGTEXT',
+                'null' => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('orientasi', $table)) {
+            $fields['orientasi'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 10,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('ukuran', $table)) {
+            $fields['ukuran'] = [
+                'type'       => 'VARCHAR',
+                'constraint' => 10,
+                'null'       => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('margin', $table)) {
+            $fields['margin'] = [
+                'type' => 'TEXT',
+                'null' => true,
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column($table, $fields);
+        }
+
+        return $hasil && $this->timestamps($table, true);
+    }
+
+    protected function sesuaikanTabelLogSurat($hasil)
+    {
+        $table  = 'log_surat';
+        $fields = [];
+
+        if (! $this->db->field_exists('surat_cetak', $table)) {
+            $fields['surat_cetak'] = [
+                'type' => 'LONGTEXT',
+                'null' => true,
+            ];
+        }
+
+        if (! $this->db->field_exists('status', $table)) {
+            $fields['status'] = [
+                'type'    => 'TINYINT',
+                'default' => 0,
+                'comment' => '0. Konsep/Draf, 1. Cetak',
+            ];
+        }
+
+        if ($fields) {
+            $hasil = $hasil && $this->dbforge->add_column($table, $fields);
+        }
+
+        // Update status untuk surat format rtf menjadi cetak karena tidak menggunakan konsep draf
+        if ($this->db->field_exists('status', $table)) {
+            LogSurat::whereIn('id_format_surat', static function ($query) {
+                $query->select('id')
+                    ->from('tweb_surat_format')
+                    ->whereIn('jenis', [1, 2]);
+            })
+                ->where('status', 0)
+                ->update(['status' => 1]);
+        }
+
+        return $hasil;
+    }
+
+    protected function sesuaikanSyaratSurat($hasil)
+    {
+        // Pindahkan data tabel syrat_surat ke kolom syrat_surat tabel tweb_surat_format
+        if ($this->db->table_exists('syarat_surat')) {
+            $surat_master = $this->db->select('id')->get('tweb_surat_format')->result_array();
+
+            foreach ($surat_master as $surat) {
+                $cek = $this->db->select('ref_syarat_id')->get_where('syarat_surat', ['surat_format_id' => $surat['id']])->result_array();
+                if ($cek) {
+                    $hasil = $hasil && $this->db->where('id', $surat['id'])->update('tweb_surat_format', ['syarat_surat' => json_encode(array_column($cek, 'ref_syarat_id'))]);
+                }
+            }
+
+            // Hapus tabel syrat_surat
+            $hasil = $hasil && $this->dbforge->drop_table('syarat_surat', true);
+        }
+
+        return $hasil;
+    }
+
+    protected function headerFooterSurat($hasil)
+    {
+        // Tambahkan pengaturan header format surat
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'header_surat',
+            'value'      => TinyMCE::HEADER,
+            'keterangan' => 'Header Format Surat',
+            'kategori'   => 'format_surat',
+        ]);
+
+        // Tambahkan pengaturan footer format surat
+        return $hasil && $this->tambah_setting([
+            'key'        => 'footer_surat',
+            'value'      => TinyMCE::FOOTER,
+            'keterangan' => 'Footer Format Surat',
+            'kategori'   => 'format_surat',
+        ]);
+    }
+
+    protected function tambahKolomIsianSurat($hasil)
+    {
+        if (! $this->db->field_exists('isi_surat', 'log_surat')) {
+            $fields = [
+                'isi_surat' => [
+                    'type' => 'LONGTEXT',
+                    'null' => true,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function penyesuaianModul($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(30, ['url' => 'surat_master']);
+
+        return $hasil && $this->db->where('id', 33)->delete('setting_modul');
+    }
+
+    protected function suratRawTinyMCE($hasil)
+    {
+        $nama_surat = 'Raw TinyMCE';
+        $url_surat  = 'surat_raw_tinymce';
+
+        $data = [
+            'nama'                => $nama_surat,
+            'url_surat'           => $url_surat,
+            'kode_surat'          => '000',
+            'jenis'               => 4,
+            'masa_berlaku'        => 1,
+            'satuan_masa_berlaku' => 'M',
+            'orientasi'           => 'Potrait',
+            'ukuran'              => 'A4',
+            'margin'              => '["5","5","5","5"]',
+            'qrcode'              => 1,
+            'kode_isian'          => '[{"kode":"[keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
+            'created_by'          => auth()->id,
+            'updated_by'          => auth()->id,
+            'template'            => '
+                <table style="border-collapse: collapse; width: 100%;" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                <tr>
+                <td style="width: 100%;">
+                <h3 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h3>
+                <p style="margin: 0; text-align: center;">Nomor : [FOrmat_nomor_surat]</p>
+                <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;Yang bertanda tangan di bawah ini [Jabatan] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten], Provinsi [Nama_provinsi] menerangkan dengan sebenarnya bahwa :</p>
+                <table style="border-collapse: collapse; width: 100%;" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                <tr>
+                <td style="width: 5%; text-align: center;">1.</td>
+                <td style="width: 35%; text-align: left;">Nama</td>
+                <td style="width: 60%; text-align: left;">: [Nama]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">2.</td>
+                <td style="width: 35%; text-align: left;">Tempat/tanggal lahir</td>
+                <td style="width: 60%; text-align: left;">: [Ttl]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">3.</td>
+                <td style="width: 35%; text-align: left;">Umur</td>
+                <td style="width: 60%; text-align: left;">: [Usia]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">4.</td>
+                <td style="width: 35%; text-align: left;">Warga negara</td>
+                <td style="width: 60%; text-align: left;">: [Warga_negara]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">5.</td>
+                <td style="width: 35%; text-align: left;">Agama</td>
+                <td style="width: 60%; text-align: left;">: [Agama]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">6.</td>
+                <td style="width: 35%; text-align: left;">Jenis Kelamin</td>
+                <td style="width: 60%; text-align: left;">: [Jenis_kelamin]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">7.</td>
+                <td style="width: 35%; text-align: left;">Pekerjaan</td>
+                <td style="width: 60%; text-align: left;">: [Pekerjaan]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">8.</td>
+                <td style="width: 35%; text-align: left;">Tempat tinggal</td>
+                <td style="width: 60%; text-align: left;">: [Alamat] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">9.</td>
+                <td style="width: 35%; text-align: left;">Surat bukti diri</td>
+                <td style="width: 60%; text-align: left;">&nbsp;</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">&nbsp;</td>
+                <td style="width: 35%; text-align: left;">KTK</td>
+                <td style="width: 60%; text-align: left;">: [nik]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">&nbsp;</td>
+                <td style="width: 35%; text-align: left;">KK</td>
+                <td style="width: 60%; text-align: left;">: [no_kk]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">11.</td>
+                <td style="width: 35%; text-align: left;">Keterangan</td>
+                <td style="width: 60%; text-align: left;">: Mohon keterangan yang akan dipergunakan untuk [Keterangan].</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">12.</td>
+                <td style="width: 35%; text-align: left;">Berlaku</td>
+                <td style="width: 60%; text-align: left;">: [Mulai_berlaku] s/d [Berlaku_sampai]</td>
+                </tr>
+                <tr>
+                <td style="width: 5%; text-align: center;">13.</td>
+                <td style="width: 35%; text-align: left;">Golongan Darah</td>
+                <td style="width: 60%; text-align: left;">: [Gol_darah]</td>
+                </tr>
+                </tbody>
+                </table>
+                <p style="text-align: justify; padding-left: 25px;">&nbsp;</p>
+                <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;Demikian surat ini dibuat, untuk dipergunakan sebagaimana mestinya.</p>
+                <p style="text-align: justify;">&nbsp;</p>
+                <table cellspacing="0" cellpadding="0">
+                <tbody>
+                <tr>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                <td style="width: 60%; text-align: center;">&nbsp;</td>
+                <td style="width: 20%; text-align: center;">[Nama_desa], [Tgl_surat]</td>
+                </tr>
+                <tr>
+                <td style="width: 20%; text-align: center;">Pemegang Surat</td>
+                <td style="width: 60%; text-align: center;">&nbsp;</td>
+                <td style="width: 20%; text-align: center;">[penandatangan]</td>
+                </tr>
+                <tr>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                <td style="width: 60%; text-align: center;">&nbsp;</td>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                </tr>
+                <tr>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                <td style="width: 60%; text-align: center;">&nbsp;</td>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                </tr>
+                <tr>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                <td style="width: 60%; text-align: center;">&nbsp;</td>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                </tr>
+                <tr>
+                <td style="width: 20%; text-align: center;">[Nama]</td>
+                <td style="width: 60%; text-align: center;">&nbsp;</td>
+                <td style="width: 20%; text-align: center;">[Nama_pamong]</td>
+                </tr>
+                <tr>
+                <td style="width: 20%; text-align: center;">&nbsp;</td>
+                <td style="width: 60%; text-align: center;">&nbsp;</td>
+                <td style="width: 20%; text-align: center;">NIP: [Nip_pamong]</td>
+                </tr>
+                </tbody>
+                </table>
+                <p style="text-align: center;">[qr_code]</p>
+                </td>
+                </tr>
+                </tbody>
+                </table>',
+        ];
+
+        return $hasil && FormatSurat::updateOrCreate(['nama' => $nama_surat, 'url_surat' => $url_surat], $data);
     }
 }

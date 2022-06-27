@@ -80,8 +80,10 @@ function SuratExport($nama_surat)
     if (SuratExportDesa($nama_surat) != '') {
         return SuratExportDesa($nama_surat);
     }
-    if (is_file("template-surat/{$nama_surat}/{$nama_surat}.rtf")) {
-        return "template-surat/{$nama_surat}/{$nama_surat}.rtf";
+
+    $file = "template-surat/{$nama_surat}/{$nama_surat}.rtf";
+    if (is_file(FCPATH . $file)) {
+        return $file;
     }
 
     return '';
@@ -162,5 +164,34 @@ function buat_pdf($isi, $file, $style = null, $orientation = 'P', $page_size = '
         $html2pdf->clean();
         $formatter = new ExceptionFormatter($e);
         echo $formatter->getHtmlMessage();
+    }
+}
+
+if (! function_exists('QRCodeExist')) {
+    /**
+     * Cek QRCode yang ada di template surat .rtf
+     *
+     * @param mixed $value
+     * @param mixed $awalanQrCode
+     *
+     * @return Builder
+     */
+    function QRCodeExist($value, $awalanQrCode = '89504e470d0a1a0a0000000d4948445200000084000000840802000000de')
+    {
+        $ada = false;
+        // Pakai surat ubahan desa apabila ada
+        $file = SuratExportDesa($value);
+        if ($file == '') {
+            $file = "template-surat/{$value}/{$value}.rtf";
+        }
+
+        if (is_file($file)) {
+            $handle = fopen($file, 'rb');
+            $buffer = stream_get_contents($handle);
+            $ada    = strpos($buffer, $awalanQrCode) !== false;
+            fclose($handle);
+        }
+
+        return $ada;
     }
 }

@@ -368,3 +368,21 @@ if (! function_exists('folder_desa')) {
         return true;
     }
 }
+
+if (! function_exists('auth')) {
+    /**
+     * Ambil data user login
+     *
+     * @param mixed|null $params
+     */
+    function auth($params = null)
+    {
+        $CI = &get_instance();
+
+        if (null !== $params) {
+            return $CI->session->isAdmin->{$params};
+        }
+
+        return $CI->session->isAdmin;
+    }
+}
