@@ -55,11 +55,8 @@ class Migrasi_fitur_premium_2112 extends MY_Model
         $hasil = $hasil && $this->migrasi_2021112051($hasil);
         $hasil = $hasil && $this->migrasi_2021112171($hasil);
         $hasil = $hasil && $this->migrasi_2021112571($hasil);
-        $hasil = $hasil && $this->migrasi_2021112572($hasil);
 
-        // Jalankan migrasi v21.12-premium-rev03
-        // Hapus di versi selanjutnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
+        return $hasil && $this->migrasi_2021112572($hasil);
     }
 
     // Tambah modul kader pemberdayaan masyarakat
