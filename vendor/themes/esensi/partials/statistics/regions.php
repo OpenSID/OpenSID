@@ -11,7 +11,6 @@
 <div class="table-responsive content py-3">
   <table class="w-full text-sm">
     <thead>
-      <?php if(IS_PREMIUM) : ?>
         <tr>
           <th>No</th>
           <th colspan="8">Wilayah / Ketua</th>
@@ -20,21 +19,7 @@
           <th class="text-center">L</th>
           <th class="text-center">P</th>
         </tr>
-        <?php else : ?>
-          <tr>
-            <th>No</th>
-            <th><?= ucwords($this->setting->sebutan_dusun)?></th>
-            <th>RW</th>
-            <th>RT</th>
-            <th>Nama Kepala/Ketua</th>
-            <th class="center">KK</th>
-            <th class="center">L+P</th>
-            <th class="center">L</th>
-            <th class="center">P</th>
-          </tr>
-      <?php endif ?>
     </thead>
-    <?php if(IS_PREMIUM) : ?>
       <?php if(count($daftar_dusun) > 0) : ?>
         <tbody>
           <?php foreach ($daftar_dusun as $key_dusun => $data_dusun): ?>
@@ -110,36 +95,6 @@
         </tfoot>
       <?php else : ?>
         <tr><td colspan="13" class="text-center">Daftar masih kosong</td></tr>
-      <?php endif; ?>
-      <?php else : ?>
-        <?php if(count($main) > 0) : ?>
-          <tbody>
-            <?php foreach ($main as $indeks => $data): ?>
-              <tr>
-                <td class="text-center"><?= $indeks + 1?></td>
-                <td><?= ($main[$indeks - 1]['dusun'] == $data['dusun']) ? '' : strtoupper($data['dusun'])?></td>
-                <td><?= ($main[$indeks - 1]['rw'] == $data['rw']) ? '' : $data['rw']?></td>
-                <td><?= $data['rt']?></td>
-                <td><?= $data['nama_kepala']?></td>
-                <td class="text-right"><?= $data['jumlah_kk']?></td>
-                <td class="text-right"><?= $data['jumlah_warga']?></td>
-                <td class="text-right"><?= $data['jumlah_warga_l']?></td>
-                <td class="text-right"><?= $data['jumlah_warga_p']?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="5" class="text-left"><label>TOTAL</label></td>
-                <td class="text-right"><?= $total['total_kk']?></td>
-                <td class="text-right"><?= $total['total_warga']?></td>
-                <td class="text-right"><?= $total['total_warga_l']?></td>
-                <td class="text-right"><?= $total['total_warga_p']?></td>
-              </tr>
-            </tfoot>
-          <?php else : ?>
-            <tr><td colspan="9" class="text-center">Daftar masih kosong</td></tr>
-        <?php endif ?>
     <?php endif ?>
   </table>
 </div>
