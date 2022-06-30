@@ -114,6 +114,9 @@ class TinyMCE
 
             // Data Dari Form Isian
             'Input' => $this->getIsianPost($data),
+
+            // Penandatangan
+            'Penandatangan' => $this->getPenandatangan($data),
         ];
 
         if ($withData) {
@@ -135,7 +138,7 @@ class TinyMCE
             [
                 'judul' => 'Format Nomor Surat',
                 'isian' => '[format_nomor_surat]',
-                'data'  => $this->substitusiNomorSurat($data['no_surat'], setting('format_nomor_surat')),
+                'data'  => strtoupper($this->substitusiNomorSurat($data['no_surat'], setting('format_nomor_surat'))),
             ],
             [
                 'judul' => 'Kode',
@@ -168,20 +171,15 @@ class TinyMCE
                 'data'  => bulan_romawi((int) ($data['log_surat']['bulan'] ?? date('m'))),
             ],
             [
-                'judul' => 'Penandatangan',
-                'isian' => '[penandatangan]',
-                'data'  => $this->atasNama($data['input']),
+                'judul' => 'Logo Surat',
+                'isian' => '[logo]',
+                'data'  => '[logo]',
             ],
-            // [
-            //     'judul' => 'Logo Surat',
-            //     'isian' => '[logo]',
-            //     'data'  => null,
-            // ],
-            // [
-            //     'judul' => 'QRCode',
-            //     'isian' => '[qr_code]',
-            //     'data'  => null,
-            // ],
+            [
+                'judul' => 'QRCode',
+                'isian' => '[qr_code]',
+                'data'  => '[qr_code]',
+            ],
         ];
     }
 
@@ -619,18 +617,6 @@ class TinyMCE
                 'nama' => 'Berlaku Sampai',
                 'kode' => '[berlaku_sampai]',
             ],
-            [
-                'nama' => 'Nama Pamong',
-                'kode' => '[nama_pamong]',
-            ],
-            [
-                'nama' => 'NIP Pamong',
-                'kode' => '[nip_pamong]',
-            ],
-            [
-                'nama' => 'NIAP Pamong',
-                'kode' => '[niap_pamong]',
-            ],
         ];
 
         $postStatis = collect($postStatis)
@@ -657,6 +643,53 @@ class TinyMCE
         return array_merge($postStatis, $postDinamis);
     }
 
+    private function getPenandatangan($input = [])
+    {
+        $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
+
+        //Data penandatangan
+        $pamong_ttd = Pamong::with(['penduduk'])->ttd('a.n');
+
+        $atas_nama = '';
+        if (! empty($input['pilih_atas_nama'])) {
+            $atas_nama = 'a.n ' . ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
+            if (strpos($input['pilih_atas_nama'], 'u.b') !== false) {
+                $pamong_ub = Pamong::with(['penduduk'])->ttd('u.b');
+                $atas_nama .= ' <br> ' . $pamong_ub->jabatan . ' <br>' . ' u.b';
+                $nama_pamong = $pamong_ub->penduduk->nama ?? $pamong_ub->pamong_nama;
+                $nip_pamong  = $pamong_ub->pamong_nip ?? $pamong_ub->pamong_niap;
+            }
+            $atas_nama .= ' <br> ';
+            $atas_nama .= $pamong_ttd->jabatan;
+
+            $pamong      = Pamong::with(['penduduk'])->find($input['[pamong_id']);
+            $nama_pamong = $pamong->penduduk->nama ?? $pamong->pamong_nama;
+            $nip_pamong  = $pamong->pamong_nip ?? $pamong->pamong_niap;
+        } else {
+            $atas_nama .= ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
+            $nama_pamong = $pamong_ttd->penduduk->nama ?? $pamong_ttd->pamong_nama;
+            $nip_pamong  = $pamong_ttd->pamong_nip ?? $pamong_ttd->pamong_niap;
+        }
+
+        return [
+            [
+                'judul' => 'Atas Nama',
+                'isian' => '[atas_nama]',
+                'data'  => $atas_nama,
+            ],
+            [
+                'judul' => 'Nama Pamong',
+                'isian' => '[nama_pamong]',
+                'data'  => $nama_pamong,
+            ],
+            [
+                'judul' => 'NIP / NIAP Pamong',
+                'isian' => '[nip_pamong]',
+                'data'  => $nip_pamong,
+            ],
+        ];
+    }
+
     /**
      * Kode isian nomor_surat bisa ditentukan panjangnya, diisi dengan '0' di sebelah kiri
      * Misalnya [nomor_surat, 3] akan menghasilkan seperti '012'
@@ -679,38 +712,5 @@ class TinyMCE
         }
 
         return $format;
-    }
-
-    private function atasNama($input = [])
-    {
-        $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
-
-        //Data penandatangan
-        $pamong_ttd = Pamong::with('penduduk')->ttd('an');
-
-        $atas_nama = '';
-        if (! empty($input['pilih_atas_nama'])) {
-            $atas_nama = 'a.n ' . ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
-            if (strpos($input['pilih_atas_nama'], 'u.b') !== false) {
-                $pamong_ub = Pamong::with('penduduk')->ttd('ub');
-                $atas_nama .= ' <br> ' . $pamong_ub->jabatan . ' <br>' . ' u.b';
-            }
-            $atas_nama .= ' <br> ';
-            $atas_nama .= $input['jabatan'];
-        } else {
-            $atas_nama .= $input['jabatan'] . ' ' . $nama_desa;
-        }
-
-        return $atas_nama;
-    }
-
-    public function get()
-    {
-        return null;
-    }
-
-    public function set()
-    {
-        return null;
     }
 }

@@ -33,7 +33,7 @@
         <input class="form-control input-sm" type="text" value="{{ strtoupper($individu['agama']) }}" disabled>
     </div>
 </div>
-<div class="form-group konfirmasi tdk-permohonan tdk-periksa">
+<div class="form-group konfirmasi">
     <label for="persyaratan" class="col-sm-3 control-label">Dokumen Kelengkapan / Syarat</label>
     <div class="col-sm-8">
         <a href="#"

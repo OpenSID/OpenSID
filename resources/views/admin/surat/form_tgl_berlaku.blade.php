@@ -7,8 +7,8 @@
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
             </div>
-            <input title="Pilih Tanggal" id="tgl_mulai" class="form-control input-sm required readonly-permohonan"
-                name="mulai_berlaku" type="text" />
+            <input title="Pilih Tanggal" id="tgl_mulai" class="form-control input-sm required" name="mulai_berlaku"
+                type="text" />
         </div>
     </div>
     <div class="col-sm-3 col-lg-2">
@@ -16,9 +16,9 @@
             <div class="input-group-addon">
                 <i class="fa fa-calendar"></i>
             </div>
-            <input title="Pilih Tanggal" id="tgl_akhir" class="form-control input-sm required readonly-permohonan"
-                name="berlaku_sampai" type="text" data-masa-berlaku="{{ $masa_berlaku['masa_berlaku'] }}"
-                data-satuan-masa-berlaku="{{ $masa_berlaku['satuan_masa_berlaku'] }}" />
+            <input title="Pilih Tanggal" id="tgl_akhir" class="form-control input-sm required" name="berlaku_sampai"
+                type="text" data-masa-berlaku="{{ $surat->masa_berlaku }}"
+                data-satuan-masa-berlaku="{{ $surat->satuan_masa_berlaku }}" />
         </div>
     </div>
 </div>

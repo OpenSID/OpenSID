@@ -128,14 +128,14 @@ class Pamong extends Model
      */
     public function scopeTtd($query, $jenis = null)
     {
-        if ($jenis == 'an') {
+        if ($jenis === 'a.n') {
             $query->where('pamong_ttd', 1);
-        } elseif ($jenis == 'ub') {
+        } elseif ($jenis === 'u.b') {
             $query->where('pamong_ub', 1);
         }
 
         return $query
-            ->select(['pamong_nama', 'jabatan', 'pamong_nip', 'pamong_niap'])
+            ->select(['pamong_id', 'pamong_nama', 'jabatan', 'pamong_nip', 'pamong_niap'])
             ->where('pamong_status', 1)
             ->first();
     }

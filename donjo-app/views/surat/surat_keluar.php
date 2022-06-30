@@ -96,11 +96,12 @@
                                                                     <th nowrap><a href="<?= site_url("keluar/index/{$p}/5")?>">Tanggal <i class='fa fa-sort fa-sm'></i></a></th>
                                                                 <?php endif; ?>
                                                                 <th>User</th>
+                                                                <th>Status</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <?php	foreach ($main as $data): ?>
-                                                                <tr>
+                                                                <tr <?= jecho($data['status'], 0, 'class="select-row"'); ?>>
                                                                     <td class="padat"><?= $data['no']?></td>
                                                                     <td class="aksi">
                                                                         <?php if ($this->CI->cek_hak_akses('u')): ?>
@@ -108,7 +109,7 @@
                                                                                 <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
                                                                             <?php else: ?>
                                                                                 <?php if ($data['status'] == 0): ?>
-                                                                                    <a href="<?= site_url("surat/cetak_konsep/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Cetak Konsep" target="_blank"><i class="fa fa-print"></i></a>
+                                                                                    <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Cetak Konsep" target="_blank"><i class="fa fa-print"></i></a>
                                                                                 <?php endif; ?>
                                                                             <?php endif; ?>
                                                                         <?php endif; ?>
@@ -133,8 +134,8 @@
                                                                             <?php endif; ?>
                                                                         <?php endif; ?>
                                                                     </td>
-                                                                    <td><?= $data['kode_surat']?></td>
-                                                                    <td><?= $data['no_surat']?></td>
+                                                                    <td><?= $data['kode_surat'] ?? '-' ?></td>
+                                                                    <td><?= $data['no_surat'] ?? '-' ?></td>
                                                                     <td><?= $data['format']?></td>
                                                                     <td>
                                                                         <?php if ($data['nama']): ?>
@@ -148,6 +149,7 @@
                                                                     <td><?= $data['pamong_nama']?></td>
                                                                     <td class="padat"><?= tgl_indo2($data['tanggal'])?></td>
                                                                     <td><?= $data['nama_user']?></td>
+                                                                    <td><?= $data['status'] == 1 ? '<span class="label label-success">Cetak</span>' : '<span class="label label-danger">Draf</span>' ?></td>
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                         </tbody>

@@ -36,7 +36,6 @@
             <button type="button" onclick="$('#validasi').attr('action', '{{ $aksi_konsep }}').submit()"
                 class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
                 Konsep / Draf</button>
-            </center>
         </div>
         </form>
     </div>

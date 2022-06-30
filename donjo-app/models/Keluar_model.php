@@ -212,12 +212,10 @@ class Keluar_model extends CI_Model
         if ($nama_surat) {
             $berkas_rtf      = $nama_surat . '.rtf';
             $berkas_pdf      = $nama_surat . '.pdf';
-            $berkas_php      = $nama_surat . '.php';
             $berkas_lampiran = $nama_surat . '_lampiran.pdf';
         } else {
             $berkas_rtf      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.rtf';
             $berkas_pdf      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.pdf';
-            $berkas_php      = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '.php';
             $berkas_lampiran = $data[$i]['berkas'] . '_' . $data[$i]['nik'] . '_' . date('Y-m-d') . '._lampiran.pdf';
         }
 
@@ -389,26 +387,25 @@ class Keluar_model extends CI_Model
 
     public function delete($id = '')
     {
-        $_SESSION['success']   = 1;
-        $_SESSION['error_msg'] = '';
-        $arsip                 = $this->db->select('nama_surat, lampiran')->
-            where('id', $id)->
-            get('log_surat')->
-            row_array();
+        $arsip = $this->db
+            ->select('nama_surat, lampiran, urls_id')
+            ->where('id', $id)
+            ->get('log_surat')
+            ->row_array();
         $berkas_surat = pathinfo($arsip['nama_surat'], PATHINFO_FILENAME);
         unlink(LOKASI_ARSIP . $berkas_surat . '.rtf');
         unlink(LOKASI_ARSIP . $berkas_surat . '.pdf');
-        unlink(LOKASI_ARSIP . $berkas_surat . '.php');
-        unlink(LOKASI_MEDIA . $berkas_surat . '.png');
+
         if (! empty($arsip['lampiran'])) {
             unlink(LOKASI_ARSIP . $arsip['lampiran']);
         }
 
-        if (! $this->db->where('id', $id)->delete('log_surat')) {	// Jika query delete terjadi error
-            $_SESSION['success']   = -1;								// Maka, nilai success jadi -1, untuk memunculkan notifikasi error
-            $error                 = $this->db->error();
-            $_SESSION['error_msg'] = $error['message']; // Pesan error ditampung disession
+        if ($output = $this->db->where('id', $id)->delete('log_surat')) {	// Jika query delete terjadi error
+            // Hapus urls dari qrcode surat
+            $this->db->where('id', $arsip['urls_id'])->delete('urls');
         }
+
+        status_sukses($output);
     }
 
     public function list_penduduk()

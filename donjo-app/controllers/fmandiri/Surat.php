@@ -175,7 +175,6 @@ class Surat extends Mandiri_Controller
         $data['desa']         = $this->header;
         $data['surat_url']    = rtrim($_SERVER['REQUEST_URI'], '/clear');
         $data['form_action']  = site_url("surat/cetak/{$url}");
-        $data['masa_berlaku'] = $this->surat_model->masa_berlaku_surat($url);
         $data['cek_anjungan'] = $this->cek_anjungan;
         $data['mandiri']      = 1; // Untuk tombol cetak/kirim surat
 

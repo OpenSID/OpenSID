@@ -61,8 +61,9 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = $hasil && $this->migrasi_2022060951($hasil);
         $hasil = $hasil && $this->migrasi_2022060371($hasil);
         $hasil = $hasil && $this->migrasi_2022062471($hasil);
+        $hasil = $hasil && $this->migrasi_2022062771($hasil);
 
-        return $hasil && $this->migrasi_2022062771($hasil);
+        return $hasil && $this->migrasi_2022062951($hasil);
     }
 
     protected function migrasi_2022060851($hasil)
@@ -598,16 +599,10 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $table  = 'log_surat';
         $fields = [];
 
-        if (! $this->db->field_exists('surat_cetak', $table)) {
-            $fields['surat_cetak'] = [
-                'type' => 'LONGTEXT',
-                'null' => true,
-            ];
-        }
-
         if (! $this->db->field_exists('status', $table)) {
             $fields['status'] = [
                 'type'    => 'TINYINT',
+                'null'    => false,
                 'default' => 0,
                 'comment' => '0. Konsep/Draf, 1. Cetak',
             ];
@@ -717,79 +712,93 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <tr>
                 <td style="width: 100%;">
                 <h3 style="margin: 0; text-align: center;"><span style="text-decoration: underline;">[JUdul_surat]</span></h3>
-                <p style="margin: 0; text-align: center;">Nomor : [FOrmat_nomor_surat]</p>
+                <p style="margin: 0; text-align: center;">Nomor : [format_nomor_surat]</p>
                 <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;Yang bertanda tangan di bawah ini [Jabatan] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten], Provinsi [Nama_provinsi] menerangkan dengan sebenarnya bahwa :</p>
-                <table style="border-collapse: collapse; width: 100%;" border="0" cellspacing="0" cellpadding="0">
+                <table style="border-collapse: collapse; width: 100%; height: 270px;" border="0" cellspacing="0" cellpadding="0">
                 <tbody>
-                <tr>
-                <td style="width: 5%; text-align: center;">1.</td>
-                <td style="width: 35%; text-align: left;">Nama</td>
-                <td style="width: 60%; text-align: left;">: [Nama]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">1.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Nama</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Nama]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">2.</td>
-                <td style="width: 35%; text-align: left;">Tempat/tanggal lahir</td>
-                <td style="width: 60%; text-align: left;">: [Ttl]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">2.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Tempat/tanggal lahir</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Ttl]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">3.</td>
-                <td style="width: 35%; text-align: left;">Umur</td>
-                <td style="width: 60%; text-align: left;">: [Usia]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">3.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Umur</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Usia]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">4.</td>
-                <td style="width: 35%; text-align: left;">Warga negara</td>
-                <td style="width: 60%; text-align: left;">: [Warga_negara]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">4.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Warga negara</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Warga_negara]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">5.</td>
-                <td style="width: 35%; text-align: left;">Agama</td>
-                <td style="width: 60%; text-align: left;">: [Agama]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">5.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Agama</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Agama]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">6.</td>
-                <td style="width: 35%; text-align: left;">Jenis Kelamin</td>
-                <td style="width: 60%; text-align: left;">: [Jenis_kelamin]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">6.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Jenis Kelamin</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Jenis_kelamin]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">7.</td>
-                <td style="width: 35%; text-align: left;">Pekerjaan</td>
-                <td style="width: 60%; text-align: left;">: [Pekerjaan]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">7.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Pekerjaan</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Pekerjaan]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">8.</td>
-                <td style="width: 35%; text-align: left;">Tempat tinggal</td>
-                <td style="width: 60%; text-align: left;">: [Alamat] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
+                <tr style="height: 36px;">
+                <td style="width: 5%; text-align: center; height: 36px;">8.</td>
+                <td style="width: 33.773%; text-align: left; height: 36px;">Tempat tinggal</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 36px;">[Alamat] [Sebutan_desa] [Nama_desa], Kecamatan [Nama_kecamatan], [Sebutan_kabupaten] [Nama_kabupaten]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">9.</td>
-                <td style="width: 35%; text-align: left;">Surat bukti diri</td>
-                <td style="width: 60%; text-align: left;">&nbsp;</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">9.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Surat bukti diri</td>
+                <td style="width: 1.22703%; text-align: left;">&nbsp;</td>
+                <td style="width: 60%; text-align: left; height: 18px;">&nbsp;</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">&nbsp;</td>
-                <td style="width: 35%; text-align: left;">KTK</td>
-                <td style="width: 60%; text-align: left;">: [nik]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">&nbsp;</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">KTK</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[nik]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">&nbsp;</td>
-                <td style="width: 35%; text-align: left;">KK</td>
-                <td style="width: 60%; text-align: left;">: [no_kk]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">&nbsp;</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">KK</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[no_kk]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">11.</td>
-                <td style="width: 35%; text-align: left;">Keterangan</td>
-                <td style="width: 60%; text-align: left;">: Mohon keterangan yang akan dipergunakan untuk [Keterangan].</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">11.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Keterangan</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">Mohon keterangan yang akan dipergunakan untuk [Keterangan].</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">12.</td>
-                <td style="width: 35%; text-align: left;">Berlaku</td>
-                <td style="width: 60%; text-align: left;">: [Mulai_berlaku] s/d [Berlaku_sampai]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">12.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Berlaku</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Mulai_berlaku] s/d [Berlaku_sampai]</td>
                 </tr>
-                <tr>
-                <td style="width: 5%; text-align: center;">13.</td>
-                <td style="width: 35%; text-align: left;">Golongan Darah</td>
-                <td style="width: 60%; text-align: left;">: [Gol_darah]</td>
+                <tr style="height: 18px;">
+                <td style="width: 5%; text-align: center; height: 18px;">13.</td>
+                <td style="width: 33.773%; text-align: left; height: 18px;">Golongan Darah</td>
+                <td style="width: 1.22703%; text-align: center;">:</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[Gol_darah]</td>
                 </tr>
                 </tbody>
                 </table>
@@ -806,7 +815,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <tr>
                 <td style="width: 20%; text-align: center;">Pemegang Surat</td>
                 <td style="width: 60%; text-align: center;">&nbsp;</td>
-                <td style="width: 20%; text-align: center;">[penandatangan]</td>
+                <td style="width: 20%; text-align: center;">[atas_nama]</td>
                 </tr>
                 <tr>
                 <td style="width: 20%; text-align: center;">&nbsp;</td>
@@ -843,5 +852,10 @@ class Migrasi_fitur_premium_2207 extends MY_model
         ];
 
         return $hasil && FormatSurat::updateOrCreate(['nama' => $nama_surat, 'url_surat' => $url_surat], $data);
+    }
+
+    protected function migrasi_2022062951($hasil)
+    {
+        return $hasil && FormatSurat::updateOrCreate(['nama' => 'raw'], ['url_surat' => 'surat_raw']);
     }
 }

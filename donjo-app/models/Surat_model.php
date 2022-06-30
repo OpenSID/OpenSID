@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Libraries\DateConv;
+use App\Models\LogSurat;
 use Spipu\Html2Pdf\Exception\ExceptionFormatter;
 use Spipu\Html2Pdf\Exception\Html2PdfException;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -49,8 +50,7 @@ class Surat_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('penduduk_model');
-        $this->load->model('penomoran_surat_model');
+        $this->load->model(['penduduk_model', 'penomoran_surat_model', 'url_shortener_model']);
     }
 
     public function list_surat()
@@ -1214,15 +1214,6 @@ class Surat_model extends CI_Model
             ->row()->jml;
     }
 
-    public function masa_berlaku_surat($url)
-    {
-        return $this->db
-            ->select('masa_berlaku, satuan_masa_berlaku')
-            ->from('tweb_surat_format')
-            ->where('url_surat', $url)
-            ->get()->result_array()[0];
-    }
-
     private function sisipkan_qr($file_qr, $buffer)
     {
         if (! is_file($file_qr)) {
@@ -1250,9 +1241,7 @@ class Surat_model extends CI_Model
 
     public function buatQrCode($nama_surat)
     {
-        $this->load->model('url_shortener_model');
-
-        $log_surat = $this->db->select('id, urls_id')->get_where('log_surat', ['nama_surat' => $nama_surat])->row_array();
+        $log_surat = LogSurat::select(['id', 'urls_id'])->where('nama_surat', $nama_surat)->first();
 
         //redirect link tidak ke path aslinya dan encode ID surat
         $urls = $this->url_shortener_model->url_pendek($log_surat);
@@ -1279,8 +1268,6 @@ class Surat_model extends CI_Model
 
     public function getQrCode($id)
     {
-        $this->load->model('url_shortener_model');
-
         //redirect link tidak ke path aslinya dan encode ID surat
         $urls = $this->url_shortener_model->getUrlById($id);
 
