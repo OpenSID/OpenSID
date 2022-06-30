@@ -19,7 +19,7 @@
                 <option value="{{ $data['pamong_id'] }}" data-jabatan="{{ trim($data['jabatan']) }}"
                     data-nip="{{ $data['pamong_nip'] }}" data-niap="{{ $data['pamong_niap'] }}"
                     data-ttd="{{ $data['pamong_ttd'] }}" data-ub="{{ $data['pamong_ub'] }}">
-                    {{ $data['pamong_nip'] ? 'NIP : ' . $data['pamong_nip'] . ' | ' : setting('sebutan_nip_desa') . ' : ' . $data['pamong_nip'] . ' | ' }}
+                    {{ $data['pamong_nip'] ? 'NIP : ' . ($data['pamong_nip'] ?? '-') . ' | ' : setting('sebutan_nip_desa') . ' : ' . ($data['pamong_niap'] ?? '-') . ' | ' }}
                     {{ $data['pamong_nama'] . ' | ' . $data['jabatan'] }}
                 </option>
             @endforeach

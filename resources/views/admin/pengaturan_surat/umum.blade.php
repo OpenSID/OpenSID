@@ -98,13 +98,15 @@
             @if ($margins)
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Margin Kertas</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-7">
                         <div class="row">
-                            @foreach ($margins as $value)
+                            @foreach ($margins as $key => $value)
                                 <div class="col-sm-3">
                                     <div class="input-group">
+                                        <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
                                         <input type="number" class="form-control input-sm required" min="0"
-                                            name="margin[]" value="{{ $value }}">
+                                            name="{{ $key }}" min="0" max="10" step="0.01"
+                                            value="{{ $value }}">
                                         <span class="input-group-addon input-sm">cm</span>
                                     </div>
                                 </div>

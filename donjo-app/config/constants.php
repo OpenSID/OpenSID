@@ -143,3 +143,8 @@ define('KEHADIRAN', 'kehadiran');
 define('DESAPATH', 'desa' . DIRECTORY_SEPARATOR);
 define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
 define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
+
+/**
+ * Default file
+ */
+define('LOGO_GARUDA', 'assets/images/garuda.png');

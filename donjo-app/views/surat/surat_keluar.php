@@ -104,8 +104,8 @@
                                                                 <tr <?= jecho($data['status'], 0, 'class="select-row"'); ?>>
                                                                     <td class="padat"><?= $data['no']?></td>
                                                                     <td class="aksi">
-                                                                        <?php if ($this->CI->cek_hak_akses('u')): ?>
-                                                                            <?php if (in_array($data['tipe'], [1, 2])): ?>
+                                                                        <?php if (can('u')): ?>
+                                                                            <?php if (in_array($data['jenis'], [1, 2])): ?>
                                                                                 <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
                                                                             <?php else: ?>
                                                                                 <?php if ($data['status'] == 0): ?>
@@ -113,7 +113,7 @@
                                                                                 <?php endif; ?>
                                                                             <?php endif; ?>
                                                                         <?php endif; ?>
-                                                                        <?php if ($this->CI->cek_hak_akses('h')): ?>
+                                                                        <?php if (can('h')): ?>
                                                                             <a href="#" data-href="<?= site_url("keluar/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
                                                                         <?php endif; ?>
                                                                         <?php if ($data['status'] == '1'): ?>

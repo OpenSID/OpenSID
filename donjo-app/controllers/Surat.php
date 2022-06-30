@@ -125,7 +125,9 @@ class Surat extends Admin_Controller
 
     public function form($url = '')
     {
-        if ($url) {
+        $data['surat'] = FormatSurat::where('url_surat', $url)->first();
+
+        if ($data['surat']) {
             $data['url']    = $url;
             $data['anchor'] = $this->input->post('anchor');
             if (! empty($_POST['nik'])) {
@@ -152,10 +154,10 @@ class Surat extends Admin_Controller
                 include $data_form;
             }
 
-            $this->render('surat/form_surat', $data);
-        } else {
-            redirect('surat');
+            return $this->render('surat/form_surat', $data);
         }
+
+        redirect_with('error', 'Surat tidak ditemukan');
     }
 
     public function pratinjau($url)
@@ -168,7 +170,7 @@ class Surat extends Admin_Controller
             $log_surat = [
                 'id_format_surat' => $surat->id,
                 'id_pend'         => $this->request['nik'], // nik = id_pend
-                'id_pamong'       => $this->ttd($this->request['pilih_atas_nama']),
+                'id_pamong'       => $this->ttd($this->request['pilih_atas_nama'], $this->request['pamong_id']),
                 'tanggal'         => Carbon::now(),
                 'bulan'           => date('m'),
                 'tahun'           => date('Y'),
@@ -216,7 +218,7 @@ class Surat extends Admin_Controller
             $log_surat = [
                 'id_format_surat' => $cetak['id_format_surat'],
                 'id_pend'         => $cetak['id_pend'], // nik = id_pend
-                'id_pamong'       => $this->ttd($cetak['input']['pilih_atas_nama']),
+                'id_pamong'       => $this->ttd($cetak['input']['pilih_atas_nama'], $cetak['input']['pamong_id']),
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
                 'bulan'           => date('m'),
@@ -242,25 +244,23 @@ class Surat extends Admin_Controller
             // Pisahkan isian surat
             $isi = explode('<p><!-- pagebreak --></p>', $isi_surat);
 
+            $backtop    = (((float) setting('tinggi_header')) * 10) . 'mm';
+            $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+
             $isi_cetak = '
-                <page backtop="30mm" backbottom="30mm">
+                <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">
                     <page_header>
                     ' . $isi[0] . '
                     </page_header>
-                    ' . $isi[1] . '
                     <page_footer>
                     ' . $isi[2] . '
                     </page_footer>
+
+                    ' . $isi[1] . '
                 </page>
             ';
 
             $nama_surat = $this->nama_surat_arsip($cetak['surat']['url_surat'], $nik, $cetak['no_surat']);
-
-            // Logo Surat
-            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . 'assets/images/garuda.png' : gambar_desa(Config::pluck('logo'), false, true));
-
-            $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
-            $isi_cetak = str_replace('[logo]', $logo, $isi_cetak);
 
             $log_surat['nama_surat'] = $nama_surat;
 
@@ -269,7 +269,7 @@ class Surat extends Admin_Controller
             $surat = LogSurat::find($id) ?? show_404();
 
             // Logo Surat
-            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . 'assets/images/garuda.png' : gambar_desa(Config::pluck('logo'), false, true));
+            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
 
             $logo        = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
             $logo_qrcode = str_replace('[logo]', $logo, $isi_cetak);
@@ -287,7 +287,7 @@ class Surat extends Admin_Controller
 
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', json_decode($cetak['surat']['margin']));
+                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
                 $html2pdf->setTestTdInOnePage(false);
                 $html2pdf->setDefaultFont('Arial');
                 $html2pdf->writeHTML($logo_qrcode);
@@ -322,7 +322,7 @@ class Surat extends Admin_Controller
             $log_surat = [
                 'id_format_surat' => $cetak['id_format_surat'],
                 'id_pend'         => $cetak['id_pend'], // nik = id_pend
-                'id_pamong'       => $this->ttd($cetak['input']['pilih_atas_nama']),
+                'id_pamong'       => $this->ttd($cetak['input']['pilih_atas_nama'], $cetak['input']['pamong_id']),
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
             ];
@@ -384,7 +384,7 @@ class Surat extends Admin_Controller
 
             // convert in PDF
             try {
-                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', json_decode($cetak['surat']['margin']));
+                $html2pdf = new Html2Pdf($cetak['surat']['orientasi'], $cetak['surat']['ukuran'], 'en', true, 'UTF-8', $cetak['surat']['margin_cm_to_mm']);
                 $html2pdf->setTestTdInOnePage(false);
                 $html2pdf->setDefaultFont('Arial');
                 $html2pdf->writeHTML($isi_cetak);
@@ -404,7 +404,7 @@ class Surat extends Admin_Controller
 
             // Untuk sementara :
             // 1. penanda tangan sama dengan log surat yang disimpan sebagai draf
-            $pamong = Pamong::find($surat->id_pamong) ?? null;
+            $pamong = Pamong::find($surat->id_pamong);
 
             $atas_nama = '';
             if ($pamong->pamong_ttd === 1) {
@@ -441,13 +441,13 @@ class Surat extends Admin_Controller
         }
     }
 
-    private function ttd($ttd = '')
+    private function ttd($ttd = '', $pamong_id = null)
     {
         if (preg_match('/a.n/i', $ttd)) {
             return Pamong::ttd('u.b')->pamong_id;
         }
         if (preg_match('/u.b/i', $ttd)) {
-            return $this->request['pamong_id'];
+            return $pamong_id;
         }
 
         return Pamong::ttd('a.n')->pamong_id;
@@ -464,8 +464,7 @@ class Surat extends Admin_Controller
             if (in_array($key, $kecuali)) {
                 $result = $result;
             } elseif (in_array($key, ['[atas_nama]', '[format_nomor_surat]'])) {
-                $result = str_replace('[atas_nama]', $value, $result);
-                $result = str_replace('[format_nomor_surat]', $value, $result);
+                $result = str_replace($key, $value, $result);
             } else {
                 $result = $this->caseReplace($key, $value, $result);
             }
@@ -647,7 +646,6 @@ class Surat extends Admin_Controller
 
         $data['config']             = $config;
         $data['lokasi']             = $config;
-        $data['surat']              = FormatSurat::where('url_surat', $url)->first();
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];

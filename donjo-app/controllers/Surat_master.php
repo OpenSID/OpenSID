@@ -234,8 +234,15 @@ class Surat_master extends Admin_Controller
             'kode_isian'          => json_encode($kodeIsian),
             'orientasi'           => $request['orientasi'],
             'ukuran'              => $request['ukuran'],
-            'margin'              => json_encode($request['margin']),
         ];
+
+        // Margin
+        $data['margin'] = json_encode([
+            'kiri'  => (float) $request['kiri'],
+            'atas'  => (float) $request['atas'],
+            'kanan' => (float) $request['kanan'],
+            'bawah' => (float) $request['bawah'],
+        ]);
 
         if (null === $id) {
             $data['created_by'] = auth()->id;
@@ -398,27 +405,22 @@ class Surat_master extends Admin_Controller
 
     public function pengaturan()
     {
-        $header      = SettingAplikasi::find('header_surat') ?? show_404();
-        $footer      = SettingAplikasi::find('footer_surat') ?? show_404();
-        $aksi        = route('surat_master.update');
-        $form_action = route('surat_master.edit_pengaturan');
+        $pengaturanSurat = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $aksi            = route('surat_master.update');
+        $formAksi        = route('surat_master.edit_pengaturan');
 
-        return view('admin.pengaturan_surat.pengaturan', compact('header', 'footer', 'aksi', 'form_action'));
+        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi'));
     }
 
     public function edit_pengaturan()
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $header = SettingAplikasi::find('header_surat') ?? show_404();
-        $footer = SettingAplikasi::find('footer_surat') ?? show_404();
-
-        if ($header->update(['value' => $this->request['header_surat']]) && $footer->update(['value' => $this->request['footer_surat']])) {
-            redirect_with('success', 'Berhasil Ubah Data');
+        foreach ($this->request as $key => $value) {
+            SettingAplikasi::whereKey($key)->update(['value' => $this->request[$key]]);
         }
 
-        redirect_with('error', 'Gagal Ubah Data');
+        redirect_with('success', 'Berhasil Ubah Data');
     }
 
     public function kode_isian($id = null)

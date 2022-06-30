@@ -71,6 +71,8 @@ class TinyMCE
         </tbody>
         </table>
     ';
+    public const TOP    = 3; // cm
+    public const BOTTOM = 2; // cm
 
     public function getTemplate()
     {
@@ -116,7 +118,7 @@ class TinyMCE
             'Input' => $this->getIsianPost($data),
 
             // Penandatangan
-            'Penandatangan' => $this->getPenandatangan($data),
+            'Penandatangan' => $this->getPenandatangan($data['input']),
         ];
 
         if ($withData) {
@@ -643,32 +645,33 @@ class TinyMCE
         return array_merge($postStatis, $postDinamis);
     }
 
-    private function getPenandatangan($input = [])
+    public function getPenandatangan($input = [])
     {
         $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
 
         //Data penandatangan
         $pamong_ttd = Pamong::with(['penduduk'])->ttd('a.n');
 
-        $atas_nama = '';
-        if (! empty($input['pilih_atas_nama'])) {
-            $atas_nama = 'a.n ' . ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
-            if (strpos($input['pilih_atas_nama'], 'u.b') !== false) {
-                $pamong_ub = Pamong::with(['penduduk'])->ttd('u.b');
-                $atas_nama .= ' <br> ' . $pamong_ub->jabatan . ' <br>' . ' u.b';
-                $nama_pamong = $pamong_ub->penduduk->nama ?? $pamong_ub->pamong_nama;
-                $nip_pamong  = $pamong_ub->pamong_nip ?? $pamong_ub->pamong_niap;
-            }
-            $atas_nama .= ' <br> ';
-            $atas_nama .= $pamong_ttd->jabatan;
+        $ttd       = $input['pilih_atas_nama'];
+        $atas_nama = ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
 
-            $pamong      = Pamong::with(['penduduk'])->find($input['[pamong_id']);
+        $nama_pamong = $pamong_ttd->penduduk->nama ?? $pamong_ttd->pamong_nama;
+        $nip_pamong  = $pamong_ttd->pamong_nip ?? $pamong_ttd->pamong_niap;
+
+        $pamong_ub = Pamong::with(['penduduk'])->ttd('u.b');
+        if (preg_match('/a.n/i', $ttd)) {
+            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan;
+
+            $nama_pamong = $pamong_ub->penduduk->nama ?? $pamong_ub->pamong_nama;
+            $nip_pamong  = $pamong_ub->pamong_nip ?? $pamong_ub->pamong_niap;
+        }
+
+        if (preg_match('/u.b/i', $ttd)) {
+            $pamong    = Pamong::with(['penduduk'])->find($input['pamong_id']);
+            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan . '<br> u.b ' . $pamong->jabatan;
+
             $nama_pamong = $pamong->penduduk->nama ?? $pamong->pamong_nama;
             $nip_pamong  = $pamong->pamong_nip ?? $pamong->pamong_niap;
-        } else {
-            $atas_nama .= ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
-            $nama_pamong = $pamong_ttd->penduduk->nama ?? $pamong_ttd->pamong_nama;
-            $nip_pamong  = $pamong_ttd->pamong_nip ?? $pamong_ttd->pamong_niap;
         }
 
         return [
