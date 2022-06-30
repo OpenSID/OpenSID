@@ -58,7 +58,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 no-padding pull-right">
+                    <div class="col-md-5 no-padding">
                         @if (can('u'))
                             <a href="{{ route('stunting/formIbuHamil') }}"
                                 class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
@@ -70,8 +70,8 @@
                                 class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                     class='fa fa-trash-o'></i> Hapus</a>
                         @endif    
-                        <button type="button" id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                            class="fa fa-file"></i> Ekspor ke excel</button>
+                        <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                            class="fa fa-file"></i> Ekspor ke excel</a>
                                 
                     </div>
                 </div>
@@ -133,7 +133,6 @@
                         req.bulan    = $('#bulan').val();
                         req.tahun    = $('#tahun').val();
                         req.posyandu = $('#posyandu').val();
-                        console.log($('#posyandu').val());
                     },
                 },
                 columns: [{
@@ -168,7 +167,7 @@
                     },
                     {
                         data: function (data) {
-                            return data.status_kehamilan = (data.status_kehamilan == 1) ? "NORMAL" : ((data.status_kehamilan == 2)  ? "RISTI" : "KEK")
+                            return data.status_kehamilan = (data.status_kehamilan == 1) ? "NORMAL" : ((data.status_kehamilan == 2)  ? "RISTI" : ((data.status_kehamilan == 3)  ? "KEK" : "-"))
                         },
                         name: 'status_kehamilan',
                         searchable: true,
@@ -181,7 +180,9 @@
                         orderable: true
                     },
                     {
-                        data: 'usia_kehamilan',
+                        data: function (data) {
+                            return data.usia_kehamilan ?? '-'
+                        },
                         name: 'usia_kehamilan',
                         searchable: true,
                         orderable: true
@@ -264,17 +265,17 @@
 
             $('select[name="bulan"]').on('change', function() {
                 $(this).val();
-                    TableData.ajax.reload();
+                TableData.ajax.reload();
             });
 
             $('select[name="tahun"]').on('change', function() {
                 $(this).val();
-                    TableData.ajax.reload();
+                TableData.ajax.reload();
             });
 
             $('select[name="posyandu"]').on('change', function() {
                 $(this).val();
-                    TableData.ajax.reload();
+                TableData.ajax.reload();
             });
 
             $(document).on('click', '#excel', function(e) {
@@ -287,7 +288,7 @@
                         posyandu: $('#posyandu').val(),
                     },
                     success:function(data){
-                    window.open(this.url, '_blank');
+                        window.open(this.url, '_blank');
                     },
                 })
             });

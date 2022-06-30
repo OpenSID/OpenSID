@@ -39,8 +39,8 @@
                             <select class="form-control input-sm required select2" id="id_kia" name="id_kia" style="width:100%;">
                                 <option value="">-- Cari Nomor KIA --</option>
                                 @foreach ($kia as $data)
-                                    <option value="{{ $data['id'] }}" @selected($anak->kia_id === $data['id'])>Nomor KIA :
-                                        {{ $data['no_kia'] . ' - ' . $data['anak']['nama']}}</option>
+                                    <option value="{{ $data->id }}" @selected($anak->kia_id == $data->id)>Nomor KIA :
+                                        {{ $data->no_kia . ' - ' . $data->anak->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -51,7 +51,7 @@
                             <select class="form-control input-sm required select2" name="id_posyandu" style="width:100%;">
                                 <option value="">-- Cari Posyandu --</option>
                                 @foreach ($posyandu as $data)
-                                    <option value="{{ $data['id'] }}" @selected($anak->posyandu_id === $data['id'])>{{ $data['nama'] }}</option>
+                                    <option value="{{ $data->id }}" @selected($anak->posyandu_id == $data->id)>{{ $data->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -62,7 +62,7 @@
                             <select class="form-control input-sm required" name="status_gizi">
                                 <option value="">Pilih Status Gizi Anak</option>
                                 @foreach (['Sehat / Normal (N)', 'Gizi Kurang (GK)', 'Gizi Buruk (GB)', 'Stunting (S)'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($anak['status_gizi'], $key+1) }}>{{ $value }}</option>
+                                <option value="{{ $key+1 }}" {{ selected($anak->status_gizi, $key+1) }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -80,7 +80,7 @@
                             <select class="form-control input-sm required" name="status_tikar">
                                 <option value="">Pilih Status Tikar</option>
                                 @foreach (['Tidak Diukur', 'Merah (M)', 'Kuning (K)', 'Hijau (H)'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($anak['status_tikar'], $key+1) }}>{{ $value }}</option>
+                                <option value="{{ $key+1 }}" {{ selected($anak->status_tikar, $key+1) }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -91,7 +91,7 @@
                             <select class="form-control input-sm required" {{ $anak->umur_bulan >= 6 ? '' : 'disabled' }} id="pemberian_imunisasi_campak" name="pemberian_imunisasi_campak">
                                 <option value="">Pilih Status Pemberian Imunisasi Campak</option>
                                 @foreach (['Sudah', 'Belum'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($anak['pemberian_imunisasi_campak'], $key+1) }}>{{ $value }}</option>
+                                <option value="{{ $key+1 }}" {{ selected($anak->pemberian_imunisasi_campak, $key+1) }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>

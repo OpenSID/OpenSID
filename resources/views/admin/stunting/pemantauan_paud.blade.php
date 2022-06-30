@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5 no-padding pull-right">
+                    <div class="col-md-5 no-padding">
                         @if (can('u'))
                             <a href="{{ route('stunting/formPaud') }}"
                                 class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
@@ -58,8 +58,8 @@
                                 class="btn btn-social btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i
                                     class='fa fa-trash-o'></i> Hapus</a>
                         @endif    
-                        <button type="button" id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
-                            class="fa fa-file"></i> Ekspor ke excel</button>
+                        <a id="excel" class="btn btn-social btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i
+                            class="fa fa-file"></i> Ekspor ke excel</a>
                                 
                     </div>
                 </div>
@@ -281,12 +281,12 @@
 
             $('select[name="tahun"]').on('change', function() {
                 $(this).val();
-                    TableData.ajax.reload();
+                TableData.ajax.reload();
             });
 
             $('select[name="posyandu"]').on('change', function() {
                 $(this).val();
-                    TableData.ajax.reload();
+                TableData.ajax.reload();
             });
 
             $(document).on('click', '#excel', function(e) {

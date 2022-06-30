@@ -257,10 +257,14 @@ class Migrasi_fitur_premium_2207 extends MY_model
             'status_kehamilan' => [
                 'type'       => 'TINYINT',
                 'constraint' => 1, // 'NORMAL','RISTI','KEK',
+                'null'       => true,
+                'default'    => null,
             ],
             'usia_kehamilan' => [
                 'type'       => 'TINYINT',
                 'constraint' => 255,
+                'null'       => true,
+                'default'    => null,
             ],
             'tanggal_melahirkan' => [
                 'type' => 'DATE',

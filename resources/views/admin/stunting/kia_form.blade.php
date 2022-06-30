@@ -48,8 +48,8 @@
                             <select class="form-control required input-sm select2" name="id_ibu" style="width:100%;">
                                 <option value="">-- Cari NIK / Nama Ibu --</option>
                                 @foreach ($ibu as $data)
-                                    <option value="{{ $data['id'] }}" @selected($kia->ibu_id === $data['id'])>NIK :
-                                        {{ $data['nik'] . ' - ' . $data['nama'] }}</option>
+                                    <option value="{{ $data->id }}" @selected($kia->ibu_id == $data->id)>NIK :
+                                        {{ $data->nik . ' - ' . $data->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,8 +60,8 @@
                             <select class="form-control input-sm select2" id="id_anak" name="id_anak" style="width:100%;">
                                 <option value="">-- Cari NIK / Nama Anak --</option>
                                 @foreach ($anak as $data)
-                                    <option value="{{ $data['id'] }}" @selected($kia->anak_id === $data['id'])>NIK :
-                                        {{ $data['nik'] . ' - ' . $data['nama'] }}</option>
+                                    <option value="{{ $data->id }}" @selected($kia->anak_id == $data->id)>NIK :
+                                        {{ $data->nik . ' - ' . $data->nama }}</option>
                                 @endforeach
                             </select>
                         </div>

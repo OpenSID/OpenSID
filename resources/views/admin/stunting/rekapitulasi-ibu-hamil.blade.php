@@ -117,11 +117,11 @@
                                             {{ $item['user']['no_kia'] }}</td>
                                         <td style="vertical-align: middle;">{{ $item['user']['nama_ibu'] }}</td>
                                         <td class="text-center" style="vertical-align: middle;">
-                                            {{ $item['user']['status_kehamilan'] }}</td>
+                                            {{ $item['user']['status_kehamilan'] = ($item['user']['status_kehamilan'] == 1) ? "NORMAL" : (($item['user']['status_kehamilan'] == 2)  ? "RISTI" : (($item['user']['status_kehamilan'] == 3)  ? "KEK" : "-")) }}</td>
                                         <td class="text-center" style="vertical-align: middle;">
-                                            {{ $item['user']['usia_kehamilan'] }}</td>
+                                            {{ $item['user']['usia_kehamilan'] ?? '-' }}</td>
                                         <td class="text-center" style="vertical-align: middle;">
-                                            {{ $item['user']['tanggal_melahirkan'] == '-' ? $item['user']['tanggal_melahirkan'] : shortdate_indo($item['user']['tanggal_melahirkan']) }}
+                                            {{ $item['user']['tanggal_melahirkan'] == '-' ? $item['user']['tanggal_melahirkan'] : tgl_indo($item['user']['tanggal_melahirkan']) }}
                                         </td>
                                         <td class="text-center" style="vertical-align: middle;">
                                             {{ $item['indikator']['periksa_kehamilan'] }}</td>

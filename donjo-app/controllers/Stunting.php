@@ -144,11 +144,13 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if (Anak::where('posyandu_id', $id)->count() > 0 || Anak::where('posyandu_id', $id)->count() > 0) {
+        $data = $this->request['id_cb'] ?? [$id];
+
+        if (IbuHamil::whereIn('posyandu_id', $data)->exists() || Anak::whereIn('posyandu_id', $data)->exists() || Paud::whereIn('posyandu_id', $data)->exists()) {
             redirect_with('error', 'Posyandu terkait masih digunakan pada ibu hamil/anak', 'stunting');
         }
 
-        if (Posyandu::destroy($this->request['id_cb'] ?? $id)) {
+        if (Posyandu::destroy($data)) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting');
         }
 
@@ -210,15 +212,25 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
+        $ibuId  = [];
+        $anakId = [];
+
+        foreach (KiA::all() as $data) {
+            $ibuId[]  = $data->ibu_id;
+            $anakId[] = $data->anak_id;
+        }
+
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
-        $data['ibu']      = Penduduk::where('kk_level', 3)->orWhere('kk_level', 1)->where('sex', 2)->get();
-        $data['anak']     = Penduduk::where('kk_level', 4)->whereYear('tanggallahir', '>=', Carbon::now()->subYears(6)->year)->get();
+        $data['ibu']      = Penduduk::whereNotIn('id', $ibuId)->where('kk_level', 3)->orWhere('kk_level', 1)->where('sex', 2)->get();
+        $data['anak']     = Penduduk::whereNotIn('id', $anakId)->where('kk_level', 4)->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
 
         if ($id) {
             $data['action']     = 'Ubah';
             $data['formAction'] = route('stunting.updateKia', $id);
             $data['kia']        = KIA::find($id) ?? show_404();
+            $data['ibu']        = $data['ibu']->prepend(Penduduk::find($data['kia']->ibu_id));
+            $data['anak']       = $data['anak']->prepend(Penduduk::find($data['kia']->anak_id));
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertKia');
@@ -256,11 +268,13 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('h');
 
-        if (Anak::where('kia_id', $id)->count() > 0 || Anak::where('kia_id', $id)->count() > 0) {
+        $data = $this->request['id_cb'] ?? [$id];
+
+        if (IbuHamil::whereIn('kia_id', $data)->exists() || Anak::whereIn('kia_id', $data)->exists() || Paud::whereIn('kia_id', $data)->exists()) {
             redirect_with('error', 'KIA terkait masih digunakan pada ibu hamil/anak', 'stunting/kia');
         }
 
-        if (KIA::destroy($this->request['id_cb'] ?? $id)) {
+        if (KIA::destroy($data)) {
             redirect_with('success', 'Berhasil Hapus Data', 'stunting/kia');
         }
 
@@ -346,6 +360,15 @@ class Stunting extends Admin_Controller
         $data['navigasi'] = 'pemantauan-bulanan-ibu-hamil';
         $data['kia']      = KIA::with('ibu')->get();
         $data['posyandu'] = Posyandu::all();
+
+        if ($this->input->is_ajax_request()) {
+            $kia   = $this->input->get('kia');
+            $hamil = KIA::find($kia);
+            $anak  = $hamil->anak_id;
+            echo $anak;
+
+            exit();
+        }
 
         if ($id) {
             $data['action']     = 'Ubah';
@@ -455,9 +478,9 @@ class Stunting extends Admin_Controller
             $data = [
                 $row->kia->no_kia,
                 $row->kia->ibu->nama,
-                $row->status_kehamilan = ($row->status_kehamilan == 1) ? 'NORMAL' : (($row->status_kehamilan == 2) ? 'RISTI' : 'KEK'),
+                $row->status_kehamilan = ($row->status_kehamilan == 1) ? 'NORMAL' : (($row->status_kehamilan == 2) ? 'RISTI' : (($row->status_kehamilan == 3) ? 'KEK' : '-')),
                 tgl_indo($row->kia->hari_perkiraan_lahir),
-                $row->usia_kehamilan,
+                $row->usia_kehamilan ?? '-',
                 tgl_indo($row->tanggal_melahirkan),
                 $row->pemeriksaan_kehamilan == 1 ? 'v' : 'x',
                 $row->konsumsi_pil_fe == 1 ? 'v' : 'x',
@@ -532,7 +555,7 @@ class Stunting extends Admin_Controller
         $data['navigasi'] = 'pemantauan-bulanan-anak';
         $data['kia']      = KIA::with('anak')->where('anak_id', '!=', 0)
             ->WhereHas('anak', static function ($query) {
-                $query->whereMonth('tanggallahir', '>', Carbon::now()->subMonths(24)->month);
+                $query->where('tanggallahir', '>', Carbon::now()->subMonths(24));
             })
             ->get();
         $data['posyandu'] = Posyandu::all();
@@ -753,7 +776,7 @@ class Stunting extends Admin_Controller
         $data['navigasi'] = 'pemantauan-sasaran-paud';
         $data['kia']      = KIA::with('anak')->where('anak_id', '!=', 0)
             ->WhereHas('anak', static function ($query) {
-                $query->whereMonth('tanggallahir', '<=', Carbon::now()->subMonths(24)->month);
+                $query->where('tanggallahir', '<=', Carbon::now()->subMonths(24));
             })
             ->get();
         $data['posyandu'] = Posyandu::all();

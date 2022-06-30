@@ -39,8 +39,8 @@
                             <select class="form-control input-sm required select2" id="id_kia" name="id_kia" style="width:100%;">
                                 <option value="">-- Cari Nomor KIA --</option>
                                 @foreach ($kia as $data)
-                                    <option value="{{ $data['id'] }}" @selected($ibuHamil->kia_id === $data['id'])>Nomor KIA :
-                                        {{ $data['no_kia'] . ' - ' . $data['ibu']['nama']}}</option>
+                                    <option value="{{ $data->id }}" @selected($ibuHamil->kia_id == $data->id)>Nomor KIA :
+                                        {{ $data->no_kia . ' - ' . $data->ibu->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -51,7 +51,7 @@
                             <select class="form-control input-sm required select2" name="id_posyandu" style="width:100%;">
                                 <option value="">-- Cari Posyandu --</option>
                                 @foreach ($posyandu as $data)
-                                    <option value="{{ $data['id'] }}" @selected($ibuHamil->posyandu_id === $data['id'])>{{ $data['nama'] }}</option>
+                                    <option value="{{ $data->id }}" @selected($ibuHamil->posyandu_id == $data->id)>{{ $data->nama }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -59,10 +59,10 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Status Kehamilan</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm required" name="status_kehamilan">
+                            <select class="form-control input-sm required" {{ $ibuHamil->status_kehamilan != null ? '' : 'disabled' }} id="status_kehamilan" name="status_kehamilan">
                                 <option value="">Pilih Status Kehamilan</option>
                                 @foreach (['Normal', 'Risiko Tinggi (Risti)', 'Kekurangan Energi Kronis (KEK)'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($ibuHamil['status_kehamilan'], $key+1) }}>{{ $value }}</option>
+                                <option value="{{ $key+1 }}" {{ selected($ibuHamil->status_kehamilan, $key+1) }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -70,14 +70,14 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Usia Kehamilan (Bulan)</label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control input-sm required" min="1" max="12" name="usia_kehamilan"
+                            <input type="number" {{ $ibuHamil->usia_kehamilan != null ? '' : 'disabled' }} class="form-control input-sm required" min="1" max="12" id="usia_kehamilan" name="usia_kehamilan"
                                 placeholder="Masukkan usia kehamilan" value="{{ $ibuHamil->usia_kehamilan }}" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Tanggal Melahirkan (Boleh Tidak Diisi)</label>
+                        <label class="col-sm-3 control-label">Tanggal Melahirkan</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control input-sm datepicker" name="tanggal_melahirkan"
+                            <input type="text" {{ $ibuHamil->tanggal_melahirkan != null ? '' : 'disabled' }} class="form-control input-sm datepicker required" id="tanggal_melahirkan" name="tanggal_melahirkan"
                                 placeholder="Masukkan tanggal melahirkan" value="{{ $ibuHamil->tanggal_melahirkan }}" />
                         </div>
                     </div>
@@ -250,6 +250,30 @@
             else {
                 $('#butir_pil_fe').prop("disabled", true);
             }
+        });
+
+        $('select[name="id_kia"]').on('change', function() {
+            var id = this.value;
+            $.ajax({
+                type: "GET",
+                url: "{{ route('stunting.formIbuHamil') }}",
+                data: {
+                    kia: id,
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data == 0) {
+                        $('#tanggal_melahirkan').prop("disabled", true)
+                        $('#status_kehamilan').prop("disabled", false)
+                        $('#usia_kehamilan').prop("disabled", false)
+                    }
+                    else {
+                        $('#tanggal_melahirkan').prop("disabled", false)
+                        $('#status_kehamilan').prop("disabled", true)
+                        $('#usia_kehamilan').prop("disabled", true)
+                    }
+                }
+            });
         });
     </script>
 @endpush
