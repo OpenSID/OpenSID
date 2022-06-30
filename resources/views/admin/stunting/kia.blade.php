@@ -101,7 +101,7 @@
                     },
                     {
                         data: function (data) {
-                            return data.anak_id != 0 ? data.anak.nama : 'Belum ada data anak' 
+                            return data.anak_id != null ? data.anak.nama : '-' 
                         },
                         name: 'anak_id',
                         searchable: true,

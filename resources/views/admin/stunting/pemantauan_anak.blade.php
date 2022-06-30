@@ -128,7 +128,6 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                searching: false,
                 ajax: {
                     url: "{{ route('stunting.datatablesAnak') }}",
                     data: function(req) {
@@ -157,13 +156,13 @@
                     },
                     {
                         data: 'kia.no_kia',
-                        name: 'kia_id',
+                        name: 'kia.no_kia',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'kia.anak.nama',
-                        name: 'anak_id',
+                        name: 'kia.anak.nama',
                         searchable: true,
                         orderable: true
                     },
@@ -171,13 +170,13 @@
                         data: function (data) {
                             return data.kia.anak.sex == 1 ? 'LAKI-LAKI' : 'PEREMPUAN'
                         },
-                        name: 'sex',
+                        name: 'kia.anak.sex',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'kia.anak.tanggallahir',
-                        name: 'tanggal_lahir',
+                        name: 'kia.anak.tanggallahir',
                         searchable: true,
                         orderable: true
                     },

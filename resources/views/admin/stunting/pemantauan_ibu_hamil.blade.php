@@ -126,7 +126,6 @@
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                searching: false,
                 ajax: {
                     url: "{{ route('stunting.datatablesIbuHamil') }}",
                     data: function(req) {
@@ -155,13 +154,13 @@
                     },
                     {
                         data: 'kia.no_kia',
-                        name: 'kia_id',
+                        name: 'kia.no_kia',
                         searchable: true,
                         orderable: true
                     },
                     {
                         data: 'kia.ibu.nama',
-                        name: 'ibu_id',
+                        name: 'kia.ibu.nama',
                         searchable: true,
                         orderable: true
                     },
@@ -175,7 +174,7 @@
                     },
                     {
                         data: 'kia.hari_perkiraan_lahir',
-                        name: 'hari_perkiraan_lahir',
+                        name: 'kia.hari_perkiraan_lahir',
                         searchable: true,
                         orderable: true
                     },
@@ -237,7 +236,7 @@
                         data: function (data) {
                             return data.akses_air_bersih == 1 ? 'v' : 'x'
                         },
-                        name: 'air_bersih',
+                        name: 'akses_air_bersih',
                         searchable: true,
                         orderable: true
                     },

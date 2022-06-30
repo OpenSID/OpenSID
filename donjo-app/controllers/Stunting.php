@@ -216,14 +216,17 @@ class Stunting extends Admin_Controller
         $anakId = [];
 
         foreach (KiA::all() as $data) {
-            $ibuId[]  = $data->ibu_id;
-            $anakId[] = $data->anak_id;
+            $ibuId[]  = $data->ibu_id ?? 0;
+            $anakId[] = $data->anak_id ?? 0;
         }
 
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
-        $data['ibu']      = Penduduk::whereNotIn('id', $ibuId)->where('kk_level', 3)->orWhere('kk_level', 1)->where('sex', 2)->get();
-        $data['anak']     = Penduduk::whereNotIn('id', $anakId)->where('kk_level', 4)->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
+        $data['ibu']      = Penduduk::whereNotIn('id', $ibuId)->where(static function ($query) {
+            $query->where('kk_level', 3)
+                ->orWhere('kk_level', 1);
+        })->where('sex', 2)->get();
+        $data['anak'] = Penduduk::whereNotIn('id', $anakId)->where('kk_level', 4)->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
 
         if ($id) {
             $data['action']     = 'Ubah';
@@ -292,7 +295,7 @@ class Stunting extends Admin_Controller
         return [
             'no_kia'               => $request['no_kia'],
             'ibu_id'               => $request['id_ibu'],
-            'anak_id'              => $request['id_anak'],
+            'anak_id'              => empty($request['id_anak']) ? null : $request['id_anak'],
             'hari_perkiraan_lahir' => empty($request['perkiraan_lahir']) ? null : date('Y-m-d', strtotime($request['perkiraan_lahir'])),
         ];
     }
@@ -364,7 +367,7 @@ class Stunting extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             $kia   = $this->input->get('kia');
             $hamil = KIA::find($kia);
-            $anak  = $hamil->anak_id;
+            $anak  = $hamil->anak_id ?? 0;
             echo $anak;
 
             exit();
@@ -553,7 +556,7 @@ class Stunting extends Admin_Controller
 
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-anak';
-        $data['kia']      = KIA::with('anak')->where('anak_id', '!=', 0)
+        $data['kia']      = KIA::with('anak')->where('anak_id', '!=', null)
             ->WhereHas('anak', static function ($query) {
                 $query->where('tanggallahir', '>', Carbon::now()->subMonths(24));
             })
@@ -774,7 +777,7 @@ class Stunting extends Admin_Controller
 
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-sasaran-paud';
-        $data['kia']      = KIA::with('anak')->where('anak_id', '!=', 0)
+        $data['kia']      = KIA::with('anak')->where('anak_id', '!=', null)
             ->WhereHas('anak', static function ($query) {
                 $query->where('tanggallahir', '<=', Carbon::now()->subMonths(24));
             })

@@ -60,8 +60,10 @@
                             <select class="form-control input-sm select2" id="id_anak" name="id_anak" style="width:100%;">
                                 <option value="">-- Cari NIK / Nama Anak --</option>
                                 @foreach ($anak as $data)
+                                    @if ($data)
                                     <option value="{{ $data->id }}" @selected($kia->anak_id == $data->id)>NIK :
                                         {{ $data->nik . ' - ' . $data->nama }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
