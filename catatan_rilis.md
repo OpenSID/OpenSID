@@ -1,6 +1,6 @@
-#### [22.06-pasca]
+#### [22.07]
 
-Di rilis ini, versi 22.06-pasca, menyediakan Buku Kader Pemberdayaan Masyarakat di Buku Administrasi Pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.07, menyediakan Buku Kader Pemberdayaan Masyarakat di Buku Administrasi Pembangunan. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada andifahruddinakas dan agungsugiarto yang terus berkontribusi. Terima kasih pula pada Faisyal Rachman dan Firliani Fauziah yang baru mulai berkontribusi.
 
