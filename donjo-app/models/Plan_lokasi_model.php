@@ -1,14 +1,6 @@
 <?php
-/**
- * File ini:
- *
- * Model untuk modul Pemetaan (Lokasi)
- *
- * /donjo-app/models/Plan_lokasi_model.php
- *
- */
 
-/**
+/*
  *
  * File ini bagian dari:
  *
@@ -19,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -34,284 +26,286 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Plan_lokasi_model extends MY_Model {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function __construct()
-	{
-		parent::__construct();
-	}
+class Plan_lokasi_model extends MY_Model
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	public function autocomplete()
-	{
-		return $this->autocomplete_str('nama', 'lokasi');
-	}
+    public function autocomplete()
+    {
+        return $this->autocomplete_str('nama', 'lokasi');
+    }
 
-	private function search_sql()
-	{
-		if (isset($_SESSION['cari']))
-		{
-			$cari = $_SESSION['cari'];
-			$kw = $this->db->escape_like_str($cari);
-			$kw = '%' .$kw. '%';
-			$search_sql = " AND l.nama LIKE '$kw'";
-			return $search_sql;
-		}
-	}
+    private function search_sql()
+    {
+        if (isset($_SESSION['cari'])) {
+            $cari       = $_SESSION['cari'];
+            $kw         = $this->db->escape_like_str($cari);
+            $kw         = '%' . $kw . '%';
+            $search_sql = " AND l.nama LIKE '{$kw}'";
 
-	private function filter_sql()
-	{
-		if (isset($_SESSION['filter']))
-		{
-			$kf = $_SESSION['filter'];
-			$filter_sql = " AND l.enabled = $kf";
-			return $filter_sql;
-		}
-	}
+            return $search_sql;
+        }
+    }
 
-	private function point_sql()
-	{
-		if (isset($_SESSION['point']))
-		{
-			$kf = $_SESSION['point'];
-			$point_sql = " AND p.id = $kf";
-			return $point_sql;
-		}
-	}
+    private function filter_sql()
+    {
+        if (isset($_SESSION['filter'])) {
+            $kf         = $_SESSION['filter'];
+            $filter_sql = " AND l.enabled = {$kf}";
 
-	private function subpoint_sql()
-	{
-		if (isset($_SESSION['subpoint']))
-		{
-			$kf = $_SESSION['subpoint'];
-			$subpoint_sql = " AND m.id = $kf";
-			return $subpoint_sql;
-		}
-	}
+            return $filter_sql;
+        }
+    }
 
-	public function paging($p=1, $o=0)
-	{
-		$sql = "SELECT COUNT(l.id) AS id ". $this->list_data_sql();
-		$query = $this->db->query($sql);
-		$row = $query->row_array();
-		$jml_data = $row['id'];
+    private function point_sql()
+    {
+        if (isset($_SESSION['point'])) {
+            $kf        = $_SESSION['point'];
+            $point_sql = " AND p.id = {$kf}";
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $_SESSION['per_page'];
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
+            return $point_sql;
+        }
+    }
 
-		return $this->paging;
-	}
+    private function subpoint_sql()
+    {
+        if (isset($_SESSION['subpoint'])) {
+            $kf           = $_SESSION['subpoint'];
+            $subpoint_sql = " AND m.id = {$kf}";
 
-	private function list_data_sql()
-	{
-		$sql = "
+            return $subpoint_sql;
+        }
+    }
+
+    public function paging($p = 1, $o = 0)
+    {
+        $sql      = 'SELECT COUNT(l.id) AS id ' . $this->list_data_sql();
+        $query    = $this->db->query($sql);
+        $row      = $query->row_array();
+        $jml_data = $row['id'];
+
+        $this->load->library('paging');
+        $cfg['page']     = $p;
+        $cfg['per_page'] = $_SESSION['per_page'];
+        $cfg['num_rows'] = $jml_data;
+        $this->paging->init($cfg);
+
+        return $this->paging;
+    }
+
+    private function list_data_sql()
+    {
+        $sql = '
 			FROM lokasi l
 			LEFT JOIN point p ON l.ref_point = p.id
 			LEFT JOIN point m ON p.parrent = m.id
-			WHERE 1 ";
+			WHERE 1 ';
 
-		$sql .= $this->search_sql();
-		$sql .= $this->filter_sql();
-		$sql .= $this->point_sql();
-		$sql .= $this->subpoint_sql();
-		return $sql;
-	}
+        $sql .= $this->search_sql();
+        $sql .= $this->filter_sql();
+        $sql .= $this->point_sql();
+        $sql .= $this->subpoint_sql();
 
-	public function list_data($o=0, $offset=0, $limit=1000)
-	{
-		switch ($o)
-		{
-			case 1: $order_sql = ' ORDER BY nama'; break;
-			case 2: $order_sql = ' ORDER BY nama DESC'; break;
-			case 3: $order_sql = ' ORDER BY enabled'; break;
-			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
-			default:$order_sql = ' ORDER BY id';
-		}
-		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+        return $sql;
+    }
 
-		$sql = "SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol " . $this->list_data_sql();
-		$sql .= $order_sql;
-		$sql .= $paging_sql;
+    public function list_data($o = 0, $offset = 0, $limit = 1000)
+    {
+        switch ($o) {
+            case 1: $order_sql = ' ORDER BY nama'; break;
 
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
+            case 2: $order_sql = ' ORDER BY nama DESC'; break;
 
-		$j = $offset;
-		for ($i=0; $i<count($data); $i++)
-		{
-			$data[$i]['no'] = $j + 1;
-			if ($data[$i]['enabled'] == 1)
-				$data[$i]['aktif'] = "Ya";
-			else
-				$data[$i]['aktif'] = "Tidak";
-			$j++;
-		}
-		return $data;
-	}
+            case 3: $order_sql = ' ORDER BY enabled'; break;
 
-	private function validasi($post)
-	{
-		$data['nama'] = nomor_surat_keputusan($post['nama']);
-		$data['ref_point'] = $post['ref_point'];
-		$data['desk'] = htmlentities($post['desk']);
-		$data['enabled'] = $post['enabled'];
-		return $data;
-	}
+            case 4: $order_sql = ' ORDER BY enabled DESC'; break;
 
-	public function insert()
-	{
-		$data = $this->validasi($this->input->post());
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		if (!empty($lokasi_file))
-			{
-			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
-			{
-				UploadLokasi($nama_file);
-				$data['foto'] = $nama_file;
-				$outp = $this->db->insert('lokasi', $data);
-			}
-		}
-		else
-		{
-			unset($data['foto']);
-			$outp = $this->db->insert('lokasi', $data);
-		}
+            default:$order_sql = ' ORDER BY id';
+        }
+        $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
 
-		if($outp)
-			$_SESSION['success'] = 1;
-		else
-			$_SESSION['success'] = -1;
-	}
+        $sql = 'SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol ' . $this->list_data_sql();
+        $sql .= $order_sql;
+        $sql .= $paging_sql;
 
-	public function update($id=0)
-	{
-		$data = $this->validasi($this->input->post());
-		$lokasi_file = $_FILES['foto']['tmp_name'];
-		$tipe_file = $_FILES['foto']['type'];
-		$nama_file = $_FILES['foto']['name'];
-		$nama_file = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
-		if (!empty($lokasi_file)){
-			if ($tipe_file == "image/jpg" OR $tipe_file == "image/jpeg")
-			{
-				UploadLokasi($nama_file);
-				$data['foto'] = $nama_file;
-				$this->db->where('id',$id);
-				$outp = $this->db->update('lokasi', $data);
-			}
-		}
-		else
-		{
-			unset($data['foto']);
-			$this->db->where('id', $id);
-			$outp = $this->db->update('lokasi', $data);
-		}
-		status_sukses($outp); //Tampilkan Pesan
-	}
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
 
-	public function delete($id='', $semua=false)
-	{
-		if (!$semua) $this->session->success = 1;
+        $j = $offset;
 
-		$outp = $this->db->where('id', $id)->delete('lokasi');
+        for ($i = 0; $i < count($data); $i++) {
+            $data[$i]['no'] = $j + 1;
+            if ($data[$i]['enabled'] == 1) {
+                $data[$i]['aktif'] = 'Ya';
+            } else {
+                $data[$i]['aktif'] = 'Tidak';
+            }
+            $j++;
+        }
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
+        return $data;
+    }
 
-	public function delete_all()
-	{
-		$this->session->success = 1;
+    private function validasi($post)
+    {
+        $data['nama']      = nomor_surat_keputusan($post['nama']);
+        $data['ref_point'] = $post['ref_point'];
+        $data['desk']      = htmlentities($post['desk']);
+        $data['enabled']   = $post['enabled'];
 
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-		}
-	}
+        return $data;
+    }
 
-	public function list_point()
-	{
-		$sql = "SELECT * FROM point WHERE tipe = 2 AND enabled = 1";
+    public function insert()
+    {
+        $data        = $this->validasi($this->input->post());
+        $lokasi_file = $_FILES['foto']['tmp_name'];
+        $tipe_file   = $_FILES['foto']['type'];
+        $nama_file   = $_FILES['foto']['name'];
+        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        if (! empty($lokasi_file)) {
+            if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
+                UploadLokasi($nama_file);
+                $data['foto'] = $nama_file;
+                $outp         = $this->db->insert('lokasi', $data);
+            }
+        } else {
+            unset($data['foto']);
+            $outp = $this->db->insert('lokasi', $data);
+        }
 
-		if (isset($_SESSION['subpoint']))
-		{
-			$kf = $_SESSION['subpoint'];
-			$sql .= " AND parrent = $kf";
-		}
+        if ($outp) {
+            $_SESSION['success'] = 1;
+        } else {
+            $_SESSION['success'] = -1;
+        }
+    }
 
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
-	}
+    public function update($id = 0)
+    {
+        $data        = $this->validasi($this->input->post());
+        $lokasi_file = $_FILES['foto']['tmp_name'];
+        $tipe_file   = $_FILES['foto']['type'];
+        $nama_file   = $_FILES['foto']['name'];
+        $nama_file   = str_replace(' ', '-', $nama_file); 	 // normalkan nama file
+        if (! empty($lokasi_file)) {
+            if ($tipe_file == 'image/jpg' || $tipe_file == 'image/jpeg') {
+                UploadLokasi($nama_file);
+                $data['foto'] = $nama_file;
+                $this->db->where('id', $id);
+                $outp = $this->db->update('lokasi', $data);
+            }
+        } else {
+            unset($data['foto']);
+            $this->db->where('id', $id);
+            $outp = $this->db->update('lokasi', $data);
+        }
+        status_sukses($outp); //Tampilkan Pesan
+    }
 
-	public function list_subpoint()
-	{
-		$sql = "SELECT * FROM point WHERE tipe = 0 AND enabled = 1";
+    public function delete($id = '', $semua = false)
+    {
+        if (! $semua) {
+            $this->session->success = 1;
+        }
 
-		if (isset($_SESSION['point']))
-		{
-			$sqlx = "SELECT * FROM point WHERE id = ?";
-			$query = $this->db->query($sqlx, $_SESSION['point']);
-			$temp = $query->row_array();
+        $outp = $this->db->where('id', $id)->delete('lokasi');
 
-			$kf = $temp['parrent'];
-		}
+        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+    }
 
-		$query = $this->db->query($sql);
-		$data = $query->result_array();
-		return $data;
-	}
+    public function delete_all()
+    {
+        $this->session->success = 1;
 
-	public function lokasi_lock($id='', $val=0)
-	{
-		$sql = "UPDATE lokasi SET enabled = ? WHERE id = ?";
-		$outp = $this->db->query($sql, array($val, $id));
+        $id_cb = $_POST['id_cb'];
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+        foreach ($id_cb as $id) {
+            $this->delete($id, $semua = true);
+        }
+    }
 
-	public function get_lokasi($id=0)
-	{
-		$data = $this->db->where('id', $id)
-			->get('lokasi')->row_array();
-		return $data;
-	}
+    public function list_point()
+    {
+        $sql = 'SELECT * FROM point WHERE tipe = 2 AND enabled = 1';
 
-	public function update_position($id=0)
-	{
-		$data['lat'] = koordinat($this->input->post('lat'));
-		$data['lng'] = koordinat($this->input->post('lng'));
-		$this->db->where('id', $id);
-		$outp = $this->db->update('lokasi', $data);
+        if (isset($_SESSION['subpoint'])) {
+            $kf = $_SESSION['subpoint'];
+            $sql .= " AND parrent = {$kf}";
+        }
 
-		status_sukses($outp); //Tampilkan Pesan
-	}
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
 
-	public function list_lokasi()
-	{
-		$data = $this->db
-			->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol')
-			->from('lokasi l')
-			->join('point p', 'l.ref_point = p.id', 'left')
-			->join('point m', 'p.parrent = m.id', 'left')
-			->where('l.enabled = 1')
-			->where('p.enabled = 1')
-			->where('m.enabled = 1')
-			->get()->result_array();
-		return $data;
-	}
+        return $data;
+    }
 
+    public function list_subpoint()
+    {
+        $sql = 'SELECT * FROM point WHERE tipe = 0 AND enabled = 1';
+
+        if (isset($_SESSION['point'])) {
+            $sqlx  = 'SELECT * FROM point WHERE id = ?';
+            $query = $this->db->query($sqlx, $_SESSION['point']);
+            $temp  = $query->row_array();
+
+            $kf = $temp['parrent'];
+        }
+
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
+
+        return $data;
+    }
+
+    public function lokasi_lock($id = '', $val = 0)
+    {
+        $sql  = 'UPDATE lokasi SET enabled = ? WHERE id = ?';
+        $outp = $this->db->query($sql, [$val, $id]);
+
+        status_sukses($outp); //Tampilkan Pesan
+    }
+
+    public function get_lokasi($id = 0)
+    {
+        return $this->db->where('id', $id)
+            ->get('lokasi')->row_array();
+    }
+
+    public function update_position($id = 0)
+    {
+        $data['lat'] = koordinat($this->input->post('lat'));
+        $data['lng'] = koordinat($this->input->post('lng'));
+        $this->db->where('id', $id);
+        $outp = $this->db->update('lokasi', $data);
+
+        status_sukses($outp); //Tampilkan Pesan
+    }
+
+    public function list_lokasi()
+    {
+        return $this->db
+            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol')
+            ->from('lokasi l')
+            ->join('point p', 'l.ref_point = p.id', 'left')
+            ->join('point m', 'p.parrent = m.id', 'left')
+            ->where('l.enabled = 1')
+            ->where('p.enabled = 1')
+            ->where('m.enabled = 1')
+            ->get()->result_array();
+    }
 }
-?>

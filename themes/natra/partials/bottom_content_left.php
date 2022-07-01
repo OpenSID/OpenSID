@@ -1,4 +1,5 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <div class="content_left" style="margin-bottom:10px;">
     <div class="archive_style_1">
         <div style="margin-top:10px;">
@@ -8,9 +9,9 @@
             </marquee>
             <?php endif; ?>
         </div>
-        <?php $this->load->view($folder_themes."/layouts/slider.php") ?>
-		<?php if ($this->setting->covid_data) $this->load->view($folder_themes."/partials/corona-widget.php")?>
-		<?php if ($this->setting->covid_desa) $this->load->view($folder_themes."/partials/corona-local.php");?>
+        <?php $this->load->view("$folder_themes/layouts/slider"); ?>
+		<?php if ($this->setting->covid_data) $this->load->view("$folder_themes/partials/corona-widget"); ?>
+		<?php if ($this->setting->covid_desa) $this->load->view("$folder_themes/partials/corona-local"); ?>
         <?php if ($headline): ?>
         <?php $abstrak_headline = potong_teks($headline['isi'], 550) ?>
             <div class="single_category wow fadeInDown">
@@ -69,7 +70,7 @@
                                     <a href="<?= site_url('artikel/'.buat_slug($data))?>" title="Baca Selengkapnya"><?= $data["judul"] ?></a>
                                 </h5>
                                 <div class="post_commentbox">
-                                    <span class="meta_date"><?= tgl_indo($data['tgl_upload']);?>&nbsp;
+                                    <span class="meta_date"><?= tgl_indo($data['tgl_upload']); ?>&nbsp;
                                     <i class="fa fa-user"></i><?= $data['owner']?>&nbsp;
                                     <i class="fa fa-eye"></i><?= hit($data['hit']) ?>&nbsp;
                                     <i class="fa fa-comments"></i><?php $baca_komentar = $this->db->query("SELECT * FROM komentar WHERE id_artikel = '".$data['id']."'"); $komentarku = $baca_komentar->num_rows();

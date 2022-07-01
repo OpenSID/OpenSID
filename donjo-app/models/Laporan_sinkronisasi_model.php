@@ -1,194 +1,225 @@
 <?php
 
-class Laporan_sinkronisasi_model extends MY_Model {
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
 
-	private $table = "laporan_sinkronisasi";
-	protected $tipe = 'laporan_apbdes';
-	
-	const ORDER = [
-		2 => 'nama',
-		3 => 'semester', // atau bulan
-		4 => 'tahun',
-		5 => 'updated_at',
-		6 => 'kirim'
-	];
-	
-	public function set_tipe(string $tipe)
-	{
-		$this->tipe = $tipe;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-		return $this;
-	}
-	
-	public function get_data(string $search = '', $tahun = NULL)
-	{
-		$this->db->from($this->table);
+class Laporan_sinkronisasi_model extends MY_Model
+{
+    public const ORDER = [
+        2 => 'nama',
+        3 => 'semester', // atau bulan
+        4 => 'tahun',
+        5 => 'updated_at',
+        6 => 'kirim',
+    ];
 
-		if ($search)
-		{
-			$this->db
-				->group_start()
-					->like('nama', $search)
-					->or_like('tahun', $search)
-					->or_like('semester', $search)
-					->or_like('nama_file', $search)
-				->group_end();
-		}
+    private $table  = 'laporan_sinkronisasi';
+    protected $tipe = 'laporan_apbdes';
 
-		if ($tahun) $this->db->where('tahun', $tahun);
-		
-		return $this->db->where('tipe', $this->tipe);
-	}
+    public function set_tipe(string $tipe)
+    {
+        $this->tipe = $tipe;
 
-	public function find($id)
-	{
-		return $this->db
-			->where('tipe', $this->tipe)
-			->where('id', $id)
-			->get($this->table)
-			->row();
-	}
+        return $this;
+    }
 
-	public function get_tahun()
-	{
-		$data = $this->db
-			->distinct()
-			->select('tahun')
-			->where('tipe', $this->tipe)
-			->get($this->table)
-			->result();
+    public function get_data(string $search = '', $tahun = null)
+    {
+        $this->db->from($this->table);
 
-		return $data;
-	}
+        if ($search) {
+            $this->db
+                ->group_start()
+                ->like('nama', $search)
+                ->or_like('tahun', $search)
+                ->or_like('semester', $search)
+                ->or_like('nama_file', $search)
+                ->group_end();
+        }
 
-	public function insert($data = null)
-	{
-		// $data bisa dikirim dari laporan yg dibuat otomatis; kalau kosong ambil dari form
-		$data = $data ?: $this->validasi();
-		$outp = $this->db->insert($this->table, $data);
+        if ($tahun) {
+            $this->db->where('tahun', $tahun);
+        }
 
-		status_sukses($outp);
-	}
+        return $this->db->where('tipe', $this->tipe);
+    }
 
-	public function update($id, $data = null)
-	{
-		$data = $data ?: $this->validasi();
-		$data['updated_at'] = date('Y-m-d H:i:s');
-		$data['kirim'] = NULL;
-		$outp = $this->db->where('id', $id)->update($this->table, $data);
+    public function find($id)
+    {
+        return $this->db
+            ->where('tipe', $this->tipe)
+            ->where('id', $id)
+            ->get($this->table)
+            ->row();
+    }
 
-		status_sukses($outp);
-	}
+    public function get_tahun()
+    {
+        return $this->db
+            ->distinct()
+            ->select('tahun')
+            ->where('tipe', $this->tipe)
+            ->get($this->table)
+            ->result();
+    }
 
-	public function insert_or_update($where = null, $data = null)
-	{
-		$id = $this->db->select('id')->get_where($this->table, $where)->row()->id;
+    public function insert($data = null)
+    {
+        // $data bisa dikirim dari laporan yg dibuat otomatis; kalau kosong ambil dari form
+        $data = $data ?: $this->validasi();
+        $outp = $this->db->insert($this->table, $data);
 
-		$outp = ($id) ? $this->update($id, $data) : $this->insert($data);
+        status_sukses($outp);
+    }
 
-		status_sukses($outp);
-	}
+    public function update($id, $data = null)
+    {
+        $data               = $data ?: $this->validasi();
+        $data['updated_at'] = date('Y-m-d H:i:s');
+        $data['kirim']      = null;
+        $outp               = $this->db->where('id', $id)->update($this->table, $data);
 
-	public function delete($id)
-	{
-		$outp = $this->db->where('id', $id)->where('kirim', NULL)->delete($this->table);
+        status_sukses($outp);
+    }
 
-		if ($outp && ($nama_file = $this->find($id)->nama_file))
-		{
-			unlink(LOKASI_DOKUMEN . $nama_file);
-		}
+    public function insert_or_update($where = null, $data = null)
+    {
+        $id = $this->db->select('id')->get_where($this->table, $where)->row()->id;
 
-		status_sukses($outp);
-	}
+        $outp = ($id) ? $this->update($id, $data) : $this->insert($data);
 
-	public function delete_all()
-	{
-		foreach ($this->input->post('id_cb') as $id)
-		{
-			$this->delete($id);
-		}
-	}
+        status_sukses($outp);
+    }
 
-	private function validasi()
-	{
-		$post = $this->input->post();
+    public function delete($id)
+    {
+        $outp = $this->db->where('id', $id)->where('kirim', null)->delete($this->table);
 
-		$data = [
-			'judul' => alfanumerik_spasi($post['judul']),
-			'semester' => bilangan( ($this->tipe == 'laporan_apbdes') ? $post['semester'] : $post['bulan']),
-			'tahun' => bilangan($post['tahun']),
-			'nama_file' => $this->upload($post['judul'], $post['old_file']),
-			'tipe' => $this->tipe,
-		];
+        if ($outp && ($nama_file = $this->find($id)->nama_file)) {
+            unlink(LOKASI_DOKUMEN . $nama_file);
+        }
 
-		return $data;
-	}
+        status_sukses($outp);
+    }
 
-	private function upload($nama_file, $old_file)
-	{
-		$this->load->library('upload');
+    public function delete_all()
+    {
+        foreach ($this->input->post('id_cb') as $id) {
+            $this->delete($id);
+        }
+    }
 
-		$config['upload_path'] = LOKASI_DOKUMEN;
-		$config['allowed_types'] = 'pdf';
-		$config['max_size'] = 2048;
-		$config['file_name'] = namafile($nama_file);
+    private function validasi()
+    {
+        $post = $this->input->post();
 
-		$this->upload->initialize($config);
+        return [
+            'judul'     => alfanumerik_spasi($post['judul']),
+            'semester'  => bilangan(($this->tipe == 'laporan_apbdes') ? $post['semester'] : $post['bulan']),
+            'tahun'     => bilangan($post['tahun']),
+            'nama_file' => $this->upload($post['judul'], $post['old_file']),
+            'tipe'      => $this->tipe,
+        ];
+    }
 
-		if ( ! $this->upload->do_upload('nama_file'))
-		{
-			$this->session->error_msg = $this->upload->display_errors();
-			$this->session->success = -1;
-			return NULL;
-		}
+    private function upload($nama_file, $old_file)
+    {
+        $this->load->library('upload');
 
-		$upload = $this->upload->data();
+        $config['upload_path']   = LOKASI_DOKUMEN;
+        $config['allowed_types'] = 'pdf';
+        $config['max_size']      = 2048;
+        $config['file_name']     = namafile($nama_file);
 
-		if ($old_file) unlink(LOKASI_DOKUMEN . $old_file);
-		
-		return $upload['file_name'];
-	}
+        $this->upload->initialize($config);
 
-	public function opendk($id)
-	{
-		$list_data = $this->db
-			->where_in('id', $id)
-			->get($this->table)
-			->result_array();
+        if (! $this->upload->do_upload('nama_file')) {
+            $this->session->error_msg = $this->upload->display_errors();
+            $this->session->success   = -1;
 
-		$kirim = [];
-		foreach($list_data as $key => $data)
-		{
-			$kirim[$key]['id'] = $data['id'];
-			$kirim[$key]['judul'] = $data['judul'];
-			if ($this->tipe == 'laporan_apbdes')
-			{
-				$kirim[$key]['semester'] =  $data['semester'];
-			}
-			else
-			{
-				$kirim[$key]['bulan'] =  $data['semester'];
-			}			
-			$kirim[$key]['nama_file'] = $data['nama_file'];
-			$kirim[$key]['tahun'] = $data['tahun'];
-			$kirim[$key]['created_at'] = $data['created_at'];
-			$kirim[$key]['updated_at'] = $data['updated_at'];
-			$kirim[$key]['file'] = $this->file($data['nama_file']);
-		}
+            return null;
+        }
 
-		return $kirim;
-	}
+        $upload = $this->upload->data();
 
-	public function file($nama_file)
-	{
-		return base64_encode(file_get_contents(LOKASI_DOKUMEN . $nama_file));
-	}
+        if ($old_file) {
+            unlink(LOKASI_DOKUMEN . $old_file);
+        }
 
-	public function kirim($id)
-	{
-		$data['kirim'] = date('Y-m-d H:i:s');
-		$outp = $this->db->where_in('id', $id)->update($this->table, $data);
+        return $upload['file_name'];
+    }
 
-		status_sukses($outp);
-	}
+    public function opendk($id)
+    {
+        $list_data = $this->db
+            ->where_in('id', $id)
+            ->get($this->table)
+            ->result_array();
+
+        $kirim = [];
+
+        foreach ($list_data as $key => $data) {
+            $kirim[$key]['id']    = $data['id'];
+            $kirim[$key]['judul'] = $data['judul'];
+            if ($this->tipe == 'laporan_apbdes') {
+                $kirim[$key]['semester'] = $data['semester'];
+            } else {
+                $kirim[$key]['bulan'] = $data['semester'];
+            }
+            $kirim[$key]['nama_file']  = $data['nama_file'];
+            $kirim[$key]['tahun']      = $data['tahun'];
+            $kirim[$key]['created_at'] = $data['created_at'];
+            $kirim[$key]['updated_at'] = $data['updated_at'];
+            $kirim[$key]['file']       = $this->file($data['nama_file']);
+        }
+
+        return $kirim;
+    }
+
+    public function file($nama_file)
+    {
+        return base64_encode(file_get_contents(LOKASI_DOKUMEN . $nama_file));
+    }
+
+    public function kirim($id)
+    {
+        $data['kirim'] = date('Y-m-d H:i:s');
+        $outp          = $this->db->where_in('id', $id)->update($this->table, $data);
+
+        status_sukses($outp);
+    }
 }

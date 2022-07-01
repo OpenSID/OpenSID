@@ -6,7 +6,7 @@
 					<select class="form-control input-sm select2" name="tahun" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun') ?>')">
 						<option value="semua" selected>Semua Tahun</option>
 						<?php if ($min_tahun): ?>
-							<?php for ($i = date("Y"); $i >= $min_tahun; $i--) : ?>
+							<?php for ($i = date('Y'); $i >= $min_tahun; $i--) : ?>
 								<option value="<?= $i ?>" <?= selected($tahun, $i) ?>><?= $i ?></option>
 							<?php endfor; ?>
 						<?php endif; ?>
@@ -116,11 +116,11 @@
 
 <script>
 	$("#form_cetak").click(function(event) {
-		var link = '<?= site_url("laporan_inventaris/permendagri_47_cetak"); ?>' + '/' + $('#kades').val() + '/' + $('#sekdes').val();
+		var link = '<?= site_url('laporan_inventaris/permendagri_47_cetak'); ?>' + '/' + $('#kades').val() + '/' + $('#sekdes').val();
 		window.open(link, '_blank');
 	});
 	$("#form_download").click(function(event) {
-		var link = '<?= site_url("laporan_inventaris/permendagri_47_excel"); ?>' + '/' + $('#kades_unduh').val() + '/' + $('#sekdes_unduh').val();
+		var link = '<?= site_url('laporan_inventaris/permendagri_47_excel'); ?>' + '/' + $('#kades_unduh').val() + '/' + $('#sekdes_unduh').val();
 		window.open(link, '_blank');
 	});
 

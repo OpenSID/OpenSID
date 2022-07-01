@@ -1,14 +1,8 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
 /*
- *  File ini:
  *
- * Controller untuk modul Laporan Kependudukan
- *
- * donjo-app/controllers/Laporan.php
- *
- */
-/*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -17,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -32,205 +26,214 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Laporan extends Admin_Controller {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function __construct()
-	{
-		parent::__construct();
+class Laporan extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->load->model('laporan_bulanan_model');
-		$this->load->model('pamong_model');
-		$this->load->model('config_model');
-		$this->controller = 'laporan';
+        $this->load->model('laporan_bulanan_model');
+        $this->load->model('pamong_model');
+        $this->controller = 'laporan';
 
-		//Initialize Session ------------
-		$_SESSION['success'] = 0;
-		$_SESSION['cari'] = '';
-		//-------------------------------
+        //Initialize Session ------------
+        $_SESSION['success'] = 0;
+        $_SESSION['cari']    = '';
+        //-------------------------------
 
-		$this->modul_ini = 3;
-		$this->sub_modul_ini = 28;
-	}
+        $this->modul_ini     = 3;
+        $this->sub_modul_ini = 28;
+    }
 
-	public function clear()
-	{
-		$_SESSION['bulanku'] = date("n");
-		$_SESSION['tahunku'] = date("Y");
-		$_SESSION['per_page'] = 200;
-		redirect('laporan');
-	}
+    public function clear()
+    {
+        $_SESSION['bulanku']  = date('n');
+        $_SESSION['tahunku']  = date('Y');
+        $_SESSION['per_page'] = 200;
+        redirect('laporan');
+    }
 
-	public function index()
-	{
-		if (isset($_SESSION['bulanku']))
-			$data['bulanku'] = $_SESSION['bulanku'];
-		else
-		{
-			$data['bulanku'] = date("n");
-			$_SESSION['bulanku'] = $data['bulanku'];
-		}
+    public function index()
+    {
+        if (isset($_SESSION['bulanku'])) {
+            $data['bulanku'] = $_SESSION['bulanku'];
+        } else {
+            $data['bulanku']     = date('n');
+            $_SESSION['bulanku'] = $data['bulanku'];
+        }
 
-		if (isset($_SESSION['tahunku']))
-			$data['tahunku'] = $_SESSION['tahunku'];
-		else
-		{
-			$data['tahunku'] = date("Y");
-			$_SESSION['tahunku'] = $data['tahunku'];
-		}
+        if (isset($_SESSION['tahunku'])) {
+            $data['tahunku'] = $_SESSION['tahunku'];
+        } else {
+            $data['tahunku']     = date('Y');
+            $_SESSION['tahunku'] = $data['tahunku'];
+        }
 
-		$data['bulan'] = $data['bulanku'];
-		$data['tahun'] = $data['tahunku'];
-		$data['data_lengkap'] = true;
-		$data['sesudah_data_lengkap'] = true;
-		if ( ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap))
-		{
-			$data['data_lengkap'] = false;
-			$this->render('laporan/bulanan', $data);
-			return;
-		}
-		$tahun_bulan = (new DateTime($this->setting->tgl_data_lengkap))->format('Y-m');
-		if ($data['tahunku'].'-'.$data['bulanku'] < $tahun_bulan)
-		{
-			$data['sesudah_data_lengkap'] = false;
-			$this->render('laporan/bulanan', $data);
-			return;
-		}
-		$this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
-		$data['tahun_lengkap'] = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
-		$data['config'] = $this->config_model->get_data();
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
-		$data['kematian'] = $this->laporan_bulanan_model->kematian();
-		$data['pendatang'] = $this->laporan_bulanan_model->pendatang();
-		$data['pindah'] = $this->laporan_bulanan_model->pindah();
-		$data['hilang'] = $this->laporan_bulanan_model->hilang();
-		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
-		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
-		$data['lap'] = $lap;
+        $data['bulan']                = $data['bulanku'];
+        $data['tahun']                = $data['tahunku'];
+        $data['data_lengkap']         = true;
+        $data['sesudah_data_lengkap'] = true;
+        if (! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap)) {
+            $data['data_lengkap'] = false;
+            $this->render('laporan/bulanan', $data);
 
-		$this->render('laporan/bulanan', $data);
-	}
+            return;
+        }
+        $tahun_bulan = (new DateTime($this->setting->tgl_data_lengkap))->format('Y-m');
+        if ($tahun_bulan > $data['tahunku'] . '-' . $data['bulanku']) {
+            $data['sesudah_data_lengkap'] = false;
+            $this->render('laporan/bulanan', $data);
 
-	public function dialog_cetak()
-	{
-		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("laporan/cetak");
-		$this->load->view('laporan/ajax_cetak', $data);
-	}
+            return;
+        }
+        $this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
+        $data['tahun_lengkap']      = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
+        $data['config']             = $this->config_model->get_data();
+        $data['pamong']             = $this->pamong_model->list_data();
+        $data['kelahiran']          = $this->laporan_bulanan_model->kelahiran();
+        $data['kematian']           = $this->laporan_bulanan_model->kematian();
+        $data['pendatang']          = $this->laporan_bulanan_model->pendatang();
+        $data['pindah']             = $this->laporan_bulanan_model->pindah();
+        $data['hilang']             = $this->laporan_bulanan_model->hilang();
+        $data['penduduk_awal']      = $this->laporan_bulanan_model->penduduk_awal();
+        $data['penduduk_akhir']     = $this->laporan_bulanan_model->penduduk_akhir();
 
-	public function dialog_unduh()
-	{
-		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("laporan/unduh");
-		$this->load->view('laporan/ajax_cetak', $data);
-	}
+        $this->render('laporan/bulanan', $data);
+    }
 
-	public function cetak()
-	{
-		$data = $this->data_cetak();
-		$this->load->view('laporan/bulanan_print', $data);
-	}
+    public function dialog_cetak()
+    {
+        $data['aksi']        = 'Cetak';
+        $data['pamong']      = $this->pamong_model->list_data();
+        $data['form_action'] = site_url('laporan/cetak');
+        $this->load->view('laporan/ajax_cetak', $data);
+    }
 
-	public function unduh()
-	{
-		$data = $this->data_cetak();
-		$this->load->view('laporan/bulanan_excel', $data);
-	}
+    public function dialog_unduh()
+    {
+        $data['aksi']        = 'Unduh';
+        $data['pamong']      = $this->pamong_model->list_data();
+        $data['form_action'] = site_url('laporan/unduh');
+        $this->load->view('laporan/ajax_cetak', $data);
+    }
 
-	private function data_cetak()
-	{
-		$data = array();
-		$data['config'] = $this->config_model->get_data();
-		$data['bulan'] = $_SESSION['bulanku'];
-		$data['tahun'] = $_SESSION['tahunku'];
-		$data['bln'] = getBulan($data['bulan']);
-		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
-		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
-		$data['kematian'] = $this->laporan_bulanan_model->kematian();
-		$data['pendatang'] = $this->laporan_bulanan_model->pendatang();
-		$data['pindah'] = $this->laporan_bulanan_model->pindah();
-		$data['rincian_pindah'] = $this->laporan_bulanan_model->rincian_pindah();
-		$data['hilang'] = $this->laporan_bulanan_model->hilang();
-		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		return $data;
-	}
+    public function cetak()
+    {
+        $data = $this->data_cetak();
+        $this->load->view('laporan/bulanan_print', $data);
+    }
 
-	public function bulan()
-	{
-		$bulanku = $this->input->post('bulan');
-		if ($bulanku != "")
-			$_SESSION['bulanku'] = $bulanku;
-		else unset($_SESSION['bulanku']);
+    public function unduh()
+    {
+        $data = $this->data_cetak();
+        $this->load->view('laporan/bulanan_excel', $data);
+    }
 
-		$tahunku = $this->input->post('tahun');
-		if ($tahunku != "")
-			$_SESSION['tahunku'] = $tahunku;
-		else unset($_SESSION['tahunku']);
-		redirect('laporan');
-	}
+    private function data_cetak()
+    {
+        $data                   = [];
+        $data['config']         = $this->config_model->get_data();
+        $data['bulan']          = $_SESSION['bulanku'];
+        $data['tahun']          = $_SESSION['tahunku'];
+        $data['bln']            = getBulan($data['bulan']);
+        $data['penduduk_awal']  = $this->laporan_bulanan_model->penduduk_awal();
+        $data['kelahiran']      = $this->laporan_bulanan_model->kelahiran();
+        $data['kematian']       = $this->laporan_bulanan_model->kematian();
+        $data['pendatang']      = $this->laporan_bulanan_model->pendatang();
+        $data['pindah']         = $this->laporan_bulanan_model->pindah();
+        $data['rincian_pindah'] = $this->laporan_bulanan_model->rincian_pindah();
+        $data['hilang']         = $this->laporan_bulanan_model->hilang();
+        $data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
+        $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
 
-	public function detail_penduduk($rincian, $tipe)
-	{
-		$data = [];
-		$keluarga = ['kk', 'kk_l', 'kk_p'];
+        return $data;
+    }
 
-		switch (strtolower($rincian))
-		{
-			case 'awal':
-					$data = [
-						'title' => 'PENDUDUK/KELUARGA AWAL BULAN INI',
-						'main' => $this->laporan_bulanan_model->penduduk_awal($rincian, $tipe),
-					];
-				break;
-			case 'lahir':
-					$data = [
-						'title' => in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN INI' : 'KELAHIRAN BULAN INI',
-						'main' => $this->laporan_bulanan_model->kelahiran($rincian, $tipe),
-					];
-				break;
-			case 'mati':
-					$data = [
-						'title' => 'KEMATIAN BULAN INI',
-						'main' => $this->laporan_bulanan_model->kematian($rincian, $tipe),
-					];
-				break;
-			case 'datang':
-					$data = [
-						'title' => 'PENDATANG BULAN INI',
-						'main' => $this->laporan_bulanan_model->pendatang($rincian, $tipe),
-					];
-				break;
-			case 'pindah':
-					$data = [
-						'title' => 'PINDAH/KELUAR PERGI BULAN INI',
-						'main' => $this->laporan_bulanan_model->pindah($rincian, $tipe),
-					];
-				break;
-			case 'hilang':
-					$data = [
-						'title' => 'PENDUDUK HILANG BULAN INI',
-						'main' => $this->laporan_bulanan_model->hilang($rincian, $tipe),
-					];
-				break;
-			case 'akhir':
-					$data = [
-						'title' => 'PENDUDUK/KELUARGA AKHIR BULAN INI',
-						'main' => $this->laporan_bulanan_model->penduduk_akhir($rincian, $tipe),
-					];
-				break;
-		}
+    public function bulan()
+    {
+        $bulanku = $this->input->post('bulan');
+        if ($bulanku != '') {
+            $_SESSION['bulanku'] = $bulanku;
+        } else {
+            unset($_SESSION['bulanku']);
+        }
 
-		$this->render('laporan/tabel_bulanan_detil', $data);
-	}
+        $tahunku = $this->input->post('tahun');
+        if ($tahunku != '') {
+            $_SESSION['tahunku'] = $tahunku;
+        } else {
+            unset($_SESSION['tahunku']);
+        }
+        redirect('laporan');
+    }
+
+    public function detail_penduduk($rincian, $tipe)
+    {
+        $data     = [];
+        $keluarga = ['kk', 'kk_l', 'kk_p'];
+
+        switch (strtolower($rincian)) {
+            case 'awal':
+                    $data = [
+                        'title' => 'PENDUDUK/KELUARGA AWAL BULAN INI',
+                        'main'  => $this->laporan_bulanan_model->penduduk_awal($rincian, $tipe),
+                    ];
+                break;
+
+            case 'lahir':
+                    $data = [
+                        'title' => in_array($tipe, $keluarga) ? 'KELUARGA BARU BULAN INI' : 'KELAHIRAN BULAN INI',
+                        'main'  => $this->laporan_bulanan_model->kelahiran($rincian, $tipe),
+                    ];
+                break;
+
+            case 'mati':
+                    $data = [
+                        'title' => 'KEMATIAN BULAN INI',
+                        'main'  => $this->laporan_bulanan_model->kematian($rincian, $tipe),
+                    ];
+                break;
+
+            case 'datang':
+                    $data = [
+                        'title' => 'PENDATANG BULAN INI',
+                        'main'  => $this->laporan_bulanan_model->pendatang($rincian, $tipe),
+                    ];
+                break;
+
+            case 'pindah':
+                    $data = [
+                        'title' => 'PINDAH/KELUAR PERGI BULAN INI',
+                        'main'  => $this->laporan_bulanan_model->pindah($rincian, $tipe),
+                    ];
+                break;
+
+            case 'hilang':
+                    $data = [
+                        'title' => 'PENDUDUK HILANG BULAN INI',
+                        'main'  => $this->laporan_bulanan_model->hilang($rincian, $tipe),
+                    ];
+                break;
+
+            case 'akhir':
+                    $data = [
+                        'title' => 'PENDUDUK/KELUARGA AKHIR BULAN INI',
+                        'main'  => $this->laporan_bulanan_model->penduduk_akhir($rincian, $tipe),
+                    ];
+                break;
+        }
+
+        $this->render('laporan/tabel_bulanan_detil', $data);
+    }
 }

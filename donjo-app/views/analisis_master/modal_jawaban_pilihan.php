@@ -19,7 +19,7 @@
 				<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
 				<h4 class='modal-title' id='myModalLabel'> Modal Jawaban Pilihan</h4>
 			</div>
-			<form id="form-jawaban" action="<?= site_url("analisis_master/save_import_gform") ?>" method="POST" enctype="multipart/form-data">
+			<form id="form-jawaban" action="<?= site_url('analisis_master/save_import_gform') ?>" method="POST" enctype="multipart/form-data">
 				<div class='modal-body'>
 					<div class="row">
 						<div class="col-sm-12">
@@ -64,7 +64,7 @@
 									</div>
 									<label class="control-label" id="caption-jawaban">Tidak Ada Pilhan Jawaban Tunggal yang harus diatur. Silahkan melanjutkan ke tahap selanjutnya</label>
 									<?php foreach ($data_import['pertanyaan'] as $key => $data) : ?>
-										<div class="form-group" id=<?= "row-jawaban-" . $key ?>>
+										<div class="form-group" id=<?= 'row-jawaban-' . $key ?>>
 											<div class="row">
 												<div class="col-sm-12">
 													<label class="control-label">Jawaban untuk kategori <span><?= $data['title'] ?></span></label>
@@ -86,11 +86,11 @@
 															<tbody>
 																<?php foreach ($data['choices'] as $unique_key => $unique_value) : ?>
 																	<tr>
-																		<input type="hidden" name=<?= "unique-param-key-" . $key . "[]" ?> value="<?= $unique_key ?>"></input>
-																		<input type="hidden" name=<?= "unique-param-value-" . $key . "[]" ?> value="<?= $unique_value ?>"></input>
+																		<input type="hidden" name=<?= 'unique-param-key-' . $key . '[]' ?> value="<?= $unique_key ?>"></input>
+																		<input type="hidden" name=<?= 'unique-param-value-' . $key . '[]' ?> value="<?= $unique_value ?>"></input>
 																		<td><?= $unique_key + 1 ?></td>
 																		<td><?= $unique_value ?></td>
-																		<td><input type="number" name=<?= "unique-param-nilai-" . $key . "[]" ?> class="form-control input-sm"></td>
+																		<td><input type="number" name=<?= 'unique-param-nilai-' . $key . '[]' ?> class="form-control input-sm"></td>
 																	</tr>
 																<?php endforeach ?>
 															</tbody>

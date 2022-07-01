@@ -53,7 +53,7 @@
 													</thead>
 													<tbody>
 														<?php foreach ($main as $data): ?>
-															<?php if ($data->status == "1"): ?>
+															<?php if ($data->status == '1'): ?>
 																<tr style='background-color:#cacaca'>
 															<?php else: ?>
 																<tr>
@@ -61,35 +61,35 @@
 																<td></td>
 																<td nowrap>
 																	<?php if ($data->mutasi == null && $this->CI->cek_hak_akses('u')): ?>
-																		<a href="<?= site_url('inventaris_peralatan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																		<a href="<?= site_url('inventaris_peralatan/form_mutasi/' . $data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
-																	<a href="<?= site_url('inventaris_peralatan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= site_url('inventaris_peralatan/view/' . $data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
-																		<a href="<?= site_url('inventaris_peralatan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																		<a href="<?= site_url('inventaris_peralatan/edit/' . $data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																	<?php endif; ?>
 																	<?php if ($this->CI->cek_hak_akses('h')): ?>
-																		<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="#" data-href="<?= site_url("api_inventaris_peralatan/delete/{$data->id}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	<?php endif; ?>
 																</td>
-																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
-																<td><?= $data->merk;?></td>
-																<td><?= $data->tahun_pengadaan;?></td>
+																<td><?= $data->nama_barang; ?></td>
+																<td><?= $data->kode_barang; ?><br><?= $data->register; ?></td>
+																<td><?= $data->merk; ?></td>
+																<td><?= $data->tahun_pengadaan; ?></td>
 																<td>
-																	<?= (empty($data->no_polisi)) ? "-" : $data->no_polisi ?>
+																	<?= (empty($data->no_polisi)) ? '-' : $data->no_polisi ?>
 																</td>
 																<td>
-																	<?= (empty($data->no_bpkb)) ? "-" : $data->no_bpkb ?>
+																	<?= (empty($data->no_bpkb)) ? '-' : $data->no_bpkb ?>
 																</td>
-																<td><?= $data->asal;?></td>
-																<td><?= number_format($data->harga,0,".",".");?></td>
+																<td><?= $data->asal; ?></td>
+																<td><?= number_format($data->harga, 0, '.', '.'); ?></td>
 															</tr>
 														<?php endforeach; ?>
 													</tbody>
 													<tfoot>
 														<tr>
 															<th colspan="9" class="text-right" >Total:</th>
-															<th><?= number_format($total,0,".","."); ?></th>
+															<th><?= number_format($total, 0, '.', '.'); ?></th>
 														</tr>
 													</tfoot>
 												</table>
@@ -107,17 +107,17 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 <script>
 
 	$("#form_cetak").click(function(event)
 	{
-		var link = '<?= site_url("inventaris_peralatan/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
+		var link = '<?= site_url('inventaris_peralatan/cetak'); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
   });
 	$("#form_download").click(function(event)
 	{
-		var link = '<?= site_url("inventaris_peralatan/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
+		var link = '<?= site_url('inventaris_peralatan/download'); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
   });
 </script>

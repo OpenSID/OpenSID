@@ -4,7 +4,7 @@
 		<title>Lembar Disposisi</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -68,7 +68,7 @@
 				<table width="100%">
 					<tr>
 						<td class="nostretch">
-							<img src="<?= gambar_desa($desa['logo']);?>" alt=""  width="100" height="80" class="logo">
+							<img src="<?= gambar_desa($desa['logo']); ?>" alt=""  width="100" height="80" class="logo">
 						</td>
 						<td>
 							<div class="header">
@@ -92,7 +92,7 @@
 						<tr>
 							<th class="no-border">Nomor & Tgl Surat</th>
 							<td class="no-border nostretch">:</td>
-							<td colspan="4" class="no-border"><?= $surat['nomor_surat'].', '.tgl_indo($surat['tanggal_surat'])?></td>
+							<td colspan="4" class="no-border"><?= $surat['nomor_surat'] . ', ' . tgl_indo($surat['tanggal_surat'])?></td>
 						</tr>
 						<tr>
 							<th class="no-border">Dari</th>
@@ -113,7 +113,7 @@
 						<tr>
 							<td colspan="6">
 								<table>
-									<?php for ($i=0; $i<count($ref_disposisi); $i+=2): ?>
+									<?php for ($i = 0; $i < count($ref_disposisi); $i += 2): ?>
 										<tr>
 											<td class="nostretch no-border-kanan" style="vertical-align: text-top;">
 												<?= $ref_disposisi[$i]?>
@@ -126,7 +126,9 @@
 												/>
 											</td>
 											<td class="nostretch no-border-kanan" style="vertical-align: text-top;">
-												<?php if ($ref_disposisi[$i + 1]) echo $ref_disposisi[$i + 1]?>
+												<?php if ($ref_disposisi[$i + 1]) {
+    echo $ref_disposisi[$i + 1];
+}?>
 											</td>
 											<td class="no-border-kiri" style="vertical-align: text-top;">
 												<input type="checkbox" style="zoom: 2; padding: 10px" disabled="disabled"
@@ -150,7 +152,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2]); ?>
+				<?php $this->load->view('global/blok_ttd_pamong.php', ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2]); ?>
 			</div>
 		</div>
 	</body>

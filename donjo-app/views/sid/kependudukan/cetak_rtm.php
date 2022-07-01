@@ -1,4 +1,4 @@
-<?php $this->load->view('print/headjs.php');?>
+<?php $this->load->view('print/headjs.php'); ?>
 	<body>
 		<div id="container">
 			<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
@@ -101,7 +101,7 @@
 					<tr>
 						<td width="25%"></td>
 						<td width="50%"></td>
-						<td width="25%" align="center"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date("Y m d"))?></td>
+						<td width="25%" align="center"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date('Y m d'))?></td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
@@ -122,7 +122,7 @@
 					</tr>
 				</table>
 			</div>
- 			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
+ 			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date('Y m d'))?>
 		</div>
 		<div id="aside"></div>
 	</div>

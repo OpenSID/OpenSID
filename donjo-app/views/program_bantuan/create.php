@@ -16,7 +16,7 @@
 			</div>
 			<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="box-body">
-					<?php $cid = @$_REQUEST["cid"]; ?>
+					<?php $cid = @$_REQUEST['cid']; ?>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">Sasaran Program</label>
 						<div class="col-sm-3">
@@ -46,7 +46,7 @@
 						<div class="col-sm-3">
 							<select class="form-control input-sm required" name="asaldana" id="asaldana">
 								<option value="">Asal Dana</option>
-								<?php foreach ($asaldana AS $ad): ?>
+								<?php foreach ($asaldana as $ad): ?>
 									<option value="<?= $ad?>"><?= $ad?></option>
 								<?php endforeach; ?>
 							</select>

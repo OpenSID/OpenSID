@@ -25,7 +25,7 @@
 										<div class="row">
 											<div class="col-sm-9">
 												<div class="form-group">
-													<select class="form-control input-sm " name="tahun" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/tahun')?>')">
+													<select class="form-control input-sm " name="tahun" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/tahun')?>')">
 														<option value="">Tahun</option>
 														<?php foreach ($tahun_surat as $thn): ?>
 															<option value="<?= $thn['tahun']?>" <?php selected($tahun, $thn['tahun']) ?>><?= $thn['tahun']?></option>
@@ -34,7 +34,7 @@
 												</div>
 
 												<div class="form-group">
-													<select class="form-control input-sm " name="bulan" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/bulan')?>')" <?= ($tahun != 0) ? '' : 'disabled'; ?> >
+													<select class="form-control input-sm " name="bulan" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/bulan')?>')" <?= ($tahun != 0) ? '' : 'disabled'; ?> >
 														<option value="">Bulan</option>
 														<?php foreach ($bulan_surat as $bln): ?>
 															<option value="<?= $bln['bulan']?>" <?php selected($bulan, $bln['bulan']) ?>><?= getBulan($bln['bulan'])?></option>
@@ -43,7 +43,7 @@
 												</div>
 
 												<div class="form-group">
-													<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller.'/filter/jenis')?>')" style="width: 100%;">
+													<select class="form-control input-sm select2" name="jenis" onchange="formAction('mainform','<?= site_url($this->controller . '/filter/jenis')?>')" style="width: 100%;">
 														<option value="">Pilih Jenis Surat</option>
 														<?php foreach ($jenis_surat as $data): ?>
 															<option value="<?= $data['nama_surat']?>" <?php selected($jenis, $data['nama_surat']) ?>><?= $data['nama_surat']?></option>
@@ -71,29 +71,29 @@
 																<th>No</th>
 																<th >Aksi</th>
 																<th nowrap>Kode Surat</th>
-																<?php if ($o==2): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">No Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==1): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/2")?>">No Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 2): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/1")?>">No Urut <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 1): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/2")?>">No Urut <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/1")?>">No Urut <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/1")?>">No Urut <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>Jenis Surat</th>
-																<?php if ($o==4): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/3")?>">Nama Penduduk <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==3): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/4")?>">Nama Penduduk <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 4): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/3")?>">Nama Penduduk <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 3): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/4")?>">Nama Penduduk <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/3")?>">Nama Penduduk <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/3")?>">Nama Penduduk <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th nowrap>Keterangan</th>
 																<th nowrap>Ditandatangani Oleh</th>
-																<?php if ($o==6): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/5")?>">Tanggal <i class='fa fa-sort-asc fa-sm'></i></a></th>
-																<?php elseif ($o==5): ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/6")?>">Tanggal <i class='fa fa-sort-desc fa-sm'></i></a></th>
+																<?php if ($o == 6): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/5")?>">Tanggal <i class='fa fa-sort-asc fa-sm'></i></a></th>
+																<?php elseif ($o == 5): ?>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/6")?>">Tanggal <i class='fa fa-sort-desc fa-sm'></i></a></th>
 																<?php else: ?>
-																	<th nowrap><a href="<?= site_url("keluar/index/$p/5")?>">Tanggal <i class='fa fa-sort fa-sm'></i></a></th>
+																	<th nowrap><a href="<?= site_url("keluar/index/{$p}/5")?>">Tanggal <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
 																<th>User</th>
 															</tr>
@@ -104,10 +104,10 @@
 																	<td class="padat"><?= $data['no']?></td>
 																	<td class="aksi">
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
-																			<a href="<?= site_url("keluar/edit_keterangan/$data[id]")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
+																			<a href="<?= site_url("keluar/edit_keterangan/{$data['id']}")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
 																		<?php endif; ?>
 																		<?php if ($this->CI->cek_hak_akses('h')): ?>
-																			<a href="#" data-href="<?= site_url("keluar/delete/$p/$o/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																			<a href="#" data-href="<?= site_url("keluar/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																		<?php endif; ?>
 																		<?php if (is_file($data['file_rtf'])): ?>
 																			<a href="<?= site_url("{$this->controller}/unduh/rtf/{$data['id']}"); ?>" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a>
@@ -119,8 +119,7 @@
 																			<a href="<?= site_url("{$this->controller}/unduh/lampiran/{$data['id']}"); ?>" target="_blank" class="btn btn-social btn-flat bg-olive btn-sm" title="Unduh Lampiran"><i class="fa fa-paperclip"></i> Lampiran</a>
 																		<?php	endif; ?>
 																		<?php if (is_file($data['file_qr'])): ?>
-																			<a href="<?= site_url("c1/{$data['id']}"); ?>" class="btn btn-flat bg-green btn-sm" title="Lihat Verifikasi" target="_blank"><i class="fa fa-check"></i></a>
-																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
+																			<a href="#myModal" data-fileqr="<?= base_url($data['file_qr'])?>" data-urlqr="<?= site_url("c1/{$data['id']}"); ?>" title="Lihat QR Code" class="viewQR btn btn-flat bg-aqua btn-sm"><i class="fa fa-qrcode"></i></a>
 																		<?php	endif; ?>
 																	</td>
 																	<td><?= $data['kode_surat']?></td>
@@ -135,7 +134,7 @@
 																		<?php endif; ?>
 																	</td>
 																	<td><?= $data['keterangan']?></td>
-																	<td><?= $data['pamong']?></td>
+																	<td><?= $data['pamong_nama']?></td>
 																	<td class="padat"><?= tgl_indo2($data['tanggal'])?></td>
 																	<td><?= $data['nama_user']?></td>
 																</tr>
@@ -149,13 +148,13 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("keluar")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url('keluar')?>" method="post" class="form-horizontal">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="20" <?php selected($per_page,20); ?> >20</option>
-															<option value="50" <?php selected($per_page,50); ?> >50</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
+															<option value="20" <?php selected($per_page, 20); ?> >20</option>
+															<option value="50" <?php selected($per_page, 50); ?> >50</option>
+															<option value="100" <?php selected($per_page, 100); ?> >100</option>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>
@@ -168,19 +167,19 @@
 											<div class="dataTables_paginate paging_simple_numbers">
 												<ul class="pagination">
 													<?php if ($paging->start_link): ?>
-														<li><a href="<?=site_url("keluar/index/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+														<li><a href="<?=site_url("keluar/index/{$paging->start_link}/{$o}")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 													<?php endif; ?>
 													<?php if ($paging->prev): ?>
-														<li><a href="<?=site_url("keluar/index/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+														<li><a href="<?=site_url("keluar/index/{$paging->prev}/{$o}")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 													<?php endif; ?>
-													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("keluar/index/$i/$o")?>"><?= $i?></a></li>
+													<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++): ?>
+														<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("keluar/index/{$i}/{$o}")?>"><?= $i?></a></li>
 													<?php endfor; ?>
 													<?php if ($paging->next): ?>
-														<li><a href="<?=site_url("keluar/index/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+														<li><a href="<?=site_url("keluar/index/{$paging->next}/{$o}")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 													<?php endif; ?>
 													<?php if ($paging->end_link): ?>
-														<li><a href="<?=site_url("keluar/index/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+														<li><a href="<?=site_url("keluar/index/{$paging->end_link}/{$o}")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 													<?php endif; ?>
 												</ul>
 											</div>
@@ -196,7 +195,7 @@
 	</section>
 </div>
 
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -208,7 +207,8 @@
 				<div class="box-body">
 					<div class="form-group">
 						<center>
-							<img id="qr_image" class="img-thumbnail" src="">
+							<img id="image_qr" src="" class="img-thumbnail" >
+							<a id="url_qr" href="" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye"></i> Lihat</a>
 						</center>
 					</div>
 				</div>
@@ -228,10 +228,10 @@
 
 	$(document).on("click", ".viewQR", function (e) {
 		e.preventDefault();
-		var _self = $(this);
-		var fileqr = _self.data('fileqr');
-		var image = document.getElementById("qr_image");
-		image.src = fileqr;
-		$(_self.attr('href')).modal('show');
+
+		$("#image_qr").attr('src', $(this).data('fileqr'));
+		$("#url_qr").attr('href', $(this).data('urlqr'));
+
+		$($(this).attr('href')).modal('show');
 	});
 </script>

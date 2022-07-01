@@ -1,4 +1,5 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,7 @@
 <body onLoad="renderDate()">
 <!--
 <div id="preloader">
-  <div id="status">&nbsp;</div>
+    <div id="status">&nbsp;</div>
 </div>
 -->
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>

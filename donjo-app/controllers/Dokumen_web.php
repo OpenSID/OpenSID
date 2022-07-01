@@ -1,18 +1,8 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 /*
- *  File ini:
  *
- * Controller untuk modul Dokumen
- *
- * donjo-app/controllers/Dokumen_web.php
- *
- */
-
-/*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -21,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -36,51 +26,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 class Dokumen_web extends Web_Controller
 {
-	
-  /**
-	 * Unduh berkas berdasarkan kolom dokumen.id
-	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
-	 * @return  void
-	 */
-	public function unduh_berkas($id_dokumen)
-	{
-		$this->load->model('web_dokumen_model');
+    /**
+     * Unduh berkas berdasarkan kolom dokumen.id
+     *
+     * @param int $id_dokumen Id berkas pada koloam dokumen.id
+     *
+     * @return void
+     */
+    public function unduh_berkas($id_dokumen)
+    {
+        $this->load->model('web_dokumen_model');
 
-		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
-		ambilBerkas($berkas, null, null, LOKASI_DOKUMEN);
-	}
-
-	public function check_surat1($id_dokumen)
-	{
-		$this->load->model('url_shortener_model');
-
-		$id_encoded = $this->url_shortener_model->encode_id($id_dokumen);
-
-		redirect('c2/'. $id_encoded);
-	}
-
-	public function check_surat2($id_encoded)
-	{
-		$this->load->model(['keluar_model', 'url_shortener_model']);
-
-		$id_decoded = $this->url_shortener_model->decode_id($id_encoded);
-
-		$data['config'] = $this->config_model->get_data();
-		$data['surat'] = $this->keluar_model->verifikasi_data_surat($id_decoded, $this->header['kode_desa']);
-
-		if (! $data['surat']) show_404();
-		
-		$this->load->view('surat/verifikasi_surat', $data);
-	}
+        // Ambil nama berkas dari database
+        $berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
+        ambilBerkas($berkas, null, null, LOKASI_DOKUMEN);
+    }
 }

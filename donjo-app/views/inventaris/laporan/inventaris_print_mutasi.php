@@ -3,7 +3,7 @@
 	<title>KIB C</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 	<?php else: ?>
 		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -64,15 +64,15 @@
 <div id="body">
 	<div class="" align="center">
 		<h3> BUKU INVENTARIS DAN KEKAYAAN DESA YANG TELAH DIHAPUS
-			<br><?= ($tahun == 1 ? "Semua Tahun" : "Tahun ". $tahun); ?>
+			<br><?= ($tahun == 1 ? 'Semua Tahun' : 'Tahun ' . $tahun); ?>
 		</h3>
 		<br>
 	</div>
 	<div style="padding-bottom: 35px;">
 		<div class="pull-left">
-			<?= strtoupper($this->setting->sebutan_desa.' = '.$header['nama_desa']) ?><br>
-			<?= strtoupper($this->setting->sebutan_kecamatan.' = '.$header['nama_kecamatan']) ?><br>
-			<?= strtoupper($this->setting->sebutan_kabupaten.' = '.$header['nama_kabupaten']) ?><br>
+			<?= strtoupper($this->setting->sebutan_desa . ' = ' . $header['nama_desa']) ?><br>
+			<?= strtoupper($this->setting->sebutan_kecamatan . ' = ' . $header['nama_kecamatan']) ?><br>
+			<?= strtoupper($this->setting->sebutan_kabupaten . ' = ' . $header['nama_kabupaten']) ?><br>
 		</div>
 		<div class="pull-right">
 			KODE LOKASI : _ _ . _ _ . _ _ . _ _ . _ _ . _ _ . _ _ _
@@ -241,7 +241,7 @@
 			 -->
 			<td colspan="2" width="10%">&nbsp;</td>
 			<td colspan="3" width="30%"></td>
-			<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa.' '.$header['nama_desa'].','.$header['nama_kecamatan'].','.tgl_indo(date("Y m d")))?></span></td>
+			<td colspan="5" width="55%"><span class="underline"><?= strtoupper($this->setting->sebutan_desa . ' ' . $header['nama_desa'] . ',' . $header['nama_kecamatan'] . ',' . tgl_indo(date('Y m d')))?></span></td>
 			<td colspan="5" width="5%">&nbsp;</td>
 		</tr>
 

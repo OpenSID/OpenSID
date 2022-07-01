@@ -1,17 +1,7 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 /*
- * File ini:
  *
- * Controller untuk modul Layanan Surat
- *
- * donjo-app/controllers/Surat_master.php
- *
- */
-
-/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -21,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -36,180 +26,184 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Surat_master extends Admin_Controller {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model(['surat_master_model', 'klasifikasi_model', 'surat_model', 'referensi_model', 'lapor_model']);
-		$this->modul_ini = 4;
-		$this->sub_modul_ini = 30;
-	}
+class Surat_master extends Admin_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model(['surat_master_model', 'klasifikasi_model', 'surat_model', 'lapor_model']);
+        $this->modul_ini     = 4;
+        $this->sub_modul_ini = 30;
+    }
 
-	public function clear($id = 0)
-	{
-		$_SESSION['per_page'] = 20;
-		$_SESSION['surat'] = $id;
-		unset($_SESSION['cari']);
-		unset($_SESSION['filter']);
-		redirect('surat_master');
-	}
+    public function clear($id = 0)
+    {
+        $_SESSION['per_page'] = 20;
+        $_SESSION['surat']    = $id;
+        unset($_SESSION['cari'], $_SESSION['filter']);
 
-	public function index($p = 1, $o = 0)
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
+        redirect('surat_master');
+    }
 
-		if (isset($_SESSION['cari']))
-			$data['cari'] = $_SESSION['cari'];
-		else $data['cari'] = '';
+    public function index($p = 1, $o = 0)
+    {
+        $data['p'] = $p;
+        $data['o'] = $o;
 
-		if (isset($_SESSION['filter']))
-			$data['filter'] = $_SESSION['filter'];
-		else $data['filter'] = '';
+        if (isset($_SESSION['cari'])) {
+            $data['cari'] = $_SESSION['cari'];
+        } else {
+            $data['cari'] = '';
+        }
 
-		if (isset($_POST['per_page']))
-			$_SESSION['per_page'] = $_POST['per_page'];
+        if (isset($_SESSION['filter'])) {
+            $data['filter'] = $_SESSION['filter'];
+        } else {
+            $data['filter'] = '';
+        }
 
-		$data['per_page'] = $_SESSION['per_page'];
-		$data['paging'] = $this->surat_master_model->paging($p, $o);
-		$data['main'] = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->surat_master_model->autocomplete();
-		$this->set_minsidebar(1);
-		$this->render('surat_master/table', $data);
-	}
+        if (isset($_POST['per_page'])) {
+            $_SESSION['per_page'] = $_POST['per_page'];
+        }
 
-	public function form($p = 1, $o = 0, $id = '')
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$data['p'] = $p;
-		$data['o'] = $o;
-		$data['klasifikasi'] = $this->klasifikasi_model->list_kode();
-		$data['list_ref_syarat'] = $this->lapor_model->get_surat_ref_all();
-		$data['list_ref_masa'] = $this->referensi_model->list_ref(MASA_BERLAKU);
+        $data['per_page'] = $_SESSION['per_page'];
+        $data['paging']   = $this->surat_master_model->paging($p, $o);
+        $data['main']     = $this->surat_master_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword']  = $this->surat_master_model->autocomplete();
+        $this->render('surat_master/table', $data);
+    }
 
-		if ($id)
-		{
-			$data['surat_master'] = $this->surat_master_model->get_surat_format($id);
-			$data['form_action'] = site_url("surat_master/update/$p/$o/$id");
-			$data['syarat_surat'] = $this->lapor_model->get_current_surat_ref($id);
-			$data['sisipan_qrcode'] = $this->surat_model->cek_sisipan_qrcode($data['surat_master']['url_surat']);
-		}
-		else
-		{
-			$data['surat_master'] = NULL;
-			$data['form_action'] = site_url("surat_master/insert");
-			$data['syarat_surat'] = NULL;
-			$data['sisipan_qrcode'] = FALSE;
-		}
+    public function form($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $data['p']               = $p;
+        $data['o']               = $o;
+        $data['klasifikasi']     = $this->klasifikasi_model->list_kode();
+        $data['list_ref_syarat'] = $this->lapor_model->get_surat_ref_all();
+        $data['list_ref_masa']   = $this->referensi_model->list_ref(MASA_BERLAKU);
 
-		$this->set_minsidebar(1);
-		$this->render('surat_master/form', $data);
-	}
+        if ($id) {
+            $data['surat_master']   = $this->surat_master_model->get_surat_format($id);
+            $data['form_action']    = site_url("surat_master/update/{$p}/{$o}/{$id}");
+            $data['syarat_surat']   = $this->lapor_model->get_current_surat_ref($id);
+            $data['sisipan_qrcode'] = $this->surat_model->cek_sisipan_qrcode($data['surat_master']['url_surat']);
+        } else {
+            $data['surat_master']   = null;
+            $data['form_action']    = site_url('surat_master/insert');
+            $data['syarat_surat']   = null;
+            $data['sisipan_qrcode'] = false;
+        }
 
-	public function form_upload($p = 1, $o = 0, $url = '')
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$data['form_action'] = site_url("surat_master/upload/$p/$o/$url");
-		$this->load->view('surat_master/ajax-upload', $data);
-	}
+        $this->render('surat_master/form', $data);
+    }
 
-	public function search()
-	{
-		$cari = $this->input->post('cari');
-		if ($cari != '')
-			$_SESSION['cari'] = $cari;
-		else unset($_SESSION['cari']);
-		redirect('surat_master');
-	}
+    public function form_upload($p = 1, $o = 0, $url = '')
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $data['form_action'] = site_url("surat_master/upload/{$p}/{$o}/{$url}");
+        $this->load->view('surat_master/ajax-upload', $data);
+    }
 
-	public function filter()
-	{
-		$filter = $this->input->post('filter');
-		if ($filter != 0)
-			$_SESSION['filter'] = $filter;
-		else unset($_SESSION['filter']);
-		redirect('surat_master');
-	}
+    public function search()
+    {
+        $cari = $this->input->post('cari');
+        if ($cari != '') {
+            $_SESSION['cari'] = $cari;
+        } else {
+            unset($_SESSION['cari']);
+        }
+        redirect('surat_master');
+    }
 
-	public function insert()
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$syarat = $this->input->post('syarat');
-		$mandiri = $this->input->post('mandiri');
-		unset($_POST['syarat']);
-		$this->surat_master_model->insert();
-		$id = $this->db->insert_id();
-		$this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
-		redirect('surat_master');
-	}
+    public function filter()
+    {
+        $filter = $this->input->post('filter');
+        if ($filter != 0) {
+            $_SESSION['filter'] = $filter;
+        } else {
+            unset($_SESSION['filter']);
+        }
+        redirect('surat_master');
+    }
 
-	public function update($p = 1, $o = 0, $id = '')
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$syarat = $this->input->post('syarat');
-		$mandiri = $this->input->post('mandiri');
-		unset($_POST['syarat']);
-		$this->surat_master_model->update($id);
-		$this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
-		redirect("surat_master/index/$p/$o");
-	}
+    public function insert()
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $syarat  = $this->input->post('syarat');
+        $mandiri = $this->input->post('mandiri');
+        unset($_POST['syarat']);
+        $this->surat_master_model->insert();
+        $id = $this->db->insert_id();
+        $this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
+        redirect('surat_master');
+    }
 
-	public function upload($p = 1, $o = 0, $url = '')
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->surat_master_model->upload($url);
-		redirect("surat_master/index/$p/$o");
-	}
+    public function update($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $syarat  = $this->input->post('syarat');
+        $mandiri = $this->input->post('mandiri');
+        unset($_POST['syarat']);
+        $this->surat_master_model->update($id);
+        $this->lapor_model->update_syarat_surat($id, $syarat, $mandiri);
+        redirect("surat_master/index/{$p}/{$o}");
+    }
 
-	public function delete($p = 1, $o = 0, $id = '')
-	{
-		$this->redirect_hak_akses('h', "surat_master/index/$p/$o");
-		$this->surat_master_model->delete($id);
-		redirect("surat_master/index/$p/$o");
-	}
+    public function upload($p = 1, $o = 0, $url = '')
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->surat_master_model->upload($url);
+        redirect("surat_master/index/{$p}/{$o}");
+    }
 
-	public function delete_all($p = 1, $o = 0)
-	{
-		$this->redirect_hak_akses('h', "surat_master/index/$p/$o");
-		$this->surat_master_model->delete_all();
-		redirect("surat_master/index/$p/$o");
-	}
+    public function delete($p = 1, $o = 0, $id = '')
+    {
+        $this->redirect_hak_akses('h', "surat_master/index/{$p}/{$o}");
+        $this->surat_master_model->delete($id);
+        redirect("surat_master/index/{$p}/{$o}");
+    }
 
-	public function kode_isian($p = 1, $o = 0, $id = '')
-	{
-		$data['p'] = $p;
-		$data['o'] = $o;
-		if ($id)
-		{
-			$data['surat_master'] = $this->surat_master_model->get_surat_format($id);
-			$data['inputs'] = $this->surat_master_model->get_kode_isian($data['surat_master']);
-		}
+    public function delete_all($p = 1, $o = 0)
+    {
+        $this->redirect_hak_akses('h', "surat_master/index/{$p}/{$o}");
+        $this->surat_master_model->delete_all();
+        redirect("surat_master/index/{$p}/{$o}");
+    }
 
-		$this->set_minsidebar(1);
-		$this->render('surat_master/kode_isian', $data);
-	}
+    public function kode_isian($p = 1, $o = 0, $id = '')
+    {
+        $data['p'] = $p;
+        $data['o'] = $o;
+        if ($id) {
+            $data['surat_master'] = $this->surat_master_model->get_surat_format($id);
+            $data['inputs']       = $this->surat_master_model->get_kode_isian($data['surat_master']);
+        }
 
-	public function lock($id = 0, $k = 0)
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->surat_master_model->lock($id, $k);
-		redirect("surat_master");
-	}
+        $this->render('surat_master/kode_isian', $data);
+    }
 
-	public function favorit($id = 0, $k = 0)
-	{
-		$this->redirect_hak_akses('u',  $_SERVER['HTTP_REFERER']);
-		$this->surat_master_model->favorit($id, $k);
-		redirect("surat_master");
-	}
+    public function lock($id = 0, $k = 0)
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->surat_master_model->lock($id, $k);
+        redirect('surat_master');
+    }
 
+    public function favorit($id = 0, $k = 0)
+    {
+        $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
+        $this->surat_master_model->favorit($id, $k);
+        redirect('surat_master');
+    }
 }

@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php  defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <section id="covid-nasional">
 	<p class="font-weight-bold line line-short nama-wilayah2"></p>
@@ -27,7 +27,7 @@
 	</div>
 </section>
 
-<?php if($this->setting->provinsi_covid) : ?>
+<?php if ($this->setting->provinsi_covid) : ?>
 	<section id="covid-provinsi">
 		<p class="font-weight-bold line line-short nama-wilayah1"></p>
 		<div class="row">
@@ -59,7 +59,7 @@
 
 <script>
 const COVID_API_URL = 'https://api.kawalcorona.com/';
-const KODE_PROVINSI = <?= $this->setting->provinsi_covid ? : 'undefined' ?> ;
+const KODE_PROVINSI = <?= $this->setting->provinsi_covid ?: 'undefined' ?> ;
 const ENDPOINT = KODE_PROVINSI ? 'indonesia/provinsi/' : 'indonesia/';
 const ENDPOINT_NASIONAL = '/indonesia/';
 
@@ -116,7 +116,7 @@ $(document).ready(function () {
 			dataType: 'json',
 			async: true,
 			cache: true,
-			url: '<?= site_url("ambil_data_covid")?>',
+			url: '<?= site_url('ambil_data_covid')?>',
 			data: {
 				endpoint: COVID_API_URL + ENDPOINT
 			},
@@ -139,7 +139,7 @@ $(document).ready(function () {
 				dataType: 'json',
 				async: true,
 				cache: true,
-				url: '<?= site_url("ambil_data_covid")?>',
+				url: '<?= site_url('ambil_data_covid')?>',
 				data: {
 					endpoint: COVID_API_URL + ENDPOINT_NASIONAL
 				},

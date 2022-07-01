@@ -40,8 +40,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
  *
  * @package	OpenSID
  * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
  * @link 	https://github.com/OpenSID/OpenSID
  */
@@ -91,14 +91,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </tr>
 									</tbody>
 								</table>
-								<a href="<?= site_url("pembangunan/detail/$data->id"); ?>" class="btn btn-primary">Selengkapnya</a>
+								<a href="<?= site_url("pembangunan/{$data->slug}"); ?>" class="btn btn-primary">Selengkapnya</a>
 							</div>
 						</div>
 					</div>
 				<?php endforeach; ?>
 			</div>
 
-			<?php $this->load->view("$folder_themes/cummons/page.php"); ?>
+			<?php $this->load->view("$folder_themes/commons/page.php"); ?>
 			
 		<?php else: ?>
 			<h5>Data pembangunan tidak tersedia.</h5>

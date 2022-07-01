@@ -8,7 +8,7 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_mutasi_asset" method="post" action="<?= site_url("api_inventaris_asset/add_mutasi"); ?>">
+		<form class="form-horizontal" id="validasi" name="form_mutasi_asset" method="post" action="<?= site_url('api_inventaris_asset/add_mutasi'); ?>">
 			<div class="row">
 				<div class="col-md-3">
 					<?php $this->load->view('inventaris/menu_kiri.php')?>
@@ -57,7 +57,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" >Status Mutasi</label>
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm">
-												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
+												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi; ?></option>
 												<optgroup label="Hapus">
 													<option value="Baik">Status Baik</option>
 													<option value="Rusak">Status Rusak</option>
@@ -138,7 +138,7 @@
 			{
 				$(".disumbangkan").hide();
 				$(".harga_jual").show();
-			} 
+			}
 			else if ($("#mutasi").val() == "Rusak" | $("#mutasi").val() == "Diperbaiki" )
 			{
 				$(".disumbangkan").hide();
@@ -146,10 +146,10 @@
 			}
 		});
 
-		$("#status").change(function() 
+		$("#status").change(function()
 		{
 			var status = $(this).val();
-			if (status == "Hapus") 
+			if (status == "Hapus")
 			{
 				$("#mutasi").parent().parent().show();
 				$("#mutasi").addClass('required');
@@ -160,7 +160,7 @@
 				$("#mutasi").removeClass('required');
 			}
 		});
-		
+
 	});
 </script>
 

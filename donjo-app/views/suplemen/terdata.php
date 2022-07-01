@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View profil terdata untuk modul suplemen
  *
  * donjo-app/views/suplemen/terdata.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -68,12 +65,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<tr>
 								<td width="20%">Nama</td>
 								<td width="1%">:</td>
-								<td><?= strtoupper($profil["nama"])?></td>
+								<td><?= strtoupper($profil['nama'])?></td>
 							</tr>
 							<tr>
 								<td>Keterangan</td>
 								<td>:</td>
-								<td><?= $profil["ndesc"]?></td>
+								<td><?= $profil['ndesc']?></td>
 							</tr>
 						</tbody>
 					</table>
@@ -95,8 +92,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<?php foreach ($daftar_suplemen as $key => $item): ?>
 								<tr>
 									<td class="padat"><?= ($key + 1); ?></td>
-									<td><a href="<?= site_url("suplemen/rincian/$item[id]"); ?>"><?= $item["nama"] ?></a></td>
-									<td><?= $item["keterangan"];?></td>
+									<td><a href="<?= site_url("suplemen/rincian/{$item['id']}"); ?>"><?= $item['nama'] ?></a></td>
+									<td><?= $item['keterangan']; ?></td>
 								</tr>
 							<?php endforeach; ?>
 						</tbody>

@@ -3,10 +3,10 @@
 		<h1>Pengaturan <?= $kat_nama?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<?php if (in_array($kat, array('2', '3'))): ?>
-				<li><a href="<?= $kembali_ke ?: site_url("$this->controller/peraturan_desa/$kat"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+			<?php if (in_array($kat, ['2', '3'])): ?>
+				<li><a href="<?= $kembali_ke ?: site_url("{$this->controller}/peraturan_desa/{$kat}"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
 			<?php else: ?>
-				<li><a href="<?= site_url("$this->controller/index/$kat"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
+				<li><a href="<?= site_url("{$this->controller}/index/{$kat}"); ?>"><i class="fa fa-dashboard"></i> Daftar <?= $kat_nama?></a></li>
 			<?php endif; ?>
 			<li class="active">Pengaturan <?= $kat_nama?></li>
 		</ol>
@@ -15,12 +15,12 @@
 		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 			<div class="box box-info">
 				<div class="box-header with-border">
-					<?php if (in_array($kat, array('2', '3'))): ?>
-						<a href="<?= $kembali_ke ?: site_url("$this->controller/peraturan_desa/$kat"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+					<?php if (in_array($kat, ['2', '3'])): ?>
+						<a href="<?= $kembali_ke ?: site_url("{$this->controller}/peraturan_desa/{$kat}"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
 						</a>
 					<?php else: ?>
-						<a href="<?= site_url("$this->controller/index/$kat"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
+						<a href="<?= site_url("{$this->controller}/index/{$kat}"); ?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
 						</a>
 					<?php endif; ?>
@@ -43,7 +43,7 @@
 							<label class="col-sm-4 control-label">Dokumen</label>
 							<div class="col-sm-4">
 								<input type="hidden" name="old_file" value="">
-								<img class="attachment-img img-responsive img-circle" src="<?= site_url().$this->controller.'/unduh_berkas/'.$dokumen['id']?>" alt="<?= $dokumen['nama']?>">
+								<img class="attachment-img img-responsive img-circle" src="<?= site_url() . $this->controller . '/unduh_berkas/' . $dokumen['id']?>" alt="<?= $dokumen['nama']?>">
 							</div>
 						</div>
 					<?php endif; ?>
@@ -62,15 +62,16 @@
 							<?php endif; ?>
 						</div>
 					</div>
-					<input name="kategori" type="hidden" value="<?= $dokumen['kategori'] ?: $kat;?>">
+					<input name="kategori" type="hidden" value="<?= $dokumen['kategori'] ?: $kat; ?>">
 					<?php
-						if ($kat == 2 or $dokumen['kategori'] == 2)
-							include ("donjo-app/views/dokumen/_sk_kades.php");
-						elseif ($kat == 3 or $dokumen['kategori'] == 3)
-							include ("donjo-app/views/dokumen/_perdes.php");
-						else
-							include ("donjo-app/views/dokumen/_informasi_publik.php");
-					?>
+                        if ($kat == 2 || $dokumen['kategori'] == 2) {
+                            include 'donjo-app/views/dokumen/_sk_kades.php';
+                        } elseif ($kat == 3 || $dokumen['kategori'] == 3) {
+                            include 'donjo-app/views/dokumen/_perdes.php';
+                        } else {
+                            include 'donjo-app/views/dokumen/_informasi_publik.php';
+                        }
+                    ?>
 				</div>
 				<div class='box-footer'>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>

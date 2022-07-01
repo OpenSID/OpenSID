@@ -1,4 +1,5 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <?php defined('THEME_VERSION') or define('THEME_VERSION', 'v4.5') ?>
 <?php $desa_title =  ucwords($this->setting->sebutan_desa) . ' '. $desa['nama_desa'] . ' '. ucwords($this->setting->sebutan_kecamatan) . ' '. $desa['nama_kecamatan'] . ' '. ucwords($this->setting->sebutan_kabupaten) . ' '. $desa['nama_kabupaten']; ?>
 
@@ -39,7 +40,7 @@
 <link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/dataTables.bootstrap.min.css'); ?>">
 
 <?php if(isset($single_artikel)): ?>
-	<meta property="og:title" content="<?= htmlspecialchars($single_artikel["judul"]);?>"/>
+	<meta property="og:title" content="<?= htmlspecialchars($single_artikel["judul"]); ?>"/>
 	<meta property="og:url" content="<?= site_url('artikel/'.buat_slug($single_artikel))?>"/>
 	<meta property="og:image" content="<?= base_url(''); ?><?= LOKASI_FOTO_ARTIKEL?>sedang_<?= $single_artikel['gambar'];?>"/>
 	<meta property="og:description" content="<?= potong_teks($single_artikel['isi'], 300)?> ..."/>

@@ -89,7 +89,7 @@
 								<label for="pekerjaan">Pekerjaan</label>
 								<select class="form-control input-sm"  id="pekerjaan1"  name="pekerjaan1">
 									<option value=""> -- </option>
-									<?php foreach ($pekerjaan AS $data): ?>
+									<?php foreach ($pekerjaan as $data): ?>
 										<option value="<?=$data['id']?>"><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
@@ -113,7 +113,7 @@
 								<label for="agama">Agama</label>
 								<select class="form-control  input-sm" id="agama1" name="agama1">
 									<option value=""> -- </option>
-									<?php foreach ($agama AS $data): ?>
+									<?php foreach ($agama as $data): ?>
 										<option value="<?=$data['id']?>"><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
@@ -124,7 +124,7 @@
 								<label for="pendidikan1">Pendidikan dalam KK</label>
 								<select class="form-control  input-sm"  id="pendidikan1"  name="pendidikan1">
 									<option value=""> -- </option>
-									<?php foreach ($pendidikan AS $data): ?>
+									<?php foreach ($pendidikan as $data): ?>
 										<option value="<?=$data['id']?>"><?=$data['nama']?></option>
 									<?php endforeach; ?>
 								</select>
@@ -158,7 +158,7 @@
 								<label for="grup1">Group Kontak</label>
 								<select class="form-control input-sm"  id="grup1"  name="grup1" >
 									<option value=""> -- </option>
-									<?php foreach ($grup AS $data): ?>
+									<?php foreach ($grup as $data): ?>
 										<option value="<?=$data['id_grup']?>"><?=$data['nama_grup']?></option>
 									<?php endforeach; ?>
 								</select>

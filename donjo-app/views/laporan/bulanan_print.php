@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
     <!-- Untuk ubahan style desa -->
-    <?php if (is_file("desa/css/siteman.css")): ?>
+    <?php if (is_file('desa/css/siteman.css')): ?>
       <link type='text/css' href="<?= base_url()?>desa/css/siteman.css" rel='Stylesheet' />
     <?php endif; ?>
   </head>
@@ -37,11 +37,11 @@
     {
       margin-top: 5px;
       font-size:12px;
-      color:<?= (isset($warna_font) ? $warna_font : "");?>;
+      color:<?= ($warna_font ?? ''); ?>;
       width:100%;
       border-width: 1px;
       border-style: solid;
-      border-color: <?= (isset($warna_border) ? $warna_border : "");?>;
+      border-color: <?= ($warna_border ?? ''); ?>;
       border-collapse: collapse;
     }
     table.tftable.lap-bulanan
@@ -58,11 +58,11 @@
     }
     table.tftable th.thick-kiri
     {
-      border-left: 3px solid <?= (isset($warna_border) ? $warna_border : "");?>;
+      border-left: 3px solid <?= ($warna_border ?? ''); ?>;
     }
     table.tftable td.thick-kanan
     {
-      border-right: 3px solid <?= (isset($warna_border) ? $warna_border : "");?>;
+      border-right: 3px solid <?= ($warna_border ?? ''); ?>;
     }
     table.tftable td.angka
     {
@@ -70,12 +70,12 @@
       }
     table.tftable th
     {
-      background-color:<?= (isset($warna_background) ? $warna_background : "");?>;padding: 3px;border: 1px solid <?= (isset($warna_border) ? $warna_border : "");?>;text-align:center;
+      background-color:<?= ($warna_background ?? ''); ?>;padding: 3px;border: 1px solid <?= ($warna_border ?? ''); ?>;text-align:center;
     }
     /*table.tftable tr {background-color:#ffffff;}*/
     table.tftable td
     {
-      padding: 8px;border: 1px solid <?= (isset($warna_border) ? $warna_border : "");?>;
+      padding: 8px;border: 1px solid <?= ($warna_border ?? ''); ?>;
     }
   </style>
 
@@ -113,7 +113,7 @@
           </tr>
         </table>
         <br>
-        <?php include ("donjo-app/views/laporan/tabel_bulanan.php"); ?>
+        <?php include 'donjo-app/views/laporan/tabel_bulanan.php'; ?>
         <table class="tftable">
           <tr><td colspan="13" class="no-border">&nbsp;</td></tr>
           <tr>
@@ -129,8 +129,8 @@
             <th colspan="3" class="text-center">KELUARGA (KK)</th>
             <td rowspan="7" colspan="2" width="30%" class="no-border-kecuali-kiri">&nbsp;</td>
             <td rowspan="2" colspan="3" class="no-border" style="vertical-align: top;">
-              <?= ucwords($this->setting->sebutan_desa)?> <?= $config['nama_desa']?>, <?= tgl_indo(date("Y m d"))?><br>
-              <?= str_ireplace($this->setting->sebutan_desa, '', $pamong_ttd['jabatan']).' '.ucwords($this->setting->sebutan_desa).' '.$config['nama_desa']?>
+              <?= ucwords($this->setting->sebutan_desa)?> <?= $config['nama_desa']?>, <?= tgl_indo(date('Y m d'))?><br>
+              <?= str_ireplace($this->setting->sebutan_desa, '', $pamong_ttd['jabatan']) . ' ' . ucwords($this->setting->sebutan_desa) . ' ' . $config['nama_desa']?>
             </td>
           </tr>
           <tr>
@@ -144,45 +144,45 @@
           <tr>
             <td class="no_urut">1</td>
             <td>Pindah keluar Desa/Kelurahan</td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['DESA_L']+$rincian_pindah['DESA_P']),'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_KK_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_KK_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['DESA_KK_L']+$rincian_pindah['DESA_KK_P']),'-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['DESA_L'] + $rincian_pindah['DESA_P']), '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_KK_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['DESA_KK_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['DESA_KK_L'] + $rincian_pindah['DESA_KK_P']), '-')?></td>
             <td colspan="3" class="no-border">&nbsp;</td>
           </tr>
           <tr>
             <td class="no_urut">2</td>
             <td>Pindah keluar Kecamatan</td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KEC_L']+$rincian_pindah['KEC_P']),'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_KK_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_KK_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KEC_KK_L']+$rincian_pindah['KEC_KK_P']),'-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KEC_L'] + $rincian_pindah['KEC_P']), '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_KK_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KEC_KK_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KEC_KK_L'] + $rincian_pindah['KEC_KK_P']), '-')?></td>
             <td colspan="3" class="no-border">&nbsp;</td>
           </tr>
           <tr>
             <td class="no_urut">3</td>
             <td>Pindah keluar Kabupaten/Kota</td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KAB_L']+$rincian_pindah['KAB_P']),'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_KK_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_KK_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KAB_KK_L']+$rincian_pindah['KAB_KK_P']),'-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KAB_L'] + $rincian_pindah['KAB_P']), '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_KK_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['KAB_KK_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['KAB_KK_L'] + $rincian_pindah['KAB_KK_P']), '-')?></td>
             <td colspan="3" class="no-border">&nbsp;</td>
           </tr>
           <tr>
             <td class="no_urut">4</td>
             <td>Pindah keluar Provinsi</td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['PROV_L']+$rincian_pindah['PROV_P']),'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_KK_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_KK_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['PROV_KK_L']+$rincian_pindah['PROV_KK_P']),'-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['PROV_L'] + $rincian_pindah['PROV_P']), '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_KK_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['PROV_KK_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['PROV_KK_L'] + $rincian_pindah['PROV_KK_P']), '-')?></td>
             <td rowspan="2" colspan="3" class="no-border" style="vertical-align: top;">
               ( <?= $pamong_ttd['nama']?> )<br>
               NIP/<?= $this->setting->sebutan_nip_desa  ?> <?= $pamong_ttd['pamong_niap_nip']?>
@@ -190,12 +190,12 @@
           </tr>
           <tr>
             <td colspan="2" class="text-center text-bold">JUMLAH:</td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['TOTAL_L']+$rincian_pindah['TOTAL_P']),'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_KK_L'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_KK_P'],'-')?></td>
-            <td class="bilangan"><?= show_zero_as(($rincian_pindah['TOTAL_KK_L']+$rincian_pindah['TOTAL_KK_P']),'-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['TOTAL_L'] + $rincian_pindah['TOTAL_P']), '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_KK_L'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as($rincian_pindah['TOTAL_KK_P'], '-')?></td>
+            <td class="bilangan"><?= show_zero_as(($rincian_pindah['TOTAL_KK_L'] + $rincian_pindah['TOTAL_KK_P']), '-')?></td>
           </tr>
         </table>
       </div>

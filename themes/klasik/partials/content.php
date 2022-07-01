@@ -77,7 +77,7 @@
 				</ul>
 			</div>
 
-		<?php $this->load->view("$folder_themes/cummons/page"); ?>
+		<?php $this->load->view("$folder_themes/commons/page"); ?>
 			
 		<?php else: ?>
 			<div class="artikel" id="artikel-blank">

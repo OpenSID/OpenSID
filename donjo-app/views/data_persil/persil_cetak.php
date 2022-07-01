@@ -83,8 +83,8 @@
 						<?php foreach ($persil as $item): ?>
 						<tr>
 							<td ><?= $item['no']?></td>
-							<td class="textx"><?= $item['nomor'].' : '.$item['nomor_urut_bidang']?></td>
-							<td><?= $persil_kelas[$item["kelas"]]['kode']?></td>
+							<td class="textx"><?= $item['nomor'] . ' : ' . $item['nomor_urut_bidang']?></td>
+							<td><?= $persil_kelas[$item['kelas']]['kode']?></td>
 							<td><?= $item['luas_persil']?></td>
 							<td><?= $item['alamat'] ?: $item['lokasi']?></td>
 							<td><?= $item['nomor_cdesa_awal']?></td>

@@ -1,4 +1,4 @@
-<!-- widget Statistik Penduduk -->
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <style type="text/css">
 	.highcharts-xaxis-labels tspan {font-size: 8px;}

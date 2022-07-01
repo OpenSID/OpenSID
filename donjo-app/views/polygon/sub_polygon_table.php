@@ -17,14 +17,14 @@
 					<div class="box box-info">
             <div class="box-header with-border">
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
-								<a href="<?= site_url("polygon/ajax_add_sub_polygon/$polygon[id]")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori <?= $polygon['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $polygon['nama']?>">
+								<a href="<?= site_url("polygon/ajax_add_sub_polygon/{$polygon['id']}")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori <?= $polygon['nama']?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $polygon['nama']?>">
 									<i class="fa fa-plus"></i>Tambah Kategori <?= $polygon['nama']?>
 	            	</a>
 	            <?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
-								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("polygon/delete_all_sub_polygon/$polygon[id]")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("polygon/delete_all_sub_polygon/{$polygon['id']}")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
-							<a href="<?= site_url("polygon")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+							<a href="<?= site_url('polygon')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Area
             	</a>
 						</div>
@@ -61,14 +61,14 @@
 																		<td><?=$data['no']?></td>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
 																			<td nowrap>
-																				<a href="<?= site_url("polygon/ajax_add_sub_polygon/$polygon[id]/$data[id]")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori <?= $polygon[nama]?>"><i class="fa fa-edit"></i></a>
+																				<a href="<?= site_url("polygon/ajax_add_sub_polygon/{$polygon['id']}/{$data['id']}")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Kategori <?= $polygon[nama]?>"><i class="fa fa-edit"></i></a>
 																				<?php if ($data['enabled'] == '2'): ?>
-																					<a href="<?= site_url("polygon/polygon_lock_sub_polygon/$polygon[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
+																					<a href="<?= site_url("polygon/polygon_lock_sub_polygon/{$polygon['id']}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 																				<?php elseif ($data['enabled'] == '1'): ?>
-																					<a href="<?= site_url("polygon/polygon_unlock_sub_polygon/$polygon[id]/$data[id]")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
+																					<a href="<?= site_url("polygon/polygon_unlock_sub_polygon/{$polygon['id']}/{$data['id']}")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																				<?php endif; ?>
 																				<?php if ($this->CI->cek_hak_akses('h')): ?>
-																					<a href="#" data-href="<?= site_url("polygon/delete_sub_polygon/$polygon[id]/$data[id]")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																					<a href="#" data-href="<?= site_url("polygon/delete_sub_polygon/{$polygon['id']}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																				<?php endif; ?>
 																		  </td>
 																		<?php endif; ?>
@@ -93,4 +93,4 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>

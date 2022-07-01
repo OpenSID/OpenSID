@@ -9,8 +9,8 @@
 	<section class="content-header">
 		<h1><?= $_SESSION['analisis_nama']; ?> [ <?= $subjek?> ]</h1>
 		<ol class="breadcrumb">
-			<li><a href="<?=site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?=site_url('analisis_master/clear')?>"> Master Analisis</a></li>
+			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
+			<li><a href="<?= site_url('analisis_master/clear')?>"> Master Analisis</a></li>
 			<li class="active"><?= $analisis_master['nama']; ?></li>
 		</ol>
 	</section>
@@ -18,7 +18,7 @@
 		<form id="mainform" name="mainform" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<?php $this->load->view('analisis_master/left', $data);?>
+					<?php $this->load->view('analisis_master/left', $data); ?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">

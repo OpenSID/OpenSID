@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View cetak/unduh anggota kelompok di modul Kelompok
  *
  * donjo-app/views/kelompok/anggota/cetak.php
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 <table>
@@ -72,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<strong>Nama <?= ucwords($this->controller); ?> : </strong><?= $kelompok['nama']; ?><br>
 				<strong>Ketua <?= ucwords($this->controller); ?> : </strong><?= $kelompok['nama_ketua']; ?><br>
 				<strong>Kategori <?= ucwords($this->controller); ?> : </strong><?= $kelompok['kategori']; ?><br>
-				<strong>Keterangan : </strong><?= $kelompok['keterangan'];?>
+				<strong>Keterangan : </strong><?= $kelompok['keterangan']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -83,7 +80,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>No.</th>
 							<th>No. Anggota</th>
 							<th>NIK</th>
-							<th>Nama Lengkap</th>							
+							<th>Nama Lengkap</th>
 							<th>Jenis Kelamin</th>
 							<th>Tempat / Tanggal Lahir</th>
 							<th>Agama</th>
@@ -109,8 +106,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?= $data['jabatan'] ?></td>
 								<td><?= $data['pendidikan']?></td>
 								<?php if ($this->controller == 'lembaga') : ?>
-									<td><?= $data['nmr_sk_pengangkatan'] . " / " . tgl_indo_out($data['tgl_sk_pengangkatan'])?></td>
-									<td><?= $data['nmr_sk_pemberhentian'] . " / " .  tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
+									<td><?= $data['nmr_sk_pengangkatan'] . ' / ' . tgl_indo_out($data['tgl_sk_pengangkatan'])?></td>
+									<td><?= $data['nmr_sk_pemberhentian'] . ' / ' . tgl_indo_out($data['tgl_sk_pemberhentian']) ?></td>
 								<?php endif ?>
 								<td><?= $data['keterangan']; ?></td>
 							</tr>

@@ -1,6 +1,6 @@
 <div class="box box-primary">
 	<div class="box-body box-profile">
-		<img class="penduduk profile-user-img img-responsive img-circle" id="foto" src="<?= AmbilFoto($foto, '', $id_sex); ?>" alt="Foto">
+		<img class="penduduk" id="foto" src="<?= AmbilFoto($foto, '', $id_sex); ?>" alt="Foto Penduduk">
 		<br/>
 		<div class="input-group input-group-sm text-center">
 			<input type="file" class="hidden" id="file" name="foto">

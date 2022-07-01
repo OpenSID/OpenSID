@@ -4,7 +4,7 @@
 		<title>Data SK Kepala Desa</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link href="<?= base_url()?>assets/css/report.css" rel="stylesheet" type="text/css">
-		<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+		<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 			<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 		<?php else: ?>
 			<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -50,12 +50,12 @@
 					</tr>
 					<tr>
 						<td colspan="6" align="center" style="font-size: 13.5pt;">
-							<strong><?= strtoupper($this->setting->sebutan_kecamatan.' '.$desa['nama_kecamatan'].' '.$this->setting->sebutan_kabupaten.' '.$desa['nama_kabupaten'])?></strong>
+							<strong><?= strtoupper($this->setting->sebutan_kecamatan . ' ' . $desa['nama_kecamatan'] . ' ' . $this->setting->sebutan_kabupaten . ' ' . $desa['nama_kabupaten'])?></strong>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="6" align="center" style="font-size: 13.5pt;">
-							<strong><?= !empty($tahun) ? 'TAHUN '. $tahun : ''?></strong>
+							<strong><?= ! empty($tahun) ? 'TAHUN ' . $tahun : ''?></strong>
 						</td>
 					</tr>
 					<tr><td colspan="6">&nbsp;</td></tr>
@@ -75,17 +75,17 @@
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td><?= $data['no']?></td>
-							<td><?= 'Nomor '.strip_kosong($data['attr']['no_kep_kades']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_kep_kades'])?></td>
+							<td><?= 'Nomor ' . strip_kosong($data['attr']['no_kep_kades']) . ', Tanggal ' . tgl_indo_dari_str($data['attr']['tgl_kep_kades'])?></td>
 							<td><?= $data['nama']?></td>
 							<td><?= $data['attr']['uraian']?></td>
-							<td><?= 'Nomor '.strip_kosong($data['attr']['no_lapor']).", Tanggal ".tgl_indo_dari_str($data['attr']['tgl_lapor'])?></td>
+							<td><?= 'Nomor ' . strip_kosong($data['attr']['no_lapor']) . ', Tanggal ' . tgl_indo_dari_str($data['attr']['tgl_lapor'])?></td>
 							<td><?= $data['attr']['keterangan']?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
 				<br><br>
-				<?php $this->load->view("global/blok_ttd_pamong.php", ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2]); ?>
+				<?php $this->load->view('global/blok_ttd_pamong.php', ['total_col' => 6, 'spasi_kiri' => 1, 'spasi_tengah' => 2]); ?>
 			</div>
 		</div>
 	</body>

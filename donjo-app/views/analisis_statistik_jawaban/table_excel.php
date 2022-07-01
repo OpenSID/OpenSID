@@ -1,10 +1,10 @@
 <?php
-	$tgl =  date('d_m_Y');
+    $tgl = date('d_m_Y');
 
-	header("Content-type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=statistik_analisis_jawaban_$tgl.xls");
-	header("Pragma: no-cache");
-	header("Expires: 0");
+    header('Content-type: application/octet-stream');
+    header("Content-Disposition: attachment; filename=statistik_analisis_jawaban_{$tgl}.xls");
+    header('Pragma: no-cache');
+    header('Expires: 0');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -74,7 +74,7 @@
 					</tbody>
 				</table>
 			</div>
-			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
+			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date('Y m d'))?>
 		</div>
 	</body>
 </html>

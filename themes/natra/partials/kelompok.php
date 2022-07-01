@@ -1,4 +1,4 @@
-<?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="single_page_area">
 	<h2 class="post_titile" >Data Kelompok - <?= $detail['nama']; ?></h2>

@@ -8,9 +8,9 @@
 		</div>
 		<div class="box-body no-padding">
 			<ul class="nav nav-pills nav-stacked">
-				<?php foreach($submenu as $id => $nama_menu) : ?>
-					<li class="<?php ($_SESSION['submenu'] == $id) and print('active') ?>">
-						<a href="<?= site_url("mailbox/clear/$id") ?>"><?= $nama_menu ?></a>
+				<?php foreach ($submenu as $id => $nama_menu) : ?>
+					<li class="<?php ($_SESSION['submenu'] == $id) && print 'active' ?>">
+						<a href="<?= site_url("mailbox/clear/{$id}") ?>"><?= $nama_menu ?></a>
 					</li>
 				<?php endforeach ?>
 			</ul>

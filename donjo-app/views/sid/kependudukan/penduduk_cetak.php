@@ -3,7 +3,7 @@
 <head>
 	<title>Data Penduduk</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<?php if (is_file(LOKASI_LOGO_DESA . "favicon.ico")): ?>
+	<?php if (is_file(LOKASI_LOGO_DESA . 'favicon.ico')): ?>
 		<link rel="shortcut icon" href="<?= base_url()?><?= LOKASI_LOGO_DESA?>favicon.ico" />
 	<?php else: ?>
 		<link rel="shortcut icon" href="<?= base_url()?>favicon.ico" />
@@ -79,14 +79,14 @@
 							<td><?= $data['hubungan']?></td>
 							<td><?= $data['nama_ayah']?></td>
 							<td><?= $data['nama_ibu']?></td>
-							<td><?php if ($data['status']==1): ?>Tetap<?php else: ?>Pendatang<?php endif; ?></td>
+							<td><?php if ($data['status'] == 1): ?>Tetap<?php else: ?>Pendatang<?php endif; ?></td>
 						</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
 			</div>
    		<label>Tanggal cetak : &nbsp; </label>
-			 <?= tgl_indo(date("Y m d"))?>
+			 <?= tgl_indo(date('Y m d'))?>
 		</div>
 	</body>
 </html>

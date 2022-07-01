@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk modul Buku Administrasi Desa > Buku Penduduk Sementara
  *
  * donjo-app/views/bumindes/penduduk/induk/content_sementara_cetak.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -53,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php if ($aksi != 'unduh'): ?>
 					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
 				<?php endif; ?>
-				<h1 class="judul"> 
+				<h1 class="judul">
 					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
 				</h1>
 			</td>
@@ -75,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>	
+			<td>
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
@@ -118,31 +115,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-						<!-- 
-							""" 
-							Menunggu detil informasi data tiap attributnya sudah atau belum, 
-							jika sudah ada bagaimana proses menuju flow tersebut 
-							""" 
+						<!--
+							"""
+							Menunggu detil informasi data tiap attributnya sudah atau belum,
+							jika sudah ada bagaimana proses menuju flow tersebut
+							"""
 						-->
-						
-					<?php if($main): ?>
+
+					<?php if ($main): ?>
 						<?php foreach ($main as $data): ?>
 						<tr>
 							<td class="padat"><?= $data['no'] ?></td>
 							<td><?= strtoupper($data['nama'])?></td>
-							<td class="padat"><?= (strtoupper($data['sex']) == 'LAKI-LAKI') ? "L" : "" ?></td>
-							<td class="padat"><?= (strtoupper($data['sex']) == 'PEREMPUAN') ? "P" : "" ?></td>
-							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : ($aksi == 'unduh' ? $data['nik'].'&nbsp' : $data['nik'])?></td>
-							<td><?= $data['tempatlahir'] . ", " . tgl_indo_out($data['tanggallahir']) ?></td>
-							<td><?= ($data['pekerjaan'] == 'BELUM/TIDAK BEKERJA') ? "-" : $data['pekerjaan'] ?></td>
+							<td class="padat"><?= (strtoupper($data['sex']) == 'LAKI-LAKI') ? 'L' : '' ?></td>
+							<td class="padat"><?= (strtoupper($data['sex']) == 'PEREMPUAN') ? 'P' : '' ?></td>
+							<td><?= $privasi_nik ? sensor_nik_kk($data['nik']) : ($aksi == 'unduh' ? $data['nik'] . '&nbsp' : $data['nik'])?></td>
+							<td><?= $data['tempatlahir'] . ', ' . tgl_indo_out($data['tanggallahir']) ?></td>
+							<td><?= ($data['pekerjaan'] == 'BELUM/TIDAK BEKERJA') ? '-' : $data['pekerjaan'] ?></td>
 							<td><?= $data['warganegara']?></td>
-							<td><?= empty($data['negara_asal']) ? "-" : $data['negara_asal'] ?></td>
-							<td><?= empty($data['alamat_sebelumnya']) ? "-" : $data['alamat_sebelumnya'] ?></td>
-							<td><?= empty($data['maksud_tujuan_kedatangan']) ? "-" : $data['maksud_tujuan_kedatangan'] ?></td>
-							<td><?= strtoupper($data['alamat']." RT ".$data['rt']." / RW ".$data['rw']." ".$this->setting->sebutan_dusun." ".$data['dusun'])?></td>
-							<td><?= empty($data['tanggal_datang']) ? "-" : tgl_indo_out($data['tanggal_datang']) ?></td>
-							<td><?= empty($data['tanggal_pergi']) ? "-" : tgl_indo_out($data['tanggal_pergi']) ?></td>
-							<td><?= empty($data['ket']) ? "-" : $data['ket'] ?></td>
+							<td><?= empty($data['negara_asal']) ? '-' : $data['negara_asal'] ?></td>
+							<td><?= empty($data['alamat_sebelumnya']) ? '-' : $data['alamat_sebelumnya'] ?></td>
+							<td><?= empty($data['maksud_tujuan_kedatangan']) ? '-' : $data['maksud_tujuan_kedatangan'] ?></td>
+							<td><?= strtoupper($data['alamat'] . ' RT ' . $data['rt'] . ' / RW ' . $data['rw'] . ' ' . $this->setting->sebutan_dusun . ' ' . $data['dusun'])?></td>
+							<td><?= empty($data['tanggal_datang']) ? '-' : tgl_indo_out($data['tanggal_datang']) ?></td>
+							<td><?= empty($data['tanggal_pergi']) ? '-' : tgl_indo_out($data['tanggal_pergi']) ?></td>
+							<td><?= empty($data['ket']) ? '-' : $data['ket'] ?></td>
 						</tr>
 						<?php endforeach; ?>
 					<?php endif; ?>

@@ -4,7 +4,7 @@
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('keluarga/clear')?>"> Daftar Keluarga</a></li>
-			<li><a href="<?= site_url("keluarga/anggota/$p/$o/$id_kk")?>"> Daftar Anggota Keluarga</a></li>
+			<li><a href="<?= site_url("keluarga/anggota/{$p}/{$o}/{$id_kk}")?>"> Daftar Anggota Keluarga</a></li>
 			<li class="active">Kartu Keluarga</li>
 		</ol>
 	</section>
@@ -14,12 +14,12 @@
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
-							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
-							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rincian Anggota Keluarga">
+							<a href="<?= site_url("keluarga/cetak_kk/{$id_kk}")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
+							<a href="<?= site_url("keluarga/doc_kk/{$id_kk}")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
+							<a href="<?=site_url("keluarga/anggota/{$p}/{$o}/{$id_kk}")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rincian Anggota Keluarga">
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Anggota Keluarga
 							</a>
-							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Keluarga">
+							<a href="<?=site_url('keluarga')?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Keluarga">
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Keluarga
 							</a>
 						</div>
@@ -103,7 +103,7 @@
 											<tbody>
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
-													<td class="text-center" ><?= $key+1?></td>
+													<td class="text-center" ><?= $key + 1?></td>
 													<td><?= strtoupper($data['nama'])?></td>
 													<td><?= get_nik($data['nik']) ?></td>
 													<td><?= $data['sex']?></td>
@@ -140,7 +140,7 @@
 											<tbody>
 												<?php foreach ($main as $key => $data): ?>
 												<tr>
-													<td class="text-center" ><?= $key+1?></td>
+													<td class="text-center" ><?= $key + 1?></td>
 													<td><?= $data['status_kawin']?></td>
 													<td class="text-center"><?= tgl_indo_out($data['tanggalperkawinan'])?></td>
 													<td><?= $data['hubungan']?></td>
@@ -160,7 +160,7 @@
 												<tr>
 													<td width="25%">&nbsp;</td>
 													<td width="50%">&nbsp;</td>
-													<td class="text-center" width="25%"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date("Y m d"))?></td>
+													<td class="text-center" width="25%"><?= $desa['nama_desa'] ?>, <?= tgl_indo(date('Y m d'))?></td>
 												</tr>
 												<tr>
 													<td class="text-center">KEPALA KELUARGA</td>

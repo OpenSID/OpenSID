@@ -1,3 +1,5 @@
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <style type="text/css">
 	img.icon {
 		width: 50px;

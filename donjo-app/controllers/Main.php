@@ -1,14 +1,8 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
 /*
- *  File ini:
  *
- * Controller untuk modul Dashboard Admin
- *
- * donjo-app/controllers/Main.php
- *
- */
-/*
- *  File ini bagian dari:
+ * File ini bagian dari:
  *
  * OpenSID
  *
@@ -17,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -32,62 +26,65 @@
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Main extends CI_Controller {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model(['config_model', 'pamong_model', 'track_model', 'grup_model']);
-	}
+class Main extends CI_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model(['pamong_model', 'track_model', 'grup_model']);
+    }
 
-	public function maintenance_mode()
-	{
-		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
-			redirect('main');
-		$data['main'] = $this->config_model->get_data();
-		$data['pamong_kades'] = $this->pamong_model->get_ttd();
-		if (file_exists(FCPATH.'desa/offline_mode.php'))
-			$this->load->view('../../desa/offline_mode', $data);
-		else
-			$this->load->view('offline_mode', $data);
-	}
+    public function maintenance_mode()
+    {
+        if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
+            redirect('main');
+        }
+        $data['main']         = $this->config_model->get_data();
+        $data['pamong_kades'] = $this->pamong_model->get_ttd();
+        if (file_exists(FCPATH . 'desa/offline_mode.php')) {
+            $this->load->view('../../desa/offline_mode', $data);
+        } else {
+            $this->load->view('offline_mode', $data);
+        }
+    }
 
-	public function index()
-	{
-		if (isset($_SESSION['siteman']) AND $_SESSION['siteman'] == 1)
-		{
-			$this->track_model->track_desa('main');
-			$this->load->model('user_model');
-			$grup = $this->user_model->sesi_grup($_SESSION['sesi']);
+    public function index()
+    {
+        if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
+            $this->track_model->track_desa('main');
+            $this->load->model('user_model');
+            $grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 
-			switch ($grup)
-			{
-				case 1 : redirect('hom_sid'); break;
-				case 2 : redirect('hom_sid'); break;
-				case 3 : redirect('web/clear'); break;
-				case 4 : redirect('web/clear'); break;
-				default :
-					$modul_awal = $this->grup_model->modul_awal($grup);
-					redirect($modul_awal);
-					break;
-			}
-		}
-		else if ($this->setting->offline_mode > 0)
-		{
-			// Jika website hanya bisa diakses user, maka harus login dulu
-			redirect('siteman');
-		}
-		else
-		{
-			redirect();
-		}
-	}
+            switch ($grup) {
+                case 1: redirect('hom_sid'); break;
+
+                case 2: redirect('hom_sid'); break;
+
+                case 3: redirect('web/clear'); break;
+
+                case 4: redirect('web/clear'); break;
+
+                default:
+                    $modul_awal = $this->grup_model->modul_awal($grup);
+                    redirect($modul_awal);
+                    break;
+            }
+        } elseif ($this->setting->offline_mode > 0) {
+            // Jika website hanya bisa diakses user, maka harus login dulu
+            redirect('siteman');
+        } else {
+            redirect();
+        }
+    }
 }

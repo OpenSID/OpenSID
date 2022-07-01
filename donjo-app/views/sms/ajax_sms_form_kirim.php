@@ -18,7 +18,7 @@
 							<select class="form-control input-sm select2 required" id="DestinationNumber" name="DestinationNumber" style="width:100%;">
 								<option option value="">-- Silakan Cari No HP Tujuan --</option>
 								<?php foreach ($kontak as $data): ?>
-									<option value="<?=$data['no_hp']?>">NIK :<?=$data['id_kontak']." - ".$data['nama']." - ".$data['no_hp']?></option>
+									<option value="<?=$data['no_hp']?>">NIK :<?=$data['id_kontak'] . ' - ' . $data['nama'] . ' - ' . $data['no_hp']?></option>
 								<?php endforeach; ?>
 							</select>
 						</div>

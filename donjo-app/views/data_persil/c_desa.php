@@ -4,7 +4,7 @@
 	    source: function( request, response ) {
 	      $.ajax( {
 					type: "POST",
-	        url: '<?= site_url("cdesa/autocomplete")?>',
+	        url: '<?= site_url('cdesa/autocomplete')?>',
 	        dataType: "json",
 	        data: {
 	          cari: request.term
@@ -20,7 +20,7 @@
 </script>
 <div class="content-wrapper">
 	<section class="content-header">
-		<h1>Daftar C-DESA <?= ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']);?></h1>
+		<h1>Daftar C-DESA <?= ucwords($this->setting->sebutan_desa . ' ' . $this->header['desa']['nama_desa']); ?></h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li class="active">Daftar C-DESA</li>
@@ -41,21 +41,21 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<a href='<?= site_url("cdesa/cetak")?>' class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
+										<a href='<?= site_url('cdesa/cetak')?>' class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
 											<i class="fa fa-print"></i>Cetak
 										</a>
-										<a href="<?= site_url("cdesa/unduh")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank">
+										<a href="<?= site_url('cdesa/unduh')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank">
 											<i class="fa fa-download"></i>Unduh
 										</a>
-										<a href="<?= site_url("cdesa/clear")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
+										<a href="<?= site_url('cdesa/clear')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i>Bersihkan</a>
 										<form id="mainform" name="mainform" method="post">
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="box-tools">
 														<div class="input-group input-group-sm pull-right">
-															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("cdesa/search")?>');$('#'+'mainform').submit();}">
+															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url('cdesa/search')?>');$('#'+'mainform').submit();}">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("cdesa/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url('cdesa/search')?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -81,20 +81,20 @@
 																	<tr>
 																		<td><?= $item['no']?></td>
 																		<td nowrap>
-																			<a href="<?= site_url("cdesa/rincian/".$item["id_cdesa"])?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-bars"></i></a>
+																			<a href="<?= site_url('cdesa/rincian/' . $item['id_cdesa'])?>" class="btn bg-purple btn-flat btn-sm" title="Rincian"><i class="fa fa-bars"></i></a>
 																			<?php if ($this->CI->cek_hak_akses('u')): ?>
-																				<a href="<?= site_url("cdesa/create_mutasi/".$item["id_cdesa"])?>" class="btn bg-green btn-flat btn-sm" title="Tambah Data"><i class="fa fa-plus"></i></a>
-																				<a href="<?= site_url("cdesa/create/edit/".$item["id_cdesa"])?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
+																				<a href="<?= site_url('cdesa/create_mutasi/' . $item['id_cdesa'])?>" class="btn bg-green btn-flat btn-sm" title="Tambah Data"><i class="fa fa-plus"></i></a>
+																				<a href="<?= site_url('cdesa/create/edit/' . $item['id_cdesa'])?>" class="btn bg-yellow btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 																			<?php endif; ?>
 																			<?php if ($this->CI->cek_hak_akses('h')): ?>
-																				<a href="#" data-href="<?= site_url("cdesa/hapus/".$item["id_cdesa"])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																				<a href="#" data-href="<?= site_url('cdesa/hapus/' . $item['id_cdesa'])?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
 																		</td>
-																		<td><?= sprintf("%04s", $item["nomor"]) ?></td>
+																		<td><?= sprintf('%04s', $item['nomor']) ?></td>
 																		<td><?= $item['nama_kepemilikan'] ?>
-																		<td><?= strtoupper($item["namapemilik"]) ?></td>
-																		<td><?= ($item["nik"]) ? "<a href=" . site_url("penduduk/detail/1/0/$item[id_pend]") . ">" . $item["nik"] . "</a>" : "-"; ?></td>
-																		<td><?= $item["jumlah"] ?></td>
+																		<td><?= strtoupper($item['namapemilik']) ?></td>
+																		<td><?= ($item['nik']) ? '<a href=' . site_url("penduduk/detail/1/0/{$item['id_pend']}") . '>' . $item['nik'] . '</a>' : '-'; ?></td>
+																		<td><?= $item['jumlah'] ?></td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>
@@ -103,11 +103,11 @@
 												</div>
 											</div>
 										</form>
-										<?php $this->load->view('global/paging');?>
+										<?php $this->load->view('global/paging'); ?>
 									</div>
 								</div>
 							</div>
-							<?php $this->load->view('global/confirm_delete');?>
+							<?php $this->load->view('global/confirm_delete'); ?>
 						</div>
 					</div>
 				</div>

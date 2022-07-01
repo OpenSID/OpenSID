@@ -109,7 +109,7 @@ switch (ENVIRONMENT) {
  * This variable must contain the name of your "system" directory.
  * Set the path if it is not in the same directory as this file.
  */
-$system_path = 'system';
+$system_path = 'vendor/codeigniter/framework/system';
 
 /*
  *---------------------------------------------------------------
@@ -149,6 +149,13 @@ $view_folder = '';
  *---------------------------------------------------------------
  */
 	$web_folder = 'fweb';
+
+/**
+ *---------------------------------------------------------------
+ * MANDIRI DIRECTORY NAME
+ *---------------------------------------------------------------
+ */
+	$mandiri_folder = 'fmandiri';
 
 /**
  *---------------------------------------------------------------
@@ -311,6 +318,7 @@ define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
  * Custom path
  */
 	define('WEB', $web_folder);
+    define('MANDIRI', $mandiri_folder);
 	define('ADMIN', $admin_folder);
 	define('DESAPATH', $desa_path.DIRECTORY_SEPARATOR);
 

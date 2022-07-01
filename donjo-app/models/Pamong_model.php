@@ -1,16 +1,5 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/*
- * File ini:
- *
- * Model pamong untuk modul Pemerintahan Desa
- *
- * donjo-app/models/Pamong_model.php
- *
- */
-
 /*
  *
  * File ini bagian dari:
@@ -22,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -37,101 +26,107 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
 
-class Pamong_model extends CI_Model {
+defined('BASEPATH') || exit('No direct script access allowed');
 
-	private $urut_model;
+class Pamong_model extends CI_Model
+{
+    private $urut_model;
 
-	public function __construct()
-	{
-		parent::__construct();
-		require_once APPPATH.'/models/Urut_model.php';
-		$this->urut_model = new Urut_Model('tweb_desa_pamong', 'pamong_id');
-		$this->load->model(['referensi_model']);
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        require_once APPPATH . '/models/Urut_model.php';
+        $this->urut_model = new Urut_Model('tweb_desa_pamong', 'pamong_id');
+        $this->load->model(['referensi_model']);
+    }
 
-	public function list_data($offset = 0, $limit = 500)
-	{
-		$this->db->select('u.*, p.nama, p.nik, p.tempatlahir, p.tanggallahir,
+    public function list_data($offset = 0, $limit = 500)
+    {
+        $this->db->select('u.*, p.nama, p.nik, p.tempatlahir, p.tanggallahir,
 			(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex,
 			(case when p.foto is not null then p.foto else u.foto end) as foto,
 			x.nama AS sex, b.nama AS pendidikan_kk, g.nama AS agama, x2.nama AS pamong_sex, b2.nama AS pamong_pendidikan, g2.nama AS pamong_agama');
 
-		$this->list_data_sql();
-		$this->db->order_by('u.urut')
-			->limit($limit, $offset);
+        $this->list_data_sql();
+        $this->db->order_by('u.urut')
+            ->limit($limit, $offset);
 
-		$data = $this->db->get()->result_array();
+        $data = $this->db->get()->result_array();
 
-		$j = $offset;
-		for ($i=0; $i<count($data); $i++)
-		{
-			if (empty($data[$i]['id_pend']))
-			{
-				// Dari luar desa
-				$data[$i]['nama'] = $data[$i]['pamong_nama'];
-				$data[$i]['nik'] = $data[$i]['pamong_nik'];
-				$data[$i]['tempatlahir'] = ! empty($data[$i]['pamong_tempatlahir']) ? $data[$i]['pamong_tempatlahir'] : '-';
-				$data[$i]['tanggallahir'] = $data[$i]['pamong_tanggallahir'];
-				$data[$i]['sex'] = $data[$i]['pamong_sex'];
-				$data[$i]['pendidikan_kk'] = $data[$i]['pamong_pendidikan'];
-				$data[$i]['agama'] = $data[$i]['pamong_agama'];
-				if (empty($data[$i]['pamong_nosk'])) $data[$i]['pamong_nosk'] = '-';
-				if (empty($data[$i]['pamong_nohenti'])) $data[$i]['pamong_nohenti'] = '-';
-			}
-			else
-			{
-				if (empty($data[$i]['tempatlahir'])) $data[$i]['tempatlahir'] = '-';
-			}
-			$data[$i]['no'] = $j + 1;
-			$j++;
-		}
+        $j = $offset;
 
-		return $data;
-	}
+        for ($i = 0; $i < count($data); $i++) {
+            if (empty($data[$i]['id_pend'])) {
+                // Dari luar desa
+                $data[$i]['nama']          = $data[$i]['pamong_nama'];
+                $data[$i]['nik']           = $data[$i]['pamong_nik'];
+                $data[$i]['tempatlahir']   = ! empty($data[$i]['pamong_tempatlahir']) ? $data[$i]['pamong_tempatlahir'] : '-';
+                $data[$i]['tanggallahir']  = $data[$i]['pamong_tanggallahir'];
+                $data[$i]['sex']           = $data[$i]['pamong_sex'];
+                $data[$i]['pendidikan_kk'] = $data[$i]['pamong_pendidikan'];
+                $data[$i]['agama']         = $data[$i]['pamong_agama'];
+                if (empty($data[$i]['pamong_nosk'])) {
+                    $data[$i]['pamong_nosk'] = '-';
+                }
+                if (empty($data[$i]['pamong_nohenti'])) {
+                    $data[$i]['pamong_nohenti'] = '-';
+                }
+            } else {
+                if (empty($data[$i]['tempatlahir'])) {
+                    $data[$i]['tempatlahir'] = '-';
+                }
+            }
+            $data[$i]['no'] = $j + 1;
+            $j++;
+        }
 
-	public function paging($p)
-	{
-		$this->db->select('COUNT(u.pamong_id) AS jml');
-		$this->list_data_sql();
+        return $data;
+    }
 
-		$row = $this->db->get()->row_array();
-		$jml_data = $row['jml'];
+    public function paging($p)
+    {
+        $this->db->select('COUNT(u.pamong_id) AS jml');
+        $this->list_data_sql();
 
-		$this->load->library('paging');
-		$cfg['page'] = $p;
-		$cfg['per_page'] = $this->session->per_page;
-		$cfg['num_rows'] = $jml_data;
-		$this->paging->init($cfg);
+        $row      = $this->db->get()->row_array();
+        $jml_data = $row['jml'];
 
-		return $this->paging;
-	}
+        $this->load->library('paging');
+        $cfg['page']     = $p;
+        $cfg['per_page'] = $this->session->per_page;
+        $cfg['num_rows'] = $jml_data;
+        $this->paging->init($cfg);
 
-	private function list_data_sql()
-	{
-		$this->db
-			->from('tweb_desa_pamong u')
-			->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
-			->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
-			->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
-			->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
-			->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
-			->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
-			->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT');
-		$this->search_sql();
-		$this->filter_sql();
-	}
+        return $this->paging;
+    }
 
-	public function autocomplete()
-	{
-		$sql = "SELECT * FROM
+    private function list_data_sql()
+    {
+        $this->db
+            ->from('tweb_desa_pamong u')
+            ->join('tweb_penduduk p', 'u.id_pend = p.id', 'LEFT')
+            ->join('tweb_penduduk_pendidikan_kk b', 'p.pendidikan_kk_id = b.id', 'LEFT')
+            ->join('tweb_penduduk_sex x', 'p.sex = x.id', 'LEFT')
+            ->join('tweb_penduduk_agama g', 'p.agama_id = g.id', 'LEFT')
+            ->join('tweb_penduduk_pendidikan_kk b2', 'u.pamong_pendidikan = b2.id', 'LEFT')
+            ->join('tweb_penduduk_sex x2', 'u.pamong_sex = x2.id', 'LEFT')
+            ->join('tweb_penduduk_agama g2', 'u.pamong_agama = g2.id', 'LEFT');
+        $this->search_sql();
+        $this->filter_sql();
+    }
+
+    public function autocomplete()
+    {
+        $sql = 'SELECT * FROM
 				(SELECT p.nama
 					FROM tweb_desa_pamong u
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id) a
@@ -141,338 +136,332 @@ class Pamong_model extends CI_Model {
 					LEFT JOIN tweb_penduduk p ON u.id_pend = p.id
 				UNION SELECT pamong_nik FROM tweb_desa_pamong
 				UNION SELECT pamong_niap FROM tweb_desa_pamong
-				UNION SELECT pamong_nip FROM tweb_desa_pamong";
-		$query = $this->db->query($sql);
-		$data  = $query->result_array();
+				UNION SELECT pamong_nip FROM tweb_desa_pamong';
+        $query = $this->db->query($sql);
+        $data  = $query->result_array();
 
-		return autocomplete_data_ke_str($data);
-	}
+        return autocomplete_data_ke_str($data);
+    }
 
-	private function search_sql()
-	{
-		if ($this->session->has_userdata('cari'))
-		{
-			$cari = $this->session->cari;
-			$this->db
-				->group_start()
-					->like('p.nama', $cari)
-					->or_like('u.pamong_nama', $cari)
-					->or_like('u.pamong_niap', $cari)
-					->or_like('u.pamong_nip', $cari)
-					->or_like('u.pamong_nik', $cari)
-					->or_like('p.nik', $cari)
-				->group_end();
-		}
-	}
+    private function search_sql()
+    {
+        if ($this->session->has_userdata('cari')) {
+            $cari = $this->session->cari;
+            $this->db
+                ->group_start()
+                ->like('p.nama', $cari)
+                ->or_like('u.pamong_nama', $cari)
+                ->or_like('u.pamong_niap', $cari)
+                ->or_like('u.pamong_nip', $cari)
+                ->or_like('u.pamong_nik', $cari)
+                ->or_like('p.nik', $cari)
+                ->group_end();
+        }
+    }
 
-	private function filter_sql()
-	{
-		if ($this->session->has_userdata('status'))
-		{
-			$this->db->where('u.pamong_status', $this->session->status);
-		}
-	}
+    private function filter_sql()
+    {
+        if ($this->session->has_userdata('status')) {
+            $this->db->where('u.pamong_status', $this->session->status);
+        }
+    }
 
-	public function get_data($id = 0)
-	{
-		$data = $this->db
-			->select('u.*,
+    public function get_data($id = 0)
+    {
+        $data = $this->db
+            ->select('u.*,
 				(case when p.nama is not null then p.nama else u.pamong_nama end) as nama,
 				(case when p.foto is not null then p.foto else u.foto end) as foto,
 				(case when p.sex is not null then p.sex else u.pamong_sex end) as id_sex')
-			->from('tweb_desa_pamong u')
-			->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
-			->where('pamong_id', $id)
-			->get()
-			->row_array();
+            ->from('tweb_desa_pamong u')
+            ->join('tweb_penduduk p', 'u.id_pend = p.id', 'left')
+            ->where('pamong_id', $id)
+            ->get()
+            ->row_array();
 
-		$data['pamong_niap_nip'] = ( ! empty($data['pamong_nip']) and $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
-		return $data;
-	 }
+        $data['pamong_niap_nip'] = (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
 
-	public function get_pamong($id = null)
-	{
-		$pamong = $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();;
+        return $data;
+    }
 
-		return $pamong;
-	}
+    public function get_pamong($id = null)
+    {
+        return $this->db->where('pamong_id', $id)->limit(1)->get('tweb_desa_pamong')->row_array();
+    }
 
-	public function insert()
-	{
-		$post = $this->input->post();
-		$data = $this->siapkan_data($post);
-		// Beri urutan terakhir
-		$data['urut'] = $this->urut_model->urut_max() + 1;
-		$data['pamong_tgl_terdaftar'] = date('Y-m-d');
+    public function insert()
+    {
+        $post = $this->input->post();
+        $data = $this->siapkan_data($post);
+        // Beri urutan terakhir
+        $data['urut']                 = $this->urut_model->urut_max() + 1;
+        $data['pamong_tgl_terdaftar'] = date('Y-m-d');
 
-		$outp = $this->db->insert('tweb_desa_pamong', $data);
-		$post['id'] = $this->db->insert_id();
+        $outp       = $this->db->insert('tweb_desa_pamong', $data);
+        $post['id'] = $this->db->insert_id();
 
-		$this->foto($post);
+        $this->foto($post);
 
-		status_sukses($outp);
-	}
+        status_sukses($outp);
+    }
 
-	public function update($id = 0)
-	{
-		$post = $this->input->post();
-		$data = $this->siapkan_data($post);
-		$outp = $this->db->where("pamong_id", $id)->update('tweb_desa_pamong', $data);
-		$post['id'] = $id;
-		$this->foto($post);
+    public function update($id = 0)
+    {
+        $post       = $this->input->post();
+        $data       = $this->siapkan_data($post);
+        $outp       = $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', $data);
+        $post['id'] = $id;
+        $this->foto($post);
 
-		status_sukses($outp);
-	}
+        status_sukses($outp);
+    }
 
-	protected function foto($post)
-	{
-		if ($post['id_pend'])
-		{
-			// Penduduk Dalam Desa
-			$id = $post['id_pend'];
-			$nik = $post['nik'];
-			$field = 'id';
-			$tabel = 'tweb_penduduk';
-		}
-		else
-		{
-			// Penduduk Luar Desa
-			$id = $post['id'];
-			$nik = 'pamong-' . $post['pamong_nik'];
-			$field = 'pamong_id';
-			$tabel = 'tweb_desa_pamong';
-		}
+    protected function foto($post)
+    {
+        if ($post['id_pend']) {
+            // Penduduk Dalam Desa
+            $id    = $post['id_pend'];
+            $nik   = $post['nik'];
+            $field = 'id';
+            $tabel = 'tweb_penduduk';
+        } else {
+            // Penduduk Luar Desa
+            $id    = $post['id'];
+            $nik   = 'pamong-' . $post['pamong_nik'];
+            $field = 'pamong_id';
+            $tabel = 'tweb_desa_pamong';
+        }
 
-		// Upload foto dilakukan setelah ada id, karena nama foto berisi nik
-		if ($foto = upload_foto_penduduk($id, $nik)) $this->db->where($field, $id)->update($tabel, ['foto' => $foto]);
-	}
+        // Upload foto dilakukan setelah ada id, karena nama foto berisi nik
+        if ($foto = upload_foto_penduduk($id, $nik)) {
+            $this->db->where($field, $id)->update($tabel, ['foto' => $foto]);
+        }
+    }
 
-	public function delete($id='', $semua=false)
-	{
-		if ( ! $semua) $this->session->success = 1;
+    public function delete($id = '', $semua = false)
+    {
+        if (! $semua) {
+            $this->session->success = 1;
+        }
 
-		$foto = $this->db->select('foto')->where('pamong_id',$id)->get('tweb_desa_pamong')->row()->foto;
-		if ( ! empty($foto))
-		{
-			unlink(LOKASI_USER_PICT.$foto);
-			unlink(LOKASI_USER_PICT.'kecil_'.$foto);
-		}
+        $foto = $this->db->select('foto')->where('pamong_id', $id)->get('tweb_desa_pamong')->row()->foto;
+        if (! empty($foto)) {
+            unlink(LOKASI_USER_PICT . $foto);
+            unlink(LOKASI_USER_PICT . 'kecil_' . $foto);
+        }
 
-		$outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
+        $outp = $this->db->where('pamong_id', $id)->delete('tweb_desa_pamong');
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
-	}
+        status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
+    }
 
-	public function delete_all()
-	{
-		$this->session->success = 1;
+    public function delete_all()
+    {
+        $this->session->success = 1;
 
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-		}
-	}
+        $id_cb = $_POST['id_cb'];
 
-	private function siapkan_data($post)
-	{
-		$data = [];
-		$data['id_pend'] = $post['id_pend'];
-		$data['pamong_nip'] = strip_tags($post['pamong_nip']);
-		$data['pamong_niap'] = strip_tags($post['pamong_niap']);
-		$data['jabatan'] = strip_tags($post['jabatan']);
-		$data['pamong_pangkat'] = strip_tags($post['pamong_pangkat']);
-		$data['pamong_status'] = $post['pamong_status'];
-		$data['pamong_nosk'] = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
-		$data['pamong_tglsk'] = ! empty($post['pamong_tglsk']) ? tgl_indo_in($post['pamong_tglsk']) : NULL;
-		$data['pamong_nohenti'] = ! empty($post['pamong_nohenti']) ? strip_tags($post['pamong_nohenti']) : NULL;
-		$data['pamong_tglhenti'] = ! empty($post['pamong_tglhenti']) ? tgl_indo_in($post['pamong_tglhenti']) : NULL;
-		$data['pamong_masajab'] = strip_tags($post['pamong_masajab']) ?: NULL;
-		$data['atasan'] = bilangan($post['atasan']) ?: NULL;
-		$data['bagan_tingkat'] = bilangan($post['bagan_tingkat']) ?: NULL;
-		$data['bagan_offset'] = (integer)$post['bagan_offset'] ?: NULL;
-		$data['bagan_layout'] = htmlentities($post['bagan_layout']);
-		$data['bagan_warna'] = warna($post['bagan_warna']);
+        foreach ($id_cb as $id) {
+            $this->delete($id, $semua = true);
+        }
+    }
 
-		if (empty($data['id_pend']))
-		{
-			$data['id_pend'] = null;
-			$data['pamong_nama'] = strip_tags($post['pamong_nama']) ?: NULL;
-			$data['pamong_nik'] = strip_tags($post['pamong_nik']) ?: NULL;
-			$data['pamong_tempatlahir'] = strip_tags($post['pamong_tempatlahir']) ?: NULL;
-			$data['pamong_tanggallahir'] = ! empty($post['pamong_tanggallahir']) ? tgl_indo_in($post['pamong_tanggallahir']) : NULL;
-			$data['pamong_sex'] = $post['pamong_sex'] ?: NULL;
-			$data['pamong_pendidikan'] = $post['pamong_pendidikan'] ?: NULL;
-			$data['pamong_agama'] = $post['pamong_agama'] ?: NULL;
-		}
+    private function siapkan_data($post)
+    {
+        $data                    = [];
+        $data['id_pend']         = $post['id_pend'];
+        $data['pamong_nip']      = strip_tags($post['pamong_nip']);
+        $data['pamong_niap']     = strip_tags($post['pamong_niap']);
+        $data['jabatan']         = strip_tags($post['jabatan']);
+        $data['pamong_pangkat']  = strip_tags($post['pamong_pangkat']);
+        $data['pamong_status']   = $post['pamong_status'];
+        $data['pamong_nosk']     = empty($post['pamong_nosk']) ? '' : strip_tags($post['pamong_nosk']);
+        $data['pamong_tglsk']    = ! empty($post['pamong_tglsk']) ? tgl_indo_in($post['pamong_tglsk']) : null;
+        $data['pamong_nohenti']  = ! empty($post['pamong_nohenti']) ? strip_tags($post['pamong_nohenti']) : null;
+        $data['pamong_tglhenti'] = ! empty($post['pamong_tglhenti']) ? tgl_indo_in($post['pamong_tglhenti']) : null;
+        $data['pamong_masajab']  = strip_tags($post['pamong_masajab']) ?: null;
+        $data['atasan']          = bilangan($post['atasan']) ?: null;
+        $data['bagan_tingkat']   = bilangan($post['bagan_tingkat']) ?: null;
+        $data['bagan_offset']    = (int) $post['bagan_offset'] ?: null;
+        $data['bagan_layout']    = htmlentities($post['bagan_layout']);
+        $data['bagan_warna']     = warna($post['bagan_warna']);
 
-		return $data;
-	}
+        if (empty($data['id_pend'])) {
+            $data['id_pend']             = null;
+            $data['pamong_nama']         = strip_tags($post['pamong_nama']) ?: null;
+            $data['pamong_nik']          = strip_tags($post['pamong_nik']) ?: null;
+            $data['pamong_tempatlahir']  = strip_tags($post['pamong_tempatlahir']) ?: null;
+            $data['pamong_tanggallahir'] = ! empty($post['pamong_tanggallahir']) ? tgl_indo_in($post['pamong_tanggallahir']) : null;
+            $data['pamong_sex']          = $post['pamong_sex'] ?: null;
+            $data['pamong_pendidikan']   = $post['pamong_pendidikan'] ?: null;
+            $data['pamong_agama']        = $post['pamong_agama'] ?: null;
+        }
 
-	public function ttd($jenis, $id, $val)
-	{
-		if ($val == 1)
-		{
-			// Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
-			$this->db->where($jenis, 1)->update('tweb_desa_pamong', [$jenis => 0]);
-		}
-		$this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
-	}
+        return $data;
+    }
 
-	private function select_data_pamong()
-	{
-		$this->db
-			->select('m.*')
-			->select('(case when p.id is null then m.pamong_nama else p.nama end) as pamong_nama')
-			->select('(case when p.id is null then m.pamong_nik else p.nik end) as pamong_nik')
-			->select('(case when p.id is null then m.pamong_tempatlahir else p.tempatlahir end) as pamong_tempatlahir')
-			->select('(case when p.id is null then m.pamong_tanggallahir else p.tanggallahir end) as pamong_tanggallahir')
-			->select('(case when p.id is null then m.pamong_sex else p.sex end) as pamong_sex')
-			->select('(case when p.id is null then m.pamong_pendidikan else p.pendidikan_kk_id end) as pamong_pendidikan')
-			->select('(case when p.id is null then m.pamong_agama else p.agama_id end) as pamong_agama')
-			->from('tweb_desa_pamong m')
-			->join('tweb_penduduk p', 'p.id = m.id_pend', 'left');
-	}
+    public function ttd($jenis, $id, $val)
+    {
+        if ($val == 1) {
+            // Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
+            $this->db->where($jenis, 1)->update('tweb_desa_pamong', [$jenis => 0]);
+        }
+        $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
+    }
 
-	public function get_ttd()
-	{
-		$this->select_data_pamong();
-		$ttd = $this->db
-			->where('m.pamong_ttd', 1)
-			->get()->row_array();
-		return $ttd;
-	}
+    private function select_data_pamong()
+    {
+        $this->db
+            ->select('m.*')
+            ->select('(case when p.id is null then m.pamong_nama else p.nama end) as pamong_nama')
+            ->select('(case when p.id is null then m.pamong_nik else p.nik end) as pamong_nik')
+            ->select('(case when p.id is null then m.pamong_tempatlahir else p.tempatlahir end) as pamong_tempatlahir')
+            ->select('(case when p.id is null then m.pamong_tanggallahir else p.tanggallahir end) as pamong_tanggallahir')
+            ->select('(case when p.id is null then m.pamong_sex else p.sex end) as pamong_sex')
+            ->select('(case when p.id is null then m.pamong_pendidikan else p.pendidikan_kk_id end) as pamong_pendidikan')
+            ->select('(case when p.id is null then m.pamong_agama else p.agama_id end) as pamong_agama')
+            ->from('tweb_desa_pamong m')
+            ->join('tweb_penduduk p', 'p.id = m.id_pend', 'left');
+    }
 
-	public function get_ub()
-	{
-		$this->select_data_pamong();
-		$ub = $this->db
-			->where('pamong_ub', 1)
-			->get()->row_array();
-		return $ub;
-	}
+    public function get_ttd()
+    {
+        $this->select_data_pamong();
 
-	// $arah:
-	//		1 - turun
-	// 		2 - naik
-	public function urut($id, $arah)
-	{
-		$this->urut_model->urut($id, $arah);
-	}
+        return $this->db
+            ->where('m.pamong_ttd', 1)
+            ->get()->row_array();
+    }
 
-	/*
-	 * Mengambil semua data penduduk kecuali yg sdh menjadi pamong dan tdk termasuk yang di ubah untuk pilihan drop-down form
-	 */
-	public function list_penduduk($id_pend)
-	{
-		$data = $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
-			->from('penduduk_hidup u')
-			->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
-			->where("u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL AND id_pend != $id_pend)")
-			->get()
-			->result_array();
+    public function get_ub()
+    {
+        $this->select_data_pamong();
 
-		return $data;
-	}
+        return $this->db
+            ->where('pamong_ub', 1)
+            ->get()->row_array();
+    }
 
-	/*
-	 * Ambil data untuk widget aparatur desa
-	 */
-	public function list_aparatur_desa()
-	{
-		$data_query = $this->db->select('dp.jabatan, dp.pamong_niap,
+    // $arah:
+    //		1 - turun
+    // 		2 - naik
+    public function urut($id, $arah)
+    {
+        $this->urut_model->urut($id, $arah);
+    }
+
+    // Mengambil semua data penduduk kecuali yg sdh menjadi pamong dan tdk termasuk yang di ubah untuk pilihan drop-down form
+    public function list_penduduk($id_pend)
+    {
+        return $this->db->select('u.id, u.nik, u.nama, w.dusun, w.rw, w.rt, u.sex')
+            ->from('penduduk_hidup u')
+            ->join('tweb_wil_clusterdesa w', 'u.id_cluster = w.id', 'left')
+            ->where("u.id NOT IN (SELECT id_pend FROM tweb_desa_pamong WHERE id_pend IS NOT NULL AND id_pend != {$id_pend})")
+            ->get()
+            ->result_array();
+    }
+
+    // Ambil data untuk widget aparatur desa
+    public function list_aparatur_desa()
+    {
+        $data_query = $this->db->select('dp.jabatan, dp.pamong_niap,
 			CASE WHEN dp.id_pend IS NULL THEN dp.foto ELSE p.foto END as foto,
 			CASE WHEN p.sex IS NOT NULL THEN p.sex ELSE dp.pamong_sex END as id_sex,
 			CASE WHEN dp.id_pend IS NULL THEN dp.pamong_nama
-			ELSE p.nama END AS nama', FALSE)
-			->from('tweb_desa_pamong dp')
-			->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
-			->where('dp.pamong_status', '1')
-			->order_by('dp.urut')
-			->get()
-			->result_array();
+			ELSE p.nama END AS nama', false)
+            ->from('tweb_desa_pamong dp')
+            ->join('tweb_penduduk p', 'p.id = dp.id_pend', 'left')
+            ->where('dp.pamong_status', '1')
+            ->order_by('dp.urut')
+            ->get()
+            ->result_array();
 
-		foreach ($data_query as $key => $perangkat)
-		{
-			$perangkat['foto'] = AmbilFoto($perangkat['foto'], "besar", $perangkat['id_sex']);
-			if ( ! $data['foto_pertama'] and $perangkat['foto'] != FOTO_DEFAULT_PRIA and $perangkat['foto'] != FOTO_DEFAULT_WANITA) $data['foto_pertama'] = $key;
-		 	$data['daftar_perangkat'][$key] = $perangkat;
-		}
+        foreach ($data_query as $key => $perangkat) {
+            $perangkat['foto'] = AmbilFoto($perangkat['foto'], 'besar', $perangkat['id_sex']);
+            if (! $data['foto_pertama'] && $perangkat['foto'] != FOTO_DEFAULT_PRIA && $perangkat['foto'] != FOTO_DEFAULT_WANITA) {
+                $data['foto_pertama'] = $key;
+            }
+            $data['daftar_perangkat'][$key] = $perangkat;
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	//----------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------
 
-	/**
-	 * @param $id id
-	 * @param $val status : 1 = Unlock, 2 = Lock
-	 */
-	public function lock($id, $val)
-	{
-		$this->db
-			->where('pamong_id', $id)
-			->update('tweb_desa_pamong', ['pamong_status' => $val]);
-	}
+    /**
+     * @param $id id
+     * @param $val status : 1 = Unlock, 2 = Lock
+     */
+    public function lock($id, $val)
+    {
+        $this->db
+            ->where('pamong_id', $id)
+            ->update('tweb_desa_pamong', ['pamong_status' => $val]);
+    }
 
-	public function list_bagan()
-	{
-		// atasan => bawahan. Contoh:
-		// data['struktur'] = [
-    //  ['14' => '20'],
-    //  ['14' => '26'],
-    //  ['20' => '24']
-    // ;
-		$atasan = $this->db
-			->select('atasan, pamong_id')
-			->where('atasan IS NOT NULL')
-    	->where('pamong_status', 1)
-			->get('tweb_desa_pamong')->result_array();
-		$data['struktur'] = [];
-		foreach ($atasan as $pamong)
-		{
-			$data['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
-		}
+    public function list_bagan()
+    {
+        // atasan => bawahan. Contoh:
+        // data['struktur'] = [
+        //  ['14' => '20'],
+        //  ['14' => '26'],
+        //  ['20' => '24']
+        // ;
+        $atasan = $this->db
+            ->select('atasan, pamong_id')
+            ->where('atasan IS NOT NULL')
+            ->where('pamong_status', 1)
+            ->get('tweb_desa_pamong')->result_array();
+        $data['struktur'] = [];
 
-    $data['nodes'] = $this->db
-    	->select('p.pamong_id, p.jabatan, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
-    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.foto ELSE p.foto END) as foto')
-    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
-    	->from('tweb_desa_pamong p')
-    	->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
-    	->where('pamong_status', 1)
-    	->get()->result_array();
+        foreach ($atasan as $pamong) {
+            $data['struktur'][] = [$pamong['atasan'] => $pamong['pamong_id']];
+        }
 
-    return $data;
-	}
+        $data['nodes'] = $this->db
+            ->select('p.pamong_id, p.jabatan, p.bagan_tingkat, p.bagan_offset, p.bagan_layout, p.bagan_warna')
+            ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.foto ELSE p.foto END) as foto')
+            ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
+            ->from('tweb_desa_pamong p')
+            ->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
+            ->where('pamong_status', 1)
+            ->get()->result_array();
 
-	public function list_atasan($ex_id = '')
-	{
-		if ($ex_id) $this->db->where('pamong_id <>', $ex_id);
-		$data = $this->db
-			->select('pamong_id as id, jabatan')
-    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nik ELSE p.pamong_nik END) as nik')
-    	->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
-    	->from('tweb_desa_pamong p')
-    	->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
-    	->where('pamong_status', 1)
-    	->order_by('nama')
-    	->get()->result_array();
-    return $data;
-	}
+        return $data;
+    }
 
-	public function update_bagan($post)
-	{
-		$list_id = $post['list_id'];
-		if ($post['atasan'])
-			$data['atasan'] = ($post['atasan'] <= 0) ? NULL : $post['atasan'];
-		if ($post['bagan_tingkat'])
-			$data['bagan_tingkat'] = ($post['bagan_tingkat'] <= 0) ? NULL : $post['bagan_tingkat'];
-		if ($post['bagan_warna'])
-			$data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? NULL : warna($post['bagan_warna']);
-		$this->db
-			->where("pamong_id in ($list_id)")
-			->update('tweb_desa_pamong', $data);
-	}
+    public function list_atasan($ex_id = '')
+    {
+        if ($ex_id) {
+            $this->db->where('pamong_id <>', $ex_id);
+        }
+
+        return $this->db
+            ->select('pamong_id as id, jabatan')
+            ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nik ELSE p.pamong_nik END) as nik')
+            ->select('(CASE WHEN id_pend IS NOT NULL THEN ph.nama ELSE p.pamong_nama END) as nama')
+            ->from('tweb_desa_pamong p')
+            ->join('penduduk_hidup ph', 'ph.id = p.id_pend', 'left')
+            ->where('pamong_status', 1)
+            ->order_by('nama')
+            ->get()->result_array();
+    }
+
+    public function update_bagan($post)
+    {
+        $list_id = $post['list_id'];
+        if ($post['atasan']) {
+            $data['atasan'] = ($post['atasan'] <= 0) ? null : $post['atasan'];
+        }
+        if ($post['bagan_tingkat']) {
+            $data['bagan_tingkat'] = ($post['bagan_tingkat'] <= 0) ? null : $post['bagan_tingkat'];
+        }
+        if ($post['bagan_warna']) {
+            $data['bagan_warna'] = (warna($post['bagan_warna'] == '#000000')) ? null : warna($post['bagan_warna']);
+        }
+        $this->db
+            ->where("pamong_id in ({$list_id})")
+            ->update('tweb_desa_pamong', $data);
+    }
 }
-?>

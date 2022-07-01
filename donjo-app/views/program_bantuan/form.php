@@ -1,11 +1,11 @@
 <div class="content-wrapper">
-	<?php $detail = $program[0];?>
+	<?php $detail = $program[0]; ?>
 	<section class="content-header">
 		<h1>Peserta Program Bantuan</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
 			<li><a href="<?= site_url('program_bantuan')?>"> Daftar Program Bantuan</a></li>
-			<li><a href="<?= site_url("program_bantuan/detail/$detail[id]")?>"> Rincian Program Bantuan</a></li>
+			<li><a href="<?= site_url("program_bantuan/detail/{$detail['id']}")?>"> Rincian Program Bantuan</a></li>
 			<li class="active">Peserta Program Bantuan</li>
 		</ol>
 	</section>
@@ -15,26 +15,26 @@
 				<div class="box box-info">
 					<div class="box-header with-border">
 						<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-						<a href="<?= site_url("program_bantuan/detail/$detail[id]")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
+						<a href="<?= site_url("program_bantuan/detail/{$detail['id']}")?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
 					</div>
 					<div class="box-body">
 						<div class="row">
 							<div class="col-sm-12">
-								<?php include('donjo-app/views/program_bantuan/rincian.php'); ?>
+								<?php include 'donjo-app/views/program_bantuan/rincian.php'; ?>
 
 								<h5><b>Tambah Peserta Program</b></h5>
 								<hr>
 								<form id="main" name="main" method="POST" class="form-horizontal">
 									<div class="form-group" >
-										<label class="col-sm-4 col-lg-3 control-label <?php ($detail['sasaran'] != 1) and print('no-padding-top') ?>" for="nik">Cari <?= $detail['judul_cari_peserta']?></label>
+										<label class="col-sm-4 col-lg-3 control-label <?php ($detail['sasaran'] != 1) && print 'no-padding-top' ?>" for="nik">Cari <?= $detail['judul_cari_peserta']?></label>
 										<div class="col-sm-9">
 											<select class="form-control select2 input-sm required" id="nik" name="nik" onchange="formAction('main')" style="width:100%">
 												<option value="">-- Silakan Masukan <?= $detail['judul_cari_peserta']?> --</option>
 												<?php foreach ($program[2]as $item):
-													if (strlen($item["id"])>0): ?>
-														<option value="<?= $item['id']?>" <?= selected($individu['nik'], $item['nik']); ?>><?= $item['nama']." - ".$item['info']?></option>
+                                                    if ($item['id'] !== ''): ?>
+														<option value="<?= $item['id']?>" <?= selected($individu['nik'], $item['nik']); ?>><?= $item['nama'] . ' - ' . $item['info']?></option>
 													<?php endif;
-												endforeach;?>
+                                                endforeach; ?>
 											</select>
 										</div>
 									</div>
@@ -48,7 +48,7 @@
 														<h3 class="box-title">Konfirmasi Peserta</h3>
 													</div>
 													<div class="box-body">
-														<?php include('donjo-app/views/program_bantuan/konfirmasi_peserta.php'); ?>
+														<?php include 'donjo-app/views/program_bantuan/konfirmasi_peserta.php'; ?>
 													</div>
 												</div>
 											</div>

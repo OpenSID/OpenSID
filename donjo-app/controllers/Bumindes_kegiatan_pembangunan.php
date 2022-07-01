@@ -1,17 +1,6 @@
 <?php
 
-defined('BASEPATH') or exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Controller untuk modul Buku Pembangunan Desa > Buku Kegiatan Pembangunan
- *
- * donjo-app/controllers/Bumindes_kegiatan_pembangunan.php,
- *
- */
-
-/**
+/*
  *
  * File ini bagian dari:
  *
@@ -22,7 +11,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -37,24 +26,27 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
  */
+
+defined('BASEPATH') || exit('No direct script access allowed');
 
 require_once APPPATH . 'controllers/Bumindes_rencana_pembangunan.php';
 
-class Bumindes_kegiatan_pembangunan extends Bumindes_rencana_pembangunan {
+class Bumindes_kegiatan_pembangunan extends Bumindes_rencana_pembangunan
+{
+    protected $tipe = 'kegiatan';
 
-	protected $tipe = 'kegiatan';
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->modul_ini = 301;
-		$this->sub_modul_ini = 305;
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->modul_ini     = 301;
+        $this->sub_modul_ini = 305;
+    }
 }

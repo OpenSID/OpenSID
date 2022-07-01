@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk modul Buku Administrasi Desa > Buku Mutasi Penduduk Desa
  *
  * donjo-app/views/bumindes/penduduk/mutasi/content_mutasi_cetak.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -53,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php if ($aksi != 'unduh'): ?>
 					<img class="logo" src="<?= gambar_desa($config['logo']); ?>" alt="logo-desa">
 				<?php endif; ?>
-				<h1 class="judul"> 
+				<h1 class="judul">
 					PEMERINTAH <?= strtoupper($this->setting->sebutan_kabupaten . ' ' . $config['nama_kabupaten'] . ' <br>' . $this->setting->sebutan_kecamatan . ' ' . $config['nama_kecamatan'] . ' <br>' . $this->setting->sebutan_desa . ' ' . $config['nama_desa']); ?>
 				</h1>
 			</td>
@@ -75,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
-			<td>	
+			<td>
 				<table class="border thick">
 					<thead>
 						<tr class="border thick">
@@ -86,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th rowspan="2">KEWARGANEGARAAN</th>
 							<th colspan="2">PENAMBAHAN</th>
 							<th colspan="4">PENGURANGAN</th>
-							<th rowspan="2">KET</th>								
+							<th rowspan="2">KET</th>
 						</tr>
 						<tr class="border thick">
 							<th>TEMPAT LAHIR</th>
@@ -97,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							<th>TANGGAL</th>
 							<th>MENINGGAL</th>
 							<th>TANGGAL</th>
-						</tr>	
+						</tr>
 						<tr class="border thick">
 							<th>1</th>
 							<th>2</th>
@@ -124,7 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<td><?= tgl_indo_out($data['tanggallahir'])?></td>
 								<td><?= strtoupper($data['sex']) ?></td>
 								<td><?= $data['warganegara']?></td>
-								<td><?= $data['kode_peristiwa'] == 5 ? strtoupper($data['alamat_sebelumnya']) : '-';?></td>
+								<td><?= $data['kode_peristiwa'] == 5 ? strtoupper($data['alamat_sebelumnya']) : '-'; ?></td>
 								<td><?= $data['kode_peristiwa'] == 5 ? tgl_indo_out($data['created_at']) : '-'; ?></td>
 								<td><?= strtoupper($data['kode_peristiwa'] == 3 ? $data['alamat_tujuan'] : '-'); ?></td>
 								<td><?= $data['kode_peristiwa'] == 3 ? tgl_indo_out($data['tgl_peristiwa']) : '-'; ?></td>

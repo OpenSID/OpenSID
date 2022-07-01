@@ -2981,7 +2981,7 @@ function getLazarSoftScanner() {
 			}
 			if ((firstByte & 0xE0) == 0xC0) {
 				// three bytes
-				var secondThirdBytes = this.getNextBits(8);;
+				var secondThirdBytes = this.getNextBits(8);
 				intData = ((firstByte & 0x1F) << 16) | secondThirdBytes;
 			}
 			return intData;

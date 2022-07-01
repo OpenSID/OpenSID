@@ -2,7 +2,7 @@
 	<?php $key = ucwords(str_replace('_', ' ', $setting->key)); ?>
 	<?php if ($setting->key != 'penggunaan_server' && $setting->jenis != 'upload' && in_array($setting->kategori, $kategori) && ($setting->key != 'token_opensid')): ?>
 		<?php $setting->kategori = ($setting->kategori == 'setting_analisis' && config_item('demo_mode')) ? 'readonly' : $setting->kategori; ?>
-		<?php $setting->value = ($setting->key == 'layanan_opendesa_token' && config_item('demo_mode')) ? '' : $setting->value; ?>
+		<?php $setting->value    = ($setting->key == 'layanan_opendesa_token' && config_item('demo_mode')) ? '' : $setting->value; ?>
 		<div class="form-group">
 			<label class="col-sm-12 col-md-3" for="nama"><?= $key; ?></label>
 			<?php if ($setting->jenis == 'option'): ?>
@@ -57,7 +57,7 @@
 					<select class="form-control input-sm" name="<?= $setting->key?>" >
 						<?php foreach ($list_tema as $tema): ?>
 							<option value="<?= $tema?>" <?= selected($setting->value, $tema); ?>><?= $tema?></option>
-						<?php endforeach;?>
+						<?php endforeach; ?>
 					</select>
 				</div>
 			<?php elseif ($setting->jenis == 'datetime'): ?>
@@ -75,7 +75,7 @@
 				</div>
 			<?php else : ?>
 				<div class="col-sm-12 col-md-4">
-					<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text" value="<?= $setting->value?>" <?= jecho($setting->kategori, 'readonly', 'disabled'); ?>></input>
+					<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') || print 'digits'?>" type="text" value="<?= $setting->value?>" <?= jecho($setting->kategori, 'readonly', 'disabled'); ?>></input>
 				</div>
 			<?php endif; ?>
 			<label class="col-sm-12 col-md-5 pull-left" for="nama"><?= $setting->keterangan?></label>

@@ -69,7 +69,7 @@
 					</tbody>
 				</table>
 			</div>
- 			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date("Y m d"))?>
+ 			<label>Tanggal cetak : &nbsp; </label><?= tgl_indo(date('Y m d'))?>
 		</div>
 	</body>
 </html>

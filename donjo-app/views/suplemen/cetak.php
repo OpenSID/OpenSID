@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View untuk cetak/unduh laporan modul suplemen
  *
  * donjo-app/views/suplemen/cetak.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -64,13 +61,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</tr>
 		<tr>
 			<td class="text-center">
-				<h4><u>Daftar Terdata Suplemen <?= set_ucwords($suplemen["nama"]); ?></u></h4>
+				<h4><u>Daftar Terdata Suplemen <?= set_ucwords($suplemen['nama']); ?></u></h4>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<strong>Sasaran Suplemen : </strong><?= $sasaran[$suplemen["sasaran"]];?><br>
-				<strong>Keterangan : </strong><?= $suplemen["keterangan"];?>
+				<strong>Sasaran Suplemen : </strong><?= $sasaran[$suplemen['sasaran']]; ?><br>
+				<strong>Keterangan : </strong><?= $suplemen['keterangan']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -96,14 +93,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<?php foreach ($terdata as $key => $item): ?>
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
-								<td class="textx"><?= $item["terdata_info"]; ?></td>
-								<td class="textx"><?= $item["terdata_plus"]; ?></td>
-								<td><?= $item["terdata_nama"]; ?></td>
-								<td><?= $item["tempat_lahir"]; ?></td>
-								<td class="textx"><?= $item["tanggal_lahir"]; ?></td>
-								<td><?= $item["sex"]; ?></td>
-								<td><?= $item["info"]; ?></td>
-								<td><?= $item["keterangan"]; ?></td>
+								<td class="textx"><?= $item['terdata_info']; ?></td>
+								<td class="textx"><?= $item['terdata_plus']; ?></td>
+								<td><?= $item['terdata_nama']; ?></td>
+								<td><?= $item['tempat_lahir']; ?></td>
+								<td class="textx"><?= $item['tanggal_lahir']; ?></td>
+								<td><?= $item['sex']; ?></td>
+								<td><?= $item['info']; ?></td>
+								<td><?= $item['keterangan']; ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>

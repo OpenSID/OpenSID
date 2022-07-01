@@ -5,41 +5,6 @@
  * View untuk modul Pemetaan di Halaman Web
  *
  * /donjo-app/views/web/halaman_statis/peta.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -74,12 +39,14 @@ td {
     <div class="col-md-12">
       <div id="map">
         <div class="leaflet-top leaflet-left">
-          <?php $this->load->view("gis/content_desa_web.php", array('desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))) ?>
-          <?php $this->load->view("gis/content_dusun_web.php", array('dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-          <?php $this->load->view("gis/content_rw_web.php", array('rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
-          <?php $this->load->view("gis/content_rt_web.php", array('rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun.' '))) ?>
+          <?php $this->load->view('gis/content_desa_web.php', ['desa' => $desa, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa'])]) ?>
+          <?php $this->load->view('gis/content_dusun_web.php', ['dusun_gis' => $dusun_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
+          <?php $this->load->view('gis/content_rw_web.php', ['rw_gis' => $rw_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
+          <?php $this->load->view('gis/content_rt_web.php', ['rt_gis' => $rt_gis, 'list_ref' => $list_ref, 'wilayah' => ucwords($this->setting->sebutan_dusun . ' ')]) ?>
           <div id="covid_status" style="display: none;">
-            <?php if ($this->setting->covid_data) $this->load->view("gis/covid_peta.php")?>
+            <?php if ($this->setting->covid_data) {
+    $this->load->view('gis/covid_peta.php');
+}?>
           </div>
         </div>
         <div id="desa_online" style="display: none;">
@@ -134,7 +101,9 @@ td {
         </div>
         <div class="leaflet-top leaflet-right">
           <div id="covid_status_local" style="display: none;">
-            <?php if ($this->setting->covid_desa) $this->load->view("gis/covid_peta_local.php")?>
+            <?php if ($this->setting->covid_desa) {
+    $this->load->view('gis/covid_peta_local.php');
+}?>
           </div>
         </div>
         <div class="leaflet-bottom leaflet-left">
@@ -193,10 +162,10 @@ td {
   var infoWindow;
   window.onload = function()
   {
-		<?php if (!empty($desa['lat']) AND !empty($desa['lng'])): ?>
-			var posisi = [<?=$desa['lat'].",".$desa['lng']?>];
+		<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
+			var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
 			var zoom = <?=$desa['zoom'] ?: 10?>;
-		<?php elseif (!empty($desa['path'])): ?>
+		<?php elseif (! empty($desa['path'])): ?>
 			var wilayah_desa = <?=$desa['path']?>;
 			var posisi = wilayah_desa[0][0];
 			var zoom = <?=$desa['zoom'] ?: 10?>;
@@ -208,7 +177,7 @@ td {
 		//Inisialisasi tampilan peta
     var mymap = L.map('map').setView(posisi, zoom);
 
-    <?php if (!empty($desa['path'])): ?>
+    <?php if (! empty($desa['path'])): ?>
       mymap.fitBounds(<?=$desa['path']?>);
     <?php endif; ?>
 
@@ -227,26 +196,26 @@ td {
     var mark_covid = [];
 
     //OVERLAY WILAYAH DESA
-    <?php if (!empty($desa['path'])): ?>
-      set_marker_desa_content(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa).' '.$desa['nama_desa']?>", "<?= favico_desa()?>", '#isi_popup');
+    <?php if (! empty($desa['path'])): ?>
+      set_marker_desa_content(marker_desa, <?=json_encode($desa)?>, "<?=ucwords($this->setting->sebutan_desa) . ' ' . $desa['nama_desa']?>", "<?= favico_desa()?>", '#isi_popup');
     <?php endif; ?>
 
     //OVERLAY WILAYAH DUSUN
-    <?php if (!empty($dusun_gis)): ?>
+    <?php if (! empty($dusun_gis)): ?>
       set_marker_multi_content(marker_dusun, '<?=addslashes(json_encode($dusun_gis))?>', '<?=ucwords($this->setting->sebutan_dusun)?>', 'dusun', '#isi_popup_dusun_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //OVERLAY WILAYAH RW
-    <?php if (!empty($rw_gis)): ?>
+    <?php if (! empty($rw_gis)): ?>
       set_marker_content(marker_rw, '<?=addslashes(json_encode($rw_gis))?>', 'RW', 'rw', '#isi_popup_rw_', '<?= favico_desa()?>');
     <?php endif; ?>
 
     //OVERLAY WILAYAH RT
-    <?php if (!empty($rt_gis)): ?>
+    <?php if (! empty($rt_gis)): ?>
       set_marker_content(marker_rt, '<?=addslashes(json_encode($rt_gis))?>', 'RT', 'rt', '#isi_popup_rt_', '<?= favico_desa()?>');
     <?php endif; ?>
 
-    
+
 
     //Menampilkan overlayLayers Peta Semua Wilayah
     var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?=ucwords($this->setting->sebutan_desa)?>", "<?=ucwords($this->setting->sebutan_dusun)?>");
@@ -300,7 +269,7 @@ td {
     });
 
     // Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan
-		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, '<?= addslashes(json_encode($area)) ?>', '<?= addslashes(json_encode($garis)) ?>', '<?= addslashes(json_encode($lokasi)) ?>', '<?= addslashes(json_encode($lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url("first/info_pembangunan/")?>');
+		var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, '<?= addslashes(json_encode($area)) ?>', '<?= addslashes(json_encode($garis)) ?>', '<?= addslashes(json_encode($lokasi)) ?>', '<?= addslashes(json_encode($lokasi_pembangunan)) ?>', '<?= base_url() . LOKASI_SIMBOL_LOKASI ?>', "<?= favico_desa()?>", '<?= base_url() . LOKASI_FOTO_AREA ?>', '<?= base_url() . LOKASI_FOTO_GARIS ?>', '<?= base_url() . LOKASI_FOTO_LOKASI ?>', '<?= base_url() . LOKASI_GALERI ?>', '<?= site_url('pembangunan/')?>');
 
     // Menampilkan OverLayer Covid dan Desa Pengguna OpenSID
     var mylayer = L.featureGroup();
@@ -317,13 +286,13 @@ td {
         var bounds = new L.LatLngBounds();
         if (mylayer instanceof L.FeatureGroup) {
           bounds.extend(mylayer.getBounds());
-          mark_covid = L.marker([<?=$desa['lat'].",".$desa['lng']?>]).addTo(mymap)
-          .bindTooltip(<?=json_encode(ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))?> + ' berada di lokasi ini', {direction: 'top'});
+          mark_covid = L.marker([<?=$desa['lat'] . ',' . $desa['lng']?>]).addTo(mymap)
+          .bindTooltip(<?=json_encode(ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']))?> + ' berada di lokasi ini', {direction: 'top'});
         }
         if (bounds.isValid()) {
           mymap.fitBounds(bounds);
         } else {
-          <?php if (!empty($desa['path'])): ?>
+          <?php if (! empty($desa['path'])): ?>
             mymap.fitBounds(<?=$desa['path']?>);
           <?php endif; ?>
         }
@@ -337,7 +306,7 @@ td {
         mymap.removeLayer(mark_covid);
         $('#covid_status').hide();
         $('#covid_status_local').hide();
-        <?php if (!empty($desa['path'])): ?>
+        <?php if (! empty($desa['path'])): ?>
           mymap.fitBounds(<?=$desa['path']?>);
         <?php endif; ?>
       });
@@ -351,13 +320,13 @@ td {
         var bounds = new L.LatLngBounds();
         if (layer_desa instanceof L.FeatureGroup) {
           bounds.extend(layer_desa.getBounds());
-          mark_desa = L.marker([<?=$desa['lat'].",".$desa['lng']?>]).addTo(mymap)
-          .bindTooltip(<?=json_encode(ucwords($this->setting->sebutan_desa.' '.$desa['nama_desa']))?> + ' berada di lokasi ini', {direction: 'top'});
+          mark_desa = L.marker([<?=$desa['lat'] . ',' . $desa['lng']?>]).addTo(mymap)
+          .bindTooltip(<?=json_encode(ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']))?> + ' berada di lokasi ini', {direction: 'top'});
         }
         if (bounds.isValid()) {
           mymap.fitBounds(bounds);
         } else {
-          <?php if (!empty($desa['path'])): ?>
+          <?php if (! empty($desa['path'])): ?>
             mymap.fitBounds(<?=$desa['path']?>);
           <?php endif; ?>
         }
@@ -369,7 +338,7 @@ td {
       setTimeout(function () {
         $('#desa_online').hide();
         mymap.removeLayer(mark_desa);
-        <?php if (!empty($desa['path'])): ?>
+        <?php if (! empty($desa['path'])): ?>
           mymap.fitBounds(<?=$desa['path']?>);
         <?php endif; ?>
       });

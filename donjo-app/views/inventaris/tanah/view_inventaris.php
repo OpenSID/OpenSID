@@ -73,7 +73,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="tanggal_sertifikat">Tanggal Sertifikat</label>
 										<div class="col-sm-4">
-											<input maxlength="50" value="<?= date('d M Y',strtotime($main->tanggal_sertifikat)); ?>" class="form-control input-sm" name="tanggal_sertifikat" id="tanggal_sertifikat" type="text" disabled/>
+											<input maxlength="50" value="<?= date('d M Y', strtotime($main->tanggal_sertifikat)); ?>" class="form-control input-sm" name="tanggal_sertifikat" id="tanggal_sertifikat" type="text" disabled/>
 										</div>
 									</div>
 									<div class="form-group">

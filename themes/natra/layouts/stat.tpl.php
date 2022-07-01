@@ -1,4 +1,5 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
@@ -24,15 +25,15 @@
 			<div class="content_bottom">
 				<div class="col-lg-9 col-md-9">
 					<div class="content_left">
-                        <?php if ($tipe == 2): ?>
+						<?php if ($tipe == 2): ?>
 							<?php $this->load->view("$folder_themes/partials/statistik_sos"); ?>
-    					<?php elseif ($tipe == 3): ?>
-    						<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/wilayah.php')); ?>
-    					<?php elseif ($tipe == 4): ?>
-    						<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/dpt.php')); ?>
-    					<?php else: ?>
-    					<?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/statistik.php')); ?>
-    					<?php endif; ?>
+						<?php elseif ($tipe == 3): ?>
+							<?php $this->load->view("$folder_themes/partials/wilayah"); ?>
+						<?php elseif ($tipe == 4): ?>
+							<?php $this->load->view("$folder_themes/partials/dpt"); ?>
+						<?php else: ?>
+							<?php $this->load->view("$folder_themes/partials/statistik"); ?>
+						<?php endif; ?>
 					</div>
 				</div>
 			<div class="col-lg-3 col-md-3">

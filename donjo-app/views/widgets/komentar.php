@@ -5,7 +5,7 @@
 	<div class="box-body">
 		<marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" align="center" behavior="alternate">
 			<ul class="sidebar-latest" id="li-komentar">
-				<?php foreach($komen As $data): ?>
+				<?php foreach ($komen as $data): ?>
 					<li>
 						<i class="fa fa-comment"></i> <?= $data['owner']?><br/>
 						<small><?= tgl_indo2($data['tgl_upload'])?></small><br/>

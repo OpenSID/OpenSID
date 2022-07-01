@@ -44,7 +44,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi">Status Asset</label>
 										<div class="col-sm-4">
 											<select name="status_mutasi" id="status" class="form-control input-sm" disabled>
-												<option value="<?= $main->status_mutasi; ?>">   <?= $main->status_mutasi;?></option>
+												<option value="<?= $main->status_mutasi; ?>">   <?= $main->status_mutasi; ?></option>
 												<option value="Baik">Baik</option>
 												<option value="Rusak">Rusak</option>
 												<option value="Hapus">Penghapusan</option>
@@ -55,7 +55,7 @@
 										<label class="col-sm-3 control-label" style="text-align:left;" for="mutasi" require>Jenis Mutasi </label>
 										<div class="col-sm-4">
 											<select name="mutasi" id="mutasi" class="form-control input-sm" disabled>
-												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi;?></option>
+												<option value="<?= $main->jenis_mutasi; ?>">   <?= $main->jenis_mutasi; ?></option>
 												<option value="Rusak">Status Rusak</option>
 												<option value="Diperbaiki">Status Diperbaiki</option>
 												<optgroup label="Barang Masih Baik">
@@ -78,7 +78,7 @@
 									<div class="form-group harga_jual">
 										<label class="col-sm-3 control-label " style="text-align:left;" for="harga_jual">Harga Penjualan</label>
 										<div class="col-sm-4">
-											<input maxlength="50"  class="form-control input-sm" name="harga_jual" id="harga_jual" type="text" value="Rp. <?= number_format( $main->harga_jual,0,".","."); ?>" disabled/>
+											<input maxlength="50"  class="form-control input-sm" name="harga_jual" id="harga_jual" type="text" value="Rp. <?= number_format($main->harga_jual, 0, '.', '.'); ?>" disabled/>
 										</div>
 									</div>
 									<div class="form-group">
@@ -92,7 +92,7 @@
 									<div class="form-group">
 										<label class="col-sm-3 control-label required" style="text-align:left;" for="tahun_mutasi">Tahun Mutasi</label>
 										<div class="col-sm-4">
-											<input maxlength="50" class="form-control input-sm" name="tahun_mutasi" id="tahun_mutasi" value="<?= date('d M Y',strtotime($main->tahun_mutasi));;?>" disabled/>
+											<input maxlength="50" class="form-control input-sm" name="tahun_mutasi" id="tahun_mutasi" value="<?= date('d M Y', strtotime($main->tahun_mutasi)); ?>" disabled/>
 										</div>
 									</div>
 									<div class="form-group">

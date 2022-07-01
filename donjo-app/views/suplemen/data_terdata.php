@@ -1,18 +1,16 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') || exit('No direct script access allowed');
 
-/**
+/*
  * File ini:
  *
  * View data terdata untuk modul suplemen
  *
  * donjo-app/views/suplemen/data_terdata.php,
- *
  */
 
-/**
- *
+/*
  * File ini bagian dari:
  *
  * OpenSID
@@ -37,12 +35,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
  * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
  *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright	  Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright	  Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
+ *
+ * @see 	https://github.com/OpenSID/OpenSID
  */
 ?>
 
@@ -51,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<h1>Data Terdata Suplemen</h1>
 		<ol class="breadcrumb">
 			<li><a href="<?= site_url('hom_sid')?>"><i class="fa fa-home"></i> Home</a></li>
-			<li><a href="<?= site_url("suplemen/rincian/$suplemen[id]"); ?>"></i> Rincian Suplemen</a></li>
+			<li><a href="<?= site_url("suplemen/rincian/{$suplemen['id']}"); ?>"></i> Rincian Suplemen</a></li>
 			<li class="active">Data Terdata Suplemen</li>
 		</ol>
 	</section>
@@ -60,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="col-md-12">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url("suplemen/rincian/$suplemen[id]"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Suplemen</a>
+						<a href="<?= site_url("suplemen/rincian/{$suplemen['id']}"); ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Suplemen</a>
 					</div>
 					<div class="box-body ">
 						<h5><b>Rincian Suplemen</b></h5>
@@ -69,17 +66,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<tr>
 									<td width="20%">Nama Suplemen</td>
 									<td width="1%">:</td>
-									<td><?= strtoupper($suplemen["nama"]); ?></td>
+									<td><?= strtoupper($suplemen['nama']); ?></td>
 								</tr>
 								<tr>
 									<td>Sasaran</td>
 									<td>:</td>
-									<td><?= $sasaran[$suplemen["sasaran"]]?></td>
+									<td><?= $sasaran[$suplemen['sasaran']]?></td>
 								</tr>
 								<tr>
 									<td>Keterangan</td>
 									<td>:</td>
-									<td><?= $suplemen["keterangan"]?></td>
+									<td><?= $suplemen['keterangan']?></td>
 								</tr>
 							</tbody>
 						</table>
@@ -92,9 +89,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								<tbody>
 									<?php $judul = ($suplemen['sasaran'] == 1) ? 'Penduduk' : 'KK' ?>
 									<tr>
-										<td width="20%"><?= ($suplemen["sasaran"] == 1) ? 'NIK / Nama Penduduk' : 'No. KK / Nama KK'; ?></td>
+										<td width="20%"><?= ($suplemen['sasaran'] == 1) ? 'NIK / Nama Penduduk' : 'No. KK / Nama KK'; ?></td>
 										<td width="1%">:</td>
-										<td> <?= $terdata["terdata_nama"] . ' / ' . $terdata["terdata_info"]?></td>
+										<td> <?= $terdata['terdata_nama'] . ' / ' . $terdata['terdata_info']?></td>
 									</tr>
 									<tr>
 										<td>Alamat <?= $judul; ?></td>
@@ -119,7 +116,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 									<tr>
 										<td>Keterangan</td>
 										<td>:</td>
-										<td><?= $terdata["keterangan"]?></td>
+										<td><?= $terdata['keterangan']?></td>
 									</tr>
 								</tbody>
 							</table>

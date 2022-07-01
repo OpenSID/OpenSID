@@ -33,4 +33,5 @@ Library PHP yang digunakan:
 - https://github.com/googleapis/google-api-php-client, menangani impor data dari google form
 - https://github.com/spipu/html2pdf, pengonversi HTML ke PDF yang ditulis dalam PHP
 - https://www.github.com/box/spout, untuk membaca dan menulis file spreadsheet (CSV, XLSX, dan ODS)
+- https://github.com/JCSama/CodeIgniter-develbar, untuk menampilkan debugging / pengoptimalan, Basis Data, Model, Pembantu, Pustaka, Tampilan, Ajax dll pada proses development.
 

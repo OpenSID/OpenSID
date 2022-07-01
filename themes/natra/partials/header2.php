@@ -1,4 +1,4 @@
-<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
 
 <div class="row" style="margin-bottom:3px; margin-top:10px;">
 	<div class="col-lg-12 col-md-12">
@@ -8,7 +8,7 @@
 					<li>
 						<table>
 							<tr>
-								<td class="hidden-xs"><img class="tlClogo" src="<?= gambar_desa($desa['logo']);?>" width="30" valign="top" alt="<?= $desa['nama_desa']?>"/></td>
+								<td class="hidden-xs"><img class="tlClogo" src="<?= gambar_desa($desa['logo']); ?>" width="30" valign="top" alt="<?= $desa['nama_desa']?>"/></td>
 								<td>
 									<a href="<?= site_url(); ?>">
 										<font size="4"><?= $this->setting->website_title. ' ' . ucwords($this->setting->sebutan_desa). (($desa['nama_desa']) ? ' ' . $desa['nama_desa'] : ''); ?>
@@ -40,7 +40,7 @@
     	            </a>
     	       </div>
     		<div class="visible-xs" style="margin-bottom: 5px;">
-    			<form method=get action="<?= site_url('first');?>" class="form-inline">
+    			<form method=get action="<?= site_url('first'); ?>" class="form-inline">
     				<table align="center"><tr><td><input type="text" name="cari" maxlength="50" class="form-control" value="<?= $cari ?>" placeholder="Cari Artikel"></td>
 					<td><button type="submit" class="btn btn-primary">Cari</button></td></tr></table>
 				</form>

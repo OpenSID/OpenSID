@@ -29,9 +29,9 @@
 					<div class="box box-info">
 						<?php if ($this->CI->cek_hak_akses('u', '', 'sms/anggota')): ?>
 							<div class="box-header with-border">
-								<a href="<?=site_url("sms/form_anggota/$grup[nama_grup]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Group"class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
+								<a href="<?=site_url("sms/form_anggota/{$grup['nama_grup']}")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Group"class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
 								<?php if ($this->CI->cek_hak_akses('h', '', 'sms/anggota')): ?>
-									<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("sms/delete_all_anggota/$grup[id_grup]")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
+									<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("sms/delete_all_anggota/{$grup['id_grup']}")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 								<?php endif; ?>
 							</div>
 						<?php endif; ?>
@@ -44,7 +44,7 @@
 												<div class="input-group input-group-sm pull-right">
 													<input name="cari_anggota" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('sms/search_anggota/$grup[nama_grup]')?>');$('#'+'mainform').submit();endif">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("sms/search_anggota/{$grup['nama_grup']}")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -78,10 +78,10 @@
 																<td><?=$data['no']?></td>
 																<?php if ($this->CI->cek_hak_akses('u', '', 'sms/anggota')): ?>
 																	<td nowrap>
-																		<a href="#" data-href="<?=site_url("sms/anggota_delete/$data[id_grup_kontak]")?>" class="btn bg-maroon btn-flat btn-sm"title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																		<a href="#" data-href="<?=site_url("sms/anggota_delete/{$data['id_grup_kontak']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																	</td>
 																<?php endif; ?>
-																<td><a href="<?= site_url("penduduk/detail/$p/$o/$data[id]")?>"><?=$data['nama']?></a></td>
+																<td><a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}")?>"><?=$data['nama']?></a></td>
 																<td><?=$data['sex']?></td>
 																<td><?=$data['alamat_sekarang']?></td>
 																<td><?=$data['no_hp']?></td>
@@ -96,7 +96,7 @@
 								<div class="row">
 									<div class="col-sm-6">
 										<div class="dataTables_length">
-											<form id="paging" action="<?= site_url("sms/anggota/$data[nama_grup]")?>" method="post" class="form-horizontal">
+											<form id="paging" action="<?= site_url("sms/anggota/{$data['nama_grup']}")?>" method="post" class="form-horizontal">
 												<label>
 													Tampilkan
 													<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
@@ -115,19 +115,19 @@
 										<div class="dataTables_paginate paging_simple_numbers">
 											<ul class="pagination">
 												<?php if ($paging->start_link): ?>
-													<li><a href="<?= site_url("sms/anggota/$data[nama_grup]/$paging->start_link/$o")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
+													<li><a href="<?= site_url("sms/anggota/{$data['nama_grup']}/{$paging->start_link}/{$o}")?>" aria-label="First"><span aria-hidden="true">Awal</span></a></li>
 												<?php endif; ?>
 												<?php if ($paging->prev): ?>
-													<li><a href="<?= site_url("sms/anggota/$data[nama_grup]/$paging->prev/$o")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+													<li><a href="<?= site_url("sms/anggota/{$data['nama_grup']}/{$paging->prev}/{$o}")?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 												<?php endif; ?>
-												<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
-													<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/anggota/$data[nama_grup]/$i/$o")?>"><?= $i?></a></li>
+												<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++): ?>
+													<li <?=jecho($p, $i, "class='active'")?>><a href="<?= site_url("sms/anggota/{$data['nama_grup']}/{$i}/{$o}")?>"><?= $i?></a></li>
 												<?php endfor; ?>
 												<?php if ($paging->next): ?>
-													<li><a href="<?= site_url("sms/anggota/$data[nama_grup]/$paging->next/$o")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+													<li><a href="<?= site_url("sms/anggota/{$data['nama_grup']}/{$paging->next}/{$o}")?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 												<?php endif; ?>
 												<?php if ($paging->end_link): ?>
-													<li><a href="<?= site_url("sms/anggota/$data[nama_grup]/$paging->end_link/$o")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
+													<li><a href="<?= site_url("sms/anggota/{$data['nama_grup']}/{$paging->end_link}/{$o}")?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a></li>
 												<?php endif; ?>
 											</ul>
 										</div>
@@ -141,4 +141,4 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>

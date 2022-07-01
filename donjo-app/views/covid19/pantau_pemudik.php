@@ -24,7 +24,7 @@
 								<select class="form-control select2" id="terdata" name="terdata">
 									<option value="">-- Silakan Masukan NIK / Nama--</option>
 									<?php foreach ($pemudik_array as $item): ?>
-									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['covid_id']?>" data-tgltiba="<?= $item['tanggal_datang']?>" > <?= $item['terdata_id']." - ".$item['nama']?></option>
+									<option value="<?= $item['id']?>" data-statuscovid="<?= $item['covid_id']?>" data-tgltiba="<?= $item['tanggal_datang']?>" > <?= $item['terdata_id'] . ' - ' . $item['nama']?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -102,9 +102,9 @@
 			<div class="col-md-9">
 				<div class="box box-info">
 					<div class="box-header with-border">
-						<a href="<?= site_url("covid19/daftar/cetak/$filter_tgl/$filter_nik")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
+						<a href="<?= site_url("covid19/daftar/cetak/{$filter_tgl}/{$filter_nik}")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak" target="_blank"><i class="fa fa-print"></i> Cetak
 						</a>
-						<a href="<?= site_url("covid19/daftar/unduh/$filter_tgl/$filter_nik")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
+						<a href="<?= site_url("covid19/daftar/unduh/{$filter_tgl}/{$filter_nik}")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh" target="_blank"><i class="fa fa-download"></i> Unduh
 						</a>
 					</div>
 					<div class="box-body">
@@ -128,7 +128,7 @@
 										<select class="form-control select2 input-sm" name="unique_nik_select" id="unique_nik_select">
 											<option value="0">-- Pilih NIK/Nama --</option>
 											<?php foreach ($unique_nik as $row): ?>
-											<option value="<?= $row[id_pemudik] ?>" > <?= $row[nik]." - ".$row[nama] ?></option>
+											<option value="<?= $row[id_pemudik] ?>" > <?= $row[nik] . ' - ' . $row[nama] ?></option>
 											<?php endforeach; ?>
 										</select>
 									</div>
@@ -165,30 +165,31 @@
 												</thead>
 												<tbody>
 													<?php
-													$nomer = $paging->offset;
-													foreach ($pantau_pemudik_array as $key=>$item):
-														$nomer++;
-													?>
+                                                    $nomer = $paging->offset;
+
+                                                    foreach ($pantau_pemudik_array as $key => $item):
+                                                        $nomer++;
+                                                    ?>
 													<tr>
 														<td align="center" width="2"><?= $nomer; ?></td>
 														<?php if ($this->CI->cek_hak_akses('h', '', 'covid19/pantau')): ?>
 															<td nowrap>
-																<a href="#" data-href="<?= site_url("$url_delete_front/$item[id]/$url_delete_rare")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
+																<a href="#" data-href="<?= site_url("{$url_delete_front}/{$item['id']}/{$url_delete_rare}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 															</td>
 														<?php endif; ?>
-														<td><?= "H+".$item["date_diff"] ?></td>
-														<td><?= $item["tanggal_datang"] ?></td>
-														<td><?= $item["tanggal_jam"] ?></td>
-														<td><?= $item["nik"] ?></td>
-														<td><?= $item["nama"] ?></td>
-														<td><?= $item["umur"] ?></td>
-														<td><?= ($item["sex"]==='1' ? 'Lk' : 'Pr'); ?></td>
-														<td><?= $item["suhu_tubuh"];?></td>
-														<td><?= ($item["batuk"]==='1' ? 'Ya' : 'Tidak'); ?></td>
-														<td><?= ($item["flu"]==='1' ? 'Ya' : 'Tidak');?></td>
-														<td><?= ($item["sesak_nafas"]==='1' ? 'Ya' : 'Tidak');?></td>
-														<td><?= $item["keluhan_lain"];?></td>
-														<td><?= $item["status_covid"];?></td>
+														<td><?= 'H+' . $item['date_diff'] ?></td>
+														<td><?= $item['tanggal_datang'] ?></td>
+														<td><?= $item['tanggal_jam'] ?></td>
+														<td><?= $item['nik'] ?></td>
+														<td><?= $item['nama'] ?></td>
+														<td><?= $item['umur'] ?></td>
+														<td><?= ($item['sex'] === '1' ? 'Lk' : 'Pr'); ?></td>
+														<td><?= $item['suhu_tubuh']; ?></td>
+														<td><?= ($item['batuk'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+														<td><?= ($item['flu'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+														<td><?= ($item['sesak_nafas'] === '1' ? 'Ya' : 'Tidak'); ?></td>
+														<td><?= $item['keluhan_lain']; ?></td>
+														<td><?= $item['status_covid']; ?></td>
 													</tr>
 													<?php endforeach; ?>
 												</tbody>
@@ -202,9 +203,9 @@
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">
-															<option value="10" <?php selected($per_page,10); ?> >10</option>
-															<option value="100" <?php selected($per_page,100); ?> >100</option>
-															<option value="200" <?php selected($per_page,200); ?> >200</option>
+															<option value="10" <?php selected($per_page, 10); ?> >10</option>
+															<option value="100" <?php selected($per_page, 100); ?> >100</option>
+															<option value="200" <?php selected($per_page, 200); ?> >200</option>
 														</select>
 														Dari
 														<strong><?= $paging->num_rows?></strong>
@@ -218,31 +219,31 @@
 												<ul class="pagination">
 													<?php if ($paging->start_link): ?>
 														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
+															<a href="<?=site_url('covid19/pantau/' . $paging->start_link)?>" aria-label="First"><span aria-hidden="true">Awal</span></a>
 														</li>
 													<?php endif; ?>
 
 													<?php if ($paging->prev): ?>
 														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+															<a href="<?=site_url('covid19/pantau/' . $paging->prev)?>" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 														</li>
 													<?php endif; ?>
 
-													<?php for ($i=$paging->start_link;$i<=$paging->end_link;$i++): ?>
+													<?php for ($i = $paging->start_link; $i <= $paging->end_link; $i++): ?>
 														<li <?=jecho($p, $i, "class='active'")?>>
-															<a href="<?= site_url('covid19/pantau/'.$i)?>"><?= $i?></a>
+															<a href="<?= site_url('covid19/pantau/' . $i)?>"><?= $i?></a>
 														</li>
 													<?php endfor; ?>
 
 													<?php if ($paging->next): ?>
 														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+															<a href="<?=site_url('covid19/pantau/' . $paging->next)?>" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
 														</li>
 													<?php endif; ?>
 
 													<?php if ($paging->end_link): ?>
 														<li>
-															<a href="<?=site_url('covid19/pantau/'.$paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
+															<a href="<?=site_url('covid19/pantau/' . $paging->end_link)?>" aria-label="Last"><span aria-hidden="true">Akhir</span></a>
 														</li>
 													<?php endif; ?>
 												</ul>
@@ -259,7 +260,7 @@
 	</section>
 </div>
 
-<?php $this->load->view('global/confirm_delete');?>
+<?php $this->load->view('global/confirm_delete'); ?>
 
 <script type="text/javascript">
 	$(document).ready(function() {

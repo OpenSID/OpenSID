@@ -56,19 +56,19 @@
 																	<td nowrap>Tanah Kas Desa</td>
 																	<td>Informasi mengenai segala yang menyangkut dengan tanah (dalam hal ini tanah yang digunakan dalam instansi tersebut).</td>
 																	<td>
-																		<?=$inventaris_tanah_pribadi->total?>
+																		<?= $inventaris_tanah_pribadi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_tanah_pemerintah->total?>
+																		<?= $inventaris_tanah_pemerintah->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_tanah_provinsi->total?>
+																		<?= $inventaris_tanah_provinsi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_tanah_kabupaten->total?>
+																		<?= $inventaris_tanah_kabupaten->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_tanah_sumbangan->total?>
+																		<?= $inventaris_tanah_sumbangan->total?>
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
@@ -81,19 +81,19 @@
 																	<td nowrap>Peralatan dan Mesin</td>
 																	<td>Informasi mengenai peralatan dan mesin</td>
 																	<td>
-																		<?=$inventaris_peralatan_pribadi->total?>
+																		<?= $inventaris_peralatan_pribadi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_peralatan_pemerintah->total?>
+																		<?= $inventaris_peralatan_pemerintah->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_peralatan_provinsi->total?>
+																		<?= $inventaris_peralatan_provinsi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_peralatan_kabupaten->total?>
+																		<?= $inventaris_peralatan_kabupaten->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_peralatan_sumbangan->total?>
+																		<?= $inventaris_peralatan_sumbangan->total?>
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
@@ -106,19 +106,19 @@
 																	<td nowrap>Gedung dan Bangunan</td>
 																	<td>Informasi mengenai gedung dan bangunan yang dimiliki.</td>
 																	<td>
-																		<?=$inventaris_gedung_pribadi->total?>
+																		<?= $inventaris_gedung_pribadi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_gedung_pemerintah->total?>
+																		<?= $inventaris_gedung_pemerintah->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_gedung_provinsi->total?>
+																		<?= $inventaris_gedung_provinsi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_gedung_kabupaten->total?>
+																		<?= $inventaris_gedung_kabupaten->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_gedung_sumbangan->total?>
+																		<?= $inventaris_gedung_sumbangan->total?>
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
@@ -131,23 +131,23 @@
 																	<td nowrap> Jalan Irigasi dan Jaringan</td>
 																	<td>Informasi mengenai jaringan, seperti listrik atau Internet.</td>
 																	<td>
-																		<?=$inventaris_jalan_pribadi->total?>
+																		<?= $inventaris_jalan_pribadi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_jalan_pemerintah->total?>
+																		<?= $inventaris_jalan_pemerintah->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_jalan_provinsi->total?>
+																		<?= $inventaris_jalan_provinsi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_jalan_kabupaten->total?>
+																		<?= $inventaris_jalan_kabupaten->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_jalan_sumbangan->total?>
+																		<?= $inventaris_jalan_sumbangan->total?>
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= site_url('inventaris_jalan/'.$data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= site_url('inventaris_jalan/' . $data->id); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -156,19 +156,19 @@
 																	<td nowrap> Asset Tetap Lainnya</td>
 																	<td>Informasi mengenai aset tetap seperti barang habis pakai contohnya buku-buku.</td>
 																	<td>
-																		<?=$inventaris_asset_pribadi->total?>
+																		<?= $inventaris_asset_pribadi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_asset_pemerintah->total?>
+																		<?= $inventaris_asset_pemerintah->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_asset_provinsi->total?>
+																		<?= $inventaris_asset_provinsi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_asset_kabupaten->total?>
+																		<?= $inventaris_asset_kabupaten->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_asset_sumbangan->total?>
+																		<?= $inventaris_asset_sumbangan->total?>
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
@@ -181,19 +181,19 @@
 																	<td nowrap>Konstruksi Dalam Pengerjaan</td>
 																	<td>Informasi mengenai bangunan yang masih dalam pengerjaan.</td>
 																	<td>
-																		<?=$inventaris_kontruksi_pribadi->total?>
+																		<?= $inventaris_kontruksi_pribadi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_kontruksi_pemerintah->total?>
+																		<?= $inventaris_kontruksi_pemerintah->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_kontruksi_provinsi->total?>
+																		<?= $inventaris_kontruksi_provinsi->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_kontruksi_kabupaten->total?>
+																		<?= $inventaris_kontruksi_kabupaten->total?>
 																	</td>
 																	<td>
-																		<?=$inventaris_kontruksi_sumbangan->total?>
+																		<?= $inventaris_kontruksi_sumbangan->total?>
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
@@ -322,14 +322,14 @@
 
 	$("#form_cetak").click(function( event )
 	{
-		var link = '<?= site_url("laporan_inventaris/cetak"); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
+		var link = '<?= site_url('laporan_inventaris/cetak'); ?>'+ '/' + $('#tahun_pdf').val() + '/' + $('#penandatangan_pdf').val();
 		window.open(link, '_blank');
 		// alert('fell');
   });
 
 	$("#form_download").click(function( event )
 	{
-		var link = '<?= site_url("laporan_inventaris/download"); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
+		var link = '<?= site_url('laporan_inventaris/download'); ?>'+ '/' + $('#tahun').val() + '/' + $('#penandatangan').val();
 		window.open(link, '_blank');
 		// alert('fell');
   });

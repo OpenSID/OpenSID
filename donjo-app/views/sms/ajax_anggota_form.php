@@ -17,10 +17,12 @@
 									</tr>
 								</thead>
 								<tbody>
-									<?php $no=1; foreach ($main as $data): ?>
+									<?php $no = 1;
+
+foreach ($main as $data): ?>
 										<tr>
 											<td><input type="checkbox" name="id_cb[]" value="<?=$data['id_kontak']?>" /></td>
-											<td><?= $no;?></td>
+											<td><?= $no; ?></td>
 											<td><?= $data['nama']?></td>
 											<td><?= $data['sex']?></td>
 											<td><?= $data['alamat_sekarang']?></td>
