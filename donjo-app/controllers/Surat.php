@@ -125,6 +125,8 @@ class Surat extends Admin_Controller
 
     public function form($url = '')
     {
+        $this->session->unset_userdata('log_surat');
+
         $data['surat'] = FormatSurat::where('url_surat', $url)->first();
 
         if ($data['surat']) {
@@ -164,7 +166,7 @@ class Surat extends Admin_Controller
     {
         $surat = FormatSurat::where('url_surat', $url)->first();
 
-        if ($this->request) {
+        if ($surat && $this->request) {
 
             // Simpan data ke log_surat sebagai draf
             $log_surat = [
@@ -194,7 +196,7 @@ class Surat extends Admin_Controller
             $isi_surat = $this->replceKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
-            set_session('log_surat', $log_surat);
+            $this->session->log_surat = $log_surat;
 
             $aksi_konsep = site_url('surat/konsep');
             $aksi_cetak  = site_url('surat/pdf');
@@ -212,7 +214,7 @@ class Surat extends Admin_Controller
     public function pdf()
     {
         // Cetak Konsep
-        $cetak = session('log_surat');
+        $cetak = $this->session->log_surat;
 
         if ($cetak) {
             $log_surat = [
@@ -316,7 +318,7 @@ class Surat extends Admin_Controller
 
     public function konsep()
     {
-        $cetak = session('log_surat');
+        $cetak = $this->session->log_surat;
 
         if ($cetak) {
             $log_surat = [
@@ -366,12 +368,18 @@ class Surat extends Admin_Controller
 
     public function cetak($id)
     {
-        $surat = LogSurat::find($id)->first();
+        $surat = LogSurat::find($id);
 
         if ($surat->status) {
             $isi_cetak      = $surat->isi_surat;
             $nama_surat     = $surat->nama_surat;
             $cetak['surat'] = $surat->formatSurat;
+
+            // Logo Surat
+            $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
+
+            $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
+            $isi_cetak = str_replace('[logo]', $logo, $isi_cetak);
 
             // QR_Code Surat
             if ($cetak['surat']['qr_code']) {
@@ -413,14 +421,15 @@ class Surat extends Admin_Controller
                 $atas_nama .= 'u.b ' . ucwords($pamong->jabatan . ' ' . Config::first()->nama_desa);
             }
 
-            $log_surat['surat'] = $surat->formatSurat;
-            $log_surat['input'] = [
+            $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
+            $log_surat['surat']    = $surat->formatSurat;
+            $log_surat['input']    = [
                 'nik'            => $surat->id_pend,
                 'nama_non_warga' => $surat->nama_non_warga,
                 'nik_non_warga'  => $surat->nik_non_warga,
 
                 // 1. Nomer surat dicek dan dibuat ulang
-                'nomor'           => $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'],
+                'nomor'           => $log_surat['no_surat'],
                 'pilih_atas_nama' => $atas_nama,
                 'pamong_id'       => $pamong->pamong_id,
             ];
@@ -430,7 +439,7 @@ class Surat extends Admin_Controller
             $isi_surat              = $this->replceKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
-            set_session('log_surat', $log_surat);
+            $this->session->log_surat = $log_surat;
 
             $aksi_konsep = site_url('surat/konsep');
             $aksi_cetak  = site_url('surat/pdf');
@@ -459,6 +468,8 @@ class Surat extends Admin_Controller
 
         $tinymce   = new TinyMCE();
         $kodeIsian = $tinymce->getFormatedKodeIsian($data, true);
+
+        // return json($kodeIsian);
 
         foreach ($kodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {

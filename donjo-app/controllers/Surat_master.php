@@ -202,7 +202,7 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    private function validate($request = [], $id = null)
+    private function validate($request = [], $jenis = 4, $id = null)
     {
         $isian = array_combine(array_filter($request['nama_kode'], 'strlen'), array_filter($request['deskripsi_kode'], 'strlen'));
 
@@ -225,7 +225,7 @@ class Surat_master extends Admin_Controller
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],
-            'jenis'               => $request['jenis'] ?? 4,
+            'jenis'               => $jenis,
             'mandiri'             => $request['mandiri'],
             'syarat_surat'        => $request['mandiri'] ? json_encode($request['id_cb']) : null,
             'qr_code'             => $request['qr_code'],

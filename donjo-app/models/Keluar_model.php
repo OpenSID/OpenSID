@@ -346,6 +346,7 @@ class Keluar_model extends CI_Model
         $data['bulan']   = date('m');
         $data['tahun']   = date('Y');
         $data['tanggal'] = date('Y-m-d H:i:s');
+        $data['status']  = 1; // Cetak
         //print_r($data);
         if (! empty($nama_surat)) /**
             Ekspor Dok:

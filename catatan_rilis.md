@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.06-premium-beta03 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.07-premium menyediakan integrasi aplikasi stunting ke OpenSID dan fitur baru surat TinyMCE. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 
 Terima kasih pada balongbesuk yang terus berkontribusi.
 

@@ -710,7 +710,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             'nama'                => $nama_surat,
             'url_surat'           => $url_surat,
             'kode_surat'          => '000',
-            'jenis'               => 4,
+            'jenis'               => 3,
             'masa_berlaku'        => 1,
             'satuan_masa_berlaku' => 'M',
             'orientasi'           => 'Potrait',

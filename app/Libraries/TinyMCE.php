@@ -148,6 +148,11 @@ class TinyMCE
                 'data'  => $data['surat']['kode_surat'],
             ],
             [
+                'judul' => 'Nomer',
+                'isian' => '[nomer_surat]',
+                'data'  => $data['no_surat'],
+            ],
+            [
                 'judul' => 'Judul',
                 'isian' => '[judul_surat]',
                 'data'  => $data['surat']['judul_surat'],
@@ -668,7 +673,7 @@ class TinyMCE
 
         if (preg_match('/u.b/i', $ttd)) {
             $pamong    = Pamong::with(['penduduk'])->find($input['pamong_id']);
-            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan . '<br> u.b ' . $pamong->jabatan;
+            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan . '<br> u.b <br>' . $pamong->jabatan;
 
             $nama_pamong = $pamong->penduduk->nama ?? $pamong->pamong_nama;
             $nip_pamong  = $pamong->pamong_nip ?? $pamong->pamong_niap;

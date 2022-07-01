@@ -1,4 +1,4 @@
-{{-- @include('admin.layouts.components.asset_validasi') --}}
+@include('admin.layouts.components.asset_validasi')
 @include('admin.layouts.components.asset_datatables')
 
 @extends('admin.layouts.index')
