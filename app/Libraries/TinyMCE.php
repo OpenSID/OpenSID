@@ -655,27 +655,27 @@ class TinyMCE
         $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
 
         //Data penandatangan
-        $pamong_ttd = Pamong::with(['penduduk'])->ttd('a.n');
+        $pamong_ttd = Pamong::ttd('a.n')->first();
 
         $ttd       = $input['pilih_atas_nama'];
         $atas_nama = ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
 
-        $nama_pamong = $pamong_ttd->penduduk->nama ?? $pamong_ttd->pamong_nama;
+        $nama_pamong = $pamong_ttd->nama ?? $pamong_ttd->pamong_nama;
         $nip_pamong  = $pamong_ttd->pamong_nip ?? $pamong_ttd->pamong_niap;
 
-        $pamong_ub = Pamong::with(['penduduk'])->ttd('u.b');
+        $pamong_ub = Pamong::ttd('u.b')->first();
         if (preg_match('/a.n/i', $ttd)) {
             $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan;
 
-            $nama_pamong = $pamong_ub->penduduk->nama ?? $pamong_ub->pamong_nama;
+            $nama_pamong = $pamong_ub->nama ?? $pamong_ub->pamong_nama;
             $nip_pamong  = $pamong_ub->pamong_nip ?? $pamong_ub->pamong_niap;
         }
 
         if (preg_match('/u.b/i', $ttd)) {
-            $pamong    = Pamong::with(['penduduk'])->find($input['pamong_id']);
+            $pamong    = Pamong::find($input['pamong_id']);
             $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan . '<br> u.b <br>' . $pamong->jabatan;
 
-            $nama_pamong = $pamong->penduduk->nama ?? $pamong->pamong_nama;
+            $nama_pamong = $pamong->nama ?? $pamong->pamong_nama;
             $nip_pamong  = $pamong->pamong_nip ?? $pamong->pamong_niap;
         }
 

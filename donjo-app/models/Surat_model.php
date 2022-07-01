@@ -818,13 +818,9 @@ class Surat_model extends CI_Model
             $file = "template-surat/{$url}/{$url}.rtf";
         }
 
-        // if (is_file($file) || $surat['jenis'] == 3 || $surat['jenis'] == 4) {
         if (is_file($file)) {
             $handle = fopen($file, 'rb');
             $buffer = stream_get_contents($handle);
-            // if ($surat['jenis'] == 3 || $surat['jenis'] == 4) {
-            //     $buffer = preg_replace('/\\\\/', '', $this->setting->header_surat) . '[pemisah]' . $surat['template_desa'] . '[pemisah]' . preg_replace('/\\\\/', '', $this->setting->footer_surat);
-            // }
             $buffer = $this->bersihkan_kode_isian($buffer);
             $buffer = $this->sisipkan_kop_surat($buffer);
             $buffer = $this->sisipkan_logo($config['logo'], $logo_garuda, $buffer);

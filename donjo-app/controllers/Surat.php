@@ -453,13 +453,13 @@ class Surat extends Admin_Controller
     private function ttd($ttd = '', $pamong_id = null)
     {
         if (preg_match('/a.n/i', $ttd)) {
-            return Pamong::ttd('u.b')->pamong_id;
+            return Pamong::ttd('u.b')->first()->pamong_id;
         }
         if (preg_match('/u.b/i', $ttd)) {
             return $pamong_id;
         }
 
-        return Pamong::ttd('a.n')->pamong_id;
+        return Pamong::ttd('a.n')->first()->pamong_id;
     }
 
     private function replceKodeIsian($data = [], $kecuali = [])
@@ -468,8 +468,6 @@ class Surat extends Admin_Controller
 
         $tinymce   = new TinyMCE();
         $kodeIsian = $tinymce->getFormatedKodeIsian($data, true);
-
-        // return json($kodeIsian);
 
         foreach ($kodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {
@@ -665,14 +663,16 @@ class Surat extends Admin_Controller
         $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
         $data['pamong']             = $this->surat_model->list_pamong();
 
-        $pamong_ttd = Pamong::ttd('a.n');
+        $pamong_ttd = Pamong::ttd('a.n')->first();
         if ($pamong_ttd) {
             $str_ttd             = ucwords($pamong_ttd->jabatan . ' ' . $config->nama_desa);
             $data['atas_nama'][] = "a.n {$str_ttd}";
-            $pamong_ub           = Pamong::ttd('u.b');
+            $pamong_ub           = Pamong::ttd('u.b')->first();
             if ($pamong_ub) {
                 $data['atas_nama'][] = "u.b {$pamong_ub->jabatan}";
             }
+        } else {
+            redirect_with('error', 'Belum ada penanda tangan, Silhakan tentukan a.n pada modul Pemerintah ' . ucwords(setting('sebutan_desa')));
         }
     }
 
