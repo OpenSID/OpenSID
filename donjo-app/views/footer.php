@@ -52,6 +52,9 @@
 			<script src="<?= base_url('assets/bootstrap/js/bootstrap-tokenfield.min.js'); ?>"></script>
 		<?php endif; ?>
 
+		<?php if (config_item('demo_mode')): ?>
+			<script src="<?= base_url('assets/js/demo.js') ?>"></script>
+		<?php endif ?>
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
