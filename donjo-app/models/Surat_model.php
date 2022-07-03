@@ -866,6 +866,7 @@ class Surat_model extends CI_Model
                 '[kode_surat]'         => $surat['kode_surat'],
                 '[judul_surat]'        => strtoupper('surat ' . $surat['nama']),
                 '[tgl_surat]'          => "{$tgl}",
+                '[hari_surat]'         => hari(strtotime($tgl)),
                 '[tgl_surat_hijri]'    => $tgl_hijri,
                 '[tahun]'              => "{$thn}",
                 '[bulan_romawi]'       => bulan_romawi((int) date('m')),
