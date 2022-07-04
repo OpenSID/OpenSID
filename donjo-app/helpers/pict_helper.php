@@ -646,7 +646,7 @@ function UploadResizeImage($lokasi, $dimensi, $jenis_upload, $fupload_name, $nam
     $height     = imageSY($image);
     $new_width  = $dimensi['width'];
     $new_height = $dimensi['height'];
-    if ($width > $new_width && $height > $new_height) {
+    if ($width > $new_width && $height >= $width) {
         if ($width < $height) {
             $dst_width  = $new_width;
             $dst_height = ($dst_width / $width) * $height;
