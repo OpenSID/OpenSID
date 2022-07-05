@@ -48,6 +48,6 @@ class Lembaga_master extends Kelompok_master
         parent::__construct();
 
         $this->modul_ini     = 200;
-        $this->sub_modul_ini = 328;
+        $this->sub_modul_ini = 327;
     }
 }
