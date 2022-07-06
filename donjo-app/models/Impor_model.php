@@ -284,6 +284,10 @@ class Impor_model extends CI_Model
             return 'NIK salah';
         }
 
+        if (! ctype_digit($isi_baris['no_kk']) || strlen($isi_baris['no_kk']) != 16) {
+            return 'Nomor KK salah';
+        }
+
         if ($isi_baris['nama'] != '' && cekNama($isi_baris['nama'])) {
             return 'Nama hanya boleh berisi karakter alpha, spasi, titik, koma, tanda petik dan strip';
         }

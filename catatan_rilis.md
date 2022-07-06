@@ -8,7 +8,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 
 #### Perbaikan BUG
-[#5321](https://github.com/OpenSID/OpenSID/issues/5321) Merapikan informasi report ketika ada duplicate data tanggal
+1. [#5321](https://github.com/OpenSID/OpenSID/issues/5321) Merapikan informasi report ketika ada duplicate data tanggal
+2. [#5314](https://github.com/OpenSID/OpenSID/issues/5314) Membatasin Impor data penduduk dengan No KK < 16 digit akan gagal import
 
 
 
