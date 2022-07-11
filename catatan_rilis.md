@@ -12,4 +12,6 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. [#5314](https://github.com/OpenSID/OpenSID/issues/5314) Membatasin Impor data penduduk dengan No KK < 16 digit akan gagal import
 3. [#5339](https://github.com/OpenSID/OpenSID/issues/5339) Mengatasi paging halaman tidak ditermukan pada album galeri yang lebih dari 10 gambar
 4. [#5341](https://github.com/OpenSID/OpenSID/issues/5341) Mengatasi Tombol Batal Pada Popup Pengaturan Pelanggan yang tidak berfungsi
+5. [#5322](https://github.com/OpenSID/OpenSID/issues/5322) Menambahkan keterangan & notifikasi tidak bisa input kode lembaga & kelompok 
+
 #### Perubahan Teknis
