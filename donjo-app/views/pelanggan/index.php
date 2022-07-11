@@ -156,6 +156,20 @@
                                     <?php endforeach ?>
                                 </td>
                             </tr>
+                            <?php if ($response->body->token) : ?>
+                            <tr>
+                                <td>Token</td>
+                                <td> : </td>
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <td><textarea id="token" rows="4" type="text" class="form-control" readonly><?= $response->body->token ?></textarea></td>
+                                            <td><div class="input-group-text"><a  href="#" id="copy" title="Copy"><i class="fa fa-copy"></i></a></div></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <?php endif ?>
                             </tbody>
                         </table>
                     </div>
@@ -269,3 +283,9 @@
         <?php endif ?>
     </section>
 </div>
+<script>
+    $('#copy').on('click', function() {
+        $('#token').select();
+        document.execCommand('copy');
+    });
+</script>
