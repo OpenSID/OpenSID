@@ -17,3 +17,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 7. [#5320](https://github.com/OpenSID/OpenSID/issues/5320) Menghilangkan menu pertahanan didalam grup stunting pada pengguna
 
 #### Perubahan Teknis
+1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database

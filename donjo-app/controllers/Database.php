@@ -77,33 +77,12 @@ class Database extends Admin_Controller
         $this->load->view('database/database.tpl.php', $data);
     }
 
-    public function kosongkan()
-    {
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-
-        $data['act_tab'] = 3;
-        $data['content'] = 'database/kosongkan';
-        $this->load->view('database/database.tpl.php', $data);
-    }
-
     public function migrasi_db_cri()
     {
         $this->redirect_hak_akses('u');
         $this->session->unset_userdata(['success, error_msg']);
         $this->database_model->migrasi_db_cri();
         redirect('database/migrasi_cri');
-    }
-
-    public function kosongkan_db()
-    {
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-        $this->redirect_hak_akses('h');
-        $this->database_model->kosongkan_db();
-        redirect('database/kosongkan');
     }
 
     public function exec_backup()
