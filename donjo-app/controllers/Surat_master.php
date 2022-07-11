@@ -382,18 +382,33 @@ class Surat_master extends Admin_Controller
 
         if ($folderSuratDesa) {
             foreach ($folderSuratDesa as $surat) {
-                $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
+                $url_surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
 
-                if (! FormatSurat::isExist($surat)) {
-                    $data              = [];
-                    $data['jenis']     = 2;
-                    $data['nama']      = strtolower(trim(str_replace(['surat', '-', '_'], ' ', nama_terbatas($surat))));
-                    $data['url_surat'] = 'surat_' . strtolower(str_replace([' ', '-'], '_', $data['nama']));
+                // Hanya folder dengan nama depat surat_ yg akan di simpan
+                if (preg_match('/surat_/i', $url_surat)) {
+                    $surat_baru  = underscore(trim(preg_replace('/[^a-zA-Z0-9 \\_]/', ' ', $url_surat)), true, true);
+                    $lokasi_baru = LOKASI_SURAT_DESA . $surat_baru;
 
-                    FormatSurat::insert($data);
+                    // Ubah nama folder penyimpanan template surat
+                    rename($surat, $lokasi_baru);
+
+                    // Ubah nama file surat
+                    rename($lokasi_baru . '/' . $url_surat . '.rtf', $lokasi_baru . '/' . $surat_baru . '.rtf');
+                    rename($lokasi_baru . '/' . $url_surat . '.php', $lokasi_baru . '/' . $surat_baru . '.php');
+                    rename($lokasi_baru . '/data_rtf_' . $url_surat . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
+                    rename($lokasi_baru . '/data_form_' . $url_surat . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
+
+                    if (! FormatSurat::isExist($url_surat)) {
+                        $data              = [];
+                        $data['jenis']     = 2;
+                        $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));
+                        $data['url_surat'] = $surat_baru;
+
+                        FormatSurat::insert($data);
+                    }
+
+                    $daftarSurat[] = $url_surat;
                 }
-
-                $daftarSurat[] = $surat;
             }
 
             // Hapus surat ubahan desa yg sudah tidak ada

@@ -15,6 +15,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 5. [#5322](https://github.com/OpenSID/OpenSID/issues/5322) Menambahkan keterangan & notifikasi tidak bisa input kode lembaga & kelompok
 6. [#5312](https://github.com/OpenSID/OpenSID/issues/5312) Mengatasi duplikat atas nama di pengurus & memperbarui penyesuaian A.n pamong ketika di update
 7. [#5320](https://github.com/OpenSID/OpenSID/issues/5320) Menghilangkan menu pertahanan didalam grup stunting pada pengguna
+8. [#5323](https://github.com/OpenSID/OpenSID/issues/5323) Mengatasi penambahan surat baru dengan cara menambahkannya di folder desa/template-surat 
 
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database
