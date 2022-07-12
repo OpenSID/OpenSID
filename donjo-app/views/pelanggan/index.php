@@ -89,21 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <?php if ($response->body->status_langganan === 'menunggu verifikasi pendaftaran') : ?>
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="box box-info">
-                            <div class="box-header with-border">
-                                <i class="icon fa fa-info"></i>
-                                <h3 class="box-title">Info</h3>
-                            </div>
-                            <div class="box-body">
-                                <div class="callout callout-info">
-                                    <h5>Saat ini dokumen permohonan Desa Anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php elseif ($response->body->status_langganan === 'suspended' || $response->body->status_langganan === 'tidak aktif' || $response->body->status_langganan === 'menunggu verifikasi email') : ?>
+                <?php if ($response->body->status_langganan === 'aktif' || $response->body->status_langganan === 'suspended' || $response->body->status_langganan === 'tidak aktif' || $response->body->status_langganan === 'menunggu verifikasi email') : ?>
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="box box-warning">
                             <div class="box-header with-border">
@@ -112,13 +98,40 @@
                             </div>
                             <div class="box-body">
                                 <div class="callout callout-warning">
-                                    <h5>Silahkan lakukan Pendaftaran Kerjasama minimal sampai verifikasi email, agar layanan bisa diaktifkan.</h5>
+                                    <h5>Silahkan lakukan Pendaftaran Kerjasama minimal sampai Verifikasi Email, agar Anda bisa mencetak Nota Faktur.</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                 <?php endif; ?>
             </div>
+
+
+            <?php if ($response->body->status_langganan === 'menunggu verifikasi email') : ?>
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <i class="icon fa fa-info"></i>
+                        <h3 class="box-title">Status Registrasi</h3> <a href="<?= site_url('pelanggan/perbarui') ?>" title="Perbarui" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i> Perbarui</a>
+                    </div>
+                    <div class="box-body">
+                        <div class="callout callout-info">
+                            <h5>Silahkan cek email Anda untuk memverifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru.</h5>
+                        </div>
+                    </div>
+                </div>
+            <?php elseif ($response->body->status_langganan === 'menunggu verifikasi pendaftaran') : ?>
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <i class="icon fa fa-info"></i>
+                        <h3 class="box-title">Status Registrasi</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="callout callout-info">
+                            <h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
+                        </div>
+                    </div>
+                </div>
+            <?php endif ?>
             <div class="box box-info">
                 <div class="box-header with-border">
                     <b>Rincian Pelanggan <a href="<?= site_url('pelanggan/perbarui') ?>" title="Perbarui" class="btn btn-social btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-refresh"></i> Perbarui</a></b>
@@ -207,7 +220,7 @@
                                         $server = config_item('server_layanan');
                                         $token  = $this->setting->layanan_opendesa_token;
                                         ?>
-                                        <?php if ($pemesanan->status_pembayaran == 1): ?>
+                                        <?php if ($pemesanan->status_pembayaran == 1 && $response->body->status_langganan === 'terdaftar' || $response->body->status_langganan === 'menunggu verifikasi pendaftaran'): ?>
                                             <a target="_blank" href="<?= "{$server}/api/v1/pelanggan/pemesanan/faktur?invoice={$pemesanan->faktur}&token={$token}" ?>" class="btn btn-social bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Nota Faktur"><i class="fa fa-print"></i>Cetak Nota Faktur</a>
                                         <?php endif; ?>
                                         <a href="#" data-toggle="modal" data-target="<?= "#{$pemesanan->id}" ?>" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bukti Pembayaran"><i class="fa fa-file"></i>Bukti Pembayaran</a>
