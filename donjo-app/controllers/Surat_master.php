@@ -117,7 +117,7 @@ class Surat_master extends Admin_Controller
             if (in_array($suratMaster->jenis, [1, 2])) {
                 $formAction = route('surat_master.update', $id);
                 $kodeIsian  = $this->getKodeIsian($suratMaster->url_surat);
-                $qrCode     = QRCodeExist($suratMaster->url_surat) ? false : true;
+                $qrCode     = QRCodeExist($suratMaster->url_surat);
             } else {
                 $formAction = route('surat_master.update_baru', $id);
                 $kodeIsian  = json_decode($suratMaster->kode_isian);

@@ -136,7 +136,7 @@ class Pamong extends Model
 
         return $query
             ->select(['pamong_id', 'pamong_nama', 'jabatan', 'pamong_nip', 'pamong_niap', 'nama'])
-            ->join('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
+            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
             ->where('pamong_status', 1);
     }
 
