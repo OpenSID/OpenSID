@@ -35,6 +35,9 @@
  *
  */
 
+use App\Models\Config;
+use App\Models\Pamong;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2208 extends MY_model
@@ -44,6 +47,45 @@ class Migrasi_fitur_premium_2208 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2207');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2207');
+        $hasil = $hasil && $this->migrasi_2022070551($hasil);
+
+        return $hasil && $this->migrasi_2022070451($hasil);
+    }
+
+    protected function migrasi_2022070551($hasil)
+    {
+        $config = Config::first();
+
+        if ($config->pamong_id && Pamong::where('pamong_ttd', 1)->count() > 1) {
+            return $hasil && Pamong::whereNotIn('pamong_id', [$config->pamong_id])->update(['pamong_ttd' => 0]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022070451($hasil)
+    {
+        $hasil = $hasil && $this->db
+            ->where('id', 7)
+            ->update('setting_modul', ['url' => '']);
+
+        $hasil = $hasil && $this->db
+            ->where('parent', 7)
+            ->update('setting_modul', ['hidden' => 0]);
+
+        $hasil = $hasil && $this->db
+            ->where([
+                'id'    => 213,
+                'modul' => 'data_persil',
+            ])
+            ->update('setting_modul', [
+                'modul' => 'Daftar Persil',
+                'ikon'  => 'fa-list',
+            ]);
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
     }
 }
