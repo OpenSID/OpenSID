@@ -7,6 +7,19 @@
         </ol>
     </section>
     <section class="content" id="maincontent">
+        <?php if (null === $response) : ?>
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="icon fa fa-ban"></i>
+                    <h3 class="box-title">Tidak Terhubung Dengan Jaringan</h3>
+                </div>
+                <div class="box-body">
+                    <div class="callout callout-danger">
+                        <h5>Data Gagal Dimuat, Harap Periksa Jaringan Anda Telebih Dahulu.</h5>
+                    </div>
+                </div>
+            </div>
+        <?php else : ?>
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Pendaftaran Kerjasama OpenDesa</h3>
@@ -36,7 +49,7 @@
                 </div>
                 <div class="box-body">
                     <div class="callout callout-info">
-                        <h5>Silahkan cek email Anda untuk memverifikasi.</h5>
+                        <h5>Kami telah mengirim link verifikasi ke <?= $response->data->email ?> <br> Silahkan cek email Anda untuk memverifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru.</h5>
                     </div>
                 </div>
             </div>
@@ -48,7 +61,7 @@
                 </div>
                 <div class="box-body">
                     <div class="callout callout-info">
-                        <h5>Dokumen permohonan Desa anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
+                        <h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
                     </div>
                 </div>
             </div>
@@ -65,7 +78,7 @@
                         <label class="col-sm-3 control-label" for="email">Email</label>
                         <div class="col-sm-8">
                             <?php if ($response->data->status_langganan === 'menunggu verifikasi email') : ?>
-                                <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="<?= $response->data->email ?>">
+                                <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="">
                             <?php else : ?>
                                 <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="<?= $response->data->email ?>">
                             <?php endif; ?>
@@ -141,5 +154,6 @@
                 </div>
             </form>
         </div>
+        <?php endif ?>
     </section>
 </div>
