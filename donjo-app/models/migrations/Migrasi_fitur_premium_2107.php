@@ -520,12 +520,12 @@ class Migrasi_fitur_premium_2107 extends MY_Model
 
     protected function migrasi_2021062373($hasil)
     {
-        // insert kolom suku
+        // Tambah kolom suku pada tabel tweb_penduduk
         if (! $this->db->field_exists('suku', 'tweb_penduduk')) {
             $hasil = $hasil && $this->dbforge->add_column('tweb_penduduk', ['suku' => ['type' => 'VARCHAR', 'constraint' => '150', 'null' => true]]);
         }
 
-        // create table master suku
+        // Tambah tabel ref_penduduk_suku
         if (! $this->db->table_exists('ref_penduduk_suku')) {
             $fields = [
                 'id' => [
@@ -545,8 +545,11 @@ class Migrasi_fitur_premium_2107 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_suku', true);
+        }
 
-            // tambahkan data awal
+        if ($this->db->truncate('ref_penduduk_suku')) {
+
+            // Tambahkan data awal tabel ref_penduduk_suku
             $insert_batch = [
                 ['suku' => 'Aceh', 'deskripsi' => 'Aceh'],
                 ['suku' => 'Alas', 'deskripsi' => 'Aceh'],

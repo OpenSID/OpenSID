@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -100,7 +100,7 @@ class Setting_model extends CI_Model
         }
 
         // Ganti token_layanan sesuai config untuk development untuk mempermudah rilis
-        if ((ENVIRONMENT == 'development') && ! empty(config_item('token_layanan'))) {
+        if ((ENVIRONMENT == 'development') || config_item('token_layanan')) {
             $this->setting->layanan_opendesa_token = config_item('token_layanan');
         }
 
@@ -136,7 +136,7 @@ class Setting_model extends CI_Model
         $this->apply_setting();
         // TODO : Jika sudah dipisahkan, buat agar upload gambar dinamis/bisa menyesuaikan dengan kebutuhan tema (u/ Modul Pengaturan Tema)
         if ($data['latar_website'] != '') {
-            $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website());
+            $this->upload_img('latar_website', $this->theme_model->lokasi_latar_website(str_replace('desa/', '', $this->setting->web_theme)));
         } // latar_website
         if ($data['latar_login'] != '') {
             $this->upload_img('latar_login', LATAR_LOGIN);
@@ -269,6 +269,25 @@ class Setting_model extends CI_Model
         }
         $data['lengkap']  = $lengkap;
         $data['ekstensi'] = $ekstensi_wajib;
+
+        return $data;
+    }
+
+    public function disable_functions()
+    {
+        $wajib    = ['exec'];
+        $disabled = explode(',', ini_get('disable_functions'));
+
+        $functions = [];
+        $lengkap   = true;
+
+        foreach ($wajib as $fuc) {
+            $functions[$fuc] = (in_array($fuc, $disabled)) ? false : true;
+            $lengkap         = $lengkap && $functions[$fuc];
+        }
+
+        $data['lengkap']   = $lengkap;
+        $data['functions'] = $functions;
 
         return $data;
     }

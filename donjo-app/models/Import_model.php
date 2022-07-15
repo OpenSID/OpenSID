@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -410,7 +410,7 @@ class Import_model extends CI_Model
 
     protected function tulis_tweb_keluarga(&$isi_baris)
     {
-        // Penduduk dengan no_kk adalah penduduk lepas
+        // Penduduk dengan no_kk kosong adalah penduduk lepas
         if ($isi_baris['no_kk'] == '') {
             return false;
         }
@@ -477,8 +477,7 @@ class Import_model extends CI_Model
             // 2. Cek tempat lahir
             // 3. Cek tgl lahir
             // Jika ke 3 data tsb sama, maka data sebelumnya dianggap sama, selain itu dianggap penduduk yg berbeda/baru
-            $cek_data = $this->db->get_where('tweb_penduduk', ['nama' => $isi_baris['nama'], 'tempatlahir' => $isi_baris['tempatlahir'], 'tanggallahir' => $isi_baris['tanggallahir']])->row_array();
-            log_message('error', 'sama ' . $cek_data['nik']);
+            $cek_data         = $this->db->get_where('tweb_penduduk', ['nama' => $isi_baris['nama'], 'tempatlahir' => $isi_baris['tempatlahir'], 'tanggallahir' => $isi_baris['tanggallahir']])->row_array();
             $isi_baris['nik'] = $cek_data['nik'] ?? $this->penduduk_model->nik_sementara();
         }
 
@@ -542,6 +541,34 @@ class Import_model extends CI_Model
         foreach ($tabel_penduduk as $tabel) {
             $this->db->empty_table($tabel);
         }
+
+        // Hapus peserta bantuan dengan sasaran penduduk, keluarga, rumah tangga, kelompok
+        $program = $this->db
+            ->select('id')
+            ->where_in('sasaran', [1, 2, 3, 4])
+            ->get('program')
+            ->result_array();
+        $this->db
+            ->where_in('program_id', array_column($program, 'id'))
+            ->delete('program_peserta');
+    }
+
+    /** Tidak boleh menghapus data penduduk jika:
+     * dalam demo_mode, atau
+     * status penduduk sudah lengkap
+     * tidak ada lagi data tweb_penduduk contoh awal (created_by = -1)
+     */
+    public function boleh_hapus_penduduk()
+    {
+        $data_awal = $this->db
+            ->from('tweb_penduduk')
+            ->where('created_by <=', 0)
+            ->count_all_results();
+        if (config_item('demo_mode') || $data_awal == 0) {
+            return false;
+        }
+
+        return ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap);
     }
 
     public function import_excel($hapus = false)
@@ -555,8 +582,7 @@ class Import_model extends CI_Model
 
         // Pengguna bisa menentukan apakah data penduduk yang ada dihapus dulu
         // atau tidak sebelum melakukan impor
-        // Tidak boleh menghapus jika dalam demo_mode
-        if ($hapus && ! config_item('demo_mode')) {
+        if ($hapus && $this->boleh_hapus_penduduk()) {
             $this->hapus_data_penduduk();
         }
 

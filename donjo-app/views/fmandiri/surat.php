@@ -57,7 +57,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</div>
 	<div class="box-body">
 		<div class="table-responsive">
-			<?php if ($kat == 1): ?>
+			<?php if ($kat == 1) : ?>
 				<table class="table table-bordered table-hover table-data datatable-polos">
 					<thead>
 						<tr>
@@ -69,25 +69,25 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-						<?php if ($main):
-                            foreach ($main as $key => $data): ?>
+						<?php if ($main) :
+                            foreach ($main as $key => $data) : ?>
 								<tr class="<?= jecho($data['status_id'], 0, 'bg-orange'); ?>">
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td class="aksi">
-										<?php if ($data['status_id'] == 0): ?>
+										<?php if ($data['status_id'] == 0) : ?>
 											<a href="<?= site_url("layanan-mandiri/surat/buat/{$data['id']}"); ?>" class="btn btn-social bg-navy btn-sm" title="Lengkapi Surat" style="width: 170px"><i class="fa fa-info-circle"></i>Lengkapi Surat</a>
-										<?php elseif ($data['status_id'] == 1): ?>
+										<?php elseif ($data['status_id'] == 1) : ?>
 											<a class="btn btn-social btn-info btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-spinner"></i><?= $data['status']; ?></a>
-										<?php elseif ($data['status_id'] == 2): ?>
+										<?php elseif ($data['status_id'] == 2) : ?>
 											<a class="btn btn-social bg-purple btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-edit"></i><?= $data['status']; ?></a>
-										<?php elseif ($data['status_id'] == 3): ?>
+										<?php elseif ($data['status_id'] == 3) : ?>
 											<a class="btn btn-social bg-orange btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-thumbs-o-up"></i><?= $data['status']; ?></a>
-										<?php elseif ($data['status_id'] == 4): ?>
+										<?php elseif ($data['status_id'] == 4) : ?>
 											<a class="btn btn-social btn-success btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
-										<?php else: ?>
+										<?php else : ?>
 											<a class="btn btn-social btn-danger btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
 										<?php endif; ?>
-										<?php if (in_array($data['status_id'], ['0', '1'])): ?>
+										<?php if (in_array($data['status_id'], ['0', '1'])) : ?>
 											<a href="<?= site_url(MANDIRI . "/surat/proses/{$data['id']}"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
 										<?php endif; ?>
 										<?php if ($data['no_antrian'] && $this->cek_anjungan && $printer) : ?>
@@ -95,18 +95,18 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<?php endif ?>
 									</td>
 									<td class="padat"><?= get_antrian($data['no_antrian']) ?? '-'; ?></td>
-									<td><?=$data['jenis_surat']; ?></td>
+									<td><?= $data['jenis_surat']; ?></td>
 									<td class="padat"><?= tgl_indo2($data['created_at']); ?></td>
 								</tr>
 							<?php endforeach;
-                        else: ?>
+                        else : ?>
 							<tr>
 								<td class="text-center" colspan="6">Data tidak tersedia</td>
 							</tr>
 						<?php endif; ?>
 					</tbody>
 				</table>
-			<?php else: ?>
+			<?php else : ?>
 				<table class="table table-bordered table-hover table-data datatable-polos">
 					<thead>
 						<tr>
@@ -118,8 +118,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</tr>
 					</thead>
 					<tbody>
-						<?php if ($main):
-                            foreach ($main as $key => $data): ?>
+						<?php if ($main) :
+                            foreach ($main as $key => $data) : ?>
 								<tr>
 									<td class="padat"><?= ($key + 1); ?></td>
 									<td class="padat"><?= $data['no_surat']; ?></td>
@@ -128,7 +128,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 									<td class="padat"><?= tgl_indo2($data['tanggal']); ?></td>
 								</tr>
 							<?php endforeach;
-                        else: ?>
+                        else : ?>
 							<tr>
 								<td class="text-center" colspan="5">Data tidak tersedia</td>
 							</tr>

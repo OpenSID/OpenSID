@@ -831,8 +831,12 @@ function addPetaPoly(layerpeta)
 	return addPetaPoly;
 }
 
-function addPetaLine(layerpeta)
+function addPetaLine(layerpeta, jenis, tebal, warna)
 {
+	var jenis = jenis ?? 'solid';
+	var tebal = tebal ?? 1;
+	var warna = warna ?? '#A9AAAA';
+
 	layerpeta.on('pm:create', function (e) {
 		var type = e.layerType;
 		var layer = e.layer;
@@ -846,8 +850,9 @@ function addPetaLine(layerpeta)
 			latLngs = layer.getLatLngs();
 
 		var p = latLngs;
-		var polygon = L.polyline(p, { color: '#A9AAAA', weight: 4, opacity: 1, showMeasurements: true, measurementOptions: { showSegmentLength: false } })
-			.addTo(layerpeta)
+		var polygon = L.polyline(p, {
+			color: warna, weight: tebal, opacity: 1, dashArray: jenis_garis(jenis), showMeasurements: true, measurementOptions: { showSegmentLength: false }
+		}).addTo(layerpeta)
 
 		polygon.on('pm:edit', function (e) {
 			document.getElementById('path').value = getLatLong('Line', e.target).toString();
@@ -1069,10 +1074,15 @@ function showCurrentPoint(posisi1, layerpeta)
 	return showCurrentPoint;
 }
 
-function showCurrentLine(wilayah, layerpeta)
+function showCurrentLine(wilayah, layerpeta, jenis, tebal, warna)
 {
-	var poligon_wilayah = L.polyline(wilayah, { showMeasurements: true, measurementOptions: { showSegmentLength: false } })
-		.addTo(layerpeta)
+	var jenis = jenis ?? 'solid';
+	var tebal = tebal ?? 1;
+	var warna = warna ?? '#A9AAAA';
+
+	var poligon_wilayah = L.polyline(wilayah, {
+		color: warna, weight: tebal, opacity: 1, dashArray: jenis_garis(jenis), showMeasurements: true, measurementOptions: { showSegmentLength: false } 
+	}).addTo(layerpeta)
 
 	poligon_wilayah.on('pm:edit', function (e) {
 		document.getElementById('path').value = getLatLong('Line', e.target).toString();
@@ -1325,8 +1335,9 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
 			var garis_style = {
 				stroke: true,
 				opacity: 1,
-				weight: 3,
-				color: daftar[x].color
+				weight: daftar[x].tebal,
+				color: daftar[x].color,
+				dashArray: jenis_garis(daftar[x].jenis_garis)
 			}
 
 			marker.push(turf.lineString(coords, { content: content_garis, style: garis_style }));
@@ -1930,4 +1941,17 @@ function get_path_import(coords, multi = false) {
 	}
 
 	return path;
+}
+
+function jenis_garis(jenis) {
+	if (jenis == 'dotted')  {
+		dashArray = '1,15';
+	} else if (jenis == 'dashed') {
+		dashArray = '10,15';
+	} else {
+		// solid
+		dashArray = '0';
+	}
+
+	return dashArray;
 }

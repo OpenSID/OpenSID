@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -82,13 +82,11 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
         unset($data['file_gambar'], $data['old_gambar']);
 
-        $outp = $this->db->insert('pembangunan_ref_dokumentasi', $data);
-
-        if ($outp) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
+        if ($outp = $this->db->insert('pembangunan_ref_dokumentasi', $data)) {
+            $outp = $outp && $this->perubahan_anggaran($id_pembangunan, $data['persentase'], bilangan($this->input->post('perubahan_anggaran')));
         }
+
+        status_sukses($outp);
     }
 
     public function update($id = 0, $id_pembangunan = 0)
@@ -108,14 +106,11 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
         unset($data['file_gambar'], $data['old_gambar']);
 
-        $this->db->where('id', $id);
-        $outp = $this->db->update('pembangunan_ref_dokumentasi', $data);
-
-        if ($outp) {
-            $_SESSION['success'] = 1;
-        } else {
-            $_SESSION['success'] = -1;
+        if ($outp = $this->db->where('id', $id)->update('pembangunan_ref_dokumentasi', $data)) {
+            $outp = $outp && $this->perubahan_anggaran($id_pembangunan, $data['persentase'], bilangan($this->input->post('perubahan_anggaran')));
         }
+
+        status_sukses($outp);
     }
 
     private function upload_gambar_pembangunan($jenis)
@@ -166,7 +161,13 @@ class Pembangunan_dokumentasi_model extends CI_Model
 
     public function delete($id)
     {
-        return $this->db->where('id', $id)->delete($this->table);
+        $data = $this->find($id);
+
+        if ($outp = $this->db->where('id', $id)->delete($this->table)) {
+            $outp = $outp && $this->perubahan_anggaran($data->id_pembangunan, $data->persentase, 0);
+        }
+
+        status_sukses($outp);
     }
 
     public function find($id)
@@ -182,5 +183,18 @@ class Pembangunan_dokumentasi_model extends CI_Model
             ->order_by('CAST(persentase as UNSIGNED INTEGER)')
             ->get($this->table)
             ->result();
+    }
+
+    public function perubahan_anggaran($id_pembangunan = 0, $persentase = 0, $perubahan_anggaran = 0)
+    {
+        if (in_array($persentase, ['100', '100%'])) {
+            return $this->db
+                ->where('id', $id_pembangunan)
+                ->update('pembangunan', [
+                    'perubahan_anggaran' => $perubahan_anggaran,
+                ]);
+        }
+
+        return true;
     }
 }

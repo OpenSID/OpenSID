@@ -44,11 +44,11 @@
 }
 .btn-group-sm > .btn, .btn-sm
 {
-	line-height: 1.2;
+	line-height: 1;
 }
 .btn-social.btn-sm > :first-child
 {
-	line-height: 25px;
+	line-height: 21px;
 	width: 28px;
 	font-size: 1.4em;
 }

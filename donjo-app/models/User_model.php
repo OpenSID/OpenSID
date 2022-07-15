@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -132,6 +132,7 @@ class User_model extends CI_Model
                 $this->session->siteman      = 1;
                 $this->session->sesi         = $row->session;
                 $this->session->user         = $row->id;
+                $this->session->nama         = $row->nama;
                 $this->session->grup         = $row->id_grup;
                 $this->session->per_page     = 10;
                 $this->session->siteman_wait = 0;
@@ -139,7 +140,7 @@ class User_model extends CI_Model
                 $this->session->fm_key       = $this->set_fm_key($row->id . $row->id_grup . $row->sesi);
                 $this->last_login($this->session->user);
 
-                if (cek_koneksi_internet()) {
+                if (! empty($this->setting->telegram_token) && cek_koneksi_internet()) {
                     try {
                         $this->telegram->sendMessage([
                             'text'       => sprintf('%s login Halaman Admin %s pada tanggal %s', $row->nama, APP_URL, tgl_indo2(date('Y-m-d H:i:s'))),

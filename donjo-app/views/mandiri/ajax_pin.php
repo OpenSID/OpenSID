@@ -44,18 +44,18 @@
 
 <?php $this->load->view('global/validasi_form'); ?>
 <script>
-	$(function () {
+	$(function() {
 		$('.select2').select2()
 	});
 </script>
 <form action="<?= $form_action; ?>" method="post" id="validasi">
 	<div class="modal-body">
-		<?php if (! $id_pend):?>
+		<?php if (! $id_pend) : ?>
 			<div class="form-group">
 				<label for="id_pend">NIK / Nama Penduduk <?= $id_pend; ?></label>
 				<select class="form-control input-sm select2 required" id="id_pend" name="id_pend">
 					<option option value="">-- Silakan Cari NIK - Nama Penduduk --</option>
-					<?php foreach ($penduduk as $data): ?>
+					<?php foreach ($penduduk as $data) : ?>
 						<option value="<?= $data['id']; ?>" <?= selected($id_pend, $data['id']); ?>><?= $data['nik'] . ' - ' . $data['nama']; ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -63,13 +63,39 @@
 		<?php endif; ?>
 		<div class="form-group">
 			<label class="control-label" for="pin">PIN</label>
-			<input id="pin" name="pin" class="form-control input-sm digits" minlength="6" maxlength="6" type="text" placeholder="PIN Warga"></input>
-			<p class="help-block"><code>*) Jika PIN tidak di isi maka sistem akan menghasilkan PIN secara acak.</code></p>
-			<p class="help-block"><code>**) 6 (enam) digit Angka.</code></p>
+			<input id="pin" name="pin" class="form-control input-sm digits" minlength="6" maxlength="6" type="text" placeholder="PIN Warga" <?= ! $id_pend ? '' : 'disabled' ?> style="margin-bottom: 15px;"></input>
+			<?php if (! $id_pend) : ?>
+				<p class="help-block"><code>1. Jika PIN tidak di isi maka sistem akan menghasilkan PIN secara acak.</code></p>
+				<p class="help-block"><code>2. 6 (enam) digit Angka.</code></p>
+			<?php endif; ?>
+			<?php if ($id_pend) : ?>
+				<p class="help-block"><code>1. Sistem akan menghasilkan PIN secara acak dengan cara menekan tombol 'Reset PIN'.</code></p>
+				<p class="help-block"><code>2. PIN berisi 6 (enam) digit Angka.</code></p>
+				<p class="help-block"><code>3. PIN akan dikirimkan ke akun Telegram atau Email yang sudah diverifikasi.</code></p>
+				<p class="help-block"><code>4. Cara Verifikasi Email atau Telegram di menu Verifikasi pada Layanan Mandiri.</code></p>
+			<?php endif; ?>
 		</div>
+
+		<?php if ($tgl_verifikasi) : ?>
+			<div class="form-group">
+				<label style="margin-top: 10px; margin-bottom: 0px;">Kirim PIN Baru Melalui : </label>
+				<div class="checkbox">
+					<label style="font-size: 13.7px;">
+						<input type="checkbox" value="kirim_telegram" id="kirim_telegram" name="kirim_telegram" checked> Telegram
+					</label>
+				</div>
+
+				<div class="checkbox">
+					<label style="font-size: 13.7px;">
+						<input type="checkbox" value="kirim_email" id="kirim_email" name="kirim_email"> Email
+					</label>
+				</div>
+			</div>
+		<?php endif; ?>
+
 	</div>
 	<div class="modal-footer">
 		<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm pull-left"><i class='fa fa-times'></i> Batal</button>
-		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> Simpan</button>
+		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok"><i class='fa fa-check'></i> <?= ! $id_pend ? 'Simpan' : 'Reset PIN' ?></button>
 	</div>
 </form>

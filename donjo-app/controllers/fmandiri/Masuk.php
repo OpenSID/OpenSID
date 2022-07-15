@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -81,6 +81,12 @@ class Masuk extends Web_Controller
             'form_action'         => site_url('layanan-mandiri/cek'),
         ];
 
+        if ($this->setting->tampilan_anjungan == 1) {
+            $this->load->model('first_gallery_m');
+
+            $data['daftar_album'] = $this->first_gallery_m->sub_gallery_show($this->setting->tampilan_anjungan_slider);
+        }
+
         $this->load->view(MANDIRI . '/masuk', $data);
     }
 
@@ -88,5 +94,25 @@ class Masuk extends Web_Controller
     {
         $this->mandiri_model->siteman();
         redirect('layanan-mandiri');
+    }
+
+    public function lupa_pin()
+    {
+        $data = [
+            'header'              => $this->config_model->get_data(),
+            'latar_login_mandiri' => $this->theme_model->latar_login_mandiri(),
+            'cek_anjungan'        => $this->anjungan_model->cek_anjungan($this->session->mac_address),
+            'form_action'         => site_url('layanan-mandiri/cek-pin'),
+        ];
+
+        $this->load->view(MANDIRI . '/lupa_pin', $data);
+    }
+
+    public function cek_pin()
+    {
+        $nik = bilangan($this->input->post('nik'));
+        $this->mandiri_model->cek_verifikasi($nik);
+
+        redirect('layanan-mandiri/lupa-pin');
     }
 }

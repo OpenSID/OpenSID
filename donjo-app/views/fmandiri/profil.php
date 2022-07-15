@@ -44,7 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 ?>
 
 <div class="box box-solid">
-	<div class="box-header with-border bg-aqua">
+	<div class="box-header with-border bg-blue">
 		<h4 class="box-title">Profil</h4>
 	</div>
 	<div class="box-body box-line">
@@ -66,7 +66,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<td><?= strtoupper($penduduk['nama']); ?></td>
 					</tr>
 					<tr>
-						<td>Status Kepemilikan KTP</td><td >:</td>
+						<td>Status Kepemilikan KTP</td>
+						<td>:</td>
 						<td>
 							<table class="table table-bordered table-hover table-data">
 								<tbody>
@@ -87,170 +88,258 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						</td>
 					</tr>
 					<tr>
-						<td>Nomor Kartu Keluarga</td><td >:</td>
+						<td>Nomor Kartu Keluarga</td>
+						<td>:</td>
 						<td>
 							<?= $penduduk['no_kk']; ?>
-							<?php if ($penduduk['status_dasar_id'] != '1' && $penduduk['no_kk'] != $penduduk['log_no_kk']): ?>
+							<?php if ($penduduk['status_dasar_id'] != '1' && $penduduk['no_kk'] != $penduduk['log_no_kk']) : ?>
 								(waktu peristiwa {<?= $penduduk['status_dasar']; ?>}: {<?= $penduduk['log_no_kk']; ?>})
 							<?php endif; ?>
 						</td>
 					</tr>
 					<tr>
-						<td>Nomor KK Sebelumnya</td><td >:</td><td><?= $penduduk['no_kk_sebelumnya']; ?></td>
+						<td>Nomor KK Sebelumnya</td>
+						<td>:</td>
+						<td><?= $penduduk['no_kk_sebelumnya']; ?></td>
 					</tr>
 					<tr>
-						<td>Hubungan Dalam Keluarga</td><td >:</td><td><?= $penduduk['hubungan']; ?></td>
+						<td>Hubungan Dalam Keluarga</td>
+						<td>:</td>
+						<td><?= $penduduk['hubungan']; ?></td>
 					</tr>
 					<tr>
-						<td>Jenis Kelamin</td><td >:</td><td><?= strtoupper($penduduk['sex']); ?></td>
+						<td>Jenis Kelamin</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['sex']); ?></td>
 					</tr>
 					<tr>
-						<td>Agama</td><td >:</td><td><?= strtoupper($penduduk['agama']); ?></td>
+						<td>Agama</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['agama']); ?></td>
 					</tr>
 					<tr>
-						<td>Status Penduduk</td><td >:</td><td><?= strtoupper($penduduk['status']); ?></td>
+						<td>Status Penduduk</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['status']); ?></td>
 					</tr>
 					<tr>
 						<th colspan="3" class="judul">Data Kelahiran</th>
 					</tr>
 					<tr>
-						<td>Akta Kelahiran</td><td >:</td><td><?= strtoupper($penduduk['akta_lahir']); ?></td>
+						<td>Akta Kelahiran</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['akta_lahir']); ?></td>
 					</tr>
 					<tr>
-						<td>Tempat / Tanggal Lahir</td><td >:</td><td><?= strtoupper($penduduk['tempatlahir']); ?> / <?= strtoupper($penduduk['tanggallahir']); ?></td>
+						<td>Tempat / Tanggal Lahir</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['tempatlahir']); ?> / <?= strtoupper($penduduk['tanggallahir']); ?></td>
 					</tr>
 					<tr>
-						<td>Tempat Dilahirkan</td><td >:</td><td><?= $penduduk['tempat_dilahirkan_nama']; ?></td>
+						<td>Tempat Dilahirkan</td>
+						<td>:</td>
+						<td><?= $penduduk['tempat_dilahirkan_nama']; ?></td>
 					</tr>
 					<tr>
-						<td>Jenis Kelahiran</td><td >:</td><td><?= $penduduk['jenis_kelahiran_nama']; ?></td>
+						<td>Jenis Kelahiran</td>
+						<td>:</td>
+						<td><?= $penduduk['jenis_kelahiran_nama']; ?></td>
 					</tr>
 					<tr>
-						<td>Kelahiran Anak Ke</td><td >:</td><td><?= $penduduk['kelahiran_anak_ke']; ?></td>
+						<td>Kelahiran Anak Ke</td>
+						<td>:</td>
+						<td><?= $penduduk['kelahiran_anak_ke']; ?></td>
 					</tr>
 					<tr>
-						<td>Penolong Kelahiran</td><td >:</td><td><?= $penduduk['penolong_kelahiran_nama']; ?></td>
+						<td>Penolong Kelahiran</td>
+						<td>:</td>
+						<td><?= $penduduk['penolong_kelahiran_nama']; ?></td>
 					</tr>
 					<tr>
-						<td>Berat Lahir</td><td >:</td><td><?= $penduduk['berat_lahir']; ?> Gram</td>
+						<td>Berat Lahir</td>
+						<td>:</td>
+						<td><?= $penduduk['berat_lahir']; ?> Gram</td>
 					</tr>
 					<tr>
-						<td>Panjang Lahir</td><td >:</td><td><?= $penduduk['panjang_lahir']; ?> cm</td>
+						<td>Panjang Lahir</td>
+						<td>:</td>
+						<td><?= $penduduk['panjang_lahir']; ?> cm</td>
 					</tr>
 					<tr>
 						<th colspan="3" class="judul">Data Pendidikan dan Pekerjaan</th>
 					</tr>
 					<tr>
-						<td>Pendidikan dalam KK</td><td >:</td><td><?= strtoupper($penduduk['pendidikan_kk']); ?></td>
+						<td>Pendidikan dalam KK</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['pendidikan_kk']); ?></td>
 					</tr>
 					<tr>
-						<td>Pendidikan sedang ditempuh</td><td >:</td><td><?= strtoupper($penduduk['pendidikan_sedang']); ?></td>
+						<td>Pendidikan sedang ditempuh</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['pendidikan_sedang']); ?></td>
 					</tr>
 					<tr>
-						<td>Pekerjaan</td><td >:</td><td><?= strtoupper($penduduk['pekerjaan']); ?></td>
+						<td>Pekerjaan</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['pekerjaan']); ?></td>
 					</tr>
 					<tr>
 						<th colspan="3" class="judul">Data Kewarganegaraan</th>
 					</tr>
 					<tr>
-						<td>Warga Negara</td><td >:</td><td><?= strtoupper($penduduk['warganegara']); ?></td>
+						<td>Warga Negara</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['warganegara']); ?></td>
 					</tr>
 					<tr>
-						<td>Nomor Paspor</td><td >:</td><td><?= strtoupper($penduduk['dokumen_pasport']); ?></td>
+						<td>Nomor Paspor</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['dokumen_pasport']); ?></td>
 					</tr>
 					<tr>
-						<td>Tanggal Berakhir Paspor</td><td >:</td><td><?= strtoupper($penduduk['tanggal_akhir_paspor']); ?></td>
+						<td>Tanggal Berakhir Paspor</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['tanggal_akhir_paspor']); ?></td>
 					</tr>
 					<tr>
-						<td>Nomor KITAS/KITAP</td><td >:</td><td><?= strtoupper($penduduk['dokumen_kitas']); ?></td>
+						<td>Nomor KITAS/KITAP</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['dokumen_kitas']); ?></td>
 					</tr>
 					<tr>
 						<th colspan="3" class="judul">Data Orang Tua</th>
 					</tr>
 					<tr>
-						<td>NIK Ayah</td><td >:</td><td><?= strtoupper($penduduk['ayah_nik']); ?></td>
+						<td>NIK Ayah</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['ayah_nik']); ?></td>
 					</tr>
 					<tr>
-						<td>Nama Ayah</td><td >:</td><td><?= strtoupper($penduduk['nama_ayah']); ?></td>
+						<td>Nama Ayah</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['nama_ayah']); ?></td>
 					</tr>
 					<tr>
-						<td>NIK Ibu</td><td >:</td><td><?= strtoupper($penduduk['ibu_nik']); ?></td>
+						<td>NIK Ibu</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['ibu_nik']); ?></td>
 					</tr>
 					<tr>
-						<td>Nama Ibu</td><td >:</td><td><?= strtoupper($penduduk['nama_ibu']); ?></td>
+						<td>Nama Ibu</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['nama_ibu']); ?></td>
 					</tr>
 					<tr>
 						<th colspan="3" class="judul">Data Alamat</th>
 					</tr>
 					<tr>
-						<td>Nomor Telepon</td><td >:</td><td><?= strtoupper($penduduk['telepon']); ?></td>
+						<td>Nomor Telepon</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['telepon']); ?></td>
 					</tr>
 					<tr>
-						<td>Alamat Email</td><td >:</td><td><?= strtoupper($penduduk['email']); ?></td>
+						<td>Alamat Email</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['email']); ?></td>
 					</tr>
 					<tr>
-						<td>Alamat</td><td >:</td><td><?= strtoupper($penduduk['alamat']); ?></td>
+						<td>Telegram</td>
+						<td>:</td>
+						<td><?= $penduduk['telegram'] ?></td>
 					</tr>
 					<tr>
-						<td>Dusun</td><td >:</td><td><?= strtoupper($penduduk['dusun']); ?></td>
+						<td>Alamat</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['alamat']); ?></td>
 					</tr>
 					<tr>
-						<td>RT/ RW</td><td >:</td><td><?= strtoupper($penduduk['rt']); ?> / <?= $penduduk['rw']; ?></td>
+						<td>Dusun</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['dusun']); ?></td>
 					</tr>
 					<tr>
-						<td>Alamat Sebelumnya</td><td >:</td><td><?= strtoupper($penduduk['alamat_sebelumnya']); ?></td>
+						<td>RT/ RW</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['rt']); ?> / <?= $penduduk['rw']; ?></td>
+					</tr>
+					<tr>
+						<td>Alamat Sebelumnya</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['alamat_sebelumnya']); ?></td>
 					</tr>
 					<tr>
 						<th colspan="3" class="judul">Data Perkawinan</th>
 					</tr>
 					<tr>
-						<td>Status Kawin</td><td >:</td><td><?= strtoupper($penduduk['kawin']); ?></td>
+						<td>Status Kawin</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['kawin']); ?></td>
 					</tr>
-					<?php if ($penduduk['status_kawin'] != 1): ?>
+					<?php if ($penduduk['status_kawin'] != 1) : ?>
 						<tr>
-							<td>Akta perkawinan</td><td >:</td><td><?= strtoupper($penduduk['akta_perkawinan']); ?></td>
+							<td>Akta perkawinan</td>
+							<td>:</td>
+							<td><?= strtoupper($penduduk['akta_perkawinan']); ?></td>
 						</tr>
 						<tr>
-							<td>Tanggal perkawinan</td><td >:</td><td><?= strtoupper($penduduk['tanggalperkawinan']); ?></td>
+							<td>Tanggal perkawinan</td>
+							<td>:</td>
+							<td><?= strtoupper($penduduk['tanggalperkawinan']); ?></td>
 						</tr>
 					<?php endif ?>
-					<?php if ($penduduk['status_kawin'] != 1 && $penduduk['status_kawin'] != 2): ?>
+					<?php if ($penduduk['status_kawin'] != 1 && $penduduk['status_kawin'] != 2) : ?>
 						<tr>
-							<td>Akta perceraian</td><td >:</td><td><?= strtoupper($penduduk['akta_perceraian']); ?></td>
+							<td>Akta perceraian</td>
+							<td>:</td>
+							<td><?= strtoupper($penduduk['akta_perceraian']); ?></td>
 						</tr>
 						<tr>
-							<td>Akta perceraian</td><td >:</td><td><?= strtoupper($penduduk['tanggalperceraian']); ?></td>
+							<td>Akta perceraian</td>
+							<td>:</td>
+							<td><?= strtoupper($penduduk['tanggalperceraian']); ?></td>
 						</tr>
 					<?php endif ?>
 					<tr>
 						<th colspan="3" class="judul">Data Kesehatan</th>
 					</tr>
 					<tr>
-						<td>Golongan Darah</td><td >:</td><td><?= $penduduk['golongan_darah']; ?></td>
+						<td>Golongan Darah</td>
+						<td>:</td>
+						<td><?= $penduduk['golongan_darah']; ?></td>
 					</tr>
 					<tr>
-						<td>Cacat</td><td >:</td><td><?= strtoupper($penduduk['cacat']); ?></td>
+						<td>Cacat</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['cacat']); ?></td>
 					</tr>
 					<tr>
-						<td>Sakit Menahun</td><td >:</td><td><?= strtoupper($penduduk['sakit_menahun']); ?></td>
+						<td>Sakit Menahun</td>
+						<td>:</td>
+						<td><?= strtoupper($penduduk['sakit_menahun']); ?></td>
 					</tr>
-					<?php if ($penduduk['status_kawin'] == 2): ?>
+					<?php if ($penduduk['status_kawin'] == 2) : ?>
 						<tr>
-							<td>Akseptor KB</td><td >:</td><td><?= strtoupper($penduduk['cara_kb']); ?></td>
+							<td>Akseptor KB</td>
+							<td>:</td>
+							<td><?= strtoupper($penduduk['cara_kb']); ?></td>
 						</tr>
 					<?php endif ?>
-					<?php if ($penduduk['id_sex'] == 2): ?>
+					<?php if ($penduduk['id_sex'] == 2) : ?>
 						<tr>
-							<td>Status Kehamilan</td><td >:</td><td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'; ?></td>
+							<td>Status Kehamilan</td>
+							<td>:</td>
+							<td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'; ?></td>
 						</tr>
 					<?php endif; ?>
 					<tr>
-						<td>Nama Asuransi</td><td >:</td><td><?= $penduduk['asuransi']; ?></td>
+						<td>Nama Asuransi</td>
+						<td>:</td>
+						<td><?= $penduduk['asuransi']; ?></td>
 					</tr>
-					<?php if (! empty($penduduk['id_asuransi']) && $penduduk['id_asuransi'] != '1'): ?>
+					<?php if (! empty($penduduk['id_asuransi']) && $penduduk['id_asuransi'] != '1') : ?>
 						<tr>
 							<td><?= ($penduduk['id_asuransi'] == '99') ? 'Nama/nomor Asuransi' : 'No Asuransi' ?></td>
-							<td >:</td>
+							<td>:</td>
 							<td><?= strtoupper($penduduk['no_asuransi']); ?></td>
 						</tr>
 					<?php endif; ?>
@@ -262,7 +351,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<div class="box-body box-line">
 		<h4><b>KEANGGOTAAN KELOMPOK</b></h4>
 		<div class="table-responsive">
-		<table class="table table-bordered table-hover table-data datatable-polos">
+			<table class="table table-bordered table-hover table-data datatable-polos">
 				<thead>
 					<tr>
 						<th width="padat">No</th>
@@ -271,15 +360,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ($kelompok):
-                            foreach ($kelompok as $key => $data): ?>
+					<?php if ($kelompok) :
+                        foreach ($kelompok as $key => $data) : ?>
 							<tr>
 								<td><?= ($key + 1); ?></td>
 								<td><?= $data['nama']; ?></td>
-								<td ><?= $data['kategori']; ?></td>
+								<td><?= $data['kategori']; ?></td>
 							</tr>
 						<?php endforeach;
-                    else: ?>
+                    else : ?>
 						<tr>
 							<td class="text-center" colspan="3">Data tidak tersedia</td>
 						</tr>
@@ -302,8 +391,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</tr>
 				</thead>
 				<tbody>
-					<?php if ($dokumen):
-                        foreach ($dokumen as $key => $data): ?>
+					<?php if ($dokumen) :
+                        foreach ($dokumen as $key => $data) : ?>
 							<tr>
 								<td class="padat"><?= ($key + 1); ?></td>
 								<td class="padat">
@@ -313,13 +402,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td nowrap><?= tgl_indo2($data['tgl_upload']); ?></td>
 							</tr>
 						<?php endforeach;
-                    else: ?>
+                    else : ?>
 						<tr>
 							<td class="text-center" colspan="4">Data tidak tersedia</td>
 						</tr>
-				<?php endif; ?>
-				</table>
+					<?php endif; ?>
+			</table>
 			</tbody>
-		</table>
+			</table>
+		</div>
 	</div>
-</div>

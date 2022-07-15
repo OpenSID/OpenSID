@@ -7,7 +7,7 @@
 <?php $this->load->view($folder_themes.'/layouts/header.php');?>
       <div id="contentwrapper" class="web">
           <div class="innertube">
-            <?php if (in_array($halaman_statis, ['lapak/index', 'pembangunan/index', 'pembangunan/detail'])): ?>
+            <?php if (in_array($halaman_statis, ['lapak/index', 'pembangunan/index', 'pembangunan/detail', 'pengaduan/index'])): ?>
               <?php $this->load->view(Web_Controller::fallback_default($this->theme, '/partials/' . $halaman_statis . '.php')); ?>
             <?php else: ?>
               <?php $this->load->view($halaman_statis); ?>

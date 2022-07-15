@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,11 +39,14 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mandiri_model extends CI_Model
 {
+    protected $table = 'tweb_penduduk_mandiri';
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('anjungan_model');
         $this->cek_anjungan = $this->anjungan_model->cek_anjungan();
+        $this->load->library('OTP/OTP_manager', null, 'otp_library');
     }
 
     public function autocomplete()
@@ -102,23 +105,40 @@ class Mandiri_model extends CI_Model
         $this->list_data_sql();
 
         switch ($o) {
-            case 1: $this->db->order_by('p.nik'); break;
+            case 1:
+                $this->db->order_by('p.nik');
+                break;
 
-            case 2: $this->db->order_by('p.nik', DESC); break;
+            case 2:
+                $this->db->order_by('p.nik', 'DESC');
+                break;
 
-            case 3: $this->db->order_by('p.nama'); break;
+            case 3:
+                $this->db->order_by('p.nama');
+                break;
 
-            case 4: $this->db->order_by('p.nama', DESC); break;
+            case 4:
+                $this->db->order_by('p.nama', 'DESC');
+                break;
 
-            case 5: $this->db->order_by('pm.tanggal_buat'); break;
+            case 5:
+                $this->db->order_by('pm.tanggal_buat');
+                break;
 
-            case 6: $this->db->order_by('pm.tanggal_buat', DESC); break;
+            case 6:
+                $this->db->order_by('pm.tanggal_buat', 'DESC');
+                break;
 
-            case 7: $this->db->order_by('pm.last_login'); break;
+            case 7:
+                $this->db->order_by('pm.last_login');
+                break;
 
-            case 8: $this->db->order_by('pm.last_login', DESC); break;
+            case 8:
+                $this->db->order_by('pm.last_login', 'DESC');
+                break;
 
-            default: '';
+            default:
+                '';
         }
 
         $this->db->limit($limit, $offset);
@@ -126,7 +146,7 @@ class Mandiri_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
-    private function generate_pin($pin = '')
+    private function generate_pin()
     {
         $pin = mt_rand(100000, 999999);
 
@@ -136,7 +156,7 @@ class Mandiri_model extends CI_Model
     public function insert()
     {
         $post = $this->input->post();
-        $pin  = bilangan($post['pin'] ?: $this->generate_pin($post['pin']));
+        $pin  = bilangan($post['pin'] ?: $this->generate_pin());
 
         $data['pin']          = hash_pin($pin); // Hash PIN
         $data['tanggal_buat'] = date('Y-m-d H:i:s');
@@ -149,16 +169,18 @@ class Mandiri_model extends CI_Model
         $flash        = $this->get_mandiri($data['id_pend']);
         $flash['pin'] = $pin; // Normal PIN
         $this->session->set_flashdata('info', $flash);
+        $this->session->set_flashdata('tampilkan_pin', $flash);
     }
 
     public function update($id_pend = null)
     {
         $post = $this->input->post();
-        $pin  = bilangan($post['pin'] ?: $this->generate_pin($post['pin']));
+        $pin  = bilangan($post['pin'] ?? $this->generate_pin());
 
         $data['pin']       = hash_pin($pin); // Hash PIN
         $data['ganti_pin'] = 1;
-        $outp              = $this->db->where('id_pend', $id_pend)->update('tweb_penduduk_mandiri', $data);
+
+        $kirim_telegram = $post['kirim_telegram'];
 
         status_sukses($data); //Tampilkan Pesan
 
@@ -166,6 +188,33 @@ class Mandiri_model extends CI_Model
         $flash        = $this->get_mandiri($id_pend);
         $flash['pin'] = $pin; // Normal PIN
         $this->session->set_flashdata('info', $flash);
+
+        switch (true) {
+            case $post['kirim_telegram']:
+                $data['ganti_pin'] = 0;
+                $telegramID        = $this->db->where('id', $id_pend)->get('penduduk_hidup')->row()->telegram;
+
+                try {
+                    $this->otp_library->driver('telegram')->kirim_pin_baru($telegramID, $pin);
+
+                    $this->session->set_flashdata('notif_kirim_telegram', [
+                        'status' => 1,
+                        'pesan'  => 'PIN Baru sudah dikirim ke Akun Telegram Anda',
+                    ]);
+                } catch (\Exception $e) {
+                    log_message('error', $e);
+                }
+                break;
+
+            case $post['kirim_email']:
+                break;
+
+            default:
+                $this->session->set_flashdata('tampilkan_pin', $flash);
+                break;
+        }
+
+        $outp = $this->db->where('id_pend', $id_pend)->update('tweb_penduduk_mandiri', $data);
     }
 
     public function delete($id_pend = '', $semua = false)
@@ -402,6 +451,8 @@ class Mandiri_model extends CI_Model
         $pin_baru1 = hash_pin(bilangan($ganti['pin_baru1']));
         $pin_baru2 = hash_pin(bilangan($ganti['pin_baru2']));
 
+        $kirim_telegram = $ganti['kirim_telegram'];
+
         // Ganti password
         $pin = $this->db
             ->select('pin')
@@ -436,8 +487,18 @@ class Mandiri_model extends CI_Model
                 $respon = [
                     'status' => 1, // Notif berhasil
                     'aksi'   => site_url('layanan-mandiri/keluar'),
-                    'pesan'  => 'PIN berhasil diganti, silahkan masuk kembali',
+                    'pesan'  => 'PIN berhasil diganti, silahkan masuk kembali dengan Kode PIN : ' . $ganti['pin_baru2'],
                 ];
+
+                if ($kirim_telegram == 'kirim_telegram') {
+                    $telegramID = $this->db->where('id', $id_pend)->get('penduduk_hidup')->row()->telegram;
+
+                    try {
+                        $this->otp_library->driver('telegram')->kirim_pin_baru($telegramID, $ganti['pin_baru2']);
+                    } catch (\Exception $e) {
+                        log_message('error', $e);
+                    }
+                }
                 break;
         }
         $this->session->set_flashdata('notif', $respon);
@@ -446,5 +507,46 @@ class Mandiri_model extends CI_Model
     public function jml_mandiri()
     {
         return $this->db->get('tweb_penduduk_mandiri')->num_rows();
+    }
+
+    public function cek_verifikasi($nik = 0)
+    {
+        $data = $this->db
+            ->select('p.id, p.telegram')
+            ->from("{$this->table} pm")
+            ->join('penduduk_hidup p', 'p.id = pm.id_pend', 'left')
+            ->where('p.nik', $nik)
+            ->where('p.telegram_tgl_verifikasi !=', null)
+            ->get()
+            ->row();
+
+        switch (true) {
+            case $data:
+                $pin_baru = $this->generate_pin();
+
+                $this->otp_library->driver('telegram')->kirim_pin_baru($data->telegram, $pin_baru);
+
+                $this->db->where('id_pend', $data->id)->update($this->table, ['pin' => hash_pin($pin_baru), 'ganti_pin' => 0]);
+
+                $respon = [
+                    'status' => 1, // Notif berhasil
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun Telegram anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun Telegram anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
+                ];
+                break;
+
+            case $this->session->mandiri_try > 2:
+                $this->session->mandiri_try = $this->session->mandiri_try - 1;
+                $respon                     = [
+                    'status' => -1, // Notif gagal
+                    'pesan'  => 'Informasi reset PIN telah dikirim ke akun Telegram anda. Jika anda tidak menerima pesan itu, periksa ulang NIK yang diisi dan pastikan akun Telegram anda di OpenSID telah diverifikasi. Silakan hubungi Operator Desa untuk penjelasan lebih lanjut.',
+                ];
+                break;
+
+            default:
+                $this->session->mandiri_wait = 1;
+                break;
+        }
+
+        $this->session->set_flashdata('lupa_pin', $respon);
     }
 }

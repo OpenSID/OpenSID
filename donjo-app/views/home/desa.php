@@ -44,7 +44,7 @@
 	<section class='content-header'>
 		<h1>Tentang OpenSID</h1>
 		<ol class='breadcrumb'>
-			<li><a href='<?=site_url()?>'><i class='fa fa-home'></i> Home</a></li>
+			<li><a href='<?= site_url('hom_sid') ?>'><i class='fa fa-home'></i> Home</a></li>
 			<li class='active'>Tentang OpenSID</li>
 		</ol>
 	</section>
@@ -60,7 +60,7 @@
 						<button class="btn btn-social btn-flat btn-info btn-sm" data-toggle="modal" data-target="#modal-catatan-rilis">
 							<i class="fa fa-book"></i> Catatan Rilis
 						</button>
-						<a href="https://github.com/OpenSID/OpenSID/archive/<?=$latest_version ?>.zip" class="btn btn-social btn-flat bg-navy btn-sm" style="text-decoration: none">
+						<a href="<?= $url_download; ?>" class="btn btn-social btn-flat bg-navy btn-sm" style="text-decoration: none">
 							<i class="fa fa-download none"></i> Unduh
 						</a>
 					</div>
@@ -162,9 +162,7 @@
 							<div class="col-lg-4 col-xs-4">
 								<div class="small-box bg-gray">
 									<div class="inner">
-										<?php foreach ($rtm as $data): ?>
-											<h3><?=$data['jumlah']?></h3>
-										<?php endforeach; ?>
+										<h3><?=$rtm?></h3>
 										<p>Rumah Tangga</p>
 									</div>
 									<div class="icon">

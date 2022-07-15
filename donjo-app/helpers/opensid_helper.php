@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.07');
+define('VERSION', '22.07-pasca');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -51,7 +51,9 @@ define('VERSION', '22.07');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022070101');
+define('VERSI_DATABASE', '2022080101');
+
+// Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
 define('LOKASI_ARSIP', 'desa/arsip/');
 define('LOKASI_CONFIG_DESA', 'desa/config/');
@@ -72,14 +74,16 @@ define('LOKASI_GAMBAR_WIDGET', 'desa/upload/widgets/');
 define('LOKASI_KEUANGAN_ZIP', 'desa/upload/keuangan/');
 define('LOKASI_MEDIA', 'desa/upload/media/');
 define('LOKASI_SIMBOL_LOKASI', 'desa/upload/gis/lokasi/point/');
-define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
-define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
 define('LOKASI_SINKRONISASI_ZIP', 'desa/upload/sinkronisasi/');
-define('PENDAPAT', 'assets/images/layanan_mandiri/');
 define('LOKASI_PRODUK', 'desa/upload/produk/');
-
-// Pengaturan Latar
+define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
+define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+
+// Sistem
+define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
+define('LOKASI_SIMBOL_LOKASI_DEF', 'assets/images/gis/point/');
+define('PENDAPAT', 'assets/images/layanan_mandiri/');
 
 // Kode laporan statistik
 define('JUMLAH', 666);
@@ -170,6 +174,8 @@ define('NILAI_PENDAPAT', serialize([
  */
 function AmbilVersi()
 {
+    define('PREMIUM', preg_match('/-premium.*/', VERSION) ? true : false);
+
     return VERSION;
 }
 
@@ -462,9 +468,10 @@ function max_upload()
 function get_external_ip()
 {
     // Batasi waktu mencoba
-    $options = stream_context_create(['http' => [
-        'timeout' => 2, //2 seconds
-    ],
+    $options = stream_context_create([
+        'http' => [
+            'timeout' => 2, //2 seconds
+        ],
     ]);
     $externalContent = file_get_contents('http://checkip.dyndns.com/', false, $options);
     preg_match('/\b(?:\d{1,3}\.){3}\d{1,3}\b/', $externalContent, $m);
@@ -474,14 +481,20 @@ function get_external_ip()
 
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
-function xcopy($src = '', $dest = '', $exclude = [], $only = [])
+function xcopy($src = '', $dest = '', $exclude = [])
 {
+    if (! file_exists($dest)) {
+        mkdir($dest, 0755, true);
+    }
+
     foreach (scandir($src) as $file) {
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
-        if (! is_readable($srcfile)) {
+
+        if (! is_readable($srcfile) || in_array($file, $exclude)) {
             continue;
         }
+
         if ($file != '.' && $file != '..') {
             if (is_dir($srcfile)) {
                 if (! file_exists($destfile)) {
@@ -539,10 +552,7 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
         if ($redirect_url) {
             redirect($redirect_url);
         } else {
-            http_response_code(404);
-            include FCPATH . 'donjo-app/views/errors/html/error_404.php';
-
-            exit();
+            show_404();
         }
     }
     // OK, berkas ada. Ambil konten berkasnya
@@ -561,7 +571,36 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
     // Kalau $tampil, tampilkan secara inline.
     if ($tampil) {
         // Set the default MIME type to send
-        $mime = get_extension($nama_berkas) == '.pdf' ? 'application/pdf' : 'application/octet-stream';
+        switch (get_extension($nama_berkas)) {
+            case '.gif':
+                $mime = 'image/gif';
+                break;
+
+            case '.png':
+                $mime = 'image/png';
+                break;
+
+            case '.jpeg':
+                $mime = 'image/jpeg';
+                break;
+
+            case '.jpg':
+                $mime = 'image/jpeg';
+                break;
+
+            case '.svg':
+                $mime = 'image/svg+xml';
+                break;
+
+            case '.pdf':
+                $mime = 'application/pdf';
+                break;
+
+            default:
+                $mime = 'application/octet-stream';
+                break;
+        }
+
         // Generate the server headers
         header('Content-Type: ' . $mime);
         header('Content-Disposition: inline; filename="' . $nama_berkas . '"');
@@ -570,7 +609,7 @@ function ambilBerkas($nama_berkas, $redirect_url = null, $unique_id = null, $lok
         header('Content-Length: ' . strlen($data));
         header('Cache-Control: private, no-transform, no-store, must-revalidate');
 
-        exit($data);
+        return readfile($pathBerkas);
     }
 
     force_download($nama_berkas, $data);
@@ -741,6 +780,12 @@ function alfanumerik_kolon($str)
     return preg_replace('/[^a-zA-Z0-9:]/', '', strip_tags($str));
 }
 
+//hanya berisi karakter alfanumerik dan titik
+function alfanumerik_titik($str)
+{
+    return preg_replace('/[^a-zA-Z0-9\.]/', '', strip_tags($str));
+}
+
 function nomor_surat_keputusan($str)
 {
     return preg_replace('/[^a-zA-Z0-9 \.\-\/]/', '', $str);
@@ -782,11 +827,11 @@ function alamat_web($str)
     return preg_replace('/[^a-zA-Z0-9:\\/\\.\\-]/', '', htmlentities($str));
 }
 
-// Format wanrna #803c3c
+// Format wanrna #803c3c dan rgba(131,127,127,1)
 if (! function_exists('warna')) {
     function warna($str)
     {
-        return preg_replace('/[^a-zA-Z0-9\\#]/', '', $str ?? '#000000');
+        return preg_replace('/[^a-zA-Z0-9\\#\\,\\(\\)]/', '', $str ?? '#000000');
     }
 }
 
@@ -882,50 +927,50 @@ function convertToBytes(string $from)
     return $number * (1024 ** $exponent);
 }
 
-    /**
-     * Disalin dari FeedParser.php
-     * Load the whole contents of a web page
-     *
-     * @param    string
-     * @param mixed $url
-     *
-     * @return string
-     */
-    function getUrlContent($url)
-    {
-        if (empty($url)) {
-            throw new Exception('URL to parse is empty!.');
-
-            return false;
-        }
-        if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
-            throw new Exception('URL harus http atau https');
-
-            return false;
-        }
-        if ($content = @file_get_contents($url)) {
-            return $content;
-        }
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        $content = curl_exec($ch);
-        $error   = curl_error($ch);
-
-        curl_close($ch);
-
-        if (empty($error)) {
-            return $content;
-        }
-
-        log_message('error', "Error occured while loading url by cURL. <br />\n" . $error);
+/**
+ * Disalin dari FeedParser.php
+ * Load the whole contents of a web page
+ *
+ * @param    string
+ * @param mixed $url
+ *
+ * @return string
+ */
+function getUrlContent($url)
+{
+    if (empty($url)) {
+        throw new Exception('URL to parse is empty!.');
 
         return false;
     }
+    if (! in_array(explode(':', $url)[0], ['http', 'https'])) {
+        throw new Exception('URL harus http atau https');
+
+        return false;
+    }
+    if ($content = @file_get_contents($url)) {
+        return $content;
+    }
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $content = curl_exec($ch);
+    $error   = curl_error($ch);
+
+    curl_close($ch);
+
+    if (empty($error)) {
+        return $content;
+    }
+
+    log_message('error', "Error occured while loading url by cURL. <br />\n" . $error);
+
+    return false;
+}
 
 function crawler()
 {
@@ -1046,4 +1091,12 @@ function unique_slug($tabel = null, $str = null)
     }
 
     return null;
+}
+
+// Kode format lampiran surat
+function kode_format($lampiran = '')
+{
+    $str = strtoupper(str_replace('.php', '', $lampiran));
+
+    return str_replace(',', ', ', $str);
 }

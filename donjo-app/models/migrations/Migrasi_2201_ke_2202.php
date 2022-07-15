@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  *
  * File ini bagian dari:
  *
@@ -32,8 +32,12 @@
  * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
+ *
  */
-class Migrasi_2201_ke_2202 extends MY_model
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Migrasi_2201_ke_2202 extends MY_Model
 {
     public function up()
     {
