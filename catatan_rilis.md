@@ -3,7 +3,7 @@ Di rilis ini, versi 22.07-premium-beta01 menyediakan [untuk diisi]. Rilis ini ju
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
-
+1. [#5311](https://github.com/OpenSID/OpenSID/issues/5311) [Cache Blade] Bersihkan Cache Blade Setiap Selesai Migrasi 
 
 
 
