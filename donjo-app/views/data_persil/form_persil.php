@@ -168,6 +168,8 @@
 
 	var infoWindow;
 	$(document).ready(function() {
+		var tampil_luas = '<?= $this->setting->tampil_luas_peta ?>';
+
 		// tampilkan map
 		<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
 			var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
@@ -235,7 +237,7 @@
 		geoLocation(peta_area);
 
 		//Menambahkan Peta wilayah
-		addPetaPoly(peta_area);
+		addPetaPoly(peta_area, tampil_luas);
 
 		// deklrasi variabel agar mudah di baca
 		var all_area = '<?= addslashes(json_encode($all_area)) ?>';
