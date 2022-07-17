@@ -48,8 +48,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<div class="modal-body">
 		<div class="form-group">
 			<label for="program_bantuan">Program Bantuan</label>
-			<select class="form-control input-sm" name="program_bantuan">
-				<option value="">Pilih Program Bantuan</option>
+			<select class="form-control input-sm select2" name="program_bantuan">
+				<option value="<?= JUMLAH ?>">Penduduk Penerima Bantuan</option>
+				<option value="<?= BELUM_MENGISI ?>">Penduduk Bukan Penerima Bantuan</option>
 				<?php foreach ($program_bantuan as $data): ?>
 					<option value="<?= $data['id']?>" <?= selected($id_program, $data['id']); ?>><?= $data['nama']; ?></option>
 				<?php endforeach; ?>
