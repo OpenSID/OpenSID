@@ -56,6 +56,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 </div>
 <script>
 	window.onload = function() {
+		var mapbox_key = '<?= $this->setting->mapbox_key; ?>';
+		var jenis_peta = '<?= $this->setting->jenis_peta; ?>';
+
 		<?php if (! empty($data->lat) && ! empty($data->lng)) : ?>
 			var posisi = [<?= $data->lat . ',' . $data->lng ?>];
 			var zoom = 16;
@@ -101,7 +104,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_lokasi, '<?= $this->setting->mapbox_key ?>');
+		var baseLayers = getBaseLayers(peta_lokasi, mapbox_key, jenis_peta);
 
 		//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
 		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url() ?>assets/images/folder.svg" alt="file icon"/>';

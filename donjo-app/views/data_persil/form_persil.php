@@ -168,6 +168,9 @@
 
 	var infoWindow;
 	$(document).ready(function() {
+		var mapbox_key = '<?= $this->setting->mapbox_key; ?>';
+		var jenis_peta = '<?= $this->setting->jenis_peta; ?>';
+
 		// tampilkan map
 		<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
 			var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
@@ -213,7 +216,7 @@
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_area, '<?=$this->setting->mapbox_key?>');
+		var baseLayers = getBaseLayers(peta_area, mapbox_key, jenis_peta);
 
 			if ($('input[name="path"]').val() !== '' ) {
 				var wilayah = JSON.parse($('input[name="path"]').val());

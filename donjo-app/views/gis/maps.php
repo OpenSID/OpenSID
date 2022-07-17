@@ -13,6 +13,9 @@
 		(function() {
 				var infoWindow;
 				window.onload = function() {
+						var mapbox_key = '<?= $this->setting->mapbox_key; ?>';
+						var jenis_peta = '<?= $this->setting->jenis_peta; ?>';
+
 						<?php if (! empty($desa['lat']) && ! empty($desa['lng'])) : ?>
 								var posisi = [<?= $desa['lat'] . ',' . $desa['lng'] ?>];
 								var zoom = <?= $desa['zoom'] ?: 10 ?>;
@@ -66,7 +69,7 @@
 						var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>");
 
 						//Menampilkan BaseLayers Peta
-						var baseLayers = getBaseLayers(mymap, '<?= $this->setting->mapbox_key ?>');
+						var baseLayers = getBaseLayers(mymap, mapbox_key, jenis_peta);
 
 						//Geolocation IP Route/GPS
 						geoLocation(mymap);

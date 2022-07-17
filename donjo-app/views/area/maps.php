@@ -45,6 +45,9 @@
 <?php $this->load->view('global/konfirmasi'); ?>
 <script>
 	window.onload = function() {
+		var mapbox_key = '<?= $this->setting->mapbox_key; ?>';
+		var jenis_peta = '<?= $this->setting->jenis_peta; ?>';
+
 		<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
 			var posisi = [<?=$desa['lat'] . ', ' . $desa['lng']?>];
 			var zoom = <?=$desa['zoom'] ?: 18?>;
@@ -91,7 +94,7 @@
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_area, '<?=$this->setting->mapbox_key?>');
+		var baseLayers = getBaseLayers(peta_area, mapbox_key, jenis_peta);
 
 		//Menampilkan Peta wilayah yg sudah ada
 		<?php if (! empty($area['path'])): ?>
