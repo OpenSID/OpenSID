@@ -703,7 +703,7 @@ class Penduduk_model extends MY_Model
         } //default WNI
 
         // Hanya status 'kawin' yang boleh jadi akseptor kb
-        if ($data['status_kawin'] != 2 || ! in_array($data['cara_kb_id'], [1, 2, 3, 4, 5, 6, 7, 99])) {
+        if ($data['status_kawin'] != 2 || ! in_array($data['cara_kb_id'], [1, 2, 3, 4, 5, 6, 7, 99, 100])) {
             $data['cara_kb_id'] = null;
         }
         // Status hamil tidak berlaku bagi laki-laki
