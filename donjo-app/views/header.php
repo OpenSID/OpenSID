@@ -40,6 +40,8 @@
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/AdminLTE.min.css">
 		<!-- AdminLTE Skins. -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/skins/_all-skins.min.css">
+		<link rel="stylesheet" href="<?= base_url()?>assets/bootstrap/css/bootstrap-datetimepicker.min.css">
+
 		<!-- Style Admin Modification Css -->
 		<!-- Token Field -->
 		<?php if ($this->controller == 'bumindes_kader'): ?>
