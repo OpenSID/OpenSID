@@ -49,7 +49,7 @@ class Dpt extends Admin_Controller
         $this->modul_ini     = 2;
         $this->sub_modul_ini = 26;
         $this->set_page      = ['20', '50', '100'];
-        $this->list_session  = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk'];
+        $this->list_session  = ['cari', 'sex', 'dusun', 'rw', 'rt', 'tanggal_pemilihan', 'umurx', 'umur_min', 'umur_max', 'cacatx', 'menahunx', 'pekerjaan_id', 'status', 'agama', 'pendidikan_sedang_id', 'pendidikan_kk_id', 'status_penduduk', 'tag_id_card'];
     }
 
     public function clear()
@@ -141,6 +141,7 @@ class Dpt extends Admin_Controller
         $data['list_pekerjaan']       = $this->referensi_model->list_data('tweb_penduduk_pekerjaan');
         $data['list_status_kawin']    = $this->referensi_model->list_data('tweb_penduduk_kawin');
         $data['list_status_penduduk'] = $this->referensi_model->list_data('tweb_penduduk_status');
+        $data['tampil_tag_id_card']   = true;
         $data['form_action']          = site_url("{$this->controller}/adv_search_proses");
 
         $this->load->view('sid/kependudukan/ajax_adv_search_form', $data);

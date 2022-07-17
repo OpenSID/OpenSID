@@ -156,6 +156,17 @@ class Penduduk_model extends MY_Model
         }
     }
 
+    protected function tag_id_card_sql()
+    {
+        $tag_id_card = $this->session->tag_id_card;
+
+        if ($tag_id_card == '1') {
+            $this->db->where('u.tag_id_card !=', null);
+        } elseif ($tag_id_card == '2') {
+            $this->db->where('u.tag_id_card', null);
+        }
+    }
+
     protected function umur_max_sql()
     {
         $kf = $this->session->umur_max;

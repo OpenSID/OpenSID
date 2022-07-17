@@ -123,7 +123,7 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<div class="table-responsive">
-													<table class="table table-bordered dataTable table-striped table-hover nowrap">
+													<table class="table table-bordered dataTable table-striped table-hover tabel-daftar">
 														<thead class="bg-gray disabled color-palette">
 															<tr>
 																<th>No</th>
@@ -134,6 +134,7 @@
 																<?php else: ?>
 																	<th><a href="<?= site_url("dpt/index/{$p}/1")?>">NIK <i class='fa fa-sort fa-sm'></i></a></th>
 																<?php endif; ?>
+																<th>Tag ID Card</th>
 																<?php if ($o == 4): ?>
 																	<th nowrap><a href="<?= site_url("dpt/index/{$p}/3")?>">Nama <i class='fa fa-sort-asc fa-sm'></i></a></th>
 																<?php elseif ($o == 3): ?>
@@ -165,24 +166,31 @@
 															</tr>
 														</thead>
 														<tbody>
-															<?php foreach ($main as $data): ?>
+															<?php if ($main): ?>
+																<?php foreach ($main as $key => $data): ?>
+																	<tr>
+																		<td><?= $data['no']?></td>
+																		<td>
+																			<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
+																		</td>
+																		<td nowrap><?= $data['tag_id_card']; ?></td>
+																		<td><?= strtoupper($data['nama'])?></td>
+																		<td><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}")?>"><?= $data['no_kk']?> </a></td>
+																		<td><?= strtoupper($data['alamat'])?></td>
+																		<td><?= strtoupper($data['dusun'])?></td>
+																		<td><?= $data['rw']?></td>
+																		<td><?= $data['rt']?></td>
+																		<td><?= $data['pendidikan']?></td>
+																		<td><?= $data['umur_pada_pemilihan']?></td>
+																		<td><?= $data['pekerjaan']?></td>
+																		<td><?= $data['kawin']?></td>
+																	</tr>
+																<?php endforeach; ?>
+															<?php else: ?>
 																<tr>
-																	<td><?= $data['no']?></td>
-																	<td>
-																		<a href="<?= site_url("penduduk/detail/{$p}/{$o}/{$data['id']}")?>" id="test" name="<?= $data['id']?>"><?= $data['nik']?></a>
-																	</td>
-																	<td><?= strtoupper($data['nama'])?></td>
-																	<td><a href="<?= site_url("keluarga/kartu_keluarga/{$p}/{$o}/{$data['id_kk']}")?>"><?= $data['no_kk']?> </a></td>
-																	<td><?= strtoupper($data['alamat'])?></td>
-																	<td><?= strtoupper($data['dusun'])?></td>
-																	<td><?= $data['rw']?></td>
-																	<td><?= $data['rt']?></td>
-																	<td><?= $data['pendidikan']?></td>
-																	<td><?= $data['umur_pada_pemilihan']?></td>
-																	<td><?= $data['pekerjaan']?></td>
-																	<td><?= $data['kawin']?></td>
+																	<td class="text-center" colspan="20">Data Tidak Tersedia</td>
 																</tr>
-															<?php endforeach; ?>
+															<?php endif; ?>
 														</tbody>
 													</table>
 												</div>
