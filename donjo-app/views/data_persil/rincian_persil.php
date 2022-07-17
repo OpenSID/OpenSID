@@ -107,22 +107,24 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		var tampil_luas = '<?= $this->setting->tampil_luas_peta ?>';
+
 		// tampilkan map
 		<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
-  		var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
-  		var zoom = <?=$desa['zoom'] ?: 18?>;
-  	<?php else: ?>
-  		var posisi = [-1.0546279422758742,116.71875000000001];
-  		var zoom = 4;
-  	<?php endif; ?>
-  	var peta_area = L.map('map').setView(posisi, zoom);
+			var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
+			var zoom = <?=$desa['zoom'] ?: 18?>;
+		<?php else: ?>
+			var posisi = [-1.0546279422758742,116.71875000000001];
+			var zoom = 4;
+		<?php endif; ?>
+		var peta_area = L.map('map').setView(posisi, zoom);
 
 		//Menampilkan BaseLayers Peta
 		var baseLayers = getBaseLayers(peta_area, '');
 
 		if ($('input[name="path"]').val() !== '' ) {
 			var wilayah = JSON.parse($('input[name="path"]').val());
- 			showCurrentArea(wilayah, peta_area);
+			showCurrentArea(wilayah, peta_area);
 		}
 
 		//Import Peta dari file SHP
@@ -132,14 +134,14 @@
 		geoLocation(peta_area);
 
 		//Menambahkan Peta wilayah
-		addPetaPoly(peta_area);
+		addPetaPoly(peta_area, tampil_luas);
 
 		// end tampilkan map
 	});
 </script>
 <style type="text/css">
 	#map {
-    width:100%;
-    height:310px
-  }
+		width:100%;
+		height:310px
+	}
 </style>

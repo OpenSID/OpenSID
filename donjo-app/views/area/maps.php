@@ -45,6 +45,8 @@
 <?php $this->load->view('global/konfirmasi'); ?>
 <script>
 	window.onload = function() {
+		var tampil_luas = '<?= $this->setting->tampil_luas_peta ?>';
+
 		<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
 			var posisi = [<?=$desa['lat'] . ', ' . $desa['lng']?>];
 			var zoom = <?=$desa['zoom'] ?: 18?>;
@@ -96,7 +98,7 @@
 		//Menampilkan Peta wilayah yg sudah ada
 		<?php if (! empty($area['path'])): ?>
 			var wilayah = <?=$area['path']?>;
-			showCurrentArea(wilayah, peta_area);
+			showCurrentArea(wilayah, peta_area, tampil_luas);
 		<?php endif; ?>
 
 		//Menambahkan zoom scale ke peta
@@ -106,7 +108,7 @@
 		peta_area.pm.addControls(editToolbarPoly());
 
 		//Menambahkan Peta wilayah
-		addPetaPoly(peta_area);
+		addPetaPoly(peta_area, tampil_luas);
 
 		<?php if ($this->CI->cek_hak_akses('u')): ?>
 			//Export/Import Peta dari file GPX

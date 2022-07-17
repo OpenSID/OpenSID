@@ -211,6 +211,8 @@
 		{
 			if (L.DomUtil.get('map')._leaflet_id  == undefined)
 			{
+				var tampil_luas = '<?= $this->setting->tampil_luas_peta ?>';
+
 				peta_area = L.map('map').setView(posisi, zoom);
 
 				//Menampilkan BaseLayers Peta
@@ -223,7 +225,7 @@
 				geoLocation(peta_area);
 
 				//Menambahkan Peta wilayah
-				addPetaPoly(peta_area);
+				addPetaPoly(peta_area, tampil_luas);
 				// end tampilkan map
 			}
 

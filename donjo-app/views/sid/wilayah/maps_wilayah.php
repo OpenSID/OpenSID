@@ -67,6 +67,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	 */
 
 	window.onload = function() {
+		var tampil_luas = '<?= $this->setting->tampil_luas_peta ?>';
+
 		<?php if (! empty($wil_ini['lat']) && ! empty($wil_ini['lng'])): ?>
 			var posisi = [<?=$wil_ini['lat'] . ', ' . $wil_ini['lng']?>];
 			var zoom = <?=$wil_ini['zoom']?>;
@@ -125,10 +127,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			var warna = '<?=$wil_ini['warna']?>';
 			<?php if (isset($poly) && $poly == 'multi'): ?>
 				// MultiPolygon
-				showCurrentMultiPolygon(wilayah, peta_wilayah, warna);
+				showCurrentMultiPolygon(wilayah, peta_wilayah, warna, tampil_luas);
 			<?php else: ?>
 				// Polygon
-				showCurrentPolygon(wilayah, peta_wilayah, warna);
+				showCurrentPolygon(wilayah, peta_wilayah, warna, tampil_luas);
 			<?php endif ?>
 
 		<?php endif; ?>
@@ -145,7 +147,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			var multi = true;
 		<?php else: ?>
 			// Menambahkan peta poly
-			addPetaPoly(peta_wilayah);
+			addPetaPoly(peta_wilayah, tampil_luas);
 			var multi = false;
 		<?php endif ?>
 
