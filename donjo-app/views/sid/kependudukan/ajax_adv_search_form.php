@@ -63,7 +63,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pekerjaan">Pekerjaan</label>
-					<select class="form-control input-sm" id="pekerjaan_id" name="pekerjaan_id">
+					<select class="form-control input-sm select2" id="pekerjaan_id" name="pekerjaan_id">
 						<option value=""> -- </option>
 						<?php foreach ($list_pekerjaan as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($pekerjaan_id, $data['id']); ?>><?= $data['nama']?></option>
@@ -74,7 +74,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="status_dasar">Status Perkawinan</label>
-					<select class="form-control input-sm" id="status" name="status">
+					<select class="form-control input-sm select2" id="status" name="status">
 						<option value=""> -- </option>
 						<?php foreach ($list_status_kawin as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($status, $data['id']); ?>><?= $data['nama']?></option>
@@ -85,7 +85,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="agama">Agama</label>
-					<select class="form-control input-sm" id="agama" name="agama">
+					<select class="form-control input-sm select2" id="agama" name="agama">
 						<option value=""> -- </option>
 						<?php foreach ($list_agama as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($agama, $data['id']); ?> ><?= $data['nama']?></option>
@@ -96,7 +96,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pendidikan_sedang_id">Pendidikan Sedang Ditempuh</label>
-					<select class="form-control input-sm" id="pendidikan_sedang_id"  name="pendidikan_sedang_id">
+					<select class="form-control input-sm select2" id="pendidikan_sedang_id"  name="pendidikan_sedang_id">
 						<option value=""> -- </option>
 						<?php foreach ($list_pendidikan as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($pendidikan_sedang_id, $data['id']); ?> ><?= $data['nama']?></option>
@@ -107,7 +107,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="pendidikan_kk_id">Pendidikan Dalam KK</label>
-					<select class="form-control input-sm" id="pendidikan_kk_id" name="pendidikan_kk_id">
+					<select class="form-control input-sm select2" id="pendidikan_kk_id" name="pendidikan_kk_id">
 						<option value=""> -- </option>
 						<?php foreach ($list_pendidikan_kk as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($pendidikan_kk_id, $data['id']); ?>><?= $data['nama']?></option>
@@ -118,7 +118,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label for="status_penduduk">Status Penduduk</label>
-					<select class="form-control input-sm" id="status_penduduk" name="status_penduduk">
+					<select class="form-control input-sm select2" id="status_penduduk" name="status_penduduk">
 						<option value=""> -- </option>
 						<?php foreach ($list_status_penduduk as $data): ?>
 							<option value="<?= $data['id']?>" <?php selected($status_penduduk, $data['id']); ?>><?= $data['nama']?></option>
@@ -126,6 +126,19 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</select>
 				</div>
 			</div>
+
+			<?php if ($tampil_tag_id_card): ?>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label for="tag_id_card">Kepemilikan Tag ID Card</label>
+						<select class="form-control input-sm select2" id="tag_id_card" name="tag_id_card">
+							<option value=""> -- </option>
+							<option value="1" <?php selected($tag_id_card, '1'); ?>>Ada</option>
+							<option value="2" <?php selected($tag_id_card, '2'); ?>>Belum Ada</option>
+						</select>
+					</div>
+				</div>
+			<?php endif; ?>
 		</div>
 	</div>
 	<div class="modal-footer">
