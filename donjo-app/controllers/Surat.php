@@ -664,15 +664,15 @@ class Surat extends Admin_Controller
         $data['pamong']             = $this->surat_model->list_pamong();
 
         $pamong_ttd = Pamong::ttd('a.n')->first();
-        if ($pamong_ttd) {
+        $pamong_ub  = Pamong::ttd('u.b')->first();
+        if ($pamong_ttd && $pamong_ub) {
             $str_ttd             = ucwords($pamong_ttd->jabatan . ' ' . $config->nama_desa);
             $data['atas_nama'][] = "a.n {$str_ttd}";
-            $pamong_ub           = Pamong::ttd('u.b')->first();
             if ($pamong_ub) {
                 $data['atas_nama'][] = "u.b {$pamong_ub->jabatan}";
             }
         } else {
-            redirect_with('error', 'Belum ada penanda tangan, Silhakan tentukan a.n pada modul Pemerintah ' . ucwords(setting('sebutan_desa')));
+            redirect_with('error', 'Belum ada penanda tangan, Silhakan tentukan a.n dan u.b pada modul Pemerintah ' . ucwords(setting('sebutan_desa')));
         }
     }
 
