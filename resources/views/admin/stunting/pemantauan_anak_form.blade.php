@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Umur (Bulan)</label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control input-sm required" min="1" max="12" name="umur_bulan"
+                            <input type="number" class="form-control input-sm required" min="1" max="24" name="umur_bulan"
                                 placeholder="Masukkan umur" value="{{ $anak->umur_bulan }}" />
                         </div>
                     </div>
