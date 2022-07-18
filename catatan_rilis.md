@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 15. [#5380](https://github.com/OpenSID/OpenSID/issues/5380) Mengatasi error saat cetak surat menggunakan tinyMce
 16. [#5351](https://github.com/OpenSID/OpenSID/issues/5351) Mengatasi penginputan NIK lebih dari 16 digit saat mencetak surat domisili non warga
 17. [#5357](https://github.com/OpenSID/OpenSID/issues/5357) Mengatasi tidak bisa mengisi umur lebih dari 12 bulan pada data stunting pemantauan bulanan anak 0-2 tahun
+18. [#5373](https://github.com/OpenSID/OpenSID/issues/5373) Mengatasi gambar gagal disimpan tapi alert nya berhasil disimpan
 
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database
