@@ -36,6 +36,7 @@ examples/
 vendor/libreoffice/*
 vendor/mikey179/*
 .idea/*
+backup_inkremental/*
 
 # Struktur Laravel
 storage/framework/
