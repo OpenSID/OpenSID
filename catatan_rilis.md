@@ -31,3 +31,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database
+2. Update .gitignore
