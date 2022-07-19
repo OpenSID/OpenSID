@@ -3,8 +3,8 @@ Di rilis ini, versi 22.07-premium-beta01 menyediakan [untuk diisi]. Rilis ini ju
 Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 #### Penambahan Fitur
-1. [#5311](https://github.com/OpenSID/OpenSID/issues/5311) [Cache Blade] Bersihkan Cache Blade Setiap Selesai Migrasi 
-
+1. [#5311](https://github.com/OpenSID/OpenSID/issues/5311) [Cache Blade] Bersihkan Cache Blade Setiap Selesai Migrasi
+2. [#5307](https://github.com/OpenSID/OpenSID/issues/5307) [Pengaturan Surat] Menambahkan Masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat
 
 
 #### Perbaikan BUG
