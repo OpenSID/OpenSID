@@ -4,7 +4,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Penambahan Fitur
 1. [#5311](https://github.com/OpenSID/OpenSID/issues/5311) [Cache Blade] Bersihkan Cache Blade Setiap Selesai Migrasi
 2. [#5307](https://github.com/OpenSID/OpenSID/issues/5307) [Pengaturan Surat] Menambahkan Masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat
-2. [#5306](https://github.com/OpenSID/OpenSID/issues/5306) [TinyMCE]Ridirect Ke Arsip / Daftar Surat Setelah Cetak Surat
+3. [#5306](https://github.com/OpenSID/OpenSID/issues/5306) [TinyMCE] Ridirect Ke Arsip / Daftar Surat Setelah Cetak Surat
+4. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) [Periksa Database] User dan Password Default (Statis)
 
 #### Perbaikan BUG
 1. [#5321](https://github.com/OpenSID/OpenSID/issues/5321) Merapikan informasi report ketika ada duplicate data tanggal
