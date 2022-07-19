@@ -27,6 +27,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 17. [#5357](https://github.com/OpenSID/OpenSID/issues/5357) Mengatasi tidak bisa mengisi umur lebih dari 12 bulan pada data stunting pemantauan bulanan anak 0-2 tahun
 18. [#5373](https://github.com/OpenSID/OpenSID/issues/5373) Mengatasi gambar gagal disimpan tapi alert nya berhasil disimpan
 19. [#5389](https://github.com/OpenSID/OpenSID/issues/5389) Perbaikan upload dokumen kerjasama menjadi tidak wajib
+20. [#5374](https://github.com/OpenSID/OpenSID/issues/5374) Perbaiki validasi saat input token pelanggan dan perbaiki notif yang tidak muncul
 
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database

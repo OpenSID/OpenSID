@@ -176,7 +176,7 @@
                                 <td>
                                     <table>
                                         <tr>
-                                            <td><textarea id="token" rows="4" type="text" class="form-control" readonly><?= $response->body->token ?></textarea></td>
+                                            <td><textarea id="token" rows="4" cols="180" type="text" class="form-control" readonly><?= $response->body->token ?></textarea></td>
                                             <td><div class="input-group-text"><a  href="#" id="copy" title="Copy"><i class="fa fa-copy"></i></a></div></td>
                                         </tr>
                                     </table>
