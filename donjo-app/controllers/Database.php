@@ -112,8 +112,9 @@ class Database extends Admin_Controller
     {
         // cek tanggal
         // job hanya bisa dilakukan 1 hari 1 kali
-        $now  = Carbon::now()->format('Y-m-d');
-        $last = LogBackup::latest()->first();
+        $now    = Carbon::now()->format('Y-m-d');
+        $last   = LogBackup::latest()->first();
+        $lokasi = $this->input->post('lokasi');
 
         if ($last != null && $now == $last->created_at->format('Y-m-d')) {
             return json([
@@ -122,11 +123,7 @@ class Database extends Admin_Controller
             ]);
         }
 
-        if ($last != null && $last->status == '2') {
-            unlink($last->path);
-        }
-
-        $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'backup_inkremental']);
+        $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'backup_inkremental', $lokasi]);
         $process->disableOutput()->setOptions(['create_new_console' => true]);
         $process->start();
 
@@ -140,8 +137,9 @@ class Database extends Admin_Controller
     {
         $file = LogBackup::latest()->first();
         $file->update(['downloaded_at' => Carbon::now(), 'status' => 2]);
-
-        ambilBerkas(basename($file->path), $this->controller, null, DESAPATH . 'cache' . DIRECTORY_SEPARATOR, false);
+        $za           = new FlxZipArchive();
+        $za->tmp_file = $file->path;
+        $za->download('backup_inkremental' . $file->created_at->format('Y_m-d') . '.zip');
     }
 
     public function restore()

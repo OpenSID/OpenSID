@@ -1327,8 +1327,6 @@ function set_marker_area(marker, daftar_path, foto_area) {
   var daftar = daftar_path == "null" ? new Array() : JSON.parse(daftar_path);
   var jml = daftar.length;
   var jml_path;
-  var foto;
-  var content_area;
   var lokasi_gambar = foto_area;
 
   for (var x = 0; x < jml; x++) {
@@ -1339,15 +1337,6 @@ function set_marker_area(marker, daftar_path, foto_area) {
         daftar[x].path[0][y].reverse();
       }
 
-      if (daftar[x].foto) {
-        foto =
-          '<img src="' +
-          lokasi_gambar +
-          "sedang_" +
-          daftar[x].foto +
-          '" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
-      } else foto = "";
-
       var area_style = {
         stroke: true,
         opacity: 1,
@@ -1356,25 +1345,10 @@ function set_marker_area(marker, daftar_path, foto_area) {
         fillOpacity: 0.5,
       };
 
-      content_area =
-        '<div id="content">' +
-        '<div id="siteNotice">' +
-        "</div>" +
-        '<h4 id="firstHeading" class="firstHeading">' +
-        daftar[x].nama +
-        "</h4>" +
-        '<div id="bodyContent">' +
-        foto +
-        "<p>" +
-        daftar[x].desk +
-        "</p>" +
-        "</div>" +
-        "</div>";
-
       daftar[x].path[0].push(daftar[x].path[0][0]);
       marker.push(
         turf.polygon(daftar[x].path, {
-          content: content_area,
+          content: popUpContent(daftar[x], lokasi_gambar),
           style: area_style,
         })
       );
@@ -1387,8 +1361,6 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
   var jml = daftar.length;
   var coords;
   var lengthOfCoords;
-  var foto;
-  var content_garis;
   var lokasi_gambar = foto_garis;
 
   for (var x = 0; x < jml; x++) {
@@ -1402,30 +1374,6 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
         coords[i][1] = holdLon;
       }
 
-      if (daftar[x].foto) {
-        foto =
-          '<img src="' +
-          lokasi_gambar +
-          "sedang_" +
-          daftar[x].foto +
-          '" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
-      } else foto = "";
-
-      content_garis =
-        '<div id="content">' +
-        '<div id="siteNotice">' +
-        "</div>" +
-        '<h4 id="firstHeading" class="firstHeading">' +
-        daftar[x].nama +
-        "</h4>" +
-        '<div id="bodyContent">' +
-        foto +
-        "<p>" +
-        daftar[x].desk +
-        "</p>" +
-        "</div>" +
-        "</div>";
-
       var garis_style = {
         stroke: true,
         opacity: 1,
@@ -1435,7 +1383,10 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
       };
 
       marker.push(
-        turf.lineString(coords, { content: content_garis, style: garis_style })
+        turf.lineString(coords, {
+          content: popUpContent(daftar[x], lokasi_gambar),
+          style: garis_style
+        })
       );
     }
   }
@@ -1444,8 +1395,6 @@ function set_marker_garis(marker, daftar_path, foto_garis) {
 function set_marker_lokasi(marker, daftar_path, path_icon, foto_lokasi) {
   var daftar = daftar_path == "null" ? new Array() : JSON.parse(daftar_path);
   var jml = daftar.length;
-  var foto;
-  var content_lokasi;
   var lokasi_gambar = foto_lokasi;
   var path_foto = path_icon;
   var point_style = {
@@ -1457,33 +1406,10 @@ function set_marker_lokasi(marker, daftar_path, path_icon, foto_lokasi) {
   for (var x = 0; x < jml; x++) {
     if (daftar[x].lat) {
       point_style.iconUrl = path_foto + daftar[x].simbol;
-      if (daftar[x].foto) {
-        foto =
-          '<img src="' +
-          lokasi_gambar +
-          "sedang_" +
-          daftar[x].foto +
-          '" style=" width:200px;height:140px;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
-      } else foto = "";
-
-      content_lokasi =
-        '<div id="content">' +
-        '<div id="siteNotice">' +
-        "</div>" +
-        '<h4 id="firstHeading" class="firstHeading">' +
-        daftar[x].nama +
-        "</h4>" +
-        '<div id="bodyContent">' +
-        foto +
-        "<p>" +
-        daftar[x].desk +
-        "</p>" +
-        "</div>" +
-        "</div>";
 
       marker.push(
         turf.point([daftar[x].lng, daftar[x].lat], {
-          content: content_lokasi,
+          content: popUpContent(daftar[x], lokasi_gambar),
           style: L.icon(point_style),
         })
       );
@@ -2172,4 +2098,32 @@ function jenis_garis(jenis) {
   }
 
   return dashArray;
+}
+
+function popUpContent(daftar, lokasi_gambar) {
+  var foto;
+  var content_area;
+
+  if (daftar.foto) {
+    foto =
+      '<img src="' +
+      lokasi_gambar +
+      "sedang_" +
+      daftar.foto +
+      '" style="max-width:200px;height:auto;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border:2px solid #555555;"/>';
+  } else foto = "";
+
+  content_area =
+    '<div id="content">' +
+      '<div id="siteNotice">' +
+      '</div>' +
+        '<h4 id="firstHeading" class="firstHeading text-center">' + daftar.nama + '</h4>' +
+      '<div id="bodyContent"><center>' +
+        foto +
+        '</center>' + 
+        '<p style="white-space: pre-line">' + daftar.desk + '</p>' +
+      '</div>' +
+    '</div>';
+
+  return content_area;
 }

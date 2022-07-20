@@ -143,6 +143,7 @@ define('KEHADIRAN', 'kehadiran');
 define('DESAPATH', 'desa' . DIRECTORY_SEPARATOR);
 define('RESOURCESPATH', 'resources' . DIRECTORY_SEPARATOR);
 define('STORAGEPATH', 'storage' . DIRECTORY_SEPARATOR);
+define('BACKUPPATH', 'backup_inkremental' . DIRECTORY_SEPARATOR);
 
 /**
  * Default file

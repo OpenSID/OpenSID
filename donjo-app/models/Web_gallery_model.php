@@ -166,7 +166,7 @@ class Web_gallery_model extends MY_Model
 
                 return;
             }
-            $nama_file = urlencode(generator(6) . '_' . $_FILES['gambar']['name']);
+            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
             UploadGallery($nama_file, '', $tipe_file);
             $data['gambar'] = $nama_file;
         }
@@ -202,7 +202,7 @@ class Web_gallery_model extends MY_Model
 
                 return;
             }
-            $nama_file = urlencode(generator(6) . '_' . $_FILES['gambar']['name']);
+            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
             UploadGallery($nama_file, $data['old_gambar'], $tipe_file);
             $data['gambar'] = $nama_file;
         }
@@ -427,7 +427,7 @@ class Web_gallery_model extends MY_Model
 
                 return;
             }
-            $nama_file = urlencode(generator(6) . '_' . $_FILES['gambar']['name']);
+            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
             UploadGallery($nama_file, '', $tipe_file);
             $data['gambar'] = $nama_file;
         }
@@ -465,7 +465,7 @@ class Web_gallery_model extends MY_Model
 
                 return;
             }
-            $nama_file = urlencode(generator(6) . '_' . $_FILES['gambar']['name']);
+            $nama_file = urldecode(generator(6) . '_' . $_FILES['gambar']['name']);
             UploadGallery($nama_file, $data['old_gambar'], $tipe_file);
             $data['gambar'] = $nama_file;
         }

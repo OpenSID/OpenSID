@@ -1,66 +1,29 @@
-# File ini untuk branch master, berisi source code inti OpenSID
-backup/
-assets/sync/
-# Jangan simpan isi folder logo. Isinya khusus desa, kecuali
-# file logo contoh yg tersedia dalam release sid304 inti.
-assets/files/logo/*
-!assets/files/logo/home.png
-!assets/files/logo/opensid_logo.png
-!assets/files/logo/opensid_kantor.*
-# Jangan simpan isi folder foto pengguna. Isinya khusus desa, kecuali
-# file foto contoh yg tersedia dalam release sid304 inti.
-assets/images/pengguna/*
-!assets/images/pengguna/index.html
-!assets/images/pengguna/kuser.png
-!assets/images/pengguna/wuser.png
-# Jangan simpan isi folder galeri.
-assets/files/galeri/*
-!assets/files/galeri/index.html
-# Jangan simpan isi folder foto artikel.
-assets/files/artikel/*
-!assets/files/artikel/index.html
-# Jangan simpan isi folder gis/lokasi.
-assets/files/gis/lokasi/*
-!assets/files/gis/lokasi/index.html
-# Jangan simpan isi folder gis/area.
-assets/files/gis/area/*
-!assets/files/gis/area/index.html
-# Jangan simpan isi folder gis/garis.
-assets/files/gis/garis/*
-!assets/files/gis/garis/index.html
-# Jangan simpan isi folder dokumen.
-assets/files/dokumen/*
-!assets/files/dokumen/index.html
-# Jangan simpan isi folder desa. Isinya khusus desa.
+# Abaikan folder desa
 desa/*
-surat/arsip/
-!surat/arsip/.keep
-generatedata-3.2.4/
-coba/
+
+# Abaikan file
 *.log
 log-*.php
 info.php
 **/.DS_Store
-mitra
 sftp-config.json
 .php-cs-fixer.cache
+.htaccess
+*.sql
+mitra
+
+# Abaikan file cache milik phpintel (plugin sublime text)
+.phpintel/*
 
 # Abaikan file milik library Release dan Curly
 *.pem
 version.json
 
-# Abaikan file cache milik phpintel (plugin sublime text)
-.phpintel/*
-#Abaikan file environment dibaca di index.php
-.env
 # obfuscator
 Obfuscator.php
 make_obfuscate.php
-# composer.lock
-.htaccess
-*.sql
 
-# Abaikan folder example di vendor (untuk commit update rilis)
+# Abaikan isian folder vendor
 vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
 
@@ -73,6 +36,7 @@ examples/
 vendor/libreoffice/*
 vendor/mikey179/*
 .idea/*
+backup_inkremental/*
 
 # Struktur Laravel
 storage/framework/
