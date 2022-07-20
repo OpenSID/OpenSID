@@ -21,8 +21,15 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
-# Protect Folder Not Index
+# Disable directory index
 Options All -Indexes
+
+# Tutup directory yg tidak diperlukan
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^vendor/ - [F,L]
+</IfModule>
+
 
 # Paksa menggunakan https
 RewriteEngine On
@@ -32,21 +39,45 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Periksa apakah full-path perlu disesuaikan untuk server anda
 # Contoh berikut untuk path seperti /home/opensidm/demosid.opendesa.id/desa/upload
 <Directory /home/*/*/desa/upload>
-	php_flag engine off
-	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
-		Order Deny,Allow
-		Deny from All
-	</FilesMatch>
+	<IfModule mod_php4.c>
+	    php_flag engine off
+	</IfModule>
+	<IfModule mod_php5.c>
+	    php_flag engine off
+	</IfModule>
+	<IfModule mod_php7.c> 
+	    php_flag engine off
+	</IfModule>
+	<IfModule mod_php.c> 
+	    php_flag engine off
+	</IfModule>
+
+        <FilesMatch '(?i)\.(cgi|asp|aspx|pl|perl|plx|ppl|py|python|shtml|php|pht|phpt|phar|phtm|pgif|phtml|php[0-9]|php[0-9][0-9])$'>
+           Order allow,deny
+           Deny from all
+        </FilesMatch>
 </Directory>
 
 # Periksa apakah full-path perlu disesuaikan untuk server anda
 # Contoh berikut untuk path seperti /home/opensidm/demosid.opendesa.id/desa-contoh
 <Directory /home/*/*/desa-contoh>
-	php_flag engine off
-	<FilesMatch "(?i)\.(php|php3?|phtml|phpjpeg)$">
-		Order Deny,Allow
-		Deny from All
-	</FilesMatch>
+	<IfModule mod_php4.c>
+	    php_flag engine off
+	</IfModule>
+	<IfModule mod_php5.c>
+	    php_flag engine off
+	</IfModule>
+	<IfModule mod_php7.c> 
+	    php_flag engine off
+	</IfModule>
+	<IfModule mod_php.c> 
+	    php_flag engine off
+	</IfModule>
+
+        <FilesMatch '(?i)\.(cgi|asp|aspx|pl|perl|plx|ppl|py|python|shtml|php|pht|phpt|phar|phtm|pgif|phtml|php[0-9]|php[0-9][0-9])$'>
+           Order allow,deny
+           Deny from all
+        </FilesMatch>
 </Directory>
 
 # Expire Caching
