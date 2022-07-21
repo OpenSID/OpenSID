@@ -100,16 +100,26 @@ class Perangkat extends Web_Controller
 
         $user = User::with(['pamong'])
             ->whereHas('pamong', static function ($query) use ($username) {
-                $query->where('username', $username)
-                    ->orWhere('pamong_nik', $username)
-                    ->orWhereHas('penduduk', static function ($query) use ($username) {
-                        $query->where('nik', $username);
+                $query
+                    ->status('1') // pamong aktif
+                    ->where(static function ($query) use ($username) {
+                        $query
+                            ->orWhere('username', $username)
+                            ->orWhere('pamong_nik', $username)
+                            ->orWhereHas('penduduk', static function ($query) use ($username) {
+                                $query->where('nik', $username);
+                            });
                     });
             })
             ->orWhereHas('pamong', static function ($query) use ($tag) {
-                $query->where('pamong_tag_id_card', $tag)
-                    ->orWhereHas('penduduk', static function ($query) use ($tag) {
-                        $query->where('tag_id_card', $tag);
+                $query
+                    ->status('1') // pamong aktif
+                    ->where(static function ($query) use ($tag) {
+                        $query
+                            ->orWhere('pamong_tag_id_card', $tag)
+                            ->orWhereHas('penduduk', static function ($query) use ($tag) {
+                                $query->where('tag_id_card', $tag);
+                            });
                     });
             })
             ->first();

@@ -31,6 +31,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 21. [#5402](https://github.com/OpenSID/OpenSID/issues/5402) Perbaiki tampilan keterangan gambar di peta agar bisa enter ke bawah
 22. [#5390](https://github.com/OpenSID/OpenSID/issues/5390) Merubah cara backup inkremental yang memberatkan menjadi lebih ringan
 23. [#5394](https://github.com/OpenSID/OpenSID/issues/5394) Mengatasin menu aktif pada saat klik kategori lembaga
+24. [#5346](https://github.com/OpenSID/OpenSID/issues/5346) Menambahkan notifikasi gagal masuk jika akun staf / perangkat desa di non-aktifkan
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database
 2. Update .gitignore
