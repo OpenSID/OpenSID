@@ -84,6 +84,8 @@ class Pamong_model extends CI_Model
                 if (empty($data[$i]['tempatlahir'])) {
                     $data[$i]['tempatlahir'] = '-';
                 }
+
+                $data[$i]['nama'] = $data[$i]['gelar_depan'] . '' . $data[$i]['nama'] . '' . $data[$i]['gelar_belakang'];
             }
             $data[$i]['no'] = $j + 1;
             $j++;
@@ -285,6 +287,8 @@ class Pamong_model extends CI_Model
         $data['bagan_offset']    = (int) $post['bagan_offset'] ?: null;
         $data['bagan_layout']    = htmlentities($post['bagan_layout']);
         $data['bagan_warna']     = warna($post['bagan_warna']);
+        $data['gelar_depan']     = strip_tags($post['gelar_depan']);
+        $data['gelar_belakang']  = strip_tags($post['gelar_belakang']);
 
         if (empty($data['id_pend'])) {
             $data['id_pend']             = null;
@@ -295,6 +299,8 @@ class Pamong_model extends CI_Model
             $data['pamong_sex']          = $post['pamong_sex'] ?: null;
             $data['pamong_pendidikan']   = $post['pamong_pendidikan'] ?: null;
             $data['pamong_agama']        = $post['pamong_agama'] ?: null;
+            $data['gelar_depan']         = null;
+            $data['gelar_belakang']      = null;
         }
 
         return $data;
