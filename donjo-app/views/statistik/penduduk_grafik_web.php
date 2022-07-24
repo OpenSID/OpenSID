@@ -240,7 +240,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			</tr>
 			</thead>
 			<tbody>
-				<?php $i = 0; $l = 0; $p = 0; $hide = ''; $h = 0; $jm1 = 1; $jm = count($stat); ?>
+				<?php $i = 0;
+$l           = 0;
+$p           = 0;
+$hide        = '';
+$h           = 0;
+$jm1         = 1;
+$jm          = count($stat); ?>
 				<?php foreach ($stat as $data):?>
 					<?php $jm1++; ?>
 					<?php $h++; ?>

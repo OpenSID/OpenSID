@@ -27,7 +27,7 @@
 
         echo '</p>';
     }
-    ?>
+?>
     </div>
 </div>
 <?php endif; ?>

@@ -1306,148 +1306,148 @@ class Spreadsheet_Excel_Reader
                     break;
 
                 case SPREADSHEET_EXCEL_READER_TYPE_FONT:
-                        $height = v($data, $pos + 4);
-                        $option = v($data, $pos + 6);
-                        $color  = v($data, $pos + 8);
-                        $weight = v($data, $pos + 10);
-                        $under  = ord($data[$pos + 14]);
-                        $font   = '';
-                        // Font name
-                        $numchars = ord($data[$pos + 18]);
-                        if ((ord($data[$pos + 19]) & 1) == 0) {
-                            $font = substr($data, $pos + 20, $numchars);
-                        } else {
-                            $font = substr($data, $pos + 20, $numchars * 2);
-                            $font = $this->_encodeUTF16($font);
-                        }
-                        $this->fontRecords[] = [
-                            'height' => $height / 20,
-                            'italic' => (bool) ($option & 2),
-                            'color'  => $color,
-                            'under'  => ! ($under == 0),
-                            'bold'   => ($weight == 700),
-                            'font'   => $font,
-                            'raw'    => $this->dumpHexData($data, $pos + 3, $length),
-                        ];
-                        break;
+                    $height = v($data, $pos + 4);
+                    $option = v($data, $pos + 6);
+                    $color  = v($data, $pos + 8);
+                    $weight = v($data, $pos + 10);
+                    $under  = ord($data[$pos + 14]);
+                    $font   = '';
+                    // Font name
+                    $numchars = ord($data[$pos + 18]);
+                    if ((ord($data[$pos + 19]) & 1) == 0) {
+                        $font = substr($data, $pos + 20, $numchars);
+                    } else {
+                        $font = substr($data, $pos + 20, $numchars * 2);
+                        $font = $this->_encodeUTF16($font);
+                    }
+                    $this->fontRecords[] = [
+                        'height' => $height / 20,
+                        'italic' => (bool) ($option & 2),
+                        'color'  => $color,
+                        'under'  => ! ($under == 0),
+                        'bold'   => ($weight == 700),
+                        'font'   => $font,
+                        'raw'    => $this->dumpHexData($data, $pos + 3, $length),
+                    ];
+                    break;
 
                 case SPREADSHEET_EXCEL_READER_TYPE_PALETTE:
-                        $colors = ord($data[$pos + 4]) | ord($data[$pos + 5]) << 8;
+                    $colors = ord($data[$pos + 4]) | ord($data[$pos + 5]) << 8;
 
-                        for ($coli = 0; $coli < $colors; $coli++) {
-                            $colOff                     = $pos + 2 + ($coli * 4);
-                            $colr                       = ord($data[$colOff]);
-                            $colg                       = ord($data[$colOff + 1]);
-                            $colb                       = ord($data[$colOff + 2]);
-                            $this->colors[0x07 + $coli] = '#' . $this->myhex($colr) . $this->myhex($colg) . $this->myhex($colb);
-                        }
-                        break;
+                    for ($coli = 0; $coli < $colors; $coli++) {
+                        $colOff                     = $pos + 2 + ($coli * 4);
+                        $colr                       = ord($data[$colOff]);
+                        $colg                       = ord($data[$colOff + 1]);
+                        $colb                       = ord($data[$colOff + 2]);
+                        $this->colors[0x07 + $coli] = '#' . $this->myhex($colr) . $this->myhex($colg) . $this->myhex($colb);
+                    }
+                    break;
 
                 case SPREADSHEET_EXCEL_READER_TYPE_XF:
-                        $fontIndexCode = (ord($data[$pos + 4]) | ord($data[$pos + 5]) << 8) - 1;
-                        $fontIndexCode = max(0, $fontIndexCode);
-                        $indexCode     = ord($data[$pos + 6]) | ord($data[$pos + 7]) << 8;
-                        $alignbit      = ord($data[$pos + 10]) & 3;
-                        $bgi           = (ord($data[$pos + 22]) | ord($data[$pos + 23]) << 8) & 0x3FFF;
-                        $bgcolor       = ($bgi & 0x7F);
-//						$bgcolor = ($bgi & 0x3f80) >> 7;
-                        $align = '';
-                        if ($alignbit == 3) {
-                            $align = 'right';
+                    $fontIndexCode = (ord($data[$pos + 4]) | ord($data[$pos + 5]) << 8) - 1;
+                    $fontIndexCode = max(0, $fontIndexCode);
+                    $indexCode     = ord($data[$pos + 6]) | ord($data[$pos + 7]) << 8;
+                    $alignbit      = ord($data[$pos + 10]) & 3;
+                    $bgi           = (ord($data[$pos + 22]) | ord($data[$pos + 23]) << 8) & 0x3FFF;
+                    $bgcolor       = ($bgi & 0x7F);
+                    //						$bgcolor = ($bgi & 0x3f80) >> 7;
+                    $align = '';
+                    if ($alignbit == 3) {
+                        $align = 'right';
+                    }
+                    if ($alignbit == 2) {
+                        $align = 'center';
+                    }
+
+                    $fillPattern = (ord($data[$pos + 21]) & 0xFC) >> 2;
+                    if ($fillPattern == 0) {
+                        $bgcolor = '';
+                    }
+
+                    $xf                = [];
+                    $xf['formatIndex'] = $indexCode;
+                    $xf['align']       = $align;
+                    $xf['fontIndex']   = $fontIndexCode;
+                    $xf['bgColor']     = $bgcolor;
+                    $xf['fillPattern'] = $fillPattern;
+
+                    $border             = ord($data[$pos + 14]) | (ord($data[$pos + 15]) << 8) | (ord($data[$pos + 16]) << 16) | (ord($data[$pos + 17]) << 24);
+                    $xf['borderLeft']   = $this->lineStyles[($border & 0xF)];
+                    $xf['borderRight']  = $this->lineStyles[($border & 0xF0) >> 4];
+                    $xf['borderTop']    = $this->lineStyles[($border & 0xF00) >> 8];
+                    $xf['borderBottom'] = $this->lineStyles[($border & 0xF000) >> 12];
+
+                    $xf['borderLeftColor']  = ($border & 0x7F0000) >> 16;
+                    $xf['borderRightColor'] = ($border & 0x3F800000) >> 23;
+                    $border                 = (ord($data[$pos + 18]) | ord($data[$pos + 19]) << 8);
+
+                    $xf['borderTopColor']    = ($border & 0x7F);
+                    $xf['borderBottomColor'] = ($border & 0x3F80) >> 7;
+
+                    if (array_key_exists($indexCode, $this->dateFormats)) {
+                        $xf['type']   = 'date';
+                        $xf['format'] = $this->dateFormats[$indexCode];
+                        if ($align == '') {
+                            $xf['align'] = 'right';
                         }
-                        if ($alignbit == 2) {
-                            $align = 'center';
+                    } elseif (array_key_exists($indexCode, $this->numberFormats)) {
+                        $xf['type']   = 'number';
+                        $xf['format'] = $this->numberFormats[$indexCode];
+                        if ($align == '') {
+                            $xf['align'] = 'right';
                         }
-
-                        $fillPattern = (ord($data[$pos + 21]) & 0xFC) >> 2;
-                        if ($fillPattern == 0) {
-                            $bgcolor = '';
-                        }
-
-                        $xf                = [];
-                        $xf['formatIndex'] = $indexCode;
-                        $xf['align']       = $align;
-                        $xf['fontIndex']   = $fontIndexCode;
-                        $xf['bgColor']     = $bgcolor;
-                        $xf['fillPattern'] = $fillPattern;
-
-                        $border             = ord($data[$pos + 14]) | (ord($data[$pos + 15]) << 8) | (ord($data[$pos + 16]) << 16) | (ord($data[$pos + 17]) << 24);
-                        $xf['borderLeft']   = $this->lineStyles[($border & 0xF)];
-                        $xf['borderRight']  = $this->lineStyles[($border & 0xF0) >> 4];
-                        $xf['borderTop']    = $this->lineStyles[($border & 0xF00) >> 8];
-                        $xf['borderBottom'] = $this->lineStyles[($border & 0xF000) >> 12];
-
-                        $xf['borderLeftColor']  = ($border & 0x7F0000) >> 16;
-                        $xf['borderRightColor'] = ($border & 0x3F800000) >> 23;
-                        $border                 = (ord($data[$pos + 18]) | ord($data[$pos + 19]) << 8);
-
-                        $xf['borderTopColor']    = ($border & 0x7F);
-                        $xf['borderBottomColor'] = ($border & 0x3F80) >> 7;
-
-                        if (array_key_exists($indexCode, $this->dateFormats)) {
-                            $xf['type']   = 'date';
-                            $xf['format'] = $this->dateFormats[$indexCode];
-                            if ($align == '') {
-                                $xf['align'] = 'right';
+                    } else {
+                        $isdate    = false;
+                        $formatstr = '';
+                        if ($indexCode > 0) {
+                            if (isset($this->formatRecords[$indexCode])) {
+                                $formatstr = $this->formatRecords[$indexCode];
                             }
-                        } elseif (array_key_exists($indexCode, $this->numberFormats)) {
-                            $xf['type']   = 'number';
-                            $xf['format'] = $this->numberFormats[$indexCode];
+                            if ($formatstr != '') {
+                                $tmp = preg_replace('/\\;.*/', '', $formatstr);
+                                $tmp = preg_replace('/^\\[[^\\]]*\\]/', '', $tmp);
+                                if (preg_match('/[^hmsday\\/\\-:\\s\\\\,AMP]/i', $tmp) == 0) { // found day and time format
+                                    $isdate    = true;
+                                    $formatstr = $tmp;
+                                    $formatstr = str_replace(['AM/PM', 'mmmm', 'mmm'], ['a', 'F', 'M'], $formatstr);
+                                    // m/mm are used for both minutes and months - oh SNAP!
+                                    // This mess tries to fix for that.
+                                    // 'm' == minutes only if following h/hh or preceding s/ss
+                                    $formatstr = preg_replace('/(h:?)mm?/', '$1i', $formatstr);
+                                    $formatstr = preg_replace('/mm?(:?s)/', 'i$1', $formatstr);
+                                    // A single 'm' = n in PHP
+                                    $formatstr = preg_replace('/(^|[^m])m([^m]|$)/', '$1n$2', $formatstr);
+                                    $formatstr = preg_replace('/(^|[^m])m([^m]|$)/', '$1n$2', $formatstr);
+                                    // else it's months
+                                    $formatstr = str_replace('mm', 'm', $formatstr);
+                                    // Convert single 'd' to 'j'
+                                    $formatstr = preg_replace('/(^|[^d])d([^d]|$)/', '$1j$2', $formatstr);
+                                    $formatstr = str_replace(['dddd', 'ddd', 'dd', 'yyyy', 'yy', 'hh', 'h'], ['l', 'D', 'd', 'Y', 'y', 'H', 'g'], $formatstr);
+                                    $formatstr = preg_replace('/ss?/', 's', $formatstr);
+                                }
+                            }
+                        }
+                        if ($isdate) {
+                            $xf['type']   = 'date';
+                            $xf['format'] = $formatstr;
                             if ($align == '') {
                                 $xf['align'] = 'right';
                             }
                         } else {
-                            $isdate    = false;
-                            $formatstr = '';
-                            if ($indexCode > 0) {
-                                if (isset($this->formatRecords[$indexCode])) {
-                                    $formatstr = $this->formatRecords[$indexCode];
-                                }
-                                if ($formatstr != '') {
-                                    $tmp = preg_replace('/\\;.*/', '', $formatstr);
-                                    $tmp = preg_replace('/^\\[[^\\]]*\\]/', '', $tmp);
-                                    if (preg_match('/[^hmsday\\/\\-:\\s\\\\,AMP]/i', $tmp) == 0) { // found day and time format
-                                        $isdate    = true;
-                                        $formatstr = $tmp;
-                                        $formatstr = str_replace(['AM/PM', 'mmmm', 'mmm'], ['a', 'F', 'M'], $formatstr);
-                                        // m/mm are used for both minutes and months - oh SNAP!
-                                        // This mess tries to fix for that.
-                                        // 'm' == minutes only if following h/hh or preceding s/ss
-                                        $formatstr = preg_replace('/(h:?)mm?/', '$1i', $formatstr);
-                                        $formatstr = preg_replace('/mm?(:?s)/', 'i$1', $formatstr);
-                                        // A single 'm' = n in PHP
-                                        $formatstr = preg_replace('/(^|[^m])m([^m]|$)/', '$1n$2', $formatstr);
-                                        $formatstr = preg_replace('/(^|[^m])m([^m]|$)/', '$1n$2', $formatstr);
-                                        // else it's months
-                                        $formatstr = str_replace('mm', 'm', $formatstr);
-                                        // Convert single 'd' to 'j'
-                                        $formatstr = preg_replace('/(^|[^d])d([^d]|$)/', '$1j$2', $formatstr);
-                                        $formatstr = str_replace(['dddd', 'ddd', 'dd', 'yyyy', 'yy', 'hh', 'h'], ['l', 'D', 'd', 'Y', 'y', 'H', 'g'], $formatstr);
-                                        $formatstr = preg_replace('/ss?/', 's', $formatstr);
-                                    }
-                                }
-                            }
-                            if ($isdate) {
-                                $xf['type']   = 'date';
-                                $xf['format'] = $formatstr;
+                            // If the format string has a 0 or # in it, we'll assume it's a number
+                            if (preg_match('/[0#]/', $formatstr)) {
+                                $xf['type'] = 'number';
                                 if ($align == '') {
                                     $xf['align'] = 'right';
                                 }
                             } else {
-                                // If the format string has a 0 or # in it, we'll assume it's a number
-                                if (preg_match('/[0#]/', $formatstr)) {
-                                    $xf['type'] = 'number';
-                                    if ($align == '') {
-                                        $xf['align'] = 'right';
-                                    }
-                                } else {
-                                    $xf['type'] = 'other';
-                                }
-                                $xf['format'] = $formatstr;
-                                $xf['code']   = $indexCode;
+                                $xf['type'] = 'other';
                             }
+                            $xf['format'] = $formatstr;
+                            $xf['code']   = $indexCode;
                         }
-                        $this->xfRecords[] = $xf;
+                    }
+                    $this->xfRecords[] = $xf;
                     break;
 
                 case SPREADSHEET_EXCEL_READER_TYPE_NINETEENFOUR:
@@ -1455,21 +1455,21 @@ class Spreadsheet_Excel_Reader
                     break;
 
                 case SPREADSHEET_EXCEL_READER_TYPE_BOUNDSHEET:
-                        $rec_offset         = $this->_GetInt4d($data, $pos + 4);
-                        $rec_typeFlag       = ord($data[$pos + 8]);
-                        $rec_visibilityFlag = ord($data[$pos + 9]);
-                        $rec_length         = ord($data[$pos + 10]);
+                    $rec_offset         = $this->_GetInt4d($data, $pos + 4);
+                    $rec_typeFlag       = ord($data[$pos + 8]);
+                    $rec_visibilityFlag = ord($data[$pos + 9]);
+                    $rec_length         = ord($data[$pos + 10]);
 
-                        if ($version == SPREADSHEET_EXCEL_READER_BIFF8) {
-                            $chartype = ord($data[$pos + 11]);
-                            if ($chartype == 0) {
-                                $rec_name = substr($data, $pos + 12, $rec_length);
-                            } else {
-                                $rec_name = $this->_encodeUTF16(substr($data, $pos + 12, $rec_length * 2));
-                            }
-                        } elseif ($version == SPREADSHEET_EXCEL_READER_BIFF7) {
-                            $rec_name = substr($data, $pos + 11, $rec_length);
+                    if ($version == SPREADSHEET_EXCEL_READER_BIFF8) {
+                        $chartype = ord($data[$pos + 11]);
+                        if ($chartype == 0) {
+                            $rec_name = substr($data, $pos + 12, $rec_length);
+                        } else {
+                            $rec_name = $this->_encodeUTF16(substr($data, $pos + 12, $rec_length * 2));
                         }
+                    } elseif ($version == SPREADSHEET_EXCEL_READER_BIFF7) {
+                        $rec_name = substr($data, $pos + 11, $rec_length);
+                    }
                     $this->boundsheets[] = ['name' => $rec_name, 'offset' => $rec_offset];
                     break;
 
@@ -1627,11 +1627,11 @@ class Spreadsheet_Excel_Reader
                     } else {
                         // result is a number, so first 14 bytes are just like a _NUMBER record
                         $tmp = unpack('ddouble', substr($data, $spos + 6, 8)); // It machine machine dependent
-                              if ($this->isDate($spos)) {
-                                  $numValue = $tmp['double'];
-                              } else {
-                                  $numValue = $this->createNumber($spos);
-                              }
+                        if ($this->isDate($spos)) {
+                            $numValue = $tmp['double'];
+                        } else {
+                            $numValue = $this->createNumber($spos);
+                        }
                         $info = $this->_getCellDetails($spos, $numValue, $column);
                         $this->addcell($row, $column, $info['string'], $info);
                     }
@@ -1924,10 +1924,10 @@ class Spreadsheet_Excel_Reader
         if ($this->_defaultEncoding) {
             switch ($this->_encoderFunction) {
                 case 'iconv':	 $result = iconv('UTF-16LE', $this->_defaultEncoding, $string);
-                                break;
+                    break;
 
                 case 'mb_convert_encoding':	 $result = mb_convert_encoding($string, $this->_defaultEncoding, 'UTF-16LE');
-                                break;
+                    break;
             }
         }
 

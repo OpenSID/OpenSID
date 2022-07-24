@@ -167,9 +167,9 @@
 													<?php
                                                     $nomer = $paging->offset;
 
-                                                    foreach ($pantau_pemudik_array as $key => $item):
-                                                        $nomer++;
-                                                    ?>
+			foreach ($pantau_pemudik_array as $key => $item):
+			    $nomer++;
+			    ?>
 													<tr>
 														<td align="center" width="2"><?= $nomer; ?></td>
 														<?php if ($this->CI->cek_hak_akses('h', '', 'covid19/pantau')): ?>

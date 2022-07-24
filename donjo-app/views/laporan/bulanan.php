@@ -79,7 +79,7 @@
             </div>
           <?php else:
 
-            $this->load->view('bumindes/penduduk/rekapitulasi/data_lengkap', ['judul_rekap' => 'Data Penduduk']);
+              $this->load->view('bumindes/penduduk/rekapitulasi/data_lengkap', ['judul_rekap' => 'Data Penduduk']);
 
           endif; ?>
 				</div>

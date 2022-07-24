@@ -99,8 +99,8 @@
         <div class="leaflet-top leaflet-right">
           <div id="covid_status_local" style="display: none;">
             <?php if ($this->setting->covid_desa) {
-    $this->load->view('gis/covid_peta_local.php');
-} ?>
+                $this->load->view('gis/covid_peta_local.php');
+            } ?>
           </div>
         </div>
         <div class="leaflet-bottom leaflet-left">

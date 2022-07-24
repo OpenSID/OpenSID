@@ -504,7 +504,7 @@ class Surat extends Admin_Controller
      */
     public function caseReplace($dari, $ke, $str)
     {
-        $replacer = static function ($matches) use ($ke) {
+        $replacer    = static function ($matches) use ($ke) {
             $matches = array_map(static function ($match) {
                 return preg_replace('/[\\[\\]]/', '', $match);
             }, $matches);

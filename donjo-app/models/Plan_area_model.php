@@ -104,13 +104,17 @@ class Plan_area_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = null)
     {
         switch ($o) {
-            case 1: $this->db->order_by('nama'); break;
+            case 1: $this->db->order_by('nama');
+                break;
 
-            case 2: $this->db->order_by('nama', 'DESC'); break;
+            case 2: $this->db->order_by('nama', 'DESC');
+                break;
 
-            case 3: $this->db->order_by('enabled'); break;
+            case 3: $this->db->order_by('enabled');
+                break;
 
-            case 4: $this->db->order_by('enabled', 'DESC'); break;
+            case 4: $this->db->order_by('enabled', 'DESC');
+                break;
 
             default: $this->db->order_by('id');
         }

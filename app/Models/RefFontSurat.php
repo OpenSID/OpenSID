@@ -35,14 +35,30 @@
  *
  */
 
-header('Content-type: application/octet-stream');
-if (empty($_SESSION['filter'])) {
-    $tahun = '_semua';
-} else {
-    $tahun = '_' . $_SESSION['filter'];
-}
-header('Content-Disposition: attachment; filename=surat_masuk' . $tahun . '.xls');
-header('Pragma: no-cache');
-header('Expires: 0');
+namespace App\Models;
 
-include 'donjo-app/views/surat_masuk/surat_masuk_print.php';
+use Illuminate\Database\Eloquent\Model;
+
+class RefFontSurat extends Model
+{
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_font_surat';
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+}

@@ -257,7 +257,7 @@ class Penduduk_model extends MY_Model
                 break;
 
             default:
-        }
+            }
     }
 
     protected function status_ktp_sql()
@@ -292,7 +292,7 @@ class Penduduk_model extends MY_Model
                 break;
 
             default:
-        }
+            }
     }
 
     public function get_alamat_wilayah($id)

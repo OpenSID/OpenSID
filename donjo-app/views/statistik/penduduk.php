@@ -182,8 +182,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 										<tbody>
 											<?php foreach ($main as $data): ?>
 												<?php if ($lap > 50) {
-    $tautan_jumlah = site_url("program_bantuan/detail/{$lap}/1");
-} ?>
+												    $tautan_jumlah = site_url("program_bantuan/detail/{$lap}/1");
+												} ?>
 												<tr>
 													<td class="padat"><?= $data['no']; ?></td>
 													<td class="text-left"><?= strtoupper($data['nama']); ?></td>

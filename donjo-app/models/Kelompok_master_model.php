@@ -96,11 +96,14 @@ class Kelompok_master_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 0)
     {
         switch ($o) {
-            case 1: $this->db->order_by('u.kelompok'); break;
+            case 1: $this->db->order_by('u.kelompok');
+                break;
 
-            case 2: $this->db->order_by('u.kelompok', 'desc'); break;
+            case 2: $this->db->order_by('u.kelompok', 'desc');
+                break;
 
-            default: $this->db->order_by('u.kelompok'); break;
+            default: $this->db->order_by('u.kelompok');
+                break;
         }
 
         $this->list_data_sql();

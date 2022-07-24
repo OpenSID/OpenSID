@@ -374,28 +374,39 @@ class Penduduk_log_model extends MY_Model
         $this->list_data_sql();
 
         switch ($o) {
-        case 1: $this->db->order_by('u.nik', 'ASC'); break;
+            case 1: $this->db->order_by('u.nik', 'ASC');
+                break;
 
-        case 2: $this->db->order_by('u.nik', 'DESC'); break;
+            case 2: $this->db->order_by('u.nik', 'DESC');
+                break;
 
-        case 3: $this->db->order_by('u.nama', 'ASC'); break;
+            case 3: $this->db->order_by('u.nama', 'ASC');
+                break;
 
-        case 4: $this->db->order_by('u.nama', 'DESC'); break;
+            case 4: $this->db->order_by('u.nama', 'DESC');
+                break;
 
-        case 5: $this->db->order_by('d.no_kk', 'ASC'); break;
+            case 5: $this->db->order_by('d.no_kk', 'ASC');
+                break;
 
-        case 6: $this->db->order_by('d.no_kk', 'DESC'); break;
+            case 6: $this->db->order_by('d.no_kk', 'DESC');
+                break;
 
-        case 7: $this->db->order_by('umur_pada_peristiwa', 'ASC'); break;
+            case 7: $this->db->order_by('umur_pada_peristiwa', 'ASC');
+                break;
 
-        case 8: $this->db->order_by('umur_pada_peristiwa', 'DESC'); break;
-        // Untuk Log Penduduk
-        case 9:  $this->db->order_by('log.tgl_peristiwa', 'ASC'); break;
+            case 8: $this->db->order_by('umur_pada_peristiwa', 'DESC');
+                break;
+                // Untuk Log Penduduk
+            case 9:  $this->db->order_by('log.tgl_peristiwa', 'ASC');
+                break;
 
-        case 10: $this->db->order_by('log.tgl_peristiwa', 'DESC'); break;
+            case 10: $this->db->order_by('log.tgl_peristiwa', 'DESC');
+                break;
 
-        default:$this->db->order_by('log.tgl_lapor', 'DESC'); break;
-    }
+            default:$this->db->order_by('log.tgl_lapor', 'DESC');
+                break;
+        }
 
         //Paging SQL
         if ($limit > 0) {

@@ -143,9 +143,11 @@ class Permohonan_surat_model extends CI_Model
 
         //Ordering SQL
         switch ($o) {
-            case 1: $this->db->order_by('u.created_at', 'asc'); break;
+            case 1: $this->db->order_by('u.created_at', 'asc');
+                break;
 
-            case 2: $this->db->order_by('u.created_at', 'desc'); break;
+            case 2: $this->db->order_by('u.created_at', 'desc');
+                break;
 
             default: $this->db->order_by('(u.status = 0), ISNULL(u.no_antrian)');
         }
@@ -257,8 +259,8 @@ class Permohonan_surat_model extends CI_Model
 
     public function get_syarat_permohonan($id)
     {
-        $permohonan   = PermohonanSurat::select(['syarat'])->find($id) ?? show_404();
-        $syarat_surat = collect($permohonan->syarat)->map(static function ($item, $key) {
+        $permohonan             = PermohonanSurat::select(['syarat'])->find($id) ?? show_404();
+        $syarat_surat           = collect($permohonan->syarat)->map(static function ($item, $key) {
             $syaratSurat        = SyaratSurat::select(['ref_syarat_nama'])->find($key);
             $dokumenKelengkapan = Dokumen::select(['nama'])->find($item);
 

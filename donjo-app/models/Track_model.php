@@ -83,17 +83,17 @@ class Track_model extends CI_Model
 
         if (defined('ENVIRONMENT')) {
             switch (ENVIRONMENT) {
-            case 'development':
-                // Jangan kirim data ke pantau jika versi development
-                return;
+                case 'development':
+                    // Jangan kirim data ke pantau jika versi development
+                    return;
 
-            case 'testing':
-            case 'production':
-                $tracker = config_item('server_pantau');
-                break;
+                case 'testing':
+                case 'production':
+                    $tracker = config_item('server_pantau');
+                    break;
 
-            default:
-                exit('The application environment is not set correctly.');
+                default:
+                    exit('The application environment is not set correctly.');
             }
         }
 

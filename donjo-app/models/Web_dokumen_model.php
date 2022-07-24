@@ -244,17 +244,23 @@ class Web_dokumen_model extends MY_Model
         $this->list_data_sql($kat);
 
         switch ($o) {
-            case 1: $order = ' nama'; break;
+            case 1: $order = ' nama';
+                break;
 
-            case 2: $order = ' nama DESC'; break;
+            case 2: $order = ' nama DESC';
+                break;
 
-            case 3: $order = ' enabled'; break;
+            case 3: $order = ' enabled';
+                break;
 
-            case 4: $order = ' enabled DESC'; break;
+            case 4: $order = ' enabled DESC';
+                break;
 
-            case 5: $order = ' tgl_upload'; break;
+            case 5: $order = ' tgl_upload';
+                break;
 
-            case 6: $order = ' tgl_upload DESC'; break;
+            case 6: $order = ' tgl_upload DESC';
+                break;
 
             default:$order = ' id';
         }
@@ -703,9 +709,9 @@ class Web_dokumen_model extends MY_Model
                     // Informasi publik
                     $this->db->where('tahun', $tahun);
                     break;
-                // Data tanggal berbeda menurut kategori dokumen
-                // Informasi masing2 kategori dokumen tersimpan dalam format json di kolom attr
-                // MySQL baru memiliki fitur query json mulai dari 5.7; jadi di sini dilakukan secara manual
+                    // Data tanggal berbeda menurut kategori dokumen
+                    // Informasi masing2 kategori dokumen tersimpan dalam format json di kolom attr
+                    // MySQL baru memiliki fitur query json mulai dari 5.7; jadi di sini dilakukan secara manual
                 case '2':
                     // SK KADES
                     $regex = '"tgl_kep_kades":"[[:digit:]]{2}-[[:digit:]]{2}-' . $tahun;

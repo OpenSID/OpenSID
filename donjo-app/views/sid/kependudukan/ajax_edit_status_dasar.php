@@ -6,7 +6,7 @@
     else :
         $sekarang = date('d-m-Y');
     endif;
-    ?>
+?>
 	<form action="<?= $form_action ?>" method="post" id="validasi" class="tgl_lapor_peristiwa">
 		<div class='modal-body'>
 			<div class="box box-danger">

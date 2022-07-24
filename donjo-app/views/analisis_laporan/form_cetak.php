@@ -7,7 +7,7 @@
         header('Pragma: no-cache');
         header('Expires: 0');
     }
-?>
+    ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -64,7 +64,7 @@
 
 					<?php $i = 1;
 
-foreach ($list_anggota as $ang): ?>
+    foreach ($list_anggota as $ang): ?>
 					<tr>
 						<td  align="center" width="2"><?= $i?></td>
 						<td class="textx"><?= $ang['nik']?></td>
@@ -91,7 +91,8 @@ foreach ($list_anggota as $ang): ?>
 				<tbody>
 
 					<?php foreach ($list_jawab as $data): ?>
-						<?php if ($data['cek'] >= 1):$bg = "class='bg'"; else:$bg = ''; endif; ?>
+						<?php if ($data['cek'] >= 1):$bg = "class='bg'";
+						else:$bg                         = ''; endif; ?>
 						<tr>
 							<td><?= $data['no']?></td>
 							<td><?= $data['pertanyaan']?></td>

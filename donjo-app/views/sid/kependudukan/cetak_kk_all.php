@@ -12,7 +12,7 @@
                 foreach ($all_kk as $kk):
                     $this->load->view('sid/kependudukan/cetak_kk', $kk);
                 endforeach;
-            ?>
+?>
 			<div id="aside"></div>
 		</div>
 	</body>

@@ -25,10 +25,10 @@
 		<?php if ($aksi == 'unduh'): ?>
 			<?php
                 header('Content-type: application/octet-stream');
-                header('Content-Disposition: attachment; filename=Lembaran_desa_' . date('Y-m-d') . '.xls');
-                header('Pragma: no-cache');
-                header('Expires: 0');
-            ?>
+		    header('Content-Disposition: attachment; filename=Lembaran_desa_' . date('Y-m-d') . '.xls');
+		    header('Pragma: no-cache');
+		    header('Expires: 0');
+		    ?>
 		<?php endif; ?>
 
 		<title>Lembaran dan Berita Desa</title>

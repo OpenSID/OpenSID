@@ -65,7 +65,7 @@
 								<tbody>
 									<?php	$i = 1;
 
-foreach ($query_array as $key => $item): ?>
+		foreach ($query_array as $key => $item): ?>
 										<tr>
 											<td><?= $i?></td>
 											<td><?= 'H+' . $item['date_diff'] ?></td>

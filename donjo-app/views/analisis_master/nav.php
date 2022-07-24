@@ -1,16 +1,30 @@
 <?php
-$nama = ''; $nomor = ''; $asubjek = '';
+$nama    = '';
+$nomor   = '';
+$asubjek = '';
 if (isset($_SESSION['subjek_tipe'])) {
     $subjek = $_SESSION['subjek_tipe'];
 
     switch ($subjek) {
-        case 1: $nama = 'Nama'; $nomor = 'NIK'; $asubjek = 'Penduduk'; break;
+        case 1: $nama = 'Nama';
+            $nomor    = 'NIK';
+            $asubjek  = 'Penduduk';
+            break;
 
-        case 2: $nama = 'Kepala Keluarga'; $nomor = 'Nomor KK'; $asubjek = 'Keluarga'; break;
+        case 2: $nama = 'Kepala Keluarga';
+            $nomor    = 'Nomor KK';
+            $asubjek  = 'Keluarga';
+            break;
 
-        case 3: $nama = 'Kepala Rumahtangga'; $nomor = 'Nomor Rumahtangga'; $asubjek = 'Rumahtangga'; break;
+        case 3: $nama = 'Kepala Rumahtangga';
+            $nomor    = 'Nomor Rumahtangga';
+            $asubjek  = 'Rumahtangga';
+            break;
 
-        case 4: $nama = 'Nama Kelompok'; $nomor = 'ID Kelompok'; $asubjek = 'Kelompok'; break;
+        case 4: $nama = 'Nama Kelompok';
+            $nomor    = 'ID Kelompok';
+            $asubjek  = 'Kelompok';
+            break;
 
         default: return null;
     }

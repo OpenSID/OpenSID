@@ -19,7 +19,7 @@
 											</li>';
                                 }
                             }
-                            ?>
+							?>
 						</ul>
 					</div>
 				</div>
@@ -120,21 +120,21 @@
 										<div class="col-sm-4">
 											<select name="penggunaan_barang" id="penggunaan_barang" class="form-control input-sm required" placeholder="Hak Tanah" required>
 												<?php
-                                                $value = '';
-                                                if (substr($main->kode_barang, 14, 2) == 01) {
-                                                    $value = 'Pemerintah Desa';
-                                                } elseif (substr($main->kode_barang, 14, 2) == 02) {
-                                                    $value = 'Badan Permusyawaratan Daerah';
-                                                } elseif (substr($main->kode_barang, 14, 2) == 03) {
-                                                    $value = 'PKK';
-                                                } elseif (substr($main->kode_barang, 14, 2) == 04) {
-                                                    $value = 'LKMD';
-                                                } elseif (substr($main->kode_barang, 14, 2) == 05) {
-                                                    $value = 'Karang Taruna';
-                                                } elseif (substr($main->kode_barang, 14, 2) == 07) {
-                                                    $value = 'RW';
-                                                }
-                                                ?>
+							                    $value = '';
+							if (substr($main->kode_barang, 14, 2) == 01) {
+							    $value = 'Pemerintah Desa';
+							} elseif (substr($main->kode_barang, 14, 2) == 02) {
+							    $value = 'Badan Permusyawaratan Daerah';
+							} elseif (substr($main->kode_barang, 14, 2) == 03) {
+							    $value = 'PKK';
+							} elseif (substr($main->kode_barang, 14, 2) == 04) {
+							    $value = 'LKMD';
+							} elseif (substr($main->kode_barang, 14, 2) == 05) {
+							    $value = 'Karang Taruna';
+							} elseif (substr($main->kode_barang, 14, 2) == 07) {
+							    $value = 'RW';
+							}
+							?>
 												<option value="<?= substr($main->kode_barang, 14, 2); ?>"><?= $value; ?></option>
 												<option value="01">Pemerintah Desa</option>
 												<option value="02">Badan Permusyawaratan Daerah</option>
