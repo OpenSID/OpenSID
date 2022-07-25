@@ -8,6 +8,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 4. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) [Periksa Database] User dan Password Default (Statis)
 5. [#5305](https://github.com/OpenSID/OpenSID/issues/5305) [TinyMCE] Menambahkan Pengaturan Default Font
 6. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) [Periksa Database] Menambahkan Fungsi Melewati pemeriksaan syarat sandi
+7. [#5405](https://github.com/OpenSID/OpenSID/issues/5405) [Informasi Tambahan] Tambahkan info email yg terkirim untuk verifikasi pendaftaran kerjasama 
 
 #### Perbaikan BUG
 1. [#5321](https://github.com/OpenSID/OpenSID/issues/5321) Merapikan informasi report ketika ada duplicate data tanggal

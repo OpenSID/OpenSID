@@ -36,7 +36,7 @@
 				</div>
 				<div class="box-body">
 					<div class="callout callout-info">
-						<h5>Silahkan cek email Anda untuk memverifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru.</h5>
+						<h5>Kami telah mengirim link verifikasi ke <?= $response->data->email ?> <br> Silahkan cek email Anda untuk memverifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru.</h5>
 					</div>
 				</div>
 			</div>
@@ -65,7 +65,7 @@
 						<label class="col-sm-3 control-label" for="email">Email</label>
 						<div class="col-sm-8">
                             <?php if ($response->data->status_langganan === 'menunggu verifikasi email') : ?>
-                                <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="<?= $response->data->email ?>">
+                                <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="">
                             <?php else : ?>
                                 <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="<?= $response->data->email ?>">
                             <?php endif; ?>
