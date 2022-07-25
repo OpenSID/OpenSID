@@ -83,9 +83,12 @@ class Periksa extends CI_Controller
     // Login khusus untuk periksa
     public function login()
     {
+        if ($this->session->periksa_data == 1) {
+            redirect('periksa');
+        }
+
         $this->session->siteman_wait = 0;
-        $this->user_model->login();
-        $data = [
+        $data                        = [
             'header'      => $this->header,
             'form_action' => site_url('periksa/auth'),
         ];

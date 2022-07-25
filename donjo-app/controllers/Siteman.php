@@ -54,6 +54,8 @@ class Siteman extends MY_Controller
         // Kalau sehabis periksa data, paksa harus login lagi
         if ($this->session->periksa_data == 1) {
             $this->user_model->logout();
+
+            redirect('siteman');
         }
 
         if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
