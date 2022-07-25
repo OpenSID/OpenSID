@@ -32,7 +32,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 22. [#5390](https://github.com/OpenSID/OpenSID/issues/5390) Merubah cara backup inkremental yang memberatkan menjadi lebih ringan
 23. [#5394](https://github.com/OpenSID/OpenSID/issues/5394) Mengatasin menu aktif pada saat klik kategori lembaga
 24. [#5346](https://github.com/OpenSID/OpenSID/issues/5346) Menambahkan notifikasi gagal masuk jika akun staf / perangkat desa di non-aktifkan
-15. [#5416](https://github.com/OpenSID/OpenSID/issues/5416) Memperbaiki struktur perangkat tidak akan tampil/ tidak tersusun jika salah satu nama menggunakan tanda petik
+25. [#5416](https://github.com/OpenSID/OpenSID/issues/5416) Memperbaiki struktur perangkat tidak akan tampil/ tidak tersusun jika salah satu nama menggunakan tanda petik
+26. [#5390](https://github.com/OpenSID/OpenSID/issues/5390) Menambahkan daftar folder pada backup inkremental
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database
 2. Update .gitignore

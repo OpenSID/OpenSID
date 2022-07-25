@@ -92,13 +92,6 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     public function migrasi_2022071851($hasil)
     {
-
-        // Tambah folder desa untuk menyimpan simbol lokasi
-        $new_dir = BACKUPPATH;
-        if (! file_exists($new_dir)) {
-            $hasil = mkdir($new_dir, 0755);
-        }
-
         if (! $this->db->field_exists('permanen', 'log_backup')) {
             $fields = [
                 'permanen' => [
