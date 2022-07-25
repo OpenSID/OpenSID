@@ -47,7 +47,8 @@
 																</tr>
 															</thead>
 															<tbody>
-																<?php $kosong = 20 - count($setting); $s = 0; ?>
+																<?php $kosong = 20 - count($setting);
+			$s                         = 0; ?>
 																<?php foreach ($setting as $program): ?>
 																	<?php $s++; ?>
 																	<tr>

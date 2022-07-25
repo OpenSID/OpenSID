@@ -18,7 +18,7 @@
                 echo 'tes insert adalah:<br>';
                 var_dump($_SESSION['tes_insert']);
             }
-        ?>
+			?>
 		<div class="row">
 			<form id="validasi" action="<?= $form_action ?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
 				<div class="col-md-3">

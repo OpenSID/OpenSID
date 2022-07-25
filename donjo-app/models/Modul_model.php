@@ -254,14 +254,14 @@ class Modul_model extends CI_Model
                 // Online digunakan hanya untuk publikasi web; admin penduduk dan lain-lain
                 // dilakukan offline di kantor desa. Yaitu, hanya modul Admin Web yang aktif
                 // Kecuali Pengaturan selalu aktif
-                    $modul_pengaturan = 11;
-                    $outp             = $outp && $this->db->where('id <>', $modul_pengaturan)
-                        ->where('parent <>', $modul_pengaturan)
-                        ->update('setting_modul', ['aktif' => 0]);
-                    $modul_web = 13;
-                    $outp      = $outp && $this->db->where('id', $modul_web)
-                        ->update('setting_modul', ['aktif' => 1]);
-                    $outp = $outp && $this->set_aktif_submodul($modul_web, 1);
+                $modul_pengaturan = 11;
+                $outp             = $outp && $this->db->where('id <>', $modul_pengaturan)
+                    ->where('parent <>', $modul_pengaturan)
+                    ->update('setting_modul', ['aktif' => 0]);
+                $modul_web = 13;
+                $outp      = $outp && $this->db->where('id', $modul_web)
+                    ->update('setting_modul', ['aktif' => 1]);
+                $outp = $outp && $this->set_aktif_submodul($modul_web, 1);
                 break;
 
             default:

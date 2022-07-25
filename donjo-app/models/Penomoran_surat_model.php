@@ -82,7 +82,7 @@ class Penomoran_surat_model extends CI_Model
         switch ($type) {
             default: show_error("Function {$self}(): Unknown type `{$type}`");
 
-            // no break
+                // no break
             case 'log_surat':
                 if ($setting == 1) {
                     $this->db->from("{$type}")
@@ -172,7 +172,7 @@ class Penomoran_surat_model extends CI_Model
         switch ($type) {
             default: show_error("Function {$self}(): Unknown type `{$type}`");
 
-            // no break
+                // no break
             case 'log_surat':
                 if ($setting == 1) {
                     $this->db->from("{$type}")

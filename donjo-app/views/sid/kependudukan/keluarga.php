@@ -190,7 +190,7 @@
 											<td><a href="<?= site_url("penduduk/detail/1/0/{$data['id_pend']}")?>"><?= strtoupper($data['nik'])?></a></td>
 											<td><?= $data['tag_id_card']?></td>
 											<td class="padat"><a href="<?= site_url("keluarga/anggota/{$p}/{$o}/{$data['id']}")?>"><?= $data['jumlah_anggota']?></a></td>
-											<td><?= strtoupper($data['sex'])?></td>
+											<td class="padat"><?= strtoupper($data['sex']) ?></td>
 											<td><?= strtoupper($data['alamat'])?></td>
 											<td><?= strtoupper($data['dusun'])?></td>
 											<td><?= strtoupper($data['rw'])?></td>

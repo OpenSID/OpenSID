@@ -46,13 +46,13 @@
 
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="nama">Masa Berlaku Default</label>
-                <div class="col-sm-3">
+                <div class="col-sm-6">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <input type="number" class="form-control input-sm" id="masa_berlaku" name="masa_berlaku"
                                 onchange="masaBerlaku()" value="{{ $suratMaster->masa_berlaku ?? 1 }}">
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-3">
                             <select class="form-control input-sm" id="satuan_masa_berlaku" name="satuan_masa_berlaku">
                                 @foreach ($masaBerlaku as $kode_masa => $judul_masa)
                                     <option value="{{ $kode_masa }}" @selected($suratMaster->satuan_masa_berlaku === $kode_masa)>{{ $judul_masa }}
@@ -61,7 +61,7 @@
                             </select>
                         </div>
                     </div>
-                    <label class="text-muted text-red">Minimal 1 dan maksimal 31</label>
+                    <label class="text-muted text-red">Isi 0 jika tidak digunakan dan maksimal 31.</label>
                 </div>
             </div>
 
@@ -98,13 +98,15 @@
             @if ($margins)
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Margin Kertas</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-7">
                         <div class="row">
-                            @foreach ($margins as $value)
+                            @foreach ($margins as $key => $value)
                                 <div class="col-sm-3">
                                     <div class="input-group">
+                                        <span class="input-group-addon input-sm">{{ ucwords($key) }}</span>
                                         <input type="number" class="form-control input-sm required" min="0"
-                                            name="margin[]" value="{{ $value }}">
+                                            name="{{ $key }}" min="0" max="10" step="0.01"
+                                            value="{{ $value }}">
                                         <span class="input-group-addon input-sm">cm</span>
                                     </div>
                                 </div>

@@ -23,10 +23,10 @@
 							<div class="form-group">
 								<label for="nik_non_warga"  class="col-sm-3 control-label">Identitas (KTP / KK)</label>
 								<div class="col-sm-4">
-									<input class="form-control input-sm required" placeholder="Nomor KTP" name="nik_non_warga" type="text"/>
+									<input class="form-control input-sm required nik" placeholder="Nomor KTP" name="nik_non_warga" type="text"/>
 								</div>
 								<div class="col-sm-4">
-									<input class="form-control input-sm required" placeholder="Nomor KK" name="kk_non_warga"  type="text"/>
+									<input class="form-control input-sm required no_kk" placeholder="Nomor KK" name="kk_non_warga"  type="text"/>
 								</div>
 							</div>
 							<div class="form-group">

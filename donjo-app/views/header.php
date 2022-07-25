@@ -242,4 +242,4 @@
                 if ($notif_pengumuman):
                     $this->load->view('notif/pengumuman', $notif_pengumuman);
                 endif
-            ?>
+			?>

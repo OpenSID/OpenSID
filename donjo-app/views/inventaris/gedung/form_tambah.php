@@ -19,10 +19,10 @@
 							<a href="<?= site_url() ?>inventaris_gedung" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Inventaris Gedung Dan Bangunan</a>
 						</div>
 						<?php
-                            $reg         = $count_reg->count + 1;
-                            $jumlah_kata = strlen($reg);
-                            $hasil       = sprintf('%06s', $reg);
-                        ?>
+                            $reg = $count_reg->count + 1;
+			$jumlah_kata                  = strlen($reg);
+			$hasil                        = sprintf('%06s', $reg);
+			?>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-md-12">

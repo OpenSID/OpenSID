@@ -652,15 +652,29 @@ class Migrasi_fitur_premium_2207 extends MY_model
         $hasil = $hasil && $this->tambah_setting([
             'key'        => 'header_surat',
             'value'      => TinyMCE::HEADER,
-            'keterangan' => 'Header Format Surat',
+            'keterangan' => 'Header Surat',
+            'kategori'   => 'format_surat',
+        ]);
+
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'tinggi_header',
+            'value'      => TinyMCE::TOP,
+            'keterangan' => 'Tinggi Header Surat',
             'kategori'   => 'format_surat',
         ]);
 
         // Tambahkan pengaturan footer format surat
-        return $hasil && $this->tambah_setting([
+        $hasil = $hasil && $this->tambah_setting([
             'key'        => 'footer_surat',
             'value'      => TinyMCE::FOOTER,
-            'keterangan' => 'Footer Format Surat',
+            'keterangan' => 'Footer Surat',
+            'kategori'   => 'format_surat',
+        ]);
+
+        return $hasil && $this->tambah_setting([
+            'key'        => 'tinggi_footer',
+            'value'      => TinyMCE::BOTTOM,
+            'keterangan' => 'Tinggi Footer Surat',
             'kategori'   => 'format_surat',
         ]);
     }
@@ -696,12 +710,12 @@ class Migrasi_fitur_premium_2207 extends MY_model
             'nama'                => $nama_surat,
             'url_surat'           => $url_surat,
             'kode_surat'          => '000',
-            'jenis'               => 4,
+            'jenis'               => 3,
             'masa_berlaku'        => 1,
             'satuan_masa_berlaku' => 'M',
             'orientasi'           => 'Potrait',
             'ukuran'              => 'A4',
-            'margin'              => '["5","5","5","5"]',
+            'margin'              => '{"kiri":1.78,"atas":0.63,"kanan":1.78,"bawah":1.37}',
             'qrcode'              => 1,
             'kode_isian'          => '[{"kode":"[keterangan]","nama":"Keterangan","tipe":"text","deskripsi":"Masukkan keterangan"}]',
             'created_by'          => auth()->id,

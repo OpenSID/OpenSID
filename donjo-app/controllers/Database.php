@@ -77,33 +77,12 @@ class Database extends Admin_Controller
         $this->load->view('database/database.tpl.php', $data);
     }
 
-    public function kosongkan()
-    {
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-
-        $data['act_tab'] = 3;
-        $data['content'] = 'database/kosongkan';
-        $this->load->view('database/database.tpl.php', $data);
-    }
-
     public function migrasi_db_cri()
     {
         $this->redirect_hak_akses('u');
         $this->session->unset_userdata(['success, error_msg']);
         $this->database_model->migrasi_db_cri();
         redirect('database/migrasi_cri');
-    }
-
-    public function kosongkan_db()
-    {
-        if (config_item('demo_mode')) {
-            redirect($this->controller);
-        }
-        $this->redirect_hak_akses('h');
-        $this->database_model->kosongkan_db();
-        redirect('database/kosongkan');
     }
 
     public function exec_backup()
@@ -133,8 +112,9 @@ class Database extends Admin_Controller
     {
         // cek tanggal
         // job hanya bisa dilakukan 1 hari 1 kali
-        $now  = Carbon::now()->format('Y-m-d');
-        $last = LogBackup::latest()->first();
+        $now    = Carbon::now()->format('Y-m-d');
+        $last   = LogBackup::latest()->first();
+        $lokasi = $this->input->post('lokasi');
 
         if ($last != null && $now == $last->created_at->format('Y-m-d')) {
             return json([
@@ -143,11 +123,7 @@ class Database extends Admin_Controller
             ]);
         }
 
-        if ($last != null && $last->status == '2') {
-            unlink($last->path);
-        }
-
-        $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'backup_inkremental']);
+        $process = new Process(['php', '-f', FCPATH . 'index.php', 'job', 'backup_inkremental', $lokasi]);
         $process->disableOutput()->setOptions(['create_new_console' => true]);
         $process->start();
 
@@ -161,8 +137,9 @@ class Database extends Admin_Controller
     {
         $file = LogBackup::latest()->first();
         $file->update(['downloaded_at' => Carbon::now(), 'status' => 2]);
-
-        ambilBerkas(basename($file->path), $this->controller, null, DESAPATH . 'cache' . DIRECTORY_SEPARATOR, false);
+        $za           = new FlxZipArchive();
+        $za->tmp_file = $file->path;
+        $za->download('backup_inkremental' . $file->created_at->format('Y_m-d') . '.zip');
     }
 
     public function restore()

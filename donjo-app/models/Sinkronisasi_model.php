@@ -118,15 +118,15 @@ class Sinkronisasi_model extends CI_model
     {
         foreach ($data_tabel as &$item) {
             switch ($tabel) {
-        case 'tweb_keluarga':
-          unset($item['no_kk']);
-          break;
+                case 'tweb_keluarga':
+                    unset($item['no_kk']);
+                    break;
 
-        case 'tweb_penduduk':
-          unset($item['nama'], $item['nik']);
+                case 'tweb_penduduk':
+                    unset($item['nama'], $item['nik']);
 
-          break;
-      }
+                    break;
+            }
         }
 
         return $data_tabel;

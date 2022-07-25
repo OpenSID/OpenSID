@@ -55,7 +55,7 @@
                 <table class="table table-bordered dataTable nowrap">
                   <?php $last = '';
 
-foreach ($main as $data):?>
+                  foreach ($main as $data):?>
                     <?php	if ($data['pertanyaan'] != $last):?>
                       <tr><td><label><?= $data['pertanyaan']?></label></td></tr>
                       <tr>
@@ -76,7 +76,7 @@ foreach ($main as $data):?>
                         </td>
                       </tr>
                     <?php	endif;
-                    $last = $data['pertanyaan'];
+                      $last = $data['pertanyaan'];
                   endforeach; ?>
                 </table>
               <?php else: ?>

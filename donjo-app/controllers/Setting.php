@@ -68,6 +68,9 @@ class Setting extends Admin_Controller
         $this->setting_model->update_setting($this->input->post());
         // Untuk notif blade
         set_session('success', 'Berhasil Ubah Data');
+        //untuk notif view
+        status_sukses(true, false, 'Berhasil Ubah Data');
+
         redirect($_SERVER['HTTP_REFERER']);
     }
 

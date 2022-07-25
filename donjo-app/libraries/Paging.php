@@ -104,11 +104,11 @@ class Paging
         if ($this->page < $this->num_links) {
             $start = 1;
             $end   = min($this->num_links, $this->num_page);
-        /** Aslinya sbb:
-         * if($this->num_page > (int)($this->num_links * 1.5)) // 30
-         * $end=$this->num_links;
-         * else $end=$this->num_page;
-         */
+            /** Aslinya sbb:
+             * if($this->num_page > (int)($this->num_links * 1.5)) // 30
+             * $end=$this->num_links;
+             * else $end=$this->num_page;
+             */
         } elseif ($this->page > $this->num_page - $this->num_links) {
             $start = (int) ($this->num_page - $this->num_links);
             $end   = (int) $this->num_page;

@@ -62,7 +62,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">Keterangan</label>
 								<div class="col-sm-7">
-									<textarea id="desk" name="desk" class="form-control input-sm required" style="height: 200px;"><?= $area['desk']?></textarea>
+									<textarea id="desk" name="desk" class="form-control input-sm required" style="height: 200px;white-space: pre-wrap;"><?= $area['desk']?></textarea>
 								</div>
 							</div>
 							<div class="form-group">

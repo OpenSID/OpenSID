@@ -54,10 +54,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				</br>
 				<?php
                     $seb_kec = $this->setting->sebutan_kecamatan;
-                    $nam_kec = $desa['nama_kecamatan'];
-                    $seb_kab = $this->setting->sebutan_kabupaten;
-                    $nam_kab = $desa['nama_kabupaten'];
-                ?>
+$nam_kec                     = $desa['nama_kecamatan'];
+$seb_kab                     = $this->setting->sebutan_kabupaten;
+$nam_kab                     = $desa['nama_kabupaten'];
+?>
 				<?php	if (strlen($nam_kec) <= 12 && strlen($nam_kab) <= 12): ?>
 					<?= ucwords($seb_kec . ' ' . $nam_kec); ?>
 					</br>

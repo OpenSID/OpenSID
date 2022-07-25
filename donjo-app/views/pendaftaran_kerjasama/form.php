@@ -36,7 +36,7 @@
 				</div>
 				<div class="box-body">
 					<div class="callout callout-info">
-						<h5>Silahkan cek email Anda untuk memverifikasi.</h5>
+						<h5>Silahkan cek email Anda untuk memverifikasi, atau kirim ulang pendaftaran kerjasama menggunakan email aktif untuk menerima link verifikasi baru.</h5>
 					</div>
 				</div>
 			</div>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="box-body">
 					<div class="callout callout-info">
-						<h5>Dokumen permohonan Desa anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
+						<h5>Dokumen permohonan kerjasama Desa anda sedang diperiksa oleh Pelaksana Layanan OpenDesa.</h5>
 					</div>
 				</div>
 			</div>
@@ -64,7 +64,11 @@
 						<input type="hidden" name="status_langganan_id" value="<?= $status = $response->data->status_langganan_id ?? 4 ?>">
 						<label class="col-sm-3 control-label" for="email">Email</label>
 						<div class="col-sm-8">
-							<input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="<?= $response->data->email ?>">
+                            <?php if ($response->data->status_langganan === 'menunggu verifikasi email') : ?>
+                                <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="<?= $response->data->email ?>">
+                            <?php else : ?>
+                                <input id="email" class="form-control input-sm required" type="text" placeholder="Gunakan email yang valid" name="email" value="<?= $response->data->email ?>">
+                            <?php endif; ?>
 							<?php if ($email = $this->session->errors->messages->email) : ?>
 								<p class="error"><?= $email ?></p>
 							<?php endif ?>

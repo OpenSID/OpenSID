@@ -10,7 +10,7 @@
                 <span class="left-col"><strong>' . ucfirst($helper) . '</strong></span>';
         echo '</p>';
     }
-    ?>
+         ?>
     </div>
 </div>
 <?php endif; ?>

@@ -31,7 +31,7 @@
                                                     else:
                                                         $no_kk = $kk['no_kk'];
                                                     endif;
-                                                ?>
+?>
 												<div class="input-group input-group-sm">
 													<span class="input-group-addon">
 														<input type="checkbox" title="Centang jika belum memiliki No. KK" id="nokk_sementara" <?= jecho($cek_nokk, '0', 'checked ="checked"') ?>>

@@ -103,4 +103,17 @@ class User extends Model
     {
         return $this->hasOne(Pamong::class, 'pamong_id', 'pamong_id');
     }
+
+    /**
+     * Scope query untuk status pengguna
+     *
+     * @param mixed $query
+     * @param mixed $status
+     *
+     * @return Builder
+     */
+    public function scopeStatus($query, $status = 1)
+    {
+        return $query->where('active', $status);
+    }
 }

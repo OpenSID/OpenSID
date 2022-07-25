@@ -1,0 +1,173 @@
+<?php
+
+/*
+ *
+ * File ini bagian dari:
+ *
+ * OpenSID
+ *
+ * Sistem informasi desa sumber terbuka untuk memajukan desa
+ *
+ * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
+ *
+ * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ *
+ * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
+ * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
+ * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
+ * asal tunduk pada syarat berikut:
+ *
+ * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
+ * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
+ * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
+ *
+ * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
+ * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
+ * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
+ *
+ * @package   OpenSID
+ * @author    Tim Pengembang OpenDesa
+ * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @license   http://www.gnu.org/licenses/gpl.html GPL V3
+ * @link      https://github.com/OpenSID/OpenSID
+ *
+ */
+
+use App\Models\Config;
+use App\Models\Pamong;
+
+defined('BASEPATH') || exit('No direct script access allowed');
+
+class Migrasi_fitur_premium_2208 extends MY_model
+{
+    public function up()
+    {
+        $hasil = true;
+
+        // Jalankan migrasi sebelumnya
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2207');
+        $hasil = $hasil && $this->migrasi_2022070551($hasil);
+        $hasil = $hasil && $this->migrasi_2022070451($hasil);
+        $hasil = $hasil && $this->migrasi_2022070751($hasil);
+
+        return $hasil && $this->migrasi_2022071851($hasil);
+    }
+
+    protected function migrasi_2022070551($hasil)
+    {
+        $config = Config::first();
+
+        if ($config->pamong_id && Pamong::where('pamong_ttd', 1)->count() > 1) {
+            return $hasil && Pamong::whereNotIn('pamong_id', [$config->pamong_id])->update(['pamong_ttd' => 0]);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022070451($hasil)
+    {
+        $hasil = $hasil && $this->db
+            ->where('id', 7)
+            ->update('setting_modul', ['url' => '']);
+
+        $hasil = $hasil && $this->db
+            ->where('parent', 7)
+            ->update('setting_modul', ['hidden' => 0]);
+
+        $hasil = $hasil && $this->db
+            ->where([
+                'id'    => 213,
+                'modul' => 'data_persil',
+            ])
+            ->update('setting_modul', [
+                'modul' => 'Daftar Persil',
+                'ikon'  => 'fa-list',
+            ]);
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
+    }
+
+    public function migrasi_2022071851($hasil)
+    {
+
+        // Tambah folder desa untuk menyimpan simbol lokasi
+        $new_dir = BACKUPPATH;
+        if (! file_exists($new_dir)) {
+            $hasil = mkdir($new_dir, 0755);
+        }
+
+        if (! $this->db->field_exists('permanen', 'log_backup')) {
+            $fields = [
+                'permanen' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'default'    => 0,
+                    'after'      => 'path',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_backup', $fields);
+        }
+
+        return $hasil;
+    }
+
+    public function migrasi_2022070751($hasil)
+    {
+        // Buat tabel ref font Surat
+        if (! $this->db->table_exists('ref_font_surat')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'font_family' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 50,
+                    'unique'     => true,
+                    'null'       => false,
+                ],
+            ];
+
+            $this->dbforge->add_key('id', true);
+            $this->dbforge->add_field($fields);
+            $hasil = $hasil && $this->dbforge->create_table('ref_font_surat', true);
+
+            // isi data font surat
+            $fonts = [
+                ['font_family' => 'Andale Mono'],
+                ['font_family' => 'Arial'],
+                ['font_family' => 'Arial Black'],
+                ['font_family' => 'Book Antiqua'],
+                ['font_family' => 'Comic Sans MS'],
+                ['font_family' => 'Courier New'],
+                ['font_family' => 'Georgia'],
+                ['font_family' => 'Helvetica'],
+                ['font_family' => 'Impact'],
+                ['font_family' => 'Symbol'],
+                ['font_family' => 'Tahoma'],
+                ['font_family' => 'Terminal'],
+                ['font_family' => 'Times New Roman'],
+                ['font_family' => 'Trebuchet MS'],
+                ['font_family' => 'Verdana'],
+                ['font_family' => 'Webdings'],
+                ['font_family' => 'Wingdings'],
+            ];
+            $hasil = $this->db->insert_batch('ref_font_surat', $fonts);
+        }
+
+        // tambahkan pengaturan
+        return $hasil && $this->tambah_setting([
+            'key'        => 'font_surat',
+            'value'      => 'Arial',
+            'keterangan' => 'Font Surat Utama',
+            'kategori'   => 'format_surat',
+        ]);
+    }
+}

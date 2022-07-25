@@ -13,7 +13,7 @@
                 echo '<span class="right-col" style="width:50%">' . htmlspecialchars($val) . '</span>';
                 echo '</p>';
             }
-            ?>
+         ?>
         </div>
     </div>
 <?php endif ?>

@@ -30,7 +30,7 @@
 
             return str_replace('_BASE_URL_', base_url(), $num);
         }
-        ?>
+		?>
 		<div id="container" align="center">
 			<table cellpadding="0" cellspacing="0" class="counter">
 				<tr>

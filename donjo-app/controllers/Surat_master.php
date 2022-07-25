@@ -38,6 +38,7 @@
 use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
+use App\Models\RefFontSurat;
 use App\Models\SettingAplikasi;
 use App\Models\SyaratSurat;
 
@@ -117,7 +118,7 @@ class Surat_master extends Admin_Controller
             if (in_array($suratMaster->jenis, [1, 2])) {
                 $formAction = route('surat_master.update', $id);
                 $kodeIsian  = $this->getKodeIsian($suratMaster->url_surat);
-                $qrCode     = QRCodeExist($suratMaster->url_surat) ? false : true;
+                $qrCode     = QRCodeExist($suratMaster->url_surat);
             } else {
                 $formAction = route('surat_master.update_baru', $id);
                 $kodeIsian  = json_decode($suratMaster->kode_isian);
@@ -137,8 +138,9 @@ class Surat_master extends Admin_Controller
 
         $masaBerlaku      = FormatSurat::MASA_BERLAKU;
         $klasifikasiSurat = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
+        $pengaturanSurat  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
 
-        return view('admin.pengaturan_surat.form', compact('action', 'formAction', 'suratMaster', 'masaBerlaku', 'klasifikasiSurat', 'kodeIsian', 'margins', 'orientations', 'sizes', 'qrCode'));
+        return view('admin.pengaturan_surat.form', compact('action', 'formAction', 'suratMaster', 'masaBerlaku', 'klasifikasiSurat', 'kodeIsian', 'margins', 'orientations', 'sizes', 'qrCode', 'pengaturanSurat'));
     }
 
     public function syaratSuratDatatables($id = null)
@@ -202,7 +204,7 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    private function validate($request = [], $id = null)
+    private function validate($request = [], $jenis = 4, $id = null)
     {
         $isian = array_combine(array_filter($request['nama_kode'], 'strlen'), array_filter($request['deskripsi_kode'], 'strlen'));
 
@@ -225,7 +227,7 @@ class Surat_master extends Admin_Controller
             'kode_surat'          => $request['kode_surat'],
             'masa_berlaku'        => $request['masa_berlaku'],
             'satuan_masa_berlaku' => $request['satuan_masa_berlaku'],
-            'jenis'               => $request['jenis'] ?? 4,
+            'jenis'               => $jenis,
             'mandiri'             => $request['mandiri'],
             'syarat_surat'        => $request['mandiri'] ? json_encode($request['id_cb']) : null,
             'qr_code'             => $request['qr_code'],
@@ -234,8 +236,15 @@ class Surat_master extends Admin_Controller
             'kode_isian'          => json_encode($kodeIsian),
             'orientasi'           => $request['orientasi'],
             'ukuran'              => $request['ukuran'],
-            'margin'              => json_encode($request['margin']),
         ];
+
+        // Margin
+        $data['margin'] = json_encode([
+            'kiri'  => (float) $request['kiri'],
+            'atas'  => (float) $request['atas'],
+            'kanan' => (float) $request['kanan'],
+            'bawah' => (float) $request['bawah'],
+        ]);
 
         if (null === $id) {
             $data['created_by'] = auth()->id;
@@ -375,18 +384,33 @@ class Surat_master extends Admin_Controller
 
         if ($folderSuratDesa) {
             foreach ($folderSuratDesa as $surat) {
-                $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
+                $url_surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
 
-                if (! FormatSurat::isExist($surat)) {
-                    $data              = [];
-                    $data['jenis']     = 2;
-                    $data['nama']      = strtolower(trim(str_replace(['surat', '-', '_'], ' ', nama_terbatas($surat))));
-                    $data['url_surat'] = 'surat_' . strtolower(str_replace([' ', '-'], '_', $data['nama']));
+                // Hanya folder dengan nama depat surat_ yg akan di simpan
+                if (preg_match('/surat_/i', $url_surat)) {
+                    $surat_baru  = underscore(trim(preg_replace('/[^a-zA-Z0-9 \\_]/', ' ', $url_surat)), true, true);
+                    $lokasi_baru = LOKASI_SURAT_DESA . $surat_baru;
 
-                    FormatSurat::insert($data);
+                    // Ubah nama folder penyimpanan template surat
+                    rename($surat, $lokasi_baru);
+
+                    // Ubah nama file surat
+                    rename($lokasi_baru . '/' . $url_surat . '.rtf', $lokasi_baru . '/' . $surat_baru . '.rtf');
+                    rename($lokasi_baru . '/' . $url_surat . '.php', $lokasi_baru . '/' . $surat_baru . '.php');
+                    rename($lokasi_baru . '/data_rtf_' . $url_surat . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
+                    rename($lokasi_baru . '/data_form_' . $url_surat . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
+
+                    if (! FormatSurat::isExist($url_surat)) {
+                        $data              = [];
+                        $data['jenis']     = 2;
+                        $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));
+                        $data['url_surat'] = $surat_baru;
+
+                        FormatSurat::insert($data);
+                    }
+
+                    $daftarSurat[] = $url_surat;
                 }
-
-                $daftarSurat[] = $surat;
             }
 
             // Hapus surat ubahan desa yg sudah tidak ada
@@ -398,27 +422,23 @@ class Surat_master extends Admin_Controller
 
     public function pengaturan()
     {
-        $header      = SettingAplikasi::find('header_surat') ?? show_404();
-        $footer      = SettingAplikasi::find('footer_surat') ?? show_404();
-        $aksi        = route('surat_master.update');
-        $form_action = route('surat_master.edit_pengaturan');
+        $pengaturanSurat = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $aksi            = route('surat_master.update');
+        $formAksi        = route('surat_master.edit_pengaturan');
+        $fonts           = RefFontSurat::all();
 
-        return view('admin.pengaturan_surat.pengaturan', compact('header', 'footer', 'aksi', 'form_action'));
+        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts'));
     }
 
     public function edit_pengaturan()
     {
         $this->redirect_hak_akses('u');
 
-        // TODO: Gunakan findOrFail
-        $header = SettingAplikasi::find('header_surat') ?? show_404();
-        $footer = SettingAplikasi::find('footer_surat') ?? show_404();
-
-        if ($header->update(['value' => $this->request['header_surat']]) && $footer->update(['value' => $this->request['footer_surat']])) {
-            redirect_with('success', 'Berhasil Ubah Data');
+        foreach ($this->request as $key => $value) {
+            SettingAplikasi::whereKey($key)->update(['value' => $this->request[$key]]);
         }
 
-        redirect_with('error', 'Gagal Ubah Data');
+        redirect_with('success', 'Berhasil Ubah Data');
     }
 
     public function kode_isian($id = null)

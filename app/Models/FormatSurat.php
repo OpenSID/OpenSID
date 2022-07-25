@@ -77,10 +77,10 @@ class FormatSurat extends Model
      * @var array
      */
     public const MARGINS = [
-        5,
-        5,
-        5,
-        5,
+        'kiri'  => 1.78,
+        'atas'  => 0.63,
+        'kanan' => 1.78,
+        'bawah' => 1.37,
     ];
 
     /**
@@ -149,6 +149,7 @@ class FormatSurat extends Model
      */
     protected $appends = [
         'judul_surat',
+        'margin_cm_to_mm',
     ];
 
     /**
@@ -278,6 +279,23 @@ class FormatSurat extends Model
     public function getJudulSuratAttribute()
     {
         return 'Surat ' . $this->nama;
+    }
+
+    /**
+     * Getter untuk judul_surat
+     *
+     * @return string
+     */
+    public function getMarginCmToMmAttribute()
+    {
+        $margin = json_decode($this->margin);
+
+        return [
+            $margin->kiri * 10,
+            $margin->atas * 10,
+            $margin->kanan * 10,
+            $margin->bawah * 10,
+        ];
     }
 
     /**

@@ -586,11 +586,14 @@ class Sid_core extends Admin_Controller
     public function urut($tipe = '', $p = 1, $id = 0, $arah = 0, $id_dusun = 0, $id_rw = 0)
     {
         switch ($tipe) {
-            case 'dusun': $url = "index/{$p}"; break;
+            case 'dusun': $url = "index/{$p}";
+                break;
 
-            case 'rw': $url = "sub_rw/{$id_dusun}/{$p}"; break;
+            case 'rw': $url = "sub_rw/{$id_dusun}/{$p}";
+                break;
 
-            case 'rt': $url = "sub_rt/{$id_dusun}/{$id_rw}/{$p}"; break;
+            case 'rt': $url = "sub_rt/{$id_dusun}/{$id_rw}/{$p}";
+                break;
 
             default:
                 // code...

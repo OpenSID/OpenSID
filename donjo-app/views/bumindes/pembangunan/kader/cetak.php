@@ -65,8 +65,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		</tr>
 		<?php
             $tahun = date('Y', strtotime($tgl_cetak));
-            if ($tahun):
-        ?>
+if ($tahun):
+    ?>
 		<tr>
 			<td class="text-center">
 				<h4>TAHUN <?= $tahun; ?></h4>

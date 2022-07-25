@@ -86,7 +86,7 @@ class Rekap
             $ibuHamil = $ibuHamil->where('id', $this->ci->session->userdata('id'));
         } else {
             if ($id != null) {
-                $ibuHamil = $ibuHamil->where('id', $id);
+                $ibuHamil = $ibuHamil->where('posyandu_id', $id);
             }
         }
 
@@ -382,7 +382,7 @@ class Rekap
             $bulananAnak = $bulananAnak->where('id', $this->ci->session->userdata('id'));
         } else {
             if ($id != null) {
-                $bulananAnak = $bulananAnak->where('id', $id);
+                $bulananAnak = $bulananAnak->where('posyandu_id', $id);
             }
         }
 

@@ -110,13 +110,17 @@ class Klasifikasi_model extends MY_model
 
         //Ordering SQL
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY u.kode * 1'; break;
+            case 1: $order_sql = ' ORDER BY u.kode * 1';
+                break;
 
-            case 2: $order_sql = ' ORDER BY u.kode * 1 DESC'; break;
+            case 2: $order_sql = ' ORDER BY u.kode * 1 DESC';
+                break;
 
-            case 3: $order_sql = ' ORDER BY u.nama'; break;
+            case 3: $order_sql = ' ORDER BY u.nama';
+                break;
 
-            case 4: $order_sql = ' ORDER BY u.nama DESC'; break;
+            case 4: $order_sql = ' ORDER BY u.nama DESC';
+                break;
 
             default:$order_sql = ' ORDER BY u.kode * 1';
         }

@@ -574,35 +574,35 @@ class Surat_model extends CI_Model
 
         while ($in < strlen($buffer_in)) {
             switch ($buffer_in[$in]) {
-          case '[':
-            // Ambil kode isian, hilangkan karakter bukan alpha
-            $kode_isian = $buffer_in[$in];
-            $in++;
+                case '[':
+                    // Ambil kode isian, hilangkan karakter bukan alpha
+                    $kode_isian = $buffer_in[$in];
+                    $in++;
 
-            while ($buffer_in[$in] != ']' && $in < strlen($buffer_in)) {
-                $kode_isian .= $buffer_in[$in];
-                $in++;
-            }
-            if ($in < strlen($buffer_in)) {
-                $kode_isian .= $buffer_in[$in];
-                $in++;
-            }
-            // Ganti karakter non-alphanumerik supaya bisa di-cek
-            $kode_isian = preg_replace('/[^a-zA-Z0-9,_\{\}\[\]\-]/', '#', $kode_isian);
-            // Regex ini untuk membersihkan kode isian dari karakter yang dimasukkan oleh Word
-            // Regex ini disusun berdasarkan RTF yang dihasilkan oleh Word 2011 di Mac.
-            // Perlu diverifikasi regex ini berlaku juga untuk RTF yang dihasilkan oleh versi Word lain.
-            $regex      = '/(\\}.?#)|rtlch.?#|cf\\d#|fcs.?#+|afs.?\\d#+|f\\d*?\\d#|fs\\d*?\\d#|af\\d*?\\d#+|ltrch#+|insrsid\\d*?\\d#+|alang\\d+#+|lang\\d+|langfe\\d+|langnp\\d+|langfenp\\d+|b#+|ul#+|hich#+|dbch#+|loch#+|charrsid\\d*?\\d#+|#+/';
-            $kode_isian = preg_replace($regex, '', $kode_isian);
-            $buffer_out .= $kode_isian;
-            break;
+                    while ($buffer_in[$in] != ']' && $in < strlen($buffer_in)) {
+                        $kode_isian .= $buffer_in[$in];
+                        $in++;
+                    }
+                    if ($in < strlen($buffer_in)) {
+                        $kode_isian .= $buffer_in[$in];
+                        $in++;
+                    }
+                    // Ganti karakter non-alphanumerik supaya bisa di-cek
+                    $kode_isian = preg_replace('/[^a-zA-Z0-9,_\{\}\[\]\-]/', '#', $kode_isian);
+                    // Regex ini untuk membersihkan kode isian dari karakter yang dimasukkan oleh Word
+                    // Regex ini disusun berdasarkan RTF yang dihasilkan oleh Word 2011 di Mac.
+                    // Perlu diverifikasi regex ini berlaku juga untuk RTF yang dihasilkan oleh versi Word lain.
+                    $regex      = '/(\\}.?#)|rtlch.?#|cf\\d#|fcs.?#+|afs.?\\d#+|f\\d*?\\d#|fs\\d*?\\d#|af\\d*?\\d#+|ltrch#+|insrsid\\d*?\\d#+|alang\\d+#+|lang\\d+|langfe\\d+|langnp\\d+|langfenp\\d+|b#+|ul#+|hich#+|dbch#+|loch#+|charrsid\\d*?\\d#+|#+/';
+                    $kode_isian = preg_replace($regex, '', $kode_isian);
+                    $buffer_out .= $kode_isian;
+                    break;
 
-          default:
-            // Ambil isi yang bukan bagian dari kode isian
-            $buffer_out .= $buffer_in[$in];
-            $in++;
-            break;
-        }
+                default:
+                    // Ambil isi yang bukan bagian dari kode isian
+                    $buffer_out .= $buffer_in[$in];
+                    $in++;
+                    break;
+            }
         }
 
         return $buffer_out;
@@ -743,7 +743,7 @@ class Surat_model extends CI_Model
     */
     public function case_replace($dari, $ke, $str)
     {
-        $replacer = static function ($matches) use ($ke) {
+        $replacer    = static function ($matches) use ($ke) {
             $matches = array_map(static function ($match) {
                 return preg_replace('/[\\[\\]]/', '', $match);
             }, $matches);
@@ -818,13 +818,9 @@ class Surat_model extends CI_Model
             $file = "template-surat/{$url}/{$url}.rtf";
         }
 
-        // if (is_file($file) || $surat['jenis'] == 3 || $surat['jenis'] == 4) {
         if (is_file($file)) {
             $handle = fopen($file, 'rb');
             $buffer = stream_get_contents($handle);
-            // if ($surat['jenis'] == 3 || $surat['jenis'] == 4) {
-            //     $buffer = preg_replace('/\\\\/', '', $this->setting->header_surat) . '[pemisah]' . $surat['template_desa'] . '[pemisah]' . preg_replace('/\\\\/', '', $this->setting->footer_surat);
-            // }
             $buffer = $this->bersihkan_kode_isian($buffer);
             $buffer = $this->sisipkan_kop_surat($buffer);
             $buffer = $this->sisipkan_logo($config['logo'], $logo_garuda, $buffer);

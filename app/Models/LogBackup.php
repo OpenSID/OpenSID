@@ -55,5 +55,5 @@ class LogBackup extends Model
      */
     protected $guarded = [];
 
-    protected $fillable = ['ukuran', 'path', 'status', 'downloaded_at'];
+    protected $fillable = ['ukuran', 'path', 'status', 'downloaded_at', 'permanen'];
 }

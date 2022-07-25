@@ -36,7 +36,7 @@
 									<tbody>
 										<?php $no = 1;
 
-foreach ($main['pengunjung'] as $data):?>
+		foreach ($main['pengunjung'] as $data):?>
 										<tr>
 											<td class="thick" align="center" width="2"><?= $no++; ?></td>
 											<td class="thick" align="center">
