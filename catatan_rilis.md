@@ -7,6 +7,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 3. [#5306](https://github.com/OpenSID/OpenSID/issues/5306) [TinyMCE] Ridirect Ke Arsip / Daftar Surat Setelah Cetak Surat
 4. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) [Periksa Database] User dan Password Default (Statis)
 5. [#5305](https://github.com/OpenSID/OpenSID/issues/5305) [TinyMCE] Menambahkan Pengaturan Default Font
+6. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) [Periksa Database] Menambahkan Fungsi Melewati pemeriksaan syarat sandi
 
 #### Perbaikan BUG
 1. [#5321](https://github.com/OpenSID/OpenSID/issues/5321) Merapikan informasi report ketika ada duplicate data tanggal

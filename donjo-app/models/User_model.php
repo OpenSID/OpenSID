@@ -44,6 +44,9 @@ class User_model extends CI_Model
 {
     public const GROUP_REDAKSI = 3;
 
+    private $_username;
+    private $_password;
+
     // Konfigurasi untuk library 'upload'
     protected $uploadConfig  = [];
     protected $larangan_demo = [
@@ -69,8 +72,8 @@ class User_model extends CI_Model
 
     public function siteman()
     {
-        $username = trim($this->input->post('username'));
-        $password = trim($this->input->post('password'));
+        $this->_username = $username = trim($this->input->post('username'));
+        $this->_password = $password = trim($this->input->post('password'));
 
         if (config_item('demo_mode') && ($username == config_item('demo_user')['username'] && $password == config_item('demo_user')['password'])) {
             // Ambil data user pertama yang merupakan admin
