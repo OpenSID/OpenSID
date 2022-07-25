@@ -10,6 +10,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 6. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) [Periksa Database] Menambahkan Fungsi Melewati pemeriksaan syarat sandi
 7. [#5405](https://github.com/OpenSID/OpenSID/issues/5405) [Informasi Tambahan] Tambahkan info email yg terkirim untuk verifikasi pendaftaran kerjasama
 8. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) [Redirect] Menambahkan redirect setelah atau sebelum login
+9. [#5409](https://github.com/OpenSID/OpenSID/issues/5409) [Simpan Pdf] Surat yang sudah final dibuatkan pdf dan hasilnya tersimpan di dalam server
 
 #### Perbaikan BUG
 1. [#5321](https://github.com/OpenSID/OpenSID/issues/5321) Merapikan informasi report ketika ada duplicate data tanggal
