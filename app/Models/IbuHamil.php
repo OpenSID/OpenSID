@@ -49,6 +49,13 @@ class IbuHamil extends Model
     protected $table = 'ibu_hamil';
 
     /**
+     * The table update parameter.
+     *
+     * @var string
+     */
+    public $primaryKey = 'id_ibu_hamil';
+
+    /**
      * The guarded with the model.
      *
      * @var array
@@ -63,11 +70,11 @@ class IbuHamil extends Model
     public function scopeFilter($query, array $filters)
     {
         if (! empty($filters['bulan'])) {
-            $query->whereMonth('created_at', $filters['bulan']);
+            $query->whereMonth('ibu_hamil.created_at', $filters['bulan']);
         }
 
         if (! empty($filters['tahun'])) {
-            $query->whereYear('created_at', $filters['tahun']);
+            $query->whereYear('ibu_hamil.created_at', $filters['tahun']);
         }
 
         if (! empty($filters['posyandu'])) {

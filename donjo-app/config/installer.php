@@ -69,8 +69,9 @@ $config = [
     ],
 
     'lainnya' => [
-        'storage/framework/' => [0775],
-        'storage/logs/'      => [0775],
+        'storage/framework/'  => [0775],
+        'storage/logs/'       => [0775],
+        'backup_inkremental/' => [0775],
     ],
 
     'config' => <<<'EOS'

@@ -51,8 +51,9 @@ class Migrasi_fitur_premium_2208 extends MY_model
         $hasil = $hasil && $this->migrasi_2022070551($hasil);
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
         $hasil = $hasil && $this->migrasi_2022070751($hasil);
+        $hasil = $hasil && $this->migrasi_2022071851($hasil);
 
-        return $hasil && $this->migrasi_2022071851($hasil);
+        return $hasil && $this->migrasi_2022072751($hasil);
     }
 
     protected function migrasi_2022070551($hasil)
@@ -93,14 +94,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     public function migrasi_2022071851($hasil)
     {
-
-        // Tambah folder desa untuk menyimpan simbol lokasi
-        $new_dir = BACKUPPATH;
-        if (! file_exists($new_dir)) {
-            $hasil = mkdir($new_dir, 0755);
-        }
-
-        if (! $this->db->field_exists('permanen', 'log_backup')) {
+        if (!$this->db->field_exists('permanen', 'log_backup')) {
             $fields = [
                 'permanen' => [
                     'type'       => 'TINYINT',
@@ -119,7 +113,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
     public function migrasi_2022070751($hasil)
     {
         // Buat tabel ref font Surat
-        if (! $this->db->table_exists('ref_font_surat')) {
+        if (!$this->db->table_exists('ref_font_surat')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -169,5 +163,20 @@ class Migrasi_fitur_premium_2208 extends MY_model
             'keterangan' => 'Font Surat Utama',
             'kategori'   => 'format_surat',
         ]);
+    }
+
+    public function migrasi_2022072751($hasil)
+    {
+        if ($this->db->field_exists('id', 'ibu_hamil')) {
+            return $hasil && $this->dbforge->modify_column('ibu_hamil', [
+                'id' => [
+                    'name'           => 'id_ibu_hamil',
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+            ]);
+        }
     }
 }
