@@ -50,8 +50,9 @@ class Migrasi_fitur_premium_2208 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2207');
         $hasil = $hasil && $this->migrasi_2022070551($hasil);
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
+        $hasil = $hasil && $this->migrasi_2022071851($hasil);
 
-        return $hasil && $this->migrasi_2022071851($hasil);
+        return $hasil && $this->migrasi_2022072751($hasil);
     }
 
     protected function migrasi_2022070551($hasil)
@@ -106,5 +107,20 @@ class Migrasi_fitur_premium_2208 extends MY_model
         }
 
         return $hasil;
+    }
+
+    public function migrasi_2022072751($hasil)
+    {
+        if ($this->db->field_exists('id', 'ibu_hamil')) {
+            return $hasil && $this->dbforge->modify_column('ibu_hamil', [
+                'id' => [
+                    'name'           => 'id_ibu_hamil',
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+            ]);
+        }
     }
 }

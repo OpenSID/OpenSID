@@ -35,6 +35,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 25. [#5416](https://github.com/OpenSID/OpenSID/issues/5416) Memperbaiki struktur perangkat tidak akan tampil/ tidak tersusun jika salah satu nama menggunakan tanda petik
 26. [#5390](https://github.com/OpenSID/OpenSID/issues/5390) Menambahkan daftar folder pada backup inkremental
 27. [#5180](https://github.com/OpenSID/OpenSID/issues/5180) Menampilkan icon waktu pada posting artikel & edit artikel
+28. [#5366](https://github.com/OpenSID/OpenSID/issues/5366) Memperbaiki tombol edit pada menu stunting -> menu ibu hamil
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database
 2. Update .gitignore
