@@ -31,10 +31,10 @@
 											<select class="form-control select2 input-sm required" id="nik" name="nik" onchange="formAction('main')" style="width:100%">
 												<option value="">-- Silakan Masukan <?= $detail['judul_cari_peserta'] ?> --</option>
 												<?php foreach ($program[2] as $item) :
-                                                    if ($item['id'] !== '') : ?>
+												    if ($item['id'] !== '') : ?>
 														<option value="<?= $item['id'] ?>" <?= selected($individu['nik'], $item['nik']); ?>><?= $item['nama'] . ' - ' . $item['info'] ?></option>
 												<?php endif;
-                                                endforeach; ?>
+												endforeach; ?>
 											</select>
 										</div>
 									</div>

@@ -101,10 +101,10 @@ class MY_Model extends CI_Model
                 $url  = ($data) ? ($cut[0] . '/' . $data['slug']) : ($url);
                 break;
 
-            /*
-             * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
-             * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
-             */
+                /*
+                 * TODO : Jika semua link pada tabel menu sudah tdk menggunakan first/ lagi
+                 * Ganti hapus case dibawah ini yg datanya diambil dari tabel menu dan ganti default adalah $url;
+                 */
 
             case 'arsip':
             case 'peraturan_desa':

@@ -158,17 +158,23 @@ class Keluar_model extends CI_Model
     {
         //Ordering SQL
         switch ($o) {
-            case 1: $this->db->order_by('(u.no_surat) * 1'); break;
+            case 1: $this->db->order_by('(u.no_surat) * 1');
+                break;
 
-            case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
+            case 2: $this->db->order_by('(u.no_surat) * 1 DESC');
+                break;
 
-            case 3: $this->db->order_by('nama'); break;
+            case 3: $this->db->order_by('nama');
+                break;
 
-            case 4: $this->db->order_by('nama', 'DESC'); break;
+            case 4: $this->db->order_by('nama', 'DESC');
+                break;
 
-            case 5: $this->db->order_by('u.tanggal'); break;
+            case 5: $this->db->order_by('u.tanggal');
+                break;
 
-            case 6: $this->db->order_by('u.tanggal', 'DESC'); break;
+            case 6: $this->db->order_by('u.tanggal', 'DESC');
+                break;
 
             default:$this->db->order_by('u.tanggal', 'DESC');
         }
@@ -273,17 +279,23 @@ class Keluar_model extends CI_Model
 
         //Ordering SQL
         switch ($o) {
-            case 1: $this->db->order_by('(u.no_surat) * 1'); break;
+            case 1: $this->db->order_by('(u.no_surat) * 1');
+                break;
 
-            case 2: $this->db->order_by('(u.no_surat) * 1 DESC'); break;
+            case 2: $this->db->order_by('(u.no_surat) * 1 DESC');
+                break;
 
-            case 3: $this->db->order_by('nama'); break;
+            case 3: $this->db->order_by('nama');
+                break;
 
-            case 4: $this->db->order_by('nama', 'DESC'); break;
+            case 4: $this->db->order_by('nama', 'DESC');
+                break;
 
-            case 5: $this->db->order_by('u.tanggal'); break;
+            case 5: $this->db->order_by('u.tanggal');
+                break;
 
-            case 6: $this->db->order_by('u.tanggal', 'DESC'); break;
+            case 6: $this->db->order_by('u.tanggal', 'DESC');
+                break;
 
             default:  $this->db->order_by('u.tanggal', 'DESC');
 
@@ -348,7 +360,7 @@ class Keluar_model extends CI_Model
         $data['tanggal'] = date('Y-m-d H:i:s');
         $data['status']  = 1; // Cetak
         //print_r($data);
-        if (! empty($nama_surat)) /**
+        if (! empty($nama_surat)) { /**
             Ekspor Dok:
             Penambahan atau update log disesuaikan dengan file surat yang tersimpan di arsip,
             sehingga hanya ada satu entri di log surat untuk setiap versi surat di arsip.
@@ -356,7 +368,6 @@ class Keluar_model extends CI_Model
             lihat fungsi nama_surat_arsip (kolom nama_surat di tabel log_surat).
             Entri itu akan berisi timestamp (pencetakan) terakhir untuk file surat yang bersangkutan.
         */
-        {
             $log_id = $this->db->select('id')->from('log_surat')->where('nama_surat', $nama_surat)->limit(1)->get()->row()->id;
         } else { // Cetak:
             // Sama dengan aturan Ekspor Dok, hanya URL-NIK-nomor surat-tanggal diambil dari data kolom

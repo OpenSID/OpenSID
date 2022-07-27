@@ -27,10 +27,10 @@
 							<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" style="width: 100%;">
 								<option value="">-- Silakan Masukan NIK / Nama--</option>
 								<?php foreach ($list_penduduk as $item):
-                                    if ($item['id'] !== ''): ?>
+								    if ($item['id'] !== ''): ?>
 										<option value="<?= $item['id']?>" <?php selected($individu['id'], $item['id']); ?>>Nama : <?= $item['nama'] . ' - ' . $item['info']?></option>
 									<?php endif;
-                                endforeach; ?>
+								endforeach; ?>
 							</select>
 						</div>
 						<div class="col-sm-4">

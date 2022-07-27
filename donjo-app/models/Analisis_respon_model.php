@@ -378,13 +378,17 @@ class Analisis_respon_model extends CI_Model
         $this->list_data_sql();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.id'); break;
+            case 1: $this->db->order_by('u.id');
+                break;
 
-            case 2: $this->db->order_by('u.id DESC'); break;
+            case 2: $this->db->order_by('u.id DESC');
+                break;
 
-            case 3: $this->db->order_by('nama'); break;
+            case 3: $this->db->order_by('nama');
+                break;
 
-            case 4: $this->db->order_by('nama DESC'); break;
+            case 4: $this->db->order_by('nama DESC');
+                break;
 
             default:$this->db->order_by('u.id');
         }
@@ -452,13 +456,17 @@ class Analisis_respon_model extends CI_Model
         $this->list_data_sql();
 
         switch ($o) {
-            case 1: $this->db->order_by('u.id'); break;
+            case 1: $this->db->order_by('u.id');
+                break;
 
-            case 2: $this->db->order_by('u.id DESC'); break;
+            case 2: $this->db->order_by('u.id DESC');
+                break;
 
-            case 3: $this->db->order_by('nama'); break;
+            case 3: $this->db->order_by('nama');
+                break;
 
-            case 4: $this->db->order_by('nama DESC'); break;
+            case 4: $this->db->order_by('nama DESC');
+                break;
 
             default:$this->db->order_by('u.id');
         }
@@ -953,9 +961,11 @@ class Analisis_respon_model extends CI_Model
         $subjek = $this->subjek;
         if ($subjek == 2 || $subjek == 3) {
             switch ($subjek) {
-                case 2: $sql = 'SELECT u.* FROM penduduk_hidup u WHERE u.id_kk = ? ORDER BY kk_level'; break;
+                case 2: $sql = 'SELECT u.* FROM penduduk_hidup u WHERE u.id_kk = ? ORDER BY kk_level';
+                    break;
 
-                case 3: $sql = 'SELECT u.* FROM penduduk_hidup u WHERE u.id_rtm = ? ORDER BY rtm_level'; break;
+                case 3: $sql = 'SELECT u.* FROM penduduk_hidup u WHERE u.id_rtm = ? ORDER BY rtm_level';
+                    break;
 
                 default: return null;
             }

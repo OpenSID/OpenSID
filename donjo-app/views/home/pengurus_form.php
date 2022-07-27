@@ -48,11 +48,11 @@
 				<input type="hidden" name="id_pend" value="<?= $individu['id']?>">
 				<div class="col-md-3">
 					<?php
-                        $sex  = $individu ? $individu['id_sex'] : $pamong['id_sex'];
-                        $foto = $individu ? $individu['foto'] : $pamong['foto'];
+                        $sex = $individu ? $individu['id_sex'] : $pamong['id_sex'];
+		$foto                      = $individu ? $individu['foto'] : $pamong['foto'];
 
-                        $this->load->view('global/ambil_foto', ['id_sex' => $sex, 'foto' => $foto]);
-                    ?>
+		$this->load->view('global/ambil_foto', ['id_sex' => $sex, 'foto' => $foto]);
+		?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-primary">

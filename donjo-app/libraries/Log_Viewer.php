@@ -304,16 +304,16 @@ class Log_Viewer
             }
 
             //this means the file has content that are not logged
-                //using log_message()
-                //they may be sensitive! so we are just skipping this
-                //other we could have just insert them like this
-                // array_push($superLog, [
-                // 	"level" => "INFO",
-                // 	"date" => "",
-                // 	"icon" => self::$levelsIcon["INFO"],
-                // 	"class" => self::$levelClasses["INFO"],
-                // 	"content" => $log
-                // ]);
+            //using log_message()
+            //they may be sensitive! so we are just skipping this
+            //other we could have just insert them like this
+            // array_push($superLog, [
+            // 	"level" => "INFO",
+            // 	"date" => "",
+            // 	"icon" => self::$levelsIcon["INFO"],
+            // 	"class" => self::$levelClasses["INFO"],
+            // 	"content" => $log
+            // ]);
         }
 
         return $superLog;

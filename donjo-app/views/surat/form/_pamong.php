@@ -18,7 +18,8 @@
 			<option value='' selected="selected">-- Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?>--</option>
 			<?php foreach ($pamong as $data): ?>
 				<?php $tmp_nip                                                                                                                           = trim($data['pamong_nip'], '-'); ?>
-				<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?php if ($data['pamong_ttd'] == 1): $pamong_nip = $data['pamong_nip']; $pamong_niap = $data['pamong_niap']; ?>selected <?php endif; ?> data-nip="<?= $data['pamong_nip']?>" data-niap="<?= $data['pamong_niap']?>" data-pamong-id="<?= $data['pamong_id']?>" data-ttd="<?= $data['pamong_ttd']?>" data-ub="<?= $data['pamong_ub']?>">
+				<option value="<?= $data['pamong_nama']?>" data-jabatan="<?= trim($data['jabatan']) ?>" <?php if ($data['pamong_ttd'] == 1): $pamong_nip = $data['pamong_nip'];
+				    $pamong_niap                                                                                                                         = $data['pamong_niap']; ?>selected <?php endif; ?> data-nip="<?= $data['pamong_nip']?>" data-niap="<?= $data['pamong_niap']?>" data-pamong-id="<?= $data['pamong_id']?>" data-ttd="<?= $data['pamong_ttd']?>" data-ub="<?= $data['pamong_ub']?>">
 					<?= $data['pamong_nama']?> (<?= $data['jabatan']?>) <?php if (! empty($tmp_nip)): ?>NIP: <?= $data['pamong_nip']; ?><?php endif; ?>
 				</option>
 			<?php endforeach; ?>

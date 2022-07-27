@@ -134,8 +134,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<?php
                             $count = 1;
 
-                            foreach ($main as $data):
-                        ?>
+foreach ($main as $data):
+    ?>
 							<tr>
 								<td class="text-left"><?= $count ?></td>
 								<td><?= strtoupper($data['nama_pemilik_asal'] ?: $data['nama'])?></td>
@@ -165,9 +165,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<td><?= strtoupper($data['keterangan']) ?></td>
 							</tr>
 						<?php
-                            $count++;
-                            endforeach;
-                        ?>
+        $count++;
+endforeach;
+?>
 					</tbody>
 				</table>
 			</td>

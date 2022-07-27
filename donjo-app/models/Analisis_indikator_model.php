@@ -126,17 +126,23 @@ class Analisis_indikator_model extends MY_Model
     public function list_data($o = 0, $offset = 0, $limit = 500)
     {
         switch ($o) {
-            case 1: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")'; break;
+            case 1: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")';
+                break;
 
-            case 2: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ") DESC'; break;
+            case 2: $order_sql = ' ORDER BY LPAD(u.nomor, 10, " ") DESC';
+                break;
 
-            case 3: $order_sql = ' ORDER BY u.pertanyaan'; break;
+            case 3: $order_sql = ' ORDER BY u.pertanyaan';
+                break;
 
-            case 4: $order_sql = ' ORDER BY u.pertanyaan DESC'; break;
+            case 4: $order_sql = ' ORDER BY u.pertanyaan DESC';
+                break;
 
-            case 5: $order_sql = ' ORDER BY u.id_kategori'; break;
+            case 5: $order_sql = ' ORDER BY u.id_kategori';
+                break;
 
-            case 6: $order_sql = ' ORDER BY u.id_kategori DESC'; break;
+            case 6: $order_sql = ' ORDER BY u.id_kategori DESC';
+                break;
 
             default:$order_sql = ' ORDER BY LPAD(u.nomor, 10, " ")';
         }
@@ -631,7 +637,7 @@ class Analisis_indikator_model extends MY_Model
                 ];
                 break;
 
-            // Keluarga
+                // Keluarga
             case 2:
                 $data = [
                     'nik_kepala' => [
@@ -652,11 +658,11 @@ class Analisis_indikator_model extends MY_Model
                 ];
                 break;
 
-            // Desa
+                // Desa
             default:
 
-            $desa   = $this->setting->sebutan_desa;
-            $kepala = $this->setting->sebutan_kepala_desa;
+                $desa   = $this->setting->sebutan_desa;
+                $kepala = $this->setting->sebutan_kepala_desa;
 
                 $data = [
 

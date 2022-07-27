@@ -12,6 +12,6 @@
                 echo '<span class="right-col" style="width:40%">' . htmlentities($val) . '</span>';
                 echo '</p>';
             }
-            ?>
+?>
         </div>
     </div>

@@ -316,7 +316,7 @@ class Web_widget_model extends MY_Model
                 usort($setting, [$this, 'sort_sinergi_program']);
                 break;
 
-                default:
+            default:
                 break;
         }
         // Simpan semua setting di kolom setting sebagai json

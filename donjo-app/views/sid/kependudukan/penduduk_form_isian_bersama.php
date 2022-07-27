@@ -499,7 +499,7 @@
                         if ((bool) $this->setting->aktifkan_sms === false && $value === 'SMS') {
                             continue;
                         }
-                    ?>
+				    ?>
 					<option value="<?= $value ?>" <?= selected($penduduk['hubung_warga'], $value); ?>><?= $value ?></option>
 				<?php endforeach ?>
 			</select>

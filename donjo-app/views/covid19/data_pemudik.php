@@ -49,9 +49,9 @@
 											<?php
                                             $nomer = $paging->offset;
 
-                                            foreach ($pemudik_list as $key => $item):
-                                                $nomer++;
-                                            ?>
+			foreach ($pemudik_list as $key => $item):
+			    $nomer++;
+			    ?>
 											<tr>
 												<td align="center" width="2"><?= $nomer; ?></td>
 												<?php if ($this->CI->cek_hak_akses('u')): ?>
@@ -68,8 +68,8 @@
 												<td nowrap><a href="<?= site_url('covid19/detil_pemudik/' . $item['id'])?>" title="Data terdata"><?= $item['terdata_info']; ?></a></td>
 												<td><?= $item['umur'] ?></td>
 												<?php
-                                                $jk = (strtoupper($item['sex']) === 'PEREMPUAN') ? 'Pr' : 'Lk';
-                                                ?>
+			        $jk = (strtoupper($item['sex']) === 'PEREMPUAN') ? 'Pr' : 'Lk';
+			    ?>
 												<td><?= $jk?></td>
 												<td><?= $item['info']; ?></td>
 												<td>Warga <?= $item['pantau'] == 1 ? 'Pemudik' : ucwords($this->setting->sebutan_desa) ?></td>
