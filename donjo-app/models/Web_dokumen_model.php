@@ -357,8 +357,12 @@ class Web_dokumen_model extends MY_Model
         $retval = true;
         $post   = $this->input->post();
         $data   = $this->validasi($post);
-        if (! empty($post['satuan'])) {
-            $data['satuan'] = $this->upload_dokumen($post);
+        if ($data['jenis_dokumen'] == '1') {
+            if (! empty($post['satuan'])) {
+                $data['satuan'] = $this->upload_dokumen($post);
+            }
+        } else {
+            $data['satuan'] = $post['url_dokumen'];
         }
         $data['attr']      = json_encode($data['attr']);
         $data['dok_warga'] = isset($post['dok_warga']);
@@ -389,6 +393,7 @@ class Web_dokumen_model extends MY_Model
         $data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
         $data['id_syarat']            = $post['id_syarat'] ?: null;
         $data['id_pend']              = $post['id_pend'] ?: 0;
+        $data['jenis_dokumen']        = $post['jenis_dokumen'] ?? 1;
 
         switch ($data['kategori']) {
             case 1: //Informsi Publik

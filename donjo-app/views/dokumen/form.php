@@ -40,7 +40,7 @@
 					</div>
 					<?php if ($dokumen['satuan']): ?>
 						<div class="form-group">
-							<label class="col-sm-4 control-label">Dokumen</label>
+							<label class="control-label col-sm-4">Dokumen</label>
 							<div class="col-sm-4">
 								<input type="hidden" name="old_file" value="">
 								<img class="attachment-img img-responsive img-circle" src="<?= site_url() . $this->controller . '/unduh_berkas/' . $dokumen['id']?>" alt="<?= $dokumen['nama']?>">
@@ -48,8 +48,14 @@
 						</div>
 					<?php endif; ?>
 					<div class="form-group">
-						<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
-						<div class="col-sm-6">
+						<label class="control-label col-sm-4" for="upload">File Dokumen</label>
+						<div class="col-md-2">
+							<select class="form-control input-sm select2" id="jenis_dokumen" name="jenis_dokumen" onchange="jenis(this.value);">
+								<option value="1" <?= selected($dokumen['jenis_dokumen'], 1); ?>>Unggah</option>
+								<option value="2" <?= selected($dokumen['jenis_dokumen'], 2); ?>>Url</option>
+							</select>
+						</div>
+						<div class="col-sm-4" id="jenis-unggah" <?= ($dokumen['jenis_dokumen'] == '1' || $dokumen['jenis_dokumen'] == null) ? '' : 'style="display: none;"' ?>>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path" name="satuan">
 								<input id="file" type="file" class="hidden" name="satuan">
@@ -61,17 +67,20 @@
 								<p class="small">(Kosongkan jika tidak ingin mengubah dokumen)</p>
 							<?php endif; ?>
 						</div>
+						<div class="col-sm-4" id="jenis-url" <?= ($dokumen['jenis_dokumen'] == '2') ? '' : 'style="display: none;"' ?>>
+							<input id="url_dokumen" name="url_dokumen" class="form-control input-sm" type="url" maxlength="100" value="<?= $dokumen['satuan'] ?>"></input>
+						</div>
 					</div>
 					<input name="kategori" type="hidden" value="<?= $dokumen['kategori'] ?: $kat; ?>">
 					<?php
-                        if ($kat == 2 || $dokumen['kategori'] == 2) {
-                            include 'donjo-app/views/dokumen/_sk_kades.php';
-                        } elseif ($kat == 3 || $dokumen['kategori'] == 3) {
-                            include 'donjo-app/views/dokumen/_perdes.php';
-                        } else {
-                            include 'donjo-app/views/dokumen/_informasi_publik.php';
-                        }
-                    ?>
+						if ($kat == 2 || $dokumen['kategori'] == 2) {
+							include 'donjo-app/views/dokumen/_sk_kades.php';
+						} elseif ($kat == 3 || $dokumen['kategori'] == 3) {
+							include 'donjo-app/views/dokumen/_perdes.php';
+						} else {
+							include 'donjo-app/views/dokumen/_informasi_publik.php';
+						}
+					?>
 				</div>
 				<div class='box-footer'>
 					<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
@@ -81,4 +90,26 @@
 		</form>
 	</section>
 </div>
+<script>
+	$('document').ready(function() {
+		$('#jenis_dokumen').change();
+	});
 
+	function jenis(key) {
+		if (key == 1) {
+			// Unggah
+			$('#jenis-url').hide();
+			$('#jenis-unggah').show();
+			$('#file_path').addClass('required');
+			$('#url_dokumen').removeClass('required');
+			$('#file_path').val();
+		} else {
+			// Url
+			$('#jenis-url').show();
+			$('#jenis-unggah').hide();
+			$('#file_path').removeClass('required');
+			$('#url_dokumen').addClass('required');
+			$('#url_dokumen').val('<?= $dokumen['jenis_dokumen'] == 2 ? $dokumen['satuan'] : '' ?>');
+		}
+	}
+</script>
