@@ -1047,3 +1047,24 @@ function unique_slug($tabel = null, $str = null)
 
     return null;
 }
+
+function sdgs()
+{
+    $CI = &get_instance();
+    $CI->load->library('data_publik');
+    $kode_desa = $CI->db->select('kode_desa')->get('config')->row()->kode_desa;
+    $cache     = 'sdgs_' . $kode_desa;
+
+    if (cek_koneksi_internet()) {
+        $CI->data_publik->set_api_url("https://sdgsdev.kemendesa.go.id/SIDcutoff/goals?wilayah={$kode_desa}", $cache)
+            ->set_interval(1)
+            ->set_cache_folder($CI->config->item('cache_path'));
+
+        $sdgs = $CI->data_publik->get_url_content();
+        $sdgs = $sdgs->body->data;
+
+        return $sdgs;
+    }
+
+    return null;
+}

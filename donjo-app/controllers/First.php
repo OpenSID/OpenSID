@@ -599,12 +599,9 @@ class First extends Web_Controller
             show_404();
         }
 
-        $this->load->model('data_eksternal_model');
         $data = $this->includes;
         $this->_get_common_data($data);
-        $kode_desa              = $data['desa']['kode_desa'];
-        $data['evaluasi']       = $this->data_eksternal_model->sdgs_kemendes($kode_desa);
-        $data['halaman_statis'] = '../../' . $this->theme_folder . '/' . $this->theme . '/partials/kemendes_sdgs.php';
+        $data['halaman_statis'] = '../../' . $this->theme_folder . '/' . $this->theme . '/partials/sdgs.php';
         $this->set_template('layouts/halaman_statis_lebar.tpl.php');
         $this->load->view($this->template, $data);
     }
