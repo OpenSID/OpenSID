@@ -49,6 +49,13 @@ class Paud extends Model
     protected $table = 'sasaran_paud';
 
     /**
+     * The table update parameter.
+     *
+     * @var string
+     */
+    public $primaryKey = 'id_sasaran_paud';
+
+    /**
      * The timestamps for the model.
      *
      * @var bool
@@ -70,7 +77,7 @@ class Paud extends Model
     public function scopeFilter($query, array $filters)
     {
         if (! empty($filters['tahun'])) {
-            $query->whereYear('created_at', $filters['tahun']);
+            $query->whereYear('sasaran_paud.created_at', $filters['tahun']);
         }
 
         if (! empty($filters['posyandu'])) {

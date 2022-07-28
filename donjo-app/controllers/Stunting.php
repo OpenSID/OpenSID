@@ -325,7 +325,7 @@ class Stunting extends Admin_Controller
             return datatables()->of(IbuHamil::with(['kia', 'kia.ibu'])->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id_ibu_hamil . '"/>';
                     }
                 })
                 ->addIndexColumn()
@@ -343,7 +343,7 @@ class Stunting extends Admin_Controller
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deleteIbuHamil', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . route('stunting.deleteIbuHamil', $row->id_ibu_hamil) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -523,7 +523,7 @@ class Stunting extends Admin_Controller
             return datatables()->of(Anak::with(['kia', 'kia.anak'])->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id_bulanan_anak . '"/>';
                     }
                 })
                 ->addIndexColumn()
@@ -534,11 +534,11 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('stunting.formAnak', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . route('stunting.formAnak', $row->id_bulanan_anak) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deleteAnak', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . route('stunting.deleteAnak', $row->id_bulanan_anak) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;
@@ -727,7 +727,7 @@ class Stunting extends Admin_Controller
     {
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-sasaran-paud';
-        $data['tahun']    = Anak::select(Anak::raw('YEAR(created_at) tahun'))->groupBy('tahun')->get();
+        $data['tahun']    = Paud::select(Paud::raw('YEAR(created_at) tahun'))->groupBy('tahun')->get();
         $data['posyandu'] = Posyandu::all();
 
         return view('admin.stunting.pemantauan_paud', $data);
@@ -744,7 +744,7 @@ class Stunting extends Admin_Controller
             return datatables()->of(Paud::with(['kia', 'kia.anak'])->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
-                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id . '"/>';
+                        return '<input type="checkbox" name="id_cb[]" value="' . $row->id_sasaran_paud . '"/>';
                     }
                 })
                 ->addIndexColumn()
@@ -755,11 +755,11 @@ class Stunting extends Admin_Controller
                     $aksi = '';
 
                     if (can('u')) {
-                        $aksi .= '<a href="' . route('stunting.formPaud', $row->id) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
+                        $aksi .= '<a href="' . route('stunting.formPaud', $row->id_sasaran_paud) . '" class="btn btn-warning btn-sm"  title="Ubah Data"><i class="fa fa-edit"></i></a> ';
                     }
 
                     if (can('h')) {
-                        $aksi .= '<a href="#" data-href="' . route('stunting.deletePaud', $row->id) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
+                        $aksi .= '<a href="#" data-href="' . route('stunting.deletePaud', $row->id_sasaran_paud) . '" class="btn bg-maroon btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash"></i></a> ';
                     }
 
                     return $aksi;

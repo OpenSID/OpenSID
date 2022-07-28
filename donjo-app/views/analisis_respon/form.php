@@ -96,8 +96,8 @@
 										<div class="table-responsive">
 											<table class="table">
 												<?php
-                                                $new = 1;
-		$last                                              = 0;
+										        $new = 1;
+		$last                = 0;
 
 		foreach ($list_jawab as $data) :
 		    $data['no'] = '';

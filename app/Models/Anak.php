@@ -49,6 +49,13 @@ class Anak extends Model
     protected $table = 'bulanan_anak';
 
     /**
+     * The table update parameter.
+     *
+     * @var string
+     */
+    public $primaryKey = 'id_bulanan_anak';
+
+    /**
      * The guarded with the model.
      *
      * @var array
@@ -63,11 +70,11 @@ class Anak extends Model
     public function scopeFilter($query, array $filters)
     {
         if (! empty($filters['bulan'])) {
-            $query->whereMonth('created_at', $filters['bulan']);
+            $query->whereMonth('bulanan_anak.created_at', $filters['bulan']);
         }
 
         if (! empty($filters['tahun'])) {
-            $query->whereYear('created_at', $filters['tahun']);
+            $query->whereYear('bulanan_anak.created_at', $filters['tahun']);
         }
 
         if (! empty($filters['posyandu'])) {
