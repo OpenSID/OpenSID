@@ -117,11 +117,15 @@
 														<a href="<?= site_url($this->controller . '/dokumen_unlock/' . $kat . '/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 													<?php endif ?>
 												<?php endif; ?>
-												<?php if (! empty($data['satuan'])): ?>
-													<a href='<?= site_url("{$this->controller}/unduh_berkas/{$data['id']}/{$kat}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
+												<?php if ($data['jenis_dokumen'] == '1'): ?>
+													<?php if (! empty($data['satuan'])): ?>
+														<a href='<?= site_url("{$this->controller}/unduh_berkas/{$data['id']}/{$kat}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
+													<?php else: ?>
+														<a class="btn bg-purple btn-flat btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a>
+													<?php endif; ?>
 												<?php else: ?>
-													<a class="btn bg-purple btn-flat btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a>
-												<?php endif; ?>
+													<a href='<?= $data['satuan'] ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh" target="_blank"><i class="fa fa-download"></i></a>
+												<?php endif ?>
 												<?php if ($this->CI->cek_hak_akses('h')): ?>
 													<a href="#" data-href="<?= site_url("{$this->controller}/delete/{$kat}/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 												<?php endif; ?>

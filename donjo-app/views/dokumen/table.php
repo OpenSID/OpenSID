@@ -117,14 +117,19 @@
 															<a href="<?= site_url($this->controller . '/dokumen_lock/' . $kat . '/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Aktifkan"><i class="fa fa-lock">&nbsp;</i></a>
 														<?php elseif ($data['enabled'] == '1'): ?>
 															<a href="<?= site_url($this->controller . '/dokumen_unlock/' . $kat . '/' . $data['id'])?>" class="btn bg-navy btn-flat btn-sm"  title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
-                            <?php endif ?>
-                            <?php if (! empty($data['satuan'])): ?>
-															<a href='<?= site_url("dokumen/unduh_berkas/{$data[id]}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
+														<?php endif ?>
+														AKAS : <?= $data['jenis_dokumen'] ?>
+														<?php if ($data['jenis_dokumen'] == '1'): ?>
+															<?php if (! empty($data['satuan'])): ?>
+																<a href='<?= site_url("dokumen/unduh_berkas/{$data['id']}") ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh"><i class="fa fa-download"></i></a>
+															<?php else: ?>
+																<a class="btn bg-purple btn-flat btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a>
+															<?php endif; ?>
 														<?php else: ?>
-															<a class="btn bg-purple btn-flat btn-sm" disabled title="Unduh"><i class="fa fa-download"></i></a>
-														<?php endif; ?>
+															<a href='<?= $data['satuan'] ?>' class="btn bg-purple btn-flat btn-sm" title="Unduh" target="_blank"><i class="fa fa-download"></i></a>
+														<?php endif ?>
 														<a href="#" data-href="<?= site_url("{$this->controller}/delete/{$kat}/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
-												  </td>
+													</td>
 													<td width="20%"><?= $data['nama']?></td>
 													<?php if ($kat == 1): ?>
 														<td><?= $data['kategori_info_publik']?></td>
