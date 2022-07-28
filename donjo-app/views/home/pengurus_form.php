@@ -61,8 +61,24 @@
 								<label class="col-sm-4 control-label" for="pamong_nama">Nama Pegawai <?= ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-7">
 									<input type="hidden" name="nik" value="<?= $individu['nik']; ?>">
-									<input class="form-control input-sm pengurus-desa" type="text" placeholder="Nama" value="<?= ($individu['nama'])?>" disabled="disabled"></input>
+									<input id="nama_penduduk" class="form-control input-sm pengurus-desa" type="text" placeholder="Nama" value="<?= ($individu['nama'])?>" disabled="disabled"></input>
 									<input id="pamong_nama" name="pamong_nama" class="form-control input-sm pengurus-luar-desa <?= ! empty($individu) ?: 'required'?>" type="text" placeholder="Nama" value="<?= ($pamong['pamong_nama'])?>" style="display: none;"></input>
+								</div>
+							</div>
+							<div class="form-group gelar" <?= $individu ? '' : 'style="display: none;"' ?>>
+								<label class="col-sm-4 control-label"></label>
+								<div class="col-sm-3"></div>
+								<div class="col-sm-7">
+									<input id="nama_dengan_gelar" class="form-control input-sm" type="text" placeholder="Nama dengan gelar" value="<?= $pamong['gelar_depan'] . $individu['nama'] . $pamong['gelar_belakang']; ?>" disabled></input>
+								</div>
+							</div>
+							<div class="form-group gelar" <?= $individu ? '' : 'style="display: none;"' ?>>
+								<label class="col-sm-4 control-label" for="gelar">Gelar</label>
+								<div class="col-sm-3">
+									<input id="gelar_depan" name="gelar_depan" class="form-control input-sm input-gelar" type="text" placeholder="Gelar Depan" value="<?= ($pamong['gelar_depan'])?>"></input>
+								</div>
+								<div class="col-sm-3">
+									<input id="gelar_belakang" name="gelar_belakang" class="form-control input-sm input-gelar" type="text" placeholder="Gelar Belakang" value="<?= ($pamong['gelar_belakang'])?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
@@ -264,6 +280,14 @@
 		if ($("#validasi input[name='id_pend']").val() != '') {
 			$('#pamong_nama').removeClass('required');
 		}
+
+		$(".input-gelar").keyup(function() {
+			let depan = $("#gelar_depan").val();
+			let nama = $("#nama_penduduk").val();
+			let belakang = $("#gelar_belakang").val();
+
+			$("#nama_dengan_gelar").val(depan + nama + belakang);
+		});
 	});
 
 	function reset_form() {
@@ -280,11 +304,13 @@
 	function pengurus_asal(asal) {
 		if (asal == 1) {
 			$('#main').show();
+			$('.gelar').show();
 			$('.pengurus-luar-desa').hide();
 			$('.pengurus-desa').show();
 			$('#pamong_nama').val('');
 		} else {
 			$('#main').hide();
+			$('.gelar').hide();
 			$("input[name='id_pend']").val('');
 			$('.pengurus-luar-desa').show();
 			$('.pengurus-desa').hide();
