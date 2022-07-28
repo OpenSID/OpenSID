@@ -11,7 +11,7 @@
 		<section class="content" id="maincontent">
 			<form id="mainform" name="mainform" method="POST" enctype="multipart/form-data" onreset="reset_hamil();">
 				<div class="row">
-					<?php include 'donjo-app/views/sid/kependudukan/penduduk_form_isian.php'; ?>
+					<?php $this->load->view('sid/kependudukan/penduduk_form_isian'); ?>
 				</div>
 			</form>
 		</section>
