@@ -188,9 +188,10 @@ class Web_Controller extends MY_Controller
     {
         $this->load->model('pamong_model');
 
-        $data['main']         = $this->header;
-        $data['pamong_kades'] = $this->pamong_model->get_ttd();
+        $main         = $this->header;
+        $pamong_kades = $this->pamong_model->get_ttd();
 
+        // TODO : Gunakan view blade
         if (file_exists(DESAPATH . 'offline_mode.php')) {
             include DESAPATH . 'offline_mode.php';
         } else {

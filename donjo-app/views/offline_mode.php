@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Offline Mode - <?= ucwords($this->setting->sebutan_desa) . ' ' . $main['nama_desa'] ?></title>
+	<link rel="shortcut icon" href="<?= favico_desa() ?>"/>
 </head>
 <body>
 	<br/><br/><br/>
@@ -19,6 +20,8 @@
 		</p>
 		<p>
 			<?= ucwords($pamong_kades['jabatan']) . ' ' . $main['nama_desa'] ?>
+			<br>
+			<br>
 			<br>
 			<u><b><?= $main['nama_kepala_desa'] ?></b></u><br>
 			NIP. <?= $main['nip_kepala_desa'] ?>
