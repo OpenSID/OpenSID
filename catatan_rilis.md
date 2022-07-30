@@ -43,6 +43,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 35. [#1132](https://github.com/OpenSID/premium/issues/1132) Memperbaiki permohonan surat di layanan mandiri yang tidak bisa dibatalkan.
 36. [#5268](https://github.com/OpenSID/OpenSID/issues/5268) Memperbaiki gagal buka halaman jika tidak bisa akses layanan.
 37. [#5359](https://github.com/OpenSID/OpenSID/issues/5359) Memperbaiki realisasi APBDes tidak sama antara OpenSID dan Siskeudes.
+38. [#11](https://github.com/OpenSID/tema-esensi/issues/11) Memperbaiki Error Console halaman peta di tema esensi.
 
 #### Perubahan Teknis
 
