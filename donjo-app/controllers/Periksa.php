@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -65,6 +66,8 @@ class Periksa extends CI_Controller
             log_message('error', $this->session->message_query);
             log_message('error', $this->session->message_exception);
         }
+
+        // return json($this->periksa_model->periksa['tabel_invalid_date']['log_penduduk']);
 
         return view('periksa.index', array_merge($this->periksa_model->periksa, ['header' => $this->header]));
     }
@@ -96,11 +99,7 @@ class Periksa extends CI_Controller
 
     private function getSetting($key)
     {
-        return $this->db
-            ->select('value')
-            ->where('key', $key)
-            ->get('setting_aplikasi')
-            ->row()->value;
+        return SettingAplikasi::where('key', $key)->pluck('value');
     }
 
     // Login khusus untuk periksa

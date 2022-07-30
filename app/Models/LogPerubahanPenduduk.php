@@ -39,47 +39,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PendudukMandiri extends Model
+class LogPerubahanPenduduk extends Model
 {
     /**
-     * {@inheritDoc}
-     */
-    public const CREATED_AT = 'tanggal_buat';
-
-    /**
-     * {@inheritDoc}
-     */
-    public const UPDATED_AT = 'updated_at';
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $primaryKey = 'id_pend';
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $table = 'tweb_penduduk_mandiri';
-
-    /**
-     * {@inheritDoc}
-     */
-    public $incrementing = false;
-
-    /**
-     * {@inheritDoc}
-     */
-    protected $hidden = [
-        'pin',
-        'remember_token',
-    ];
-
-    /**
-     * The timestamps for the model.
+     * The table associated with the model.
      *
-     * @var bool
+     * @var string
      */
-    public $timestamps = true;
+    protected $table = 'log_perubahan_penduduk';
 
     /**
      * The guarded with the model.
@@ -88,53 +55,26 @@ class PendudukMandiri extends Model
      */
     protected $guarded = [];
 
-    /**
-     * {@inheritDoc}
-     */
-    protected $with = [
-        'penduduk',
+    protected $casts = [
+        'tanggal' => 'datetime:Y-m-d H:i:s',
     ];
 
     /**
-     * Scope query untuk aktif
+     * The timestamps for the model.
      *
-     * @param Builder $query
-     * @param mixed   $value
-     *
-     * @return Builder
+     * @var bool
      */
-    public function scopeStatus($query, $value = 1)
-    {
-        return $query->where('aktif', $value);
-    }
+    public $timestamps = false;
 
     /**
-     * Define an inverse one-to-one or many relationship.
+     * The relations to eager load on every query.
      *
-     * @return BelongsTo
+     * @var array
      */
+    protected $with = ['penduduk'];
+
     public function penduduk()
     {
-        return $this->belongsTo(Penduduk::class, 'id_pend');
-    }
-
-    /**
-     * Define an inverse one-to-one or many relationship.
-     *
-     * @return BelongsTo
-     */
-    public function dokumen()
-    {
-        return $this->belongsTo(Dokumen::class, 'id_pend');
-    }
-
-    /**
-     * Get email penduduk attribute.
-     *
-     * @return string
-     */
-    public function getEmailAttribute()
-    {
-        return $this->penduduk->email;
+        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
     }
 }

@@ -93,7 +93,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     public function migrasi_2022071851($hasil)
     {
-        if (! $this->db->field_exists('permanen', 'log_backup')) {
+        if (!$this->db->field_exists('permanen', 'log_backup')) {
             $fields = [
                 'permanen' => [
                     'type'       => 'TINYINT',
@@ -111,6 +111,10 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     public function migrasi_2022072751($hasil)
     {
+        if ($this->db->field_exists('updated_at', 'tweb_penduduk_mandiri')) {
+            $hasil = $hasil && $this->dbforge->modify_column('tweb_penduduk_mandiri', 'updated_at TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
+        }
+
         if ($this->db->field_exists('id', 'ibu_hamil')) {
             $hasil = $hasil && $this->dbforge->modify_column('ibu_hamil', [
                 'id' => [

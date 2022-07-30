@@ -40,6 +40,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 30. [#5418](https://github.com/OpenSID/OpenSID/issues/5418) Memperbaiki tidak bisa hapus data hasil dari input stunting bulanan ibu hamil.
 31. [#5427](https://github.com/OpenSID/OpenSID/issues/5427) Menampilkan data Logo, alamat, telepon pada halaman maintenace ketika mode offline yang sebelumnya tidak tampil.
 32. [#5426](https://github.com/OpenSID/OpenSID/issues/5426) Memperbaiki tidak bisa menghapus surat tinymce yang dibuat baru di Pengaturan surat.
+33. [#5419](https://github.com/OpenSID/OpenSID/issues/5419) Memperbaiki hasil expor DB yang tidak bisa di impor kembali krn adanya tgl 0000-000-000 00:00:00.
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database.
 2. Update .gitignore.
