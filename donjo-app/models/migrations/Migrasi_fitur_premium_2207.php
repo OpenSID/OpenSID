@@ -522,6 +522,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
     {
         $hasil = $hasil && $this->sesuaikanTabelFormatSurat($hasil);
         $hasil = $hasil && $this->sesuaikanTabelLogSurat($hasil);
+        $hasil = $hasil && $this->sesuaikanSyaratSurat($hasil);
         $hasil = $hasil && $this->sesuaikanTabelFormatSurat($hasil);
         $hasil = $hasil && $this->headerFooterSurat($hasil);
         $hasil = $hasil && $this->tambahKolomIsianSurat($hasil);
