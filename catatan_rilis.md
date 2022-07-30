@@ -42,6 +42,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 34. [#5325](https://github.com/OpenSID/OpenSID/issues/5325) Memperbaiki solusi croping gambar slider menjadi menyesuaikan panjang dan lebar slider.
 35. [#1132](https://github.com/OpenSID/premium/issues/1132) Memperbaiki permohonan surat di layanan mandiri yang tidak bisa dibatalkan.
 36. [#5268](https://github.com/OpenSID/OpenSID/issues/5268) Memperbaiki gagal buka halaman jika tidak bisa akses layanan.
+37. [#5359](https://github.com/OpenSID/OpenSID/issues/5359) Memperbaiki realisasi APBDes tidak sama antara OpenSID dan Siskeudes.
 
 #### Perubahan Teknis
 
