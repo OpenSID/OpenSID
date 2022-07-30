@@ -42,6 +42,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 32. [#5426](https://github.com/OpenSID/OpenSID/issues/5426) Memperbaiki tidak bisa menghapus surat tinymce yang dibuat baru di Pengaturan surat.
 33. [#5419](https://github.com/OpenSID/OpenSID/issues/5419) Memperbaiki hasil expor DB yang tidak bisa di impor kembali krn adanya tgl 0000-000-000 00:00:00.
 34. [#5325](https://github.com/OpenSID/OpenSID/issues/5325) Memperbaiki solusi croping gambar slider menjadi menyesuaikan panjang dan lebar slider.
+35. [#1132](https://github.com/OpenSID/premium/issues/1132) Memperbaiki permohonan surat di layanan mandiri yang tidak bisa dibatalkan.
 #### Perubahan Teknis
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database.
 2. Update .gitignore.
