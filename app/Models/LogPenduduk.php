@@ -39,21 +39,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Anak extends Model
+class LogPenduduk extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'bulanan_anak';
-
-    /**
-     * The table update parameter.
-     *
-     * @var string
-     */
-    public $primaryKey = 'id_bulanan_anak';
+    protected $table = 'log_penduduk';
 
     /**
      * The guarded with the model.
@@ -62,25 +55,8 @@ class Anak extends Model
      */
     protected $guarded = [];
 
-    public function kia()
-    {
-        return $this->belongsTo(KIA::class, 'kia_id');
-    }
-
-    public function scopeFilter($query, array $filters)
-    {
-        if (! empty($filters['bulan'])) {
-            $query->whereMonth('bulanan_anak.created_at', $filters['bulan']);
-        }
-
-        if (! empty($filters['tahun'])) {
-            $query->whereYear('bulanan_anak.created_at', $filters['tahun']);
-        }
-
-        if (! empty($filters['posyandu'])) {
-            $query->where('posyandu_id', $filters['posyandu']);
-        }
-
-        return $query;
-    }
+    protected $casts = [
+        'tgl_lapor'     => 'datetime:Y-m-d H:i:s',
+        'tgl_peristiwa' => 'datetime:Y-m-d H:i:s',
+    ];
 }

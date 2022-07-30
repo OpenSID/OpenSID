@@ -198,7 +198,6 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         $periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id_permohonan, 'status' => 1]);
         $pemohon = $this->surat_model->get_penduduk($periksa['id_pemohon']);
-        $surat   = $this->surat_master_model->get_surat_format($periksa['id_surat']);
         $post    = $this->input->post();
         $judul   = ($tipe == 0) ? 'Perlu Dilengkapi' : 'Dibatalkan';
         $data    = [

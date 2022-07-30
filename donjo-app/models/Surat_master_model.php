@@ -184,8 +184,11 @@ class Surat_master_model extends MY_Model
         // Ambil data surat sebelum dihapus
         $before = FormatSurat::find($id) ?? show_404();
 
-        // Surat jenis sistem (nilai 1) tidak bisa dihapus
-        $outp = $this->db->where('id', $id)->where_not_in('jenis', [1, 3])->delete($this->table);
+        if (in_array($before->jenis, [1, 3])) {
+            redirect_with('error', 'Gagal Hapus Data, Surat Bawaan Sistem Tidak Dapat Dihapus');
+        }
+
+        $outp = $before->delete();
 
         if ($outp) {
             //hapus file dan folder penyimpanan template surat
@@ -199,10 +202,10 @@ class Surat_master_model extends MY_Model
 
     public function deleteAll()
     {
-        $outp = false;
+        $outp = true;
 
         foreach ($this->input->post('id_cb') as $id) {
-            $outp = $outp && $this->delete($id, true);
+            $outp = $outp && $this->delete($id);
         }
 
         return $outp;

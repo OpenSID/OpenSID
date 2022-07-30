@@ -39,21 +39,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Anak extends Model
+class LogPerubahanPenduduk extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'bulanan_anak';
-
-    /**
-     * The table update parameter.
-     *
-     * @var string
-     */
-    public $primaryKey = 'id_bulanan_anak';
+    protected $table = 'log_perubahan_penduduk';
 
     /**
      * The guarded with the model.
@@ -62,25 +55,26 @@ class Anak extends Model
      */
     protected $guarded = [];
 
-    public function kia()
+    protected $casts = [
+        'tanggal' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['penduduk'];
+
+    public function penduduk()
     {
-        return $this->belongsTo(KIA::class, 'kia_id');
-    }
-
-    public function scopeFilter($query, array $filters)
-    {
-        if (! empty($filters['bulan'])) {
-            $query->whereMonth('bulanan_anak.created_at', $filters['bulan']);
-        }
-
-        if (! empty($filters['tahun'])) {
-            $query->whereYear('bulanan_anak.created_at', $filters['tahun']);
-        }
-
-        if (! empty($filters['posyandu'])) {
-            $query->where('posyandu_id', $filters['posyandu']);
-        }
-
-        return $query;
+        return $this->hasOne(Penduduk::class, 'id', 'id_pend');
     }
 }
