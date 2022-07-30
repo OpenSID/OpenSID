@@ -57,9 +57,20 @@ class Notif_model extends CI_Model
             return null;
         }
 
-        $tgl_akhir    = $response->body->tanggal_berlangganan->akhir;
-        $tgl_akhir    = strtotime($tgl_akhir);
-        $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
+        $tgl_akhir = $response->body->tanggal_berlangganan->akhir;
+
+        if (empty($tgl_akhir)) { // pemesanan bukan premium
+            if ($response->body->pemesanan) {
+                foreach ($response->body->pemesanan as $pemesanan) {
+                    $akhir[] = $pemesanan->tgl_akhir;
+                }
+
+                $masa_berlaku = calculate_date_intervals($akhir);
+            }
+        } else { // pemesanan premium
+            $tgl_akhir    = strtotime($tgl_akhir);
+            $masa_berlaku = round(($tgl_akhir - time()) / (60 * 60 * 24));
+        }
 
         switch (true) {
             case $masa_berlaku > 30:
@@ -131,18 +142,11 @@ class Notif_model extends CI_Model
 
     public function notifikasi($notif)
     {
-        $pengumuman = null;
-        // Simpan view pengumuman dalam variabel
-        $data['isi_pengumuman'] = $notif['isi'];
-        $data['kode']           = $notif['kode'];
-        $data['judul']          = $notif['judul'];
-        $data['jenis']          = $notif['jenis'];
-        $data['aksi']           = $notif['aksi'];
-        $aksi                   = explode(',', $notif['aksi']);
-        $data['aksi_ya']        = $aksi[0];
-        $data['aksi_tidak']     = $aksi[1];
+        $aksi                = explode(',', $notif['aksi']);
+        $notif['aksi_ya']    = $aksi[0];
+        $notif['aksi_tidak'] = $aksi[1];
 
-        return $this->load->view('notif/pengumuman', $data, true); // TRUE utk ambil content view sebagai output
+        return $notif;
     }
 
     private function masih_berlaku($notif)
