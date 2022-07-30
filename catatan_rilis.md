@@ -4,10 +4,8 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
 
-
-
-
 #### Perbaikan BUG
+
 1. [#5321](https://github.com/OpenSID/OpenSID/issues/5321) Merapikan informasi report ketika ada duplicate data tanggal.
 2. [#5314](https://github.com/OpenSID/OpenSID/issues/5314) Membatasi Impor data penduduk dengan No KK < 16 digit akan gagal import.
 3. [#5339](https://github.com/OpenSID/OpenSID/issues/5339) Mengatasi paging halaman tidak ditemukan pada album galeri yang lebih dari 10 gambar.
@@ -18,7 +16,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 8. [#5323](https://github.com/OpenSID/OpenSID/issues/5323) Mengatasi penambahan surat baru dengan cara menambahkannya di folder desa/template-surat.
 9. [#5369](https://github.com/OpenSID/OpenSID/issues/5369) Manampilkan token dari layanan di opensid untuk dicopy oleh pengguna.
 10. [#5352](https://github.com/OpenSID/OpenSID/issues/5352) Menampilkan QR Code yang tidak muncul saat surat dicetak padahal sudah diatur di pengaturan surat.
-11. [#5310](https://github.com/OpenSID/OpenSID/issues/5310) Mengatasi Foto dan JK pada KK kosong yang tidak sesuai.  
+11. [#5310](https://github.com/OpenSID/OpenSID/issues/5310) Mengatasi Foto dan JK pada KK kosong yang tidak sesuai.
 12. [#5370](https://github.com/OpenSID/OpenSID/issues/5370) Menambahkan validasi dan ketentuan-ketentuan yang berhubungan dengan pendaftaran kerjasama.
 13. [#5377](https://github.com/OpenSID/OpenSID/issues/5377) Merapikan typo pada alert saat menambah hari libur dengan tanggal yang sama.
 14. [#5379](https://github.com/OpenSID/OpenSID/issues/5379) Mengatasi error saat cetak PDF di menu cetak surat saat hanya ada a.n.
@@ -43,6 +41,9 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 33. [#5419](https://github.com/OpenSID/OpenSID/issues/5419) Memperbaiki hasil expor DB yang tidak bisa di impor kembali krn adanya tgl 0000-000-000 00:00:00.
 34. [#5325](https://github.com/OpenSID/OpenSID/issues/5325) Memperbaiki solusi croping gambar slider menjadi menyesuaikan panjang dan lebar slider.
 35. [#1132](https://github.com/OpenSID/premium/issues/1132) Memperbaiki permohonan surat di layanan mandiri yang tidak bisa dibatalkan.
+36. [#5268](https://github.com/OpenSID/OpenSID/issues/5268) Memperbaiki gagal buka halaman jika tidak bisa akses layanan.
+
 #### Perubahan Teknis
+
 1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database.
 2. Update .gitignore.

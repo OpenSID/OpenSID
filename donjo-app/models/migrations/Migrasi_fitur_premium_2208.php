@@ -93,7 +93,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     public function migrasi_2022071851($hasil)
     {
-        if (!$this->db->field_exists('permanen', 'log_backup')) {
+        if (! $this->db->field_exists('permanen', 'log_backup')) {
             $fields = [
                 'permanen' => [
                     'type'       => 'TINYINT',
