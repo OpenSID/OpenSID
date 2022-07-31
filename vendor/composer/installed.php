@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '32f547ba12ac625b0d8c1f523a204531d9531750',
+        'reference' => 'ac93975915cc90071309921ceb698da1f0f32224',
         'name' => 'opendesa/opensid',
         'dev' => true,
     ),
@@ -277,7 +277,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '32f547ba12ac625b0d8c1f523a204531d9531750',
+            'reference' => 'ac93975915cc90071309921ceb698da1f0f32224',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -388,8 +388,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -586,7 +586,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => 'd61ebcb6fae6f57236c3204e45483c43f2938b69',
+            'reference' => '0e7b2c3a109ec3e22212a383c27e3d30867c86e3',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(
