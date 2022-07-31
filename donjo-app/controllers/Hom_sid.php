@@ -53,7 +53,7 @@ class Hom_sid extends Admin_Controller
         if (cek_koneksi_internet() && ! config_item('demo_mode')) {
             $this->load->library('release');
 
-            $url_rilis = ($this->validasi_akses() && PREMIUM) ? config_item('rilis_premium') : config_item('rilis_umum');
+            $url_rilis = config_item('rilis_umum');
 
             $this->release->set_api_url($url_rilis)
                 ->set_interval(0)

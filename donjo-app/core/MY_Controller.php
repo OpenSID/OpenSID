@@ -259,7 +259,7 @@ class Admin_Controller extends MY_Controller
     {
         parent::__construct();
         $this->CI = CI_Controller::get_instance();
-        $this->load->model(['user_model', 'notif_model', 'referensi_model']);
+        $this->load->model(['header_model', 'user_model', 'notif_model', 'referensi_model']);
         $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
 
         $this->load->model('modul_model');
