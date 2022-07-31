@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\LogKeluarga;
 use App\Models\Pamong;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -51,8 +52,9 @@ class Migrasi_fitur_premium_2208 extends MY_model
         $hasil = $hasil && $this->migrasi_2022070551($hasil);
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
         $hasil = $hasil && $this->migrasi_2022071851($hasil);
+        $hasil = $hasil && $this->migrasi_2022072751($hasil);
 
-        return $hasil && $this->migrasi_2022072751($hasil);
+        return $hasil && $this->migrasi_2022073151($hasil);
     }
 
     protected function migrasi_2022070551($hasil)
@@ -149,6 +151,27 @@ class Migrasi_fitur_premium_2208 extends MY_model
                     'unsigned'       => true,
                 ],
             ]);
+        }
+
+        return $hasil;
+    }
+
+    public function migrasi_2022073151($hasil)
+    {
+        // Cek duplikasi log_keluarga dengan id_peristiwa kematian (2) yang sama dalam 1 kk
+        $cek_log = LogKeluarga::where('id_peristiwa', 2)
+            ->groupBy('id_kk')
+            ->havingRaw('COUNT(id_kk) > 1')
+            ->pluck('id_kk');
+
+        foreach ($cek_log as $key => $value) {
+            $log_keluarga = LogKeluarga::where('id_kk', $value)->where('id_peristiwa', 2)->orderBy('tgl_peristiwa', 'asc')->pluck('id')->toArray();
+            unset($log_keluarga[0]);
+
+            // Hapus log mati ganda
+            if ($log_keluarga) {
+                $hasil = $hasil && LogKeluarga::destroy($log_keluarga);
+            }
         }
 
         return $hasil;

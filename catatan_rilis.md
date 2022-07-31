@@ -44,6 +44,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 36. [#5268](https://github.com/OpenSID/OpenSID/issues/5268) Memperbaiki gagal buka halaman jika tidak bisa akses layanan.
 37. [#5359](https://github.com/OpenSID/OpenSID/issues/5359) Memperbaiki realisasi APBDes tidak sama antara OpenSID dan Siskeudes.
 38. [#5431](https://github.com/OpenSID/OpenSID/issues/5431) Menambahkan kategori di feed.
+39. [#5421](https://github.com/OpenSID/OpenSID/issues/5421) Memperbaiki laporan jumlah awal bulan tidak sesuai denga akhir bulan sebelumnya.
 
 #### Perubahan Teknis
 
