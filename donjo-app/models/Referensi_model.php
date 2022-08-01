@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -135,6 +135,7 @@ define('STAT_LAINNYA', serialize([
     'lapak'            => 'Lapak Desa',
     'pembangunan'      => 'Pembangunan',
     'galeri'           => 'Galeri',
+    'pengaduan'        => 'Pengaduan',
 ]));
 
 // Jabatan Kelompok
@@ -184,13 +185,22 @@ define('HAMIL', serialize([
     1 => 'Hamil',
 ]));
 
+// SUmber : https://news.detik.com/berita/d-5825409/jenis-vaksin-di-indonesia-berikut-daftar-hingga-efek-sampingnya
+define('JENIS_VAKSIN', serialize([
+    'Covovax',
+    'Zififax',
+    'Sinovac',
+    'AstraZeneca',
+    'Sinopharm',
+    'Moderna',
+    'Pfizer',
+    'Novavax',
+    'Johnson&Johnson',
+    'Biofarma',
+]));
+
 class Referensi_model extends CI_Model
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function list_nama($tabel)
     {
         $data = $this->list_data($tabel);
@@ -214,11 +224,6 @@ class Referensi_model extends CI_Model
         }
 
         return $this->db->select('*')->order_by('id')->get($tabel)->result_array();
-    }
-
-    public function list_wajib_ktp()
-    {
-        return array_flip(unserialize(WAJIB_KTP));
     }
 
     public function list_ktp_el()

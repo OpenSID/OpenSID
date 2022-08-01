@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -46,6 +46,7 @@ class Mandiri extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('mandiri_model');
+        $this->load->library('OTP/OTP_manager', null, 'otp_library');
 
         $this->modul_ini     = 14;
         $this->sub_modul_ini = 56;
@@ -96,6 +97,7 @@ class Mandiri extends Admin_Controller
     {
         $this->redirect_hak_akses('u', $_SERVER['HTTP_REFERER']);
         $data['penduduk'] = $this->mandiri_model->list_penduduk();
+
         if ($id_pend) {
             $data['id_pend']     = $id_pend;
             $data['form_action'] = site_url("mandiri/update/{$id_pend}");
@@ -103,6 +105,8 @@ class Mandiri extends Admin_Controller
             $data['id_pend']     = null;
             $data['form_action'] = site_url('mandiri/insert');
         }
+
+        $data['tgl_verifikasi'] = $this->otp_library->driver('telegram')->cek_verifikasi_otp($data['id_pend']);
         $this->load->view('mandiri/ajax_pin', $data);
     }
 
@@ -155,7 +159,7 @@ class Mandiri extends Admin_Controller
         if (cek_koneksi_internet() && $data['telepon']) {
             $no_tujuan = '+62' . substr($data['telepon'], 1);
 
-            $pesan = 'Selamat Datang di Layanan Mandiri Desa ' . $desa[nama_desa] . ' %0A%0AUntuk Menggunakan Layanan Mandiri, silahkan kunjungi ' . site_url('layanan-mandiri') . '%0AAkses Layanan Mandiri : %0A- NIK : ' . sensor_nik_kk($data[nik]) . ' %0A- PIN : ' . $pin . '%0A%0AHarap merahasiakan NIK dan PIN untuk keamanan data anda.%0A%0AHormat kami %0AKepala Desa ' . $desa[nama_desa] . '%0A%0A%0A' . $desa[nama_kepala_desa];
+            $pesan = 'Selamat Datang di Layanan Mandiri ' . ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']) . ' %0A%0AUntuk Menggunakan Layanan Mandiri, silahkan kunjungi ' . site_url('layanan-mandiri') . '%0AAkses Layanan Mandiri : %0A- NIK : ' . sensor_nik_kk($data[nik]) . ' %0A- PIN : ' . $pin . '%0A%0AHarap merahasiakan NIK dan PIN untuk keamanan data anda.%0A%0AHormat kami %0AKepala Desa ' . $desa[nama_desa] . '%0A%0A%0A' . $desa[nama_kepala_desa];
 
             redirect("https://api.whatsapp.com/send?phone={$no_tujuan}&text={$pesan}");
         }

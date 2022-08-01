@@ -76,7 +76,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	<?php endif; ?>
 	<div class="form-group">
 		<label class="control-label" for="pelapak">Nama Pelapak</label>
-		<input name="pelapak" class="form-control input-sm" type="text" value="<?= $main->nik . ' - ' . $main->pelapak; ?>" disabled/>
+		<input name="pelapak" class="form-control input-sm" type="text" value="<?= $main->pelapak; ?>" disabled/>
 	</div>
 	<div class="form-group">
 		<label class="control-label" for="nama">Nama Produk</label>

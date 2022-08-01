@@ -62,7 +62,7 @@
 															<th class="text-center">Gambar</th>
 															<th class="text-center">Persentase</th>
 															<th class="text-center">Keterangan</th>
-															<th class="text-center">Tgl Rekam</th>
+															<th class="text-center">Tanggal Rekam</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -118,7 +118,10 @@
 				<?php endif; ?>
 				{
 					'data': function (data) {
-						return `<img src="<?= base_url(LOKASI_GALERI) ?>${data.gambar}" class="penduduk_kecil" alt="Foto Dokumentasi">`
+						if (data.gambar) {
+							return `<img src="<?= base_url(LOKASI_GALERI) ?>${data.gambar}" class="penduduk_kecil" alt="Foto Dokumentasi">`
+						}
+						return null
 					}, 'class': 'padat'
 				},
 				{'data': 'persentase'},

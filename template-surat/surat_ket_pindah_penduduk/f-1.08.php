@@ -1,8 +1,9 @@
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <style type="text/css">
 	table.disdukcapil {
 		font-size: 9pt;
 		width: 100%;
-		/*border-collapse: collapse;*/
 	}
 
 	table.disdukcapil td {
@@ -59,8 +60,6 @@
 		font-size: 12pt;
 		padding: 5px 20px;
 		border: solid 1px black;
-		"
-
 	}
 
 	table.ttd {
@@ -426,7 +425,7 @@
 		<tr class="pendek">
 			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
 			<td>&nbsp;</td>
-			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl.       ., 20") ?></td>
+			<td><?= str_replace(" ", "&nbsp;", "No                           .., tgl." . tgl_indo(date("Y m d"))) ?></td>
 		</tr>
 		<tr style="font-size: 8mm; line-height: normal;">
 			<td>&nbsp;</td>
@@ -681,5 +680,4 @@
 			<td>NIP.</td>
 		</tr>
 	</table>
-
 </page>

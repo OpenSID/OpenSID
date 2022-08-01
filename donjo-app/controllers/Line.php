@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -52,7 +52,7 @@ class Line extends Admin_Controller
     {
         unset($_SESSION['cari'], $_SESSION['filter']);
 
-        redirect('line');
+        redirect($this->controller);
     }
 
     public function index($p = 1, $o = 0)
@@ -75,12 +75,12 @@ class Line extends Admin_Controller
         if (isset($_POST['per_page'])) {
             $_SESSION['per_page'] = $_POST['per_page'];
         }
-        $data['per_page'] = $_SESSION['per_page'];
 
-        $data['paging']  = $this->plan_line_model->paging($p, $o);
-        $data['main']    = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword'] = $this->plan_line_model->autocomplete();
-        $data['tip']     = 2;
+        $data['per_page'] = $_SESSION['per_page'];
+        $data['paging']   = $this->plan_line_model->paging($p, $o);
+        $data['main']     = $this->plan_line_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['keyword']  = $this->plan_line_model->autocomplete();
+        $data['tip']      = 2;
 
         $this->render('line/table', $data);
     }
@@ -93,10 +93,10 @@ class Line extends Admin_Controller
 
         if ($id) {
             $data['line']        = $this->plan_line_model->get_line($id) ?? show_404();
-            $data['form_action'] = site_url("line/update/{$id}/{$p}/{$o}");
+            $data['form_action'] = site_url("{$this->controller}/update/{$id}/{$p}/{$o}");
         } else {
             $data['line']        = null;
-            $data['form_action'] = site_url('line/insert');
+            $data['form_action'] = site_url("{$this->controller}/insert");
         }
 
         $data['tip'] = 2;
@@ -117,10 +117,10 @@ class Line extends Admin_Controller
         $this->redirect_hak_akses('u');
         if ($id) {
             $data['line']        = $this->plan_line_model->get_line($id) ?? show_404();
-            $data['form_action'] = site_url("line/update_sub_line/{$line}/{$id}");
+            $data['form_action'] = site_url("{$this->controller}/update_sub_line/{$line}/{$id}");
         } else {
             $data['line']        = null;
-            $data['form_action'] = site_url("line/insert_sub_line/{$line}");
+            $data['form_action'] = site_url("{$this->controller}/insert_sub_line/{$line}");
         }
 
         $this->load->view('line/ajax_add_sub_line_form', $data);
@@ -134,7 +134,8 @@ class Line extends Admin_Controller
         } else {
             unset($_SESSION['cari']);
         }
-        redirect('line');
+
+        redirect($this->controller);
     }
 
     public function filter()
@@ -145,90 +146,103 @@ class Line extends Admin_Controller
         } else {
             unset($_SESSION['filter']);
         }
-        redirect('line');
+
+        redirect($this->controller);
     }
 
     public function insert($tip = 1)
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->insert($tip);
-        redirect("line/index/{$tip}");
+
+        redirect("{$this->controller}/index/{$tip}");
     }
 
     public function update($id = '', $p = 1, $o = 0)
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->update($id);
-        redirect("line/index/{$p}/{$o}");
+
+        redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
     public function delete($p = 1, $o = 0, $id = '')
     {
         $this->redirect_hak_akses('h');
         $this->plan_line_model->delete($id);
-        redirect("line/index/{$p}/{$o}");
+
+        redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
     public function delete_all($p = 1, $o = 0)
     {
         $this->redirect_hak_akses('h');
         $this->plan_line_model->delete_all();
-        redirect("line/index/{$p}/{$o}");
+
+        redirect("{$this->controller}/index/{$p}/{$o}");
     }
 
     public function line_lock($id = '')
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 1);
-        redirect("line/index/{$p}/{$o}");
+
+        redirect($this->controller);
     }
 
     public function line_unlock($id = '')
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 2);
-        redirect("line/index/{$p}/{$o}");
+
+        redirect($this->controller);
     }
 
     public function insert_sub_line($line = '')
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->insert_sub_line($line);
-        redirect("line/sub_line/{$line}");
+
+        redirect("{$this->controller}/sub_line/{$line}");
     }
 
     public function update_sub_line($line = '', $id = '')
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->update_sub_line($id);
-        redirect("line/sub_line/{$line}");
+
+        redirect("{$this->controller}/sub_line/{$line}");
     }
 
     public function delete_sub_line($line = '', $id = '')
     {
-        $this->redirect_hak_akses('h', "line/sub_line/{$line}");
+        $this->redirect_hak_akses('h');
         $this->plan_line_model->delete_sub_line($id);
-        redirect("line/sub_line/{$line}");
+
+        redirect("{$this->controller}/sub_line/{$line}");
     }
 
     public function delete_all_sub_line($line = '')
     {
-        $this->redirect_hak_akses('h', "line/sub_line/{$line}");
+        $this->redirect_hak_akses('h');
         $this->plan_line_model->delete_all_sub_line();
-        redirect("line/sub_line/{$line}");
+
+        redirect("{$this->controller}/sub_line/{$line}");
     }
 
     public function line_lock_sub_line($line = '', $id = '')
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 1);
-        redirect("line/sub_line/{$line}");
+
+        redirect("{$this->controller}/sub_line/{$line}");
     }
 
     public function line_unlock_sub_line($line = '', $id = '')
     {
         $this->redirect_hak_akses('u');
         $this->plan_line_model->line_lock($id, 2);
-        redirect("line/sub_line/{$line}");
+
+        redirect("{$this->controller}/sub_line/{$line}");
     }
 }

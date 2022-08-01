@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -162,6 +162,11 @@ $route['pembangunan/(:any)']       = WEB . '/pembangunan/detail/$1';
 $route['lapak']        = WEB . '/lapak';
 $route['lapak/(:num)'] = WEB . '/lapak/index/$1';
 
+// Pengaduan
+$route['pengaduan']        = WEB . '/pengaduan';
+$route['pengaduan/(:num)'] = WEB . '/pengaduan/index/$1';
+$route['pengaduan/kirim']  = WEB . '/pengaduan/kirim';
+
 // Surat
 $route['v/(:any)']                = WEB . '/verifikasi_surat/cek/$1';
 $route['c1/(:any)']               = WEB . '/verifikasi_surat/encode/$1';
@@ -186,6 +191,8 @@ $route[$mandiri . '/masuk']      = MANDIRI . '/masuk';
 $route[$mandiri . '/cek']        = MANDIRI . '/masuk/cek';
 $route[$mandiri . '/masuk-ektp'] = MANDIRI . '/masuk_ektp';
 $route[$mandiri . '/cek-ektp']   = MANDIRI . '/masuk_ektp/cek_ektp';
+$route[$mandiri . '/lupa-pin']   = MANDIRI . '/masuk/lupa_pin';
+$route[$mandiri . '/cek-pin']    = MANDIRI . '/masuk/cek_pin';
 // Beranda
 $route['layanan-mandiri']             = MANDIRI . '/beranda';
 $route[$mandiri . '/pendapat/(:num)'] = MANDIRI . '/beranda/pendapat/$1';
@@ -200,8 +207,8 @@ $route[$mandiri . '/keluar']              = MANDIRI . '/beranda/keluar';
 // Pesan
 $route[$mandiri . '/pesan-masuk']              = MANDIRI . '/pesan/index/2';
 $route[$mandiri . '/pesan-keluar']             = MANDIRI . '/pesan/index/1';
-$route[$mandiri . '/pesan/tulis']              = MANDIRI . '/pesan/tulis';
-$route[$mandiri . '/pesan/balas']              = MANDIRI . '/pesan/tulis';
+$route[$mandiri . '/pesan/tulis']              = MANDIRI . '/pesan/tulis/1';
+$route[$mandiri . '/pesan/balas']              = MANDIRI . '/pesan/tulis/2';
 $route[$mandiri . '/pesan/kirim']              = MANDIRI . '/pesan/kirim';
 $route[$mandiri . '/pesan/baca/(:num)/(:num)'] = MANDIRI . '/pesan/baca/$1/$2';
 // Surat
@@ -211,6 +218,14 @@ $route[$mandiri . '/surat/buat']        = MANDIRI . '/surat/buat';
 $route[$mandiri . '/surat/buat/(:num)'] = MANDIRI . '/surat/buat/$1';
 $route[$mandiri . '/surat/form']        = MANDIRI . '/surat/form';
 $route[$mandiri . '/surat/form/(:num)'] = MANDIRI . '/surat/form/$1';
+// Lapak
+$route[$mandiri . '/lapak']        = MANDIRI . '/lapak';
+$route[$mandiri . '/lapak/(:num)'] = MANDIRI . '/lapak/index/$1';
+//Verifikasi
+$route[$mandiri . '/verifikasi/telegram']              = MANDIRI . '/verifikasi/telegram';
+$route[$mandiri . '/verifikasi/telegram/kirim-userid'] = MANDIRI . '/verifikasi/kirim_otp_telegram';
+$route[$mandiri . '/verifikasi/telegram/kirim-otp']    = MANDIRI . '/verifikasi/verifikasi_telegram';
+
 // Bantuan
 $route[$mandiri . '/bantuan'] = MANDIRI . '/bantuan';
 

@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -39,6 +39,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Mailbox_model extends CI_Model
 {
+    protected $table = 'komentar';
+
     /**
      * Gunakan model ini untuk memindahkan semua method terkait mailbox layanan mandiri.
      * Dimana layanan mailbox memiliki perlakuan yang sepenuhnya berbeda dengan komentar web
@@ -91,7 +93,7 @@ class Mailbox_model extends CI_Model
             ->where('email', $nik)
             ->where('tipe', $tipe)
             ->where('id_artikel', 775)
-            ->from('komentar')
+            ->from($this->table)
             ->order_by('id', 'DESC')
             ->get()
             ->result_array();
@@ -103,7 +105,7 @@ class Mailbox_model extends CI_Model
             ->where('email', $nik)
             ->where('id', $id)
             ->where('id_artikel', 775)
-            ->from('komentar')
+            ->from($this->table)
             ->get()
             ->row_array();
     }
@@ -116,5 +118,16 @@ class Mailbox_model extends CI_Model
             ->where('tipe', 2)
             ->where('id_artikel', 775)
             ->update('komentar', ['status' => $status]);
+    }
+
+    public function count_inbox_pesan($nik = '')
+    {
+        return $this->db
+            ->where('email', $nik)
+            ->where('tipe', 2)
+            ->where('status', 2)
+            ->where('id_artikel', 775)
+            ->from($this->table)
+            ->count_all_results();
     }
 }

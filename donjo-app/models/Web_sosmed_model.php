@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,13 +29,11 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
  */
-
-defined('BASEPATH') || exit('No direct script access allowed');
 
 class Web_sosmed_model extends CI_Model
 {
@@ -76,19 +74,7 @@ class Web_sosmed_model extends CI_Model
         $data = $this->input->post();
         $link = trim(strip_tags($this->input->post('link')));
 
-        switch ($id) {
-            case '6':
-                $data['link'] = preg_replace('/[^A-Za-z0-9]/', '', $link);
-                break;
-
-            case '7':
-                $data['link'] = preg_replace('/[^A-Za-z0-9_]/', '', $link);
-                break;
-
-            default:
-                $data['link'] = $link;
-                break;
-        }
+        $data['link'] = $link;
 
         $this->db->where('id', $id);
         $outp = $this->db->update('media_sosial', $data);
@@ -103,47 +89,75 @@ class Web_sosmed_model extends CI_Model
             return $link;
         }
 
+        // list domain yang akan digunakan untuk ditambahkan protokol https
+        // ini digunakan untuk cek apakah mengandung string domain dibawah atau tidak
+        // jika $link tidak ada protokol http/https maka akan ditambahkan terlebih dahulu
+        $list_domain = [
+            'facebook.com',
+            'instagram.com',
+            't.me',
+            'telegram.me',
+            'twitter.com',
+            'whatsapp.com',
+            'youtube.com',
+        ];
+
+        foreach ($list_domain as $key) {
+            if (strpos($link, $key) !== false) {
+                // tambahkan https di awal link
+                $link = preg_replace('/^http:/i', 'https:', prep_url($link));
+            }
+        }
+
+        // Remove all illegal characters from a url
+        // remove `@` with ''
+        $link = str_replace('@', '', $link);
+        $link = filter_var($link, FILTER_SANITIZE_URL);
+
+        // validasi link
+        $valid_link = filter_var($link, FILTER_VALIDATE_URL);
+
         switch (true) {
-            case $id == 1 && $tipe == 1 :
-                $link = 'https://web.facebook.com/' . $link;
+            case $id === '1' && $tipe === '1':
+                $link = ($valid_link ? $link : 'https://web.facebook.com/' . $link);
                 break;
 
-            case $id == 1 && $tipe == 2 :
-                $link = 'https://web.facebook.com/groups/' . $link;
+            case $id === '1' && $tipe === '2':
+                $link = ($valid_link !== false ? $link : 'https://web.facebook.com/groups/' . $link);
                 break;
 
-            case $id == 2 :
-                $link = 'https://twitter.com/' . $link;
+            case $id === '2':
+                $link = ($valid_link !== false ? $link : 'https://twitter.com/' . $link);
                 break;
 
-            case $id == 4 :
-                $link = 'https://www.youtube.com/channel/' . $link;
+            case $id === '4':
+                $link = ($valid_link !== false ? $link : 'https://www.youtube.com/channel/' . $link);
                 break;
 
-            case $id == 5 :
-                $link = 'https://www.instagram.com/' . $link . '/';
+            case $id === '5':
+                $link = ($valid_link !== false ? $link : 'https://www.instagram.com/' . $link . '/');
                 break;
 
-            case $id == 6 && $tipe == 1 :
-                $link = 'https://api.whatsapp.com/send?phone=' . $link;
+            case $id === '6' && $tipe === '1':
+
+                $link = ($valid_link !== false ? $link : 'https://api.whatsapp.com/send?phone=' . $link);
                 break;
 
-            case $id == 6 && $tipe == 2 :
-                $link = 'https://chat.whatsapp.com/' . $link;
+            case $id === '6' && $tipe === '2':
+                $link = ($valid_link !== false ? $link : 'https://chat.whatsapp.com/' . $link);
                 break;
 
-            case $id == 7 && $tipe == 1 :
-                $link = 'https://t.me/' . $link;
+            case $id === '7' && $tipe === '1':
+                $link = ($valid_link !== false ? $link : 'https://t.me/' . $link);
                 break;
 
-            case $id == 7 && $tipe == 2 :
-                $link = 'https://t.me/joinchat/' . $link;
+            case $id === '7' && $tipe === '2':
+                $link = ($valid_link !== false ? $link : 'https://t.me/joinchat/' . $link);
                 break;
 
             default:
-                break;
-        }
 
         return $link;
+        }
     }
 }

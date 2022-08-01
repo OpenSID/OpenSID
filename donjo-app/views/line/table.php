@@ -29,8 +29,8 @@
 							<?php if ($this->CI->cek_hak_akses('u')): ?>
 								<a href="<?=site_url('line/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 									<i class="fa fa-plus"></i>Tambah Jenis Garis Baru
-	            	</a>
-	            <?php endif; ?>
+								</a>
+							<?php endif; ?>
 							<?php if ($this->CI->cek_hak_akses('h')): ?>
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("line/delete_all/{$p}/{$o}")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
@@ -45,8 +45,8 @@
 												<div class="col-sm-6">
 													<select class="form-control input-sm " name="filter" onchange="formAction('mainform', '<?=site_url('line/filter')?>')">
 														<option value="">Semua</option>
-														<option value="1" <?php if ($filter == 1): ?>selected<?php endif ?>>Aktif</option>
-														<option value="2" <?php if ($filter == 2): ?>selected<?php endif ?>>Tidak Aktif</option>
+														<option value="1" <?= selected($filter, 1); ?>>Aktif</option>
+														<option value="2" <?= selected($filter, 2); ?>>>Tidak Aktif</option>
 													</select>
 												</div>
 												<div class="col-sm-6">
@@ -63,7 +63,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<table class="table table-bordered table-striped dataTable table-hover">
+														<table class="table table-bordered table-striped dataTable table-hover tabel-daftar">
 															<thead class="bg-gray disabled color-palette">
 																<tr>
 																	<?php if ($this->CI->cek_hak_akses('u')): ?>
@@ -85,17 +85,17 @@
                                   <?php else: ?>
                                     <th nowrap><a href="<?= site_url("line/index/{$p}/3")?>">Aktif <i class='fa fa-sort fa-sm'></i></a></th>
                                   <?php endif; ?>
-																	<th>Warna</th>
+																	<th>Tampil</th>
 																</tr>
 															</thead>
 															<tbody>
 																<?php foreach ($main as $data): ?>
 																	<tr>
 																		<?php if ($this->CI->cek_hak_akses('u')): ?>
-																			<td><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
+																			<td class="padat"><input type="checkbox" name="id_cb[]" value="<?=$data['id']?>" /></td>
 																		<?php endif; ?>
-																		<td><?=$data['no']?></td>
-																		<td nowrap>
+																		<td class="padat"><?=$data['no']?></td>
+																		<td class="aksi">
 																			<?php if ($this->CI->cek_hak_akses('u')): ?>
 																				<a href="<?= site_url("line/form/{$p}/{$o}/{$data['id']}")?>" class="btn btn-warning btn-flat btn-sm"  title="Ubah"><i class="fa fa-edit"></i></a>
 																			<?php endif; ?>
@@ -111,10 +111,12 @@
 																			<?php if ($this->CI->cek_hak_akses('h')): ?>
 																				<a href="#" data-href="<?= site_url("line/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																			<?php endif; ?>
-																	  </td>
+																		</td>
 																		<td width="60%"><?= $data['nama']?></td>
-																		<td><?= $data['aktif']?></td>
-																		<td><div style="background-color:<?= $data['color']?>">&nbsp;<div></td>
+																		<td class="padat"><?= $data['aktif']?></td>
+																		<td width="10%">
+																			<hr style="vertical-align: middle; margin: 0; border-bottom: <?= $data['tebal'] . 'px'; ?> <?= $data['jenis']; ?>  <?= $data['color']; ?>">
+																		</td>
 																	</tr>
 																<?php endforeach; ?>
 															</tbody>

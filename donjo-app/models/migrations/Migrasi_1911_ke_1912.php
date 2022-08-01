@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -131,12 +131,14 @@ class Migrasi_1911_ke_1912 extends CI_model
             // Pindahkan isi kolom sebelumnya
             $dokumen = $this->db->select('id, attr')->get('dokumen')->result_array();
 
-            foreach ($dokumen as $dok) {
-                $attr = json_decode($dok['attr'], true);
-                $kat  = $attr['kategori_publik'];
-                unset($attr['kategori_publik']);
-                $this->db->where('id', $dok['id'])
-                    ->update('dokumen', ['kategori_info_publik' => $kat, 'attr' => json_encode($attr)]);
+            if ($dokumen) {
+                foreach ($dokumen as $dok) {
+                    $attr = json_decode($dok['attr'], true);
+                    $kat  = $attr['kategori_publik'];
+                    unset($attr['kategori_publik']);
+                    $this->db->where('id', $dok['id'])
+                        ->update('dokumen', ['kategori_info_publik' => $kat, 'attr' => json_encode($attr)]);
+                }
             }
         }
         // Isi kategori_info_publik untuk semua dokumen SK Kades dan Perdes sebagai 'Informasi Setiap Saat'

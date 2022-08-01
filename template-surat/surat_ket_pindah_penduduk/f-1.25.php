@@ -1,8 +1,9 @@
+<?php defined('BASEPATH') || exit('No direct script access allowed'); ?>
+
 <style type="text/css">
 	table.disdukcapil {
-		font-size: 10pt;
+		font-size: 9pt;
 		width: 100%;
-		/*border-collapse: collapse;*/
 	}
 
 	table.disdukcapil td {
@@ -17,7 +18,7 @@
 	table.disdukcapil td.padat {
 		padding: 0px;
 		margin: 0px;
-		font-size: 9.5pt;
+		font-size: 9pt;
 	}
 
 	table.disdukcapil td.kotak {
@@ -33,11 +34,11 @@
 	}
 
 	table.pengikut {
-		font-size: 10pt;
-		margin-top: 25px;
+		margin-left: 28px;
+		font-size: 9pt;
 		border-collapse: collapse;
 		border: solid 1px black;
-		width: 100%;
+		width: 96%;
 	}
 
 	table.pengikut td,
@@ -55,9 +56,18 @@
 		text-align: center;
 	}
 
+	table.kode_format {
+		font-size: 12pt;
+		padding: 5px 20px;
+		border: solid 1px black;
+	}
+
 	table.ttd {
-		margin-top: 20px;
+		font-size: 8.5pt;
+		margin-top: 5px;
 		width: 100%;
+		border-collapse: collapse;
+		padding: 0px;
 	}
 
 	table.ttd td {
@@ -500,5 +510,4 @@
 		<strong>Keterangan:</strong><br>
 		*) Diisi Oleh Petugas
 	</p>
-
 </page>

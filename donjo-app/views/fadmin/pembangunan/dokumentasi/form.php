@@ -34,7 +34,7 @@
 										<label class="col-sm-3 control-label"></label>
 										<div id="pilih">
 											<div class="col-sm-7">
-												<select class="form-control input-sm select2 required" id="id_persentase" name="id_persentase" style="width:100%">
+												<select class="form-control input-sm select2 required" id="id_persentase" name="id_persentase" onchange="show_hide_anggaran(this.value)">
 													<option value=''>-- Pilih Persentase Pembangunan --</option>
 													<?php foreach ($persentase as $value) : ?>
 														<option value="<?= $value ?>" <?= selected($main->persentase, $value) ?>><?= $value ?></option>
@@ -44,7 +44,7 @@
 										</div>
 										<div id="manual">
 											<div class="col-sm-7">
-												<input maxlength="50" class="form-control input-sm required" name="persentase" id="persentase" type="text" placeholder="Contoh: 50%" value="<?= $main->persentase ?>" />
+												<input maxlength="50" class="form-control input-sm required" name="persentase" id="persentase" type="text" onkeyup="show_hide_anggaran(this.value)" placeholder="Contoh: 50%" value="<?= $main->persentase ?>" />
 											</div>
 										</div>
 									</div>
@@ -68,6 +68,12 @@
 												</span>
 											</div>
 											<span class="help-block"><code>(Kosongkan jika tidak ingin mengubah gambar)</code></span>
+										</div>
+									</div>
+									<div class="form-group" id="anggaran">
+										<label class="control-label col-sm-3" for="upload">Perubahan Anggaran</label>
+										<div class="col-sm-7">
+											<input class="form-control input-sm" name="perubahan_anggaran" id="ubahanggaran" type="number" min="0" value="<?= $perubahan ?>">
 										</div>
 									</div>
 									<div class="form-group">
@@ -101,11 +107,22 @@
 			$('#id_persentase').addClass('required');
 		} else {
 			$('#id_persentase').val('');
-			$('#id_persentase').trigger('change', true);
 			$('#id_persentase').removeClass('required');
 			$("#manual").show();
-			$('#persentase').addClass('required');
 			$("#pilih").hide();
+			$('#persentase').addClass('required');
+		}
+	}
+
+	function show_hide_anggaran(anggaran) {
+		if (anggaran == '100%' || anggaran == '100'){
+			$('#anggaran').fadeIn();
+			$("#ubahanggaran").attr('required', '');
+			$("#ubahanggaran").value('<?= $main->perubahan_anggaran ?? 0; ?>');
+		} else {
+			$('#anggaran').fadeOut();
+			$("#ubahanggaran").removeAttr('required', '');
+			$("#ubahanggaran").value(0);
 		}
 	}
 

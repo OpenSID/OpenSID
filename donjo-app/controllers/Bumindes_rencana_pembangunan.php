@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -97,13 +97,14 @@ class Bumindes_rencana_pembangunan extends Admin_Controller
         $data = [
             'aksi'           => $aksi,
             'config'         => $this->header['desa'],
+            'tahun'          => $tahun,
             'pamong_ketahui' => $this->pamong_model->get_ttd(),
             'pamong_ttd'     => $this->pamong_model->get_ub(),
             'main'           => $this->model->get_data('', $tahun)->get()->result(),
             'tgl_cetak'      => $this->input->post('tgl_cetak'),
             'file'           => 'Buku ' . ucwords($this->tipe) . ' Kerja Pembangunan',
             'isi'            => 'bumindes/pembangunan/' . $this->tipe . '/cetak',
-            'letak_ttd'      => ['2', '2', '5'],
+            'letak_ttd'      => ['1', '1', '3'],
         ];
 
         $this->load->view('global/format_cetak', $data);

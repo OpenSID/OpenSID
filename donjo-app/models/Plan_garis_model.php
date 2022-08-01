@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -134,7 +134,7 @@ class Plan_garis_model extends MY_Model
 
         $paging_sql = ' LIMIT ' . $offset . ',' . $limit;
 
-        $select_sql = 'SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color ';
+        $select_sql = 'SELECT l.*, p.nama AS kategori, m.nama AS jenis, p.simbol, p.color, p.tebal, p.jenis AS jenis_garis ';
         $sql        = $select_sql . $this->list_data_sql();
 
         $sql .= $order_sql;
@@ -277,10 +277,14 @@ class Plan_garis_model extends MY_Model
 
     public function get_garis($id = 0)
     {
-        $sql   = 'SELECT * FROM garis WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-
-        return $query->row_array();
+        return $this->db
+            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol, p.color, p.tebal, p.jenis AS jenis_garis')
+            ->from('garis l')
+            ->join('line p', 'l.ref_line = p.id', 'left')
+            ->join('line m', ' p.parrent = m.id')
+            ->where('l.id', $id)
+            ->get()
+            ->row_array();
     }
 
     public function update_position($id = 0)
@@ -295,7 +299,7 @@ class Plan_garis_model extends MY_Model
     public function list_garis()
     {
         return $this->db
-            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color')
+            ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color, p.tebal AS tebal, p.jenis AS jenis_garis')
             ->from('garis l')
             ->join('line p', 'l.ref_line = p.id', 'left')
             ->join('line m', ' p.parrent = m.id')

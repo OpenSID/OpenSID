@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -263,7 +263,7 @@ class Surat_master_model extends MY_Model
             return;
         }
 
-        // $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+        // $lampiran_surat dalam bentuk seperti "f-1.08.php, f-1.25.php, f-1.27.php"
         $daftar_lampiran = explode(',', $surat['lampiran']);
 
         foreach ($daftar_lampiran as $lampiran) {
@@ -403,19 +403,27 @@ class Surat_master_model extends MY_Model
         $folder_surat_desa = glob(LOKASI_SURAT_DESA . '*', GLOB_ONLYDIR);
         $daftar_surat      = [];
 
-        foreach ($folder_surat_desa as $surat) {
-            $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
-            $hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
-            if ($hasil->num_rows() == 0) {
-                $data              = [];
-                $data['jenis']     = 2;
-                $data['url_surat'] = $surat;
-                $data['nama']      = ucwords(trim(str_replace(['surat', '-', '_'], ' ', $surat)));
-                $sql               = $this->db->insert_string('tweb_surat_format', $data) . ' ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)';
-                $this->db->query($sql);
+        if ($folder_surat_desa) {
+            foreach ($folder_surat_desa as $surat) {
+                $surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
+                $hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
+                if ($hasil->num_rows() == 0) {
+                    $data              = [];
+                    $data['jenis']     = 2;
+                    $data['url_surat'] = $surat;
+                    $data['nama']      = ucwords(trim(str_replace(['surat', '-', '_'], ' ', $surat)));
+                    $sql               = $this->db->insert_string('tweb_surat_format', $data) . ' ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)';
+                    $this->db->query($sql);
+                }
+
+                $daftar_surat[] = $surat;
             }
 
-            $daftar_surat[] = $surat;
+            // Hapus surat ubahan desa yg sudah tidak ada
+            $this->db
+                ->where('jenis', 2)
+                ->where_not_in('url_surat', $daftar_surat)
+                ->delete($this->table);
         }
 
         // Hapus surat ubahan desa yg sudah tidak ada

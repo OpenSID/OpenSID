@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -446,17 +446,24 @@ class Web_artikel_model extends MY_Model
         $this->group_akses();
 
         $list_gambar = $this->db
-            ->select('gambar, gambar1, gambar2, gambar3')
+            ->select('a.gambar, a.gambar1, a.gambar2, a.gambar3')
+            ->from('artikel a')
             ->where('a.id', $id)
-            ->where()
-            ->get('artikel a')
+            ->get()
             ->row_array();
 
-        foreach ($list_gambar as $key => $gambar) {
-            HapusArtikel($gambar);
+        if ($list_gambar) {
+            foreach ($list_gambar as $key => $gambar) {
+                HapusArtikel($gambar);
+            }
         }
 
-        $outp = $this->db->where('a.id', $id)->delete('artikel a');
+        if (! in_array($this->session->grup, [1, 2, 3, 4])) {
+            $this->db->where('id_user', $this->session->user);
+        }
+
+        $this->db->from('artikel')->where('id', $id)->delete();
+        $outp = $this->db->affected_rows();
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
