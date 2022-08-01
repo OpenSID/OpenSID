@@ -1,5 +1,5 @@
-Di rilis ini, versi 22.07-premium-beta04 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
-Terima kasih pada [untuk diisi] yang terus berkontribusi.
+Di rilis ini, versi 22.08-premium menyediakan pengaturan masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
 
