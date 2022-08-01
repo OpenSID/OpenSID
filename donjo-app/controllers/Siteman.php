@@ -54,6 +54,8 @@ class Siteman extends MY_Controller
         // Kalau sehabis periksa data, paksa harus login lagi
         if ($this->session->periksa_data == 1) {
             $this->user_model->logout();
+
+            redirect('siteman');
         }
 
         if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
@@ -62,6 +64,7 @@ class Siteman extends MY_Controller
         unset($_SESSION['balik_ke']);
         $data['header']      = $this->config_model->get_data();
         $data['latar_login'] = $this->theme_model->latar_login();
+
         $data['form_action'] = site_url('siteman/auth');
         //Initialize Session ------------
         if (! isset($_SESSION['siteman'])) {
@@ -85,7 +88,7 @@ class Siteman extends MY_Controller
         $method       = $this->input->method(true);
         $allow_method = ['POST'];
         if (! in_array($method, $allow_method)) {
-            redirect('siteman/login');
+            redirect('siteman');
         }
         $this->user_model->siteman();
 
@@ -112,18 +115,11 @@ class Siteman extends MY_Controller
         }
     }
 
-    public function login()
-    {
-        $this->user_model->login();
-        $data['header']      = $this->config_model->get_data();
-        $data['form_action'] = site_url('siteman/auth');
-        $this->load->view('siteman', $data);
-    }
-
     public function logout()
     {
         $this->user_model->logout();
-        $this->index();
+
+        redirect('siteman');
     }
 
     public function lupa_sandi()
@@ -141,7 +137,7 @@ class Siteman extends MY_Controller
         $securimage = new Securimage();
 
         if (! $securimage->check($this->input->post('captcha_code'))) {
-            $this->session->set_flashdata('notif', 'Kode captcha anda salah. Silakan ulangi lagi.');
+            set_session('notif', 'Kode captcha anda salah. Silakan ulangi lagi.');
 
             redirect('siteman/lupa_sandi');
         }
@@ -153,12 +149,12 @@ class Siteman extends MY_Controller
         } catch (\Exception $e) {
             log_message('error', $e);
 
-            $this->session->set_flashdata('notif', 'Tidak berhasil mengirim email, harap mencoba kembali.');
+            set_session('notif', 'Tidak berhasil mengirim email, harap mencoba kembali.');
 
             redirect('siteman/lupa_sandi');
         }
 
-        $this->session->set_flashdata('notif', lang($status));
+        set_session('notif', lang($status));
 
         redirect('siteman/lupa_sandi');
     }
@@ -182,7 +178,7 @@ class Siteman extends MY_Controller
         $request = (object) $this->input->post();
 
         if ($request->password !== $request->konfirmasi_password) {
-            $this->session->set_flashdata('notif', 'Bidang konfirmasi password tidak cocok dengan bidang password.');
+            set_session('notif', 'Bidang konfirmasi password tidak cocok dengan bidang password.');
 
             redirect("siteman/reset_kata_sandi/{$request->token}?email={$request->email}");
         }
@@ -197,12 +193,12 @@ class Siteman extends MY_Controller
         } catch (\Exception $e) {
             log_message('error', $e);
 
-            $this->session->set_flashdata('notif', 'Tidak berhasil memverifikasi kata sandi, silahkan coba kembali.');
+            set_session('notif', 'Tidak berhasil memverifikasi kata sandi, silahkan coba kembali.');
 
             redirect("siteman/reset_kata_sandi/{$request->token}?email={$request->email}");
         }
 
-        $this->session->set_flashdata('notif', lang($status));
+        set_session('notif', lang($status));
 
         if ($status === 'reset') {
             redirect('siteman');

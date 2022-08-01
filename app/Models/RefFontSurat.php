@@ -39,81 +39,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Foundation\Auth\User as Authenticatable;
-// use Illuminate\Notifications\Notifiable;
-// use Laravel\Sanctum\HasApiTokens;
-// use Tymon\JWTAuth\Contracts\JWTSubject;
-
-// class User extends Authenticatable implements JWTSubject
-class User extends Model
+class RefFontSurat extends Model
 {
-    // use HasApiTokens;
-    // use HasFactory;
-    // use Notifiable;
-
-    protected $table = 'user';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_font_surat';
 
     /**
-     * The attributes that are mass assignable.
+     * The timestamps for the model.
      *
-     * @var array<int, string>
+     * @var bool
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public $timestamps = false;
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The guarded with the model.
      *
-     * @var array<int, string>
+     * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public function getJWTIdentifier()
-    {
-        // return $this->getKey();
-    }
-
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-
-    /**
-     * Define a one-to-one relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
-     */
-    public function pamong()
-    {
-        return $this->hasOne(Pamong::class, 'pamong_id', 'pamong_id');
-    }
-
-    /**
-     * Scope query untuk status pengguna
-     *
-     * @param mixed $query
-     * @param mixed $status
-     *
-     * @return Builder
-     */
-    public function scopeStatus($query, $status = 1)
-    {
-        return $query->where('active', $status);
-    }
+    protected $guarded = [];
 }

@@ -293,7 +293,8 @@ class Surat extends Admin_Controller
                 $html2pdf->setTestTdInOnePage(false);
                 $html2pdf->setDefaultFont('Arial');
                 $html2pdf->writeHTML($logo_qrcode);
-                $html2pdf->output($nama_surat, 'D');
+                // $html2pdf->output($nama_surat, 'D');
+                $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
 
                 // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
                 $surat->isi_surat = $isi_cetak;
@@ -371,6 +372,11 @@ class Surat extends Admin_Controller
         $surat = LogSurat::find($id);
 
         if ($surat->status) {
+            // Cek ada file
+            if (file_exists($file = FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
+                return ambilBerkas($surat->nama_surat, $this->controller);
+            }
+
             $isi_cetak      = $surat->isi_surat;
             $nama_surat     = $surat->nama_surat;
             $cetak['surat'] = $surat->formatSurat;
@@ -396,14 +402,13 @@ class Surat extends Admin_Controller
                 $html2pdf->setTestTdInOnePage(false);
                 $html2pdf->setDefaultFont('Arial');
                 $html2pdf->writeHTML($isi_cetak);
-                $html2pdf->output($nama_surat, 'D');
+                // $html2pdf->output($nama_surat, 'D');
+                $html2pdf->output(FCPATH . LOKASI_ARSIP . $nama_surat, 'FI');
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
                 log_message('error', $formatter->getHtmlMessage());
             }
-
-            // redirect('surat/pdf');
         } else {
             $log_surat = [
                 'id_format_surat' => $surat->id_format_surat,

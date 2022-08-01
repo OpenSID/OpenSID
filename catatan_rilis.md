@@ -1,8 +1,15 @@
-Di rilis ini, versi 22.07-premium-rev04 menyediakan [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
-
+Di rilis ini, versi 22.08-premium menyediakan pengaturan masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
+
+1. [#5311](https://github.com/OpenSID/OpenSID/issues/5311) Bersihkan cache blade setiap selesai migrasi.
+2. [#5307](https://github.com/OpenSID/OpenSID/issues/5307) Menambahkan masa berlaku surat agar bisa dipilih untuk dihilangkan atau ditampilkan pada form surat.
+3. [#5306](https://github.com/OpenSID/OpenSID/issues/5306) Mengalihkan ke arsip atau daftar surat setelah cetak surat.
+4. [#5313](https://github.com/OpenSID/OpenSID/issues/5313) Periksa database pengguna dan kata sandi bawaan.
+5. [#5305](https://github.com/OpenSID/OpenSID/issues/5305) Menambahkan pengaturan jenis huruf bawaan.
+6. [#5405](https://github.com/OpenSID/OpenSID/issues/5405) Menambahkan info email yg terkirim untuk verifikasi pendaftaran kerjasama.
+7. [#5409](https://github.com/OpenSID/OpenSID/issues/5409) Surat yang sudah selesai dibuatkan pdf dan hasilnya tersimpan di dalam server.
 
 #### Perbaikan BUG
 
@@ -48,5 +55,5 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Perubahan Teknis
 
-1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan Fitur Kosongkan Database.
+1. [#5260](https://github.com/OpenSID/OpenSID/issues/5260) Menghilangkan fitur kosongkan database.
 2. Update .gitignore.

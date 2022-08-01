@@ -73,7 +73,7 @@ $config['demo_akun'] = [
     3 => '345612',
 ];
 
-$config['defaultAdminAuthInfo'] = [
+$config['demo_user'] = [
     'username' => 'admin',
     'password' => 'sid304',
 ];
