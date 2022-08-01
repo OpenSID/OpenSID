@@ -50,19 +50,6 @@ class Lapor_model extends CI_Model
     }
 
     // Dipakai di surat master
-    public function get_current_surat_ref($id)
-    {
-        $this->db->select('*')
-            ->from('tweb_surat_format')
-            ->join('syarat_surat', 'tweb_surat_format.id = syarat_surat.surat_format_id')
-            ->join('ref_syarat_surat', 'ref_syarat_surat.ref_syarat_id = syarat_surat.ref_syarat_id')
-            ->where('syarat_surat.surat_format_id', $id);
-        $query = $this->db->get();
-
-        return $query->result_array();
-    }
-
-    // Dipakai di surat master
     public function update_syarat_surat($surat_format_id, $syarat_surat, $mandiri = 0)
     {
         if (empty($surat_format_id)) {
