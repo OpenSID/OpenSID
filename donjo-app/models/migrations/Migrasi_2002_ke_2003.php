@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -174,16 +174,16 @@ class Migrasi_2002_ke_2003 extends CI_model
         foreach ($data as $modul) {
             $sql = $this->db->insert_string('setting_modul', $modul);
             $sql .= ' ON DUPLICATE KEY UPDATE
-      id = VALUES(id),
-      modul = VALUES(modul),
-      url = VALUES(url),
-      aktif = VALUES(aktif),
-      ikon = VALUES(ikon),
-      urut = VALUES(urut),
-      level = VALUES(level),
-      hidden = VALUES(hidden),
-      ikon_kecil = VALUES(ikon_kecil),
-      parent = VALUES(parent)';
+                id = VALUES(id),
+                modul = VALUES(modul),
+                url = VALUES(url),
+                aktif = VALUES(aktif),
+                ikon = VALUES(ikon),
+                urut = VALUES(urut),
+                level = VALUES(level),
+                hidden = VALUES(hidden),
+                ikon_kecil = VALUES(ikon_kecil),
+                parent = VALUES(parent)';
             $this->db->query($sql);
         }
 
@@ -272,11 +272,13 @@ class Migrasi_2002_ke_2003 extends CI_model
         foreach ($surat_tersedia as $surat_format_id => $list_syarat) {
             $this->db->where('id', $surat_format_id)->update('tweb_surat_format', ['mandiri' => 1]);
 
-            foreach ($list_syarat as $syarat_id) {
-                $ada = $this->db->where('surat_format_id', $surat_format_id)->where('ref_syarat_id', $syarat_id)
-                    ->get('syarat_surat')->num_rows();
-                if (! $ada) {
-                    $this->db->insert('syarat_surat', ['surat_format_id' => $surat_format_id, 'ref_syarat_id' => $syarat_id]);
+            if ($list_syarat) {
+                foreach ($list_syarat as $syarat_id) {
+                    $ada = $this->db->where('surat_format_id', $surat_format_id)->where('ref_syarat_id', $syarat_id)
+                        ->get('syarat_surat')->num_rows();
+                    if (! $ada) {
+                        $this->db->insert('syarat_surat', ['surat_format_id' => $surat_format_id, 'ref_syarat_id' => $syarat_id]);
+                    }
                 }
             }
         }

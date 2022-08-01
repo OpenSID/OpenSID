@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -143,7 +143,6 @@ class Migrasi_1910_ke_1911 extends CI_model
     {
         // Penambahan Field Tahun pada table dokumen untuk keperluan filter JDIH
         if ($this->db->table_exists('dokumen')) {
-            $res = $this->db->get('dokumen')->result_array();
             if (! $this->db->field_exists('tahun', 'dokumen')) {
                 $fields = [
                     'tahun' => [
@@ -152,21 +151,9 @@ class Migrasi_1910_ke_1911 extends CI_model
                     ],
                 ];
                 $this->dbforge->add_column('dokumen', $fields);
+            }
 
-                foreach ($res as $v) {
-                    $tgl = json_decode($v['attr'], true);
-                    if ($v['kategori'] == 2) {
-                        $tahun = date('Y', strtotime($tgl['tgl_kep_kades']));
-                    } elseif ($v['kategori'] == 3) {
-                        $tahun = date('Y', strtotime($tgl['tgl_ditetapkan']));
-                    }
-                    $data = [
-                        'tahun' => $tahun,
-                    ];
-                    $this->db->where('id', $v['id']);
-                    $this->db->update('dokumen', $data);
-                }
-            } else {
+            if ($res = $this->db->get('dokumen')->result_array()) {
                 foreach ($res as $v) {
                     $tgl = json_decode($v['attr'], true);
                     if ($v['kategori'] == 2) {

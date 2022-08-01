@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -160,6 +160,7 @@ class Web_Controller extends MY_Controller
         $this->load->model('anjungan_model');
         $this->load->model('keuangan_grafik_manual_model');
         $this->load->model('keuangan_grafik_model');
+        $this->load->model('pengaduan_model');
 
         // Counter statistik pengunjung
         $this->statistik_pengunjung->counter_visitor();
@@ -303,8 +304,6 @@ class Admin_Controller extends MY_Controller
     // Untuk kasus di mana method controller berbeda hak_akses. Misalnya 'setting_qrcode' readonly, tetapi 'setting/analisis' boleh ubah
     protected function redirect_hak_akses_url($akses, $redirect = '', $controller = '')
     {
-        $kembali = $_SERVER['HTTP_REFERER'];
-
         if (empty($controller)) {
             $controller = $this->controller;
         }
@@ -313,14 +312,12 @@ class Admin_Controller extends MY_Controller
             if (empty($this->grup)) {
                 redirect('siteman');
             }
-            empty($redirect) ? redirect($kembali) : redirect($redirect);
+            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
         }
     }
 
     protected function redirect_hak_akses($akses, $redirect = '', $controller = '')
     {
-        $kembali = $_SERVER['HTTP_REFERER'];
-
         if (empty($controller)) {
             $controller = $this->controller;
         }
@@ -329,7 +326,7 @@ class Admin_Controller extends MY_Controller
             if (empty($this->grup)) {
                 redirect('siteman');
             }
-            empty($redirect) ? redirect($kembali) : redirect($redirect);
+            empty($redirect) ? redirect($_SERVER['HTTP_REFERER']) : redirect($redirect);
         }
     }
 
@@ -358,8 +355,7 @@ class Admin_Controller extends MY_Controller
             return;
         }
 
-        $this->session->success   = -1;
-        $this->session->error_msg = 'Aksi ini tidak diperbolehkan';
+        session_error('Aksi ini tidak diperbolehkan');
         redirect($_SERVER['HTTP_REFERER']);
     }
 

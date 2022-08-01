@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -67,50 +67,28 @@ class Surat_model extends CI_Model
 
     public function list_surat2()
     {
-        $data = $this->db->where('kunci', 0)->
-            get('tweb_surat_format')->
-            result_array();
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['nama_lampiran'] = $this->nama_lampiran($data[$i]['lampiran']);
-        }
-
-        return $data;
+        return $this->db
+            ->where('kunci', 0)
+            ->get('tweb_surat_format')
+            ->result_array();
     }
 
     public function list_surat_mandiri()
     {
-        $data = $this->db->where('kunci', 0)->
-            where('mandiri', 1)->
-            get('tweb_surat_format')->
-            result_array();
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['nama_lampiran'] = $this->nama_lampiran($data[$i]['lampiran']);
-        }
-
-        return $data;
+        return $this->db
+            ->where('kunci', 0)
+            ->where('mandiri', 1)
+            ->get('tweb_surat_format')
+            ->result_array();
     }
 
     public function list_surat_fav()
     {
-        $data = $this->db->where('kunci', 0)->
-            where('favorit', 1)->
-            get('tweb_surat_format')->
-            result_array();
-
-        for ($i = 0; $i < count($data); $i++) {
-            $data[$i]['nama_lampiran'] = $this->nama_lampiran($data[$i]['lampiran']);
-        }
-
-        return $data;
-    }
-
-    private function nama_lampiran($lampiran)
-    {
-        $str = strtoupper(str_replace('.php', '', $lampiran));
-
-        return str_replace(',', ', ', $str);
+        return $this->db
+            ->where('kunci', 0)
+            ->where('favorit', 1)
+            ->get('tweb_surat_format')
+            ->result_array();
     }
 
     private function list_penduduk_ajax_sql($cari = '', $filter = [])
@@ -1078,7 +1056,7 @@ class Surat_model extends CI_Model
         $config   = $data['config'];
         $individu = $data['individu'];
         $input    = $data['input'];
-        // $lampiran_surat dalam bentuk seperti "f-1.08.php,f-1.25.php"
+        // $lampiran_surat dalam bentuk seperti "f-1.08.php, f-1.25.php, f-1.27.php"
         $daftar_lampiran = explode(',', $surat['lampiran']);
         include $this->get_file_data_lampiran($surat['url_surat'], $surat['lokasi_rtf']);
         $lampiran = pathinfo($nama_surat, PATHINFO_FILENAME) . '_lampiran.pdf';
@@ -1132,7 +1110,8 @@ class Surat_model extends CI_Model
             $this->buat_qrcode($data, $nama_surat);
         }
         $this->lampiran($data, $nama_surat, $lampiran);
-        $this->surat_utama($data, $nama_surat);
+
+        return $this->surat_utama($data, $nama_surat);
     }
 
     public function surat_utama($data, &$nama_surat)
@@ -1144,31 +1123,39 @@ class Surat_model extends CI_Model
         $handle       = fopen($berkas_arsip, 'w+b');
         fwrite($handle, $rtf);
         fclose($handle);
+
+        return $nama_surat;
+    }
+
+    public function rtf_to_pdf($nama_surat)
+    {
+        $lokasi_arsip = FCPATH . LOKASI_ARSIP;
+        $berkas_arsip = $lokasi_arsip . $nama_surat;
+
         if (! empty($this->setting->libreoffice_path)) {
             // Untuk konversi rtf ke pdf, libreoffice harus terinstall
             if (strpos(strtoupper(php_uname('s')), 'WIN') !== false) {
                 // Windows O/S
                 $berkas_arsip_win = str_replace('/', '\\', $berkas_arsip);
-                $fcpath           = str_replace('/', '\\', FCPATH);
-                $outdir           = rtrim(str_replace('/', '\\', FCPATH . LOKASI_ARSIP), '/\\');
-                $cmd              = 'cd ' . $this->setting->libreoffice_path;
-                $cmd              = $cmd . ' && soffice --headless --convert-to pdf:writer_pdf_Export --outdir ' . $outdir . ' ' . $fcpath . $berkas_arsip_win;
+                $outdir           = rtrim(str_replace('/', '\\', $lokasi_arsip), '/\\');
+                $cmd              = '"' . $this->setting->libreoffice_path . '\\soffice.exe"';
+                $cmd              = $cmd . ' --headless --convert-to pdf:writer_pdf_Export --outdir "' . $outdir . '" "' . $berkas_arsip_win . '"';
             } elseif ($this->setting->libreoffice_path == '/') {
                 // Linux menggunakan stand-alone LibreOffice
-                $cmd = '' . FCPATH . 'vendor/libreoffice/opt/libreoffice/program/soffice --headless --norestore --convert-to pdf --outdir ' . FCPATH . LOKASI_ARSIP . ' ' . FCPATH . $berkas_arsip;
+                $cmd = '' . FCPATH . 'vendor/libreoffice/opt/libreoffice/program/soffice --headless --norestore --convert-to pdf --outdir ' . $lokasi_arsip . ' ' . $berkas_arsip;
             } else {
                 // Linux menggunakan LibreOffice yg dipasang menggunakan 'sudo apt-get'
-                $cmd = 'libreoffice --headless --norestore --convert-to pdf --outdir ' . FCPATH . LOKASI_ARSIP . ' ' . FCPATH . $berkas_arsip;
+                $cmd = 'libreoffice --headless --norestore --convert-to pdf --outdir ' . $lokasi_arsip . ' ' . $berkas_arsip;
             }
             exec($cmd, $output, $return);
             // Kalau berhasil, pakai pdf
             if ($return == 0) {
-                $nama_surat   = pathinfo($nama_surat, PATHINFO_FILENAME) . '.pdf';
-                $berkas_arsip = $path_arsip . $nama_surat;
+                return pathinfo($nama_surat, PATHINFO_FILENAME) . '.pdf';
             }
         }
 
-        $_SESSION['success'] = 8;
+        // Kembalikan surat .rtf
+        return $nama_surat;
     }
 
     public function get_last_nosurat_log($url)

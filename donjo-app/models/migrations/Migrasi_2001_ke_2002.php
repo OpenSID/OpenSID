@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -47,13 +47,17 @@ class Migrasi_2001_ke_2002 extends CI_model
         }
         $this->db->where('id', 51)->update('setting_modul', ['url' => 'gallery/clear', 'aktif' => '1']);
         // Tambahkan slug untuk setiap artikel agenda yg belum memiliki
-        $list_artikel = $this->db->select('id, judul, slug')
+        $list_artikel = $this->db
+            ->select('id, judul, slug')
             ->where('slug is NULL')->where('id_kategori', AGENDA)
-            ->get('artikel')->result_array();
+            ->get('artikel')
+            ->result_array();
 
-        foreach ($list_artikel as $artikel) {
-            $slug = url_title($artikel['judul'], 'dash', true);
-            $this->db->where('id', $artikel['id'])->update('artikel', ['slug' => $slug]);
+        if ($list_artikel) {
+            foreach ($list_artikel as $artikel) {
+                $slug = url_title($artikel['judul'], 'dash', true);
+                $this->db->where('id', $artikel['id'])->update('artikel', ['slug' => $slug]);
+            }
         }
     }
 }

@@ -54,7 +54,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				<form action="<?= $form_action; ?>" method="POST" id="validasi">
 					<div class="box-body">
 						<?php $gagal = $data = $this->session->flashdata('notif'); ?>
-						<?php if ($data['status'] == -1): ?>
+						<?php if ($data['status'] == -1) : ?>
 							<div class="callout callout-danger">
 								<?= $gagal['pesan']; ?>
 							</div>
@@ -81,6 +81,22 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<span class="input-group-addon"><i class="fa fa-eye-slash" id="baru2" onclick="show(this);" aria-hidden="true"></i></span>
 							</div>
 						</div>
+						<?php if ($tgl_verifikasi) : ?>
+							<div class="form-group">
+								<label style="margin-top: 10px; margin-bottom: 0px;">Kirim PIN Baru Melalui : </label>
+								<div class="checkbox">
+									<label style="font-size: 13.7px;">
+										<input type="checkbox" value="kirim_telegram" id="kirim_telegram" name="kirim_telegram" checked>Telegram
+									</label>
+								</div>
+
+								<div class="checkbox">
+									<label style="font-size: 13.7px;">
+										<input type="checkbox" value="kirim_email" id="kirim_email" name="kirim_email">Email
+									</label>
+								</div>
+							</div>
+						<?php endif; ?>
 					</div>
 					<div class="box-footer">
 						<button type="reset" class="btn bg-red">Batal</button>
@@ -93,18 +109,12 @@ defined('BASEPATH') || exit('No direct script access allowed');
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function(){
+	$(document).ready(function() {
 		setTimeout(function() {
 			$('#pin_baru2').rules('add', {
 				equalTo: '#pin_baru1'
 			});
 		}, 500);
-
-		window.setTimeout(function() {
-			$(".callout").fadeTo(500, 0).slideUp(500, function(){
-				$(this).remove();
-			});
-		}, 5000);
 	});
 
 	function show(elem) {

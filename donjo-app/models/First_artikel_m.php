@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -181,11 +181,11 @@ class First_artikel_m extends CI_Model
                 break;
 
             case 'populer':
-                $this->db->order_by('a.hit', DESC);
+                $this->db->order_by('a.hit', 'DESC');
                 break;
 
             default:
-                $this->db->order_by('a.tgl_upload', DESC);
+                $this->db->order_by('a.tgl_upload', 'DESC');
                 break;
         }
 
@@ -355,7 +355,7 @@ class First_artikel_m extends CI_Model
             ->join('artikel a', 'k.id_artikel = a.id')
             ->where('k.status', 1)
             ->where('k.id_artikel <>', 775)
-            ->order_by('k.tgl_upload', DESC)
+            ->order_by('k.tgl_upload', 'DESC')
             ->limit(10)
             ->get()
             ->result_array();
@@ -467,7 +467,7 @@ class First_artikel_m extends CI_Model
     {
         $this->list_artikel_sql($id);
         $this->db->select('a.*, u.nama AS owner, k.kategori, k.slug AS kat_slug, YEAR(tgl_upload) AS thn, MONTH(tgl_upload) AS bln, DAY(tgl_upload) AS hri');
-        $this->db->order_by('a.tgl_upload', DESC);
+        $this->db->order_by('a.tgl_upload', 'DESC');
         $this->db->limit($limit, $offset);
         $data = $this->db->get()->result_array();
 

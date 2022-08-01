@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -51,10 +51,11 @@ class Info_sistem extends Admin_Controller
         // Logs viewer
         $this->load->library('Log_Viewer');
 
-        $data             = $this->log_viewer->showLogs();
-        $data['ekstensi'] = $this->setting_model->cek_ekstensi();
-        $data['php']      = $this->setting_model->cek_php();
-        $data['mysql']    = $this->setting_model->cek_mysql();
+        $data                      = $this->log_viewer->showLogs();
+        $data['ekstensi']          = $this->setting_model->cek_ekstensi();
+        $data['php']               = $this->setting_model->cek_php();
+        $data['mysql']             = $this->setting_model->cek_mysql();
+        $data['disable_functions'] = $this->setting_model->disable_functions();
 
         $this->render('setting/info_sistem/index', $data);
     }

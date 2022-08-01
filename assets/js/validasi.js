@@ -179,6 +179,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Hanya boleh berisi karakter alfanumerik, spasi, titik, garis miring dan strip");
 
+	jQuery.validator.addMethod("alfanumerik_titik", function(value, element) {
+		valid = /^[a-zA-Z0-9\.]+$/i.test(value);
+		return this.optional(element) || valid;
+	}, "Hanya boleh berisi karakter alfanumerik dan titik");
+
 	jQuery.validator.addMethod("bilangan_titik", function(value, element) {
 		valid = /^[0-9\.]+$/.test(value);
 		return this.optional(element) || valid;
@@ -239,6 +244,11 @@ $(document).ready(function() {
 		return this.optional(element) || valid;
 	}, "Username hanya boleh berisi karakter alpha, numerik, titik, dan garis bawah dan terdiri dari 4 hingga 30 karakter");
 
+	jQuery.validator.addMethod("telegram", function(value, element) {
+		valid = /^@[a-zA-Z0-9\_]{5,100}$/.test(value);
+		return this.optional(element) || valid;
+	}, "Username Telegram diawali @ dan berisi minimal 5 karakter alpha, numerik dan garis bawah");
+
 	jQuery.validator.addMethod("pin_mandiri", function(value, element) {
 		angka_valid = /^(?=.*\d).{6,6}$/.test(value);
 		return this.optional(element) || angka_valid;
@@ -266,7 +276,7 @@ $(document).ready(function() {
 	}, "Tanggal harus sama atau lebih besar dari tanggal minimal.");
 
 	jQuery.validator.addMethod("warna", function(value, element) {
-		valid = /^[a-zA-Z0-9#]+$/i.test(value);
+		valid = /^#[a-zA-Z0-9#,()]+$/i.test(value) || /^rgba[a-zA-Z0-9#,()]+$/i.test(value);
 		return this.optional(element) || valid;
-	}, `Hanya boleh berisi karakter alfanumerik dan tagar`);
+	}, `Hanya boleh berisi karakter alfanumerik, tagar, koma, buka dan tutup kurung`);
 })

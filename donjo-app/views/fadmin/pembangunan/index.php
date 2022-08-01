@@ -156,8 +156,8 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					'data': 'sumber_dana'
 				},
 				{
-					'data': 'anggaran',
-					'render': $.fn.dataTable.render.number( ',', '.', 0, 'Rp ' )
+					'data': 'jml_anggaran',
+					'render': $.fn.dataTable.render.number( '.', ',', 0, 'Rp ' )
 				},
 				{
 					'data': 'max_persentase'
@@ -176,7 +176,11 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				},
 				{
 					'data': function (data) {
-						return `<img src="<?= base_url(LOKASI_GALERI) ?>${data.foto}" class="penduduk_kecil text-center" alt="Gambar Dokumentasi">`
+						if (data.foto) {
+							return `<img src="<?= base_url(LOKASI_GALERI) ?>${data.foto}" class="penduduk_kecil text-center" alt="Gambar Dokumentasi">`
+						}
+
+						return null
 					}
 				},
 			],

@@ -46,7 +46,7 @@
 															<?php if (count($surat_favorit) > 0): ?>
 															<?php $i = 1;
 
-foreach ($surat_favorit as $data): ?>
+                                                                foreach ($surat_favorit as $data): ?>
 																<tr <?php if ($data['jenis'] != 1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><?= $i; ?></td>
 																	<td class="nostretch">
@@ -55,7 +55,7 @@ foreach ($surat_favorit as $data): ?>
 																	</td>
 																	<td><?= $data['nama']?></td>
 																	<td><?= $data['kode_surat']?></td>
-																	<td><?= $data['nama_lampiran']?></td>
+																	<td><?= kode_format($data['lampiran']); ?></td>
 																</tr>
 															<?php $i++; endforeach; ?>
 															<?php else: ?>
@@ -96,7 +96,7 @@ foreach ($surat_favorit as $data): ?>
 													<tbody>
 														<?php $nomer = 1;
 
-foreach ($menu_surat2 as $data): ?>
+                                                            foreach ($menu_surat2 as $data): ?>
 															<?php if ($data['favorit'] != 1): ?>
 																<tr <?php if ($data['jenis'] != 1): ?>style='background-color:#f8deb5 !important;'<?php endif; ?>>
 																	<td><?= $nomer; ?></td>
@@ -108,7 +108,7 @@ foreach ($menu_surat2 as $data): ?>
 																	</td>
 																	<td><?= $data['nama']?></td>
 																	<td><?= $data['kode_surat']?></td>
-																	<td><?= $data['nama_lampiran']?></td>
+																	<td><?= kode_format($data['lampiran']); ?></td>
 																</tr>
 															<?php $nomer++; endif; ?>
 														<?php endforeach; ?>

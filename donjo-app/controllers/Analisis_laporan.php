@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -201,11 +201,15 @@ class Analisis_laporan extends Admin_Controller
     // $aksi = cetak/unduh
     public function dialog($o = 0, $aksi = '')
     {
+        // Simpan session lama
+        $temp_cari = $this->session->cari;
+        $this->session->unset_userdata('cari');
         $data['aksi']           = ucwords($aksi);
         $data['pamong']         = $this->pamong_model->list_data();
         $data['pamong_ketahui'] = $this->pamong_model->get_ttd();
         $data['pamong_ttd']     = $this->pamong_model->get_ub();
         $data['form_action']    = site_url("analisis_laporan/cetak/{$o}/{$aksi}");
+        $this->session->cari    = $temp_cari;
 
         $this->load->view('global/ttd_pamong', $data);
     }

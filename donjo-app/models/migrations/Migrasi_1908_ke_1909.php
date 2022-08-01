@@ -11,7 +11,7 @@
  * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
  *
  * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  *
  * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
  * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
@@ -29,7 +29,7 @@
  * @package   OpenSID
  * @author    Tim Pengembang OpenDesa
  * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2021 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
+ * @copyright Hak Cipta 2016 - 2022 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
  * @license   http://www.gnu.org/licenses/gpl.html GPL V3
  * @link      https://github.com/OpenSID/OpenSID
  *
@@ -61,14 +61,16 @@ class Migrasi_1908_ke_1909 extends CI_model
         }
         // Tambahkan slug untuk setiap artikel yg belum memiliki
         $list_artikel = $this->db->select('id, judul, slug')->get('artikel')->result_array();
-
-        foreach ($list_artikel as $artikel) {
-            if (! empty($artikel['slug'])) {
-                continue;
+        if ($list_artikel) {
+            foreach ($list_artikel as $artikel) {
+                if (! empty($artikel['slug'])) {
+                    continue;
+                }
+                $slug = url_title($artikel['judul'], 'dash', true);
+                $this->db->where('id', $artikel['id'])->update('artikel', ['slug' => $slug]);
             }
-            $slug = url_title($artikel['judul'], 'dash', true);
-            $this->db->where('id', $artikel['id'])->update('artikel', ['slug' => $slug]);
         }
+
         //tambah kolom keterangan untuk log_surat
         if (! $this->db->field_exists('keterangan', 'log_surat')) {
             $fields               = [];

@@ -47,8 +47,8 @@
               <div class="row">
                 <div class="col-sm-12">
                   <div id="map">
-                    <input type="hidden" id="path" name="path" value="<?= $garis['path']?>">
-                    <input type="hidden" name="id" id="id"  value="<?= $garis['id']?>"/>
+                    <input type="hidden" id="path" name="path" value="<?= $garis['path']; ?>">
+                    <input type="hidden" name="id" id="id"  value="<?= $garis['id']; ?>"/>
                   </div>
                 </div>
               </div>
@@ -59,7 +59,7 @@
                 <a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
                 <?php if ($this->CI->cek_hak_akses('u')): ?>
-  								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+                  <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
                 <?php endif; ?>
               </div>
             </div>
@@ -74,16 +74,24 @@
   var infoWindow;
   window.onload = function()
   {
-  	<?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
-  		var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
-  		var zoom = <?=$desa['zoom'] ?: 18?>;
-  	<?php else: ?>
-  		var posisi = [-1.0546279422758742,116.71875000000001];
-  		var zoom = 18;
-  	<?php endif; ?>
+    <?php if (! empty($desa['lat']) && ! empty($desa['lng'])): ?>
+      var posisi = [<?=$desa['lat'] . ',' . $desa['lng']?>];
+      var zoom = <?= $desa['zoom'] ?? 18 ?>;
+    <?php else: ?>
+      var posisi = [-1.0546279422758742,116.71875000000001];
+      var zoom = 18;
+    <?php endif; ?>
+
+    var jenis = "<?= $garis['jenis_garis']; ?>";
+    var tebal = "<?= $garis['tebal']; ?>";
+    var warna = "<?= $garis['color']; ?>";
+
+    console.log('Jenis ' + jenis);
+    console.log('Tebal ' + tebal);
+    console.log('Jenis ' + warna);
 
   	//Inisialisasi tampilan peta
-  	var peta_garis = L.map('map').setView(posisi, zoom);
+    var peta_garis = L.map('map').setView(posisi, zoom);
 
     //1. Menampilkan overlayLayers Peta Semua Wilayah
     var marker_desa = [];
@@ -125,7 +133,7 @@
     //Menampilkan Peta wilayah yg sudah ada
     <?php if (! empty($garis['path'])): ?>
       var wilayah = <?=$garis['path']?>;
-      showCurrentLine(wilayah, peta_garis);
+      showCurrentLine(wilayah, peta_garis, jenis, tebal, warna);
     <?php endif; ?>
 
     //Menambahkan zoom scale ke peta
@@ -135,7 +143,7 @@
     peta_garis.pm.addControls(editToolbarLine());
 
     //Menambahkan Peta wilayah
-    addPetaLine(peta_garis);
+    addPetaLine(peta_garis, jenis, tebal, warna);
 
     <?php if ($this->CI->cek_hak_akses('u')): ?>
       //Export/Import Peta dari file GPX
