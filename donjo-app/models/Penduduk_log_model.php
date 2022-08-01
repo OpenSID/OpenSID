@@ -153,6 +153,7 @@ class Penduduk_log_model extends MY_Model
             $outp = $outp && $this->db->where('id_log_penduduk', $log->id)->delete('log_keluarga');
             // Hapus log penduduk
             $outp = $outp && $this->db->where('id', $id_log)->delete('log_penduduk');
+
             return status_sukses($outp);
         }
 

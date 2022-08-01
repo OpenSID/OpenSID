@@ -96,7 +96,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     public function migrasi_2022071851($hasil)
     {
-        if (!$this->db->field_exists('permanen', 'log_backup')) {
+        if (! $this->db->field_exists('permanen', 'log_backup')) {
             $fields = [
                 'permanen' => [
                     'type'       => 'TINYINT',
@@ -115,7 +115,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
     public function migrasi_2022070751($hasil)
     {
         // Buat tabel ref font Surat
-        if (!$this->db->table_exists('ref_font_surat')) {
+        if (! $this->db->table_exists('ref_font_surat')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
