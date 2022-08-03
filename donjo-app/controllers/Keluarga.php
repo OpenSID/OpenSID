@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluarga extends Admin_Controller
@@ -477,7 +479,7 @@ class Keluarga extends Admin_Controller
         $data['hubungan'] = $this->keluarga_model->list_hubungan();
         $data['main']     = $this->keluarga_model->list_anggota($id);
         $kk               = $this->keluarga_model->get_kepala_kk($id);
-        $data['desa']     = $this->config_model->get_data();
+        $data['desa']     = Config::first();
 
         if ($kk) {
             $data['kepala_kk'] = $kk;

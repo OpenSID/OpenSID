@@ -203,7 +203,7 @@ class TinyMCE
         $sebutan_nip_desa    = null;
 
         if ($id_penduduk) {
-            $config              = Config::with('pamong.penduduk')->first();
+            $config              = Config::first();
             $sebutan_dusun       = setting('sebutan_dusun');
             $sebutan_desa        = setting('sebutan_desa');
             $sebutan_kecamatan   = setting('sebutan_kecamatan');
@@ -658,25 +658,36 @@ class TinyMCE
         $pamong_ttd = Pamong::ttd('a.n')->first();
 
         $ttd       = $input['pilih_atas_nama'];
-        $atas_nama = ucwords($pamong_ttd->jabatan . ' ' . $nama_desa);
+        $atas_nama = ucwords($pamong_ttd->pamong_jabatan . ' ' . $nama_desa);
 
-        $nama_pamong = $pamong_ttd->nama ?? $pamong_ttd->pamong_nama;
-        $nip_pamong  = $pamong_ttd->pamong_nip ?? $pamong_ttd->pamong_niap;
+        $nama_pamong = $pamong_ttd->pamong_nama;
+        $nip_pamong  = $pamong_ttd->pamong_nip;
+        $niap_pamong = $pamong_ttd->pamong_niap;
 
         $pamong_ub = Pamong::ttd('u.b')->first();
         if (preg_match('/a.n/i', $ttd)) {
-            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan;
-
-            $nama_pamong = $pamong_ub->nama ?? $pamong_ub->pamong_nama;
-            $nip_pamong  = $pamong_ub->pamong_nip ?? $pamong_ub->pamong_niap;
+            $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->pamong_jabatan;
+            $nama_pamong = $pamong_ub->pamong_nama;
+            $nip_pamong  = $pamong_ub->pamong_nip;
+            $niap_pamong = $pamong_ub->pamong_niap;
         }
 
         if (preg_match('/u.b/i', $ttd)) {
-            $pamong    = Pamong::find($input['pamong_id']);
-            $atas_nama = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->jabatan . '<br> u.b <br>' . $pamong->jabatan;
+            $pamong      = Pamong::find($input['pamong_id']);
+            $atas_nama   = 'a.n ' . $atas_nama . ' <br> ' . $pamong_ub->pamong_jabatan . '<br> u.b <br>' . $pamong->jabatan->nama;
+            $nama_pamong = $pamong->pamong_nama;
+            $nip_pamong  = $pamong->pamong_nip;
+            $niap_pamong = $pamong->pamong_niap;
+        }
 
-            $nama_pamong = $pamong->nama ?? $pamong->pamong_nama;
-            $nip_pamong  = $pamong->pamong_nip ?? $pamong->pamong_niap;
+        if (strlen($nip_pamong) > 10) {
+            $pamong_nip = 'NIP: ' . $nip_pamong;
+        } else {
+            if (! empty($niap_pamong)) {
+                $pamong_nip = setting('sebutan_nip_desa') . ': ' . $niap_pamong;
+            } else {
+                $pamong_nip = '';
+            }
         }
 
         return [
@@ -693,7 +704,7 @@ class TinyMCE
             [
                 'judul' => 'NIP / NIAP Pamong',
                 'isian' => '[nip_pamong]',
-                'data'  => $nip_pamong,
+                'data'  => $pamong_nip,
             ],
         ];
     }

@@ -99,7 +99,7 @@ class Informasi_publik extends Admin_Controller
         // Masukkan semua berkas ke dalam zip
         $berkas_zip = masukkan_zip($berkas);
         // Unduh berkas zip
-        $data = $this->config_model->get_data();
+        $data = $this->header['desa'];
         header('Content-Description: File Transfer');
         header('Content-disposition: attachment; filename=informasi_publik_' . $data['kode_desa'] . '_' . date('d-m-Y') . '.zip');
         header('Content-type: application/zip');

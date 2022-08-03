@@ -272,7 +272,7 @@ class Covid19 extends Admin_Controller
             $aksi = $aksi . '_' . $judul;
         }
 
-        $data['config'] = $this->config_model->get_data();
+        $data['config'] = $this->header['desa'];
         $data['aksi']   = $aksi;
         $data['judul']  = $judul;
         $this->session->set_userdata('per_page', 10); // Kembalikan ke paginasi default

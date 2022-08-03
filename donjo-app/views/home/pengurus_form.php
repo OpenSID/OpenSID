@@ -194,7 +194,12 @@
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="jabatan">Jabatan</label>
 								<div class="col-sm-7">
-									<input id="jabatan" name="jabatan" class="form-control input-sm required" type="text" placeholder="Jabatan" value="<?= $pamong['jabatan']?>" ></input>
+									<select class="form-control select2 input-sm required" name="jabatan_id">
+										<option value="">Pilih Jabatan</option>
+										<?php foreach ($jabatan as $key => $value): ?>
+											<option value="<?= $key ?>" <?= selected($pamong['jabatan_id'], $key); ?>><?= $value ?></option>
+										<?php endforeach; ?>
+									</select>
 								</div>
 							</div>
 							<div class="form-group">

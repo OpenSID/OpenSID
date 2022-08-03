@@ -435,9 +435,9 @@ class Surat extends Admin_Controller
 
             $atas_nama = '';
             if ($pamong->pamong_ttd === 1) {
-                $atas_nama .= 'a.n ' . ucwords($pamong->jabatan . ' ' . Config::first()->nama_desa);
+                $atas_nama .= 'a.n ' . ucwords($pamong->pamong_jabatan . ' ' . Config::first()->nama_desa);
             } elseif ($pamong->pamong_ub === 1) {
-                $atas_nama .= 'u.b ' . ucwords($pamong->jabatan . ' ' . Config::first()->nama_desa);
+                $atas_nama .= 'u.b ' . ucwords($pamong->pamong_jabatan . ' ' . Config::first()->nama_desa);
             }
 
             $log_surat['no_surat'] = $this->surat_model->get_last_nosurat_log($surat->url_surat)['no_surat_berikutnya'];
@@ -685,14 +685,15 @@ class Surat extends Admin_Controller
 
         $pamong_ttd = Pamong::ttd('a.n')->first();
         $pamong_ub  = Pamong::ttd('u.b')->first();
-        if ($pamong_ttd && $pamong_ub) {
-            $str_ttd             = ucwords($pamong_ttd->jabatan . ' ' . $config->nama_desa);
+        if ($pamong_ttd) {
+            $str_ttd             = ucwords($pamong_ttd->pamong_jabatan . ' ' . $config->nama_desa);
             $data['atas_nama'][] = "a.n {$str_ttd}";
             if ($pamong_ub) {
-                $data['atas_nama'][] = "u.b {$pamong_ub->jabatan}";
+                $data['atas_nama'][] = "u.b {$pamong_ub->pamong_jabatan}";
             }
         } else {
-            redirect_with('error', 'Belum ada penanda tangan, Silhakan tentukan a.n dan u.b pada modul Pemerintah ' . ucwords(setting('sebutan_desa')));
+            session_error('Belum ada penanda tangan, silhakan tentukan a.n dan u.b terlebih dahulu');
+            redirect('pengurus');
         }
     }
 

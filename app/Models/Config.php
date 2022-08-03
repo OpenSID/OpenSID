@@ -49,47 +49,86 @@ class Config extends Model
     protected $table = 'config';
 
     /**
-     * The timestamps for the model.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The guarded with the model.
+     * The fillable with the model.
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'nama_desa',
+        'kode_desa',
+        'kode_pos',
+        'nama_kecamatan',
+        'kode_kecamatan',
+        'nama_kepala_camat',
+        'nip_kepala_camat',
+        'nama_kabupaten',
+        'kode_kabupaten',
+        'nama_propinsi',
+        'kode_propinsi',
+        'logo',
+        'lat',
+        'lng',
+        'zoom',
+        'map_tipe',
+        'path',
+        'alamat_kantor',
+        'email_desa',
+        'telepon',
+        'website',
+        'kantor_desa',
+        'warna',
+        'created_by',
+        'updated_by',
+    ];
 
     /**
-     * Define a one-to-one relationship.
+     * The appends with the model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @var array
      */
-    public function pamong()
-    {
-        return $this->hasOne(Pamong::class, 'pamong_id', 'pamong_id');
-    }
+    protected $appends = [
+        'nip_kepala_desa',
+        'nama_kepala_desa',
+    ];
 
     /**
-     * Getter untuk menambahkan url logo.
+     * Getter untuk nip kepala desa dari pengurus
      *
      * @return string
      */
-    public function getUrlLogoAttribute()
+    public function getNipKepalaDesaAttribute()
     {
-        // try {
-        //     return Storage::disk('ftp')->exists("desa/logo/{$this->logo}")
-        //         ? Storage::disk('ftp')->url("desa/logo/{$this->logo}")
-        //         : null;
-        // } catch (Exception $e) {
-        //     Log::error($e);
-        // }
+        return $this->pamong()->pamong_nip;
     }
 
-    public function getGaleriAttribute()
+    /**
+     * Getter untuk nama kepala desa dari pengurus
+     *
+     * @return string
+     */
+    public function getNamaKepalaDesaAttribute()
     {
-        // return Galery::with('children')->where(['slider' => 1, 'enabled' => 1])->first();
+        return $this->pamong()->pamong_nama;
+    }
+
+    private function pamong()
+    {
+        return Pamong::kepalaDesa()->first();
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        $user_id = auth()->id ?? User::where('id_grup', '1')->first()->id;
+
+        static::creating(static function ($model) use ($user_id) {
+            $model->created_by = $user_id;
+            $model->updated_by = $user_id;
+        });
+
+        static::updating(static function ($model) use ($user_id) {
+            $model->updated_by = $user_id;
+        });
     }
 }

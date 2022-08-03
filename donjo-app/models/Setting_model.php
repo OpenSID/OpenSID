@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\RefJabatan;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 define('EKSTENSI_WAJIB', serialize([
@@ -134,6 +136,11 @@ class Setting_model extends MY_Model
 
                 if ($key == 'id_pengunjung_kehadiran') {
                     $value = alfanumerik(trim($value));
+                }
+
+                if ($key == 'sebutan_kepala_desa') {
+                    // Update refjabatan
+                    RefJabatan::find(1)->update(['nama' => $value]);
                 }
 
                 $this->update($key, $value);

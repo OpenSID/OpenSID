@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Plan extends Admin_Controller
@@ -135,9 +137,8 @@ class Plan extends Admin_Controller
             $data['lokasi'] = null;
         }
 
-        $data['desa']                   = $this->config_model->get_data();
-        $sebutan_desa                   = ucwords($this->setting->sebutan_desa);
-        $data['wil_atas']               = $this->config_model->get_data();
+        $data['desa']                   = Config::first();
+        $data['wil_atas']               = Config::first();
         $data['dusun_gis']              = $this->wilayah_model->list_dusun();
         $data['rw_gis']                 = $this->wilayah_model->list_rw();
         $data['rt_gis']                 = $this->wilayah_model->list_rt();

@@ -38,6 +38,7 @@
 defined('BASEPATH') || exit('No direct script access allowed');
 
 use App\Models\BantuanPeserta;
+use App\Models\Config;
 use Box\Spout\Common\Entity\Style\Color;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
@@ -310,7 +311,7 @@ class Program_bantuan extends Admin_Controller
             $this->session->per_page = 1000000000; // Angka besar supaya semua data terunduh
             $data['sasaran']         = unserialize(SASARAN);
 
-            $data['config']          = $this->config_model->get_data();
+            $data['config']          = Config::first();
             $data['peserta']         = $this->program_bantuan_model->get_program(1, $program_id);
             $data['aksi']            = $aksi;
             $this->session->per_page = $temp;

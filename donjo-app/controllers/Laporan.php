@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Laporan extends Admin_Controller
@@ -95,7 +97,7 @@ class Laporan extends Admin_Controller
         }
         $this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
         $data['tahun_lengkap']      = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
-        $data['config']             = $this->config_model->get_data();
+        $data['config']             = Config::first();
         $data['pamong']             = $this->pamong_model->list_data();
         $data['kelahiran']          = $this->laporan_bulanan_model->kelahiran();
         $data['kematian']           = $this->laporan_bulanan_model->kematian();
@@ -139,7 +141,7 @@ class Laporan extends Admin_Controller
     private function data_cetak()
     {
         $data                   = [];
-        $data['config']         = $this->config_model->get_data();
+        $data['config']         = Config::first();
         $data['bulan']          = $this->session->bulanku;
         $data['tahun']          = $this->session->tahunku;
         $data['bln']            = getBulan($data['bulan']);

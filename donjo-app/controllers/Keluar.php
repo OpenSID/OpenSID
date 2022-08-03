@@ -418,7 +418,7 @@ class Keluar extends Admin_Controller
         $data['config']         = $this->header['desa'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['desa']           = $this->config_model->get_data();
+        $data['desa']           = $this->header['desa'];
         $data['main']           = $this->keluar_model->list_data();
 
         //pengaturan data untuk format cetak/ unduh

@@ -35,50 +35,56 @@
  *
  */
 
-use App\Models\Config;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-defined('BASEPATH') || exit('No direct script access allowed');
+use Illuminate\Database\Eloquent\Model;
 
-class Header_model extends CI_Model
+class RefJabatan extends Model
 {
-    public function __construct()
+    public const EXCLUDE_DELETE = [1, 2];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ref_jabatan';
+
+    /**
+     * The fillable with the model.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nama',
+        'jenis',
+        'tupoksi',
+        'created_by',
+        'updated_by',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'jenis' => 'boolean',
+    ];
+
+    public static function boot()
     {
-        parent::__construct();
-        $this->load->driver('cache');
-    }
+        parent::boot();
 
-    // ---
-    public function get_data()
-    {
-        // global variabel
-        $outp['sasaran'] = ['1' => 'Penduduk', '2' => 'Keluarga / KK', '3' => 'Rumah Tangga', '4' => 'Kelompok/Organisasi Kemasyarakatan'];
+        $user_id = auth()->id ?? User::where('id_grup', '1')->first()->id;
 
-        // Pembenahan per 13 Juli 15, sebelumnya ada notifikasi Error, saat $_SESSOIN['user'] nya kosong!
-        $id    = @$_SESSION['user'];
-        $sql   = 'SELECT nama,foto FROM user WHERE id = ?';
-        $query = $this->db->query($sql, $id);
-        if ($query) {
-            if ($query->num_rows() > 0) {
-                $data         = $query->row_array();
-                $outp['nama'] = $data['nama'];
-                $outp['foto'] = $data['foto'];
-            }
-        }
+        static::creating(static function ($model) use ($user_id) {
+            $model->created_by = $user_id;
+            $model->updated_by = $user_id;
+        });
 
-        $outp['desa'] = Schema::hasColumn('tweb_desa_pamong', 'jabatan_id') ? Config::first() : null;
-
-        $sql           = 'SELECT COUNT(id) AS jml FROM komentar WHERE id_artikel = 775 AND status = 2;';
-        $query         = $this->db->query($sql);
-        $lap           = $query->row_array();
-        $outp['lapor'] = $lap['jml'];
-
-        $outp['modul'] = $this->cache->pakai_cache(function () {
-            $this->load->model('modul_model');
-
-            return $this->modul_model->list_aktif();
-        }, "{$this->session->user}_cache_modul", 604800);
-
-        return $outp;
+        static::updating(static function ($model) use ($user_id) {
+            $model->updated_by = $user_id;
+        });
     }
 }

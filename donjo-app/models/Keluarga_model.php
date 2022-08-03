@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\Config;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluarga_model extends MY_Model
@@ -42,7 +44,7 @@ class Keluarga_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(['program_bantuan_model', 'penduduk_model', 'web_dokumen_model', 'config_model']);
+        $this->load->model(['program_bantuan_model', 'penduduk_model', 'web_dokumen_model']);
     }
 
     public function autocomplete($cari = '')
@@ -756,7 +758,7 @@ class Keluarga_model extends MY_Model
         $kk['id_kk']      = $id;
         $kk['main']       = $this->keluarga_model->list_anggota($id);
         $kk['kepala_kk']  = $this->keluarga_model->get_kepala_kk($id);
-        $kk['desa']       = $this->config_model->get_data();
+        $kk['desa']       = Config::first();
         $data['all_kk'][] = $kk;
 
         return $data;
@@ -1155,7 +1157,7 @@ class Keluarga_model extends MY_Model
     public function get_data_unduh_kk($id)
     {
         $data              = [];
-        $data['desa']      = $this->config_model->get_data();
+        $data['desa']      = Config::first();
         $data['id_kk']     = $id;
         $data['main']      = $this->list_anggota($id);
         $data['kepala_kk'] = $this->get_kepala_kk($id);
@@ -1299,9 +1301,7 @@ class Keluarga_model extends MY_Model
             ->row()->digit ?? 0;
 
         // No_kk Sementara menggunakan format 0[kode-desa][nomor-urut]
-        $desa = $this->config_model->get_data();
-
-        return '0' . $desa['kode_desa'] . sprintf('%05d', $digit + 1);
+        return '0' . Config::first()->pluck('kode_desa') . sprintf('%05d', $digit + 1);
     }
 
     public function pecah_semua($id, $post)

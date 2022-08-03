@@ -173,7 +173,7 @@ class Lembaran_desa extends Admin_Controller
         $data['pamong_ttd']     = $this->pamong_model->get_data($this->input->post('pamong_ttd'));
         $data['pamong_ketahui'] = $this->pamong_model->get_data($this->input->post('pamong_ketahui'));
         $data['tahun']          = $post['tahun'];
-        $data['desa']           = $this->config_model->get_data();
+        $data['desa']           = $this->header['desa'];
         $data['aksi']           = $aksi;
         $data['template']       = 'lembaran_desa_print';
 

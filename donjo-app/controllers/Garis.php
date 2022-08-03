@@ -133,8 +133,8 @@ class Garis extends Admin_Controller
             $data['garis'] = null;
         }
 
-        $data['desa']                   = $this->config_model->get_data();
-        $data['wil_atas']               = $this->config_model->get_data();
+        $data['desa']                   = $this->header['desa'];
+        $data['wil_atas']               = $this->header['desa'];
         $data['dusun_gis']              = $this->wilayah_model->list_dusun();
         $data['rw_gis']                 = $this->wilayah_model->list_rw();
         $data['rt_gis']                 = $this->wilayah_model->list_rt();

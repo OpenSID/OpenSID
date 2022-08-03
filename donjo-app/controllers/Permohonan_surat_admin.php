@@ -173,11 +173,11 @@ class Permohonan_surat_admin extends Admin_Controller
         $pamong_ttd = Pamong::ttd('a.n')->first();
 
         if ($pamong_ttd) {
-            $str_ttd             = ucwords($pamong_ttd->jabatan . ' ' . $config->nama_desa);
+            $str_ttd             = ucwords($pamong_ttd->pamong_jabatan . ' ' . $config->nama_desa);
             $data['atas_nama'][] = "a.n {$str_ttd}";
             $pamong_ub           = Pamong::ttd('u.b')->first();
             if ($pamong_ub) {
-                $data['atas_nama'][] = "u.b {$pamong_ub->jabatan}";
+                $data['atas_nama'][] = "u.b {$pamong_ub->pamong_jabatan}";
             }
         }
     }

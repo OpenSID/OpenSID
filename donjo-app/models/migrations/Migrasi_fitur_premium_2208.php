@@ -233,6 +233,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
         return $hasil;
     }
+
     protected function migrasi_2022080471($hasil)
     {
         $hasil = $hasil && $this->telegram_user($hasil);

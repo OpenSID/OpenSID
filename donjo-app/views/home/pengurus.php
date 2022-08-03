@@ -9,57 +9,56 @@
 </style>
 <div class="box box-info">
 	<div class="box-header with-border">
-		<?php if ($this->CI->cek_hak_akses('u')): ?>
-			<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Staf">
-			<i class="fa fa-plus"></i>Tambah Aparat Pemerintahan
-		</a>
-		<?php endif; ?>
-		<?php if ($this->CI->cek_hak_akses('u')): ?>
+		<?php if (can('u')): ?>
+			<a href="<?= site_url('pengurus/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah">
+				<i class="fa fa-plus"></i>Tambah
+			</a>
 			<div class="btn-group btn-group-vertical">
 				<a class="btn btn-social btn-flat btn-info btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Aksi Data Terpilih</a>
 				<ul class="dropdown-menu" role="menu">
 					<li>
 						<a href="<?= site_url('pengurus/atur_bagan')?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Atur Struktur Bagan" class="btn btn-social btn-flat btn-block btn-sm aksi-terpilih" ><i class="fa fa-sitemap"></i> Atur Struktur Bagan</a>
 					</li>
-					<?php if ($this->CI->cek_hak_akses('h')): ?>
+					<?php if (can('h')): ?>
 						<li>
 							<a href="#confirm-delete" class="btn btn-social btn-flat btn-block btn-sm hapus-terpilih" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url('pengurus/delete_all')?>')"><i class="fa fa-trash-o"></i> Hapus Data Terpilih</a>
 						</li>
 					<?php endif; ?>
 				</ul>
 			</div>
-		<?php endif; ?>
-		<?php if ($this->CI->cek_hak_akses('u')): ?>
 			<div class="btn-group btn-group-vertical">
 				<a class="btn btn-social btn-flat bg-purple btn-sm" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Pilih Aksi Lainnya</a>
 				<ul class="dropdown-menu" role="menu">
 					<li>
 						<a href="<?= site_url('pengurus/dialog/cetak')?>" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Cetak Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-print "></i> Cetak</a>
 					</li>
-					<?php if ($this->CI->cek_hak_akses('h')): ?>
+					<?php if (can('h')): ?>
 						<li>
 							<a href="<?= site_url('pengurus/dialog/unduh')?>" title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data" class="btn btn-social btn-flat btn-block btn-sm"><i class="fa fa-download"></i> Unduh</a>
 						</li>
 					<?php endif; ?>
 				</ul>
 			</div>
-		<?php endif; ?>
-		<div class="btn-group btn-group-vertical">
-			<a class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Bagan Organisasi</a>
-			<ul class="dropdown-menu" role="menu">
-				<li>
-					<a href="<?= site_url('pengurus/bagan')?>" title="Bagan Tanpa BPD" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Bagan Tanpa BPD</a>
-				</li>
-				<li>
-					<a href="<?= site_url('pengurus/bagan/bpd')?>" title="Bagan Dengan BPD" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Bagan Dengan BPD</a>
-				</li>
-				<?php if ($this->CI->cek_hak_akses('u')): ?>
+			<div class="btn-group btn-group-vertical">
+				<a class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Bagan Organisasi</a>
+				<ul class="dropdown-menu" role="menu">
 					<li>
-						<a href="<?= site_url('pengurus/atur_bagan_layout')?>" title="Atur Ukuran Bagan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Atur Ukuran Bagan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-cogs"></i> Atur Ukuran Bagan</a>
+						<a href="<?= site_url('pengurus/bagan')?>" title="Bagan Tanpa BPD" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Bagan Tanpa BPD</a>
 					</li>
-				<?php endif; ?>
-			</ul>
-		</div>
+					<li>
+						<a href="<?= site_url('pengurus/bagan/bpd')?>" title="Bagan Dengan BPD" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-sitemap"></i> Bagan Dengan BPD</a>
+					</li>
+					<?php if (can('u')): ?>
+						<li>
+							<a href="<?= site_url('pengurus/atur_bagan_layout')?>" title="Atur Ukuran Bagan" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Atur Ukuran Bagan" class="btn btn-social btn-flat btn-block btn-sm" ><i class="fa fa-cogs"></i> Atur Ukuran Bagan</a>
+						</li>
+					<?php endif; ?>
+				</ul>
+			</div>
+			<a href="<?= site_url('pengurus/jabatan')?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Jabatan">
+				<i class="fa fa fa-list"></i>Jabatan
+			</a>
+		<?php endif; ?>
 		<?php if (can('u', 'kehadiran_jam_kerja') || can('u', 'kehadiran_hari_libur') || can('u', 'kehadiran_rekapitulasi') || can('u', 'kehadiran_pengaduan')): ?>
 		<div class="btn-group btn-group-vertical">
 			<a class="btn btn-social btn-flat bg-orange btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" data-toggle="dropdown"><i class='fa fa-arrow-circle-down'></i> Kehadiran</a>
@@ -120,7 +119,7 @@
 											<tr>
 												<th class="padat"><input type="checkbox" id="checkall" ></th>
 												<th class="padat">No</th>
-												<?php if ($this->CI->cek_hak_akses('u')): ?>
+												<?php if (can('u')): ?>
 													<th class="padat">Aksi</th>
 												<?php endif; ?>
 												<th class="text-center">Foto</th>
@@ -140,22 +139,22 @@
 										</thead>
 										<tbody>
 											<?php foreach ($main as $key => $data): ?>
-												<tr>
+												<tr <?= jecho(in_array($data['jabatan_id'], [1, 2]), true, 'class="select-row"') ?>>
 													<td class="text-center">
 														<input type="checkbox" name="id_cb[]" value="<?=$data['pamong_id']?>" />
 													</td>
 													<td class="text-center"><?=$data['no']?></td>
-													<?php if ($this->CI->cek_hak_akses('u')): ?>
+													<?php if (can('u')): ?>
 														<td nowrap>
-															<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<?php if (can('u')): ?>
 																<a href="<?=site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/1")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == $paging->num_rows) && print 'disabled'; ?>" title="Pindah Posisi Ke Bawah"><i class="fa fa-arrow-down"></i></a>
 																<a href="<?=site_url("pengurus/urut/{$paging->page}/{$data['pamong_id']}/2")?>" class="btn bg-olive btn-flat btn-sm <?php ($data['no'] == 1 && $paging->page == $paging->start_link) && print 'disabled'; ?>" title="Pindah Posisi Ke Atas"><i class="fa fa-arrow-up"></i></a>
 																<a href="<?= site_url("pengurus/form/{$data['pamong_id']}")?>" class="btn bg-orange btn-flat btn-sm" title="Ubah Data"><i class="fa fa-edit"></i></a>
 															<?php endif; ?>
-															<?php if ($this->CI->cek_hak_akses('h')): ?>
+															<?php if (can('h')): ?>
 																<a href="#" data-href="<?= site_url("pengurus/delete/{$data['pamong_id']}")?>" class="btn bg-maroon btn-flat btn-sm" title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 															<?php endif; ?>
-															<?php if ($this->CI->cek_hak_akses('u')): ?>
+															<?php if (can('u')): ?>
 																<?php if ($data['pamong_status'] == '1'): ?>
 																	<a href="<?= site_url("pengurus/lock/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Non Aktifkan"><i class="fa fa-unlock"></i></a>
 																<?php else: ?>

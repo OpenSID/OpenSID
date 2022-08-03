@@ -67,7 +67,7 @@ class Pamong extends Model
      *
      * @var array
      */
-    protected $with = ['penduduk'];
+    protected $with = ['penduduk', 'jabatan'];
 
     /**
      * The guarded with the model.
@@ -79,6 +79,16 @@ class Pamong extends Model
     public function penduduk()
     {
         return $this->hasOne(Penduduk::class, 'id', 'id_pend');
+    }
+
+    /**
+     * Define a one-to-one relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function jabatan()
+    {
+        return $this->hasOne(RefJabatan::class, 'id', 'jabatan_id');
     }
 
     /**
@@ -102,6 +112,38 @@ class Pamong extends Model
     public function scopeStatus($query, $value = 1)
     {
         return $query->where('pamong_status', $value);
+    }
+
+    /**
+     * Scope query untuk kepala desa
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeKepalaDesa($query)
+    {
+        return $query
+            ->select(['pamong_id', 'pamong_nama', 'ref_jabatan.nama AS jabatan', 'pamong_nip', 'pamong_niap'])
+            ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
+            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
+            ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id')
+            ->where('jabatan_id', 1)
+            ->where('pamong_status', 1);
+    }
+
+    /**
+     * Scope query untuk sekretaris desa
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopeSekretarisDesa($query)
+    {
+        return $query->where('jabatan_id', 2)->where('pamong_status', 1);
     }
 
     /**
@@ -129,14 +171,16 @@ class Pamong extends Model
     public function scopeTtd($query, $jenis = null)
     {
         if ($jenis === 'a.n') {
-            $query->where('pamong_ttd', 1);
+            $query->where('pamong_ttd', 1)->where('jabatan_id', 1);
         } elseif ($jenis === 'u.b') {
-            $query->where('pamong_ub', 1);
+            $query->where('pamong_ub', 1)->where('jabatan_id', 2);
         }
 
         return $query
-            ->select(['pamong_id', 'pamong_nama', 'jabatan', 'pamong_nip', 'pamong_niap', 'nama'])
+            ->select(['pamong_id', 'pamong_nama', 'ref_jabatan.nama AS pamong_jabatan', 'pamong_nip', 'pamong_niap'])
+            ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
             ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
+            ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id')
             ->where('pamong_status', 1);
     }
 

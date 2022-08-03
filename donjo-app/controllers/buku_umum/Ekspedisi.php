@@ -138,7 +138,7 @@ class Ekspedisi extends Admin_Controller
         $_SESSION['filter']     = $data['input']['tahun'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($_POST['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-        $data['desa']           = $this->config_model->get_data();
+        $data['desa']           = $this->header['desa'];
         $data['main']           = $this->ekspedisi_model->list_data($o, 0, 10000);
 
         $this->load->view("ekspedisi/ekspedisi_{$aksi}", $data);

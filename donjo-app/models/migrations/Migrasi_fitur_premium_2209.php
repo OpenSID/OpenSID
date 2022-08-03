@@ -46,8 +46,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
         $hasil = $hasil && $this->migrasi_2022080271($hasil);
+        $hasil = $hasil && $this->migrasi_2022070551($hasil);
 
-        return $hasil && $this->migrasi_2022070551($hasil);
+        return $hasil && $this->migrasi_2022080471($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -166,5 +167,86 @@ class Migrasi_fitur_premium_2209 extends MY_model
         }
 
         return $hasil && $this->ubah_modul(32, ['url' => 'keluar/clear/masuk']);
+    }
+
+    protected function migrasi_2022080471($hasil)
+    {
+        if (! $this->db->table_exists('ref_jabatan')) {
+            // Tambah tabel ref_jabatan
+            $ref_jabatan = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 10,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'nama' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => false,
+                ],
+                'tupoksi' => [
+                    'type'    => 'LONGTEXT',
+                    'null'    => true,
+                    'default' => null,
+                ],
+                'jenis' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'default'    => 0,
+                    'null'       => false,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($ref_jabatan)
+                ->create_table('ref_jabatan', true);
+
+            if (! $this->db->field_exists('jabatan_id', 'tweb_desa_pamong')) {
+                // Tambah field jabatan_id
+                $tweb_desa_pamong['jabatan_id'] = [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ];
+                $hasil = $hasil && $this->dbforge->add_column('tweb_desa_pamong', $tweb_desa_pamong);
+            }
+
+            $jabatan = DB::table('tweb_desa_pamong')->select(['pamong_id', 'jabatan', 'pamong_ttd', 'pamong_ub'])->orderBy('pamong_ttd', 'desc')->orderBy('pamong_ub', 'desc')->get();
+            $simpan  = collect($jabatan)->unique('jabatan')->map(static function ($item, $key) {
+                Pamong::where('jabatan', $item->jabatan)->update(['jabatan_id' => $key + 1]);
+
+                return [
+                    'id'    => $key + 1,
+                    'nama'  => $item->jabatan,
+                    'jenis' => ($item->pamong_ttd == 1 || $item->pamong_ub == 1) ? 1 : 0,
+                ];
+            })
+                ->values()
+                ->toArray();
+
+            RefJabatan::insert($simpan);
+
+            $hasil = $hasil && $this->timestamps('ref_jabatan', true);
+
+            // Hapus field pamong_id
+            if ($this->db->field_exists('pamong_id', 'config')) {
+                $hasil = $hasil && $this->dbforge->drop_column('config', 'pamong_id');
+            }
+
+            // Hapus field nip_kepala_desa
+            if ($this->db->field_exists('nip_kepala_desa', 'config')) {
+                $hasil = $hasil && $this->dbforge->drop_column('config', 'nip_kepala_desa');
+            }
+
+            $hasil = $hasil && $this->timestamps('config', true);
+
+            // Hapus field jabatan
+            if ($this->db->field_exists('jabatan', 'tweb_desa_pamong')) {
+                $hasil = $hasil && $this->dbforge->drop_column('tweb_desa_pamong', 'jabatan');
+            }
+        }
+
+        return $hasil;
     }
 }

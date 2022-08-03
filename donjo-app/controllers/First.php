@@ -481,7 +481,7 @@ class First extends Web_Controller
 
         $data['list_dusun']         = $this->wilayah_model->list_dusun();
         $data['wilayah']            = $this->wilayah_model->list_wil();
-        $data['desa']               = $this->config_model->get_data();
+        $data['desa']               = $this->header['desa'];
         $data['title']              = 'Peta ' . ucwords($this->setting->sebutan_desa . ' ' . $data['desa']['nama_desa']);
         $data['dusun_gis']          = $data['list_dusun'];
         $data['rw_gis']             = $this->wilayah_model->list_rw();

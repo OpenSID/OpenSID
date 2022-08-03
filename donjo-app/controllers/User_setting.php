@@ -35,7 +35,7 @@
  *
  */
 
-use App\Models\User;
+use App\Models\Config;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -96,7 +96,7 @@ class User_setting extends Admin_Controller
     {
         $id             = $_SESSION['user'];
         $data['main']   = $this->user_model->get_user($id);
-        $data['header'] = $this->config_model->get_data();
+        $data['header'] = Config::first();
         $this->load->view('setting_pwd', $data);
     }
 

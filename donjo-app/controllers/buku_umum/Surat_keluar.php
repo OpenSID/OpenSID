@@ -207,7 +207,7 @@ class Surat_keluar extends Admin_Controller
         $this->session->filter  = $data['input']['tahun'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($data['input']['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
-        $data['desa']           = $this->config_model->get_data();
+        $data['desa']           = $this->header['desa'];
         $data['main']           = $this->surat_keluar_model->list_data($o, 0, 10000);
         $this->load->view('surat_keluar/surat_keluar_print', $data);
     }
@@ -218,7 +218,7 @@ class Surat_keluar extends Admin_Controller
         $this->session->filter  = $data['input']['tahun'];
         $data['pamong_ttd']     = $this->pamong_model->get_data($data['input']['pamong_ttd']);
         $data['pamong_ketahui'] = $this->pamong_model->get_data($data['input']['pamong_ketahui']);
-        $data['desa']           = $this->config_model->get_data();
+        $data['desa']           = $this->header['desa'];
         $data['main']           = $this->surat_keluar_model->list_data($o, 0, 10000);
         $this->load->view('surat_keluar/surat_keluar_excel', $data);
     }
