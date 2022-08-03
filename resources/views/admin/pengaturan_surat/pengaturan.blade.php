@@ -22,6 +22,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#header" data-toggle="tab">Header</a></li>
             <li><a href="#footer" data-toggle="tab">Footer</a></li>
+            <li><a href="#alur" data-toggle="tab">Alur Surat</a></li>
             <li><a href="#lainnya" data-toggle="tab">Lainnya</a></li>
         </ul>
         <div class="tab-content">
@@ -63,6 +64,42 @@
                     </div>
                 </div>
             </div>
+
+            <div class="tab-pane" id="alur">
+
+                @include('admin.pengaturan_surat.kembali')
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Verifikasi Sekretaris Desa</label>
+                        <div class="input-group col-xs-12 col-sm-8">
+                            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
+                                <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_sekdes'] == 1)">
+                                    <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="1" autocomplete="off" @checked($alur['verifikasi_sekdes'] == 1)>Ya</label>
+                                <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_sekdes'] == 0)">
+                                    <input type="radio" name="verifikasi_sekdes" class="form-check-input" value="0" autocomplete="off" @checked($alur['verifikasi_sekdes'] == 0)>Tidak
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Verifikasi {{ setting('sebutan_kepala_desa') }}</label>
+                        <div class="input-group col-xs-12 col-sm-8">
+                            <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons" style="padding: 0px;">
+                                <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_kades'] == 1)">
+                                    <input type="radio" name="verifikasi_kades" class="form-check-input" value="1" autocomplete="off" @checked($alur['verifikasi_kades'] == 1)>Ya</label>
+                                <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label @active($alur['verifikasi_kades'] == 0)">
+                                    <input type="radio" name="verifikasi_kades" class="form-check-input" value="0" autocomplete="off" @checked($alur['verifikasi_kades'] == 0)>Tidak
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="tab-pane" id="lainnya">
                 @include('admin.pengaturan_surat.kembali')
                 <div class="box-body">

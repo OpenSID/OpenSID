@@ -246,6 +246,14 @@ class Surat extends Admin_Controller
             $log_surat['input']     = $cetak['input'];
             $log_surat['isi_surat'] = $this->request['isi_surat'];
 
+            // verifikasi
+            // value 0 : diperiksa
+            // value 1 : sudah disetujui
+            // value null : lewati
+            // $log_surat['verifikasi_kades'] = is_object(setting('verifikasi_kades'))? null : 0;
+            // $log_surat['verifikasi_sekdes'] = is_object(setting('verifikasi_sekdes'))? null : 0;
+            $log_surat['verifikasi_operator'] = 0;
+
             $isi_surat = $this->replceKodeIsian($log_surat);
 
             // Pisahkan isian surat
@@ -334,6 +342,7 @@ class Surat extends Admin_Controller
                 'id_user'         => auth()->id,
                 'tanggal'         => Carbon::now(),
             ];
+            $log_surat['verifikasi_operator'] = 0;
 
             if ($nik = $cetak['input']['nik']) {
                 $nik = Penduduk::find($nik)->nik;
@@ -363,7 +372,8 @@ class Surat extends Admin_Controller
             // Hanya simpan isian surat
             $isi_surat = explode('<p><!-- pagebreak --></p>', $isi_surat)[1];
 
-            $log_surat['isi_surat'] = $isi_surat;
+            $log_surat['isi_surat']           = $isi_surat;
+            $log_surat['verifikasi_operator'] = 0;
             if (LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)) {
                 redirect_with('success', 'Berhasil Simpan Konsep');
             }
@@ -619,6 +629,7 @@ class Surat extends Admin_Controller
             $lampiran              = pathinfo($nama_surat, PATHINFO_FILENAME) . '_lampiran.pdf';
             $log_surat['lampiran'] = $lampiran;
         }
+        $log_surat['verifikasi_operator'] = 0;
         $this->keluar_model->log_surat($log_surat);
 
         $surat      = $this->surat_model->buat_surat($url, $nama_surat, $lampiran);

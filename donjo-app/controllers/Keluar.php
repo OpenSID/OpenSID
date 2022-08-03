@@ -35,11 +35,14 @@
  *
  */
 
+use App\Models\LogSurat;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Keluar extends Admin_Controller
 {
-    private $list_session = ['cari', 'tahun', 'bulan', 'jenis', 'nik'];
+    private $list_session = ['cari', 'tahun', 'bulan', 'jenis', 'nik', 'masuk', 'ditolak'];
+    public $isAdmin;
 
     public function __construct()
     {
@@ -51,19 +54,56 @@ class Keluar extends Admin_Controller
         $this->load->model('pamong_model');
         $this->modul_ini     = 4;
         $this->sub_modul_ini = 32;
+        $this->isAdmin       = $this->session->isAdmin->pamong;
     }
 
-    public function clear()
+    public function clear($redirect = null)
     {
         $this->session->unset_userdata($this->list_session);
         $this->session->set_userdata('per_page', 20);
+        if ($redirect != null) {
+            redirect($this->controller . '/' . $redirect);
+        }
         redirect('keluar');
     }
 
     public function index($p = 1, $o = 0)
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        $this->tab_ini = 10;
+        $data['p']     = $p;
+        $data['o']     = $o;
+
+        foreach ($this->list_session as $list) {
+            $data[$list] = $this->session->{$list} ?: '';
+        }
+
+        if ($this->input->post('per_page') !== null) {
+            $this->session->per_page = $this->input->post('per_page');
+        }
+
+        if (! isset($this->session->tahun)) {
+            $this->session->unset_userdata('bulan');
+        }
+
+        $data['per_page']    = $this->session->per_pages;
+        $data['title']       = 'Arsip Layanan Surat';
+        $data['operator']    = ((int) $this->isAdmin->pamong_ub == 0 && (int) $this->isAdmin->pamong_ttd == 0) ? true : false;
+        $data['paging']      = $this->keluar_model->paging($p, $o);
+        $data['main']        = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
+        $data['bulan_surat'] = ($this->session->tahun == null) ? [] : $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
+        $data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
+        $data['keyword']     = $this->keluar_model->autocomplete();
+        $data['widgets']     = $this->widget();
+        $this->render('surat/surat_keluar', $data);
+    }
+
+    public function masuk()
+    {
+        $this->tab_ini        = 11;
+        $this->session->masuk = true;
+        $data['p']            = $p;
+        $data['o']            = $o;
 
         foreach ($this->list_session as $list) {
             $data[$list] = $this->session->{$list} ?: '';
@@ -78,6 +118,22 @@ class Keluar extends Admin_Controller
         }
 
         $data['per_page'] = $this->session->per_pages;
+        $data['title']    = 'Layanan Surat';
+        $data['operator'] = ((int) $this->isAdmin->pamong_ub == 0 && (int) $this->isAdmin->pamong_ttd == 0) ? true : false;
+
+        if ($this->isAdmin->pamong_ttd == 1) {
+            $data['next'] = null;
+        } elseif ($this->isAdmin->pamong_ub == 1) {
+            $data['next'] = setting('verifikasi_kades') ? setting('sebutan_kepala_desa') : null;
+        } else {
+            if (setting('verifikasi_sekdes')) {
+                $data['next'] = 'sekretaris desa';
+            } elseif (setting('verifikasi_kades')) {
+                $data['next'] = setting('sebutan_kepala_desa');
+            } else {
+                $data['next'] = null;
+            }
+        }
 
         $data['paging']      = $this->keluar_model->paging($p, $o);
         $data['main']        = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
@@ -85,8 +141,96 @@ class Keluar extends Admin_Controller
         $data['bulan_surat'] = ($this->session->tahun == null) ? [] : $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
         $data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
         $data['keyword']     = $this->keluar_model->autocomplete();
-
+        $data['widgets']     = $this->widget();
         $this->render('surat/surat_keluar', $data);
+    }
+
+    public function ditolak()
+    {
+        $this->tab_ini = 12;
+
+        $this->session->ditolak = true;
+        $data['p']              = $p;
+        $data['o']              = $o;
+
+        foreach ($this->list_session as $list) {
+            $data[$list] = $this->session->{$list} ?: '';
+        }
+
+        if ($this->input->post('per_page') !== null) {
+            $this->session->per_page = $this->input->post('per_page');
+        }
+
+        if (! isset($this->session->tahun)) {
+            $this->session->unset_userdata('bulan');
+        }
+
+        $data['per_page'] = $this->session->per_pages;
+        $data['title']    = 'Surat Ditolak';
+        $data['operator'] = ((int) $this->isAdmin->pamong_ub == 0 && (int) $this->isAdmin->pamong_ttd == 0) ? true : false;
+
+        if (setting('verifikasi_sekdes')) {
+            $data['next'] = 'sekretaris desa';
+        } elseif (setting('verifikasi_kades')) {
+            $data['next'] = setting('sebutan_kepala_desa');
+        } else {
+            $data['next'] = null;
+        }
+
+        $data['paging']      = $this->keluar_model->paging($p, $o);
+        $data['main']        = $this->keluar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+        $data['tahun_surat'] = $this->keluar_model->list_tahun_surat();
+        $data['bulan_surat'] = ($this->session->tahun == null) ? [] : $this->keluar_model->list_bulan_surat(); //ambil list bulan dari log
+        $data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
+        $data['keyword']     = $this->keluar_model->autocomplete();
+        $data['widgets']     = $this->widget();
+        $this->render('surat/surat_keluar', $data);
+    }
+
+    public function verifikasi()
+    {
+        $id = $this->input->post('id');
+        //update verifikasi
+        //cek setting
+        $array_verifikasi = ['foot', 'bike', 'car', 'plane'];
+
+        if ($this->isAdmin->pamong_ttd == 1) {
+            $current = 'verifikasi_kades';
+            $next    = (setting('tte')) ? 'tte' : null;
+            $log     = null;
+        } elseif ($this->isAdmin->pamong_ub == 1) {
+            $current = 'verifikasi_sekdes';
+            $next    = setting('verifikasi_kades') ? 'verifikasi_kades' : null;
+            $log     = 'Verifikasi ' . setting('sebutan_kepala_desa');
+        } else {
+            $current = 'verifikasi_operator';
+            if (setting('verifikasi_sekdes')) {
+                $next = 'verifikasi_sekdes';
+                $log  = 'Verifikasi Sekretaris Desa';
+            } elseif (setting('verifikasi_kades')) {
+                $next = 'verifikasi_kades';
+                $log  = 'Verifikasi ' . setting('sebutan_kepala_desa');
+            } else {
+                $next = null;
+                $log  = null;
+            }
+        }
+
+        if ($next == null) {
+            LogSurat::where('id', '=', $id)->update([$current => 1, 'log_verifikasi' => $log]);
+        } else {
+            LogSurat::where('id', '=', $id)->update([$current => 1,  $next => 0, 'log_verifikasi' => $log]);
+        }
+    }
+
+    public function tolak()
+    {
+        $id = $this->input->post('id');
+        LogSurat::where('id', '=', $id)->update([
+            'verifikasi_kades'    => null,
+            'verifikasi_sekdes'   => null,
+            'verifikasi_operator' => -1,
+        ]);
     }
 
     public function edit_keterangan($id = 0)
@@ -229,5 +373,30 @@ class Keluar extends Admin_Controller
 
             $this->load->view('surat/qrcode', $data);
         }
+    }
+
+    public function widget()
+    {
+        return [
+            'suratMasuk' => LogSurat::when($this->isAdmin->pamong_ttd == '1', static function ($q) {
+                return $q->where('verifikasi_kades', '=', '0');
+            })
+                ->when($this->isAdmin->pamong_ub == '1', static function ($q) {
+                    return $q->where('verifikasi_sekdes', '=', '0');
+                })
+                ->when((int) $this->isAdmin->pamong_ttd == 0 && (int) $this->isAdmin->pamong_ub == 0, static function ($q) {
+                    return $q->where('verifikasi_operator', '=', '0');
+                })->count(),
+            'arsip' => LogSurat::when($this->isAdmin->pamong_ttd == '1', static function ($q) {
+                return $q->where('verifikasi_kades', '=', '1');
+            })
+                ->when($this->isAdmin->pamong_ub == '1', static function ($q) {
+                    return $q->where('verifikasi_sekdes', '=', '1');
+                })
+                ->when((int) $this->isAdmin->pamong_ttd == 0 && (int) $this->isAdmin->pamong_ub == 0, static function ($q) {
+                    return $q->where('verifikasi_operator', '=', '1');
+                })->count(),
+            'tolak' => LogSurat::where('verifikasi_operator', '=', '-1')->count(),
+        ];
     }
 }

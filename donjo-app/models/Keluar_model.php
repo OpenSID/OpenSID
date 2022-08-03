@@ -113,6 +113,57 @@ class Keluar_model extends CI_Model
         }
     }
 
+    public function navigasi()
+    {
+        $isAdmin = $this->session->isAdmin->pamong;
+        if (isset($this->session->masuk)) {
+            if ($isAdmin->pamong_ttd == 1) {
+                $this->db->where('verifikasi_kades', '0');
+            } elseif ($isAdmin->pamong_ub == 1) {
+                $this->db->where('verifikasi_sekdes', '0');
+            } else {
+                $this->db->where('verifikasi_operator', '0');
+            }
+        } elseif (isset($this->session->ditolak)) {
+            $this->db->where('verifikasi_operator', '-1');
+        } else {
+            $isAdmin = $this->session->isAdmin->pamong;
+            if ($isAdmin->pamong_ttd == 1) {
+                $this->db->where('verifikasi_kades', '1');
+            } elseif ($isAdmin->pamong_ub == 1) {
+                $this->db->where('verifikasi_sekdes', '1');
+            } else {
+                $this->db->where('verifikasi_operator', '1');
+            }
+        }
+    }
+
+    private function verifikasi()
+    {
+        // jika kepdesa
+        $isAdmin = $this->session->isAdmin->pamong;
+        if ($isAdmin->pamong_ttd == 1) {
+            $this->db->where_in('verifikasi_kades', ['1', '0']);
+            // $this->db->select('verifikasi_kades as cetak_surat');
+            $this->db->select('verifikasi_kades as verifikasi');
+            $raw_status_periksa = 'CASE when verifikasi_kades = 1 THEN IF(tte is null,verifikasi_kades,tte) ELSE 0 end AS status_periksa';
+            $this->db->select($raw_status_periksa);
+            // $this->db->group_by('status_periksa, verifikasi_kades');
+        } elseif ($isAdmin->pamong_ub == 1) {
+            $this->db->where_in('verifikasi_sekdes', ['1', '0']);
+            // $this->db->select('if(verifikasi_kades is null, 1, verifikasi_kades),verifikasi_kades) as cetak_surat');
+            $this->db->select('verifikasi_sekdes as verifikasi');
+            $raw_status_periksa = 'CASE WHEN verifikasi_sekdes = 1 THEN IF(verifikasi_kades is null,1 , verifikasi_kades)
+            ELSE 0 end AS status_periksa';
+            $this->db->select($raw_status_periksa);
+        } else {
+            // $raw_status_cetak = 'IF(tte is null, IF(verifikasi_kades is null, if(verifikasi_sekdes is null, verifikasi_operator, verifikasi_sekdes), verifikasi_kades), tte) as verifikasi';
+            $this->db->select('verifikasi_operator as verifikasi');
+            $raw_status_periksa = 'CASE when verifikasi_operator = 1 THEN IF(verifikasi_kades is null,IF(verifikasi_sekdes is null, 1, verifikasi_sekdes),verifikasi_kades) ELSE 0 end AS status_periksa';
+            $this->db->select($raw_status_periksa);
+        }
+    }
+
     private function filterku_sql($nik = '')
     {
         if (! empty($nik)) {
@@ -122,9 +173,10 @@ class Keluar_model extends CI_Model
 
     public function paging($p = 1, $o = 0)
     {
-        $this->db->select('COUNT(*) AS jml');
+        $this->list_data_sql();
+        $from = $this->db->last_query();
 
-        $row      = $this->list_data_sql()->row_array();
+        $row      = $this->db->query("select COUNT(*) AS jml from ({$from}) as data")->row_array();
         $jml_data = $row['jml'];
 
         $this->load->library('paging');
@@ -149,6 +201,8 @@ class Keluar_model extends CI_Model
         $this->tahun_sql();
         $this->bulan_sql();
         $this->jenis_sql();
+        $this->verifikasi();
+        $this->navigasi();
 
         return $this->db->get('log_surat u');
     }

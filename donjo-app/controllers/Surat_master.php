@@ -423,11 +423,12 @@ class Surat_master extends Admin_Controller
     public function pengaturan()
     {
         $pengaturanSurat = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $alur            = SettingAplikasi::whereKategori('alur_surat')->pluck('value', 'key')->toArray();
         $aksi            = route('surat_master.update');
         $formAksi        = route('surat_master.edit_pengaturan');
         $fonts           = RefFontSurat::all();
 
-        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts'));
+        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts', 'alur'));
     }
 
     public function edit_pengaturan()

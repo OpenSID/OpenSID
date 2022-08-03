@@ -45,8 +45,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
+        $hasil = $hasil && $this->migrasi_2022080271($hasil);
 
-        return $hasil && $this->migrasi_2022080271($hasil);
+        return $hasil && $this->migrasi_2022070551($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -76,5 +77,94 @@ class Migrasi_fitur_premium_2209 extends MY_model
         }
 
         return $hasil;
+    }
+
+    protected function migrasi_2022070551($hasil)
+    {
+        $hasil && $this->tambah_setting([
+            'key'        => 'verifikasi_kades',
+            'value'      => '0',
+            'keterangan' => 'Verifikasi Surat Oleh Kepala Desa',
+            'kategori'   => 'alur_surat',
+            'jenis'      => 'boolean',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'verifikasi_sekdes',
+            'value'      => '0',
+            'keterangan' => 'Verifikasi Surat Oleh Sekretaris daerah',
+            'kategori'   => 'alur_surat',
+            'jenis'      => 'boolean',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'verifikasi_operator',
+            'value'      => '1',
+            'keterangan' => 'Verifikasi Surat Oleh Operator (Layanan Mandiri)',
+            'kategori'   => 'alur_surat',
+            'jenis'      => 'boolean',
+        ]);
+
+        if (! $this->db->field_exists('verifikasi_sekdes', 'log_surat')) {
+            $fields = [
+                'verifikasi_sekdes' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        if (! $this->db->field_exists('verifikasi_kades', 'log_surat')) {
+            $fields = [
+                'verifikasi_kades' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        if (! $this->db->field_exists('verifikasi_operator', 'log_surat')) {
+            $fields = [
+                'verifikasi_operator' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        if (! $this->db->field_exists('tte', 'log_surat')) {
+            $fields = [
+                'tte' => [
+                    'type'       => 'TINYINT',
+                    'constraint' => 1,
+                    'null'       => true,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        if (! $this->db->field_exists('log_verifikasi', 'log_surat')) {
+            $fields = [
+                'log_verifikasi' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
+        }
+
+        return $hasil && $this->ubah_modul(32, ['url' => 'keluar/clear/masuk']);
     }
 }

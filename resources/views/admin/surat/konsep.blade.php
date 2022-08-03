@@ -36,8 +36,8 @@
                 class="btn btn-social btn-warning btn-sm"><i class="fa fa-file-code-o"></i>
                 Konsep / Draf</button>
 
-            <a href="{{ route('keluar') }}" id="next" style="display:none" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
-               ke Arsip Layanan <i class="fa fa-arrow-circle-right"></i>
+            <a href="{{ route('keluar/clear/masuk') }}" id="next" style="display:none" class="btn btn-social btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
+               ke Permohonan Surat <i class="fa fa-arrow-circle-right"></i>
             </a>
         </div>
         </form>
@@ -121,6 +121,12 @@
                           timer: 1500
                         })
                     }
+                })
+                .fail(function(error) {
+                    Swal.fire({
+                      icon: 'error',
+                      text: error.statusText,
+                    })
                 });
             });
         });
