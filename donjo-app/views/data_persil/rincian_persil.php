@@ -118,7 +118,7 @@
   	var peta_area = L.map('map').setView(posisi, zoom);
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_area, '');
+		var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);
 
 		if ($('input[name="path"]').val() !== '' ) {
 			var wilayah = JSON.parse($('input[name="path"]').val());

@@ -84,8 +84,6 @@
   </div>
 
   <script type="text/javascript">
-    var token = "<?= $this->setting->mapbox_key; ?>";
-
     $(document).ready(function () {
       document.querySelector('#modalLokasi').addEventListener('shown.bs.modal', function (event) {
         const link = $(event.relatedTarget);
@@ -112,7 +110,7 @@
         pelapak = L.map('map').setView(posisi, zoom);
 
         // Menampilkan BaseLayers Peta
-        getBaseLayers(pelapak, token);
+        getBaseLayers(pelapak, "<?= setting('mapbox_key') ?>", "<?= setting('jenis_peta') ?>");
 
         // Tampilkan Posisi Pelapak
         marker = new L.Marker(posisi, {

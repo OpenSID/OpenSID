@@ -213,7 +213,7 @@
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_area, '<?=$this->setting->mapbox_key?>');
+		var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);
 
 			if ($('input[name="path"]').val() !== '' ) {
 				var wilayah = JSON.parse($('input[name="path"]').val());

@@ -15,10 +15,10 @@
 			<?php endif; ?>
 
 			//Inisialisasi tampilan peta
-			var mymap = L.map('map').setView(posisi, zoom);
+			var peta = L.map('map').setView(posisi, zoom);
 
 			<?php if (! empty($desa['path'])) : ?>
-				mymap.fitBounds(<?= $desa['path'] ?>);
+				peta.fitBounds(<?= $desa['path'] ?>);
 			<?php endif; ?>
 
 			//Menampilkan overlayLayers Peta Semua Wilayah
@@ -55,16 +55,16 @@
 			var overlayLayers = overlayWil(marker_desa, marker_dusun, marker_rw, marker_rt, "<?= ucwords($this->setting->sebutan_desa) ?>", "<?= ucwords($this->setting->sebutan_dusun) ?>", true);
 
 			//Menampilkan BaseLayers Peta
-			var baseLayers = getBaseLayers(mymap, '<?= $this->setting->mapbox_key ?>');
+			var baseLayers = getBaseLayers(peta, MAPBOX_KEY, JENIS_PETA);
 
 			//Geolocation IP Route/GPS
-			geoLocation(mymap);
+			geoLocation(peta);
 
 			//Menambahkan zoom scale ke peta
-			L.control.scale().addTo(mymap);
+			L.control.scale().addTo(peta);
 
 			//Mencetak peta ke PNG
-			cetakPeta(mymap);
+			cetakPeta(peta);
 
 			//Menambahkan Legenda Ke Peta
 			var legenda_desa = L.control({
@@ -80,33 +80,33 @@
 				position: 'bottomright'
 			});
 
-			mymap.on('overlayadd', function(eventLayer) {
+			peta.on('overlayadd', function(eventLayer) {
 				if (eventLayer.name === 'Peta Wilayah Desa') {
-					setlegendPetaDesa(legenda_desa, mymap, <?= json_encode($desa) ?>, '<?= ucwords($this->setting->sebutan_desa) ?>', '<?= $desa['nama_desa'] ?>');
+					setlegendPetaDesa(legenda_desa, peta, <?= json_encode($desa) ?>, '<?= ucwords($this->setting->sebutan_desa) ?>', '<?= $desa['nama_desa'] ?>');
 				}
 				if (eventLayer.name === 'Peta Wilayah Dusun') {
-					setlegendPeta(legenda_dusun, mymap, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '', '');
+					setlegendPeta(legenda_dusun, peta, '<?= addslashes(json_encode($dusun_gis)) ?>', '<?= ucwords($this->setting->sebutan_dusun) ?>', 'dusun', '', '');
 				}
 				if (eventLayer.name === 'Peta Wilayah RW') {
-					setlegendPeta(legenda_rw, mymap, '<?= addslashes(json_encode($rw_gis)) ?>', 'RW', 'rw', '<?= ucwords($this->setting->sebutan_dusun) ?>');
+					setlegendPeta(legenda_rw, peta, '<?= addslashes(json_encode($rw_gis)) ?>', 'RW', 'rw', '<?= ucwords($this->setting->sebutan_dusun) ?>');
 				}
 				if (eventLayer.name === 'Peta Wilayah RT') {
-					setlegendPeta(legenda_rt, mymap, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', 'RW');
+					setlegendPeta(legenda_rt, peta, '<?= addslashes(json_encode($rt_gis)) ?>', 'RT', 'rt', 'RW');
 				}
 			});
 
-			mymap.on('overlayremove', function(eventLayer) {
+			peta.on('overlayremove', function(eventLayer) {
 				if (eventLayer.name === 'Peta Wilayah Desa') {
-					mymap.removeControl(legenda_desa);
+					peta.removeControl(legenda_desa);
 				}
 				if (eventLayer.name === 'Peta Wilayah Dusun') {
-					mymap.removeControl(legenda_dusun);
+					peta.removeControl(legenda_dusun);
 				}
 				if (eventLayer.name === 'Peta Wilayah RW') {
-					mymap.removeControl(legenda_rw);
+					peta.removeControl(legenda_rw);
 				}
 				if (eventLayer.name === 'Peta Wilayah RT') {
-					mymap.removeControl(legenda_rt);
+					peta.removeControl(legenda_rt);
 				}
 			});
 
@@ -125,7 +125,7 @@
 			var info_pembangunan = '<?= site_url('pembangunan/') ?>';
 
 			// Menampilkan OverLayer Area, Garis, Lokasi plus Lokasi Pembangunan, persil
-			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(mymap, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);
+			var layerCustom = tampilkan_layer_area_garis_lokasi_plus(peta, all_area, all_garis, all_lokasi, all_lokasi_pembangunan, LOKASI_SIMBOL_LOKASI, favico_desa, LOKASI_FOTO_AREA, LOKASI_FOTO_GARIS, LOKASI_FOTO_LOKASI, LOKASI_GALERI, info_pembangunan, all_persil);
 
 			//PENDUDUK
 			<?php if ($layer_penduduk == 1 || $layer_keluarga == 1 && ! empty($penduduk)) : ?>
@@ -189,22 +189,22 @@
 
 				markersList.push(geojson);
 				markers.addLayer(geojson);
-				mymap.addLayer(markers);
+				peta.addLayer(markers);
 
 				//Mempusatkan tampilan map agar semua marker terlihat
-				mymap.fitBounds(geojson.getBounds());
+				peta.fitBounds(geojson.getBounds());
 			}
 
 			//Menampilkan Baselayer dan Overlayer
 			var mainlayer = L.control.layers(baseLayers, overlayLayers, {
 				position: 'topleft',
 				collapsed: true
-			}).addTo(mymap);
+			}).addTo(peta);
 			var customlayer = L.control.groupedLayers('', layerCustom, {
 				groupCheckboxes: true,
 				position: 'topleft',
 				collapsed: true
-			}).addTo(mymap);
+			}).addTo(peta);
 
 			$('#isi_popup').remove();
 			$('#isi_popup_dusun').remove();

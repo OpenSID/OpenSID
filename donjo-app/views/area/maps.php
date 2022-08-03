@@ -91,7 +91,7 @@
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_area, '<?=$this->setting->mapbox_key?>');
+		var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);
 
 		//Menampilkan Peta wilayah yg sudah ada
 		<?php if (! empty($area['path'])): ?>

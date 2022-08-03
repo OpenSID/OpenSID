@@ -30,12 +30,12 @@
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/slick.css"); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/theme.min.css"); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.min.css"); ?>">
-<link rel='stylesheet' href="<?= base_url('assets/css/font-awesome.min.css'); ?>"/>
-<link rel="stylesheet" href="<?= base_url('assets/css/leaflet.css'); ?>"/>
+<link rel='stylesheet' href="<?= asset('css/font-awesome.min.css'); ?>"/>
+<link rel="stylesheet" href="<?= asset('css/leaflet.css'); ?>"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
-<link rel="stylesheet" href="<?= base_url('assets/css/mapbox-gl.css'); ?>"/>
-<link rel="stylesheet" href="<?= base_url('assets/css/peta.css'); ?>">
-<link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/dataTables.bootstrap.min.css'); ?>">
+<link rel="stylesheet" href="<?= asset('css/mapbox-gl.css'); ?>"/>
+<link rel="stylesheet" href="<?= asset('css/peta.css'); ?>">
+<link rel="stylesheet" href="<?= asset('bootstrap/css/dataTables.bootstrap.min.css'); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css"); ?>">
 
 <?php if(isset($single_artikel)): ?>
@@ -49,29 +49,29 @@
 	<meta property="og:description" content="<?= $this->setting->website_title . ' '.  $desa_title; ?>"/>
 <?php endif; ?>
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ if (window.scrollY == 0) window.scrollTo(0,1); } </script>
-<script language='javascript' src="<?= base_url('assets/front/js/jquery.min.js'); ?>"></script>
-<script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.min.js'); ?>"></script>
-<script language='javascript' src="<?= base_url('assets/front/js/jquery.cycle2.carousel.js'); ?>"></script>
-<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js"); ?>"></script>
-<script src="<?= base_url('assets/js/leaflet.js'); ?>"></script>
-<script src="<?= base_url('assets/front/js/layout.js'); ?>"></script>
-<script src="<?= base_url('assets/front/js/jquery.colorbox.js'); ?>"></script>
-<script src="<?= base_url('assets/js/leaflet-providers.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/highcharts.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/highcharts-3d.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/exporting.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/highcharts-more.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/sankey.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/organization.js'); ?>"></script>
-<script src="<?= base_url('assets/js/highcharts/accessibility.js'); ?>"></script>
-<script src="<?= base_url('assets/js/mapbox-gl.js'); ?>"></script>
-<script src="<?= base_url('assets/js/leaflet-mapbox-gl.js'); ?>"></script>
-<script src="<?= base_url('assets/js/peta.js'); ?>"></script>
-<script src="<?= base_url() ?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
-<script src="<?= base_url() ?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
+<script language='javascript' src="<?= asset('front/js/jquery.min.js') ?>"></script>
+<script language='javascript' src="<?= asset('front/js/jquery.cycle2.min.js') ?>"></script>
+<script language='javascript' src="<?= asset('front/js/jquery.cycle2.carousel.js') ?>"></script>
+<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/bootstrap.min.js") ?>"></script>
+<script src="<?= asset('js/leaflet.js') ?>"></script>
+<script src="<?= asset('front/js/layout.js') ?>"></script>
+<script src="<?= asset('front/js/jquery.colorbox.js') ?>"></script>
+<script src="<?= asset('js/leaflet-providers.js') ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts.js') ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts-3d.js') ?>"></script>
+<script src="<?= asset('js/highcharts/exporting.js') ?>"></script>
+<script src="<?= asset('js/highcharts/highcharts-more.js') ?>"></script>
+<script src="<?= asset('js/highcharts/sankey.js') ?>"></script>
+<script src="<?= asset('js/highcharts/organization.js') ?>"></script>
+<script src="<?= asset('js/highcharts/accessibility.js') ?>"></script>
+<script src="<?= asset('js/mapbox-gl.js') ?>"></script>
+<script src="<?= asset('js/leaflet-mapbox-gl.js') ?>"></script>
+<script src="<?= asset('js/peta.js')?>"></script>
+<script src="<?= asset('bootstrap/js/jquery.dataTables.min.js') ?>"></script>
+<script src="<?= asset('bootstrap/js/dataTables.bootstrap.min.js') ?>"></script>
 <?php $this->load->view('global/validasi_form', ['web_ui' => true]); ?>
 <script type="text/javascript">
-	var BASE_URL = "<?= base_url(); ?>";
+	var BASE_URL   = '<?= base_url() ?>';
 </script>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 <script type="text/javascript">
@@ -117,7 +117,7 @@
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.2&appId=147912828718&autoLogAppEvents=1"></script>
 
 <!--[if lt IE 9]>
-<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js"); ?>"></script>
-<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/respond.min.js"); ?>"></script>
+<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js") ?>"></script>
+<script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/respond.min.js") ?>"></script>
 <![endif]-->
 <?php $this->load->view('head_tags_front') ?>

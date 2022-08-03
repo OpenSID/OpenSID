@@ -44,6 +44,37 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
+
+        return $hasil && $this->migrasi_2022080271($hasil);
+    }
+
+    protected function migrasi_2022080271($hasil)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'jenis_peta',
+            'value'      => '5',
+            'keterangan' => 'Jenis peta yang digunakan',
+            'jenis'      => 'option-kode',
+        ]);
+
+        $id_setting = $this->db->get_where('setting_aplikasi', ['key' => 'jenis_peta'])->row()->id;
+
+        if ($id_setting) {
+            $this->db->where('id_setting', $id_setting)->delete('setting_aplikasi_options');
+
+            $hasil = $hasil && $this->db->insert_batch(
+                'setting_aplikasi_options',
+                [
+                    ['id_setting' => $id_setting, 'kode' => '1', 'value' => 'OpenStreetMap'],
+                    ['id_setting' => $id_setting, 'kode' => '2', 'value' => 'OpenStreetMap H.O.T'],
+                    ['id_setting' => $id_setting, 'kode' => '3', 'value' => 'Mapbox Streets'],
+                    ['id_setting' => $id_setting, 'kode' => '4', 'value' => 'Mapbox Satellite'],
+                    ['id_setting' => $id_setting, 'kode' => '5', 'value' => 'Mapbox Satellite-Street'],
+                ]
+            );
+        }
+
+        return $hasil;
     }
 }

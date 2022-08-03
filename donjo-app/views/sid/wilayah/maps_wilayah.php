@@ -117,7 +117,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<?php endif; ?>
 
 		// Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_wilayah, '<?=$this->setting->mapbox_key?>');
+		var baseLayers = getBaseLayers(peta_wilayah, MAPBOX_KEY, JENIS_PETA);
 
 		// Menampilkan Peta wilayah yg sudah ada
 		<?php if (! empty($wil_ini['path'])): ?>

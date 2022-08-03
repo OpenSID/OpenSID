@@ -149,7 +149,7 @@
 				peta_area = L.map('map').setView(posisi, zoom);
 
 				//Menampilkan BaseLayers Peta
-				var baseLayers = getBaseLayers(peta_area, '');
+				var baseLayers = getBaseLayers(peta_area, MAPBOX_KEY, JENIS_PETA);
 
 				//Import Peta dari file SHP
 				//eximShp(peta_area);

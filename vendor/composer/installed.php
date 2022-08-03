@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-bug-fix',
-        'version' => 'dev-bug-fix',
+        'pretty_version' => 'dev-pengaturan-peta',
+        'version' => 'dev-pengaturan-peta',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c681f8f73575f3a2b12ecb6e6eab717482bf324b',
+        'reference' => '9ca5d4fa18133377fb240cef5d7e8ddd57f17adb',
         'name' => 'opendesa/opensid',
         'dev' => true,
     ),
@@ -65,12 +65,12 @@
             'dev_requirement' => false,
         ),
         'google/apiclient-services' => array(
-            'pretty_version' => 'v0.259.0',
-            'version' => '0.259.0.0',
+            'pretty_version' => 'v0.260.0',
+            'version' => '0.260.0.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../google/apiclient-services',
             'aliases' => array(),
-            'reference' => '3f68a8b8f825974bc0318b8f7268a09216d5fee1',
+            'reference' => '8c519ddfd2458fda02dc10d10b142973e578516a',
             'dev_requirement' => false,
         ),
         'google/auth' => array(
@@ -272,12 +272,12 @@
             'dev_requirement' => false,
         ),
         'opendesa/opensid' => array(
-            'pretty_version' => 'dev-bug-fix',
-            'version' => 'dev-bug-fix',
+            'pretty_version' => 'dev-pengaturan-peta',
+            'version' => 'dev-pengaturan-peta',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c681f8f73575f3a2b12ecb6e6eab717482bf324b',
+            'reference' => '9ca5d4fa18133377fb240cef5d7e8ddd57f17adb',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
@@ -586,7 +586,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => '2b9bdc78027da23f5ab44f90d083808285d3fa87',
+            'reference' => 'dc40a7993a5802604404250d67befd22346874f4',
             'dev_requirement' => false,
         ),
         'themes/natra' => array(
@@ -595,7 +595,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../themes/natra',
             'aliases' => array(),
-            'reference' => 'ba7577ae6569475156ebee25bbc02433e644a172',
+            'reference' => 'f8498963dfc284ab665f8d0c94eb3999d92d1b0b',
             'dev_requirement' => false,
         ),
         'voku/portable-ascii' => array(

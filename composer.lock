@@ -411,16 +411,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.259.0",
+            "version": "v0.260.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "3f68a8b8f825974bc0318b8f7268a09216d5fee1"
+                "reference": "8c519ddfd2458fda02dc10d10b142973e578516a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/3f68a8b8f825974bc0318b8f7268a09216d5fee1",
-                "reference": "3f68a8b8f825974bc0318b8f7268a09216d5fee1",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/8c519ddfd2458fda02dc10d10b142973e578516a",
+                "reference": "8c519ddfd2458fda02dc10d10b142973e578516a",
                 "shasum": ""
             },
             "require": {
@@ -449,9 +449,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.259.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.260.0"
             },
-            "time": "2022-07-24T01:26:12+00:00"
+            "time": "2022-07-31T00:58:12+00:00"
         },
         {
             "name": "google/auth",
@@ -3917,7 +3917,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-esensi",
-                "reference": "2b9bdc78027da23f5ab44f90d083808285d3fa87"
+                "reference": "dc40a7993a5802604404250d67befd22346874f4"
             },
             "default-branch": true,
             "type": "library",
@@ -3936,7 +3936,7 @@
                 "OpenSID",
                 "Themes"
             ],
-            "time": "2022-08-01T01:24:19+00:00"
+            "time": "2022-08-03T02:33:17+00:00"
         },
         {
             "name": "themes/natra",
@@ -3944,7 +3944,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/OpenSID/tema-natra",
-                "reference": "ba7577ae6569475156ebee25bbc02433e644a172"
+                "reference": "f8498963dfc284ab665f8d0c94eb3999d92d1b0b"
             },
             "type": "library",
             "license": [
@@ -3962,7 +3962,7 @@
                 "OpenSID",
                 "Themes"
             ],
-            "time": "2022-08-01T01:26:18+00:00"
+            "time": "2022-08-03T02:35:02+00:00"
         },
         {
             "name": "voku/portable-ascii",

@@ -96,6 +96,8 @@
 		<script type="text/javascript">
 			var BASE_URL = "<?= base_url() ?>";
 			var SITE_URL = "<?= site_url() ?>";
+			var MAPBOX_KEY = '<?= setting('mapbox_key') ?>';
+			var JENIS_PETA = '<?= setting('jenis_peta') ?>';
 		</script>
 
 		<!-- Highcharts JS -->

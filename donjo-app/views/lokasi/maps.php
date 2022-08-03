@@ -103,7 +103,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 		<?php endif; ?>
 
 		//Menampilkan BaseLayers Peta
-		var baseLayers = getBaseLayers(peta_lokasi, '<?=$this->setting->mapbox_key?>');
+		var baseLayers = getBaseLayers(peta_lokasi, MAPBOX_KEY, JENIS_PETA);
 
 		//Menampilkan dan Menambahkan Peta wilayah + Geolocation GPS
 		L.Control.FileLayerLoad.LABEL = '<img class="icon-map" src="<?= base_url()?>assets/images/folder.svg" alt="file icon"/>';
