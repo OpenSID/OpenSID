@@ -162,8 +162,13 @@ class Surat extends Admin_Controller
         redirect_with('error', 'Surat tidak ditemukan');
     }
 
-    public function pratinjau($url)
+    public function pratinjau($url, $id = null)
     {
+        if ($id) {
+            // Ganti status menjadi 'Menunggu Tandatangan'
+            $this->permohonan_surat_model->proses($id, 2);
+        }
+
         $surat = FormatSurat::where('url_surat', $url)->first();
 
         if ($surat && $this->request) {

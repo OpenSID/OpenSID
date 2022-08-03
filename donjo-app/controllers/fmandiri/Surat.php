@@ -178,6 +178,12 @@ class Surat extends Mandiri_Controller
         $data['cek_anjungan'] = $this->cek_anjungan;
         $data['mandiri']      = 1; // Untuk tombol cetak/kirim surat
 
+        if (in_array($data['surat']['jenis'], [3, 4])) {
+            $data['kode_isian'] = json_decode($data['surat']['kode_isian']);
+
+            return $this->render('permohonan_surat_tinymce', $data);
+        }
+
         $this->render('permohonan_surat', $data);
     }
 

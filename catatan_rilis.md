@@ -6,7 +6,8 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 1. [#5232](https://github.com/OpenSID/OpenSID/issues/5232) Penambahan pengaturan default jenis peta yang digunakan.
 2. [#5308](https://github.com/OpenSID/OpenSID/issues/5308) Penambahan unduh template rtf bawaan sistem yang sudah di ubah.
 3. [#5266](https://github.com/OpenSID/OpenSID/issues/5266) Penambahan tampilan dan pencarian tag id card pada data pemilih.
-
+4. [#5304](https://github.com/OpenSID/OpenSID/issues/5304) Menambahkan format surat tinymce kepermohonan surat layanan mandiri.
+ 
 #### Perbaikan BUG
 
 

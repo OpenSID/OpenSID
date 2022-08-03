@@ -137,6 +137,13 @@ class Permohonan_surat_admin extends Admin_Controller
             include $data_form;
         }
 
+        if (in_array($data['surat']['jenis'], [3, 4])) {
+            $data['list_dokumen'] = empty($_POST['nik']) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
+            $data['form_action']  = route("surat/pratinjau/{$url}/{$id}");
+            $data['kode_isian']   = json_decode($data['surat']['kode_isian']);
+            $data['form_surat']   = 'surat/form_surat_tinymce.php';
+        }
+
         $this->render('mandiri/periksa_surat', $data);
     }
 

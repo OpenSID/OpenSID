@@ -15,6 +15,9 @@
 		<?php if (SuratExport($url)): ?>
 			<button type="button" onclick="tambah_elemen_cetak('cetak_rtf'); $('#validasi').submit()" class="btn btn-social btn-flat bg-purple btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-word-o"></i> Unduh RTF</button>
 		<?php endif; ?>
+		<?php if (in_array($surat['jenis'], [3, 4])): ?>
+			<button type="button" onclick="tambah_elemen_cetak('cetak_pdf'); $('#validasi').submit()" class="btn btn-social btn-flat bg-fuchsia btn-sm pull-right" style="margin-right: 5px;"><i class="fa fa-file-word-o"></i> Cetak PDF</button>
+		<?php endif; ?>
 	<?php endif; ?>
 </div>
 <script type="text/javascript">

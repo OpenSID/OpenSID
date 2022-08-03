@@ -150,77 +150,73 @@
                 </div>
             </div>
 
-            @if (in_array($suratMaster->jenis, [1, 2]))
-                <div class="form-group">
-                    <label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
-                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
-                        <label id="m1"
-                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->mandiri)">
-                            <input id="g1" type="radio" name="mandiri" class="form-check-input" type="radio"
-                                value="1" @checked($suratMaster->mandiri) autocomplete="off">Ya
-                        </label>
-                        <label id="m2"
-                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->mandiri)">
-                            <input id="g2" type="radio" name="mandiri" class="form-check-input" type="radio"
-                                value="0" @checked(!$suratMaster->mandiri) autocomplete="off">Tidak
-                        </label>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="mandiri">Sediakan di Layanan Mandiri</label>
+                <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                    <label id="m1"
+                        class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($suratMaster->mandiri)">
+                        <input id="g1" type="radio" name="mandiri" class="form-check-input" type="radio"
+                            value="1" @checked($suratMaster->mandiri) autocomplete="off">Ya
+                    </label>
+                    <label id="m2"
+                        class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$suratMaster->mandiri)">
+                        <input id="g2" type="radio" name="mandiri" class="form-check-input" type="radio"
+                            value="0" @checked(!$suratMaster->mandiri) autocomplete="off">Tidak
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group" id="syarat"
+                {{ jecho($suratMaster->mandiri, false, 'style="display:none;"') }}>
+                <label class="col-sm-3 control-label" for="mandiri">Syarat Surat</label>
+                <div class="col-sm-7">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tabeldata" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="checkall" /></th>
+                                    <th>NO</th>
+                                    <th>NAMA DOKUMEN</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group" id="syarat"
-                    {{ jecho($suratMaster->mandiri, false, 'style="display:none;"') }}>
-                    <label class="col-sm-3 control-label" for="mandiri">Syarat Surat</label>
-                    <div class="col-sm-7">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="tabeldata" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" id="checkall" /></th>
-                                        <th>NO</th>
-                                        <th>NAMA DOKUMEN</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            @endif
         </div>
     </div>
 
-    @if (in_array($suratMaster->jenis, [1, 2]))
-        @push('scripts')
-            <script>
-                var TableData = $('#tabeldata').DataTable({
-                    responsive: true,
-                    processing: true,
-                    serverSide: true,
-                    bPaginate: false,
-                    ajax: "{{ route('surat_master.syaratsuratdatatables', $suratMaster->id) }}",
-                    columns: [{
-                            data: 'ceklist',
-                            class: 'padat',
-                            searchable: false,
-                            orderable: false
-                        },
-                        {
-                            data: 'DT_RowIndex',
-                            class: 'padat',
-                            searchable: false,
-                            orderable: false
-                        },
-                        {
-                            data: 'ref_syarat_nama',
-                            name: 'ref_syarat_nama',
-                            searchable: true,
-                            orderable: true
-                        },
-                    ],
-                    order: [
-                        [2, 'asc']
-                    ]
-                });
-            </script>
-        @endpush
-    @endif
+    @push('scripts')
+        <script>
+            var TableData = $('#tabeldata').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                bPaginate: false,
+                ajax: "{{ route('surat_master.syaratsuratdatatables', $suratMaster->id) }}",
+                columns: [{
+                        data: 'ceklist',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        class: 'padat',
+                        searchable: false,
+                        orderable: false
+                    },
+                    {
+                        data: 'ref_syarat_nama',
+                        name: 'ref_syarat_nama',
+                        searchable: true,
+                        orderable: true
+                    },
+                ],
+                order: [
+                    [2, 'asc']
+                ]
+            });
+        </script>
+    @endpush
