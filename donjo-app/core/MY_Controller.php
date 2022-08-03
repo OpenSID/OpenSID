@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\LogSurat;
 use App\Models\Pesan;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -435,6 +436,17 @@ class Admin_Controller extends Premium
         $this->header['notif_langganan']        = $this->notif_model->status_langganan();
         $this->header['notif_pesan_opendk']     = $cek_kotak_pesan ? Pesan::where('sudah_dibaca', '=', 0)->where('diarsipkan', '=', 0)->count() : 0;
         $this->header['notif_pengumuman']       = $this->cek_pengumuman();
+        $isAdmin                                = $this->session->isAdmin->pamong;
+        $this->header['notif_permohonan']       = LogSurat::when($isAdmin->pamong_ttd == '1', static function ($q) {
+            return $q->where('verifikasi_kades', '=', '0');
+        })
+            ->when($isAdmin->pamong_ub == '1', static function ($q) {
+                return $q->where('verifikasi_sekdes', '=', '0');
+            })
+            ->when((int) $isAdmin->pamong_ttd == 0 && (int) $isAdmin->pamong_ub == 0, static function ($q) {
+                return $q->where('verifikasi_operator', '=', '0')->orWhere('verifikasi_operator', '=', '-1');
+            })
+            ->count();
     }
 
     private function cek_pengumuman()

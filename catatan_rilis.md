@@ -8,7 +8,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 3. [#5266](https://github.com/OpenSID/OpenSID/issues/5266) Penambahan tampilan dan pencarian tag id card pada data pemilih.
 4. [#5304](https://github.com/OpenSID/OpenSID/issues/5304) Menambahkan format surat tinymce kepermohonan surat layanan mandiri.
 5. [#5270](https://github.com/OpenSID/OpenSID/issues/5270) Sesuaikan alur pemeriksaan surat.
-
+6. [#5273](https://github.com/OpenSID/OpenSID/issues/5273) Menambahkan notifikasi ketika ada surat permintaan surat untuk diperiksa atau ditandatangani.
 
 #### Perbaikan BUG
 

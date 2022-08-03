@@ -108,11 +108,31 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="email">Mail</label>
+								<label class="col-sm-3 control-label" for="email">Email</label>
 								<div class="col-sm-8">
 									<input id="email" name="email" class="form-control input-sm email" type="text" placeholder="Alamat E-mail" value="<?= $user['email'] ?>"></input>
 								</div>
 							</div>
+
+		                    <div class="form-group">
+			                    <label for="notif_telegram" class="col-sm-3 control-label">Notifikasi Telegram</label>
+			                    <div class="btn-group col-xs-12 col-sm-8 " data-toggle="buttons">
+			                      <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($user['notif_telegram'], '1') ?>">
+			                        <input type="radio" name="notif_telegram" class="form-check-input" value="1" autocomplete="off" <?= selected($user['notif_telegram'], 1) ?>> Aktif
+			                      </label>
+			                      <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($user['notif_telegram'], '0') ?>">
+			                        <input type="radio" name="notif_telegram" class="form-check-input" value="0" autocomplete="off" <?= selected($user['notif_telegram'], 0) ?> > Matikan
+			                      </label>
+			                    </div>
+			                </div>
+
+			                <div class="form-group">
+			                    <label for="catatan" class="col-sm-3 control-label">User ID Telegram</label>
+			                    <div class="col-sm-8">
+				                    <input class="form-control input-sm " type="text" id="id_telegram" name="id_telegram" value="<?= $main['id_telegram'] ?>" />
+				                </div>
+			                </div>
+
 						</div>
 						<div class='box-footer'>
 							<div class='col-xs-12'>
@@ -147,6 +167,15 @@
 		$('#pamong_id').on('select2:select', function (e) {
 		    var data = $('#pamong_id :selected').data('nama')
 		    $('#nama').val(data);
+		});
+
+		$('input[name="notif_telegram"]').change(function (e) {
+			e.preventDefault();
+			if ($(this).val() == 1) {
+				$('input[name="id_telegram"]').addClass('required');
+			}else{
+				$('input[name="id_telegram"]').removeClass('required');
+			}
 		});
 	});
 </script>

@@ -36,6 +36,7 @@
  */
 
 use App\Models\LogSurat;
+use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -55,6 +56,7 @@ class Keluar extends Admin_Controller
         $this->modul_ini     = 4;
         $this->sub_modul_ini = 32;
         $this->isAdmin       = $this->session->isAdmin->pamong;
+        $this->load->library('OTP/OTP_manager', null, 'otp_library');
     }
 
     public function clear($redirect = null)
@@ -219,18 +221,79 @@ class Keluar extends Admin_Controller
         if ($next == null) {
             LogSurat::where('id', '=', $id)->update([$current => 1, 'log_verifikasi' => $log]);
         } else {
-            LogSurat::where('id', '=', $id)->update([$current => 1,  $next => 0, 'log_verifikasi' => $log]);
+            $log_surat = LogSurat::where('id', '=', $id)->first();
+            $log_surat->update([$current => 1,  $next => 0, 'log_verifikasi' => $log]);
+            $kirim_telegram = User::whereHas('pamong', static function ($query) use ($next) {
+                if ($next == 'verifikasi_sekdes') {
+                    return $query->where('pamong_ub', '=', '1');
+                }
+                if ($next == 'verifikasi_kades') {
+                    return $query->where('pamong_ttd', '=', '1');
+                }
+            })
+                ->where('notif_telegram', '=', '1')
+                ->first();
+
+            if ($kirim_telegram != null) {
+                $jenis_surat = $log_surat->formatSurat->nama;
+                $telegram    = new Telegram();
+                $telegram->sendMessage([
+                    'chat_id' => $kirim_telegram->id_telegram,
+                    'text'    => <<<EOD
+                        Permohonan Surat Baru,
+
+                        Jenis Surat : {$jenis_surat}
+
+                        TERIMA KASIH.
+                        EOD,
+                    'parse_mode'   => 'Markdown',
+                    'reply_markup' => json_encode([
+                        'inline_keyboard' => [[
+                            ['text' => 'Lihat detail', 'url' => site_url('keluar/clear/masuk')],
+                        ]],
+                    ]),
+                ]);
+            }
         }
     }
 
     public function tolak()
     {
-        $id = $this->input->post('id');
-        LogSurat::where('id', '=', $id)->update([
+        $id        = $this->input->post('id');
+        $log_surat = LogSurat::where('id', '=', $id)->first();
+        $log_surat->update([
             'verifikasi_kades'    => null,
             'verifikasi_sekdes'   => null,
             'verifikasi_operator' => -1,
         ]);
+        $jenis_surat = $log_surat->formatSurat->nama;
+
+        $kirim_telegram = User::whereHas('pamong', static function ($query) {
+            return $query->where('pamong_ub', '=', '0')->where('pamong_ttd', '=', '0');
+        })
+            ->where('notif_telegram', '=', '1')
+            ->get();
+
+        $telegram = new Telegram();
+
+        foreach ($kirim_telegram as $value) {
+            $telegram->sendMessage([
+                'chat_id' => $value->id_telegram,
+                'text'    => <<<EOD
+                    Permohonan Surat telah ditolak,
+
+                    Jenis Surat : {$jenis_surat}
+
+                    TERIMA KASIH.
+                    EOD,
+                'parse_mode'   => 'Markdown',
+                'reply_markup' => json_encode([
+                    'inline_keyboard' => [[
+                        ['text' => 'Lihat detail', 'url' => site_url('keluar/clear/ditolak')],
+                    ]],
+                ]),
+            ]);
+        }
     }
 
     public function edit_keterangan($id = 0)

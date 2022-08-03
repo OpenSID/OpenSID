@@ -174,6 +174,18 @@
 									</a>
 								</li>
 							<?php endif ?>
+
+							<?php if (can('b', 'keluar')): ?>
+								<li>
+									<a href="<?= site_url('keluar/clear/masuk') ?>">
+										<span><i class="fa fa-key fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+										<?php if ($notif_permohonan) : ?>
+											<span class="badge" id="b_inbox"><?= $notif_permohonan ?></span>
+										<?php endif ?>
+									</a>
+								</li>
+							<?php endif ?>
+
 							<li class="dropdown user user-menu">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									<img src="<?= AmbilFoto($foto) ?>" class="user-image" alt="User Image"/>

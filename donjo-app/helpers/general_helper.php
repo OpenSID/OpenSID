@@ -97,12 +97,13 @@ if (! function_exists('view')) {
                 'modul'        => $CI->header['modul'],
                 'modul_ini'    => $CI->modul_ini,
                 'notif'        => [
-                    'surat'       => $CI->header['notif_permohonan_surat'],
-                    'opendkpesan' => $CI->header['notif_pesan_opendk'],
-                    'inbox'       => $CI->header['notif_inbox'],
-                    'komentar'    => $CI->header['notif_komentar'],
-                    'langganan'   => $CI->header['notif_langganan'],
-                    'pengumuman'  => $CI->header['notif_pengumuman'],
+                    'surat'           => $CI->header['notif_permohonan_surat'],
+                    'opendkpesan'     => $CI->header['notif_pesan_opendk'],
+                    'inbox'           => $CI->header['notif_inbox'],
+                    'komentar'        => $CI->header['notif_komentar'],
+                    'langganan'       => $CI->header['notif_langganan'],
+                    'pengumuman'      => $CI->header['notif_pengumuman'],
+                    'permohonansurat' => $CI->header['notif_permohonan'],
                 ],
                 'kategori'      => $CI->header['kategori'],
                 'sub_modul_ini' => $CI->sub_modul_ini,
@@ -197,7 +198,6 @@ if (! function_exists('setting')) {
         $getSetting = get_instance()->setting;
 
         if ($params) {
-
             if (property_exists($getSetting, $params)) {
                 return $getSetting->{$params};
             }

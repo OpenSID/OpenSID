@@ -328,8 +328,11 @@ class User_model extends CI_Model
         $data['password'] = $pwHash;
         $data['session']  = md5(now());
 
-        $data['foto'] = $this->urusFoto();
-        $data['nama'] = strip_tags($data['nama']);
+        $data['foto']           = $this->urusFoto();
+        $data['nama']           = strip_tags($data['nama']);
+        $data['notif_telegram'] = (int) $data['notif_telegram'];
+        $data['id_telegram']    = (int) $data['id_telegram'];
+        $data['notif_email']    = (int) $data['notif_email'];
 
         if (! $this->db->insert('user', $data)) {
             $this->session->success   = -1;
@@ -361,6 +364,18 @@ class User_model extends CI_Model
         }
         if (isset($post['foto'])) {
             $data['foto'] = $post['foto'];
+        }
+
+        if (isset($post['notif_telegram'])) {
+            $data['notif_telegram'] = (int) $post['notif_telegram'];
+        }
+
+        if (isset($post['id_telegram'])) {
+            $data['id_telegram'] = (int) $post['id_telegram'];
+        }
+
+        if (isset($post['notif_email'])) {
+            $data['notif_email'] = (int) $post['notif_email'];
         }
 
         return $data;
@@ -569,7 +584,10 @@ class User_model extends CI_Model
     {
         $data = $this->periksa_input_password($id);
 
-        $data['nama'] = alfanumerik_spasi($this->input->post('nama'));
+        $data['nama']           = alfanumerik_spasi($this->input->post('nama'));
+        $data['notif_telegram'] = (int) $this->input->post('notif_telegram');
+        $data['id_telegram']    = alfanumerik($this->input->post('id_telegram'));
+        $data['notif_email']    = (int) $this->input->post('notif_email');
         // Update foto
         $data['foto'] = $this->urusFoto($id);
         $hasil        = $this->db->where('id', $id)

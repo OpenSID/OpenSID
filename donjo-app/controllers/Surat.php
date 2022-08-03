@@ -220,7 +220,6 @@ class Surat extends Admin_Controller
     {
         // Cetak Konsep
         $cetak = $this->session->log_surat;
-
         if ($cetak) {
             $log_surat = [
                 'id_format_surat' => $cetak['id_format_surat'],

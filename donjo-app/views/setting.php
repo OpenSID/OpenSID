@@ -55,6 +55,21 @@
 								</span>
 							</div>
 						</div>
+						<div class="form-group">
+		                    <label for="notif_telegram" class="control-label">Notifikasi Telegram</label>
+		                    <div class="btn-group col-xs-12 col-sm-8 input-group" data-toggle="buttons">
+		                      <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($main['notif_telegram'], '1') ?>">
+		                        <input type="radio" name="notif_telegram" class="form-check-input" value="1" autocomplete="off" <?= selected($main['notif_telegram'], 1) ?>> Aktif
+		                      </label>
+		                      <label class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-5 col-lg-3 form-check-label <?= compared_return($auth['notif_telegram'], '0') ?>">
+		                        <input type="radio" name="notif_telegram" class="form-check-input" value="0" autocomplete="off" <?= selected($auth['notif_telegram'], 0) ?> > Matikan
+		                      </label>
+		                    </div>
+		                </div>
+		                <div class="form-group">
+		                    <label for="catatan">User ID Telegram</label>
+		                    <input class="form-control input-sm" type="text" id="id_telegram" name="id_telegram" value="<?= $main['id_telegram'] ?>" />
+		                </div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>

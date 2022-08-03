@@ -148,7 +148,6 @@ class Keluar_model extends CI_Model
             $this->db->select('verifikasi_kades as verifikasi');
             $raw_status_periksa = 'CASE when verifikasi_kades = 1 THEN IF(tte is null,verifikasi_kades,tte) ELSE 0 end AS status_periksa';
             $this->db->select($raw_status_periksa);
-            // $this->db->group_by('status_periksa, verifikasi_kades');
         } elseif ($isAdmin->pamong_ub == 1) {
             $this->db->where_in('verifikasi_sekdes', ['1', '0']);
             // $this->db->select('if(verifikasi_kades is null, 1, verifikasi_kades),verifikasi_kades) as cetak_surat');

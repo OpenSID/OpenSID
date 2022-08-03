@@ -65,6 +65,17 @@
             </a>
           </li>
         @endif
+
+        @if (can('b', 'keluar'))
+          <li>
+            <a href="{{ route('keluar.clear.masuk') }}">
+              <span><i class="fa fa-key fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
+              @if ($notif['permohonansurat'])
+                <span class="badge" id="permohonan">{{ $notif['permohonansurat'] }}</span>
+              @endif
+            </a>
+          </li>
+        @endif
         
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
