@@ -4,6 +4,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Penambahan Fitur
 
 1. [#5232](https://github.com/OpenSID/OpenSID/issues/5232) Penambahan pengaturan default jenis peta yang digunakan.
+2. [#5308](https://github.com/OpenSID/OpenSID/issues/5308) Penambahan unduh template rtf bawaan sistem yang sudah di ubah.
 
 
 #### Perbaikan BUG

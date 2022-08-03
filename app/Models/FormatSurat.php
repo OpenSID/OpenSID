@@ -150,6 +150,8 @@ class FormatSurat extends Model
     protected $appends = [
         'judul_surat',
         'margin_cm_to_mm',
+        'url_surat_sistem',
+        'url_surat_desa',
     ];
 
     /**
@@ -299,6 +301,38 @@ class FormatSurat extends Model
     }
 
     /**
+     * Getter untuk url surat sistem
+     *
+     * @return string
+     */
+    public function getUrlSuratSistemAttribute()
+    {
+        $surat_export_desa = LOKASI_SURAT_SISTEM . $this->url_surat . '/' . $this->url_surat . '.rtf';
+
+        if (in_array($this->jenis, ['1', '2']) && is_file($surat_export_desa)) {
+            return $surat_export_desa;
+        }
+
+        return null;
+    }
+
+    /**
+     * Getter untuk url surat desa
+     *
+     * @return string
+     */
+    public function getUrlSuratDesaAttribute()
+    {
+        $surat_export_desa = LOKASI_SURAT_DESA . $this->url_surat . '/' . $this->url_surat . '.rtf';
+
+        if (in_array($this->jenis, ['1', '2']) && is_file($surat_export_desa)) {
+            return $surat_export_desa;
+        }
+
+        return null;
+    }
+
+    /**
      * Scope query untuk IsExist
      *
      * @param mixed $query
@@ -358,17 +392,19 @@ class FormatSurat extends Model
         return $query->where('jenis', $value);
     }
 
-    // public static function boot()
-    // {
-    //     parent::boot();
+    public static function boot()
+    {
+        parent::boot();
 
-    //     static::creating(static function ($model) {
-    //         $model->created_by = auth()->id;
-    //         $model->updated_by = auth()->id;
-    //     });
+        if (auth()->id) {
+            static::creating(static function ($model) {
+                $model->created_by = auth()->id;
+                $model->updated_by = auth()->id;
+            });
 
-    //     static::updating(static function ($model) {
-    //         $model->updated_by = auth()->id;
-    //     });
-    // }
+            static::updating(static function ($model) {
+                $model->updated_by = auth()->id;
+            });
+        }
+    }
 }
