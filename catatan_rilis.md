@@ -12,3 +12,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 #### Perubahan Teknis
 
 1. Teknis rapikan penulisan code seeder data awal.
+2. Pengecekan validasi premium dimulai dari identitas desa.

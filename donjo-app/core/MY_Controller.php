@@ -307,6 +307,12 @@ class Premium extends MY_Controller
     {
         $this->session->unset_userdata('error_premium');
 
+        if (empty($this->header['desa']['kode_desa'])) {
+            $this->session->set_userdata('error_premium', 'Kode desa diperlukan.');
+
+            return false;
+        }
+
         if (empty($token = $this->setting->layanan_opendesa_token)) {
             $this->session->set_userdata('error_premium', 'Token pelanggan kosong / tidak valid.');
 
