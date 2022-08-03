@@ -6,7 +6,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 
 
 #### Perbaikan BUG
-
+1.[#5452](https://github.com/OpenSID/OpenSID/issues/5452) Menghilangkan tampil tag ["desa"] pada halaman periksa.
 
 
 #### Perubahan Teknis

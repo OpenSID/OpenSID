@@ -38,6 +38,7 @@
 use App\Models\LogPenduduk;
 use App\Models\LogPerubahanPenduduk;
 use App\Models\PendudukMandiri;
+use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -51,18 +52,17 @@ class Periksa_model extends MY_Model
         $this->periksa['migrasi_utk_diulang'] = $this->deteksi_masalah();
     }
 
+    public function getSetting($key)
+    {
+        return SettingAplikasi::where('key', $key)->pluck('value')->first();
+    }
+
     private function deteksi_masalah()
     {
         $db_error_code    = $this->session->db_error['code'];
         $db_error_message = $this->session->db_error['message'];
-
-        $current_version = $this->db
-            ->select('value')
-            ->where('key', 'current_version')
-            ->get('setting_aplikasi')
-            ->row()->value;
-
-        $calon = $current_version;
+        $current_version  = $this->getSetting('current_version');
+        $calon            = $current_version;
 
         // Table tweb_penduduk no_kk ganda
         if (! empty($kk_ganda = $this->deteksi_tweb_keluarga_no_kk_ganda())) {
