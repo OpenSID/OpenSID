@@ -35,6 +35,10 @@
  *
  */
 
+use App\Models\Pamong;
+use App\Models\RefJabatan;
+use Illuminate\Support\Facades\DB;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Migrasi_fitur_premium_2209 extends MY_model
