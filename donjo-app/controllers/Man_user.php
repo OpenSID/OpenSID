@@ -46,7 +46,6 @@ class Man_user extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 44;
-        $this->load->model(['pamong_model']);
     }
 
     public function clear()
@@ -199,13 +198,13 @@ class Man_user extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
         $this->user_model->user_lock($id, 0);
-        redirect("man_user/index/{$p}/{$o}");
+        redirect('man_user');
     }
 
     public function user_unlock($id = '')
     {
         $this->redirect_hak_akses('u');
         $this->user_model->user_lock($id, 1);
-        redirect("man_user/index/{$p}/{$o}");
+        redirect('man_user');
     }
 }

@@ -101,6 +101,15 @@ class Pamong extends Model
         return $this->hasMany(Kehadiran::class, 'pamong_id', 'pamong_id');
     }
 
+    public function scopeSelectData($query)
+    {
+        return $query
+            ->select(['pamong_id', 'pamong_nama', 'ref_jabatan.nama AS pamong_jabatan', 'pamong_nip', 'pamong_niap'])
+            ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
+            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
+            ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id');
+    }
+
     /**
      * Scope query untuk status pamong
      *
@@ -124,11 +133,7 @@ class Pamong extends Model
      */
     public function scopeKepalaDesa($query)
     {
-        return $query
-            ->select(['pamong_id', 'pamong_nama', 'ref_jabatan.nama AS jabatan', 'pamong_nip', 'pamong_niap'])
-            ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
-            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
-            ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id')
+        return $this->scopeSelectData($query)
             ->where('jabatan_id', 1)
             ->where('pamong_status', 1);
     }
@@ -156,7 +161,9 @@ class Pamong extends Model
      */
     public function scopeDaftar($query, $value = 1)
     {
-        return $query->where('pamong_status', 1)->where('kehadiran', $value);
+        return $this->scopeSelectData($query)
+            ->where('pamong_status', 1)
+            ->where('kehadiran', $value);
     }
 
     /**
@@ -176,17 +183,14 @@ class Pamong extends Model
             $query->where('pamong_ub', 1)->where('jabatan_id', 2);
         }
 
-        return $query
-            ->select(['pamong_id', 'pamong_nama', 'ref_jabatan.nama AS pamong_jabatan', 'pamong_nip', 'pamong_niap'])
-            ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
-            ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
-            ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id')
+        return $this->scopeSelectData($query)
             ->where('pamong_status', 1);
     }
 
     public function scopeKehadiranPamong($query)
     {
-        return $query->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
+        return $query
+            ->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
             ->leftJoin('kehadiran_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
     }
 }
