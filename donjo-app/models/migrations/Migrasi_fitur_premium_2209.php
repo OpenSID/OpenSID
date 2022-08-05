@@ -44,6 +44,18 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = true;
 
         // Jalankan migrasi sebelumnya
-        return $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
+
+        return $hasil && $this->migrasi_2022080451($hasil);
+    }
+
+    public function migrasi_2022080451($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'notifikasi_koneksi',
+            'value'      => 1,
+            'keterangan' => 'Ingatkan jika aplikasi tidak terhubung dengan internet.',
+            'jenis'      => 'boolean',
+        ]);
     }
 }

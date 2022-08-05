@@ -38,10 +38,15 @@
                 @yield('title')
 
                 @include('admin.layouts.components.breadcrumb')
+
             </section>
 
             <section id="maincontent" class="content">
+
+                @include('admin.layouts.partials.info')
+
                 @yield('content')
+
             </section>
         </div>
 
