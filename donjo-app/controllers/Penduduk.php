@@ -927,6 +927,13 @@ class Penduduk extends Admin_Controller
     public function program_bantuan_proses()
     {
         $id_program = $this->input->post('program_bantuan');
+
+        if ($id_program == JUMLAH) {
+            $id_program = JUMLAH;
+        } elseif ($id_program == BELUM_MENGISI) {
+            $id_program = BELUM_MENGISI;
+        }
+
         $this->statistik('bantuan_penduduk', $id_program, '0');
     }
 
