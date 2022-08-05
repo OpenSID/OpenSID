@@ -218,17 +218,17 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
             $jabatan = DB::table('tweb_desa_pamong')->select(['pamong_id', 'jabatan', 'pamong_ttd', 'pamong_ub'])->orderBy('pamong_ttd', 'desc')->orderBy('pamong_ub', 'desc')->get();
             if ($jabatan) {
-                $simpan  = collect($jabatan)->unique('jabatan')->map(static function ($item, $key) {
+                $simpan = collect($jabatan)->unique('jabatan')->map(static function ($item, $key) {
                     Pamong::where('jabatan', $item->jabatan)->update(['jabatan_id' => $key + 1]);
 
                     return [
-                    'id'    => $key + 1,
-                    'nama'  => $item->jabatan,
-                    'jenis' => ($item->pamong_ttd == 1 || $item->pamong_ub == 1) ? 1 : 0,
-                            ];
+                        'id'    => $key + 1,
+                        'nama'  => $item->jabatan,
+                        'jenis' => ($item->pamong_ttd == 1 || $item->pamong_ub == 1) ? 1 : 0,
+                    ];
                 })
-                ->values()
-                ->toArray();
+                    ->values()
+                    ->toArray();
 
                 if ($simpan) {
                     RefJabatan::insert($simpan);

@@ -133,7 +133,7 @@ class Keluar_model extends CI_Model
             } elseif ($isAdmin->pamong_ub == 1) {
                 $this->db->where('verifikasi_sekdes', '1');
             } else {
-                $this->db->where('verifikasi_operator', '1');
+                $this->db->where('verifikasi_operator', '1')->or_where('verifikasi_operator');
             }
         }
     }

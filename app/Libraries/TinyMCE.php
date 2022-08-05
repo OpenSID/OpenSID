@@ -221,7 +221,7 @@ class TinyMCE
                 $alamat_surat = "{$config->alamat_kantor} Telp. {$config->telepon} Kode Pos: {$config->kode_pos}";
             }
 
-            if (null === $config->pamong->pamong_nip && (! empty($config->pamong->pamong_niap))) {
+            if (null === $config->pamong()->pamong_nip && (! empty($config->pamong()->pamong_niap))) {
                 $sebutan_nip_desa = setting('sebutan_nip_desa');
             } else {
                 $sebutan_nip_desa = 'NIP';
@@ -262,7 +262,7 @@ class TinyMCE
             [
                 'judul' => 'Nama Kepala Desa',
                 'isian' => '[nama_kepala_desa]',
-                'data'  => $config->pamong->pamong_nama ?? $config->penduduk->nama,
+                'data'  => $config->pamong()->pamong_nama ?? $config->penduduk->nama,
             ],
             [
                 'judul' => 'Sebutan NIP Desa',
@@ -272,7 +272,7 @@ class TinyMCE
             [
                 'judul' => 'NIP Kepala Desa',
                 'isian' => '[nip_kepala_desa]',
-                'data'  => $config->pamong->pamong_nip,
+                'data'  => $config->pamong()->pamong_nip,
             ],
             [
                 'judul' => 'Nama Kecamatan',

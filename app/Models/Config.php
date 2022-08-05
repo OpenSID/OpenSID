@@ -111,7 +111,7 @@ class Config extends Model
         return $this->pamong()->pamong_nama;
     }
 
-    private function pamong()
+    public function pamong()
     {
         return Pamong::kepalaDesa()->first();
     }

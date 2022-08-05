@@ -100,7 +100,7 @@ class Keluar extends Admin_Controller
         $this->render('surat/surat_keluar', $data);
     }
 
-    public function masuk()
+    public function masuk($p = 1, $o = 0)
     {
         $this->tab_ini        = 11;
         $this->session->masuk = true;
@@ -319,7 +319,7 @@ class Keluar extends Admin_Controller
         $this->redirect_hak_akses('h');
         session_error_clear();
         $this->keluar_model->delete($id);
-        redirect("keluar/index/{$p}/{$o}");
+        redirect("keluar/masuk/{$p}/{$o}");
     }
 
     public function search()
@@ -457,7 +457,7 @@ class Keluar extends Admin_Controller
                     return $q->where('verifikasi_sekdes', '=', '1');
                 })
                 ->when((int) $this->isAdmin->pamong_ttd == 0 && (int) $this->isAdmin->pamong_ub == 0, static function ($q) {
-                    return $q->where('verifikasi_operator', '=', '1');
+                    return $q->where('verifikasi_operator', '=', '1')->orWhereNull('verifikasi_operator');
                 })->count(),
             'tolak' => LogSurat::where('verifikasi_operator', '=', '-1')->count(),
         ];
