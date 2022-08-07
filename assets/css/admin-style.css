@@ -744,3 +744,7 @@ div.form-surat .content-header {
         width: 100%;
     }
 }
+
+.info-box.active{
+    border: 2px solid #0045ffb8;
+}

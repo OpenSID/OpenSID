@@ -120,7 +120,7 @@ class Keluar extends Admin_Controller
         }
 
         $data['per_page'] = $this->session->per_pages;
-        $data['title']    = 'Layanan Surat';
+        $data['title']    = 'Permohonan Surat';
         $data['operator'] = ((int) $this->isAdmin->pamong_ub == 0 && (int) $this->isAdmin->pamong_ttd == 0) ? true : false;
 
         if ($this->isAdmin->pamong_ttd == 1) {

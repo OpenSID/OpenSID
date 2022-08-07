@@ -9,10 +9,7 @@
     <section class="content" id="maincontent">
         <?php $this->load->view('surat_keluar/surat_widgets'); ?>
         <div class="row">
-            <div class="col-md-3">
-                <?php $this->load->view('surat_keluar/surat_nav'); ?>
-            </div>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="box box-info">
                     <?php if ($this->tab_ini == 10 && $operator): ?>
                         <div class="box-header with-border">
