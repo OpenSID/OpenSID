@@ -223,10 +223,9 @@ class Stunting extends Admin_Controller
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
         $data['ibu']      = Penduduk::whereNotIn('id', $ibuId)->where(static function ($query) {
-            $query->where('kk_level', 3)
-                ->orWhere('kk_level', 1);
+            $query->whereIn('kk_level', [1, 3, 4, 5, 9]);
         })->where('sex', 2)->get();
-        $data['anak'] = Penduduk::whereNotIn('id', $anakId)->where('kk_level', 4)->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
+        $data['anak'] = Penduduk::whereNotIn('id', $anakId)->whereIn('kk_level', [4, 6, 9])->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
 
         if ($id) {
             $data['action']     = 'Ubah';
@@ -291,6 +290,14 @@ class Stunting extends Admin_Controller
         if ($kia && $kia->no_kia != $request['no_kia_lama']) {
             redirect_with('error', 'Tidak dapat memasukkan no kia yang sama', 'stunting/kia');
         }
+
+        if (! empty($request['perkiraan_lahir'])) {
+            $status = 1;
+        } else {
+            $status = 2;
+        }
+
+        Penduduk::where('id', $request['id_ibu'])->update(['hamil' => $status]);
 
         return [
             'no_kia'               => $request['no_kia'],
