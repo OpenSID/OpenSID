@@ -37,9 +37,6 @@
                     pagination: data.pagination,
                 }
             },
-            error: function () {
-                Swal.fire('Host tidak valid. <br><a href="' + $('.select-nama-desa').data('tracker') + '/index.php/api/wilayah/caridesa?&token=' + $('.select-nama-desa').data('token') + '" target="_blank">Lihat Url</a>');
-            },
             cache: true
         },
         placeholder: '--  Cari Nama Desa --',
