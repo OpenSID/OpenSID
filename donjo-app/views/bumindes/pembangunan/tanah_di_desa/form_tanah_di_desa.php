@@ -464,14 +464,13 @@ defined('BASEPATH') || exit('No direct script access allowed');
 			$("#lain_lain").attr("disabled", true);
 			$("#mutasi").attr("disabled", true);
 			$("#keterangan").attr("disabled", true);
-			$('#nik_penduduk').hide();
 			$('#pilihan_penduduk').hide();
 			$('#pilihan_pemilik').hide();
 			$('#form_footer').hide();
 		}
 		else
 		{
-			pilih_pemilik((<?=$main->jenis_pemilik ?: 1?> ))
+			pilih_pemilik('<?= $main->jenis_pemilik ?? 1 ?>');
 		}
 	});
 
