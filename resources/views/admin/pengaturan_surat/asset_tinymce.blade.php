@@ -21,7 +21,7 @@
                     '//www.tinymce.com/css/codepen.min.css'
                 ],
                 relative_urls: false,
-                remove_script_host: false,
+                entity_encoding: 'raw',
                 setup : function(ed) {
                    ed.on('init', function (e) {
                         ed.execCommand("fontName", false, "${default_font}");

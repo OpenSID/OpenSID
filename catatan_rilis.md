@@ -10,7 +10,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 3.[#1188](https://github.com/OpenSID/premium/issues/1188) Menambahkan notifikasi beberapa modul gagal muat jika tidak terhubung ke internet.
 4.[#5472](https://github.com/OpenSID/OpenSID/issues/5472) Mengatasi data entri NIK warga luar desa tidak bisa input lebih dari satu kali di menu buku tanah.
 5.[#5471](https://github.com/OpenSID/OpenSID/issues/5471) Memperbaiki perintah group by pada Laporan rincian realisasi hasil dari impor siekudes.
-6.[#5456](https://github.com/OpenSID/OpenSID/issues/5456) Memperbaiki surat tinymce tidak berhasil generate pdf.
+6.[#5456](https://github.com/OpenSID/OpenSID/issues/5456) Memperbaiki buat surat tinymce yang tidak berhasil generate pdf.
 
 #### Perubahan Teknis
 
