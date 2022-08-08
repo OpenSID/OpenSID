@@ -17,3 +17,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 1. Teknis rapikan penulisan code seeder data awal.
 2. Pengecekan validasi premium dimulai dari identitas desa.
 3. Merapikan select option pada pilih tahun id menu status desa.
+4. Menmbahkan required pada form edit album.
