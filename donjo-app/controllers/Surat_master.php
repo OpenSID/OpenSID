@@ -190,7 +190,7 @@ class Surat_master extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        if (!empty($this->request['surat'])) {
+        if (! empty($this->request['surat'])) {
             $this->surat_master_model->upload($this->request['url_surat']);
         }
 
@@ -209,7 +209,7 @@ class Surat_master extends Admin_Controller
         $isian = array_combine(array_filter($request['nama_kode'], 'strlen'), array_filter($request['deskripsi_kode'], 'strlen'));
 
         foreach ($isian as $nama => $deskripsi) {
-            if (!empty($nama) || !empty($deskripsi)) {
+            if (! empty($nama) || ! empty($deskripsi)) {
                 $kodeIsian[] = [
                     'kode'      => '[' . str_replace(' ', '_', strtolower($nama)) . ']',
                     'nama'      => $nama,
@@ -400,7 +400,7 @@ class Surat_master extends Admin_Controller
                     rename($lokasi_baru . '/data_rtf_' . $url_surat . '.php', $lokasi_baru . '/data_rtf_' . $surat_baru . '.php');
                     rename($lokasi_baru . '/data_form_' . $url_surat . '.php', $lokasi_baru . '/data_form_' . $surat_baru . '.php');
 
-                    if (!FormatSurat::isExist($url_surat)) {
+                    if (! FormatSurat::isExist($url_surat)) {
                         $data              = [];
                         $data['jenis']     = 2;
                         $data['nama']      = ucwords(trim(str_replace(['surat_', '_'], ' ', $surat_baru)));

@@ -111,7 +111,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'jenis'      => 'boolean',
         ]);
 
-        if (!$this->db->field_exists('verifikasi_sekdes', 'log_surat')) {
+        if (! $this->db->field_exists('verifikasi_sekdes', 'log_surat')) {
             $fields = [
                 'verifikasi_sekdes' => [
                     'type'       => 'TINYINT',
@@ -123,7 +123,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (!$this->db->field_exists('verifikasi_kades', 'log_surat')) {
+        if (! $this->db->field_exists('verifikasi_kades', 'log_surat')) {
             $fields = [
                 'verifikasi_kades' => [
                     'type'       => 'TINYINT',
@@ -135,7 +135,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (!$this->db->field_exists('verifikasi_operator', 'log_surat')) {
+        if (! $this->db->field_exists('verifikasi_operator', 'log_surat')) {
             $fields = [
                 'verifikasi_operator' => [
                     'type'       => 'TINYINT',
@@ -147,7 +147,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (!$this->db->field_exists('tte', 'log_surat')) {
+        if (! $this->db->field_exists('tte', 'log_surat')) {
             $fields = [
                 'tte' => [
                     'type'       => 'TINYINT',
@@ -159,7 +159,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (!$this->db->field_exists('log_verifikasi', 'log_surat')) {
+        if (! $this->db->field_exists('log_verifikasi', 'log_surat')) {
             $fields = [
                 'log_verifikasi' => [
                     'type'       => 'VARCHAR',
@@ -176,7 +176,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
     protected function migrasi_2022080471($hasil)
     {
-        if (!$this->db->table_exists('ref_jabatan')) {
+        if (! $this->db->table_exists('ref_jabatan')) {
             // Tambah tabel ref_jabatan
             $ref_jabatan = [
                 'id' => [
@@ -207,7 +207,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
                 ->add_field($ref_jabatan)
                 ->create_table('ref_jabatan', true);
 
-            if (!$this->db->field_exists('jabatan_id', 'tweb_desa_pamong')) {
+            if (! $this->db->field_exists('jabatan_id', 'tweb_desa_pamong')) {
                 // Tambah field jabatan_id
                 $tweb_desa_pamong['jabatan_id'] = [
                     'type'       => 'INT',

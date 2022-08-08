@@ -332,7 +332,6 @@ class User_model extends CI_Model
         $data['nama']           = strip_tags($data['nama']);
         $data['notif_telegram'] = (int) $data['notif_telegram'];
         $data['id_telegram']    = (int) $data['id_telegram'];
-        $data['notif_email']    = (int) $data['notif_email'];
 
         if (! $this->db->insert('user', $data)) {
             $this->session->success   = -1;
@@ -372,10 +371,6 @@ class User_model extends CI_Model
 
         if (isset($post['id_telegram'])) {
             $data['id_telegram'] = (int) $post['id_telegram'];
-        }
-
-        if (isset($post['notif_email'])) {
-            $data['notif_email'] = (int) $post['notif_email'];
         }
 
         return $data;
