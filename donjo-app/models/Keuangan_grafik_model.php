@@ -430,7 +430,7 @@ class Keuangan_grafik_model extends CI_model
             $this->db->where('keuangan_ta_jurnal_umum.Tanggal >=', '01/01/$thn 00:00:00');
             $this->db->where('keuangan_ta_jurnal_umum.Tanggal <=', '06/31/$thn 00:00:00');
         }
-        $this->db->group_by('Akun');
+        $this->db->group_by('LEFT(Kd_Rincian, 2)');
 
         return $this->db->get('keuangan_ta_jurnal_umum_rinci')->result_array();
     }
@@ -460,7 +460,7 @@ class Keuangan_grafik_model extends CI_model
             $this->db->where('keuangan_ta_jurnal_umum.Tanggal >=', '01/01/$thn 00:00:00');
             $this->db->where('keuangan_ta_jurnal_umum.Tanggal <=', '06/31/$thn 00:00:00');
         }
-        $this->db->group_by('Akun');
+        $this->db->group_by('LEFT(Kd_Rincian, 6)');
 
         return $this->db->get('keuangan_ta_jurnal_umum_rinci')->result_array();
     }
