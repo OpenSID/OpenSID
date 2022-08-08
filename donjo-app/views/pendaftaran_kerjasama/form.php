@@ -7,6 +7,19 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
+		<?php if (null === $response) : ?>
+            <div class="box box-danger">
+                <div class="box-header with-border">
+                    <i class="icon fa fa-ban"></i>
+                    <h3 class="box-title">Tidak Terhubung Dengan Jaringan</h3>
+                </div>
+                <div class="box-body">
+                    <div class="callout callout-danger">
+                        <h5>Data Gagal Dimuat, Harap Periksa Jaringan Anda Telebih Dahulu.</h5>
+                    </div>
+                </div>
+            </div>
+        <?php else : ?>
 		<div class="box box-info">
 			<div class="box-header with-border">
 				<h3 class="box-title">Pendaftaran Kerjasama OpenDesa</h3>
@@ -141,5 +154,6 @@
 				</div>
 			</form>
 		</div>
+		<?php endif ?>
 	</section>
 </div>

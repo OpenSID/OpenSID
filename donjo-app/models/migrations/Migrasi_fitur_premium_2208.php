@@ -51,6 +51,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2207');
         $hasil = $hasil && $this->migrasi_2022070551($hasil);
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
+        $hasil = $hasil && $this->migrasi_2022070751($hasil);
         $hasil = $hasil && $this->migrasi_2022071851($hasil);
         $hasil = $hasil && $this->migrasi_2022070751($hasil);
         $hasil = $hasil && $this->migrasi_2022072751($hasil);
@@ -97,7 +98,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     protected function migrasi_2022071851($hasil)
     {
-        if (! $this->db->field_exists('permanen', 'log_backup')) {
+        if (!$this->db->field_exists('permanen', 'log_backup')) {
             $fields = [
                 'permanen' => [
                     'type'       => 'TINYINT',
@@ -116,7 +117,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
     protected function migrasi_2022070751($hasil)
     {
         // Buat tabel ref font Surat
-        if (! $this->db->table_exists('ref_font_surat')) {
+        if (!$this->db->table_exists('ref_font_surat')) {
             $fields = [
                 'id' => [
                     'type'           => 'INT',
@@ -243,7 +244,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     protected function telegram_user($hasil)
     {
-        if (! $this->db->field_exists('notif_telegram', 'user')) {
+        if (!$this->db->field_exists('notif_telegram', 'user')) {
             $fields = [
                 'notif_telegram' => [
                     'type'       => 'TINYINT',
@@ -256,7 +257,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('user', $fields);
         }
 
-        if (! $this->db->field_exists('id_telegram', 'user')) {
+        if (!$this->db->field_exists('id_telegram', 'user')) {
             $fields = [
                 'id_telegram' => [
                     'type'       => 'INT',
@@ -298,7 +299,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
             'jenis'      => 'boolean',
         ]);
 
-        if (! $this->db->field_exists('verifikasi_operator', 'log_surat')) {
+        if (!$this->db->field_exists('verifikasi_operator', 'log_surat')) {
             $fields = [
                 'verifikasi_operator' => [
                     'type'       => 'TINYINT',
@@ -310,7 +311,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (! $this->db->field_exists('verifikasi_sekdes', 'log_surat')) {
+        if (!$this->db->field_exists('verifikasi_sekdes', 'log_surat')) {
             $fields = [
                 'verifikasi_sekdes' => [
                     'type'       => 'TINYINT',
@@ -322,7 +323,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (! $this->db->field_exists('verifikasi_kades', 'log_surat')) {
+        if (!$this->db->field_exists('verifikasi_kades', 'log_surat')) {
             $fields = [
                 'verifikasi_kades' => [
                     'type'       => 'TINYINT',
@@ -334,7 +335,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (! $this->db->field_exists('tte', 'log_surat')) {
+        if (!$this->db->field_exists('tte', 'log_surat')) {
             $fields = [
                 'tte' => [
                     'type'       => 'TINYINT',
@@ -346,7 +347,7 @@ class Migrasi_fitur_premium_2208 extends MY_model
             $hasil = $hasil && $this->dbforge->add_column('log_surat', $fields);
         }
 
-        if (! $this->db->field_exists('log_verifikasi', 'log_surat')) {
+        if (!$this->db->field_exists('log_verifikasi', 'log_surat')) {
             $fields = [
                 'log_verifikasi' => [
                     'type'       => 'VARCHAR',

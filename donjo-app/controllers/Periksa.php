@@ -36,7 +36,6 @@
  */
 
 use App\Models\Config;
-use App\Models\SettingAplikasi;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -67,8 +66,6 @@ class Periksa extends CI_Controller
             log_message('error', $this->session->message_exception);
         }
 
-        // return json($this->periksa_model->periksa['tabel_invalid_date']['log_penduduk']);
-
         return view('periksa.index', array_merge($this->periksa_model->periksa, ['header' => $this->header]));
     }
 
@@ -95,14 +92,10 @@ class Periksa extends CI_Controller
             'header'      => $this->header,
             'form_action' => site_url('periksa/auth'),
         ];
-        $this->setting->sebutan_desa      = $this->getSetting('sebutan_desa');
-        $this->setting->sebutan_kabupaten = $this->getSetting('sebutan_kabupaten');
-        $this->load->view('siteman', $data);
-    }
 
-    private function getSetting($key)
-    {
-        return SettingAplikasi::where('key', $key)->pluck('value');
+        $this->setting->sebutan_desa      = $this->periksa_model->getSetting('sebutan_desa');
+        $this->setting->sebutan_kabupaten = $this->periksa_model->getSetting('sebutan_kabupaten');
+        $this->load->view('siteman', $data);
     }
 
     // Login khusus untuk periksa

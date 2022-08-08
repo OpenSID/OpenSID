@@ -63,22 +63,24 @@ class Pendaftaran_kerjasama extends Admin_Controller
 
     public function index()
     {
-        try {
-            $response = $this->client->get("{$this->server}/api/v1/pelanggan/terdaftar", [
-                'headers' => [
-                    'X-Requested-With' => 'XMLHttpRequest',
-                    'Authorization'    => "Bearer {$this->setting->layanan_opendesa_token}",
-                ],
-                'query' => [
-                    'desa_id' => kode_wilayah($this->header['desa']['kode_desa']),
-                ],
-            ])
-                ->getBody();
-        } catch (ClientException $e) {
-            // log_message('error', $e);
-            $this->session->set_userdata(['response' => json_decode($e->getResponse()->getBody())]);
+        if (cek_koneksi_internet()) {
+            try {
+                $response = $this->client->get("{$this->server}/api/v1/pelanggan/terdaftar", [
+                    'headers' => [
+                        'X-Requested-With' => 'XMLHttpRequest',
+                        'Authorization'    => "Bearer {$this->setting->layanan_opendesa_token}",
+                    ],
+                    'query' => [
+                        'desa_id' => kode_wilayah($this->header['desa']['kode_desa']),
+                    ],
+                ])
+                    ->getBody();
+            } catch (ClientException $e) {
+                // log_message('error', $e);
+                $this->session->set_userdata(['response' => json_decode($e->getResponse()->getBody())]);
 
-            redirect('pendaftaran_kerjasama/form');
+                redirect('pendaftaran_kerjasama/form');
+            }
         }
 
         $this->render('pendaftaran_kerjasama/index', ['response' => json_decode($response)]);
