@@ -52,8 +52,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022080271($hasil);
         $hasil = $hasil && $this->migrasi_2022070551($hasil);
         $hasil = $hasil && $this->migrasi_2022080451($hasil);
+        $hasil = $hasil && $this->migrasi_2022080471($hasil);
 
-        return $hasil && $this->migrasi_2022080471($hasil);
+        return $hasil && $this->migrasi_2022080971($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -265,6 +266,15 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'key'        => 'notifikasi_koneksi',
             'value'      => 1,
             'keterangan' => 'Ingatkan jika aplikasi tidak terhubung dengan internet.',
+            'jenis'      => 'boolean',
+        ]);
+    }
+    protected function migrasi_2022080971($hasil)
+    {
+        return $hasil && $this->tambah_setting([
+            'key'        => 'tampil_luas_peta',
+            'value'      => 0,
+            'keterangan' => 'Tampilkan Luas Wilayah Pada Peta',
             'jenis'      => 'boolean',
         ]);
     }
