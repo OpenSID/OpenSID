@@ -80,7 +80,7 @@ class PermohonanSurat extends Model
     /**
      * {@inheritDoc}
      */
-    protected $with = ['formatSurat', 'penduduk'];
+    protected $with = ['surat', 'penduduk'];
 
     /**
      * Getter untuk mapping status permohonan.
@@ -119,7 +119,7 @@ class PermohonanSurat extends Model
         return $this->belongsTo(Penduduk::class, 'id_pemohon');
     }
 
-    public function formatSurat()
+    public function surat()
     {
         return $this->belongsTo(FormatSurat::class, 'id_surat');
     }

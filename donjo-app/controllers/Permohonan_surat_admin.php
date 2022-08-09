@@ -38,6 +38,7 @@
 use App\Models\Config;
 use App\Models\FormatSurat;
 use App\Models\Pamong;
+use App\Models\PermohonanSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -47,65 +48,54 @@ class Permohonan_surat_admin extends Admin_Controller
     {
         parent::__construct();
         $this->load->model(['permohonan_surat_model', 'penduduk_model', 'surat_model', 'keluarga_model', 'mailbox_model', 'surat_master_model']);
-        $this->modul_ini     = 14;
+        $this->modul_ini     = 4;
         $this->sub_modul_ini = 98;
     }
 
-    public function clear()
+    public function index()
     {
-        unset($_SESSION['cari'], $_SESSION['filter']);
-
-        redirect($this->controller);
+        return view('admin.permohonan_surat.index', [
+            'list_status_permohonan' => $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN),
+        ]);
     }
 
-    public function index($p = 1, $o = 0)
+    public function datatables()
     {
-        $data['p'] = $p;
-        $data['o'] = $o;
+        if ($this->input->is_ajax_request()) {
+            return datatables(PermohonanSurat::query())
+                ->addIndexColumn()
+                ->addColumn('aksi', static function ($row) {
+                    $aksi = '';
 
-        if (isset($_SESSION['cari'])) {
-            $data['cari'] = $_SESSION['cari'];
-        } else {
-            $data['cari'] = '';
+                    if (can('u')) {
+                        if ($row->status == 0) {
+                            $aksi .= '<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat Belum Lengkap" style="width: 170px"><i class="fa fa-info-circle"></i>Belum Lengkap</a> ';
+                        } elseif ($row->status == 1) {
+                            $aksi .= '<a href="' . route('permohonan_surat_admin/periksa/', $row->id) . '" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i>Sedang Diperiksa</a> ';
+                        } elseif ($row->status == 2) {
+                            $aksi .= '<a class="btn btn-social bg-purple btn-flat btn-sm btn-proses" title="Surat Menunggu Tandatangan" style="width: 170px"><i class="fa fa-edit"></i>Menunggu Tandatangan</a> ';
+                        } elseif ($row->status == 3) {
+                            $aksi .= '<a href="' . route("permohonan_surat_admin/proses/{$row->id}/4") . '" class="btn btn-social bg-orange btn-flat btn-sm pesan-hover" title="Klik jika telah diambil" style="width: 170px"><i class="fa fa-thumbs-o-up"></i>Siap Diambil</a> ';
+                        } elseif ($row->status == 4) {
+                            $aksi .= '<a class="btn btn-social btn-success btn-flat btn-sm btn-proses" title="Surat Sudah Diambil" style="width: 170px"><i class="fa fa-check"></i>Sudah Diambil</a> ';
+                        } else {
+                            $aksi .= '<a class="btn btn-social btn-danger btn-flat btn-sm btn-proses" title="Surat Dibatalkan" style="width: 170px"><i class="fa fa-times"></i>Dibatalkan</a> ';
+                        }
+                    }
+
+                    return $aksi;
+                })
+                ->editColumn('no_antrian', static function ($row) {
+                    return get_antrian($row->no_antrian);
+                })
+                ->editColumn('created_at', static function ($row) {
+                    return tgl_indo2($row->created_at);
+                })
+                ->rawColumns(['aksi'])
+                ->make();
         }
 
-        if (isset($_SESSION['filter'])) {
-            $data['filter'] = $_SESSION['filter'];
-        }
-
-        $per_page                = $this->input->post('per_page');
-        $this->session->per_page = $per_page ?? 20;
-
-        $data['per_page']               = $this->session->per_page;
-        $data['list_status_permohonan'] = $this->referensi_model->list_ref_flip(STATUS_PERMOHONAN);
-        $data['func']                   = 'index';
-        $data['paging']                 = $this->permohonan_surat_model->paging($p, $o);
-        $data['main']                   = $this->permohonan_surat_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']                = $this->permohonan_surat_model->autocomplete();
-
-        $this->render('mandiri/permohonan_surat', $data);
-    }
-
-    public function search()
-    {
-        $cari = $this->input->post('cari');
-        if ($cari != '') {
-            $_SESSION['cari'] = $cari;
-        } else {
-            unset($_SESSION['cari']);
-        }
-        redirect($this->controller);
-    }
-
-    public function filter()
-    {
-        $filter = $this->input->post('filter');
-        if ($filter != '') {
-            $_SESSION['filter'] = $filter;
-        } else {
-            unset($_SESSION['filter']);
-        }
-        redirect($this->controller);
+        return show_404();
     }
 
     public function periksa($id = '')

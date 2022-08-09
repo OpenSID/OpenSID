@@ -36,6 +36,7 @@
  */
 
 use App\Models\LogSurat;
+use App\Models\PermohonanSurat;
 use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -191,7 +192,9 @@ class Keluar extends Admin_Controller
 
     public function verifikasi()
     {
-        $id = $this->input->post('id');
+        $id      = $this->input->post('id');
+        $surat   = LogSurat::find($id);
+        $mandiri = PermohonanSurat::where('id_surat', $surat->id_format_surat)->where('isian_form->nomor', $surat->no_surat)->first();
         //update verifikasi
         //cek setting
         $array_verifikasi = ['foot', 'bike', 'car', 'plane'];
@@ -220,9 +223,13 @@ class Keluar extends Admin_Controller
 
         if ($next == null) {
             LogSurat::where('id', '=', $id)->update([$current => 1, 'log_verifikasi' => $log]);
+            $mandiri->update(['status' => 3]);
         } else {
             $log_surat = LogSurat::where('id', '=', $id)->first();
             $log_surat->update([$current => 1,  $next => 0, 'log_verifikasi' => $log]);
+            if ($log == null) {
+                $mandiri->update(['status' => 3]);
+            }
             $kirim_telegram = User::whereHas('pamong', static function ($query) use ($next) {
                 if ($next == 'verifikasi_sekdes') {
                     return $query->where('pamong_ub', '=', '1');

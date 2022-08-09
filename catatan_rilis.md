@@ -14,6 +14,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 9. [#4962](https://github.com/OpenSID/OpenSID/issues/4962) Menambahkan filter data pencarian pendudukan bukan peserta program bantuan.
 10. [#5301](https://github.com/OpenSID/OpenSID/issues/5301) Menambahkan input ibu dengan status di kk selain istri tidak bisa ( menantu dll ) dan anak ( cucu dll) di menu kia.
 11. [#4464](https://github.com/OpenSID/OpenSID/issues/4464) Menambahkan opsi sembunyikan luas area di map.
+12. [#5271](https://github.com/OpenSID/OpenSID/issues/5271) Menambahkan penyesuaian alur pemeriksaan surat pada layanan mandiri.
 
 #### Perbaikan BUG
 

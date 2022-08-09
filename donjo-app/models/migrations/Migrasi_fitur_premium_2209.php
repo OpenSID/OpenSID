@@ -51,8 +51,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
         $hasil = $hasil && $this->migrasi_2022080271($hasil);
         $hasil = $hasil && $this->migrasi_2022070551($hasil);
-        $hasil = $hasil && $this->migrasi_2022080451($hasil);
         $hasil = $hasil && $this->migrasi_2022080471($hasil);
+        $hasil = $hasil && $this->migrasi_2022080571($hasil);
+        $hasil = $hasil && $this->migrasi_2022080451($hasil);
 
         return $hasil && $this->migrasi_2022080971($hasil);
     }
@@ -260,6 +261,13 @@ class Migrasi_fitur_premium_2209 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2022080571($hasil)
+    {
+        $hasil = $hasil && $this->ubah_modul(32, ['urut' => 4]);
+
+        return $hasil && $this->ubah_modul(98, ['modul' => 'Permohonan Surat Mandiri', 'url' => 'permohonan_surat_admin', 'urut' => 3, 'parent' => 4]);
+    }
+
     public function migrasi_2022080451($hasil)
     {
         return $hasil && $this->tambah_setting([
@@ -269,6 +277,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'jenis'      => 'boolean',
         ]);
     }
+
     protected function migrasi_2022080971($hasil)
     {
         return $hasil && $this->tambah_setting([
