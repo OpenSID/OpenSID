@@ -176,7 +176,7 @@
 																	</li>
 																	<?php if ($data['status_dasar'] == 9 && can('u')): ?>
 																		<li>
-																			<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?"><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
+																			<a href="#" data-href="<?= site_url("penduduk/kembalikan_status/{$p}/{$o}/{$data['id']}"); ?>" class="btn btn-social btn-flat btn-block btn-sm" data-remote="false" data-toggle="modal" data-target="#confirm-status" data-body="Apakah Anda yakin ingin mengembalikan status data penduduk ini?<br> Perubahan ini akan mempengaruhi laporan penduduk bulanan."><i class="fa fa-undo"></i> Kembalikan ke Status HIDUP</a>
 																		</li>
 																	<?php endif; ?>
 																	<?php if ($data['status_dasar'] == 1): ?>

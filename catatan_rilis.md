@@ -14,6 +14,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 7.[#1202](https://github.com/OpenSID/premium/issues/1202) Menghapus pengecekan url tidak valid di identitas desa.
 8.[#5475](https://github.com/OpenSID/OpenSID/issues/5475) Perbaiki last login tidak diperbarui setelah login.
 9.[#5478](https://github.com/OpenSID/OpenSID/issues/5478) Memperbaiki jJudul pada jumlah covid desa tidak tampil.
+10.[#5477](https://github.com/OpenSID/OpenSID/issues/5477) Memperbaiki notifikasi saat mengembalikan status dasar penduduk.
 
 #### Perubahan Teknis
 
@@ -21,3 +22,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 2. Pengecekan validasi premium dimulai dari identitas desa.
 3. Merapikan select option pada pilih tahun id menu status desa.
 4. Menmbahkan required pada form edit album.
+5.
