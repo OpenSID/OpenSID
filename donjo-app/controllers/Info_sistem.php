@@ -44,6 +44,7 @@ class Info_sistem extends Admin_Controller
         parent::__construct();
         $this->modul_ini     = 11;
         $this->sub_modul_ini = 46;
+        $this->load->helper('directory');
     }
 
     public function index()
@@ -87,5 +88,35 @@ class Info_sistem extends Admin_Controller
         $class     = min((int) log($disk, $base), count($si_prefix) - 1);
 
         return sprintf('%1.2f', $disk / $base ** $class) . ' ' . $si_prefix[$class] . '<br />';
+    }
+
+    public function cache_desa()
+    {
+        $dir = config_item('cache_path');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
+        status_sukses(true);
+
+        redirect($this->controller);
+    }
+
+    public function cache_blade()
+    {
+        $dir = config_item('cache_blade');
+
+        foreach (directory_map($dir) as $file) {
+            if ($file !== 'index.html') {
+                unlink($dir . DIRECTORY_SEPARATOR . $file);
+            }
+        }
+
+        status_sukses(true);
+
+        redirect($this->controller);
     }
 }

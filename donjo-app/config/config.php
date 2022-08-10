@@ -613,7 +613,7 @@ $config['api_idm'] = 'https://idm.kemendesa.go.id/open/api/desa/rumusan';
 |--------------------------------------------------------------------------
 |
 */
-$config['views_blade'] = RESOURCESPATH . '/views/';
+$config['views_blade'] = RESOURCESPATH . 'views/';
 
 /*
 |--------------------------------------------------------------------------
@@ -621,4 +621,4 @@ $config['views_blade'] = RESOURCESPATH . '/views/';
 |--------------------------------------------------------------------------
 |
 */
-$config['cache_blade'] = STORAGEPATH . '/framework/views/';
+$config['cache_blade'] = STORAGEPATH . 'framework/views/';
