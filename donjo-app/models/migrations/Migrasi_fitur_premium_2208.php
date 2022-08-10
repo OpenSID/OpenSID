@@ -38,6 +38,7 @@
 use App\Models\Config;
 use App\Models\LogKeluarga;
 use App\Models\Pamong;
+use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -49,7 +50,6 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2207');
-        $hasil = $hasil && $this->migrasi_2022070551($hasil);
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
         $hasil = $hasil && $this->migrasi_2022070751($hasil);
         $hasil = $hasil && $this->migrasi_2022071851($hasil);
@@ -62,10 +62,13 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
     protected function migrasi_2022070551($hasil)
     {
-        $config = Config::first();
+        // Hanya jalankan sebelum migrasi perubahan fungsi a.n dan u.b
+        if (! Schema::hasColumn('tweb_desa_pamong', 'jabatan_id')) {
+            $config = Config::first();
 
-        if ($config->pamong_id && Pamong::where('pamong_ttd', 1)->count() > 1) {
-            return $hasil && Pamong::whereNotIn('pamong_id', [$config->pamong_id])->update(['pamong_ttd' => 0]);
+            if ($config->pamong_id && Pamong::where('pamong_ttd', 1)->count() > 1) {
+                return $hasil && Pamong::whereNotIn('pamong_id', [$config->pamong_id])->update(['pamong_ttd' => 0]);
+            }
         }
 
         return $hasil;

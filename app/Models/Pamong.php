@@ -104,7 +104,7 @@ class Pamong extends Model
     public function scopeSelectData($query)
     {
         return $query
-            ->select(['pamong_id', 'pamong_nama', 'ref_jabatan.nama AS pamong_jabatan', 'pamong_nip', 'pamong_niap'])
+            ->select(['pamong_id', 'pamong_nama', 'jabatan_id', 'ref_jabatan.nama AS pamong_jabatan', 'pamong_nip', 'pamong_niap'])
             ->selectRaw('IF(tweb_desa_pamong.id_pend IS NULL, tweb_desa_pamong.pamong_nama, tweb_penduduk.nama) AS pamong_nama')
             ->leftJoin('tweb_penduduk', 'tweb_penduduk.id', '=', 'tweb_desa_pamong.id_pend')
             ->leftJoin('ref_jabatan', 'ref_jabatan.id', '=', 'tweb_desa_pamong.jabatan_id');
@@ -148,7 +148,61 @@ class Pamong extends Model
      */
     public function scopeSekretarisDesa($query)
     {
-        return $query->where('jabatan_id', 2)->where('pamong_status', 1);
+        return $this->scopeSelectData($query)
+            ->where('jabatan_id', 2)->where('pamong_status', 1);
+    }
+
+    /**
+     * Scope query untuk Penanda Tangan
+     *
+     * Ket :
+     * - a.n => untuk sekretaris yang dipilih
+     * - u.b => untuk pamong selain kades dan sekretaris yang dipilih
+     *
+     * @param Builder    $query
+     * @param mixed      $value
+     * @param mixed|null $jenis
+     *
+     * @return Builder
+     */
+    public function scopeTtd($query, $jenis = null)
+    {
+        if ($jenis === 'a.n') {
+            $query->where('pamong_ttd', 1)->where('jabatan_id', 2);
+        } elseif ($jenis === 'u.b') {
+            $query->where('pamong_ub', 1)->whereNotIn('jabatan_id', RefJabatan::EXCLUDE_DELETE);
+        }
+
+        return $this->scopeSelectData($query)
+            ->where('pamong_status', 1);
+    }
+
+    /**
+     * Scope query untuk daftar penanda tangan
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopePenandaTangan($query)
+    {
+        return $query
+            ->where(static function ($query) {
+                $query->whereIn('jabatan_id', RefJabatan::EXCLUDE_DELETE)
+                    ->orWhere('pamong_ttd', '1')
+                    ->orWhere('pamong_ub', '1');
+            })
+            ->where('pamong_status', 1)
+            ->orderBy('jabatan_id')
+            ->orderBy('urut');
+    }
+
+    public function scopeKehadiranPamong($query)
+    {
+        return $query
+            ->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
+            ->leftJoin('kehadiran_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
     }
 
     /**
@@ -164,33 +218,5 @@ class Pamong extends Model
         return $this->scopeSelectData($query)
             ->where('pamong_status', 1)
             ->where('kehadiran', $value);
-    }
-
-    /**
-     * Scope query untuk Penanda Tangan
-     *
-     * @param Builder    $query
-     * @param mixed      $value
-     * @param mixed|null $jenis
-     *
-     * @return Builder
-     */
-    public function scopeTtd($query, $jenis = null)
-    {
-        if ($jenis === 'a.n') {
-            $query->where('pamong_ttd', 1)->where('jabatan_id', 1);
-        } elseif ($jenis === 'u.b') {
-            $query->where('pamong_ub', 1)->where('jabatan_id', 2);
-        }
-
-        return $this->scopeSelectData($query)
-            ->where('pamong_status', 1);
-    }
-
-    public function scopeKehadiranPamong($query)
-    {
-        return $query
-            ->leftJoin('kehadiran_perangkat_desa as k', 'tweb_desa_pamong.pamong_id', '=', 'k.pamong_id')
-            ->leftJoin('kehadiran_pengaduan as p', 'tweb_desa_pamong.pamong_id', '=', 'p.id_pamong');
     }
 }

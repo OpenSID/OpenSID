@@ -772,25 +772,25 @@ class Surat_model extends CI_Model
         $nama_desa = Config::select(['nama_desa'])->first()->nama_desa;
 
         //Data penandatangan
-        $pamong_ttd = Pamong::ttd('a.n')->first();
+        $kades = Pamong::kepalaDesa()->first();
 
         $ttd         = $input['pilih_atas_nama'];
-        $atas_nama   = ucwords($pamong_ttd->pamong_jabatan . ' ' . $nama_desa);
-        $nama_pamong = $pamong_ttd->pamong_nama;
-        $nip_pamong  = $pamong_ttd->pamong_nip;
-        $niap_pamong = $pamong_ttd->pamong_niap;
+        $atas_nama   = $kades->pamong_jabatan . ' ' . $nama_desa;
+        $nama_pamong = $kades->pamong_nama;
+        $nip_pamong  = $kades->pamong_nip;
+        $niap_pamong = $kades->pamong_niap;
 
-        $pamong_ub = Pamong::ttd('u.b')->first();
+        $sekdes = Pamong::ttd('a.n')->first();
         if (preg_match('/a.n/i', $ttd)) {
-            $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $pamong_ub->pamong_jabatan;
-            $nama_pamong = $pamong_ub->pamong_nama;
-            $nip_pamong  = $pamong_ub->pamong_nip;
-            $niap_pamong = $pamong_ub->pamong_niap;
+            $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $sekdes->pamong_jabatan;
+            $nama_pamong = $sekdes->pamong_nama;
+            $nip_pamong  = $sekdes->pamong_nip;
+            $niap_pamong = $sekdes->pamong_niap;
         }
 
         if (preg_match('/u.b/i', $ttd)) {
-            $pamong      = Pamong::find($input['pamong_id']);
-            $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $pamong_ub->pamong_jabatan . ' \par  u.b  \par ' . $pamong->jabatan->nama;
+            $pamong      = Pamong::ttd('u.b')->find($input['pamong_id']);
+            $atas_nama   = 'a.n ' . $atas_nama . ' \par ' . $sekdes->pamong_jabatan . ' \par  u.b  \par ' . $pamong->jabatan->nama;
             $nama_pamong = $pamong->pamong_nama;
             $nip_pamong  = $pamong->pamong_nip;
             $niap_pamong = $pamong->pamong_niap;

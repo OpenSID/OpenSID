@@ -15,6 +15,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 10. [#5301](https://github.com/OpenSID/OpenSID/issues/5301) Menambahkan input ibu dengan status di kk selain istri tidak bisa ( menantu dll ) dan anak ( cucu dll) di menu kia.
 11. [#4464](https://github.com/OpenSID/OpenSID/issues/4464) Menambahkan opsi sembunyikan luas area di map.
 12. [#5271](https://github.com/OpenSID/OpenSID/issues/5271) Menambahkan penyesuaian alur pemeriksaan surat pada layanan mandiri.
+13. [#1161](https://github.com/OpenSID/premium/issues/1161) Penyesuaian fungsi tombol a.n dan u.b pada pengaturan perangkat desa.
 
 #### Perbaikan BUG
 

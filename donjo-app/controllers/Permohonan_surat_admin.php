@@ -160,15 +160,22 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
         $data['pamong']             = $this->surat_model->list_pamong();
 
-        $pamong_ttd = Pamong::ttd('a.n')->first();
+        $kades = Pamong::kepalaDesa()->first(); // Kepala Desa
+        if ($kades) {
+            $data['atas_nama'][''] = $kades->pamong_jabatan . ' ' . $config->nama_desa;
 
-        if ($pamong_ttd) {
-            $str_ttd             = ucwords($pamong_ttd->pamong_jabatan . ' ' . $config->nama_desa);
-            $data['atas_nama'][] = "a.n {$str_ttd}";
-            $pamong_ub           = Pamong::ttd('u.b')->first();
-            if ($pamong_ub) {
-                $data['atas_nama'][] = "u.b {$pamong_ub->pamong_jabatan}";
+            $sekdes = Pamong::ttd('a.n')->first(); // Sekretaris Desa
+            if ($sekdes) {
+                $data['atas_nama']['a.n'] = 'a.n ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
+
+                $pamong = Pamong::ttd('u.b')->exists(); // Sekretaris Desa
+                if ($pamong) {
+                    $data['atas_nama']['u.b'] = 'u.b ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
+                }
             }
+        } else {
+            session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
+            redirect('pengurus');
         }
     }
 

@@ -77,15 +77,16 @@ class Pengurus extends Admin_Controller
             $this->session->per_page = $per_page;
         }
 
-        $data['func']         = 'index';
-        $data['set_page']     = $this->_set_page;
-        $data['per_page']     = $this->session->per_page;
-        $data['paging']       = $this->pamong_model->paging($p);
-        $data['main']         = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
-        $data['keyword']      = $this->pamong_model->autocomplete();
-        $data['main_content'] = 'home/pengurus';
-        $data['subtitle']     = 'Buku Aparat Pemerintah Desa';
-        $data['selected_nav'] = 'aparat';
+        $data['func']            = 'index';
+        $data['set_page']        = $this->_set_page;
+        $data['per_page']        = $this->session->per_page;
+        $data['paging']          = $this->pamong_model->paging($p);
+        $data['main']            = $this->pamong_model->list_data($data['paging']->offset, $data['paging']->per_page);
+        $data['keyword']         = $this->pamong_model->autocomplete();
+        $data['main_content']    = 'home/pengurus';
+        $data['subtitle']        = 'Buku Aparat Pemerintah Desa';
+        $data['selected_nav']    = 'aparat';
+        $data['kecuali_jabatan'] = RefJabatan::EXCLUDE_DELETE;
 
         $this->render('bumindes/umum/main', $data);
     }
@@ -199,14 +200,14 @@ class Pengurus extends Admin_Controller
     public function ttd($id = 0, $val = 0)
     {
         $this->redirect_hak_akses('u');
-        $this->pamong_model->ttd('pamong_ttd', $id, $val);
+        $this->pamong_model->ttd('a.n', $id, $val);
         redirect('pengurus');
     }
 
     public function ub($id = 0, $val = 0)
     {
         $this->redirect_hak_akses('u');
-        $this->pamong_model->ttd('pamong_ub', $id, $val);
+        $this->pamong_model->ttd('u.b', $id, $val);
         redirect('pengurus');
     }
 

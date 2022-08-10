@@ -165,15 +165,19 @@
 																<?php else: ?>
 																	<a href="<?= site_url("pengurus/kehadiran/{$data['pamong_id']}/1")?>" class="btn bg-aqua btn-flat btn-sm" title="Aktifkan Kehadiran Perangkat"><i class="fa fa-ban"></i></a>
 																<?php endif ?>
-																<?php if ($data['pamong_ttd'] == '1'): ?>
-																	<a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
-																<?php else: ?>
-																	<a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD a.n">a.n</a>
+																<?php if (in_array($data['jabatan_id'], [2])): ?>
+																	<?php if ($data['pamong_ttd'] == '1'): ?>
+																		<a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD a.n">a.n</a>
+																	<?php else: ?>
+																		<a href="<?= site_url("pengurus/ttd/{$data['pamong_id']}/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD a.n">a.n</a>
+																	<?php endif ?>
 																<?php endif ?>
-																<?php if ($data['pamong_ub'] == '1'): ?>
-																	<a href="<?= site_url("pengurus/ub/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD u.b">u.b</a>
-																<?php else: ?>
-																	<a href="<?= site_url("pengurus/ub/{$data['pamong_id']}/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD u.b">u.b</a>
+																<?php if (! in_array($data['jabatan_id'], $kecuali_jabatan)): ?>
+																	<?php if ($data['pamong_ub'] == '1'): ?>
+																		<a href="<?= site_url("pengurus/ub/{$data['pamong_id']}/2")?>" class="btn bg-navy btn-flat btn-sm" title="Bukan TTD u.b">u.b</a>
+																	<?php else: ?>
+																		<a href="<?= site_url("pengurus/ub/{$data['pamong_id']}/1")?>" class="btn bg-purple btn-flat btn-sm" title="Jadikan TTD u.b">u.b</a>
+																	<?php endif ?>
 																<?php endif ?>
 															<?php endif; ?>
 														</td>

@@ -54,8 +54,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022080471($hasil);
         $hasil = $hasil && $this->migrasi_2022080571($hasil);
         $hasil = $hasil && $this->migrasi_2022080451($hasil);
+        $hasil = $hasil && $this->migrasi_2022080971($hasil);
 
-        return $hasil && $this->migrasi_2022080971($hasil);
+        return $hasil && $this->migrasi_2022081071($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -286,5 +287,24 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'keterangan' => 'Tampilkan Luas Wilayah Pada Peta',
             'jenis'      => 'boolean',
         ]);
+    }
+    protected function migrasi_2022081071($hasil)
+    {
+        // Jalankan hanya jika terdeksi cara lama (kades = a.n)
+        if (Pamong::where('jabatan_id', 1)->where('pamong_ttd', 1)->exists()) {
+            // Sesuaikan Penanda tangan kepala desa
+            $hasil = $hasil && Pamong::where('pamong_ttd', 1)->update(['pamong_ttd' => 0, 'pamong_ub' => 0]);
+        }
+
+        // Jalankan hanya jika terdeksi cara lama (sekdes = u.b)
+        if (Pamong::where('jabatan_id', 2)->where('pamong_ub', 1)->exists()) {
+            // Sesuaikan Penanda tangan sekdes (a.n)
+            $hasil = $hasil && Pamong::where('pamong_ub', 1)->update(['pamong_ttd' => 1, 'pamong_ub' => 0]);
+        }
+
+        // Bagian ini di lewati, default tidak ada terpilih
+        // Untuk penanda tangan u.b perlu disesuaikan ulang agar menyesuaikan
+
+        return $hasil;
     }
 }

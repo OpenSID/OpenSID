@@ -37,6 +37,8 @@
 
 use App\Models\Kehadiran;
 use App\Models\KehadiranPengaduan;
+use App\Models\Pamong;
+use App\Models\RefJabatan;
 use Illuminate\Support\Facades\Schema;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -354,35 +356,33 @@ class Pamong_model extends CI_Model
      */
     public function ttd($jenis, $id, $val)
     {
-        // Hanya kades yang bisa ditetatpkan a.n
-        if ($jenis == 'pamong_ttd') {
-            $this->db->where('jabatan_id', 1);
-            $pesan = ', Penandatangan a.n harus ' . ucwords(setting('sebutan_kepala_desa'));
-        }
+        $pamong = Pamong::find($id) ?? show_404();
 
-        // Hanya sekdes yang bisa ditetatpkan u.b
-        if ($jenis == 'pamong_ub') {
-            $this->db->where('jabatan_id', 2);
-            $pesan = ', Penandatangan u.b harus Sekretaris ' . ucwords(setting('sebutan_desa'));
-        }
+        if ($jenis == 'a.n') {
+            if ($pamong->jabatan_id == '2') {
+                // return json($pamong->jabatan_id);
+                $output = Pamong::where('jabatan_id', 2)->find($id)->update(['pamong_ttd' => $val]);
 
-        $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', [$jenis => $val]);
-        $outp = $this->db->affected_rows();
-
-        if ($outp) {
-            if ($val == 1) {
-                // Hanya satu pamong yang boleh digunakan sebagai ttd a.n / u.b
-                $outp = $this->db->where($jenis, 1)->where('pamong_id !=', $id)->update('tweb_desa_pamong', [$jenis => 0]);
+                // Hanya 1 yang bisa jadi a.n dan harus sekretaris
+                if ($output) {
+                    Pamong::where('pamong_ttd', 1)->where('pamong_id', '!=', $id)->update(['pamong_ttd' => 0]);
+                }
             } else {
-                $outp = true;
+                $pesan = ', Penandatangan a.n harus ' . RefJabatan::whereId(2)->first(['nama'])->nama;
             }
-
-            return status_sukses($outp);
         }
 
-        return session_error($pesan);
+        if ($jenis == 'u.b') {
+            if (! in_array($pamong->jabatan_id, RefJabatan::EXCLUDE_DELETE)) {
+                $output = Pamong::whereNotIn('jabatan_id', RefJabatan::EXCLUDE_DELETE)->find($id)->update(['pamong_ub' => $val]);
+            } else {
+                $pesan = ', Penandatangan u.b harus pamong selain ' . RefJabatan::whereId(1)->first(['nama'])->nama . ' dan ' . RefJabatan::whereId(2)->first(['nama'])->nama;
+            }
+        }
 
-        status_sukses($outp);
+        session_error($pesan);
+
+        return status_sukses($output);
     }
 
     private function select_data_pamong()

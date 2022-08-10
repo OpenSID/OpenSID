@@ -472,13 +472,13 @@ class Surat extends Admin_Controller
     private function ttd($ttd = '', $pamong_id = null)
     {
         if (preg_match('/a.n/i', $ttd)) {
-            return Pamong::ttd('u.b')->first()->pamong_id;
+            return Pamong::ttd('a.n')->first()->pamong_id;
         }
         if (preg_match('/u.b/i', $ttd)) {
             return $pamong_id;
         }
 
-        return Pamong::ttd('a.n')->first()->pamong_id;
+        return Pamong::kepalaDesa()->first()->pamong_id;
     }
 
     private function replceKodeIsian($data = [], $kecuali = [])
@@ -681,18 +681,23 @@ class Surat extends Admin_Controller
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
         $data['penduduk']           = $this->surat_model->list_penduduk();
         $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
-        $data['pamong']             = $this->surat_model->list_pamong();
+        $data['pamong']             = Pamong::penandaTangan()->get();
 
-        $pamong_ttd = Pamong::ttd('a.n')->first();
-        $pamong_ub  = Pamong::ttd('u.b')->first();
-        if ($pamong_ttd) {
-            $str_ttd             = ucwords($pamong_ttd->pamong_jabatan . ' ' . $config->nama_desa);
-            $data['atas_nama'][] = "a.n {$str_ttd}";
-            if ($pamong_ub) {
-                $data['atas_nama'][] = "u.b {$pamong_ub->pamong_jabatan}";
+        $kades = Pamong::kepalaDesa()->first(); // Kepala Desa
+        if ($kades) {
+            $data['atas_nama'][''] = $kades->pamong_jabatan . ' ' . $config->nama_desa;
+
+            $sekdes = Pamong::ttd('a.n')->first(); // Sekretaris Desa
+            if ($sekdes) {
+                $data['atas_nama']['a.n'] = 'a.n ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
+
+                $pamong = Pamong::ttd('u.b')->exists(); // Sekretaris Desa
+                if ($pamong) {
+                    $data['atas_nama']['u.b'] = 'u.b ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
+                }
             }
         } else {
-            session_error('Belum ada penanda tangan, silhakan tentukan a.n dan u.b terlebih dahulu');
+            session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
             redirect('pengurus');
         }
     }
