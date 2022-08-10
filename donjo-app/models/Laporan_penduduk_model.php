@@ -223,13 +223,13 @@ class Laporan_penduduk_model extends MY_Model
     private function select_jml_penduduk_per_kategori($id_referensi, $tabel_referensi)
     {
         $this->db
-            ->select('u.id, COUNT(p.id) AS jumlah')
+            ->select('u.*, COUNT(p.id) AS jumlah')
             ->select('COUNT(CASE WHEN p.sex = 1 THEN p.id END) AS laki')
             ->select('COUNT(CASE WHEN p.sex = 2 THEN p.id END) AS perempuan')
             ->from("{$tabel_referensi} u")
             ->join('penduduk_hidup p', "u.id = p.{$id_referensi}", 'left')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
-            ->group_by('u.id, u.nama');
+            ->group_by('u.id');
 
         if ($dusun = $this->session->userdata('dusun')) {
             $this->db->where('a.dusun', $dusun);
@@ -445,13 +445,13 @@ class Laporan_penduduk_model extends MY_Model
             case 'covid':
                 // Covid
                 $this->db
-                    ->select('COUNT(k.id) as jumlah')
+                    ->select('u.*, COUNT(k.id) as jumlah')
                     ->select('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 1 THEN k.id_terdata END) AS laki')
                     ->select('COUNT(CASE WHEN k.status_covid = u.id AND p.sex = 2 THEN k.id_terdata END) AS perempuan')
                     ->from('ref_status_covid u')
                     ->join('covid19_pemudik k', 'k.status_covid = u.id', 'left')
                     ->join('tweb_penduduk p', 'p.id=k.id_terdata', 'left')
-                    ->group_by('u.id, u.nama');
+                    ->group_by('u.id');
                 break;
 
             case 'suku':

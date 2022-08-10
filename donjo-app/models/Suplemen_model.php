@@ -102,7 +102,7 @@ class Suplemen_model extends MY_Model
         }
 
         $this->db
-            ->select('s.id')
+            ->select('s.*')
             ->select('COUNT(st.id) AS jml')
             ->order_by('s.nama')
             ->group_by('s.id');
