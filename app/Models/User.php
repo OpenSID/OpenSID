@@ -55,6 +55,13 @@ class User extends Model
     protected $table = 'user';
 
     /**
+     * The timestamps for the model.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -63,6 +70,7 @@ class User extends Model
         'name',
         'email',
         'password',
+        'last_login',
     ];
 
     /**
