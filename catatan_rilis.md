@@ -17,6 +17,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 12. [#5271](https://github.com/OpenSID/OpenSID/issues/5271) Menambahkan penyesuaian alur pemeriksaan surat pada layanan mandiri.
 13. [#1161](https://github.com/OpenSID/premium/issues/1161) Penyesuaian fungsi tombol a.n dan u.b pada pengaturan perangkat desa.
 14. [#5480](https://github.com/OpenSID/OpenSID/issues/5480) Menyediakan fungsi untuk menghapus cache desa dan blade pada menu pengaturan info sistem diadmin.
+15. [#4838](https://github.com/OpenSID/OpenSID/issues/4838) Menambahkan tidak menggunakan akseptor KB pada data penduduk.
 
 #### Perbaikan BUG
 

@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\KB;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
 use Illuminate\Support\Facades\DB;
@@ -55,8 +56,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022080571($hasil);
         $hasil = $hasil && $this->migrasi_2022080451($hasil);
         $hasil = $hasil && $this->migrasi_2022080971($hasil);
+        $hasil = $hasil && $this->migrasi_2022081071($hasil);
 
-        return $hasil && $this->migrasi_2022081071($hasil);
+        return $hasil && $this->migrasi_2022081171($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -288,6 +290,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'jenis'      => 'boolean',
         ]);
     }
+
     protected function migrasi_2022081071($hasil)
     {
         // Jalankan hanya jika terdeksi cara lama (kades = a.n)
@@ -306,5 +309,16 @@ class Migrasi_fitur_premium_2209 extends MY_model
         // Untuk penanda tangan u.b perlu disesuaikan ulang agar menyesuaikan
 
         return $hasil;
+    }
+
+    protected function migrasi_2022081171($hasil)
+    {
+        return $hasil && KB::updateOrCreate([
+            'id' => 100,
+        ], [
+            'id'   => 100,
+            'nama' => 'Tidak Menggunakan',
+            'sex'  => 3,
+        ]);
     }
 }
