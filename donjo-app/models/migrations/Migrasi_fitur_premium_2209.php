@@ -268,7 +268,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
     {
         $hasil = $hasil && $this->ubah_modul(32, ['urut' => 4]);
 
-        return $hasil && $this->ubah_modul(98, ['modul' => 'Permohonan Surat Mandiri', 'url' => 'permohonan_surat_admin', 'urut' => 3, 'parent' => 4]);
+        return $hasil && $this->ubah_modul(98, ['url' => 'permohonan_surat_admin', 'urut' => 3, 'parent' => 4]);
     }
 
     public function migrasi_2022080451($hasil)

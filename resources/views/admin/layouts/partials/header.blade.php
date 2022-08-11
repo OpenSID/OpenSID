@@ -35,7 +35,7 @@
 
         @if (can('b', 'permohonan_surat_admin'))
           <li>
-            <a href="{{ route('permohonan_surat_admin.clear') }}">
+            <a href="{{ route('permohonan_surat_admin') }}">
               <span><i class="fa fa-print fa-lg" title="Permohonan Surat"></i>&nbsp;</span>
               @if ($notif['surat'])
                 <span class="badge" id="b_permohonan_surat">{{ $notif['surat'] }}</span>
