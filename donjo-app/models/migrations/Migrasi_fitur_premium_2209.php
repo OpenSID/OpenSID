@@ -271,7 +271,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
         return $hasil && $this->ubah_modul(98, ['url' => 'permohonan_surat_admin', 'urut' => 3, 'parent' => 4]);
     }
 
-    public function migrasi_2022080451($hasil)
+    protected function migrasi_2022080451($hasil)
     {
         return $hasil && $this->tambah_setting([
             'key'        => 'notifikasi_koneksi',
