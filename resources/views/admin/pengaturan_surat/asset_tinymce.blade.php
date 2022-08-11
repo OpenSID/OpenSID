@@ -23,6 +23,7 @@
             relative_urls: false,
             remove_script_host: false,
             entity_encoding: 'raw',
+            forced_root_block: false,
             setup: function(ed) {
                 ed.on('init', function(e) {
                     ed.execCommand("fontName", false, "${default_font}");
