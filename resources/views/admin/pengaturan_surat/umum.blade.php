@@ -70,9 +70,8 @@
                     <label class="col-sm-3 control-label">Orientasi Kertas</label>
                     <div class="col-sm-7">
                         <select class="form-control input-sm select2-tags required" name="orientasi">
-                            <option value="">-- Pilih Orientasi Kertas --</option>
                             @foreach ($orientations as $value)
-                                <option value="{{ $value }}" @selected($suratMaster->orientasi === $value)>
+                                <option value="{{ $value }}" @selected(($suratMaster->orientasi ?? $default_orientations) === $value)>
                                     {{ $value }}</option>
                             @endforeach
                         </select>
@@ -85,9 +84,8 @@
                     <label class="col-sm-3 control-label">Ukuran Kertas</label>
                     <div class="col-sm-7">
                         <select class="form-control input-sm select2-tags required" name="ukuran">
-                            <option value="">-- Pilih Ukuran Kertas --</option>
                             @foreach ($sizes as $value)
-                                <option value="{{ $value }}" @selected($suratMaster->ukuran === $value)>
+                                <option value="{{ $value }}" @selected(($suratMaster->ukuran ?? $default_sizes) === $value)>
                                     {{ $value }}</option>
                             @endforeach
                         </select>

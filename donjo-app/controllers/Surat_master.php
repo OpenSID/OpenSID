@@ -112,35 +112,39 @@ class Surat_master extends Admin_Controller
         $this->redirect_hak_akses('u');
 
         if ($id) {
-            $action      = 'Ubah';
             $suratMaster = FormatSurat::find($id) ?? show_404();
 
+            $data['action']      = 'Ubah';
+            $data['suratMaster'] = $suratMaster;
+
             if (in_array($suratMaster->jenis, [1, 2])) {
-                $formAction = route('surat_master.update', $id);
-                $kodeIsian  = $this->getKodeIsian($suratMaster->url_surat);
-                $qrCode     = QRCodeExist($suratMaster->url_surat);
+                $data['formAction'] = route('surat_master.update', $id);
+                $data['kodeIsian']  = $this->getKodeIsian($suratMaster->url_surat);
+                $data['qrCode']     = QRCodeExist($suratMaster->url_surat);
             } else {
-                $formAction = route('surat_master.update_baru', $id);
-                $kodeIsian  = json_decode($suratMaster->kode_isian);
+                $data['formAction'] = route('surat_master.update_baru', $id);
+                $data['kodeIsian']  = json_decode($suratMaster->kode_isian);
             }
         } else {
-            $action      = 'Tambah';
-            $formAction  = route('surat_master.insert');
-            $suratMaster = null;
+            $data['action']      = 'Tambah';
+            $data['formAction']  = route('surat_master.insert');
+            $data['suratMaster'] = null;
         }
 
         if (in_array($suratMaster->jenis, [3, 4, null])) {
-            $margins      = json_decode($suratMaster->margin) ?? FormatSurat::MARGINS;
-            $orientations = FormatSurat::ORIENTATAIONS;
-            $sizes        = FormatSurat::SIZES;
-            $qrCode       = true;
+            $data['margins']              = json_decode($suratMaster->margin) ?? FormatSurat::MARGINS;
+            $data['orientations']         = FormatSurat::ORIENTATAIONS;
+            $data['sizes']                = FormatSurat::SIZES;
+            $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
+            $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
+            $data['qrCode']               = true;
         }
 
-        $masaBerlaku      = FormatSurat::MASA_BERLAKU;
-        $klasifikasiSurat = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
-        $pengaturanSurat  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
+        $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
+        $data['klasifikasiSurat'] = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
+        $data['pengaturanSurat']  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
 
-        return view('admin.pengaturan_surat.form', compact('action', 'formAction', 'suratMaster', 'masaBerlaku', 'klasifikasiSurat', 'kodeIsian', 'margins', 'orientations', 'sizes', 'qrCode', 'pengaturanSurat'));
+        return view('admin.pengaturan_surat.form', $data);
     }
 
     public function syaratSuratDatatables($id = null)

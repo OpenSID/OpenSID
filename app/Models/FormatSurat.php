@@ -42,10 +42,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormatSurat extends Model
 {
-    public const MANDIRI         = 1;
-    public const MANDIRI_DISABLE = 0;
-    public const KUNCI           = 1;
-    public const KUNCI_DISABLE   = 0;
+    public const MANDIRI               = 1;
+    public const MANDIRI_DISABLE       = 0;
+    public const KUNCI                 = 1;
+    public const KUNCI_DISABLE         = 0;
+    public const DEFAULT_ORIENTATAIONS = 'Potrait';
+    public const DEFAULT_SIZES         = 'F4';
 
     /**
      * Static data masa berlaku surat.
