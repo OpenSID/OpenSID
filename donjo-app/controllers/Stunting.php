@@ -212,21 +212,21 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $ibuId  = [];
-        $anakId = [];
-
-        foreach (KiA::all() as $data) {
-            $ibuId[]  = $data->ibu_id ?? 0;
-            $anakId[] = $data->anak_id ?? 0;
-        }
-
         $data             = $this->widget();
         $data['navigasi'] = 'kia';
-        $data['ibu']      = Penduduk::whereNotIn('id', $ibuId)->where(static function ($query) {
-            $query->where('kk_level', 3)
-                ->orWhere('kk_level', 1);
-        })->where('sex', 2)->get();
-        $data['anak'] = Penduduk::whereNotIn('id', $anakId)->where('kk_level', 4)->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
+        $data['ibu']      = Penduduk::select(['id', 'nik', 'nama'])
+            ->where(static function ($query) {
+                $query->where('kk_level', 3)
+                    ->orWhere('kk_level', 1);
+            })
+            ->where('sex', 2)
+            ->get();
+
+        $data['anak'] = Penduduk::select(['id', 'nik', 'nama'])
+            ->whereNotIn('id', KIA::pluck('anak_id'))
+            ->where('kk_level', 4)
+            ->where('tanggallahir', '>=', Carbon::now()->subYears(6))
+            ->get();
 
         if ($id) {
             $data['action']     = 'Ubah';
