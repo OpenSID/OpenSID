@@ -16,7 +16,8 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 9.[#5478](https://github.com/OpenSID/OpenSID/issues/5478) Memperbaiki jJudul pada jumlah covid desa tidak tampil.
 10.[#5477](https://github.com/OpenSID/OpenSID/issues/5477) Memperbaiki notifikasi saat mengembalikan status dasar penduduk.
 11.[#5486](https://github.com/OpenSID/OpenSID/issues/5486) Memperbaiki pencarian nama ibu dari tambah anak ke 2 dari menu kia.
-12.[#5487](https://github.com/OpenSID/OpenSID/issues/5487) Memperbaiki tampilan konsisten infrastruktur desa yang ditampilkan pada web dan admin. 
+12.[#5487](https://github.com/OpenSID/OpenSID/issues/5487) Memperbaiki tampilan konsisten infrastruktur desa yang ditampilkan pada web dan admin.
+13.[#5497](https://github.com/OpenSID/OpenSID/issues/5497) Tampilkan inputan klasifikasi pindah pada form lampiran F-1.03.
 
 #### Perubahan Teknis
 
