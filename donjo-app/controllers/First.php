@@ -467,40 +467,6 @@ class First extends Web_Controller
         redirect($_SERVER['HTTP_REFERER'] . '#kolom-komentar');
     }
 
-    public function peta()
-    {
-        if (! $this->web_menu_model->menu_aktif('peta')) {
-            show_404();
-        }
-
-        $this->load->model('wilayah_model');
-        $this->load->model('data_persil_model');
-        $this->load->model('pembangunan_model');
-
-        $data = $this->includes;
-
-        $data['list_dusun']         = $this->wilayah_model->list_dusun();
-        $data['wilayah']            = $this->wilayah_model->list_wil();
-        $data['desa']               = $this->config_model->get_data();
-        $data['title']              = 'Peta ' . ucwords($this->setting->sebutan_desa . ' ' . $data['desa']['nama_desa']);
-        $data['dusun_gis']          = $data['list_dusun'];
-        $data['rw_gis']             = $this->wilayah_model->list_rw();
-        $data['rt_gis']             = $this->wilayah_model->list_rt();
-        $data['list_ref']           = $this->referensi_model->list_ref(STAT_PENDUDUK);
-        $data['covid']              = $this->laporan_penduduk_model->list_data('covid');
-        $data['lokasi']             = $this->plan_lokasi_model->list_lokasi();
-        $data['garis']              = $this->plan_garis_model->list_garis();
-        $data['area']               = $this->plan_area_model->list_area();
-        $data['lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
-        $data['persil']             = $this->data_persil_model->list_data();
-
-        $data['halaman_peta'] = 'web/halaman_statis/peta';
-        $this->_get_common_data($data);
-
-        $this->set_template('layouts/peta_statis.tpl.php');
-        $this->load->view($this->template, $data);
-    }
-
     public function load_apbdes()
     {
         $data['transparansi'] = $this->keuangan_grafik_model->grafik_keuangan_tema();
