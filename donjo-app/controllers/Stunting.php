@@ -561,7 +561,8 @@ class Stunting extends Admin_Controller
                 $query->where('tanggallahir', '>', Carbon::now()->subMonths(24));
             })
             ->get();
-        $data['posyandu'] = Posyandu::all();
+        $data['posyandu']         = Posyandu::all();
+        $data['status_gizi_anak'] = collect(Anak::STATUS_GIZI_ANAK)->pluck('nama', 'id');
 
         if ($id) {
             $data['action']     = 'Ubah';
