@@ -60,7 +60,9 @@ class Surat extends Admin_Controller
 
     public function index()
     {
-        return view('admin.surat.index');
+        $data['cetak_surat'] = FormatSurat::orderBy('favorit')->pluck('nama', 'url_surat');
+
+        return view('admin.surat.index', $data);
     }
 
     public function datatables()
