@@ -506,7 +506,7 @@ class Stunting extends Admin_Controller
         $writer->close();
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     public function pemantauan_anak()
     {
         $data             = $this->widget();
@@ -536,6 +536,12 @@ class Stunting extends Admin_Controller
                 ->addIndexColumn()
                 ->editColumn('kia.anak.tanggallahir', static function ($row) {
                     return tgl_indo($row->kia->anak->tanggallahir);
+                })
+                ->editColumn('berat_badan', static function ($row) {
+                    return $row->berat_badan . ' kg';
+                })
+                ->editColumn('tinggi_badan', static function ($row) {
+                    return $row->tinggi_badan . ' cm';
                 })
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
@@ -634,7 +640,9 @@ class Stunting extends Admin_Controller
             'status_tikar'               => $request['status_tikar'],
             'pemberian_imunisasi_campak' => $request['pemberian_imunisasi_campak'] ?? 0,
             'pemberian_imunisasi_dasar'  => $request['pemberian_imunisasi_dasar'],
+            'berat_badan'                => $request['berat_badan'],
             'pengukuran_berat_badan'     => $request['pengukuran_berat_badan'],
+            'tinggi_badan'               => $request['tinggi_badan'],
             'pengukuran_tinggi_badan'    => $request['pengukuran_tinggi_badan'],
             'konseling_gizi_ayah'        => $request['konseling_gizi_ayah'],
             'konseling_gizi_ibu'         => $request['konseling_gizi_ibu'],

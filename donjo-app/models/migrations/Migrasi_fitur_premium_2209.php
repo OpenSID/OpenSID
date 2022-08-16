@@ -57,8 +57,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022080451($hasil);
         $hasil = $hasil && $this->migrasi_2022080971($hasil);
         $hasil = $hasil && $this->migrasi_2022081071($hasil);
+        $hasil = $hasil && $this->migrasi_2022081171($hasil);
 
-        return $hasil && $this->migrasi_2022081171($hasil);
+        return $hasil && $this->migrasi_2022081271($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -320,5 +321,33 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'nama' => 'Tidak Menggunakan',
             'sex'  => 3,
         ]);
+    }
+
+    protected function migrasi_2022081271($hasil)
+    {
+        if (! $this->db->field_exists('berat_badan', 'bulanan_anak')) {
+            $fields = [
+                'berat_badan' => [
+                    'type'  => 'FLOAT',
+                    'null'  => true,
+                    'after' => 'pengukuran_berat_badan',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('bulanan_anak', $fields);
+        }
+
+        if (! $this->db->field_exists('tinggi_badan', 'bulanan_anak')) {
+            $fields = [
+                'tinggi_badan' => [
+                    'type'       => 'INT',
+                    'constraint' => 4,
+                    'null'       => true,
+                    'after'      => 'pengukuran_tinggi_badan',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('bulanan_anak', $fields);
+        }
+
+        return $hasil;
     }
 }

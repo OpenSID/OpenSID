@@ -90,6 +90,8 @@
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Jenis Kelamin</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Tanggal Lahir Anak</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Status Gizi Anak</th>
+                                    <th rowspan="3" class="text-center" style="vertical-align: middle;">Berat Badan Anak</th>
+                                    <th rowspan="3" class="text-center" style="vertical-align: middle;">Tinggi Badan Anak</th>
                                 </tr>
                                 <tr>
                                     <th colspan="2" class="text-center" style="vertical-align: middle;">Umur dan Status Tikar</th>
@@ -189,6 +191,18 @@
                             return status
                         },
                         name: 'status_gizi',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'berat_badan',
+                        name: 'berat_badan',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'tinggi_badan',
+                        name: 'tinggi_badan',
                         searchable: true,
                         orderable: true
                     },

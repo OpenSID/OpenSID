@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Umur (Bulan)</label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control input-sm required" min="1" max="24" name="umur_bulan"
+                            <input type="text" class="form-control input-sm required angka" name="umur_bulan"
                                 placeholder="Masukkan umur" value="{{ $anak->umur_bulan }}" />
                         </div>
                     </div>
@@ -94,6 +94,20 @@
                                 <option value="{{ $key+1 }}" {{ selected($anak->pemberian_imunisasi_campak, $key+1) }}>{{ $value }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Berat Badan (kg)</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control input-sm required luas" {{ $anak->pengukuran_berat_badan ? '' : 'disabled' }} min="1" id="berat_badan" name="berat_badan"
+                                placeholder="Masukkan berat badan" value="{{ $anak->berat_badan }}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Tinggi Badan (cm)</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control input-sm required angka" {{ $anak->pengukuran_tinggi_badan ? '' : 'disabled' }} min="1" id="tinggi_badan" name="tinggi_badan"
+                                placeholder="Masukkan berat badan" value="{{ $anak->tinggi_badan }}" />
                         </div>
                     </div>
                     <div class="row">
@@ -310,6 +324,24 @@
             }
             else {
                 $('#pemberian_imunisasi_campak').prop("disabled", true);
+            }
+        });
+
+        $('input[type=radio][name=pengukuran_berat_badan]').change(function() {
+            if (this.value == 1) {
+                $('#berat_badan').prop("disabled", false);
+            }
+            else {
+                $('#berat_badan').prop("disabled", true);
+            }
+        });
+
+        $('input[type=radio][name=pengukuran_tinggi_badan]').change(function() {
+            if (this.value == 1) {
+                $('#tinggi_badan').prop("disabled", false);
+            }
+            else {
+                $('#tinggi_badan').prop("disabled", true);
             }
         });
     </script>
