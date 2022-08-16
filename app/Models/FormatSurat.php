@@ -46,6 +46,14 @@ class FormatSurat extends Model
     public const MANDIRI_DISABLE       = 0;
     public const KUNCI                 = 1;
     public const KUNCI_DISABLE         = 0;
+    public const RTF_SISTEM            = 1;
+    public const RTF_DESA              = 2;
+    public const TINYMCE_SISTEM        = 3;
+    public const TINYMCE_DESA          = 4;
+    public const RTF                   = [1, 2];
+    public const TINYMCE               = [3, 4];
+    public const SISTEM                = [1, 3];
+    public const DESA                  = [2, 4];
     public const DEFAULT_ORIENTATAIONS = 'Potrait';
     public const DEFAULT_SIZES         = 'F4';
 
@@ -67,10 +75,10 @@ class FormatSurat extends Model
      * @var array
      */
     public const JENIS_SURAT = [
-        '1' => 'Surat Sistem (lama/rtf)',
-        '2' => 'Surat [Desa] (lama/rtf)',
-        '3' => 'Surat Sistem (baru/tinymce)',
-        '4' => 'Surat [Desa] (baru/tinymce)',
+        self::RTF_SISTEM     => 'Surat Sistem (lama/rtf)',
+        self::RTF_DESA       => 'Surat [Desa] (lama/rtf)',
+        self::TINYMCE_SISTEM => 'Surat Sistem (baru/tinymce)',
+        self::TINYMCE_DESA   => 'Surat [Desa] (baru/tinymce)',
     ];
 
     /**
@@ -136,6 +144,7 @@ class FormatSurat extends Model
         'syarat_surat',
         'template',
         'template_desa',
+        'form_isian',
         'kode_isian',
         'orientasi',
         'ukuran',
@@ -286,6 +295,34 @@ class FormatSurat extends Model
     }
 
     /**
+     * Getter untuk kode_isian
+     *
+     * @return string
+     */
+    public function getKodeIsianAttribute()
+    {
+        if (in_array($this->jenis, self::RTF)) {
+            return kode_isian($this->url_surat);
+        }
+
+        return json_decode($this->attributes['kode_isian']);
+    }
+
+    /**
+     * Getter untuk form_isian
+     *
+     * @return string
+     */
+    public function getFormIsianAttribute()
+    {
+        if (in_array($this->jenis, self::RTF)) {
+            return null;
+        }
+
+        return json_decode($this->attributes['form_isian']);
+    }
+
+    /**
      * Getter untuk judul_surat
      *
      * @return string
@@ -398,15 +435,15 @@ class FormatSurat extends Model
     {
         parent::boot();
 
-        if (auth()->id) {
-            static::creating(static function ($model) {
-                $model->created_by = auth()->id;
-                $model->updated_by = auth()->id;
-            });
+        $user_id = auth()->id ?? null;
 
-            static::updating(static function ($model) {
-                $model->updated_by = auth()->id;
-            });
-        }
+        static::creating(static function ($model) use ($user_id) {
+            $model->created_by = $user_id;
+            $model->updated_by = $user_id;
+        });
+
+        static::updating(static function ($model) use ($user_id) {
+            $model->updated_by = $user_id;
+        });
     }
 }

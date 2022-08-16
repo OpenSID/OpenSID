@@ -4,7 +4,7 @@
 		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['tempatlahir']); ?> " disabled="">
 	</div>
 	<div class="col-sm-2">
-  	<input class="form-control input-sm" type="text" value="<?= strtoupper(tgl_indo($individu['tanggallahir'])); ?> " disabled="">
+		<input class="form-control input-sm" type="text" value="<?= strtoupper(tgl_indo($individu['tanggallahir'])); ?> " disabled="">
 	</div>
 	<div class="col-sm-2">
 		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['umur']); ?> TAHUN" disabled="">
@@ -19,13 +19,13 @@
 <div class="form-group konfirmasi">
 	<label for="keperluan"  class="col-sm-3 control-label">Pendidikan / Warga Negara /Agama</label>
 	<div class="col-sm-4">
-		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['pendidikan']); ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu->pendidikan->nama); ?>" disabled="">
 	</div>
 	<div class="col-sm-2">
-		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu['warganegara']); ?>" disabled="">
+		<input class="form-control input-sm" type="text" value="<?= strtoupper($individu->warganegara->nama); ?>" disabled="">
 	</div>
 	<div class="col-sm-2">
-		<input class="form-control input-sm" type="text" value=" <?= strtoupper($individu['agama']); ?>" disabled="">
+		<input class="form-control input-sm" type="text" value=" <?= strtoupper($individu->agama->nama); ?>" disabled="">
 	</div>
 </div>
 <div class="form-group konfirmasi tdk-permohonan tdk-periksa">

@@ -40,6 +40,8 @@ use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\RefFontSurat;
 use App\Models\SettingAplikasi;
+use App\Models\Sex;
+use App\Models\StatusDasar;
 use App\Models\SyaratSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -117,13 +119,11 @@ class Surat_master extends Admin_Controller
             $data['action']      = 'Ubah';
             $data['suratMaster'] = $suratMaster;
 
-            if (in_array($suratMaster->jenis, [1, 2])) {
+            if (in_array($suratMaster->jenis, FormatSurat::RTF)) {
                 $data['formAction'] = route('surat_master.update', $id);
-                $data['kodeIsian']  = $this->getKodeIsian($suratMaster->url_surat);
                 $data['qrCode']     = QRCodeExist($suratMaster->url_surat);
             } else {
                 $data['formAction'] = route('surat_master.update_baru', $id);
-                $data['kodeIsian']  = json_decode($suratMaster->kode_isian);
             }
         } else {
             $data['action']      = 'Tambah';
@@ -140,11 +140,20 @@ class Surat_master extends Admin_Controller
             $data['qrCode']               = true;
         }
 
+        $data['form_isian']       = $this->form_isian();
         $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
         $data['klasifikasiSurat'] = KlasifikasiSurat::orderBy('kode')->enabled()->get(['kode', 'nama']);
         $data['pengaturanSurat']  = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
 
         return view('admin.pengaturan_surat.form', $data);
+    }
+
+    private function form_isian()
+    {
+        return [
+            'daftar_jenis_kelamin' => Sex::pluck('nama', 'id'),
+            'daftar_status_dasar'  => StatusDasar::pluck('nama', 'id'),
+        ];
     }
 
     public function syaratSuratDatatables($id = null)
@@ -183,7 +192,7 @@ class Surat_master extends Admin_Controller
 
         $data = FormatSurat::find($id) ?? show_404();
 
-        if ($data->update(static::validate($this->request, $data->jenis, $id))) {
+        if ($data->update(static::validate($this->request, $data->jenis))) {
             redirect_with('success', 'Berhasil Ubah Data');
         }
 
@@ -208,7 +217,7 @@ class Surat_master extends Admin_Controller
         redirect_with('success', 'Berhasil Ubah Data');
     }
 
-    private function validate($request = [], $jenis = 4, $id = null)
+    private function validate($request = [], $jenis = 4)
     {
         $isian = array_combine(array_filter($request['nama_kode'], 'strlen'), array_filter($request['deskripsi_kode'], 'strlen'));
 
@@ -222,6 +231,13 @@ class Surat_master extends Admin_Controller
                 ];
             }
         }
+
+        $formIsian = [
+            'individu' => [
+                'sex'          => $request['individu_sex'] ?? null,
+                'status_dasar' => $request['individu_status_dasar'] ?? null,
+            ],
+        ];
 
         $nama_surat = nama_terbatas($request['nama']);
 
@@ -237,6 +253,7 @@ class Surat_master extends Admin_Controller
             'qr_code'             => $request['qr_code'],
             'logo_garuda'         => $request['logo_garuda'],
             'template_desa'       => $request['template_desa'],
+            'form_isian'          => json_encode($formIsian),
             'kode_isian'          => json_encode($kodeIsian),
             'orientasi'           => $request['orientasi'],
             'ukuran'              => $request['ukuran'],
@@ -250,82 +267,7 @@ class Surat_master extends Admin_Controller
             'bawah' => (float) $request['bawah'],
         ]);
 
-        if (null === $id) {
-            $data['created_by'] = auth()->id;
-        }
-
-        $data['updated_by'] = auth()->id;
-
         return $data;
-    }
-
-    private function getKodeIsian($urlSurat = null)
-    {
-        // Lokasi instalasi SID mungkin di sub-folder
-        require_once FCPATH . 'vendor/simplehtmldom/simplehtmldom/simple_html_dom.php';
-
-        $pathBawaan = FCPATH . 'template-surat/' . $urlSurat . '/' . $urlSurat . '.php';
-        $pathLokal  = FCPATH . LOKASI_SURAT_DESA . $urlSurat . '/' . $urlSurat . '.php';
-
-        if (file_exists($pathLokal)) {
-            $html = file_get_html($pathLokal);
-        } elseif (file_exists($pathBawaan)) {
-            $html = file_get_html($pathBawaan);
-        } else {
-            return [];
-        }
-        // Kumpulkan semua isian (tag input) di form surat
-        // Asumsi di form surat, struktur input seperti ini
-        // <tr>
-        // 		<th>Keterangan Isian</th>
-        // 		<td><input><td>
-        // </tr>
-        $inputs = [];
-
-        foreach ($html->find('input') as $input) {
-            if ($input->type == 'hidden') {
-                continue;
-            }
-            if ($input->title == 'Pilih Tanggal') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            if ($input->type == 'radio') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            if ($input->id == 'jam_1') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            if ($input->id == 'input_group') {
-                $inputs[$input->name] = $input->parent->parent->parent->children[0]->innertext;
-
-                continue;
-            }
-            $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-        }
-
-        foreach ($html->find('textarea') as $input) {
-            if ($input->type == 'hidden') {
-                continue;
-            }
-            $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-        }
-
-        foreach ($html->find('select') as $input) {
-            if ($input->type == 'hidden') {
-                continue;
-            }
-            $inputs[$input->name] = $input->parent->parent->children[0]->innertext;
-        }
-
-        $html->clear();
-
-        return $inputs;
     }
 
     // Versi baru

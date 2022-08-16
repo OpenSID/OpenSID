@@ -20,6 +20,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 15. [#4838](https://github.com/OpenSID/OpenSID/issues/4838) Menambahkan tidak menggunakan akseptor KB pada data penduduk.
 16. [#5495](https://github.com/OpenSID/OpenSID/issues/5495) Menambah default orientasi kertas dan ukuran kertas pada tinymce.
 17. [#5295](https://github.com/OpenSID/OpenSID/issues/5295) Penambahan Form input hasil ukur berat & tinggi pada menu stunting.
+18. [#5302](https://github.com/OpenSID/OpenSID/issues/5302) Menambahkan pilihan data penduduk secara dinamis untuk surat tinymce.
 
 #### Perbaikan BUG
 

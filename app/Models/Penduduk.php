@@ -445,6 +445,25 @@ class Penduduk extends Model
             ->status();
     }
 
+    /**
+     * Scope query untuk menyaring data penduduk berdasarkan parameter yang ditentukan
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopefilters($query, array $filters = [])
+    {
+        foreach ($filters as $key => $value) {
+            $query->when($value ?? false, static function ($query) use ($value, $key) {
+                $query->where($key, $value);
+            });
+        }
+
+        return $query;
+    }
+
     public function getUsiaAttribute()
     {
         $tglSekarang = Carbon::now();

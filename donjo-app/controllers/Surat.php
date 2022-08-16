@@ -132,21 +132,30 @@ class Surat extends Admin_Controller
         if ($data['surat']) {
             $data['url']    = $url;
             $data['anchor'] = $this->input->post('anchor');
-            if (! empty($_POST['nik'])) {
-                $data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);
-                $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
+
+            // NIK => id
+            if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+                if (! empty($_POST['nik'])) {
+                    $data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);
+                    $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
+                } else {
+                    $data['individu'] = null;
+                    $data['anggota']  = null;
+                }
             } else {
-                $data['individu'] = null;
-                $data['anggota']  = null;
+                if (! empty($_POST['nik'])) {
+                    $data['individu'] = Penduduk::find($_POST['nik']) ?? show_404();
+                } else {
+                    $data['individu'] = null;
+                }
             }
 
             $this->get_data_untuk_form($url, $data);
             $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
 
-            if (in_array($data['surat']['jenis'], [3, 4])) {
+            if (in_array($data['surat']['jenis'], FormatSurat::TINYMCE)) {
                 $data['list_dokumen'] = empty($_POST['nik']) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
                 $data['form_action']  = route('surat.pratinjau', $url);
-                $data['kode_isian']   = json_decode($data['surat']['kode_isian']);
 
                 return view('admin.surat.form_desa', $data);
             }
@@ -673,14 +682,24 @@ class Surat extends Admin_Controller
     {
         $config = Config::first();
 
-        $data['config']             = $config;
-        $data['lokasi']             = $config;
+        // RTF
+        if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+            $data['config']    = $config;
+            $data['lokasi']    = $config;
+            $data['penduduk']  = $this->surat_model->list_penduduk();
+            $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+        } else {
+            // TinyMCE
+            // Data penduduk diambil sesuai pengaturan surat
+            $filters = collect($data['surat']['form_isian']->individu)->toArray();
+
+            $data['penduduk'] = Penduduk::filters($filters)->get();
+        }
+
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-        $data['penduduk']           = $this->surat_model->list_penduduk();
-        $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
         $data['pamong']             = Pamong::penandaTangan()->get();
 
         $kades = Pamong::kepalaDesa()->first(); // Kepala Desa

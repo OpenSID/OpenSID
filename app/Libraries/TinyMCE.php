@@ -93,7 +93,7 @@ class TinyMCE
 
     public function getTemplateSurat()
     {
-        return collect(FormatSurat::whereNotNull('template')->jenis([3, 4])->get(['nama', 'template', 'template_desa']))
+        return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
             ->map(static function ($item, $key) {
                 return [
                     'nama'     => 'Surat ' . $item->nama,
@@ -637,7 +637,7 @@ class TinyMCE
             ->toArray();
 
         // Dinamis
-        $postDinamis = collect(json_decode($data['surat']['kode_isian']))
+        $postDinamis = collect($data['surat']['kode_isian'])
             ->map(static function ($item, $key) use ($input) {
                 return [
                     'judul' => $item->nama,
