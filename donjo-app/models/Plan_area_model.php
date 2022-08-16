@@ -249,9 +249,13 @@ class Plan_area_model extends MY_Model
     {
         $data = $this->input->post();
         $this->db->where('id', $id);
-        $outp = $this->db->update('area', $data);
+        if ($data['path'] !== '[[]]') {
+            $outp = $this->db->update('area', $data);
+        } else {
+            $outp = '';
+        }
 
-        status_sukses($outp); //Tampilkan Pesan
+        status_sukses($outp, $gagal_saja = false, $msg = 'titik koordinat area harus diisi'); //Tampilkan Pesan
     }
 
     public function list_area()

@@ -151,7 +151,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
     // Menu Laporan APBDes
     protected function tambah_modul_laporan_apbdes($hasil)
     {
-        $fields = [
+        return $hasil && $this->tambah_modul([
             'id'         => 325,
             'modul'      => 'Laporan APBDes',
             'url'        => 'laporan_apbdes',
@@ -162,21 +162,13 @@ class Migrasi_fitur_premium_2108 extends MY_Model
             'hidden'     => 0,
             'ikon_kecil' => 'fa-file-text-o',
             'parent'     => 201,
-        ];
-
-        $hasil = $hasil && $this->tambah_modul($fields);
-
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
+        ]);
     }
 
     // Menu Sinkronisasi
     protected function tambah_modul_sinkronisasi($hasil)
     {
-        $fields = [
+        return $hasil && $this->tambah_modul([
             'id'         => 326,
             'modul'      => 'Sinkronisasi',
             'url'        => 'sinkronisasi',
@@ -187,15 +179,7 @@ class Migrasi_fitur_premium_2108 extends MY_Model
             'hidden'     => 0,
             'ikon_kecil' => 'fa-random',
             'parent'     => 11,
-        ];
-
-        $hasil = $hasil && $this->tambah_modul($fields);
-
-        // Hapus cache menu navigasi
-        $this->load->driver('cache');
-        $this->cache->hapus_cache_untuk_semua('_cache_modul');
-
-        return $hasil;
+        ]);
     }
 
     private function ubah_pengaturan_aplikasi($hasil)

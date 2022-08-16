@@ -291,9 +291,13 @@ class Plan_garis_model extends MY_Model
     {
         $data = $_POST;
         $this->db->where('id', $id);
-        $outp = $this->db->update($this->table, $data);
+        if ($data['path'] !== '[]') {
+            $outp = $this->db->update($this->table, $data);
+        } else {
+            $outp = '';
+        }
 
-        status_sukses($outp); //Tampilkan Pesan
+        status_sukses($outp, $gagal_saja = false, $msg = 'titik koordinat garis harus diisi'); //Tampilkan Pesan
     }
 
     public function list_garis()
@@ -308,5 +312,13 @@ class Plan_garis_model extends MY_Model
             ->where('m.enabled', 1)
             ->get()
             ->result_array();
+    }
+
+    public function kosongkan_path($id)
+    {
+        $this->db
+            ->set('path', null)
+            ->where('id', $id)
+            ->update('garis');
     }
 }

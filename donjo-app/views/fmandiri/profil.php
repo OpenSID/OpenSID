@@ -328,7 +328,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
 						<tr>
 							<td>Status Kehamilan</td>
 							<td>:</td>
-							<td><?= empty($penduduk['hamil']) ? 'TIDAK HAMIL' : 'HAMIL'; ?></td>
+							<td><?= $penduduk['hamil'] == '1' ? 'HAMIL' : 'TIDAK HAMIL'; ?></td>
 						</tr>
 					<?php endif; ?>
 					<tr>

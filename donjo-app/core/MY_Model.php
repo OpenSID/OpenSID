@@ -45,6 +45,7 @@ class MY_Model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->driver('cache');
     }
 
     // Konversi url menu menjadi slug tanpa mengubah data
@@ -122,21 +123,42 @@ class MY_Model extends CI_Model
         return autocomplete_data_ke_str($data);
     }
 
-    // 0 = kolom untuk select/order, 1 = tabel, 2 = where, 3 = $cari
-    public function union($list_kode = '')
+    /**
+     * Autocomple str union query.
+     *
+     * ```php
+     * $list_kode = [
+     *     ['field_1', $table, $where, $cari],
+     *     ['field_2', $table, $where, $cari],
+     *     ['field_3', $table, $where, $cari],
+     * ];
+     *
+     * $joins = [
+     *     [$table2, "{$table2}.id = {$table}.id", "right"],
+     * ];
+     * ```
+     *
+     * @param array $list_kode
+     * @param array $joins
+     *
+     * @return array
+     */
+    public function union($list_kode = [], $joins = [])
     {
         $sql = [];
 
         foreach ($list_kode as $kode) {
-            [$kolom, $tabel, $where, $cari] = $kode;
-            $sql[]                          = '(' . $this->db
-                ->select($kolom)
-                ->from($tabel)
-                ->where($where)
-                ->like($kolom, $cari)
-                ->order_by($kolom, 'DESC')
-                ->get_compiled_select()
-                . ')';
+            if ($joins) {
+                foreach ($joins as $val) {
+                    [$join, $cond, $type] = $val;
+
+                    $this->db->join($join, $cond, $type);
+                }
+            }
+
+            [$kolom, $table, $where, $cari] = $kode;
+
+            $sql[] = "({$this->db->select($kolom)->from($table)->where($where)->like($kolom, $cari)->order_by($kolom, 'desc')->get_compiled_select()})";
         }
 
         $sql = implode('UNION', $sql);
@@ -161,9 +183,12 @@ class MY_Model extends CI_Model
                 ->from($tabel)
                 ->group_by($kolom)
                 ->having("COUNT(`{$kolom}`) > 1")
-                ->get()->num_rows();
+                ->get()
+                ->num_rows();
+
             if ($duplikat > 0) {
-                $this->session->error_msg = "Data {$kolom} ada yg duplikat";
+                session_error('--> Silahkan Cek <a href="' . site_url('info_sistem') . '">Info Sistem > Log</a>.');
+                log_message('error', "Data kolom {$kolom} pada tabel {$tabel} ada yang duplikat dan perlu diperbaiki sebelum migrasi dilanjutkan.");
 
                 return false;
             }
@@ -191,15 +216,26 @@ class MY_Model extends CI_Model
 
     public function tambah_modul($modul)
     {
+        // Modul
         $sql = $this->db->insert_string('setting_modul', $modul) . ' ON DUPLICATE KEY UPDATE modul = VALUES(modul), url = VALUES(url), ikon = VALUES(ikon), hidden = VALUES(hidden), urut = VALUES(urut), parent = VALUES(parent)';
 
         $hasil = $this->db->query($sql);
 
+        // Hak Akses Default Operator
+        // Hanya lakukan jika tabel grup_akses sudah ada. Tabel ini belum ada sebelum Migrasi_fitur_premium_2105.php
+        if ($this->db->table_exists('grup_akses')) {
+            $hasil = $hasil && $this->grup_akses(2, $modul['id'], 3);
+        }
+
         // Hapus cache menu navigasi
-        $this->load->driver('cache');
         $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
+    }
+
+    public function grup_akses($id_grup, $id_modul, $akses)
+    {
+        return $this->db->insert('grup_akses', ['id_grup' => $id_grup, 'id_modul' => $id_modul, 'akses' => $akses]);
     }
 
     /**
@@ -209,9 +245,14 @@ class MY_Model extends CI_Model
      */
     public function ubah_modul(int $id, array $modul)
     {
-        return $this->db->where('id', $id)
-            ->set($modul)
-            ->update('setting_modul');
+        $hasil = $this->db
+            ->where('id', $id)
+            ->update('setting_modul', $modul);
+
+        // Hapus cache menu navigasi
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
+
+        return $hasil;
     }
 
     public function tambah_setting($setting)
@@ -254,13 +295,19 @@ class MY_Model extends CI_Model
 
     public function jalankan_migrasi($migrasi)
     {
-        $this->load->model('migrations/' . $migrasi);
+        if (in_array($migrasi, $this->session->daftar_migrasi)) {
+            return true;
+        }
 
+        $this->load->model('migrations/' . $migrasi);
+        $_SESSION['daftar_migrasi'][] = $migrasi;
         if ($this->{$migrasi}->up()) {
-            log_message('error', 'Jalankan ' . $migrasi);
+            log_message('error', 'Berhasil Jalankan ' . $migrasi);
 
             return true;
         }
+
+        log_message('error', 'Gagal Jalankan ' . $migrasi);
 
         return false;
     }

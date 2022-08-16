@@ -45,8 +45,6 @@ class Statistik_web extends Web_Controller
         $this->load->model('laporan_penduduk_model');
         $this->load->model('pamong_model');
         $this->load->model('program_bantuan_model');
-
-        $_SESSION['per_page'] = 500;
     }
 
     private function get_cluster_session()

@@ -154,12 +154,12 @@ class Pembangunan_model extends MY_Model
         status_sukses($outp);
     }
 
-    private function validasi($post)
+    private function validasi($post, $id = null)
     {
         return [
             'sumber_dana'             => $post['sumber_dana'],
             'judul'                   => $post['judul'],
-            'slug'                    => unique_slug($this->table, $post['judul']),
+            'slug'                    => unique_slug($this->table, $post['judul'], $id),
             'volume'                  => $post['volume'],
             'waktu'                   => $post['waktu'],
             'tahun_anggaran'          => $post['tahun_anggaran'],
@@ -272,15 +272,11 @@ class Pembangunan_model extends MY_Model
 
     public function list_filter_tahun()
     {
-        $this->get_tipe();
-
         return $this->db
-            ->select('p.tahun_anggaran')
+            ->select('tahun_anggaran')
             ->distinct()
-            ->from("{$this->table} p")
-            ->join('pembangunan_ref_dokumentasi d', 'd.id_pembangunan = p.id', 'left')
-            ->order_by('p.tahun_anggaran', 'desc')
-            ->get()
+            ->order_by('tahun_anggaran', 'DESC')
+            ->get($this->table)
             ->result();
     }
 

@@ -43,7 +43,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * beta => premium-beta[nomor urut dua digit]
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
-define('VERSION', '22.08');
+define('VERSION', '22.08-pasca');
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)
@@ -51,7 +51,7 @@ define('VERSION', '22.08');
  * Versi database = [yyyymmdd][nomor urut dua digit]
  * [nomor urut dua digit] : 01 => rilis umum, 51 => rilis bugfix, 71 => rilis premium,
  */
-define('VERSI_DATABASE', '2022080101');
+define('VERSI_DATABASE', '2022081601');
 
 // Desa
 define('LOKASI_LOGO_DESA', 'desa/logo/');
@@ -79,6 +79,7 @@ define('LOKASI_PRODUK', 'desa/upload/produk/');
 define('LOKASI_PENGADUAN', 'desa/upload/pengaduan/');
 define('LOKASI_VAKSIN', 'desa/upload/vaksin/');
 define('LATAR_LOGIN', 'desa/pengaturan/siteman/images/');
+define('LOKASI_PENDAFTARAN', 'desa/upload/pendaftaran');
 
 // Sistem
 define('LOKASI_SISIPAN_DOKUMEN', 'assets/files/sisipan/');
@@ -174,21 +175,7 @@ define('NILAI_PENDAPAT', serialize([
  */
 function AmbilVersi()
 {
-    define('PREMIUM', preg_match('/-premium.*/', VERSION) ? true : false);
-
     return VERSION;
-}
-
-/**
- * Ambil Current Version
- *
- * Mengembalikan nomor current_version
- *
- * @return string
- */
-function currentVersion()
-{
-    return preg_replace('/-premium.*|pasca-|-pasca/', '', AmbilVersi());
 }
 
 /**
@@ -481,7 +468,7 @@ function get_external_ip()
 
 // Salin folder rekursif
 // https://stackoverflow.com/questions/2050859/copy-entire-contents-of-a-directory-to-another-using-php
-function xcopy($src = '', $dest = '', $exclude = [])
+function xcopy($src = '', $dest = '', $exclude = [], $only = [])
 {
     if (! file_exists($dest)) {
         mkdir($dest, 0755, true);
@@ -491,7 +478,7 @@ function xcopy($src = '', $dest = '', $exclude = [])
         $srcfile  = rtrim($src, '/') . '/' . $file;
         $destfile = rtrim($dest, '/') . '/' . $file;
 
-        if (! is_readable($srcfile) || in_array($file, $exclude)) {
+        if (! is_readable($srcfile) || ($exclude && in_array($file, $exclude))) {
             continue;
         }
 
@@ -500,8 +487,12 @@ function xcopy($src = '', $dest = '', $exclude = [])
                 if (! file_exists($destfile)) {
                     mkdir($destfile);
                 }
-                xcopy($srcfile, $destfile);
+                xcopy($srcfile, $destfile, $exclude, $only);
             } else {
+                if ($only && ! in_array($file, $only)) {
+                    continue;
+                }
+
                 copy($srcfile, $destfile);
             }
         }
@@ -803,10 +794,10 @@ function nama_terbatas($str)
     return preg_replace('/[^a-zA-Z0-9 \\-]/', '', $str);
 }
 
-// Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, strip dan garis miring
+// Alamat hanya boleh berisi karakter alpha, numerik, spasi, titik, koma, tanda petik, strip dan garis miring
 function alamat($str)
 {
-    return preg_replace('/[^a-zA-Z0-9 \\.,\\-]/', '', htmlentities($str));
+    return preg_replace("/[^a-zA-Z0-9 '\\.,\\-]/", '', htmlentities($str));
 }
 
 // Koordinat peta hanya boleh berisi numerik ,minus dan desimal
@@ -831,7 +822,7 @@ function alamat_web($str)
 if (! function_exists('warna')) {
     function warna($str)
     {
-        return preg_replace('/[^a-zA-Z0-9\\#\\,\\(\\)]/', '', $str ?? '#000000');
+        return preg_replace('/[^a-zA-Z0-9\\#\\,\\.\\(\\)]/', '', $str ?? '#000000');
     }
 }
 
@@ -1070,17 +1061,20 @@ function isLocalIPAddress($IPAddress)
     return ! filter_var($IPAddress, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
 }
 
-function unique_slug($tabel = null, $str = null)
+function unique_slug($tabel = null, $judul = null, $id = null)
 {
-    if ($tabel && $str) {
+    if ($tabel && $judul) {
         $CI = &get_instance();
 
-        $slug      = url_title($str, 'dash', true);
+        $slug      = url_title($judul, 'dash', true);
         $cek_slug  = true;
         $n         = 1;
         $slug_unik = $slug;
 
         while ($cek_slug) {
+            if ($id) {
+                $CI->db->where('id !=', $id);
+            }
             $cek_slug = $CI->db->get_where($tabel, ['slug' => $slug_unik])->num_rows();
             if ($cek_slug) {
                 $slug_unik = $slug . '-' . $n++;
@@ -1099,4 +1093,78 @@ function kode_format($lampiran = '')
     $str = strtoupper(str_replace('.php', '', $lampiran));
 
     return str_replace(',', ', ', $str);
+}
+
+/**
+ * Determine if the given key exists in the provided array.
+ *
+ * @param array|ArrayAccess $array
+ * @param int|string        $key
+ *
+ * @return bool
+ */
+function exists($array, $key)
+{
+    if ($array instanceof \ArrayAccess) {
+        return $array->offsetExists($key);
+    }
+
+    return array_key_exists($key, $array);
+}
+
+/**
+ * Remove one or many array items from a given array using "dot" notation.
+ *
+ * @param array        $array
+ * @param array|string $keys
+ *
+ * @return void
+ */
+function forget(&$array, $keys)
+{
+    $original = &$array;
+    $keys     = (array) $keys;
+
+    if (count($keys) === 0) {
+        return;
+    }
+
+    foreach ($keys as $key) {
+        // if the exact key exists in the top-level, remove it
+        if (exists($array, $key)) {
+            unset($array[$key]);
+
+            continue;
+        }
+
+        $parts = explode('.', $key);
+        // clean up before each pass
+        $array = &$original;
+
+        while (count($parts) > 1) {
+            $part = array_shift($parts);
+
+            if (isset($array[$part]) && is_array($array[$part])) {
+                $array = &$array[$part];
+            } else {
+                continue 2;
+            }
+        }
+        unset($array[array_shift($parts)]);
+    }
+}
+
+/**
+ * Get all of the given array except for a specified array of keys.
+ *
+ * @param array        $array
+ * @param array|string $keys
+ *
+ * @return array
+ */
+function except($array, $keys)
+{
+    forget($array, $keys);
+
+    return $array;
 }

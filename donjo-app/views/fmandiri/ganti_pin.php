@@ -81,22 +81,28 @@ defined('BASEPATH') || exit('No direct script access allowed');
 								<span class="input-group-addon"><i class="fa fa-eye-slash" id="baru2" onclick="show(this);" aria-hidden="true"></i></span>
 							</div>
 						</div>
-						<?php if ($tgl_verifikasi) : ?>
-							<div class="form-group">
-								<label style="margin-top: 10px; margin-bottom: 0px;">Kirim PIN Baru Melalui : </label>
-								<div class="checkbox">
-									<label style="font-size: 13.7px;">
-										<input type="checkbox" value="kirim_telegram" id="kirim_telegram" name="kirim_telegram" checked>Telegram
-									</label>
-								</div>
 
-								<div class="checkbox">
+						<div class="form-group">
+							<?php if ($tgl_verifikasi_telegram || $tgl_verifikasi_email) : ?>
+								<label style="margin-top: 10px; margin-bottom: 0px;">Kirim PIN Baru Melalui : </label>
+							<?php endif; ?>
+
+							<?php if ($tgl_verifikasi_email) : ?>
+								<div class="radio">
 									<label style="font-size: 13.7px;">
-										<input type="checkbox" value="kirim_email" id="kirim_email" name="kirim_email">Email
+										<input type="radio" value="kirim_email" id="kirim_email" name="pilihan_kirim" checked>Email
 									</label>
 								</div>
-							</div>
-						<?php endif; ?>
+							<?php endif; ?>
+
+							<?php if ($tgl_verifikasi_telegram) : ?>
+								<div class="radio">
+									<label style="font-size: 13.7px;">
+										<input type="radio" value="kirim_telegram" id="kirim_telegram" name="pilihan_kirim" checked>Telegram
+									</label>
+								</div>
+							<?php endif; ?>
+						</div>
 					</div>
 					<div class="box-footer">
 						<button type="reset" class="btn bg-red">Batal</button>

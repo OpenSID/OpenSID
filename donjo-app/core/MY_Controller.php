@@ -54,8 +54,8 @@ class MY_Controller extends CI_Controller
     {
         parent::__construct();
         $this->controller = strtolower($this->router->fetch_class());
-        $this->header     = $this->config_model->get_data();
         $this->setting_model->init();
+        $this->header = $this->config_model->get_data();
     }
 
     // Bersihkan session cluster wilayah
@@ -171,7 +171,6 @@ class Web_Controller extends MY_Controller
         $data['latar_website'] = $this->theme_model->latar_website();
         $data['desa']          = $this->header;
         $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
-        $data['menu_atas']     = $this->first_menu_m->list_menu_atas();
         $data['menu_kiri']     = $this->first_menu_m->list_menu_kiri();
         $data['teks_berjalan'] = $this->teks_berjalan_model->list_data(true);
         $data['slide_artikel'] = $this->first_artikel_m->slide_show();
@@ -259,9 +258,14 @@ class Admin_Controller extends MY_Controller
     {
         parent::__construct();
         $this->CI = CI_Controller::get_instance();
-        $this->load->model(['header_model', 'user_model', 'notif_model', 'referensi_model']);
-        $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
+        $this->load->model(['user_model', 'notif_model', 'referensi_model']);
 
+        // Kalau sehabis periksa data, paksa harus login lagi
+        if ($this->session->periksa_data == 1) {
+            $this->user_model->logout();
+        }
+
+        $this->grup = $this->user_model->sesi_grup($_SESSION['sesi']);
         $this->load->model('modul_model');
         if (!$this->modul_model->modul_aktif($this->controller)) {
             session_error('Fitur ini tidak aktif');
@@ -307,7 +311,7 @@ class Admin_Controller extends MY_Controller
         if (empty($controller)) {
             $controller = $this->controller;
         }
-        if (!$this->user_model->hak_akses_url($this->grup, $controller, $akses)) {
+        if (! $this->user_model->hak_akses_url($this->grup, $controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
             if (empty($this->grup)) {
                 redirect('siteman');
@@ -321,7 +325,7 @@ class Admin_Controller extends MY_Controller
         if (empty($controller)) {
             $controller = $this->controller;
         }
-        if (!$this->user_model->hak_akses($this->grup, $controller, $akses)) {
+        if (! $this->user_model->hak_akses($this->grup, $controller, $akses)) {
             session_error('Anda tidak mempunyai akses pada fitur ini');
             if (empty($this->grup)) {
                 redirect('siteman');

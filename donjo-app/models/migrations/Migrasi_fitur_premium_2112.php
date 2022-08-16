@@ -69,7 +69,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
     protected function tambah_modul_kader_pemberdayaan_masyarakat($hasil)
     {
-        $hasil = $hasil && $this->tambah_modul([
+        return $hasil && $this->tambah_modul([
             'id'     => 332,
             'modul'  => 'Kader Pemberdayaan Masyarakat',
             'url'    => 'bumindes_kader',
@@ -77,15 +77,6 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             'hidden' => 2,
             'parent' => 301,
         ]);
-
-        // Tambah hak ases group operator
-        $query = '
-			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-			-- Operator --
-			(2,331,3) -- Bumindes Kader Pemberdayaan Masyarakat --
-			';
-
-        return $hasil && $this->db->query($query);
     }
 
     public function tabel_referensi($hasil)
@@ -124,6 +115,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->create_table('kader_pemberdayaan_masyarakat', true);
         }
 
+        // Tambah tabel ref_penduduk_bidang
         if (! $this->db->table_exists('ref_penduduk_bidang')) {
             $fields = [
                 'id' => [
@@ -140,10 +132,11 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_bidang', true);
+        }
 
-            // Tambahkan data awal
-            $this->db->truncate('ref_penduduk_bidang');
-            $insert_batch = [
+        // Tambahkan data awal tabel ref_penduduk_bidang
+        if ($hasil && $this->db->truncate('ref_penduduk_bidang')) {
+            $ref_penduduk_bidang = [
                 ['nama' => 'Service Komputer'],
                 ['nama' => 'Operator Buldoser'],
                 ['nama' => 'Operator Komputer'],
@@ -166,10 +159,10 @@ class Migrasi_fitur_premium_2112 extends MY_Model
                 ['nama' => 'Teknisi Listrik'],
                 ['nama' => 'Internet Marketing'],
             ];
-
-            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_bidang', $insert_batch);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_bidang', $ref_penduduk_bidang);
         }
 
+        // Tambah tabel ref_penduduk_kursus
         if (! $this->db->table_exists('ref_penduduk_kursus')) {
             $fields = [
                 'id' => [
@@ -186,10 +179,11 @@ class Migrasi_fitur_premium_2112 extends MY_Model
             $hasil = $hasil && $this->dbforge->add_field($fields);
             $hasil = $hasil && $this->dbforge->add_key('id', true);
             $hasil = $hasil && $this->dbforge->create_table('ref_penduduk_kursus', true);
+        }
 
-            // tambahkan data awal
-            $this->db->truncate('ref_penduduk_kursus');
-            $insert_batch = [
+        // Tambahkan data awal tabel ref_penduduk_kursus
+        if ($hasil && $this->db->truncate('ref_penduduk_kursus')) {
+            $ref_penduduk_kursus = [
                 ['nama' => 'Kursus Komputer'],
                 ['nama' => 'Kursus Menjahit'],
                 ['nama' => 'Pelatihan Kelistrikan'],
@@ -235,8 +229,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
                 ['nama' => 'Kursus Batik'],
                 ['nama' => 'Kursus Pengobatan Tradisional'],
             ];
-
-            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_kursus', $insert_batch);
+            $hasil = $hasil && $this->db->insert_batch('ref_penduduk_kursus', $ref_penduduk_kursus);
         }
 
         return $hasil;
@@ -309,7 +302,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_pembangunan = $this->db->get('pembangunan')->result_array()) {
             foreach ($data_pembangunan as $pembangunan) {
-                $slug  = unique_slug('pembangunan', $pembangunan['judul']);
+                $slug  = unique_slug('pembangunan', $pembangunan['judul'], $pembangunan['id']);
                 $hasil = $hasil && $this->db->where('id', $pembangunan['id'])->update('pembangunan', ['slug' => $slug]);
             }
         }
@@ -404,7 +397,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_suplemen = $this->suplemen_model->list_data()) {
             foreach ($data_suplemen as $suplemen) {
-                $slug  = unique_slug('suplemen', $suplemen['nama']);
+                $slug  = unique_slug('suplemen', $suplemen['nama'], $suplemen['id']);
                 $hasil = $hasil && $this->db->where('id', $suplemen['id'])->update('suplemen', ['slug' => $slug]);
             }
         }
@@ -430,7 +423,7 @@ class Migrasi_fitur_premium_2112 extends MY_Model
 
         if ($data_kelompok = $this->kelompok_model->list_data()) {
             foreach ($data_kelompok as $kelompok) {
-                $slug  = unique_slug('kelompok', $kelompok['nama']);
+                $slug  = unique_slug('kelompok', $kelompok['nama'], $kelompok['id']);
                 $hasil = $hasil && $this->db->where('id', $kelompok['id'])->update('kelompok', ['slug' => $slug]);
             }
         }

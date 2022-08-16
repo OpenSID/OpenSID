@@ -180,6 +180,15 @@ class Pamong_model extends CI_Model
             ->row_array();
 
         $data['pamong_niap_nip'] = (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') ? $data['pamong_nip'] : $data['pamong_niap'];
+        if (! empty($data['pamong_nip']) && $data['pamong_nip'] != '-') {
+            $data['sebutan_pamong_niap_nip'] = 'NIP: ';
+        } else {
+            if (! empty($data['pamong_niap']) && $data['pamong_niap'] != '-') {
+                $data['sebutan_pamong_niap_nip'] = $this->setting->sebutan_nip_desa . ': ';
+            } else {
+                $data['sebutan_pamong_niap_nip'] = '';
+            }
+        }
 
         return $data;
     }

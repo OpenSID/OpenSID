@@ -37,8 +37,7 @@
 
 require_once 'donjo-app/libraries/OTP/Abstract_manager.php';
 require_once 'donjo-app/libraries/OTP/Repository/OTP_telegram.php';
-
-use OTP_telegram;
+require_once 'donjo-app/libraries/OTP/Repository/OTP_email.php';
 
 class OTP_manager extends Abstract_manager
 {
@@ -50,5 +49,10 @@ class OTP_manager extends Abstract_manager
     public function createTelegramDriver()
     {
         return new OTP_telegram();
+    }
+
+    public function createEmailDriver()
+    {
+        return new OTP_email();
     }
 }

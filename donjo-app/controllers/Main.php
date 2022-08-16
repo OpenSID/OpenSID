@@ -61,6 +61,11 @@ class Main extends CI_Controller
 
     public function index()
     {
+        // Kalau sehabis periksa data, paksa harus login lagi
+        if ($this->session->periksa_data == 1) {
+            $this->user_model->logout();
+        }
+
         if (isset($_SESSION['siteman']) && $_SESSION['siteman'] == 1) {
             $this->track_model->track_desa('main');
             $this->load->model('user_model');

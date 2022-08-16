@@ -42,22 +42,19 @@
  */
 ?>
 
-<!-- TODO: Pindahkan ke external css -->
-<style type="text/css">
-	#ubah_hp th { width: 20%; }
-</style>
-
 <?php $this->load->view('global/validasi_form'); ?>
 <form id="validasi" action="<?= $form_action; ?>" method="post">
-	<div class="modal-body" id="ubah_hp">
-		<table class="table table-hover" >
+	<div class="modal-body">
+		<table class="table table-hover">
 			<tr>
-				<th>NIK</td>
-				<td> : <?= $penduduk['nik']?></td>
+				<th width="20%">NIK</td>
+				<td width="1%"> : </td>
+				<td><?= $penduduk['nik']; ?></td>
 			</tr>
 			<tr>
 				<th>Nama Warga</td>
-				<td> : <?= $penduduk['nama']?></td>
+				<td> : </td>
+				<td><?= $penduduk['nama']; ?></td>
 			</tr>
 		</table>
 		<div class="box box-danger">

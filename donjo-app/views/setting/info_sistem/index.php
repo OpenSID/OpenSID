@@ -243,7 +243,7 @@
 			"processing": true,
 			"autoWidth": false,
 			'pageLength': 10,
-			"order": [[1, "desc"]],
+			"order": [[1, "asc"]],
 			"columnDefs": [ {
 				"targets": [0, 2],
 				"orderable": false

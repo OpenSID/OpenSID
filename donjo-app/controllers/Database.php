@@ -177,6 +177,9 @@ class Database extends Admin_Controller
             ['Alamat Sekarang', 'alamat_sekarang'],
             ['Status Dasar', 'status_dasar'],
             ['Suku', 'suku'],
+            ['Tag ID Card', 'tag_id_card'],
+            ['Asuransi', 'asuransi'],
+            ['No Asuransi', 'no_asuransi'],
         ];
 
         $judul  = array_column($daftar_kolom, 0);
@@ -226,6 +229,9 @@ class Database extends Admin_Controller
                 $row->alamat_sekarang,
                 $row->status_dasar,
                 $row->suku,
+                $row->tag_id_card,
+                $row->asuransi,
+                $row->no_asuransi,
             ];
             $rowFromValues = WriterEntityFactory::createRowFromArray($penduduk);
             $writer->addRow($rowFromValues);
@@ -273,7 +279,8 @@ class Database extends Admin_Controller
     public function ppls_individu()
     {
         $this->redirect_hak_akses('u');
-        $this->import_model->pbdt_individu();
+        $this->import_model->pbdt_individu(isset($_POST['hapus_rtm']));
+        redirect("{$this->controller}/import");
     }
 
     public function exec_backup()

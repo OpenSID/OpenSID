@@ -167,6 +167,11 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
 
     public function select_per_kategori()
     {
+        $status = $this->session->status;
+        if ($status != '') {
+            $this->db->where('u.status', (string) $status);
+        }
+
         // Ambil data sasaran keluarga
         $this->db->select('u.id, u.nama')
             ->select('u.*, COUNT(pp.peserta) as jumlah')
@@ -190,6 +195,11 @@ class Keluarga_penerima_bantuan extends Statistik_penduduk_model
     // hitung jumlah keluarga unik penerima bantuan (terkadang satu keluarga menerima lebih dari 1 bantuan)
     public function hitung_total(&$data)
     {
+        $status = $this->session->status;
+        if ($status != '') {
+            $this->db->where('u.status', (string) $status);
+        }
+
         return $this->db->select('COUNT(DISTINCT(pp.peserta))as jumlah')
             ->select('COUNT(DISTINCT(CASE WHEN p.sex = 1 THEN p.id END)) AS laki')
             ->select('COUNT(DISTINCT(CASE WHEN p.sex = 2 THEN p.id END)) AS perempuan')
@@ -316,7 +326,7 @@ class Bantuan_rumah_tangga extends Statistik_penduduk_model
             ->select('COUNT(CASE WHEN p.sex = 1 THEN r.id END) AS laki')
             ->select('COUNT(CASE WHEN p.sex = 2 THEN r.id END) AS perempuan')
             ->from('tweb_rtm r')
-            ->join('tweb_penduduk p', 'r.nik_kepala = p.id', 'left')
+            ->join('penduduk_hidup p', 'r.nik_kepala = p.id')
             ->join('tweb_wil_clusterdesa a', 'p.id_cluster = a.id', 'left')
             ->get()
             ->row_array();

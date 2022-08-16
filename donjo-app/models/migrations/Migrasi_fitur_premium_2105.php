@@ -548,162 +548,174 @@ class Migrasi_fitur_premium_2105 extends MY_model
 
     private function akses_grup_bawaan($hasil)
     {
+        // Simpan grup akses yang ada sebelumnya kecuali grup_akses bawaan
+        $grup = $this->db->where_not_in('id_grup', [2, 3, 4])->get('grup_akses')->result_array();
+        array_walk($grup, static function (&$key) {
+            unset($key['id']);
+        });
+
+        // Kosongkan tabel grup_akses
+        if ($hasil && $this->db->truncate('grup_akses')) {
+            if ($grup) {
+                $hasil = $hasil && $this->db->insert_batch('grup_akses', $grup);
+            }
+        } else {
+            return false;
+        }
+
         // Operator, Redaksi, Kontributor, Satgas Covid-19
-        $hasil = $hasil && $this->db->where('id_grup in (2, 3, 4, 5)')->delete('grup_akses');
         $query = '
-            INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-            -- Operator --
-            (2,1,3),
-            (2,2,0),
-            (2,3,0),
-            (2,4,0),
-            (2,5,0),
-            (2,6,3),
-            (2,7,0),
-            (2,8,3),
-            (2,9,0),
-            (2,10,0),
-            (2,11,0),
-            (2,13,0),
-            (2,14,0),
-            (2,15,0),
-            (2,17,3),
-            (2,18,3),
-            (2,20,3),
-            (2,21,3),
-            (2,22,3),
-            (2,23,3),
-            (2,24,3),
-            (2,25,3),
-            (2,26,3),
-            (2,27,3),
-            (2,28,3),
-            (2,29,3),
-            (2,30,3),
-            (2,31,3),
-            (2,32,3),
-            (2,33,3),
-            (2,39,3),
-            (2,40,3),
-            (2,41,3),
-            (2,42,3),
-            (2,47,3),
-            (2,48,3),
-            (2,49,3),
-            (2,50,3),
-            (2,51,3),
-            (2,52,3),
-            (2,53,3),
-            (2,54,3),
-            (2,55,3),
-            (2,56,3),
-            (2,57,3),
-            (2,58,3),
-            (2,61,3),
-            (2,62,3),
-            (2,63,3),
-            (2,64,3),
-            (2,65,3),
-            (2,66,3),
-            (2,67,3),
-            (2,68,3),
-            (2,69,3),
-            (2,70,3),
-            (2,71,3),
-            (2,72,3),
-            (2,73,3),
-            (2,75,3),
-            (2,76,3),
-            (2,77,3),
-            (2,78,3),
-            (2,79,3),
-            (2,80,3),
-            (2,81,3),
-            (2,82,3),
-            (2,83,3),
-            (2,84,3),
-            (2,85,3),
-            (2,86,3),
-            (2,87,3),
-            (2,88,3),
-            (2,89,3),
-            (2,90,3),
-            (2,91,3),
-            (2,92,3),
-            (2,93,3),
-            (2,94,3),
-            (2,95,3),
-            (2,96,3),
-            (2,97,3),
-            (2,98,3),
-            (2,101,3),
-            (2,200,0),
-            (2,201,0),
-            (2,202,3),
-            (2,203,3),
-            (2,205,3),
-            (2,206,0),
-            (2,207,7),
-            (2,208,7),
-            (2,209,3),
-            (2,210,3),
-            (2,211,3),
-            (2,212,3),
-            (2,213,3),
-            (2,220,0),
-            (2,221,3),
+			INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
+			-- Operator --
+			(2,1,3),
+			(2,2,0),
+			(2,3,0),
+			(2,4,0),
+			(2,5,0),
+			(2,6,3),
+			(2,7,0),
+			(2,8,3),
+			(2,9,0),
+			(2,10,0),
+			(2,11,0),
+			(2,13,0),
+			(2,14,0),
+			(2,15,0),
+			(2,17,3),
+			(2,18,3),
+			(2,20,3),
+			(2,21,3),
+			(2,22,3),
+			(2,23,3),
+			(2,24,3),
+			(2,25,3),
+			(2,26,3),
+			(2,27,3),
+			(2,28,3),
+			(2,29,3),
+			(2,30,3),
+			(2,31,3),
+			(2,32,3),
+			(2,33,3),
+			(2,39,3),
+			(2,40,3),
+			(2,41,3),
+			(2,42,3),
+			(2,47,3),
+			(2,48,3),
+			(2,49,3),
+			(2,50,3),
+			(2,51,3),
+			(2,52,3),
+			(2,53,3),
+			(2,54,3),
+			(2,55,3),
+			(2,56,3),
+			(2,57,3),
+			(2,58,3),
+			(2,61,3),
+			(2,62,3),
+			(2,63,3),
+			(2,64,3),
+			(2,65,3),
+			(2,66,3),
+			(2,67,3),
+			(2,68,3),
+			(2,69,3),
+			(2,70,3),
+			(2,71,3),
+			(2,72,3),
+			(2,73,3),
+			(2,75,3),
+			(2,76,3),
+			(2,77,3),
+			(2,78,3),
+			(2,79,3),
+			(2,80,3),
+			(2,81,3),
+			(2,82,3),
+			(2,83,3),
+			(2,84,3),
+			(2,85,3),
+			(2,86,3),
+			(2,87,3),
+			(2,88,3),
+			(2,89,3),
+			(2,90,3),
+			(2,91,3),
+			(2,92,3),
+			(2,93,3),
+			(2,94,3),
+			(2,95,3),
+			(2,96,3),
+			(2,97,3),
+			(2,98,3),
+			(2,101,3),
+			(2,200,0),
+			(2,201,0),
+			(2,202,3),
+			(2,203,3),
+			(2,205,3),
+			(2,206,0),
+			(2,207,7),
+			(2,208,7),
+			(2,209,3),
+			(2,210,3),
+			(2,211,3),
+			(2,212,3),
+			(2,213,3),
+			(2,220,0),
+			(2,221,3),
             (2,301,0),
-            (2,302,3),
-            (2,303,3),
-            (2,304,3),
-            (2,305,3),
-            (2,310,3),
-            (2,311,3),
-            (2,312,3),
-            (2,313,3),
-            (2,314,3),
-            (2,315,3),
-            (2,316,3),
-            (2,317,3),
-            (2,318,3),
-            -- Redaksi --
-            (3,13,0),
-            (3,47,7),
-            (3,48,7),
-            (3,49,7),
-            (3,50,7),
-            (3,51,7),
-            (3,53,7),
-            (3,54,7),
-            (3,64,7),
-            (3,205,7),
-            (3,211,7),
-            -- Kontributor --
-            (4,13,0),
-            (4,47,3),
-            (4,50,3),
-            (4,51,3),
-            (4,54,3)
-        ';
+			(2,302,3),
+			(2,303,3),
+			(2,304,3),
+			(2,305,3),
+			(2,310,3),
+			(2,311,3),
+			(2,312,3),
+			(2,314,3),
+			(2,315,3),
+			(2,316,3),
+			(2,317,3),
+			(2,318,3),
+			-- Redaksi --
+			(3,13,0),
+			(3,47,7),
+			(3,48,7),
+			(3,49,7),
+			(3,50,7),
+			(3,51,7),
+			(3,53,7),
+			(3,54,7),
+			(3,64,7),
+			(3,205,7),
+			(3,211,7),
+			-- Kontributor --
+			(4,13,0),
+			(4,47,3),
+			(4,50,3),
+			(4,51,3),
+			(4,54,3)
+		';
         $hasil = $hasil && $this->db->query($query);
 
-        // Hanya isi untuk Satgas Covid kalau masih ada
-        $satgas_ada = $this->db
-            ->where('id', 5)
-            ->get('user_grup')
-            ->num_rows();
-        if ($satgas_ada) {
-            $query = '
-                INSERT INTO grup_akses (`id_grup`, `id_modul`, `akses`) VALUES
-                -- Satgas Covid-19 --
-                (5,3,0),
-                (5,27,3),
-                (5,206,0),
-                (5,207,7),
-                (5,208,7)
-            ';
-            $hasil = $hasil && $this->db->query($query);
+        // Hanya isi jika grup Satgas Covid masih ada dan grup_akses belum ada (Jangan ubah grup_akses satgas covid jika sudah ada)
+        if ($this->db->get_where('user_grup', ['id' => 5])->row()) {
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 3])->row()) {
+                $this->grup_akses(5, 3, 0);
+            }
+
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 206])->row()) {
+                $this->grup_akses(5, 206, 0);
+            }
+
+            if (! $this->db->get_where('grup_akses', ['id_grup' => 5, 'id_modul' => 208])->row()) {
+                $this->grup_akses(5, 208, 7);
+            }
         }
+
+        $this->cache->hapus_cache_untuk_semua('_cache_modul');
 
         return $hasil;
     }
@@ -764,7 +776,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
         $hasil = $hasil && $this->db->where('id', 305)->update('setting_modul', ['url' => 'bumindes_tanah_desa/clear']);
 
         //menambahkan data pada setting_modul untuk controller 'bumindes_tanah_kas_desa'
-        $hasil = $hasil && $this->tambah_modul([
+        return $hasil && $this->tambah_modul([
             'id'         => 319,
             'modul'      => 'Buku Tanah Kas Desa',
             'url'        => 'bumindes_tanah_kas_desa/clear',
@@ -776,9 +788,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'ikon_kecil' => '',
             'parent'     => 305,
         ]);
-
-        //menambahkan hak akses operator untuk modul 'bumindes tanah kas desa' 321
-        return $hasil && $this->db->insert('grup_akses', ['id_grup' => '2', 'id_modul' => '319', 'akses' => '3']);
     }
 
     private function tambah_pengaturan_analisis($hasil)
@@ -788,6 +797,7 @@ class Migrasi_fitur_premium_2105 extends MY_model
             ->set('url', '')
             ->where('id', 5)
             ->update('setting_modul');
+
         $hasil = $hasil && $this->tambah_modul([
             'id'         => 110,
             'modul'      => 'Master Analisis',
@@ -800,7 +810,8 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'hidden'     => 0,
             'parent'     => 5,
         ]);
-        $hasil = $hasil && $this->tambah_modul([
+
+        return $hasil && $this->tambah_modul([
             'id'         => 111,
             'modul'      => 'Pengaturan',
             'url'        => 'setting/analisis',
@@ -812,13 +823,6 @@ class Migrasi_fitur_premium_2105 extends MY_model
             'hidden'     => 0,
             'parent'     => 5,
         ]);
-        // Tambahkan ke hak akses operator
-        $modul_tambahan = [
-            ['id_grup' => 2, 'id_modul' => 110, 'akses' => 3],
-            ['id_grup' => 2, 'id_modul' => 111, 'akses' => 3],
-        ];
-
-        return $hasil && $this->db->insert_batch('grup_akses', $modul_tambahan);
     }
 
     private function impor_google_form($hasil)
