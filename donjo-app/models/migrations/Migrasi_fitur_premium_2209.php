@@ -359,7 +359,8 @@ class Migrasi_fitur_premium_2209 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('bulanan_anak', $fields);
-          }
+        }
+
         return $hasil;
     }
 }
