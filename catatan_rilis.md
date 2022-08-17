@@ -18,9 +18,10 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 13. [#1161](https://github.com/OpenSID/premium/issues/1161) Penyesuaian fungsi tombol a.n dan u.b pada pengaturan perangkat desa.
 14. [#5480](https://github.com/OpenSID/OpenSID/issues/5480) Menyediakan fungsi untuk menghapus cache desa dan blade pada menu pengaturan info sistem diadmin.
 15. [#4838](https://github.com/OpenSID/OpenSID/issues/4838) Menambahkan tidak menggunakan akseptor KB pada data penduduk.
-16. [#5495](https://github.com/OpenSID/OpenSID/issues/5495) Menambah default orientasi kertas dan ukuran kertas pada tinymce.
+16. [#5495](https://github.com/OpenSID/OpenSID/issues/5495) Penambahan default orientasi kertas dan ukuran kertas pada tinymce.
 17. [#5295](https://github.com/OpenSID/OpenSID/issues/5295) Penambahan Form input hasil ukur berat & tinggi pada menu stunting.
 18. [#5302](https://github.com/OpenSID/OpenSID/issues/5302) Menambahkan pilihan data penduduk secara dinamis untuk surat tinymce.
+19. [#5324](https://github.com/OpenSID/OpenSID/issues/5324) Menampilkan detail data alamat ibu saat menginput data kia.
 
 #### Perbaikan BUG
 

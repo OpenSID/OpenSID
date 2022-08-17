@@ -49,7 +49,7 @@
                                 <option value="">-- Cari NIK / Nama Ibu --</option>
                                 @foreach ($ibu as $data)
                                     <option value="{{ $data->id }}" @selected($kia->ibu_id == $data->id)>NIK :
-                                        {{ $data->nik . ' - ' . $data->nama }}</option>
+                                        {{ $data->nik . ' - ' . $data->nama . ' - ' . $data->alamatWilayah }}</option>
                                 @endforeach
                             </select>
                         </div>
