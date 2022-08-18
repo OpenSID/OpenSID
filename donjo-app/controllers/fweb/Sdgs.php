@@ -37,11 +37,23 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-$route['data-kelompok/(:any)'] = WEB . '/kelompok/detail/$1';
-$route['data-lembaga/(:any)']  = WEB . '/lembaga/detail/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['status-idm/(:num)']    = WEB . '/idm/index/$1';
-$route['pemerintah']           = WEB . '/pemerintah';
+class Sdgs extends Web_Controller
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-// SDGS
-$route['status-sdgs'] = WEB . '/sdgs/index';
+    public function index()
+    {
+        if (! $this->web_menu_model->menu_aktif('status-sdgs')) {
+            show_404();
+        }
+
+        $data = $this->includes;
+        $this->_get_common_data($data);
+        $data['halaman_statis'] = 'sdgs/index';
+        $this->set_template('layouts/halaman_statis_lebar.tpl.php');
+        $this->load->view($this->template, $data);
+    }
+}
