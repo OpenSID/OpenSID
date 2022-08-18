@@ -127,9 +127,10 @@ class Permohonan_surat_admin extends Admin_Controller
             include $data_form;
         }
 
-        if (in_array($data['surat']['jenis'], FormatSurat::TINYMCE)) {
+        if (in_array($data['surat']['jenis'], [3, 4])) {
             $data['list_dokumen'] = empty($_POST['nik']) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = route("surat/pratinjau/{$url}/{$id}");
+            $data['kode_isian']   = json_decode($data['surat']['kode_isian']);
             $data['form_surat']   = 'surat/form_surat_tinymce.php';
         }
 
@@ -157,7 +158,7 @@ class Permohonan_surat_admin extends Admin_Controller
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
         $data['penduduk']           = $this->surat_model->list_penduduk();
         $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
-        $data['pamong']             = Pamong::penandaTangan()->get();
+        $data['pamong']             = $this->surat_model->list_pamong();
 
         $kades = Pamong::kepalaDesa()->first(); // Kepala Desa
         if ($kades) {

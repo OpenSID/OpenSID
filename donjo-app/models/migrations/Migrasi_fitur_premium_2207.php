@@ -618,7 +618,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
             LogSurat::whereIn('id_format_surat', static function ($query) {
                 $query->select('id')
                     ->from('tweb_surat_format')
-                    ->whereIn('jenis', FormatSurat::RTF);
+                    ->whereIn('jenis', [1, 2]);
             })
                 ->where('status', 0)
                 ->update(['status' => 1]);

@@ -32,8 +32,8 @@
                             style="width:100%;" onchange="formAction('main')">
                             <option value="">-- Cari NIK / Nama Penduduk --</option>
                             @foreach ($penduduk as $data)
-                                <option value="{{ $data->id }}" @selected($individu->id === $data->id)>NIK :
-                                    {{ $data->nik . ' - ' . $data->nama }}</option>
+                                <option value="{{ $data['id'] }}" @selected($individu['nik'] === $data['nik'])>NIK :
+                                    {{ $data['nik'] . ' - ' . $data['nama'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -56,7 +56,7 @@
 
             @include('admin.surat.nomor_surat')
 
-            @foreach ($surat['kode_isian'] as $item)
+            @foreach ($kode_isian as $item)
                 <div class="form-group">
                     <label for="{{ $item->nama }}" class="col-sm-3 control-label">{{ $item->nama }}</label>
                     <div class="col-sm-8">

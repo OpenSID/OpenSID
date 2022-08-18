@@ -35,7 +35,6 @@
  *
  */
 
-use App\Models\FormatSurat;
 use App\Models\KB;
 use App\Models\Pamong;
 use App\Models\RefJabatan;
@@ -60,7 +59,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022081071($hasil);
         $hasil = $hasil && $this->migrasi_2022081171($hasil);
 
-        return $hasil && $this->migrasi_2022081671($hasil);
+        return $hasil && $this->migrasi_2022081271($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -324,20 +323,8 @@ class Migrasi_fitur_premium_2209 extends MY_model
         ]);
     }
 
-    protected function migrasi_2022081671($hasil)
+    protected function migrasi_2022081271($hasil)
     {
-        if (! $this->db->field_exists('form_isian', 'tweb_surat_format')) {
-            $fields['form_isian'] = [
-                'type'  => 'LONGTEXT',
-                'null'  => true,
-                'after' => 'template_desa',
-            ];
-
-            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
-
-            // Sesuaikan data awal surat tinymce
-            FormatSurat::jenis(FormatSurat::TINYMCE)->update(['form_isian' => '{"individu":{"sex":"","status_dasar":""}}']);
-        }
         if (! $this->db->field_exists('berat_badan', 'bulanan_anak')) {
             $fields = [
                 'berat_badan' => [

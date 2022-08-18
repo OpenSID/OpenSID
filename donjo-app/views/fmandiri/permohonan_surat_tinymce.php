@@ -73,15 +73,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 					</div>
 				</div>
 				<?php include 'donjo-app/views/surat/form/nomor_surat.php'; ?>
-				<?php foreach ($surat['kode_isian'] as $item): ?>
-					<div class="form-group">
-						<label for="<?= $item->nama ?>" class="col-sm-3 control-label"><?= $item->nama ?></label>
-						<div class="col-sm-8">
-							<textarea name="<?= underscore($item->nama, true, true) ?>" class="form-control input-sm required"
-								placeholder="<?= $item->deskripsi ?>"></textarea>
-						</div>
-					</div>
-				<?php endforeach ?>
+				<?php foreach ($kode_isian as $item): ?>
+                <div class="form-group">
+                    <label for="<?= $item->nama ?>" class="col-sm-3 control-label"><?= $item->nama ?></label>
+                    <div class="col-sm-8">
+                        <textarea name="<?= underscore($item->nama, true, true) ?>" class="form-control input-sm required"
+                            placeholder="<?= $item->deskripsi ?>"></textarea>
+                    </div>
+                </div>
+           	 	<?php endforeach ?>
 				<?php include 'donjo-app/views/surat/form/tgl_berlaku.php'; ?>
 				<?php include 'donjo-app/views/surat/form/_pamong.php'; ?>
 				<?php include 'donjo-app/views/surat/form/tampil_foto.php'; ?>

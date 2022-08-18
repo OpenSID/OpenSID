@@ -24,7 +24,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#pengaturan-umum" data-toggle="tab">Umum</a></li>
             <li><a href="#template-surat" data-toggle="tab">Template</a></li>
-            <li><a href="#form-isian" data-toggle="tab">Form Isian</a></li>
+            <li><a href="#kode-isian" data-toggle="tab">Kode Isian</a></li>
         </ul>
         <div class="tab-content">
 
