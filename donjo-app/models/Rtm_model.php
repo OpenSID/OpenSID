@@ -209,7 +209,7 @@ class Rtm_model extends MY_Model
 
     private function get_kode_wilayah()
     {
-        return Config::first()->pluck('kode_desa');
+        return Config::first()->kode_desa;
     }
 
     public function list_penduduk_lepas()

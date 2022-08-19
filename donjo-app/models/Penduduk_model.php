@@ -1809,7 +1809,7 @@ class Penduduk_model extends MY_Model
             ->row()->digit ?? 0;
 
         // NIK Sementara menggunakan format 0[kode-desa][nomor-urut]
-        return '0' . Config::first()->pluck('kode_desa') . sprintf('%05d', $digit + 1);
+        return '0' . Config::first()->kode_desa . sprintf('%05d', $digit + 1);
     }
 
     public function cekTagIdCard($cek = null, $kecuali = null)
