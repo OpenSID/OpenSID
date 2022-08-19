@@ -22,6 +22,8 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 17. [#5295](https://github.com/OpenSID/OpenSID/issues/5295) Penambahan Form input hasil ukur berat & tinggi pada menu stunting.
 18. [#5324](https://github.com/OpenSID/OpenSID/issues/5324) Menampilkan detail data alamat ibu saat menginput data kia.
 19. [#5489](https://github.com/OpenSID/OpenSID/issues/5489) Menambahkan menu SDGS.
+20. [#5492](https://github.com/OpenSID/OpenSID/issues/5492) Menambahkan alasan tolak ketika verifikasi surat.
+21. [#5319](https://github.com/OpenSID/OpenSID/issues/5319) Menambahkan filter data anak berdasarkan nomor kk ibu.
 
 #### Perbaikan BUG
 

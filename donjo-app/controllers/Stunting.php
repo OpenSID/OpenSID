@@ -232,7 +232,7 @@ class Stunting extends Admin_Controller
             $data['formAction'] = route('stunting.updateKia', $id);
             $data['kia']        = KIA::find($id) ?? show_404();
             $data['ibu']        = $data['ibu']->prepend(Penduduk::find($data['kia']->ibu_id));
-            $data['anak']       = $data['anak']->prepend(Penduduk::find($data['kia']->anak_id));
+            $data['anak']       = $data['anak']->where('id', '!=', $data['kia']->ibu_id)->prepend(Penduduk::find($data['kia']->anak_id));
         } else {
             $data['action']     = 'Tambah';
             $data['formAction'] = route('stunting.insertKia');
@@ -240,6 +240,23 @@ class Stunting extends Admin_Controller
         }
 
         return view('admin.stunting.kia_form', $data);
+    }
+
+    public function getAnak()
+    {
+        $anakId = [];
+
+        foreach (KiA::all() as $data) {
+            $ibuId[] = $data->ibu_id ?? 0;
+        }
+
+        if ($this->input->is_ajax_request()) {
+            $ibu      = $this->input->get('ibu');
+            $penduduk = Penduduk::find($ibu);
+            $anak     = Penduduk::where('id_kk', $penduduk->id_kk)->where('id', '!=', $ibu)->whereNotIn('id', $anakId)->whereIn('kk_level', [4, 6, 9])->where('tanggallahir', '>=', Carbon::now()->subYears(6))->get();
+
+            return json($anak);
+        }
     }
 
     public function insertKia()
