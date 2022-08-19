@@ -85,6 +85,9 @@ defined('BASEPATH') || exit('No direct script access allowed');
 											<a class="btn btn-social btn-success btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-check"></i><?= $data['status']; ?></a>
 										<?php else : ?>
 											<a class="btn btn-social btn-danger btn-sm btn-proses" title="Surat <?= $data['status']; ?>" style="width: 170px"><i class="fa fa-times"></i><?= $data['status']; ?></a>
+
+											<button title="Keterangan" class="btn bg-orange btn-sm keterangan" data-toggle="popover" data-trigger="focus" data-content="<?= $data['alasan']; ?>"><i class="fa fa-info-circle"></i></button>
+
 										<?php endif; ?>
 										<?php if (in_array($data['status_id'], ['0', '1'])) : ?>
 											<a href="<?= site_url(MANDIRI . "/surat/proses/{$data['id']}"); ?>" title="Batalkan Surat" class="btn bg-maroon btn-sm"><i class="fa fa-times"></i></a>
@@ -157,5 +160,10 @@ defined('BASEPATH') || exit('No direct script access allowed');
 				cell.innerHTML = i + 1;
 			});
 		}).draw();
+
+		$('button.keterangan').click(function(event) {
+			$(this).popover('show');
+		});
+
 	});
 </script>

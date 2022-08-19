@@ -113,13 +113,22 @@ class Keluar_model extends CI_Model
         }
     }
 
+    public function mandiri()
+    {
+        // code...
+    }
+
     public function navigasi()
     {
         $isAdmin = $this->session->isAdmin->pamong;
         if (isset($this->session->masuk)) {
-            if ($isAdmin->pamong_ttd == 1) {
-                $this->db->where('verifikasi_kades', '0');
-            } elseif ($isAdmin->pamong_ub == 1) {
+            if ($isAdmin->jabatan_id == 1) {
+                if (setting('tte') == 1) {
+                    $this->db->where('verifikasi_kades', '0')->or_where('tte', '0');
+                } else {
+                    $this->db->where('verifikasi_kades', '0');
+                }
+            } elseif ($isAdmin->jabatan_id == 2) {
                 $this->db->where('verifikasi_sekdes', '0');
             } else {
                 $this->db->where('verifikasi_operator', '0');
@@ -128,9 +137,9 @@ class Keluar_model extends CI_Model
             $this->db->where('verifikasi_operator', '-1');
         } else {
             $isAdmin = $this->session->isAdmin->pamong;
-            if ($isAdmin->pamong_ttd == 1) {
+            if ($isAdmin->jabatan_id == 1) {
                 $this->db->where('verifikasi_kades', '1');
-            } elseif ($isAdmin->pamong_ub == 1) {
+            } elseif ($isAdmin->jabatan_id == 2) {
                 $this->db->where('verifikasi_sekdes', '1');
             } else {
                 $this->db->where('verifikasi_operator', '1')->or_where('verifikasi_operator');
@@ -142,13 +151,13 @@ class Keluar_model extends CI_Model
     {
         // jika kepdesa
         $isAdmin = $this->session->isAdmin->pamong;
-        if ($isAdmin->pamong_ttd == 1) {
+        if ($isAdmin->jabatan_id == 1) {
             $this->db->where_in('verifikasi_kades', ['1', '0']);
             // $this->db->select('verifikasi_kades as cetak_surat');
             $this->db->select('verifikasi_kades as verifikasi');
             $raw_status_periksa = 'CASE when verifikasi_kades = 1 THEN IF(tte is null,verifikasi_kades,tte) ELSE 0 end AS status_periksa';
             $this->db->select($raw_status_periksa);
-        } elseif ($isAdmin->pamong_ub == 1) {
+        } elseif ($isAdmin->jabatan_id == 2) {
             $this->db->where_in('verifikasi_sekdes', ['1', '0']);
             // $this->db->select('if(verifikasi_kades is null, 1, verifikasi_kades),verifikasi_kades) as cetak_surat');
             $this->db->select('verifikasi_sekdes as verifikasi');

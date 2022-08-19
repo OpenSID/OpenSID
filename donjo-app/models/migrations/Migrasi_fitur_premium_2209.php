@@ -58,6 +58,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022080971($hasil);
         $hasil = $hasil && $this->migrasi_2022081071($hasil);
         $hasil = $hasil && $this->migrasi_2022081171($hasil);
+        $hasil = $hasil && $this->migrasi_2022081571($hasil);
 
         return $hasil && $this->migrasi_2022081271($hasil);
     }
@@ -321,6 +322,50 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'nama' => 'Tidak Menggunakan',
             'sex'  => 3,
         ]);
+    }
+
+    protected function migrasi_2022081571($hasil)
+    {
+        if (! $this->db->table_exists('log_tolak')) {
+            // Tambah tabel ref_jabatan
+            $log_tolak = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 10,
+                    'null'           => false,
+                    'auto_increment' => true,
+                ],
+                'id_surat' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'null'       => false,
+                ],
+                'keterangan' => [
+                    'type' => 'LONGTEXT',
+                    'null' => false,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($log_tolak)
+                ->create_table('log_tolak', true);
+
+            $hasil = $hasil && $this->timestamps('log_tolak', true);
+        }
+
+        if (! $this->db->field_exists('alasan', 'permohonan_surat')) {
+            $fields = [
+                'alasan' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 100,
+                    'null'       => true,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('permohonan_surat', $fields);
+        }
+
+        return $hasil;
     }
 
     protected function migrasi_2022081271($hasil)

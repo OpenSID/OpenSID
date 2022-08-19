@@ -101,10 +101,11 @@
                                                                 <?php endif; ?>
                                                                 <th>User</th>
                                                                 <th>Status</th>
+                                                                <th class="<?= jecho($this->tab_ini, 12, 'show-table') ?>" style="display: none;">Alasan Ditolak</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <?php	foreach ($main as $data): ?>
+                                                            <?php foreach ($main as $data): ?>
                                                                 <tr <?= jecho($data['status'], 0, 'class="select-row"'); ?>>
                                                                     <td class="padat"><?= $data['no']?></td>
                                                                     <td class="aksi">
@@ -114,13 +115,18 @@
                                                                                 <?php if (in_array($data['jenis'], [1, 2]) && $operator): ?>
                                                                                     <a href="<?= site_url("keluar/edit_keterangan/{$data['id']}")?>" title="Ubah Data" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Ubah Keterangan" class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i></a>
                                                                                 <?php else: ?>
-                                                                                    <?php if ($data['status'] == 0): ?>
-                                                                                        <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Cetak Konsep" target="_blank"><i class="fa fa-print"></i></a>
+                                                                                    <?php if ($data['status'] == 0 || $data['verifikasi'] == '-1'): ?>
+                                                                                        <a href="<?= site_url("surat/cetak/{$data['id']}"); ?>" class="btn btn-flat bg-orange btn-sm" title="Ubah" target="_blank"><i class="fa  fa-pencil-square-o"></i></a>
                                                                                     <?php endif; ?>
                                                                                 <?php endif; ?>
 
+                                                                                <?php if ($data['verifikasi'] == '-1' && $data['mandiri'] == '1'): ?>
+                                                                                    <button data-id="<?= $data['id'] ?>" type="button" class="btn btn-flat bg-blue btn-sm kembalikan" title="Kembalikan">  <i class="fa fa-undo"></i></button>
+                                                                                <?php endif; ?>
+
                                                                                 <?php if ($data['status_periksa'] == 0 && $data['status'] != 0): ?>
-                                                                                    <button data-id="<?= $data['id'] ?>" type="button" class="btn btn-flat bg-olive btn-sm verifikasi" title="verifikasi">  <i class="fa fa-check-square-o"></i></button>
+                                                                                    <!-- <button data-id="<?= $data['id'] ?>" type="button" class="btn btn-flat bg-olive btn-sm verifikasi" title="verifikasi">  <i class="fa fa-check-square-o"></i></button> -->
+                                                                                    <a href="<?= site_url("keluar/periksa/{$data['id']}"); ?>" class="btn bg-olive btn-sm" title="verifikasi"><i class="fa fa-check-square-o"></i></a>
                                                                                 <?php endif; ?>
                                                                             <?php endif; ?>
                                                                             <?php if (can('h') && $operator): ?>
@@ -134,7 +140,7 @@
                                                                             <?php if ($data['status'] == '1') :?>
                                                                                 <?php if (is_file($data['file_rtf'])): ?>
                                                                                     <a href="<?= site_url("{$this->controller}/unduh/rtf/{$data['id']}"); ?>" class="btn btn-flat bg-purple btn-sm" title="Unduh Surat RTF" target="_blank"><i class="fa fa-file-word-o"></i></a>
-                                                                                <?php   endif; ?>
+                                                                                <?php endif; ?>
                                                                                 <?php if (is_file($data['file_pdf'])): ?>
                                                                                     <a href="<?= site_url("{$this->controller}/unduh/pdf/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                                                                                 <?php   endif; ?>
@@ -144,14 +150,8 @@
                                                                                 <?php if ($data['urls_id']): ?>
                                                                                     <a href="<?= site_url("{$this->controller}/qrcode/{$data['urls_id']}"); ?>" title="QR Code" data-size="modal-sm" class="viewQR btn btn-flat bg-aqua btn-sm" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="QR Code"><i class="fa fa-qrcode"></i></a>
                                                                                 <?php   endif; ?>
-                                                                                <?php if ($data['isi_surat']): ?>
-
-
-                                                                                            <a href="<?= site_url("{$this->controller}/unduh/tinymce/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
-
-
-
-
+                                                                                <?php if ($data['isi_surat'] && $data['verifikasi_operator'] != '-1'): ?>
+                                                                                    <a href="<?= site_url("{$this->controller}/unduh/tinymce/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                                                                                 <?php endif; ?>
                                                                             <?php endif; ?>
 
@@ -189,6 +189,7 @@
 
 
                                                                     </td>
+                                                                    <td class="<?= jecho($this->tab_ini, 12, 'show-table') ?>" style="display: none;"><?= $data['alasan'] ?></td>
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                         </tbody>
@@ -260,45 +261,38 @@
             maxShowItems: 10,
         });
 
+        //swal alasan tolak
         $('button.verifikasi').click(function (e) {
             e.preventDefault();
             var id = $(this).data('id');
-            var pesan = "<?= ($next == null) ? 'Apakah setuju surat ini di teruskan ke Arsip?' : "Apakah setuju surat ini di teruskan ke {$next}?" ?>"
-            Swal.fire({
-              title: pesan,
-              icon: 'question',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Ya, Setujui',
-              <?php if (! $operator): ?>
-                  showDenyButton: true,
-                  denyButtonColor: '#ffc107',
-                  denyButtonText: `Tolak`,
-              <?php endif ?>
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.fire({allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
-                $.ajax({
-                    url: '<?= site_url("{$this->controller}/verifikasi") ?>',
-                    type: 'Post',
-                    data: {id: id},
-                })
-                .done(function() {
-                    window.location.replace("<?= site_url("{$this->controller}/masuk") ?>");
-                })
-              }else if(result.isDenied){
-                Swal.fire({allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});
-                $.ajax({
-                    url: '<?= site_url("{$this->controller}/tolak") ?>',
-                    type: 'Post',
-                    data: {id: id},
-                })
-                .done(function() {
-                    window.location.replace("<?= site_url("{$this->controller}/masuk") ?>");
-                })
-              }
-            })
+            var next = `<?= $next ?? '' ?>`;
+            var tte = `<?= setting('tte') ?? '' ?>`;
+            var pesan = `Apakah setuju surat ini di teruskan ke ${next}?`
+            if (next == '' && tte == '0') {
+                pesan = `Apakah setuju surat ini di teruskan ke Arsip?`
+            } else if(next == '' && tte == '1') {
+                pesan = 'Apakah setuju surat ini untuk ditandatangani secara elektronik?'
+            }
+            var ulr_ajax = {
+                'confirm' : `<?= site_url("{$this->controller}/verifikasi") ?>`,
+                'denied' : `<?= site_url("{$this->controller}/tolak") ?>`
+            }
+
+            var redirect = {
+                'confirm' : `<?= site_url("{$this->controller}/masuk") ?>`,
+                'denied' : `<?= site_url("{$this->controller}/masuk") ?>`
+            }
+            var data = {id : id};
+            swal2_question(ulr_ajax, redirect, pesan, data, <?= ! $operator ?>);
+        });
+
+        $('button.kembalikan').click(function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            var ulr_ajax = `<?= site_url("{$this->controller}/kembalikan") ?>`;
+            var redirect = `<?= site_url("{$this->controller}/ditolak") ?>`;
+            var pesan = `Kembalikan surat ke pemohon untuk diperbaiki?`;
+            ditolak(id, ulr_ajax, redirect, pesan);
         });
     });
 </script>

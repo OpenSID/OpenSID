@@ -244,20 +244,10 @@ class Surat extends Admin_Controller
             $log_surat['surat']     = $cetak['surat'];
             $log_surat['input']     = $cetak['input'];
             $log_surat['isi_surat'] = $this->request['isi_surat'];
-
-            // verifikasi
-            // value 0 : diperiksa
-            // value 1 : sudah disetujui
-            // value null : lewati
-            // $log_surat['verifikasi_kades'] = is_object(setting('verifikasi_kades'))? null : 0;
-            // $log_surat['verifikasi_sekdes'] = is_object(setting('verifikasi_sekdes'))? null : 0;
-            $log_surat['verifikasi_operator'] = 0;
-
-            $isi_surat = $this->replceKodeIsian($log_surat);
+            $isi_surat              = $this->replceKodeIsian($log_surat);
 
             // Pisahkan isian surat
-            $isi = explode('<p><!-- pagebreak --></p>', $isi_surat);
-
+            $isi        = explode('<!-- pagebreak -->', $isi_surat);
             $backtop    = (((float) setting('tinggi_header')) * 10) . 'mm';
             $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
 
@@ -281,7 +271,6 @@ class Surat extends Admin_Controller
             unset($log_surat['surat'], $log_surat['input']);
             $id    = LogSurat::updateOrCreate(['id' => $cetak['id']], $log_surat)->id;
             $surat = LogSurat::find($id) ?? show_404();
-
             // Logo Surat
             $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
 
@@ -311,6 +300,13 @@ class Surat extends Admin_Controller
                 // Untuk surat yang sudah dicetak, simpan isian suratnya yang sudah jadi (siap di konversi)
                 $surat->isi_surat = $isi_cetak;
                 $surat->status    = 1;
+                /* verifikasi
+                   value 0 : diperiksa
+                   value 1 : sudah disetujui
+                   value 1 : sudah disetujui
+                   value null : lewati
+                */
+                $surat->verifikasi_operator = ($surat->verifikasi_operator == '-1') ? '-1' : 0;
             } catch (Html2PdfException $e) {
                 $html2pdf->clean();
                 $formatter = new ExceptionFormatter($e);
@@ -369,7 +365,7 @@ class Surat extends Admin_Controller
             $isi_surat = str_replace($tgl_surat, '[tgl_surat]', $isi_surat);
 
             // Hanya simpan isian surat
-            $isi_surat = explode('<p><!-- pagebreak --></p>', $isi_surat)[1];
+            $isi_surat = explode('<!-- pagebreak -->', $isi_surat)[1];
 
             $log_surat['isi_surat']           = $isi_surat;
             $log_surat['verifikasi_operator'] = 0;
@@ -385,7 +381,7 @@ class Surat extends Admin_Controller
     {
         $surat = LogSurat::find($id);
 
-        if ($surat->status) {
+        if ($surat->status && $surat->verifikasi_operator != '-1') {
             // Cek ada file
             if (file_exists($file = FCPATH . LOKASI_ARSIP . $surat->nama_surat)) {
                 return ambilBerkas($surat->nama_surat, $this->controller);
@@ -453,19 +449,24 @@ class Surat extends Admin_Controller
                 'pamong_id'       => $pamong->pamong_id,
             ];
 
-            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . '<!-- pagebreak -->' . ($surat->isi_surat) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', setting('footer_surat'));
-            $log_surat['id']        = $surat->id;
-            $isi_surat              = $this->replceKodeIsian($log_surat);
+            if ($surat->verifikasi_operator != '-1') {
+                $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . '<!-- pagebreak -->' . ($surat->isi_surat) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', setting('footer_surat'));
+            } else {
+                $log_surat['isi_surat'] = preg_replace('/\\\\/', '', ($surat->isi_surat));
+            }
+
+            $log_surat['id'] = $surat->id;
+            $isi_surat       = $this->replceKodeIsian($log_surat);
 
             unset($log_surat['isi_surat']);
             $this->session->log_surat = $log_surat;
 
             $aksi_konsep = site_url('surat/konsep');
             $aksi_cetak  = site_url('surat/pdf');
+            $tolak       = $surat->verifikasi_operator;
+            $id_surat    = $surat->id;
 
-            $id_surat = $surat->id;
-
-            return view('admin.surat.konsep', compact('content', 'aksi_konsep', 'aksi_cetak', 'isi_surat', 'id_surat'));
+            return view('admin.surat.konsep', compact('content', 'aksi_konsep', 'aksi_cetak', 'isi_surat', 'id_surat', 'tolak'));
         }
     }
 

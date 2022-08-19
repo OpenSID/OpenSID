@@ -67,6 +67,7 @@ class PermohonanSurat extends Model
         'keterangan',
         'no_hp_aktif',
         'syarat',
+        'alasan',
     ];
 
     /**
