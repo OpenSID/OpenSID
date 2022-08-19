@@ -32,3 +32,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 3. Merapikan select option pada pilih tahun id menu status desa.
 4. Menambahkan required pada form edit album.
 5. Mengembalikan fungsi pencarian cetak surat.
+6. Menambahkan penjelasan tambahan di impor analisis.
