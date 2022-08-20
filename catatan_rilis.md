@@ -24,6 +24,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 19. [#5489](https://github.com/OpenSID/OpenSID/issues/5489) Menambahkan menu SDGS.
 20. [#5492](https://github.com/OpenSID/OpenSID/issues/5492) Menambahkan alasan tolak ketika verifikasi surat.
 21. [#5319](https://github.com/OpenSID/OpenSID/issues/5319) Menambahkan filter data anak berdasarkan nomor kk ibu.
+22. [#5424](https://github.com/OpenSID/OpenSID/issues/5424) Menambahkan log keluarga pindah datang pada laporan bulanan.
 
 #### Perbaikan BUG
 

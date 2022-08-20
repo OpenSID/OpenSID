@@ -58,9 +58,10 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022080971($hasil);
         $hasil = $hasil && $this->migrasi_2022081071($hasil);
         $hasil = $hasil && $this->migrasi_2022081171($hasil);
+        $hasil = $hasil && $this->migrasi_2022081271($hasil);
         $hasil = $hasil && $this->migrasi_2022081571($hasil);
 
-        return $hasil && $this->migrasi_2022081271($hasil);
+        return $hasil && $this->migrasi_2022082071($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -391,6 +392,15 @@ class Migrasi_fitur_premium_2209 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('bulanan_anak', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022082071($hasil)
+    {
+        if (! $this->db->field_exists('berat_badan', 'bulanan_anak')) {
+            $hasil && $this->dbforge->drop_column('log_keluarga', 'kk_sex');
         }
 
         return $hasil;

@@ -1166,7 +1166,7 @@ class Penduduk_model extends MY_Model
         // Tulis log_keluarga jika penduduk adalah kepala keluarga
         if ($penduduk['kk_level'] == 1) {
             $id_peristiwa = $penduduk['status_dasar_id']; // lihat kode di keluarga_model
-            $this->keluarga_model->log_keluarga($penduduk['id_kk'], $penduduk['id'], $id_peristiwa, null, $id_log_penduduk);
+            $this->keluarga_model->log_keluarga($penduduk['id_kk'], $id_peristiwa, null, $id_log_penduduk);
         }
     }
 

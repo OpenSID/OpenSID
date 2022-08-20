@@ -37,7 +37,6 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-use App\Models\LogKeluarga;
 use App\Models\Penduduk;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 
@@ -484,7 +483,7 @@ class Impor_model extends CI_Model
 
             // Tulis Log Keluarga Baru
             $this->load->model('keluarga_model');
-            $this->keluarga_model->log_keluarga($isi_baris['id_kk'], $isi_baris['nik_kepala'], 1);
+            $this->keluarga_model->log_keluarga($isi_baris['id_kk'], 1);
         }
 
         return $keluarga_baru;
@@ -642,13 +641,6 @@ class Impor_model extends CI_Model
                     'id_cluster' => $isi_baris['id_cluster'],
                     'alamat'     => $isi_baris['alamat'],
                 ]);
-
-            // Update kk_sex pada log
-            $log = LogKeluarga::where('id_kk', $data['id_kk'])->first();
-            if ($log) {
-                $log->kk_sex = Penduduk::select('sex')->find($penduduk_baru)->sex;
-                $log->save();
-            }
         }
 
         return $penduduk_baru;

@@ -42,7 +42,6 @@ use App\Models\FormatSurat;
 use App\Models\Keluarga;
 use App\Models\LogKeluarga;
 use App\Models\LogSurat;
-use App\Models\Penduduk;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -84,7 +83,6 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 foreach ($belumAdaLog as $data) {
                     $hasil = $hasil && LogKeluarga::insert([
                         'id_kk'         => $data->id,
-                        'kk_sex'        => Penduduk::select('sex')->find($data->nik_kepala)->sex,
                         'id_peristiwa'  => 1, // KK Baru
                         'tgl_peristiwa' => $data->tgl_daftar,
                         'updated_by'    => $this->session->user,

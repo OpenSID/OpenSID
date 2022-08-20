@@ -36,6 +36,7 @@
  */
 
 use App\Models\Config;
+use App\Models\LogKeluarga;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -350,7 +351,7 @@ class Keluarga_model extends MY_Model
         $outp              = $outp && $this->db->insert('log_perubahan_penduduk', $log);
 
         // Untuk statistik perkembangan keluarga
-        $this->log_keluarga($kk_id, $data['nik_kepala'], 1);
+        $this->log_keluarga($kk_id, LogKeluarga::KELUARGA_BARU);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -488,7 +489,7 @@ class Keluarga_model extends MY_Model
         $outp              = $this->db->insert('log_perubahan_penduduk', $log);
 
         // Untuk statistik perkembangan keluarga
-        $this->log_keluarga($kk_id, $data2['nik_kepala'], 1);
+        $this->log_keluarga($kk_id, LogKeluarga::KELUARGA_BARU_DATANG);
 
         status_sukses($outp); //Tampilkan Pesan
     }
@@ -572,7 +573,7 @@ class Keluarga_model extends MY_Model
         $outp = $outp && $this->program_bantuan_model->hapus_peserta_dari_sasaran($keluarga->no_kk, 2);
 
         // Untuk statistik perkembangan keluarga
-        $this->log_keluarga($id, $nik_kepala, 13);
+        $this->log_keluarga($id, LogKeluarga::KELUARGA_HAPUS);
 
         status_sukses($outp, $gagal_saja = true); //Tampilkan Pesan
     }
@@ -588,35 +589,10 @@ class Keluarga_model extends MY_Model
         }
     }
 
-    /* 	Untuk statistik perkembangan keluarga
-            id_peristiwa:
-                 1 - keluarga baru
-                 2 - kepala keluarga status dasar 'mati'
-                 3 - kepala keluarga status dasar 'pindah'
-                 4 - kepala keluarga status dasar 'hilang'
-                 6 - kepala keluarga status dasar 'pergi' (seharusnya tidak ada)
-                 11- kepala keluarga status dasar 'tidak valid' (seharusnya tidak ada)
-                 12- anggota keluarga keluar atau pecah dari keluarga
-                 13 - keluarga dihapus
-                 14 - kepala keluarga status dasar kembali 'hidup' (salah mengisi di log_penduduk)
-    */
-    /**
-     * @param $id, id_kk = id dari tweb_keluarga
-     * @param $kk, id dari kepala keluarga di tweb_penduduk
-     * @param mixed      $id_peristiwa
-     * @param mixed|null $id_pend
-     * @param mixed|null $id_log_penduduk
-     */
-    public function log_keluarga($id, $kk, $id_peristiwa, $id_pend = null, $id_log_penduduk = null)
+    public function log_keluarga($id = null, $id_peristiwa = 1, $id_pend = null, $id_log_penduduk = null)
     {
-        $penduduk = $this->db
-            ->select('sex')
-            ->where('id', $kk)
-            ->get('tweb_penduduk')
-            ->row_array();
         $log_keluarga = [
             'id_kk'           => $id,
-            'kk_sex'          => $penduduk['sex'],
             'id_peristiwa'    => $id_peristiwa,
             'tgl_peristiwa'   => date('Y-m-d H:i:s'),
             'id_pend'         => $id_pend,
@@ -624,8 +600,9 @@ class Keluarga_model extends MY_Model
             'updated_by'      => $this->session->user,
         ];
 
-        $outp = $this->db->insert('log_keluarga', $log_keluarga);
-        status_sukses($outp); //Tampilkan Pesan
+        $outp = LogKeluarga::insert($log_keluarga);
+
+        status_sukses($outp);
     }
 
     public function add_anggota($id = 0)
@@ -714,7 +691,7 @@ class Keluarga_model extends MY_Model
         // hapus dokumen bersama dengan kepala KK sebelumnya
         $this->web_dokumen_model->hard_delete_dokumen_bersama($id);
         // catat peristiwa keluar/pecah di log_keluarga
-        $this->log_keluarga($kel->id, $kel->nik_kepala, 12, $id);
+        $this->log_keluarga($kel->id, LogKeluarga::ANGGOTA_KELUARGA_PECAH, $id);
     }
 
     public function rem_all_anggota($kk)
@@ -1320,7 +1297,7 @@ class Keluarga_model extends MY_Model
         $hasil             = $this->db->insert('tweb_keluarga', $kel);
         $kk_id             = $this->db->insert_id();
         // Untuk statistik perkembangan keluarga
-        $this->log_keluarga($kk_id, $kel['nik_kepala'], 1);
+        $this->log_keluarga($kk_id, LogKeluarga::KELUARGA_BARU);
 
         // Masukkan semua anggota lama
         $list_anggota = $this->db
