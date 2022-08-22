@@ -50,7 +50,6 @@ class Migrasi_fitur_premium_2208 extends MY_model
 
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2207');
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_tte');
         $hasil = $hasil && $this->migrasi_2022070551($hasil);
         $hasil = $hasil && $this->migrasi_2022070451($hasil);
         $hasil = $hasil && $this->migrasi_2022070751($hasil);

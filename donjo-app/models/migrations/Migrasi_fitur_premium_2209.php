@@ -37,6 +37,7 @@
 
 use App\Models\KB;
 use App\Models\Pamong;
+use App\Libraries\TinyMCE;
 use App\Models\RefJabatan;
 use Illuminate\Support\Facades\DB;
 
@@ -61,8 +62,9 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022081271($hasil);
         $hasil = $hasil && $this->migrasi_2022081571($hasil);
         $hasil = $hasil && $this->migrasi_2022081951($hasil);
+        $hasil = $hasil && $this->migrasi_2022082071($hasil);
 
-        return $hasil && $this->migrasi_2022082071($hasil);
+        return $hasil && $this->migrasi_2022082271($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -441,6 +443,76 @@ class Migrasi_fitur_premium_2209 extends MY_model
         if (! $this->db->field_exists('berat_badan', 'bulanan_anak')) {
             $hasil && $this->dbforge->drop_column('log_keluarga', 'kk_sex');
         }
+
+        return $hasil;
+    }
+
+    public function migrasi_2022082271($hasil)
+    {
+        $hasil = $hasil && $this->tambah_setting([
+            'key'        => 'footer_surat_tte',
+            'value'      => TinyMCE::FOOTER_TTE,
+            'keterangan' => 'Footer Surat TTE',
+            'kategori'   => 'format_surat',
+        ]);
+
+        if (! $this->db->table_exists('log_tte')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'message' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 150,
+                    'null'       => true,
+                ],
+                'jenis_error' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 150,
+                    'null'       => true,
+                ],
+            ];
+
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('log_tte', true);
+
+            $hasil = $hasil && $this->timestamps('log_tte', true);
+        }
+
+        // Pengaturan TTE Bsre
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte',
+            'value'      => '0',
+            'keterangan' => 'TTE - Aktifkan Modul TTE',
+            'kategori'   => 'tte',
+            'jenis'      => 'boolean',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte_api',
+            'value'      => '',
+            'keterangan' => 'TTE - URL API TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte_username',
+            'value'      => '',
+            'keterangan' => 'TTE - Username untuk TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte_password',
+            'value'      => '',
+            'keterangan' => 'TTE - Password untuk TTE',
+            'kategori'   => 'tte',
+        ]);
 
         return $hasil;
     }
