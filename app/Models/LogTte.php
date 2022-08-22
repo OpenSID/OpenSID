@@ -35,20 +35,23 @@
  *
  */
 
-defined('BASEPATH') || exit('No direct script access allowed');
+namespace App\Models;
 
-class Migrasi_2207_ke_2208 extends MY_Model
+use Illuminate\Database\Eloquent\Model;
+
+class LogTte extends Model
 {
-    public function up()
-    {
-        $hasil = true;
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'log_tte';
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_tte');
-
-        status_sukses($hasil);
-
-        return $hasil;
-    }
+    /**
+     * The guarded with the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 }

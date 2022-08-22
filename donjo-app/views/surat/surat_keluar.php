@@ -128,6 +128,10 @@
                                                                                     <!-- <button data-id="<?= $data['id'] ?>" type="button" class="btn btn-flat bg-olive btn-sm verifikasi" title="verifikasi">  <i class="fa fa-check-square-o"></i></button> -->
                                                                                     <a href="<?= site_url("keluar/periksa/{$data['id']}"); ?>" class="btn bg-olive btn-sm" title="verifikasi"><i class="fa fa-check-square-o"></i></a>
                                                                                 <?php endif; ?>
+
+                                                                                <?php if ($data['status_periksa'] == 2): ?>
+                                                                                    <button data-id="<?= $data['id'] ?>" type="button" class="btn btn-flat bg-blue btn-sm passphrase " title="passphrase">  <i class="fa fa-key"></i></button>
+                                                                                <?php endif; ?>
                                                                             <?php endif; ?>
                                                                             <?php if (can('h') && $operator): ?>
                                                                                 <a href="#" data-href="<?= site_url("keluar/delete/{$p}/{$o}/{$data['id']}")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus Data" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
@@ -154,6 +158,8 @@
                                                                                     <a href="<?= site_url("{$this->controller}/unduh/tinymce/{$data['id']}"); ?>" class="btn btn-flat bg-fuchsia btn-sm" title="Cetak Surat PDF" target="_blank"><i class="fa fa-file-pdf-o"></i></a>
                                                                                 <?php endif; ?>
                                                                             <?php endif; ?>
+
+
 
 
                                                                     </td>
@@ -255,6 +261,10 @@
 
 <script>
     $(function() {
+
+        var next = '<?= $next ?>';
+        var pesan = `Apakah setuju surat ini di teruskan ke ${next}?`;
+        var tte = "<?= setting('tte') ?>"
         var keyword = <?= $keyword?> ;
         $( "#cari" ).autocomplete({
             source: keyword,
@@ -293,6 +303,77 @@
             var redirect = `<?= site_url("{$this->controller}/ditolak") ?>`;
             var pesan = `Kembalikan surat ke pemohon untuk diperbaiki?`;
             ditolak(id, ulr_ajax, redirect, pesan);
+        });
+
+        $('button.passphrase').click(function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+            Swal.fire({
+              customClass:{
+                    popup: 'swal-lg',
+                    input: 'swal-input-250'
+              },
+              title: 'TTE',
+              input: 'password',
+              inputAttributes: {
+                autocapitalize: 'off',
+                placeholder:"Masukan Passphrase"
+              },
+              html:`
+              <div class="alert alert-warning alert-dismissible">
+                <h4><i class="icon fa fa-warning"></i> Info Penting!</h4>
+                Modul TTE ini hanya sebuah simulasi untuk persiapan penerapan TTE di OPENSID dan Hanya berlaku untuk Surat yang Menggunakan TinyMCE
+              </div>
+              <object data="<?= site_url("{$this->controller}/unduh/tinymce"); ?>/${id}/true" style="width: 100%;min-height: 400px;" type="application/pdf"></object>`,
+              showCancelButton: true,
+              confirmButtonText: 'Kirim',
+              showLoaderOnConfirm: true,
+              preConfirm: (login) => {
+                const formData = new FormData();
+                formData.append('sidcsrf', getCsrfToken());
+                formData.append('id', id);
+                formData.append('passphrase', login);
+                return fetch('<?= site_url('api/tte/kirim') ?>',{
+                    method: 'post',
+                    body: formData,
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+
+                    if (!response.ok) {
+                      throw new Error(response.statusText)
+                    }
+                        // return response.json()
+                }).catch(error => {
+                    Swal.showValidationMessage(
+                      `Request failed: ${error}`
+                )
+
+                })
+              },
+              allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+              if (result.isConfirmed) {
+                let response = result.value
+                if (response.status == false) {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Request failed',
+                          text: response.pesan,
+                    })
+                }else{
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Dokumen berhasil tertanda tangani secara elektronik',
+                      showConfirmButton: true,
+                    }).then((result) => {
+                      window.location.replace("<?= site_url("{$this->controller}/masuk") ?>");
+                    })
+                }
+              }
+
+            })
         });
     });
 </script>

@@ -37,17 +37,49 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2207_ke_2208 extends MY_Model
+class Migrasi_tte extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_tte');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_template_tte');
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_log_tte');
 
-        status_sukses($hasil);
+        return $hasil && $this->atur_tte('migrasi_template_tte');
+    }
+
+    public function atur_tte($hasil)
+    {
+        // Pengaturan TTE Bsre
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte',
+            'value'      => '0',
+            'keterangan' => 'TTE - Aktifkan Modul TTE',
+            'kategori'   => 'tte',
+            'jenis'      => 'boolean',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte_api',
+            'value'      => '',
+            'keterangan' => 'TTE - URL API TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte_username',
+            'value'      => '',
+            'keterangan' => 'TTE - Username untuk TTE',
+            'kategori'   => 'tte',
+        ]);
+
+        $hasil && $this->tambah_setting([
+            'key'        => 'tte_password',
+            'value'      => '',
+            'keterangan' => 'TTE - Password untuk TTE',
+            'kategori'   => 'tte',
+        ]);
 
         return $hasil;
     }

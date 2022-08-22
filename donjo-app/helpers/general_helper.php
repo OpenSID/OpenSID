@@ -85,6 +85,10 @@ if (! function_exists('view')) {
             return "<?= ({$condition}) ? 'active' : ''; ?>";
         });
 
+        $factory->directive('display', static function ($condition) {
+            return "<?= ({$condition}) ? 'show' : 'hide'; ?>";
+        });
+
         if ($CI->session->db_error['code'] === 1049) {
             $CI->session->error_db = null;
             $CI->session->unset_userdata(['db_error', 'message', 'heading', 'message_query', 'message_exception', 'sudah_mulai']);

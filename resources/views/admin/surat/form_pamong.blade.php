@@ -1,5 +1,5 @@
-<div class="form-group">
-    <label class="col-sm-3 control-label">Bertanda Tangan</label>
+<div class="form-group {{ setting('tte') ? 'hidden' : '' }}">
+    <label class="col-sm-3 control-label">Tertanda Atas Nama</label>
     <div class="col-sm-6 col-lg-4">
         <select class="form-control input-sm select2" id="atas_nama" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
             @foreach ($atas_nama as $key => $data)
@@ -8,7 +8,7 @@
         </select>
     </div>
 </div>
-<div class="form-group">
+<div class="form-group {{ setting('tte') ? 'hidden' : '' }}">
     <label class="col-sm-3 control-label">{{ SebutanDesa('Staf Pemerintah [Desa]') }}</label>
     <div class="col-sm-6 col-lg-4">
         <select class="form-control required input-sm" id="pamong" name="pamong_id">

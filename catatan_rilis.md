@@ -25,6 +25,10 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 20. [#5492](https://github.com/OpenSID/OpenSID/issues/5492) Menambahkan alasan tolak ketika verifikasi surat.
 21. [#5319](https://github.com/OpenSID/OpenSID/issues/5319) Menambahkan filter data anak berdasarkan nomor kk ibu.
 22. [#5424](https://github.com/OpenSID/OpenSID/issues/5424) Menambahkan log keluarga pindah datang pada laporan bulanan.
+23. [#4835](https://github.com/OpenSID/OpenSID/issues/4835) Menambahkan pengaturan untuk mengaktifkan / non aktifkan modul tte.
+24. [#5410](https://github.com/OpenSID/OpenSID/issues/5410) Menambahkan pengisian passphrase yang hanya bisa dilakukan oleh kepala desa dan hanya saat tte aktif.
+25. [#5407](https://github.com/OpenSID/OpenSID/issues/5407) Menambahkan template untuk penempatan kotak Info BSRE di surat TinyMCE.
+26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Menambahkan  penanganan exception dalam proses TTE.
 
 #### Perbaikan BUG
 

@@ -32,7 +32,12 @@
 					<div class="row">
 						<div class="col-sm-4 col-sm-offset-4 form-box">
 							<div class="form-top">
-								<a href="<?=site_url() ?>"><img src="<?=gambar_desa($header['logo']) ?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
+								<a href="<?=site_url() ?>">
+									<img src="<?=gambar_desa($header['logo']) ?>" alt="<?=$header['nama_desa']?>" class="img-responsive" />
+									<?php if (setting('tte')): ?>
+										<img src="<?=asset('assets/images/bsre.png?v', false); ?>" alt="Bsre" class="img-responsive" style="width: 185px;" />
+									<?php endif ?>
+								</a>
 								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>
 									<h3>
 										<br /><?=$header['alamat_kantor']?><br />Kodepos <?=$header['kode_pos']?>

@@ -138,6 +138,9 @@
 			$('#form_tampilan_anjungan_waktu').hide();
 		}
 	}
-	e.onchange = show;
-	show();
+	if (e != null) {
+		e.onchange = show;
+		show();
+	}
+
 </script>

@@ -37,17 +37,39 @@
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2207_ke_2208 extends MY_Model
+class Migrasi_log_tte extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_tte');
+        if (! $this->db->table_exists('log_tte')) {
+            $fields = [
+                'id' => [
+                    'type'           => 'INT',
+                    'constraint'     => 11,
+                    'auto_increment' => true,
+                    'unsigned'       => true,
+                ],
+                'message' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 150,
+                    'null'       => true,
+                ],
+                'jenis_error' => [
+                    'type'       => 'VARCHAR',
+                    'constraint' => 150,
+                    'null'       => true,
+                ],
+            ];
 
-        status_sukses($hasil);
+            $hasil = $hasil && $this->dbforge
+                ->add_key('id', true)
+                ->add_field($fields)
+                ->create_table('log_tte', true);
+
+            $hasil = $hasil && $this->timestamps('log_tte', true);
+        }
 
         return $hasil;
     }

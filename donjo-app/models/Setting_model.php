@@ -213,6 +213,10 @@ class Setting_model extends MY_Model
             $value = $this->upload_img('latar_kehadiran', LATAR_KEHADIRAN);
         }
 
+        if ($key == 'tte' && $value == 1) {
+            $this->db->where('key', 'verifikasi_kades')->update('setting_aplikasi', ['value' => 1]); // jika tte aktif, aktifkan juga verifikasi kades
+        }
+
         $outp = $this->db->where('key', $key)->update('setting_aplikasi', ['key' => $key, 'value' => $value]);
 
         // Hapus Cache

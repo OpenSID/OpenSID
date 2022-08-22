@@ -71,6 +71,31 @@ class TinyMCE
         </tbody>
         </table>
     ';
+    public const FOOTER_TTE = '
+        <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <tbody>
+        <tr>
+        <td style="width: 11.2886%; height: 10px;">[kode_desa]</td>
+        <td style="width: 78.3174%; height: 10px;">
+        <p style="text-align: center;">&nbsp;</p>
+        </td>
+        <td style="width: 10.3939%; height: 10px; text-align: right;">[kode_surat]</td>
+        </tr>
+        </tbody>
+        </table>
+        <table style="border-collapse: collapse; width: 100%; height: 10px;" border="0">
+        <tbody>
+        <tr>
+        <td style="width: 5%;">&nbsp;</td>
+        <td style="width: 20%;">[logo_bsre]</td>
+        <td style="width: 60%; text-align: left; vertical-align: top;">
+        <p>Dokumen ini telah ditandatangani secara elektronik menggunakan sertifikat elektronik yang diterbitkan oleh BSrE</p>
+        </td>
+        <td style="width: 15%;">&nbsp;</td>
+        </tr>
+        </tbody>
+        </table>
+    ';
     public const TOP    = 3; // cm
     public const BOTTOM = 2; // cm
 
@@ -85,6 +110,11 @@ class TinyMCE
             [
                 'nama'     => 'Footer',
                 'template' => static::FOOTER,
+            ],
+
+            [
+                'nama'     => 'Footer TTE',
+                'template' => static::FOOTER_TTE,
             ],
         ];
 
@@ -186,6 +216,11 @@ class TinyMCE
                 'judul' => 'QRCode',
                 'isian' => '[qr_code]',
                 'data'  => '[qr_code]',
+            ],
+            [
+                'judul' => 'Logo BSrE',
+                'isian' => '[logo_bsre]',
+                'data'  => '[logo_bsre]',
             ],
         ];
     }

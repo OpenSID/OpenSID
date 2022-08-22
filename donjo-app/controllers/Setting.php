@@ -35,6 +35,8 @@
  *
  */
 
+use App\Models\SettingAplikasi;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
 class Setting extends Admin_Controller
@@ -56,6 +58,7 @@ class Setting extends Admin_Controller
             'latar_website' => $this->theme_model->latar_website(),
             'latar_login'   => $this->theme_model->latar_login(),
             'list_tema'     => $this->theme_model->list_all(),
+            'bsre'          => SettingAplikasi::where('key', '=', 'logo_bsre')->first(),
         ];
         $this->setting_model->load_options();
 

@@ -321,7 +321,6 @@ class Keluar extends Admin_Controller
                     'chat_id' => $value->id_telegram,
                     'text'    => <<<EOD
                         Permohonan Surat telah ditolak,
-
                         Nomor Surat : {$log_surat->formatpenomoransurat}
                         Jenis Surat : {$jenis_surat}
                         Alasan : {$alasan}
@@ -560,9 +559,12 @@ class Keluar extends Admin_Controller
     {
         return [
             'suratMasuk' => LogSurat::when($this->isAdmin->jabatan_id == '1', static function ($q) {
-                return $q->where('verifikasi_kades', '=', '0')->orWhere(static function ($wq) {
-                    return $wq->where('verifikasi_kades', '=', 1)->where('tte', '=', 0);
-                });
+                return $q->when(setting('tte') == 1, static function ($tte) {
+                    return $tte->where('verifikasi_kades', '=', 0)->orWhere('tte', '=', 0);
+                })
+                    ->when(setting('tte') == 0, static function ($tte) {
+                        return $tte->where('verifikasi_kades', '=', '0');
+                    });
             })
                 ->when($this->isAdmin->jabatan_id == '2', static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '0');
@@ -571,7 +573,12 @@ class Keluar extends Admin_Controller
                     return $q->where('verifikasi_operator', '=', '0');
                 })->count(),
             'arsip' => LogSurat::when($this->isAdmin->jabatan_id == '1', static function ($q) {
-                return $q->where('verifikasi_kades', '=', '1');
+                return $q->when(setting('tte') == 1, static function ($tte) {
+                    return $tte->where('tte', '=', 1);
+                })
+                    ->when(setting('tte') == 0, static function ($tte) {
+                        return $tte->where('verifikasi_kades', '=', '1');
+                    });
             })
                 ->when($this->isAdmin->jabatan_id == '2', static function ($q) {
                     return $q->where('verifikasi_sekdes', '=', '1');

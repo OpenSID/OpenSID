@@ -328,7 +328,6 @@ class Migrasi_fitur_premium_2209 extends MY_model
     protected function migrasi_2022081571($hasil)
     {
         if (! $this->db->table_exists('log_tolak')) {
-            // Tambah tabel ref_jabatan
             $log_tolak = [
                 'id' => [
                     'type'           => 'INT',

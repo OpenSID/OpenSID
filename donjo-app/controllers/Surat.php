@@ -195,7 +195,8 @@ class Surat extends Admin_Controller
 
             $log_surat['surat']     = $surat;
             $log_surat['input']     = $this->request;
-            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . '<!-- pagebreak -->' . ($surat->template_desa ?? $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', setting('footer_surat'));
+            $footer                 = setting('tte') == 1 ? setting('footer_surat_tte') : setting('footer_surat');
+            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . '<!-- pagebreak -->' . ($surat->template_desa ?? $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
 
             // Lewati ganti kode_isian
             $isi_surat = $this->replceKodeIsian($log_surat);
@@ -274,8 +275,13 @@ class Surat extends Admin_Controller
             // Logo Surat
             $file_logo = ($cetak['surat']['logo_garuda'] ? FCPATH . LOGO_GARUDA : gambar_desa(Config::select('logo')->first()->logo, false, true));
 
-            $logo        = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
-            $logo_qrcode = str_replace('[logo]', $logo, $isi_cetak);
+            $logo      = (is_file($file_logo)) ? '<img src="' . $file_logo . '" width="90" height="90" alt="logo-surat" />' : '';
+            $logo_bsre = str_replace('[logo]', $logo, $isi_cetak);
+
+            // Logo BSrE
+            $file_logo_bsre = FCPATH . LOGO_BSRE;
+            $bsre           = (is_file($file_logo_bsre) && setting('tte') == 1) ? '<img src="' . $file_logo_bsre . '" height="90" alt="logo-bsre" />' : '';
+            $logo_qrcode    = str_replace('[logo_bsre]', $bsre, $logo_bsre);
 
             // QR_Code Surat
             if ($cetak['surat']['qr_code']) {

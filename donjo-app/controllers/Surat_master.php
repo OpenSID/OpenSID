@@ -39,8 +39,10 @@ use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
 use App\Models\KlasifikasiSurat;
 use App\Models\RefFontSurat;
+use App\Models\RefJabatan;
 use App\Models\SettingAplikasi;
 use App\Models\SyaratSurat;
+use App\Models\User;
 
 defined('BASEPATH') || exit('No direct script access allowed');
 
@@ -428,22 +430,50 @@ class Surat_master extends Admin_Controller
     {
         $pengaturanSurat = SettingAplikasi::whereKategori('format_surat')->pluck('value', 'key')->toArray();
         $alur            = SettingAplikasi::whereKategori('alur_surat')->pluck('value', 'key')->toArray();
-        $aksi            = route('surat_master.update');
-        $formAksi        = route('surat_master.edit_pengaturan');
-        $fonts           = RefFontSurat::all();
+        $tte             = SettingAplikasi::whereKategori('tte')->pluck('value', 'key')->toArray();
+        $kades           = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
+            return $query->where('jabatan_id', '=', '1');
+        })->exists();
+        $sekdes = User::where('active', '=', 1)->whereHas('pamong', static function ($query) {
+            return $query->where('jabatan_id', '=', '2');
+        })->exists();
+        $ref_jabatan = RefJabatan::all();
 
-        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts', 'alur'));
+        $aksi     = route('surat_master.update');
+        $formAksi = route('surat_master.edit_pengaturan');
+        $fonts    = RefFontSurat::all();
+
+        return view('admin.pengaturan_surat.pengaturan', compact('pengaturanSurat', 'aksi', 'formAksi', 'fonts', 'alur', 'tte', 'kades', 'sekdes', 'ref_jabatan'));
     }
 
     public function edit_pengaturan()
     {
         $this->redirect_hak_akses('u');
+        $data = $this->validasi_pengaturan($this->request);
 
-        foreach ($this->request as $key => $value) {
-            SettingAplikasi::whereKey($key)->update(['value' => $this->request[$key]]);
+
+        foreach ($data as $key => $value) {
+            SettingAplikasi::whereKey($key)->update(['value' => $value]);
         }
 
         redirect_with('success', 'Berhasil Ubah Data');
+    }
+
+    protected static function validasi_pengaturan($request)
+    {
+        return [
+            'tinggi_header'     => (float) $request['tinggi_header'],
+            'header_surat'      => $request['header_surat'],
+            'tinggi_footer'     => (float) $request['tinggi_footer'],
+            'footer_surat_tte'  => $request['footer_surat_tte'],
+            'verifikasi_sekdes' => (int) $request['verifikasi_sekdes'],
+            'verifikasi_kades'  => ((int) $request['tte'] == 1) ? 1 : (int) $request['verifikasi_kades'],
+            'tte'               => (int) $request['tte'],
+            'tte_api'           => alamat_web($request['tte_api']),
+            'tte_username'      => $request['tte_username'],
+            'tte_password'      => $request['tte_password'],
+            'font_surat'        => alfanumerik_spasi($request['font_surat']),
+        ];
     }
 
     public function kode_isian($id = null)

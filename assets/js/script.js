@@ -661,7 +661,7 @@ function swal2_question(url_ajax, redirect, message, data, tolak = false) {
     denyButtonColor: '#ffc107',
     denyButtonText: `Tolak`,
     cancelButtonText: `Tutup`,
- 
+
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire({title: 'Sedang Memproses', allowOutsideClick: false, allowEscapeKey:false, showConfirmButton:false, didOpen: () => {Swal.showLoading()}});

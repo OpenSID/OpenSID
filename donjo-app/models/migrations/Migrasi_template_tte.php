@@ -35,20 +35,21 @@
  *
  */
 
+use App\Libraries\TinyMCE;
+
 defined('BASEPATH') || exit('No direct script access allowed');
 
-class Migrasi_2207_ke_2208 extends MY_Model
+class Migrasi_template_tte extends MY_model
 {
     public function up()
     {
         $hasil = true;
 
-        // Migrasi fitur premium
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_tte');
-
-        status_sukses($hasil);
-
-        return $hasil;
+        return $hasil && $this->tambah_setting([
+            'key'        => 'footer_surat_tte',
+            'value'      => TinyMCE::FOOTER_TTE,
+            'keterangan' => 'Footer Surat TTE',
+            'kategori'   => 'format_surat',
+        ]);
     }
 }
