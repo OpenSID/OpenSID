@@ -48,8 +48,6 @@ class Migrasi_fitur_premium_2209 extends MY_model
     {
         $hasil = true;
 
-        $hasil = $hasil && $this->jalankan_migrasi('migrasi_foto_aparatur');
-
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
         $hasil = $hasil && $this->migrasi_2022080271($hasil);
@@ -62,6 +60,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022081171($hasil);
         $hasil = $hasil && $this->migrasi_2022081271($hasil);
         $hasil = $hasil && $this->migrasi_2022081571($hasil);
+        $hasil = $hasil && $this->migrasi_2022081951($hasil);
 
         return $hasil && $this->migrasi_2022082071($hasil);
     }
@@ -393,6 +392,45 @@ class Migrasi_fitur_premium_2209 extends MY_model
                 ],
             ];
             $hasil = $hasil && $this->dbforge->add_column('bulanan_anak', $fields);
+        }
+
+        return $hasil;
+    }
+
+    protected function migrasi_2022081951($hasil)
+    {
+        // Semua penduduk yang memiliki foto
+        $daftar_penduduk = DB::table('tweb_penduduk')->where('foto', '!=', '')->get(['id', 'nik', 'foto']);
+
+        if ($daftar_penduduk) {
+            foreach ($daftar_penduduk as $data) {
+                // Ganti nama file jika nama file sama dengan nik penduduk
+                if (preg_match("/{$data->nik}/i", $data->foto) && (file_exists(FCPATH . LOKASI_USER_PICT . $data->foto) || file_exists(FCPATH . LOKASI_USER_PICT . 'kecil_' . $data->foto))) {
+                    $nama_baru = time() . mt_rand(10000, 999999) . get_extension($data->foto);
+
+                    if (DB::table('tweb_penduduk')->where('id', $data->id)->update(['foto' => $nama_baru])) {
+                        rename(FCPATH . LOKASI_USER_PICT . $data->foto, FCPATH . LOKASI_USER_PICT . $nama_baru);
+                        rename(FCPATH . LOKASI_USER_PICT . 'kecil_' . $data->foto, FCPATH . LOKASI_USER_PICT . 'kecil_' . $nama_baru);
+                    }
+                }
+            }
+        }
+
+        // Semua aparatur penduduk luar desa
+        $daftar_pamong = DB::table('tweb_desa_pamong')->where('foto', '!=', '')->get(['pamong_id', 'pamong_nik', 'foto']);
+
+        if ($daftar_pamong) {
+            foreach ($daftar_pamong as $data) {
+                // Ganti nama file jika nama file sama dengan nik penduduk
+                if (null === $data->id_pend && preg_match("/{$data->pamong_nik}/i", $data->foto) && (file_exists(FCPATH . LOKASI_USER_PICT . $data->foto) || file_exists(FCPATH . LOKASI_USER_PICT . 'kecil_' . $data->foto))) {
+                    $nama_baru = 'pamong_' . time() . mt_rand(10000, 999999) . get_extension($data->foto);
+
+                    if (DB::table('tweb_desa_pamong')->where('pamong_id', $data->pamong_id)->update(['foto' => $nama_baru])) {
+                        rename(FCPATH . LOKASI_USER_PICT . $data->foto, FCPATH . LOKASI_USER_PICT . $nama_baru);
+                        rename(FCPATH . LOKASI_USER_PICT . 'kecil_' . $data->foto, FCPATH . LOKASI_USER_PICT . 'kecil_' . $nama_baru);
+                    }
+                }
+            }
         }
 
         return $hasil;
