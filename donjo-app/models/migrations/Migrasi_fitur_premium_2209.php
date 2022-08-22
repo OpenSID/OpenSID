@@ -63,6 +63,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022081571($hasil);
         $hasil = $hasil && $this->migrasi_2022081951($hasil);
         $hasil = $hasil && $this->migrasi_2022082071($hasil);
+        $hasil = $hasil && $this->migrasi_2022082171($hasil);
 
         return $hasil && $this->migrasi_2022082271($hasil);
     }
@@ -447,6 +448,21 @@ class Migrasi_fitur_premium_2209 extends MY_model
         return $hasil;
     }
 
+    protected function migrasi_2022082171($hasil)
+    {
+        if (! $this->db->field_exists('pid_process', 'log_backup')) {
+            $fields = [
+                'pid_process' => [
+                    'type'       => 'int',
+                    'constraint' => 11,
+                    'null'       => false,
+                    'after'      => 'status',
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('log_backup', $fields);
+        }
+            return $hasil;
+      }
     public function migrasi_2022082271($hasil)
     {
         $hasil = $hasil && $this->tambah_setting([

@@ -60,7 +60,14 @@ $(document).ready(function() {
 		},
 		'columns': [
 			{ 'data': 'DT_RowIndex', class: 'padat', searchable: false, orderable: false },
-			{ 'data': 'ukuran' },
+			{ 'data': 'ukuran', 
+				render: function(data, type, row){
+					if (row.status == '3') {
+						return `<span class="label label-danger">Backup Dibatalkan</span>`
+					}
+					return row.ukuran;
+				}
+			},
 			{ 'data': 'created_at' },
 			{ 'data': 'downloaded_at' },
 		],

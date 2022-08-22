@@ -62,7 +62,7 @@ class Database extends Admin_Controller
             'size_folder' => byte_format(dirSize(DESAPATH)),
             'size_sql'    => byte_format(getSizeDB()->size),
             'act_tab'     => 1,
-            'inkremental' => $this->db->table_exists('log_backup') ? LogBackup::latest()->first() : null,
+            'inkremental' => $this->db->table_exists('log_backup') ? LogBackup::where('status', '<', 2)->latest()->first() : null,
         ];
 
         $this->load->view('database/database.tpl.php', $data);
@@ -113,7 +113,7 @@ class Database extends Admin_Controller
         // cek tanggal
         // job hanya bisa dilakukan 1 hari 1 kali
         $now    = Carbon::now()->format('Y-m-d');
-        $last   = LogBackup::latest()->first();
+        $last   = LogBackup::where('status', '<', 2)->latest()->first();
         $lokasi = $this->input->post('lokasi');
 
         if ($last != null && $now == $last->created_at->format('Y-m-d')) {
@@ -213,5 +213,19 @@ class Database extends Admin_Controller
         $hasil = $this->sinkronisasi_model->sinkronkan();
         status_sukses($hasil);
         redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function batal_backup()
+    {
+        $this->load->library('job_prosess');
+        // ambil semua data pid yang masih dalam prosess
+        $last_backup = LogBackup::where('status', '=', 0)->get();
+
+        foreach ($last_backup as $key => $value) {
+            $this->job_prosess->kill($value->pid_process);
+            $value->status = 3;
+            $value->save();
+        }
+        redirect($this->controller);
     }
 }

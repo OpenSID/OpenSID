@@ -109,11 +109,18 @@ class Job extends CI_Controller
         if (! is_cli()) {
             return;
         }
+        /*
+        variable status
+        0 = sedang dalam prosess
+        1 = selesai diproses
+        2 = selesai di download
+        3 = dibatalkan
+        */
 
         $lokasi      = ($lokasi == 'null') ? null : 'backup_inkremental';
         $last_backup = LogBackup::latest()->first()->created_at;
         $last_backup = ($last_backup != null) ? $last_backup->format('Y-m-d') : '1990-01-01';
-        $backup      = LogBackup::create(['permanen' => ($lokasi) ? 1 : 0]); // tandai backup sedang berlangsung
+        $backup      = LogBackup::create(['permanen' => ($lokasi) ? 1 : 0, 'pid_process' => getmypid()]); // tandai backup sedang berlangsung
 
         try {
             $za = new FlxZipArchive();

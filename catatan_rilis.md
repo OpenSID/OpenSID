@@ -30,6 +30,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 25. [#5407](https://github.com/OpenSID/OpenSID/issues/5407) Menambahkan template untuk penempatan kotak Info BSRE di surat TinyMCE.
 26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Menambahkan  penanganan exception dalam proses TTE.
 27. [#5501](https://github.com/OpenSID/OpenSID/issues/5501) Menambahkan validasi anjungan dari layanan.
+28. [#5448](https://github.com/OpenSID/OpenSID/issues/5448) Menambahkan tombol memberhentikan proses backup inkremental.
 
 #### Perbaikan BUG
 

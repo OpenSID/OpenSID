@@ -57,6 +57,9 @@
 															  		 <li><a href="<?= site_url('database/inkremental_download'); ?>">Download Backup Inkremental</a></li>
 															  	<?php endif ?>
 															    <li><a href="<?= site_url('database/desa_inkremental'); ?>">Lihat Riwayat</a></li>
+															    <?php if ($inkremental->status == '0'): ?>
+															  		 <li><a href="<?= site_url('database/batal_backup'); ?>">Batalkan Proses Backup</a></li>
+															  	<?php endif ?>
 															  </ul>
 															</div>
 														</td>
@@ -174,6 +177,8 @@
 			notification('success', 'Backup Sedang Dalam Proses');
 			$('#Inkremental').html(`<i class="fa fa-download"></i> Backup Dalam Proses`).addClass( "btn-warning" );
 			$('button.dropdown-toggle').addClass( "btn-warning" );
+			$('#Inkremental').parent().find('ul').append(`<li><a href="<?= site_url('database/batal_backup'); ?>">Batalkan Proses Backup</a></li>`);
+
 			$.ajax({
 				url: '<?= site_url('database/inkremental_job'); ?>',
 				type: 'Post',

@@ -35,30 +35,31 @@
  *
  */
 
-namespace App\Models;
+defined('BASEPATH') || exit('No direct script access allowed');
 
-use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Process\Process;
 
-class LogBackup extends Model
+class Job_prosess
 {
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'log_backup';
+    protected $os;
 
-    /**
-     * The guarded with the model.
-     *
-     * @var array
-     */
-    protected $guarded = [];
+    public function __construct()
+    {
+        $this->os = php_uname('s');
+    }
 
-    protected $fillable = ['ukuran', 'path', 'status', 'downloaded_at', 'permanen', 'pid_process'];
-    protected $casts    = [
-        'created_at'    => 'datetime:Y-m-d H:i:s',
-        'updated_at'    => 'datetime:Y-m-d H:i:s',
-        'downloaded_at' => 'datetime:Y-m-d H:i:s',
-    ];
+    public function kill($pid)
+    {
+        if (function_exists('posix_kill')) {
+            posix_kill($pid, SIGKILL);
+        } elseif ($this->os == 'Windows NT') {
+            //'F' to Force kill a process
+            exec("taskkill /pid {$pid} /F");
+        } elseif ($this->os == 'Linux') {
+            exec("kill -9 {$pid}");
+        }
+    }
 }
+
+// End of file Job_prosess.php
+// Location: .//D/kerjoan/web/opendesa/premium/donjo-app/libraries/Job_prosess.php
