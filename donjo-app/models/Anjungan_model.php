@@ -42,10 +42,18 @@ class Anjungan_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('notif_model');
     }
 
     public function cek_anjungan($mac_address = null)
     {
+        // Cek status anjungan dari layanan
+        $status = $this->notif_model->api_pelanggan_pemesanan();
+
+        if ($status->body->tanggal_berlangganan->anjungan != 'aktif') {
+            return null;
+        }
+
         $ip          = $this->input->ip_address();
         $mac_address = $mac_address ?: $this->session->mac_address;
 

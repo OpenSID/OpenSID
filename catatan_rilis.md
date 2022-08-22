@@ -29,6 +29,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 24. [#5410](https://github.com/OpenSID/OpenSID/issues/5410) Menambahkan pengisian passphrase yang hanya bisa dilakukan oleh kepala desa dan hanya saat tte aktif.
 25. [#5407](https://github.com/OpenSID/OpenSID/issues/5407) Menambahkan template untuk penempatan kotak Info BSRE di surat TinyMCE.
 26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Menambahkan  penanganan exception dalam proses TTE.
+27. [#5501](https://github.com/OpenSID/OpenSID/issues/5501) Menambahkan validasi anjungan dari layanan.
 
 #### Perbaikan BUG
 
