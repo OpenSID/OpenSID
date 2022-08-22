@@ -30,12 +30,14 @@
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/slick.css"); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/theme.min.css"); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/style.min.css"); ?>">
-<link rel='stylesheet' href="<?= asset('css/font-awesome.min.css'); ?>"/>
-<link rel="stylesheet" href="<?= asset('css/leaflet.css'); ?>"/>
+<link rel='stylesheet' href="<?= base_url('assets/css/font-awesome.min.css'); ?>"/>
+<link rel="stylesheet" href="<?= base_url('assets/css/leaflet.css'); ?>"/>
+<?php if (cek_koneksi_internet()): ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
-<link rel="stylesheet" href="<?= asset('css/mapbox-gl.css'); ?>"/>
-<link rel="stylesheet" href="<?= asset('css/peta.css'); ?>">
-<link rel="stylesheet" href="<?= asset('bootstrap/css/dataTables.bootstrap.min.css'); ?>">
+<?php endif ?>
+<link rel="stylesheet" href="<?= base_url('assets/css/mapbox-gl.css'); ?>"/>
+<link rel="stylesheet" href="<?= base_url('assets/css/peta.css'); ?>">
+<link rel="stylesheet" href="<?= base_url('assets/bootstrap/css/dataTables.bootstrap.min.css'); ?>">
 <link rel="stylesheet" href="<?= base_url("$this->theme_folder/$this->theme/assets/css/custom.css"); ?>">
 
 <?php if(isset($single_artikel)): ?>
@@ -73,7 +75,9 @@
 <script type="text/javascript">
 	var BASE_URL   = '<?= base_url() ?>';
 </script>
+<?php if (cek_koneksi_internet()): ?>
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<?php endif ?>
 <script type="text/javascript">
 	window.setTimeout("renderDate()",1);
 	days = new Array("Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu");
@@ -114,7 +118,9 @@
 	}
 </style>
 <div id="fb-root"></div>
+<?php if (cek_koneksi_internet()): ?>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.2&appId=147912828718&autoLogAppEvents=1"></script>
+<?php endif ?>
 
 <!--[if lt IE 9]>
 <script src="<?= base_url("$this->theme_folder/$this->theme/assets/js/html5shiv.min.js") ?>"></script>

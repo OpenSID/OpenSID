@@ -61,8 +61,8 @@
                         <div class="col-sm-9">
                             <select class="form-control input-sm required" name="status_gizi">
                                 <option value="">Pilih Status Gizi Anak</option>
-                                @foreach (['Sehat / Normal (N)', 'Gizi Kurang (GK)', 'Gizi Buruk (GB)', 'Stunting (S)'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($anak->status_gizi, $key+1) }}>{{ $value }}</option>
+                                @foreach ($status_gizi_anak as $key => $value)
+                                <option value="{{ $key }}" {{ selected($anak->status_gizi, $key) }}>{{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>

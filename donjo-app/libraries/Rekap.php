@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\Anak;
 use Illuminate\Support\Facades\DB;
 
 class Rekap
@@ -392,6 +393,8 @@ class Rekap
             ->distinct()
             ->get();
 
+        $status_gizi_anak = collect(Anak::STATUS_GIZI_ANAK)->pluck('simbol', 'id');
+
         if ($bulananAnak) {
             foreach ($bulananAnak as $item) {
                 $item                        = (array) $item;
@@ -455,7 +458,7 @@ class Rekap
                         $hitungJambanSehat++;
                     }
 
-                    $statusGizi = $item['status_gizi'];
+                    $statusGizi = $status_gizi_anak[$item['status_gizi']];
                 }
 
                 // HITUNG PENIMBANGAN DALAM 1 TAHUN

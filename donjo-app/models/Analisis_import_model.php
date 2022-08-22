@@ -58,14 +58,11 @@ class Analisis_import_model extends CI_Model
         $this->load->library('upload');
 
         $config['upload_path']   = sys_get_temp_dir();
-        $config['allowed_types'] = 'xlsx|xlsm';
+        $config['allowed_types'] = 'xlsx';
 
         $this->upload->initialize($config);
         if (! $this->upload->do_upload('userfile')) {
-            $this->session->error_msg = $this->upload->display_errors();
-            $this->session->success   = -1;
-
-            return;
+            return session_error($this->upload->display_errors());
         }
         $upload = $this->upload->data();
 
@@ -106,8 +103,7 @@ class Analisis_import_model extends CI_Model
                     break;
 
                 default:
-                    $this->session->success   = -1;
-                    $this->session->error_msg = 'Bukan file impor master analisis';
+                    session_error('Bukan file impor master analisis');
                     break;
             }
             if ($this->session->success == -1) {
@@ -176,9 +172,7 @@ class Analisis_import_model extends CI_Model
 
     private function impor_error()
     {
-        $error                    = $this->db->error();
-        $this->session->success   = -1;
-        $this->session->error_msg = $error['message'];
+        return session_error($this->db->error()['message']);
     }
 
     private function impor_pertanyaan($sheet, $id_master)

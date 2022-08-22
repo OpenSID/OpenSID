@@ -141,8 +141,10 @@
     <?php endif; ?>
 </div>
 <?php $this->load->view('global/konfirmasi'); ?>
-<script src="<?= base_url(); ?>assets/js/axios.min.js"></script>
+<script src="<?= asset('js/axios.min.js'); ?>"></script>
+<?php if (cek_koneksi_internet()): ?>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<?php endif ?>
 
 <script>
     $(document).ready(function() {

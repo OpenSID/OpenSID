@@ -48,6 +48,8 @@ class Migrasi_fitur_premium_2209 extends MY_model
     {
         $hasil = true;
 
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_foto_aparatur');
+
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2208');
         $hasil = $hasil && $this->migrasi_2022080271($hasil);

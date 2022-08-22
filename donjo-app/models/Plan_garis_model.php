@@ -304,16 +304,21 @@ class Plan_garis_model extends MY_Model
         status_sukses($outp, $gagal_saja = false, $msg = 'titik koordinat garis harus diisi'); //Tampilkan Pesan
     }
 
-    public function list_garis()
+    public function list_garis($status = null)
     {
+        if (null !== $status) {
+            $this->db
+                ->where('l.enabled', $status)
+                ->where('p.enabled', $status)
+                ->where('m.enabled', $status);
+        }
+
         return $this->db
             ->select('l.*, p.nama AS kategori, m.nama AS jenis, p.simbol AS simbol, p.color AS color, p.tebal AS tebal, p.jenis AS jenis_garis')
             ->from('garis l')
             ->join('line p', 'l.ref_line = p.id', 'left')
-            ->join('line m', ' p.parrent = m.id')
-            ->where('l.enabled', 1)
-            ->where('p.enabled', 1)
-            ->where('m.enabled', 1)
+            ->join('line m', ' p.parrent = m.id', 'left')
+            ->where('l.ref_line !=', 0)
             ->get()
             ->result_array();
     }

@@ -60,7 +60,9 @@ class Surat extends Admin_Controller
 
     public function index()
     {
-        return view('admin.surat.index');
+        $data['cetak_surat'] = FormatSurat::orderBy('favorit')->pluck('nama', 'url_surat');
+
+        return view('admin.surat.index', $data);
     }
 
     public function datatables()
@@ -245,10 +247,12 @@ class Surat extends Admin_Controller
             $log_surat['surat']     = $cetak['surat'];
             $log_surat['input']     = $cetak['input'];
             $log_surat['isi_surat'] = $this->request['isi_surat'];
-            $isi_surat              = $this->replceKodeIsian($log_surat);
+
+            $isi_surat = str_replace("<p>\u{a0}</p>", '', $this->replceKodeIsian($log_surat));
 
             // Pisahkan isian surat
-            $isi        = explode('<!-- pagebreak -->', $isi_surat);
+            $isi = explode('<!-- pagebreak -->', $isi_surat);
+
             $backtop    = (((float) setting('tinggi_header')) * 10) . 'mm';
             $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
 

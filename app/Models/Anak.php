@@ -42,6 +42,34 @@ use Illuminate\Database\Eloquent\Model;
 class Anak extends Model
 {
     /**
+     * Static data status gizi anak
+     *
+     * @var array
+     */
+    public const STATUS_GIZI_ANAK = [
+        [
+            'id'     => 1,
+            'simbol' => 'N',
+            'nama'   => 'Sehat / Normal (N)',
+        ],
+        [
+            'id'     => 2,
+            'simbol' => 'GK',
+            'nama'   => 'Gizi Kurang (GK)',
+        ],
+        [
+            'id'     => 3,
+            'simbol' => 'GB',
+            'nama'   => 'Gizi Buruk (GB)',
+        ],
+        [
+            'id'     => 4,
+            'simbol' => 'S',
+            'nama'   => 'Stunting (S)',
+        ],
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string

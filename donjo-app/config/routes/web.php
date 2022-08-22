@@ -45,3 +45,4 @@ $route['pemerintah']           = WEB . '/pemerintah';
 
 // SDGS
 $route['status-sdgs'] = WEB . '/sdgs/index';
+$route['peta']                 = WEB . '/peta/index';
