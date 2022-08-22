@@ -45,6 +45,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group" style="display: {{ $anak->created_at ? 'none' : ''}}">
+                        <label class="col-sm-3 control-label">Tanggal Periksa</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control input-sm tgl_sekarang required" name="tanggal_periksa" placeholder="Masukkan tanggal periksa" value="{{ $anak->created_at }}" />
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Posyandu</label>
                         <div class="col-sm-9">

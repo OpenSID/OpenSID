@@ -87,6 +87,7 @@
                                     <th rowspan="3" class="text-center padat" style="vertical-align: middle;">Aksi</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">NO KIA</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Nama Anak</th>
+                                    <th rowspan="3" class="text-center" style="vertical-align: middle;">Tanggal Periksa</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Jenis Kelamin</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Tanggal Lahir Anak</th>
                                     <th rowspan="3" class="text-center" style="vertical-align: middle;">Status Gizi Anak</th>
@@ -165,6 +166,12 @@
                     {
                         data: 'kia.anak.nama',
                         name: 'kia.anak.nama',
+                        searchable: true,
+                        orderable: true
+                    },
+                    {
+                        data: 'tanggal_periksa',
+                        name: 'tanggal_periksa',
                         searchable: true,
                         orderable: true
                     },

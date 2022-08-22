@@ -347,7 +347,7 @@ class Stunting extends Admin_Controller
                 'posyandu' => $this->input->get('posyandu'),
             ];
 
-            return datatables()->of(IbuHamil::with(['kia', 'kia.ibu'])->filter($filters))
+            return datatables()->of(IbuHamil::select('ibu_hamil.created_at as tanggal_periksa', 'ibu_hamil.*')->with(['kia', 'kia.ibu'])->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id_ibu_hamil . '"/>';
@@ -359,6 +359,9 @@ class Stunting extends Admin_Controller
                 })
                 ->editColumn('tanggal_melahirkan', static function ($row) {
                     return tgl_indo($row->tanggal_melahirkan);
+                })
+                ->editColumn('tanggal_periksa', static function ($row) {
+                    return tgl_indo($row->tanggal_periksa);
                 })
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
@@ -415,10 +418,13 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = IbuHamil::where('kia_id', $this->request['id_kia'])->whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->first();
+        $bulan = date('m', strtotime($this->request['tanggal_periksa']));
+        $tahun = date('Y', strtotime($this->request['tanggal_periksa']));
+
+        $data = IbuHamil::where('kia_id', $this->request['id_kia'])->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->first();
 
         if ($data) {
-            redirect_with('error', 'Data telah ditambahkan dalam bulan ini', 'stunting/pemantauan_ibu_hamil');
+            redirect_with('error', 'Data telah ditambahkan', 'stunting/pemantauan_ibu_hamil');
         }
 
         if (IbuHamil::insert(static::validateIbuHamil($this->request))) {
@@ -457,6 +463,7 @@ class Stunting extends Admin_Controller
         return [
             'posyandu_id'           => $request['id_posyandu'],
             'kia_id'                => $request['id_kia'],
+            'created_at'            => date('Y-m-d', strtotime($request['tanggal_periksa'])),
             'status_kehamilan'      => $request['status_kehamilan'],
             'usia_kehamilan'        => $request['usia_kehamilan'],
             'tanggal_melahirkan'    => empty($request['tanggal_melahirkan']) ? null : date('Y-m-d', strtotime($request['tanggal_melahirkan'])),
@@ -545,7 +552,7 @@ class Stunting extends Admin_Controller
                 'posyandu' => $this->input->get('posyandu'),
             ];
 
-            return datatables()->of(Anak::with(['kia', 'kia.anak'])->filter($filters))
+            return datatables()->of(Anak::select('bulanan_anak.created_at as tanggal_periksa', 'bulanan_anak.*')->with(['kia', 'kia.anak'])->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id_bulanan_anak . '"/>';
@@ -560,6 +567,9 @@ class Stunting extends Admin_Controller
                 })
                 ->editColumn('tinggi_badan', static function ($row) {
                     return $row->tinggi_badan . ' cm';
+                })
+                ->editColumn('tanggal_periksa', static function ($row) {
+                    return tgl_indo($row->tanggal_periksa);
                 })
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
@@ -612,10 +622,13 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Anak::where('kia_id', $this->request['id_kia'])->whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->first();
+        $bulan = date('m', strtotime($this->request['tanggal_periksa']));
+        $tahun = date('Y', strtotime($this->request['tanggal_periksa']));
+
+        $data = Anak::where('kia_id', $this->request['id_kia'])->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->first();
 
         if ($data) {
-            redirect_with('error', 'Data telah ditambahkan dalam bulan ini', 'stunting/pemantauan_anak');
+            redirect_with('error', 'Data telah ditambahkan', 'stunting/pemantauan_anak');
         }
 
         if (Anak::insert(static::validateAnak($this->request))) {
@@ -654,6 +667,7 @@ class Stunting extends Admin_Controller
         return [
             'posyandu_id'                => $request['id_posyandu'],
             'kia_id'                     => $request['id_kia'],
+            'created_at'                 => date('Y-m-d', strtotime($request['tanggal_periksa'])),
             'status_gizi'                => $request['status_gizi'],
             'umur_bulan'                 => $request['umur_bulan'],
             'status_tikar'               => $request['status_tikar'],
@@ -775,7 +789,7 @@ class Stunting extends Admin_Controller
                 'posyandu' => $this->input->get('posyandu'),
             ];
 
-            return datatables()->of(Paud::with(['kia', 'kia.anak'])->filter($filters))
+            return datatables()->of(Paud::select('sasaran_paud.created_at as tanggal_periksa', 'sasaran_paud.*')->with(['kia', 'kia.anak'])->filter($filters))
                 ->addColumn('ceklist', static function ($row) {
                     if (can('h')) {
                         return '<input type="checkbox" name="id_cb[]" value="' . $row->id_sasaran_paud . '"/>';
@@ -784,6 +798,9 @@ class Stunting extends Admin_Controller
                 ->addIndexColumn()
                 ->editColumn('kia.anak.tanggallahir', static function ($row) {
                     return tgl_indo($row->kia->anak->tanggallahir);
+                })
+                ->editColumn('tanggal_periksa', static function ($row) {
+                    return tgl_indo($row->tanggal_periksa);
                 })
                 ->addColumn('aksi', static function ($row) {
                     $aksi = '';
@@ -835,10 +852,13 @@ class Stunting extends Admin_Controller
     {
         $this->redirect_hak_akses('u');
 
-        $data = Paud::where('kia_id', $this->request['id_kia'])->whereYear('created_at', date('Y'))->first();
+        $bulan = date('m', strtotime($this->request['tanggal_periksa']));
+        $tahun = date('Y', strtotime($this->request['tanggal_periksa']));
+
+        $data = Paud::where('kia_id', $this->request['id_kia'])->whereMonth('created_at', $bulan)->whereYear('created_at', $tahun)->first();
 
         if ($data) {
-            redirect_with('error', 'Data telah ditambahkan dalam tahun ini', 'stunting/pemantauan_paud');
+            redirect_with('error', 'Data telah ditambahkan', 'stunting/pemantauan_paud');
         }
 
         if (Paud::insert(static::validatePaud($this->request))) {
@@ -877,6 +897,7 @@ class Stunting extends Admin_Controller
         return [
             'posyandu_id'   => $request['id_posyandu'],
             'kia_id'        => $request['id_kia'],
+            'created_at'    => date('Y-m-d', strtotime($request['tanggal_periksa'])),
             'kategori_usia' => $request['kategori_usia'],
             'januari'       => $request['januari'],
             'februari'      => $request['februari'],

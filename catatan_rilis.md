@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.08-premium-beta01 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.08-premium-beta03 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
@@ -31,6 +31,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Menambahkan  penanganan exception dalam proses TTE.
 27. [#5501](https://github.com/OpenSID/OpenSID/issues/5501) Menambahkan validasi anjungan dari layanan.
 28. [#5448](https://github.com/OpenSID/OpenSID/issues/5448) Menambahkan tombol memberhentikan proses backup inkremental.
+29. [#5503](https://github.com/OpenSID/OpenSID/issues/5503) Menambahkan inputan waktu pemeriksaan dimenu stunting.
 
 #### Perbaikan BUG
 
