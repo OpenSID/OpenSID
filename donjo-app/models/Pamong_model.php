@@ -64,7 +64,6 @@ class Pamong_model extends CI_Model
 
         $this->list_data_sql();
         $this->db
-            ->order_by('u.jabatan_id')
             ->order_by('u.urut')
             ->limit($limit, $offset);
 
@@ -213,8 +212,8 @@ class Pamong_model extends CI_Model
     {
         $post = $this->input->post();
         $data = $this->siapkan_data($post);
-        // Beri urutan terakhir
-        $data['urut']                 = $this->urut_model->urut_max() + 1;
+        $data['urut'] = $this->urut_model->urut_max() + 1;
+
         $data['pamong_tgl_terdaftar'] = date('Y-m-d');
 
         $outp       = $this->db->insert('tweb_desa_pamong', $data);
@@ -236,10 +235,10 @@ class Pamong_model extends CI_Model
         $post = $this->input->post();
         $data = $this->siapkan_data($post);
 
-        // return json($data);
         if (! in_array($data['jabatan_id'], ['1', '2'])) {
             $data['pamong_ttd'] = $data['pamong_ub'] = 0;
         }
+
         $outp       = $this->db->where('pamong_id', $id)->update('tweb_desa_pamong', $data);
         $post['id'] = $id;
         $this->foto($post);
@@ -330,6 +329,12 @@ class Pamong_model extends CI_Model
         $data['bagan_offset']       = (int) $post['bagan_offset'] ?: null;
         $data['bagan_layout']       = htmlentities($post['bagan_layout']);
         $data['bagan_warna']        = warna($post['bagan_warna']);
+
+        if ($data['jabatan_id'] == 1) {
+            $data['urut'] = 1;
+        } else if ($data['jabatan_id'] == 2) {
+            $data['urut'] = 2;
+        }
 
         if (empty($data['id_pend'])) {
             $data['id_pend']             = null;
