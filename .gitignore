@@ -1,6 +1,9 @@
 # Abaikan folder desa
 desa/*
 
+# Abaikan backup_inkremental
+backup_inkremental/*
+
 # Abaikan file
 *.log
 log-*.php
@@ -14,6 +17,7 @@ mitra
 
 # Abaikan file cache milik phpintel (plugin sublime text)
 .phpintel/*
+.idea/*
 
 # Abaikan file milik library Release dan Curly
 *.pem
@@ -23,20 +27,34 @@ version.json
 Obfuscator.php
 make_obfuscate.php
 
+# Abaikan tema premium
+vendor/themes/*
+!vendor/themes/esensi/
+!vendor/themes/natra/
+
 # Abaikan isian folder vendor
 vendor/codeigniter/framework/*
 !vendor/codeigniter/framework/system/
 
+# Abaikan dokumentasi
+vendor/*/*/.github
+vendor/*/*/*.md
+vendor/*/*/*.TXT
+vendor/*/*/*.cache
+vendor/*/*/*.yml
+vendor/*/*/*.dist
+vendor/*/*/*.xml
+vendor/*/*/.gitignore
+vendor/*/*/LICENSE
 test/
 tests/
 doc/
 docs/
 example/
 examples/
+
 vendor/libreoffice/*
 vendor/mikey179/*
-.idea/*
-backup_inkremental/*
 
 # Struktur Laravel
 storage/framework/

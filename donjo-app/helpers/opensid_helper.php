@@ -44,6 +44,7 @@ defined('BASEPATH') || exit('No direct script access allowed');
  * [nomor urut dua digit] : minggu 1 => 01, dst
  */
 define('VERSION', '22.08-premium-beta03');
+
 /**
  * VERSI_DATABASE
  * Ubah setiap kali mengubah struktur database atau melakukan proses rilis (tgl 01)

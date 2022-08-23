@@ -64,3 +64,4 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 4. Menambahkan required pada form edit album.
 5. Mengembalikan fungsi pencarian cetak surat.
 6. Menambahkan penjelasan tambahan di impor analisis.
+7. Memperbarui .gitignore.
