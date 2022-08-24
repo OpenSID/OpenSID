@@ -1,0 +1,18 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Deployment Website Demo
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH Remote
+        uses: fifsky/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          pass: ${{ secrets.SSH_PASS }}
+          port: ${{ secrets.SSH_PORT }}
+          command: cd /home/berputar.opendesa.id/public_html && git restore . && git pull origin master

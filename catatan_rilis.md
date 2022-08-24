@@ -35,3 +35,4 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 5. Mengembalikan fungsi pencarian cetak surat.
 6. Menambahkan penjelasan tambahan di impor analisis.
 7. Memperbarui .gitignore.
+8. Deploy Website Berputar
