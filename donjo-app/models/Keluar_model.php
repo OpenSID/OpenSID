@@ -532,12 +532,13 @@ class Keluar_model extends CI_Model
 
         // TODO : Sederhanakan, ini berulang
         $data = $this->db
-            ->select('l.*, k.nama AS perihal, k.kode_surat, n.nama AS nama_penduduk, s.jabatan AS pamong_jabatan')
+            ->select('l.*, k.nama AS perihal, k.kode_surat, n.nama AS nama_penduduk, r.nama AS pamong_jabatan')
             ->select('(case when p.nama is not null then p.nama else s.pamong_nama end) as pamong_nama')
             ->from('log_surat l')
             ->join('tweb_penduduk n', 'l.id_pend = n.id', 'left')
             ->join('tweb_surat_format k', 'l.id_format_surat = k.id', 'left')
             ->join('tweb_desa_pamong s', 'l.id_pamong = s.pamong_id', 'left')
+            ->join('ref_jabatan r', 's.jabatan_id = r.id', 'left')
             ->join('tweb_penduduk p', 's.id_pend = p.id', 'left')
             ->where('l.id', $id)
             ->get()
