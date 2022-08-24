@@ -71,7 +71,7 @@ class TinyMCE
         </tbody>
         </table>
     ';
-    public const TOP    = 3; // cm
+    public const TOP    = 4; // cm
     public const BOTTOM = 2; // cm
 
     public function getTemplate()

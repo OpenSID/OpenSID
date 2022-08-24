@@ -26,6 +26,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 19.[#5522](https://github.com/OpenSID/OpenSID/issues/5522) Memperbaiki footer surat mepet dengan isi surat.
 20.[#5482](https://github.com/OpenSID/OpenSID/issues/5482) Merubah nama file foto aparatur desa yang menampilkan NIK.
 21.[#5528](https://github.com/OpenSID/OpenSID/issues/5528) Memperbaiki pengaturan masa berlaku tidak berfungsi pada surat pengantar.
+22.[#5527](https://github.com/OpenSID/OpenSID/issues/5527) Memperbaiki edit sebelum cetak PDF tidak berfungsi.
 
 #### Perubahan Teknis
 

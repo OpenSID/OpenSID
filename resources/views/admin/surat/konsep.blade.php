@@ -47,29 +47,30 @@
 @push('scripts')
     <script type="text/javascript">
         $(function() {
-             $('#cetak-pdf').click(function (e) {
+            $('#cetak-pdf').click(function (e) {
                 e.preventDefault();
+                tinymce.triggerSave();
                 Swal.fire({
-                  title: 'Membuat Surat..',
-                  timerProgressBar: true,
-                  didOpen: () => {
-                    Swal.showLoading()
-                  },
-                  allowOutsideClick: () => false
+                    title: 'Membuat Surat..',
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                    allowOutsideClick: () => false
                 })
                 $.ajax({
                     url: `{{ $aksi_cetak }}`,
                     type: 'POST',
                     xhrFields: {
                         responseType: 'blob'
-                      },
+                    },
                     data: $("#validasi").serialize(),
                     success: function(response, status, xhr){
                         // https://stackoverflow.com/questions/34586671/download-pdf-file-using-jquery-ajax
-                        var filename = "";                   
+                        var filename = "";
                         var disposition = xhr.getResponseHeader('Content-Disposition');
 
-                         if (disposition) {
+                        if (disposition) {
                             var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
                             var matches = filenameRegex.exec(disposition);
                             if (matches !== null && matches[1]) filename = matches[1].replace(/['"]/g, '');
@@ -114,11 +115,11 @@
                         $('#back').remove();
                         $('#next').show();
                         Swal.fire({
-                          position: 'top-end',
-                          icon: 'success',
-                          title: 'Surat Selesai Dibuat',
-                          showConfirmButton: false,
-                          timer: 1500
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Surat Selesai Dibuat',
+                            showConfirmButton: false,
+                            timer: 1500
                         })
                     }
                 });
