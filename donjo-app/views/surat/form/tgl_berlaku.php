@@ -1,4 +1,4 @@
-							<?php if ((int) $surat['masa_berlaku'] > 1): ?>
+							<?php if ((int) $surat['masa_berlaku'] > 0): ?>
 								<div class="form-group">
 									<label for="berlaku_dari"  class="col-sm-3 control-label">Berlaku Dari - Sampai</label>
 									<div class="col-sm-3 col-lg-2">

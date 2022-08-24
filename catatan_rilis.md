@@ -25,6 +25,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 18.[#5476](https://github.com/OpenSID/OpenSID/issues/5476) Memperbaiki luas tanah tidak bisa tersimpan di menu bumindes tanah kas desa.
 19.[#5522](https://github.com/OpenSID/OpenSID/issues/5522) Memperbaiki footer surat mepet dengan isi surat.
 20.[#5482](https://github.com/OpenSID/OpenSID/issues/5482) Merubah nama file foto aparatur desa yang menampilkan NIK.
+21.[#5528](https://github.com/OpenSID/OpenSID/issues/5528) Memperbaiki pengaturan masa berlaku tidak berfungsi pada surat pengantar.
 
 #### Perubahan Teknis
 
