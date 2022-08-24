@@ -71,6 +71,7 @@ class Rekap
         $ibuHamil = DB::table('ibu_hamil')
             ->join('kia', 'ibu_hamil.kia_id', '=', 'kia.id')
             ->join('tweb_penduduk', 'kia.ibu_id', '=', 'tweb_penduduk.id')
+            ->where('status_kehamilan', '!=', null)
             ->whereMonth('ibu_hamil.created_at', '>=', $batasBulanBawah)
             ->whereMonth('ibu_hamil.created_at', '<=', $batasBulanAtas)
             ->whereYear('ibu_hamil.created_at', $tahun)
