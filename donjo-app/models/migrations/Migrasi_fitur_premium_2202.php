@@ -43,6 +43,9 @@ class Migrasi_fitur_premium_2202 extends MY_model
     {
         $hasil = true;
 
+        // TODO:: Hapus migrasi ini jika v22.09-premium digabungkan ke rilis ini
+        $hasil = $hasil && $this->jalankan_migrasi('migrasi_foto_aparatur');
+
         // Jalankan migrasi sebelumnya
         $hasil = $hasil && $this->jalankan_migrasi('migrasi_fitur_premium_2201');
         $hasil = $hasil && $this->migrasi_2022011251($hasil);
