@@ -390,15 +390,12 @@ class Stunting extends Admin_Controller
         $data             = $this->widget();
         $data['navigasi'] = 'pemantauan-bulanan-ibu-hamil';
         $data['kia']      = KIA::with('ibu')->get();
-        $data['posyandu'] = Posyandu::all();
+        $data['posyandu'] = Posyandu::pluck('nama', 'id');
 
         if ($this->input->is_ajax_request()) {
-            $kia   = $this->input->get('kia');
-            $hamil = KIA::find($kia);
-            $anak  = $hamil->anak_id ?? 0;
-            echo $anak;
+            $hamil = KIA::find($this->input->get('kia'));
 
-            exit();
+            return json($hamil->anak_id ?? 0);
         }
 
         if ($id) {
@@ -410,6 +407,8 @@ class Stunting extends Admin_Controller
             $data['formAction'] = route('stunting.insertIbuHamil');
             $data['ibuHamil']   = null;
         }
+
+        $data['status_kehamilan_ibu'] = collect(IbuHamil::STATUS_KEHAMILAN_IBU)->pluck('nama', 'id');
 
         return view('admin.stunting.pemantauan_ibu_hamil_form', $data);
     }
@@ -602,8 +601,10 @@ class Stunting extends Admin_Controller
                 $query->where('tanggallahir', '>', Carbon::now()->subMonths(24));
             })
             ->get();
-        $data['posyandu']         = Posyandu::all();
-        $data['status_gizi_anak'] = collect(Anak::STATUS_GIZI_ANAK)->pluck('nama', 'id');
+        $data['posyandu']                = Posyandu::pluck('nama', 'id');
+        $data['status_gizi_anak']        = collect(Anak::STATUS_GIZI_ANAK)->pluck('nama', 'id');
+        $data['status_tikar_anak']       = collect(Anak::STATUS_TIKAR_ANAK)->pluck('nama', 'id');
+        $data['status_imunisasi_campak'] = Anak::STATUS_IMUNISASI_CAMPAK;
 
         if ($id) {
             $data['action']     = 'Ubah';
@@ -721,7 +722,8 @@ class Stunting extends Admin_Controller
         $writer->openToBrowser(namafile('Laporan Bulanan Anak') . '.xlsx');
         $writer->addRow(WriterEntityFactory::createRowFromArray($judul));
 
-        $dataAnak = Anak::with(['kia', 'kia.anak'])->filter($filters)->get();
+        $dataAnak     = Anak::with(['kia', 'kia.anak'])->filter($filters)->get();
+        $status_tikar = collect(Anak::STATUS_TIKAR_ANAK)->pluck('simbol', 'id');
 
         foreach ($dataAnak as $row) {
             if ($row->status_gizi == 1) {
@@ -734,16 +736,6 @@ class Stunting extends Admin_Controller
                 $row->status_gizi = 'S';
             }
 
-            if ($row->status_tikar == 1) {
-                $row->status_tikar = 'TD';
-            } elseif ($row->status_tikar == 2) {
-                $row->status_tikar = 'M';
-            } elseif ($row->status_tikar == 3) {
-                $row->status_tikar = 'K';
-            } else {
-                $row->status_tikar = 'H';
-            }
-
             $data = [
                 $row->kia->no_kia,
                 $row->kia->anak->nama,
@@ -751,7 +743,7 @@ class Stunting extends Admin_Controller
                 tgl_indo($row->kia->anak->tanggallahir),
                 $row->status_gizi,
                 $row->umur_bulan,
-                $row->status_tikar,
+                $status_tikar[$row->status_tikar],
                 $row->pemberian_imunisasi_dasar == 1 ? 'v' : 'x',
                 $row->pengukuran_berat_badan == 1 ? 'v' : 'x',
                 $row->pengukuran_tinggi_badan == 1 ? 'v' : 'x',
@@ -1121,8 +1113,19 @@ class Stunting extends Admin_Controller
         $ibu_hamil    = $this->rekap->get_data_ibu_hamil($kuartal, $tahun, $id);
         $bulanan_anak = $this->rekap->get_data_bulanan_anak($kuartal, $tahun, $id);
 
+        //HITUNG KEK ATAU RISTI
+        $jumlahKekRisti = 0;
+
+        foreach ($ibu_hamil['dataFilter'] as $item) {
+            if (! in_array($item['user']['status_kehamilan'], [null, '1'])) {
+                $jumlahKekRisti++;
+            }
+        }
+        
         //HITUNG HASIL PENGUKURAN TIKAR PERTUMBUHAN
-        $tikar = ['TD' => 0, 'M' => 0, 'K' => 0, 'H' => 0];
+        $status_tikar = collect(Anak::STATUS_TIKAR_ANAK)->pluck('simbol', 'id');
+        $tikar        = ['TD' => 0, 'M' => 0, 'K' => 0, 'H' => 0];
+
         if ($bulanan_anak['dataGrup'] != null) {
             foreach ($bulanan_anak['dataGrup'] as $detail) {
                 $totalItem = count($detail);
@@ -1130,30 +1133,21 @@ class Stunting extends Admin_Controller
 
                 foreach ($detail as $item) {
                     if (++$i === $totalItem) {
-                        $tikar[$item['status_tikar']]++;
+                        $tikar[$status_tikar[$item['status_tikar']]]++;
                     }
-                }
-            }
-
-            //HITUNG KEK ATAU RISTI
-            $jumlahKekRisti = 0;
-
-            foreach ($ibu_hamil['dataFilter'] as $item) {
-                if ($item['user']['status_kehamilan'] != 'NORMAL') {
-                    $jumlahKekRisti++;
                 }
             }
 
             $jumlahGiziBukanNormal = 0;
 
             foreach ($bulanan_anak['dataFilter'] as $item) {
+                // N = 1
                 if ($item['umur_dan_gizi']['status_gizi'] != 'N') {
                     $jumlahGiziBukanNormal++;
                 }
             }
         } else {
             $dataNoKia             = [];
-            $jumlahKekRisti        = 0;
             $jumlahGiziBukanNormal = 0;
         }
 

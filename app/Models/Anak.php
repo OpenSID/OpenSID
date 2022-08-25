@@ -70,6 +70,44 @@ class Anak extends Model
     ];
 
     /**
+     * Static data status tikar anak
+     *
+     * @var array
+     */
+    public const STATUS_TIKAR_ANAK = [
+        [
+            'id'     => 1,
+            'simbol' => 'TD',
+            'nama'   => 'Tidak Diukur (TD)',
+        ],
+        [
+            'id'     => 2,
+            'simbol' => 'M',
+            'nama'   => 'Merah (M)',
+        ],
+        [
+            'id'     => 3,
+            'simbol' => 'K',
+            'nama'   => 'Kuning (K)',
+        ],
+        [
+            'id'     => 4,
+            'simbol' => 'H',
+            'nama'   => 'Hijau (H)',
+        ],
+    ];
+
+    /**
+     * Static data status imunisasi campak
+     *
+     * @var array
+     */
+    public const STATUS_IMUNISASI_CAMPAK = [
+        1 => 'Belum',
+        2 => 'Sudah',
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string

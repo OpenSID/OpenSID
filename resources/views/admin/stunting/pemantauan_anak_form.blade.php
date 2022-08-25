@@ -6,7 +6,7 @@
 @section('title')
     <h1>
         Stunting
-        <small> {{$action}} Data Bulanan Anak</small>
+        <small> {{ $action }} Data Bulanan Anak</small>
     </h1>
 @endsection
 
@@ -33,10 +33,11 @@
                 </div>
                 {!! form_open($formAction, 'class="form-horizontal" id="validasi"') !!}
                 <div class="box-body">
-                    <div class="form-group" style="display: {{ $anak->kia_id ? 'none' : ''}}">
+                    <div class="form-group" style="display: {{ $anak->kia_id ? 'none' : '' }}">
                         <label class="col-sm-3 control-label">No Register KIA</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm required select2" id="id_kia" name="id_kia" style="width:100%;">
+                            <select class="form-control input-sm required select2" id="id_kia" name="id_kia"
+                                style="width:100%;">
                                 <option value="">-- Cari Nomor KIA --</option>
                                 @foreach ($kia as $data)
                                     <option value="{{ $data->id }}" @selected($anak->kia_id == $data->id)>Nomor KIA :
@@ -56,8 +57,9 @@
                         <div class="col-sm-9">
                             <select class="form-control input-sm required select2" name="id_posyandu" style="width:100%;">
                                 <option value="">-- Cari Posyandu --</option>
-                                @foreach ($posyandu as $data)
-                                    <option value="{{ $data->id }}" @selected($anak->posyandu_id == $data->id)>{{ $data->nama }}</option>
+                                @foreach ($posyandu as $key => $value)
+                                    <option value="{{ $key }}" @selected($anak->posyandu_id == $key)>{{ $value }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -65,10 +67,11 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Status Gizi Anak</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm required" name="status_gizi">
+                            <select class="form-control input-sm required select2" name="status_gizi" style="width:100%;">
                                 <option value="">Pilih Status Gizi Anak</option>
                                 @foreach ($status_gizi_anak as $key => $value)
-                                <option value="{{ $key }}" {{ selected($anak->status_gizi, $key) }}>{{ $value }}</option>
+                                    <option value="{{ $key }}" @selected($anak->status_gizi == $key)>{{ $value }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -76,17 +79,18 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Umur (Bulan)</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control input-sm required angka" name="umur_bulan"
-                                placeholder="Masukkan umur" value="{{ $anak->umur_bulan }}" />
+                            <input type="number" class="form-control input-sm required" min="1" max="24"
+                                name="umur_bulan" placeholder="Masukkan umur" value="{{ $anak->umur_bulan }}" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Hasil Status Tikar</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm required" name="status_tikar">
+                            <select class="form-control input-sm required select2" name="status_tikar" style="width:100%;">
                                 <option value="">Pilih Status Tikar</option>
-                                @foreach (['Tidak Diukur', 'Merah (M)', 'Kuning (K)', 'Hijau (H)'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($anak->status_tikar, $key+1) }}>{{ $value }}</option>
+                                @foreach ($status_tikar_anak as $key => $value)
+                                    <option value="{{ $key }}" @selected($anak->status_tikar == $key)>{{ $value }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -94,10 +98,12 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Imunisasi Campak</label>
                         <div class="col-sm-9">
-                            <select class="form-control input-sm required" {{ $anak->umur_bulan >= 6 ? '' : 'disabled' }} id="pemberian_imunisasi_campak" name="pemberian_imunisasi_campak">
+                            <select class="form-control input-sm required" {{ $anak->umur_bulan >= 6 ? '' : 'disabled' }}
+                                id="pemberian_imunisasi_campak" name="pemberian_imunisasi_campak">
                                 <option value="">Pilih Status Pemberian Imunisasi Campak</option>
-                                @foreach (['Sudah', 'Belum'] as $key => $value)
-                                <option value="{{ $key+1 }}" {{ selected($anak->pemberian_imunisasi_campak, $key+1) }}>{{ $value }}</option>
+                                @foreach ($status_imunisasi_campak as $key => $value)
+                                    <option value="{{ $key }}" @selected($anak->pemberian_imunisasi_campak == $key)>
+                                        {{ $value }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -123,13 +129,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->pemberian_imunisasi_dasar)">
-                                        <input type="radio" name="pemberian_imunisasi_dasar" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->pemberian_imunisasi_dasar) autocomplete="off">Ya
+                                        <input type="radio" name="pemberian_imunisasi_dasar" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->pemberian_imunisasi_dasar)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->pemberian_imunisasi_dasar)">
-                                        <input type="radio" name="pemberian_imunisasi_dasar" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->pemberian_imunisasi_dasar) autocomplete="off">Tidak
+                                        <input type="radio" name="pemberian_imunisasi_dasar" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->pemberian_imunisasi_dasar)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -137,16 +145,19 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="col-sm-12 control-label">Pengukuran Berat Badan</label>
-                                <div name="pengukuran_berat_badan" class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
+                                <div name="pengukuran_berat_badan" class="btn-group col-xs-12 col-sm-12"
+                                    data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->pengukuran_berat_badan)">
-                                        <input type="radio" name="pengukuran_berat_badan" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->pengukuran_berat_badan) autocomplete="off">Ya
+                                        <input type="radio" name="pengukuran_berat_badan" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->pengukuran_berat_badan)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->pengukuran_berat_badan)">
-                                        <input type="radio" name="pengukuran_berat_badan" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->pengukuran_berat_badan) autocomplete="off">Tidak
+                                        <input type="radio" name="pengukuran_berat_badan" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->pengukuran_berat_badan)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -157,13 +168,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->pengukuran_tinggi_badan)">
-                                        <input type="radio" name="pengukuran_tinggi_badan" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->pengukuran_tinggi_badan) autocomplete="off">Ya
+                                        <input type="radio" name="pengukuran_tinggi_badan" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->pengukuran_tinggi_badan)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->pengukuran_tinggi_badan)">
-                                        <input type="radio" name="pengukuran_tinggi_badan" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->pengukuran_tinggi_badan) autocomplete="off">Tidak
+                                        <input type="radio" name="pengukuran_tinggi_badan" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->pengukuran_tinggi_badan)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -174,13 +187,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->konseling_gizi_ayah)">
-                                        <input type="radio" name="konseling_gizi_ayah" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->konseling_gizi_ayah) autocomplete="off">Ya
+                                        <input type="radio" name="konseling_gizi_ayah" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->konseling_gizi_ayah)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->konseling_gizi_ayah)">
-                                        <input type="radio" name="konseling_gizi_ayah" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->konseling_gizi_ayah) autocomplete="off">Tidak
+                                        <input type="radio" name="konseling_gizi_ayah" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->konseling_gizi_ayah)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -193,13 +208,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->konseling_gizi_ibu)">
-                                        <input type="radio" name="konseling_gizi_ibu" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->konseling_gizi_ibu) autocomplete="off">Ya
+                                        <input type="radio" name="konseling_gizi_ibu" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->konseling_gizi_ibu)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->konseling_gizi_ibu)">
-                                        <input type="radio" name="konseling_gizi_ibu" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->konseling_gizi_ibu) autocomplete="off">Tidak
+                                        <input type="radio" name="konseling_gizi_ibu" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->konseling_gizi_ibu)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -210,13 +227,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->kunjungan_rumah)">
-                                        <input type="radio" name="kunjungan_rumah" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->kunjungan_rumah) autocomplete="off">Ya
+                                        <input type="radio" name="kunjungan_rumah" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->kunjungan_rumah)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->kunjungan_rumah)">
-                                        <input type="radio" name="kunjungan_rumah" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->kunjungan_rumah) autocomplete="off">Tidak
+                                        <input type="radio" name="kunjungan_rumah" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->kunjungan_rumah)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -227,13 +246,13 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->air_bersih)">
-                                        <input type="radio" name="air_bersih" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->air_bersih) autocomplete="off">Ya
+                                        <input type="radio" name="air_bersih" class="form-check-input" type="radio"
+                                            value="1" @checked($anak->air_bersih) autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->air_bersih)">
-                                        <input type="radio" name="air_bersih" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->air_bersih) autocomplete="off">Tidak
+                                        <input type="radio" name="air_bersih" class="form-check-input" type="radio"
+                                            value="0" @checked(!$anak->air_bersih) autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -244,13 +263,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->kepemilikan_jamban)">
-                                        <input type="radio" name="kepemilikan_jamban" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->kepemilikan_jamban) autocomplete="off">Ya
+                                        <input type="radio" name="kepemilikan_jamban" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->kepemilikan_jamban)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->kepemilikan_jamban)">
-                                        <input type="radio" name="kepemilikan_jamban" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->kepemilikan_jamban) autocomplete="off">Tidak
+                                        <input type="radio" name="kepemilikan_jamban" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->kepemilikan_jamban)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -263,13 +284,13 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->akta_lahir)">
-                                        <input type="radio" name="akta_lahir" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->akta_lahir) autocomplete="off">Ya
+                                        <input type="radio" name="akta_lahir" class="form-check-input" type="radio"
+                                            value="1" @checked($anak->akta_lahir) autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->akta_lahir)">
-                                        <input type="radio" name="akta_lahir" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->akta_lahir) autocomplete="off">Tidak
+                                        <input type="radio" name="akta_lahir" class="form-check-input" type="radio"
+                                            value="0" @checked(!$anak->akta_lahir) autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -280,13 +301,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->jaminan_kesehatan)">
-                                        <input type="radio" name="jaminan_kesehatan" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->jaminan_kesehatan) autocomplete="off">Ya
+                                        <input type="radio" name="jaminan_kesehatan" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->jaminan_kesehatan)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->jaminan_kesehatan)">
-                                        <input type="radio" name="jaminan_kesehatan" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->jaminan_kesehatan) autocomplete="off">Tidak
+                                        <input type="radio" name="jaminan_kesehatan" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->jaminan_kesehatan)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -297,13 +320,15 @@
                                 <div class="btn-group col-xs-12 col-sm-12" data-toggle="buttons">
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active($anak->pengasuhan_paud)">
-                                        <input type="radio" name="pengasuhan_paud" class="form-check-input" type="radio" value="1"
-                                            @checked($anak->pengasuhan_paud) autocomplete="off">Ya
+                                        <input type="radio" name="pengasuhan_paud" class="form-check-input"
+                                            type="radio" value="1" @checked($anak->pengasuhan_paud)
+                                            autocomplete="off">Ya
                                     </label>
                                     <label
                                         class="btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-6 form-check-label @active(!$anak->pengasuhan_paud)">
-                                        <input type="radio" name="pengasuhan_paud" class="form-check-input" type="radio" value="0"
-                                            @checked(!$anak->pengasuhan_paud) autocomplete="off">Tidak
+                                        <input type="radio" name="pengasuhan_paud" class="form-check-input"
+                                            type="radio" value="0" @checked(!$anak->pengasuhan_paud)
+                                            autocomplete="off">Tidak
                                     </label>
                                 </div>
                             </div>
@@ -327,8 +352,7 @@
         $('input[name=umur_bulan]').bind('keyup mouseup', function() {
             if (this.value >= 6) {
                 $('#pemberian_imunisasi_campak').prop("disabled", false);
-            }
-            else {
+            } else {
                 $('#pemberian_imunisasi_campak').prop("disabled", true);
             }
         });

@@ -263,10 +263,10 @@ class Surat extends Admin_Controller
             $log_surat['input']     = $cetak['input'];
             $log_surat['isi_surat'] = $this->request['isi_surat'];
 
-            $isi_surat = str_replace("<p>\u{a0}</p>", '', $this->replceKodeIsian($log_surat));
+            $isi_surat = $this->replceKodeIsian($log_surat);
 
             // Pisahkan isian surat
-            $isi = explode('<!-- pagebreak -->', $isi_surat);
+            $isi = explode('<p><!-- pagebreak --></p>', $isi_surat);
             $backtop    = $cetak['surat']->header == 0 ? 0 : (((float) setting('tinggi_header')) * 10) . 'mm';
             $backbottom = $cetak['surat']->footer == 0 ? 0 : (((float) setting('tinggi_footer')) * 10) . 'mm';
 
