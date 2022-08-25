@@ -64,6 +64,7 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022081951($hasil);
         $hasil = $hasil && $this->migrasi_2022082071($hasil);
         $hasil = $hasil && $this->migrasi_2022082171($hasil);
+        $hasil = $hasil && $this->migrasi_2022082471($hasil);
 
         return $hasil && $this->migrasi_2022082271($hasil);
     }
@@ -530,6 +531,36 @@ class Migrasi_fitur_premium_2209 extends MY_model
             'kategori'   => 'tte',
         ]);
 
+        return $hasil;
+    }
+
+    public function migrasi_2022082471($hasil)
+    {
+        if (! $this->db->field_exists('header', 'tweb_surat_format')) {
+            $fields = [
+                'header' => [
+                    'type'       => 'int',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'after'      => 'margin',
+                    'default'    => 1,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+        }
+
+        if (! $this->db->field_exists('footer', 'tweb_surat_format')) {
+            $fields = [
+                'footer' => [
+                    'type'       => 'int',
+                    'constraint' => 1,
+                    'null'       => false,
+                    'after'      => 'margin',
+                    'default'    => 1,
+                ],
+            ];
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+        }
         return $hasil;
     }
 }

@@ -140,6 +140,8 @@ class FormatSurat extends Model
         'orientasi',
         'ukuran',
         'margin',
+        'header',
+        'footer',
         'created_by',
         'updated_by',
     ];

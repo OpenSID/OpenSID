@@ -197,8 +197,10 @@ class Surat extends Admin_Controller
 
             $log_surat['surat']     = $surat;
             $log_surat['input']     = $this->request;
-            $footer                 = setting('tte') == 1 ? setting('footer_surat_tte') : setting('footer_surat');
-            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', setting('header_surat')) . '<!-- pagebreak -->' . ($surat->template_desa ?? $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
+            $setting_footer = $surat->footer == 0 ? '':setting('footer_surat');
+            $setting_header = $surat->header == 0 ? '':setting('header_surat');
+            $footer                 = setting('tte') == 1 ? setting('footer_surat_tte') : $setting_footer;
+            $log_surat['isi_surat'] = preg_replace('/\\\\/', '', $setting_header) . '<!-- pagebreak -->' . ($surat->template_desa ?? $surat->template) . '<!-- pagebreak -->' . preg_replace('/\\\\/', '', $footer);
 
             // Lewati ganti kode_isian
             $isi_surat = $this->replceKodeIsian($log_surat);
@@ -252,9 +254,8 @@ class Surat extends Admin_Controller
 
             // Pisahkan isian surat
             $isi = explode('<!-- pagebreak -->', $isi_surat);
-
-            $backtop    = (((float) setting('tinggi_header')) * 10) . 'mm';
-            $backbottom = (((float) setting('tinggi_footer')) * 10) . 'mm';
+            $backtop    = $cetak['surat']->header == 0 ? 0 : (((float) setting('tinggi_header')) * 10) . 'mm';
+            $backbottom = $cetak['surat']->footer == 0 ? 0 : (((float) setting('tinggi_footer')) * 10) . 'mm';
 
             $isi_cetak = '
                 <page backtop="' . $backtop . '" backbottom="' . $backbottom . '">

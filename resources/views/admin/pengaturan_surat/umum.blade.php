@@ -132,6 +132,43 @@
                 </div>
             @endif
 
+            @if (isset($header))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="mandiri">Tampilkan Header</label>
+                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                        <label id="n1"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($header)">
+                            <input id="q1" type="radio" name="header" class="form-check-input" type="radio"
+                                value="1" @checked($header) autocomplete="off">Ya
+                        </label>
+                        <label id="n2"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$header)">
+                            <input id="q2" type="radio" name="header" class="form-check-input" type="radio"
+                                value="0" @checked(!$header) autocomplete="off">Tidak
+                        </label>
+                    </div>
+                </div>
+            @endif
+
+            @if (isset($footer))
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="mandiri">Tampilkan Footer</label>
+                    <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">
+                        <label id="n1"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active($footer)">
+                            <input id="q1" type="radio" name="footer" class="form-check-input" type="radio"
+                                value="1" @checked($footer) autocomplete="off">Ya
+                        </label>
+                        <label id="n2"
+                            class="tipe btn btn-info btn-sm col-xs-12 col-sm-6 col-lg-2 form-check-label @active(!$footer)">
+                            <input id="q2" type="radio" name="footer" class="form-check-input" type="radio"
+                                value="0" @checked(!$footer) autocomplete="off">Tidak
+                        </label>
+                    </div>
+                </div>
+            @endif
+
+
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="logo_garuda">Logo Burung Garuda</label>
                 <div class="btn-group col-xs-12 col-sm-8" data-toggle="buttons">

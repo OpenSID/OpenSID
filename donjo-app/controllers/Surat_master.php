@@ -140,6 +140,8 @@ class Surat_master extends Admin_Controller
             $data['default_orientations'] = FormatSurat::DEFAULT_ORIENTATAIONS;
             $data['default_sizes']        = FormatSurat::DEFAULT_SIZES;
             $data['qrCode']               = true;
+            $data['header']               = $suratMaster->header ?? 1;
+            $data['footer']               = $suratMaster->footer ?? 1;
         }
 
         $data['masaBerlaku']      = FormatSurat::MASA_BERLAKU;
@@ -242,6 +244,8 @@ class Surat_master extends Admin_Controller
             'kode_isian'          => json_encode($kodeIsian),
             'orientasi'           => $request['orientasi'],
             'ukuran'              => $request['ukuran'],
+            'header'              => (int) $request['header'],
+            'footer'              => (int) $request['footer']
         ];
 
         // Margin

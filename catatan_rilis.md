@@ -1,4 +1,4 @@
-Di rilis ini, versi 22.08-premium-beta03 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
+Di rilis ini, versi 22.08-premium-beta04 [untuk diisi]. Rilis ini juga berisi penambahan fitur dan perbaikan lain yang diminta Komunitas SID.
 Terima kasih pada Irvan1609 yang terus berkontribusi.
 
 #### Penambahan Fitur
@@ -6,32 +6,33 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 1. [#5232](https://github.com/OpenSID/OpenSID/issues/5232) Penambahan pengaturan default jenis peta yang digunakan.
 2. [#5308](https://github.com/OpenSID/OpenSID/issues/5308) Penambahan unduh template rtf bawaan sistem yang sudah di ubah.
 3. [#5266](https://github.com/OpenSID/OpenSID/issues/5266) Penambahan tampilan dan pencarian tag id card pada data pemilih.
-4. [#5304](https://github.com/OpenSID/OpenSID/issues/5304) Menambahkan format surat tinymce kepermohonan surat layanan mandiri.
+4. [#5304](https://github.com/OpenSID/OpenSID/issues/5304) Penambahan format surat tinymce kepermohonan surat layanan mandiri.
 5. [#5270](https://github.com/OpenSID/OpenSID/issues/5270) Sesuaikan alur pemeriksaan surat.
-6. [#5273](https://github.com/OpenSID/OpenSID/issues/5273) Menambahkan notifikasi ketika ada surat permintaan surat untuk diperiksa atau ditandatangani.
-7. [#5412](https://github.com/OpenSID/OpenSID/issues/5412) Menambahkan fitur untuk menentukan kepala desa dan sekdes hanya di pemerintah desa.
-8. [#5233](https://github.com/OpenSID/OpenSID/issues/5233) Menambahkan menu tupoksi pada menu pemerintah desa.
-9. [#4962](https://github.com/OpenSID/OpenSID/issues/4962) Menambahkan filter data pencarian pendudukan bukan peserta program bantuan.
-10. [#5301](https://github.com/OpenSID/OpenSID/issues/5301) Menambahkan input ibu dengan status di kk selain istri tidak bisa ( menantu dll ) dan anak ( cucu dll) di menu kia.
-11. [#4464](https://github.com/OpenSID/OpenSID/issues/4464) Menambahkan opsi sembunyikan luas area di map.
-12. [#5271](https://github.com/OpenSID/OpenSID/issues/5271) Menambahkan penyesuaian alur pemeriksaan surat pada layanan mandiri.
+6. [#5273](https://github.com/OpenSID/OpenSID/issues/5273) Penambahan notifikasi ketika ada surat permintaan surat untuk diperiksa atau ditandatangani.
+7. [#5412](https://github.com/OpenSID/OpenSID/issues/5412) Penambahan fitur untuk menentukan kepala desa dan sekdes hanya di pemerintah desa.
+8. [#5233](https://github.com/OpenSID/OpenSID/issues/5233) Penambahan menu tupoksi pada menu pemerintah desa.
+9. [#4962](https://github.com/OpenSID/OpenSID/issues/4962) Penambahan filter data pencarian pendudukan bukan peserta program bantuan.
+10. [#5301](https://github.com/OpenSID/OpenSID/issues/5301) Penambahan input ibu dengan status di kk selain istri tidak bisa ( menantu dll ) dan anak ( cucu dll) di menu kia.
+11. [#4464](https://github.com/OpenSID/OpenSID/issues/4464) Penambahan opsi sembunyikan luas area di map.
+12. [#5271](https://github.com/OpenSID/OpenSID/issues/5271) Penambahan penyesuaian alur pemeriksaan surat pada layanan mandiri.
 13. [#1161](https://github.com/OpenSID/premium/issues/1161) Penyesuaian fungsi tombol a.n dan u.b pada pengaturan perangkat desa.
 14. [#5480](https://github.com/OpenSID/OpenSID/issues/5480) Menyediakan fungsi untuk menghapus cache desa dan blade pada menu pengaturan info sistem diadmin.
-15. [#4838](https://github.com/OpenSID/OpenSID/issues/4838) Menambahkan tidak menggunakan akseptor KB pada data penduduk.
+15. [#4838](https://github.com/OpenSID/OpenSID/issues/4838) Penambahan tidak menggunakan akseptor KB pada data penduduk.
 16. [#5495](https://github.com/OpenSID/OpenSID/issues/5495) Penambahan default orientasi kertas dan ukuran kertas pada tinymce.
 17. [#5295](https://github.com/OpenSID/OpenSID/issues/5295) Penambahan Form input hasil ukur berat & tinggi pada menu stunting.
-18. [#5324](https://github.com/OpenSID/OpenSID/issues/5324) Menampilkan detail data alamat ibu saat menginput data kia.
-19. [#5489](https://github.com/OpenSID/OpenSID/issues/5489) Menambahkan menu SDGS.
-20. [#5492](https://github.com/OpenSID/OpenSID/issues/5492) Menambahkan alasan tolak ketika verifikasi surat.
-21. [#5319](https://github.com/OpenSID/OpenSID/issues/5319) Menambahkan filter data anak berdasarkan nomor kk ibu.
-22. [#5424](https://github.com/OpenSID/OpenSID/issues/5424) Menambahkan log keluarga pindah datang pada laporan bulanan.
-23. [#4835](https://github.com/OpenSID/OpenSID/issues/4835) Menambahkan pengaturan untuk mengaktifkan / non aktifkan modul tte.
-24. [#5410](https://github.com/OpenSID/OpenSID/issues/5410) Menambahkan pengisian passphrase yang hanya bisa dilakukan oleh kepala desa dan hanya saat tte aktif.
-25. [#5407](https://github.com/OpenSID/OpenSID/issues/5407) Menambahkan template untuk penempatan kotak Info BSRE di surat TinyMCE.
-26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Menambahkan  penanganan exception dalam proses TTE.
-27. [#5501](https://github.com/OpenSID/OpenSID/issues/5501) Menambahkan validasi anjungan dari layanan.
-28. [#5448](https://github.com/OpenSID/OpenSID/issues/5448) Menambahkan tombol memberhentikan proses backup inkremental.
-29. [#5503](https://github.com/OpenSID/OpenSID/issues/5503) Menambahkan inputan waktu pemeriksaan dimenu stunting.
+18. [#5324](https://github.com/OpenSID/OpenSID/issues/5324) Penambahan detail data alamat ibu saat menginput data kia.
+19. [#5489](https://github.com/OpenSID/OpenSID/issues/5489) Penambahan menu SDGS.
+20. [#5492](https://github.com/OpenSID/OpenSID/issues/5492) Penambahan alasan tolak ketika verifikasi surat.
+21. [#5319](https://github.com/OpenSID/OpenSID/issues/5319) Penambahan filter data anak berdasarkan nomor kk ibu.
+22. [#5424](https://github.com/OpenSID/OpenSID/issues/5424) Penambahan log keluarga pindah datang pada laporan bulanan.
+23. [#4835](https://github.com/OpenSID/OpenSID/issues/4835) Penambahan pengaturan untuk mengaktifkan / non aktifkan modul tte.
+24. [#5410](https://github.com/OpenSID/OpenSID/issues/5410) Penambahan pengisian passphrase yang hanya bisa dilakukan oleh kepala desa dan hanya saat tte aktif.
+25. [#5407](https://github.com/OpenSID/OpenSID/issues/5407) Penambahan template untuk penempatan kotak Info BSRE di surat TinyMCE.
+26. [#4853](https://github.com/OpenSID/OpenSID/issues/4853) Penambahan  penanganan exception dalam proses TTE.
+27. [#5501](https://github.com/OpenSID/OpenSID/issues/5501) Penambahan validasi anjungan dari layanan.
+28. [#5448](https://github.com/OpenSID/OpenSID/issues/5448) Penambahan tombol memberhentikan proses backup inkremental.
+29. [#5503](https://github.com/OpenSID/OpenSID/issues/5503) Penambahan inputan waktu pemeriksaan dimenu stunting.
+30. [#5315](https://github.com/OpenSID/OpenSID/issues/5315) Penambahan pengaturan surat untuk menampilkan header dan footer surat TinyMCE.
 
 #### Perbaikan BUG
 
