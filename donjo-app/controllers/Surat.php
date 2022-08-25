@@ -50,12 +50,15 @@ defined('BASEPATH') || exit('No direct script access allowed');
 
 class Surat extends Admin_Controller
 {
+    private $tinymce;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model(['penduduk_model', 'keluarga_model', 'surat_model', 'keluar_model', 'penomoran_surat_model', 'permohonan_surat_model']);
         $this->modul_ini     = 4;
         $this->sub_modul_ini = 31;
+        $this->tinymce       = new TinyMCE();
     }
 
     public function index()
@@ -134,31 +137,41 @@ class Surat extends Admin_Controller
         if ($data['surat']) {
             $data['url']    = $url;
             $data['anchor'] = $this->input->post('anchor');
+            $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
+
+            // NIK => id
             if (! empty($_POST['nik'])) {
-                $data['individu'] = $this->surat_model->get_penduduk($_POST['nik']);
-                $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
+                $data['individu'] = Penduduk::find($_POST['nik']) ?? show_404();
+
+                if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+                    $data['anggota']  = $this->keluarga_model->list_anggota($data['individu']['id_kk'], ['dengan_kk' => true], true);
+                } else {
+                    // tinymce belum tersdia daftar anggota
+                    $data['anggota']  = null;
+                }
+
             } else {
                 $data['individu'] = null;
                 $data['anggota']  = null;
             }
 
             $this->get_data_untuk_form($url, $data);
-            $data['surat_url'] = rtrim($_SERVER['REQUEST_URI'], '/clear');
 
-            if (in_array($data['surat']['jenis'], [3, 4])) {
+            if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+                $data['form_action'] = site_url("surat/doc/{$url}");
+                $data_form           = $this->surat_model->get_data_form($url);
+                if (is_file($data_form)) {
+                    include $data_form;
+                }
+
+                return $this->render('surat/form_surat', $data);
+            } else {
+                // TODO:: Gunakan 1 list_dokumen untuk RTF dan TinyMCE
                 $data['list_dokumen'] = empty($_POST['nik']) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
                 $data['form_action']  = route('surat.pratinjau', $url);
-                $data['kode_isian']   = json_decode($data['surat']['kode_isian']);
 
                 return view('admin.surat.form_desa', $data);
             }
-            $data['form_action'] = site_url("surat/doc/{$url}");
-            $data_form           = $this->surat_model->get_data_form($url);
-            if (is_file($data_form)) {
-                include $data_form;
-            }
-
-            return $this->render('surat/form_surat', $data);
         }
 
         redirect_with('error', 'Surat tidak ditemukan');
@@ -362,8 +375,7 @@ class Surat extends Admin_Controller
             $isi_surat = $this->request['isi_surat'];
 
             // Kembalikan kode isian [format_nomor_surat]
-            $tinymce      = new TinyMCE();
-            $format_surat = $tinymce->substitusiNomorSurat($cetak['input']['nomor'], setting('format_nomor_surat'));
+            $format_surat = $this->tinymce->substitusiNomorSurat($cetak['input']['nomor'], setting('format_nomor_surat'));
             $format_surat = str_replace('[kode_surat]', $cetak['surat']['kode_surat'], $format_surat);
             $format_surat = str_replace('[kode_desa]', Config::first()->kode_desa, $format_surat);
             $format_surat = str_replace('[bulan_romawi]', bulan_romawi((int) (date('m'))), $format_surat);
@@ -497,8 +509,7 @@ class Surat extends Admin_Controller
     {
         $result = $data['isi_surat'];
 
-        $tinymce   = new TinyMCE();
-        $kodeIsian = $tinymce->getFormatedKodeIsian($data, true);
+        $kodeIsian = $this->tinymce->getFormatedKodeIsian($data, true);
 
         foreach ($kodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {
@@ -683,35 +694,27 @@ class Surat extends Admin_Controller
     // Data yang digunakan surat jenis rtf dan tinymce
     private function get_data_untuk_form($url, &$data)
     {
-        $config = Config::first();
+        // RTF
+        if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+            $data['config']    = $data['lokasi'] = Config::first();
+            $data['penduduk']  = $this->surat_model->list_penduduk();
+            $data['perempuan'] = $this->surat_model->list_penduduk_perempuan();
+        } else {
+            // TinyMCE
+            // Data penduduk diambil sesuai pengaturan surat
+            $filters = collect($data['surat']['form_isian']->individu)->toArray();
 
-        $data['config']             = $config;
-        $data['lokasi']             = $config;
+            $data['penduduk'] = Penduduk::filters($filters)->get();
+        }
+
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-        $data['penduduk']           = $this->surat_model->list_penduduk();
-        $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
-        $data['pamong']             = Pamong::penandaTangan()->get();
 
-        $kades = Pamong::kepalaDesa()->first(); // Kepala Desa
-        if ($kades) {
-            $data['atas_nama'][''] = $kades->pamong_jabatan . ' ' . $config->nama_desa;
-
-            $sekdes = Pamong::ttd('a.n')->first(); // Sekretaris Desa
-            if ($sekdes) {
-                $data['atas_nama']['a.n'] = 'a.n ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
-
-                $pamong = Pamong::ttd('u.b')->exists(); // Sekretaris Desa
-                if ($pamong) {
-                    $data['atas_nama']['u.b'] = 'u.b ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
-                }
-            }
-        } else {
-            session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
-            redirect('pengurus');
-        }
+        $penandatangan     = $this->tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
     public function favorit($id = null, $val = 0)

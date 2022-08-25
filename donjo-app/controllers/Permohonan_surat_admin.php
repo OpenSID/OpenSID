@@ -36,8 +36,9 @@
  */
 
 use App\Models\Config;
+use App\Models\Penduduk;
+use App\Libraries\TinyMCE;
 use App\Models\FormatSurat;
-use App\Models\Pamong;
 use App\Models\PermohonanSurat;
 
 defined('BASEPATH') || exit('No direct script access allowed');
@@ -71,7 +72,7 @@ class Permohonan_surat_admin extends Admin_Controller
                         if ($row->status == 0) {
                             $aksi .= '<a class="btn btn-social bg-navy btn-flat btn-sm btn-proses" title="Surat Belum Lengkap" style="width: 170px"><i class="fa fa-info-circle"></i>Belum Lengkap</a> ';
                         } elseif ($row->status == 1) {
-                            $aksi .= '<a href="' . route('permohonan_surat_admin/periksa/', $row->id) . '" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i>Sedang Diperiksa</a> ';
+                            $aksi .= '<a href="' . route('permohonan_surat_admin/periksa', $row->id) . '" class="btn btn-social btn-info btn-flat btn-sm pesan-hover" title="Klik untuk memeriksa" style="width: 170px"><i class="fa fa-spinner"></i>Sedang Diperiksa</a> ';
                         } elseif ($row->status == 2) {
                             $aksi .= '<a class="btn btn-social bg-purple btn-flat btn-sm btn-proses" title="Surat Menunggu Tandatangan" style="width: 170px"><i class="fa fa-edit"></i>Menunggu Tandatangan</a> ';
                         } elseif ($row->status == 3) {
@@ -101,23 +102,22 @@ class Permohonan_surat_admin extends Admin_Controller
     public function periksa($id = '')
     {
         // Cek hanya status = 1 (sedang diperiksa) yg boleh di proses
-        $periksa = $this->permohonan_surat_model->get_permohonan(['id' => $id, 'status' => 1]);
+        $periksa = PermohonanSurat::whereStatus(PermohonanSurat::SEDANG_DIPERIKSA)->find($id) ?? show_404();
 
         if (! $id || ! $periksa) {
             redirect('permohonan_surat_admin');
         }
-
-        $surat = FormatSurat::find($periksa['id_surat']);
-        $url   = $surat['url_surat'];
+        $url   = $periksa->surat->url_surat;
 
         $data['periksa']      = $periksa;
+        $data['surat']        = $periksa->surat;
         $data['url']          = $url;
-        $data['list_dokumen'] = $this->penduduk_model->list_dokumen($periksa['id_pemohon']);
-        $data['individu']     = $this->surat_model->get_penduduk($periksa['id_pemohon']);
-        $data['anggota']      = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
+        $data['list_dokumen'] = $this->penduduk_model->list_dokumen($periksa->id_pemohon);
+        $data['individu']     = $periksa->penduduk;
+        
         $this->get_data_untuk_form($url, $data);
+        $data['isian_form'] = json_encode($this->ambil_isi_form($data['periksa']['isian_form']));
         $data['surat_url']         = rtrim($_SERVER['REQUEST_URI'], '/clear');
-        $data['isian_form']        = json_encode($this->ambil_isi_form($periksa['isian_form']));
         $data['syarat_permohonan'] = $this->permohonan_surat_model->get_syarat_permohonan($id);
         $data['form_action']       = site_url("surat/periksa_doc/{$id}/{$url}");
         $data['form_surat']        = 'surat/form_surat.php';
@@ -127,10 +127,9 @@ class Permohonan_surat_admin extends Admin_Controller
             include $data_form;
         }
 
-        if (in_array($data['surat']['jenis'], [3, 4])) {
+        if (in_array($data['surat']['jenis'], FormatSurat::TINYMCE)) {
             $data['list_dokumen'] = empty($_POST['nik']) ? null : $this->penduduk_model->list_dokumen($data['individu']['id']);
             $data['form_action']  = route("surat/pratinjau/{$url}/{$id}");
-            $data['kode_isian']   = json_decode($data['surat']['kode_isian']);
             $data['form_surat']   = 'surat/form_surat_tinymce.php';
         }
 
@@ -147,42 +146,30 @@ class Permohonan_surat_admin extends Admin_Controller
     // TODO:: Duplikasi dengan kode yang ada di donjo-app/controllers/Surat.php
     private function get_data_untuk_form($url, &$data)
     {
-        $config = Config::first();
+        // RTF
+        if (in_array($data['surat']['jenis'], FormatSurat::RTF)) {
+            $data['config']     = $data['lokasi'] = Config::first();
+            $data['perempuan']  = $this->surat_model->list_penduduk_perempuan();
+            $data['anggota']    = $this->keluarga_model->list_anggota($data['individu']['id_kk']);
+        }
+        
+        // Panggil 1 penduduk berdasarkan datanya sendiri
+        $data['penduduk']           = [$data['periksa']['penduduk']];
 
-        $data['config']             = $config;
-        $data['lokasi']             = $config;
-        $data['surat']              = FormatSurat::where('url_surat', $url)->first();
         $data['surat_terakhir']     = $this->surat_model->get_last_nosurat_log($url);
         $data['input']              = $this->input->post();
         $data['input']['nomor']     = $data['surat_terakhir']['no_surat_berikutnya'];
         $data['format_nomor_surat'] = $this->penomoran_surat_model->format_penomoran_surat($data);
-        $data['penduduk']           = $this->surat_model->list_penduduk();
-        $data['perempuan']          = $this->surat_model->list_penduduk_perempuan();
-        $data['pamong']             = $this->surat_model->list_pamong();
 
-        $kades = Pamong::kepalaDesa()->first(); // Kepala Desa
-        if ($kades) {
-            $data['atas_nama'][''] = $kades->pamong_jabatan . ' ' . $config->nama_desa;
-
-            $sekdes = Pamong::ttd('a.n')->first(); // Sekretaris Desa
-            if ($sekdes) {
-                $data['atas_nama']['a.n'] = 'a.n ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
-
-                $pamong = Pamong::ttd('u.b')->exists(); // Sekretaris Desa
-                if ($pamong) {
-                    $data['atas_nama']['u.b'] = 'u.b ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
-                }
-            }
-        } else {
-            session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
-            redirect('pengurus');
-        }
+        $tinymce           = new TinyMCE();
+        $penandatangan     = $tinymce->formPenandatangan();
+        $data['pamong']    = $penandatangan['penandatangan'];
+        $data['atas_nama'] = $penandatangan['atas_nama'];
     }
 
     private function ambil_isi_form($isian_form)
     {
-        $isian_form = json_decode($isian_form, true);
-        $hapus      = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
+        $hapus = ['url_surat', 'url_remote', 'nik', 'id_surat', 'nomor', 'pilih_atas_nama', 'pamong', 'pamong_nip', 'jabatan', 'pamong_id'];
 
         foreach ($hapus as $kolom) {
             unset($isian_form[$kolom]);

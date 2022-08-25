@@ -123,7 +123,7 @@ class TinyMCE
 
     public function getTemplateSurat()
     {
-        return collect(FormatSurat::whereNotNull('template')->jenis([3, 4])->get(['nama', 'template', 'template_desa']))
+        return collect(FormatSurat::whereNotNull('template')->jenis(FormatSurat::TINYMCE)->get(['nama', 'template', 'template_desa']))
             ->map(static function ($item, $key) {
                 return [
                     'nama'     => 'Surat ' . $item->nama,
@@ -672,7 +672,7 @@ class TinyMCE
             ->toArray();
 
         // Dinamis
-        $postDinamis = collect(json_decode($data['surat']['kode_isian']))
+        $postDinamis = collect($data['surat']['kode_isian'])
             ->map(static function ($item, $key) use ($input) {
                 return [
                     'judul' => $item->nama,
@@ -766,5 +766,40 @@ class TinyMCE
         }
 
         return $format;
+    }
+
+    /**
+     * Daftar penandatangan dan pamongnya
+     */
+    public function formPenandatangan()
+    {
+        $config        = Config::first();
+        $penandatangan = Pamong::penandaTangan()->get();
+
+        // Kepala Desa
+        $kades = Pamong::kepalaDesa()->first();
+        if ($kades) {
+            $atas_nama[''] = $kades->pamong_jabatan . ' ' . $config->nama_desa;
+
+            // Sekretaris Desa
+            $sekdes = Pamong::ttd('a.n')->first();
+            if ($sekdes) {
+                $atas_nama['a.n'] = 'a.n ' . $kades->pamong_jabatan . ' ' . $config->nama_desa;
+
+                // Pamogn selain Kepala Desa dan Sekretaris Desa
+                $pamong = Pamong::ttd('u.b')->exists();
+                if ($pamong) {
+                    $atas_nama['u.b'] = 'u.b ' . $sekdes->pamong_jabatan . ' ' . $config->nama_desa;
+                }
+            }
+
+            return [
+                'penandatangan' => $penandatangan,
+                'atas_nama'     => $atas_nama,
+            ];
+        } else {
+            session_error(', ' . setting('sebutan_kepala_desa') . ' belum ditentukan.');
+            redirect('pengurus');
+        }
     }
 }

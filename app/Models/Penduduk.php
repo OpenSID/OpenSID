@@ -445,6 +445,25 @@ class Penduduk extends Model
             ->status();
     }
 
+    /**
+     * Scope query untuk menyaring data penduduk berdasarkan parameter yang ditentukan
+     *
+     * @param Builder $query
+     * @param mixed   $value
+     *
+     * @return Builder
+     */
+    public function scopefilters($query, array $filters = [])
+    {
+        foreach ($filters as $key => $value) {
+            $query->when($value ?? false, static function ($query) use ($value, $key) {
+                $query->where($key, $value);
+            });
+        }
+
+        return $query;
+    }
+
     public function getUsiaAttribute()
     {
         $tglSekarang = Carbon::now();
@@ -456,9 +475,9 @@ class Penduduk extends Model
     public function getAlamatWilayahAttribute()
     {
         if (! in_array($this->id_kk, [0, null])) {
-            return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(Setting($this->setting->sebutan_dusun . ' ' . $this->keluarga->wilayah->dusun));
+            return $this->keluarga->alamat . ' RT ' . $this->keluarga->wilayah->rt . ' / RW ' . $this->keluarga->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->keluarga->wilayah->dusun);
         }
 
-        return $this->alamat_sekarang . ' RT ' . $this->wilayah->rt . ' / RW ' . $this->wilayah->rw . ' ' . ucwords(Setting($this->setting->sebutan_dusun . ' ' . $this->wilayah->dusun));
+        return $this->alamat_sekarang . ' RT ' . $this->wilayah->rt . ' / RW ' . $this->wilayah->rw . ' ' . ucwords(setting('sebutan_dusun') . ' ' . $this->wilayah->dusun);
     }
 }

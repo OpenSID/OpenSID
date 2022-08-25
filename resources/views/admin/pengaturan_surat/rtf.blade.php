@@ -27,7 +27,7 @@
         </div>
     </div>
 </div>
-<div class="tab-pane" id="kode-isian">
+<div class="tab-pane" id="form-isian">
 
     @include('admin.pengaturan_surat.kembali')
 
@@ -54,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($kodeIsian as $kode => $keterangan)
+                        @forelse ($suratMaster->kode_isian as $kode => $keterangan)
                             <tr>
                                 <td style="padding-top : 10px;padding-bottom : 10px; ">[form_{{ $kode }}]</td>
                                 <td>{{ $keterangan }}</td>

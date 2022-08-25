@@ -33,6 +33,7 @@ Terima kasih pada Irvan1609 yang terus berkontribusi.
 28. [#5448](https://github.com/OpenSID/OpenSID/issues/5448) Penambahan tombol memberhentikan proses backup inkremental.
 29. [#5503](https://github.com/OpenSID/OpenSID/issues/5503) Penambahan inputan waktu pemeriksaan dimenu stunting.
 30. [#5315](https://github.com/OpenSID/OpenSID/issues/5315) Penambahan pengaturan surat untuk menampilkan header dan footer surat TinyMCE.
+31. [#5302](https://github.com/OpenSID/OpenSID/issues/5302) Penambahan pilih data penduduk dinamis pada surat TinyMCE.
 
 #### Perbaikan BUG
 

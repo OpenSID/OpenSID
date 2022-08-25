@@ -35,6 +35,7 @@
  *
  */
 
+use App\Models\FormatSurat;
 use App\Models\KB;
 use App\Models\Pamong;
 use App\Libraries\TinyMCE;
@@ -64,9 +65,10 @@ class Migrasi_fitur_premium_2209 extends MY_model
         $hasil = $hasil && $this->migrasi_2022081951($hasil);
         $hasil = $hasil && $this->migrasi_2022082071($hasil);
         $hasil = $hasil && $this->migrasi_2022082171($hasil);
-        $hasil = $hasil && $this->migrasi_2022082471($hasil);
+        $hasil = $hasil && $this->migrasi_2022082271($hasil);
+        $hasil = $hasil && $this->migrasi_2022082371($hasil);
 
-        return $hasil && $this->migrasi_2022082271($hasil);
+        return $hasil && $this->migrasi_2022082571($hasil);
     }
 
     protected function migrasi_2022080271($hasil)
@@ -462,8 +464,10 @@ class Migrasi_fitur_premium_2209 extends MY_model
             ];
             $hasil = $hasil && $this->dbforge->add_column('log_backup', $fields);
         }
-            return $hasil;
-      }
+
+        return $hasil;
+    }
+
     public function migrasi_2022082271($hasil)
     {
         $hasil = $hasil && $this->tambah_setting([
@@ -533,8 +537,24 @@ class Migrasi_fitur_premium_2209 extends MY_model
 
         return $hasil;
     }
+    protected function migrasi_2022082371($hasil)
+    {
+        if (! $this->db->field_exists('form_isian', 'tweb_surat_format')) {
+            $fields['form_isian'] = [
+                'type'  => 'LONGTEXT',
+                'null'  => true,
+                'after' => 'template_desa',
+            ];
 
-    public function migrasi_2022082471($hasil)
+            $hasil = $hasil && $this->dbforge->add_column('tweb_surat_format', $fields);
+
+            // Sesuaikan data awal surat tinymce
+            FormatSurat::jenis(FormatSurat::TINYMCE)->update(['form_isian' => '{"individu":{"sex":"","status_dasar":""}}']);
+        }
+        return $hasil;
+    }
+
+    public function migrasi_2022082571($hasil)
     {
         if (! $this->db->field_exists('header', 'tweb_surat_format')) {
             $fields = [
