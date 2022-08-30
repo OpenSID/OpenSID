@@ -215,8 +215,7 @@ class Pamong extends Model
      */
     public function scopeDaftar($query, $value = 1)
     {
-        return $this->scopeSelectData($query)
-            ->where('pamong_status', 1)
+        return $query->where('pamong_status', 1)
             ->where('kehadiran', $value);
     }
 }
