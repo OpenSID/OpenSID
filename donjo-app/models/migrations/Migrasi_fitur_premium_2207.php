@@ -807,7 +807,7 @@ class Migrasi_fitur_premium_2207 extends MY_model
                 <td style="width: 5%; text-align: center; height: 18px;">12.</td>
                 <td style="width: 33.773%; text-align: left; height: 18px;">Berlaku</td>
                 <td style="width: 1.22703%; text-align: center;">:</td>
-                <td style="width: 60%; text-align: left; height: 18px;">[Mulai_berlaku] s/d [Berlaku_sampai]</td>
+                <td style="width: 60%; text-align: left; height: 18px;">[mulai_berlaku] s/d [berlaku_sampai]</td>
                 </tr>
                 <tr style="height: 18px;">
                 <td style="width: 5%; text-align: center; height: 18px;">13.</td>

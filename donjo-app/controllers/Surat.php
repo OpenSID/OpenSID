@@ -476,6 +476,10 @@ class Surat extends Admin_Controller
         $tinymce   = new TinyMCE();
         $kodeIsian = $tinymce->getFormatedKodeIsian($data, true);
 
+        if ((int) $data['surat']['masa_berlaku'] == 0) {
+            $result = str_replace('[mulai_berlaku] s/d [berlaku_sampai]', '-', $result);
+        }
+
         foreach ($kodeIsian as $key => $value) {
             if (in_array($key, $kecuali)) {
                 $result = $result;

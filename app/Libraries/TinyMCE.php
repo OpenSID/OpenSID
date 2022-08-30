@@ -615,26 +615,30 @@ class TinyMCE
         $input = $data['input'];
 
         // Statis Post
-        $postStatis = [
-            [
-                'nama' => 'Mulai Berlaku',
-                'kode' => '[mulai_berlaku]',
-            ],
-            [
-                'nama' => 'Berlaku Sampai',
-                'kode' => '[berlaku_sampai]',
-            ],
-        ];
+        $postStatis = [];
 
-        $postStatis = collect($postStatis)
-            ->map(static function ($item, $key) use ($input) {
-                return [
-                    'judul' => $item['nama'],
-                    'isian' => $item['kode'],
-                    'data'  => $input[underscore($item['nama'], true, true)],
-                ];
-            })
-            ->toArray();
+        if ((int) $data['surat']['masa_berlaku'] > 0) {
+            $postStatis = [
+                [
+                    'nama' => 'Mulai Berlaku',
+                    'kode' => '[mulai_berlaku]',
+                ],
+                [
+                    'nama' => 'Berlaku Sampai',
+                    'kode' => '[berlaku_sampai]',
+                ],
+            ];
+
+            $postStatis = collect($postStatis)
+                ->map(static function ($item, $key) use ($input) {
+                    return [
+                        'judul' => $item['nama'],
+                        'isian' => $item['kode'],
+                        'data'  => $input[underscore($item['nama'], true, true)],
+                    ];
+                })
+                ->toArray();
+        }
 
         // Dinamis
         $postDinamis = collect(json_decode($data['surat']['kode_isian']))
@@ -708,7 +712,6 @@ class TinyMCE
     public function substitusiNomorSurat($nomor = null, $format = '')
     {
         // TODO : Cek jika null, cari no surat terakhir berdasarkan kelompok
-
         $format = str_replace('[nomor_surat]', "{$nomor}", $format);
         if (preg_match_all('/\[nomor_surat,\s*\d+\]/', $format, $matches)) {
             foreach ($matches[0] as $match) {

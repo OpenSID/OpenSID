@@ -29,6 +29,7 @@ Terima kasih pada [untuk diisi] yang terus berkontribusi.
 22. [#5527](https://github.com/OpenSID/OpenSID/issues/5527) Memperbaiki edit sebelum cetak PDF tidak berfungsi.
 23. [#5505](https://github.com/OpenSID/OpenSID/issues/5505) Memperbaiki scorecard konvergensi pada tabel jumlah sasaran dan tabel hasil pengukuran tidak berfungsi dengan benar.
 24. [#5545](https://github.com/OpenSID/OpenSID/issues/5545) Memperbaiki judul peraturan desa tidak tersimpan / kosong.
+25. [#5541](https://github.com/OpenSID/OpenSID/issues/5541) Memperbaiki surat rtf mengganti masa berlaku menjadi "-" ketika pengaturan masa berlaku 0.
 
 #### Perubahan Teknis
 
